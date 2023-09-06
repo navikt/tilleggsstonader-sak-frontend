@@ -12,6 +12,7 @@ spec:
     path: "/internal/isAlive"
     initialDelay: 20
     timeout: 60
+  port: 3000
   readiness:
     path: "/internal/isReady"
     initialDelay: 20
