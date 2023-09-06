@@ -6,7 +6,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "echo TODO: sett opp byggsteg"
+    "build": "webpack --config ./webpack/webpack.production.js",
+    "build:dev": "cd src/backend && yarn build",
+    "start:dev": "cd src/backend && yarn start:dev"
   },
   "dependencies": {
     "react": "^18.2.0",
