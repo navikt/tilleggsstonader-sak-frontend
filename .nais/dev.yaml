@@ -36,3 +36,6 @@ spec:
   azure:
     application:
       enabled: true
+  env:
+    - name: ENV
+      value: preprod

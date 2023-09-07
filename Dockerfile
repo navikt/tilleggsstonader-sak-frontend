@@ -2,6 +2,7 @@ FROM gcr.io/distroless/nodejs:18
 
 WORKDIR /app
 COPY ./src/backend server
+COPY ./dist_production build
 
 WORKDIR /app/server
 
