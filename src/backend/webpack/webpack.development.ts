@@ -1,14 +1,28 @@
-import * as child from "child_process";
+import path from "path";
 import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { miljø } from "../miljø";
 
 const publicPath = process.env.PUBLIC_URL || "/";
 
-const commitHash = child
-  .execSync("git rev-parse --short HEAD")
-  .toString()
-  .trim();
-
-const common = {
+const developmentConfig = {
+  mode: "development",
+  entry: {
+    tilleggsstønaderSakFrontend: [
+      "webpack-hot-middleware/client",
+      "../../src/frontend/index.tsx",
+    ],
+  },
+  devtool: "inline-source-map",
+  output: {
+    filename: "[name].bundle.js",
+    path: path.join(process.cwd(), miljø.builldPath),
+    publicPath: publicPath,
+    clean: true,
+  },
+  optimization: {
+    runtimeChunk: "single",
+  },
   module: {
     rules: [
       {
@@ -37,9 +51,14 @@ const common = {
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: "Tilleggsstønader",
+      template: path.join(process.cwd(), "../../src/frontend/index.html"),
+    }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify("development"),
       "process.env.PUBLIC_URL": JSON.stringify(publicPath),
-      "process.env.COMMIT_HASH": JSON.stringify(commitHash),
     }),
   ],
   resolve: {
@@ -47,4 +66,4 @@ const common = {
   },
 };
 
-export default common;
+export default developmentConfig;

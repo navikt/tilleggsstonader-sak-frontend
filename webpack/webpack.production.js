@@ -1,13 +1,16 @@
 import path from "path";
 import webpack from "webpack";
-import { merge } from "webpack-merge";
-
-import common from "./webpack.common.js";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import child from "child_process";
 
 const publicPath = process.env.PUBLIC_PATH || "";
 
-const productionConfig = merge(common, {
+const commitHash = child
+  .execSync("git rev-parse --short HEAD")
+  .toString()
+  .trim();
+
+const productionConfig = {
   mode: "production",
   entry: "./src/frontend/index.tsx",
   output: {
@@ -17,6 +20,33 @@ const productionConfig = merge(common, {
     clean: true,
   },
   devtool: "source-map",
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        options: {
+          compilerOptions: {
+            noEmit: false,
+          },
+          onlyCompileBundledFiles: true,
+        },
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: {
+          presets: [["@babel/preset-env"], ["@babel/preset-react"]],
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Tilleggsstønader",
@@ -25,7 +55,14 @@ const productionConfig = merge(common, {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production"),
     }),
+    new webpack.DefinePlugin({
+      "process.env.PUBLIC_URL": JSON.stringify(publicPath),
+      "process.env.COMMIT_HASH": JSON.stringify(commitHash),
+    }),
   ],
-});
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+};
 
 export default productionConfig;
