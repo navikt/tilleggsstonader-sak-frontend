@@ -31,9 +31,9 @@ if (process.env.NODE_ENV === "development") {
 
   app.use(devMiddleware);
   app.use(webpackHotMiddleware(compiler));
+} else {
+  app.use(BASE_PATH, express.static(buildPath, { index: false }));
 }
-
-app.use(BASE_PATH, express.static(buildPath, { index: false }));
 
 app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
   res.sendFile("index.html", { root: buildPath });

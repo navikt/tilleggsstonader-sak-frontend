@@ -9,7 +9,7 @@ const developmentConfig = {
   mode: "development",
   entry: {
     tilleggsstønaderSakFrontend: [
-      "webpack-hot-middleware/client",
+      "webpack-hot-middleware/client?reload=true&overlay=false",
       "../../src/frontend/index.tsx",
     ],
   },
