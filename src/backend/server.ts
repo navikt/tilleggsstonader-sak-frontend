@@ -8,6 +8,7 @@ import webpackHotMiddleware from "webpack-hot-middleware";
 
 import path from "path";
 import { miljø } from "./miljø";
+import logger from "./logger";
 
 const app = express();
 
@@ -40,5 +41,5 @@ app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server startet på PORT=${PORT}`);
+  logger.info(`Server startet på PORT=${PORT}`);
 });

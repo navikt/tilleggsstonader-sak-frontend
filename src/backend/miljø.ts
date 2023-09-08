@@ -1,3 +1,5 @@
+import logger from "./logger";
+
 interface Miljø {
   builldPath: string;
 }
@@ -23,7 +25,7 @@ const initierMiljøvariabler = (): Miljø => {
     case "prod":
       return prodMiljø;
     default:
-      console.warn("Mangler miljøvariabler - setter lokale variabler");
+      logger.warn("Mangler miljøvariabler - setter lokale variabler");
       return lokaltMiljø;
   }
 };
