@@ -8,7 +8,14 @@
   "scripts": {
     "build": "webpack --config ./webpack/webpack.production.js",
     "build:dev": "cd src/backend && yarn build",
-    "start:dev": "cd src/backend && yarn start:dev"
+    "start:dev": "cd src/backend && yarn start:dev",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css}": [
+      "prettier --write",
+      "eslint --fix --max-warnings=0"
+    ]
   },
   "dependencies": {
     "@navikt/aksel-icons": "^5.3.4",
@@ -37,6 +44,8 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.33.2",
     "html-webpack-plugin": "^5.5.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "3.0.3",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
