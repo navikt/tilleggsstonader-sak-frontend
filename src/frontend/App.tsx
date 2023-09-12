@@ -1,6 +1,9 @@
 import React from 'react';
-import { InternalHeader, Spacer } from '@navikt/ds-react';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { InternalHeader, Spacer } from '@navikt/ds-react';
+
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 
 const App: React.FC = () => {

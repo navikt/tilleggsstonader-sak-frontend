@@ -1,6 +1,8 @@
-import { Tabs } from '@navikt/ds-react';
 import React from 'react';
+
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+
+import { Tabs } from '@navikt/ds-react';
 
 type TabWithRouter = {
     label: string;
