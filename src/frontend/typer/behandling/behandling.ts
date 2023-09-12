@@ -3,7 +3,7 @@ import { Steg } from './steg';
 import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
 import { Stønadstype } from './behandlingTema';
 import { BehandlingResultat } from './behandlingResultat';
-import { BehandlingStatus } from './behandlingstatus';
+import { BehandlingStatus } from './behandlingStatus';
 
 export interface Behandling {
     id: string;
