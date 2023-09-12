@@ -1,9 +1,9 @@
-import { BehandlingType } from './behandlingType';
-import { Steg } from './steg';
-import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
-import { Stønadstype } from './behandlingTema';
 import { BehandlingResultat } from './behandlingResultat';
 import { BehandlingStatus } from './behandlingStatus';
+import { Stønadstype } from './behandlingTema';
+import { BehandlingType } from './behandlingType';
+import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
+import { Steg } from './steg';
 
 export interface Behandling {
     id: string;
