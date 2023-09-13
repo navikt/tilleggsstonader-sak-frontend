@@ -8,6 +8,12 @@ import BehandlingTabell from './BehandlingTabell';
 import { Fagsak } from '../../../typer/fagsak';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
 const TittelLinje = styled.div`
     display: flex;
     gap: 1rem;
@@ -16,7 +22,7 @@ const TittelLinje = styled.div`
 
 export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
     return (
-        <>
+        <Container>
             <TittelLinje>
                 <Heading size="small" level="3">
                     Fagsak: {formaterEnumVerdi(fagsak.stønadstype)}
@@ -29,6 +35,6 @@ export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
                 )}
             </TittelLinje>
             <BehandlingTabell behandlinger={fagsak.behandlinger} />
-        </>
+        </Container>
     );
 };

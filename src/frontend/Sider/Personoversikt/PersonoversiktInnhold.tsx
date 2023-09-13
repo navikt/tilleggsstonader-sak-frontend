@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
 
@@ -19,6 +20,10 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
     },
 ];
+
+const InnholdWrapper = styled.div`
+    padding: 1rem;
+`;
 
 const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const navigate = useNavigate();
@@ -40,16 +45,18 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                     })}
                 </Tabs.List>
             </Tabs>
-            <Routes>
-                {tabs.map((tab) => (
-                    <Route
-                        key={tab.path}
-                        path={`/${tab.path}`}
-                        element={tab.komponent(fagsakPersonId)}
-                    />
-                ))}
-                <Route path="*" element={<Navigate to="behandlinger" replace={true} />} />
-            </Routes>
+            <InnholdWrapper>
+                <Routes>
+                    {tabs.map((tab) => (
+                        <Route
+                            key={tab.path}
+                            path={`/${tab.path}`}
+                            element={tab.komponent(fagsakPersonId)}
+                        />
+                    ))}
+                    <Route path="*" element={<Navigate to="behandlinger" replace={true} />} />
+                </Routes>
+            </InnholdWrapper>
         </>
     );
 };
