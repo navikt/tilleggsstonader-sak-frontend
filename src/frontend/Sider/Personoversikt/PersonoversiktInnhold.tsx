@@ -4,6 +4,8 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import { Tabs } from '@navikt/ds-react';
 
+import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
+
 type TabWithRouter = {
     label: string;
     path: string;
@@ -14,7 +16,7 @@ const tabs: TabWithRouter[] = [
     {
         label: 'Behandlingsoversikt',
         path: 'behandlinger',
-        komponent: (fagsakPersonId) => <p>Behandlingsoversikt for {fagsakPersonId}</p>,
+        komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
     },
 ];
 

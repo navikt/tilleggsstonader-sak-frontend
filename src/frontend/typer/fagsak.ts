@@ -6,7 +6,7 @@ export interface FagsakPersonMedBehandlinger {
     barnetilsyn?: Fagsak;
 }
 
-interface Fagsak {
+export interface Fagsak {
     id: string;
     eksternId: number;
     fagsakPersonId: string;
