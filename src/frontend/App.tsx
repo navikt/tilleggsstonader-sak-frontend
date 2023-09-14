@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
+import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
+                    <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
                 </Routes>
             </BrowserRouter>
         </>
