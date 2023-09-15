@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
-    res.sendFile('index.html', { root: path.join(process.cwd(), buildPath) });
+    res.sendFile('index.html', { root: buildPath });
 });
 
 app.listen(PORT, () => {
