@@ -53,6 +53,8 @@ const ContainerAktivert = styled(Container)`
 
 const Lenke = styled(NavLink)`
     text-decoration: none;
+    width: 100%;
+    height: 100%;
 `;
 
 const Tekst = styled(BodyShort)<{ deaktivert?: boolean }>``;
@@ -75,13 +77,13 @@ const Fane: React.FC<Props> = ({ fane, behandlingId, index, deaktivert, erAktivF
                     </Tekst>
                 </Container>
             ) : (
-                <ContainerAktivert className={erAktivFane ? 'active' : ''}>
-                    <Lenke key={fane.navn} to={`/behandling/${behandlingId}/${fane.path}`}>
+                <Lenke key={fane.navn} to={`/behandling/${behandlingId}/${fane.path}`}>
+                    <ContainerAktivert className={erAktivFane ? 'active' : ''}>
                         <Tekst size="small">
                             {index + 1}. {fane.navn}
                         </Tekst>
-                    </Lenke>
-                </ContainerAktivert>
+                    </ContainerAktivert>
+                </Lenke>
             )}
         </>
     );
