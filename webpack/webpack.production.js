@@ -12,7 +12,7 @@ const productionConfig = {
     entry: './src/frontend/index.tsx',
     output: {
         filename: '[name].bundle.js',
-        path: path.join(process.cwd(), 'dist_production'),
+        path: path.join(process.cwd(), '../../dist_production'),
         publicPath: publicPath,
         clean: true,
     },
