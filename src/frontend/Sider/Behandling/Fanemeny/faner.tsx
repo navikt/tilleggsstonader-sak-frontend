@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Inngangsvilkår from '../Inngangsvilkår/Inngangsvilkår';
+
 export type FanerMedRouter = {
     navn: FaneNavn;
     path: string;
@@ -19,7 +21,7 @@ export const behandlingFaner: FanerMedRouter[] = [
     {
         navn: FaneNavn.INNGANGSVILKÅR,
         path: 'inngangsvilkar',
-        komponent: () => <p>Inngangsvilkår</p>,
+        komponent: () => <Inngangsvilkår />,
     },
     {
         navn: FaneNavn.ARBEIDSVILKÅR,
