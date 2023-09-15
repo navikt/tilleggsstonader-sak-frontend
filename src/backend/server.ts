@@ -1,45 +1,41 @@
-import express from "express";
-import webpack from "webpack";
+import express from 'express';
+import path from 'path';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import developmentConfig from "./webpack/webpack.development";
-
-import webpackDevMiddleware from "webpack-dev-middleware";
-import webpackHotMiddleware from "webpack-hot-middleware";
-
-import path from "path";
-import { miljø } from "./miljø";
-import logger from "./logger";
+import logger from './logger';
+import { miljø } from './miljø';
+import developmentConfig from './webpack/webpack.development';
 
 const app = express();
 
-const BASE_PATH = "";
+const BASE_PATH = '';
 const buildPath = path.resolve(process.cwd(), miljø.builldPath);
 const PORT = 3000;
 
-app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) =>
-  res.sendStatus(200),
-);
+app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
 
-if (process.env.NODE_ENV === "development") {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const compiler = webpack(developmentConfig);
+if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const compiler = webpack(developmentConfig);
 
-  const devMiddleware = webpackDevMiddleware(compiler, {
-    writeToDisk: true,
-    publicPath: developmentConfig.output.publicPath,
-  });
+    const devMiddleware = webpackDevMiddleware(compiler, {
+        writeToDisk: true,
+        publicPath: developmentConfig.output.publicPath,
+    });
 
-  app.use(devMiddleware);
-  app.use(webpackHotMiddleware(compiler));
+    app.use(devMiddleware);
+    app.use(webpackHotMiddleware(compiler));
 } else {
-  app.use(BASE_PATH, express.static(buildPath, { index: false }));
+    app.use(BASE_PATH, express.static(buildPath, { index: false }));
 }
 
 app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
-  res.sendFile("index.html", { root: buildPath });
+    res.sendFile('index.html', { root: path.join(process.cwd(), buildPath) });
 });
 
 app.listen(PORT, () => {
-  logger.info(`Server startet på PORT=${PORT}`);
+    logger.info(`Server startet på PORT=${PORT}`);
 });
