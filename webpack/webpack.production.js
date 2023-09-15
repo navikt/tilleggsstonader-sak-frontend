@@ -3,7 +3,7 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import child from "child_process";
 
-const publicPath = process.env.PUBLIC_PATH || "";
+const publicPath = process.env.PUBLIC_PATH || "/";
 
 const commitHash = child
   .execSync("git rev-parse --short HEAD")
