@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Heading } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 import { ABlue50, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
@@ -36,12 +36,11 @@ const VilkårsresultatContainer = styled.span`
 
 interface Props {
     tittel: string;
-    paragrafTittel?: string;
     vilkårsresultat: Vilkårsresultat;
     children: ReactNode;
 }
 
-export const Vilkårpanel: FC<Props> = ({ tittel, paragrafTittel, vilkårsresultat, children }) => {
+export const Vilkårpanel: FC<Props> = ({ tittel, vilkårsresultat, children }) => {
     // const { ekspanderteVilkår, toggleEkspandertTilstand } = useEkspanderbareVilkårpanelContext();
     const erEkspandert = true;
 
@@ -54,11 +53,6 @@ export const Vilkårpanel: FC<Props> = ({ tittel, paragrafTittel, vilkårsresult
                         <Heading className={'tittel'} size="small" level="5">
                             {tittel}
                         </Heading>
-                        {paragrafTittel && (
-                            <BodyShort size="small" className={'paragrafTittel'}>
-                                {paragrafTittel}
-                            </BodyShort>
-                        )}
                     </VilkårsresultatContainer>
                     <Button
                         size="medium"
