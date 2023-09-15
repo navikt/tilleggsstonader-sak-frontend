@@ -9,11 +9,11 @@ const lokaltMiljø: Miljø = {
 };
 
 const devMiljø: Miljø = {
-    builldPath: '../../app/build',
+    builldPath: '../../dist_production',
 };
 
 const prodMiljø: Miljø = {
-    builldPath: '../../app/build',
+    builldPath: '../../dist_production',
 };
 
 const initierMiljøvariabler = (): Miljø => {
