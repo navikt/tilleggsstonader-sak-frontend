@@ -33,15 +33,16 @@ spec:
       memory: "256Mi"
   ingresses:
     - "https://tilleggsstonader.intern.dev.nav.no"
+  accessPolicy:
+    outbound:
+      rules:
+        - application: tilleggsstonader-sak
   azure:
     sidecar:
       enabled: true
       autoLogin: true
     application:
       enabled: true
-      replyURLs:
-        - "https://tilleggsstonader.intern.dev.nav.no/oauth2/callback"
-        - "https://localhost:3000/oauth2/callback"
       claims:
         extra:
           - "NAVident"

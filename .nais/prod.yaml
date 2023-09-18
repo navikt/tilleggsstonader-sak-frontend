@@ -33,6 +33,10 @@ spec:
       memory: "256Mi"
   ingresses:
     - "https://tilleggsstonader.intern.nav.no"
+  accessPolicy:
+    outbound:
+      rules:
+        - application: tilleggsstonader-sak
   azure:
     sidecar:
       enabled: true
