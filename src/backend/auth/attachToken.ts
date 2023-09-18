@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
 import { azureOBO } from './client';
+import { withInMemoryCache } from './inMemoryCache';
 import { logInfo, logWarn } from '../logger';
 
 const AUTHORIZATION_HEADER = 'authorization';
@@ -43,13 +44,14 @@ const utledToken = (req: Request, authorization: string | undefined) => {
     }
 };
 
+const cachedAzureOBOProvoder = withInMemoryCache(azureOBO);
 const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
     logInfo('PrepareSecuredRequest', req);
     const { authorization } = req.headers;
     const token = utledToken(req, authorization);
     logInfo('Token found: ' + (token.length > 1), req);
     const audience = `api://${process.env.NAIS_CLUSTER_NAME}.tilleggsstonader.${applicationName}/.default`;
-    const accessToken = await azureOBO(token, audience);
+    const accessToken = await cachedAzureOBOProvoder(token, audience);
     return {
         authorization: `Bearer ${accessToken}`,
     };

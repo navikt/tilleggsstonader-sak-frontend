@@ -77,5 +77,7 @@ const tokenExchange = async (
     }
 };
 
-export const azureOBO = async (token: string, audience: string): Promise<string | null> =>
+export type OboProvider = (token: string, audience: string) => Promise<string | null>;
+
+export const azureOBO: OboProvider = (token: string, audience: string) =>
     tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
