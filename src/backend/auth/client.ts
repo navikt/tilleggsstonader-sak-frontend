@@ -52,7 +52,7 @@ const createClient = (): Client => {
 
 const client = createClient();
 
-function getAdditionalClaims(): GrantExtras {
+const getAdditionalClaims = (): GrantExtras => {
     const { token_endpoint } = clientConfig;
     const now = Math.floor(Date.now() / 1000);
     return {
@@ -61,13 +61,13 @@ function getAdditionalClaims(): GrantExtras {
             aud: token_endpoint,
         },
     };
-}
+};
 
-export async function tokenExchange(
+const tokenExchange = async (
     client: Client,
     grantBody: GrantBody,
     additionalClaims: GrantExtras
-): Promise<string | null> {
+): Promise<string | null> => {
     try {
         const tokenset = await client.grant(grantBody, additionalClaims);
         return tokenset.access_token ?? null;
@@ -75,8 +75,7 @@ export async function tokenExchange(
         if (e instanceof OPError) logger.warn(e.message, e.response?.body || '');
         throw e;
     }
-}
+};
 
-export default async function azureOBO(token: string, audience: string): Promise<string | null> {
-    return tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
-}
+export const azureOBO = async (token: string, audience: string): Promise<string | null> =>
+    tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());

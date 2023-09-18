@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
-import azureOBO from './client';
+import { azureOBO } from './client';
 import { logInfo, logWarn } from '../logger';
 
 const AUTHORIZATION_HEADER = 'authorization';
