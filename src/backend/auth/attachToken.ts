@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose';
 import { azureOBO, verify } from './client';
 import { withInMemoryCache } from './inMemoryCache';
 import { getTokenFromHeader, secondsUntil } from './secondsUntil';
-import { logInfo, logWarn } from '../logger';
+import { logWarn } from '../logger';
 
 const AUTHORIZATION_HEADER = 'authorization';
 const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
@@ -42,8 +42,6 @@ const getValidatedTokenFromHeader = async (req: Request) => {
     return token;
 };
 const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
-    logInfo('PrepareSecuredRequest', req);
-
     const token = await getValidatedTokenFromHeader(req);
     if (!token) return null;
     const payload = decodeJwt(token);

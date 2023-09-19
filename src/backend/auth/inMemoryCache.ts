@@ -3,7 +3,6 @@ import NodeCache from 'node-cache';
 
 import { OboProvider } from './client';
 import { secondsUntil } from './secondsUntil';
-import logger from '../logger';
 
 const cache = new NodeCache();
 const NO_CACHE_TTL = 0;
@@ -17,10 +16,8 @@ export const withInMemoryCache =
         const key = `${token}-${audience}`;
         const cachedToken = cache.get<string>(key);
         if (cachedToken) {
-            logger.info(`Bruker token fra cache ttl=${getSecondsToExpire(decodeJwt(cachedToken))}`);
             return cachedToken;
         }
-        logger.info('Utsteder nytt token');
 
         const oboToken = await oboProvider(token, audience);
         if (!oboToken) return null;
