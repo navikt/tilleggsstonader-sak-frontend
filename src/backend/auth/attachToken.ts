@@ -10,6 +10,9 @@ const AUTHORIZATION_HEADER = 'authorization';
 const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
 export type ApplicationName = 'tilleggsstonader-sak';
 
+/**
+ * Validerer token og utsteder OBO-token for [applicationName]
+ */
 export const attachToken = (applicationName: ApplicationName): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {

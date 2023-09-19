@@ -46,7 +46,6 @@ app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
 app.use(
     '/api/sak',
     addRequestInfo(),
-    //ensureAuthenticated(azureAuthClient, true), // TODO Trenger vi denne?
     attachToken('tilleggsstonader-sak'),
     doProxy('/api/sak', miljø.backend)
 );
