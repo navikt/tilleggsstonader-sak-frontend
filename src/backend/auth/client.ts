@@ -1,4 +1,4 @@
-import { createRemoteJWKSet, JWK, jwtVerify, JWTVerifyResult } from 'jose';
+import { createRemoteJWKSet, jwtVerify, JWTVerifyResult } from 'jose';
 import { Client, errors, GrantBody, GrantExtras, Issuer } from 'openid-client';
 
 import logger from '../logger';
@@ -10,7 +10,6 @@ export interface ClientConfig {
     token_endpoint: string;
     client_id: string;
     client_secret?: string;
-    jwk: JWK;
 }
 
 const clientConfig: ClientConfig = {
@@ -18,7 +17,6 @@ const clientConfig: ClientConfig = {
     token_endpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT as string,
     client_id: process.env.AZURE_APP_CLIENT_ID as string,
     client_secret: process.env.AZURE_APP_CLIENT_SECRET as string,
-    jwk: JSON.parse(process.env.AZURE_APP_JWK as string) as JWK,
 };
 
 const getIssuer = (): Issuer => {
@@ -49,16 +47,13 @@ const getAdditionalClaims = (): GrantExtras => {
 };
 
 const createClient = (): Client => {
-    const { jwk, client_id, client_secret } = clientConfig;
+    const { client_id, client_secret } = clientConfig;
     const issuer = getIssuer();
-    return new issuer.Client(
-        {
-            client_id,
-            client_secret,
-            token_endpoint_auth_method: 'client_secret_basic',
-        },
-        { keys: [jwk] }
-    );
+    return new issuer.Client({
+        client_id,
+        client_secret,
+        token_endpoint_auth_method: 'client_secret_basic',
+    });
 };
 
 const tokenExchange = async (
