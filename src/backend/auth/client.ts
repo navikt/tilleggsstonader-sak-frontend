@@ -37,6 +37,17 @@ const getGrantBody = (subject_token: string, audience: string): GrantBody => ({
     requested_token_use: 'on_behalf_of',
 });
 
+const getAdditionalClaims = (): GrantExtras => {
+    const { token_endpoint } = clientConfig;
+    const now = Math.floor(Date.now() / 1000);
+    return {
+        clientAssertionPayload: {
+            nbf: now,
+            aud: token_endpoint,
+        },
+    };
+};
+
 const createClient = (): Client => {
     const { jwk, client_id, client_secret } = clientConfig;
     const issuer = getIssuer();
@@ -48,19 +59,6 @@ const createClient = (): Client => {
         },
         { keys: [jwk] }
     );
-};
-
-const client = createClient();
-
-const getAdditionalClaims = (): GrantExtras => {
-    const { token_endpoint } = clientConfig;
-    const now = Math.floor(Date.now() / 1000);
-    return {
-        clientAssertionPayload: {
-            nbf: now,
-            aud: token_endpoint,
-        },
-    };
 };
 
 const tokenExchange = async (
@@ -79,12 +77,14 @@ const tokenExchange = async (
 
 export type OboProvider = (token: string, audience: string) => Promise<string | null>;
 
-export const azureOBO: OboProvider = (token: string, audience: string) =>
-    tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
+const client = createClient();
 
 const remoteJWKSet = createRemoteJWKSet(
     new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI as string)
 );
+
+export const azureOBO: OboProvider = (token: string, audience: string) =>
+    tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
 
 export const verify = async (token: string): Promise<JWTVerifyResult> => {
     return await jwtVerify(token, remoteJWKSet, {

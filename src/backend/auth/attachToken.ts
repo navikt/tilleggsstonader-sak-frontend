@@ -18,6 +18,7 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
         try {
             const authenticationHeader = await prepareSecuredRequest(req, applicationName);
             if (!authenticationHeader) {
+                logWarn('Fant ikke gyldig token', req);
                 return res.status(401).send('Fant ikke gyldig token');
             }
             req.headers[AUTHORIZATION_HEADER] = authenticationHeader.authorization;
@@ -42,16 +43,16 @@ const getValidatedTokenFromHeader = async (req: Request) => {
         return null;
     }
     await verify(token);
-    return token;
-};
-const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
-    const token = await getValidatedTokenFromHeader(req);
-    if (!token) return null;
     const payload = decodeJwt(token);
     if (secondsUntil(payload.exp ?? 0) <= 0) {
         logWarn(`Token har utgått exp=${payload.exp}`, req);
         return null;
     }
+    return token;
+};
+const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
+    const token = await getValidatedTokenFromHeader(req);
+    if (!token) return null;
     const audience = `api://${process.env.NAIS_CLUSTER_NAME}.tilleggsstonader.${applicationName}/.default`;
     const accessToken = await cachedAzureOBOProvoder(token, audience);
     return { authorization: `Bearer ${accessToken}` };
