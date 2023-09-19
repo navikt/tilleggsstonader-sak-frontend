@@ -1,7 +1,9 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { decodeJwt } from 'jose';
 
-import { azureOBO } from './client';
+import { azureOBO, verify } from './client';
 import { withInMemoryCache } from './inMemoryCache';
+import { getTokenFromHeader, secondsUntil } from './secondsUntil';
 import { logInfo, logWarn } from '../logger';
 
 const AUTHORIZATION_HEADER = 'authorization';
@@ -12,6 +14,9 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const authenticationHeader = await prepareSecuredRequest(req, applicationName);
+            if (!authenticationHeader) {
+                return res.status(401).send('Fant ikke gyldig token');
+            }
             req.headers[AUTHORIZATION_HEADER] = authenticationHeader.authorization;
             delete req.headers[WONDERWALL_ID_TOKEN_HEADER];
             next();
@@ -26,33 +31,27 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
     };
 };
 
-const erLokalt = () => {
-    return process.env.ENV === 'localhost';
-};
-
-const harBearerToken = (authorization: string) => {
-    return authorization.includes('Bearer ');
-};
-
-const utledToken = (req: Request, authorization: string | undefined) => {
-    if (erLokalt()) {
-        throw Error('Håndterer ikke localhost ennå');
-    } else if (authorization && harBearerToken(authorization)) {
-        return authorization.split(' ')[1];
-    } else {
-        throw Error('Mangler authorization i header');
-    }
-};
-
 const cachedAzureOBOProvoder = withInMemoryCache(azureOBO);
+
+const getValidatedTokenFromHeader = async (req: Request) => {
+    const token = getTokenFromHeader(req);
+    if (token == null) {
+        return null;
+    }
+    await verify(token);
+    return token;
+};
 const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
     logInfo('PrepareSecuredRequest', req);
-    const { authorization } = req.headers;
-    const token = utledToken(req, authorization);
-    logInfo('Token found: ' + (token.length > 1), req);
+
+    const token = await getValidatedTokenFromHeader(req);
+    if (!token) return null;
+    const payload = decodeJwt(token);
+    if (secondsUntil(payload.exp ?? 0) <= 0) {
+        logWarn(`Token har utgått exp=${payload.exp}`, req);
+        return null;
+    }
     const audience = `api://${process.env.NAIS_CLUSTER_NAME}.tilleggsstonader.${applicationName}/.default`;
     const accessToken = await cachedAzureOBOProvoder(token, audience);
-    return {
-        authorization: `Bearer ${accessToken}`,
-    };
+    return { authorization: `Bearer ${accessToken}` };
 };

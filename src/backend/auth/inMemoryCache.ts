@@ -11,8 +11,9 @@ const NO_CACHE_TTL = 0;
 const getSecondsToExpire = (payload: JWTPayload) =>
     Math.max(payload.exp ? secondsUntil(payload.exp) : NO_CACHE_TTL, NO_CACHE_TTL);
 
-export function withInMemoryCache(oboProvider: OboProvider): OboProvider {
-    return async (token, audience) => {
+export const withInMemoryCache =
+    (oboProvider: OboProvider): OboProvider =>
+    async (token, audience) => {
         const key = `${token}-${audience}`;
         const cachedToken = cache.get<string>(key);
         if (cachedToken) {
@@ -27,9 +28,9 @@ export function withInMemoryCache(oboProvider: OboProvider): OboProvider {
         const payload = decodeJwt(oboToken);
         const ttl = getSecondsToExpire(payload);
         if (ttl) {
-            cache.set(key, oboToken, ttl - 30);
+            // setter ttl minus 10s for å unngå at man bruker en cachet token som snart utløper
+            cache.set(key, oboToken, ttl - 10);
         }
 
         return oboToken;
     };
-}

@@ -1,4 +1,4 @@
-import { JWK } from 'jose';
+import { createRemoteJWKSet, JWK, jwtVerify, JWTVerifyResult } from 'jose';
 import { Client, errors, GrantBody, GrantExtras, Issuer } from 'openid-client';
 
 import logger from '../logger';
@@ -81,3 +81,13 @@ export type OboProvider = (token: string, audience: string) => Promise<string | 
 
 export const azureOBO: OboProvider = (token: string, audience: string) =>
     tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
+
+const remoteJWKSet = createRemoteJWKSet(
+    new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI as string)
+);
+
+export const verify = async (token: string): Promise<JWTVerifyResult> => {
+    return await jwtVerify(token, remoteJWKSet, {
+        issuer: process.env.AZURE_OPENID_CONFIG_ISSUER,
+    });
+};
