@@ -17,6 +17,10 @@ export const secondsUntil = (timestamp: number): number => {
 };
 
 export const getTokenFromHeader = (req: Request): string | null => {
+    if (process.env.NODE_ENV === 'development') {
+        // @ts-ignore lokalt lagres accessToken i sessionen for å kunne logge inn uten wonderwall
+        return req.session.accessToken;
+    }
     const { authorization } = req.headers;
     if (authorization == null) return null;
     if (!authorization.includes('Bearer ')) {

@@ -8,3 +8,5 @@ build
 dist_production
 dist_development
 yarn-error.log
+
+.env
