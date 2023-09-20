@@ -13,8 +13,8 @@ const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
 export const validateToken = (): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const authenticationHeader = getValidatedTokenFromHeader(req);
-            if (!authenticationHeader) {
+            const token = await getValidatedTokenFromHeader(req);
+            if (!token) {
                 logWarn('Fant ikke gyldig token', req);
                 return res.status(401).send('Fant ikke gyldig token');
             }

@@ -6,8 +6,9 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { attachToken } from './auth/attachToken';
+import { attachToken, validateToken } from './auth/attachToken';
 import { setupLocal } from './auth/local';
+import { getProfile } from './auth/profile';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
@@ -46,6 +47,8 @@ app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 app.get(/^(?!.*\/(internal|static|api|oauth2)\/).*$/, (_req, res) => {
     res.sendFile('index.html', { root: buildPath });
 });
+
+app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
 app.use(
     '/api/sak',
