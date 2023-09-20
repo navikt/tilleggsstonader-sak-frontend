@@ -22,7 +22,7 @@ export const setupLocal = (app: Express) => {
     const loginClientConfig = {
         client_id: clientConfig.client_id,
         client_secret: clientConfig.client_secret,
-        redirect_uri: 'http://localhost:3000/auth/openid/callback',
+        redirect_uri: 'http://localhost:3000/oauth2/callback',
     };
 
     custom.setHttpOptionsDefaults({
@@ -31,14 +31,20 @@ export const setupLocal = (app: Express) => {
 
     Issuer.discover(oidcIssuerUrl).then((issuer) => {
         const client = new issuer.Client(loginClientConfig);
-        app.get('/auth/openid/login', (req, res) => {
+        app.get('/oauth2/login', (req, res) => {
             const authorizationUrl = client.authorizationUrl({
-                scope: `openid offline_access ${loginClientConfig.client_id}/.default`,
+                scope: `openid offline_access profile ${loginClientConfig.client_id}/.default`,
             });
+            const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
+            const redirectUrl = regex ? regex[1] : 'invalid';
+
+            const successRedirect = regex ? redirectUrl : '/';
+            // @ts-ignore
+            req.session.redirectUrl = successRedirect;
             res.redirect(authorizationUrl);
         });
 
-        app.get('/auth/openid/callback', async (req, res) => {
+        app.get('/oauth2/callback', async (req, res) => {
             const params = client.callbackParams(req);
 
             try {
@@ -51,7 +57,10 @@ export const setupLocal = (app: Express) => {
                 } else {
                     // @ts-ignore
                     req.session.accessToken = accessToken;
-                    res.send(`Authentication successful`);
+                    console.log('claim', tokenSet.claims());
+                    console.log('access_token', tokenSet.access_token);
+                    // @ts-ignore
+                    res.redirect(req.session.redirectUrl);
                 }
             } catch (error) {
                 console.error('Authentication error:', error);
