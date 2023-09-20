@@ -1,5 +1,4 @@
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import webpack from 'webpack';
@@ -34,7 +33,6 @@ if (process.env.NODE_ENV === 'development') {
 
     app.use(devMiddleware);
     app.use(webpackHotMiddleware(compiler));
-    dotenv.config();
     setupLocal(app);
 } else {
     app.use(BASE_PATH, express.static(buildPath, { index: false }));

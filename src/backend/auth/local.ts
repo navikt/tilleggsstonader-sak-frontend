@@ -57,8 +57,6 @@ export const setupLocal = (app: Express) => {
                 } else {
                     // @ts-ignore
                     req.session.accessToken = accessToken;
-                    console.log('claim', tokenSet.claims());
-                    console.log('access_token', tokenSet.access_token);
                     // @ts-ignore
                     res.redirect(req.session.redirectUrl);
                 }

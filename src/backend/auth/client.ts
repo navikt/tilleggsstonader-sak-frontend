@@ -18,22 +18,12 @@ let cachedClientConfig: ClientConfig;
 
 export const getClientConfig = (): ClientConfig => {
     if (!cachedClientConfig) {
-        if (process.env.NODE_ENV === 'development') {
-            cachedClientConfig = {
-                issuer: 'https://login.microsoftonline.com/navq.onmicrosoft.com/v2.0',
-                token_endpoint:
-                    'https://login.microsoftonline.com/navq.onmicrosoft.com/oauth2/v2.0/token',
-                client_id: process.env.AZURE_APP_CLIENT_ID as string,
-                client_secret: process.env.AZURE_APP_CLIENT_SECRET as string,
-            };
-        } else {
-            cachedClientConfig = {
-                issuer: process.env.AZURE_OPENID_CONFIG_ISSUER as string,
-                token_endpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT as string,
-                client_id: process.env.AZURE_APP_CLIENT_ID as string,
-                client_secret: process.env.AZURE_APP_CLIENT_SECRET as string,
-            };
-        }
+        cachedClientConfig = {
+            issuer: miljø.azure.issuer,
+            token_endpoint: miljø.azure.token_endpoint,
+            client_id: miljø.azure.client_id,
+            client_secret: miljø.azure.client_secret,
+        };
     }
     return cachedClientConfig;
 };
@@ -102,8 +92,7 @@ const client = () => {
 let cachedRemoteJWKSet: JWTVerifyGetKey;
 const remoteJWKSet = (): JWTVerifyGetKey => {
     if (!cachedRemoteJWKSet) {
-        const uri = process.env.AZURE_OPENID_CONFIG_JWKS_URI ?? miljø.AZURE_OPENID_CONFIG_JWKS_URI;
-        cachedRemoteJWKSet = createRemoteJWKSet(new URL(uri as string));
+        cachedRemoteJWKSet = createRemoteJWKSet(new URL(miljø.azure.openid_config_jwks_uri));
     }
     return cachedRemoteJWKSet;
 };
@@ -113,6 +102,6 @@ export const azureOBO: OboProvider = (token: string, audience: string) =>
 
 export const verify = async (token: string): Promise<JWTVerifyResult> => {
     return await jwtVerify(token, remoteJWKSet(), {
-        issuer: process.env.AZURE_OPENID_CONFIG_ISSUER,
+        issuer: miljø.azure.issuer,
     });
 };
