@@ -1,3 +1,13 @@
 node_modules
 build
 dist_production
+.prettierignore
+*.json
+*.yaml
+*.yml
+*.md
+*.html
+*.lock
+.env
+.gitignore
+.husky/
