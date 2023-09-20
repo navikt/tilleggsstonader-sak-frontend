@@ -65,5 +65,11 @@ export const setupLocal = (app: Express) => {
                 res.status(500).send('Authentication failed');
             }
         });
+        app.get('/oauth2/logout', (req, res) => {
+            // @ts-ignore
+            req.session.destroy(() => {
+                res.status(200).send('Logget ut');
+            });
+        });
     });
 };
