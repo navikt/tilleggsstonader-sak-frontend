@@ -100,8 +100,7 @@ const remoteJWKSet = (): JWTVerifyGetKey => {
 export const azureOBO: OboProvider = (token: string, audience: string) =>
     tokenExchange(client(), getGrantBody(token, audience), getAdditionalClaims());
 
-export const verify = async (token: string): Promise<JWTVerifyResult> => {
-    return await jwtVerify(token, remoteJWKSet(), {
+export const verify = async (token: string): Promise<JWTVerifyResult> =>
+    await jwtVerify(token, remoteJWKSet(), {
         issuer: miljø.azure.issuer,
     });
-};

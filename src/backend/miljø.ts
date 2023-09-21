@@ -16,14 +16,17 @@ interface AzureSettings {
     token_endpoint: string;
     openid_config_jwks_uri: string;
 }
+
+type ClientConfig = {
+    [key in ApplicationName]: {
+        url: string;
+        audience: string;
+    };
+};
+
 interface Miljø {
     builldPath: string;
-    clients: {
-        [key in ApplicationName]: {
-            url: string;
-            audience: string;
-        };
-    };
+    clients: ClientConfig;
     azure: AzureSettings;
 }
 
@@ -45,14 +48,22 @@ const devProdAzure = (): AzureSettings => ({
     openid_config_jwks_uri: envVar('AZURE_OPENID_CONFIG_JWKS_URI'),
 });
 
-const lokaltMiljø = (): Miljø => ({
-    builldPath: '../../dist_development',
-    clients: {
-        [ApplicationName.sak]: {
-            url: 'http://localhost:8101/api',
-            audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak-lokal',
-        },
+const clientsLocal = (): ClientConfig => ({
+    [ApplicationName.sak]: {
+        url: 'http://localhost:8101/api',
+        audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak-lokal',
     },
+});
+
+const clientsLocalPreprod = (): ClientConfig => ({
+    [ApplicationName.sak]: {
+        url: 'https://tilleggsstonader-sak.intern.dev.nav.no/api',
+        audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
+    },
+});
+const lokaltMiljø = (clients: ClientConfig): Miljø => ({
+    builldPath: '../../dist_development',
+    clients: clients,
     azure: lokalAzure(),
 });
 
@@ -81,7 +92,9 @@ const prodMiljø = (): Miljø => ({
 const initierMiljøvariabler = (): Miljø => {
     switch (process.env.ENV) {
         case 'localhost':
-            return lokaltMiljø();
+            return lokaltMiljø(clientsLocal());
+        case 'localhost-preprod':
+            return lokaltMiljø(clientsLocalPreprod());
         case 'preprod':
             return devMiljø();
         case 'prod':
