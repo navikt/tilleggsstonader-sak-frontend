@@ -1,7 +1,9 @@
-import { createRemoteJWKSet, JWK, jwtVerify, JWTVerifyResult } from 'jose';
-import { Client, errors, GrantBody, GrantExtras, Issuer } from 'openid-client';
+import { createRemoteJWKSet, jwtVerify, JWTVerifyResult } from 'jose';
+import { JWTVerifyGetKey } from 'jose/dist/types/jwt/verify';
+import { BaseClient, Client, errors, GrantBody, GrantExtras, Issuer } from 'openid-client';
 
 import logger from '../logger';
+import { miljø } from '../miljø';
 
 import OPError = errors.OPError;
 
@@ -10,19 +12,24 @@ export interface ClientConfig {
     token_endpoint: string;
     client_id: string;
     client_secret?: string;
-    jwk: JWK;
 }
 
-const clientConfig: ClientConfig = {
-    issuer: process.env.AZURE_OPENID_CONFIG_ISSUER as string,
-    token_endpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT as string,
-    client_id: process.env.AZURE_APP_CLIENT_ID as string,
-    client_secret: process.env.AZURE_APP_CLIENT_SECRET as string,
-    jwk: JSON.parse(process.env.AZURE_APP_JWK as string) as JWK,
+let cachedClientConfig: ClientConfig;
+
+export const getClientConfig = (): ClientConfig => {
+    if (!cachedClientConfig) {
+        cachedClientConfig = {
+            issuer: miljø.azure.issuer,
+            token_endpoint: miljø.azure.token_endpoint,
+            client_id: miljø.azure.client_id,
+            client_secret: miljø.azure.client_secret,
+        };
+    }
+    return cachedClientConfig;
 };
 
 const getIssuer = (): Issuer => {
-    const { issuer, token_endpoint } = clientConfig;
+    const { issuer, token_endpoint } = getClientConfig();
     return new Issuer({
         issuer,
         token_endpoint,
@@ -38,7 +45,7 @@ const getGrantBody = (subject_token: string, audience: string): GrantBody => ({
 });
 
 const getAdditionalClaims = (): GrantExtras => {
-    const { token_endpoint } = clientConfig;
+    const { token_endpoint } = getClientConfig();
     const now = Math.floor(Date.now() / 1000);
     return {
         clientAssertionPayload: {
@@ -49,16 +56,13 @@ const getAdditionalClaims = (): GrantExtras => {
 };
 
 const createClient = (): Client => {
-    const { jwk, client_id, client_secret } = clientConfig;
+    const { client_id, client_secret } = getClientConfig();
     const issuer = getIssuer();
-    return new issuer.Client(
-        {
-            client_id,
-            client_secret,
-            token_endpoint_auth_method: 'client_secret_basic',
-        },
-        { keys: [jwk] }
-    );
+    return new issuer.Client({
+        client_id,
+        client_secret,
+        token_endpoint_auth_method: 'client_secret_basic',
+    });
 };
 
 const tokenExchange = async (
@@ -77,17 +81,27 @@ const tokenExchange = async (
 
 export type OboProvider = (token: string, audience: string) => Promise<string | null>;
 
-const client = createClient();
+let cachedClient: BaseClient;
+const client = () => {
+    if (!cachedClient) {
+        cachedClient = createClient();
+    }
+    return cachedClient;
+};
 
-const remoteJWKSet = createRemoteJWKSet(
-    new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI as string)
-);
+let cachedRemoteJWKSet: JWTVerifyGetKey;
+const remoteJWKSet = (): JWTVerifyGetKey => {
+    if (!cachedRemoteJWKSet) {
+        cachedRemoteJWKSet = createRemoteJWKSet(new URL(miljø.azure.openid_config_jwks_uri));
+    }
+    return cachedRemoteJWKSet;
+};
 
 export const azureOBO: OboProvider = (token: string, audience: string) =>
-    tokenExchange(client, getGrantBody(token, audience), getAdditionalClaims());
+    tokenExchange(client(), getGrantBody(token, audience), getAdditionalClaims());
 
 export const verify = async (token: string): Promise<JWTVerifyResult> => {
-    return await jwtVerify(token, remoteJWKSet, {
-        issuer: process.env.AZURE_OPENID_CONFIG_ISSUER,
+    return await jwtVerify(token, remoteJWKSet(), {
+        issuer: miljø.azure.issuer,
     });
 };

@@ -4,6 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 
 import logger from './logger';
+import { ApplicationName, miljø } from './miljø';
 
 export const addRequestInfo = (): RequestHandler => {
     return (req: Request, _res: Response, next: NextFunction) => {
@@ -24,7 +25,7 @@ const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     }
 };
 
-export const doProxy = (context: string, targetUrl: string): RequestHandler => {
+export const doProxy = (context: string, applicationName: ApplicationName): RequestHandler => {
     return createProxyMiddleware(context, {
         changeOrigin: true,
         logLevel: 'info',
@@ -36,6 +37,6 @@ export const doProxy = (context: string, targetUrl: string): RequestHandler => {
             return path.replace(context, '');
         },
         secure: true,
-        target: `${targetUrl}`,
+        target: `${miljø.clients[applicationName].url}`,
     });
 };

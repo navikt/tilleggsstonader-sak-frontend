@@ -5,9 +5,11 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { attachToken } from './auth/attachToken';
+import { attachToken, validateToken } from './auth/attachToken';
+import { setupLocal } from './auth/local';
+import { getProfile } from './auth/profile';
 import logger from './logger';
-import { miljø } from './miljø';
+import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
 import developmentConfig from './webpack/webpack.development';
 
@@ -31,6 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 
     app.use(devMiddleware);
     app.use(webpackHotMiddleware(compiler));
+    setupLocal(app);
 } else {
     app.use(BASE_PATH, express.static(buildPath, { index: false }));
 }
@@ -39,15 +42,17 @@ if (process.env.NODE_ENV === 'development') {
 app.use(bodyParser.json({ limit: '200mb' }));
 app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 
-app.get(/^(?!.*\/(internal|static|api)\/).*$/, (_req, res) => {
+app.get(/^(?!.*\/(internal|static|api|oauth2)\/).*$/, (_req, res) => {
     res.sendFile('index.html', { root: buildPath });
 });
+
+app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
 app.use(
     '/api/sak',
     addRequestInfo(),
-    attachToken('tilleggsstonader-sak'),
-    doProxy('/api/sak', miljø.backend)
+    attachToken(ApplicationName.sak),
+    doProxy('/api/sak', ApplicationName.sak)
 );
 
 app.listen(PORT, () => {

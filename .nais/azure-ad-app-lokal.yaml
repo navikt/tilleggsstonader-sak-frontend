@@ -18,7 +18,7 @@ spec:
   logoutUrl: "http://localhost:3000"
   tenant: trygdeetaten.no
   replyUrls:
-    - url: "http://localhost:3000/auth/openid/callback"
+    - url: "http://localhost:3000/oauth2/callback"
   claims:
     extra:
       - "NAVident"
