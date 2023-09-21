@@ -30,10 +30,11 @@ interface Miljø {
 const lokalAzure = (): AzureSettings => ({
     client_id: envVar('AZURE_APP_CLIENT_ID'),
     client_secret: envVar('AZURE_APP_CLIENT_SECRET'),
-    issuer: 'https://login.microsoftonline.com/navq.onmicrosoft.com/v2.0',
-    token_endpoint: 'https://login.microsoftonline.com/navq.onmicrosoft.com/oauth2/v2.0/token',
+    issuer: 'https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0',
+    token_endpoint:
+        'https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/oauth2/v2.0/token',
     openid_config_jwks_uri:
-        'https://login.microsoftonline.com/navq.onmicrosoft.com/discovery/v2.0/keys',
+        'https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/discovery/v2.0/keys',
 });
 
 const devProdAzure = (): AzureSettings => ({
