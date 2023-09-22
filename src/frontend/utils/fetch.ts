@@ -7,6 +7,7 @@ export const håndterSuksess = <ResponseData>(
         data: data as ResponseData,
         status: RessursStatus.SUKSESS,
     }));
+
 export const håndterFeil = (res: Response, headers: Headers): Promise<RessursFeilet> =>
     res.json().then((res) => {
         return {
@@ -15,6 +16,7 @@ export const håndterFeil = (res: Response, headers: Headers): Promise<RessursFe
             melding: res.detail,
         };
     });
+
 export const feilmeldingMedCallId = (feilmelding: string, headers?: Headers): string => {
     const callId = headers?.get('Nav-Call-id');
     return `${feilmelding}. Feilkode: ${callId}`;
