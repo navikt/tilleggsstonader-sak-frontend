@@ -7,6 +7,7 @@ import { InternalHeader, Spacer } from '@navikt/ds-react';
 import { AppProvider } from './context/AppContext';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
+import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 
 const App: React.FC = () => {
@@ -21,6 +22,7 @@ const App: React.FC = () => {
             </Sticky>
             <BrowserRouter>
                 <Routes>
+                    <Route path={'/'} element={<Oppgavebenk />} />
                     <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
                     <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
                 </Routes>
