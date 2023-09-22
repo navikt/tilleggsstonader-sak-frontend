@@ -4,13 +4,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { InternalHeader, Spacer } from '@navikt/ds-react';
 
+import { AppProvider } from './context/AppContext';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 
 const App: React.FC = () => {
     return (
-        <>
+        <AppProvider>
             <Sticky>
                 <InternalHeader>
                     <InternalHeader.Title as="h1">Tilleggsstønader</InternalHeader.Title>
@@ -24,7 +25,7 @@ const App: React.FC = () => {
                     <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
                 </Routes>
             </BrowserRouter>
-        </>
+        </AppProvider>
     );
 };
 

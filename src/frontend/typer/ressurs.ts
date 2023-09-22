@@ -23,7 +23,7 @@ type FeilMelding = {
     frontendFeilmeldingUtenFeilkode?: string;
 };
 
-type RessursFeilet =
+export type RessursFeilet =
     | (FeilMelding & { status: RessursStatus.IKKE_TILGANG })
     | (FeilMelding & { status: RessursStatus.FEILET })
     | (FeilMelding & { status: RessursStatus.FUNKSJONELL_FEIL });
@@ -39,9 +39,13 @@ export const byggTomRessurs = <T>(): Ressurs<T> => {
         status: RessursStatus.IKKE_HENTET,
     };
 };
-
 export const harNoenRessursMedStatus = (
     // eslint-disable-next-line
     ressurser: Ressurs<any>[],
     ...status: RessursStatus[]
 ): boolean => ressurser.some((ressurs) => status.includes(ressurs.status));
+
+export const erFeilressurs = <T>(response: Ressurs<T>): response is RessursFeilet =>
+    response.status === RessursStatus.FEILET ||
+    response.status === RessursStatus.FUNKSJONELL_FEIL ||
+    response.status === RessursStatus.IKKE_TILGANG;

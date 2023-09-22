@@ -1,6 +1,8 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Ressurs, RessursStatus, RessursSuksess } from '../typer/ressurs';
+import { Alert } from '@navikt/ds-react';
+
+import { erFeilressurs, Ressurs, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -32,7 +34,18 @@ function DataViewer<T extends Record<string, unknown>>(
 ): JSX.Element | null {
     const { response, children } = props;
     const responses = Object.values(response);
-    if (responses.every((response) => response.status === RessursStatus.SUKSESS)) {
+
+    if (responses.some(erFeilressurs)) {
+        return (
+            <>
+                {responses.filter(erFeilressurs).map((feilet, index) => (
+                    <Alert key={index} variant={'error'}>
+                        {feilet.frontendFeilmelding}
+                    </Alert>
+                ))}
+            </>
+        );
+    } else if (responses.every((response) => response.status === RessursStatus.SUKSESS)) {
         return renderChildren(children, response);
     } else {
         return null;

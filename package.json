@@ -23,17 +23,20 @@
     "@navikt/ds-react": "^5.5.0",
     "@navikt/ds-react-internal": "^3.4.3",
     "@navikt/ds-tokens": "^5.3.4",
+    "constate": "^3.3.2",
     "data-fns": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
-    "styled-components": "^6.0.7"
+    "styled-components": "^6.0.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.15",
     "@babel/preset-env": "^7.22.15",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@types/uuid": "^9.0.4",
     "@types/webpack-hot-middleware": "^2.25.6",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
