@@ -31,9 +31,14 @@ export const OpprettDummyBehandling: React.FC = () => {
 
     const opprettBehandling = () => {
         settFeil('');
-        request<string, { personIdent: string }>(`/api/sak/test/opprett-behandling`, 'POST', {
-            personIdent: personIdent,
-        }).then((res: RessursFeilet | RessursSuksess<string>) => {
+        request<string, { personIdent: string; stønadstype: Stønadstype }>(
+            `/api/sak/test/opprett-behandling`,
+            'POST',
+            {
+                personIdent: personIdent,
+                stønadstype: stønadstype,
+            }
+        ).then((res: RessursFeilet | RessursSuksess<string>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}/`);
             } else {
