@@ -25,9 +25,9 @@ const [AppProvider, useApp] = constate(() => {
             })
                 .then((res): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
                     if (res.ok) {
-                        return håndterSuksess<ResponseData>(res).then((suksess) => suksess);
+                        return håndterSuksess<ResponseData>(res);
                     } else {
-                        return håndterFeil(res, res.headers).then((feil) => feil);
+                        return håndterFeil(res, res.headers);
                     }
                 })
                 .catch((error) => {
