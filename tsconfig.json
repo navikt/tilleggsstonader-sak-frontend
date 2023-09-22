@@ -12,7 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
-    "jsx": "react"
+    "jsx": "react",
+    "lib": [
+      "ESNext",
+      "dom"
+    ]
   },
   "exclude": [
     "node_modules"
