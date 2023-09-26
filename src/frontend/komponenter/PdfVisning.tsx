@@ -18,10 +18,6 @@ interface PdfVisningProps {
     pdfFilInnhold: Ressurs<string>;
 }
 
-const Paginering = styled(Pagination)`
-    margin: 0 auto;
-`;
-
 const Dokument = styled(Document)`
     .react-pdf__Page__canvas {
         box-shadow:
@@ -42,6 +38,7 @@ const DokumentWrapper = styled.div`
     min-width: 600px;
 
     align-self: flex-start;
+    align-items: center;
     position: sticky;
     top: 100px;
     left: 0;
@@ -62,7 +59,7 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
         <DataViewer response={{ pdfFilInnhold }}>
             {({ pdfFilInnhold }) => (
                 <DokumentWrapper>
-                    <Paginering
+                    <Pagination
                         page={pageNumber}
                         count={numPages}
                         onPageChange={setPageNumber}
@@ -84,7 +81,7 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
                     >
                         <Page pageNumber={pageNumber} renderTextLayer={true} />
                     </Dokument>
-                    <Paginering
+                    <Pagination
                         page={pageNumber}
                         count={numPages}
                         onPageChange={setPageNumber}
