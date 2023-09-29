@@ -5,7 +5,7 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 export const fetchFn = <ResponseData, RequestData>(
     url: string,
     method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'UPDATE' = 'GET',
-    data: RequestData
+    data?: RequestData
 ): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
     const requestId = uuidv4().replaceAll('-', '');
 

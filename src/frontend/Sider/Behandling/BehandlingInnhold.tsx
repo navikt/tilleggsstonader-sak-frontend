@@ -5,25 +5,32 @@ import styled from 'styled-components';
 
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
+import { BehandlingProvider } from '../../context/BehandlingContext';
+import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
+import { Behandling } from '../../typer/behandling/behandling';
 
 const InnholdWrapper = styled.div`
     padding: 1rem;
 `;
 
-const BehandlingInnhold: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+const BehandlingInnhold: React.FC<{
+    behandling: Behandling;
+    hentBehandling: RerrunnableEffect;
+}> = ({ behandling, hentBehandling }) => {
     const paths = useLocation().pathname.split('/').slice(-1);
+
     const path = paths.length ? paths[paths.length - 1] : '';
 
     return (
-        <>
-            <Fanemeny behandlingId={behandlingId} aktivFane={path} />
+        <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
+            <Fanemeny behandlingId={behandling.id} aktivFane={path} />
             <InnholdWrapper>
                 <Routes>
                     {behandlingFaner.map((tab) => (
                         <Route
                             key={tab.path}
                             path={`/${tab.path}`}
-                            element={tab.komponent(behandlingId)}
+                            element={tab.komponent(behandling.id)}
                         />
                     ))}
                     <Route
@@ -32,7 +39,7 @@ const BehandlingInnhold: React.FC<{ behandlingId: string }> = ({ behandlingId })
                     />
                 </Routes>
             </InnholdWrapper>
-        </>
+        </BehandlingProvider>
     );
 };
 
