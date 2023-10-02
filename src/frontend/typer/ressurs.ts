@@ -39,6 +39,21 @@ export const byggTomRessurs = <T>(): Ressurs<T> => {
         status: RessursStatus.IKKE_HENTET,
     };
 };
+
+export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
+    return {
+        status: RessursStatus.SUKSESS,
+        data: data,
+    };
+};
+
+export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
+    return {
+        status: RessursStatus.FEILET,
+        frontendFeilmelding: feilmelding,
+        melding: feilmelding,
+    };
+};
 export const harNoenRessursMedStatus = (
     // eslint-disable-next-line
     ressurser: Ressurs<any>[],

@@ -23,10 +23,12 @@
     "@navikt/ds-react": "^5.5.0",
     "@navikt/ds-react-internal": "^3.4.3",
     "@navikt/ds-tokens": "^5.3.4",
+    "@sanity/client": "^6.4.12",
     "constate": "^3.3.2",
     "data-fns": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-pdf": "^7.4.0",
     "react-router-dom": "^6.16.0",
     "styled-components": "^6.0.7",
     "uuid": "^9.0.1"

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Brev from '../Brev/Brev';
 import Inngangsvilkår from '../Inngangsvilkår/Inngangsvilkår';
 
 export type FanerMedRouter = {
@@ -41,6 +42,6 @@ export const behandlingFaner: FanerMedRouter[] = [
     {
         navn: FaneNavn.BREV,
         path: 'brev',
-        komponent: () => <p>Brev</p>,
+        komponent: () => <Brev />,
     },
 ];
