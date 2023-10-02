@@ -23,6 +23,7 @@
     "@navikt/ds-react": "^5.6.1",
     "@navikt/ds-react-internal": "^3.4.3",
     "@navikt/ds-tokens": "^5.3.4",
+    "@portabletext/react": "^3.0.9",
     "@sanity/client": "^6.4.12",
     "constate": "^3.3.2",
     "data-fns": "^1.1.0",
