@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 
+import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
@@ -9,7 +10,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     const utledVedtakForm = () => {
         switch (resultatType) {
             case BehandlingResultat.INNVILGET:
-                return <p>Innvilge</p>;
+                return <InnvilgeVedtak settResultatType={settResultatType} />;
 
             case undefined:
                 break;
