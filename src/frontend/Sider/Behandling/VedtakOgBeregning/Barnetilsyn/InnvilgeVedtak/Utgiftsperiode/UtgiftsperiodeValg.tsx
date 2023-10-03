@@ -6,6 +6,8 @@ import { Heading, Label } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
+import { ListState } from '../../../../../../hooks/felles/useListState';
+import { Utgiftsperiode } from '../../../../../../typer/vedtak';
 
 const Container = styled.div`
     padding: 1rem;
@@ -27,7 +29,11 @@ const Grid = styled.div<{ lesevisning?: boolean }>`
     }
 `;
 
-const UtgiftsperiodeValg: React.FC = () => {
+interface Props {
+    utgiftsperioderState: ListState<Utgiftsperiode>;
+}
+
+const UtgiftsperiodeValg: React.FC<Props> = () => {
     const { behandlingErRedigerbar } = useBehandling();
 
     return (
