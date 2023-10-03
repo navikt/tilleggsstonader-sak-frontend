@@ -6,7 +6,7 @@ import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
 
-    const test = () => {
+    const utledVedtakForm = () => {
         switch (resultatType) {
             case BehandlingResultat.INNVILGET:
                 return <p>Innvilge</p>;
@@ -25,7 +25,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                 resultatType={resultatType}
                 settResultatType={settResultatType}
             />
-            {test()}
+            {utledVedtakForm()}
         </>
     );
 };
