@@ -2,6 +2,7 @@ import React from 'react';
 
 import Brev from '../Brev/Brev';
 import Inngangsvilkår from '../Inngangsvilkår/Inngangsvilkår';
+import VedtakOgBeregningBarnetilsyn from '../VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 
 export type FanerMedRouter = {
     navn: FaneNavn;
@@ -32,7 +33,7 @@ export const behandlingFaner: FanerMedRouter[] = [
     {
         navn: FaneNavn.VEDTAK_OG_BEREGNING,
         path: 'vedtak-og-beregning',
-        komponent: () => <p>Vedtak og beregning</p>,
+        komponent: () => <VedtakOgBeregningBarnetilsyn />,
     },
     {
         navn: FaneNavn.SIMULERING,
