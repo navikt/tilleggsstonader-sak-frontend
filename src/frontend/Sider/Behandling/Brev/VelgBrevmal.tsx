@@ -25,7 +25,7 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
                 }}
                 value={brevmal || ''}
             >
-                <option value="">Ikke valgt</option>
+                <option value="">Velg</option>
                 {brevmaler.map((mal) => (
                     <option value={mal._id} key={mal._id}>
                         {mal.visningsnavn}
