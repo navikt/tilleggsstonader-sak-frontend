@@ -1,12 +1,15 @@
-/* eslint-disable */
+// TODO: Se over bruk av any
 import { Dispatch, FormEventHandler, SetStateAction, useMemo, useState } from 'react';
+
 import useFieldState, { FieldState } from './useFieldState';
 import useListState, { ListState } from './useListState';
 
 export type FormState<T> = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [P in keyof T]: any;
 };
 export type InternalFormState<T> = { [P in keyof T]: FieldState | ListState<unknown> };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormHook<T extends Record<string, any>> = {
     getProps(key: keyof T): FieldState | ListState<unknown>;
     errors: FormErrors<T>;
@@ -16,12 +19,14 @@ export type FormHook<T extends Record<string, any>> = {
     customValidate: (fn: Valideringsfunksjon<T>) => boolean;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormErrors<T extends Record<string, any | undefined>> = {
     [P in keyof T]: T[P] extends string | number | undefined
         ? string | undefined
         : FormErrors<T[P]>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Valideringsfunksjon<T extends Record<string, any | undefined>> = (
     state: FormState<T>
 ) => FormErrors<T>;
@@ -83,6 +88,7 @@ export default function useFormState<T extends Record<string, unknown>>(
     };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isValid<T extends Record<string, any>>(errors: FormErrors<T>): boolean {
     return Object.keys(errors).reduce<boolean>((acc, key) => {
         const value = errors[key];
