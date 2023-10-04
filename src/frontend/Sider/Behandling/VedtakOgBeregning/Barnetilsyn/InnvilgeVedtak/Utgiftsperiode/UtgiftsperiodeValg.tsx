@@ -6,6 +6,7 @@ import { Heading, Label } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import AktivitetSelect from './AktivitetSelect';
+import AntallDagerSelect from './AntallDagerSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
@@ -72,7 +73,8 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                 <Label>Ant.</Label>
                 <Label>Utgifter</Label>
                 {utgiftsperioderState.value.map((utgiftsperiode, index) => {
-                    const { periodetype, aktivitetstype } = utgiftsperiode;
+                    const { periodetype, aktivitetstype, antallAktivitetsdager, dagerMedTilsyn } =
+                        utgiftsperiode;
                     return (
                         <React.Fragment key={index}>
                             <PeriodetypeSelect
@@ -107,6 +109,30 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                                     oppdaterUtgiftsperiode(index, property, value)
                                 }
                                 erLesevisning={!behandlingErRedigerbar}
+                            />
+                            <AntallDagerSelect
+                                erLesevisning={!behandlingErRedigerbar}
+                                property={UtgiftsperiodeProperty.antallAktivitetsdager}
+                                value={antallAktivitetsdager}
+                                oppdaterUtgiftsperiodeElement={(value) =>
+                                    oppdaterUtgiftsperiode(
+                                        index,
+                                        UtgiftsperiodeProperty.antallAktivitetsdager,
+                                        value
+                                    )
+                                }
+                            />
+                            <AntallDagerSelect
+                                erLesevisning={!behandlingErRedigerbar}
+                                property={UtgiftsperiodeProperty.dagerMedTilsyn}
+                                value={dagerMedTilsyn}
+                                oppdaterUtgiftsperiodeElement={(value) =>
+                                    oppdaterUtgiftsperiode(
+                                        index,
+                                        UtgiftsperiodeProperty.dagerMedTilsyn,
+                                        value
+                                    )
+                                }
                             />
                         </React.Fragment>
                     );
