@@ -9,6 +9,7 @@ import AktivitetSelect from './AktivitetSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
+import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
 
 const Container = styled.div`
@@ -52,6 +53,12 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
         );
     };
 
+    const oppdaterDatofelter = (indeks: number, property: UtgiftsperiodeProperty, dato?: Date) => {
+        // TODO: Ta hensyn til UTC her?
+        const isoDato = dato?.toISOString();
+        oppdaterUtgiftsperiode(indeks, property, isoDato);
+    };
+
     return (
         <Container>
             <Heading spacing size="small" level="5">
@@ -65,7 +72,7 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                 <Label>Ant.</Label>
                 <Label>Utgifter</Label>
                 {utgiftsperioderState.value.map((utgiftsperiode, index) => {
-                    const { periodetype } = utgiftsperiode;
+                    const { periodetype, aktivitetstype } = utgiftsperiode;
                     return (
                         <React.Fragment key={index}>
                             <PeriodetypeSelect
@@ -75,6 +82,22 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                                     oppdaterUtgiftsperiode(index, property, value)
                                 }
                                 lesevisning={!behandlingErRedigerbar}
+                            />
+                            <DateInput
+                                label="Fra"
+                                hideLabel
+                                erLesevisning={!behandlingErRedigerbar}
+                                onChange={(dato?: Date) =>
+                                    oppdaterDatofelter(index, UtgiftsperiodeProperty.fra, dato)
+                                }
+                            />
+                            <DateInput
+                                label="Til"
+                                hideLabel
+                                erLesevisning={!behandlingErRedigerbar}
+                                onChange={(dato?: Date) =>
+                                    oppdaterDatofelter(index, UtgiftsperiodeProperty.til, dato)
+                                }
                             />
 
                             {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
