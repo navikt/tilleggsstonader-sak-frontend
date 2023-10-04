@@ -37,7 +37,7 @@ interface Props {
     utgiftsperioderState: ListState<Utgiftsperiode>;
 }
 
-const UtgiftsperiodeValg: React.FC<Props> = () => {
+const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppdaterUtgiftsperiode = (
@@ -74,73 +74,72 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                 <Label>Velg barn</Label>
                 <Label>Utgifter</Label>
                 <Label>Dager med tilsyn</Label>
-                {utgiftsperioderState.value.map((utgiftsperiode, index) => {
-                    const { periodetype, aktivitetstype, antallAktivitetsdager, dagerMedTilsyn } =
-                        utgiftsperiode;
-                    return (
-                        <React.Fragment key={index}>
-                            <PeriodetypeSelect
-                                className={'ny-rad'}
-                                periodetype={periodetype}
-                                oppdaterUtgiftsperiodeElement={(property, value) =>
-                                    oppdaterUtgiftsperiode(index, property, value)
-                                }
-                                erLesevisning={!behandlingErRedigerbar}
-                            />
-                            <DateInput
-                                label="Fra"
-                                hideLabel
-                                erLesevisning={!behandlingErRedigerbar}
-                                onChange={(dato?: Date) =>
-                                    oppdaterDatofelter(index, UtgiftsperiodeProperty.fra, dato)
-                                }
-                            />
-                            <DateInput
-                                label="Til"
-                                hideLabel
-                                erLesevisning={!behandlingErRedigerbar}
-                                onChange={(dato?: Date) =>
-                                    oppdaterDatofelter(index, UtgiftsperiodeProperty.til, dato)
-                                }
-                            />
+                {utgiftsperioderState.value.map((utgiftsperiode, index) => (
+                    <React.Fragment key={index}>
+                        <PeriodetypeSelect
+                            className={'ny-rad'}
+                            periodetype={utgiftsperiode.periodetype}
+                            oppdaterUtgiftsperiodeElement={(property, value) =>
+                                oppdaterUtgiftsperiode(index, property, value)
+                            }
+                            erLesevisning={!behandlingErRedigerbar}
+                        />
+                        <DateInput
+                            label="Fra"
+                            hideLabel
+                            erLesevisning={!behandlingErRedigerbar}
+                            value={utgiftsperiode.fra}
+                            onChange={(dato?: Date) =>
+                                oppdaterDatofelter(index, UtgiftsperiodeProperty.fra, dato)
+                            }
+                        />
+                        <DateInput
+                            label="Til"
+                            hideLabel
+                            erLesevisning={!behandlingErRedigerbar}
+                            value={utgiftsperiode.til}
+                            onChange={(dato?: Date) =>
+                                oppdaterDatofelter(index, UtgiftsperiodeProperty.til, dato)
+                            }
+                        />
 
-                            {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
-                            <AktivitetSelect
-                                aktivitet={aktivitetstype}
-                                oppdaterUtgiftsperiodeElement={(property, value) =>
-                                    oppdaterUtgiftsperiode(index, property, value)
-                                }
-                                erLesevisning={!behandlingErRedigerbar}
-                            />
-                            <AntallDagerSelect
-                                erLesevisning={!behandlingErRedigerbar}
-                                property={UtgiftsperiodeProperty.antallAktivitetsdager}
-                                value={antallAktivitetsdager}
-                                oppdaterUtgiftsperiodeElement={(value) =>
-                                    oppdaterUtgiftsperiode(
-                                        index,
-                                        UtgiftsperiodeProperty.antallAktivitetsdager,
-                                        value
-                                    )
-                                }
-                            />
-                            <p>Barn</p>
-                            <p>Utgifter</p>
-                            <AntallDagerSelect
-                                erLesevisning={!behandlingErRedigerbar}
-                                property={UtgiftsperiodeProperty.dagerMedTilsyn}
-                                value={dagerMedTilsyn}
-                                oppdaterUtgiftsperiodeElement={(value) =>
-                                    oppdaterUtgiftsperiode(
-                                        index,
-                                        UtgiftsperiodeProperty.dagerMedTilsyn,
-                                        value
-                                    )
-                                }
-                            />
-                        </React.Fragment>
-                    );
-                })}
+                        {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
+                        <AktivitetSelect
+                            aktivitet={utgiftsperiode.aktivitetstype}
+                            oppdaterUtgiftsperiodeElement={(property, value) =>
+                                oppdaterUtgiftsperiode(index, property, value)
+                            }
+                            erLesevisning={!behandlingErRedigerbar}
+                        />
+                        <AntallDagerSelect
+                            erLesevisning={!behandlingErRedigerbar}
+                            property={UtgiftsperiodeProperty.antallAktivitetsdager}
+                            value={utgiftsperiode.antallAktivitetsdager}
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    index,
+                                    UtgiftsperiodeProperty.antallAktivitetsdager,
+                                    value
+                                )
+                            }
+                        />
+                        <p>Barn</p>
+                        <p>Utgifter</p>
+
+                        <AntallDagerSelect
+                            erLesevisning={!behandlingErRedigerbar}
+                            property={UtgiftsperiodeProperty.dagerMedTilsyn}
+                            value={utgiftsperiode.dagerMedTilsyn}
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    index,
+                                    UtgiftsperiodeProperty.dagerMedTilsyn,
+                                    value
+                                )
+                            }
+                        />
+                    </React.Fragment>
+                ))}
             </Grid>
         </Container>
     );
