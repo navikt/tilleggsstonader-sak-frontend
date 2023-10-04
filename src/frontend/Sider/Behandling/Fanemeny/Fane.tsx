@@ -57,8 +57,6 @@ const Lenke = styled(NavLink)`
     height: 100%;
 `;
 
-const Tekst = styled(BodyShort)<{ deaktivert?: boolean }>``;
-
 interface Props {
     fane: FanerMedRouter;
     behandlingId: string;
@@ -72,16 +70,16 @@ const Fane: React.FC<Props> = ({ fane, behandlingId, index, deaktivert, erAktivF
         <>
             {deaktivert ? (
                 <Container>
-                    <Tekst size="small" deaktivert>
+                    <BodyShort size="small">
                         {index + 1}. {fane.navn}
-                    </Tekst>
+                    </BodyShort>
                 </Container>
             ) : (
                 <Lenke key={fane.navn} to={`/behandling/${behandlingId}/${fane.path}`}>
                     <ContainerAktivert className={erAktivFane ? 'active' : ''}>
-                        <Tekst size="small">
+                        <BodyShort size="small">
                             {index + 1}. {fane.navn}
-                        </Tekst>
+                        </BodyShort>
                     </ContainerAktivert>
                 </Lenke>
             )}
