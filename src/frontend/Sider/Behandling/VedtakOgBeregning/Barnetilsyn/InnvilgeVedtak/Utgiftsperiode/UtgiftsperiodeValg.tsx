@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import { Heading, Label } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
+import PeriodetypeSelect from './PeriodetypeSelect';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
-import { Utgiftsperiode } from '../../../../../../typer/vedtak';
+import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
 
 const Container = styled.div`
     padding: 1rem;
@@ -36,6 +37,20 @@ interface Props {
 const UtgiftsperiodeValg: React.FC<Props> = () => {
     const { behandlingErRedigerbar } = useBehandling();
 
+    const oppdaterUtgiftsperiode = (
+        index: number,
+        property: UtgiftsperiodeProperty,
+        value: string | string[] | number | boolean | undefined
+    ) => {
+        utgiftsperioderState.update(
+            {
+                ...utgiftsperioderState.value[index],
+                [property]: value,
+            },
+            index
+        );
+    };
+
     return (
         <Container>
             <Heading spacing size="small" level="5">
@@ -48,6 +63,21 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                 <Label>Velg barn</Label>
                 <Label>Ant.</Label>
                 <Label>Utgifter</Label>
+                {utgiftsperioderState.value.map((utgiftsperiode, index) => {
+                    const { periodetype } = utgiftsperiode;
+                    return (
+                        <React.Fragment key={index}>
+                            <PeriodetypeSelect
+                                className={'ny-rad'}
+                                periodetype={periodetype}
+                                oppdaterUtgiftsperiodeElement={(property, value) =>
+                                    oppdaterUtgiftsperiode(index, property, value)
+                                }
+                                lesevisning={!behandlingErRedigerbar}
+                            />
+                        </React.Fragment>
+                    );
+                })}
             </Grid>
         </Container>
     );
