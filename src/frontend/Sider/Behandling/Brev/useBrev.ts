@@ -38,7 +38,7 @@ const useBrev = (ytelse: Stønadstype, resultat: string) => {
             sanityClient
                 .fetch<MalStruktur>(malQuery(brevmal))
                 .then((data) => settMalStruktur(byggRessursSuksess(data)))
-                .catch((error) => settBrevmaler(byggRessursFeilet(error.message)));
+                .catch((error) => settMalStruktur(byggRessursFeilet(error.message)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brevmal]);
 
