@@ -81,7 +81,7 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                                 oppdaterUtgiftsperiodeElement={(property, value) =>
                                     oppdaterUtgiftsperiode(index, property, value)
                                 }
-                                lesevisning={!behandlingErRedigerbar}
+                                erLesevisning={!behandlingErRedigerbar}
                             />
                             <DateInput
                                 label="Fra"

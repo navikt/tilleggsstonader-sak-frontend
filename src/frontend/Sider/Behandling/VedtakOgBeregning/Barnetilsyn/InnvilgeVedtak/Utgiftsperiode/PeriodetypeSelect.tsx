@@ -10,7 +10,7 @@ import {
 interface Props {
     className?: string;
     feil?: string;
-    lesevisning: boolean;
+    erLesevisning: boolean;
     oppdaterUtgiftsperiodeElement: (
         property: UtgiftsperiodeProperty,
         value: string | undefined
@@ -23,14 +23,14 @@ const valgbarePeriodetyper = [Utgiftsperiodetype.ORDINÆR];
 const PeriodetypeSelect: FC<Props> = ({
     className,
     feil,
-    lesevisning,
+    erLesevisning,
     oppdaterUtgiftsperiodeElement,
     periodetype,
 }) => {
     return (
         <Select
             className={className}
-            erLesevisning={lesevisning}
+            erLesevisning={erLesevisning}
             error={feil}
             hideLabel
             label="Periodetype"
