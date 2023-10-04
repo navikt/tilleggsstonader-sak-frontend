@@ -69,9 +69,11 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                 <Label>Periodetype</Label>
                 <Label>Fra</Label>
                 <Label>Til</Label>
+                <Label>Aktivitet</Label>
+                <Label>Aktivitetsdager</Label>
                 <Label>Velg barn</Label>
-                <Label>Ant.</Label>
                 <Label>Utgifter</Label>
+                <Label>Dager med tilsyn</Label>
                 {utgiftsperioderState.value.map((utgiftsperiode, index) => {
                     const { periodetype, aktivitetstype, antallAktivitetsdager, dagerMedTilsyn } =
                         utgiftsperiode;
@@ -122,6 +124,8 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                                     )
                                 }
                             />
+                            <p>Barn</p>
+                            <p>Utgifter</p>
                             <AntallDagerSelect
                                 erLesevisning={!behandlingErRedigerbar}
                                 property={UtgiftsperiodeProperty.dagerMedTilsyn}
