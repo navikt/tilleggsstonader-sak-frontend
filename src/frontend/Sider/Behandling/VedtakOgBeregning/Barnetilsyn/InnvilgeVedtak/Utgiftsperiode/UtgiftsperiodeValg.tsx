@@ -18,12 +18,10 @@ const Container = styled.div`
     background-color: ${AGray50};
 `;
 
-const Grid = styled.div<{ lesevisning?: boolean }>`
+const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
     grid-template-columns: ${(props) =>
-        props.lesevisning
-            ? 'repeat(7, max-content)'
-            : '9rem  repeat(2, max-content) 9rem 20rem 2rem 4rem repeat(2, max-content)'};
+        props.$lesevisning ? 'repeat(7, max-content)' : 'repeat(9, auto)'};
     grid-gap: 0.5rem 1rem;
     margin-bottom: 0.5rem;
     align-items: start;
@@ -65,7 +63,7 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
             <Heading spacing size="small" level="5">
                 Utgifter til barnetilsyn
             </Heading>
-            <Grid lesevisning={!behandlingErRedigerbar}>
+            <Grid $lesevisning={!behandlingErRedigerbar}>
                 <Label>Periodetype</Label>
                 <Label>Fra</Label>
                 <Label>Til</Label>
