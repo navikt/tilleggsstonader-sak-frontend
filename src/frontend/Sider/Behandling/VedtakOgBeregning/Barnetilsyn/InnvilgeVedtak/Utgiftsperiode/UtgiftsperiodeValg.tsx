@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Heading, Label } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
+import AktivitetSelect from './AktivitetSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
@@ -74,6 +75,15 @@ const UtgiftsperiodeValg: React.FC<Props> = () => {
                                     oppdaterUtgiftsperiode(index, property, value)
                                 }
                                 lesevisning={!behandlingErRedigerbar}
+                            />
+
+                            {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
+                            <AktivitetSelect
+                                aktivitet={aktivitetstype}
+                                oppdaterUtgiftsperiodeElement={(property, value) =>
+                                    oppdaterUtgiftsperiode(index, property, value)
+                                }
+                                erLesevisning={!behandlingErRedigerbar}
                             />
                         </React.Fragment>
                     );
