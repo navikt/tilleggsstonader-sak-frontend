@@ -1,26 +1,15 @@
 import React, { SetStateAction, useState } from 'react';
 
-import { Select, TextField } from '@navikt/ds-react';
+import { Select } from '@navikt/ds-react';
 
 import Fritekst from './Fritekst';
-import { Tekst, Valg, Valgfelt } from './typer';
+import Tekst from './Tekst';
+import { Valg, Valgfelt } from './typer';
 
 interface Props {
     valgfelt: Valgfelt;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
 }
-
-const Tekst: React.FC<{ tekst: Tekst }> = ({ tekst }) => {
-    return (
-        <>
-            {tekst.variabler.map((variabel) => (
-                <div key={variabel._id}>
-                    <TextField label={variabel.visningsnavn} key={variabel._id} />
-                </div>
-            ))}
-        </>
-    );
-};
 
 const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt }) => {
     const [valgt, settValgt] = useState<string>();
