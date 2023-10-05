@@ -15,3 +15,11 @@ export const nullableTilDato = (dato: string | Date | undefined): Date | undefin
         return dato;
     }
 };
+
+export const dagensDatoFormatert = (): string => {
+    return new Date().toLocaleDateString('no-NO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+};

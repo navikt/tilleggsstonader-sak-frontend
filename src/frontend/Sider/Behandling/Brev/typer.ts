@@ -3,3 +3,50 @@ export interface Brevmal {
     visningsnavn: string;
     publisert: boolean;
 }
+
+export interface MalStruktur extends Brevmal {
+    brevtittel: string;
+    delmaler: Delmal[];
+}
+
+export interface Variabel {
+    _id: string;
+    _type: 'variabel';
+    erHtml: boolean;
+    visningsnavn: string;
+}
+
+export interface Tekst {
+    _type: 'tekst';
+    _id: string;
+    innhold: Blockcontent[];
+    variabler: Variabel[];
+    visningsnavn: string;
+}
+
+export interface Fritekst {
+    _type: 'fritekst';
+}
+
+export interface Valgfelt {
+    _type: 'valgfelt';
+    _id: string;
+    valg: (Fritekst | Tekst)[];
+    visningsnavn: string;
+}
+
+interface Blockcontent {
+    _type: 'block';
+    // TODO: kanskje ta med flere felter her
+}
+
+export interface Delmal {
+    _id: string;
+    _type: string;
+    visningsnavn: string;
+    blocks: (Valgfelt | Fritekst | Blockcontent)[];
+}
+export interface FritekstAvsnitt {
+    deloverskrift: string;
+    innhold: string;
+}
