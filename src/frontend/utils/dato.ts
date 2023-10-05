@@ -8,6 +8,14 @@ export const formaterNullableIsoDatoTid = (dato?: string): string | undefined =>
     return dato && formaterIsoDatoTid(dato);
 };
 
+export const nullableTilDato = (dato: string | Date | undefined): Date | undefined => {
+    if (typeof dato === 'string') {
+        return dato !== '' ? parseISO(dato) : undefined;
+    } else {
+        return dato;
+    }
+};
+
 export const dagensDatoFormatert = (): string => {
     return new Date().toLocaleDateString('no-NO', {
         day: '2-digit',
@@ -15,6 +23,3 @@ export const dagensDatoFormatert = (): string => {
         year: 'numeric',
     });
 };
-
-export const nullableTilDato = (dato: string | Date | undefined): Date | undefined =>
-    typeof dato === 'string' ? parseISO(dato) : dato;

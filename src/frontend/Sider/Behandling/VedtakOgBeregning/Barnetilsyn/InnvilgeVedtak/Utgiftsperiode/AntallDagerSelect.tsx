@@ -2,11 +2,12 @@ import React from 'react';
 
 import Select from '../../../../../../komponenter/Skjema/Select';
 import { UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
+import { harTallverdi } from '../../../../../../utils/tall';
 
 interface Props {
     erLesevisning: boolean;
     feil?: string;
-    oppdaterUtgiftsperiodeElement: (value: string | undefined) => void;
+    oppdaterUtgiftsperiodeElement: (value: number | undefined) => void;
     property: UtgiftsperiodeProperty;
     value: number | undefined;
 }
@@ -27,7 +28,9 @@ const AntallDagerSelect: React.FC<Props> = ({
             value={value}
             error={feil}
             onChange={(e) => {
-                oppdaterUtgiftsperiodeElement(e.target.value);
+                oppdaterUtgiftsperiodeElement(
+                    harTallverdi(e.target.value) ? parseInt(e.target.value) : undefined
+                );
             }}
             erLesevisning={erLesevisning}
             lesevisningVerdi={value ? value.toString() : ''}

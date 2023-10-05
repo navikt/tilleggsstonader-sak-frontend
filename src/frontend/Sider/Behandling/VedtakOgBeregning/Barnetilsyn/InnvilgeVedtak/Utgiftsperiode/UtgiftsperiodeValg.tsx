@@ -8,10 +8,13 @@ import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 import AktivitetSelect from './AktivitetSelect';
 import AntallDagerSelect from './AntallDagerSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
+import VelgBarn from './VelgBarn';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
+import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
+import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 
 const Container = styled.div`
     padding: 1rem;
@@ -39,16 +42,16 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppdaterUtgiftsperiode = (
-        index: number,
+        indeks: number,
         property: UtgiftsperiodeProperty,
         value: string | string[] | number | boolean | undefined
     ) => {
         utgiftsperioderState.update(
             {
-                ...utgiftsperioderState.value[index],
+                ...utgiftsperioderState.value[indeks],
                 [property]: value,
             },
-            index
+            indeks
         );
     };
 
@@ -72,13 +75,17 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                 <Label>Velg barn</Label>
                 <Label>Utgifter</Label>
                 <Label>Dager med tilsyn</Label>
-                {utgiftsperioderState.value.map((utgiftsperiode, index) => (
-                    <React.Fragment key={index}>
+                {utgiftsperioderState.value.map((utgiftsperiode, indeks) => (
+                    <React.Fragment key={indeks}>
                         <PeriodetypeSelect
                             className={'ny-rad'}
                             periodetype={utgiftsperiode.periodetype}
-                            oppdaterUtgiftsperiodeElement={(property, value) =>
-                                oppdaterUtgiftsperiode(index, property, value)
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    indeks,
+                                    UtgiftsperiodeProperty.periodetype,
+                                    value
+                                )
                             }
                             erLesevisning={!behandlingErRedigerbar}
                         />
@@ -88,7 +95,7 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.fra}
                             onChange={(dato?: Date) =>
-                                oppdaterDatofelter(index, UtgiftsperiodeProperty.fra, dato)
+                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.fra, dato)
                             }
                         />
                         <DateInput
@@ -97,15 +104,19 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.til}
                             onChange={(dato?: Date) =>
-                                oppdaterDatofelter(index, UtgiftsperiodeProperty.til, dato)
+                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.til, dato)
                             }
                         />
 
                         {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
                         <AktivitetSelect
                             aktivitet={utgiftsperiode.aktivitetstype}
-                            oppdaterUtgiftsperiodeElement={(property, value) =>
-                                oppdaterUtgiftsperiode(index, property, value)
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    indeks,
+                                    UtgiftsperiodeProperty.aktivitetstype,
+                                    value
+                                )
                             }
                             erLesevisning={!behandlingErRedigerbar}
                         />
@@ -115,14 +126,38 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             value={utgiftsperiode.antallAktivitetsdager}
                             oppdaterUtgiftsperiodeElement={(value) =>
                                 oppdaterUtgiftsperiode(
-                                    index,
+                                    indeks,
                                     UtgiftsperiodeProperty.antallAktivitetsdager,
                                     value
                                 )
                             }
                         />
-                        <p>Barn</p>
-                        <p>Utgifter</p>
+
+                        <VelgBarn
+                            barn={[
+                                { barnId: 'id1', registergrunnlag: { navn: 'Ronja Røverdatter' } },
+                                { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
+                            ]}
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.barn, value)
+                            }
+                        />
+
+                        <TextField
+                            erLesevisning={!behandlingErRedigerbar}
+                            label="Utgifter"
+                            hideLabel
+                            value={
+                                harTallverdi(utgiftsperiode.utgifter) ? utgiftsperiode.utgifter : ''
+                            }
+                            onChange={(e) =>
+                                oppdaterUtgiftsperiode(
+                                    indeks,
+                                    UtgiftsperiodeProperty.utgifter,
+                                    tilTallverdi(e.target.value)
+                                )
+                            }
+                        />
 
                         <AntallDagerSelect
                             erLesevisning={!behandlingErRedigerbar}
@@ -130,7 +165,7 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             value={utgiftsperiode.dagerMedTilsyn}
                             oppdaterUtgiftsperiodeElement={(value) =>
                                 oppdaterUtgiftsperiode(
-                                    index,
+                                    indeks,
                                     UtgiftsperiodeProperty.dagerMedTilsyn,
                                     value
                                 )
