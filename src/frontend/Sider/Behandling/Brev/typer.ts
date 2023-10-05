@@ -28,10 +28,12 @@ export interface Fritekst {
     _type: 'fritekst';
 }
 
+export type Valg = Fritekst | Tekst;
+
 export interface Valgfelt {
     _type: 'valgfelt';
     _id: string;
-    valg: (Fritekst | Tekst)[];
+    valg: Valg[];
     visningsnavn: string;
 }
 

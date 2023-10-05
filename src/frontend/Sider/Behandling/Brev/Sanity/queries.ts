@@ -16,7 +16,11 @@ export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[
                     _type == "reference" => @->{
                         ...,
                         "innhold": nb[]{
-                            ...
+                            ...,
+                            "markDefs": markDefs[]{
+                                ..., 
+                                _type == "reference" => @->{...}
+                             }
                         },
                         "variabler": nb[].markDefs[]->
                     }
