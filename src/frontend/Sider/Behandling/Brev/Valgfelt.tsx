@@ -9,9 +9,11 @@ import { Valg, Valgfelt } from './typer';
 interface Props {
     valgfelt: Valgfelt;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
+    variabler: Record<string, string>;
+    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
 }
 
-const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt }) => {
+const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt, variabler, settVariabler }) => {
     const [valgt, settValgt] = useState<string>();
 
     const finnValgtBlock = (id: string | undefined) =>
@@ -53,7 +55,11 @@ const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt }) => {
                 )}
             </Select>
             {valgtBlock &&
-                (valgtBlock._type == 'fritekst' ? <Fritekst /> : <Tekst tekst={valgtBlock} />)}
+                (valgtBlock._type == 'fritekst' ? (
+                    <Fritekst />
+                ) : (
+                    <Tekst tekst={valgtBlock} variabler={variabler} settVariabler={settVariabler} />
+                ))}
         </>
     );
 };

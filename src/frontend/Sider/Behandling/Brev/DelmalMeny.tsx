@@ -17,6 +17,8 @@ interface Props {
     delmal: DelmalType;
     valgfelt: Record<string, Valg>;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
+    variabler: Record<string, string>;
+    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
 }
 
 const FlexColumn = styled.div`
@@ -26,7 +28,7 @@ const FlexColumn = styled.div`
     min-width: 640px;
 `;
 
-export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt }) => {
+export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt, variabler, settVariabler }) => {
     return (
         <FlexColumn>
             <Switch>Inkluder seksjon i brev</Switch>
@@ -37,7 +39,13 @@ export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt }) => {
                 )
                 .map((val, index) =>
                     val._type === 'valgfelt' ? (
-                        <Valgfelt valgfelt={val} settValgfelt={settValgfelt} key={index} />
+                        <Valgfelt
+                            valgfelt={val}
+                            settValgfelt={settValgfelt}
+                            variabler={variabler}
+                            settVariabler={settVariabler}
+                            key={index}
+                        />
                     ) : (
                         <Fritekst key={index} />
                     )

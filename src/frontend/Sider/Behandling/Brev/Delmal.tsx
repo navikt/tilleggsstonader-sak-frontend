@@ -51,6 +51,7 @@ const CustomComponets = (valgfelt: Record<string, Valg>) => ({
 
 const Delmal: React.FC<Props> = ({ delmal }) => {
     const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
+    const [variabler, settVariabler] = useState<Record<string, string>>({});
 
     return (
         <Background>
@@ -64,6 +65,8 @@ const Delmal: React.FC<Props> = ({ delmal }) => {
                             delmal={delmal}
                             valgfelt={valgfelt}
                             settValgfelt={settValgfelt}
+                            variabler={variabler}
+                            settVariabler={settVariabler}
                         />
                         <DelmalPreview>
                             <Label>Generert brevtekst</Label>

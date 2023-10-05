@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 
 import { TextField } from '@navikt/ds-react';
 
 import { Tekst } from './typer';
 
-const Tekst: React.FC<{ tekst: Tekst }> = ({ tekst }) => {
+interface Props {
+    tekst: Tekst;
+    variabler: Record<string, string>;
+    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+}
+
+const Tekst: React.FC<Props> = ({ tekst, variabler, settVariabler }) => {
     return (
         <>
-            {tekst.variabler.map((variabel) => (
-                <div key={variabel._id}>
-                    <TextField label={variabel.visningsnavn} key={variabel._id} />
-                </div>
-            ))}
+            {tekst.variabler.map((variabel) => {
+                const håndterInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+                    settVariabler((prevState) => ({
+                        ...prevState,
+                        [variabel._id]: e.target.value,
+                    }));
+
+                return (
+                    <div key={variabel._id}>
+                        <TextField
+                            label={variabel.visningsnavn}
+                            key={variabel._id}
+                            value={variabler[variabel._id] || ''}
+                            onChange={håndterInput}
+                        />
+                    </div>
+                );
+            })}
         </>
     );
 };
