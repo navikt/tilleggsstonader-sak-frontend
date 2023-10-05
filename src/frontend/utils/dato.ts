@@ -7,3 +7,6 @@ export const formaterIsoDatoTid = (dato: string): string => {
 export const formaterNullableIsoDatoTid = (dato?: string): string | undefined => {
     return dato && formaterIsoDatoTid(dato);
 };
+
+export const nullableTilDato = (dato: string | Date | undefined): Date | undefined =>
+    typeof dato === 'string' ? parseISO(dato) : dato;
