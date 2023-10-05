@@ -8,6 +8,7 @@ import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 import AktivitetSelect from './AktivitetSelect';
 import AntallDagerSelect from './AntallDagerSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
+import VelgBarn from './VelgBarn';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
@@ -121,6 +122,16 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                     UtgiftsperiodeProperty.antallAktivitetsdager,
                                     value
                                 )
+                            }
+                        />
+
+                        <VelgBarn
+                            barn={[
+                                { barnId: 'id1', registergrunnlag: { navn: 'Ronja Røverdatter' } },
+                                { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
+                            ]}
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(index, UtgiftsperiodeProperty.barn, value)
                             }
                         />
 
