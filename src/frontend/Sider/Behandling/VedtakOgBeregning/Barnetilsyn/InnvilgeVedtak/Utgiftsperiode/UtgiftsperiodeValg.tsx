@@ -10,11 +10,13 @@ import AntallDagerSelect from './AntallDagerSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
 import VelgBarn from './VelgBarn';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
+import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Container = styled.div`
     padding: 1rem;
@@ -35,10 +37,11 @@ const Grid = styled.div<{ $lesevisning?: boolean }>`
 `;
 
 interface Props {
+    errorState: FormErrors<InnvilgeVedtakForm>;
     utgiftsperioderState: ListState<Utgiftsperiode>;
 }
 
-const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
+const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppdaterUtgiftsperiode = (
@@ -88,6 +91,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                 )
                             }
                             erLesevisning={!behandlingErRedigerbar}
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.periodetype
+                            }
                         />
                         <DateInput
                             label="Fra"

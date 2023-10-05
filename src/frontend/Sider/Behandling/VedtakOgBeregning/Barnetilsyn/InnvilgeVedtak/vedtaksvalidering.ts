@@ -44,17 +44,10 @@ const validerUtgiftsperioder = ({
             utgifter: validerGyldigTallverdi(utgifter),
             dagerMedTilsyn: undefined,
         };
-        // const erSistePeriode = index === utgiftsperioder.length - 1;
 
-        // if (!periodetype) {
-        //     return { ...utgiftsperiodeFeil, periodetype: 'Mangler valg for periodetype' };
-        // }
-        // if (periodetype === EUtgiftsperiodetype.OPPHØR && erSistePeriode) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         periodetype: 'Siste periode kan ikke være opphør/ingen stønad',
-        //     };
-        // }
+        if (!utgiftsperiode.periodetype) {
+            return { ...utgiftsperiodeFeil, periodetype: 'Mangler valg for periodetype' };
+        }
 
         // const opphørEllerSanksjon = erOpphørEllerSanksjon(periodetype);
 
