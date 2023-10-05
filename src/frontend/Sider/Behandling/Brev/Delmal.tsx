@@ -39,10 +39,10 @@ interface Props {
 }
 
 // TODO: Denne, og komponentene den bruker er ikke ferdig
-const CustomComponets = (valgfelt: Record<string, Valg>) => ({
+const CustomComponets = (valgfelt: Record<string, Valg>, variabler: Record<string, string>) => ({
     types: {
         fritekst: () => FritekstSerializer({}),
-        valgfelt: ValgfeltSerializer(valgfelt),
+        valgfelt: ValgfeltSerializer(valgfelt, variabler),
     },
     marks: {
         variabel: () => <span>Variabel</span>,
@@ -73,7 +73,7 @@ const Delmal: React.FC<Props> = ({ delmal }) => {
                             <Innhold>
                                 <PortableText
                                     value={delmal.blocks}
-                                    components={CustomComponets(valgfelt)}
+                                    components={CustomComponets(valgfelt, variabler)}
                                 />
                             </Innhold>
                         </DelmalPreview>
