@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
 
-import { ExpansionCard, Label, Switch } from '@navikt/ds-react';
+import { ExpansionCard, Label } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
-import Fritekst from './Fritekst';
+import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
-import { Delmal as DelmalType, Fritekst as FritekstType, Valgfelt as ValgfeltType } from './typer';
-import Valgfelt from './Valgfelt';
+import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
+import { Delmal as DelmalType, Valg } from './typer';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
@@ -26,13 +26,6 @@ const Innhold = styled.div`
     padding: 1rem;
 `;
 
-const FlexColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    min-width: 640px;
-`;
-
 const DelmalPreview = styled.div`
     display: flex;
     flex-direction: column;
@@ -45,34 +38,20 @@ interface Props {
     delmal: DelmalType;
 }
 
-const DelmalMeny: React.FC<{ delmal: DelmalType }> = ({ delmal }) => {
-    return (
-        <FlexColumn>
-            <Switch>Inkluder seksjon i brev</Switch>
-            {delmal.blocks
-                .filter(
-                    (val): val is ValgfeltType | FritekstType =>
-                        val._type === 'valgfelt' || val._type == 'fritekst'
-                )
-                .map((val) =>
-                    val._type === 'valgfelt' ? <Valgfelt valgfelt={val} /> : <Fritekst />
-                )}
-        </FlexColumn>
-    );
-};
-
 // TODO: Denne, og komponentene den bruker er ikke ferdig
-const CustomComponets = {
+const CustomComponets = (valgfelt: Record<string, Valg>) => ({
     types: {
         fritekst: () => FritekstSerializer({}),
-        valgfelt: () => <div>Valgfelt</div>,
+        valgfelt: ValgfeltSerializer(valgfelt),
     },
     marks: {
         variabel: () => <span>Variabel</span>,
     },
-};
+});
 
 const Delmal: React.FC<Props> = ({ delmal }) => {
+    const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
+
     return (
         <Background>
             <ExpansionCard aria-label={'Delmal'}>
@@ -81,11 +60,18 @@ const Delmal: React.FC<Props> = ({ delmal }) => {
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <Container>
-                        <DelmalMeny delmal={delmal} />
+                        <DelmalMeny
+                            delmal={delmal}
+                            valgfelt={valgfelt}
+                            settValgfelt={settValgfelt}
+                        />
                         <DelmalPreview>
                             <Label>Generert brevtekst</Label>
                             <Innhold>
-                                <PortableText value={delmal.blocks} components={CustomComponets} />
+                                <PortableText
+                                    value={delmal.blocks}
+                                    components={CustomComponets(valgfelt)}
+                                />
                             </Innhold>
                         </DelmalPreview>
                     </Container>
