@@ -6,6 +6,7 @@ import { MalStruktur } from './typer';
 interface Props {
     mal: MalStruktur;
 }
+
 const Brevmeny: React.FC<Props> = ({ mal }) => {
     return (
         <>
