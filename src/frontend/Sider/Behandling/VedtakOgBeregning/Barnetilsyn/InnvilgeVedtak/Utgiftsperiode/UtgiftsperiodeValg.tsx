@@ -58,12 +58,6 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
         );
     };
 
-    const oppdaterDatofelter = (indeks: number, property: UtgiftsperiodeProperty, dato?: Date) => {
-        // TODO: Ta hensyn til UTC her?
-        const isoDato = dato?.toISOString();
-        oppdaterUtgiftsperiode(indeks, property, isoDato);
-    };
-
     return (
         <Container>
             <Heading spacing size="small" level="5">
@@ -101,8 +95,12 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.fra}
-                            onChange={(dato?: Date) =>
-                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.fra, dato)
+                            onChange={(dato?: string) =>
+                                oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.fra, dato)
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.fra
                             }
                         />
                         <DateInput
@@ -110,8 +108,12 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.til}
-                            onChange={(dato?: Date) =>
-                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.til, dato)
+                            onChange={(dato?: string) =>
+                                oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.til, dato)
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.til
                             }
                         />
 

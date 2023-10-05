@@ -1,6 +1,7 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Utgiftsperiode } from '../../../../../typer/vedtak';
+import { erDatoEtterEllerLik } from '../../../../../utils/dato';
 import { validerGyldigTallverdi } from '../../Felles/utils';
 
 export const validerInnvilgetVedtakForm = ({
@@ -49,29 +50,20 @@ const validerUtgiftsperioder = ({
             return { ...utgiftsperiodeFeil, periodetype: 'Mangler valg for periodetype' };
         }
 
-        // const opphørEllerSanksjon = erOpphørEllerSanksjon(periodetype);
+        if (!utgiftsperiode.fra) {
+            return { ...utgiftsperiodeFeil, fra: 'Mangler fradato for periode' };
+        }
 
-        // if (opphørEllerSanksjon && aktivitetstype) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         aktivitetstype: 'Skal ikke kunne velge aktivitetstype ved opphør eller sanksjon',
-        //     };
-        // }
+        if (!utgiftsperiode.til) {
+            return { ...utgiftsperiodeFeil, til: 'Mangler tildato for periode' };
+        }
 
-        // if (!aktivitetstype && !opphørEllerSanksjon) {
-        //     return { ...utgiftsperiodeFeil, aktivitetstype: 'Mangler valg for aktivitetstype' };
-        // }
-
-        // if (!årMånedTil || !årMånedFra) {
-        //     return { ...utgiftsperiodeFeil, årMånedFra: 'Mangelfull utfylling av utgiftsperiode' };
-        // }
-
-        // if (!erMånedÅrEtterEllerLik(årMånedFra, årMånedTil)) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         årMånedFra: `Ugyldig periode - fra (${årMånedFra}) må være før til (${årMånedTil})`,
-        //     };
-        // }
+        if (!erDatoEtterEllerLik(utgiftsperiode.til, utgiftsperiode.fra)) {
+            return {
+                ...utgiftsperiodeFeil,
+                til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+            };
+        }
 
         // const forrige = index > 0 && utgiftsperioder[index - 1];
 
