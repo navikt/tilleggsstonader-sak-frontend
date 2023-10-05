@@ -80,8 +80,12 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                         <PeriodetypeSelect
                             className={'ny-rad'}
                             periodetype={utgiftsperiode.periodetype}
-                            oppdaterUtgiftsperiodeElement={(property, value) =>
-                                oppdaterUtgiftsperiode(indeks, property, value)
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    indeks,
+                                    UtgiftsperiodeProperty.periodetype,
+                                    value
+                                )
                             }
                             erLesevisning={!behandlingErRedigerbar}
                         />
@@ -107,8 +111,12 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                         {/* TODO: Håndtere tilfeller hvor aktivitet ikke skal velges (f.eks. opp) */}
                         <AktivitetSelect
                             aktivitet={utgiftsperiode.aktivitetstype}
-                            oppdaterUtgiftsperiodeElement={(property, value) =>
-                                oppdaterUtgiftsperiode(indeks, property, value)
+                            oppdaterUtgiftsperiodeElement={(value) =>
+                                oppdaterUtgiftsperiode(
+                                    indeks,
+                                    UtgiftsperiodeProperty.aktivitetstype,
+                                    value
+                                )
                             }
                             erLesevisning={!behandlingErRedigerbar}
                         />

@@ -3,16 +3,12 @@ import React from 'react';
 import Select from '../../../../../../komponenter/Skjema/Select';
 import {
     UtgiftsperiodeAktivitet,
-    UtgiftsperiodeProperty,
     utgiftsperiodeAktivitetTilTekst,
 } from '../../../../../../typer/vedtak';
 
 interface Props {
     aktivitet: UtgiftsperiodeAktivitet | '' | undefined;
-    oppdaterUtgiftsperiodeElement: (
-        property: UtgiftsperiodeProperty,
-        value: string | undefined
-    ) => void;
+    oppdaterUtgiftsperiodeElement: (value: string | undefined) => void;
     erLesevisning: boolean;
     feil?: string;
 }
@@ -37,10 +33,7 @@ const AktivitetSelect: React.FC<Props> = ({
             value={aktivitet}
             error={feil}
             onChange={(e) => {
-                oppdaterUtgiftsperiodeElement(
-                    UtgiftsperiodeProperty.aktivitetstype,
-                    e.target.value
-                );
+                oppdaterUtgiftsperiodeElement(e.target.value);
             }}
             erLesevisning={erLesevisning}
             lesevisningVerdi={utledLesevisningVerdi()}

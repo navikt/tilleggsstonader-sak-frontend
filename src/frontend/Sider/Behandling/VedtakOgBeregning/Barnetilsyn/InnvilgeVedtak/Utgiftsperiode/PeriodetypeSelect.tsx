@@ -1,20 +1,13 @@
 import React, { FC } from 'react';
 
 import Select from '../../../../../../komponenter/Skjema/Select';
-import {
-    UtgiftsperiodeProperty,
-    Utgiftsperiodetype,
-    utgiftsperiodetypeTilTekst,
-} from '../../../../../../typer/vedtak';
+import { Utgiftsperiodetype, utgiftsperiodetypeTilTekst } from '../../../../../../typer/vedtak';
 
 interface Props {
     className?: string;
     feil?: string;
     erLesevisning: boolean;
-    oppdaterUtgiftsperiodeElement: (
-        property: UtgiftsperiodeProperty,
-        value: string | undefined
-    ) => void;
+    oppdaterUtgiftsperiodeElement: (value: string | undefined) => void;
     periodetype: Utgiftsperiodetype | '' | undefined;
 }
 
@@ -36,7 +29,7 @@ const PeriodetypeSelect: FC<Props> = ({
             label="Periodetype"
             lesevisningVerdi={periodetype && utgiftsperiodetypeTilTekst[periodetype]}
             onChange={(e) => {
-                oppdaterUtgiftsperiodeElement(UtgiftsperiodeProperty.periodetype, e.target.value);
+                oppdaterUtgiftsperiodeElement(e.target.value);
             }}
             value={periodetype}
         >
