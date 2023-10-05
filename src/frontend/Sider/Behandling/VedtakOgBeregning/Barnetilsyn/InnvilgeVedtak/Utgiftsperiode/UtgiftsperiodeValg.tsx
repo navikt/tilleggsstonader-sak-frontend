@@ -11,7 +11,9 @@ import PeriodetypeSelect from './PeriodetypeSelect';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
+import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
+import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 
 const Container = styled.div`
     padding: 1rem;
@@ -121,8 +123,22 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                 )
                             }
                         />
-                        <p>Barn</p>
-                        <p>Utgifter</p>
+
+                        <TextField
+                            erLesevisning={!behandlingErRedigerbar}
+                            label="Utgifter"
+                            hideLabel
+                            value={
+                                harTallverdi(utgiftsperiode.utgifter) ? utgiftsperiode.utgifter : ''
+                            }
+                            onChange={(e) =>
+                                oppdaterUtgiftsperiode(
+                                    index,
+                                    UtgiftsperiodeProperty.utgifter,
+                                    tilTallverdi(e.target.value)
+                                )
+                            }
+                        />
 
                         <AntallDagerSelect
                             erLesevisning={!behandlingErRedigerbar}
