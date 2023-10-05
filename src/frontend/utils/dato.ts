@@ -15,3 +15,6 @@ export const dagensDatoFormatert = (): string => {
         year: 'numeric',
     });
 };
+
+export const nullableTilDato = (dato: string | Date | undefined): Date | undefined =>
+    typeof dato === 'string' ? parseISO(dato) : dato;
