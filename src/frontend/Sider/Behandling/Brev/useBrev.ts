@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { hentMalerQuery } from './Sanity/queries';
+import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
-import { Brevmal } from './typer';
+import { Brevmal, MalStruktur } from './typer';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import {
     byggRessursFeilet,
@@ -16,6 +16,7 @@ const useBrev = (ytelse: Stønadstype, resultat: string) => {
 
     const [brevmal, settBrevmal] = useState<string>();
     const [brevmaler, settBrevmaler] = useState<Ressurs<Brevmal[]>>(byggTomRessurs());
+    const [malStruktur, settMalStruktur] = useState<Ressurs<MalStruktur>>(byggTomRessurs);
 
     const hentBrevmaler = useCallback(() => {
         sanityClient
@@ -32,12 +33,23 @@ const useBrev = (ytelse: Stønadstype, resultat: string) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const hentMalStruktur = useCallback(() => {
+        brevmal &&
+            sanityClient
+                .fetch<MalStruktur>(malQuery(brevmal))
+                .then((data) => settMalStruktur(byggRessursSuksess(data)))
+                .catch((error) => settMalStruktur(byggRessursFeilet(error.message)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [brevmal]);
+
     useEffect(hentBrevmaler, [hentBrevmaler]);
+    useEffect(hentMalStruktur, [hentMalStruktur]);
 
     return {
         brevmaler,
         brevmal,
         settBrevmal,
+        malStruktur,
     };
 };
 

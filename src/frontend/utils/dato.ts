@@ -8,5 +8,13 @@ export const formaterNullableIsoDatoTid = (dato?: string): string | undefined =>
     return dato && formaterIsoDatoTid(dato);
 };
 
+export const dagensDatoFormatert = (): string => {
+    return new Date().toLocaleDateString('no-NO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+};
+
 export const nullableTilDato = (dato: string | Date | undefined): Date | undefined =>
     typeof dato === 'string' ? parseISO(dato) : dato;

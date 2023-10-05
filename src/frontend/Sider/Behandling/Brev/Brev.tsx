@@ -3,31 +3,42 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Brevmeny from './Brevmeny';
-import { dummybrev } from './dummybrev';
 import useBrev from './useBrev';
+import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import PdfVisning from '../../../komponenter/PdfVisning';
 
 const Container = styled.div`
     display: flex;
     flex-flow: wrap;
     gap: 3rem;
     justify-content: center;
+    flex-direction: column;
 `;
 
 const Brev: React.FC = () => {
     const { behandling } = useBehandling();
-    const { brevmaler, brevmal, settBrevmal } = useBrev(behandling.stønadstype, 'INNVILGET'); // TODO
+    const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
+        behandling.stønadstype,
+        'INNVILGET'
+    ); // TODO ikke bruk hardkodet resultat
 
     return (
         <Container>
             <DataViewer response={{ brevmaler }}>
                 {({ brevmaler }) => (
-                    <Brevmeny brevmaler={brevmaler} brevmal={brevmal} settBrevmal={settBrevmal} />
+                    <>
+                        <VelgBrevmal
+                            brevmaler={brevmaler}
+                            brevmal={brevmal}
+                            settBrevmal={settBrevmal}
+                        />
+                        <DataViewer response={{ malStruktur }}>
+                            {({ malStruktur }) => <Brevmeny mal={malStruktur} />}
+                        </DataViewer>
+                    </>
                 )}
             </DataViewer>
-            <PdfVisning pdfFilInnhold={dummybrev} />
         </Container>
     );
 };
