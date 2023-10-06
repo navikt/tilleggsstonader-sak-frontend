@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, isAfter, formatISO } from 'date-fns';
 
 export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm");
@@ -23,3 +23,13 @@ export const dagensDatoFormatert = (): string => {
         year: 'numeric',
     });
 };
+const tilDato = (dato: string | Date): Date => (typeof dato === 'string' ? parseISO(dato) : dato);
+
+export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
+    const datoFra = tilDato(fra);
+    const datoTil = tilDato(til);
+
+    return isAfter(datoFra, datoTil);
+};
+
+export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });

@@ -10,11 +10,13 @@ import AntallDagerSelect from './AntallDagerSelect';
 import PeriodetypeSelect from './PeriodetypeSelect';
 import VelgBarn from './VelgBarn';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
+import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgiftsperiode, UtgiftsperiodeProperty } from '../../../../../../typer/vedtak';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Container = styled.div`
     padding: 1rem;
@@ -35,10 +37,11 @@ const Grid = styled.div<{ $lesevisning?: boolean }>`
 `;
 
 interface Props {
+    errorState: FormErrors<InnvilgeVedtakForm>;
     utgiftsperioderState: ListState<Utgiftsperiode>;
 }
 
-const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
+const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppdaterUtgiftsperiode = (
@@ -53,12 +56,6 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
             },
             indeks
         );
-    };
-
-    const oppdaterDatofelter = (indeks: number, property: UtgiftsperiodeProperty, dato?: Date) => {
-        // TODO: Ta hensyn til UTC her?
-        const isoDato = dato?.toISOString();
-        oppdaterUtgiftsperiode(indeks, property, isoDato);
     };
 
     return (
@@ -88,14 +85,22 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                 )
                             }
                             erLesevisning={!behandlingErRedigerbar}
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.periodetype
+                            }
                         />
                         <DateInput
                             label="Fra"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.fra}
-                            onChange={(dato?: Date) =>
-                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.fra, dato)
+                            onChange={(dato?: string) =>
+                                oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.fra, dato)
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.fra
                             }
                         />
                         <DateInput
@@ -103,8 +108,12 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
                             value={utgiftsperiode.til}
-                            onChange={(dato?: Date) =>
-                                oppdaterDatofelter(indeks, UtgiftsperiodeProperty.til, dato)
+                            onChange={(dato?: string) =>
+                                oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.til, dato)
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.til
                             }
                         />
 
@@ -119,6 +128,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                 )
                             }
                             erLesevisning={!behandlingErRedigerbar}
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.aktivitetstype
+                            }
                         />
                         <AntallDagerSelect
                             erLesevisning={!behandlingErRedigerbar}
@@ -131,6 +144,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                     value
                                 )
                             }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.antallAktivitetsdager
+                            }
                         />
 
                         <VelgBarn
@@ -140,6 +157,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                             ]}
                             oppdaterUtgiftsperiodeElement={(value) =>
                                 oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.barn, value)
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.barn[0]
                             }
                         />
 
@@ -157,6 +178,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                     tilTallverdi(e.target.value)
                                 )
                             }
+                            error={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.utgifter
+                            }
                         />
 
                         <AntallDagerSelect
@@ -169,6 +194,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState }) => {
                                     UtgiftsperiodeProperty.dagerMedTilsyn,
                                     value
                                 )
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.dagerMedTilsyn
                             }
                         />
                     </React.Fragment>

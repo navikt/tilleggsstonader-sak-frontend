@@ -1,6 +1,7 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Utgiftsperiode } from '../../../../../typer/vedtak';
+import { erDatoEtterEllerLik } from '../../../../../utils/dato';
 import { validerGyldigTallverdi } from '../../Felles/utils';
 
 export const validerInnvilgetVedtakForm = ({
@@ -44,66 +45,59 @@ const validerUtgiftsperioder = ({
             utgifter: validerGyldigTallverdi(utgifter),
             dagerMedTilsyn: undefined,
         };
-        // const erSistePeriode = index === utgiftsperioder.length - 1;
 
-        // if (!periodetype) {
-        //     return { ...utgiftsperiodeFeil, periodetype: 'Mangler valg for periodetype' };
-        // }
-        // if (periodetype === EUtgiftsperiodetype.OPPHØR && erSistePeriode) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         periodetype: 'Siste periode kan ikke være opphør/ingen stønad',
-        //     };
-        // }
+        if (!utgiftsperiode.periodetype) {
+            return { ...utgiftsperiodeFeil, periodetype: 'Mangler valg for periodetype' };
+        }
 
-        // const opphørEllerSanksjon = erOpphørEllerSanksjon(periodetype);
+        if (!utgiftsperiode.fra) {
+            return { ...utgiftsperiodeFeil, fra: 'Mangler fradato for periode' };
+        }
 
-        // if (opphørEllerSanksjon && aktivitetstype) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         aktivitetstype: 'Skal ikke kunne velge aktivitetstype ved opphør eller sanksjon',
-        //     };
-        // }
+        if (!utgiftsperiode.til) {
+            return { ...utgiftsperiodeFeil, til: 'Mangler tildato for periode' };
+        }
 
-        // if (!aktivitetstype && !opphørEllerSanksjon) {
-        //     return { ...utgiftsperiodeFeil, aktivitetstype: 'Mangler valg for aktivitetstype' };
-        // }
+        if (!erDatoEtterEllerLik(utgiftsperiode.til, utgiftsperiode.fra)) {
+            return {
+                ...utgiftsperiodeFeil,
+                til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+            };
+        }
 
-        // if (!årMånedTil || !årMånedFra) {
-        //     return { ...utgiftsperiodeFeil, årMånedFra: 'Mangelfull utfylling av utgiftsperiode' };
-        // }
+        // TODO: Legge til sjekk av datoer mot forrige periode?
 
-        // if (!erMånedÅrEtterEllerLik(årMånedFra, årMånedTil)) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         årMånedFra: `Ugyldig periode - fra (${årMånedFra}) må være før til (${årMånedTil})`,
-        //     };
-        // }
+        if (!utgiftsperiode.aktivitetstype) {
+            return { ...utgiftsperiodeFeil, aktivitetstype: 'Mangler valg for aktivitetstype' };
+        }
 
-        // const forrige = index > 0 && utgiftsperioder[index - 1];
+        if (!utgiftsperiode.antallAktivitetsdager) {
+            return {
+                ...utgiftsperiodeFeil,
+                antallAktivitetsdager: 'Mangler valg av antall aktivitetsdager',
+            };
+        }
 
-        // if (forrige && forrige.årMånedTil) {
-        //     if (!erMånedÅrEtter(forrige.årMånedTil, årMånedFra)) {
-        //         return {
-        //             ...utgiftsperiodeFeil,
-        //             årMånedFra: `Ugyldig etterfølgende periode - fra (${årMånedFra}) må være etter til (${forrige.årMånedTil})`,
-        //         };
-        //     }
-        // }
+        if (utgiftsperiode.barn.length === 0) {
+            return {
+                ...utgiftsperiodeFeil,
+                barn: ['Mangelfull utfylling - minst et barn må velges'],
+            };
+        }
 
-        // if (barn.length < 1 && !opphørEllerSanksjon) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         barn: ['Mangelfull utfylling - minst et barn må velges'],
-        //     };
-        // }
+        if (!utgiftsperiode.utgifter || utgiftsperiode.utgifter < 0) {
+            return {
+                ...utgiftsperiodeFeil,
+                utgifter: 'Mangelfull utfylling av utgifter',
+            };
+        }
 
-        // if (barn.length > 0 && opphørEllerSanksjon) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         barn: ['Skal ikke kunne velge barn ved opphør eller sanksjon'],
-        //     };
-        // }
+        if (!utgiftsperiode.dagerMedTilsyn) {
+            return {
+                ...utgiftsperiodeFeil,
+                dagerMedTilsyn: 'Mangler valg av dager med tilsyn',
+            };
+        }
 
         return utgiftsperiodeFeil;
     });

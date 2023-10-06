@@ -2,12 +2,19 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
+import { Button } from '@navikt/ds-react';
+
 import UtgiftsperiodeValg from './Utgiftsperiode/UtgiftsperiodeValg';
 import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
-import useFormState from '../../../../../hooks/felles/useFormState';
+import { useBehandling } from '../../../../../context/BehandlingContext';
+import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { InnvilgeVedtakForBarnetilsyn, Utgiftsperiode } from '../../../../../typer/vedtak';
+import {
+    InnvilgeVedtakForBarnetilsyn,
+    Utgiftsperiode,
+    VedtakType,
+} from '../../../../../typer/vedtak';
 import { tomUtgiftsperiodeRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -36,6 +43,7 @@ interface Props {
 }
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
+    const { behandlingErRedigerbar } = useBehandling();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
@@ -59,10 +67,33 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
         // eslint-disable-next-line
     }, [lagretInnvilgetVedtak]);
 
+    const lagreVedtak = (vedtaksRequest: InnvilgeVedtakForBarnetilsyn) => {
+        // eslint-disable-next-line no-console
+        console.log('Lagre', vedtaksRequest);
+    };
+
+    const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
+        const vedtaksRequest: InnvilgeVedtakForBarnetilsyn = {
+            perioder: form.utgiftsperioder,
+            // begrunnelse: form.begrunnelse,
+            _type: VedtakType.InnvilgelseBarnetilsyn,
+            resultatType: BehandlingResultat.INNVILGET,
+        };
+        lagreVedtak(vedtaksRequest);
+        return form;
+    };
+
     return (
-        // TODO: HandleSubmit
-        <Form>
-            <UtgiftsperiodeValg utgiftsperioderState={utgiftsperiodeState} />
+        <Form onSubmit={formState.onSubmit(handleSubmit)}>
+            <UtgiftsperiodeValg
+                utgiftsperioderState={utgiftsperiodeState}
+                errorState={formState.errors}
+            />
+            {behandlingErRedigerbar && (
+                <Button type="submit" variant="primary">
+                    Lagre vedtak
+                </Button>
+            )}
         </Form>
     );
 };

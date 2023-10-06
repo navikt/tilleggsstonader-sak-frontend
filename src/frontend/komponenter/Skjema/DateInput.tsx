@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import Lesefelt from './Lesefelt';
-import { nullableTilDato } from '../../utils/dato';
+import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 
 export interface Props {
     className?: string;
@@ -11,7 +11,7 @@ export interface Props {
     feil?: ReactNode;
     hideLabel?: boolean;
     label?: string;
-    onChange: (dato?: Date) => void;
+    onChange: (dato?: string) => void;
     value?: string;
 }
 
@@ -26,7 +26,7 @@ const DateInput: React.FC<Props> = ({
 }) => {
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         defaultSelected: nullableTilDato(value),
-        onDateChange: onChange,
+        onDateChange: (val) => onChange(val ? tilLocaleDateString(val) : val),
     });
 
     return erLesevisning ? (
