@@ -71,19 +71,19 @@ const validerUtgiftsperioder = ({
             return { ...utgiftsperiodeFeil, aktivitetstype: 'Mangler valg for aktivitetstype' };
         }
 
-        // if (barn.length < 1 && !opphørEllerSanksjon) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         barn: ['Mangelfull utfylling - minst et barn må velges'],
-        //     };
-        // }
+        if (!utgiftsperiode.antallAktivitetsdager) {
+            return {
+                ...utgiftsperiodeFeil,
+                antallAktivitetsdager: 'Mangler valg av antall aktivitetsdager',
+            };
+        }
 
-        // if (barn.length > 0 && opphørEllerSanksjon) {
-        //     return {
-        //         ...utgiftsperiodeFeil,
-        //         barn: ['Skal ikke kunne velge barn ved opphør eller sanksjon'],
-        //     };
-        // }
+        if (!utgiftsperiode.dagerMedTilsyn) {
+            return {
+                ...utgiftsperiodeFeil,
+                dagerMedTilsyn: 'Mangler valg av dager med tilsyn',
+            };
+        }
 
         return utgiftsperiodeFeil;
     });

@@ -144,6 +144,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                                     value
                                 )
                             }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.antallAktivitetsdager
+                            }
                         />
 
                         <VelgBarn
@@ -182,6 +186,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                                     UtgiftsperiodeProperty.dagerMedTilsyn,
                                     value
                                 )
+                            }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.dagerMedTilsyn
                             }
                         />
                     </React.Fragment>
