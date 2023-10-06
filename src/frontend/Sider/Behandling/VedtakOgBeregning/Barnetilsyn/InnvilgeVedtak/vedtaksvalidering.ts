@@ -85,6 +85,13 @@ const validerUtgiftsperioder = ({
             };
         }
 
+        if (!utgiftsperiode.utgifter) {
+            return {
+                ...utgiftsperiodeFeil,
+                utgifter: 'Mangelfull utfylling av utgifter',
+            };
+        }
+
         if (!utgiftsperiode.dagerMedTilsyn) {
             return {
                 ...utgiftsperiodeFeil,

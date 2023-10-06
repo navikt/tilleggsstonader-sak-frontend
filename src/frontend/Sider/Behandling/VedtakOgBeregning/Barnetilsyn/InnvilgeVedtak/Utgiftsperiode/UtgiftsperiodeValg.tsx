@@ -178,6 +178,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                                     tilTallverdi(e.target.value)
                                 )
                             }
+                            error={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.utgifter
+                            }
                         />
 
                         <AntallDagerSelect
