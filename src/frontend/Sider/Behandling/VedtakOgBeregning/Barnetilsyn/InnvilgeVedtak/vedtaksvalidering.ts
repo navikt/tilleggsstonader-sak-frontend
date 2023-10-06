@@ -65,7 +65,7 @@ const validerUtgiftsperioder = ({
             };
         }
 
-        // const forrige = index > 0 && utgiftsperioder[index - 1];
+        // TODO: Legge til sjekk av datoer mot forrige periode?
 
         // if (forrige && forrige.årMånedTil) {
         //     if (!erMånedÅrEtter(forrige.årMånedTil, årMånedFra)) {
