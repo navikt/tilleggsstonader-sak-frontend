@@ -158,6 +158,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                             oppdaterUtgiftsperiodeElement={(value) =>
                                 oppdaterUtgiftsperiode(indeks, UtgiftsperiodeProperty.barn, value)
                             }
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.barn[0]
+                            }
                         />
 
                         <TextField

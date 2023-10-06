@@ -7,9 +7,10 @@ import { Barn } from '../../../../vilkår';
 interface Props {
     barn: Barn[];
     oppdaterUtgiftsperiodeElement: (value: string[]) => void;
+    feil?: string;
 }
 
-const VelgBarn: FC<Props> = ({ barn, oppdaterUtgiftsperiodeElement }) => {
+const VelgBarn: FC<Props> = ({ barn, oppdaterUtgiftsperiodeElement, feil }) => {
     const handleChange = (avhukedeBarn: string[]) => oppdaterUtgiftsperiodeElement(avhukedeBarn);
 
     return (
@@ -17,6 +18,7 @@ const VelgBarn: FC<Props> = ({ barn, oppdaterUtgiftsperiodeElement }) => {
             legend="Velg barn"
             hideLegend
             onChange={(val: string[]) => handleChange(val)}
+            error={feil}
         >
             {barn.map((barn, indeks) => (
                 <Checkbox value={barn.barnId} key={indeks}>

@@ -78,6 +78,13 @@ const validerUtgiftsperioder = ({
             };
         }
 
+        if (utgiftsperiode.barn.length === 0) {
+            return {
+                ...utgiftsperiodeFeil,
+                barn: ['Mangelfull utfylling - minst et barn må velges'],
+            };
+        }
+
         if (!utgiftsperiode.dagerMedTilsyn) {
             return {
                 ...utgiftsperiodeFeil,
