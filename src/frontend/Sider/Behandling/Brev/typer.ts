@@ -39,7 +39,8 @@ export interface Valgfelt {
 
 interface Blockcontent {
     _type: 'block';
-    // TODO: kanskje ta med flere felter her
+    _key: string;
+    markDefs: Variabel[];
 }
 
 export interface Delmal {

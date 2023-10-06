@@ -9,6 +9,12 @@ export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[
         ..., 
         "blocks": nb[]{ 
             ...,
+            _type == "block" => { 
+                 "markDefs": markDefs[]{
+                    ..., 
+                    _type == "reference" => @->{...}
+                }
+            },
             _type == "valgfeltReferanse" => valgfelt-> {
                 ...,
                 valg[] {

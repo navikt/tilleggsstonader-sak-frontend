@@ -5,13 +5,9 @@ import styled from 'styled-components';
 import { Switch } from '@navikt/ds-react';
 
 import Fritekst from './Fritekst';
-import {
-    Delmal as DelmalType,
-    Fritekst as FritekstType,
-    Valg,
-    Valgfelt as ValgfeltType,
-} from './typer';
+import { Delmal as DelmalType, Valg } from './typer';
 import Valgfelt from './Valgfelt';
+import Variabler from './Variabler';
 
 interface Props {
     delmal: DelmalType;
@@ -32,24 +28,31 @@ export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt, variabler, s
     return (
         <FlexColumn>
             <Switch>Inkluder seksjon i brev</Switch>
-            {delmal.blocks
-                .filter(
-                    (val): val is ValgfeltType | FritekstType =>
-                        val._type === 'valgfelt' || val._type == 'fritekst'
-                )
-                .map((val, index) =>
-                    val._type === 'valgfelt' ? (
-                        <Valgfelt
-                            valgfelt={val}
-                            settValgfelt={settValgfelt}
-                            variabler={variabler}
-                            settVariabler={settVariabler}
-                            key={index}
-                        />
-                    ) : (
-                        <Fritekst key={index} />
-                    )
-                )}
+            {delmal.blocks.map((val, index) => {
+                switch (val._type) {
+                    case 'valgfelt':
+                        return (
+                            <Valgfelt
+                                valgfelt={val}
+                                settValgfelt={settValgfelt}
+                                variabler={variabler}
+                                settVariabler={settVariabler}
+                                key={index}
+                            />
+                        );
+                    case 'block':
+                        return (
+                            <Variabler
+                                variabler={val.markDefs}
+                                variablerState={variabler}
+                                settVariabler={settVariabler}
+                                key={val._key}
+                            />
+                        );
+                    case 'fritekst':
+                        return <Fritekst key={index} />;
+                }
+            })}
         </FlexColumn>
     );
 };

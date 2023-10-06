@@ -3,8 +3,8 @@ import React, { SetStateAction, useState } from 'react';
 import { Select } from '@navikt/ds-react';
 
 import Fritekst from './Fritekst';
-import Tekst from './Tekst';
 import { Valg, Valgfelt } from './typer';
+import Variabler from './Variabler';
 
 interface Props {
     valgfelt: Valgfelt;
@@ -58,7 +58,11 @@ const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt, variabler, settVari
                 (valgtBlock._type == 'fritekst' ? (
                     <Fritekst />
                 ) : (
-                    <Tekst tekst={valgtBlock} variabler={variabler} settVariabler={settVariabler} />
+                    <Variabler
+                        variabler={valgtBlock.variabler}
+                        variablerState={variabler}
+                        settVariabler={settVariabler}
+                    />
                 ))}
         </>
     );
