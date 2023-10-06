@@ -1,11 +1,16 @@
 import React from 'react';
 
 import AktivitetInfo from './AktivitetInfo';
-import { Vilkårsresultat } from '../../vilkår';
+import { Vilkårsregler } from '../../../../typer/regel';
+import { Inngangsvilkår, Vilkårsresultat } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 
-const Aktivitet: React.FC = () => {
+interface Props {
+    regler: Vilkårsregler<Inngangsvilkår.AKTIVITET>;
+}
+
+const Aktivitet: React.FC<Props> = () => {
     // const vurdering = vurderinger.find(
     //     (v) => v.vilkårType === InngangsvilkårType.FORUTGÅENDE_MEDLEMSKAP
     // );
