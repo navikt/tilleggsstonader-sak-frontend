@@ -2,18 +2,18 @@ import React, { SetStateAction } from 'react';
 
 import { TextField } from '@navikt/ds-react';
 
-import { Tekst } from './typer';
+import { Variabel } from './typer';
 
 interface Props {
-    tekst: Tekst;
-    variabler: Record<string, string>;
+    variabler: Variabel[];
+    variablerState: Record<string, string>;
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
 }
 
-const Tekst: React.FC<Props> = ({ tekst, variabler, settVariabler }) => {
+const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }) => {
     return (
         <>
-            {tekst.variabler.map((variabel) => {
+            {variabler.map((variabel) => {
                 const håndterInput = (e: React.ChangeEvent<HTMLInputElement>) =>
                     settVariabler((prevState) => ({
                         ...prevState,
@@ -25,7 +25,7 @@ const Tekst: React.FC<Props> = ({ tekst, variabler, settVariabler }) => {
                         <TextField
                             label={variabel.visningsnavn}
                             key={variabel._id}
-                            value={variabler[variabel._id] || ''}
+                            value={variablerState[variabel._id] || ''}
                             onChange={håndterInput}
                         />
                     </div>
@@ -35,4 +35,4 @@ const Tekst: React.FC<Props> = ({ tekst, variabler, settVariabler }) => {
     );
 };
 
-export default Tekst;
+export default Variabler;
