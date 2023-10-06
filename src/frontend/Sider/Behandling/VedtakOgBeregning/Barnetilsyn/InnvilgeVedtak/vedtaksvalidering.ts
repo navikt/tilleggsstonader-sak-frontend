@@ -67,14 +67,9 @@ const validerUtgiftsperioder = ({
 
         // TODO: Legge til sjekk av datoer mot forrige periode?
 
-        // if (forrige && forrige.årMånedTil) {
-        //     if (!erMånedÅrEtter(forrige.årMånedTil, årMånedFra)) {
-        //         return {
-        //             ...utgiftsperiodeFeil,
-        //             årMånedFra: `Ugyldig etterfølgende periode - fra (${årMånedFra}) må være etter til (${forrige.årMånedTil})`,
-        //         };
-        //     }
-        // }
+        if (!utgiftsperiode.aktivitetstype) {
+            return { ...utgiftsperiodeFeil, aktivitetstype: 'Mangler valg for aktivitetstype' };
+        }
 
         // if (barn.length < 1 && !opphørEllerSanksjon) {
         //     return {

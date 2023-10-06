@@ -128,6 +128,10 @@ const UtgiftsperiodeValg: React.FC<Props> = ({ utgiftsperioderState, errorState 
                                 )
                             }
                             erLesevisning={!behandlingErRedigerbar}
+                            feil={
+                                errorState.utgiftsperioder &&
+                                errorState.utgiftsperioder[indeks]?.aktivitetstype
+                            }
                         />
                         <AntallDagerSelect
                             erLesevisning={!behandlingErRedigerbar}
