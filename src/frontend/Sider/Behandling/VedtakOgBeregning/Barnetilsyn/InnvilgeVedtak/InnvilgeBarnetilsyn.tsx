@@ -84,7 +84,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     };
 
     return (
-        // TODO: HandleSubmit
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
             <UtgiftsperiodeValg
                 utgiftsperioderState={utgiftsperiodeState}
