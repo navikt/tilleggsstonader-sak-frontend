@@ -10,6 +10,7 @@ import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
 import { Delmal as DelmalType, Valg } from './typer';
+import { VariabelSerializer } from './VariabelSerializer';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
@@ -38,14 +39,13 @@ interface Props {
     delmal: DelmalType;
 }
 
-// TODO: Denne, og komponentene den bruker er ikke ferdig
 const CustomComponets = (valgfelt: Record<string, Valg>, variabler: Record<string, string>) => ({
     types: {
         fritekst: () => FritekstSerializer({}),
         valgfelt: ValgfeltSerializer(valgfelt, variabler),
     },
     marks: {
-        variabel: () => <span>Variabel</span>,
+        variabel: VariabelSerializer(variabler),
     },
 });
 
