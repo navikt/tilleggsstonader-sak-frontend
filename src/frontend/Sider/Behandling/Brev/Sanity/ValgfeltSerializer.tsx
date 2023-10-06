@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react';
 
 import { FritekstSerializer } from './FritekstSerializer';
 import { Fritekst, Tekst, Valgfelt } from '../typer';
+import { VariabelSerializer } from '../VariabelSerializer';
 
 export const ValgfeltSerializer =
     (
@@ -22,11 +23,7 @@ export const ValgfeltSerializer =
                 value={valg.innhold}
                 components={{
                     marks: {
-                        variabel: (props) => (
-                            <span>
-                                {variabler[props.value._id] || `[${props.value.visningsnavn}]`}
-                            </span>
-                        ),
+                        variabel: VariabelSerializer(variabler),
                     },
                 }}
             />
