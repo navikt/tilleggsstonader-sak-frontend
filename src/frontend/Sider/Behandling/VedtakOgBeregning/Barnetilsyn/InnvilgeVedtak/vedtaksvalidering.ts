@@ -85,7 +85,7 @@ const validerUtgiftsperioder = ({
             };
         }
 
-        if (!utgiftsperiode.utgifter) {
+        if (!utgiftsperiode.utgifter || utgiftsperiode.utgifter < 0) {
             return {
                 ...utgiftsperiodeFeil,
                 utgifter: 'Mangelfull utfylling av utgifter',
