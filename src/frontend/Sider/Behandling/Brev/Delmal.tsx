@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SetStateAction } from 'react';
 
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
-import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg } from './typer';
+import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import { VariabelSerializer } from './VariabelSerializer';
 
 const Background = styled.div`
@@ -37,6 +37,12 @@ const DelmalPreview = styled.div`
 
 interface Props {
     delmal: DelmalType;
+    valgfelt: Record<Valgfelt['_id'], Valg>;
+    settValgfelt: React.Dispatch<SetStateAction<Record<Valgfelt['_id'], Valg>>>;
+    variabler: Record<string, string>;
+    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>;
+    settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
 }
 
 const CustomComponets = (
@@ -54,10 +60,18 @@ const CustomComponets = (
     },
 });
 
-const Delmal: React.FC<Props> = ({ delmal }) => {
-    const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
-    const [variabler, settVariabler] = useState<Record<string, string>>({});
-    const [fritekst, settFritekst] = useState<Record<string, FritekstAvsnitt[] | undefined>>({});
+const Delmal: React.FC<Props> = ({
+    delmal,
+    valgfelt,
+    settValgfelt,
+    variabler,
+    settVariabler,
+    fritekst,
+    settFritekst,
+}) => {
+    // const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
+    // const [variabler, settVariabler] = useState<Record<string, string>>({});
+    // const [fritekst, settFritekst] = useState<Record<string, FritekstAvsnitt[] | undefined>>({});
 
     return (
         <Background>
