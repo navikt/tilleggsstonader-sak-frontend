@@ -26,10 +26,14 @@ const KnappeWrapper = styled.div`
     gap: 0.5rem;
 `;
 
-const Fritekst: React.FC = () => {
-    const [avsnitt, settAvsnitt] = useState<FritekstAvsnitt[]>([
-        { deloverskrift: '', innhold: '' },
-    ]);
+export const lagTomtAvsnitt = (): FritekstAvsnitt => ({ deloverskrift: '', innhold: '' });
+
+interface Props {
+    avsnitt: FritekstAvsnitt[];
+    settAvsnitt: React.Dispatch<SetStateAction<FritekstAvsnitt[]>>;
+}
+
+const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
     const oppdaterAvsnitt = (indeks: number, oppdatertAvsnitt: FritekstAvsnitt) =>
         settAvsnitt((prevState) =>
             prevState.map((avsnitt, i) => (i === indeks ? oppdatertAvsnitt : avsnitt))
@@ -38,8 +42,7 @@ const Fritekst: React.FC = () => {
     const fjernAvsnitt = (indeks: number) =>
         settAvsnitt((prevState) => prevState.filter((_, i) => i !== indeks));
 
-    const leggTilNyttAvsnitt = () =>
-        settAvsnitt((prevState) => [...prevState, { deloverskrift: '', innhold: '' }]);
+    const leggTilNyttAvsnitt = () => settAvsnitt((prevState) => [...prevState, lagTomtAvsnitt()]);
 
     const flyttAvsnittOpp = (indeks: number) => {
         if (indeks === 0) return;

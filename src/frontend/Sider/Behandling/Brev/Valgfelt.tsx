@@ -2,8 +2,8 @@ import React, { SetStateAction, useState } from 'react';
 
 import { Select } from '@navikt/ds-react';
 
-import Fritekst from './Fritekst';
-import { Valg, Valgfelt } from './typer';
+import Fritekst, { lagTomtAvsnitt } from './Fritekst';
+import { FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import Variabler from './Variabler';
 
 interface Props {
@@ -11,9 +11,18 @@ interface Props {
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
     variabler: Record<string, string>;
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>;
+    settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
 }
 
-const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt, variabler, settVariabler }) => {
+const Valgfelt: React.FC<Props> = ({
+    valgfelt,
+    settValgfelt,
+    variabler,
+    fritekst,
+    settFritekst,
+    settVariabler,
+}) => {
     const [valgt, settValgt] = useState<string>();
 
     const finnValgtBlock = (id: string | undefined) =>
@@ -56,7 +65,21 @@ const Valgfelt: React.FC<Props> = ({ valgfelt, settValgfelt, variabler, settVari
             </Select>
             {valgtBlock &&
                 (valgtBlock._type == 'fritekst' ? (
-                    <Fritekst />
+                    <Fritekst
+                        avsnitt={fritekst[valgfelt._id] || [lagTomtAvsnitt()]}
+                        settAvsnitt={(utledNextState) => {
+                            const prevState = fritekst[valgfelt._id] || [lagTomtAvsnitt()];
+                            const nextState =
+                                typeof utledNextState === 'function'
+                                    ? utledNextState(prevState)
+                                    : utledNextState;
+
+                            settFritekst((prevState) => ({
+                                ...prevState,
+                                [valgfelt._id]: nextState,
+                            }));
+                        }}
+                    />
                 ) : (
                     <Variabler
                         variabler={valgtBlock.variabler}
