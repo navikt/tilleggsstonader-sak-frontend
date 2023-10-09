@@ -1,4 +1,4 @@
-import { Vilkår } from '../Sider/Behandling/vilkår';
+import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
 type SluttNode = 'SLUTT_NODE';
 
@@ -28,13 +28,13 @@ type Regler = {
     [key in RegelId]: Regel;
 };
 
-export type Vilkårsregler<T extends Vilkår> = {
+export type Vilkårsregler<T extends Vilkårtype> = {
     vilkårType: T;
     regler: Regler;
 };
 
 export interface ReglerResponse {
     vilkårsregler: {
-        [key in Vilkår]: Vilkårsregler<key>;
+        [key in Vilkårtype]: Vilkårsregler<key>;
     };
 }

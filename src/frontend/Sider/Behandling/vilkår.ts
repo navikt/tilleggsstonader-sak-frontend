@@ -19,7 +19,7 @@ interface BarnRegistergrunnlag {
     fødselsdato?: string;
 }
 
-export type Vilkår = Inngangsvilkår;
+export type Vilkårtype = Inngangsvilkår;
 
 export enum Inngangsvilkår {
     MÅLGRUPPE = 'MÅLGRUPPE',
