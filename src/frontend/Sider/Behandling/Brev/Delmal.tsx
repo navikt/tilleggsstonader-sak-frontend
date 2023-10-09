@@ -39,10 +39,15 @@ interface Props {
     delmal: DelmalType;
 }
 
-const CustomComponets = (valgfelt: Record<string, Valg>, variabler: Record<string, string>) => ({
+const CustomComponets = (
+    valgfelt: Record<string, Valg>,
+    variabler: Record<string, string>,
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>
+) => ({
     types: {
-        fritekst: () => FritekstSerializer({}),
-        valgfelt: ValgfeltSerializer(valgfelt, variabler),
+        fritekst: (props: { value: Fritekst }) =>
+            FritekstSerializer({ avsnitt: fritekst[props.value.parentId] }),
+        valgfelt: ValgfeltSerializer(valgfelt, variabler, fritekst),
     },
     marks: {
         variabel: VariabelSerializer(variabler),
@@ -76,7 +81,7 @@ const Delmal: React.FC<Props> = ({ delmal }) => {
                             <Innhold>
                                 <PortableText
                                     value={delmal.blocks}
-                                    components={CustomComponets(valgfelt, variabler)}
+                                    components={CustomComponets(valgfelt, variabler, fritekst)}
                                 />
                             </Innhold>
                         </DelmalPreview>
