@@ -5,6 +5,7 @@ import { Vilkårsregler } from '../../../../typer/regel';
 import { Inngangsvilkår, Vilkårsresultat } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
+import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 
 interface Props {
     regler: Vilkårsregler<Inngangsvilkår.MÅLGRUPPE>;
@@ -23,16 +24,7 @@ const Målgruppe: React.FC<Props> = () => {
             <VilkårpanelInnhold>
                 {{
                     venstre: <MålgruppeInfo />,
-                    høyre: (
-                        // <VisEllerEndreVurdering
-                        //     ikkeVurderVilkår={ikkeVurderVilkår}
-                        //     vurdering={vurdering}
-                        //     feilmelding={feilmeldinger[vurdering.id]}
-                        //     lagreVurdering={lagreVurdering}
-                        //     nullstillVurdering={nullstillVurdering}
-                        // />
-                        <p>Test</p>
-                    ),
+                    høyre: <VisEllerEndreVurdering />,
                 }}
             </VilkårpanelInnhold>
         </Vilkårpanel>

@@ -5,6 +5,7 @@ import { Vilkårsregler } from '../../../../typer/regel';
 import { Inngangsvilkår, Vilkårsresultat } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
+import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 
 interface Props {
     regler: Vilkårsregler<Inngangsvilkår.AKTIVITET>;
@@ -22,16 +23,7 @@ const Aktivitet: React.FC<Props> = () => {
             <VilkårpanelInnhold>
                 {{
                     venstre: <AktivitetInfo />,
-                    høyre: (
-                        // <VisEllerEndreVurdering
-                        //     ikkeVurderVilkår={ikkeVurderVilkår}
-                        //     vurdering={vurdering}
-                        //     feilmelding={feilmeldinger[vurdering.id]}
-                        //     lagreVurdering={lagreVurdering}
-                        //     nullstillVurdering={nullstillVurdering}
-                        // />
-                        <p>Test</p>
-                    ),
+                    høyre: <VisEllerEndreVurdering />,
                 }}
             </VilkårpanelInnhold>
         </Vilkårpanel>
