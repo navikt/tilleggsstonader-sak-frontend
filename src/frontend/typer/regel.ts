@@ -19,7 +19,7 @@ interface Svarsalternativ {
 
 type SvarMapping = Record<SvarId, Svarsalternativ>;
 
-interface Regel {
+export interface Regel {
     regelId: string;
     svarMapping: SvarMapping;
 }

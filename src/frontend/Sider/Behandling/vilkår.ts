@@ -25,3 +25,9 @@ export enum Inngangsvilkår {
     MÅLGRUPPE = 'MÅLGRUPPE',
     AKTIVITET = 'AKTIVITET',
 }
+
+export interface Vurdering {
+    regelId: string;
+    svar?: SvarId;
+    begrunnelse?: Begrunnelse;
+}
