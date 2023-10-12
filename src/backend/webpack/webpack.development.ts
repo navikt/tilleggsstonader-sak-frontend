@@ -18,7 +18,7 @@ const developmentConfig = {
     output: {
         filename: '[name].bundle.js',
         path: path.join(process.cwd(), miljø.builldPath),
-        publicPath: publicPath,
+        publicPath: '/assets/',
         clean: true,
     },
     optimization: {
@@ -26,6 +26,10 @@ const developmentConfig = {
     },
     module: {
         rules: [
+            {
+                test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+                use: [`file-loader`],
+            },
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
@@ -55,6 +59,7 @@ const developmentConfig = {
         new HtmlWebpackPlugin({
             title: 'Tilleggsstønader',
             template: path.join(process.cwd(), '../../src/frontend/index.html'),
+            favicon: path.join(process.cwd(), '../../src/frontend/favicon.ico'),
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({

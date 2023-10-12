@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(webpackHotMiddleware(compiler));
     setupLocal(app);
 } else {
-    app.use(BASE_PATH, express.static(buildPath, { index: false }));
+    app.use('/assets', express.static(buildPath, { index: false }));
 }
 
 // Sett opp bodyParser og router etter proxy. Spesielt viktig med tanke på større payloads som blir parset av bodyParser
