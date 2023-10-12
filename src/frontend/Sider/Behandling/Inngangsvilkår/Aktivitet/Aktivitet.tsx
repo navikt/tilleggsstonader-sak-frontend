@@ -2,16 +2,18 @@ import React from 'react';
 
 import AktivitetInfo from './AktivitetInfo';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { Inngangsvilkår, Vilkårsresultat } from '../../vilkår';
+import { Inngangsvilkår, Vilkår, Vilkårsresultat } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 
 interface Props {
-    regler: Vilkårsregler<Inngangsvilkår.AKTIVITET>;
+    feilmelding?: string;
+    vilkårsregler: Vilkårsregler<Inngangsvilkår.AKTIVITET>;
+    vilkår: Vilkår;
 }
 
-const Aktivitet: React.FC<Props> = () => {
+const Aktivitet: React.FC<Props> = ({ feilmelding, vilkårsregler, vilkår }) => {
     // const vurdering = vurderinger.find(
     //     (v) => v.vilkårType === InngangsvilkårType.FORUTGÅENDE_MEDLEMSKAP
     // );
@@ -23,7 +25,13 @@ const Aktivitet: React.FC<Props> = () => {
             <VilkårpanelInnhold>
                 {{
                     venstre: <AktivitetInfo />,
-                    høyre: <VisEllerEndreVurdering />,
+                    høyre: (
+                        <VisEllerEndreVurdering
+                            vilkår={vilkår}
+                            feilmelding={feilmelding}
+                            regler={vilkårsregler.regler}
+                        />
+                    ),
                 }}
             </VilkårpanelInnhold>
         </Vilkårpanel>

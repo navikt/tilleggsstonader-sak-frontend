@@ -4,6 +4,7 @@ import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { aktivitetVilkårMock, målgruppeVilkårMock } from '../../../mock/vilkår';
 
 const Inngangsvilkår = () => {
     const { regler, hentRegler } = useRegler();
@@ -16,8 +17,14 @@ const Inngangsvilkår = () => {
         <DataViewer response={{ regler }}>
             {({ regler }) => (
                 <>
-                    <Målgruppe regler={regler.vilkårsregler.MÅLGRUPPE} />
-                    <Aktivitet regler={regler.vilkårsregler.AKTIVITET} />
+                    <Målgruppe
+                        vilkår={målgruppeVilkårMock}
+                        vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
+                    />
+                    <Aktivitet
+                        vilkår={aktivitetVilkårMock}
+                        vilkårsregler={regler.vilkårsregler.AKTIVITET}
+                    />
                 </>
             )}
         </DataViewer>

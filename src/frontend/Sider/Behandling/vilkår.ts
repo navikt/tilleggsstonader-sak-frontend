@@ -1,3 +1,5 @@
+import { Begrunnelse, SvarId } from '../../typer/regel';
+
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
     AUTOMATISK_OPPFYLT = 'AUTOMATISK_OPPFYLT',
@@ -31,3 +33,21 @@ export interface Vurdering {
     svar?: SvarId;
     begrunnelse?: Begrunnelse;
 }
+export interface Vilkår {
+    id: string;
+    behandlingId: string;
+    resultat: Vilkårsresultat;
+    vilkårtype: Vilkårtype;
+    barnId?: string;
+    endretAv: string;
+    endretTid: string;
+    delvilkårsett: Delvilkår[];
+    // opphavsvilkår?: Opphavsvilkår;
+}
+
+export interface Delvilkår {
+    resultat: Vilkårsresultat;
+    vurderinger: Vurdering[];
+}
+
+export type SvarPåVilkårsvurdering = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;

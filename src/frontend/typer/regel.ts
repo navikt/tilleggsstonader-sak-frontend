@@ -1,18 +1,20 @@
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
-type SluttNode = 'SLUTT_NODE';
+export type SluttNode = 'SLUTT_NODE';
 
-type RegelId = SluttNode | string;
+export type RegelId = SluttNode | string;
 
-type SvarId = string;
+export type SvarId = string;
 
-enum BegrunnelseRegel {
+export type Begrunnelse = string | undefined;
+
+export enum BegrunnelseRegel {
     'PÅKREVD' = 'PÅKREVD',
     'VALGFRI' = 'VALGFRI',
     'UTEN' = 'UTEN',
 }
 
-interface Svarsalternativ {
+export interface Svarsalternativ {
     regelId: RegelId;
     begrunnelseType: BegrunnelseRegel;
 }
@@ -24,7 +26,7 @@ export interface Regel {
     svarMapping: SvarMapping;
 }
 
-type Regler = {
+export type Regler = {
     [key in RegelId]: Regel;
 };
 
