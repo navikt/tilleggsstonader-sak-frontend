@@ -7,7 +7,7 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'UPDATE';
 export const fetchFn = <ResponseData, RequestData>(
     url: string,
     method: Method,
-    settAutentisert: () => void,
+    settIkkeAutentisert: () => void,
     data?: RequestData
 ): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
     const requestId = uuidv4().replaceAll('-', '');
@@ -25,7 +25,7 @@ export const fetchFn = <ResponseData, RequestData>(
                 return håndterSuksess<ResponseData>(res);
             } else {
                 if (res.status === 401) {
-                    settAutentisert();
+                    settIkkeAutentisert();
                 }
                 return håndterFeil(res, res.headers);
             }
