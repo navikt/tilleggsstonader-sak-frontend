@@ -42,13 +42,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(bodyParser.json({ limit: '200mb' }));
 app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 
-app.get(
-    /^(?!.*\/(internal|static|api|oauth2|favicon\.ico)\/).*$/,
-    validateToken(true),
-    (_req, res) => {
-        res.sendFile('index.html', { root: buildPath });
-    }
-);
+app.get(/^(?!.*\/(internal|static|api|oauth2)\/).*$/, validateToken(true), (_req, res) => {
+    res.sendFile('index.html', { root: buildPath });
+});
 
 app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
