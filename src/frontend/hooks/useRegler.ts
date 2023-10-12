@@ -13,7 +13,7 @@ export const useRegler = (): Response => {
     const [regler, settRegler] = useState<Ressurs<ReglerResponse>>(byggTomRessurs());
 
     const hentRegler = useCallback(() => {
-        request<ReglerResponse, null>(`/api/sak/vurdering/regler`).then(settRegler);
+        request<ReglerResponse, null>(`/api/sak/vilkar/regler`).then(settRegler);
     }, [request]);
 
     return {
