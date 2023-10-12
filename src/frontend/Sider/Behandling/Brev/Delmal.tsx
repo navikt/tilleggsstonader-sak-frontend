@@ -9,7 +9,7 @@ import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
-import { Delmal as DelmalType, Valg } from './typer';
+import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg } from './typer';
 import { VariabelSerializer } from './VariabelSerializer';
 
 const Background = styled.div`
@@ -39,10 +39,15 @@ interface Props {
     delmal: DelmalType;
 }
 
-const CustomComponets = (valgfelt: Record<string, Valg>, variabler: Record<string, string>) => ({
+const CustomComponets = (
+    valgfelt: Record<string, Valg>,
+    variabler: Record<string, string>,
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>
+) => ({
     types: {
-        fritekst: () => FritekstSerializer({}),
-        valgfelt: ValgfeltSerializer(valgfelt, variabler),
+        fritekst: (props: { value: Fritekst }) =>
+            FritekstSerializer({ avsnitt: fritekst[props.value.parentId] }),
+        valgfelt: ValgfeltSerializer(valgfelt, variabler, fritekst),
     },
     marks: {
         variabel: VariabelSerializer(variabler),
@@ -52,6 +57,7 @@ const CustomComponets = (valgfelt: Record<string, Valg>, variabler: Record<strin
 const Delmal: React.FC<Props> = ({ delmal }) => {
     const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
     const [variabler, settVariabler] = useState<Record<string, string>>({});
+    const [fritekst, settFritekst] = useState<Record<string, FritekstAvsnitt[] | undefined>>({});
 
     return (
         <Background>
@@ -67,13 +73,15 @@ const Delmal: React.FC<Props> = ({ delmal }) => {
                             settValgfelt={settValgfelt}
                             variabler={variabler}
                             settVariabler={settVariabler}
+                            fritekst={fritekst}
+                            settFritekst={settFritekst}
                         />
                         <DelmalPreview>
                             <Label>Generert brevtekst</Label>
                             <Innhold>
                                 <PortableText
                                     value={delmal.blocks}
-                                    components={CustomComponets(valgfelt, variabler)}
+                                    components={CustomComponets(valgfelt, variabler, fritekst)}
                                 />
                             </Innhold>
                         </DelmalPreview>

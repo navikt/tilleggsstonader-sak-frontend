@@ -3,13 +3,14 @@ import React from 'react';
 import { PortableText } from '@portabletext/react';
 
 import { FritekstSerializer } from './FritekstSerializer';
-import { Fritekst, Tekst, Valgfelt } from '../typer';
+import { Fritekst, FritekstAvsnitt, Tekst, Valgfelt } from '../typer';
 import { VariabelSerializer } from '../VariabelSerializer';
 
 export const ValgfeltSerializer =
     (
         valgfelt: Record<string, Fritekst | Tekst>,
-        variabler: Record<string, string>
+        variabler: Record<string, string>,
+        fritekst: Record<string, FritekstAvsnitt[] | undefined>
     ): React.FC<{ value: Valgfelt }> =>
     ({ value }) => {
         const valg = valgfelt[value._id];
@@ -28,6 +29,6 @@ export const ValgfeltSerializer =
                 }}
             />
         ) : (
-            <FritekstSerializer />
+            <FritekstSerializer avsnitt={fritekst[value._id]} />
         );
     };

@@ -26,6 +26,7 @@ export interface Tekst {
 
 export interface Fritekst {
     _type: 'fritekst';
+    parentId: string;
 }
 
 export type Valg = Fritekst | Tekst;

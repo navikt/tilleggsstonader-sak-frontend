@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { Switch } from '@navikt/ds-react';
 
-import Fritekst from './Fritekst';
-import { Delmal as DelmalType, Valg } from './typer';
+import Fritekst, { lagTomtAvsnitt } from './Fritekst';
+import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
 import Variabler from './Variabler';
 
@@ -15,6 +15,8 @@ interface Props {
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
     variabler: Record<string, string>;
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>;
+    settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
 }
 
 const FlexColumn = styled.div`
@@ -24,7 +26,14 @@ const FlexColumn = styled.div`
     min-width: 640px;
 `;
 
-export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt, variabler, settVariabler }) => {
+export const DelmalMeny: React.FC<Props> = ({
+    delmal,
+    settValgfelt,
+    variabler,
+    settVariabler,
+    fritekst,
+    settFritekst,
+}) => {
     return (
         <FlexColumn>
             <Switch>Inkluder seksjon i brev</Switch>
@@ -37,6 +46,8 @@ export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt, variabler, s
                                 settValgfelt={settValgfelt}
                                 variabler={variabler}
                                 settVariabler={settVariabler}
+                                fritekst={fritekst}
+                                settFritekst={settFritekst}
                                 key={index}
                             />
                         );
@@ -50,7 +61,24 @@ export const DelmalMeny: React.FC<Props> = ({ delmal, settValgfelt, variabler, s
                             />
                         );
                     case 'fritekst':
-                        return <Fritekst key={index} />;
+                        return (
+                            <Fritekst
+                                key={index}
+                                avsnitt={fritekst[delmal._id] || [lagTomtAvsnitt()]}
+                                settAvsnitt={(utledNextState) => {
+                                    const prevState = fritekst[delmal._id] || [lagTomtAvsnitt()];
+                                    const nextState =
+                                        typeof utledNextState === 'function'
+                                            ? utledNextState(prevState)
+                                            : utledNextState;
+
+                                    settFritekst((prevState) => ({
+                                        ...prevState,
+                                        [delmal._id]: nextState,
+                                    }));
+                                }}
+                            />
+                        );
                 }
             })}
         </FlexColumn>
