@@ -35,11 +35,21 @@ export const fetchFn = <ResponseData, RequestData>(
         });
 };
 
-const håndterSuksess = <ResponseData>(res: Response): Promise<RessursSuksess<ResponseData>> =>
-    res.json().then((data) => ({
-        data: data as ResponseData,
-        status: RessursStatus.SUKSESS,
-    }));
+const håndterSuksess = <ResponseData>(res: Response): Promise<RessursSuksess<ResponseData>> => {
+    const contentType = res.headers.get('Content-Type');
+    if (contentType === 'application/json')
+        return res.json().then((data) => ({
+            data: data as ResponseData,
+            status: RessursStatus.SUKSESS,
+        }));
+
+    return res.blob().then((data) => {
+        return data.text().then((text) => ({
+            data: text as ResponseData,
+            status: RessursStatus.SUKSESS,
+        }));
+    });
+};
 
 const håndterFeil = (res: Response, headers: Headers): Promise<RessursFeilet> =>
     res.json().then((res) => {
