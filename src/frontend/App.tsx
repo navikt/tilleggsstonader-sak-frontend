@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
+import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 
 const AppRoutes = () => {
     const { autentisert } = useApp();
@@ -33,13 +34,20 @@ const AppRoutes = () => {
 };
 
 const App: React.FC = () => {
+    const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
+    useEffect(() => {
+        hentInnloggetSaksbehandler(settInnloggetSaksbehandler);
+    }, []);
+    if (!innloggetSaksbehandler) {
+        return null;
+    }
     return (
-        <AppProvider>
+        <AppProvider saksbehandler={innloggetSaksbehandler}>
             <Sticky>
                 <InternalHeader>
                     <InternalHeader.Title as="h1">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
-                    <InternalHeader.User name="Ola Normann" />
+                    <InternalHeader.User name={innloggetSaksbehandler.name} />
                 </InternalHeader>
             </Sticky>
             <AppRoutes />
