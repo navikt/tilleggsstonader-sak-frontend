@@ -10,7 +10,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 
 const Container = styled.div`
     display: flex;
-    flex-flow: wrap;
     gap: 3rem;
     justify-content: center;
     flex-direction: column;
@@ -34,7 +33,9 @@ const Brev: React.FC = () => {
                             settBrevmal={settBrevmal}
                         />
                         <DataViewer response={{ malStruktur }}>
-                            {({ malStruktur }) => <Brevmeny mal={malStruktur} />}
+                            {({ malStruktur }) => (
+                                <Brevmeny mal={malStruktur} behandlingId={behandling.id} />
+                            )}
                         </DataViewer>
                     </>
                 )}

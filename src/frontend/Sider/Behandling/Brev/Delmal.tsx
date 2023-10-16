@@ -3,7 +3,7 @@ import React, { SetStateAction } from 'react';
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
 
-import { ExpansionCard, Label } from '@navikt/ds-react';
+import { ExpansionCard } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { DelmalMeny } from './DelmalMeny';
@@ -14,11 +14,12 @@ import { VariabelSerializer } from './VariabelSerializer';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
+    width: 40rem;
 `;
 
 const Container = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1rem;
 `;
 
@@ -32,7 +33,6 @@ const DelmalPreview = styled.div`
     flex-direction: column;
     flex-grow: 1;
     gap: 1rem;
-    max-width: 1080px;
 `;
 
 interface Props {
@@ -47,7 +47,7 @@ interface Props {
     settInkluderIBrev: (inkluderIBrev: boolean) => void;
 }
 
-const CustomComponets = (
+export const CustomComponets = (
     valgfelt: Record<string, Valg>,
     variabler: Record<string, string>,
     fritekst: Record<string, FritekstAvsnitt[] | undefined>

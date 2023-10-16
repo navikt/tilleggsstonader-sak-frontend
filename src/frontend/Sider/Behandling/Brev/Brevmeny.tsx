@@ -1,10 +1,18 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
+
+import styled from 'styled-components';
+import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
-import { FritekstAvsnitt, MalStruktur, Valg, Delmal as DelmalType, Valgfelt } from './typer';
+import { lagHtmlStringAvBrev } from './Html';
+import { Delmal as DelmalType, FritekstAvsnitt, MalStruktur, Valg, Valgfelt } from './typer';
+import { useApp } from '../../../context/AppContext';
+import PdfVisning from '../../../komponenter/PdfVisning';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 interface Props {
     mal: MalStruktur;
+    behandlingId: string;
 }
 
 const lagReducer =
@@ -24,7 +32,20 @@ const lagReducer =
         }));
     };
 
-const Brevmeny: React.FC<Props> = ({ mal }) => {
+const Container = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+`;
+
+const FlexColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: flex-start;
+`;
+
+const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<DelmalType['_id'], Record<Valgfelt['_id'], Valg>>>
     >({});
@@ -46,21 +67,62 @@ const Brevmeny: React.FC<Props> = ({ mal }) => {
         Partial<Record<DelmalType['_id'], Record<string, FritekstAvsnitt[] | undefined>>>
     >({});
 
+    const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
+
+    const { request } = useApp();
+
+    const genererPdf = () => {
+        request<string, { html: string }>(`/api/sak/brev/${behandlingId}`, 'POST', {
+            html: lagHtmlStringAvBrev({
+                // TODO: Bytt ut hardkodet data
+                brevOpprettetDato: '16.10.2023',
+                navn: 'Bjarne',
+                personIdent: '12345678',
+                fritekst: fritekst,
+                inkluderteDelmaler: inkluderteDelmaler,
+                mal: mal,
+                valgfelt: valgfelt,
+                variabler: variabler,
+            }),
+        }).then(settFil);
+    };
+
+    const utsattGenererBrev = useDebouncedCallback(genererPdf, 1000);
+
+    useEffect(utsattGenererBrev, [
+        utsattGenererBrev,
+        mal,
+        variabler,
+        valgfelt,
+        fritekst,
+        inkluderteDelmaler,
+    ]);
+
     return (
-        <>
-            {mal.delmaler.map((delmal) => (
-                <Delmal
-                    delmal={delmal}
-                    key={delmal._id}
-                    valgfelt={valgfelt[delmal._id] || {}}
-                    settValgfelt={lagReducer(delmal._id, valgfelt, settValgfelt)}
-                    variabler={variabler[delmal._id] || {}}
-                    settVariabler={lagReducer(delmal._id, variabler, settVariabler)}
-                    fritekst={fritekst[delmal._id] || {}}
-                    settFritekst={lagReducer(delmal._id, fritekst, settFritekst)}
-                />
-            ))}
-        </>
+        <Container>
+            <FlexColumn>
+                {mal.delmaler.map((delmal) => (
+                    <Delmal
+                        delmal={delmal}
+                        key={delmal._id}
+                        valgfelt={valgfelt[delmal._id] || {}}
+                        settValgfelt={lagReducer(delmal._id, valgfelt, settValgfelt)}
+                        variabler={variabler[delmal._id] || {}}
+                        settVariabler={lagReducer(delmal._id, variabler, settVariabler)}
+                        fritekst={fritekst[delmal._id] || {}}
+                        settFritekst={lagReducer(delmal._id, fritekst, settFritekst)}
+                        inkluderIBrev={inkluderteDelmaler[delmal._id]}
+                        settInkluderIBrev={(inkluderIBrev) => {
+                            settInkluderteDelmaler((prevState) => ({
+                                ...prevState,
+                                [delmal._id]: inkluderIBrev,
+                            }));
+                        }}
+                    />
+                ))}
+            </FlexColumn>
+            <PdfVisning pdfFilInnhold={fil} />
+        </Container>
     );
 };
 
