@@ -73,10 +73,6 @@ const Delmal: React.FC<Props> = ({
     inkluderIBrev,
     settInkluderIBrev,
 }) => {
-    // const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
-    // const [variabler, settVariabler] = useState<Record<string, string>>({});
-    // const [fritekst, settFritekst] = useState<Record<string, FritekstAvsnitt[] | undefined>>({});
-
     return (
         <Background>
             <ExpansionCard aria-label={'Delmal'}>
