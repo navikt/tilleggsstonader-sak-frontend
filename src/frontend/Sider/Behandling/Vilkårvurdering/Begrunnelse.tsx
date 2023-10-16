@@ -14,7 +14,7 @@ interface Props {
 
 const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
     const begrunnelseType = svar.svar && regel.svarMapping[svar.svar].begrunnelseType;
-    const skjulBegrunnelse = (begrunnelseType ?? BegrunnelseRegel.UTEN) === BegrunnelseRegel.UTEN;
+    const skjulBegrunnelse = (begrunnelseType || BegrunnelseRegel.UTEN) === BegrunnelseRegel.UTEN;
 
     if (skjulBegrunnelse) {
         return null;
