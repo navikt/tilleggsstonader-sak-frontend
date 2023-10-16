@@ -3,8 +3,13 @@ import { useCallback, useState } from 'react';
 import constate from 'constate';
 
 import { fetchFn, Method } from '../utils/fetch';
+import { Saksbehandler } from '../utils/saksbehandler';
 
-const [AppProvider, useApp] = constate(() => {
+interface Props {
+    saksbehandler: Saksbehandler;
+}
+
+const [AppProvider, useApp] = constate(({ saksbehandler }: Props) => {
     const [autentisert, settAutentisert] = useState(true);
     const request = useCallback(
         <RES, REQ>(url: string, method: Method = 'GET', data?: REQ) =>
@@ -15,6 +20,7 @@ const [AppProvider, useApp] = constate(() => {
     return {
         request,
         autentisert,
+        saksbehandler,
     };
 });
 
