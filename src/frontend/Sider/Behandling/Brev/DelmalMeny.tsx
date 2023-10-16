@@ -25,7 +25,6 @@ const FlexColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    min-width: 640px;
 `;
 
 export const DelmalMeny: React.FC<Props> = ({

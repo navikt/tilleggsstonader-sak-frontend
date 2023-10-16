@@ -96,15 +96,25 @@ const Delmal: React.FC<Props> = ({
                             inkluderIBrev={inkluderIBrev}
                             settInkluderIBrev={settInkluderIBrev}
                         />
-                        <DelmalPreview>
-                            <Label>Generert brevtekst</Label>
-                            <Innhold>
-                                <PortableText
-                                    value={delmal.blocks}
-                                    components={CustomComponets(valgfelt, variabler, fritekst)}
-                                />
-                            </Innhold>
-                        </DelmalPreview>
+                        <ExpansionCard aria-label={'Forhåndvis delmal'}>
+                            <ExpansionCard.Header>
+                                <ExpansionCard.Title>Generert brevtekst</ExpansionCard.Title>
+                            </ExpansionCard.Header>
+                            <ExpansionCard.Content>
+                                <DelmalPreview>
+                                    <Innhold>
+                                        <PortableText
+                                            value={delmal.blocks}
+                                            components={CustomComponets(
+                                                valgfelt,
+                                                variabler,
+                                                fritekst
+                                            )}
+                                        />
+                                    </Innhold>
+                                </DelmalPreview>
+                            </ExpansionCard.Content>
+                        </ExpansionCard>
                     </Container>
                 </ExpansionCard.Content>
             </ExpansionCard>
