@@ -1,3 +1,5 @@
+import { Begrunnelse, SvarId } from '../../typer/regel';
+
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
     AUTOMATISK_OPPFYLT = 'AUTOMATISK_OPPFYLT',
@@ -19,9 +21,33 @@ interface BarnRegistergrunnlag {
     fødselsdato?: string;
 }
 
-export type Vilkår = Inngangsvilkår;
+export type Vilkårtype = Inngangsvilkår;
 
 export enum Inngangsvilkår {
     MÅLGRUPPE = 'MÅLGRUPPE',
     AKTIVITET = 'AKTIVITET',
 }
+
+export interface Vurdering {
+    regelId: string;
+    svar?: SvarId;
+    begrunnelse?: Begrunnelse;
+}
+export interface Vilkår {
+    id: string;
+    behandlingId: string;
+    resultat: Vilkårsresultat;
+    vilkårtype: Vilkårtype;
+    barnId?: string;
+    endretAv: string;
+    endretTid: string;
+    delvilkårsett: Delvilkår[];
+    // opphavsvilkår?: Opphavsvilkår;
+}
+
+export interface Delvilkår {
+    resultat: Vilkårsresultat;
+    vurderinger: Vurdering[];
+}
+
+export type SvarPåVilkårsvurdering = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
