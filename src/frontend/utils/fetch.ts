@@ -2,9 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
+export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'UPDATE';
+
 export const fetchFn = <ResponseData, RequestData>(
     url: string,
-    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'UPDATE' = 'GET',
+    method: Method,
+    settIkkeAutentisert: () => void,
     data?: RequestData
 ): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
     const requestId = uuidv4().replaceAll('-', '');
@@ -21,6 +24,9 @@ export const fetchFn = <ResponseData, RequestData>(
             if (res.ok) {
                 return håndterSuksess<ResponseData>(res);
             } else {
+                if (res.status === 401) {
+                    settIkkeAutentisert();
+                }
                 return håndterFeil(res, res.headers);
             }
         })

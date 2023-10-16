@@ -1,40 +1,42 @@
-import { Vilkår } from '../Sider/Behandling/vilkår';
+import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
-type SluttNode = 'SLUTT_NODE';
+export type SluttNode = 'SLUTT_NODE';
 
-type RegelId = SluttNode | string;
+export type RegelId = SluttNode | string;
 
-type SvarId = string;
+export type SvarId = string;
 
-enum BegrunnelseRegel {
+export type Begrunnelse = string | undefined;
+
+export enum BegrunnelseRegel {
     'PÅKREVD' = 'PÅKREVD',
     'VALGFRI' = 'VALGFRI',
     'UTEN' = 'UTEN',
 }
 
-interface Svarsalternativ {
+export interface Svarsalternativ {
     regelId: RegelId;
     begrunnelseType: BegrunnelseRegel;
 }
 
 type SvarMapping = Record<SvarId, Svarsalternativ>;
 
-interface Regel {
+export interface Regel {
     regelId: string;
     svarMapping: SvarMapping;
 }
 
-type Regler = {
+export type Regler = {
     [key in RegelId]: Regel;
 };
 
-export type Vilkårsregler<T extends Vilkår> = {
+export type Vilkårsregler<T extends Vilkårtype> = {
     vilkårType: T;
     regler: Regler;
 };
 
 export interface ReglerResponse {
     vilkårsregler: {
-        [key in Vilkår]: Vilkårsregler<key>;
+        [key in Vilkårtype]: Vilkårsregler<key>;
     };
 }

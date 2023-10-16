@@ -2,15 +2,18 @@ import React from 'react';
 
 import MålgruppeInfo from './MålgruppeInfo';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { Inngangsvilkår, Vilkårsresultat } from '../../vilkår';
+import { Inngangsvilkår, Vilkår, Vilkårsresultat } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
+import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 
 interface Props {
-    regler: Vilkårsregler<Inngangsvilkår.MÅLGRUPPE>;
+    feilmelding?: string;
+    vilkår: Vilkår;
+    vilkårsregler: Vilkårsregler<Inngangsvilkår.MÅLGRUPPE>;
 }
 
-const Målgruppe: React.FC<Props> = () => {
+const Målgruppe: React.FC<Props> = ({ feilmelding, vilkår, vilkårsregler }) => {
     // const vurdering = vurderinger.find(
     //     (v) => v.vilkårType === InngangsvilkårType.FORUTGÅENDE_MEDLEMSKAP
     // );
@@ -24,14 +27,11 @@ const Målgruppe: React.FC<Props> = () => {
                 {{
                     venstre: <MålgruppeInfo />,
                     høyre: (
-                        // <VisEllerEndreVurdering
-                        //     ikkeVurderVilkår={ikkeVurderVilkår}
-                        //     vurdering={vurdering}
-                        //     feilmelding={feilmeldinger[vurdering.id]}
-                        //     lagreVurdering={lagreVurdering}
-                        //     nullstillVurdering={nullstillVurdering}
-                        // />
-                        <p>Test</p>
+                        <VisEllerEndreVurdering
+                            vilkår={vilkår}
+                            feilmelding={feilmelding}
+                            regler={vilkårsregler.regler}
+                        />
                     ),
                 }}
             </VilkårpanelInnhold>

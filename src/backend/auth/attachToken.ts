@@ -10,13 +10,20 @@ import { ApplicationName, miljø } from '../miljø';
 const AUTHORIZATION_HEADER = 'authorization';
 const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
 
-export const validateToken = (): RequestHandler => {
+const redirectResponseToLogin = (req: Request, res: Response) =>
+    res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
+
+export const validateToken = (redirectToLogin: boolean = false): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const token = await getValidatedTokenFromHeader(req);
             if (!token) {
                 logWarn('Fant ikke gyldig token', req);
-                return res.status(401).send('Fant ikke gyldig token');
+                if (redirectToLogin) {
+                    return redirectResponseToLogin(req, res);
+                } else {
+                    return res.status(401).send('Fant ikke gyldig token');
+                }
             }
             next();
         } catch (error) {
@@ -25,7 +32,11 @@ export const validateToken = (): RequestHandler => {
                 req,
                 error as Error
             );
-            return res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+            if (redirectToLogin) {
+                return redirectResponseToLogin(req, res);
+            } else {
+                return res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+            }
         }
     };
 };
