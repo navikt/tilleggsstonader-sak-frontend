@@ -7,11 +7,22 @@ export enum VedtakType {
 export type InnvilgeVedtakForBarnetilsyn = {
     resultatType: BehandlingResultat.INNVILGET;
     begrunnelse?: string;
+    stønadsperioder: Stønadsperiode[];
     perioder: Utgiftsperiode[];
     // perioderKontantstøtte: IPeriodeMedBeløp[];
     // tilleggsstønad: ITilleggsstønad;
     _type?: VedtakType.InnvilgelseBarnetilsyn;
 };
+
+export type Stønadsperiode = {
+    fra: string;
+    til: string;
+};
+
+export enum StønadsperiodeProperty {
+    fra = 'fra',
+    til = 'til',
+}
 
 export type Utgiftsperiode = {
     periodetype: Utgiftsperiodetype | undefined;

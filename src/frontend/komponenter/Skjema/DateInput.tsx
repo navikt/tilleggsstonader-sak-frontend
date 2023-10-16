@@ -12,6 +12,7 @@ export interface Props {
     hideLabel?: boolean;
     label?: string;
     onChange: (dato?: string) => void;
+    size?: 'small' | 'medium';
     value?: string;
 }
 
@@ -22,6 +23,7 @@ const DateInput: React.FC<Props> = ({
     hideLabel,
     label,
     onChange,
+    size,
     value,
 }) => {
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
@@ -38,7 +40,13 @@ const DateInput: React.FC<Props> = ({
         />
     ) : (
         <DatePicker {...datepickerProps}>
-            <DatePicker.Input {...inputProps} label={label} hideLabel={hideLabel} error={feil} />
+            <DatePicker.Input
+                {...inputProps}
+                label={label}
+                hideLabel={hideLabel}
+                error={feil}
+                size={size}
+            />
         </DatePicker>
     );
 };
