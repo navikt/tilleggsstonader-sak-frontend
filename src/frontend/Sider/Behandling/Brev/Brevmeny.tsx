@@ -31,6 +31,17 @@ const Brevmeny: React.FC<Props> = ({ mal }) => {
     const [variabler, settVariabler] = useState<
         Partial<Record<DelmalType['_id'], Record<string, string>>>
     >({});
+
+    const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
+        mal.delmaler.reduce(
+            (acc, current) => ({
+                ...acc,
+                [current._id]: current.visningsdetaljer.skalAlltidMed,
+            }),
+            {}
+        )
+    );
+
     const [fritekst, settFritekst] = useState<
         Partial<Record<DelmalType['_id'], Record<string, FritekstAvsnitt[] | undefined>>>
     >({});

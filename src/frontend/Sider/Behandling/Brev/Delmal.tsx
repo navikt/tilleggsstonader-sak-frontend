@@ -43,6 +43,8 @@ interface Props {
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
     fritekst: Record<string, FritekstAvsnitt[] | undefined>;
     settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
+    inkluderIBrev: boolean;
+    settInkluderIBrev: (inkluderIBrev: boolean) => void;
 }
 
 const CustomComponets = (
@@ -68,6 +70,8 @@ const Delmal: React.FC<Props> = ({
     settVariabler,
     fritekst,
     settFritekst,
+    inkluderIBrev,
+    settInkluderIBrev,
 }) => {
     // const [valgfelt, settValgfelt] = useState<Record<string, Valg>>({});
     // const [variabler, settVariabler] = useState<Record<string, string>>({});
@@ -89,6 +93,8 @@ const Delmal: React.FC<Props> = ({
                             settVariabler={settVariabler}
                             fritekst={fritekst}
                             settFritekst={settFritekst}
+                            inkluderIBrev={inkluderIBrev}
+                            settInkluderIBrev={settInkluderIBrev}
                         />
                         <DelmalPreview>
                             <Label>Generert brevtekst</Label>
