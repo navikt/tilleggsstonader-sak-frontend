@@ -5,7 +5,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
-import { Delmal as DelmalType, FritekstAvsnitt, MalStruktur, Valg, Valgfelt } from './typer';
+import { FritekstAvsnitt, MalStruktur, Valg, Valgfelt } from './typer';
 import { useApp } from '../../../context/AppContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
@@ -47,11 +47,11 @@ const FlexColumn = styled.div`
 
 const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
     const [valgfelt, settValgfelt] = useState<
-        Partial<Record<DelmalType['_id'], Record<Valgfelt['_id'], Valg>>>
+        Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >({});
-    const [variabler, settVariabler] = useState<
-        Partial<Record<DelmalType['_id'], Record<string, string>>>
-    >({});
+    const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
+        {}
+    );
 
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
         mal.delmaler.reduce(
@@ -64,7 +64,7 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
     );
 
     const [fritekst, settFritekst] = useState<
-        Partial<Record<DelmalType['_id'], Record<string, FritekstAvsnitt[] | undefined>>>
+        Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
     >({});
 
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
