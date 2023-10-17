@@ -15,7 +15,7 @@ interface Props {
     behandlingId: string;
 }
 
-const lagReducer =
+const oppdaterStateForId =
     <T,>(
         id: string,
         state: Partial<Record<string, Record<string, T>>>,
@@ -106,11 +106,11 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
                         delmal={delmal}
                         key={delmal._id}
                         valgfelt={valgfelt[delmal._id] || {}}
-                        settValgfelt={lagReducer(delmal._id, valgfelt, settValgfelt)}
+                        settValgfelt={oppdaterStateForId(delmal._id, valgfelt, settValgfelt)}
                         variabler={variabler[delmal._id] || {}}
-                        settVariabler={lagReducer(delmal._id, variabler, settVariabler)}
+                        settVariabler={oppdaterStateForId(delmal._id, variabler, settVariabler)}
                         fritekst={fritekst[delmal._id] || {}}
-                        settFritekst={lagReducer(delmal._id, fritekst, settFritekst)}
+                        settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
                         inkluderIBrev={inkluderteDelmaler[delmal._id]}
                         settInkluderIBrev={(inkluderIBrev) => {
                             settInkluderteDelmaler((prevState) => ({
