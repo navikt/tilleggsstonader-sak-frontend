@@ -1,15 +1,17 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
-import { Utgiftsperiode } from '../../../../../typer/vedtak';
+import { Stønadsperiode, Utgiftsperiode } from '../../../../../typer/vedtak';
 import { erDatoEtterEllerLik } from '../../../../../utils/dato';
 import { validerGyldigTallverdi } from '../../Felles/utils';
 
 export const validerInnvilgetVedtakForm = ({
+    stønadsperioder,
     utgiftsperioder,
     begrunnelse,
 }: InnvilgeVedtakForm): FormErrors<InnvilgeVedtakForm> => {
     return {
         ...validerPerioder({
+            stønadsperioder,
             utgiftsperioder,
         }),
         begrunnelse: !harVerdi(begrunnelse) ? 'Mangelfull utfylling av begrunnelse' : undefined,
@@ -17,13 +19,17 @@ export const validerInnvilgetVedtakForm = ({
 };
 
 const validerPerioder = ({
+    stønadsperioder,
     utgiftsperioder,
 }: {
+    stønadsperioder: Stønadsperiode[];
     utgiftsperioder: Utgiftsperiode[];
 }): FormErrors<{
+    stønadsperioder: Stønadsperiode[];
     utgiftsperioder: Utgiftsperiode[];
 }> => {
     return {
+        ...validerStønadsperioder(stønadsperioder),
         ...validerUtgiftsperioder({ utgiftsperioder }),
     };
 };
@@ -104,6 +110,40 @@ const validerUtgiftsperioder = ({
 
     return {
         utgiftsperioder: feilIUtgiftsperioder,
+    };
+};
+
+const validerStønadsperioder = (
+    stønadsperioder: Stønadsperiode[]
+): FormErrors<{
+    stønadsperioder: Stønadsperiode[];
+}> => {
+    const feilIStønadsperioder = stønadsperioder.map((periode) => {
+        const stønadsperiodeFeil: FormErrors<Stønadsperiode> = {
+            fra: undefined,
+            til: undefined,
+        };
+
+        if (!periode.fra) {
+            return { ...stønadsperiodeFeil, fra: 'Mangler fradato for periode' };
+        }
+
+        if (!periode.til) {
+            return { ...stønadsperiodeFeil, til: 'Mangler tildato for periode' };
+        }
+
+        if (!erDatoEtterEllerLik(periode.til, periode.fra)) {
+            return {
+                ...stønadsperiodeFeil,
+                til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+            };
+        }
+
+        return stønadsperiodeFeil;
+    });
+
+    return {
+        stønadsperioder: feilIStønadsperioder,
     };
 };
 

@@ -1,4 +1,4 @@
-import { Utgiftsperiode } from '../../../../typer/vedtak';
+import { Stønadsperiode, Utgiftsperiode } from '../../../../typer/vedtak';
 
 export const tomUtgiftsperiodeRad = (): Utgiftsperiode => ({
     fra: '',
@@ -9,4 +9,9 @@ export const tomUtgiftsperiodeRad = (): Utgiftsperiode => ({
     barn: [],
     utgifter: undefined,
     dagerMedTilsyn: undefined,
+});
+
+export const tomStønadsperiodeRad = (): Stønadsperiode => ({
+    fra: '',
+    til: '',
 });
