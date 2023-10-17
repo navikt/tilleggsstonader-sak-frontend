@@ -64,7 +64,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                                 oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.FRA, dato)
                             }
                             size="small"
-                            feil={errorState[indeks].fra}
+                            feil={errorState && errorState[indeks]?.fra}
                         />
                         <DateInput
                             label="Til"
@@ -75,7 +75,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                                 oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.TIL, dato)
                             }
                             size="small"
-                            feil={errorState[indeks].til}
+                            feil={errorState && errorState[indeks]?.til}
                         />
                     </React.Fragment>
                 ))}
