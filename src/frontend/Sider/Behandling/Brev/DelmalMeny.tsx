@@ -17,13 +17,14 @@ interface Props {
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
     fritekst: Record<string, FritekstAvsnitt[] | undefined>;
     settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
+    inkluderIBrev: boolean;
+    settInkluderIBrev: (inkluderIBrev: boolean) => void;
 }
 
 const FlexColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    min-width: 640px;
 `;
 
 export const DelmalMeny: React.FC<Props> = ({
@@ -33,10 +34,18 @@ export const DelmalMeny: React.FC<Props> = ({
     settVariabler,
     fritekst,
     settFritekst,
+    inkluderIBrev,
+    settInkluderIBrev,
 }) => {
     return (
         <FlexColumn>
-            <Switch>Inkluder seksjon i brev</Switch>
+            <Switch
+                disabled={delmal.visningsdetaljer.skalAlltidMed}
+                checked={inkluderIBrev}
+                onChange={(e) => settInkluderIBrev(e.target.checked)}
+            >
+                Inkluder seksjon i brev
+            </Switch>
             {delmal.blocks.map((val, index) => {
                 switch (val._type) {
                     case 'valgfelt':

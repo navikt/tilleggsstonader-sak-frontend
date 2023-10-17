@@ -49,6 +49,10 @@ export interface Delmal {
     _type: string;
     visningsnavn: string;
     blocks: (Valgfelt | Fritekst | Blockcontent)[];
+    visningsdetaljer: {
+        skalAlltidMed: boolean;
+        skalVisesIBrevmeny: boolean;
+    };
 }
 export interface FritekstAvsnitt {
     deloverskrift: string;

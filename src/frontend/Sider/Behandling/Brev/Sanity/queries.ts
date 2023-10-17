@@ -5,36 +5,38 @@ export const hentMalerQuery = groq`*[ytelse == $ytelse && resultat == $resultat]
 export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[_id == "${id}"][0]{
 ...,
     "brevtittel": brevtittel.${målform === 'bokmål' ? 'tittelNB' : ''},
-    "delmaler": delmaler[]->{
-        ..., 
-        "blocks": nb[]{ 
-            ...,
-            _type == "block" => { 
-                 "markDefs": markDefs[]{
-                    ..., 
-                    _type == "reference" => @->{...}
-                }
-            },
-            _type == "fritekst" => { "parentId": ^._id },
-            _type == "valgfeltReferanse" => valgfelt-> {
+    "delmaler": delmaler[]{
+        ...,
+        ...delmalReferanse->{
+            ..., 
+            "blocks": nb[]{
                 ...,
-                valg[] {
-                    ...,
-                    _type == "reference" => @->{
+                _type == "block" => {
+                     "markDefs": markDefs[]{
                         ...,
-                        "innhold": nb[]{
+                        _type == "reference" => @->{...}
+                     }
+                },
+                _type == "fritekst" => { "parentId": ^._id },
+                _type == "valgfeltReferanse" => valgfelt-> {
+                    ...,
+                    valg[] {
+                        ...,
+                        _type == "reference" => @->{
                             ...,
-                            "markDefs": markDefs[]{
-                                ..., 
-                                _type == "reference" => @->{...}
-                             }
+                            "innhold": nb[]{
+                                ...,
+                                "markDefs": markDefs[]{
+                                    ...,
+                                    _type == "reference" => @->{...}
+                                 }
+                            },
+                            "variabler": nb[].markDefs[]->
                         },
-                        "variabler": nb[].markDefs[]->
-                    },
-                    _type == "fritekst" => { "parentId": ^._id }
+                        _type == "fritekst" => { "parentId": ^._id }
+                    }
                 }
-            }
-         }
-    }
-    
+            }   
+        }
+    }    
 }`;
