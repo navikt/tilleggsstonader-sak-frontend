@@ -20,8 +20,8 @@ export type Stønadsperiode = {
 };
 
 export enum StønadsperiodeProperty {
-    fra = 'fra',
-    til = 'til',
+    FRA = 'fra',
+    TIL = 'til',
 }
 
 export type Utgiftsperiode = {
