@@ -22,7 +22,7 @@ interface Props {
     barnIBehandling: Barn[];
 }
 
-const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling }) => {
+const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState }) => {
     return (
         <Container>
             <Heading spacing size="small" level="5">
