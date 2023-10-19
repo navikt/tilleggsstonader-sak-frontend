@@ -34,11 +34,18 @@ const Form = styled.form`
 const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
+const initUtgifter = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined, barnIBehandling: Barn[]) =>
+    vedtak ? vedtak.utgifter : tomUtgiftMap(barnIBehandling);
+
 const initUtgiftsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.perioder : [tomUtgiftsperiodeRad()];
 
-const initFormState = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) => ({
+const initFormState = (
+    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
+    barnIBehandling: Barn[]
+) => ({
     stønadsperioder: initStønadsperioder(vedtak),
+    utgifter: initUtgifter(vedtak, barnIBehandling),
     utgiftsperioder: initUtgiftsperioder(vedtak),
     begrunnelse: vedtak?.begrunnelse || '',
 });
@@ -50,12 +57,17 @@ interface Props {
 }
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
+    const barnIBehandling = [
+        { barnId: 'id1', registergrunnlag: { navn: 'Ronja Røverdatter' } },
+        { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
+    ];
+
     const { behandlingErRedigerbar } = useBehandling();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretInnvilgetVedtak),
+        initFormState(lagretInnvilgetVedtak, barnIBehandling),
         validerInnvilgetVedtakForm
     );
 
