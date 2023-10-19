@@ -3,15 +3,18 @@ import { Dispatch, FormEventHandler, SetStateAction, useMemo, useState } from 'r
 
 import useFieldState, { FieldState } from './useFieldState';
 import useListState, { ListState } from './useListState';
+import useRecordState, { RecordState } from './useRecordState';
 
 export type FormState<T> = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [P in keyof T]: any;
 };
-export type InternalFormState<T> = { [P in keyof T]: FieldState | ListState<unknown> };
+export type InternalFormState<T> = {
+    [P in keyof T]: FieldState | ListState<unknown> | RecordState<unknown>;
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormHook<T extends Record<string, any>> = {
-    getProps(key: keyof T): FieldState | ListState<unknown>;
+    getProps(key: keyof T): FieldState | ListState<unknown> | RecordState<unknown>;
     errors: FormErrors<T>;
     setErrors: Dispatch<SetStateAction<FormErrors<T>>>;
     validateForm: () => boolean;
@@ -51,6 +54,8 @@ export default function useFormState<T extends Record<string, unknown>>(
                 return { key, value: useFieldState(value) }; // eslint-disable-line
             } else if (Array.isArray(value)) {
                 return { key, value: useListState(value) }; // eslint-disable-line
+            } else if (typeof value === 'object') {
+                return { key, value: useRecordState(value) }; // eslint-disable-line
             } else {
                 throw Error(`Støtter ikke den typen: ${key}`);
             }

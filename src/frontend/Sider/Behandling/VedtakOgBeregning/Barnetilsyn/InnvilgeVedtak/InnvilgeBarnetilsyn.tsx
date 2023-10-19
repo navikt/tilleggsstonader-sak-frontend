@@ -5,22 +5,27 @@ import styled from 'styled-components';
 import { Button } from '@navikt/ds-react';
 
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
+import Utgifter from './Utgifter/Utgifter';
 import UtgiftsperiodeValg from './Utgiftsperiode/UtgiftsperiodeValg';
 import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
+import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import {
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
     Utgiftsperiode,
+    Utgift,
     VedtakType,
 } from '../../../../../typer/vedtak';
-import { tomStønadsperiodeRad, tomUtgiftsperiodeRad } from '../utils';
+import { Barn } from '../../../vilkår';
+import { tomStønadsperiodeRad, tomUtgiftPerBarn, tomUtgiftsperiodeRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
+    utgifter: Record<string, Utgift[]>;
     utgiftsperioder: Utgiftsperiode[];
     begrunnelse?: string;
 };
@@ -34,11 +39,18 @@ const Form = styled.form`
 const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
+const initUtgifter = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined, barnIBehandling: Barn[]) =>
+    vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling);
+
 const initUtgiftsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.perioder : [tomUtgiftsperiodeRad()];
 
-const initFormState = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) => ({
+const initFormState = (
+    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
+    barnIBehandling: Barn[]
+) => ({
     stønadsperioder: initStønadsperioder(vedtak),
+    utgifter: initUtgifter(vedtak, barnIBehandling),
     utgiftsperioder: initUtgiftsperioder(vedtak),
     begrunnelse: vedtak?.begrunnelse || '',
 });
@@ -50,16 +62,22 @@ interface Props {
 }
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
+    const barnIBehandling = [
+        { barnId: 'id1', registergrunnlag: { navn: 'Ronja Røverdatter' } },
+        { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
+    ];
+
     const { behandlingErRedigerbar } = useBehandling();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretInnvilgetVedtak),
+        initFormState(lagretInnvilgetVedtak, barnIBehandling),
         validerInnvilgetVedtakForm
     );
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
+    const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
     const utgiftsperiodeState = formState.getProps('utgiftsperioder') as ListState<Utgiftsperiode>;
 
     useEffect(() => {
@@ -83,6 +101,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
         const vedtaksRequest: InnvilgeVedtakForBarnetilsyn = {
             stønadsperioder: form.stønadsperioder,
+            utgifter: form.utgifter,
             perioder: form.utgiftsperioder,
             // begrunnelse: form.begrunnelse,
             _type: VedtakType.InnvilgelseBarnetilsyn,
@@ -97,6 +116,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             <StønadsperiodeValg
                 stønadsperioderState={stønadsperioderState}
                 errorState={formState.errors.stønadsperioder}
+            />
+            <Utgifter
+                barnIBehandling={barnIBehandling}
+                utgifterState={utgifterState}
+                errorState={formState.errors.utgifter}
             />
             <UtgiftsperiodeValg
                 utgiftsperioderState={utgiftsperiodeState}

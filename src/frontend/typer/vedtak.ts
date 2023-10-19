@@ -8,6 +8,7 @@ export type InnvilgeVedtakForBarnetilsyn = {
     resultatType: BehandlingResultat.INNVILGET;
     begrunnelse?: string;
     stønadsperioder: Stønadsperiode[];
+    utgifter: Record<string, Utgift[]>;
     perioder: Utgiftsperiode[];
     // perioderKontantstøtte: IPeriodeMedBeløp[];
     // tilleggsstønad: ITilleggsstønad;
@@ -22,6 +23,18 @@ export type Stønadsperiode = {
 export enum StønadsperiodeProperty {
     FRA = 'fra',
     TIL = 'til',
+}
+
+export type Utgift = {
+    fra: string;
+    til: string;
+    utgift?: number;
+};
+
+export enum UtgifterProperty {
+    fra = 'fra',
+    til = 'til',
+    utgift = 'utgift',
 }
 
 export type Utgiftsperiode = {

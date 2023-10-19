@@ -1,17 +1,19 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
-import { Stønadsperiode, Utgiftsperiode } from '../../../../../typer/vedtak';
+import { Stønadsperiode, Utgift, Utgiftsperiode } from '../../../../../typer/vedtak';
 import { erDatoEtterEllerLik } from '../../../../../utils/dato';
 import { validerGyldigTallverdi } from '../../Felles/utils';
 
 export const validerInnvilgetVedtakForm = ({
     stønadsperioder,
+    utgifter,
     utgiftsperioder,
     begrunnelse,
 }: InnvilgeVedtakForm): FormErrors<InnvilgeVedtakForm> => {
     return {
         ...validerPerioder({
             stønadsperioder,
+            utgifter,
             utgiftsperioder,
         }),
         begrunnelse: !harVerdi(begrunnelse) ? 'Mangelfull utfylling av begrunnelse' : undefined,
@@ -21,16 +23,20 @@ export const validerInnvilgetVedtakForm = ({
 const validerPerioder = ({
     stønadsperioder,
     utgiftsperioder,
+    utgifter,
 }: {
     stønadsperioder: Stønadsperiode[];
+    utgifter: Record<string, Utgift[]>;
     utgiftsperioder: Utgiftsperiode[];
 }): FormErrors<{
     stønadsperioder: Stønadsperiode[];
+    utgifter: Record<string, Utgift[]>;
     utgiftsperioder: Utgiftsperiode[];
 }> => {
     return {
         ...validerStønadsperioder(stønadsperioder),
         ...validerUtgiftsperioder({ utgiftsperioder }),
+        ...validerUtgifter(utgifter),
     };
 };
 
@@ -144,6 +150,59 @@ const validerStønadsperioder = (
 
     return {
         stønadsperioder: feilIStønadsperioder,
+    };
+};
+
+const validerUtgifter = (
+    utgifter: Record<string, Utgift[]>
+): FormErrors<{
+    utgifter: Record<string, Utgift[]>;
+}> => {
+    const feilIUtgifter = Object.entries(utgifter).reduce((acc, [barnId, utgifter]) => {
+        return {
+            ...acc,
+            [barnId]: utgifter.map((utgift) => {
+                const utgiftFeil = {
+                    fra: undefined,
+                    til: undefined,
+                    utgift: undefined,
+                };
+
+                // TODO: Tilpass validering
+                if (!utgift.fra) {
+                    return { ...utgiftFeil, fra: 'Mangler fradato for periode' };
+                }
+
+                if (!utgift.til) {
+                    return { ...utgiftFeil, til: 'Mangler tildato for periode' };
+                }
+
+                if (!erDatoEtterEllerLik(utgift.til, utgift.fra)) {
+                    return {
+                        ...utgiftFeil,
+                        til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+                    };
+                }
+
+                if (!utgift.utgift) {
+                    return {
+                        ...utgiftFeil,
+                        utgift: 'Du må legge inn en månedlig utgift',
+                    };
+                }
+
+                if (utgift.utgift <= 0) {
+                    return {
+                        ...utgiftFeil,
+                        utgift: 'Månedlig utgift må være større enn 0kr',
+                    };
+                }
+            }),
+        };
+    }, {});
+
+    return {
+        utgifter: feilIUtgifter,
     };
 };
 

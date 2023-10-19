@@ -1,4 +1,5 @@
-import { Stønadsperiode, Utgiftsperiode } from '../../../../typer/vedtak';
+import { Stønadsperiode, Utgift, Utgiftsperiode } from '../../../../typer/vedtak';
+import { Barn } from '../../vilkår';
 
 export const tomUtgiftsperiodeRad = (): Utgiftsperiode => ({
     fra: '',
@@ -12,6 +13,16 @@ export const tomUtgiftsperiodeRad = (): Utgiftsperiode => ({
 });
 
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
+    fra: '',
+    til: '',
+});
+
+export const tomUtgiftPerBarn = (barnIBehandling: Barn[]): Record<string, Utgift[]> =>
+    barnIBehandling.reduce((acc, barn) => {
+        return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
+    }, {});
+
+export const tomUtgiftRad = () => ({
     fra: '',
     til: '',
 });
