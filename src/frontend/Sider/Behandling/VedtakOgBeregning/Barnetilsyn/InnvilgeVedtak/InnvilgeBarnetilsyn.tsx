@@ -5,22 +5,27 @@ import styled from 'styled-components';
 import { Button } from '@navikt/ds-react';
 
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
+import Utgifter from './Utgifter/Utgifter';
 import UtgiftsperiodeValg from './Utgiftsperiode/UtgiftsperiodeValg';
 import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
+import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import {
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
     Utgiftsperiode,
+    Utgift,
     VedtakType,
 } from '../../../../../typer/vedtak';
-import { tomStønadsperiodeRad, tomUtgiftsperiodeRad } from '../utils';
+import { Barn } from '../../../vilkår';
+import { tomStønadsperiodeRad, tomUtgiftMap, tomUtgiftsperiodeRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
+    utgifter: Record<string, Utgift[]>;
     utgiftsperioder: Utgiftsperiode[];
     begrunnelse?: string;
 };
@@ -72,6 +77,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     );
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
+    const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
     const utgiftsperiodeState = formState.getProps('utgiftsperioder') as ListState<Utgiftsperiode>;
 
     useEffect(() => {
@@ -95,6 +101,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
         const vedtaksRequest: InnvilgeVedtakForBarnetilsyn = {
             stønadsperioder: form.stønadsperioder,
+            utgifter: form.utgifter,
             perioder: form.utgiftsperioder,
             // begrunnelse: form.begrunnelse,
             _type: VedtakType.InnvilgelseBarnetilsyn,
@@ -109,6 +116,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             <StønadsperiodeValg
                 stønadsperioderState={stønadsperioderState}
                 errorState={formState.errors.stønadsperioder}
+            />
+            <Utgifter
+                barnIBehandling={barnIBehandling}
+                utgifterState={utgifterState}
+                errorState={formState.errors}
             />
             <UtgiftsperiodeValg
                 utgiftsperioderState={utgiftsperiodeState}
