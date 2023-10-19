@@ -17,7 +17,7 @@ export const tomStønadsperiodeRad = (): Stønadsperiode => ({
     til: '',
 });
 
-export const tomUtgiftMap = (barnIBehandling: Barn[]): Record<string, Utgift[]> =>
+export const tomUtgiftPerBarn = (barnIBehandling: Barn[]): Record<string, Utgift[]> =>
     barnIBehandling.reduce((acc, barn) => {
         return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
     }, {});

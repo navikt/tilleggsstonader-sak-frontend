@@ -21,7 +21,7 @@ import {
     VedtakType,
 } from '../../../../../typer/vedtak';
 import { Barn } from '../../../vilkår';
-import { tomStønadsperiodeRad, tomUtgiftMap, tomUtgiftsperiodeRad } from '../utils';
+import { tomStønadsperiodeRad, tomUtgiftPerBarn, tomUtgiftsperiodeRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
@@ -40,7 +40,7 @@ const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) 
     vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
 const initUtgifter = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined, barnIBehandling: Barn[]) =>
-    vedtak ? vedtak.utgifter : tomUtgiftMap(barnIBehandling);
+    vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling);
 
 const initUtgiftsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.perioder : [tomUtgiftsperiodeRad()];
