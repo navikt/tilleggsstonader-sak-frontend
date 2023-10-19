@@ -120,7 +120,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             <Utgifter
                 barnIBehandling={barnIBehandling}
                 utgifterState={utgifterState}
-                errorState={formState.errors}
+                errorState={formState.errors.utgifter}
             />
             <UtgiftsperiodeValg
                 utgiftsperioderState={utgiftsperiodeState}

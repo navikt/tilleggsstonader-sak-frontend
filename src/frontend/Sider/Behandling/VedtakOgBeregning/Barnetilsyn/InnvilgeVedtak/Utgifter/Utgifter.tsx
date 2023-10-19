@@ -10,7 +10,6 @@ import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
 import { Barn } from '../../../../vilkår';
-import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Container = styled.div`
     padding: 1rem;
@@ -18,7 +17,7 @@ const Container = styled.div`
 `;
 
 interface Props {
-    errorState: FormErrors<InnvilgeVedtakForm>;
+    errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
     barnIBehandling: Barn[];
 }
@@ -30,7 +29,11 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling }) => {
                 Dokumenterte utgifter
             </Heading>
             {barnIBehandling.map((barn) => (
-                <UtgifterValg barn={barn} utgifter={utgifterState.value[barn.barnId]} />
+                <UtgifterValg
+                    barn={barn}
+                    utgifter={utgifterState.value[barn.barnId]}
+                    errorState={errorState && errorState[barn.barnId]}
+                />
             ))}
         </Container>
     );
