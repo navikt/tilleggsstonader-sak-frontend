@@ -34,7 +34,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
     const oppdaterUtgiftsperiode = (
         indeks: number,
         property: StønadsperiodeProperty,
-        value: string | string[] | number | boolean | undefined
+        value: string | undefined
     ) => {
         stønadsperioderState.update(
             {
