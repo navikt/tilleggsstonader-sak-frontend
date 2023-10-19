@@ -3,7 +3,6 @@ import { Dispatch, SetStateAction, useState } from 'react';
 export interface RecordState<T> {
     value: Record<string, T>;
     setValue: Dispatch<SetStateAction<Record<string, T>>>;
-    push(key: string, value: T): void;
     remove(key: string): void;
     update(key: string, value: T): void;
 }
@@ -26,7 +25,6 @@ export default function useRecordState<T>(initialState: Record<string, T>): Reco
     return {
         value,
         setValue,
-        push,
         remove,
         update,
     };
