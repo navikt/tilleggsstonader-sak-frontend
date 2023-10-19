@@ -33,6 +33,7 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
                     barn={barn}
                     utgifter={utgifterState.value[barn.barnId]}
                     errorState={errorState && errorState[barn.barnId]}
+                    key={barn.barnId}
                 />
             ))}
         </Container>
