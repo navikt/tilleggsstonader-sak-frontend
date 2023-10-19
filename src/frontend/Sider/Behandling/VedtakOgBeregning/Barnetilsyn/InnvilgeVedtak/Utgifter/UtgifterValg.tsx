@@ -8,8 +8,8 @@ import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
-import { Utgift } from '../../../../../../typer/vedtak';
-import { harTallverdi } from '../../../../../../utils/tall';
+import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
+import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { Barn } from '../../../../vilkår';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
@@ -20,14 +20,87 @@ const Grid = styled.div<{ $lesevisning?: boolean }>`
 `;
 
 interface Props {
+    // begrunnelseState: FieldState;
     errorState: FormErrors<Utgift[]>;
-    utgifter: Utgift[] | undefined;
+    utgifter: Utgift[];
     barn: Barn;
+    oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
+    // oppdaterUtgifter: (utgifter: Utgift[]) => void;
+    // settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
+    // barn: IBarnMedSamvær[];
+    // låsFraDatoFørsteRad: boolean;
 }
 
-const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState }) => {
+const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtgift }) => {
+    // begrunnelseState,
+    // errorState,
+    // settValideringsFeil,
+    // barn,
+    // låsFraDatoFørsteRad,
     const { behandlingErRedigerbar } = useBehandling();
+    // const { settIkkePersistertKomponent } = useApp();
+    // const [sanksjonsmodal, settSanksjonsmodal] = useState<Sanksjonsmodal>({
+    //     visModal: false,
+    // });
 
+    const oppdaterUtgiftFelt = (
+        indeks: number,
+        property: UtgifterProperty,
+        value: string | number | undefined
+    ) => {
+        oppdaterUtgift(indeks, {
+            ...utgifter[indeks],
+            [property]: value,
+        });
+    };
+
+    // Oppdater for riktig rad
+    // Returner hele utgift objekt?
+
+    // const leggTilTomRadUnder = () => {
+    //     // const
+    //     if (utgifter) oppdaterUtgifter([...utgifter, { fra: '', til: '' }]);
+    //     else oppdaterUtgifter([{ fra: '', til: '' }]);
+    // };
+
+    // const periodeVariantTilUtgiftsperiodeProperty = (
+    //     periodeVariant: PeriodeVariant
+    // ): EUtgiftsperiodeProperty => {
+    //     switch (periodeVariant) {
+    //         case PeriodeVariant.ÅR_MÅNED_FRA:
+    //             return EUtgiftsperiodeProperty.årMånedFra;
+    //         case PeriodeVariant.ÅR_MÅNED_TIL:
+    //             return EUtgiftsperiodeProperty.årMånedTil;
+    //     }
+    // };
+
+    // const lukkSanksjonsmodal = () => {
+    //     settSanksjonsmodal({ visModal: false });
+    // };
+
+    // const slettPeriode = (indeks: number) => {
+    //     if (sanksjonsmodal.visModal) {
+    //         lukkSanksjonsmodal();
+    //     }
+    //     utgiftsperioderState.remove(indeks);
+    //     settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+    //         const utgiftsperioder = (prevState.utgiftsperioder ?? []).filter((_, i) => i !== indeks);
+    //         return { ...prevState, utgiftsperioder };
+    //     });
+    // };
+
+    // const slettPeriodeModalHvisSanksjon = (indeks: number) => {
+    //     const periode = utgiftsperioderState.value[indeks];
+    //     if (periode.periodetype === EUtgiftsperiodetype.SANKSJON_1_MND) {
+    //         settSanksjonsmodal({
+    //             visModal: true,
+    //             indeks: indeks,
+    //             årMånedFra: periode.årMånedFra,
+    //         });
+    //     } else {
+    //         slettPeriode(indeks);
+    //     }
+    // };
     return (
         <>
             <Heading spacing size="xsmall" level="5">
@@ -48,6 +121,13 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState }) => {
                                 value={
                                     harTallverdi(utgiftsperiode.utgift) ? utgiftsperiode.utgift : ''
                                 }
+                                onChange={(e) =>
+                                    oppdaterUtgiftFelt(
+                                        indeks,
+                                        UtgifterProperty.utgift,
+                                        tilTallverdi(e.target.value)
+                                    )
+                                }
                                 error={errorState && errorState[indeks]?.utgift}
                                 size="small"
                             />
@@ -56,9 +136,8 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState }) => {
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.fra}
-                                onChange={
-                                    // eslint-disable-next-line no-console
-                                    (dato?: string) => console.log(dato)
+                                onChange={(dato?: string) =>
+                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.fra, dato)
                                 }
                                 feil={errorState && errorState[indeks]?.fra}
                                 size="small"
@@ -68,10 +147,8 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState }) => {
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.til}
-                                onChange={
-                                    // eslint-disable-next-line no-console
-                                    (dato?: string) => console.log(dato)
-                                    // oppdaterUtgiftsperiode(indeks, UtgifterProperty.til, dato)
+                                onChange={(dato?: string) =>
+                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.til, dato)
                                 }
                                 feil={errorState && errorState[indeks]?.til}
                                 size="small"
@@ -81,6 +158,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState }) => {
                 </Grid>
             )}
         </>
+        // {/* <Button onClick={leggTilTomRadUnder}>Legg til utgift</Button> */}
     );
 };
 
