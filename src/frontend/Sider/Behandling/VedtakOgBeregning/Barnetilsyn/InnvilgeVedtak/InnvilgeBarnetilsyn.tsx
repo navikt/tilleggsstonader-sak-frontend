@@ -44,8 +44,6 @@ const initFormState = (
 ) => ({
     stønadsperioder: initStønadsperioder(vedtak),
     utgifter: initUtgifter(vedtak, barnIBehandling),
-    utgiftsperioder: initUtgiftsperioder(vedtak),
-    begrunnelse: vedtak?.begrunnelse || '',
 });
 
 interface Props {
