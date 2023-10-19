@@ -1,16 +1,5 @@
-import { Stønadsperiode, Utgift, Utgiftsperiode } from '../../../../typer/vedtak';
+import { Stønadsperiode, Utgift } from '../../../../typer/vedtak';
 import { Barn } from '../../vilkår';
-
-export const tomUtgiftsperiodeRad = (): Utgiftsperiode => ({
-    fra: '',
-    til: '',
-    periodetype: undefined,
-    aktivitetstype: undefined,
-    antallAktivitetsdager: undefined,
-    barn: [],
-    utgifter: undefined,
-    dagerMedTilsyn: undefined,
-});
 
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
     fra: '',

@@ -6,12 +6,8 @@ export enum VedtakType {
 
 export type InnvilgeVedtakForBarnetilsyn = {
     resultatType: BehandlingResultat.INNVILGET;
-    begrunnelse?: string;
     stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
-    perioder: Utgiftsperiode[];
-    // perioderKontantstøtte: IPeriodeMedBeløp[];
-    // tilleggsstønad: ITilleggsstønad;
     _type?: VedtakType.InnvilgelseBarnetilsyn;
 };
 
@@ -35,28 +31,6 @@ export enum UtgifterProperty {
     fra = 'fra',
     til = 'til',
     utgift = 'utgift',
-}
-
-export type Utgiftsperiode = {
-    periodetype: Utgiftsperiodetype | undefined;
-    fra: string;
-    til: string;
-    barn: string[];
-    aktivitetstype: UtgiftsperiodeAktivitet | undefined;
-    antallAktivitetsdager: number | undefined;
-    utgifter: number | undefined;
-    dagerMedTilsyn: number | undefined;
-};
-
-export enum UtgiftsperiodeProperty {
-    periodetype = 'periodetype',
-    fra = 'fra',
-    til = 'til',
-    barn = 'barn',
-    aktivitetstype = 'aktivitetstype',
-    antallAktivitetsdager = 'antallAktivitetsdager',
-    utgifter = 'utgifter',
-    dagerMedTilsyn = 'dagerMedTilsyn',
 }
 
 export enum Utgiftsperiodetype {
