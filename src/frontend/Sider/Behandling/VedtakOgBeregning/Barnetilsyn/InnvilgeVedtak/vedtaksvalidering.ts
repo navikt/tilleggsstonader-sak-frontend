@@ -15,7 +15,7 @@ export const validerInnvilgetVedtakForm = ({
     };
 };
 
-const validerPerioder = ({
+export const validerPerioder = ({
     stønadsperioder,
     utgifter,
 }: {
@@ -89,12 +89,13 @@ const validerUtgifter = (
                     return { ...utgiftFeil, til: 'Mangler tildato for periode' };
                 }
 
-                if (!erDatoEtterEllerLik(utgift.tom, utgift.fom)) {
-                    return {
-                        ...utgiftFeil,
-                        til: 'Sluttdato (til) må være etter startdato (fra) for periode',
-                    };
-                }
+                // TODO: Bytt ut validering av dato med noe som funker for årmåned
+                // if (!erDatoEtterEllerLik(utgift.tom, utgift.fom)) {
+                //     return {
+                //         ...utgiftFeil,
+                //         til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+                //     };
+                // }
 
                 if (!utgift.utgift) {
                     return {

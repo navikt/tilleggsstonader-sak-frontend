@@ -50,3 +50,27 @@ export const utgiftsperiodeAktivitetTilTekst: Record<UtgiftsperiodeAktivitet, st
     TILTAK: 'Tiltak',
     UTDANNING: 'Utdanning',
 };
+
+export type BeregningsresultatTilsynBarn = {
+    perioder: Beregningsresultat[];
+};
+
+type Beregningsresultat = {
+    dagsats: number;
+    grunnlag: Beregningsgrunnlag;
+};
+
+type Beregningsgrunnlag = {
+    måned: string;
+    makssats: number;
+    stønadsperioder: Stønadsperiode[];
+    utgifter: UtgiftBarn[];
+    antallDagerTotal: number;
+    utgifterTotal: number;
+    antallBarn: number;
+};
+
+type UtgiftBarn = {
+    barnId: string;
+    utgift: number;
+};

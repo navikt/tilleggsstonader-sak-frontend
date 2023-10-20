@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -6,14 +6,20 @@ import { Button } from '@navikt/ds-react';
 
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
 import Utgifter from './Utgifter/Utgifter';
-import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
+import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { InnvilgeVedtakForBarnetilsyn, Stønadsperiode, Utgift } from '../../../../../typer/vedtak';
+import { Ressurs, byggTomRessurs } from '../../../../../typer/ressurs';
+import {
+    BeregningsresultatTilsynBarn,
+    InnvilgeVedtakForBarnetilsyn,
+    Stønadsperiode,
+    Utgift,
+} from '../../../../../typer/vedtak';
 import { Barn } from '../../../vilkår';
 import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
@@ -63,6 +69,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [beregningsresultat, settBeregningsresultat] = useState(
+        byggTomRessurs<BeregningsresultatTilsynBarn>()
+    );
+
     // TODO: Finn ut hva denne gjør
     useEffect(() => {
         if (!lagretInnvilgetVedtak) {
@@ -92,6 +103,20 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         return form;
     };
 
+    const beregnBarnetilsyn = () => {
+        if (formState.customValidate(validerPerioder)) {
+            const vedtaksRequest = lagVedtakRequest({
+                stønadsperioder: stønadsperioderState.value,
+                utgifter: utgifterState.value,
+            });
+            request<BeregningsresultatTilsynBarn, InnvilgeVedtakForBarnetilsyn>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
+                'POST',
+                vedtaksRequest
+            ).then((res: Ressurs<BeregningsresultatTilsynBarn>) => settBeregningsresultat(res));
+        }
+    };
+
     return (
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
             <StønadsperiodeValg
@@ -103,6 +128,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                 utgifterState={utgifterState}
                 errorState={formState.errors.utgifter}
             />
+            {behandlingErRedigerbar && (
+                <Button type="button" variant="primary" onClick={beregnBarnetilsyn}>
+                    Beregn
+                </Button>
+            )}
             {behandlingErRedigerbar && (
                 <Button type="submit" variant="primary">
                     Lagre vedtak
