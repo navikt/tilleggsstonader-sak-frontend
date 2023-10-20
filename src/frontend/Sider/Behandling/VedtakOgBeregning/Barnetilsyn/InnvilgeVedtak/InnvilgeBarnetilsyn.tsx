@@ -51,14 +51,10 @@ interface Props {
     lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
     settResultatType: (val: BehandlingResultat | undefined) => void;
     låsFraDatoFørsteRad: boolean;
+    barnIBehandling: Barn[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
-    const barnIBehandling = [
-        { barnId: 'id1', registergrunnlag: { navn: 'Ronja Røverdatter' } },
-        { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
-    ];
-
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehandling }) => {
     const { request } = useApp();
     const { behandlingErRedigerbar, behandling } = useBehandling();
     // TODO: Prøve å slippe denne castingen
