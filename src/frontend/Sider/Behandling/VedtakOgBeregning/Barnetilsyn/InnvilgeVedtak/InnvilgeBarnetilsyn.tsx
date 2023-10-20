@@ -71,6 +71,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
 
+    const [laster, settLaster] = useState<boolean>(false);
     const [beregningsresultat, settBeregningsresultat] = useState(
         byggTomRessurs<BeregningsresultatTilsynBarn>()
     );
@@ -90,12 +91,15 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     }, [lagretInnvilgetVedtak]);
 
     const lagreVedtak = (vedtaksRequest: InnvilgeVedtakForBarnetilsyn) => {
+        settLaster(true);
         request<null, InnvilgeVedtakForBarnetilsyn>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
             'POST',
             vedtaksRequest
+        )
             // eslint-disable-next-line no-console
-        ).then((res) => console.log('response: ', res));
+            .then((res) => console.log('response: ', res))
+            .finally(() => settLaster(false));
     };
 
     const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
@@ -140,7 +144,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                 </Button>
             )}
             {behandlingErRedigerbar && (
-                <Button type="submit" variant="primary">
+                <Button type="submit" variant="primary" disabled={laster}>
                     Lagre vedtak
                 </Button>
             )}
