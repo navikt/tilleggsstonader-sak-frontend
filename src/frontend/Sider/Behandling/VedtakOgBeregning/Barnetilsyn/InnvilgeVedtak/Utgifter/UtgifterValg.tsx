@@ -142,7 +142,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                     oppdaterUtgiftFelt(
                                         indeks,
                                         UtgifterProperty.FOM,
-                                        dato ? tilÅrMåned(new Date(dato)) : dato
+                                        dato ? tilÅrMåned(new Date(dato)) : undefined
                                     )
                                 }
                                 feil={errorState && errorState[indeks]?.fom}
@@ -157,7 +157,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                     oppdaterUtgiftFelt(
                                         indeks,
                                         UtgifterProperty.TOM,
-                                        dato ? tilÅrMåned(new Date(dato)) : dato
+                                        dato ? tilÅrMåned(new Date(dato)) : undefined
                                     )
                                 }
                                 feil={errorState && errorState[indeks]?.tom}
