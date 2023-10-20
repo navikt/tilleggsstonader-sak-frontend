@@ -15,3 +15,14 @@ export const tomUtgiftRad = (): Utgift => ({
     fom: '',
     tom: '',
 });
+
+export const lagVedtakRequest = (
+    form: FormState<InnvilgeVedtakForm>
+): InnvilgeVedtakForBarnetilsyn => {
+    return {
+        stønadsperioder: form.stønadsperioder,
+        utgifter: form.utgifter,
+        _type: VedtakType.InnvilgelseBarnetilsyn,
+        resultatType: BehandlingResultat.INNVILGET,
+    };
+};

@@ -13,14 +13,9 @@ import useFormState, { FormState } from '../../../../../hooks/felles/useFormStat
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import {
-    InnvilgeVedtakForBarnetilsyn,
-    Stønadsperiode,
-    Utgift,
-    VedtakType,
-} from '../../../../../typer/vedtak';
+import { InnvilgeVedtakForBarnetilsyn, Stønadsperiode, Utgift } from '../../../../../typer/vedtak';
 import { Barn } from '../../../vilkår';
-import { tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
+import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
@@ -92,12 +87,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     };
 
     const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
-        const vedtaksRequest: InnvilgeVedtakForBarnetilsyn = {
-            stønadsperioder: form.stønadsperioder,
-            utgifter: form.utgifter,
-            _type: VedtakType.InnvilgelseBarnetilsyn,
-            resultatType: BehandlingResultat.INNVILGET,
-        };
+        const vedtaksRequest = lagVedtakRequest(form);
         lagreVedtak(vedtaksRequest);
         return form;
     };
