@@ -9,6 +9,7 @@ import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
+import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { Barn } from '../../../../vilkår';
 
@@ -138,7 +139,11 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.fom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.FOM, dato)
+                                    oppdaterUtgiftFelt(
+                                        indeks,
+                                        UtgifterProperty.FOM,
+                                        dato ? tilÅrMåned(new Date(dato)) : dato
+                                    )
                                 }
                                 feil={errorState && errorState[indeks]?.fom}
                                 size="small"
@@ -149,7 +154,11 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.tom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.TOM, dato)
+                                    oppdaterUtgiftFelt(
+                                        indeks,
+                                        UtgifterProperty.TOM,
+                                        dato ? tilÅrMåned(new Date(dato)) : dato
+                                    )
                                 }
                                 feil={errorState && errorState[indeks]?.tom}
                                 size="small"
