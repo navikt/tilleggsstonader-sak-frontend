@@ -78,7 +78,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
 
     // TODO: Finn ut hva denne gjør
     useEffect(() => {
-        if (!lagretInnvilgetVedtak) {
+        if (!lagretInnvilgetVedtak && laster) {
             return;
         }
         // utgiftsperiodeState.setValue(initUtgiftsperioder(lagretInnvilgetVedtak));
@@ -110,7 +110,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
 
     const beregnBarnetilsyn = () => {
         if (formState.customValidate(validerPerioder)) {
-            settLaster(true);
             const vedtaksRequest = lagVedtakRequest({
                 stønadsperioder: stønadsperioderState.value,
                 utgifter: utgifterState.value,
@@ -119,9 +118,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 vedtaksRequest
-            )
-                .then(settBeregningsresultat)
-                .finally(() => settLaster(false));
+            ).then(settBeregningsresultat);
         }
     };
 
