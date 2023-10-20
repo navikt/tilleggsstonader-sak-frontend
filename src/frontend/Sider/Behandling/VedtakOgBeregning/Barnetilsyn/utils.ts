@@ -1,4 +1,12 @@
-import { Stønadsperiode, Utgift } from '../../../../typer/vedtak';
+import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
+import { FormState } from '../../../../hooks/felles/useFormState';
+import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
+import {
+    InnvilgeVedtakForBarnetilsyn,
+    Stønadsperiode,
+    Utgift,
+    VedtakType,
+} from '../../../../typer/vedtak';
 import { Barn } from '../../vilkår';
 
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
