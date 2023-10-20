@@ -5,32 +5,32 @@ export enum VedtakType {
 }
 
 export type InnvilgeVedtakForBarnetilsyn = {
-    resultatType: BehandlingResultat.INNVILGET;
+    resultatType: BehandlingResultat.INNVILGET; // TODO: Sjekk om nødvendig å ta med
     stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
-    _type?: VedtakType.InnvilgelseBarnetilsyn;
+    _type?: VedtakType.InnvilgelseBarnetilsyn; // TODO: Sjekk om nødvendig å ta med
 };
 
 export type Stønadsperiode = {
-    fra: string;
-    til: string;
+    fom: string;
+    tom: string;
 };
 
 export enum StønadsperiodeProperty {
-    FRA = 'fra',
-    TIL = 'til',
+    FOM = 'fom',
+    TOM = 'tom',
 }
 
 export type Utgift = {
-    fra: string;
-    til: string;
+    fom: string;
+    tom: string;
     utgift?: number;
 };
 
 export enum UtgifterProperty {
-    fra = 'fra',
-    til = 'til',
-    utgift = 'utgift',
+    FOM = 'fom',
+    TOM = 'tom',
+    UTGIFT = 'utgift',
 }
 
 export enum Utgiftsperiodetype {
@@ -49,4 +49,28 @@ export enum UtgiftsperiodeAktivitet {
 export const utgiftsperiodeAktivitetTilTekst: Record<UtgiftsperiodeAktivitet, string> = {
     TILTAK: 'Tiltak',
     UTDANNING: 'Utdanning',
+};
+
+export type BeregningsresultatTilsynBarn = {
+    perioder: Beregningsresultat[];
+};
+
+type Beregningsresultat = {
+    dagsats: number;
+    grunnlag: Beregningsgrunnlag;
+};
+
+type Beregningsgrunnlag = {
+    måned: string;
+    makssats: number;
+    stønadsperioder: Stønadsperiode[];
+    utgifter: UtgiftBarn[];
+    antallDagerTotal: number;
+    utgifterTotal: number;
+    antallBarn: number;
+};
+
+type UtgiftBarn = {
+    barnId: string;
+    utgift: number;
 };
