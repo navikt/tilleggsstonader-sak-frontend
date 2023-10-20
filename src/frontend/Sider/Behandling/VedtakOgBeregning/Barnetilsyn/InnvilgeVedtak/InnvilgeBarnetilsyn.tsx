@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Button } from '@navikt/ds-react';
 
+import Beregningsresultat from './Beregningsresultat';
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
 import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
@@ -12,6 +13,7 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { Ressurs, byggTomRessurs } from '../../../../../typer/ressurs';
 import {
@@ -128,6 +130,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                 utgifterState={utgifterState}
                 errorState={formState.errors.utgifter}
             />
+            <DataViewer response={{ beregningsresultat }}>
+                {({ beregningsresultat }) => (
+                    <Beregningsresultat beregningsresultat={beregningsresultat} />
+                )}
+            </DataViewer>
             {behandlingErRedigerbar && (
                 <Button type="button" variant="primary" onClick={beregnBarnetilsyn}>
                     Beregn
