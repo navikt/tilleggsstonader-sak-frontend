@@ -125,7 +125,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                 onChange={(e) =>
                                     oppdaterUtgiftFelt(
                                         indeks,
-                                        UtgifterProperty.utgift,
+                                        UtgifterProperty.UTGIFT,
                                         tilTallverdi(e.target.value)
                                     )
                                 }
@@ -136,22 +136,22 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                 label="Fra"
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
-                                value={utgiftsperiode.fra}
+                                value={utgiftsperiode.fom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.fra, dato)
+                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.FOM, dato)
                                 }
-                                feil={errorState && errorState[indeks]?.fra}
+                                feil={errorState && errorState[indeks]?.fom}
                                 size="small"
                             />
                             <DateInput
                                 label="Til"
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
-                                value={utgiftsperiode.til}
+                                value={utgiftsperiode.tom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.til, dato)
+                                    oppdaterUtgiftFelt(indeks, UtgifterProperty.TOM, dato)
                                 }
-                                feil={errorState && errorState[indeks]?.til}
+                                feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
                         </React.Fragment>

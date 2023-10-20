@@ -12,25 +12,25 @@ export type InnvilgeVedtakForBarnetilsyn = {
 };
 
 export type Stønadsperiode = {
-    fra: string;
-    til: string;
+    fom: string;
+    tom: string;
 };
 
 export enum StønadsperiodeProperty {
-    FRA = 'fra',
-    TIL = 'til',
+    FOM = 'fom',
+    TOM = 'tom',
 }
 
 export type Utgift = {
-    fra: string;
-    til: string;
+    fom: string;
+    tom: string;
     utgift?: number;
 };
 
 export enum UtgifterProperty {
-    fra = 'fra',
-    til = 'til',
-    utgift = 'utgift',
+    FOM = 'fom',
+    TOM = 'tom',
+    UTGIFT = 'utgift',
 }
 
 export enum Utgiftsperiodetype {
