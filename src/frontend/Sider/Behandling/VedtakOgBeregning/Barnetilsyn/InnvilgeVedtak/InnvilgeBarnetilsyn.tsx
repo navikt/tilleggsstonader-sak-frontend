@@ -15,7 +15,7 @@ import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { Ressurs, byggTomRessurs } from '../../../../../typer/ressurs';
+import { byggTomRessurs } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
@@ -114,7 +114,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 vedtaksRequest
-            ).then((res: Ressurs<BeregningsresultatTilsynBarn>) => settBeregningsresultat(res));
+            ).then(settBeregningsresultat);
         }
     };
 
