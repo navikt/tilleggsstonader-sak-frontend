@@ -24,8 +24,8 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
             <Label>Månedlige utgifter</Label>
             <Label>Dagsats</Label>
             <Label>Stønadsbeløp</Label>
-            {beregningsresultat.perioder.map((periode) => (
-                <>
+            {beregningsresultat.perioder.map((periode, indeks) => (
+                <React.Fragment key={indeks}>
                     <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
                     <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
                     <BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>
@@ -33,7 +33,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     <BodyShort size="small">
                         {periode.grunnlag.antallDagerTotal * periode.dagsats}
                     </BodyShort>
-                </>
+                </React.Fragment>
             ))}
         </Grid>
     );
