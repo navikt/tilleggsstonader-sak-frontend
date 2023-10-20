@@ -71,7 +71,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [beregningsresultat, settBeregningsresultat] = useState(
         byggTomRessurs<BeregningsresultatTilsynBarn>()
     );
