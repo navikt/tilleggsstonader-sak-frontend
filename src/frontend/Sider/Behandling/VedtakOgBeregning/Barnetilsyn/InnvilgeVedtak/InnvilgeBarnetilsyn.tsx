@@ -6,7 +6,6 @@ import { Button } from '@navikt/ds-react';
 
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
 import Utgifter from './Utgifter/Utgifter';
-import UtgiftsperiodeValg from './Utgiftsperiode/UtgiftsperiodeValg';
 import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
@@ -16,18 +15,15 @@ import { BehandlingResultat } from '../../../../../typer/behandling/behandlingRe
 import {
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
-    Utgiftsperiode,
     Utgift,
     VedtakType,
 } from '../../../../../typer/vedtak';
 import { Barn } from '../../../vilkår';
-import { tomStønadsperiodeRad, tomUtgiftPerBarn, tomUtgiftsperiodeRad } from '../utils';
+import { tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
-    utgiftsperioder: Utgiftsperiode[];
-    begrunnelse?: string;
 };
 
 const Form = styled.form`
@@ -42,17 +38,12 @@ const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) 
 const initUtgifter = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined, barnIBehandling: Barn[]) =>
     vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling);
 
-const initUtgiftsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
-    vedtak ? vedtak.perioder : [tomUtgiftsperiodeRad()];
-
 const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
     barnIBehandling: Barn[]
 ) => ({
     stønadsperioder: initStønadsperioder(vedtak),
     utgifter: initUtgifter(vedtak, barnIBehandling),
-    utgiftsperioder: initUtgiftsperioder(vedtak),
-    begrunnelse: vedtak?.begrunnelse || '',
 });
 
 interface Props {
@@ -78,13 +69,13 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
-    const utgiftsperiodeState = formState.getProps('utgiftsperioder') as ListState<Utgiftsperiode>;
 
+    // TODO: Finn ut hva denne gjør
     useEffect(() => {
         if (!lagretInnvilgetVedtak) {
             return;
         }
-        utgiftsperiodeState.setValue(initUtgiftsperioder(lagretInnvilgetVedtak));
+        // utgiftsperiodeState.setValue(initUtgiftsperioder(lagretInnvilgetVedtak));
         formState.setErrors((prevState) => ({
             ...prevState,
             utgiftsperioder: [],
@@ -102,8 +93,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
         const vedtaksRequest: InnvilgeVedtakForBarnetilsyn = {
             stønadsperioder: form.stønadsperioder,
             utgifter: form.utgifter,
-            perioder: form.utgiftsperioder,
-            // begrunnelse: form.begrunnelse,
             _type: VedtakType.InnvilgelseBarnetilsyn,
             resultatType: BehandlingResultat.INNVILGET,
         };
@@ -121,10 +110,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
                 barnIBehandling={barnIBehandling}
                 utgifterState={utgifterState}
                 errorState={formState.errors.utgifter}
-            />
-            <UtgiftsperiodeValg
-                utgiftsperioderState={utgiftsperiodeState}
-                errorState={formState.errors}
             />
             {behandlingErRedigerbar && (
                 <Button type="submit" variant="primary">
