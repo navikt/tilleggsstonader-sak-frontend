@@ -54,6 +54,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                 <Label>Fra</Label>
                 <Label>Til</Label>
                 {stønadsperioderState.value.map((stønadsperiode, indeks) => (
+                    // TODO: Skal ikke bruke indeks som key
                     <React.Fragment key={indeks}>
                         <DateInput
                             label="Fra"

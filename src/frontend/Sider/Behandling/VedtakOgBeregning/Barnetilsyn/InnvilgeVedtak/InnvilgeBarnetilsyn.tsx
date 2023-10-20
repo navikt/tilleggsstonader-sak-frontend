@@ -7,6 +7,7 @@ import { Button } from '@navikt/ds-react';
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
 import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm } from './vedtaksvalidering';
+import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
@@ -58,7 +59,8 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
         { barnId: 'id2', registergrunnlag: { navn: 'Espen Askeladden' } },
     ];
 
-    const { behandlingErRedigerbar } = useBehandling();
+    const { request } = useApp();
+    const { behandlingErRedigerbar, behandling } = useBehandling();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
@@ -85,8 +87,12 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     }, [lagretInnvilgetVedtak]);
 
     const lagreVedtak = (vedtaksRequest: InnvilgeVedtakForBarnetilsyn) => {
-        // eslint-disable-next-line no-console
-        console.log('Lagre', vedtaksRequest);
+        request<null, InnvilgeVedtakForBarnetilsyn>(
+            `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
+            'POST',
+            vedtaksRequest
+            // eslint-disable-next-line no-console
+        ).then((res) => console.log('response: ', res));
     };
 
     const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
