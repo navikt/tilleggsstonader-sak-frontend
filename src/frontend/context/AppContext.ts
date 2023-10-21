@@ -32,8 +32,7 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         request,
         autentisert,
         saksbehandler,
-        erSaksbehandler: true, // TODO
-        erSakis: erSaksbehandler, // TODO slett
+        erSaksbehandler,
         appEnv,
     };
 });

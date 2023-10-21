@@ -46,6 +46,11 @@ app.get(/^(?!.*\/(internal|static|api|oauth2)\/).*$/, validateToken(true), (_req
     res.sendFile('index.html', { root: buildPath });
 });
 
+app.use('/api/env', addRequestInfo(), validateToken(), (req, res) => {
+    res.status(200).send({
+        roller: miljø.roller,
+    });
+});
 app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
 app.use(

@@ -9,7 +9,7 @@ import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
-import { AppEnv } from './utils/env';
+import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 
 const AppRoutes = () => {
@@ -36,23 +36,13 @@ const AppRoutes = () => {
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
-    useEffect(() => {
-        hentInnloggetSaksbehandler(settInnloggetSaksbehandler);
-    }, []);
-    if (!innloggetSaksbehandler) {
+    const [appEnv, settAppEnv] = useState<AppEnv>();
+    useEffect(() => hentInnloggetSaksbehandler(settInnloggetSaksbehandler), []);
+    useEffect(() => hentEnv(settAppEnv), []);
+
+    if (!innloggetSaksbehandler || !appEnv) {
         return null;
     }
-
-    const appEnv: AppEnv = {
-        roller: {
-            veileder: '',
-            saksbehandler: '',
-            beslutter: '',
-            kode6: '',
-            kode7: '',
-            egenAnsatt: '',
-        },
-    };
     return (
         <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
             <Sticky>
