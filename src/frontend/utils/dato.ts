@@ -1,5 +1,12 @@
 import { format, parseISO, isAfter, formatISO } from 'date-fns';
 
+export const formaterNullableIsoDato = (dato?: string): string | undefined =>
+    dato && formaterIsoDato(dato);
+
+export const formaterIsoDato = (dato: string): string => {
+    return format(parseISO(dato), 'dd.MM.yyyy');
+};
+
 export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm");
 };
