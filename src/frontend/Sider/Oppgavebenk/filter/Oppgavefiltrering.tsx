@@ -137,6 +137,7 @@ export const Oppgavefiltrering = () => {
                     label="Type"
                     onChange={oppdaterOppgaveTargetValue('oppgavetype')}
                 >
+                    <option value="">Alle</option>
                     {Object.entries(oppgaveTypeTilTekst).map(([type, val]) => (
                         <option key={type} value={type}>
                             {val}
@@ -148,6 +149,7 @@ export const Oppgavefiltrering = () => {
                     label="Gjelder"
                     onChange={oppdaterOppgaveTargetValue('behandlingstema')}
                 >
+                    <option value="">Alle</option>
                     {Object.entries(behandlingstemaStønadstypeTilTekst).map(([type, val]) => (
                         <option key={type} value={type}>
                             {val}
