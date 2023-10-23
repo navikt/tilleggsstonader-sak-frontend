@@ -15,12 +15,11 @@ import {
 } from './oppgavefilterStorage';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
-import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { useOppgave } from '../../../context/OppgaveContext';
 import SystemetLaster from '../../../komponenter/SystemetLaster/SystemetLaster';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import { enhetTilTekst, FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
-import { Mappe } from '../typer/mappe';
 import { behandlingstemaStønadstypeTilTekst, OppgaveRequest } from '../typer/oppgave';
 import { oppgaveTypeTilTekst } from '../typer/oppgavetema';
 
@@ -41,12 +40,6 @@ const FiltreringKnapp = styled(Button)`
     margin-right: 1.5rem;
 `;
 
-interface Props {
-    hentOppgaver: (data: OppgaveRequest) => void;
-    mapper: Mappe[];
-    feilmelding: string;
-}
-
 interface Feil {
     opprettetPeriodeFeil?: string;
     fristPeriodeFeil?: string | null;
@@ -64,8 +57,9 @@ const hentLagretFiltrering = (
     return oppgaveRequestMedDefaultEnhet(fraLocalStorage, harSaksbehandlerStrengtFortroligRolle);
 };
 
-export const Oppgavefiltrering: React.FC<Props> = ({ hentOppgaver, mapper, feilmelding }) => {
+export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
+    const { hentOppgaver, mapper } = useOppgave();
     const [lasterFraLokalt, settLasterFraLokalt] = useState(true);
     // hack for force av rerender av datoer ved tilbakestilling
     const [stateId, settStateId] = useState(uuidv4());
@@ -221,7 +215,6 @@ export const Oppgavefiltrering: React.FC<Props> = ({ hentOppgaver, mapper, feilm
                     Tilbakestill filtrering
                 </FiltreringKnapp>
             </KnappWrapper>
-            <Feilmelding>{feilmelding}</Feilmelding>
         </>
     );
 };

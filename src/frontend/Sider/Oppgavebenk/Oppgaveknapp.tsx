@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
@@ -13,8 +14,8 @@ import {
     oppgaveKanJournalføres,
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
-import { useOppgave } from './useOppgave';
 import { useApp } from '../../context/AppContext';
+import { useOppgave } from '../../context/OppgaveContext';
 
 const TabellKnapp = styled(Button)`
     width: fit-content;
@@ -30,8 +31,6 @@ const FlexContainer = styled.div`
 
 interface Props {
     oppgave: Oppgave;
-    hentOppgavePåNytt: () => void;
-    settFeilmelding: (feilmelding: string) => void;
 }
 
 const skalViseFortsettKnapp = (oppgave: Oppgave) =>
@@ -41,21 +40,32 @@ const skalViseFortsettKnapp = (oppgave: Oppgave) =>
     oppgaveErKlage(oppgave) ||
     oppgaveErTilbakekreving(oppgave);
 
-const Oppgaveknapp: React.FC<Props> = ({ oppgave, hentOppgavePåNytt, settFeilmelding }) => {
+const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
-
-    const {
-        gåTilBehandleSakOppgave,
-        gåTilJournalføring,
-        laster,
-        //hentFagsakOgTriggRedirectTilBehandlingsoversikt,
-        tildelOppgave,
-        tilbakestillTildeling,
-        //feilmelding,
-    } = useOppgave(oppgave);
+    const navigate = useNavigate();
+    const { fordelOppgave, laster, settFeilmelding, oppdaterOppgaveEtterTilbakestilling } =
+        useOppgave();
 
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
+
+    const gåTilBehandleSakOppgave = () => {
+        if (laster) return;
+        navigate(`/behandling/${oppgave.saksreferanse}`);
+    };
+
+    const gåTilJournalføring = (type: 'klage' | 'stønad') => {
+        const journalpostId = oppgave.journalpostId || '';
+        const oppgaveId = oppgave.id || '';
+        // eslint-disable-next-line no-console
+        console.log(type, journalpostId, oppgaveId); // TODO slett når journalføring er implementert
+
+        /*navigate(
+            type === 'klage'
+                ? lagJournalføringKlageUrl(journalpostId, oppgaveId)
+                : lagJournalføringUrl(journalpostId, oppgaveId)
+        );*/
+    };
 
     const gåTilOppgaveUtførelse = () => {
         if (oppgaveErSaksbehandling(oppgave)) {
@@ -73,14 +83,14 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave, hentOppgavePåNytt, settFeilme
         }
     };
 
-    const utførHandlingOgHentOppgavePåNytt = (handling: () => Promise<void>) => () => {
+    const utførHandlingOgHentOppgavePåNytt = (handling: () => Promise<Oppgave>) => () => {
         handling()
-            .then(() => hentOppgavePåNytt())
+            .then((oppdatertOppgave) => oppdaterOppgaveEtterTilbakestilling(oppdatertOppgave))
             .catch((error: Error) => settFeilmelding(error.message));
     };
 
     const tildelOgGåTilOppgaveutførelse = () =>
-        tildelOppgave()
+        fordelOppgave(oppgave)
             .then(gåTilOppgaveUtførelse)
             .catch((e) => settFeilmelding(e.message));
 
@@ -104,7 +114,9 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave, hentOppgavePåNytt, settFeilme
                     valg={[
                         {
                             label: 'Fjern meg',
-                            onClick: utførHandlingOgHentOppgavePåNytt(tilbakestillTildeling),
+                            onClick: utførHandlingOgHentOppgavePåNytt(() =>
+                                fordelOppgave(oppgave, true)
+                            ),
                         },
                     ]}
                 />
@@ -118,7 +130,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave, hentOppgavePåNytt, settFeilme
                     valg={[
                         {
                             label: 'Overta',
-                            onClick: utførHandlingOgHentOppgavePåNytt(tildelOppgave),
+                            onClick: utførHandlingOgHentOppgavePåNytt(() => fordelOppgave(oppgave)),
                         },
                     ]}
                 />

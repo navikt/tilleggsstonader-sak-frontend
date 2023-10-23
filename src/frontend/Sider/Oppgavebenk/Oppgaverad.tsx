@@ -67,11 +67,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }>
             <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
             <Table.DataCell>{enhetsmappe}</Table.DataCell>
             <Table.DataCell>
-                <Oppgaveknapp
-                    oppgave={oppgave}
-                    hentOppgavePåNytt={() => {}} // TODO
-                    settFeilmelding={() => {}} // TODO
-                />
+                <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>
         </Table.Row>
     );

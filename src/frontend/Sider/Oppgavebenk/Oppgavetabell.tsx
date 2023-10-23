@@ -7,6 +7,7 @@ import { Pagination, Table } from '@navikt/ds-react';
 import Oppgaverad from './Oppgaverad';
 import { Mappe } from './typer/mappe';
 import { IdentGruppe, Oppgave } from './typer/oppgave';
+import { useOppgave } from '../../context/OppgaveContext';
 import { usePagineringState } from '../../hooks/felles/usePaginerState';
 import { useSorteringState } from '../../hooks/felles/useSorteringState';
 import { PartialRecord } from '../../typer/common';
@@ -18,7 +19,6 @@ const FlexBox = styled.div`
 
 interface Props {
     oppgaver: Oppgave[];
-    mapper: Mappe[];
 }
 
 const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?: boolean }> = {
@@ -47,7 +47,8 @@ const mapMapperAsRecord = (mapper: Mappe[]): Record<number, string> =>
         {} as Record<number, string>
     );
 
-const Oppgavetabell: React.FC<Props> = ({ oppgaver, mapper }) => {
+const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
+    const { mapper } = useOppgave();
     const mapperAsRecord = useMemo(() => mapMapperAsRecord(mapper), [mapper]);
 
     const { sortertListe, settSortering, sortState } = useSorteringState<Oppgave>(oppgaver, {
