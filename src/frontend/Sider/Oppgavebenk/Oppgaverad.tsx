@@ -6,11 +6,7 @@ import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
 import { oppgaveTypeTilTekst, prioritetTilTekst } from './typer/oppgavetema';
-import {
-    formaterIsoDato,
-    formaterNullableIsoDato,
-    formaterNullableIsoDatoTid,
-} from '../../utils/dato';
+import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }> = ({
     oppgave,
@@ -21,14 +17,6 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }>
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
         settAnker(anker ? null : element.currentTarget);
     };
-    const oppgavetype = oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype];
-
-    const fristFerdigstillelseDato =
-        oppgave.fristFerdigstillelse && formaterIsoDato(oppgave.fristFerdigstillelse);
-
-    const prioritet = oppgave.prioritet && prioritetTilTekst[oppgave.prioritet];
-    const enhetsmappe = oppgave.mappeId && mapper[oppgave.mappeId];
-
     const behandlingstema =
         oppgave.behandlingstema && behandlingstemaTilTekst[oppgave.behandlingstema];
 
@@ -58,14 +46,18 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }>
                     </Popover.Content>
                 </Popover>
             </Table.DataCell>
-            <Table.DataCell>{oppgavetype}</Table.DataCell>
+            <Table.DataCell>
+                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
+            </Table.DataCell>
             <Table.DataCell>{typeBehandling}</Table.DataCell>
-            <Table.DataCell>{fristFerdigstillelseDato}</Table.DataCell>
-            <Table.DataCell>{prioritet}</Table.DataCell>
+            <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
+            <Table.DataCell>
+                {oppgave.prioritet && prioritetTilTekst[oppgave.prioritet]}
+            </Table.DataCell>
             <Table.DataCell>{oppgave.beskrivelse}</Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
             <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
-            <Table.DataCell>{enhetsmappe}</Table.DataCell>
+            <Table.DataCell>{oppgave.mappeId && mapper[oppgave.mappeId]}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>
