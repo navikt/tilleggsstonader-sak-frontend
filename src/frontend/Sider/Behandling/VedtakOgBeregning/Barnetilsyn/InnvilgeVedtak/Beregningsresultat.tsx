@@ -2,22 +2,32 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Label } from '@navikt/ds-react';
+import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak';
+
+const Container = styled.div`
+    background-color: ${AWhite};
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
 
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(5, max-content);
-    gap: 1rem;
+    gap: 1rem 2rem;
 `;
 
 interface Props {
     beregningsresultat: BeregningsresultatTilsynBarn;
 }
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
-    return (
+const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
+    <Container>
+        <Heading size="xsmall">Beregning</Heading>
         <Grid>
             <Label>Periode</Label>
             <Label>Barn</Label>
@@ -36,7 +46,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 </React.Fragment>
             ))}
         </Grid>
-    );
-};
+    </Container>
+);
 
 export default Beregningsresultat;

@@ -3,18 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Heading, Label } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
-
-const Container = styled.div`
-    padding: 1rem;
-    background-color: ${AGray50};
-`;
 
 const Grid = styled.div`
     display: grid;
@@ -46,13 +40,13 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
     };
 
     return (
-        <Container>
+        <div>
             <Heading spacing size="small" level="5">
                 Perioder for stønad
             </Heading>
             <Grid>
-                <Label>Fra</Label>
-                <Label>Til</Label>
+                <Label size="small">Fra</Label>
+                <Label size="small">Til</Label>
                 {stønadsperioderState.value.map((stønadsperiode, indeks) => (
                     // TODO: Skal ikke bruke indeks som key
                     <React.Fragment key={indeks}>
@@ -81,7 +75,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                     </React.Fragment>
                 ))}
             </Grid>
-        </Container>
+        </div>
     );
 };
 

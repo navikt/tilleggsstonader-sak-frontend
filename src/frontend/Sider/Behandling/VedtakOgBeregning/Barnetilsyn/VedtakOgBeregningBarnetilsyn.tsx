@@ -1,11 +1,24 @@
 import React, { FC, useState } from 'react';
 
+import styled from 'styled-components';
+
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
+import { Vilkårsresultat } from '../../vilkår';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
+const Container = styled.div`
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+`;
+
 const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
+    const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>(
+        BehandlingResultat.INNVILGET
+    );
 
     const utledVedtakForm = () => {
         switch (resultatType) {
@@ -21,13 +34,16 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     };
 
     return (
-        <>
-            <SelectVedtaksresultat
-                resultatType={resultatType}
-                settResultatType={settResultatType}
-            />
+        <Container>
+            {/* TODO: Send inn korrekt resultat */}
+            <EkspanderbartPanel tittel="Vedtak" resultat={Vilkårsresultat.OPPFYLT}>
+                <SelectVedtaksresultat
+                    resultatType={resultatType}
+                    settResultatType={settResultatType}
+                />
+            </EkspanderbartPanel>
             {utledVedtakForm()}
-        </>
+        </Container>
     );
 };
 
