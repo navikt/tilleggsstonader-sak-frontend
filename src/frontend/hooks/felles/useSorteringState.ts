@@ -1,99 +1,82 @@
 import { useMemo, useState } from 'react';
 
-import { compareAsc, compareDesc, isValid } from 'date-fns';
+import { compareAsc, compareDesc } from 'date-fns';
 
 import { SortState } from '@navikt/ds-react/src/table/types';
 
-export type OrNothing<T> = T | undefined | null;
+import { erGyldigDato } from '../../utils/dato';
 
-export type Rekkefolge = 'descending' | 'ascending';
-
-export interface SorteringConfig<T> {
-    rekkefolge: Rekkefolge;
-    sorteringsfelt: keyof T & string;
+/**
+ * Extender SortState som finnes i ds-react, for å kunne sette at orderBy er en keyof T
+ */
+export interface SorteringConfig<T> extends SortState {
+    orderBy: keyof T & string;
 }
 
 interface ISortering<T> {
     sortertListe: T[];
     settSortering: (sorteringfelt: keyof T & string) => void;
-    sortState: SortState | undefined;
+    sortState: SorteringConfig<T> | undefined;
 }
 
-const erEttDatoFelt = <T>(maybeDateA: T[keyof T], maybeDateB: T[keyof T]): boolean => {
-    if (
-        (typeof maybeDateA === 'string' || typeof maybeDateA === 'number') &&
-        (typeof maybeDateB === 'string' || typeof maybeDateB === 'number')
-    ) {
-        return isValid(new Date(maybeDateA)) && isValid(new Date(maybeDateB));
+const erDatoFelt = <T>(maybeDateA: T[keyof T], maybeDateB: T[keyof T]): boolean => {
+    if (typeof maybeDateA === 'string' && typeof maybeDateB === 'string') {
+        return erGyldigDato(maybeDateA) && erGyldigDato(maybeDateB);
     }
     return false;
 };
 
-export function useSorteringState<T>(
-    liste: T[],
-    config: OrNothing<SorteringConfig<T>> = null
-): ISortering<T> {
-    const [sortConfig, setSortConfig] = useState<OrNothing<SorteringConfig<T>>>(config);
+export function useSorteringState<T>(liste: T[], config?: SorteringConfig<T>): ISortering<T> {
+    const [sortState, setSortState] = useState<SorteringConfig<T> | undefined>(config);
 
     const sortertListe = useMemo(() => {
         const listeKopi = [...liste];
-        if (sortConfig) {
+        if (sortState) {
             listeKopi.sort((a, b) => {
-                if (a[sortConfig?.sorteringsfelt] === undefined) {
-                    return sortConfig?.rekkefolge === 'ascending' ? -1 : 1;
+                if (!a[sortState?.orderBy]) {
+                    return sortState?.direction === 'ascending' ? -1 : 1;
                 }
-                if (b[sortConfig?.sorteringsfelt] === undefined) {
-                    return sortConfig?.rekkefolge === 'ascending' ? 1 : -1;
+                if (!b[sortState?.orderBy]) {
+                    return sortState?.direction === 'ascending' ? 1 : -1;
                 }
-                if (erEttDatoFelt(a[sortConfig?.sorteringsfelt], b[sortConfig?.sorteringsfelt])) {
-                    const dateStringA = a[sortConfig?.sorteringsfelt] as unknown as string;
-                    const dateStringB = b[sortConfig?.sorteringsfelt] as unknown as string;
-                    return sortConfig?.rekkefolge === 'ascending'
+                if (erDatoFelt(a[sortState?.orderBy], b[sortState?.orderBy])) {
+                    const dateStringA = a[sortState?.orderBy] as unknown as string;
+                    const dateStringB = b[sortState?.orderBy] as unknown as string;
+                    return sortState?.direction === 'ascending'
                         ? compareAsc(new Date(dateStringA), new Date(dateStringB))
                         : compareDesc(new Date(dateStringA), new Date(dateStringB));
                 }
-                if (a[sortConfig?.sorteringsfelt] < b[sortConfig?.sorteringsfelt]) {
-                    return sortConfig?.rekkefolge === 'ascending' ? -1 : 1;
+                if (a[sortState?.orderBy] < b[sortState?.orderBy]) {
+                    return sortState?.direction === 'ascending' ? -1 : 1;
                 }
-                if (a[sortConfig?.sorteringsfelt] > b[sortConfig?.sorteringsfelt]) {
-                    return sortConfig?.rekkefolge === 'ascending' ? 1 : -1;
+                if (a[sortState?.orderBy] > b[sortState?.orderBy]) {
+                    return sortState?.direction === 'ascending' ? 1 : -1;
                 }
                 return 0;
             });
         }
         return listeKopi;
-    }, [liste, sortConfig]);
+    }, [liste, sortState]);
 
     const settSortering = (sorteringsfelt: keyof T & string) => {
         if (
-            sortConfig &&
-            sorteringsfelt === sortConfig.sorteringsfelt &&
-            sortConfig.rekkefolge === 'descending'
+            sortState &&
+            sorteringsfelt === sortState.orderBy &&
+            sortState.direction === 'descending'
         ) {
-            setSortConfig(undefined);
+            setSortState(undefined);
         } else {
-            setSortConfig({
-                sorteringsfelt,
-                rekkefolge:
-                    sortConfig &&
-                    sorteringsfelt === sortConfig.sorteringsfelt &&
-                    sortConfig.rekkefolge === 'ascending'
+            setSortState({
+                orderBy: sorteringsfelt,
+                direction:
+                    sortState &&
+                    sorteringsfelt === sortState.orderBy &&
+                    sortState.direction === 'ascending'
                         ? 'descending'
                         : 'ascending',
             });
         }
     };
-
-    const sortState: SortState | undefined = useMemo(() => {
-        if (sortConfig) {
-            return {
-                orderBy: sortConfig.sorteringsfelt,
-                direction: sortConfig.rekkefolge,
-            };
-        } else {
-            return undefined;
-        }
-    }, [sortConfig]);
 
     return {
         sortertListe,

@@ -50,8 +50,8 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver, mapper }) => {
     const mapperAsRecord = useMemo(() => mapMapperAsRecord(mapper), [mapper]);
 
     const { sortertListe, settSortering, sortState } = useSorteringState<Oppgave>(oppgaver, {
-        sorteringsfelt: 'fristFerdigstillelse',
-        rekkefolge: 'ascending',
+        orderBy: 'fristFerdigstillelse',
+        direction: 'ascending',
     });
 
     const { valgtSide, settValgtSide, slicedListe, antallSider } = usePagineringState(
