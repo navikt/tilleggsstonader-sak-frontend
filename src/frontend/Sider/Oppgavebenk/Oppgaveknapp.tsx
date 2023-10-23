@@ -8,9 +8,7 @@ import { Button, Dropdown } from '@navikt/ds-react';
 
 import {
     oppgaveErJournalførKlage,
-    oppgaveErKlage,
     oppgaveErSaksbehandling,
-    oppgaveErTilbakekreving,
     oppgaveKanJournalføres,
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
@@ -33,12 +31,11 @@ interface Props {
     oppgave: Oppgave;
 }
 
-const skalViseFortsettKnapp = (oppgave: Oppgave) =>
-    oppgaveErSaksbehandling(oppgave) ||
-    oppgaveErJournalførKlage(oppgave) ||
-    oppgaveKanJournalføres(oppgave) ||
-    oppgaveErKlage(oppgave) ||
-    oppgaveErTilbakekreving(oppgave);
+const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppgave); // ||
+//oppgaveErJournalførKlage(oppgave) ||
+//oppgaveKanJournalføres(oppgave) ||
+//oppgaveErKlage(oppgave) ||
+//oppgaveErTilbakekreving(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
