@@ -15,7 +15,7 @@ export const validerInnvilgetVedtakForm = ({
     };
 };
 
-const validerPerioder = ({
+export const validerPerioder = ({
     stønadsperioder,
     utgifter,
 }: {
@@ -38,22 +38,22 @@ const validerStønadsperioder = (
 }> => {
     const feilIStønadsperioder = stønadsperioder.map((periode) => {
         const stønadsperiodeFeil: FormErrors<Stønadsperiode> = {
-            fra: undefined,
-            til: undefined,
+            fom: undefined,
+            tom: undefined,
         };
 
-        if (!periode.fra) {
-            return { ...stønadsperiodeFeil, fra: 'Mangler fradato for periode' };
+        if (!periode.fom) {
+            return { ...stønadsperiodeFeil, fom: 'Mangler fradato for periode' };
         }
 
-        if (!periode.til) {
-            return { ...stønadsperiodeFeil, til: 'Mangler tildato for periode' };
+        if (!periode.tom) {
+            return { ...stønadsperiodeFeil, tom: 'Mangler tildato for periode' };
         }
 
-        if (!erDatoEtterEllerLik(periode.til, periode.fra)) {
+        if (!erDatoEtterEllerLik(periode.tom, periode.fom)) {
             return {
                 ...stønadsperiodeFeil,
-                til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+                tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
             };
         }
 
@@ -74,27 +74,28 @@ const validerUtgifter = (
         return {
             ...acc,
             [barnId]: utgifter.map((utgift) => {
-                const utgiftFeil = {
-                    fra: undefined,
-                    til: undefined,
+                const utgiftFeil: FormErrors<Utgift> = {
+                    fom: undefined,
+                    tom: undefined,
                     utgift: undefined,
                 };
 
                 // TODO: Tilpass validering
-                if (!utgift.fra) {
+                if (!utgift.fom) {
                     return { ...utgiftFeil, fra: 'Mangler fradato for periode' };
                 }
 
-                if (!utgift.til) {
+                if (!utgift.tom) {
                     return { ...utgiftFeil, til: 'Mangler tildato for periode' };
                 }
 
-                if (!erDatoEtterEllerLik(utgift.til, utgift.fra)) {
-                    return {
-                        ...utgiftFeil,
-                        til: 'Sluttdato (til) må være etter startdato (fra) for periode',
-                    };
-                }
+                // TODO: Bytt ut validering av dato med noe som funker for årmåned
+                // if (!erDatoEtterEllerLik(utgift.tom, utgift.fom)) {
+                //     return {
+                //         ...utgiftFeil,
+                //         til: 'Sluttdato (til) må være etter startdato (fra) for periode',
+                //     };
+                // }
 
                 if (!utgift.utgift) {
                     return {

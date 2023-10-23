@@ -1,9 +1,17 @@
-import { Stønadsperiode, Utgift } from '../../../../typer/vedtak';
+import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
+import { FormState } from '../../../../hooks/felles/useFormState';
+import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
+import {
+    InnvilgeVedtakForBarnetilsyn,
+    Stønadsperiode,
+    Utgift,
+    VedtakType,
+} from '../../../../typer/vedtak';
 import { Barn } from '../../vilkår';
 
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
-    fra: '',
-    til: '',
+    fom: '',
+    tom: '',
 });
 
 export const tomUtgiftPerBarn = (barnIBehandling: Barn[]): Record<string, Utgift[]> =>
@@ -11,7 +19,18 @@ export const tomUtgiftPerBarn = (barnIBehandling: Barn[]): Record<string, Utgift
         return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
     }, {});
 
-export const tomUtgiftRad = () => ({
-    fra: '',
-    til: '',
+export const tomUtgiftRad = (): Utgift => ({
+    fom: '',
+    tom: '',
 });
+
+export const lagVedtakRequest = (
+    form: FormState<InnvilgeVedtakForm>
+): InnvilgeVedtakForBarnetilsyn => {
+    return {
+        stønadsperioder: form.stønadsperioder,
+        utgifter: form.utgifter,
+        _type: VedtakType.InnvilgelseBarnetilsyn,
+        resultatType: BehandlingResultat.INNVILGET,
+    };
+};

@@ -60,23 +60,23 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                             label="Fra"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
-                            value={stønadsperiode.fra}
+                            value={stønadsperiode.fom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.FRA, dato)
+                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.FOM, dato)
                             }
                             size="small"
-                            feil={errorState && errorState[indeks]?.fra}
+                            feil={errorState && errorState[indeks]?.fom}
                         />
                         <DateInput
                             label="Til"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
-                            value={stønadsperiode.til}
+                            value={stønadsperiode.tom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.TIL, dato)
+                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.TOM, dato)
                             }
                             size="small"
-                            feil={errorState && errorState[indeks]?.til}
+                            feil={errorState && errorState[indeks]?.tom}
                         />
                     </React.Fragment>
                 ))}
