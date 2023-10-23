@@ -28,6 +28,7 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?
     fristFerdigstillelse: { tittel: 'Frist', erSorterbar: true },
     prioritet: { tittel: 'Prioritet', erSorterbar: true },
     beskrivelse: { tittel: 'Beskrivelse' },
+    tildeltEnhetsnr: { tittel: 'Enhet' },
     identer: { tittel: 'Ident' },
     mappeId: { tittel: 'Enhetsmappe', erSorterbar: true },
     tilordnetRessurs: { tittel: 'Saksbehandler' },

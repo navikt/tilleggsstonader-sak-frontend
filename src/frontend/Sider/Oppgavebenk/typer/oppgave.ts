@@ -45,7 +45,7 @@ export interface Oppgave {
     behandlingstema?: Behandlingstema;
     oppgavetype?: Oppgavetype;
     behandlingstype?: OppgaveBehandlingstype;
-    versjon?: number;
+    versjon: number;
     mappeId?: number;
     fristFerdigstillelse?: string;
     aktivDato?: string;
@@ -63,7 +63,7 @@ export interface IOppgaveIdent {
     gruppe: IdentGruppe;
 }
 
-export declare enum IdentGruppe {
+export enum IdentGruppe {
     AKTOERID = 'AKTOERID',
     FOLKEREGISTERIDENT = 'FOLKEREGISTERIDENT',
     NPID = 'NPID',
@@ -88,6 +88,9 @@ export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
 export type OppgavetypeTilbakekreving = 'ae0161';
 export type OppgavetypeKlage = 'ae0058';
 export type OppgaveBehandlingstype = OppgavetypeTilbakekreving | OppgavetypeKlage;
+
+export const oppgavetypeTilbakekreving: OppgavetypeTilbakekreving = 'ae0161';
+export const oppgavetypeKlage: OppgavetypeKlage = 'ae0058';
 
 export const oppgaveBehandlingstypeTilTekst: Record<OppgaveBehandlingstype, string> = {
     ae0161: 'Tilbakekreving',
