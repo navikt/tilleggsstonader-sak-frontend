@@ -73,6 +73,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                 size="small"
                 sort={sortState}
                 onSortChange={(sortKey) => settSortering(sortKey as keyof Oppgave)}
+                zebraStripes
             >
                 <Table.Header>
                     <Table.Row>
