@@ -41,6 +41,10 @@ export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
+export const tilÅrMåned = (date: Date): string => {
+    return formatISO(date).substring(0, 7);
+};
+
 const erGyldigFormat = (verdi: string): boolean => {
     const YYYYMMDD = /^\d{4}-\d{2}-\d{2}$/;
 
