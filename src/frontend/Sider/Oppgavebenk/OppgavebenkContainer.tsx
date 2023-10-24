@@ -25,7 +25,6 @@ const Oppgavebenk = () => {
     const { feilmelding, oppgaveRessurs } = useOppgave();
     return (
         <div>
-            OppgaveBenk
             <Oppgavefiltrering />
             <DataViewer response={{ oppgaver: oppgaveRessurs }}>
                 {({ oppgaver }) => <Oppgavetabell oppgaver={oppgaver.oppgaver} />}
