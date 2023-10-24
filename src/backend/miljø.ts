@@ -9,6 +9,12 @@ if (process.env.NODE_ENV === 'development') {
 export enum ApplicationName {
     sak = 'sak',
 }
+
+type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
+
+type Roller = {
+    [key in Rolle]: string;
+};
 interface AzureSettings {
     client_id: string;
     client_secret: string;
@@ -28,6 +34,7 @@ interface Miljø {
     builldPath: string;
     clients: ClientConfig;
     azure: AzureSettings;
+    roller: Roller;
 }
 
 const lokalAzure = (): AzureSettings => ({
@@ -48,6 +55,24 @@ const devProdAzure = (): AzureSettings => ({
     openid_config_jwks_uri: envVar('AZURE_OPENID_CONFIG_JWKS_URI'),
 });
 
+const devRoller: Roller = {
+    veileder: '3611981f-eda7-46ab-b8f2-50c3159e101c',
+    saksbehandler: '31a99292-9461-40bf-b2d0-a815697dfbb4',
+    beslutter: 'dab3f549-f5f0-4a9c-9f5b-1f6a15ae8424',
+    kode6: '5ef775f2-61f8-4283-bf3d-8d03f428aa14',
+    kode7: 'ea930b6b-9397-44d9-b9e6-f4cf527a632a',
+    egenAnsatt: 'dbe4ad45-320b-4e9a-aaa1-73cca4ee124d',
+};
+
+const prodRoller: Roller = {
+    veileder: '0f841c83-0d64-407c-80d5-4eb51dfaee1e',
+    saksbehandler: 'c1e9edec-0c10-4df2-8c74-324ab9922220',
+    beslutter: '224b5097-d0af-462c-8d8e-49c0e8a42661',
+    kode6: 'ad7b87a6-9180-467c-affc-20a566b0fec0',
+    kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b',
+    egenAnsatt: 'e750ceb5-b70b-4d94-b4fa-9d22467b786b',
+};
+
 const clientsLocal = (): ClientConfig => ({
     [ApplicationName.sak]: {
         url: 'http://localhost:8101/api',
@@ -65,6 +90,7 @@ const lokaltMiljø = (clients: ClientConfig): Miljø => ({
     builldPath: '../../dist_development',
     clients: clients,
     azure: lokalAzure(),
+    roller: devRoller,
 });
 
 const devMiljø = (): Miljø => ({
@@ -76,6 +102,7 @@ const devMiljø = (): Miljø => ({
         },
     },
     azure: devProdAzure(),
+    roller: devRoller,
 });
 
 const prodMiljø = (): Miljø => ({
@@ -87,6 +114,7 @@ const prodMiljø = (): Miljø => ({
         },
     },
     azure: devProdAzure(),
+    roller: prodRoller,
 });
 
 const initierMiljøvariabler = (): Miljø => {

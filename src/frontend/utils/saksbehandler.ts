@@ -1,6 +1,7 @@
 export interface Saksbehandler {
     groups: string[];
     name: string;
+    navIdent: string;
 }
 
 export const hentInnloggetSaksbehandler = (

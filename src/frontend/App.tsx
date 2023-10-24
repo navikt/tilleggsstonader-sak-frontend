@@ -9,6 +9,7 @@ import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
+import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 
 const AppRoutes = () => {
@@ -35,14 +36,15 @@ const AppRoutes = () => {
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
-    useEffect(() => {
-        hentInnloggetSaksbehandler(settInnloggetSaksbehandler);
-    }, []);
-    if (!innloggetSaksbehandler) {
+    const [appEnv, settAppEnv] = useState<AppEnv>();
+    useEffect(() => hentInnloggetSaksbehandler(settInnloggetSaksbehandler), []);
+    useEffect(() => hentEnv(settAppEnv), []);
+
+    if (!innloggetSaksbehandler || !appEnv) {
         return null;
     }
     return (
-        <AppProvider saksbehandler={innloggetSaksbehandler}>
+        <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
             <Sticky>
                 <InternalHeader>
                     <InternalHeader.Title as="h1">Tilleggsstønader</InternalHeader.Title>
