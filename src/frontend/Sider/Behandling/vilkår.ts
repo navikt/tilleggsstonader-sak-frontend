@@ -9,15 +9,6 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export const resultatTilTekst: Record<Vilkårsresultat, string> = {
-    OPPFYLT: 'oppfylt',
-    AUTOMATISK_OPPFYLT: 'oppfylt (automatisk)',
-    IKKE_TATT_STILLING_TIL: 'ikke vurdert',
-    IKKE_OPPFYLT: 'ikke oppfylt',
-    IKKE_AKTUELL: 'ikke aktuell',
-    SKAL_IKKE_VURDERES: 'ikke vurdert',
-};
-
 export interface Barn {
     barnId: string;
     // søknadsgrunnlag: BarnSøknadsgrunnlag;
