@@ -158,7 +158,7 @@ const EndreVurderingComponent: FC<{
                     });
                 })}
             </Container>
-            {skalViseLagreKnapp && <LagreKnapp type={'submit'}>Lagre</LagreKnapp>}
+            {skalViseLagreKnapp && <LagreKnapp>Lagre</LagreKnapp>}
         </form>
     );
 };
