@@ -115,7 +115,6 @@ const EndreVurderingComponent: FC<{
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        event.stopPropagation();
         oppdaterVilkår({
             id: vilkår.id,
             behandlingId: vilkår.behandlingId,
