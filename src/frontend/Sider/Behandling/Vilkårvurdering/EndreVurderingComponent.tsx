@@ -113,23 +113,20 @@ const EndreVurderingComponent: FC<{
 
     const skalViseLagreKnapp = erAlleDelvilkårBesvarte(delvikårsett, regler);
 
-    const håndterTrykkPåLagre = () => {
-        //nullstillIkkePersistertKomponent(vurdering.id);
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        oppdaterVilkår({
+            id: vilkår.id,
+            behandlingId: vilkår.behandlingId,
+            delvilkårsett: delvikårsett,
+        });
+        // nullstillIkkePersistertKomponent(vurdering.id);
         //settPanelITilstand(vurdering.vilkårType, EkspandertTilstand.EKSPANDERT);
     };
 
     return (
-        <form
-            onSubmit={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                oppdaterVilkår({
-                    id: vilkår.id,
-                    behandlingId: vilkår.behandlingId,
-                    delvilkårsett: delvikårsett,
-                });
-            }}
-        >
+        <form onSubmit={onSubmit}>
             <Container>
                 {delvikårsett.map((delvikår, delvikårIndex) => {
                     return delvikår.vurderinger.map((svar) => {
@@ -162,11 +159,7 @@ const EndreVurderingComponent: FC<{
                     });
                 })}
             </Container>
-            {skalViseLagreKnapp && (
-                <LagreKnapp onClick={håndterTrykkPåLagre} type={'submit'}>
-                    Lagre
-                </LagreKnapp>
-            )}
+            {skalViseLagreKnapp && <LagreKnapp type={'submit'}>Lagre</LagreKnapp>}
         </form>
     );
 };
