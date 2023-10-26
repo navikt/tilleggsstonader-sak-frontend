@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
 import { BehandlingProvider } from '../../context/BehandlingContext';
+import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import { Behandling } from '../../typer/behandling/behandling';
 
@@ -24,21 +25,23 @@ const BehandlingInnhold: React.FC<{
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
             <Fanemeny behandlingId={behandling.id} aktivFane={path} />
-            <InnholdWrapper>
-                <Routes>
-                    {behandlingFaner.map((tab) => (
+            <VilkårProvider behandling={behandling}>
+                <InnholdWrapper>
+                    <Routes>
+                        {behandlingFaner.map((tab) => (
+                            <Route
+                                key={tab.path}
+                                path={`/${tab.path}`}
+                                element={tab.komponent(behandling.id)}
+                            />
+                        ))}
                         <Route
-                            key={tab.path}
-                            path={`/${tab.path}`}
-                            element={tab.komponent(behandling.id)}
+                            path="*"
+                            element={<Navigate to={behandlingFaner[0].path} replace={true} />}
                         />
-                    ))}
-                    <Route
-                        path="*"
-                        element={<Navigate to={behandlingFaner[0].path} replace={true} />}
-                    />
-                </Routes>
-            </InnholdWrapper>
+                    </Routes>
+                </InnholdWrapper>
+            </VilkårProvider>
         </BehandlingProvider>
     );
 };

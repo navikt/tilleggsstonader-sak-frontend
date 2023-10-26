@@ -2,9 +2,12 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
+import { Button } from '@navikt/ds-react';
+
 import Begrunnelse from './Begrunnelse';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
+    erAlleDelvilkårBesvarte,
     hentSvarsalternativ,
     kanHaBegrunnelse,
     kopierBegrunnelse,
@@ -13,7 +16,7 @@ import {
 } from './utils';
 import VurderDelvilkår from './VurderDelvilkår';
 import { BegrunnelseRegel, Regler, Svarsalternativ } from '../../../typer/regel';
-import { Delvilkår, SvarPåVilkårsvurdering, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
+import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
 
 const Container = styled.div`
     display: flex;
@@ -21,12 +24,16 @@ const Container = styled.div`
     gap: 1rem;
 `;
 
+const LagreKnapp = styled(Button)`
+    margin-top: 1rem;
+`;
+
 const EndreVurderingComponent: FC<{
     vilkårType: Vilkårtype;
     regler: Regler;
-    oppdaterVurdering: (vurdering: SvarPåVilkårsvurdering) => void;
+    oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
     vilkår: Vilkår;
-}> = ({ regler, oppdaterVurdering, vilkår }) => {
+}> = ({ regler, oppdaterVilkår, vilkår }) => {
     const [delvikårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
 
     const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
@@ -104,18 +111,21 @@ const EndreVurderingComponent: FC<{
         // settIkkePersistertKomponent(vurdering.id);
     };
 
+    const skalViseLagreKnapp = erAlleDelvilkårBesvarte(delvikårsett, regler);
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        oppdaterVilkår({
+            id: vilkår.id,
+            behandlingId: vilkår.behandlingId,
+            delvilkårsett: delvikårsett,
+        });
+        // nullstillIkkePersistertKomponent(vurdering.id);
+        //settPanelITilstand(vurdering.vilkårType, EkspandertTilstand.EKSPANDERT);
+    };
+
     return (
-        <form
-            onSubmit={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                oppdaterVurdering({
-                    id: vilkår.id,
-                    behandlingId: vilkår.behandlingId,
-                    delvilkårsett: delvikårsett,
-                });
-            }}
-        >
+        <form onSubmit={onSubmit}>
             <Container>
                 {delvikårsett.map((delvikår, delvikårIndex) => {
                     return delvikår.vurderinger.map((svar) => {
@@ -148,6 +158,7 @@ const EndreVurderingComponent: FC<{
                     });
                 })}
             </Container>
+            {skalViseLagreKnapp && <LagreKnapp>Lagre</LagreKnapp>}
         </form>
     );
 };

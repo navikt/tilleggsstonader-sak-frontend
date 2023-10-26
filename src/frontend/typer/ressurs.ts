@@ -40,6 +40,12 @@ export const byggTomRessurs = <T>(): Ressurs<T> => {
     };
 };
 
+export const byggHenterRessurs = <T>(): Ressurs<T> => {
+    return {
+        status: RessursStatus.HENTER,
+    };
+};
+
 export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
     return {
         status: RessursStatus.SUKSESS,
