@@ -3,6 +3,8 @@ import React from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
 import Høyremeny from './Høyremeny/Høyremeny';
@@ -22,6 +24,9 @@ const InnholdWrapper = styled.div`
 `;
 
 const HøyreMenyWrapper = styled.div`
+    border-left: 2px solid ${ABorderDefault};
+    background-color: white;
+
     width: 20rem;
     min-width: 20rem;
 
