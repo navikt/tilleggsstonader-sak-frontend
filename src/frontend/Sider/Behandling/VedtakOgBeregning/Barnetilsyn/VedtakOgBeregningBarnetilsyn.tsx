@@ -16,9 +16,7 @@ const Container = styled.div`
 `;
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>(
-        BehandlingResultat.INNVILGET
-    );
+    const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
 
     const utledVedtakForm = () => {
         switch (resultatType) {
@@ -36,7 +34,12 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     return (
         <Container>
             {/* TODO: Send inn korrekt resultat */}
-            <EkspanderbartPanel tittel="Vedtak" resultat={Vilkårsresultat.OPPFYLT}>
+            <EkspanderbartPanel
+                tittel="Vedtak"
+                resultat={
+                    resultatType ? Vilkårsresultat.OPPFYLT : Vilkårsresultat.IKKE_TATT_STILLING_TIL
+                }
+            >
                 <SelectVedtaksresultat
                     resultatType={resultatType}
                     settResultatType={settResultatType}
