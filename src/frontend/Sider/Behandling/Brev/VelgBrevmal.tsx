@@ -6,7 +6,7 @@ import { Select } from '@navikt/ds-react';
 
 import { Brevmal } from './typer';
 
-export const Container = styled.div`
+const Container = styled.div`
     max-width: 55rem;
 `;
 

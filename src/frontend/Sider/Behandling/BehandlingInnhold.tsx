@@ -5,13 +5,30 @@ import styled from 'styled-components';
 
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
+import Høyremeny from './Høyremeny/Høyremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import { Behandling } from '../../typer/behandling/behandling';
 
+const BehandlingContainer = styled.div`
+    display: flex;
+`;
+
 const InnholdWrapper = styled.div`
     padding: 1rem;
+
+    flex-grow: 1;
+
+    max-width: calc(100% - 20rem);
+`;
+
+const HøyreMenyWrapper = styled.div`
+    width: 20rem;
+    min-width: 20rem;
+
+    // Når skjermen blir for liten  så blir høyremenyn liggendes ovenfor venstredelen
+    z-index: 10;
 `;
 
 const BehandlingInnhold: React.FC<{
@@ -24,24 +41,29 @@ const BehandlingInnhold: React.FC<{
 
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
-            <Fanemeny behandlingId={behandling.id} aktivFane={path} />
-            <VilkårProvider behandling={behandling}>
-                <InnholdWrapper>
-                    <Routes>
-                        {behandlingFaner.map((tab) => (
+            <BehandlingContainer>
+                <VilkårProvider behandling={behandling}>
+                    <InnholdWrapper>
+                        <Fanemeny behandlingId={behandling.id} aktivFane={path} />
+                        <Routes>
+                            {behandlingFaner.map((tab) => (
+                                <Route
+                                    key={tab.path}
+                                    path={`/${tab.path}`}
+                                    element={tab.komponent(behandling.id)}
+                                />
+                            ))}
                             <Route
-                                key={tab.path}
-                                path={`/${tab.path}`}
-                                element={tab.komponent(behandling.id)}
+                                path="*"
+                                element={<Navigate to={behandlingFaner[0].path} replace={true} />}
                             />
-                        ))}
-                        <Route
-                            path="*"
-                            element={<Navigate to={behandlingFaner[0].path} replace={true} />}
-                        />
-                    </Routes>
-                </InnholdWrapper>
-            </VilkårProvider>
+                        </Routes>
+                    </InnholdWrapper>
+                </VilkårProvider>
+                <HøyreMenyWrapper>
+                    <Høyremeny />
+                </HøyreMenyWrapper>
+            </BehandlingContainer>
         </BehandlingProvider>
     );
 };
