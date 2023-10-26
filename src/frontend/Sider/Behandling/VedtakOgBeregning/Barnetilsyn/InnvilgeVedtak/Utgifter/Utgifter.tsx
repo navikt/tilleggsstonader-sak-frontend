@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Heading } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import UtgifterValg from './UtgifterValg';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
@@ -12,8 +11,9 @@ import { Utgift } from '../../../../../../typer/vedtak';
 import { Barn } from '../../../../vilkår';
 
 const Container = styled.div`
-    padding: 1rem;
-    background-color: ${AGray50};
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 `;
 
 interface Props {
@@ -32,22 +32,24 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
     };
 
     return (
-        <Container>
+        <div>
             <Heading spacing size="small" level="5">
                 Dokumenterte utgifter
             </Heading>
-            {barnIBehandling.map((barn) => (
-                <UtgifterValg
-                    barn={barn}
-                    utgifter={utgifterState.value[barn.barnId]}
-                    errorState={errorState && errorState[barn.barnId]}
-                    key={barn.barnId}
-                    oppdaterUtgift={(utgiftIndeks: number, oppdatertUtgift: Utgift) =>
-                        oppdaterUtgift(barn.barnId, utgiftIndeks, oppdatertUtgift)
-                    }
-                />
-            ))}
-        </Container>
+            <Container>
+                {barnIBehandling.map((barn) => (
+                    <UtgifterValg
+                        barn={barn}
+                        utgifter={utgifterState.value[barn.barnId]}
+                        errorState={errorState && errorState[barn.barnId]}
+                        key={barn.barnId}
+                        oppdaterUtgift={(utgiftIndeks: number, oppdatertUtgift: Utgift) =>
+                            oppdaterUtgift(barn.barnId, utgiftIndeks, oppdatertUtgift)
+                        }
+                    />
+                ))}
+            </Container>
+        </div>
     );
 };
 
