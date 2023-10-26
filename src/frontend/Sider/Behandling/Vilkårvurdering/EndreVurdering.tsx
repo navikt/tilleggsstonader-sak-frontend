@@ -6,8 +6,11 @@ import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button, ErrorMessage, Heading } from '@navikt/ds-react';
 
 import EndreVurderingComponent from './EndreVurderingComponent';
+import { useBehandling } from '../../../context/BehandlingContext';
+import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
-import { SvarPåVilkårsvurdering, Vilkår } from '../vilkår';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import { SvarPåVilkår, Vilkår } from '../vilkår';
 
 const TittelOgKnappContainer = styled.div`
     display: flex;
@@ -22,12 +25,24 @@ interface Props {
 }
 
 const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
-    const [oppdatererVurdering, settOppdatererVurdering] = useState<boolean>(false);
+    const { hentBehandling } = useBehandling();
+    const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const oppdaterVurdering = (vurdering: SvarPåVilkårsvurdering) => {
-        if (!oppdatererVurdering) {
-            settOppdatererVurdering(true);
+    const { lagreVilkår } = useVilkår();
+
+    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
+        if (!oppdatererVilkår) {
+            settOppdatererVilkår(true);
+            lagreVilkår(svarPåVilkår).then((response: RessursSuksess<Vilkår> | RessursFeilet) => {
+                settOppdatererVilkår(false);
+                if (response.status === RessursStatus.SUKSESS) {
+                    //settRedigeringsmodus(Redigeringsmodus.VISNING);
+                    hentBehandling.rerun();
+                } /*else {
+                    settNyEierModalState(ModalState.LUKKET);
+                    hentAnsvarligSaksbehandler.rerun();
+                }*/
+            });
         }
     };
 
@@ -48,8 +63,8 @@ const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
             </TittelOgKnappContainer>
 
             <EndreVurderingComponent
-                oppdaterVurdering={oppdaterVurdering}
-                vilkårType={vilkår.vilkårtype}
+                oppdaterVilkår={oppdaterVilkår}
+                vilkårType={vilkår.vilkårType}
                 regler={regler}
                 vilkår={vilkår}
             />

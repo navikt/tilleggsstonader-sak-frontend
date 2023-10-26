@@ -15,6 +15,7 @@ export const getProfile = (): RequestHandler => {
         res.status(200).send({
             groups: payload.groups ?? [],
             name: payload.name,
+            navIdent: payload.NAVident,
         });
     };
 };
