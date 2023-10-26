@@ -16,8 +16,6 @@ const BehandlingContainer = styled.div`
 `;
 
 const InnholdWrapper = styled.div`
-    padding: 1rem;
-
     flex-grow: 1;
 
     max-width: calc(100% - 20rem);
