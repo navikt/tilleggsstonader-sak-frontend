@@ -6,11 +6,7 @@ import styled from 'styled-components';
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown } from '@navikt/ds-react';
 
-import {
-    oppgaveErJournalførKlage,
-    oppgaveErSaksbehandling,
-    oppgaveKanJournalføres,
-} from './oppgaveutils';
+import { oppgaveErSaksbehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgave } from '../../context/OppgaveContext';
@@ -31,11 +27,7 @@ interface Props {
     oppgave: Oppgave;
 }
 
-const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppgave); // ||
-//oppgaveErJournalførKlage(oppgave) ||
-//oppgaveKanJournalføres(oppgave) ||
-//oppgaveErKlage(oppgave) ||
-//oppgaveErTilbakekreving(oppgave);
+const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
@@ -51,31 +43,10 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
         navigate(`/behandling/${oppgave.saksreferanse}`);
     };
 
-    const gåTilJournalføring = (type: 'klage' | 'stønad') => {
-        const journalpostId = oppgave.journalpostId || '';
-        const oppgaveId = oppgave.id || '';
-        // eslint-disable-next-line no-console
-        console.log(type, journalpostId, oppgaveId); // TODO slett når journalføring er implementert
-
-        /*navigate(
-            type === 'klage'
-                ? lagJournalføringKlageUrl(journalpostId, oppgaveId)
-                : lagJournalføringUrl(journalpostId, oppgaveId)
-        );*/
-    };
-
     const gåTilOppgaveUtførelse = () => {
         if (oppgaveErSaksbehandling(oppgave)) {
             gåTilBehandleSakOppgave();
-        } else if (oppgaveErJournalførKlage(oppgave)) {
-            gåTilJournalføring('klage');
-        } else if (oppgaveKanJournalføres(oppgave)) {
-            gåTilJournalføring('stønad');
         } else {
-            // eslint-disable-next-line no-console
-            console.error(
-                'Har ikke støtte for hentFagsakOgTriggRedirectTilBehandlingsoversikt ennå'
-            );
             //hentFagsakOgTriggRedirectTilBehandlingsoversikt(utledetFolkeregisterIdent(oppgave));
         }
     };
