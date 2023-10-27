@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
+import { Toast } from './komponenter/Toast/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
@@ -14,6 +15,7 @@ import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler
 
 const AppRoutes = () => {
     const { autentisert } = useApp();
+
     return (
         <BrowserRouter>
             {autentisert ? (
@@ -53,6 +55,7 @@ const App: React.FC = () => {
                 </InternalHeader>
             </Sticky>
             <AppRoutes />
+            <Toast />
         </AppProvider>
     );
 };

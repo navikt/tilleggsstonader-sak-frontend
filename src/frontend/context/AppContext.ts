@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
+import { TypeToast } from '../typer/toast';
 import { AppEnv } from '../utils/env';
 import { fetchFn, Method } from '../utils/fetch';
 import { harTilgangTilRolle } from '../utils/roller';
@@ -14,6 +15,7 @@ interface Props {
 
 const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
     const [autentisert, settAutentisert] = useState(true);
+    const [toast, settToast] = useState<TypeToast | undefined>();
 
     const [erSaksbehandler, settErSaksbehandler] = useState(
         harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler')
@@ -34,6 +36,8 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         saksbehandler,
         erSaksbehandler,
         appEnv,
+        toast,
+        settToast,
     };
 });
 
