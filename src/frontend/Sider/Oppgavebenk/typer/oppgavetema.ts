@@ -44,9 +44,3 @@ export const oppgaveTypeTilTekst: Record<Oppgavetype, string> = {
 };
 
 export type Prioritet = 'HOY' | 'NORM' | 'LAV';
-
-export const prioritetTilTekst: Record<Prioritet, string> = {
-    HOY: 'Høy',
-    NORM: 'Normal',
-    LAV: 'Lav',
-};

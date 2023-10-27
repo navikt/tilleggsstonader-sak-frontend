@@ -5,7 +5,7 @@ import { Popover, Table } from '@navikt/ds-react';
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
-import { oppgaveTypeTilTekst, prioritetTilTekst } from './typer/oppgavetema';
+import { oppgaveTypeTilTekst } from './typer/oppgavetema';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }> = ({
@@ -51,9 +51,6 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }>
             </Table.DataCell>
             <Table.DataCell>{typeBehandling}</Table.DataCell>
             <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
-            <Table.DataCell>
-                {oppgave.prioritet && prioritetTilTekst[oppgave.prioritet]}
-            </Table.DataCell>
             <Table.DataCell>{oppgave.beskrivelse}</Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
             <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
