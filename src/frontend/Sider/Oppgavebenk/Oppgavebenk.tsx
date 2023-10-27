@@ -22,7 +22,7 @@ const InfoAlert = styled(Alert)`
     }
 `;
 
-const Oppgavebenk = () => {
+const OppgavebenkContainer = () => {
     const { feilmelding, oppgaveRessurs } = useOppgave();
     return (
         <div>
@@ -35,7 +35,7 @@ const Oppgavebenk = () => {
     );
 };
 
-const OppgavebenkContainer: React.FC = () => {
+const Oppgavebenk: React.FC = () => {
     const { erSaksbehandler } = useApp();
 
     useEffect(() => {
@@ -55,10 +55,10 @@ const OppgavebenkContainer: React.FC = () => {
         <div>
             {!erProd() && <OpprettDummyBehandling />}
             <OppgaveProvider>
-                <Oppgavebenk />
+                <OppgavebenkContainer />
             </OppgaveProvider>
         </div>
     );
 };
 
-export default OppgavebenkContainer;
+export default Oppgavebenk;

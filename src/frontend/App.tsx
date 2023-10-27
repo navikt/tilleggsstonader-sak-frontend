@@ -7,7 +7,7 @@ import { InternalHeader, Spacer } from '@navikt/ds-react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
-import OppgavebenkContainer from './Sider/Oppgavebenk/OppgavebenkContainer';
+import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
@@ -18,7 +18,7 @@ const AppRoutes = () => {
         <BrowserRouter>
             {autentisert ? (
                 <Routes>
-                    <Route path={'/'} element={<OppgavebenkContainer />} />
+                    <Route path={'/'} element={<Oppgavebenk />} />
                     <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
                     <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
                 </Routes>
