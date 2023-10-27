@@ -21,9 +21,9 @@ interface BarnRegistergrunnlag {
     fødselsdato?: string;
 }
 
-export type Vilkårtype = Inngangsvilkår;
+export type Vilkårtype = Inngangsvilkårtype;
 
-export enum Inngangsvilkår {
+export enum Inngangsvilkårtype {
     MÅLGRUPPE = 'MÅLGRUPPE',
     AKTIVITET = 'AKTIVITET',
 }
@@ -37,12 +37,17 @@ export interface Vilkår {
     id: string;
     behandlingId: string;
     resultat: Vilkårsresultat;
-    vilkårtype: Vilkårtype;
+    vilkårType: Vilkårtype;
     barnId?: string;
     endretAv: string;
     endretTid: string;
     delvilkårsett: Delvilkår[];
-    // opphavsvilkår?: Opphavsvilkår;
+    opphavsvilkår?: Opphavsvilkår;
+}
+
+export interface Opphavsvilkår {
+    behandlingId: string;
+    endretTid: string;
 }
 
 export interface Delvilkår {
@@ -50,4 +55,17 @@ export interface Delvilkår {
     vurderinger: Vurdering[];
 }
 
-export type SvarPåVilkårsvurdering = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+interface VilkårGrunnlag {}
+
+export interface Vilkårsvurdering {
+    vilkårsett: Vilkår[];
+    grunnlag: VilkårGrunnlag;
+}
+
+export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+
+export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
+
+export interface Vurderingsfeilmelding {
+    [Key: string]: string;
+}

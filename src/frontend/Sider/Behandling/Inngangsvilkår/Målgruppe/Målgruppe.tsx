@@ -2,37 +2,30 @@ import React from 'react';
 
 import MålgruppeInfo from './MålgruppeInfo';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { Inngangsvilkår, Vilkår, Vilkårsresultat } from '../../vilkår';
+import { Inngangsvilkårtype, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 
 interface Props {
-    feilmelding?: string;
-    vilkår: Vilkår;
-    vilkårsregler: Vilkårsregler<Inngangsvilkår.MÅLGRUPPE>;
+    vilkårsregler: Vilkårsregler<Inngangsvilkårtype.MÅLGRUPPE>;
+    vilkårsvurdering: Vilkårsvurdering;
 }
 
-const Målgruppe: React.FC<Props> = ({ feilmelding, vilkår, vilkårsregler }) => {
-    // const vurdering = vurderinger.find(
-    //     (v) => v.vilkårType === InngangsvilkårType.FORUTGÅENDE_MEDLEMSKAP
-    // );
-    // if (!vurdering) {
-    //     return <div>Mangler vurdering for forutgående medlemskap</div>;
-    // }
+const Målgruppe: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
+    const vilkår = vilkårsvurdering.vilkårsett.find(
+        (v) => v.vilkårType === Inngangsvilkårtype.MÅLGRUPPE
+    );
+    if (!vilkår) {
+        return <div>Mangler vurdering for forutgående medlemskap</div>;
+    }
 
     return (
         <Vilkårpanel tittel="Målgruppe" vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}>
             <VilkårpanelInnhold>
                 {{
                     venstre: <MålgruppeInfo />,
-                    høyre: (
-                        <VisEllerEndreVurdering
-                            vilkår={vilkår}
-                            feilmelding={feilmelding}
-                            regler={vilkårsregler.regler}
-                        />
-                    ),
+                    høyre: <VisEllerEndreVurdering vilkår={vilkår} regler={vilkårsregler.regler} />,
                 }}
             </VilkårpanelInnhold>
         </Vilkårpanel>

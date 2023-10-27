@@ -2,7 +2,14 @@ import React, { ReactElement, ReactNode } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { erFeilressurs, Ressurs, RessursStatus, RessursSuksess } from '../typer/ressurs';
+import SystemetLaster from './SystemetLaster/SystemetLaster';
+import {
+    erFeilressurs,
+    harNoenRessursMedStatus,
+    Ressurs,
+    RessursStatus,
+    RessursSuksess,
+} from '../typer/ressurs';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -45,6 +52,9 @@ function DataViewer<T extends Record<string, unknown>>(
                 ))}
             </>
         );
+    }
+    if (harNoenRessursMedStatus(responses, RessursStatus.HENTER)) {
+        return <SystemetLaster />;
     } else if (responses.every((response) => response.status === RessursStatus.SUKSESS)) {
         return renderChildren(children, response);
     } else {

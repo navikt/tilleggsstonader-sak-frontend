@@ -103,15 +103,15 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
     //     }
     // };
     return (
-        <>
+        <div>
             <Heading spacing size="xsmall" level="5">
                 {barn.registergrunnlag.navn}
             </Heading>
             {utgifter && utgifter.length > 0 && (
                 <Grid $lesevisning={!behandlingErRedigerbar}>
-                    <Label>Månedlig utgift</Label>
-                    <Label>Fra</Label>
-                    <Label>Til</Label>
+                    <Label size="small">Månedlig utgift</Label>
+                    <Label size="small">Fra</Label>
+                    <Label size="small">Til</Label>
 
                     {utgifter.map((utgiftsperiode, indeks) => (
                         // TODO: Skal ikke bruke indeks som key
@@ -167,7 +167,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                     ))}
                 </Grid>
             )}
-        </>
+        </div>
         // {/* <Button onClick={leggTilTomRadUnder}>Legg til utgift</Button> */}
     );
 };

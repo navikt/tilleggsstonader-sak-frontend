@@ -2,28 +2,29 @@ import React, { useEffect } from 'react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
+import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
-import { aktivitetVilkårMock, målgruppeVilkårMock } from '../../../mock/vilkår';
 
 const Inngangsvilkår = () => {
     const { regler, hentRegler } = useRegler();
+    const { vilkårsvurdering } = useVilkår();
 
     useEffect(() => {
         hentRegler();
     }, [hentRegler]);
 
     return (
-        <DataViewer response={{ regler }}>
-            {({ regler }) => (
+        <DataViewer response={{ regler, vilkårsvurdering }}>
+            {({ regler, vilkårsvurdering }) => (
                 <>
                     <Målgruppe
-                        vilkår={målgruppeVilkårMock}
                         vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
+                        vilkårsvurdering={vilkårsvurdering}
                     />
                     <Aktivitet
-                        vilkår={aktivitetVilkårMock}
                         vilkårsregler={regler.vilkårsregler.AKTIVITET}
+                        vilkårsvurdering={vilkårsvurdering}
                     />
                 </>
             )}

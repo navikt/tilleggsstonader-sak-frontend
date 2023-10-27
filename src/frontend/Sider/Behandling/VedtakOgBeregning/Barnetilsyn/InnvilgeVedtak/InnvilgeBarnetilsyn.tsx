@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import Beregningsresultat from './Beregningsresultat';
 import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
@@ -14,15 +15,16 @@ import useFormState, { FormState } from '../../../../../hooks/felles/useFormStat
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
+import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { byggTomRessurs } from '../../../../../typer/ressurs';
+import { RessursStatus, byggTomRessurs } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
     Utgift,
 } from '../../../../../typer/vedtak';
-import { Barn } from '../../../vilkår';
+import { Barn, Vilkårsresultat } from '../../../vilkår';
 import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -34,6 +36,21 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+`;
+
+const InnholdContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+`;
+
+const Divider = styled.hr`
+    width: 100%;
+    border-top: 1px solid ${AWhite};
+`;
+
+const Knapp = styled(Button)`
+    width: max-content;
 `;
 
 const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
@@ -122,31 +139,42 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         }
     };
 
+    // TODO: Finn ut hva vi vil skal være statuser her
+    const beregningsstatus =
+        beregningsresultat.status === RessursStatus.SUKSESS
+            ? Vilkårsresultat.OPPFYLT
+            : Vilkårsresultat.IKKE_TATT_STILLING_TIL;
+
     return (
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
-            <StønadsperiodeValg
-                stønadsperioderState={stønadsperioderState}
-                errorState={formState.errors.stønadsperioder}
-            />
-            <Utgifter
-                barnIBehandling={barnIBehandling}
-                utgifterState={utgifterState}
-                errorState={formState.errors.utgifter}
-            />
-            <DataViewer response={{ beregningsresultat }}>
-                {({ beregningsresultat }) => (
-                    <Beregningsresultat beregningsresultat={beregningsresultat} />
-                )}
-            </DataViewer>
+            <EkspanderbartPanel tittel="Beregning" resultat={beregningsstatus}>
+                <InnholdContainer>
+                    <StønadsperiodeValg
+                        stønadsperioderState={stønadsperioderState}
+                        errorState={formState.errors.stønadsperioder}
+                    />
+                    <Divider />
+                    <Utgifter
+                        barnIBehandling={barnIBehandling}
+                        utgifterState={utgifterState}
+                        errorState={formState.errors.utgifter}
+                    />
+                    <DataViewer response={{ beregningsresultat }}>
+                        {({ beregningsresultat }) => (
+                            <Beregningsresultat beregningsresultat={beregningsresultat} />
+                        )}
+                    </DataViewer>
+                    {behandlingErRedigerbar && (
+                        <Knapp type="button" variant="primary" onClick={beregnBarnetilsyn}>
+                            Beregn
+                        </Knapp>
+                    )}
+                </InnholdContainer>
+            </EkspanderbartPanel>
             {behandlingErRedigerbar && (
-                <Button type="button" variant="primary" onClick={beregnBarnetilsyn}>
-                    Beregn
-                </Button>
-            )}
-            {behandlingErRedigerbar && (
-                <Button type="submit" variant="primary" disabled={laster}>
+                <Knapp type="submit" variant="primary" disabled={laster}>
                     Lagre vedtak
-                </Button>
+                </Knapp>
             )}
         </Form>
     );

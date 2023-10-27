@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { styled } from 'styled-components';
+
 import { Heading } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -9,6 +11,9 @@ import {
     behandlingResultatTilTekst,
 } from '../../../../typer/behandling/behandlingResultat';
 
+const Container = styled.div`
+    width: max-content;
+`;
 interface Props {
     resultatType?: BehandlingResultat;
     settResultatType: (val: BehandlingResultat | undefined) => void;
@@ -19,7 +24,7 @@ const SelectVedtaksresultat: FC<Props> = ({ resultatType, settResultatType }) =>
     // const { settIkkePersistertKomponent } = useApp();
 
     return (
-        <div>
+        <Container>
             <Heading spacing size="small">
                 Vedtaksresultat
             </Heading>
@@ -39,7 +44,7 @@ const SelectVedtaksresultat: FC<Props> = ({ resultatType, settResultatType }) =>
                 <option value="">Velg</option>
                 <option value={BehandlingResultat.INNVILGET}>Innvilge</option>
             </Select>
-        </div>
+        </Container>
     );
 };
 
