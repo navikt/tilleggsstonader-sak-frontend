@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
+import { Alert } from '@navikt/ds-react';
+
 import { Oppgavefiltrering } from './filter/Oppgavefiltrering';
 import Oppgavetabell from './Oppgavetabell';
 import { OpprettDummyBehandling } from './OpprettDummyBehandling';
@@ -9,10 +11,9 @@ import { useApp } from '../../context/AppContext';
 import { OppgaveProvider, useOppgave } from '../../context/OppgaveContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
-import { AlertInfo } from '../../komponenter/Visningskomponenter/Alerts';
 import { erProd } from '../../utils/miljø';
 
-const InfoVisning = styled(AlertInfo)`
+const InfoAlert = styled(Alert)`
     margin-top: 2rem;
     max-width: 60rem;
 
@@ -43,10 +44,10 @@ const OppgavebenkContainer: React.FC = () => {
 
     if (!erSaksbehandler) {
         return (
-            <InfoVisning>
+            <InfoAlert variant={'info'}>
                 Oppgavebenken er ikke tilgjengelig for veiledere. Benytt fødselsnummer i søkefelt
                 for å finne informasjon om en person
-            </InfoVisning>
+            </InfoAlert>
         );
     }
 
