@@ -1,12 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 
 import { Button, Select, TextField } from '@navikt/ds-react';
 
-import DatoPeriode from './DatoPeriode';
-import { datoFeil, oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
+import { oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
 import {
     hentFraLocalStorage,
     lagreTilLocalStorage,
@@ -39,11 +37,6 @@ const FiltreringKnapp = styled(Button)`
     margin-right: 1.5rem;
 `;
 
-interface Feil {
-    opprettetPeriodeFeil?: string;
-    fristPeriodeFeil?: string | null;
-}
-
 const hentLagretFiltrering = (
     saksbehandler: Saksbehandler,
     harSaksbehandlerStrengtFortroligRolle: boolean
@@ -60,10 +53,7 @@ export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { hentOppgaver } = useOppgave();
     const [lasterFraLokalt, settLasterFraLokalt] = useState(true);
-    // hack for force av rerender av datoer ved tilbakestilling
-    const [stateId, settStateId] = useState(uuidv4());
     const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>({});
-    const [periodeFeil, settPerioderFeil] = useState<Feil>({});
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
@@ -81,19 +71,6 @@ export const Oppgavefiltrering = () => {
         hentOppgaver(lagretFiltrering);
     }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
-    useEffect(() => {
-        const fristPeriodeFeil = datoFeil(oppgaveRequest.fristFom, oppgaveRequest.fristTom);
-        settPerioderFeil((prevState) => ({ ...prevState, fristPeriodeFeil }));
-    }, [oppgaveRequest.fristTom, oppgaveRequest.fristFom]);
-
-    useEffect(() => {
-        const opprettetPeriodeFeil = datoFeil(
-            oppgaveRequest.opprettetFom,
-            oppgaveRequest.opprettetTom
-        );
-        settPerioderFeil((prevState) => ({ ...prevState, opprettetPeriodeFeil }));
-    }, [oppgaveRequest.opprettetFom, oppgaveRequest.opprettetTom]);
-
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
 
@@ -102,9 +79,6 @@ export const Oppgavefiltrering = () => {
             oppdaterOppgave(key)(e.target.value);
 
     const sjekkFeilOgHentOppgaver = () => {
-        if (Object.values(periodeFeil).some((val?: string) => val)) {
-            return;
-        }
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), oppgaveRequest);
         hentOppgaver(oppgaveRequest);
     };
@@ -113,7 +87,6 @@ export const Oppgavefiltrering = () => {
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
         hentOppgaver(tomOppgaveRequest);
-        settStateId(uuidv4());
     };
 
     if (lasterFraLokalt) {
@@ -122,15 +95,7 @@ export const Oppgavefiltrering = () => {
 
     return (
         <>
-            <FlexDiv key={stateId}>
-                <DatoPeriode
-                    oppgaveRequest={oppgaveRequest}
-                    oppdaterOppgave={oppdaterOppgave}
-                    fomKey={'opprettetFom'}
-                    tomKey={'opprettetTom'}
-                    fomLabel={'Reg.dato fra'}
-                    tomLabel={'Reg.dato til'}
-                />
+            <FlexDiv>
                 <Select
                     value={oppgaveRequest.oppgavetype}
                     label="Type"
@@ -155,15 +120,6 @@ export const Oppgavefiltrering = () => {
                         </option>
                     ))}
                 </Select>
-                <DatoPeriode
-                    key={`opprettet_${stateId}`}
-                    oppgaveRequest={oppgaveRequest}
-                    oppdaterOppgave={oppdaterOppgave}
-                    fomKey={'fristFom'}
-                    tomKey={'fristTom'}
-                    fomLabel={'Frist fra'}
-                    tomLabel={'Frist til'}
-                />
                 <Select
                     value={oppgaveRequest.enhet}
                     label="Enhet"

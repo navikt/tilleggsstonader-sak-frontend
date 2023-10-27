@@ -1,5 +1,3 @@
-import { isBefore } from 'date-fns';
-
 import { FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
 import { OppgaveRequest } from '../typer/oppgave';
 
@@ -35,14 +33,4 @@ export const oppgaveRequestMedDefaultEnhet = (
             enhet: enhet || IkkeFortroligEnhet.NAY,
         };
     }
-};
-
-export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): string | undefined => {
-    if (!valgtDatoFra || !valgtDatoTil) {
-        return undefined;
-    }
-    if (isBefore(new Date(valgtDatoTil), new Date(valgtDatoFra))) {
-        return 'Til dato må vare etter til fra dato';
-    }
-    return undefined;
 };

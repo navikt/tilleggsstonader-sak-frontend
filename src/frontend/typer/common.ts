@@ -2,9 +2,3 @@
 export type PartialRecord<K extends keyof any, T> = {
     [P in K]?: T;
 };
-
-export type KeysOfValueOrUndefined<T, TCondition> = {
-    [K in keyof T]-?: T[K] extends TCondition | undefined ? K : never;
-}[keyof T];
-
-export type StringOrUndefinedKeys<T> = KeysOfValueOrUndefined<T, string>;
