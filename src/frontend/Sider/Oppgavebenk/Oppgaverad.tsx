@@ -8,10 +8,7 @@ import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from
 import { oppgaveTypeTilTekst } from './typer/oppgavetema';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 
-const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }> = ({
-    oppgave,
-    mapper,
-}) => {
+const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const [anker, settAnker] = useState<Element | null>(null);
 
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
@@ -54,7 +51,6 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave; mapper: Record<number, string> }>
             <Table.DataCell>{oppgave.beskrivelse}</Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
             <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
-            <Table.DataCell>{oppgave.mappeId && mapper[oppgave.mappeId]}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>

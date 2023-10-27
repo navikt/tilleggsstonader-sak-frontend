@@ -7,7 +7,6 @@ import { Button, Select, TextField } from '@navikt/ds-react';
 
 import DatoPeriode from './DatoPeriode';
 import { datoFeil, oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
-import MappeVelger from './MappeVelger';
 import {
     hentFraLocalStorage,
     lagreTilLocalStorage,
@@ -59,7 +58,7 @@ const hentLagretFiltrering = (
 
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
-    const { hentOppgaver, mapper } = useOppgave();
+    const { hentOppgaver } = useOppgave();
     const [lasterFraLokalt, settLasterFraLokalt] = useState(true);
     // hack for force av rerender av datoer ved tilbakestilling
     const [stateId, settStateId] = useState(uuidv4());
@@ -181,13 +180,6 @@ export const Oppgavefiltrering = () => {
                         </option>
                     ))}
                 </Select>
-                <MappeVelger
-                    settOppgaveRequest={settOppgaveRequest}
-                    label="Enhetsmappe"
-                    options={mapper}
-                    value={oppgaveRequest.mappeId}
-                    erUtenMappe={oppgaveRequest.erUtenMappe}
-                />
                 <SaksbehandlerVelger
                     oppgaveRequest={oppgaveRequest}
                     settOppgaveRequest={settOppgaveRequest}

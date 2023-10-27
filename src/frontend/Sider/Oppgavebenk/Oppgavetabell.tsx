@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
 import { Pagination, Table } from '@navikt/ds-react';
 
 import Oppgaverad from './Oppgaverad';
-import { Mappe } from './typer/mappe';
 import { IdentGruppe, Oppgave } from './typer/oppgave';
-import { useOppgave } from '../../context/OppgaveContext';
 import { usePagineringState } from '../../hooks/felles/usePaginerState';
 import { useSorteringState } from '../../hooks/felles/useSorteringState';
 import { PartialRecord } from '../../typer/common';
@@ -29,7 +27,6 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?
     beskrivelse: { tittel: 'Beskrivelse' },
     identer: { tittel: 'Ident' },
     tildeltEnhetsnr: { tittel: 'Enhet' },
-    mappeId: { tittel: 'Enhetsmappe', erSorterbar: true },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
 };
 
@@ -37,19 +34,7 @@ export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
     oppgave.identer?.filter((i) => i.gruppe === IdentGruppe.FOLKEREGISTERIDENT)[0].ident ||
     'Ukjent ident';
 
-const mapMapperAsRecord = (mapper: Mappe[]): Record<number, string> =>
-    mapper.reduce(
-        (acc, item) => {
-            acc[item.id] = item.navn;
-            return acc;
-        },
-        {} as Record<number, string>
-    );
-
 const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
-    const { mapper } = useOppgave();
-    const mapperAsRecord = useMemo(() => mapMapperAsRecord(mapper), [mapper]);
-
     const { sortertListe, settSortering, sortState } = useSorteringState<Oppgave>(oppgaver, {
         orderBy: 'fristFerdigstillelse',
         direction: 'ascending',
@@ -89,7 +74,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                 </Table.Header>
                 <Table.Body>
                     {slicedListe.map((oppgave) => (
-                        <Oppgaverad key={oppgave.id} oppgave={oppgave} mapper={mapperAsRecord} />
+                        <Oppgaverad key={oppgave.id} oppgave={oppgave} />
                     ))}
                 </Table.Body>
             </Table>

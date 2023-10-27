@@ -1,7 +1,6 @@
 import { isBefore } from 'date-fns';
 
 import { FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
-import { Mappe } from '../typer/mappe';
 import { OppgaveRequest } from '../typer/oppgave';
 
 export const oppdaterFilter = (
@@ -36,12 +35,6 @@ export const oppgaveRequestMedDefaultEnhet = (
             enhet: enhet || IkkeFortroligEnhet.NAY,
         };
     }
-};
-
-export const sorterMapperPåNavn = (a: Mappe, b: Mappe) => {
-    if (a.navn > b.navn) return 1;
-    else if (a.navn < b.navn) return -1;
-    return 0;
 };
 
 export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): string | undefined => {

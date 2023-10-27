@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import constate from 'constate';
 
 import { useApp } from './AppContext';
-import { Mappe, tomMappeListe } from '../Sider/Oppgavebenk/typer/mappe';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
 import {
     byggTomRessurs,
@@ -18,15 +17,8 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     const [oppgaveRessurs, settOppgaveRessurs] = useState<Ressurs<OppgaverResponse>>(
         byggTomRessurs()
     );
-    const [mapper, settMapper] = useState<Mappe[]>(tomMappeListe);
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-
-    useEffect(() => {
-        request<Mappe[], null>(`/api/sak/oppgave/mapper`).then((ressurs) => {
-            ressurs.status === RessursStatus.SUKSESS && settMapper(ressurs.data);
-        });
-    }, [request]);
 
     const hentOppgaver = useCallback(
         (data: OppgaveRequest) => {
@@ -88,7 +80,6 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     return {
         laster,
         oppgaveRessurs,
-        mapper,
         hentOppgaver,
         feilmelding,
         settFeilmelding,
