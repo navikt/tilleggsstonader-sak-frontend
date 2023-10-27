@@ -1,4 +1,11 @@
-import { format, parseISO, isAfter, formatISO } from 'date-fns';
+import { format, parseISO, isAfter, formatISO, isValid } from 'date-fns';
+
+export const formaterNullableIsoDato = (dato?: string): string | undefined =>
+    dato && formaterIsoDato(dato);
+
+export const formaterIsoDato = (dato: string): string => {
+    return format(parseISO(dato), 'dd.MM.yyyy');
+};
 
 export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm");
@@ -37,3 +44,16 @@ export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representat
 export const tilÅrMåned = (date: Date): string => {
     return formatISO(date).substring(0, 7);
 };
+
+const erGyldigFormat = (verdi: string): boolean => {
+    const YYYYMMDD = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (verdi && String(verdi).match(YYYYMMDD)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export const erGyldigDato = (dato: string | Date): boolean =>
+    typeof dato === 'string' ? erGyldigFormat(dato) && isValid(tilDato(dato)) : isValid(dato);

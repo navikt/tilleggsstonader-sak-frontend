@@ -10,7 +10,6 @@ import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 
 const StyledOpprettDummyBehandling = styled.div`
-    float: left;
     margin: 1rem;
 `;
 
