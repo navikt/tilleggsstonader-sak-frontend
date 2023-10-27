@@ -77,13 +77,28 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         [request]
     );
 
+    const tilbakestillFordeling = useCallback(
+        (oppgave: Oppgave) => {
+            return fordelOppgave(oppgave, true);
+        },
+        [fordelOppgave]
+    );
+
+    const settOppgaveTilSaksbehandler = useCallback(
+        (oppgave: Oppgave) => {
+            return fordelOppgave(oppgave);
+        },
+        [fordelOppgave]
+    );
+
     return {
         laster,
         oppgaveRessurs,
         hentOppgaver,
         feilmelding,
         settFeilmelding,
-        fordelOppgave,
+        tilbakestillFordeling,
+        settOppgaveTilSaksbehandler,
         oppdaterOppgaveEtterTilbakestilling,
     };
 });

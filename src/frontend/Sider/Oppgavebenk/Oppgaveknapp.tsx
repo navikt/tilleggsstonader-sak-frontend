@@ -32,8 +32,13 @@ const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppg
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
     const navigate = useNavigate();
-    const { fordelOppgave, laster, settFeilmelding, oppdaterOppgaveEtterTilbakestilling } =
-        useOppgave();
+    const {
+        settOppgaveTilSaksbehandler,
+        tilbakestillFordeling,
+        laster,
+        settFeilmelding,
+        oppdaterOppgaveEtterTilbakestilling,
+    } = useOppgave();
 
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
@@ -58,7 +63,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     };
 
     const tildelOgGåTilOppgaveutførelse = () =>
-        fordelOppgave(oppgave)
+        settOppgaveTilSaksbehandler(oppgave)
             .then(gåTilOppgaveUtførelse)
             .catch((e) => settFeilmelding(e.message));
 
@@ -83,7 +88,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                         {
                             label: 'Fjern meg',
                             onClick: utførHandlingOgHentOppgavePåNytt(() =>
-                                fordelOppgave(oppgave, true)
+                                tilbakestillFordeling(oppgave)
                             ),
                         },
                     ]}
@@ -98,7 +103,9 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                     valg={[
                         {
                             label: 'Overta',
-                            onClick: utførHandlingOgHentOppgavePåNytt(() => fordelOppgave(oppgave)),
+                            onClick: utførHandlingOgHentOppgavePåNytt(() =>
+                                settOppgaveTilSaksbehandler(oppgave)
+                            ),
                         },
                     ]}
                 />
