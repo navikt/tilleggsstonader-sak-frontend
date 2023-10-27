@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Popover, Table } from '@navikt/ds-react';
 
+import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
 import { oppgaveTypeTilTekst } from './typer/oppgavetema';
@@ -50,7 +51,9 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             <Table.DataCell>{oppgave.beskrivelse}</Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
             <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
-            <Table.DataCell></Table.DataCell>
+            <Table.DataCell>
+                <Oppgaveknapp oppgave={oppgave} />
+            </Table.DataCell>
         </Table.Row>
     );
 };
