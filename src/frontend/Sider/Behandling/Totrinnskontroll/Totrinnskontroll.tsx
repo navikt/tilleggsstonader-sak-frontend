@@ -44,7 +44,10 @@ const Totrinnskontroll: FC = () => {
         hentTotrinnskontroll(behandling.id);
     }, [behandling.id, hentTotrinnskontroll]);
 
-    if (totrinnskontroll.status !== RessursStatus.SUKSESS) {
+    if (
+        totrinnskontroll.status !== RessursStatus.SUKSESS ||
+        totrinnskontroll.data.status == TotrinnskontrollStatus.UAKTUELT
+    ) {
         return null;
     }
 
