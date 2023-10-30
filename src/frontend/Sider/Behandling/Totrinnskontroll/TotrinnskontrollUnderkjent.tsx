@@ -35,7 +35,7 @@ const TotrinnskontrollUnderkjent: React.FC<{
             <Heading size={'small'} level={'3'}>
                 Totrinnskontroll
             </Heading>
-            <Alert variant={'info'} size={'small'}>
+            <Alert variant={'warning'} inline={true}>
                 Vedtaket er underkjent
             </Alert>
             <div>
