@@ -12,13 +12,9 @@ import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import { erProd } from '../../utils/miljø';
 
-const InfoAlert = styled(Alert)`
-    margin-top: 2rem;
-    max-width: 60rem;
-
-    .navds-alert__wrapper {
-        max-width: 60rem;
-    }
+const Container = styled.div`
+    margin: 2rem;
+    width: fit-content;
 `;
 
 const OppgavebenkContainer = () => {
@@ -45,10 +41,12 @@ const Oppgavebenk: React.FC = () => {
 
     if (!erSaksbehandler) {
         return (
-            <InfoAlert variant={'info'}>
-                Oppgavebenken er ikke tilgjengelig for veiledere. Benytt fødselsnummer i søkefelt
-                for å finne informasjon om en person
-            </InfoAlert>
+            <Container>
+                <Alert variant={'info'}>
+                    Oppgavebenken er ikke tilgjengelig for veiledere. Benytt fødselsnummer i
+                    søkefelt for å finne informasjon om en person
+                </Alert>
+            </Container>
         );
     }
 
