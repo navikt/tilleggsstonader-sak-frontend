@@ -26,7 +26,7 @@ const erDatoFelt = <T>(maybeDateA: T[keyof T], maybeDateB: T[keyof T]): boolean 
     return false;
 };
 
-export function useSorteringState<T>(liste: T[], config?: SorteringConfig<T>): ISortering<T> {
+export const useSorteringState = <T>(liste: T[], config?: SorteringConfig<T>): ISortering<T> => {
     const [sortState, setSortState] = useState<SorteringConfig<T> | undefined>(config);
 
     const sortertListe = useMemo(() => {
@@ -83,4 +83,4 @@ export function useSorteringState<T>(liste: T[], config?: SorteringConfig<T>): I
         settSortering,
         sortState,
     };
-}
+};

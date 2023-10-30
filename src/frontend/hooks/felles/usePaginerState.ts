@@ -7,7 +7,11 @@ interface IPaginering<T> {
     antallSider: number;
 }
 
-export function usePagineringState<T>(liste: T[], side = 1, sideStorrelse: number): IPaginering<T> {
+export const usePagineringState = <T>(
+    liste: T[],
+    side = 1,
+    sideStorrelse: number
+): IPaginering<T> => {
     const [valgtSide, settValgtSide] = useState<number>(side);
     const antallSider = Math.ceil(liste.length / sideStorrelse);
 
@@ -17,4 +21,4 @@ export function usePagineringState<T>(liste: T[], side = 1, sideStorrelse: numbe
         return listeKopi.slice((valgtSide - 1) * sideStorrelse, valgtSide * sideStorrelse);
     }, [liste, sideStorrelse, valgtSide]);
     return { valgtSide, settValgtSide, slicedListe, antallSider };
-}
+};
