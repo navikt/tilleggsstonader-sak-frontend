@@ -22,11 +22,6 @@ const ÅrsakUnderkjentRad = styled(BodyShort)`
     align-items: center;
 `;
 
-const BreakWordBodyLong = styled(BodyLong)`
-    white-space: pre-wrap;
-    word-wrap: break-word;
-`;
-
 const TotrinnskontrollUnderkjent: React.FC<{
     totrinnskontroll: TotrinnskontrollUnderkjentResponse;
 }> = ({ totrinnskontroll }) => {
@@ -60,7 +55,7 @@ const TotrinnskontrollUnderkjent: React.FC<{
             )}
             <div>
                 <Label>Begrunnelse</Label>
-                <BreakWordBodyLong size={'small'}>{totrinnskontroll.begrunnelse}</BreakWordBodyLong>
+                <BodyLong size={'small'}>{totrinnskontroll.begrunnelse}</BodyLong>
             </div>
         </>
     );
