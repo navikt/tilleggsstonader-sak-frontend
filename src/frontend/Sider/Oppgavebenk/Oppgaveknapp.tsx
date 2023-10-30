@@ -16,7 +16,7 @@ const TabellKnapp = styled(Button)`
     white-space: nowrap;
 `;
 
-const FlexContainer = styled.div`
+const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,7 +70,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
 
     if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (
-            <FlexContainer>
+            <Container>
                 {skalViseFortsettKnapp(oppgave) ? (
                     <TabellKnapp
                         type={'button'}
@@ -94,11 +94,11 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                         },
                     ]}
                 />
-            </FlexContainer>
+            </Container>
         );
     } else if (oppgave.tilordnetRessurs) {
         return (
-            <FlexContainer>
+            <Container>
                 {oppgave.tilordnetRessurs}
                 <OppgaveValgMeny
                     valg={[
@@ -110,7 +110,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                         },
                     ]}
                 />
-            </FlexContainer>
+            </Container>
         );
     } else
         return (
