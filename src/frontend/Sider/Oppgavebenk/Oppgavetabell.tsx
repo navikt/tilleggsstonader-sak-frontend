@@ -10,9 +10,11 @@ import { usePagineringState } from '../../hooks/felles/usePaginerState';
 import { useSorteringState } from '../../hooks/felles/useSorteringState';
 import { PartialRecord } from '../../typer/common';
 
-const FlexBox = styled.div`
+const Container = styled.div`
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 `;
 
 interface Props {
@@ -47,11 +49,9 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
     );
 
     return (
-        <>
+        <Container>
             {antallSider > 1 && (
-                <FlexBox>
-                    <Pagination page={valgtSide} count={antallSider} onPageChange={settValgtSide} />
-                </FlexBox>
+                <Pagination page={valgtSide} count={antallSider} onPageChange={settValgtSide} />
             )}
             <Table
                 size="small"
@@ -78,7 +78,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                     ))}
                 </Table.Body>
             </Table>
-        </>
+        </Container>
     );
 };
 
