@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import FatteVedtak from './FatteVedtak';
+import TotrinnskontrollUnderkjent from './TotrinnskontrollUnderkjent';
 import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useHentTotrinnskontroll } from '../../../hooks/useHentTotrinnskontroll';
@@ -25,8 +26,14 @@ const TotrinnskontrollSwitch: FC<{
     settVisModalGodkjent: (vis: boolean) => void;
 }> = ({ totrinnskontroll, settVisModalGodkjent }) => {
     switch (totrinnskontroll.status) {
+        case TotrinnskontrollStatus.UAKTUELT:
+            return null;
         case TotrinnskontrollStatus.KAN_FATTE_VEDTAK:
             return <FatteVedtak settVisGodkjentModal={settVisModalGodkjent} />;
+        case TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT:
+            return (
+                <TotrinnskontrollUnderkjent totrinnskontroll={totrinnskontroll.totrinnskontroll} />
+            );
         default:
             return null;
     }
