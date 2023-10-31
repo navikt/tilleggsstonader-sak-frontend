@@ -63,9 +63,7 @@ const FatteVedtak: React.FC<{
 
     const erUtfylt =
         godkjent === Totrinnsresultat.GODKJENT ||
-        (godkjent === Totrinnsresultat.UNDERKJENT &&
-            (begrunnelse || '').length > 0 &&
-            årsakerUnderkjent.length > 0);
+        (godkjent === Totrinnsresultat.UNDERKJENT && begrunnelse && årsakerUnderkjent.length > 0);
 
     const beslutteVedtak = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -162,7 +160,6 @@ const FatteVedtak: React.FC<{
                     </Button>
                 </SubmitButtonWrapper>
             )}
-            {/* TODO AlertStripeFeilPreWrap */}
             {feil && <Alert variant={'error'}>{feil}</Alert>}
         </form>
     );

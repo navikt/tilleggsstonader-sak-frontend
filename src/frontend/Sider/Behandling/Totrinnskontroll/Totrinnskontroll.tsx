@@ -39,7 +39,7 @@ const Totrinnskontroll: FC = () => {
 
     const { totrinnskontroll, hentTotrinnskontroll } = useHentTotrinnskontroll();
 
-    // TODO denne skal oppdateres
+    // TODO denne skal oppdateres med når/hvordan den skal hentes og at den hentes ved endringer i behandling, gjøres i egen oppgave
     useEffect(() => {
         hentTotrinnskontroll(behandling.id);
     }, [behandling.id, hentTotrinnskontroll]);
