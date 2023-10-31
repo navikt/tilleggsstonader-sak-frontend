@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Alert } from '@navikt/ds-react';
 
+import { Oppgavefiltrering } from './filter/Oppgavefiltrering';
 import Oppgavetabell from './Oppgavetabell';
 import { OpprettDummyBehandling } from './OpprettDummyBehandling';
 import { useApp } from '../../context/AppContext';
@@ -18,12 +19,10 @@ const Container = styled.div`
 `;
 
 const OppgavebenkContainer = () => {
-    const { feilmelding, oppgaveRessurs, hentOppgaver } = useOppgave();
-    useEffect(() => {
-        hentOppgaver({});
-    }, [hentOppgaver]);
+    const { feilmelding, oppgaveRessurs } = useOppgave();
     return (
         <div>
+            <Oppgavefiltrering />
             <DataViewer response={{ oppgaver: oppgaveRessurs }}>
                 {({ oppgaver }) => <Oppgavetabell oppgaver={oppgaver.oppgaver} />}
             </DataViewer>
