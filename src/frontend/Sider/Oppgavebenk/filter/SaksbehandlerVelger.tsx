@@ -26,39 +26,37 @@ const SaksbehandlerVelger: React.FC<Props> = ({ oppgaveRequest, settOppgaveReque
 
     const saksbehandlerTekst = utledSaksbehandlerTekst(oppgaveRequest);
 
+    const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const val = event.target.value;
+        if (val === '') {
+            settOppgaveRequest((prevState: OppgaveRequest) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
+                return rest;
+            });
+        } else if (val === 'Fordelte' || val === 'Ufordelte') {
+            settOppgaveRequest((prevState: OppgaveRequest) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
+                return {
+                    ...rest,
+                    tildeltRessurs: val === 'Fordelte',
+                };
+            });
+        } else {
+            settOppgaveRequest((prevState: OppgaveRequest) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
+                return {
+                    ...rest,
+                    tilordnetRessurs: val,
+                };
+            });
+        }
+    };
+
     return (
-        <Select
-            value={saksbehandlerTekst}
-            label="Saksbehandler"
-            onChange={(event) => {
-                const val = event.target.value;
-                if (val === '') {
-                    settOppgaveRequest((prevState: OppgaveRequest) => {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
-                        return rest;
-                    });
-                } else if (val === 'Fordelte' || val === 'Ufordelte') {
-                    settOppgaveRequest((prevState: OppgaveRequest) => {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
-                        return {
-                            ...rest,
-                            tildeltRessurs: val === 'Fordelte',
-                        };
-                    });
-                } else {
-                    settOppgaveRequest((prevState: OppgaveRequest) => {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
-                        return {
-                            ...rest,
-                            tilordnetRessurs: val,
-                        };
-                    });
-                }
-            }}
-        >
+        <Select value={saksbehandlerTekst} label="Saksbehandler" onChange={onChange}>
             <option value="">Alle</option>
             <option value="Fordelte">Fordelte</option>
             <option value="Ufordelte">Ufordelte</option>
