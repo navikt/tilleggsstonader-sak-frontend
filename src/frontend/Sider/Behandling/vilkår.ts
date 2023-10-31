@@ -9,18 +9,6 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export interface Barn {
-    barnId: string;
-    // søknadsgrunnlag: BarnSøknadsgrunnlag;
-    registergrunnlag: BarnRegistergrunnlag;
-    // barnepass?: Barnepass;
-}
-
-interface BarnRegistergrunnlag {
-    navn?: string;
-    fødselsdato?: string;
-}
-
 export type Vilkårtype = Inngangsvilkårtype;
 
 export enum Inngangsvilkårtype {
@@ -55,7 +43,29 @@ export interface Delvilkår {
     vurderinger: Vurdering[];
 }
 
-interface VilkårGrunnlag {}
+interface GrunnlagHovedytelse {}
+
+interface GrunnlagAktivitet {}
+
+export interface GrunnlagBarn {
+    ident: string;
+    barnId: string;
+    registergrunnlag: RegistergrunnlagBarn;
+    søknadgrunnlag?: SøknadsgrunnlagBarn;
+}
+
+interface RegistergrunnlagBarn {
+    navn: string;
+    dødsdato?: string;
+}
+
+interface SøknadsgrunnlagBarn {}
+
+interface VilkårGrunnlag {
+    hovedytelse: GrunnlagHovedytelse;
+    aktivitet: GrunnlagAktivitet;
+    barn: GrunnlagBarn[];
+}
 
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];

@@ -24,7 +24,7 @@ import {
     Stønadsperiode,
     Utgift,
 } from '../../../../../typer/vedtak';
-import { Barn, Vilkårsresultat } from '../../../vilkår';
+import { GrunnlagBarn, Vilkårsresultat } from '../../../vilkår';
 import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -56,12 +56,14 @@ const Knapp = styled(Button)`
 const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
-const initUtgifter = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined, barnIBehandling: Barn[]) =>
-    vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling);
+const initUtgifter = (
+    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
+    barnIBehandling: GrunnlagBarn[]
+) => (vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling));
 
 const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
-    barnIBehandling: Barn[]
+    barnIBehandling: GrunnlagBarn[]
 ) => ({
     stønadsperioder: initStønadsperioder(vedtak),
     utgifter: initUtgifter(vedtak, barnIBehandling),
@@ -71,7 +73,7 @@ interface Props {
     lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
     settResultatType: (val: BehandlingResultat | undefined) => void;
     låsFraDatoFørsteRad: boolean;
-    barnIBehandling: Barn[];
+    barnIBehandling: GrunnlagBarn[];
 }
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehandling }) => {

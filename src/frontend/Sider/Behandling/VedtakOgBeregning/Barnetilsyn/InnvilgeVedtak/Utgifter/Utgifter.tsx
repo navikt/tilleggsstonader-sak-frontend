@@ -8,7 +8,7 @@ import UtgifterValg from './UtgifterValg';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
-import { Barn } from '../../../../vilkår';
+import { GrunnlagBarn } from '../../../../vilkår';
 
 const Container = styled.div`
     display: flex;
@@ -19,7 +19,7 @@ const Container = styled.div`
 interface Props {
     errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
-    barnIBehandling: Barn[];
+    barnIBehandling: GrunnlagBarn[];
 }
 
 const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState }) => {
