@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import FatteVedtak from './FatteVedtak';
+import SendtTilBeslutter from './SendtTilBeslutter';
 import TotrinnskontrollUnderkjent from './TotrinnskontrollUnderkjent';
 import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -34,6 +35,8 @@ const TotrinnskontrollSwitch: FC<{
             return (
                 <TotrinnskontrollUnderkjent totrinnskontroll={totrinnskontroll.totrinnskontroll} />
             );
+        case TotrinnskontrollStatus.IKKE_AUTORISERT:
+            return <SendtTilBeslutter totrinnskontroll={totrinnskontroll.totrinnskontroll} />;
         default:
             return null;
     }

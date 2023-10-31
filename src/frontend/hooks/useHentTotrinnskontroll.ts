@@ -14,7 +14,7 @@ export const useHentTotrinnskontroll = () => {
         (behandlingId: string) => {
             settTotrinnskontroll(byggHenterRessurs);
             request<TotrinnskontrollResponse, null>(
-                `/api/sak/totrinnskontroll/${behandlingId}` // TODO
+                `/api/sak/totrinnskontroll/${behandlingId}`
             ).then(settTotrinnskontroll);
         },
         [request, settTotrinnskontroll]

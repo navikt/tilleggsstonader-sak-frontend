@@ -73,7 +73,7 @@ const FatteVedtak: React.FC<{
         }
         settFeil(undefined);
         request<never, TotrinnskontrollForm>(
-            `/api/sak/vedtak/${behandling.id}/beslutte-vedtak`,
+            `/api/sak/totrinnskontroll/${behandling.id}/beslutte-vedtak`,
             'POST',
             {
                 godkjent: resultat === Totrinnsresultat.GODKJENT,
