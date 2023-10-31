@@ -7,7 +7,7 @@ export const oppdaterFilter = (
     val?: string | number
 ): OppgaveRequest => {
     if (!val || val === '') {
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [key]: setNull, ...remainder } = object;
         return remainder;
     }
