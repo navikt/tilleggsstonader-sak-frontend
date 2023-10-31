@@ -55,15 +55,15 @@ const FatteVedtak: React.FC<{
     const navigate = useNavigate();
     const { behandling } = useBehandling();
 
-    const [godkjent, settGodkjent] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
+    const [resultat, settResultat] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
     const [årsakerUnderkjent, settÅrsakerUnderkjent] = useState<ÅrsakUnderkjent[]>([]);
     const [begrunnelse, settBegrunnelse] = useState<string>();
     const [feil, settFeil] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
 
     const erUtfylt =
-        godkjent === Totrinnsresultat.GODKJENT ||
-        (godkjent === Totrinnsresultat.UNDERKJENT && begrunnelse && årsakerUnderkjent.length > 0);
+        resultat === Totrinnsresultat.GODKJENT ||
+        (resultat === Totrinnsresultat.UNDERKJENT && begrunnelse && årsakerUnderkjent.length > 0);
 
     const beslutteVedtak = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -76,14 +76,14 @@ const FatteVedtak: React.FC<{
             `/api/sak/vedtak/${behandling.id}/beslutte-vedtak`,
             'POST',
             {
-                godkjent: godkjent === Totrinnsresultat.GODKJENT,
+                godkjent: resultat === Totrinnsresultat.GODKJENT,
                 begrunnelse,
                 årsakerUnderkjent,
             }
         )
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    if (godkjent === Totrinnsresultat.GODKJENT) {
+                    if (resultat === Totrinnsresultat.GODKJENT) {
                         //hentBehandlingshistorikk.rerun();
                         //hentTotrinnskontroll.rerun();
                         settVisGodkjentModal(true);
@@ -99,7 +99,7 @@ const FatteVedtak: React.FC<{
     };
 
     const oppdaterResultat = (resultat: Totrinnsresultat) => {
-        settGodkjent(resultat);
+        settResultat(resultat);
         settBegrunnelse(undefined);
         if (resultat === Totrinnsresultat.GODKJENT) {
             settÅrsakerUnderkjent([]);
@@ -119,7 +119,7 @@ const FatteVedtak: React.FC<{
             <WrapperMedMargin>
                 <RadioGroup
                     legend={'Beslutt vedtak'}
-                    value={godkjent}
+                    value={resultat}
                     hideLegend
                     onChange={oppdaterResultat}
                 >
@@ -127,7 +127,7 @@ const FatteVedtak: React.FC<{
                     <Radio value={Totrinnsresultat.UNDERKJENT}>Underkjenn</Radio>
                 </RadioGroup>
             </WrapperMedMargin>
-            {godkjent === Totrinnsresultat.UNDERKJENT && (
+            {resultat === Totrinnsresultat.UNDERKJENT && (
                 <>
                     <WrapperMedMargin>
                         <CheckboxGroup
