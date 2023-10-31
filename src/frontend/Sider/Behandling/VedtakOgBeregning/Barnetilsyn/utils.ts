@@ -7,14 +7,14 @@ import {
     Utgift,
     VedtakType,
 } from '../../../../typer/vedtak';
-import { Barn } from '../../vilkår';
+import { GrunnlagBarn } from '../../vilkår';
 
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
     fom: '',
     tom: '',
 });
 
-export const tomUtgiftPerBarn = (barnIBehandling: Barn[]): Record<string, Utgift[]> =>
+export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
     barnIBehandling.reduce((acc, barn) => {
         return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
     }, {});

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { InnvilgeBarnetilsyn } from './InnvilgeBarnetilsyn';
+import { useVilkår } from '../../../../../context/VilkårContext';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 
 interface Props {
@@ -10,19 +10,18 @@ interface Props {
 }
 
 export const InnvilgeVedtak: FC<Props> = ({ settResultatType }) => {
-    const barnIBehandling = [
-        { barnId: uuidv4(), registergrunnlag: { navn: 'Ronja Røverdatter' } },
-        { barnId: uuidv4(), registergrunnlag: { navn: 'Espen Askeladden' } },
-    ];
+    const { vilkårsvurdering } = useVilkår();
 
     return (
-        <>
-            {/* TODO: Revurderes fra og med */}
-            <InnvilgeBarnetilsyn
-                settResultatType={settResultatType}
-                låsFraDatoFørsteRad={false}
-                barnIBehandling={barnIBehandling}
-            />
-        </>
+        // TODO: Revurderes fra og med
+        <DataViewer response={{ vilkårsvurdering }}>
+            {({ vilkårsvurdering }) => (
+                <InnvilgeBarnetilsyn
+                    settResultatType={settResultatType}
+                    låsFraDatoFørsteRad={false}
+                    barnIBehandling={vilkårsvurdering.grunnlag.barn}
+                />
+            )}
+        </DataViewer>
     );
 };

@@ -11,7 +11,7 @@ import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
-import { Barn } from '../../../../vilkår';
+import { GrunnlagBarn } from '../../../../vilkår';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
@@ -24,7 +24,7 @@ interface Props {
     // begrunnelseState: FieldState;
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
-    barn: Barn;
+    barn: GrunnlagBarn;
     oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
     // oppdaterUtgifter: (utgifter: Utgift[]) => void;
     // settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
