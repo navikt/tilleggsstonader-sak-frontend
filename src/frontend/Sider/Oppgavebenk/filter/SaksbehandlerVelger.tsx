@@ -28,7 +28,7 @@ const SaksbehandlerVelger: React.FC<Props> = ({ oppgaveRequest, settOppgaveReque
 
     const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const val = event.target.value;
-        if (val === '') {
+        if (val === 'Alle') {
             settOppgaveRequest((prevState: OppgaveRequest) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { tildeltRessurs, tilordnetRessurs, ...rest } = prevState;
@@ -57,7 +57,7 @@ const SaksbehandlerVelger: React.FC<Props> = ({ oppgaveRequest, settOppgaveReque
 
     return (
         <Select value={saksbehandlerTekst} label="Saksbehandler" onChange={onChange}>
-            <option value="">Alle</option>
+            <option value="Alle">Alle</option>
             <option value="Fordelte">Fordelte</option>
             <option value="Ufordelte">Ufordelte</option>
             {saksbehandler && <option value={saksbehandler.navIdent}>{saksbehandler.name}</option>}
