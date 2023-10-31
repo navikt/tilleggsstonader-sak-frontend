@@ -10,7 +10,7 @@ export type FanerMedRouter = {
     komponent: (behandlingId: string) => React.ReactNode | undefined;
 };
 
-enum FaneNavn {
+export enum FaneNavn {
     INNGANGSVILKÅR = 'Inngangsvilkår',
     ARBEIDSVILKÅR = 'Vilkår for arbeid',
     AKTIVITET = 'Aktivitet',
