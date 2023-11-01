@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Button } from '@navikt/ds-react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
+import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
@@ -43,11 +44,11 @@ const SendTilBeslutterFooter: React.FC = () => {
     const sendTilBeslutter = () => {
         settLaster(true);
         settFeilmelding(undefined);
-        request<string, null>(
+        request<TotrinnskontrollResponse, null>(
             `/api/sak/totrinnskontroll/${behandlingId}/send-til-beslutter`,
             'POST'
         )
-            .then((res: RessursSuksess<string> | RessursFeilet) => {
+            .then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
                     //hentTotrinnskontroll.rerun(); // TODO håndter henting i totrinnskontroll-komponenten
