@@ -7,9 +7,10 @@ import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown } from '@navikt/ds-react';
 
 import { oppgaveErSaksbehandling } from './oppgaveutils';
-import { Oppgave } from './typer/oppgave';
+import { Oppgave, OppgaveResponse } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgave } from '../../context/OppgaveContext';
+import { RessursStatus } from '../../typer/ressurs';
 
 const TabellKnapp = styled(Button)`
     width: fit-content;
@@ -30,12 +31,13 @@ interface Props {
 const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
-    const { saksbehandler } = useApp();
+    const { saksbehandler, request } = useApp();
     const navigate = useNavigate();
     const {
         settOppgaveTilSaksbehandler,
         tilbakestillFordeling,
         laster,
+        settLaster,
         settFeilmelding,
         oppdaterOppgaveEtterTilbakestilling,
     } = useOppgave();
@@ -45,7 +47,18 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
 
     const gåTilBehandleSakOppgave = () => {
         if (laster) return;
-        navigate(`/behandling/${oppgave.saksreferanse}`);
+        settLaster(true);
+        request<OppgaveResponse, null>(`/api/sak/oppgave/${oppgave.id}`)
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    return Promise.resolve(res.data.behandlingId);
+                } else {
+                    return Promise.reject(new Error(res.frontendFeilmelding));
+                }
+            })
+            .then((behandlingId) => navigate(`/behandling/${behandlingId}`))
+            .catch((error: Error) => settFeilmelding(error.message))
+            .finally(() => settLaster(false));
     };
 
     const gåTilOppgaveUtførelse = () => {
