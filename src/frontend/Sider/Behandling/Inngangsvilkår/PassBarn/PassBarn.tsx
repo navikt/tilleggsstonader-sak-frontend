@@ -20,18 +20,35 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return <div>Mangler vurderinger for pass av barn</div>;
     }
 
-    return vilkårsett.map((vilkår) => (
-        <Vilkårpanel
-            tittel={'Pass av barn'}
-            vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}
-        >
-            <VilkårpanelInnhold>
-                {{
-                    høyre: <VisEllerEndreVurdering vilkår={vilkår} regler={vilkårsregler.regler} />,
-                }}
-            </VilkårpanelInnhold>
-        </Vilkårpanel>
-    ));
+    const finnBarnIGrunnlag = (barnId: string) =>
+        vilkårsvurdering.grunnlag.barn.find((barn) => barn.barnId === barnId);
+
+    return vilkårsett.map((vilkår) => {
+        if (!vilkår.barnId) {
+            return <div>Vilkår er ikke knyttet til et barn</div>;
+        }
+
+        const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
+
+        if (!grunnlagBarn) {
+            return <div>Fant ikke grunnlag for barn</div>;
+        }
+
+        return (
+            <Vilkårpanel
+                tittel={grunnlagBarn.registergrunnlag.navn}
+                vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}
+            >
+                <VilkårpanelInnhold>
+                    {{
+                        høyre: (
+                            <VisEllerEndreVurdering vilkår={vilkår} regler={vilkårsregler.regler} />
+                        ),
+                    }}
+                </VilkårpanelInnhold>
+            </Vilkårpanel>
+        );
+    });
 };
 
 export default PassBarn;
