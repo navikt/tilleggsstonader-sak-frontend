@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
 
-import { TotrinnskontrollOpprettet } from './typer';
+import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
@@ -32,11 +32,13 @@ const SendtTilBeslutter: React.FC<{
         }
         settLaster(true);
         settFeilmelding('');
-        request<string, null>(`/api/sak/totrinnskontroll/${behandling.id}/angre-send-til-beslutter`)
-            .then((res: RessursSuksess<string> | RessursFeilet) => {
+        request<TotrinnskontrollResponse, null>(
+            `/api/sak/totrinnskontroll/${behandling.id}/angre-send-til-beslutter`,
+            'POST'
+        )
+            .then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
-                    //hentTotrinnskontroll.rerun();
                     //hentBehandlingshistorikk.rerun();
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
