@@ -8,7 +8,7 @@ import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
 import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 
 const AngreSendTilBeslutterContainer = styled.div`
@@ -20,7 +20,8 @@ const AngreSendTilBeslutterContainer = styled.div`
 
 const SendtTilBeslutter: React.FC<{
     totrinnskontroll: TotrinnskontrollOpprettet;
-}> = ({ totrinnskontroll }) => {
+    settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
+}> = ({ totrinnskontroll, settTotrinnskontroll }) => {
     const { request } = useApp();
     const { behandling, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>('');
@@ -36,12 +37,13 @@ const SendtTilBeslutter: React.FC<{
             `/api/sak/totrinnskontroll/${behandling.id}/angre-send-til-beslutter`,
             'POST'
         )
-            .then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
-                if (res.status === RessursStatus.SUKSESS) {
+            .then((response: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
+                if (response.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
+                    settTotrinnskontroll(response);
                     //hentBehandlingshistorikk.rerun();
                 } else {
-                    settFeilmelding(res.frontendFeilmelding);
+                    settFeilmelding(response.frontendFeilmelding);
                 }
             })
             .finally(() => {
