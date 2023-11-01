@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
@@ -12,6 +14,7 @@ import { GrunnlagBarn } from '../../vilkår';
 export const tomStønadsperiodeRad = (): Stønadsperiode => ({
     fom: '',
     tom: '',
+    endretKey: uuidv4(),
 });
 
 export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>

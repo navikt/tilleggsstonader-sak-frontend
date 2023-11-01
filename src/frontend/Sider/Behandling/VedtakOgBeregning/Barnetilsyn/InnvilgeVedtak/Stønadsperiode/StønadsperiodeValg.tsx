@@ -2,19 +2,25 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Label } from '@navikt/ds-react';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
+import { tomStønadsperiodeRad } from '../../utils';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, max-content);
+    grid-template-columns: repeat(3, max-content);
     grid-gap: 0.5rem 1rem;
     align-items: start;
+
+    > :nth-child(3n + 3) {
+        grid-column: 1;
+    }
 `;
 
 interface Props {
@@ -39,6 +45,14 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
         );
     };
 
+    const leggTilTomRadUnder = (indeks: number) => {
+        stønadsperioderState.setValue((prevState) => [
+            ...prevState.slice(0, indeks + 1),
+            tomStønadsperiodeRad(),
+            ...prevState.slice(indeks + 1, prevState.length),
+        ]);
+    };
+
     return (
         <div>
             <Heading spacing size="small" level="5">
@@ -49,7 +63,7 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                 <Label size="small">Til</Label>
                 {stønadsperioderState.value.map((stønadsperiode, indeks) => (
                     // TODO: Skal ikke bruke indeks som key
-                    <React.Fragment key={indeks}>
+                    <React.Fragment key={stønadsperiode.endretKey}>
                         <DateInput
                             label="Fra"
                             hideLabel
@@ -71,6 +85,13 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                             }
                             size="small"
                             feil={errorState && errorState[indeks]?.tom}
+                        />
+                        <Button
+                            type="button"
+                            onClick={() => leggTilTomRadUnder(indeks)}
+                            variant="tertiary"
+                            icon={<PlusCircleIcon />}
+                            size="small"
                         />
                     </React.Fragment>
                 ))}
