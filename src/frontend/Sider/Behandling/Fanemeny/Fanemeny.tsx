@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import Fane from './Fane';
-import { behandlingFaner } from './faner';
+import { behandlingFaner, FaneNavn } from './faner';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 
 const Container = styled(Sticky)`
@@ -25,7 +25,7 @@ const Fanemeny: FC<{ behandlingId: string; aktivFane: string }> = ({ behandlingI
                     fane={side}
                     behandlingId={behandlingId}
                     index={indeks}
-                    deaktivert={indeks === 3 || indeks === 4}
+                    deaktivert={side.navn === FaneNavn.SIMULERING}
                     key={indeks}
                     erAktivFane={aktivFane === side.path}
                 />

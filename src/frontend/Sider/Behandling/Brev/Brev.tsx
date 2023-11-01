@@ -7,6 +7,7 @@ import useBrev from './useBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
+import SendTilBeslutterFooter from '../Totrinnskontroll/SendTilBeslutterFooter';
 
 const Container = styled.div`
     display: flex;
@@ -34,7 +35,10 @@ const Brev: React.FC = () => {
                         />
                         <DataViewer response={{ malStruktur }}>
                             {({ malStruktur }) => (
-                                <Brevmeny mal={malStruktur} behandlingId={behandling.id} />
+                                <>
+                                    <Brevmeny mal={malStruktur} behandlingId={behandling.id} />
+                                    <SendTilBeslutterFooter />
+                                </>
                             )}
                         </DataViewer>
                     </>
