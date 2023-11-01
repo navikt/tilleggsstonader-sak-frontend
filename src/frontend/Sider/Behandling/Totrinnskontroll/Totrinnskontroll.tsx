@@ -54,21 +54,20 @@ const Totrinnskontroll: FC = () => {
         hentTotrinnskontroll(behandling.id);
     }, [behandling.id, hentTotrinnskontroll]);
 
-    if (
-        totrinnskontroll.status !== RessursStatus.SUKSESS ||
-        totrinnskontroll.data.status == TotrinnskontrollStatus.UAKTUELT
-    ) {
-        return null;
-    }
+    const skalViseTotrinnskontrollSwitch =
+        totrinnskontroll.status === RessursStatus.SUKSESS &&
+        totrinnskontroll.data.status !== TotrinnskontrollStatus.UAKTUELT;
 
     return (
         <>
-            <BorderBox>
-                <TotrinnskontrollSwitch
-                    totrinnskontroll={totrinnskontroll.data}
-                    settVisModalGodkjent={settVisGodkjentModal}
-                />
-            </BorderBox>
+            {skalViseTotrinnskontrollSwitch && (
+                <BorderBox>
+                    <TotrinnskontrollSwitch
+                        totrinnskontroll={totrinnskontroll.data}
+                        settVisModalGodkjent={settVisGodkjentModal}
+                    />
+                </BorderBox>
+            )}
             <ModalWrapper
                 tittel={'Vedtaket er godkjent'}
                 visModal={visGodkjentModal}
