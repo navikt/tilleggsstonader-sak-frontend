@@ -93,6 +93,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
 
     return {
         laster,
+        settLaster,
         oppgaveRessurs,
         hentOppgaver,
         feilmelding,
