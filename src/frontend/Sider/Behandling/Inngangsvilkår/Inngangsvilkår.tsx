@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
+import PassBarn from './PassBarn/PassBarn';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -24,6 +25,10 @@ const Inngangsvilkår = () => {
                     />
                     <Aktivitet
                         vilkårsregler={regler.vilkårsregler.AKTIVITET}
+                        vilkårsvurdering={vilkårsvurdering}
+                    />
+                    <PassBarn
+                        vilkårsregler={regler.vilkårsregler.PASS_BARN}
                         vilkårsvurdering={vilkårsvurdering}
                     />
                 </>

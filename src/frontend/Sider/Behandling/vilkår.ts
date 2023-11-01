@@ -14,6 +14,7 @@ export type Vilkårtype = Inngangsvilkårtype;
 export enum Inngangsvilkårtype {
     MÅLGRUPPE = 'MÅLGRUPPE',
     AKTIVITET = 'AKTIVITET',
+    PASS_BARN = 'PASS_BARN',
 }
 
 export interface Vurdering {

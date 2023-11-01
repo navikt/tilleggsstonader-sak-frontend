@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
+import { regelIdTilTekst, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -14,7 +15,11 @@ interface Props {
 
 const VurderDelvilkår: FC<Props> = ({ regel, vurdering, settVurdering }) => {
     return (
-        <RadioGroup legend={regel.regelId} value={vurdering.svar || ''}>
+        <RadioGroup
+            legend={regelIdTilTekst[regel.regelId]}
+            value={vurdering.svar || ''}
+            size="small"
+        >
             {Object.keys(regel.svarMapping).map((svarId) => {
                 return (
                     <Radio
@@ -28,7 +33,7 @@ const VurderDelvilkår: FC<Props> = ({ regel, vurdering, settVurdering }) => {
                             })
                         }
                     >
-                        {svarId}
+                        {svarIdTilTekst[svarId] || svarId}
                     </Radio>
                 );
             })}
