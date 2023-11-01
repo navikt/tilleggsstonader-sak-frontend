@@ -5,7 +5,7 @@ export const regelIdTilTekst: Record<string, string> = {
     // AKTIVITET
     ER_AKTIVITET_REGISTRERT: 'Er bruker registrert med en aktivitet?',
 
-    // PASSBARN
+    // PASS_BARN
     DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgifter av annet regelverk?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte for dette barnet?',
     UTGIFTER_DOKUMENTERT: 'Er utgiftene tilfredstillende dokumentert?',
@@ -18,7 +18,7 @@ export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
 
-    // PASSBARN
+    // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
         'Ja, barnet har fullført fjerde skoleår og det er dokumentert at barnet trenger vesentlig mer tilsyn enn jevnaldrende',
     FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:

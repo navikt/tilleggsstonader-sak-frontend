@@ -28,7 +28,7 @@ const Inngangsvilkår = () => {
                         vilkårsvurdering={vilkårsvurdering}
                     />
                     <PassBarn
-                        vilkårsregler={regler.vilkårsregler.PASSBARN}
+                        vilkårsregler={regler.vilkårsregler.PASS_BARN}
                         vilkårsvurdering={vilkårsvurdering}
                     />
                 </>
