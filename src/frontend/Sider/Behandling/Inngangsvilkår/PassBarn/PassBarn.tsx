@@ -37,7 +37,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return (
             <Vilkårpanel
                 tittel={grunnlagBarn.registergrunnlag.navn}
-                vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}
+                vilkårsresultat={vilkår.resultat}
             >
                 <VilkårpanelInnhold>
                     {{
