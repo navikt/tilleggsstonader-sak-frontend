@@ -1,5 +1,5 @@
 export enum IkkeFortroligEnhet {
-    NAY = '4489',
+    NAY = '4462',
     EGNE_ANSATTE = '4483',
 }
 
@@ -8,7 +8,7 @@ export enum FortroligEnhet {
 }
 
 const enhetTilTekstIkkeFortrolig: Record<IkkeFortroligEnhet.NAY, string> = {
-    '4489': '4489 NAY',
+    '4462': '4462 Tilleggsstønad INN', // Nasjonal kø for NAY
 };
 
 const enhetTilTekstEgenAnsatte: Record<IkkeFortroligEnhet.EGNE_ANSATTE, string> = {
