@@ -26,16 +26,11 @@ const Grid = styled.div<{ $lesevisning?: boolean }>`
 `;
 
 interface Props {
-    // begrunnelseState: FieldState;
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
     barn: GrunnlagBarn;
     oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
     leggTilTomRadUnder: (utgiftIndeks: number) => void;
-    // oppdaterUtgifter: (utgifter: Utgift[]) => void;
-    // settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
-    // barn: IBarnMedSamvær[];
-    // låsFraDatoFørsteRad: boolean;
 }
 
 const UtgifterValg: React.FC<Props> = ({
@@ -45,16 +40,7 @@ const UtgifterValg: React.FC<Props> = ({
     oppdaterUtgift,
     leggTilTomRadUnder,
 }) => {
-    // begrunnelseState,
-    // errorState,
-    // settValideringsFeil,
-    // barn,
-    // låsFraDatoFørsteRad,
     const { behandlingErRedigerbar } = useBehandling();
-    // const { settIkkePersistertKomponent } = useApp();
-    // const [sanksjonsmodal, settSanksjonsmodal] = useState<Sanksjonsmodal>({
-    //     visModal: false,
-    // });
 
     const oppdaterUtgiftFelt = (
         indeks: number,
@@ -67,53 +53,6 @@ const UtgifterValg: React.FC<Props> = ({
         });
     };
 
-    // Oppdater for riktig rad
-    // Returner hele utgift objekt?
-
-    // const leggTilTomRadUnder = () => {
-    //     // const
-    //     if (utgifter) oppdaterUtgifter([...utgifter, { fra: '', til: '' }]);
-    //     else oppdaterUtgifter([{ fra: '', til: '' }]);
-    // };
-
-    // const periodeVariantTilUtgiftsperiodeProperty = (
-    //     periodeVariant: PeriodeVariant
-    // ): EUtgiftsperiodeProperty => {
-    //     switch (periodeVariant) {
-    //         case PeriodeVariant.ÅR_MÅNED_FRA:
-    //             return EUtgiftsperiodeProperty.årMånedFra;
-    //         case PeriodeVariant.ÅR_MÅNED_TIL:
-    //             return EUtgiftsperiodeProperty.årMånedTil;
-    //     }
-    // };
-
-    // const lukkSanksjonsmodal = () => {
-    //     settSanksjonsmodal({ visModal: false });
-    // };
-
-    // const slettPeriode = (indeks: number) => {
-    //     if (sanksjonsmodal.visModal) {
-    //         lukkSanksjonsmodal();
-    //     }
-    //     utgiftsperioderState.remove(indeks);
-    //     settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
-    //         const utgiftsperioder = (prevState.utgiftsperioder ?? []).filter((_, i) => i !== indeks);
-    //         return { ...prevState, utgiftsperioder };
-    //     });
-    // };
-
-    // const slettPeriodeModalHvisSanksjon = (indeks: number) => {
-    //     const periode = utgiftsperioderState.value[indeks];
-    //     if (periode.periodetype === EUtgiftsperiodetype.SANKSJON_1_MND) {
-    //         settSanksjonsmodal({
-    //             visModal: true,
-    //             indeks: indeks,
-    //             årMånedFra: periode.årMånedFra,
-    //         });
-    //     } else {
-    //         slettPeriode(indeks);
-    //     }
-    // };
     return (
         <div>
             <Heading spacing size="xsmall" level="5">
