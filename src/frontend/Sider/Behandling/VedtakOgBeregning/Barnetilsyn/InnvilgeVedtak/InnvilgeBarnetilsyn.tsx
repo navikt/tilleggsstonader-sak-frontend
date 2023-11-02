@@ -154,6 +154,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                     <StønadsperiodeValg
                         stønadsperioderState={stønadsperioderState}
                         errorState={formState.errors.stønadsperioder}
+                        settValideringsFeil={formState.setErrors}
                     />
                     <Divider />
                     <Utgifter

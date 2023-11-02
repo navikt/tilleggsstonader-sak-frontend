@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
@@ -11,6 +11,7 @@ import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
 import { tomStønadsperiodeRad } from '../../utils';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div`
     display: grid;
@@ -26,9 +27,14 @@ const Grid = styled.div`
 interface Props {
     errorState: FormErrors<Stønadsperiode[]>;
     stønadsperioderState: ListState<Stønadsperiode>;
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorState }) => {
+const StønadsperiodeValg: React.FC<Props> = ({
+    stønadsperioderState,
+    errorState,
+    settValideringsFeil,
+}) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppdaterUtgiftsperiode = (
@@ -51,6 +57,17 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
             tomStønadsperiodeRad(),
             ...prevState.slice(indeks + 1, prevState.length),
         ]);
+    };
+
+    const slettPeriode = (indeks: number) => {
+        stønadsperioderState.remove(indeks);
+
+        settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+            const stønadsperioder = (prevState.stønadsperioder ?? []).filter(
+                (_, i) => i !== indeks
+            );
+            return { ...prevState, stønadsperioder };
+        });
     };
 
     return (
@@ -86,13 +103,24 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                             size="small"
                             feil={errorState && errorState[indeks]?.tom}
                         />
-                        <Button
-                            type="button"
-                            onClick={() => leggTilTomRadUnder(indeks)}
-                            variant="tertiary"
-                            icon={<PlusCircleIcon />}
-                            size="small"
-                        />
+                        <div>
+                            <Button
+                                type="button"
+                                onClick={() => leggTilTomRadUnder(indeks)}
+                                variant="tertiary"
+                                icon={<PlusCircleIcon />}
+                                size="small"
+                            />
+                            {indeks !== 0 && (
+                                <Button
+                                    type="button"
+                                    onClick={() => slettPeriode(indeks)}
+                                    variant="tertiary"
+                                    icon={<TrashIcon />}
+                                    size="small"
+                                />
+                            )}
+                        </div>
                     </React.Fragment>
                 ))}
             </Grid>
