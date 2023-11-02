@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import { AGray300 } from '@navikt/ds-tokens/dist/tokens';
 
-const Container = styled.div<{ borderBottom: boolean }>`
+const Container = styled.div<{ $borderBottom: boolean }>`
     display: flex;
     margin: 0 1rem;
-    border-bottom: ${(props) => (props.borderBottom ? `1px solid ${AGray300}` : 'none')};
+    border-bottom: ${(props) => (props.$borderBottom ? `1px solid ${AGray300}` : 'none')};
 
     @media (max-width: 1600px) {
         flex-direction: column;
@@ -46,7 +46,7 @@ export const VilkårpanelInnhold: FC<Props> = ({
     children: { venstre, høyre },
 }) => {
     return (
-        <Container borderBottom={borderBottom}>
+        <Container $borderBottom={borderBottom}>
             {venstre && <div className="venstreKolonne">{venstre}</div>}
             <div className="høyreKolonne">{høyre}</div>
         </Container>
