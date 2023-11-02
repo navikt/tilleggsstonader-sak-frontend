@@ -12,8 +12,11 @@ import TotrinnskontrollUnderkjent from './TotrinnskontrollUnderkjent';
 import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useHentTotrinnskontroll } from '../../../hooks/useHentTotrinnskontroll';
+import { usePrevious } from '../../../hooks/usePrevious';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
-import { RessursStatus } from '../../../typer/ressurs';
+import { Behandling } from '../../../typer/behandling/behandling';
+import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
+import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 
 const BorderBox = styled.div`
     border: 1px solid ${ABorderSubtle};
@@ -25,50 +28,76 @@ const BorderBox = styled.div`
 const TotrinnskontrollSwitch: FC<{
     totrinnskontroll: TotrinnskontrollResponse;
     settVisModalGodkjent: (vis: boolean) => void;
-}> = ({ totrinnskontroll, settVisModalGodkjent }) => {
+    settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
+}> = ({ totrinnskontroll, settVisModalGodkjent, settTotrinnskontroll }) => {
     switch (totrinnskontroll.status) {
         case TotrinnskontrollStatus.UAKTUELT:
             return null;
         case TotrinnskontrollStatus.KAN_FATTE_VEDTAK:
-            return <FatteVedtak settVisGodkjentModal={settVisModalGodkjent} />;
+            return (
+                <FatteVedtak
+                    settVisGodkjentModal={settVisModalGodkjent}
+                    settTotrinnskontroll={settTotrinnskontroll}
+                />
+            );
         case TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT:
             return (
                 <TotrinnskontrollUnderkjent totrinnskontroll={totrinnskontroll.totrinnskontroll} />
             );
         case TotrinnskontrollStatus.IKKE_AUTORISERT:
-            return <SendtTilBeslutter totrinnskontroll={totrinnskontroll.totrinnskontroll} />;
+            return (
+                <SendtTilBeslutter
+                    totrinnskontroll={totrinnskontroll.totrinnskontroll}
+                    settTotrinnskontroll={settTotrinnskontroll}
+                />
+            );
         default:
             return null;
     }
 };
 
+/**
+ * Håndtering av ulike states for å håndtere flyten av at en behandling skal hente totrinnskontroll på nytt eller ikke
+ */
+const behandlingErSendtTilBeslutter = (
+    prevBehandling: Behandling | undefined,
+    behandling: Behandling
+) => {
+    return (
+        prevBehandling?.status !== behandling.status &&
+        behandling.status === BehandlingStatus.FATTER_VEDTAK
+    );
+};
 const Totrinnskontroll: FC = () => {
     const navigate = useNavigate();
     const { behandling } = useBehandling();
+    const prevBehandling = usePrevious(behandling);
+
     const [visGodkjentModal, settVisGodkjentModal] = useState(false);
 
-    const { totrinnskontroll, hentTotrinnskontroll } = useHentTotrinnskontroll();
+    const { totrinnskontroll, hentTotrinnskontroll, settTotrinnskontroll } =
+        useHentTotrinnskontroll();
 
-    // TODO denne skal oppdateres med når/hvordan den skal hentes og at den hentes ved endringer i behandling, gjøres i egen oppgave
     useEffect(() => {
-        hentTotrinnskontroll(behandling.id);
-    }, [behandling.id, hentTotrinnskontroll]);
+        if (behandlingErSendtTilBeslutter(prevBehandling, behandling)) {
+            hentTotrinnskontroll(behandling.id);
+        }
+    }, [prevBehandling, behandling, hentTotrinnskontroll]);
 
-    if (
-        totrinnskontroll.status !== RessursStatus.SUKSESS ||
-        totrinnskontroll.data.status == TotrinnskontrollStatus.UAKTUELT
-    ) {
-        return null;
-    }
-
+    const skalViseTotrinnskontrollSwitch =
+        totrinnskontroll.status === RessursStatus.SUKSESS &&
+        totrinnskontroll.data.status !== TotrinnskontrollStatus.UAKTUELT;
     return (
         <>
-            <BorderBox>
-                <TotrinnskontrollSwitch
-                    totrinnskontroll={totrinnskontroll.data}
-                    settVisModalGodkjent={settVisGodkjentModal}
-                />
-            </BorderBox>
+            {skalViseTotrinnskontrollSwitch && (
+                <BorderBox>
+                    <TotrinnskontrollSwitch
+                        totrinnskontroll={totrinnskontroll.data}
+                        settVisModalGodkjent={settVisGodkjentModal}
+                        settTotrinnskontroll={settTotrinnskontroll}
+                    />
+                </BorderBox>
+            )}
             <ModalWrapper
                 tittel={'Vedtaket er godkjent'}
                 visModal={visGodkjentModal}
