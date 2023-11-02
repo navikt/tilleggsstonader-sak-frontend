@@ -18,7 +18,7 @@ const Grid = styled.div`
     grid-gap: 0.5rem 1rem;
     align-items: start;
 
-    > :nth-child(3n + 3) {
+    > :nth-child(3n) {
         grid-column: 1;
     }
 `;

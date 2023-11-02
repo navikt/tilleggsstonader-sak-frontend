@@ -9,6 +9,7 @@ import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
 import { GrunnlagBarn } from '../../../../vilkår';
+import { tomUtgiftRad } from '../../utils';
 
 const Container = styled.div`
     display: flex;
@@ -31,6 +32,15 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
         utgifterState.update(barnId, oppdaterteUtgifter);
     };
 
+    const leggTilTomRadUnder = (barnId: string, utgiftIndex: number) => {
+        const prevState = utgifterState.value[barnId];
+        utgifterState.update(barnId, [
+            ...prevState.slice(0, utgiftIndex + 1),
+            tomUtgiftRad(),
+            ...prevState.slice(utgiftIndex + 1, prevState.length),
+        ]);
+    };
+
     return (
         <div>
             <Heading spacing size="small" level="5">
@@ -45,6 +55,9 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
                         key={barn.barnId}
                         oppdaterUtgift={(utgiftIndeks: number, oppdatertUtgift: Utgift) =>
                             oppdaterUtgift(barn.barnId, utgiftIndeks, oppdatertUtgift)
+                        }
+                        leggTilTomRadUnder={(utgiftIndeks: number) =>
+                            leggTilTomRadUnder(barn.barnId, utgiftIndeks)
                         }
                     />
                 ))}

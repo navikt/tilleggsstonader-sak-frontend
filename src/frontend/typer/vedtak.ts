@@ -26,6 +26,7 @@ export type Utgift = {
     fom: string;
     tom: string;
     utgift?: number;
+    endretKey?: string; // intern for re-rendring
 };
 
 export enum UtgifterProperty {

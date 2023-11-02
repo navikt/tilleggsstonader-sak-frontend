@@ -2,7 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Label } from '@navikt/ds-react';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
@@ -15,9 +16,13 @@ import { GrunnlagBarn } from '../../../../vilkår';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(4, max-content);
     grid-gap: 0.5rem 1rem;
     align-items: start;
+
+    > :nth-child(4n) {
+        grid-column: 1;
+    }
 `;
 
 interface Props {
@@ -26,13 +31,20 @@ interface Props {
     utgifter: Utgift[];
     barn: GrunnlagBarn;
     oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
+    leggTilTomRadUnder: (utgiftIndeks: number) => void;
     // oppdaterUtgifter: (utgifter: Utgift[]) => void;
     // settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
     // barn: IBarnMedSamvær[];
     // låsFraDatoFørsteRad: boolean;
 }
 
-const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtgift }) => {
+const UtgifterValg: React.FC<Props> = ({
+    utgifter,
+    barn,
+    errorState,
+    oppdaterUtgift,
+    leggTilTomRadUnder,
+}) => {
     // begrunnelseState,
     // errorState,
     // settValideringsFeil,
@@ -115,7 +127,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
 
                     {utgifter.map((utgiftsperiode, indeks) => (
                         // TODO: Skal ikke bruke indeks som key
-                        <React.Fragment key={indeks}>
+                        <React.Fragment key={utgiftsperiode.endretKey}>
                             <TextField
                                 erLesevisning={!behandlingErRedigerbar}
                                 label="Utgifter"
@@ -161,6 +173,13 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                     )
                                 }
                                 feil={errorState && errorState[indeks]?.tom}
+                                size="small"
+                            />
+                            <Button
+                                type="button"
+                                onClick={() => leggTilTomRadUnder(indeks)}
+                                variant="tertiary"
+                                icon={<PlusCircleIcon />}
                                 size="small"
                             />
                         </React.Fragment>

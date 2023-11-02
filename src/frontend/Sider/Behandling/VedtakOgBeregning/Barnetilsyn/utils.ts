@@ -25,6 +25,7 @@ export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string
 export const tomUtgiftRad = (): Utgift => ({
     fom: '',
     tom: '',
+    endretKey: uuidv4(),
 });
 
 export const lagVedtakRequest = (
