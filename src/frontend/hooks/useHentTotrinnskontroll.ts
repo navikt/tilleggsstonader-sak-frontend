@@ -23,5 +23,6 @@ export const useHentTotrinnskontroll = () => {
     return {
         totrinnskontroll,
         hentTotrinnskontroll,
+        settTotrinnskontroll,
     };
 };

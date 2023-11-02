@@ -16,10 +16,10 @@ import {
     Textarea,
 } from '@navikt/ds-react';
 
-import { ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
+import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { RessursStatus } from '../../../typer/ressurs';
+import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 
 const WrapperMedMargin = styled.div`
     display: block;
@@ -50,10 +50,11 @@ enum Totrinnsresultat {
 
 const FatteVedtak: React.FC<{
     settVisGodkjentModal: (vis: boolean) => void;
-}> = ({ settVisGodkjentModal }) => {
+    settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
+}> = ({ settVisGodkjentModal, settTotrinnskontroll }) => {
     const { request } = useApp();
     const navigate = useNavigate();
-    const { behandling } = useBehandling();
+    const { behandling, hentBehandling } = useBehandling();
 
     const [resultat, settResultat] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
     const [årsakerUnderkjent, settÅrsakerUnderkjent] = useState<ÅrsakUnderkjent[]>([]);
@@ -72,7 +73,7 @@ const FatteVedtak: React.FC<{
             return;
         }
         settFeil(undefined);
-        request<never, TotrinnskontrollForm>(
+        request<TotrinnskontrollResponse, TotrinnskontrollForm>(
             `/api/sak/totrinnskontroll/${behandling.id}/beslutte-vedtak`,
             'POST',
             {
@@ -84,12 +85,13 @@ const FatteVedtak: React.FC<{
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {
                     if (resultat === Totrinnsresultat.GODKJENT) {
+                        hentBehandling.rerun();
+                        settTotrinnskontroll(response);
                         //hentBehandlingshistorikk.rerun();
-                        //hentTotrinnskontroll.rerun();
                         settVisGodkjentModal(true);
                     } else {
                         //settToast(EToast.VEDTAK_UNDERKJENT);
-                        navigate('/oppgavebenk');
+                        navigate('/');
                     }
                 } else {
                     settFeil(response.frontendFeilmeldingUtenFeilkode);

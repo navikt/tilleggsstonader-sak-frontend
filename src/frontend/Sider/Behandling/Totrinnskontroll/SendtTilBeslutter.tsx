@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
 
-import { TotrinnskontrollOpprettet } from './typer';
+import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 
 const AngreSendTilBeslutterContainer = styled.div`
@@ -20,7 +20,8 @@ const AngreSendTilBeslutterContainer = styled.div`
 
 const SendtTilBeslutter: React.FC<{
     totrinnskontroll: TotrinnskontrollOpprettet;
-}> = ({ totrinnskontroll }) => {
+    settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
+}> = ({ totrinnskontroll, settTotrinnskontroll }) => {
     const { request } = useApp();
     const { behandling, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>('');
@@ -32,14 +33,17 @@ const SendtTilBeslutter: React.FC<{
         }
         settLaster(true);
         settFeilmelding('');
-        request<string, null>(`/api/sak/totrinnskontroll/${behandling.id}/angre-send-til-beslutter`)
-            .then((res: RessursSuksess<string> | RessursFeilet) => {
-                if (res.status === RessursStatus.SUKSESS) {
+        request<TotrinnskontrollResponse, null>(
+            `/api/sak/totrinnskontroll/${behandling.id}/angre-send-til-beslutter`,
+            'POST'
+        )
+            .then((response: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
+                if (response.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
-                    //hentTotrinnskontroll.rerun();
+                    settTotrinnskontroll(response);
                     //hentBehandlingshistorikk.rerun();
                 } else {
-                    settFeilmelding(res.frontendFeilmelding);
+                    settFeilmelding(response.frontendFeilmelding);
                 }
             })
             .finally(() => {
