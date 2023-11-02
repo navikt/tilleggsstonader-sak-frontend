@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
@@ -10,6 +10,7 @@ import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
 import { GrunnlagBarn } from '../../../../vilkår';
 import { tomUtgiftRad } from '../../utils';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Container = styled.div`
     display: flex;
@@ -21,9 +22,15 @@ interface Props {
     errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
     barnIBehandling: GrunnlagBarn[];
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState }) => {
+const Utgifter: React.FC<Props> = ({
+    utgifterState,
+    barnIBehandling,
+    errorState,
+    settValideringsFeil,
+}) => {
     const oppdaterUtgift = (barnId: string, utgiftIndex: number, oppdatertUtgift: Utgift) => {
         const oppdaterteUtgifter = utgifterState.value[barnId].map((utgift, indeks) =>
             indeks === utgiftIndex ? oppdatertUtgift : utgift
@@ -39,6 +46,20 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
             tomUtgiftRad(),
             ...prevState.slice(utgiftIndex + 1, prevState.length),
         ]);
+    };
+
+    const slettPeriode = (barnId: string, utgiftIndex: number) => {
+        const oppdaterteUtgifter = utgifterState.value[barnId].filter((_, i) => i != utgiftIndex);
+
+        utgifterState.update(barnId, oppdaterteUtgifter);
+
+        settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+            const utgiftsperioder = (
+                (prevState.utgifter && prevState.utgifter[barnId]) ??
+                []
+            ).filter((_, i) => i !== utgiftIndex);
+            return { ...prevState, utgiftsperioder };
+        });
     };
 
     return (
@@ -58,6 +79,9 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
                         }
                         leggTilTomRadUnder={(utgiftIndeks: number) =>
                             leggTilTomRadUnder(barn.barnId, utgiftIndeks)
+                        }
+                        slettPeriode={(utgiftIndeks: number) =>
+                            slettPeriode(barn.barnId, utgiftIndeks)
                         }
                     />
                 ))}

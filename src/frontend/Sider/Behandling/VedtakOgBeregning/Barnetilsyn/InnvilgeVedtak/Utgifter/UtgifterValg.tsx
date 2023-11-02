@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
@@ -31,6 +31,7 @@ interface Props {
     barn: GrunnlagBarn;
     oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
     leggTilTomRadUnder: (utgiftIndeks: number) => void;
+    slettPeriode: (utgiftIndeks: number) => void;
 }
 
 const UtgifterValg: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const UtgifterValg: React.FC<Props> = ({
     errorState,
     oppdaterUtgift,
     leggTilTomRadUnder,
+    slettPeriode,
 }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
@@ -114,13 +116,24 @@ const UtgifterValg: React.FC<Props> = ({
                                 feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
-                            <Button
-                                type="button"
-                                onClick={() => leggTilTomRadUnder(indeks)}
-                                variant="tertiary"
-                                icon={<PlusCircleIcon />}
-                                size="small"
-                            />
+                            <div>
+                                <Button
+                                    type="button"
+                                    onClick={() => leggTilTomRadUnder(indeks)}
+                                    variant="tertiary"
+                                    icon={<PlusCircleIcon />}
+                                    size="small"
+                                />
+                                {indeks !== 0 && (
+                                    <Button
+                                        type="button"
+                                        onClick={() => slettPeriode(indeks)}
+                                        variant="tertiary"
+                                        icon={<TrashIcon />}
+                                        size="small"
+                                    />
+                                )}
+                            </div>
                         </React.Fragment>
                     ))}
                 </Grid>

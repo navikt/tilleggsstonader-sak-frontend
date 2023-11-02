@@ -161,6 +161,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
                         errorState={formState.errors.utgifter}
+                        settValideringsFeil={formState.setErrors}
                     />
                     <DataViewer response={{ beregningsresultat }}>
                         {({ beregningsresultat }) => (
