@@ -13,7 +13,7 @@ import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { GrunnlagBarn } from '../../../../vilkår';
-import { tomUtgiftRad } from '../../utils';
+import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
@@ -64,12 +64,7 @@ const UtgifterValg: React.FC<Props> = ({
     };
 
     const leggTilTomRadUnder = (utgiftIndex: number) => {
-        const prevState = utgifter;
-        oppdaterUtgiter([
-            ...prevState.slice(0, utgiftIndex + 1),
-            tomUtgiftRad(),
-            ...prevState.slice(utgiftIndex + 1, prevState.length),
-        ]);
+        oppdaterUtgiter(leggTilTomRadUnderIListe(utgifter, tomUtgiftRad(), utgiftIndex));
     };
 
     const slettPeriode = (barnId: string, utgiftIndex: number) => {

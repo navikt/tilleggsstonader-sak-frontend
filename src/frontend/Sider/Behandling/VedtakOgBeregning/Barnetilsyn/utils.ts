@@ -28,6 +28,10 @@ export const tomUtgiftRad = (): Utgift => ({
     endretKey: uuidv4(),
 });
 
+export const leggTilTomRadUnderIListe = <T>(liste: T[], nyRad: T, indeks: number): T[] => {
+    return [...liste.slice(0, indeks + 1), nyRad, ...liste.slice(indeks + 1, liste.length)];
+};
+
 export const lagVedtakRequest = (
     form: FormState<InnvilgeVedtakForm>
 ): InnvilgeVedtakForBarnetilsyn => {

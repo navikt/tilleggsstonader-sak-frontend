@@ -10,7 +10,7 @@ import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
-import { tomStønadsperiodeRad } from '../../utils';
+import { leggTilTomRadUnderIListe, tomStønadsperiodeRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div`
@@ -52,11 +52,9 @@ const StønadsperiodeValg: React.FC<Props> = ({
     };
 
     const leggTilTomRadUnder = (indeks: number) => {
-        stønadsperioderState.setValue((prevState) => [
-            ...prevState.slice(0, indeks + 1),
-            tomStønadsperiodeRad(),
-            ...prevState.slice(indeks + 1, prevState.length),
-        ]);
+        stønadsperioderState.setValue((prevState) =>
+            leggTilTomRadUnderIListe(prevState, tomStønadsperiodeRad(), indeks)
+        );
     };
 
     const slettPeriode = (indeks: number) => {
