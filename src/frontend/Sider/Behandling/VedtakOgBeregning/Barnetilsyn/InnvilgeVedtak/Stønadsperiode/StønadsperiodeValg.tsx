@@ -37,7 +37,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
 }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
-    const oppdaterUtgiftsperiode = (
+    const oppdaterStønadsperiode = (
         indeks: number,
         property: StønadsperiodeProperty,
         value: string | undefined
@@ -84,7 +84,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
                             erLesevisning={!behandlingErRedigerbar}
                             value={stønadsperiode.fom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.FOM, dato)
+                                oppdaterStønadsperiode(indeks, StønadsperiodeProperty.FOM, dato)
                             }
                             size="small"
                             feil={errorState && errorState[indeks]?.fom}
@@ -95,7 +95,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
                             erLesevisning={!behandlingErRedigerbar}
                             value={stønadsperiode.tom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.TOM, dato)
+                                oppdaterStønadsperiode(indeks, StønadsperiodeProperty.TOM, dato)
                             }
                             size="small"
                             feil={errorState && errorState[indeks]?.tom}
