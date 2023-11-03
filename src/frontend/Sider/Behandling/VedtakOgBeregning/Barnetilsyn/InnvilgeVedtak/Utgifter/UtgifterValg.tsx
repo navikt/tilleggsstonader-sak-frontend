@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
@@ -13,6 +13,8 @@ import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { GrunnlagBarn } from '../../../../vilkår';
+import { tomUtgiftRad } from '../../utils';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
@@ -29,20 +31,26 @@ interface Props {
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
     barn: GrunnlagBarn;
-    oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
-    leggTilTomRadUnder: (utgiftIndeks: number) => void;
-    slettPeriode: (utgiftIndeks: number) => void;
+    oppdaterUtgiter: (utgifter: Utgift[]) => void;
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
 const UtgifterValg: React.FC<Props> = ({
     utgifter,
     barn,
     errorState,
-    oppdaterUtgift,
-    leggTilTomRadUnder,
-    slettPeriode,
+    oppdaterUtgiter,
+    settValideringsFeil,
 }) => {
     const { behandlingErRedigerbar } = useBehandling();
+
+    const oppdaterUtgift = (utgiftIndex: number, oppdatertUtgift: Utgift) => {
+        const oppdaterteUtgifter = utgifter.map((utgift, indeks) =>
+            indeks === utgiftIndex ? oppdatertUtgift : utgift
+        );
+
+        oppdaterUtgiter(oppdaterteUtgifter);
+    };
 
     const oppdaterUtgiftFelt = (
         indeks: number,
@@ -52,6 +60,29 @@ const UtgifterValg: React.FC<Props> = ({
         oppdaterUtgift(indeks, {
             ...utgifter[indeks],
             [property]: value,
+        });
+    };
+
+    const leggTilTomRadUnder = (utgiftIndex: number) => {
+        const prevState = utgifter;
+        oppdaterUtgiter([
+            ...prevState.slice(0, utgiftIndex + 1),
+            tomUtgiftRad(),
+            ...prevState.slice(utgiftIndex + 1, prevState.length),
+        ]);
+    };
+
+    const slettPeriode = (barnId: string, utgiftIndex: number) => {
+        const oppdaterteUtgifter = utgifter.filter((_, i) => i != utgiftIndex);
+
+        oppdaterUtgiter(oppdaterteUtgifter);
+
+        settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+            const utgiftsperioder = (
+                (prevState.utgifter && prevState.utgifter[barnId]) ??
+                []
+            ).splice(utgiftIndex, 1);
+            return { ...prevState, utgiftsperioder };
         });
     };
 
@@ -126,7 +157,7 @@ const UtgifterValg: React.FC<Props> = ({
                                 {indeks !== 0 && (
                                     <Button
                                         type="button"
-                                        onClick={() => slettPeriode(indeks)}
+                                        onClick={() => slettPeriode(barn.barnId, indeks)}
                                         variant="tertiary"
                                         icon={<TrashIcon />}
                                         size="small"
