@@ -38,6 +38,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             <Vilkårpanel
                 tittel={grunnlagBarn.registergrunnlag.navn}
                 vilkårsresultat={vilkår.resultat}
+                key={grunnlagBarn.barnId}
             >
                 <VilkårpanelInnhold>
                     {{
