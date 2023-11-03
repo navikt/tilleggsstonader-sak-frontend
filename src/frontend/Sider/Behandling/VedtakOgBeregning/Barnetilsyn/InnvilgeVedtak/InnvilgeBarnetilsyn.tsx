@@ -13,23 +13,26 @@ import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../hooks/felles/useListState';
-import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { RessursStatus, byggTomRessurs } from '../../../../../typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
-    Utgift,
 } from '../../../../../typer/vedtak';
 import { GrunnlagBarn, Vilkårsresultat } from '../../../vilkår';
-import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
+import {
+    lagVedtakRequest,
+    tomStønadsperiodeRad,
+    tomUtgiftPerBarn,
+    UtgifterPerBarn,
+} from '../utils';
 
 export type InnvilgeVedtakForm = {
     stønadsperioder: Stønadsperiode[];
-    utgifter: Record<string, Utgift[]>;
+    utgifterPerBarn: UtgifterPerBarn[];
 };
 
 const Form = styled.form`
@@ -56,17 +59,33 @@ const Knapp = styled(Button)`
 const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
     vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
+const utgiftPerBarn = (
+    vedtak: InnvilgeVedtakForBarnetilsyn,
+    barnIBehandling: GrunnlagBarn[]
+): UtgifterPerBarn[] =>
+    Object.entries(vedtak.utgifter).map(([barnId, utgifter]) => {
+        const barn = barnIBehandling.find((b) => b.barnId === barnId);
+        if (!barn) {
+            throw 'Finner ikke barn';
+        }
+        return {
+            barnId,
+            utgifter,
+        };
+    });
+
 const initUtgifter = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
     barnIBehandling: GrunnlagBarn[]
-) => (vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling));
+): UtgifterPerBarn[] =>
+    vedtak ? utgiftPerBarn(vedtak, barnIBehandling) : tomUtgiftPerBarn(barnIBehandling);
 
 const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
     barnIBehandling: GrunnlagBarn[]
-) => ({
+): InnvilgeVedtakForm => ({
     stønadsperioder: initStønadsperioder(vedtak),
-    utgifter: initUtgifter(vedtak, barnIBehandling),
+    utgifterPerBarn: initUtgifter(vedtak, barnIBehandling),
 });
 
 interface Props {
@@ -88,7 +107,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     );
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
-    const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
+    const utgifterState = formState.getProps('utgifterPerBarn') as ListState<UtgifterPerBarn>;
 
     const [laster, settLaster] = useState<boolean>(false);
     const [beregningsresultat, settBeregningsresultat] = useState(
@@ -131,7 +150,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         if (formState.customValidate(validerPerioder)) {
             const vedtaksRequest = lagVedtakRequest({
                 stønadsperioder: stønadsperioderState.value,
-                utgifter: utgifterState.value,
+                utgifterPerBarn: utgifterState.value,
             });
             request<BeregningsresultatTilsynBarn, InnvilgeVedtakForBarnetilsyn>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
@@ -160,7 +179,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                     <Utgifter
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
-                        errorState={formState.errors.utgifter}
+                        errorState={formState.errors.utgifterPerBarn}
                         settValideringsFeil={formState.setErrors}
                     />
                     <DataViewer response={{ beregningsresultat }}>

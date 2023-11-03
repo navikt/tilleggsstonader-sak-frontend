@@ -17,10 +17,13 @@ export const tomStønadsperiodeRad = (): Stønadsperiode => ({
     endretKey: uuidv4(),
 });
 
-export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
-    barnIBehandling.reduce((acc, barn) => {
-        return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
-    }, {});
+export interface UtgifterPerBarn {
+    barnId: string;
+    utgifter: Utgift[];
+}
+
+export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): UtgifterPerBarn[] =>
+    barnIBehandling.map((barn) => ({ barnId: barn.barnId, utgifter: [tomUtgiftRad()] }));
 
 export const tomUtgiftRad = (): Utgift => ({
     fom: '',
@@ -33,7 +36,7 @@ export const lagVedtakRequest = (
 ): InnvilgeVedtakForBarnetilsyn => {
     return {
         stønadsperioder: form.stønadsperioder,
-        utgifter: form.utgifter,
+        utgifter: form.utgifterPerBarn,
         _type: VedtakType.InnvilgelseBarnetilsyn,
         resultatType: BehandlingResultat.INNVILGET,
     };

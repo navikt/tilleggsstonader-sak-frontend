@@ -13,6 +13,7 @@ import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { GrunnlagBarn } from '../../../../vilkår';
+import { tomUtgiftRad, UtgifterPerBarn } from '../../utils';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
@@ -26,34 +27,57 @@ const Grid = styled.div<{ $lesevisning?: boolean }>`
 `;
 
 interface Props {
-    errorState: FormErrors<Utgift[]>;
-    utgifter: Utgift[];
+    errorState: FormErrors<UtgifterPerBarn>;
+    utgifterPerBarn: UtgifterPerBarn;
     barn: GrunnlagBarn;
-    oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
-    leggTilTomRadUnder: (utgiftIndeks: number) => void;
-    slettPeriode: (utgiftIndeks: number) => void;
+    oppdaterUtgift: (utgifterPerBarn: UtgifterPerBarn) => void;
 }
 
-const UtgifterValg: React.FC<Props> = ({
-    utgifter,
-    barn,
-    errorState,
-    oppdaterUtgift,
-    leggTilTomRadUnder,
-    slettPeriode,
-}) => {
+const UtgifterValg: React.FC<Props> = ({ utgifterPerBarn, barn, errorState, oppdaterUtgift }) => {
     const { behandlingErRedigerbar } = useBehandling();
+    const { utgifter } = utgifterPerBarn;
 
     const oppdaterUtgiftFelt = (
+        utgift: Utgift,
+        property: UtgifterProperty,
+        value: string | number | undefined
+    ) => {
+        return {
+            ...utgift,
+            [property]: value,
+        };
+    };
+    const oppdaterUtgiftVerdi = (
         indeks: number,
         property: UtgifterProperty,
         value: string | number | undefined
     ) => {
-        oppdaterUtgift(indeks, {
-            ...utgifter[indeks],
-            [property]: value,
+        const oppdaterteUtgifter = utgifter.map((utgift, i) =>
+            i === indeks ? oppdaterUtgiftFelt(utgift, property, value) : utgift
+        );
+        oppdaterUtgift({
+            ...utgifterPerBarn,
+            utgifter: oppdaterteUtgifter,
         });
     };
+
+    const slettPeriode = (utgiftIndex: number) => {
+        oppdaterUtgift({
+            ...utgifterPerBarn,
+            utgifter: utgifter.filter((_, i) => i !== utgiftIndex),
+        });
+    };
+
+    function leggTilTomRad(indeks: number) {
+        oppdaterUtgift({
+            barnId: utgifterPerBarn.barnId,
+            utgifter: [
+                ...utgifterPerBarn.utgifter.slice(0, indeks + 1),
+                tomUtgiftRad(),
+                ...utgifterPerBarn.utgifter.slice(indeks + 1, utgifterPerBarn.utgifter.length),
+            ],
+        });
+    }
 
     return (
         <div>
@@ -77,13 +101,13 @@ const UtgifterValg: React.FC<Props> = ({
                                     harTallverdi(utgiftsperiode.utgift) ? utgiftsperiode.utgift : ''
                                 }
                                 onChange={(e) =>
-                                    oppdaterUtgiftFelt(
+                                    oppdaterUtgiftVerdi(
                                         indeks,
                                         UtgifterProperty.UTGIFT,
                                         tilTallverdi(e.target.value)
                                     )
                                 }
-                                error={errorState && errorState[indeks]?.utgift}
+                                error={errorState && errorState.utgifter[indeks]?.utgift}
                                 size="small"
                             />
                             <DateInput
@@ -92,13 +116,13 @@ const UtgifterValg: React.FC<Props> = ({
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.fom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(
+                                    oppdaterUtgiftVerdi(
                                         indeks,
                                         UtgifterProperty.FOM,
                                         dato ? tilÅrMåned(new Date(dato)) : undefined
                                     )
                                 }
-                                feil={errorState && errorState[indeks]?.fom}
+                                feil={errorState && errorState.utgifter[indeks]?.fom}
                                 size="small"
                             />
                             <DateInput
@@ -107,19 +131,19 @@ const UtgifterValg: React.FC<Props> = ({
                                 erLesevisning={!behandlingErRedigerbar}
                                 value={utgiftsperiode.tom}
                                 onChange={(dato?: string) =>
-                                    oppdaterUtgiftFelt(
+                                    oppdaterUtgiftVerdi(
                                         indeks,
                                         UtgifterProperty.TOM,
                                         dato ? tilÅrMåned(new Date(dato)) : undefined
                                     )
                                 }
-                                feil={errorState && errorState[indeks]?.tom}
+                                feil={errorState && errorState.utgifter[indeks]?.tom}
                                 size="small"
                             />
                             <div>
                                 <Button
                                     type="button"
-                                    onClick={() => leggTilTomRadUnder(indeks)}
+                                    onClick={() => leggTilTomRad(indeks)}
                                     variant="tertiary"
                                     icon={<PlusCircleIcon />}
                                     size="small"
