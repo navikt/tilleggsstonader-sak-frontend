@@ -67,7 +67,6 @@ const UtgifterValg: React.FC<Props> = ({
                     <Label size="small">Til</Label>
 
                     {utgifter.map((utgiftsperiode, indeks) => (
-                        // TODO: Skal ikke bruke indeks som key
                         <React.Fragment key={utgiftsperiode.endretKey}>
                             <TextField
                                 erLesevisning={!behandlingErRedigerbar}
