@@ -57,7 +57,7 @@ const Utgifter: React.FC<Props> = ({
             const utgiftsperioder = (
                 (prevState.utgifter && prevState.utgifter[barnId]) ??
                 []
-            ).filter((_, i) => i !== utgiftIndex);
+            ).splice(utgiftIndex, 1);
             return { ...prevState, utgiftsperioder };
         });
     };

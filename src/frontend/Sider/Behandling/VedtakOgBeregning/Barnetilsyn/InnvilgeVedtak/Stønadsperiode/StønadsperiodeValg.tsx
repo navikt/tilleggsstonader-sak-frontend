@@ -63,9 +63,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
         stønadsperioderState.remove(indeks);
 
         settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
-            const stønadsperioder = (prevState.stønadsperioder ?? []).filter(
-                (_, i) => i !== indeks
-            );
+            const stønadsperioder = (prevState.stønadsperioder ?? []).splice(indeks, 1);
             return { ...prevState, stønadsperioder };
         });
     };
