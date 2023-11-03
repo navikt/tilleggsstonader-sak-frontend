@@ -36,7 +36,14 @@ export const lagVedtakRequest = (
 ): InnvilgeVedtakForBarnetilsyn => {
     return {
         stønadsperioder: form.stønadsperioder,
-        utgifter: form.utgifterPerBarn,
+        utgifter: form.utgifterPerBarn.reduce(
+            // @ts-ignore
+            (acc, barn) => {
+                acc[barn.barnId] = barn.utgifter;
+                return acc;
+            },
+            {} as Record<string, Utgift[]>
+        ),
         _type: VedtakType.InnvilgelseBarnetilsyn,
         resultatType: BehandlingResultat.INNVILGET,
     };
