@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
+import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { erProd } from '../../../utils/miljø';
 
 const Inngangsvilkår = () => {
     const { regler, hentRegler } = useRegler();
@@ -16,24 +18,27 @@ const Inngangsvilkår = () => {
     }, [hentRegler]);
 
     return (
-        <DataViewer response={{ regler, vilkårsvurdering }}>
-            {({ regler, vilkårsvurdering }) => (
-                <>
-                    <Målgruppe
-                        vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
-                        vilkårsvurdering={vilkårsvurdering}
-                    />
-                    <Aktivitet
-                        vilkårsregler={regler.vilkårsregler.AKTIVITET}
-                        vilkårsvurdering={vilkårsvurdering}
-                    />
-                    <PassBarn
-                        vilkårsregler={regler.vilkårsregler.PASS_BARN}
-                        vilkårsvurdering={vilkårsvurdering}
-                    />
-                </>
-            )}
-        </DataViewer>
+        <>
+            {!erProd() && <FyllUtVilkårKnapp />}
+            <DataViewer response={{ regler, vilkårsvurdering }}>
+                {({ regler, vilkårsvurdering }) => (
+                    <>
+                        <Målgruppe
+                            vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
+                            vilkårsvurdering={vilkårsvurdering}
+                        />
+                        <Aktivitet
+                            vilkårsregler={regler.vilkårsregler.AKTIVITET}
+                            vilkårsvurdering={vilkårsvurdering}
+                        />
+                        <PassBarn
+                            vilkårsregler={regler.vilkårsregler.PASS_BARN}
+                            vilkårsvurdering={vilkårsvurdering}
+                        />
+                    </>
+                )}
+            </DataViewer>
+        </>
     );
 };
 
