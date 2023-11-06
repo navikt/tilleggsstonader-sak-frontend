@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
@@ -9,6 +9,7 @@ import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
 import { GrunnlagBarn } from '../../../../vilkår';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Container = styled.div`
     display: flex;
@@ -20,17 +21,15 @@ interface Props {
     errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
     barnIBehandling: GrunnlagBarn[];
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState }) => {
-    const oppdaterUtgift = (barnId: string, utgiftIndex: number, oppdatertUtgift: Utgift) => {
-        const oppdaterteUtgifter = utgifterState.value[barnId].map((utgift, indeks) =>
-            indeks === utgiftIndex ? oppdatertUtgift : utgift
-        );
-
-        utgifterState.update(barnId, oppdaterteUtgifter);
-    };
-
+const Utgifter: React.FC<Props> = ({
+    utgifterState,
+    barnIBehandling,
+    errorState,
+    settValideringsFeil,
+}) => {
     return (
         <div>
             <Heading spacing size="small" level="5">
@@ -43,9 +42,10 @@ const Utgifter: React.FC<Props> = ({ utgifterState, barnIBehandling, errorState 
                         utgifter={utgifterState.value[barn.barnId]}
                         errorState={errorState && errorState[barn.barnId]}
                         key={barn.barnId}
-                        oppdaterUtgift={(utgiftIndeks: number, oppdatertUtgift: Utgift) =>
-                            oppdaterUtgift(barn.barnId, utgiftIndeks, oppdatertUtgift)
+                        oppdaterUtgiter={(utgifter: Utgift[]) =>
+                            utgifterState.update(barn.barnId, utgifter)
                         }
+                        settValideringsFeil={settValideringsFeil}
                     />
                 ))}
             </Container>

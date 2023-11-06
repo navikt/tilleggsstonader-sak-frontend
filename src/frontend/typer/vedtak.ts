@@ -14,6 +14,7 @@ export type InnvilgeVedtakForBarnetilsyn = {
 export type Stønadsperiode = {
     fom: string;
     tom: string;
+    endretKey?: string; // intern for re-rendring
 };
 
 export enum StønadsperiodeProperty {
@@ -25,6 +26,7 @@ export type Utgift = {
     fom: string;
     tom: string;
     utgift?: number;
+    endretKey?: string; // intern for re-rendring
 };
 
 export enum UtgifterProperty {

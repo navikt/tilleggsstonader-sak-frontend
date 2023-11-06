@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Label } from '@navikt/ds-react';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
@@ -12,37 +13,44 @@ import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
 import { GrunnlagBarn } from '../../../../vilkår';
+import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div<{ $lesevisning?: boolean }>`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(4, max-content);
     grid-gap: 0.5rem 1rem;
     align-items: start;
+
+    > :nth-child(4n) {
+        grid-column: 1;
+    }
 `;
 
 interface Props {
-    // begrunnelseState: FieldState;
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
     barn: GrunnlagBarn;
-    oppdaterUtgift: (utgiftIndeks: number, utgift: Utgift) => void;
-    // oppdaterUtgifter: (utgifter: Utgift[]) => void;
-    // settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
-    // barn: IBarnMedSamvær[];
-    // låsFraDatoFørsteRad: boolean;
+    oppdaterUtgiter: (utgifter: Utgift[]) => void;
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtgift }) => {
-    // begrunnelseState,
-    // errorState,
-    // settValideringsFeil,
-    // barn,
-    // låsFraDatoFørsteRad,
+const UtgifterValg: React.FC<Props> = ({
+    utgifter,
+    barn,
+    errorState,
+    oppdaterUtgiter,
+    settValideringsFeil,
+}) => {
     const { behandlingErRedigerbar } = useBehandling();
-    // const { settIkkePersistertKomponent } = useApp();
-    // const [sanksjonsmodal, settSanksjonsmodal] = useState<Sanksjonsmodal>({
-    //     visModal: false,
-    // });
+
+    const oppdaterUtgift = (utgiftIndex: number, oppdatertUtgift: Utgift) => {
+        const oppdaterteUtgifter = utgifter.map((utgift, indeks) =>
+            indeks === utgiftIndex ? oppdatertUtgift : utgift
+        );
+
+        oppdaterUtgiter(oppdaterteUtgifter);
+    };
 
     const oppdaterUtgiftFelt = (
         indeks: number,
@@ -55,53 +63,24 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
         });
     };
 
-    // Oppdater for riktig rad
-    // Returner hele utgift objekt?
+    const leggTilTomRadUnder = (utgiftIndex: number) => {
+        oppdaterUtgiter(leggTilTomRadUnderIListe(utgifter, tomUtgiftRad(), utgiftIndex));
+    };
 
-    // const leggTilTomRadUnder = () => {
-    //     // const
-    //     if (utgifter) oppdaterUtgifter([...utgifter, { fra: '', til: '' }]);
-    //     else oppdaterUtgifter([{ fra: '', til: '' }]);
-    // };
+    const slettPeriode = (barnId: string, utgiftIndex: number) => {
+        const oppdaterteUtgifter = utgifter.filter((_, i) => i != utgiftIndex);
 
-    // const periodeVariantTilUtgiftsperiodeProperty = (
-    //     periodeVariant: PeriodeVariant
-    // ): EUtgiftsperiodeProperty => {
-    //     switch (periodeVariant) {
-    //         case PeriodeVariant.ÅR_MÅNED_FRA:
-    //             return EUtgiftsperiodeProperty.årMånedFra;
-    //         case PeriodeVariant.ÅR_MÅNED_TIL:
-    //             return EUtgiftsperiodeProperty.årMånedTil;
-    //     }
-    // };
+        oppdaterUtgiter(oppdaterteUtgifter);
 
-    // const lukkSanksjonsmodal = () => {
-    //     settSanksjonsmodal({ visModal: false });
-    // };
+        settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+            const utgiftsperioder = (
+                (prevState.utgifter && prevState.utgifter[barnId]) ??
+                []
+            ).splice(utgiftIndex, 1);
+            return { ...prevState, utgiftsperioder };
+        });
+    };
 
-    // const slettPeriode = (indeks: number) => {
-    //     if (sanksjonsmodal.visModal) {
-    //         lukkSanksjonsmodal();
-    //     }
-    //     utgiftsperioderState.remove(indeks);
-    //     settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
-    //         const utgiftsperioder = (prevState.utgiftsperioder ?? []).filter((_, i) => i !== indeks);
-    //         return { ...prevState, utgiftsperioder };
-    //     });
-    // };
-
-    // const slettPeriodeModalHvisSanksjon = (indeks: number) => {
-    //     const periode = utgiftsperioderState.value[indeks];
-    //     if (periode.periodetype === EUtgiftsperiodetype.SANKSJON_1_MND) {
-    //         settSanksjonsmodal({
-    //             visModal: true,
-    //             indeks: indeks,
-    //             årMånedFra: periode.årMånedFra,
-    //         });
-    //     } else {
-    //         slettPeriode(indeks);
-    //     }
-    // };
     return (
         <div>
             <Heading spacing size="xsmall" level="5">
@@ -114,8 +93,7 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                     <Label size="small">Til</Label>
 
                     {utgifter.map((utgiftsperiode, indeks) => (
-                        // TODO: Skal ikke bruke indeks som key
-                        <React.Fragment key={indeks}>
+                        <React.Fragment key={utgiftsperiode.endretKey}>
                             <TextField
                                 erLesevisning={!behandlingErRedigerbar}
                                 label="Utgifter"
@@ -163,6 +141,24 @@ const UtgifterValg: React.FC<Props> = ({ utgifter, barn, errorState, oppdaterUtg
                                 feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
+                            <div>
+                                <Button
+                                    type="button"
+                                    onClick={() => leggTilTomRadUnder(indeks)}
+                                    variant="tertiary"
+                                    icon={<PlusCircleIcon />}
+                                    size="small"
+                                />
+                                {indeks !== 0 && (
+                                    <Button
+                                        type="button"
+                                        onClick={() => slettPeriode(barn.barnId, indeks)}
+                                        variant="tertiary"
+                                        icon={<TrashIcon />}
+                                        size="small"
+                                    />
+                                )}
+                            </div>
                         </React.Fragment>
                     ))}
                 </Grid>
