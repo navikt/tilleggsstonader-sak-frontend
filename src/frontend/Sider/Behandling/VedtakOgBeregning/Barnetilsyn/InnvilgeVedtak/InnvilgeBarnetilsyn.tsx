@@ -154,12 +154,14 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                     <StønadsperiodeValg
                         stønadsperioderState={stønadsperioderState}
                         errorState={formState.errors.stønadsperioder}
+                        settValideringsFeil={formState.setErrors}
                     />
                     <Divider />
                     <Utgifter
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
                         errorState={formState.errors.utgifter}
+                        settValideringsFeil={formState.setErrors}
                     />
                     <DataViewer response={{ beregningsresultat }}>
                         {({ beregningsresultat }) => (

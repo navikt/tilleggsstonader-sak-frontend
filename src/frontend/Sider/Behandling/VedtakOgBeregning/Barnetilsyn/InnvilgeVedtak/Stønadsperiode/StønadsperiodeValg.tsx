@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Label } from '@navikt/ds-react';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
 import DateInput from '../../../../../../komponenter/Skjema/DateInput';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
+import { leggTilTomRadUnderIListe, tomStønadsperiodeRad } from '../../utils';
+import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, max-content);
+    grid-template-columns: repeat(3, max-content);
     grid-gap: 0.5rem 1rem;
     align-items: start;
+
+    > :nth-child(3n) {
+        grid-column: 1;
+    }
 `;
 
 interface Props {
     errorState: FormErrors<Stønadsperiode[]>;
     stønadsperioderState: ListState<Stønadsperiode>;
+    settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorState }) => {
+const StønadsperiodeValg: React.FC<Props> = ({
+    stønadsperioderState,
+    errorState,
+    settValideringsFeil,
+}) => {
     const { behandlingErRedigerbar } = useBehandling();
 
-    const oppdaterUtgiftsperiode = (
+    const oppdaterStønadsperiode = (
         indeks: number,
         property: StønadsperiodeProperty,
         value: string | undefined
@@ -39,6 +51,21 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
         );
     };
 
+    const leggTilTomRadUnder = (indeks: number) => {
+        stønadsperioderState.setValue((prevState) =>
+            leggTilTomRadUnderIListe(prevState, tomStønadsperiodeRad(), indeks)
+        );
+    };
+
+    const slettPeriode = (indeks: number) => {
+        stønadsperioderState.remove(indeks);
+
+        settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+            const stønadsperioder = (prevState.stønadsperioder ?? []).splice(indeks, 1);
+            return { ...prevState, stønadsperioder };
+        });
+    };
+
     return (
         <div>
             <Heading spacing size="small" level="5">
@@ -48,15 +75,14 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                 <Label size="small">Fra</Label>
                 <Label size="small">Til</Label>
                 {stønadsperioderState.value.map((stønadsperiode, indeks) => (
-                    // TODO: Skal ikke bruke indeks som key
-                    <React.Fragment key={indeks}>
+                    <React.Fragment key={stønadsperiode.endretKey}>
                         <DateInput
                             label="Fra"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
                             value={stønadsperiode.fom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.FOM, dato)
+                                oppdaterStønadsperiode(indeks, StønadsperiodeProperty.FOM, dato)
                             }
                             size="small"
                             feil={errorState && errorState[indeks]?.fom}
@@ -67,11 +93,29 @@ const StønadsperiodeValg: React.FC<Props> = ({ stønadsperioderState, errorStat
                             erLesevisning={!behandlingErRedigerbar}
                             value={stønadsperiode.tom}
                             onChange={(dato?: string) =>
-                                oppdaterUtgiftsperiode(indeks, StønadsperiodeProperty.TOM, dato)
+                                oppdaterStønadsperiode(indeks, StønadsperiodeProperty.TOM, dato)
                             }
                             size="small"
                             feil={errorState && errorState[indeks]?.tom}
                         />
+                        <div>
+                            <Button
+                                type="button"
+                                onClick={() => leggTilTomRadUnder(indeks)}
+                                variant="tertiary"
+                                icon={<PlusCircleIcon />}
+                                size="small"
+                            />
+                            {indeks !== 0 && (
+                                <Button
+                                    type="button"
+                                    onClick={() => slettPeriode(indeks)}
+                                    variant="tertiary"
+                                    icon={<TrashIcon />}
+                                    size="small"
+                                />
+                            )}
+                        </div>
                     </React.Fragment>
                 ))}
             </Grid>

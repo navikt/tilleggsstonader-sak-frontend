@@ -82,11 +82,11 @@ const validerUtgifter = (
 
                 // TODO: Tilpass validering
                 if (!utgift.fom) {
-                    return { ...utgiftFeil, fra: 'Mangler fradato for periode' };
+                    return { ...utgiftFeil, fom: 'Mangler fradato for periode' };
                 }
 
                 if (!utgift.tom) {
-                    return { ...utgiftFeil, til: 'Mangler tildato for periode' };
+                    return { ...utgiftFeil, tom: 'Mangler tildato for periode' };
                 }
 
                 // TODO: Bytt ut validering av dato med noe som funker for årmåned
