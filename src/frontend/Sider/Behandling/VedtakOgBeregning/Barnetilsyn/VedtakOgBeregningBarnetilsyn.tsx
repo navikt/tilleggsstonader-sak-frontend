@@ -1,10 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { useVedtak } from '../../../../hooks/useVedtak';
+import DataViewer from '../../../../komponenter/DataViewer';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
+import { RessursStatus } from '../../../../typer/ressurs';
 import { Vilkårsresultat } from '../../vilkår';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
@@ -16,20 +20,22 @@ const Container = styled.div`
 `;
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
+    const { behandling } = useBehandling();
+    const { vedtak, hentVedtak } = useVedtak();
+
     const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
 
-    const utledVedtakForm = () => {
-        switch (resultatType) {
-            case BehandlingResultat.INNVILGET:
-                return <InnvilgeVedtak settResultatType={settResultatType} />;
+    useEffect(() => {
+        hentVedtak(behandling.id);
+    }, [behandling, hentVedtak]);
 
-            case undefined:
-                break;
-
-            default:
-                return <p>Ikke implementert</p>;
+    useEffect(() => {
+        // TODO: Oppdater sjekk av resultat når flere implementeres
+        // Sjekker at stønadsperioder eksisterer så resultat kun settes til innvilget om det finnes data
+        if (vedtak.status === RessursStatus.SUKSESS && vedtak.data.stønadsperioder) {
+            settResultatType(BehandlingResultat.INNVILGET);
         }
-    };
+    }, [vedtak]);
 
     return (
         <Container>
@@ -45,7 +51,25 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                     settResultatType={settResultatType}
                 />
             </EkspanderbartPanel>
-            {utledVedtakForm()}
+            <DataViewer response={{ vedtak }}>
+                {({ vedtak }) => {
+                    switch (resultatType) {
+                        case BehandlingResultat.INNVILGET:
+                            return (
+                                <InnvilgeVedtak
+                                    settResultatType={settResultatType}
+                                    lagretVedtak={vedtak}
+                                />
+                            );
+
+                        case undefined:
+                            return null;
+
+                        default:
+                            return <p>Ikke implementert</p>;
+                    }
+                }}
+            </DataViewer>
         </Container>
     );
 };
