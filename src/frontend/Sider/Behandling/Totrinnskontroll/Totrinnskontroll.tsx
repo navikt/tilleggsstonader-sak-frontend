@@ -57,16 +57,24 @@ const TotrinnskontrollSwitch: FC<{
 };
 
 /**
- * Håndtering av ulike states for å håndtere flyten av at en behandling skal hente totrinnskontroll på nytt eller ikke
+ * Skal hente totrinnskontroll:
+ *  * Første rendering av siden hvis status er UTREDES eller FATTER_VEDTAK
+ *  * Hvis status går fra utredes til fatter vedtak (sender til totrinnskontroll)
  */
-const behandlingErSendtTilBeslutter = (
+const skalHenteTotrinnskontroll = (
     prevBehandling: Behandling | undefined,
     behandling: Behandling
 ) => {
-    return (
-        prevBehandling?.status !== behandling.status &&
-        behandling.status === BehandlingStatus.FATTER_VEDTAK
-    );
+    const forrigeStatus = prevBehandling?.status;
+    const nyStatus = behandling.status;
+    const statusErUendret = forrigeStatus === nyStatus;
+
+    if (statusErUendret) return false;
+    // Init-henting / sender til beslutter (send til beslutter kan erstattes hvis den knappen blir flyttet fra brev)
+    if (nyStatus === BehandlingStatus.FATTER_VEDTAK) return true;
+
+    // Init-henting
+    return !forrigeStatus && nyStatus === BehandlingStatus.UTREDES;
 };
 const Totrinnskontroll: FC = () => {
     const navigate = useNavigate();
@@ -79,7 +87,7 @@ const Totrinnskontroll: FC = () => {
         useHentTotrinnskontroll();
 
     useEffect(() => {
-        if (behandlingErSendtTilBeslutter(prevBehandling, behandling)) {
+        if (skalHenteTotrinnskontroll(prevBehandling, behandling)) {
             hentTotrinnskontroll(behandling.id);
         }
     }, [prevBehandling, behandling, hentTotrinnskontroll]);
