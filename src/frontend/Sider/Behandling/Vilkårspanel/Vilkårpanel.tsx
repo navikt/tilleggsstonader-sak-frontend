@@ -10,7 +10,6 @@ import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vilkårsresult
 import { Vilkårsresultat } from '../vilkår';
 
 const VilkårpanelBase = styled.div`
-    margin: 2rem;
     background-color: ${ABlue50};
 `;
 

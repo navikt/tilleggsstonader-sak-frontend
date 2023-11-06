@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { styled } from 'styled-components';
+
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
@@ -8,6 +10,13 @@ import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
 import { erProd } from '../../../utils/miljø';
+
+const Container = styled.div`
+    display: grid;
+    grid-direction: column;
+    gap: 2rem;
+    margin: 2rem;
+`;
 
 const Inngangsvilkår = () => {
     const { regler, hentRegler } = useRegler();
@@ -18,7 +27,7 @@ const Inngangsvilkår = () => {
     }, [hentRegler]);
 
     return (
-        <>
+        <Container>
             {!erProd() && <FyllUtVilkårKnapp />}
             <DataViewer response={{ regler, vilkårsvurdering }}>
                 {({ regler, vilkårsvurdering }) => (
@@ -38,7 +47,7 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-        </>
+        </Container>
     );
 };
 
