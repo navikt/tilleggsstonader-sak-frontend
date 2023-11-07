@@ -3,7 +3,6 @@ import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel';
@@ -20,14 +19,9 @@ const Container = styled.div`
 `;
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const { behandling } = useBehandling();
-    const { vedtak, hentVedtak } = useVedtak();
+    const { vedtak } = useVedtak();
 
     const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
-
-    useEffect(() => {
-        hentVedtak(behandling.id);
-    }, [behandling, hentVedtak]);
 
     useEffect(() => {
         // TODO: Oppdater sjekk av resultat når flere implementeres
