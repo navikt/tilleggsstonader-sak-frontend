@@ -24,6 +24,7 @@ const FyllUtVilkårKnapp: React.FC = () => {
         request<string, null>(`/api/sak/test/${behandling.id}/oppfyll-vilkar`, 'POST').then(
             (res) => {
                 if (res.status === RessursStatus.SUKSESS) {
+                    settFeilmelding('');
                     hentVilkårsvurdering();
                     hentBehandling.rerun();
                 } else {
