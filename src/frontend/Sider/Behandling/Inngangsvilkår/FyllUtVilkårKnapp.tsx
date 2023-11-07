@@ -21,7 +21,7 @@ const FyllUtVilkårKnapp: React.FC = () => {
     const [feilmelding, settFeilmelding] = useState<string>('');
 
     const automatiskFyllUtVilkår = useCallback(() => {
-        request<string, null>(`/api/sak/test/${behandling.id}/utfyll-vilkar`, 'POST').then(
+        request<string, null>(`/api/sak/test/${behandling.id}/oppfyll-vilkar`, 'POST').then(
             (res) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     hentVilkårsvurdering();
