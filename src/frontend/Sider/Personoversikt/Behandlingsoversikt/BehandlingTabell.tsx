@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { Table } from '@navikt/ds-react';
 
 import { Behandling } from '../../../typer/behandling/behandling';
@@ -40,7 +42,12 @@ const BehandlingTabell: React.FC<{
                         <Table.DataCell>
                             {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
                         </Table.DataCell>
-                        <Table.DataCell>{formaterEnumVerdi(behandling.resultat)}</Table.DataCell>
+
+                        <Table.DataCell>
+                            <Link to={{ pathname: `/behandling/${behandling.id}` }}>
+                                {formaterEnumVerdi(behandling.resultat)}
+                            </Link>
+                        </Table.DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
