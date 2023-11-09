@@ -2,7 +2,7 @@ import React from 'react';
 
 import MålgruppeInfo from './MålgruppeInfo';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { Inngangsvilkårtype, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
+import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
@@ -21,7 +21,7 @@ const Målgruppe: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     }
 
     return (
-        <Vilkårpanel tittel="Målgruppe" vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}>
+        <Vilkårpanel tittel="Målgruppe" vilkårsresultat={vilkår.resultat}>
             <VilkårpanelInnhold>
                 {{
                     venstre: <MålgruppeInfo />,

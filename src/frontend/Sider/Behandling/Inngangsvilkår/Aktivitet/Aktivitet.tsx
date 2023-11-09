@@ -2,7 +2,7 @@ import React from 'react';
 
 import AktivitetInfo from './AktivitetInfo';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { Inngangsvilkårtype, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
+import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
 import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
@@ -20,7 +20,7 @@ const Aktivitet: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return <div>Mangler vurdering for forutgående medlemskap</div>;
     }
     return (
-        <Vilkårpanel tittel="Aktivitet" vilkårsresultat={Vilkårsresultat.IKKE_TATT_STILLING_TIL}>
+        <Vilkårpanel tittel="Aktivitet" vilkårsresultat={vilkår.resultat}>
             <VilkårpanelInnhold>
                 {{
                     venstre: <AktivitetInfo />,
