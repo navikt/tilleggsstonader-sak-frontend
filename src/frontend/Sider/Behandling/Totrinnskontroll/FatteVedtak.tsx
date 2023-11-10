@@ -94,7 +94,7 @@ const FatteVedtak: React.FC<{
                         navigate('/');
                     }
                 } else {
-                    settFeil(response.frontendFeilmeldingUtenFeilkode);
+                    settFeil(response.frontendFeilmelding);
                 }
             })
             .finally(() => settLaster(false));
