@@ -22,6 +22,9 @@ interface Props {
     fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
 }
 
+const saksbehandlerSignaturPlaceholder = 'SAKSBEHANDLER_SIGNATUR';
+const beslutterSignaturPlaceholder = 'BESLUTTER_SIGNATUR';
+
 const HtmlBrev: React.FC<Props> = ({
     navn,
     personIdent,
@@ -78,6 +81,10 @@ const HtmlBrev: React.FC<Props> = ({
                                 )}
                             />
                         ))}
+                </div>
+                <div style={{ marginRight: '20px' }}>
+                    <span>{saksbehandlerSignaturPlaceholder}</span>
+                    <span style={{ marginLeft: '20px' }}>{beslutterSignaturPlaceholder}</span>
                 </div>
             </div>
         </body>
