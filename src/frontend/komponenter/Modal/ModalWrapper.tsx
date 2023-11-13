@@ -14,10 +14,10 @@ const Innhold = styled.div`
     margin-left: 2rem;
 `;
 
-const ButtonContainer = styled.div<{ marginTop?: number }>`
+const ButtonContainer = styled.div<{ $marginTop?: number }>`
     display: flex;
     justify-content: flex-end;
-    margin-top: ${(props) => (props.marginTop ? `${props.marginTop}rem` : '1rem')};
+    margin-top: ${(props) => (props.$marginTop ? `${props.$marginTop}rem` : '1rem')};
     margin-right: 2rem;
     margin-bottom: 0.5rem;
 `;
@@ -65,7 +65,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                 <Modal.Body>
                     <Innhold>{children}</Innhold>
                     {aksjonsknapper && (
-                        <ButtonContainer marginTop={aksjonsknapper.marginTop}>
+                        <ButtonContainer $marginTop={aksjonsknapper.marginTop}>
                             <ModalKnapp
                                 variant="tertiary"
                                 onClick={aksjonsknapper.lukkKnapp.onClick}
