@@ -3,7 +3,7 @@ import { Stønadstype } from './behandling/behandlingTema';
 
 export interface FagsakPersonMedBehandlinger {
     id: string;
-    barnetilsyn?: Fagsak;
+    tilsynBarn?: Fagsak;
 }
 
 export interface Fagsak {
