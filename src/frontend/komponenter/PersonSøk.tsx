@@ -1,13 +1,15 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { FormEvent, useCallback, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 
-import { Search } from '@navikt/ds-react';
+import { Alert, Popover, Search } from '@navikt/ds-react';
+import { ATextDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../context/AppContext';
 import { RessursStatus } from '../typer/ressurs';
 
-type Søkeresultat = {
+export type Søkeresultat = {
     personIdent: string;
     visningsnavn: string;
     kjønn: Kjønn;
@@ -19,10 +21,18 @@ enum Kjønn {
     MANN = 'MANN',
     UKJENT = 'UKJENT',
 }
+
+const StyledAlert = styled(Alert)`
+    width: 24rem;
+    color: ${ATextDefault};
+`;
+
 const PersonSøk: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
+    const søkRef = useRef<HTMLDivElement>(null);
     const [søkestreng, settSøkestreng] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<string>();
 
     const søkPerson = useCallback(
         (personIdent: string) => {
@@ -32,8 +42,7 @@ const PersonSøk: React.FC = () => {
                 if (res.status === RessursStatus.SUKSESS) {
                     navigate(`/person/${res.data.fagsakPersonId}`);
                 } else {
-                    // eslint-disable-next-line no-console
-                    console.log('Feilet', res);
+                    settFeilmelding(res.frontendFeilmelding);
                 }
             });
         },
@@ -48,15 +57,35 @@ const PersonSøk: React.FC = () => {
     };
 
     return (
-        <form role="search" onSubmit={søk}>
-            <Search
-                variant="simple"
-                label="Søk etter fagsak for en person"
-                name="søk"
-                onChange={settSøkestreng}
-                value={søkestreng}
-            />
-        </form>
+        <>
+            <form role="search" onSubmit={søk}>
+                <Search
+                    variant="simple"
+                    label="Søk etter fagsak for en person"
+                    name="søk"
+                    onChange={settSøkestreng}
+                    value={søkestreng}
+                    ref={søkRef}
+                />
+            </form>
+            <Popover
+                anchorEl={søkRef.current}
+                open={feilmelding !== undefined}
+                onClose={() => {
+                    return;
+                }}
+                arrow={false}
+                placement="bottom"
+            >
+                <Popover.Content
+                    style={{
+                        padding: '0px',
+                    }}
+                >
+                    <StyledAlert variant="error">{feilmelding}</StyledAlert>
+                </Popover.Content>
+            </Popover>
+        </>
     );
 };
 
