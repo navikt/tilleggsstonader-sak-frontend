@@ -93,7 +93,7 @@ const PersonSøk: React.FC = () => {
                 anchorEl={søkRef.current}
                 open={feilmelding !== undefined}
                 onClose={() => {
-                    return;
+                    settFeilmelding(undefined);
                 }}
                 arrow={false}
                 placement="bottom"
