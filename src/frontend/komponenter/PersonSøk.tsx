@@ -22,6 +22,10 @@ enum Kjønn {
     UKJENT = 'UKJENT',
 }
 
+const Container = styled.div`
+    padding: 0.5rem;
+`;
+
 const StyledAlert = styled(Alert)`
     width: 24rem;
     color: ${ATextDefault};
@@ -78,7 +82,7 @@ const PersonSøk: React.FC = () => {
     };
 
     return (
-        <>
+        <Container>
             <form role="search" onSubmit={søk}>
                 <Search
                     variant="simple"
@@ -87,6 +91,7 @@ const PersonSøk: React.FC = () => {
                     onChange={settSøkestreng}
                     value={søkestreng}
                     ref={søkRef}
+                    size="small"
                 />
             </form>
             <Popover
@@ -106,7 +111,7 @@ const PersonSøk: React.FC = () => {
                     <StyledAlert variant="error">{feilmelding}</StyledAlert>
                 </Popover.Content>
             </Popover>
-        </>
+        </Container>
     );
 };
 
