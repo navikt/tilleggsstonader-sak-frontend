@@ -27,6 +27,8 @@ const StyledAlert = styled(Alert)`
     color: ${ATextDefault};
 `;
 
+const erPositivtTall = (verdi: string) => /^\d+$/.test(verdi) && Number(verdi) !== 0;
+
 const PersonSøk: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
@@ -38,11 +40,26 @@ const PersonSøk: React.FC = () => {
         (personIdent: string) => {
             request<Søkeresultat, { personIdent: string }>(`/api/sak/sok/person`, 'POST', {
                 personIdent: personIdent,
-            }).then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    navigate(`/person/${res.data.fagsakPersonId}`);
+            }).then((resultat) => {
+                if (resultat.status === RessursStatus.SUKSESS) {
+                    navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
-                    settFeilmelding(res.frontendFeilmelding);
+                    settFeilmelding(resultat.frontendFeilmelding);
+                }
+            });
+        },
+        [navigate, request]
+    );
+
+    const søkPersonEksternFagsakId = useCallback(
+        (eksternFagsakId: string) => {
+            request<Søkeresultat, null>(
+                `/api/sak/sok/person/fagsak-ekstern/${eksternFagsakId}`
+            ).then((resultat) => {
+                if (resultat.status === RessursStatus.SUKSESS) {
+                    navigate(`/person/${resultat.data.fagsakPersonId}`);
+                } else {
+                    settFeilmelding(resultat.frontendFeilmelding);
                 }
             });
         },
@@ -53,7 +70,11 @@ const PersonSøk: React.FC = () => {
         event.preventDefault();
         if (!søkestreng) return;
 
-        søkPerson(søkestreng);
+        if (erPositivtTall(søkestreng) && søkestreng.length !== 11) {
+            søkPersonEksternFagsakId(søkestreng);
+        } else {
+            søkPerson(søkestreng);
+        }
     };
 
     return (
