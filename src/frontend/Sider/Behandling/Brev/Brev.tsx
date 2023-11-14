@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import BrevLesevisning from './BrevLesevisning';
 import Brevmeny from './Brevmeny';
 import useBrev from './useBrev';
 import VelgBrevmal from './VelgBrevmal';
@@ -17,7 +18,7 @@ const Container = styled.div`
 `;
 
 const Brev: React.FC = () => {
-    const { behandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
     const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
         behandling.stønadstype,
         'INNVILGET'
@@ -25,25 +26,29 @@ const Brev: React.FC = () => {
 
     return (
         <Container>
-            <DataViewer response={{ brevmaler }}>
-                {({ brevmaler }) => (
-                    <>
-                        <VelgBrevmal
-                            brevmaler={brevmaler}
-                            brevmal={brevmal}
-                            settBrevmal={settBrevmal}
-                        />
-                        <DataViewer response={{ malStruktur }}>
-                            {({ malStruktur }) => (
-                                <>
-                                    <Brevmeny mal={malStruktur} behandlingId={behandling.id} />
-                                    <SendTilBeslutterFooter />
-                                </>
-                            )}
-                        </DataViewer>
-                    </>
-                )}
-            </DataViewer>
+            {behandlingErRedigerbar ? (
+                <DataViewer response={{ brevmaler }}>
+                    {({ brevmaler }) => (
+                        <>
+                            <VelgBrevmal
+                                brevmaler={brevmaler}
+                                brevmal={brevmal}
+                                settBrevmal={settBrevmal}
+                            />
+                            <DataViewer response={{ malStruktur }}>
+                                {({ malStruktur }) => (
+                                    <>
+                                        <Brevmeny mal={malStruktur} behandlingId={behandling.id} />
+                                        <SendTilBeslutterFooter />
+                                    </>
+                                )}
+                            </DataViewer>
+                        </>
+                    )}
+                </DataViewer>
+            ) : (
+                <BrevLesevisning />
+            )}
         </Container>
     );
 };
