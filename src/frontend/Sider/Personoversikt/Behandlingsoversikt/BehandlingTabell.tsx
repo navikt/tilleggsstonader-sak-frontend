@@ -64,6 +64,7 @@ const BehandlingTabell: React.FC<{
                             </Link>
                         </Table.DataCell>
                         <Table.DataCell>
+                            {/* TODO: Må gås opp hvordan henlegg skal fungere */}
                             <Button
                                 variant="secondary"
                                 size="small"
