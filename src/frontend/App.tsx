@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 
 import { InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
+import PersonSøk from './komponenter/PersonSøk';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
@@ -12,15 +13,26 @@ import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 
-const AppRoutes = () => {
+const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
+    innloggetSaksbehandler,
+}) => {
     const { autentisert } = useApp();
     return (
         <BrowserRouter>
             {autentisert ? (
                 <Routes>
-                    <Route path={'/'} element={<Oppgavebenk />} />
-                    <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
-                    <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
+                    <Route
+                        path={'/'}
+                        element={<AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />}
+                    >
+                        <Route path={''} element={<Oppgavebenk />} />
+                        <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
+
+                        <Route
+                            path={'/behandling/:behandlingId/*'}
+                            element={<BehandlingContainer />}
+                        />
+                    </Route>
                 </Routes>
             ) : (
                 <Routes>
@@ -45,15 +57,26 @@ const App: React.FC = () => {
     }
     return (
         <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+        </AppProvider>
+    );
+};
+
+const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
+    innloggetSaksbehandler,
+}) => {
+    return (
+        <>
             <Sticky>
                 <InternalHeader>
                     <InternalHeader.Title as="h1">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
+                    <PersonSøk />
                     <InternalHeader.User name={innloggetSaksbehandler.name} />
                 </InternalHeader>
             </Sticky>
-            <AppRoutes />
-        </AppProvider>
+            <Outlet />
+        </>
     );
 };
 
