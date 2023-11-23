@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
+import { useApp } from '../../../context/AppContext';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { PartialRecord } from '../../../typer/common';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
@@ -21,6 +22,19 @@ const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
 const BehandlingTabell: React.FC<{
     behandlinger: Behandling[];
 }> = ({ behandlinger }) => {
+    const { request } = useApp();
+
+    const henleggBehandling = useCallback(
+        (behandlingId: string) => {
+            request<string, { årsak: string }>(
+                `/api/sak/behandling/${behandlingId}/henlegg`,
+                'POST',
+                { årsak: 'FEILREGISTRERT' }
+            );
+        },
+        [request]
+    );
+
     return (
         <Table size="small">
             <Table.Header>
@@ -28,6 +42,7 @@ const BehandlingTabell: React.FC<{
                     {Object.entries(TabellData).map(([key, value], indeks) => (
                         <Table.HeaderCell key={`${indeks}${key}`}>{value}</Table.HeaderCell>
                     ))}
+                    <Table.HeaderCell />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -47,6 +62,16 @@ const BehandlingTabell: React.FC<{
                             <Link to={{ pathname: `/behandling/${behandling.id}` }}>
                                 {formaterEnumVerdi(behandling.resultat)}
                             </Link>
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            {/* TODO: Må gås opp hvordan henlegg skal fungere */}
+                            <Button
+                                variant="secondary"
+                                size="small"
+                                onClick={() => henleggBehandling(behandling.id)}
+                            >
+                                Henlegg
+                            </Button>
                         </Table.DataCell>
                     </Table.Row>
                 ))}
