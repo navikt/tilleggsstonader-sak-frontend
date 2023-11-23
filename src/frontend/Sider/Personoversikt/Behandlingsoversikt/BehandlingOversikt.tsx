@@ -5,11 +5,11 @@ import { useHentFagsakPersonUtvidet } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
-    const { hentFagsakPersonUtvidet, fagsakPerson } = useHentFagsakPersonUtvidet();
+    const { hentFagsakPerson, fagsakPerson } = useHentFagsakPersonUtvidet();
 
     useEffect(() => {
-        hentFagsakPersonUtvidet(fagsakPersonId);
-    }, [fagsakPersonId, hentFagsakPersonUtvidet]);
+        hentFagsakPerson(fagsakPersonId);
+    }, [fagsakPersonId, hentFagsakPerson]);
 
     return (
         <DataViewer response={{ fagsakPerson }}>

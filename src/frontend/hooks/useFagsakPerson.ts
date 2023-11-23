@@ -4,29 +4,30 @@ import { useApp } from '../context/AppContext';
 import { FagsakPersonMedBehandlinger } from '../typer/fagsak';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
 
-interface HentFagsakPersonResponse {
-    hentFagsakPersonUtvidet: (fagsakPersonId: string) => void;
-    fagsakPerson: Ressurs<FagsakPersonMedBehandlinger>;
+interface HentFagsakPersonResponse<T> {
+    hentFagsakPerson: (fagsakPersonId: string) => void;
+    fagsakPerson: Ressurs<T>;
 }
 
-export const useHentFagsakPersonUtvidet = (): HentFagsakPersonResponse => {
-    const { request } = useApp();
+export const useHentFagsakPersonUtvidet =
+    (): HentFagsakPersonResponse<FagsakPersonMedBehandlinger> => {
+        const { request } = useApp();
 
-    const [fagsakPerson, settFagsakPerson] = useState<Ressurs<FagsakPersonMedBehandlinger>>(
-        byggTomRessurs()
-    );
+        const [fagsakPerson, settFagsakPerson] = useState<Ressurs<FagsakPersonMedBehandlinger>>(
+            byggTomRessurs()
+        );
 
-    const hentFagsakPersonUtvidet = useCallback(
-        (fagsakPersonId: string) => {
-            request<FagsakPersonMedBehandlinger, null>(
-                `/api/sak/fagsak-person/${fagsakPersonId}/utvidet`
-            ).then(settFagsakPerson);
-        },
-        [request]
-    );
+        const hentFagsakPerson = useCallback(
+            (fagsakPersonId: string) => {
+                request<FagsakPersonMedBehandlinger, null>(
+                    `/api/sak/fagsak-person/${fagsakPersonId}/utvidet`
+                ).then(settFagsakPerson);
+            },
+            [request]
+        );
 
-    return {
-        hentFagsakPersonUtvidet,
-        fagsakPerson,
+        return {
+            hentFagsakPerson,
+            fagsakPerson,
+        };
     };
-};
