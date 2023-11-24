@@ -85,6 +85,7 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
+                inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);
     };

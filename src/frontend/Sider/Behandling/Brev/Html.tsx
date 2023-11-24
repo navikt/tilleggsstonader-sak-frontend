@@ -20,6 +20,7 @@ interface Props {
     valgfelt: Partial<Record<string, Record<string, Valg>>>;
     variabler: Partial<Record<string, Record<string, string>>>;
     fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
+    inkluderBeslutterSignaturPlaceholder?: boolean;
 }
 
 const saksbehandlerSignaturPlaceholder = 'SAKSBEHANDLER_SIGNATUR';
@@ -35,6 +36,7 @@ const HtmlBrev: React.FC<Props> = ({
     fritekst,
     mal,
     inkluderteDelmaler,
+    inkluderBeslutterSignaturPlaceholder = true,
 }) => (
     <html lang={'nb'}>
         <head>
@@ -84,7 +86,9 @@ const HtmlBrev: React.FC<Props> = ({
                 </div>
                 <div style={{ marginRight: '20px' }}>
                     <span>{saksbehandlerSignaturPlaceholder}</span>
-                    <span style={{ marginLeft: '20px' }}>{beslutterSignaturPlaceholder}</span>
+                    {inkluderBeslutterSignaturPlaceholder && (
+                        <span style={{ marginLeft: '20px' }}>{beslutterSignaturPlaceholder}</span>
+                    )}
                 </div>
             </div>
         </body>
