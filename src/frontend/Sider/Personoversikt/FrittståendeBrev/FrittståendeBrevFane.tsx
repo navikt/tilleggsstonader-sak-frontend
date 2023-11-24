@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Select } from '@navikt/ds-react';
 
+import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -43,6 +44,9 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                                 </option>
                             )}
                         </Select>
+                        {valgtStønadstype && (
+                            <FrittståendeBrev valgtStønadstype={valgtStønadstype} />
+                        )}
                     </>
                 )}
             </DataViewer>

@@ -12,7 +12,7 @@ import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 interface Props {
     mal: MalStruktur;
-    behandlingId: string;
+    behandlingId?: string;
 }
 
 const oppdaterStateForId =
@@ -72,7 +72,9 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
     const { request } = useApp();
 
     const genererPdf = () => {
-        request<string, { html: string }>(`/api/sak/brev/${behandlingId}`, 'POST', {
+        const url = behandlingId ? `/api/sak/brev/${behandlingId}` : `/api/sak/frittstaende-brev`;
+
+        request<string, { html: string }>(url, 'POST', {
             html: lagHtmlStringAvBrev({
                 // TODO: Bytt ut hardkodet data
                 brevOpprettetDato: '16.10.2023',
