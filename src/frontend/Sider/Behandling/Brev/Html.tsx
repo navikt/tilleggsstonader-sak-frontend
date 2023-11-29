@@ -54,7 +54,7 @@ const HtmlBrev: React.FC<Props> = ({
                     <div className="ikon-og-dato">
                         <NavIkon />
                         {/* placeholder i tilfelle brevet besluttes annen dag enn det lages */}
-                        <p>{brevOpprettetDatoPlaceholder}</p>{' '}
+                        <p>{brevOpprettetDatoPlaceholder}</p>
                     </div>
                     <div className={'tittel-og-personinfo'}>
                         <h2 className="tittel">{mal.brevtittel.toUpperCase()}</h2>
