@@ -13,8 +13,6 @@ export const lagHtmlStringAvBrev = (props: Props): string =>
 interface Props {
     navn: string;
     personIdent: string;
-    brevOpprettetDatoPlaceholder?: string;
-    brevOpprettetDato: string;
     mal: MalStruktur;
     inkluderteDelmaler: Record<string, boolean>;
     valgfelt: Partial<Record<string, Record<string, Valg>>>;
@@ -25,12 +23,11 @@ interface Props {
 
 const saksbehandlerSignaturPlaceholder = 'SAKSBEHANDLER_SIGNATUR';
 const beslutterSignaturPlaceholder = 'BESLUTTER_SIGNATUR';
+const brevOpprettetDatoPlaceholder = 'BESLUTTER_VEDTAKSDATO';
 
 const HtmlBrev: React.FC<Props> = ({
     navn,
     personIdent,
-    brevOpprettetDatoPlaceholder,
-    brevOpprettetDato,
     valgfelt,
     variabler,
     fritekst,
@@ -57,7 +54,7 @@ const HtmlBrev: React.FC<Props> = ({
                     <div className="ikon-og-dato">
                         <NavIkon />
                         {/* placeholder i tilfelle brevet besluttes annen dag enn det lages */}
-                        <p>{brevOpprettetDatoPlaceholder || brevOpprettetDato}</p>{' '}
+                        <p>{brevOpprettetDatoPlaceholder}</p>{' '}
                     </div>
                     <div className={'tittel-og-personinfo'}>
                         <h2 className="tittel">{mal.brevtittel.toUpperCase()}</h2>
