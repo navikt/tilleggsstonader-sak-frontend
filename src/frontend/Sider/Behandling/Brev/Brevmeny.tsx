@@ -76,8 +76,6 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
 
         request<string, { html: string }>(url, 'POST', {
             html: lagHtmlStringAvBrev({
-                // TODO: Bytt ut hardkodet data
-                brevOpprettetDato: '16.10.2023',
                 navn: 'Bjarne',
                 personIdent: '12345678',
                 fritekst: fritekst,
