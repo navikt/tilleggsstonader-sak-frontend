@@ -23,7 +23,7 @@ interface Props {
 
 const saksbehandlerSignaturPlaceholder = 'SAKSBEHANDLER_SIGNATUR';
 const beslutterSignaturPlaceholder = 'BESLUTTER_SIGNATUR';
-const brevOpprettetDatoPlaceholder = 'BESLUTTER_VEDTAKSDATO';
+const brevdatoPlaceholder = 'BREVDATO_PLACEHOLDER';
 
 const HtmlBrev: React.FC<Props> = ({
     navn,
@@ -54,7 +54,7 @@ const HtmlBrev: React.FC<Props> = ({
                     <div className="ikon-og-dato">
                         <NavIkon />
                         {/* placeholder i tilfelle brevet besluttes annen dag enn det lages */}
-                        <p>{brevOpprettetDatoPlaceholder}</p>
+                        <p>{brevdatoPlaceholder}</p>
                     </div>
                     <div className={'tittel-og-personinfo'}>
                         <h2 className="tittel">{mal.brevtittel.toUpperCase()}</h2>
