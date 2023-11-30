@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Heading, Table } from '@navikt/ds-react';
 
+import LeggTilMålgruppe from './LeggTilMålgruppe';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 
 interface MålgruppePeriode {
@@ -11,7 +12,7 @@ interface MålgruppePeriode {
     type: MålgruppeType;
 }
 
-enum MålgruppeType {
+export enum MålgruppeType {
     AAP = 'AAP',
 }
 
@@ -44,6 +45,7 @@ const Målgruppe = () => {
             </Table>
             {skalViseLeggTilPeriode ? (
                 <>
+                    <LeggTilMålgruppe />
                     <Button
                         onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
                         size="small"
