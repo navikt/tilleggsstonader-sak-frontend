@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
-
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
+import { useRegler } from '../../../../hooks/useRegler';
+import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterIsoPeriode } from '../../../../utils/dato';
+import { Inngangsvilkårtype, Vilkår, Vilkårsresultat } from '../../vilkår';
+import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 
 interface MålgruppePeriode {
     id: string;
     fom: string;
     tom: string;
     type: MålgruppeType;
-    //vilkår: MålgruppeVilkår;
+    vilkår: Vilkår;
 }
-/*
-interface MålgruppeVilkår {
-    type: Vilkårtype;
-    resultat: Vilkårsresultat;
-    delvilkårsett: Delvilkår[];
-}
- */
 
 export enum MålgruppeType {
     AAP = 'AAP',
@@ -29,15 +24,53 @@ export enum MålgruppeType {
 const Målgruppe = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [perioder, settPerioder] = useState<MålgruppePeriode[]>([
-        { id: '1', fom: '2023-01-01', tom: '2023-12-31', type: MålgruppeType.AAP },
+        {
+            id: '1',
+            fom: '2023-01-01',
+            tom: '2023-12-31',
+            type: MålgruppeType.AAP,
+            vilkår: {
+                id: '90d83d8a-8b78-4856-b934-d2c238410cc0',
+                behandlingId: '2fcf753a-8335-4707-9bd8-b3cfa75265ac',
+                resultat: Vilkårsresultat.OPPFYLT,
+                vilkårType: Inngangsvilkårtype.MÅLGRUPPE,
+                barnId: undefined,
+                endretAv: 'Z994230',
+                endretTid: '2023-11-30T16:01:47.347',
+                delvilkårsett: [
+                    {
+                        resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                        vurderinger: [
+                            {
+                                regelId: 'MÅLGRUPPE',
+                                svar: undefined,
+                                begrunnelse: undefined,
+                            },
+                        ],
+                    },
+                ],
+                opphavsvilkår: undefined,
+            },
+        },
     ]);
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
+    // TODO flytt en nivå opp ?
+    const { regler, hentRegler } = useRegler();
+    useEffect(() => {
+        hentRegler();
+    }, [hentRegler]);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
-        settPerioder((prevState) => [...prevState, { ...nyMålgruppe, id: uuidv4() }]);
+        //settPerioder((prevState) => [...prevState, { ...nyMålgruppe, id: uuidv4() }]);
     };
+
+    if (regler.status !== RessursStatus.SUKSESS) {
+        return null;
+    }
 
     return (
         <div>
@@ -53,7 +86,16 @@ const Målgruppe = () => {
                         <Table.ExpandableRow
                             key={periode.id}
                             togglePlacement={'right'}
-                            content={<p>hei</p>}
+                            content={
+                                <EndreVurderingComponent
+                                    vilkårType={periode.vilkår.vilkårType}
+                                    regler={
+                                        regler.data.vilkårsregler[periode.vilkår.vilkårType].regler
+                                    }
+                                    vilkår={periode.vilkår}
+                                    oppdaterVilkår={() => {}}
+                                />
+                            }
                         >
                             <Table.DataCell>{periode.type}</Table.DataCell>
                             <Table.DataCell>
