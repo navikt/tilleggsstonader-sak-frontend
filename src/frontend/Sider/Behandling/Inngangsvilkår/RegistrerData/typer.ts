@@ -13,3 +13,9 @@ export enum MålgruppeType {
     UTDANNING = 'UTDANNING',
     ARBEIDSSØKER = 'ARBEIDSSØKER',
 }
+
+export enum MålgruppePeriodeProperty {
+    TYPE = 'type',
+    FOM = 'fom',
+    TOM = 'tom',
+}
