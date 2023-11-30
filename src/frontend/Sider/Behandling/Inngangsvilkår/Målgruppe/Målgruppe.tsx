@@ -12,7 +12,15 @@ interface MålgruppePeriode {
     fom: string;
     tom: string;
     type: MålgruppeType;
+    //vilkår: MålgruppeVilkår;
 }
+/*
+interface MålgruppeVilkår {
+    type: Vilkårtype;
+    resultat: Vilkårsresultat;
+    delvilkårsett: Delvilkår[];
+}
+ */
 
 export enum MålgruppeType {
     AAP = 'AAP',
@@ -38,15 +46,20 @@ const Målgruppe = () => {
                 <Table.Header>
                     <Table.HeaderCell>Type</Table.HeaderCell>
                     <Table.HeaderCell>Periode</Table.HeaderCell>
+                    <Table.HeaderCell />
                 </Table.Header>
                 <Table.Body>
                     {perioder.map((periode) => (
-                        <Table.Row key={periode.id}>
+                        <Table.ExpandableRow
+                            key={periode.id}
+                            togglePlacement={'right'}
+                            content={<p>hei</p>}
+                        >
                             <Table.DataCell>{periode.type}</Table.DataCell>
                             <Table.DataCell>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
                             </Table.DataCell>
-                        </Table.Row>
+                        </Table.ExpandableRow>
                     ))}
                 </Table.Body>
             </Table>
