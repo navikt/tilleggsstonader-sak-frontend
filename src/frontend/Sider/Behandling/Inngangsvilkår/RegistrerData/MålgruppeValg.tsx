@@ -69,7 +69,7 @@ const MålgruppePeriodeValg: React.FC<Props> = ({
     return (
         <div>
             <Heading spacing size="small" level="5">
-                Perioder for stønad
+                Perioder for målgrupper
             </Heading>
             <Grid>
                 <Label size="small">Fra</Label>
