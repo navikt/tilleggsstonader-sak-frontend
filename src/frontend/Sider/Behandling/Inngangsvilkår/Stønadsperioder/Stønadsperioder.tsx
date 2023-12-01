@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
@@ -99,6 +99,12 @@ const Stønadsperioder = () => {
             indeks
         );
     };
+
+    // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
+    useEffect(() => {
+        formState.validateForm();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [målgrupper, aktiviteter]);
 
     return (
         <Container>
