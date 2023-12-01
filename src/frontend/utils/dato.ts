@@ -1,3 +1,5 @@
+import { format, parseISO, isAfter, formatISO, isValid, isBefore } from 'date-fns';
+
 export interface Periode {
     fom: string;
     tom: string;
@@ -44,6 +46,20 @@ export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoTil = tilDato(til);
 
     return isAfter(datoFra, datoTil);
+};
+
+export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
+    const datoFra = tilDato(fra);
+    const datoTil = tilDato(til);
+
+    return isBefore(datoFra, datoTil);
+};
+
+export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {
+    return (
+        erDatoEtterEllerLik(periode.fom, annenPeriode.fom) &&
+        erDatoFørEllerLik(periode.tom, annenPeriode.tom)
+    );
 };
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });

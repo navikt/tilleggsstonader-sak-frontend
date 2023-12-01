@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Select } from '@navikt/ds-react';
 
+import { validerStønadsperioder } from './validering';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { Vilkårsresultat } from '../../vilkår';
 import { AktivitetType, MålgruppeType, Stønadsperiode } from '../typer';
 
 const Container = styled.div`
@@ -36,7 +36,7 @@ const Knapp = styled(Button)`
     margin-top: 1rem;
 `;
 
-type StønadsperiodeForm = {
+export type StønadsperiodeForm = {
     stønadsperioder: Stønadsperiode[];
 };
 const tomStønadsperiodeRad = (): Stønadsperiode => ({
@@ -50,19 +50,17 @@ const initFormState: FormState<StønadsperiodeForm> = {
     stønadsperioder: [tomStønadsperiodeRad()],
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-/*const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
-    return { stønadsperioder: [] };
-};*/
-
 const Stønadsperioder = () => {
-    const { målgrupper } = useInngangsvilkår();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { målgrupper, aktiviteter } = useInngangsvilkår();
+
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
-        if (målgrupper.some((målgruppe) => målgruppe.vilkår.resultat !== Vilkårsresultat.OPPFYLT)) {
-            return { stønadsperioder: [{ målgruppe: 'Nei', aktivitet: '', fom: '', tom: '' }] };
-        }
-        return { stønadsperioder: [{ målgruppe: '', aktivitet: '', fom: '', tom: '' }] };
+        return {
+            stønadsperioder: validerStønadsperioder(
+                formState.stønadsperioder,
+                målgrupper,
+                aktiviteter
+            ),
+        };
     };
     const formState = useFormState<StønadsperiodeForm>(initFormState, validerForm);
 
