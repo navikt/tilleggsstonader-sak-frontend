@@ -10,7 +10,7 @@ import { useRegler } from '../../../../hooks/useRegler';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { Inngangsvilkårtype, Vilkår, Vilkårsresultat } from '../../vilkår';
+import { Inngangsvilkårtype, SvarPåVilkår, Vilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 
 interface MålgruppePeriode {
@@ -101,6 +101,26 @@ const Målgruppe = () => {
         return null;
     }
 
+    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
+        settPerioder((prevState) =>
+            prevState.map((periode) =>
+                periode.vilkår.id === svarPåVilkår.id
+                    ? {
+                          ...periode,
+                          vilkår: {
+                              ...periode.vilkår,
+                              resultat:
+                                  svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'JA'
+                                      ? Vilkårsresultat.OPPFYLT
+                                      : Vilkårsresultat.IKKE_OPPFYLT,
+                              delvilkårsett: svarPåVilkår.delvilkårsett,
+                          },
+                      }
+                    : periode
+            )
+        );
+    };
+
     return (
         <Container>
             <Heading size="medium">Målgruppe</Heading>
@@ -123,7 +143,7 @@ const Målgruppe = () => {
                                         regler.data.vilkårsregler[periode.vilkår.vilkårType].regler
                                     }
                                     vilkår={periode.vilkår}
-                                    oppdaterVilkår={() => {}}
+                                    oppdaterVilkår={oppdaterVilkår}
                                 />
                             }
                         >
