@@ -5,6 +5,8 @@ export const regelIdTilTekst: Record<string, string> = {
 
     // AKTIVITET
     ER_AKTIVITET_REGISTRERT: 'Er bruker registrert med en aktivitet?',
+    LØNN_GJENNOM_TILTAK: 'Mottar bruker lønn gjennom aktivitet?',
+    MOTTAR_SYKEPENGER_GJENNOM_AKTIVITET: 'Mottar bruker sykepenger gjennom aktivitet?',
 
     // PASS_BARN
     DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgifter av annet regelverk?',
