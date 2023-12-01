@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
-import { MålgruppeType } from './Målgruppe';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
+import { MålgruppeType } from '../typer';
 
 const Container = styled.div`
     display: flex;

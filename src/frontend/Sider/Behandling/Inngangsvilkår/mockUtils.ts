@@ -1,11 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-    Aktivitet,
-    AktivitetType,
-    Målgruppe,
-    MålgruppeType,
-} from '../../../context/InngangsvilkårContext';
+import { Aktivitet, AktivitetType, Målgruppe, MålgruppeType } from './typer';
 import { Inngangsvilkårtype, Vilkår, Vilkårsresultat } from '../vilkår';
 
 export const opprettVilkårAAPFerdigAvklart = () => {

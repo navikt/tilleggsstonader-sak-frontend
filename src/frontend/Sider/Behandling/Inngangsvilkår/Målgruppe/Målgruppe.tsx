@@ -7,17 +7,14 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
-import {
-    MålgruppeType,
-    opprettVilkårAAP,
-    opprettVilkårAAPFerdigAvklart,
-    useInngangsvilkår,
-} from '../../../../context/InngangsvilkårContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
+import { opprettVilkårAAP, opprettVilkårAAPFerdigAvklart } from '../mockUtils';
+import { MålgruppeType } from '../typer';
 
 const Container = styled.div`
     display: flex;

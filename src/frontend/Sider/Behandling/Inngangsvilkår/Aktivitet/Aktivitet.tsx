@@ -7,13 +7,14 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilAktivitet, { NyAktivitet } from './LeggTilAktivitet';
-import { AktivitetType, useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { opprettVilkårTiltak, opprettVilkårUtdanning } from '../mockUtils';
+import { AktivitetType } from '../typer';
 
 const Container = styled.div`
     display: flex;

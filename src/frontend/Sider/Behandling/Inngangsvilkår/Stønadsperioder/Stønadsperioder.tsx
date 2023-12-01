@@ -9,8 +9,7 @@ import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/us
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { AktivitetType } from '../Aktivitet/Aktivitet';
-import { MålgruppeType } from '../Målgruppe/Målgruppe';
+import { AktivitetType, MålgruppeType } from '../typer';
 
 const Container = styled.div`
     display: flex;
