@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+import { styled } from 'styled-components';
+
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
 import { useRegler } from '../../../../hooks/useRegler';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Inngangsvilkårtype, Vilkår, Vilkårsresultat } from '../../vilkår';
@@ -20,6 +24,13 @@ interface MålgruppePeriode {
 export enum MålgruppeType {
     AAP = 'AAP',
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+`;
 
 const Målgruppe = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -73,10 +84,11 @@ const Målgruppe = () => {
     }
 
     return (
-        <div>
-            <Heading size="large">Målgruppe</Heading>
+        <Container>
+            <Heading size="medium">Målgruppe</Heading>
             <Table>
                 <Table.Header>
+                    <Table.HeaderCell style={{ width: '20px' }} />
                     <Table.HeaderCell>Type</Table.HeaderCell>
                     <Table.HeaderCell>Periode</Table.HeaderCell>
                     <Table.HeaderCell />
@@ -97,6 +109,9 @@ const Målgruppe = () => {
                                 />
                             }
                         >
+                            <Table.DataCell width="max-content">
+                                <VilkårsresultatIkon vilkårsresultat={periode.vilkår.resultat} />
+                            </Table.DataCell>
                             <Table.DataCell>{periode.type}</Table.DataCell>
                             <Table.DataCell>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
@@ -111,11 +126,14 @@ const Målgruppe = () => {
                 <Button
                     onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
                     size="small"
+                    style={{ maxWidth: 'fit-content' }}
+                    variant="secondary"
+                    icon={<PlusCircleIcon />}
                 >
                     Legg til ny målgruppeperiode
                 </Button>
             )}
-        </div>
+        </Container>
     );
 };
 

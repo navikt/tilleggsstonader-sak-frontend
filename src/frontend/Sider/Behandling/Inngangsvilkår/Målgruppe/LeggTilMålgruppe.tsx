@@ -2,16 +2,31 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Select } from '@navikt/ds-react';
+import { Button, Heading, Select } from '@navikt/ds-react';
+import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { MålgruppeType } from './Målgruppe';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: ${ABlue50};
+    border: 0.5px dotted blue;
+`;
+
 const InputContainer = styled.div`
     display: flex;
     gap: 1rem;
+`;
+
+const Knapp = styled(Button)`
+    max-width: fit-content;
+    margin-top: 1rem;
 `;
 
 export type NyMålgruppe = {
@@ -41,35 +56,41 @@ const LeggTilMålgruppe: React.FC<{
     };
 
     return (
-        <form onSubmit={formState.onSubmit(handleSubmit)}>
-            <InputContainer>
-                <Select
-                    label={'Målgruppe'}
-                    value={typeState.value}
-                    onChange={(e) => typeState.setValue(e.target.value)}
-                >
-                    <option value="">Velg</option>
-                    {Object.keys(MålgruppeType).map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </Select>
-                <DateInput
-                    label={'Fra'}
-                    value={fomState.value}
-                    onChange={(dato) => dato && fomState.setValue(dato)}
-                />
-                <DateInput
-                    label={'Til'}
-                    value={tomState.value}
-                    onChange={(dato) => dato && tomState.setValue(dato)}
-                />
-            </InputContainer>
-            <Button size="small" type="submit">
-                Lagre
-            </Button>
-        </form>
+        <Container>
+            <Heading size="small">Legg til ny målgruppe</Heading>
+            <form onSubmit={formState.onSubmit(handleSubmit)}>
+                <InputContainer>
+                    <Select
+                        label={'Målgruppe'}
+                        value={typeState.value}
+                        onChange={(e) => typeState.setValue(e.target.value)}
+                        size="small"
+                    >
+                        <option value="">Velg</option>
+                        {Object.keys(MålgruppeType).map((type) => (
+                            <option key={type} value={type}>
+                                {type}
+                            </option>
+                        ))}
+                    </Select>
+                    <DateInput
+                        label={'Fra'}
+                        value={fomState.value}
+                        onChange={(dato) => dato && fomState.setValue(dato)}
+                        size="small"
+                    />
+                    <DateInput
+                        label={'Til'}
+                        value={tomState.value}
+                        onChange={(dato) => dato && tomState.setValue(dato)}
+                        size="small"
+                    />
+                </InputContainer>
+                <Knapp size="small" type="submit">
+                    Legg til
+                </Knapp>
+            </form>
+        </Container>
     );
 };
 
