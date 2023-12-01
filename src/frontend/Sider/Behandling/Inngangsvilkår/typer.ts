@@ -25,3 +25,10 @@ export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
 }
+
+export type Stønadsperiode = {
+    målgruppe: MålgruppeType | '';
+    aktivitet: AktivitetType | '';
+    fom: string;
+    tom: string;
+};

@@ -9,7 +9,7 @@ import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/us
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { AktivitetType, MålgruppeType } from '../typer';
+import { AktivitetType, MålgruppeType, Stønadsperiode } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -33,13 +33,6 @@ const Knapp = styled(Button)`
     max-width: fit-content;
     margin-top: 1rem;
 `;
-
-export type Stønadsperiode = {
-    målgruppe: MålgruppeType | '';
-    aktivitet: AktivitetType | '';
-    fom: string;
-    tom: string;
-};
 
 type StønadsperiodeForm = {
     stønadsperioder: Stønadsperiode[];
