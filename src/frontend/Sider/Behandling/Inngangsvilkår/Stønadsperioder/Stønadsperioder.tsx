@@ -2,11 +2,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Heading, Select } from '@navikt/ds-react';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label, Select } from '@navikt/ds-react';
 
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
+import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { AktivitetType } from '../Aktivitet/Aktivitet';
 import { MålgruppeType } from '../Målgruppe/Målgruppe';
 
@@ -19,9 +21,13 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, max-content);
+    grid-template-columns: repeat(5, max-content);
     grid-gap: 0.5rem 1rem;
     align-items: start;
+
+    > :nth-child(5n) {
+        grid-column: 1;
+    }
 `;
 
 const Knapp = styled(Button)`
@@ -30,8 +36,8 @@ const Knapp = styled(Button)`
 `;
 
 export type Stønadsperiode = {
-    målgruppe: MålgruppeType;
-    aktivitet: AktivitetType;
+    målgruppe: MålgruppeType | '';
+    aktivitet: AktivitetType | '';
     fom: string;
     tom: string;
 };
@@ -39,9 +45,15 @@ export type Stønadsperiode = {
 type StønadsperiodeForm = {
     stønadsperioder: Stønadsperiode[];
 };
+const tomStønadsperiodeRad = (): Stønadsperiode => ({
+    målgruppe: '',
+    aktivitet: '',
+    fom: '',
+    tom: '',
+});
 
 const initFormState: FormState<StønadsperiodeForm> = {
-    stønadsperioder: [{ målgruppe: '', aktivitet: '', fom: '', tom: '' }],
+    stønadsperioder: [tomStønadsperiodeRad()],
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -59,15 +71,36 @@ const Stønadsperioder = () => {
         //leggTilNyMålgruppe({ fom: form.fom, tom: form.tom, målgruppe: form.målgruppe });
     };
 
+    const leggTilTomRadUnder = (indeks: number) => {
+        stønadsperioderState.setValue((prevState) =>
+            leggTilTomRadUnderIListe(prevState, tomStønadsperiodeRad(), indeks)
+        );
+    };
+
+    const slettPeriode = (indeks: number) => {
+        stønadsperioderState.remove(indeks);
+
+        formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => {
+            const stønadsperioder = (prevState.stønadsperioder ?? []).splice(indeks, 1);
+            return { ...prevState, stønadsperioder };
+        });
+    };
+
     return (
         <Container>
             <Heading size="small">Stønadsperioder</Heading>
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <Grid>
-                    {stønadsperioderState.value.map((periode, index) => (
-                        <React.Fragment key={index}>
+                    <Label size="small">Målgruppe</Label>
+                    <Label size="small">Aktivitet</Label>
+                    <Label size="small">Fra</Label>
+                    <Label size="small">Til</Label>
+
+                    {stønadsperioderState.value.map((periode, indeks) => (
+                        <React.Fragment key={indeks}>
                             <Select
                                 label={'Målgruppe'}
+                                hideLabel
                                 value={periode.målgruppe}
                                 //onChange={(e) => stønadsperioder.setValue(e.target.value)}
                                 size="small"
@@ -81,6 +114,7 @@ const Stønadsperioder = () => {
                             </Select>
                             <Select
                                 label={'Aktivitet'}
+                                hideLabel
                                 value={periode.aktivitet}
                                 //onChange={(e) => stønadsperioder.setValue(e.target.value)}
                                 size="small"
@@ -94,16 +128,36 @@ const Stønadsperioder = () => {
                             </Select>
                             <DateInput
                                 label={'Fra'}
+                                hideLabel
                                 value={periode.fom}
                                 onChange={(dato) => dato}
                                 size="small"
                             />
                             <DateInput
                                 label={'Til'}
+                                hideLabel
                                 value={periode.tom}
                                 onChange={(dato) => dato}
                                 size="small"
                             />
+                            <div>
+                                <Button
+                                    type="button"
+                                    onClick={() => leggTilTomRadUnder(indeks)}
+                                    variant="tertiary"
+                                    icon={<PlusCircleIcon />}
+                                    size="small"
+                                />
+                                {indeks !== 0 && (
+                                    <Button
+                                        type="button"
+                                        onClick={() => slettPeriode(indeks)}
+                                        variant="tertiary"
+                                        icon={<TrashIcon />}
+                                        size="small"
+                                    />
+                                )}
+                            </div>
                         </React.Fragment>
                     ))}
                 </Grid>
