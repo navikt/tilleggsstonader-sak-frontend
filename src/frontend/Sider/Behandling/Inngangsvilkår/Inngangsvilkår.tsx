@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { styled } from 'styled-components';
 
+import Aktivitet from './Aktivitet/Aktivitet';
 import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
@@ -34,6 +35,7 @@ const Inngangsvilkår = () => {
                 {({ regler, vilkårsvurdering }) => (
                     <>
                         <Målgruppe />
+                        <Aktivitet />
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}
