@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { styled } from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
@@ -33,6 +34,45 @@ const Container = styled.div`
     padding: 1rem;
 `;
 
+function opprettVilkårAAPFerdigAvklart() {
+    return {
+        id: uuidv4(),
+        behandlingId: 'a2623609-0869-43eb-a255-55ebb185e835',
+        resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+        vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP_FERDIG_AVKLART,
+        barnId: undefined,
+        endretAv: 'Z994808',
+        endretTid: '2023-12-01T08:56:28.749',
+        delvilkårsett: [
+            {
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vurderinger: [
+                    {
+                        regelId: 'NEDSATT_ARBEIDSEVNE',
+                        svar: undefined,
+                        begrunnelse: undefined,
+                    },
+                ],
+            },
+        ],
+        opphavsvilkår: undefined,
+    };
+}
+
+function opprettVilkårAAP() {
+    return {
+        id: uuidv4(),
+        behandlingId: '2fcf753a-8335-4707-9bd8-b3cfa75265ac',
+        resultat: Vilkårsresultat.OPPFYLT,
+        vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP,
+        barnId: undefined,
+        endretAv: 'Z994230',
+        endretTid: '2023-11-30T16:01:47.347',
+        delvilkårsett: [],
+        opphavsvilkår: undefined,
+    };
+}
+
 const Målgruppe = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [perioder, settPerioder] = useState<MålgruppePeriode[]>([
@@ -41,45 +81,14 @@ const Målgruppe = () => {
             fom: '2023-01-01',
             tom: '2023-12-31',
             type: MålgruppeType.AAP,
-            vilkår: {
-                id: '90d83d8a-8b78-4856-b934-d2c238410cc0',
-                behandlingId: '2fcf753a-8335-4707-9bd8-b3cfa75265ac',
-                resultat: Vilkårsresultat.OPPFYLT,
-                vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP,
-                barnId: undefined,
-                endretAv: 'Z994230',
-                endretTid: '2023-11-30T16:01:47.347',
-                delvilkårsett: [],
-                opphavsvilkår: undefined,
-            },
+            vilkår: opprettVilkårAAP(),
         },
         {
             id: '1',
             fom: '2023-01-01',
             tom: '2023-12-31',
             type: MålgruppeType.AAP_FERDIG_AVKLART,
-            vilkår: {
-                id: 'e069e347-b893-4ffa-b3db-a97072895b74',
-                behandlingId: 'a2623609-0869-43eb-a255-55ebb185e835',
-                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-                vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP_FERDIG_AVKLART,
-                barnId: undefined,
-                endretAv: 'Z994808',
-                endretTid: '2023-12-01T08:56:28.749',
-                delvilkårsett: [
-                    {
-                        resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-                        vurderinger: [
-                            {
-                                regelId: 'NEDSATT_ARBEIDSEVNE',
-                                svar: undefined,
-                                begrunnelse: undefined,
-                            },
-                        ],
-                    },
-                ],
-                opphavsvilkår: undefined,
-            },
+            vilkår: opprettVilkårAAPFerdigAvklart(),
         },
     ]);
 
@@ -94,7 +103,17 @@ const Målgruppe = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
-        //settPerioder((prevState) => [...prevState, { ...nyMålgruppe, id: uuidv4() }]);
+        settPerioder((prevState) => [
+            ...prevState,
+            {
+                ...nyMålgruppe,
+                id: uuidv4(),
+                vilkår:
+                    nyMålgruppe.type === MålgruppeType.AAP
+                        ? opprettVilkårAAP()
+                        : opprettVilkårAAPFerdigAvklart(),
+            },
+        ]);
     };
 
     if (regler.status !== RessursStatus.SUKSESS) {
