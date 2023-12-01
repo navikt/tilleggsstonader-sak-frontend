@@ -41,6 +41,7 @@ export const validerStønadsperioder = (
         }
 
         // TODO: Flytte validering under til backend?
+        // TODO valider at målgruppe og aktivitet sammen er gyldige
         const relevanteMålgrupper = målgrupper.filter(
             (målgruppe) =>
                 periode.målgruppe === målgruppe.type &&
@@ -62,6 +63,30 @@ export const validerStønadsperioder = (
             return {
                 ...stønadsperiodeFeil,
                 målgruppe: 'Ingen relevante målgruppeperioder rommer stønadsperioden',
+            };
+        }
+
+        const relevanteAktiviteter = aktiviteter.filter(
+            (aktivitet) =>
+                periode.aktivitet === aktivitet.type &&
+                aktivitet.vilkår.resultat === Vilkårsresultat.OPPFYLT
+        );
+
+        if (relevanteAktiviteter.length === 0) {
+            return {
+                ...stønadsperiodeFeil,
+                aktivitet: 'Finnes ingen periode for aktivitet hvor vilkår er oppfylt',
+            };
+        }
+
+        const aktivitetInnenfor = relevanteAktiviteter.some((målgruppe) =>
+            erPeriodeInnenforAnnenPeriode(periode, målgruppe)
+        );
+
+        if (!aktivitetInnenfor) {
+            return {
+                ...stønadsperiodeFeil,
+                aktivitet: 'Ingen relevante aktivitetperioder rommer stønadsperioden',
             };
         }
 
