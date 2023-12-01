@@ -23,6 +23,7 @@ interface MålgruppePeriode {
 
 export enum MålgruppeType {
     AAP = 'AAP',
+    AAP_FERDIG_AVKLART = 'MÅLGRUPPE_AAP_FERDIG_AVKLART',
 }
 
 const Container = styled.div`
@@ -44,16 +45,33 @@ const Målgruppe = () => {
                 id: '90d83d8a-8b78-4856-b934-d2c238410cc0',
                 behandlingId: '2fcf753a-8335-4707-9bd8-b3cfa75265ac',
                 resultat: Vilkårsresultat.OPPFYLT,
-                vilkårType: Inngangsvilkårtype.MÅLGRUPPE,
+                vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP,
                 barnId: undefined,
                 endretAv: 'Z994230',
                 endretTid: '2023-11-30T16:01:47.347',
+                delvilkårsett: [],
+                opphavsvilkår: undefined,
+            },
+        },
+        {
+            id: '1',
+            fom: '2023-01-01',
+            tom: '2023-12-31',
+            type: MålgruppeType.AAP_FERDIG_AVKLART,
+            vilkår: {
+                id: 'e069e347-b893-4ffa-b3db-a97072895b74',
+                behandlingId: 'a2623609-0869-43eb-a255-55ebb185e835',
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vilkårType: Inngangsvilkårtype.MÅLGRUPPE_AAP_FERDIG_AVKLART,
+                barnId: undefined,
+                endretAv: 'Z994808',
+                endretTid: '2023-12-01T08:56:28.749',
                 delvilkårsett: [
                     {
                         resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
                         vurderinger: [
                             {
-                                regelId: 'MÅLGRUPPE',
+                                regelId: 'NEDSATT_ARBEIDSEVNE',
                                 svar: undefined,
                                 begrunnelse: undefined,
                             },
