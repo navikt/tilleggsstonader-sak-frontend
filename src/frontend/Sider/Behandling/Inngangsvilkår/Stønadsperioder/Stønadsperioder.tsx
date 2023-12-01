@@ -86,6 +86,20 @@ const Stønadsperioder = () => {
         });
     };
 
+    const oppdaterStønadsperiode = (
+        indeks: number,
+        property: keyof Stønadsperiode,
+        value: string | undefined
+    ) => {
+        stønadsperioderState.update(
+            {
+                ...stønadsperioderState.value[indeks],
+                [property]: value,
+            },
+            indeks
+        );
+    };
+
     return (
         <Container>
             <Heading size="small">Stønadsperioder</Heading>
@@ -102,7 +116,9 @@ const Stønadsperioder = () => {
                                 label={'Målgruppe'}
                                 hideLabel
                                 value={periode.målgruppe}
-                                //onChange={(e) => stønadsperioder.setValue(e.target.value)}
+                                onChange={(e) =>
+                                    oppdaterStønadsperiode(indeks, 'målgruppe', e.target.value)
+                                }
                                 size="small"
                             >
                                 <option value="">Velg</option>
@@ -116,7 +132,9 @@ const Stønadsperioder = () => {
                                 label={'Aktivitet'}
                                 hideLabel
                                 value={periode.aktivitet}
-                                //onChange={(e) => stønadsperioder.setValue(e.target.value)}
+                                onChange={(e) =>
+                                    oppdaterStønadsperiode(indeks, 'aktivitet', e.target.value)
+                                }
                                 size="small"
                             >
                                 <option value="">Velg</option>
@@ -130,14 +148,18 @@ const Stønadsperioder = () => {
                                 label={'Fra'}
                                 hideLabel
                                 value={periode.fom}
-                                onChange={(dato) => dato}
+                                onChange={(dato) =>
+                                    dato && oppdaterStønadsperiode(indeks, 'fom', dato)
+                                }
                                 size="small"
                             />
                             <DateInput
                                 label={'Til'}
                                 hideLabel
                                 value={periode.tom}
-                                onChange={(dato) => dato}
+                                onChange={(dato) =>
+                                    dato && oppdaterStønadsperiode(indeks, 'tom', dato)
+                                }
                                 size="small"
                             />
                             <div>
