@@ -9,6 +9,7 @@ import Målgruppe from './Målgruppe/Målgruppe';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
+import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -35,9 +36,11 @@ const Inngangsvilkår = () => {
             <DataViewer response={{ regler, vilkårsvurdering }}>
                 {({ regler, vilkårsvurdering }) => (
                     <>
-                        <Målgruppe />
-                        <Aktivitet />
-                        <Stønadsperioder />
+                        <InngangsvilkårProvider>
+                            <Målgruppe regler={regler.vilkårsregler} />
+                            <Aktivitet regler={regler.vilkårsregler} />
+                            <Stønadsperioder />
+                        </InngangsvilkårProvider>
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}

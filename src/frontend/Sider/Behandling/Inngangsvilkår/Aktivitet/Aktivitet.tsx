@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,9 +7,8 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilAktivitet, { NyAktivitet } from './LeggTilAktivitet';
-import { useRegler } from '../../../../hooks/useRegler';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { RessursStatus } from '../../../../typer/ressurs';
+import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Inngangsvilkårtype, SvarPåVilkår, Vilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
@@ -83,7 +82,7 @@ const opprettVilkårUtdanning = (): Vilkår => {
     };
 };
 
-const Aktivitet = () => {
+const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [perioder, settPerioder] = useState<AktivitetPeriode[]>([
         {
@@ -97,13 +96,6 @@ const Aktivitet = () => {
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
-    // TODO flytt en nivå opp ?
-    const { regler, hentRegler } = useRegler();
-    useEffect(() => {
-        hentRegler();
-    }, [hentRegler]);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
         settSkalViseLeggTilPeriode(false);
         settPerioder((prevState) => [
@@ -118,10 +110,6 @@ const Aktivitet = () => {
             },
         ]);
     };
-
-    if (regler.status !== RessursStatus.SUKSESS) {
-        return null;
-    }
 
     const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
         settPerioder((prevState) =>
@@ -164,10 +152,7 @@ const Aktivitet = () => {
                                     <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
                                     <EndreVurderingComponent
                                         vilkårType={periode.vilkår.vilkårType}
-                                        regler={
-                                            regler.data.vilkårsregler[periode.vilkår.vilkårType]
-                                                .regler
-                                        }
+                                        regler={regler[periode.vilkår.vilkårType].regler}
                                         vilkår={periode.vilkår}
                                         oppdaterVilkår={oppdaterVilkår}
                                     />

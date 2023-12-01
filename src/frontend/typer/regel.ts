@@ -36,7 +36,9 @@ export type Vilkårsregler<T extends Vilkårtype> = {
 };
 
 export interface ReglerResponse {
-    vilkårsregler: {
-        [key in Vilkårtype]: Vilkårsregler<key>;
-    };
+    vilkårsregler: ReglerForVilkår;
 }
+
+export type ReglerForVilkår = {
+    [key in Vilkårtype]: Vilkårsregler<key>;
+};
