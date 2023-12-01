@@ -155,15 +155,20 @@ const Målgruppe = () => {
                         <Table.ExpandableRow
                             key={periode.id}
                             togglePlacement={'right'}
+                            expansionDisabled={periode.vilkår.delvilkårsett.length === 0}
                             content={
-                                <EndreVurderingComponent
-                                    vilkårType={periode.vilkår.vilkårType}
-                                    regler={
-                                        regler.data.vilkårsregler[periode.vilkår.vilkårType].regler
-                                    }
-                                    vilkår={periode.vilkår}
-                                    oppdaterVilkår={oppdaterVilkår}
-                                />
+                                <>
+                                    <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
+                                    <EndreVurderingComponent
+                                        vilkårType={periode.vilkår.vilkårType}
+                                        regler={
+                                            regler.data.vilkårsregler[periode.vilkår.vilkårType]
+                                                .regler
+                                        }
+                                        vilkår={periode.vilkår}
+                                        oppdaterVilkår={oppdaterVilkår}
+                                    />
+                                </>
                             }
                         >
                             <Table.DataCell width="max-content">
