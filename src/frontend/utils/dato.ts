@@ -1,4 +1,4 @@
-import { format, parseISO, isAfter, formatISO, isValid, isBefore } from 'date-fns';
+import { format, parseISO, isAfter, formatISO, isValid, isBefore, isEqual } from 'date-fns';
 
 export interface Periode {
     fom: string;
@@ -45,14 +45,14 @@ export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);
 
-    return isAfter(datoFra, datoTil);
+    return isEqual(datoFra, datoTil) || isAfter(datoFra, datoTil);
 };
 
 export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);
 
-    return isBefore(datoFra, datoTil);
+    return isEqual(datoFra, datoTil) || isBefore(datoFra, datoTil);
 };
 
 export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {

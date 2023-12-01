@@ -140,6 +140,10 @@ const Stønadsperioder = () => {
                                     oppdaterStønadsperiode(indeks, 'aktivitet', e.target.value)
                                 }
                                 size="small"
+                                error={
+                                    formState.errors.stønadsperioder &&
+                                    formState.errors.stønadsperioder[indeks].aktivitet
+                                }
                             >
                                 <option value="">Velg</option>
                                 {Object.keys(AktivitetType).map((type) => (
@@ -156,6 +160,10 @@ const Stønadsperioder = () => {
                                     dato && oppdaterStønadsperiode(indeks, 'fom', dato)
                                 }
                                 size="small"
+                                feil={
+                                    formState.errors.stønadsperioder &&
+                                    formState.errors.stønadsperioder[indeks].fom
+                                }
                             />
                             <DateInput
                                 label={'Til'}
@@ -165,6 +173,10 @@ const Stønadsperioder = () => {
                                     dato && oppdaterStønadsperiode(indeks, 'tom', dato)
                                 }
                                 size="small"
+                                feil={
+                                    formState.errors.stønadsperioder &&
+                                    formState.errors.stønadsperioder[indeks].tom
+                                }
                             />
                             <div>
                                 <Button
