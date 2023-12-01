@@ -102,7 +102,7 @@ const Stønadsperioder = () => {
 
     return (
         <Container>
-            <Heading size="small">Stønadsperioder</Heading>
+            <Heading size="medium">Stønadsperioder</Heading>
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <Grid>
                     <Label size="small">Målgruppe</Label>
