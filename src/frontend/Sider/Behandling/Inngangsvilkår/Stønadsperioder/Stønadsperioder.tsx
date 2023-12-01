@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Select } from '@navikt/ds-react';
 
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
+import { Vilkårsresultat } from '../../vilkår';
 import { AktivitetType, MålgruppeType, Stønadsperiode } from '../typer';
 
 const Container = styled.div`
@@ -49,11 +51,19 @@ const initFormState: FormState<StønadsperiodeForm> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
+/*const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
     return { stønadsperioder: [] };
-};
+};*/
 
 const Stønadsperioder = () => {
+    const { målgrupper } = useInngangsvilkår();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
+        if (målgrupper.some((målgruppe) => målgruppe.vilkår.resultat !== Vilkårsresultat.OPPFYLT)) {
+            return { stønadsperioder: [{ målgruppe: 'Nei', aktivitet: '', fom: '', tom: '' }] };
+        }
+        return { stønadsperioder: [{ målgruppe: '', aktivitet: '', fom: '', tom: '' }] };
+    };
     const formState = useFormState<StønadsperiodeForm>(initFormState, validerForm);
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
@@ -112,6 +122,10 @@ const Stønadsperioder = () => {
                                     oppdaterStønadsperiode(indeks, 'målgruppe', e.target.value)
                                 }
                                 size="small"
+                                error={
+                                    formState.errors.stønadsperioder &&
+                                    formState.errors.stønadsperioder[indeks].målgruppe
+                                }
                             >
                                 <option value="">Velg</option>
                                 {Object.keys(MålgruppeType).map((type) => (
