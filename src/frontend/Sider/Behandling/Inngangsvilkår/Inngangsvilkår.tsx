@@ -8,6 +8,7 @@ import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
+import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -36,6 +37,7 @@ const Inngangsvilkår = () => {
                     <>
                         <Målgruppe />
                         <Aktivitet />
+                        <Stønadsperioder />
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}
