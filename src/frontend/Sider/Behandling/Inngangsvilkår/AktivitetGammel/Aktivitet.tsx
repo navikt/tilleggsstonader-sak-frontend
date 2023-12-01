@@ -12,7 +12,7 @@ interface Props {
     vilkårsvurdering: Vilkårsvurdering;
 }
 
-const Aktivitet: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
+const AktivitetGammel: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     const vilkår = vilkårsvurdering.vilkårsett.find(
         (v) => v.vilkårType === Inngangsvilkårtype.AKTIVITET
     );
@@ -31,4 +31,4 @@ const Aktivitet: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     );
 };
 
-export default Aktivitet;
+export default AktivitetGammel;
