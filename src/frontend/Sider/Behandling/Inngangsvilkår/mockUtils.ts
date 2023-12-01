@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Målgruppe, MålgruppeType } from '../../../context/InngangsvilkårContext';
+import {
+    Aktivitet,
+    AktivitetType,
+    Målgruppe,
+    MålgruppeType,
+} from '../../../context/InngangsvilkårContext';
 import { Inngangsvilkårtype, Vilkår, Vilkårsresultat } from '../vilkår';
 
 export const opprettVilkårAAPFerdigAvklart = () => {
@@ -107,3 +112,13 @@ export const opprettVilkårUtdanning = (): Vilkår => {
         opphavsvilkår: undefined,
     };
 };
+
+export const defaultAktivitetStateMock: Aktivitet[] = [
+    {
+        id: '1',
+        fom: '2023-01-01',
+        tom: '2023-12-31',
+        type: AktivitetType.TILTAK,
+        vilkår: opprettVilkårTiltak(),
+    },
+];
