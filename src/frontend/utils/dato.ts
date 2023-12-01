@@ -1,4 +1,7 @@
-import { format, parseISO, isAfter, formatISO, isValid } from 'date-fns';
+export interface Periode {
+    fom: string;
+    tom: string;
+}
 
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);

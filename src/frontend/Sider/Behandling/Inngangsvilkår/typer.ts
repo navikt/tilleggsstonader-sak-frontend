@@ -1,9 +1,8 @@
+import { Periode } from '../../../utils/dato';
 import { Vilkår } from '../vilkår';
 
-export interface Målgruppe {
+export interface Målgruppe extends Periode {
     id: string;
-    fom: string;
-    tom: string;
     type: MålgruppeType;
     vilkår: Vilkår;
 }
@@ -13,10 +12,8 @@ export enum MålgruppeType {
     AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
 }
 
-export interface Aktivitet {
+export interface Aktivitet extends Periode {
     id: string;
-    fom: string;
-    tom: string;
     type: AktivitetType;
     vilkår: Vilkår;
 }
@@ -26,9 +23,9 @@ export enum AktivitetType {
     UTDANNING = 'UTDANNING',
 }
 
-export type Stønadsperiode = {
+export interface Stønadsperiode extends Periode {
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
     fom: string;
     tom: string;
-};
+}
