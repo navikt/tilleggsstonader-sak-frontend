@@ -24,6 +24,7 @@ interface AktivitetPeriode {
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
+    UTDANNING = 'UTDANNING',
 }
 
 const Container = styled.div`
@@ -68,6 +69,20 @@ function opprettVilkårTiltak(): Vilkår {
     };
 }
 
+const opprettVilkårUtdanning = (): Vilkår => {
+    return {
+        id: '13109d3d-891e-45d5-9283-f2a9f47e521d',
+        behandlingId: 'a2623609-0869-43eb-a255-55ebb185e835',
+        resultat: Vilkårsresultat.OPPFYLT,
+        vilkårType: Inngangsvilkårtype.AKTIVITET_UTDANNING,
+        barnId: undefined,
+        endretAv: 'Z994808',
+        endretTid: '2023-12-01T10:07:55.663',
+        delvilkårsett: [],
+        opphavsvilkår: undefined,
+    };
+};
+
 const Aktivitet = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [perioder, settPerioder] = useState<AktivitetPeriode[]>([
@@ -96,7 +111,10 @@ const Aktivitet = () => {
             {
                 ...nyAktivitet,
                 id: uuidv4(),
-                vilkår: opprettVilkårTiltak(),
+                vilkår:
+                    nyAktivitet.type === AktivitetType.TILTAK
+                        ? opprettVilkårTiltak()
+                        : opprettVilkårUtdanning(),
             },
         ]);
     };
