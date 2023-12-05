@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
@@ -35,7 +34,6 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
             ...prevState,
             {
                 ...nyAktivitet,
-                id: uuidv4(),
                 vilkår:
                     nyAktivitet.type === AktivitetType.TILTAK
                         ? opprettVilkårTiltak()
@@ -77,7 +75,7 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
                         <Table.ExpandableRow
-                            key={aktivitet.id}
+                            key={aktivitet.vilkår.id}
                             togglePlacement={'right'}
                             expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
                             content={

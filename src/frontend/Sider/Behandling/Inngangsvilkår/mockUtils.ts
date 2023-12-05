@@ -44,14 +44,12 @@ export const opprettVilkårAAP = () => {
 
 export const defaultMålgruppeStateMock: Målgruppe[] = [
     {
-        id: '1',
         fom: '2023-01-01',
         tom: '2023-12-31',
         type: MålgruppeType.AAP,
         vilkår: opprettVilkårAAP(),
     },
     {
-        id: '1',
         fom: '2023-01-01',
         tom: '2023-12-31',
         type: MålgruppeType.AAP_FERDIG_AVKLART,
@@ -110,7 +108,6 @@ export const opprettVilkårUtdanning = (): Vilkår => {
 
 export const defaultAktivitetStateMock: Aktivitet[] = [
     {
-        id: '1',
         fom: '2023-01-01',
         tom: '2023-12-31',
         type: AktivitetType.TILTAK,

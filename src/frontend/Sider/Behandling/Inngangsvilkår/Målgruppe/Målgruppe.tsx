@@ -78,7 +78,7 @@ const Målgruppe: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (
                         <Table.ExpandableRow
-                            key={målgruppe.id}
+                            key={målgruppe.vilkår.id}
                             togglePlacement={'right'}
                             expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
                             content={
