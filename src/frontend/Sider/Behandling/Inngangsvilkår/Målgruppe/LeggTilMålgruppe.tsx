@@ -39,6 +39,7 @@ const initFormState = { fom: '', tom: '', type: '' };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const validerForm = ({ fom, tom, type }: NyMålgruppe): FormErrors<NyMålgruppe> => {
+    // TODO fikse validering
     return { fom: undefined, tom: undefined, type: undefined };
 };
 

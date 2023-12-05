@@ -30,6 +30,7 @@ const Målgruppe: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
 
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
+        // TODO erstatt med kall til backend
         settMålgrupper((prevState) => [
             ...prevState,
             {

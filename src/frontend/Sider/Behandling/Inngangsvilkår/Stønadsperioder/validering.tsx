@@ -6,7 +6,6 @@ import { Aktivitet, Målgruppe, Stønadsperiode } from '../typer';
 export const validerStønadsperioder = (
     stønadsperioder: Stønadsperiode[],
     målgrupper: Målgruppe[],
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     aktiviteter: Aktivitet[]
 ): FormErrors<Stønadsperiode[]> => {
     const feilIStønadsperioder = stønadsperioder.map((periode) => {

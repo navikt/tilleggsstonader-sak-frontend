@@ -30,6 +30,7 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
 
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
         settSkalViseLeggTilPeriode(false);
+        // TODO erstatt med kall til backend
         settAktiviteter((prevState) => [
             ...prevState,
             {

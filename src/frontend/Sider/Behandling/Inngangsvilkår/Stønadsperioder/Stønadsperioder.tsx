@@ -68,7 +68,7 @@ const Stønadsperioder = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
-        //leggTilNyMålgruppe({ fom: form.fom, tom: form.tom, målgruppe: form.målgruppe });
+        // TODO kall til backend
     };
 
     const leggTilTomRadUnder = (indeks: number) => {

@@ -13,6 +13,7 @@ import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { features } from '../../../utils/features';
 import { erProd } from '../../../utils/miljø';
 
 const Container = styled.div`
@@ -36,11 +37,13 @@ const Inngangsvilkår = () => {
             <DataViewer response={{ regler, vilkårsvurdering }}>
                 {({ regler, vilkårsvurdering }) => (
                     <>
-                        <InngangsvilkårProvider>
-                            <Målgruppe regler={regler.vilkårsregler} />
-                            <Aktivitet regler={regler.vilkårsregler} />
-                            <Stønadsperioder />
-                        </InngangsvilkårProvider>
+                        {features.nyeInngangsvilkår && (
+                            <InngangsvilkårProvider>
+                                <Målgruppe regler={regler.vilkårsregler} />
+                                <Aktivitet regler={regler.vilkårsregler} />
+                                <Stønadsperioder />
+                            </InngangsvilkårProvider>
+                        )}
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}
