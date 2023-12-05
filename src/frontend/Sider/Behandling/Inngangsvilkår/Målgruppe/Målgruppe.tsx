@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
+import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { opprettVilkårAAP, opprettVilkårAAPFerdigAvklart } from '../mockUtils';
-import { MålgruppeType } from '../typer';
+import { Målgruppe } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -24,24 +25,24 @@ const Container = styled.div`
 `;
 
 const Målgruppe: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
     const { målgrupper, settMålgrupper } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
-        // TODO erstatt med kall til backend
-        settMålgrupper((prevState) => [
-            ...prevState,
-            {
-                ...nyMålgruppe,
-                id: uuidv4(),
-                vilkår:
-                    nyMålgruppe.type === MålgruppeType.AAP
-                        ? opprettVilkårAAP()
-                        : opprettVilkårAAPFerdigAvklart(),
-            },
-        ]);
+        request<Målgruppe, NyMålgruppe>(
+            `/api/sak/vilkar/${behandling.id}/maalgruppe`,
+            'POST',
+            nyMålgruppe
+        ).then((resp) => {
+            if (resp.status === RessursStatus.SUKSESS) {
+                settMålgrupper((prevState) => [...prevState, resp.data]);
+            }
+            // TODO feilhåndtering
+        });
     };
 
     const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
