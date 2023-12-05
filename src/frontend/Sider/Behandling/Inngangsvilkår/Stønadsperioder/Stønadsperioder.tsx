@@ -6,12 +6,11 @@ import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Select } from '@navikt/ds-react';
 
 import { validerStønadsperioder } from './validering';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { AktivitetType, MålgruppeType, Stønadsperiode } from '../typer';
+import { AktivitetType, MålgruppeType, Stønadsperiode, Vilkårperioder } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -50,15 +49,13 @@ const initFormState: FormState<StønadsperiodeForm> = {
     stønadsperioder: [tomStønadsperiodeRad()],
 };
 
-const Stønadsperioder = () => {
-    const { målgrupper, aktiviteter } = useInngangsvilkår();
-
+const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilkårperioder }) => {
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
             stønadsperioder: validerStønadsperioder(
                 formState.stønadsperioder,
-                målgrupper,
-                aktiviteter
+                vilkårperioder.målgrupper,
+                vilkårperioder.aktiviteter
             ),
         };
     };
@@ -104,7 +101,7 @@ const Stønadsperioder = () => {
     useEffect(() => {
         formState.validateForm();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [målgrupper, aktiviteter]);
+    }, [vilkårperioder]);
 
     return (
         <Container>

@@ -2,13 +2,11 @@ import React, { useEffect } from 'react';
 
 import { styled } from 'styled-components';
 
-import Aktivitet from './Aktivitet/Aktivitet';
 import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
-import Målgruppe from './Målgruppe/Målgruppe';
+import InngangsvilkårInnhold from './InngangsvilkårInnhold';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
-import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
@@ -39,9 +37,7 @@ const Inngangsvilkår = () => {
                     <>
                         {features.nyeInngangsvilkår && (
                             <InngangsvilkårProvider>
-                                <Målgruppe regler={regler.vilkårsregler} />
-                                <Aktivitet regler={regler.vilkårsregler} />
-                                <Stønadsperioder />
+                                <InngangsvilkårInnhold regler={regler.vilkårsregler} />
                             </InngangsvilkårProvider>
                         )}
                         <MålgruppeGammel

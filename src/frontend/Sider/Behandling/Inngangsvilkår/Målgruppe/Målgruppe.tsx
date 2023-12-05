@@ -6,14 +6,10 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
-import { useApp } from '../../../../context/AppContext';
-import { useBehandling } from '../../../../context/BehandlingContext';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
-import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
+import { SvarPåVilkår } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Målgruppe } from '../typer';
 
@@ -24,45 +20,50 @@ const Container = styled.div`
     padding: 1rem;
 `;
 
-const Målgruppe: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
-    const { request } = useApp();
-    const { behandling } = useBehandling();
-    const { målgrupper, settMålgrupper } = useInngangsvilkår();
+const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
+    målgrupper,
+    regler,
+}) => {
+    // const { request } = useApp();
+    // const { behandling } = useBehandling();
+    // const { målgrupper, settMålgrupper } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
-        request<Målgruppe, NyMålgruppe>(
-            `/api/sak/vilkar/${behandling.id}/periode`,
-            'POST',
-            nyMålgruppe
-        ).then((resp) => {
-            if (resp.status === RessursStatus.SUKSESS) {
-                settMålgrupper((prevState) => [...prevState, resp.data]);
-            }
-            // TODO feilhåndtering
-        });
+        // request<Målgruppe, NyMålgruppe>(
+        //     `/api/sak/vilkar/${behandling.id}/periode`,
+        //     'POST',
+        //     nyMålgruppe
+        // ).then((resp) => {
+        //     if (resp.status === RessursStatus.SUKSESS) {
+        //         settMålgrupper((prevState) => [...prevState, resp.data]);
+        //     }
+        //     // TODO feilhåndtering
+        // });
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
-        settMålgrupper((prevState) =>
-            prevState.map((periode) =>
-                periode.vilkår.id === svarPåVilkår.id
-                    ? {
-                          ...periode,
-                          vilkår: {
-                              ...periode.vilkår,
-                              resultat:
-                                  svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'JA'
-                                      ? Vilkårsresultat.OPPFYLT
-                                      : Vilkårsresultat.IKKE_OPPFYLT,
-                              delvilkårsett: svarPåVilkår.delvilkårsett,
-                          },
-                      }
-                    : periode
-            )
-        );
+        // settMålgrupper((prevState) =>
+        //     prevState.map((periode) =>
+        //         periode.vilkår.id === svarPåVilkår.id
+        //             ? {
+        //                   ...periode,
+        //                   vilkår: {
+        //                       ...periode.vilkår,
+        //                       resultat:
+        //                           svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'JA'
+        //                               ? Vilkårsresultat.OPPFYLT
+        //                               : Vilkårsresultat.IKKE_OPPFYLT,
+        //                       delvilkårsett: svarPåVilkår.delvilkårsett,
+        //                   },
+        //               }
+        //             : periode
+        //     )
+        // );
     };
 
     return (

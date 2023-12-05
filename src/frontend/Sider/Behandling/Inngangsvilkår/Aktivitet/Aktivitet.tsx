@@ -6,14 +6,12 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilAktivitet, { NyAktivitet } from './LeggTilAktivitet';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
+import { SvarPåVilkår } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { opprettVilkårTiltak, opprettVilkårUtdanning } from '../mockUtils';
-import { AktivitetType } from '../typer';
+import { Aktivitet } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -22,44 +20,47 @@ const Container = styled.div`
     padding: 1rem;
 `;
 
-const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
-    const { aktiviteter, settAktiviteter } = useInngangsvilkår();
-
+const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
+    aktiviteter,
+    regler,
+}) => {
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
         settSkalViseLeggTilPeriode(false);
         // TODO erstatt med kall til backend
-        settAktiviteter((prevState) => [
-            ...prevState,
-            {
-                ...nyAktivitet,
-                vilkår:
-                    nyAktivitet.type === AktivitetType.TILTAK
-                        ? opprettVilkårTiltak()
-                        : opprettVilkårUtdanning(),
-            },
-        ]);
+        // settAktiviteter((prevState) => [
+        //     ...prevState,
+        //     {
+        //         ...nyAktivitet,
+        //         vilkår:
+        //             nyAktivitet.type === AktivitetType.TILTAK
+        //                 ? opprettVilkårTiltak()
+        //                 : opprettVilkårUtdanning(),
+        //     },
+        // ]);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
-        settAktiviteter((prevState) =>
-            prevState.map((aktivitet) =>
-                aktivitet.vilkår.id === svarPåVilkår.id
-                    ? {
-                          ...aktivitet,
-                          vilkår: {
-                              ...aktivitet.vilkår,
-                              resultat:
-                                  svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'NEI'
-                                      ? Vilkårsresultat.OPPFYLT
-                                      : Vilkårsresultat.IKKE_OPPFYLT,
-                              delvilkårsett: svarPåVilkår.delvilkårsett,
-                          },
-                      }
-                    : aktivitet
-            )
-        );
+        // settAktiviteter((prevState) =>
+        //     prevState.map((aktivitet) =>
+        //         aktivitet.vilkår.id === svarPåVilkår.id
+        //             ? {
+        //                   ...aktivitet,
+        //                   vilkår: {
+        //                       ...aktivitet.vilkår,
+        //                       resultat:
+        //                           svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'NEI'
+        //                               ? Vilkårsresultat.OPPFYLT
+        //                               : Vilkårsresultat.IKKE_OPPFYLT,
+        //                       delvilkårsett: svarPåVilkår.delvilkårsett,
+        //                   },
+        //               }
+        //             : aktivitet
+        //     )
+        // );
     };
 
     return (
