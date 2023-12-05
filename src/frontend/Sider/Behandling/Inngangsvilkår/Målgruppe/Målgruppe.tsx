@@ -34,7 +34,7 @@ const Målgruppe: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
         request<Målgruppe, NyMålgruppe>(
-            `/api/sak/vilkar/${behandling.id}/maalgruppe`,
+            `/api/sak/vilkar/${behandling.id}/periode`,
             'POST',
             nyMålgruppe
         ).then((resp) => {
