@@ -28,9 +28,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
-        byggTomRessurs()
-    );
+    const [vilkårperioder, settVilkårperioder] =
+        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
 
     const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
@@ -66,7 +65,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
     };
 
     const lagreVilkår = (vilkår: SvarPåVilkår): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar123`, 'POST', vilkår);
+        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
     };
 
     const oppdaterMålgruppeVilkårState = (svarPåVilkår: SvarPåVilkår) => {
