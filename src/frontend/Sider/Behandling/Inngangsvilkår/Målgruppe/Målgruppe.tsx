@@ -5,8 +5,7 @@ import { styled } from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
-import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import LeggTilMålgruppe from './LeggTilMålgruppe';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -25,27 +24,7 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     målgrupper,
     regler,
 }) => {
-    // const { request } = useApp();
-    // const { behandling } = useBehandling();
-    const { leggTilMålgruppe } = useInngangsvilkår();
-
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
-        settSkalViseLeggTilPeriode(false);
-        leggTilMålgruppe(nyMålgruppe);
-        // request<Målgruppe, NyMålgruppe>(
-        //     `/api/sak/vilkar/${behandling.id}/periode`,
-        //     'POST',
-        //     nyMålgruppe
-        // ).then((resp) => {
-        //     if (resp.status === RessursStatus.SUKSESS) {
-        //         settMålgrupper((prevState) => [...prevState, resp.data]);
-        //     }
-        //     // TODO feilhåndtering
-        // });
-    };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
@@ -108,7 +87,7 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                 </Table.Body>
             </Table>
             {skalViseLeggTilPeriode ? (
-                <LeggTilMålgruppe leggTilNyMålgruppe={leggTilNyMålgruppe} />
+                <LeggTilMålgruppe skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
             ) : (
                 <Button
                     onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}

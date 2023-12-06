@@ -5,13 +5,12 @@ import constate from 'constate';
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
 import { NyAktivitet } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/LeggTilAktivitet';
-import { NyMålgruppe } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/LeggTilMålgruppe';
 import { Aktivitet, Målgruppe, Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
-import { Ressurs, RessursStatus, RessursSuksess, byggTomRessurs } from '../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 export interface UseInngangsvilkår {
     vilkårperioder: Ressurs<Vilkårperioder>;
-    leggTilMålgruppe: (nyPeriode: NyMålgruppe) => Promise<void>;
+    leggTilMålgruppe: (nyPeriode: Målgruppe) => void;
     leggTilAktivitet: (nyPeriode: NyAktivitet) => Promise<void>;
 }
 
@@ -19,9 +18,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
-        byggTomRessurs()
-    );
+    const [vilkårperioder, settVilkårperioder] =
+        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
 
     const hentVilkårperioder = useCallback(
         (behandlingId: string) => {
@@ -32,21 +30,13 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         [request]
     );
 
-    const leggTilMålgruppe = (nyPeriode: NyMålgruppe) => {
-        return request<Målgruppe, NyMålgruppe>(
-            `/api/sak/vilkar/${behandling.id}/periode`,
-            'POST',
-            nyPeriode
-        ).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVilkårperioder((prevState) =>
-                    oppdaterVilkårsperioderMedNyMålgruppe(
-                        prevState as RessursSuksess<Vilkårperioder>,
-                        res.data
-                    )
-                );
-            }
-        });
+    const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
+        settVilkårperioder((prevState) =>
+            oppdaterVilkårsperioderMedNyMålgruppe(
+                prevState as RessursSuksess<Vilkårperioder>,
+                nyPeriode
+            )
+        );
     };
 
     const leggTilAktivitet = (nyPeriode: NyAktivitet) => {
