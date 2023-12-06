@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
-import { AktivitetType } from '../typer';
+import { RessursStatus } from '../../../../typer/ressurs';
+import { Aktivitet, AktivitetType } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -44,13 +49,37 @@ const validerForm = ({ fom, tom, type }: NyAktivitet): FormErrors<NyAktivitet> =
 };
 
 const LeggTilAktivitet: React.FC<{
-    leggTilNyAktivitet: (nyAktivitet: NyAktivitet) => void;
-}> = ({ leggTilNyAktivitet }) => {
+    skjulLeggTilPeriode: () => void;
+}> = ({ skjulLeggTilPeriode }) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+    const { leggTilAktivitet } = useInngangsvilkår();
     const formState = useFormState<NyAktivitet>(initFormState, validerForm);
+
+    const [feilmelding, settFeilmelding] = useState<string>();
+    const [laster, settLaster] = useState<boolean>(false);
 
     const typeState = formState.getProps('type') as FieldState;
     const fomState = formState.getProps('fom') as FieldState;
     const tomState = formState.getProps('tom') as FieldState;
+
+    const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
+        settLaster(true);
+        return request<Aktivitet, NyAktivitet>(
+            `/api/sak/vilkar/${behandling.id}/periode`,
+            'POST',
+            nyAktivitet
+        )
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    leggTilAktivitet(res.data);
+                    skjulLeggTilPeriode();
+                } else {
+                    settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                }
+            })
+            .finally(() => settLaster(false));
+    };
 
     const handleSubmit = (form: FormState<NyAktivitet>) => {
         leggTilNyAktivitet({ fom: form.fom, tom: form.tom, type: form.type });
@@ -87,7 +116,8 @@ const LeggTilAktivitet: React.FC<{
                         size="small"
                     />
                 </InputContainer>
-                <Knapp size="small" type="submit">
+                <Feilmelding>{feilmelding}</Feilmelding>
+                <Knapp size="small" type="submit" disabled={laster}>
                     Legg til
                 </Knapp>
             </form>

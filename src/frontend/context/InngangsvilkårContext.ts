@@ -4,14 +4,13 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
-import { NyAktivitet } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/LeggTilAktivitet';
 import { Aktivitet, Målgruppe, Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
-import { byggTomRessurs, Ressurs, RessursStatus, RessursSuksess } from '../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursSuksess } from '../typer/ressurs';
 
 export interface UseInngangsvilkår {
     vilkårperioder: Ressurs<Vilkårperioder>;
     leggTilMålgruppe: (nyPeriode: Målgruppe) => void;
-    leggTilAktivitet: (nyPeriode: NyAktivitet) => Promise<void>;
+    leggTilAktivitet: (nyPeriode: Aktivitet) => void;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInngangsvilkår => {
@@ -39,21 +38,13 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         );
     };
 
-    const leggTilAktivitet = (nyPeriode: NyAktivitet) => {
-        return request<Aktivitet, NyAktivitet>(
-            `/api/sak/vilkar/${behandling.id}/periode`,
-            'POST',
-            nyPeriode
-        ).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVilkårperioder((prevState) =>
-                    oppdaterVilkårsperioderMedNyAktivitet(
-                        prevState as RessursSuksess<Vilkårperioder>,
-                        res.data
-                    )
-                );
-            }
-        });
+    const leggTilAktivitet = (nyPeriode: Aktivitet) => {
+        settVilkårperioder((prevState) =>
+            oppdaterVilkårsperioderMedNyAktivitet(
+                prevState as RessursSuksess<Vilkårperioder>,
+                nyPeriode
+            )
+        );
     };
 
     useEffect(() => {
