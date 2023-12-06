@@ -1,9 +1,12 @@
 export const regelIdTilTekst: Record<string, string> = {
     // MÅLGRUPPE
     MÅLGRUPPE: 'Tilhører bruker riktig målgruppe?',
+    NEDSATT_ARBEIDSEVNE: 'Har bruker nedsatt arbeidsevne etter §11 A-3?',
 
     // AKTIVITET
     ER_AKTIVITET_REGISTRERT: 'Er bruker registrert med en aktivitet?',
+    LØNN_GJENNOM_TILTAK: 'Mottar bruker lønn gjennom aktivitet?',
+    MOTTAR_SYKEPENGER_GJENNOM_AKTIVITET: 'Mottar bruker sykepenger gjennom aktivitet?',
 
     // PASS_BARN
     DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgifter av annet regelverk?',

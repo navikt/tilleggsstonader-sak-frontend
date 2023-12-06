@@ -2,13 +2,18 @@ import React, { useEffect } from 'react';
 
 import { styled } from 'styled-components';
 
+import Aktivitet from './Aktivitet/Aktivitet';
 import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
+import Målgruppe from './Målgruppe/Målgruppe';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
+import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
+import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { features } from '../../../utils/features';
 import { erProd } from '../../../utils/miljø';
 
 const Container = styled.div`
@@ -32,6 +37,13 @@ const Inngangsvilkår = () => {
             <DataViewer response={{ regler, vilkårsvurdering }}>
                 {({ regler, vilkårsvurdering }) => (
                     <>
+                        {features.nyeInngangsvilkår && (
+                            <InngangsvilkårProvider>
+                                <Målgruppe regler={regler.vilkårsregler} />
+                                <Aktivitet regler={regler.vilkårsregler} />
+                                <Stønadsperioder />
+                            </InngangsvilkårProvider>
+                        )}
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}
