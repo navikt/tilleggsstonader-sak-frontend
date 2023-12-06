@@ -34,10 +34,12 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
             <Heading size="medium">Målgruppe</Heading>
             <Table>
                 <Table.Header>
-                    <Table.HeaderCell style={{ width: '20px' }} />
-                    <Table.HeaderCell>Type</Table.HeaderCell>
-                    <Table.HeaderCell>Periode</Table.HeaderCell>
-                    <Table.HeaderCell />
+                    <Table.Row>
+                        <Table.HeaderCell style={{ width: '20px' }} />
+                        <Table.HeaderCell>Type</Table.HeaderCell>
+                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell />
+                    </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (

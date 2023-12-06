@@ -34,10 +34,12 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
             <Heading size="medium">Aktivitet</Heading>
             <Table>
                 <Table.Header>
-                    <Table.HeaderCell style={{ width: '20px' }} />
-                    <Table.HeaderCell>Type</Table.HeaderCell>
-                    <Table.HeaderCell>Periode</Table.HeaderCell>
-                    <Table.HeaderCell />
+                    <Table.Row>
+                        <Table.HeaderCell style={{ width: '20px' }} />
+                        <Table.HeaderCell>Type</Table.HeaderCell>
+                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell />
+                    </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
