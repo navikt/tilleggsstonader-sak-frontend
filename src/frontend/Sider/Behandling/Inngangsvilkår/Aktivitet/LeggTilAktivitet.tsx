@@ -64,6 +64,7 @@ const LeggTilAktivitet: React.FC<{
     const tomState = formState.getProps('tom') as FieldState;
 
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
+        if (laster) return;
         settLaster(true);
         return request<Aktivitet, NyAktivitet>(
             `/api/sak/vilkar/${behandling.id}/periode`,

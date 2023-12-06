@@ -64,6 +64,7 @@ const LeggTilMålgruppe: React.FC<{
     const tomState = formState.getProps('tom') as FieldState;
 
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
+        if (laster) return;
         settLaster(true);
         return request<Målgruppe, NyMålgruppe>(
             `/api/sak/vilkar/${behandling.id}/periode`,
