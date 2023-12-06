@@ -6,6 +6,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilAktivitet, { NyAktivitet } from './LeggTilAktivitet';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -24,11 +25,14 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
     aktiviteter,
     regler,
 }) => {
+    const { leggTilAktivitet } = useInngangsvilkår();
+
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
         settSkalViseLeggTilPeriode(false);
+        leggTilAktivitet(nyAktivitet);
         // TODO erstatt med kall til backend
         // settAktiviteter((prevState) => [
         //     ...prevState,

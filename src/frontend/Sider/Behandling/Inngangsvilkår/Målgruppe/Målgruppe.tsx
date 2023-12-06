@@ -6,6 +6,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe, { NyMålgruppe } from './LeggTilMålgruppe';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -26,13 +27,14 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
 }) => {
     // const { request } = useApp();
     // const { behandling } = useBehandling();
-    // const { målgrupper, settMålgrupper } = useInngangsvilkår();
+    const { leggTilMålgruppe } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         settSkalViseLeggTilPeriode(false);
+        leggTilMålgruppe(nyMålgruppe);
         // request<Målgruppe, NyMålgruppe>(
         //     `/api/sak/vilkar/${behandling.id}/periode`,
         //     'POST',
