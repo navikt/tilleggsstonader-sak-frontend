@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
-import LeggTilAktivitet, { NyAktivitet } from './LeggTilAktivitet';
+import LeggTilAktivitet from './LeggTilAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { SvarPåVilkår, Vilkårsresultat } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { opprettVilkårTiltak, opprettVilkårUtdanning } from '../mockUtils';
-import { AktivitetType } from '../typer';
+import { Aktivitet } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -23,46 +21,13 @@ const Container = styled.div`
     padding: 1rem;
 `;
 
-const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
-    const { aktiviteter, settAktiviteter } = useInngangsvilkår();
+const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
+    aktiviteter,
+    regler,
+}) => {
+    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
-
-    const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
-        settSkalViseLeggTilPeriode(false);
-        // TODO erstatt med kall til backend
-        settAktiviteter((prevState) => [
-            ...prevState,
-            {
-                ...nyAktivitet,
-                id: uuidv4(),
-                vilkår:
-                    nyAktivitet.type === AktivitetType.TILTAK
-                        ? opprettVilkårTiltak()
-                        : opprettVilkårUtdanning(),
-            },
-        ]);
-    };
-
-    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
-        settAktiviteter((prevState) =>
-            prevState.map((aktivitet) =>
-                aktivitet.vilkår.id === svarPåVilkår.id
-                    ? {
-                          ...aktivitet,
-                          vilkår: {
-                              ...aktivitet.vilkår,
-                              resultat:
-                                  svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'NEI'
-                                      ? Vilkårsresultat.OPPFYLT
-                                      : Vilkårsresultat.IKKE_OPPFYLT,
-                              delvilkårsett: svarPåVilkår.delvilkårsett,
-                          },
-                      }
-                    : aktivitet
-            )
-        );
-    };
 
     return (
         <Container>
@@ -77,7 +42,7 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
                         <Table.ExpandableRow
-                            key={aktivitet.id}
+                            key={aktivitet.vilkår.id}
                             togglePlacement={'right'}
                             expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
                             content={
@@ -87,8 +52,11 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
                                         vilkårType={aktivitet.vilkår.vilkårType}
                                         regler={regler[aktivitet.vilkår.vilkårType].regler}
                                         vilkår={aktivitet.vilkår}
-                                        oppdaterVilkår={oppdaterVilkår}
+                                        oppdaterVilkår={oppdaterAktivitetVilkårState}
                                     />
+                                    <Feilmelding>
+                                        {vilkårFeilmeldinger[aktivitet.vilkår.id]}
+                                    </Feilmelding>
                                 </>
                             }
                         >
@@ -104,7 +72,7 @@ const Aktivitet: React.FC<{ regler: ReglerForVilkår }> = ({ regler }) => {
                 </Table.Body>
             </Table>
             {skalViseLeggTilPeriode ? (
-                <LeggTilAktivitet leggTilNyAktivitet={leggTilNyAktivitet} />
+                <LeggTilAktivitet skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
             ) : (
                 <Button
                     onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}

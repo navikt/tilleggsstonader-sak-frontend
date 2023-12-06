@@ -1,8 +1,11 @@
 import { Periode } from '../../../utils/dato';
 import { Vilkår } from '../vilkår';
 
+export interface Vilkårperioder {
+    målgrupper: Målgruppe[];
+    aktiviteter: Aktivitet[];
+}
 export interface Målgruppe extends Periode {
-    id: string;
     type: MålgruppeType;
     vilkår: Vilkår;
 }
@@ -13,7 +16,6 @@ export enum MålgruppeType {
 }
 
 export interface Aktivitet extends Periode {
-    id: string;
     type: AktivitetType;
     vilkår: Vilkår;
 }
