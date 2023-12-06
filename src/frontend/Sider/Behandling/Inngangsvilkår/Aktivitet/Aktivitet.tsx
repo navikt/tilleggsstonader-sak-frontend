@@ -6,10 +6,11 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilAktivitet from './LeggTilAktivitet';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { SvarPåVilkår } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Aktivitet } from '../typer';
 
@@ -24,28 +25,9 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
     aktiviteter,
     regler,
 }) => {
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
-        // settAktiviteter((prevState) =>
-        //     prevState.map((aktivitet) =>
-        //         aktivitet.vilkår.id === svarPåVilkår.id
-        //             ? {
-        //                   ...aktivitet,
-        //                   vilkår: {
-        //                       ...aktivitet.vilkår,
-        //                       resultat:
-        //                           svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'NEI'
-        //                               ? Vilkårsresultat.OPPFYLT
-        //                               : Vilkårsresultat.IKKE_OPPFYLT,
-        //                       delvilkårsett: svarPåVilkår.delvilkårsett,
-        //                   },
-        //               }
-        //             : aktivitet
-        //     )
-        // );
-    };
+    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     return (
         <Container>
@@ -70,8 +52,11 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                                         vilkårType={aktivitet.vilkår.vilkårType}
                                         regler={regler[aktivitet.vilkår.vilkårType].regler}
                                         vilkår={aktivitet.vilkår}
-                                        oppdaterVilkår={oppdaterVilkår}
+                                        oppdaterVilkår={oppdaterAktivitetVilkårState}
                                     />
+                                    <Feilmelding>
+                                        {vilkårFeilmeldinger[aktivitet.vilkår.id]}
+                                    </Feilmelding>
                                 </>
                             }
                         >

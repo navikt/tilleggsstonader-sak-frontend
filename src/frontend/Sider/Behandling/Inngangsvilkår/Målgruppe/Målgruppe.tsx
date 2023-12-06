@@ -6,10 +6,11 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { SvarPåVilkår } from '../../vilkår';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Målgruppe } from '../typer';
 
@@ -24,28 +25,9 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     målgrupper,
     regler,
 }) => {
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
-        // settMålgrupper((prevState) =>
-        //     prevState.map((periode) =>
-        //         periode.vilkår.id === svarPåVilkår.id
-        //             ? {
-        //                   ...periode,
-        //                   vilkår: {
-        //                       ...periode.vilkår,
-        //                       resultat:
-        //                           svarPåVilkår.delvilkårsett[0].vurderinger[0].svar === 'JA'
-        //                               ? Vilkårsresultat.OPPFYLT
-        //                               : Vilkårsresultat.IKKE_OPPFYLT,
-        //                       delvilkårsett: svarPåVilkår.delvilkårsett,
-        //                   },
-        //               }
-        //             : periode
-        //     )
-        // );
-    };
+    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     return (
         <Container>
@@ -70,8 +52,11 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                                         vilkårType={målgruppe.vilkår.vilkårType}
                                         regler={regler[målgruppe.vilkår.vilkårType].regler}
                                         vilkår={målgruppe.vilkår}
-                                        oppdaterVilkår={oppdaterVilkår}
+                                        oppdaterVilkår={oppdaterMålgruppeVilkårState}
                                     />
+                                    <Feilmelding>
+                                        {vilkårFeilmeldinger[målgruppe.vilkår.id]}
+                                    </Feilmelding>
                                 </>
                             }
                         >
