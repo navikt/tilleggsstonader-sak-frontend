@@ -99,7 +99,9 @@ const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilk
 
     // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
     useEffect(() => {
-        formState.validateForm();
+        if (stønadsperioderState.value[0].målgruppe !== '') {
+            formState.validateForm();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vilkårperioder]);
 
