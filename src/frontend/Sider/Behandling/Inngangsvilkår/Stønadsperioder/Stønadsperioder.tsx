@@ -49,11 +49,19 @@ const tomStønadsperiodeRad = (): Stønadsperiode => ({
     tom: '',
 });
 
-const initFormState: FormState<StønadsperiodeForm> = {
-    stønadsperioder: [tomStønadsperiodeRad()],
-};
+const initFormState = (
+    eksisterendeStønadsperioder: Stønadsperiode[]
+): FormState<StønadsperiodeForm> => ({
+    stønadsperioder:
+        eksisterendeStønadsperioder.length !== 0
+            ? eksisterendeStønadsperioder
+            : [tomStønadsperiodeRad()],
+});
 
-const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilkårperioder }) => {
+const Stønadsperioder: React.FC<{
+    vilkårperioder: Vilkårperioder;
+    eksisterendeStønadsperioder: Stønadsperiode[];
+}> = ({ vilkårperioder, eksisterendeStønadsperioder }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -67,11 +75,12 @@ const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilk
             ),
         };
     };
-    const formState = useFormState<StønadsperiodeForm>(initFormState, validerForm);
+    const formState = useFormState<StønadsperiodeForm>(
+        initFormState(eksisterendeStønadsperioder),
+        validerForm
+    );
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
-
-    // hent stønadsperioder
 
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
