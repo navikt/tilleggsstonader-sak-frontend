@@ -85,6 +85,7 @@ const Stønadsperioder: React.FC<{
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
         settLaster(true);
+        settFeilmelding(undefined);
         return request<Stønadsperiode[], Stønadsperiode>(
             `/api/sak/stonadsperiode/${behandling.id}`,
             'POST',
