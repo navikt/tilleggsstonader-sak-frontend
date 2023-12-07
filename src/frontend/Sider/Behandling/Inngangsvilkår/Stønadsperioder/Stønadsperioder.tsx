@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -6,9 +6,13 @@ import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, Select } from '@navikt/ds-react';
 
 import { validerStønadsperioder } from './validering';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
+import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { AktivitetType, MålgruppeType, Stønadsperiode, Vilkårperioder } from '../typer';
 
@@ -50,6 +54,10 @@ const initFormState: FormState<StønadsperiodeForm> = {
 };
 
 const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilkårperioder }) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+    const [feilmelding, settFeilmelding] = useState<string>();
+    const [laster, settLaster] = useState<boolean>(false);
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
             stønadsperioder: validerStønadsperioder(
@@ -63,9 +71,24 @@ const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilk
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // hent stønadsperioder
+
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
-        // TODO kall til backend
+        if (laster) return;
+        settLaster(true);
+        return request<Stønadsperiode[], Stønadsperiode>(
+            `/api/sak/stonadsperiode/${behandling.id}`,
+            'POST',
+            form.stønadsperioder
+        )
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    stønadsperioderState.setValue(res.data);
+                } else {
+                    settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const leggTilTomRadUnder = (indeks: number) => {
@@ -183,6 +206,7 @@ const Stønadsperioder: React.FC<{ vilkårperioder: Vilkårperioder }> = ({ vilk
                                     formState.errors.stønadsperioder[indeks].tom
                                 }
                             />
+                            <Feilmelding>{feilmelding}</Feilmelding>
                             <div>
                                 <Button
                                     type="button"
