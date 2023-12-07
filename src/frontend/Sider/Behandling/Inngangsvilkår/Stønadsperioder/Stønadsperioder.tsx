@@ -148,6 +148,7 @@ const Stønadsperioder: React.FC<{
 
                     {stønadsperioderState.value.map((periode, indeks) => (
                         <StønadsperiodeRad
+                            key={periode.id}
                             stønadsperide={periode}
                             oppdaterStønadsperiode={(
                                 property: keyof Stønadsperiode,
