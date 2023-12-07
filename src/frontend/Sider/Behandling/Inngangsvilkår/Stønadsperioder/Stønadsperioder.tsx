@@ -129,6 +129,14 @@ const Stønadsperioder: React.FC<{
         );
     };
 
+    const hentFormFeil = (indeks: number, property: keyof Stønadsperiode) => {
+        return (
+            formState.errors.stønadsperioder &&
+            formState.errors.stønadsperioder[indeks] &&
+            formState.errors.stønadsperioder[indeks][property]
+        );
+    };
+
     // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
     useEffect(() => {
         if (stønadsperioderState.value[0].målgruppe !== '') {
@@ -148,7 +156,7 @@ const Stønadsperioder: React.FC<{
                     <Label size="small">Til</Label>
 
                     {stønadsperioderState.value.map((periode, indeks) => (
-                        <React.Fragment key={indeks}>
+                        <React.Fragment key={periode.id || indeks}>
                             <Select
                                 label={'Målgruppe'}
                                 hideLabel
@@ -157,10 +165,7 @@ const Stønadsperioder: React.FC<{
                                     oppdaterStønadsperiode(indeks, 'målgruppe', e.target.value)
                                 }
                                 size="small"
-                                error={
-                                    formState.errors.stønadsperioder &&
-                                    formState.errors.stønadsperioder[indeks].målgruppe
-                                }
+                                error={hentFormFeil(indeks, 'målgruppe')}
                             >
                                 <option value="">Velg</option>
                                 {Object.keys(MålgruppeType).map((type) => (
@@ -177,10 +182,7 @@ const Stønadsperioder: React.FC<{
                                     oppdaterStønadsperiode(indeks, 'aktivitet', e.target.value)
                                 }
                                 size="small"
-                                error={
-                                    formState.errors.stønadsperioder &&
-                                    formState.errors.stønadsperioder[indeks].aktivitet
-                                }
+                                error={hentFormFeil(indeks, 'aktivitet')}
                             >
                                 <option value="">Velg</option>
                                 {Object.keys(AktivitetType).map((type) => (
@@ -197,10 +199,7 @@ const Stønadsperioder: React.FC<{
                                     dato && oppdaterStønadsperiode(indeks, 'fom', dato)
                                 }
                                 size="small"
-                                feil={
-                                    formState.errors.stønadsperioder &&
-                                    formState.errors.stønadsperioder[indeks].fom
-                                }
+                                feil={hentFormFeil(indeks, 'fom')}
                             />
                             <DateInput
                                 label={'Til'}
@@ -210,10 +209,7 @@ const Stønadsperioder: React.FC<{
                                     dato && oppdaterStønadsperiode(indeks, 'tom', dato)
                                 }
                                 size="small"
-                                feil={
-                                    formState.errors.stønadsperioder &&
-                                    formState.errors.stønadsperioder[indeks].tom
-                                }
+                                feil={hentFormFeil(indeks, 'tom')}
                             />
                             <Feilmelding>{feilmelding}</Feilmelding>
                             <div>
