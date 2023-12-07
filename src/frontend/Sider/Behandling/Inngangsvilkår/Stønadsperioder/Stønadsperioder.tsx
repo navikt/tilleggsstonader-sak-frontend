@@ -211,7 +211,6 @@ const Stønadsperioder: React.FC<{
                                 size="small"
                                 feil={hentFormFeil(indeks, 'tom')}
                             />
-                            <Feilmelding>{feilmelding}</Feilmelding>
                             <div>
                                 <Button
                                     type="button"
@@ -234,7 +233,8 @@ const Stønadsperioder: React.FC<{
                     ))}
                 </Grid>
 
-                <Knapp size="small" type="submit">
+                <Feilmelding>{feilmelding}</Feilmelding>
+                <Knapp size="small" type="submit" disabled={laster}>
                     Lagre
                 </Knapp>
             </form>
