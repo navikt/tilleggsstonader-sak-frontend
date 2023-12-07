@@ -75,7 +75,6 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 size="small"
                 feil={finnFeilmelding('tom')}
             />
-            {/* <Feilmelding>{feilmelding}</Feilmelding> */}
             <div>
                 <Button
                     type="button"
