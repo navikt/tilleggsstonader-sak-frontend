@@ -66,6 +66,7 @@ const LeggTilAktivitet: React.FC<{
     const leggTilNyAktivitet = (nyAktivitet: NyAktivitet) => {
         if (laster) return;
         settLaster(true);
+        settFeilmelding(undefined);
         return request<Aktivitet, NyAktivitet>(
             `/api/sak/vilkar/${behandling.id}/periode`,
             'POST',

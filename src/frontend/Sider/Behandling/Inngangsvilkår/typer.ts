@@ -26,6 +26,7 @@ export enum AktivitetType {
 }
 
 export interface Stønadsperiode extends Periode {
+    id?: string;
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
     fom: string;

@@ -66,6 +66,7 @@ const LeggTilMålgruppe: React.FC<{
     const leggTilNyMålgruppe = (nyMålgruppe: NyMålgruppe) => {
         if (laster) return;
         settLaster(true);
+        settFeilmelding(undefined);
         return request<Målgruppe, NyMålgruppe>(
             `/api/sak/vilkar/${behandling.id}/periode`,
             'POST',
