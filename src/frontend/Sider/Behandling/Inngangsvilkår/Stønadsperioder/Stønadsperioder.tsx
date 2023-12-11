@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Label, Select } from '@navikt/ds-react';
+import { Button, Heading, Label } from '@navikt/ds-react';
 
+import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { AktivitetType, MålgruppeType, Stønadsperiode, Vilkårperioder } from '../typer';
+import { Stønadsperiode, Vilkårperioder } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -130,14 +129,6 @@ const Stønadsperioder: React.FC<{
         );
     };
 
-    const hentFormFeil = (indeks: number, property: keyof Stønadsperiode) => {
-        return (
-            formState.errors.stønadsperioder &&
-            formState.errors.stønadsperioder[indeks] &&
-            formState.errors.stønadsperioder[indeks][property]
-        );
-    };
-
     // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
     useEffect(() => {
         if (stønadsperioderState.value[0].målgruppe !== '') {
@@ -157,80 +148,21 @@ const Stønadsperioder: React.FC<{
                     <Label size="small">Til</Label>
 
                     {stønadsperioderState.value.map((periode, indeks) => (
-                        <React.Fragment key={periode.id || indeks}>
-                            <Select
-                                label={'Målgruppe'}
-                                hideLabel
-                                value={periode.målgruppe}
-                                onChange={(e) =>
-                                    oppdaterStønadsperiode(indeks, 'målgruppe', e.target.value)
-                                }
-                                size="small"
-                                error={hentFormFeil(indeks, 'målgruppe')}
-                            >
-                                <option value="">Velg</option>
-                                {Object.keys(MålgruppeType).map((type) => (
-                                    <option key={type} value={type}>
-                                        {type}
-                                    </option>
-                                ))}
-                            </Select>
-                            <Select
-                                label={'Aktivitet'}
-                                hideLabel
-                                value={periode.aktivitet}
-                                onChange={(e) =>
-                                    oppdaterStønadsperiode(indeks, 'aktivitet', e.target.value)
-                                }
-                                size="small"
-                                error={hentFormFeil(indeks, 'aktivitet')}
-                            >
-                                <option value="">Velg</option>
-                                {Object.keys(AktivitetType).map((type) => (
-                                    <option key={type} value={type}>
-                                        {type}
-                                    </option>
-                                ))}
-                            </Select>
-                            <DateInput
-                                label={'Fra'}
-                                hideLabel
-                                value={periode.fom}
-                                onChange={(dato) =>
-                                    dato && oppdaterStønadsperiode(indeks, 'fom', dato)
-                                }
-                                size="small"
-                                feil={hentFormFeil(indeks, 'fom')}
-                            />
-                            <DateInput
-                                label={'Til'}
-                                hideLabel
-                                value={periode.tom}
-                                onChange={(dato) =>
-                                    dato && oppdaterStønadsperiode(indeks, 'tom', dato)
-                                }
-                                size="small"
-                                feil={hentFormFeil(indeks, 'tom')}
-                            />
-                            <div>
-                                <Button
-                                    type="button"
-                                    onClick={() => leggTilTomRadUnder(indeks)}
-                                    variant="tertiary"
-                                    icon={<PlusCircleIcon />}
-                                    size="small"
-                                />
-                                {indeks !== 0 && (
-                                    <Button
-                                        type="button"
-                                        onClick={() => slettPeriode(indeks)}
-                                        variant="tertiary"
-                                        icon={<TrashIcon />}
-                                        size="small"
-                                    />
-                                )}
-                            </div>
-                        </React.Fragment>
+                        <StønadsperiodeRad
+                            key={periode.id}
+                            stønadsperide={periode}
+                            oppdaterStønadsperiode={(
+                                property: keyof Stønadsperiode,
+                                value: string | undefined
+                            ) => oppdaterStønadsperiode(indeks, property, value)}
+                            leggTilTomRadUnder={() => leggTilTomRadUnder(indeks)}
+                            slettPeriode={() => slettPeriode(indeks)}
+                            feilmeldinger={
+                                formState.errors.stønadsperioder &&
+                                formState.errors.stønadsperioder[indeks]
+                            }
+                            radKanSlettes={indeks !== 0}
+                        />
                     ))}
                 </Grid>
 
@@ -238,6 +170,7 @@ const Stønadsperioder: React.FC<{
                 <Knapp size="small" type="submit" disabled={laster}>
                     Lagre
                 </Knapp>
+                <Feilmelding>{feilmelding}</Feilmelding>
             </form>
         </Container>
     );
