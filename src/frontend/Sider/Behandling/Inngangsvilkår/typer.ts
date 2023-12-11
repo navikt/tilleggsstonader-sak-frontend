@@ -13,6 +13,10 @@ export interface Målgruppe extends Periode {
 export enum MålgruppeType {
     AAP = 'AAP',
     AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
+    DAGPENGER = 'DAGPENGER',
+    UFØRETRYGD = 'UFØRETRYGD',
+    OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
+    OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
 }
 
 export interface Aktivitet extends Periode {
@@ -23,6 +27,7 @@ export interface Aktivitet extends Periode {
 export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
+    REEL_ARBEIDSSØKER = 'REEL_ARBEIDSSØKER',
 }
 
 export interface Stønadsperiode extends Periode {
