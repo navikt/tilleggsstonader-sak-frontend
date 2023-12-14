@@ -6,7 +6,10 @@ import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
 
-const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype }> = ({ valgtStønadstype }) => {
+const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: string }> = ({
+    valgtStønadstype,
+    fagsakId,
+}) => {
     const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
         valgtStønadstype,
         'FRITTSTAENDE'
@@ -22,7 +25,13 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype }> = ({ valg
                         settBrevmal={settBrevmal}
                     />
                     <DataViewer response={{ malStruktur }}>
-                        {({ malStruktur }) => <Brevmeny mal={malStruktur} />}
+                        {({ malStruktur }) => (
+                            <Brevmeny
+                                mal={malStruktur}
+                                mellomlagretBrev={undefined}
+                                fagsakId={fagsakId}
+                            />
+                        )}
                     </DataViewer>
                 </>
             )}

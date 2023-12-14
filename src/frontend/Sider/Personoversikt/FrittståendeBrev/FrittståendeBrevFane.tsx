@@ -8,6 +8,7 @@ import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { utledFagsakId } from '../../../typer/fagsak';
 
 const Container = styled.div`
     display: flex;
@@ -45,7 +46,10 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             )}
                         </Select>
                         {valgtStønadstype && (
-                            <FrittståendeBrev valgtStønadstype={valgtStønadstype} />
+                            <FrittståendeBrev
+                                valgtStønadstype={valgtStønadstype}
+                                fagsakId={utledFagsakId(valgtStønadstype, fagsakPerson)}
+                            />
                         )}
                     </>
                 )}
