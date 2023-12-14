@@ -5,15 +5,16 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
-import { FritekstAvsnitt, MalStruktur, Valg, Valgfelt } from './typer';
+import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
+import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
-interface Props {
+type Props = {
     mal: MalStruktur;
-    behandlingId?: string;
-}
+    mellomlagretBrev: MellomlagretBrevDto | undefined;
+} & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
 
 const oppdaterStateForId =
     <T,>(
@@ -45,34 +46,65 @@ const FlexColumn = styled.div`
     justify-content: flex-start;
 `;
 
-const Brevmeny: React.FC<Props> = ({ mal, behandlingId }) => {
+const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsakId }) => {
+    const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
+        parseMellomlagretBrev(mellomlagretBrev);
+
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
-    >({});
+    >(initValgfelt || {});
     const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
-        {}
+        initVariabler || {}
     );
 
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
-        mal.delmaler.reduce(
-            (acc, current) => ({
+        mal.delmaler.reduce((acc, current) => {
+            const delmalErMedIMellomlager = !!(
+                initInkluderterDelmaler && initInkluderterDelmaler[current._id]
+            );
+            return {
                 ...acc,
-                [current._id]: current.visningsdetaljer.skalAlltidMed,
-            }),
-            {}
-        )
+                [current._id]: current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
+            };
+        }, {})
     );
 
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
-    >({});
+    >(initFritekst || {});
 
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
     const { request } = useApp();
 
+    const mellomlagreBrevmenyState = (
+        malId: string,
+        inkluderteDelmaler: Record<string, boolean>,
+        fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>,
+        valgfelt: Partial<Record<string, Record<string, Fritekst | Tekst>>>,
+        variabler: Partial<Record<string, Record<string, string>>>
+    ) => {
+        const mellomlagerUrl = behandlingId
+            ? `/api/sak/brev/mellomlager/${behandlingId}`
+            : `/api/sak/brev/mellomlager/fagsak/${fagsakId}`;
+
+        const data: MellomlagretBrevDto = {
+            brevmal: malId,
+            brevverdier: JSON.stringify({
+                inkluderteDelmaler,
+                fritekst,
+                valgfelt,
+                variabler,
+            }),
+        };
+
+        request<null, MellomlagretBrevDto>(mellomlagerUrl, 'POST', data);
+    };
+
     const genererPdf = () => {
         const url = behandlingId ? `/api/sak/brev/${behandlingId}` : `/api/sak/frittstaende-brev`;
+
+        mellomlagreBrevmenyState(mal._id, inkluderteDelmaler, fritekst, valgfelt, variabler);
 
         request<string, { html: string }>(url, 'POST', {
             html: lagHtmlStringAvBrev({
