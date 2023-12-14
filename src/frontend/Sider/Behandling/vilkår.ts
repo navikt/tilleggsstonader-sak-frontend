@@ -13,7 +13,11 @@ export type Vilkårtype = Inngangsvilkårtype;
 
 export enum Inngangsvilkårtype {
     MÅLGRUPPE = 'MÅLGRUPPE',
+    MÅLGRUPPE_AAP = 'MÅLGRUPPE_AAP',
+    MÅLGRUPPE_AAP_FERDIG_AVKLART = 'MÅLGRUPPE_AAP_FERDIG_AVKLART',
     AKTIVITET = 'AKTIVITET',
+    AKTIVITET_TILTAK = 'AKTIVITET_TILTAK',
+    AKTIVITET_UTDANNING = 'AKTIVITET_UTDANNING',
     PASS_BARN = 'PASS_BARN',
 }
 

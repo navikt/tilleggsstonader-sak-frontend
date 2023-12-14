@@ -16,7 +16,7 @@ interface Props {
 const VurderDelvilkår: FC<Props> = ({ regel, vurdering, settVurdering }) => {
     return (
         <RadioGroup
-            legend={regelIdTilTekst[regel.regelId]}
+            legend={regelIdTilTekst[regel.regelId] || `${regel.regelId} mangler mapping`}
             value={vurdering.svar || ''}
             size="small"
         >

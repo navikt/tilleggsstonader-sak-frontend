@@ -4,11 +4,14 @@ import { styled } from 'styled-components';
 
 import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
+import InngangsvilkårInnhold from './InngangsvilkårInnhold';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
+import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { features } from '../../../utils/features';
 import { erProd } from '../../../utils/miljø';
 
 const Container = styled.div`
@@ -32,6 +35,11 @@ const Inngangsvilkår = () => {
             <DataViewer response={{ regler, vilkårsvurdering }}>
                 {({ regler, vilkårsvurdering }) => (
                     <>
+                        {features.nyeInngangsvilkår && (
+                            <InngangsvilkårProvider>
+                                <InngangsvilkårInnhold regler={regler.vilkårsregler} />
+                            </InngangsvilkårProvider>
+                        )}
                         <MålgruppeGammel
                             vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
                             vilkårsvurdering={vilkårsvurdering}

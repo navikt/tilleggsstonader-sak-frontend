@@ -5,14 +5,14 @@ import { styled } from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Table } from '@navikt/ds-react';
 
-import LeggTilMålgruppe from './LeggTilMålgruppe';
+import LeggTilAktivitet from './LeggTilAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { Målgruppe } from '../typer';
+import { Aktivitet } from '../typer';
 
 const Container = styled.div`
     display: flex;
@@ -21,17 +21,17 @@ const Container = styled.div`
     padding: 1rem;
 `;
 
-const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
-    målgrupper,
+const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
+    aktiviteter,
     regler,
 }) => {
-    const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
+    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     return (
         <Container>
-            <Heading size="medium">Målgruppe</Heading>
+            <Heading size="medium">Aktivitet</Heading>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -42,39 +42,39 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {målgrupper.map((målgruppe) => (
+                    {aktiviteter.map((aktivitet) => (
                         <Table.ExpandableRow
-                            key={målgruppe.vilkår.id}
+                            key={aktivitet.vilkår.id}
                             togglePlacement={'right'}
-                            expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
+                            expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
                             content={
                                 <>
                                     <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
                                     <EndreVurderingComponent
-                                        vilkårType={målgruppe.vilkår.vilkårType}
-                                        regler={regler[målgruppe.vilkår.vilkårType].regler}
-                                        vilkår={målgruppe.vilkår}
-                                        oppdaterVilkår={oppdaterMålgruppeVilkårState}
+                                        vilkårType={aktivitet.vilkår.vilkårType}
+                                        regler={regler[aktivitet.vilkår.vilkårType].regler}
+                                        vilkår={aktivitet.vilkår}
+                                        oppdaterVilkår={oppdaterAktivitetVilkårState}
                                     />
                                     <Feilmelding>
-                                        {vilkårFeilmeldinger[målgruppe.vilkår.id]}
+                                        {vilkårFeilmeldinger[aktivitet.vilkår.id]}
                                     </Feilmelding>
                                 </>
                             }
                         >
                             <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={målgruppe.vilkår.resultat} />
+                                <VilkårsresultatIkon vilkårsresultat={aktivitet.vilkår.resultat} />
                             </Table.DataCell>
-                            <Table.DataCell>{målgruppe.type}</Table.DataCell>
+                            <Table.DataCell>{aktivitet.type}</Table.DataCell>
                             <Table.DataCell>
-                                {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
+                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
                             </Table.DataCell>
                         </Table.ExpandableRow>
                     ))}
                 </Table.Body>
             </Table>
             {skalViseLeggTilPeriode ? (
-                <LeggTilMålgruppe skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
+                <LeggTilAktivitet skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
             ) : (
                 <Button
                     onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
@@ -83,11 +83,11 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                     variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
-                    Legg til ny målgruppeperiode
+                    Legg til ny aktivitet
                 </Button>
             )}
         </Container>
     );
 };
 
-export default Målgruppe;
+export default Aktivitet;

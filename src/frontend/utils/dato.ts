@@ -1,4 +1,9 @@
-import { format, parseISO, isAfter, formatISO, isValid } from 'date-fns';
+import { format, parseISO, isAfter, formatISO, isValid, isBefore, isEqual } from 'date-fns';
+
+export interface Periode {
+    fom: string;
+    tom: string;
+}
 
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);
@@ -9,6 +14,10 @@ export const formaterIsoDato = (dato: string): string => {
 
 export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm");
+};
+
+export const formaterIsoPeriode = (fom: string, tom: string): string => {
+    return formaterIsoDato(fom) + ' - ' + formaterIsoDato(tom);
 };
 
 export const formaterNullableIsoDatoTid = (dato?: string): string | undefined => {
@@ -36,7 +45,21 @@ export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);
 
-    return isAfter(datoFra, datoTil);
+    return isEqual(datoFra, datoTil) || isAfter(datoFra, datoTil);
+};
+
+export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
+    const datoFra = tilDato(fra);
+    const datoTil = tilDato(til);
+
+    return isEqual(datoFra, datoTil) || isBefore(datoFra, datoTil);
+};
+
+export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {
+    return (
+        erDatoEtterEllerLik(periode.fom, annenPeriode.fom) &&
+        erDatoFørEllerLik(periode.tom, annenPeriode.tom)
+    );
 };
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
