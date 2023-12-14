@@ -26,7 +26,6 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?
     oppgavetype: { tittel: 'Oppgavetype', erSorterbar: true },
     behandlingstema: { tittel: 'Gjelder', erSorterbar: true },
     fristFerdigstillelse: { tittel: 'Frist', erSorterbar: true },
-    beskrivelse: { tittel: 'Beskrivelse' },
     identer: { tittel: 'Ident' },
     tildeltEnhetsnr: { tittel: 'Enhet' },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
