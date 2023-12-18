@@ -4,6 +4,8 @@ import { valuerOrThrow } from './typeUtils';
 
 export interface FagsakPerson {
     id: string;
+    personIdent: string;
+    navn: string;
     tilsynBarn?: string;
 }
 
