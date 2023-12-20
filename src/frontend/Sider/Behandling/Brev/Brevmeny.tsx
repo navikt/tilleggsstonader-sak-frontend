@@ -8,6 +8,7 @@ import { lagHtmlStringAvBrev } from './Html';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
+import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
@@ -47,6 +48,7 @@ const FlexColumn = styled.div`
 `;
 
 const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsakId }) => {
+    const { personopplysninger } = usePersonopplysninger();
     const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
         parseMellomlagretBrev(mellomlagretBrev);
 
@@ -108,8 +110,8 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
 
         request<string, { html: string }>(url, 'POST', {
             html: lagHtmlStringAvBrev({
-                navn: 'Bjarne',
-                personIdent: '12345678',
+                navn: personopplysninger.navn.visningsnavn,
+                personIdent: personopplysninger.personIdent,
                 fritekst: fritekst,
                 inkluderteDelmaler: inkluderteDelmaler,
                 mal: mal,
