@@ -8,12 +8,7 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
 import Høyremeny from './Høyremeny/Høyremeny';
-import { BehandlingProvider } from '../../context/BehandlingContext';
-import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
-import { VilkårProvider } from '../../context/VilkårContext';
-import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
-import { Behandling } from '../../typer/behandling/behandling';
-import { Personopplysninger } from '../../typer/personopplysninger';
+import { useBehandling } from '../../context/BehandlingContext';
 
 const BehandlingContainer = styled.div`
     display: flex;
@@ -36,45 +31,34 @@ const HøyreMenyWrapper = styled.div`
     z-index: 10;
 `;
 
-const BehandlingInnhold: React.FC<{
-    behandling: Behandling;
-    hentBehandling: RerrunnableEffect;
-    personopplysninger: Personopplysninger;
-}> = ({ behandling, hentBehandling, personopplysninger }) => {
+const BehandlingInnhold: React.FC = () => {
     const paths = useLocation().pathname.split('/').slice(-1);
 
     const path = paths.length ? paths[paths.length - 1] : '';
+    const { behandling } = useBehandling();
 
     return (
-        <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
-            <PersonopplysningerProvider personopplysninger={personopplysninger}>
-                <BehandlingContainer>
-                    <VilkårProvider behandling={behandling}>
-                        <InnholdWrapper>
-                            <Fanemeny behandlingId={behandling.id} aktivFane={path} />
-                            <Routes>
-                                {behandlingFaner.map((tab) => (
-                                    <Route
-                                        key={tab.path}
-                                        path={`/${tab.path}`}
-                                        element={tab.komponent(behandling.id)}
-                                    />
-                                ))}
-                                <Route
-                                    path="*"
-                                    element={
-                                        <Navigate to={behandlingFaner[0].path} replace={true} />
-                                    }
-                                />
-                            </Routes>
-                        </InnholdWrapper>
-                    </VilkårProvider>
-                    <HøyreMenyWrapper>
-                        <Høyremeny />
-                    </HøyreMenyWrapper>
-                </BehandlingContainer>
-            </PersonopplysningerProvider>
-        </BehandlingProvider>
+        <BehandlingContainer>
+            <InnholdWrapper>
+                <Fanemeny behandlingId={behandling.id} aktivFane={path} />
+                <Routes>
+                    {behandlingFaner.map((tab) => (
+                        <Route
+                            key={tab.path}
+                            path={`/${tab.path}`}
+                            element={tab.komponent(behandling.id)}
+                        />
+                    ))}
+                    <Route
+                        path="*"
+                        element={<Navigate to={behandlingFaner[0].path} replace={true} />}
+                    />
+                </Routes>
+            </InnholdWrapper>
+            <HøyreMenyWrapper>
+                <Høyremeny />
+            </HøyreMenyWrapper>
+        </BehandlingContainer>
     );
 };
 

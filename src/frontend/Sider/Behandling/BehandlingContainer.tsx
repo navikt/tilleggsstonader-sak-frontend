@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 
 import BehandlingInnhold from './BehandlingInnhold';
 import { useApp } from '../../context/AppContext';
+import { BehandlingProvider } from '../../context/BehandlingContext';
+import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
+import { VilkårProvider } from '../../context/VilkårContext';
 import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -35,11 +38,13 @@ const BehandlingContainer = () => {
     return (
         <DataViewer response={{ behandling, personopplysninger }}>
             {({ behandling, personopplysninger }) => (
-                <BehandlingInnhold
-                    behandling={behandling}
-                    hentBehandling={hentBehandling}
-                    personopplysninger={personopplysninger}
-                />
+                <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
+                    <PersonopplysningerProvider personopplysninger={personopplysninger}>
+                        <VilkårProvider behandling={behandling}>
+                            <BehandlingInnhold />
+                        </VilkårProvider>
+                    </PersonopplysningerProvider>
+                </BehandlingProvider>
             )}
         </DataViewer>
     );
