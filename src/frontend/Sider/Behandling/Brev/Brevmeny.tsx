@@ -3,13 +3,15 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { Button } from '@navikt/ds-react';
+
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
 
 type Props = {
     mal: MalStruktur;
@@ -122,6 +124,22 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
 
     const utsattGenererBrev = useDebouncedCallback(genererPdf, 1000);
 
+    const sendBrev = () => {
+        if (fil.status === RessursStatus.SUKSESS && fagsakId) {
+            request<null, { pdf: string; tittel: string }>(
+                `/api/sak/frittstaende-brev/send/${fagsakId}`,
+                'POST',
+                {
+                    pdf: fil.data,
+                    tittel: mal.brevtittel,
+                }
+            ).then((res) => {
+                // eslint-disable-next-line no-console
+                console.log(res);
+            });
+        }
+    };
+
     useEffect(utsattGenererBrev, [
         utsattGenererBrev,
         mal,
@@ -155,6 +173,7 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
                 ))}
             </FlexColumn>
             <PdfVisning pdfFilInnhold={fil} />
+            <Button onClick={sendBrev}>Send brev</Button>
         </Container>
     );
 };
