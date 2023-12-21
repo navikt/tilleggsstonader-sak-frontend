@@ -14,6 +14,7 @@ import useFormState, { FormState } from '../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { Periode } from '../../../../utils/periode';
 import { Målgruppe, MålgruppeType } from '../typer';
 
 const Container = styled.div`
@@ -37,10 +38,8 @@ const Knapp = styled(Button)`
 `;
 
 export type NyMålgruppe = {
-    fom: string;
-    tom: string;
     type: MålgruppeType;
-};
+} & Periode;
 
 const initFormState = { fom: '', tom: '', type: '' };
 
