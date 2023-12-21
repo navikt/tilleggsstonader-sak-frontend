@@ -22,6 +22,7 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
     const [brevmaler, settBrevmaler] = useState<Ressurs<Brevmal[]>>(byggTomRessurs());
     const [malStruktur, settMalStruktur] = useState<Ressurs<MalStruktur>>(byggTomRessurs());
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
+    const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
     const hentBrevmaler = useCallback(() => {
         sanityClient
@@ -65,6 +66,8 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
         settBrevmal,
         malStruktur,
         brevmottakere,
+        fil,
+        settFil,
     };
 };
 

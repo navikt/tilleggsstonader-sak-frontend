@@ -10,7 +10,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     valgtStønadstype,
     fagsakId,
 }) => {
-    const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
+    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
         valgtStønadstype,
         'FRITTSTAENDE'
     );
@@ -30,6 +30,8 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                                 mal={malStruktur}
                                 mellomlagretBrev={undefined}
                                 fagsakId={fagsakId}
+                                fil={fil}
+                                settFil={settFil}
                             />
                         )}
                     </DataViewer>
