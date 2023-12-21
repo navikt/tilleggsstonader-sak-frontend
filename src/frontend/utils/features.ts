@@ -1,3 +1,3 @@
 export const features = {
-    nyeInngangsvilkår: false,
+    nyeInngangsvilkår: true,
 };

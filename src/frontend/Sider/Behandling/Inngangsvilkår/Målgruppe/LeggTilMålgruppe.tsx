@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { validerForm } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
-import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
+import useFormState, { FormState } from '../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -41,12 +42,6 @@ export type NyMålgruppe = {
 };
 
 const initFormState = { fom: '', tom: '', type: '' };
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const validerForm = ({ fom, tom, type }: NyMålgruppe): FormErrors<NyMålgruppe> => {
-    // TODO fikse validering
-    return { fom: undefined, tom: undefined, type: undefined };
-};
 
 const LeggTilMålgruppe: React.FC<{
     skjulLeggTilPeriode: () => void;
@@ -97,6 +92,7 @@ const LeggTilMålgruppe: React.FC<{
                         value={typeState.value}
                         onChange={(e) => typeState.setValue(e.target.value)}
                         size="small"
+                        error={formState.errors.type}
                     >
                         <option value="">Velg</option>
                         {Object.keys(MålgruppeType).map((type) => (
@@ -110,12 +106,14 @@ const LeggTilMålgruppe: React.FC<{
                         value={fomState.value}
                         onChange={(dato) => dato && fomState.setValue(dato)}
                         size="small"
+                        feil={formState.errors.fom}
                     />
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
                         onChange={(dato) => dato && tomState.setValue(dato)}
                         size="small"
+                        feil={formState.errors.tom}
                     />
                 </InputContainer>
                 <Feilmelding>{feilmelding}</Feilmelding>
