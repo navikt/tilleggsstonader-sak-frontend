@@ -28,6 +28,7 @@ const Container = styled.div`
 const InputContainer = styled.div`
     display: flex;
     gap: 1rem;
+    align-items: start;
 `;
 
 const Knapp = styled(Button)`
