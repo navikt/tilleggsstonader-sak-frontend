@@ -1,4 +1,4 @@
-import { Periode } from '../../../utils/dato';
+import { Periode } from '../../../utils/periode';
 import { Vilkår } from '../vilkår';
 
 export interface Vilkårperioder {
@@ -29,6 +29,4 @@ export interface Stønadsperiode extends Periode {
     id?: string;
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
-    fom: string;
-    tom: string;
 }
