@@ -20,7 +20,7 @@ const InngangsvilkårInnhold: React.FC<{
                     <Aktivitet aktiviteter={vilkårperioder.aktiviteter} regler={regler} />
                     <Stønadsperioder
                         vilkårperioder={vilkårperioder}
-                        eksisterendeStønadsperioder={stønadsperioder}
+                        stønadsperioder={stønadsperioder}
                     />
                 </>
             )}

@@ -18,8 +18,8 @@ const Container = styled.div`
 
 const Stønadsperioder: React.FC<{
     vilkårperioder: Vilkårperioder;
-    eksisterendeStønadsperioder: Stønadsperiode[];
-}> = ({ vilkårperioder, eksisterendeStønadsperioder }) => {
+    stønadsperioder: Stønadsperiode[];
+}> = ({ vilkårperioder, stønadsperioder }) => {
     const { redigererStønadsperioder } = useInngangsvilkår();
     return (
         <Container>
@@ -27,11 +27,11 @@ const Stønadsperioder: React.FC<{
 
             {redigererStønadsperioder ? (
                 <RedigerStønadsperioder
-                    eksisterendeStønadsperioder={eksisterendeStønadsperioder}
+                    eksisterendeStønadsperioder={stønadsperioder}
                     vilkårperioder={vilkårperioder}
                 />
             ) : (
-                <VisStønadsperioder stønadsperioder={eksisterendeStønadsperioder} />
+                <VisStønadsperioder stønadsperioder={stønadsperioder} />
             )}
         </Container>
     );
