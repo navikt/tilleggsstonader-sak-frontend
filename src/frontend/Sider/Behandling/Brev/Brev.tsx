@@ -23,7 +23,8 @@ const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
     const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
         behandling.stønadstype,
-        'INNVILGET'
+        'INNVILGET',
+        behandling
     ); // TODO ikke bruk hardkodet resultat
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
