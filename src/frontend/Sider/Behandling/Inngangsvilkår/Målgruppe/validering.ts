@@ -1,28 +1,21 @@
 import { NyMålgruppe } from './LeggTilMålgruppe';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { erDatoEtterEllerLik } from '../../../../utils/dato';
+import { validerPeriode } from '../../../../utils/periode';
 
-export const validerForm = ({ fom, tom, type }: NyMålgruppe): FormErrors<NyMålgruppe> => {
+export const validerForm = (nyAktivitet: NyMålgruppe): FormErrors<NyMålgruppe> => {
     const feil: FormErrors<NyMålgruppe> = {
         fom: undefined,
         tom: undefined,
         type: undefined,
     };
-    if (!type) {
+    if (!nyAktivitet.type) {
         return { ...feil, type: 'Mangler type for periode' };
     }
-    if (!fom) {
-        return { ...feil, fom: 'Mangler fradato for periode' };
-    }
-
-    if (!tom) {
-        return { ...feil, tom: 'Mangler tildato for periode' };
-    }
-
-    if (!erDatoEtterEllerLik(tom, fom)) {
+    const periodeValidering = validerPeriode(nyAktivitet);
+    if (periodeValidering) {
         return {
             ...feil,
-            tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
+            ...periodeValidering,
         };
     }
     return feil;
