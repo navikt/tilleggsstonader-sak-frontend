@@ -8,6 +8,7 @@ import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
@@ -54,8 +55,10 @@ const RedigerStønadsperioder: React.FC<{
     vilkårperioder: Vilkårperioder;
     eksisterendeStønadsperioder: Stønadsperiode[];
 }> = ({ vilkårperioder, eksisterendeStønadsperioder }) => {
+    const { oppdaterStønadsperioder } = useInngangsvilkår();
     const { request } = useApp();
     const { behandling } = useBehandling();
+
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
@@ -86,6 +89,7 @@ const RedigerStønadsperioder: React.FC<{
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     stønadsperioderState.setValue(res.data);
+                    oppdaterStønadsperioder(res);
                 } else {
                     settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
                 }

@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Heading } from '@navikt/ds-react';
 
 import RedigerStønadsperioder from './RedigerStønadsperioder';
+import VisStønadsperioder from './VisStønadsperiode';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Stønadsperiode, Vilkårperioder } from '../typer';
 
 const Container = styled.div`
@@ -18,13 +20,19 @@ const Stønadsperioder: React.FC<{
     vilkårperioder: Vilkårperioder;
     eksisterendeStønadsperioder: Stønadsperiode[];
 }> = ({ vilkårperioder, eksisterendeStønadsperioder }) => {
+    const { redigererStønadsperioder } = useInngangsvilkår();
     return (
         <Container>
             <Heading size="medium">Stønadsperioder</Heading>
-            <RedigerStønadsperioder
-                eksisterendeStønadsperioder={eksisterendeStønadsperioder}
-                vilkårperioder={vilkårperioder}
-            />
+
+            {redigererStønadsperioder ? (
+                <RedigerStønadsperioder
+                    eksisterendeStønadsperioder={eksisterendeStønadsperioder}
+                    vilkårperioder={vilkårperioder}
+                />
+            ) : (
+                <VisStønadsperioder stønadsperioder={eksisterendeStønadsperioder} />
+            )}
         </Container>
     );
 };

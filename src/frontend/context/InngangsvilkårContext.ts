@@ -28,6 +28,9 @@ export interface UseInngangsvilkår {
     oppdaterAktivitetVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
     vilkårFeilmeldinger: Vurderingsfeilmelding;
     stønadsperioder: Ressurs<Stønadsperiode[]>;
+    oppdaterStønadsperioder: (nyeStønadsperioder: Ressurs<Stønadsperiode[]>) => void;
+    redigererStønadsperioder: boolean;
+    startRedigerStønadsperioder: () => void;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInngangsvilkår => {
@@ -38,11 +41,13 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         byggTomRessurs()
     );
 
+    const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+
     const [stønadsperioder, settStønadsperioder] = useState<Ressurs<Stønadsperiode[]>>(
         byggTomRessurs()
     );
 
-    const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+    const [redigererStønadsperioder, settRedigererStønadsperioder] = useState<boolean>(false);
 
     const hentVilkårperioder = useCallback(
         (behandlingId: string) => {
@@ -119,6 +124,11 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         });
     };
 
+    const oppdaterStønadsperioder = (nyeStønadsperioder: Ressurs<Stønadsperiode[]>) => {
+        settStønadsperioder(nyeStønadsperioder);
+        settRedigererStønadsperioder(false);
+    };
+
     return {
         vilkårperioder,
         leggTilMålgruppe,
@@ -128,6 +138,9 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         oppdaterAktivitetVilkårState,
         vilkårFeilmeldinger,
         stønadsperioder,
+        oppdaterStønadsperioder,
+        redigererStønadsperioder,
+        startRedigerStønadsperioder: () => settRedigererStønadsperioder(true),
     };
 });
 
