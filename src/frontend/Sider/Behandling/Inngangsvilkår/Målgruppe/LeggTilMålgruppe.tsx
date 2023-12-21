@@ -29,6 +29,11 @@ const InputContainer = styled.div`
     gap: 1rem;
 `;
 
+const KnappContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+`;
+
 const Knapp = styled(Button)`
     max-width: fit-content;
     margin-top: 1rem;
@@ -87,6 +92,11 @@ const LeggTilMålgruppe: React.FC<{
         leggTilNyMålgruppe({ fom: form.fom, tom: form.tom, type: form.type });
     };
 
+    const handleReset = () => {
+        if (laster) return;
+        skjulLeggTilPeriode();
+    };
+
     return (
         <Container>
             <Heading size="small">Legg til ny målgruppe</Heading>
@@ -114,14 +124,24 @@ const LeggTilMålgruppe: React.FC<{
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
-                        onChange={(dato) => fomState.setValue(dato || '')}
+                        onChange={(dato) => tomState.setValue(dato || '')}
                         size="small"
                     />
                 </InputContainer>
                 <Feilmelding>{feilmelding}</Feilmelding>
-                <Knapp size="small" type="submit" disabled={laster}>
-                    Legg til
-                </Knapp>
+                <KnappContainer>
+                    <Knapp size="small" type="submit" disabled={laster}>
+                        Legg til
+                    </Knapp>
+                    <Knapp
+                        variant={'tertiary'}
+                        size="small"
+                        disabled={laster}
+                        onClick={handleReset}
+                    >
+                        Avbryt
+                    </Knapp>
+                </KnappContainer>
             </form>
         </Container>
     );
