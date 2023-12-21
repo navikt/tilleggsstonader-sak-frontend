@@ -63,7 +63,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Fra'}
                 hideLabel
                 value={stønadsperide.fom}
-                onChange={(dato) => dato && oppdaterStønadsperiode('fom', dato)}
+                onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('fom')}
             />
@@ -71,7 +71,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
-                onChange={(dato) => dato && oppdaterStønadsperiode('tom', dato)}
+                onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
             />

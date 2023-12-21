@@ -108,13 +108,13 @@ const LeggTilAktivitet: React.FC<{
                     <DateInput
                         label={'Fra'}
                         value={fomState.value}
-                        onChange={(dato) => dato && fomState.setValue(dato)}
+                        onChange={(dato) => fomState.setValue(dato || '')}
                         size="small"
                     />
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
-                        onChange={(dato) => dato && tomState.setValue(dato)}
+                        onChange={(dato) => tomState.setValue(dato || '')}
                         size="small"
                     />
                 </InputContainer>
