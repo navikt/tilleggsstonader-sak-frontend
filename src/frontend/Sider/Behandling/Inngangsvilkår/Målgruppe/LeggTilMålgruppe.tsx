@@ -114,7 +114,7 @@ const LeggTilMålgruppe: React.FC<{
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
-                        onChange={(dato) => fomState.setValue(dato || '')}
+                        onChange={(dato) => tomState.setValue(dato || '')}
                         size="small"
                     />
                 </InputContainer>
