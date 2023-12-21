@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
@@ -14,6 +14,11 @@ import {
     RessursSuksess,
 } from '../typer/ressurs';
 
+type RadState = 'åpen';
+interface RaderState {
+    [key: string]: RadState;
+}
+
 export interface UseInngangsvilkår {
     vilkårperioder: Ressurs<Vilkårperioder>;
     leggTilMålgruppe: (nyPeriode: Målgruppe) => void;
@@ -22,11 +27,18 @@ export interface UseInngangsvilkår {
     oppdaterMålgruppeVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
     oppdaterAktivitetVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
     vilkårFeilmeldinger: Vurderingsfeilmelding;
+    målgrupperader: RaderState;
+    oppdaterMålgrupperad: (id: string, state: RadState | undefined) => void;
+    aktivitetsrader: RaderState;
+    oppdaterAktivitetsrad: (id: string, state: RadState | undefined) => void;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInngangsvilkår => {
     const { request } = useApp();
     const { behandling } = useBehandling();
+
+    const [målgrupperader, settMålgrupperader] = useState<RaderState>({});
+    const [aktivitetsrader, settAktivitetsrader] = useState<RaderState>({});
 
     const [vilkårperioder, settVilkårperioder] =
         useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
@@ -45,6 +57,12 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
     useEffect(() => {
         hentVilkårperioder(behandling.id);
     }, [hentVilkårperioder, behandling.id]);
+
+    const oppdaterMålgrupperad = (id: string, state: RadState | undefined) =>
+        oppdaterRadState(settMålgrupperader, id, state);
+
+    const oppdaterAktivitetsrad = (id: string, state: RadState | undefined) =>
+        oppdaterRadState(settAktivitetsrader, id, state);
 
     const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
         settVilkårperioder((prevState) =>
@@ -74,6 +92,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
                 settVilkårperioder((prevState) =>
                     oppdaterMålgruppeVilkår(prevState as RessursSuksess<Vilkårperioder>, res.data)
                 );
+                oppdaterMålgrupperad(svarPåVilkår.id, undefined);
             } else {
                 settVilkårfeilmeldinger((prevState) => ({
                     ...prevState,
@@ -89,6 +108,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
                 settVilkårperioder((prevState) =>
                     oppdaterAktivitetVilkår(prevState as RessursSuksess<Vilkårperioder>, res.data)
                 );
+                oppdaterAktivitetsrad(svarPåVilkår.id, undefined);
             } else {
                 settVilkårfeilmeldinger((prevState) => ({
                     ...prevState,
@@ -106,8 +126,31 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         oppdaterMålgruppeVilkårState,
         oppdaterAktivitetVilkårState,
         vilkårFeilmeldinger,
+        målgrupperader,
+        oppdaterMålgrupperad,
+        aktivitetsrader,
+        oppdaterAktivitetsrad,
     };
 });
+
+const oppdaterRadState = (
+    dispatch: React.Dispatch<SetStateAction<RaderState>>,
+    id: string,
+    state: RadState | undefined
+) => {
+    dispatch((prevState) => {
+        if (!state) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { [id]: _, ...rest } = prevState;
+            return rest;
+        } else {
+            return {
+                ...prevState,
+                [id]: 'åpen',
+            };
+        }
+    });
+};
 
 const oppdaterVilkårsperioderMedNyMålgruppe = (
     vilkårperioder: RessursSuksess<Vilkårperioder>,

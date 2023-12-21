@@ -25,7 +25,12 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
     aktiviteter,
     regler,
 }) => {
-    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
+    const {
+        vilkårFeilmeldinger,
+        oppdaterAktivitetVilkårState,
+        aktivitetsrader,
+        oppdaterAktivitetsrad,
+    } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
@@ -47,6 +52,13 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                             key={aktivitet.vilkår.id}
                             togglePlacement={'right'}
                             expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
+                            open={!!aktivitetsrader[aktivitet.vilkår.id]}
+                            onOpenChange={(open) =>
+                                oppdaterAktivitetsrad(
+                                    aktivitet.vilkår.id,
+                                    open ? 'åpen' : undefined
+                                )
+                            }
                             content={
                                 <>
                                     <Heading size={'xsmall'}>Vilkårsvurdering</Heading>

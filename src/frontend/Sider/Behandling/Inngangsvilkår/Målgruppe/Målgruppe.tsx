@@ -25,7 +25,12 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     målgrupper,
     regler,
 }) => {
-    const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
+    const {
+        vilkårFeilmeldinger,
+        oppdaterMålgruppeVilkårState,
+        målgrupperader,
+        oppdaterMålgrupperad,
+    } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
@@ -47,6 +52,10 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                             key={målgruppe.vilkår.id}
                             togglePlacement={'right'}
                             expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
+                            open={!!målgrupperader[målgruppe.vilkår.id]}
+                            onOpenChange={(open) =>
+                                oppdaterMålgrupperad(målgruppe.vilkår.id, open ? 'åpen' : undefined)
+                            }
                             content={
                                 <>
                                     <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
