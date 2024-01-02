@@ -21,7 +21,7 @@ export const validerPeriode = (periode: Periode): undefined | Partial<Periode> =
         return { tom: 'Mangler tildato for periode' };
     }
 
-    if (!erDatoEtterEllerLik(periode.tom, periode.fom)) {
+    if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
         return {
             tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
         };

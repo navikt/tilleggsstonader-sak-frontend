@@ -50,7 +50,7 @@ const validerStønadsperioder = (
             return { ...stønadsperiodeFeil, tom: 'Mangler tildato for periode' };
         }
 
-        if (!erDatoEtterEllerLik(periode.tom, periode.fom)) {
+        if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
             return {
                 ...stønadsperiodeFeil,
                 tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
