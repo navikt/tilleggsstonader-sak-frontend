@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
@@ -21,6 +22,8 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
         'FRITTSTAENDE'
     );
 
+    const [feilmelding, settFeilmelding] = useState<string>();
+
     const sendBrev = () => {
         if (fil.status === RessursStatus.SUKSESS && brevmal) {
             request<null, { pdf: string; tittel: string }>(
@@ -31,8 +34,9 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                     tittel: brevmal,
                 }
             ).then((res) => {
-                // eslint-disable-next-line no-console
-                console.log(res);
+                if (res.status !== RessursStatus.SUKSESS) {
+                    settFeilmelding(res.frontendFeilmelding);
+                }
             });
         }
     };
@@ -60,6 +64,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                     {fil.status === RessursStatus.SUKSESS && (
                         <Button onClick={sendBrev}>Send brev</Button>
                     )}
+                    <Feilmelding variant="alert">{feilmelding}</Feilmelding>
                 </>
             )}
         </DataViewer>
