@@ -57,7 +57,9 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                             />
                         )}
                     </DataViewer>
-                    <Button onClick={sendBrev}>Send brev</Button>
+                    {fil.status === RessursStatus.SUKSESS && (
+                        <Button onClick={sendBrev}>Send brev</Button>
+                    )}
                 </>
             )}
         </DataViewer>
