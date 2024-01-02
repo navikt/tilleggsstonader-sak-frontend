@@ -5,14 +5,16 @@ import styled from 'styled-components';
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { validerForm } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
-import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
+import useFormState, { FormState } from '../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { Periode } from '../../../../utils/periode';
 import { Aktivitet, AktivitetType } from '../typer';
 
 const Container = styled.div`
@@ -27,6 +29,7 @@ const Container = styled.div`
 const InputContainer = styled.div`
     display: flex;
     gap: 1rem;
+    align-items: start;
 `;
 
 const KnappContainer = styled.div`
@@ -40,18 +43,10 @@ const Knapp = styled(Button)`
 `;
 
 export type NyAktivitet = {
-    fom: string;
-    tom: string;
     type: AktivitetType;
-};
+} & Periode;
 
 const initFormState = { fom: '', tom: '', type: '' };
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const validerForm = ({ fom, tom, type }: NyAktivitet): FormErrors<NyAktivitet> => {
-    // TODO fikse validering
-    return { fom: undefined, tom: undefined, type: undefined };
-};
 
 const LeggTilAktivitet: React.FC<{
     skjulLeggTilPeriode: () => void;
@@ -107,6 +102,7 @@ const LeggTilAktivitet: React.FC<{
                         value={typeState.value}
                         onChange={(e) => typeState.setValue(e.target.value)}
                         size="small"
+                        error={formState.errors.type}
                     >
                         <option value="">Velg</option>
                         {Object.keys(AktivitetType).map((type) => (
@@ -120,12 +116,14 @@ const LeggTilAktivitet: React.FC<{
                         value={fomState.value}
                         onChange={(dato) => fomState.setValue(dato || '')}
                         size="small"
+                        feil={formState.errors.fom}
                     />
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
                         onChange={(dato) => tomState.setValue(dato || '')}
                         size="small"
+                        feil={formState.errors.tom}
                     />
                 </InputContainer>
                 <Feilmelding>{feilmelding}</Feilmelding>

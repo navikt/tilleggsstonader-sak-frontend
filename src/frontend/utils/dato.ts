@@ -1,9 +1,4 @@
-import { format, parseISO, isAfter, formatISO, isValid, isBefore, isEqual } from 'date-fns';
-
-export interface Periode {
-    fom: string;
-    tom: string;
-}
+import { format, formatISO, isAfter, isBefore, isEqual, isValid, parseISO } from 'date-fns';
 
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);
@@ -53,13 +48,6 @@ export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
     const datoTil = tilDato(til);
 
     return isEqual(datoFra, datoTil) || isBefore(datoFra, datoTil);
-};
-
-export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {
-    return (
-        erDatoEtterEllerLik(periode.fom, annenPeriode.fom) &&
-        erDatoFørEllerLik(periode.tom, annenPeriode.tom)
-    );
 };
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
