@@ -21,9 +21,8 @@ const useMellomlagringBrev = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [mellomlagretBrev, settMellomlagretBrev] = useState<Ressurs<MellomlagretBrevDto>>(
-        byggTomRessurs()
-    );
+    const [mellomlagretBrev, settMellomlagretBrev] =
+        useState<Ressurs<MellomlagretBrevDto>>(byggTomRessurs());
 
     const hentMellomlagretBrev = useCallback(() => {
         request<MellomlagretBrevDto, unknown>(`/api/sak/brev/mellomlager/${behandling.id}`).then(

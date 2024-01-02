@@ -7,9 +7,8 @@ import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
     const { request } = useApp();
 
-    const [mellomlagretBrev, settMellomlagretBrev] = useState<Ressurs<MellomlagretBrevDto>>(
-        byggTomRessurs()
-    );
+    const [mellomlagretBrev, settMellomlagretBrev] =
+        useState<Ressurs<MellomlagretBrevDto>>(byggTomRessurs());
 
     const hentMellomlagretBrev = useCallback(() => {
         request<MellomlagretBrevDto, unknown>(`/api/sak/brev/mellomlager/fagsak/${fagsakId}`).then(
