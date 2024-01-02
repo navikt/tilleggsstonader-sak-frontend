@@ -6,7 +6,7 @@ import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
-import { RessursStatus } from '../../../typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
@@ -19,12 +19,12 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
 }) => {
     const { request, settToast } = useApp();
 
-    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
+    const { brevmaler, brevmal, settBrevmal, malStruktur, settMalStruktur, fil, settFil } = useBrev(
         valgtStønadstype,
         'FRITTSTAENDE'
     );
 
-    const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+    const { mellomlagretBrev, settMellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -45,6 +45,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                 }
             ).then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
+                    nullstillBrev();
                     settToast(Toast.BREV_SENDT);
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
@@ -53,17 +54,23 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
         }
     };
 
+    const nullstillBrev = () => {
+        settBrevmal(undefined);
+        settMalStruktur(byggTomRessurs());
+        settMellomlagretBrev(byggTomRessurs());
+    };
+
     return (
-        <DataViewer response={{ brevmaler, mellomlagretBrev }}>
-            {({ brevmaler, mellomlagretBrev }) => (
+        <DataViewer response={{ brevmaler }}>
+            {({ brevmaler }) => (
                 <>
                     <VelgBrevmal
                         brevmaler={brevmaler}
                         brevmal={brevmal}
                         settBrevmal={settBrevmal}
                     />
-                    <DataViewer response={{ malStruktur }}>
-                        {({ malStruktur }) => (
+                    <DataViewer response={{ malStruktur, mellomlagretBrev }}>
+                        {({ malStruktur, mellomlagretBrev }) => (
                             <Brevmeny
                                 mal={malStruktur}
                                 mellomlagretBrev={mellomlagretBrev}
