@@ -34,6 +34,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                     tittel: brevmal,
                 }
             ).then((res) => {
+                // TODO: settToast() ved suksess
                 if (res.status !== RessursStatus.SUKSESS) {
                     settFeilmelding(res.frontendFeilmelding);
                 }
