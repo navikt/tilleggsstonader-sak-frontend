@@ -6,6 +6,7 @@ import { InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import PersonSøk from './komponenter/PersonSøk';
+import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
@@ -76,6 +77,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                 </InternalHeader>
             </Sticky>
             <Outlet />
+            <Toast />
         </>
     );
 };
