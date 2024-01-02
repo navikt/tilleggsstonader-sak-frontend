@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -6,21 +6,31 @@ import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
-import { RessursStatus } from '../../../typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../typer/ressurs';
+import { Toast } from '../../../typer/toast';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
+import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
 
 const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: string }> = ({
     valgtStønadstype,
     fagsakId,
 }) => {
-    const { request } = useApp();
+    const { request, settToast } = useApp();
 
-    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
+    const { brevmaler, brevmal, settBrevmal, malStruktur, settMalStruktur, fil, settFil } = useBrev(
         valgtStønadstype,
         'FRITTSTAENDE'
     );
+
+    const { mellomlagretBrev, settMellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+
+    useEffect(() => {
+        if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
+            settBrevmal(mellomlagretBrev.data.brevmal);
+        }
+    }, [mellomlagretBrev, settBrevmal]);
 
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -34,12 +44,20 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                     tittel: brevmal,
                 }
             ).then((res) => {
-                // TODO: settToast() ved suksess
-                if (res.status !== RessursStatus.SUKSESS) {
+                if (res.status === RessursStatus.SUKSESS) {
+                    nullstillBrev();
+                    settToast(Toast.BREV_SENDT);
+                } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
             });
         }
+    };
+
+    const nullstillBrev = () => {
+        settBrevmal(undefined);
+        settMalStruktur(byggTomRessurs());
+        settMellomlagretBrev(byggTomRessurs());
     };
 
     return (
@@ -51,11 +69,11 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                         brevmal={brevmal}
                         settBrevmal={settBrevmal}
                     />
-                    <DataViewer response={{ malStruktur }}>
-                        {({ malStruktur }) => (
+                    <DataViewer response={{ malStruktur, mellomlagretBrev }}>
+                        {({ malStruktur, mellomlagretBrev }) => (
                             <Brevmeny
                                 mal={malStruktur}
-                                mellomlagretBrev={undefined}
+                                mellomlagretBrev={mellomlagretBrev}
                                 fagsakId={fagsakId}
                                 fil={fil}
                                 settFil={settFil}
