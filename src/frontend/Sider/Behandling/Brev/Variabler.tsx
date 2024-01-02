@@ -20,16 +20,18 @@ const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }
                         [variabel._id]: e.target.value,
                     }));
 
-                return (
-                    <div key={variabel._id}>
-                        <TextField
-                            label={variabel.visningsnavn}
-                            key={variabel._id}
-                            value={variablerState[variabel._id] || ''}
-                            onChange={håndterInput}
-                        />
-                    </div>
-                );
+                if (!variabel.erHtml) {
+                    return (
+                        <div key={variabel._id}>
+                            <TextField
+                                label={variabel.visningsnavn}
+                                key={variabel._id}
+                                value={variablerState[variabel._id] || ''}
+                                onChange={håndterInput}
+                            />
+                        </div>
+                    );
+                }
             })}
         </>
     );
