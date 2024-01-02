@@ -65,6 +65,7 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
         brevmal,
         settBrevmal,
         malStruktur,
+        settMalStruktur,
         brevmottakere,
         fil,
         settFil,

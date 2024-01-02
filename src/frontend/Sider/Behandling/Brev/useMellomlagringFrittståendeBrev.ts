@@ -19,7 +19,7 @@ const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
 
     useEffect(hentMellomlagretBrev, [hentMellomlagretBrev]);
 
-    return { mellomlagretBrev };
+    return { mellomlagretBrev, settMellomlagretBrev };
 };
 
 export default useMellomlagringFrittståendeBrev;
