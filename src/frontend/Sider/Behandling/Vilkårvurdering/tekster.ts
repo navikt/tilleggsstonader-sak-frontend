@@ -2,6 +2,7 @@ export const regelIdTilTekst: Record<string, string> = {
     // MÅLGRUPPE
     MÅLGRUPPE: 'Tilhører bruker riktig målgruppe?',
     NEDSATT_ARBEIDSEVNE: 'Har bruker nedsatt arbeidsevne etter §11 A-3?',
+    OMSTILLINGSSTØNAD_LEDD: 'Etter hvilket ledd er stønaden vurdert?',
 
     // AKTIVITET
     ER_AKTIVITET_REGISTRERT: 'Er bruker registrert med en aktivitet?',
@@ -20,6 +21,10 @@ export const regelIdTilTekst: Record<string, string> = {
 export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+
+    // MÅLGRUPPE
+    FØRSTE_LEDD: 'Første ledd',
+    ANDRE_LEDD: 'Andre ledd',
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
