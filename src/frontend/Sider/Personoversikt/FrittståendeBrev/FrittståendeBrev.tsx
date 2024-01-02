@@ -7,6 +7,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
+import { Toast } from '../../../typer/toast';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
@@ -15,7 +16,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     valgtStønadstype,
     fagsakId,
 }) => {
-    const { request } = useApp();
+    const { request, settToast } = useApp();
 
     const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
         valgtStønadstype,
@@ -34,8 +35,9 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                     tittel: brevmal,
                 }
             ).then((res) => {
-                // TODO: settToast() ved suksess
-                if (res.status !== RessursStatus.SUKSESS) {
+                if (res.status === RessursStatus.SUKSESS) {
+                    settToast(Toast.BREV_SENDT);
+                } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
             });
