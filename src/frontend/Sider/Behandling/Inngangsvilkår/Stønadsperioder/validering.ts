@@ -1,5 +1,5 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { erDatoEtterEllerLik, erPeriodeInnenforAnnenPeriode } from '../../../../utils/dato';
+import { erPeriodeInnenforAnnenPeriode, validerPeriode } from '../../../../utils/periode';
 import { Vilkårsresultat } from '../../vilkår';
 import { Aktivitet, Målgruppe, Stønadsperiode } from '../typer';
 
@@ -24,18 +24,11 @@ export const validerStønadsperioder = (
             return { ...stønadsperiodeFeil, aktivitet: 'Mangler aktivitet for periode' };
         }
 
-        if (!periode.fom) {
-            return { ...stønadsperiodeFeil, fom: 'Mangler fradato for periode' };
-        }
-
-        if (!periode.tom) {
-            return { ...stønadsperiodeFeil, tom: 'Mangler tildato for periode' };
-        }
-
-        if (!erDatoEtterEllerLik(periode.tom, periode.fom)) {
+        const periodeValidering = validerPeriode(periode);
+        if (periodeValidering) {
             return {
                 ...stønadsperiodeFeil,
-                tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
+                ...periodeValidering,
             };
         }
 
