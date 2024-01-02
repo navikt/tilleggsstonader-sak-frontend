@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
@@ -10,6 +10,7 @@ import { RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
+import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
 
 const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: string }> = ({
@@ -22,6 +23,14 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
         valgtStønadstype,
         'FRITTSTAENDE'
     );
+
+    const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+
+    useEffect(() => {
+        if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
+            settBrevmal(mellomlagretBrev.data.brevmal);
+        }
+    }, [mellomlagretBrev, settBrevmal]);
 
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -45,8 +54,8 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     };
 
     return (
-        <DataViewer response={{ brevmaler }}>
-            {({ brevmaler }) => (
+        <DataViewer response={{ brevmaler, mellomlagretBrev }}>
+            {({ brevmaler, mellomlagretBrev }) => (
                 <>
                     <VelgBrevmal
                         brevmaler={brevmaler}
@@ -57,7 +66,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                         {({ malStruktur }) => (
                             <Brevmeny
                                 mal={malStruktur}
-                                mellomlagretBrev={undefined}
+                                mellomlagretBrev={mellomlagretBrev}
                                 fagsakId={fagsakId}
                                 fil={fil}
                                 settFil={settFil}
