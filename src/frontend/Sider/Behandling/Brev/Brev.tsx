@@ -21,9 +21,10 @@ const Container = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { brevmaler, brevmal, settBrevmal, malStruktur } = useBrev(
+    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
         behandling.stønadstype,
-        'INNVILGET'
+        'INNVILGET',
+        behandling
     ); // TODO ikke bruk hardkodet resultat
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
@@ -52,6 +53,8 @@ const Brev: React.FC = () => {
                                             mal={malStruktur}
                                             behandlingId={behandling.id}
                                             mellomlagretBrev={mellomlagretBrev}
+                                            fil={fil}
+                                            settFil={settFil}
                                         />
                                         <SendTilBeslutterFooter />
                                     </>

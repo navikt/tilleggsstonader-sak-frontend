@@ -1,4 +1,4 @@
-import { Periode } from '../../../utils/dato';
+import { Periode } from '../../../utils/periode';
 import { Vilkår } from '../vilkår';
 
 export interface Vilkårperioder {
@@ -13,6 +13,10 @@ export interface Målgruppe extends Periode {
 export enum MålgruppeType {
     AAP = 'AAP',
     AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
+    DAGPENGER = 'DAGPENGER',
+    UFØRETRYGD = 'UFØRETRYGD',
+    OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
+    OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
 }
 
 export interface Aktivitet extends Periode {
@@ -23,12 +27,11 @@ export interface Aktivitet extends Periode {
 export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
+    REEL_ARBEIDSSØKER = 'REEL_ARBEIDSSØKER',
 }
 
 export interface Stønadsperiode extends Periode {
     id?: string;
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
-    fom: string;
-    tom: string;
 }

@@ -10,11 +10,13 @@ import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBr
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { Ressurs } from '../../../typer/ressurs';
 
 type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
+    fil: Ressurs<string>;
+    settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
 } & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
 
 const oppdaterStateForId =
@@ -47,7 +49,14 @@ const FlexColumn = styled.div`
     justify-content: flex-start;
 `;
 
-const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsakId }) => {
+const Brevmeny: React.FC<Props> = ({
+    mal,
+    behandlingId,
+    mellomlagretBrev,
+    fagsakId,
+    fil,
+    settFil,
+}) => {
     const { personopplysninger } = usePersonopplysninger();
     const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
         parseMellomlagretBrev(mellomlagretBrev);
@@ -74,8 +83,6 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
     >(initFritekst || {});
-
-    const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
     const { request } = useApp();
 

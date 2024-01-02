@@ -20,6 +20,7 @@ import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { Toast } from '../../../typer/toast';
 
 const WrapperMedMargin = styled.div`
     display: block;
@@ -52,7 +53,7 @@ const FatteVedtak: React.FC<{
     settVisGodkjentModal: (vis: boolean) => void;
     settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
 }> = ({ settVisGodkjentModal, settTotrinnskontroll }) => {
-    const { request } = useApp();
+    const { request, settToast } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling } = useBehandling();
 
@@ -90,7 +91,7 @@ const FatteVedtak: React.FC<{
                         //hentBehandlingshistorikk.rerun();
                         settVisGodkjentModal(true);
                     } else {
-                        //settToast(EToast.VEDTAK_UNDERKJENT);
+                        settToast(Toast.VEDTAK_UNDERKJENT);
                         navigate('/');
                     }
                 } else {

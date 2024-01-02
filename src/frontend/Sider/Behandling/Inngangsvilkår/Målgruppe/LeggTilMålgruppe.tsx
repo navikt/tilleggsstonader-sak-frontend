@@ -5,14 +5,16 @@ import styled from 'styled-components';
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { validerForm } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FieldState } from '../../../../hooks/felles/useFieldState';
-import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
+import useFormState, { FormState } from '../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { Periode } from '../../../../utils/periode';
 import { Målgruppe, MålgruppeType } from '../typer';
 
 const Container = styled.div`
@@ -27,6 +29,12 @@ const Container = styled.div`
 const InputContainer = styled.div`
     display: flex;
     gap: 1rem;
+    align-items: start;
+`;
+
+const KnappContainer = styled.div`
+    display: flex;
+    gap: 1rem;
 `;
 
 const Knapp = styled(Button)`
@@ -35,18 +43,10 @@ const Knapp = styled(Button)`
 `;
 
 export type NyMålgruppe = {
-    fom: string;
-    tom: string;
     type: MålgruppeType;
-};
+} & Periode;
 
 const initFormState = { fom: '', tom: '', type: '' };
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const validerForm = ({ fom, tom, type }: NyMålgruppe): FormErrors<NyMålgruppe> => {
-    // TODO fikse validering
-    return { fom: undefined, tom: undefined, type: undefined };
-};
 
 const LeggTilMålgruppe: React.FC<{
     skjulLeggTilPeriode: () => void;
@@ -87,6 +87,11 @@ const LeggTilMålgruppe: React.FC<{
         leggTilNyMålgruppe({ fom: form.fom, tom: form.tom, type: form.type });
     };
 
+    const handleReset = () => {
+        if (laster) return;
+        skjulLeggTilPeriode();
+    };
+
     return (
         <Container>
             <Heading size="small">Legg til ny målgruppe</Heading>
@@ -97,6 +102,7 @@ const LeggTilMålgruppe: React.FC<{
                         value={typeState.value}
                         onChange={(e) => typeState.setValue(e.target.value)}
                         size="small"
+                        error={formState.errors.type}
                     >
                         <option value="">Velg</option>
                         {Object.keys(MålgruppeType).map((type) => (
@@ -108,20 +114,32 @@ const LeggTilMålgruppe: React.FC<{
                     <DateInput
                         label={'Fra'}
                         value={fomState.value}
-                        onChange={(dato) => dato && fomState.setValue(dato)}
+                        onChange={(dato) => fomState.setValue(dato || '')}
                         size="small"
+                        feil={formState.errors.fom}
                     />
                     <DateInput
                         label={'Til'}
                         value={tomState.value}
-                        onChange={(dato) => dato && tomState.setValue(dato)}
+                        onChange={(dato) => tomState.setValue(dato || '')}
                         size="small"
+                        feil={formState.errors.tom}
                     />
                 </InputContainer>
                 <Feilmelding>{feilmelding}</Feilmelding>
-                <Knapp size="small" type="submit" disabled={laster}>
-                    Legg til
-                </Knapp>
+                <KnappContainer>
+                    <Knapp size="small" type="submit" disabled={laster}>
+                        Legg til
+                    </Knapp>
+                    <Knapp
+                        variant={'tertiary'}
+                        size="small"
+                        disabled={laster}
+                        onClick={handleReset}
+                    >
+                        Avbryt
+                    </Knapp>
+                </KnappContainer>
             </form>
         </Container>
     );
