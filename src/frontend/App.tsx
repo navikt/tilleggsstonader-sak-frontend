@@ -70,7 +70,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
         <>
             <Sticky>
                 <InternalHeader>
-                    <InternalHeader.Title as="h1">Tilleggsstønader</InternalHeader.Title>
+                    <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
                     <PersonSøk />
                     <InternalHeader.User name={innloggetSaksbehandler.name} />
