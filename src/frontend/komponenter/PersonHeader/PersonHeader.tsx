@@ -16,7 +16,7 @@ const Container = styled(Sticky)`
     padding: ${ASpacing2} ${ASpacing4};
 
     border-bottom: 1px solid ${ABorderStrong};
-    top: 55px;
+    top: 48px;
 `;
 
 const PersonHeader: React.FC = () => {
