@@ -12,6 +12,7 @@ import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
 import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
+import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Personopplysninger } from '../../typer/personopplysninger';
 
@@ -48,6 +49,7 @@ const BehandlingInnhold: React.FC<{
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
+                <PersonHeader />
                 <BehandlingContainer>
                     <VilkårProvider behandling={behandling}>
                         <InnholdWrapper>
