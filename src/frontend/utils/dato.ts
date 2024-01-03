@@ -40,7 +40,7 @@ export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);
 
-    return isEqual(datoFra, datoTil) || isAfter(datoFra, datoTil);
+    return isEqual(datoFra, datoTil) || isAfter(datoTil, datoFra);
 };
 
 export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
