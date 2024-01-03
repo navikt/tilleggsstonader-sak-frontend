@@ -4,7 +4,12 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
-import { Aktivitet, Målgruppe, Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
+import {
+    Aktivitet,
+    Målgruppe,
+    Stønadsperiode,
+    Vilkårperioder,
+} from '../Sider/Behandling/Inngangsvilkår/typer';
 import { SvarPåVilkår, Vilkår, Vurderingsfeilmelding } from '../Sider/Behandling/vilkår';
 import {
     byggTomRessurs,
@@ -22,16 +27,27 @@ export interface UseInngangsvilkår {
     oppdaterMålgruppeVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
     oppdaterAktivitetVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
     vilkårFeilmeldinger: Vurderingsfeilmelding;
+    stønadsperioder: Ressurs<Stønadsperiode[]>;
+    oppdaterStønadsperioder: (nyeStønadsperioder: Ressurs<Stønadsperiode[]>) => void;
+    redigererStønadsperioder: boolean;
+    startRedigerStønadsperioder: () => void;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInngangsvilkår => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [vilkårperioder, settVilkårperioder] =
-        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
+    const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
+        byggTomRessurs()
+    );
 
     const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+
+    const [stønadsperioder, settStønadsperioder] = useState<Ressurs<Stønadsperiode[]>>(
+        byggTomRessurs()
+    );
+
+    const [redigererStønadsperioder, settRedigererStønadsperioder] = useState<boolean>(false);
 
     const hentVilkårperioder = useCallback(
         (behandlingId: string) => {
@@ -42,9 +58,19 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         [request]
     );
 
+    const hentStønadsperioder = useCallback(
+        (behandlingId: string) => {
+            return request<Stønadsperiode[], null>(`/api/sak/stonadsperiode/${behandlingId}`).then(
+                settStønadsperioder
+            );
+        },
+        [request]
+    );
+
     useEffect(() => {
         hentVilkårperioder(behandling.id);
-    }, [hentVilkårperioder, behandling.id]);
+        hentStønadsperioder(behandling.id);
+    }, [behandling.id, hentVilkårperioder, hentStønadsperioder]);
 
     const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
         settVilkårperioder((prevState) =>
@@ -98,6 +124,11 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         });
     };
 
+    const oppdaterStønadsperioder = (nyeStønadsperioder: Ressurs<Stønadsperiode[]>) => {
+        settStønadsperioder(nyeStønadsperioder);
+        settRedigererStønadsperioder(false);
+    };
+
     return {
         vilkårperioder,
         leggTilMålgruppe,
@@ -106,6 +137,10 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
         oppdaterMålgruppeVilkårState,
         oppdaterAktivitetVilkårState,
         vilkårFeilmeldinger,
+        stønadsperioder,
+        oppdaterStønadsperioder,
+        redigererStønadsperioder,
+        startRedigerStønadsperioder: () => settRedigererStønadsperioder(true),
     };
 });
 
