@@ -27,6 +27,10 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
         : behandlingstema;
     return (
         <Table.Row key={oppgave.id}>
+            <Table.DataCell>
+                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
+            </Table.DataCell>
+            <Table.DataCell>{typeBehandling}</Table.DataCell>
             <Table.DataCell onMouseEnter={togglePopover} onMouseLeave={togglePopover}>
                 {formaterNullableIsoDato(oppgave.opprettetTidspunkt)}
                 <Popover
@@ -43,17 +47,11 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     </Popover.Content>
                 </Popover>
             </Table.DataCell>
-            <Table.DataCell>
-                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
-            </Table.DataCell>
-            <Table.DataCell>{typeBehandling}</Table.DataCell>
-            <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
-            <Table.DataCell>{oppgave.beskrivelse}</Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
-            <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>
+            <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
         </Table.Row>
     );
 };
