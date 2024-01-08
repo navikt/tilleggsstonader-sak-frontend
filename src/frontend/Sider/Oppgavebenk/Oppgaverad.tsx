@@ -28,7 +28,9 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     return (
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
-                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
+                {oppgave.oppgavetype
+                    ? oppgaveTypeTilTekst[oppgave.oppgavetype]
+                    : 'Mangler oppgavetype'}
             </Table.DataCell>
             <Table.DataCell>{typeBehandling}</Table.DataCell>
             <Table.DataCell onMouseEnter={togglePopover} onMouseLeave={togglePopover}>
