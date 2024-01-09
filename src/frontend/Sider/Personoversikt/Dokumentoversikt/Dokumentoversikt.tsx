@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Table } from '@navikt/ds-react';
+import { Heading, Table } from '@navikt/ds-react';
 
 import DokumentRad from './DokumentRad';
 import { useApp } from '../../../context/AppContext';
@@ -35,27 +35,32 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
     }, [fagsakPersonId, hentDokumenter]);
 
     return (
-        <DataViewer response={{ dokumenter }}>
-            {({ dokumenter }) => (
-                <Table size="small">
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Dato</Table.HeaderCell>
-                            <Table.HeaderCell>Inn/ut</Table.HeaderCell>
-                            <Table.HeaderCell>Tittel</Table.HeaderCell>
-                            <Table.HeaderCell>Avsender/mottaker</Table.HeaderCell>
-                            <Table.HeaderCell>Tema</Table.HeaderCell>
-                            <Table.HeaderCell>Status</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {dokumenter.map((dokument) => (
-                            <DokumentRad dokument={dokument} />
-                        ))}
-                    </Table.Body>
-                </Table>
-            )}
-        </DataViewer>
+        <>
+            <Heading size="medium" level="1">
+                Dokumentoversikt
+            </Heading>
+            <DataViewer response={{ dokumenter }}>
+                {({ dokumenter }) => (
+                    <Table size="small" zebraStripes>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>Dato</Table.HeaderCell>
+                                <Table.HeaderCell>Inn/ut</Table.HeaderCell>
+                                <Table.HeaderCell>Tittel</Table.HeaderCell>
+                                <Table.HeaderCell>Avsender/mottaker</Table.HeaderCell>
+                                <Table.HeaderCell>Tema</Table.HeaderCell>
+                                <Table.HeaderCell>Status</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {dokumenter.map((dokument) => (
+                                <DokumentRad dokument={dokument} />
+                            ))}
+                        </Table.Body>
+                    </Table>
+                )}
+            </DataViewer>
+        </>
     );
 };
 

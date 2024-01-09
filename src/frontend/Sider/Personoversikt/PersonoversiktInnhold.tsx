@@ -34,7 +34,10 @@ const tabs: TabWithRouter[] = [
 ];
 
 const InnholdWrapper = styled.div`
-    padding: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `;
 
 const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {

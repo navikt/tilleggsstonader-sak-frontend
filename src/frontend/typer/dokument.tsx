@@ -28,6 +28,26 @@ enum Journalstatus {
     UKJENT = 'UKJENT',
 }
 
+export const journalstatuserTilTekst: Record<Journalstatus, string> = {
+    MOTTATT: 'Mottatt',
+    JOURNALFOERT: 'Journalført',
+    FERDIGSTILT: 'Ferdigstilt',
+    EKSPEDERT: 'Ekspedert',
+    UNDER_ARBEID: 'Under arbeid',
+    UTGAAR: 'Utgår',
+    UKJENT_BRUKER: 'Ukjent bruker',
+    RESERVERT: 'Reservert',
+    OPPLASTING_DOKUMENT: 'Opplasting',
+    UKJENT: 'Ukjent',
+    FEILREGISTRERT: 'Feilregistrert',
+    AVBRUTT: 'Avbrutt',
+};
+
+export const ugyldigeJournalstatuserTilTekst: Record<string, string> = {
+    FEILREGISTRERT: 'Feilregistrert',
+    AVBRUTT: 'Avbrutt',
+};
+
 type Journalposttype = 'I' | 'U' | 'N';
 
 interface LogiskVedlegg {
