@@ -11,7 +11,6 @@ import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 
 const Container = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    top: 3rem;
     z-index: 22;
     display: flex;
     border-bottom: ${ABorderDefault} solid 2px;

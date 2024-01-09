@@ -17,7 +17,7 @@ import SystemetLaster from '../../../komponenter/SystemetLaster/SystemetLaster';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import { enhetTilTekst, FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
-import { behandlingstemaStønadstypeTilTekst, OppgaveRequest } from '../typer/oppgave';
+import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
 import { oppgaveTypeTilTekst } from '../typer/oppgavetema';
 
 const FlexDiv = styled.div`
@@ -114,7 +114,7 @@ export const Oppgavefiltrering = () => {
                     onChange={oppdaterOppgaveTargetValue('behandlingstema')}
                 >
                     <option value="">Alle</option>
-                    {Object.entries(behandlingstemaStønadstypeTilTekst).map(([type, val]) => (
+                    {Object.entries(behandlingstemaTilTekst).map(([type, val]) => (
                         <option key={type} value={type}>
                             {val}
                         </option>

@@ -22,14 +22,12 @@ interface Props {
 }
 
 const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?: boolean }> = {
-    opprettetTidspunkt: { tittel: 'Reg. dato', erSorterbar: true },
-    oppgavetype: { tittel: 'Oppgavetype', erSorterbar: true },
-    behandlingstema: { tittel: 'Gjelder', erSorterbar: true },
-    fristFerdigstillelse: { tittel: 'Frist', erSorterbar: true },
-    beskrivelse: { tittel: 'Beskrivelse' },
+    oppgavetype: { tittel: 'Oppgavetype', erSorterbar: false },
+    behandlingstema: { tittel: 'Stønad', erSorterbar: false },
+    opprettetTidspunkt: { tittel: 'Opprettet', erSorterbar: true },
     identer: { tittel: 'Ident' },
-    tildeltEnhetsnr: { tittel: 'Enhet' },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
+    fristFerdigstillelse: { tittel: 'Frist', erSorterbar: true },
 };
 
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
