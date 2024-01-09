@@ -9,7 +9,6 @@ import { DokumentInfo } from '../../../typer/dokument';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 
 type VedleggRequest = {
-    fagsakPersonId: string;
     tema?: string[]; // Arkiv
     journalposttype?: string;
     journalstatus?: string;
@@ -22,9 +21,11 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
 
     const hentDokumenter = useCallback(
         (fagsakPersonId: string) => {
-            request<DokumentInfo[], VedleggRequest>(`/api/sak/vedlegg/fagsak-person`, 'POST', {
-                fagsakPersonId: fagsakPersonId,
-            }).then(settDokumenter);
+            request<DokumentInfo[], VedleggRequest>(
+                `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
+                'POST',
+                {}
+            ).then(settDokumenter);
         },
         [request]
     );
