@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 
-import { styled } from 'styled-components';
-
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Table } from '@navikt/ds-react';
+import { Button, Heading, Link, Table } from '@navikt/ds-react';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import VilkårPanel from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Målgruppe } from '../typer';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-`;
 
 const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
     målgrupper,
@@ -30,8 +22,19 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
     return (
-        <Container>
-            <Heading size="medium">Målgruppe</Heading>
+        <VilkårPanel
+            tittel="Målgruppe"
+            headerInnhold={
+                <>
+                    <Link variant="neutral" href="">
+                        Paragraf
+                    </Link>
+                    <Link variant="neutral" href="">
+                        Rundskriv
+                    </Link>
+                </>
+            }
+        >
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -86,7 +89,7 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                     Legg til ny målgruppeperiode
                 </Button>
             )}
-        </Container>
+        </VilkårPanel>
     );
 };
 
