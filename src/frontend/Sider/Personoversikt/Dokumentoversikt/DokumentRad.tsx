@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Link, Table } from '@navikt/ds-react';
 
-import { DokumentInfo, journalstatuserTilTekst } from '../../../typer/dokument';
+import { DokumentInfo } from '../../../typer/dokument';
+import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
