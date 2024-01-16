@@ -3,7 +3,7 @@ import { VilkårPeriode, Vurdering } from './vilkårperiode';
 export interface Aktivitet extends VilkårPeriode {
     id: string;
     type: AktivitetType;
-    detaljer: DelvilkårAktivitet;
+    delvilkår: DelvilkårAktivitet;
 }
 
 export enum AktivitetType {

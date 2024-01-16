@@ -3,7 +3,7 @@ import { VilkårPeriode, Vurdering } from './vilkårperiode';
 export interface Målgruppe extends VilkårPeriode {
     id: string;
     type: MålgruppeType;
-    detaljer: DelvilkårMålgruppe;
+    delvilkår: DelvilkårMålgruppe;
 }
 
 export enum MålgruppeType {
