@@ -8,12 +8,13 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilAktivitet from './LeggTilAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { VilkårPanel } from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
+import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
 import { Aktivitet } from '../typer';
 
 const HvitTabell = styled(Table)`
@@ -31,11 +32,8 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
     return (
         <VilkårPanel
             tittel="Aktivitet"
-            paragrafLenker={[
-                { tekst: '$15', url: '' },
-                { tekst: '$X', url: '' },
-            ]}
-            rundskrivLenke=""
+            paragrafLenker={lovverkslenkerAktivitet}
+            rundskrivLenke={rundskrivAktivitet}
         >
             <HvitTabell size="small">
                 <Table.Header>

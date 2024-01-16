@@ -8,12 +8,13 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { VilkårPanel } from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
+import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer';
 
 const HvitTabell = styled(Table)`
@@ -31,21 +32,8 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     return (
         <VilkårPanel
             tittel="Målgruppe"
-            paragrafLenker={[
-                { tekst: '$ 15', url: '' },
-                { tekst: '$ X', url: '' },
-            ]}
-            rundskrivLenke=""
-            // headerInnhold={
-            //     <>
-            //         <Link variant="neutral" href="">
-            //             Paragraf
-            //         </Link>
-            //         <Link variant="neutral" href="">
-            //             Rundskriv
-            //         </Link>
-            //     </>
-            // }
+            paragrafLenker={lovverkslenkerMålgruppe}
+            rundskrivLenke={rundskrivMålgruppe}
         >
             <HvitTabell size="small">
                 <Table.Header>
