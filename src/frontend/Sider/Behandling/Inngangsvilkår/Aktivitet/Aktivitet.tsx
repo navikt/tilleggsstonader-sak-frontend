@@ -12,7 +12,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
-import { Aktivitet } from '../typer';
+import { Aktivitet } from '../typer/aktivitet';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
