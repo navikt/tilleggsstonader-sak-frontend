@@ -9,7 +9,6 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import LeggTilMålgruppe from './LeggTilMålgruppe';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer/målgruppe';
@@ -19,9 +18,7 @@ const HvitTabell = styled(Table)`
     max-width: fit-content;
 `;
 
-const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
-    målgrupper,
-}) => {
+const Målgruppe: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) => {
     // const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
