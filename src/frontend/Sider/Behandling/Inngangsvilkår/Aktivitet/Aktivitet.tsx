@@ -12,7 +12,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import VilkårPanel from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
-import { formaterIsoPeriode } from '../../../../utils/dato';
+import { formaterIsoDato } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Aktivitet } from '../typer';
 
@@ -47,7 +47,9 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                     <Table.Row>
                         <Table.HeaderCell style={{ width: '20px' }} />
                         <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell>Fra</Table.HeaderCell>
+                        <Table.HeaderCell>Til</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
@@ -76,9 +78,9 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                                 <VilkårsresultatIkon vilkårsresultat={aktivitet.vilkår.resultat} />
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.type}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
-                            </Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(aktivitet.fom)}</Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(aktivitet.tom)}</Table.DataCell>
+                            <Table.DataCell>Kilde</Table.DataCell>
                         </Table.ExpandableRow>
                     ))}
                 </Table.Body>

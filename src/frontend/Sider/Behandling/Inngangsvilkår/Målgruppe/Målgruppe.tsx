@@ -12,7 +12,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import VilkårPanel from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
-import { formaterIsoPeriode } from '../../../../utils/dato';
+import { formaterIsoDato } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Målgruppe } from '../typer';
 
@@ -46,8 +46,10 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell style={{ width: '20px' }} />
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
+                        <Table.HeaderCell>Fra</Table.HeaderCell>
+                        <Table.HeaderCell>Til</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
@@ -76,9 +78,9 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                                 <VilkårsresultatIkon vilkårsresultat={målgruppe.vilkår.resultat} />
                             </Table.DataCell>
                             <Table.DataCell>{målgruppe.type}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
-                            </Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(målgruppe.fom)}</Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(målgruppe.tom)}</Table.DataCell>
+                            <Table.DataCell>Kilde</Table.DataCell>
                         </Table.ExpandableRow>
                     ))}
                 </Table.Body>
