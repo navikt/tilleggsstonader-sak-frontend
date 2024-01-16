@@ -19,6 +19,7 @@ import { Aktivitet } from '../typer';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
+    max-width: fit-content;
 `;
 
 const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({

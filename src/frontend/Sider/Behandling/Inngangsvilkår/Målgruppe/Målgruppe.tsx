@@ -19,6 +19,7 @@ import { Målgruppe } from '../typer';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
+    max-width: fit-content;
 `;
 
 const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
