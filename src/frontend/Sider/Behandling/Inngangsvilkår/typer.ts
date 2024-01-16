@@ -1,13 +1,39 @@
 import { Periode } from '../../../utils/periode';
-import { Vilkår } from '../vilkår';
+import { Vilkårsresultat } from '../vilkår';
 
 export interface Vilkårperioder {
     målgrupper: Målgruppe[];
     aktiviteter: Aktivitet[];
 }
-export interface Målgruppe extends Periode {
+
+export interface VilkårPeriode extends Periode {
+    id: string;
+    resultat: Vilkårsresultat;
+    begrunnelse?: string;
+    kilde: KildeVilkårsperiode;
+    slettetKommentar?: string;
+}
+
+enum KildeVilkårsperiode {
+    MANUELL = 'MANUELL',
+    SYSTEM = 'SYSTEM',
+}
+
+export enum SvarJaNei {
+    JA = 'JA',
+    JA_IMPLISITT = 'JA_IMPLISITT',
+    NEI = 'NEI',
+}
+
+export interface Vurdering {
+    svar: SvarJaNei;
+    resultat: Vilkårsresultat;
+}
+
+export interface Målgruppe extends VilkårPeriode {
+    id: string;
     type: MålgruppeType;
-    vilkår: Vilkår;
+    detaljer: DelvilkårMålgruppe;
 }
 
 export enum MålgruppeType {
@@ -19,15 +45,25 @@ export enum MålgruppeType {
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
 }
 
-export interface Aktivitet extends Periode {
+interface DelvilkårMålgruppe {
+    medlemskap: Vurdering;
+}
+
+export interface Aktivitet extends VilkårPeriode {
+    id: string;
     type: AktivitetType;
-    vilkår: Vilkår;
+    detaljer: DelvilkårAktivitet;
 }
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
     REEL_ARBEIDSSØKER = 'REEL_ARBEIDSSØKER',
+}
+
+interface DelvilkårAktivitet {
+    lønnet: Vurdering;
+    mottarSykepenger: Vurdering;
 }
 
 export interface Stønadsperiode extends Periode {

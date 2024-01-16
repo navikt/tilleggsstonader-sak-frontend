@@ -3,17 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilAktivitet from './LeggTilAktivitet';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
-import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
 import { Aktivitet } from '../typer';
 
@@ -24,9 +21,8 @@ const HvitTabell = styled(Table)`
 
 const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
     aktiviteter,
-    regler,
 }) => {
-    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
+    // const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
@@ -50,12 +46,12 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
                         <Table.ExpandableRow
-                            key={aktivitet.vilkår.id}
+                            key={aktivitet.id}
                             togglePlacement={'right'}
-                            expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
+                            // expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
                             content={
                                 <>
-                                    <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
+                                    {/* <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
                                     <EndreVurderingComponent
                                         vilkårType={aktivitet.vilkår.vilkårType}
                                         regler={regler[aktivitet.vilkår.vilkårType].regler}
@@ -64,12 +60,12 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                                     />
                                     <Feilmelding>
                                         {vilkårFeilmeldinger[aktivitet.vilkår.id]}
-                                    </Feilmelding>
+                                    </Feilmelding> */}
                                 </>
                             }
                         >
                             <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={aktivitet.vilkår.resultat} />
+                                <VilkårsresultatIkon vilkårsresultat={aktivitet.resultat} />
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.type}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(aktivitet.fom)}</Table.DataCell>
