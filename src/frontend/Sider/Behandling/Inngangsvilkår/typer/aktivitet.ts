@@ -1,4 +1,4 @@
-import { VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriode } from './vilkårperiode';
 
 export interface Aktivitet extends VilkårPeriode {
     id: string;
@@ -13,6 +13,6 @@ export enum AktivitetType {
 }
 
 interface DelvilkårAktivitet {
-    lønnet: Vurdering;
-    mottarSykepenger: Vurdering;
+    lønnet: SvarJaNei;
+    mottarSykepenger: SvarJaNei;
 }

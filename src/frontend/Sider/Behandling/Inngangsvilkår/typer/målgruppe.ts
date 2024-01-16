@@ -1,4 +1,4 @@
-import { VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriode } from './vilkårperiode';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;
@@ -16,5 +16,5 @@ export enum MålgruppeType {
 }
 
 interface DelvilkårMålgruppe {
-    medlemskap: Vurdering;
+    medlemskap: SvarJaNei;
 }
