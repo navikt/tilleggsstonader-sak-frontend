@@ -7,9 +7,8 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
+import MålgruppeRad from './MålgruppeRad';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { formaterIsoDato } from '../../../../utils/dato';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer/målgruppe';
 
@@ -42,33 +41,7 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) =>
                 </Table.Header>
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (
-                        <Table.ExpandableRow
-                            key={målgruppe.id}
-                            togglePlacement={'right'}
-                            // expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
-                            content={
-                                <>
-                                    {/* <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
-                                    <EndreVurderingComponent
-                                        vilkårType={målgruppe.vilkår.vilkårType}
-                                        regler={regler[målgruppe.vilkår.vilkårType].regler}
-                                        vilkår={målgruppe.vilkår}
-                                        oppdaterVilkår={oppdaterMålgruppeVilkårState}
-                                    />
-                                    <Feilmelding>
-                                        {vilkårFeilmeldinger[målgruppe.vilkår.id]}
-                                    </Feilmelding> */}
-                                </>
-                            }
-                        >
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{målgruppe.type}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(målgruppe.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(målgruppe.tom)}</Table.DataCell>
-                            <Table.DataCell>Kilde</Table.DataCell>
-                        </Table.ExpandableRow>
+                        <MålgruppeRad målgruppe={målgruppe} />
                     ))}
                 </Table.Body>
             </HvitTabell>
