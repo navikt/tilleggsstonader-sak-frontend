@@ -1,5 +1,5 @@
-import { Aktivitet, AktivitetType } from './typer/aktivitet';
-import { Målgruppe, MålgruppeType } from './typer/målgruppe';
+import { Aktivitet } from './typer/aktivitet';
+import { Målgruppe } from './typer/målgruppe';
 import { Periode } from '../../../utils/periode';
 import { Vilkårsresultat } from '../vilkår';
 
@@ -30,10 +30,4 @@ export enum SvarJaNei {
 export interface Vurdering {
     svar: SvarJaNei;
     resultat: Vilkårsresultat;
-}
-
-export interface Stønadsperiode extends Periode {
-    id?: string;
-    målgruppe: MålgruppeType | '';
-    aktivitet: AktivitetType | '';
 }
