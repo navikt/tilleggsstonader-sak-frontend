@@ -1,3 +1,4 @@
+import { Målgruppe, MålgruppeType } from './typer/målgruppe';
 import { Periode } from '../../../utils/periode';
 import { Vilkårsresultat } from '../vilkår';
 
@@ -28,25 +29,6 @@ export enum SvarJaNei {
 export interface Vurdering {
     svar: SvarJaNei;
     resultat: Vilkårsresultat;
-}
-
-export interface Målgruppe extends VilkårPeriode {
-    id: string;
-    type: MålgruppeType;
-    detaljer: DelvilkårMålgruppe;
-}
-
-export enum MålgruppeType {
-    AAP = 'AAP',
-    AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
-    DAGPENGER = 'DAGPENGER',
-    UFØRETRYGD = 'UFØRETRYGD',
-    OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
-    OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
-}
-
-interface DelvilkårMålgruppe {
-    medlemskap: Vurdering;
 }
 
 export interface Aktivitet extends VilkårPeriode {

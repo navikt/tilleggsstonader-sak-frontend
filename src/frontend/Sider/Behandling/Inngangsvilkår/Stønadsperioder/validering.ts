@@ -1,7 +1,8 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { erPeriodeInnenforAnnenPeriode, validerPeriode } from '../../../../utils/periode';
 import { Vilkårsresultat } from '../../vilkår';
-import { Aktivitet, Målgruppe, Stønadsperiode } from '../typer';
+import Målgruppe from '../Målgruppe/Målgruppe';
+import { Aktivitet, Stønadsperiode } from '../typer';
 
 export const validerStønadsperioder = (
     stønadsperioder: Stønadsperiode[],
