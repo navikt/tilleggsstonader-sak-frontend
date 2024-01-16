@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Heading, Label } from '@navikt/ds-react';
+import { Button, Label } from '@navikt/ds-react';
 
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
@@ -10,17 +10,11 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode, Vilkårperioder } from '../typer';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-`;
 
 const Grid = styled.div`
     display: grid;
@@ -138,8 +132,7 @@ const Stønadsperioder: React.FC<{
     }, [vilkårperioder]);
 
     return (
-        <Container>
-            <Heading size="medium">Stønadsperioder</Heading>
+        <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <Grid>
                     <Label size="small">Målgruppe</Label>
@@ -172,7 +165,7 @@ const Stønadsperioder: React.FC<{
                 </Knapp>
                 <Feilmelding>{feilmelding}</Feilmelding>
             </form>
-        </Container>
+        </EkspanderbartPanel>
     );
 };
 
