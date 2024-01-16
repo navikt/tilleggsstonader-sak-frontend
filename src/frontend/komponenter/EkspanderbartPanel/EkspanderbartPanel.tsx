@@ -24,6 +24,9 @@ const HeaderInnhold = styled.div`
 
 const Innhold = styled.div`
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `;
 
 interface Props {
