@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Link, Table } from '@navikt/ds-react';
+import { Button, Heading, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import VilkårPanel from '../../../../komponenter/Vilkår/VilkårPanel';
+import { VilkårPanel } from '../../../../komponenter/Vilkår/VilkårPanel';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
@@ -31,16 +31,21 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
     return (
         <VilkårPanel
             tittel="Målgruppe"
-            headerInnhold={
-                <>
-                    <Link variant="neutral" href="">
-                        Paragraf
-                    </Link>
-                    <Link variant="neutral" href="">
-                        Rundskriv
-                    </Link>
-                </>
-            }
+            paragrafLenker={[
+                { tekst: '$ 15', url: '' },
+                { tekst: '$ X', url: '' },
+            ]}
+            rundskrivLenke=""
+            // headerInnhold={
+            //     <>
+            //         <Link variant="neutral" href="">
+            //             Paragraf
+            //         </Link>
+            //         <Link variant="neutral" href="">
+            //             Rundskriv
+            //         </Link>
+            //     </>
+            // }
         >
             <HvitTabell size="small">
                 <Table.Header>

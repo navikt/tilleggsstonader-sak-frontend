@@ -11,7 +11,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import VilkårPanel from '../../../../komponenter/Vilkår/VilkårPanel';
+import { Panel } from '../../../../komponenter/Vilkår/VilkårPanel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode, Vilkårperioder } from '../typer';
@@ -132,7 +132,7 @@ const Stønadsperioder: React.FC<{
     }, [vilkårperioder]);
 
     return (
-        <VilkårPanel tittel="Stønadsperioder">
+        <Panel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <Grid>
                     <Label size="small">Målgruppe</Label>
@@ -165,7 +165,7 @@ const Stønadsperioder: React.FC<{
                 </Knapp>
                 <Feilmelding>{feilmelding}</Feilmelding>
             </form>
-        </VilkårPanel>
+        </Panel>
     );
 };
 
