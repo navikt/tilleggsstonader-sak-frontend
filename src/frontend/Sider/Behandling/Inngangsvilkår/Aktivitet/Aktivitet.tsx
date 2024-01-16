@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
+import styled from 'styled-components';
+
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Link, Table } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilAktivitet from './LeggTilAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -12,6 +15,10 @@ import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { Aktivitet } from '../typer';
+
+const HvitTabell = styled(Table)`
+    background-color: ${AWhite};
+`;
 
 const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
     aktiviteter,
@@ -35,7 +42,7 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                 </>
             }
         >
-            <Table>
+            <HvitTabell size="small">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell style={{ width: '20px' }} />
@@ -75,7 +82,7 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                         </Table.ExpandableRow>
                     ))}
                 </Table.Body>
-            </Table>
+            </HvitTabell>
             {skalViseLeggTilPeriode ? (
                 <LeggTilAktivitet skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
             ) : (
