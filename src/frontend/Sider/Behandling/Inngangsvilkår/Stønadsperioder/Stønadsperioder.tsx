@@ -10,8 +10,8 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { Panel } from '../../../../komponenter/Vilkår/VilkårPanel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode, Vilkårperioder } from '../typer';
@@ -132,7 +132,7 @@ const Stønadsperioder: React.FC<{
     }, [vilkårperioder]);
 
     return (
-        <Panel tittel="Stønadsperioder">
+        <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <Grid>
                     <Label size="small">Målgruppe</Label>
@@ -165,7 +165,7 @@ const Stønadsperioder: React.FC<{
                 </Knapp>
                 <Feilmelding>{feilmelding}</Feilmelding>
             </form>
-        </Panel>
+        </EkspanderbartPanel>
     );
 };
 
