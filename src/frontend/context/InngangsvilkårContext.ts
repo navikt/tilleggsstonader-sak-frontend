@@ -4,9 +4,9 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
-import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
 import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 import { SvarPåVilkår, Vilkår, Vurderingsfeilmelding } from '../Sider/Behandling/vilkår';
 import {
     byggTomRessurs,

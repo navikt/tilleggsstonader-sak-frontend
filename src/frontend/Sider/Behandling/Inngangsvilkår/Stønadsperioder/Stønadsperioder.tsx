@@ -14,8 +14,8 @@ import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/Ekspa
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { Vilkårperioder } from '../typer';
 import { Stønadsperiode } from '../typer/stønadsperiode';
+import { Vilkårperioder } from '../typer/vilkårperiode';
 
 const Grid = styled.div`
     display: grid;

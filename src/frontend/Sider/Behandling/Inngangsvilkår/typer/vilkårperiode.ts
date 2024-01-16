@@ -1,7 +1,7 @@
-import { Aktivitet } from './typer/aktivitet';
-import { Målgruppe } from './typer/målgruppe';
-import { Periode } from '../../../utils/periode';
-import { Vilkårsresultat } from '../vilkår';
+import { Aktivitet } from './aktivitet';
+import { Målgruppe } from './målgruppe';
+import { Periode } from '../../../../utils/periode';
+import { Vilkårsresultat } from '../../vilkår';
 
 export interface Vilkårperioder {
     målgrupper: Målgruppe[];
