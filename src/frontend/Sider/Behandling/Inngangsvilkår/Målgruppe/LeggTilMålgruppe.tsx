@@ -15,7 +15,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { Målgruppe, MålgruppeType } from '../typer';
+import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
 
 const Container = styled.div`
     display: flex;

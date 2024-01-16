@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
-import { Stønadsperiode } from './typer';
+import { Stønadsperiode } from './typer/stønadsperiode';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';

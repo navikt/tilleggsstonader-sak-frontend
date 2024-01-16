@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, Heading, Select } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
+import Aktivitet from './Aktivitet';
 import { validerForm } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -15,7 +16,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { Aktivitet, AktivitetType } from '../typer';
+import { AktivitetType } from '../typer/aktivitet';
 
 const Container = styled.div`
     display: flex;

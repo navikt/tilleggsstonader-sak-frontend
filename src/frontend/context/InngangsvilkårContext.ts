@@ -4,7 +4,9 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
-import { Aktivitet, Målgruppe, Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
+import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 import { SvarPåVilkår, Vilkår, Vurderingsfeilmelding } from '../Sider/Behandling/vilkår';
 import {
     byggTomRessurs,
@@ -28,8 +30,9 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [vilkårperioder, settVilkårperioder] =
-        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
+    const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
+        byggTomRessurs()
+    );
 
     const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
@@ -144,7 +147,7 @@ const oppdaterMålgruppeVilkår = (
         data: {
             ...vilkårperioder.data,
             målgrupper: vilkårperioder.data.målgrupper.map((prevState) =>
-                prevState.vilkår.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
+                prevState.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
             ),
         },
     };
@@ -159,7 +162,7 @@ const oppdaterAktivitetVilkår = (
         data: {
             ...vilkårperioder.data,
             aktiviteter: vilkårperioder.data.aktiviteter.map((prevState) =>
-                prevState.vilkår.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
+                prevState.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
             ),
         },
     };

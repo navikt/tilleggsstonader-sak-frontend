@@ -3,19 +3,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilMålgruppe from './LeggTilMålgruppe';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
-import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
-import { Målgruppe } from '../typer';
+import { Målgruppe } from '../typer/målgruppe';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
@@ -24,9 +21,8 @@ const HvitTabell = styled(Table)`
 
 const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
     målgrupper,
-    regler,
 }) => {
-    const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
+    // const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
@@ -50,12 +46,12 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (
                         <Table.ExpandableRow
-                            key={målgruppe.vilkår.id}
+                            key={målgruppe.id}
                             togglePlacement={'right'}
-                            expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
+                            // expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
                             content={
                                 <>
-                                    <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
+                                    {/* <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
                                     <EndreVurderingComponent
                                         vilkårType={målgruppe.vilkår.vilkårType}
                                         regler={regler[målgruppe.vilkår.vilkårType].regler}
@@ -64,12 +60,12 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                                     />
                                     <Feilmelding>
                                         {vilkårFeilmeldinger[målgruppe.vilkår.id]}
-                                    </Feilmelding>
+                                    </Feilmelding> */}
                                 </>
                             }
                         >
                             <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={målgruppe.vilkår.resultat} />
+                                <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
                             </Table.DataCell>
                             <Table.DataCell>{målgruppe.type}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(målgruppe.fom)}</Table.DataCell>

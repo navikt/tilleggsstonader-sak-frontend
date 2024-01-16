@@ -14,7 +14,8 @@ import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/Ekspa
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
-import { Stønadsperiode, Vilkårperioder } from '../typer';
+import { Stønadsperiode } from '../typer/stønadsperiode';
+import { Vilkårperioder } from '../typer/vilkårperiode';
 
 const Grid = styled.div`
     display: grid;
@@ -35,6 +36,7 @@ const Knapp = styled(Button)`
 export type StønadsperiodeForm = {
     stønadsperioder: Stønadsperiode[];
 };
+
 const tomStønadsperiodeRad = (): Stønadsperiode => ({
     målgruppe: '',
     aktivitet: '',
