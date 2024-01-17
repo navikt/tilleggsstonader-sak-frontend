@@ -32,7 +32,7 @@ const InngangsvilkårInnhold: React.FC<{
         <DataViewer response={{ vilkårperioder, stønadsperioder }}>
             {({ vilkårperioder, stønadsperioder }) => (
                 <>
-                    <Målgruppe målgrupper={vilkårperioder.målgrupper} regler={regler} />
+                    <Målgruppe målgrupper={vilkårperioder.målgrupper} />
                     <Aktivitet aktiviteter={vilkårperioder.aktiviteter} regler={regler} />
                     <Stønadsperioder
                         vilkårperioder={vilkårperioder}

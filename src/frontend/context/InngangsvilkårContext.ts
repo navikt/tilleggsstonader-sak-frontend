@@ -38,9 +38,9 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInn
 
     const hentVilkårperioder = useCallback(
         (behandlingId: string) => {
-            return request<Vilkårperioder, null>(`/api/sak/vilkar/${behandlingId}/periode`).then(
-                settVilkårperioder
-            );
+            return request<Vilkårperioder, null>(
+                `/api/sak/vilkarperiode/behandling/${behandlingId}`
+            ).then(settVilkårperioder);
         },
         [request]
     );

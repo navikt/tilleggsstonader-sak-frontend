@@ -6,11 +6,11 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
+import EndreMålgruppeRad from './EndreMålgruppeRad';
 import LeggTilMålgruppe from './LeggTilMålgruppe';
+import MålgruppeRad from './MålgruppeRad';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { ReglerForVilkår } from '../../../../typer/regel';
-import { formaterIsoDato } from '../../../../utils/dato';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer/målgruppe';
 
@@ -19,12 +19,28 @@ const HvitTabell = styled(Table)`
     max-width: fit-content;
 `;
 
-const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
-    målgrupper,
-}) => {
+const Målgruppe: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) => {
     // const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<string>();
+
+    const fjernRadIRedigeringsmodus = () => {
+        settFeilmelding(undefined);
+        settRadIRedigeringsmodus(undefined);
+    };
+
+    const settNyRadIRedigeringsmodus = (id: string) => {
+        if (radIRedigeringsmodus !== undefined) {
+            settFeilmelding(
+                'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
+            );
+        } else {
+            settFeilmelding(undefined);
+            settRadIRedigeringsmodus(id);
+        }
+    };
 
     return (
         <VilkårPanel
@@ -45,36 +61,23 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                 </Table.Header>
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (
-                        <Table.ExpandableRow
-                            key={målgruppe.id}
-                            togglePlacement={'right'}
-                            // expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
-                            content={
-                                <>
-                                    {/* <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
-                                    <EndreVurderingComponent
-                                        vilkårType={målgruppe.vilkår.vilkårType}
-                                        regler={regler[målgruppe.vilkår.vilkårType].regler}
-                                        vilkår={målgruppe.vilkår}
-                                        oppdaterVilkår={oppdaterMålgruppeVilkårState}
-                                    />
-                                    <Feilmelding>
-                                        {vilkårFeilmeldinger[målgruppe.vilkår.id]}
-                                    </Feilmelding> */}
-                                </>
-                            }
-                        >
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{målgruppe.type}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(målgruppe.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(målgruppe.tom)}</Table.DataCell>
-                            <Table.DataCell>Kilde</Table.DataCell>
-                        </Table.ExpandableRow>
+                        <React.Fragment key={målgruppe.id}>
+                            {målgruppe.id === radIRedigeringsmodus ? (
+                                <EndreMålgruppeRad
+                                    målgruppe={målgruppe}
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
+                            ) : (
+                                <MålgruppeRad
+                                    målgruppe={målgruppe}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(målgruppe.id)}
+                                />
+                            )}
+                        </React.Fragment>
                     ))}
                 </Table.Body>
             </HvitTabell>
+            <Feilmelding>{feilmelding}</Feilmelding>
             {skalViseLeggTilPeriode ? (
                 <LeggTilMålgruppe skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
             ) : (
