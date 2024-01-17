@@ -9,6 +9,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import LeggTilMålgruppe from './LeggTilMålgruppe';
 import MålgruppeRad from './MålgruppeRad';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
@@ -19,8 +20,8 @@ const HvitTabell = styled(Table)`
     max-width: fit-content;
 `;
 
-const Målgruppe: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) => {
-    // const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
+const Målgruppe: React.FC = () => {
+    const { målgrupper } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();

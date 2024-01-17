@@ -8,6 +8,7 @@ import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
@@ -15,7 +16,6 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode } from '../typer/stønadsperiode';
-import { Vilkårperioder } from '../typer/vilkårperiode';
 
 const Grid = styled.div`
     display: grid;
@@ -54,19 +54,20 @@ const initFormState = (
 });
 
 const Stønadsperioder: React.FC<{
-    vilkårperioder: Vilkårperioder;
     eksisterendeStønadsperioder: Stønadsperiode[];
-}> = ({ vilkårperioder, eksisterendeStønadsperioder }) => {
+}> = ({ eksisterendeStønadsperioder }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
+    const { målgrupper, aktiviteter } = useInngangsvilkår();
+
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
             stønadsperioder: validerStønadsperioder(
                 formState.stønadsperioder,
-                vilkårperioder.målgrupper,
-                vilkårperioder.aktiviteter
+                målgrupper,
+                aktiviteter
             ),
         };
     };
@@ -131,7 +132,7 @@ const Stønadsperioder: React.FC<{
             formState.validateForm();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [vilkårperioder]);
+    }, [målgrupper, aktiviteter]);
 
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
