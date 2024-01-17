@@ -7,7 +7,10 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { formaterIsoDato } from '../../../../utils/dato';
 import { Målgruppe } from '../typer/målgruppe';
 
-const MålgruppeRad: React.FC<{ målgruppe: Målgruppe }> = ({ målgruppe }) => {
+const MålgruppeRad: React.FC<{ målgruppe: Målgruppe; startRedigering: () => void }> = ({
+    målgruppe,
+    startRedigering,
+}) => {
     return (
         <Table.Row key={målgruppe.id}>
             <Table.DataCell width="max-content">
@@ -19,7 +22,7 @@ const MålgruppeRad: React.FC<{ målgruppe: Målgruppe }> = ({ målgruppe }) => 
             <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
             <Table.DataCell>
                 <Button
-                    // TODO: OnClick sett redigeringsmodus
+                    onClick={startRedigering}
                     variant="secondary"
                     size="small"
                     icon={<PencilIcon />}
