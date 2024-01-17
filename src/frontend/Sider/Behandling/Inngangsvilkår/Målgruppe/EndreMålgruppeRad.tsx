@@ -8,7 +8,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
 
-const KnappeContainer = styled.div`
+const KnappeRad = styled.div`
     display: flex;
     gap: 0.5rem;
 `;
@@ -53,12 +53,12 @@ const EndreMålgruppeRad: React.FC<{ målgruppe: Målgruppe; avbrytRedigering: (
             </Table.DataCell>
             <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
             <Table.DataCell>
-                <KnappeContainer>
+                <KnappeRad>
                     <Button size="small">Lagre</Button>
                     <Button onClick={avbrytRedigering} variant="secondary" size="small">
                         Avbryt
                     </Button>
-                </KnappeContainer>
+                </KnappeRad>
             </Table.DataCell>
         </Table.Row>
     );
