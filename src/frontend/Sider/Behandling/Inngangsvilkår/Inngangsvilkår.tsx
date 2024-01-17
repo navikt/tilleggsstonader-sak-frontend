@@ -41,7 +41,7 @@ const Inngangsvilkår = () => {
     }, [hentRegler]);
 
     const hentVilkårperioderCallback = useCallback(() => {
-        request<Vilkårperioder, null>(`/api/sak/vilkarperioder/${behandling.id}/periode`).then(
+        request<Vilkårperioder, null>(`/api/sak/vilkarperiode/behandling/${behandling.id}`).then(
             settVilkårperioder
         );
     }, [request, behandling.id]);
