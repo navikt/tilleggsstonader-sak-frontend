@@ -11,6 +11,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
+import { KildeVilkårsperiode } from '../typer/vilkårperiode';
 
 const KnappeRad = styled.div`
     display: flex;
@@ -76,6 +77,7 @@ const EndreMålgruppeRad: React.FC<{
             <Table.DataCell>{målgruppe.type}</Table.DataCell>
             <Table.DataCell>
                 <DateInput
+                    erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Fra'}
                     hideLabel
                     value={målgruppeForm.fom}
@@ -87,6 +89,7 @@ const EndreMålgruppeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>
                 <DateInput
+                    erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Til'}
                     hideLabel
                     value={målgruppeForm.tom}
