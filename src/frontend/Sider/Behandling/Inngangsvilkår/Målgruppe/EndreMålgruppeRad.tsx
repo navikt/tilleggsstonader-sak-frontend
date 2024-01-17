@@ -1,43 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Select, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
-import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
+import { RessursStatus } from '../../../../typer/ressurs';
+import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
 
 const KnappeRad = styled.div`
     display: flex;
     gap: 0.5rem;
 `;
 
-const EndreMålgruppeRad: React.FC<{ målgruppe: Målgruppe; avbrytRedigering: () => void }> = ({
-    målgruppe,
-    avbrytRedigering,
-}) => {
+interface EndreMålgruppe {
+    behandlingId: string;
+    fom?: string;
+    tom?: string;
+    delvilkår: DelvilkårMålgruppe;
+    begrunnelse?: string;
+}
+
+interface EndreMålgruppeForm {
+    fom?: string;
+    tom?: string;
+    delvilkår: DelvilkårMålgruppe;
+    begrunnelse?: string;
+}
+
+const EndreMålgruppeRad: React.FC<{
+    målgruppe: Målgruppe;
+    avbrytRedigering: () => void;
+}> = ({ målgruppe, avbrytRedigering }) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+    const { oppdaterMålgruppe } = useInngangsvilkår();
+
+    const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(målgruppe);
+    const [laster, settLaster] = useState<boolean>(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [feilmelding, settFeilmelding] = useState<string>(); // TODO: Vis feilmelding et sted
+
+    const leggTilNyMålgruppe = (form: EndreMålgruppeForm) => {
+        if (laster) return;
+        settLaster(true);
+        settFeilmelding(undefined);
+        return request<Målgruppe, EndreMålgruppe>(
+            `/api/sak/vilkarperiode/${målgruppe.id}`,
+            'POST',
+            {
+                ...form,
+                behandlingId: behandling.id,
+            }
+        )
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    oppdaterMålgruppe(res.data);
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                }
+            })
+            .finally(() => settLaster(false));
+    };
+
     return (
         <Table.Row key={målgruppe.id}>
             <Table.DataCell width="max-content">
                 <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
             </Table.DataCell>
-            <Table.DataCell>
-                <Select label="Type" hideLabel size="small" value={målgruppe.type}>
-                    {Object.keys(MålgruppeType).map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </Select>
-            </Table.DataCell>
+            <Table.DataCell>{målgruppe.type}</Table.DataCell>
             <Table.DataCell>
                 <DateInput
                     label={'Fra'}
                     hideLabel
-                    value={målgruppe.fom}
-                    // eslint-disable-next-line no-console
-                    onChange={(dato) => console.log(dato)}
+                    value={målgruppeForm.fom}
+                    onChange={(dato) =>
+                        settMålgruppeForm((prevState) => ({ ...prevState, fom: dato }))
+                    }
                     size="small"
                 />
             </Table.DataCell>
@@ -45,16 +89,19 @@ const EndreMålgruppeRad: React.FC<{ målgruppe: Målgruppe; avbrytRedigering: (
                 <DateInput
                     label={'Til'}
                     hideLabel
-                    value={målgruppe.tom}
-                    // eslint-disable-next-line no-console
-                    onChange={(dato) => console.log(dato)}
+                    value={målgruppeForm.tom}
+                    onChange={(dato) =>
+                        settMålgruppeForm((prevState) => ({ ...prevState, tom: dato }))
+                    }
                     size="small"
                 />
             </Table.DataCell>
             <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
             <Table.DataCell>
                 <KnappeRad>
-                    <Button size="small">Lagre</Button>
+                    <Button size="small" onClick={() => leggTilNyMålgruppe(målgruppeForm)}>
+                        Lagre
+                    </Button>
                     <Button onClick={avbrytRedigering} variant="secondary" size="small">
                         Avbryt
                     </Button>

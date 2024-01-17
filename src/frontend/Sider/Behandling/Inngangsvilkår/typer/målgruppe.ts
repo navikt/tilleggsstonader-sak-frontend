@@ -15,6 +15,7 @@ export enum MålgruppeType {
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
 }
 
-interface DelvilkårMålgruppe {
+export interface DelvilkårMålgruppe {
+    '@type': 'MÅLGRUPPE';
     medlemskap: SvarJaNei;
 }
