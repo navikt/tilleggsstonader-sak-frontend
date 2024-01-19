@@ -49,9 +49,10 @@ const EndreMålgruppeInnhold: React.FC<{
                 return (
                     <>
                         <RadioGroup
-                            value={målgruppeForm.delvilkår.medlemskap}
+                            value={målgruppeForm.delvilkår.medlemskap?.svar}
                             legend="Medlem"
                             onChange={(e) => oppdaterDelvilkårSvar(e.target.value)}
+                            size="small"
                         >
                             <Radio value={SvarJaNei.JA}>Vurdert etter første ledd (medlem)</Radio>
                             <Radio value={SvarJaNei.NEI}>
@@ -71,7 +72,7 @@ const EndreMålgruppeInnhold: React.FC<{
                 return (
                     <>
                         <RadioGroup
-                            value={målgruppeForm.delvilkår.medlemskap}
+                            value={målgruppeForm.delvilkår.medlemskap?.svar}
                             legend="Medlem"
                             onChange={(e) => oppdaterDelvilkårSvar(e)}
                             size="small"
