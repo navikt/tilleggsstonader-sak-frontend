@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 
 import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
-import { målgruppeTyperMedImplisittMedlemskap } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -15,9 +14,9 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
 import { KildeVilkårsperiode, Vurdering } from '../typer/vilkårperiode';
 
-const TabellRad = styled(Table.Row)<{ $erEkspandert: boolean }>`
+const TabellRad = styled(Table.Row)`
     .navds-table__data-cell {
-        border-color: ${(props) => (props.$erEkspandert ? 'transparent' : 'inherit')};
+        border-color: transparent;
     }
 `;
 
@@ -78,10 +77,7 @@ const EndreMålgruppeRad: React.FC<{
 
     return (
         <>
-            <TabellRad
-                key={målgruppe.id}
-                $erEkspandert={målgruppeTyperMedImplisittMedlemskap.includes(målgruppe.type)}
-            >
+            <TabellRad key={målgruppe.id}>
                 <Table.DataCell width="max-content">
                     <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
                 </Table.DataCell>
