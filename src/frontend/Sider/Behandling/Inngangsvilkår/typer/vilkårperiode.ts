@@ -16,7 +16,7 @@ export interface VilkårPeriode extends Periode {
     slettetKommentar?: string;
 }
 
-enum KildeVilkårsperiode {
+export enum KildeVilkårsperiode {
     MANUELL = 'MANUELL',
     SYSTEM = 'SYSTEM',
 }

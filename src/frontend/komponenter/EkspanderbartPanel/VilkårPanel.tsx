@@ -20,12 +20,12 @@ const VilkårPanel: FC<Props> = ({ tittel, paragrafLenker, rundskrivLenke, child
                 <>
                     <BodyShort>
                         {paragrafLenker.map((lenke, indeks) => (
-                            <>
+                            <React.Fragment key={indeks}>
                                 <Link key={indeks} href={lenke.url}>
                                     {lenke.tekst}
                                 </Link>
                                 {indeks !== paragrafLenker.length - 1 && ', '}
-                            </>
+                            </React.Fragment>
                         ))}
                     </BodyShort>
                     <Link href={rundskrivLenke}>Rundskriv</Link>
