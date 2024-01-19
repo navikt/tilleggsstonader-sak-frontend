@@ -8,11 +8,10 @@ export interface Målgruppe extends VilkårPeriode {
 
 export enum MålgruppeType {
     AAP = 'AAP',
-    AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
-    DAGPENGER = 'DAGPENGER',
     UFØRETRYGD = 'UFØRETRYGD',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
+    NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
 }
 
 export interface DelvilkårMålgruppe {
