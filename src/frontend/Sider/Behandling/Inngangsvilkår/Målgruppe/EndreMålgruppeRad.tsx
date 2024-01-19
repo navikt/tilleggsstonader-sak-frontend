@@ -13,7 +13,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
-import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode';
+import { KildeVilkårsperiode, Vurdering } from '../typer/vilkårperiode';
 
 const TabellRad = styled(Table.Row)<{ $erEkspandert: boolean }>`
     .navds-table__data-cell {
@@ -51,8 +51,7 @@ const EndreMålgruppeRad: React.FC<{
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(målgruppe);
     const [laster, settLaster] = useState<boolean>(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [feilmelding, settFeilmelding] = useState<string>(); // TODO: Vis feilmelding et sted
+    const [feilmelding, settFeilmelding] = useState<string>();
 
     const leggTilNyMålgruppe = (form: EndreMålgruppeForm) => {
         if (laster) return;
@@ -129,12 +128,13 @@ const EndreMålgruppeRad: React.FC<{
                 oppdaterBegrunnelse={(begrunnelse: string) =>
                     settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
                 }
-                oppdaterDelvilkårSvar={(svar: SvarJaNei) =>
+                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,
-                        delvilkår: { ...prevState.delvilkår, medlemskap: svar },
+                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
                     }))
                 }
+                feilmelding={feilmelding}
             />
         </>
     );

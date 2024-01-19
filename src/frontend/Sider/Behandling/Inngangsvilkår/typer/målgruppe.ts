@@ -1,9 +1,14 @@
-import { SvarJaNei, VilkårPeriode } from './vilkårperiode';
+import { VilkårPeriode, Vurdering } from './vilkårperiode';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;
     type: MålgruppeType;
     delvilkår: DelvilkårMålgruppe;
+}
+
+export interface DelvilkårMålgruppe {
+    '@type': 'MÅLGRUPPE';
+    medlemskap?: Vurdering;
 }
 
 export enum MålgruppeType {
@@ -12,9 +17,4 @@ export enum MålgruppeType {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
-}
-
-export interface DelvilkårMålgruppe {
-    '@type': 'MÅLGRUPPE';
-    medlemskap: SvarJaNei;
 }

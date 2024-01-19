@@ -26,3 +26,8 @@ export enum SvarJaNei {
     JA_IMPLISITT = 'JA_IMPLISITT',
     NEI = 'NEI',
 }
+
+export interface Vurdering {
+    svar?: SvarJaNei;
+    begrunnelse?: string;
+}
