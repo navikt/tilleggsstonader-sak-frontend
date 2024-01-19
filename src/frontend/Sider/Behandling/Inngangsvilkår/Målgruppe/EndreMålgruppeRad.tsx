@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { Button, Table } from '@navikt/ds-react';
 
+import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
+import { målgruppeTyperMedImplisittMedlemskap } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -11,7 +13,13 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
-import { KildeVilkårsperiode } from '../typer/vilkårperiode';
+import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode';
+
+const TabellRad = styled(Table.Row)<{ $erEkspandert: boolean }>`
+    .navds-table__data-cell {
+        border-color: ${(props) => (props.$erEkspandert ? 'transparent' : 'inherit')};
+    }
+`;
 
 const KnappeRad = styled.div`
     display: flex;
@@ -26,7 +34,7 @@ interface EndreMålgruppe {
     begrunnelse?: string;
 }
 
-interface EndreMålgruppeForm {
+export interface EndreMålgruppeForm {
     fom?: string;
     tom?: string;
     delvilkår: DelvilkårMålgruppe;
@@ -70,47 +78,65 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     return (
-        <Table.Row key={målgruppe.id}>
-            <Table.DataCell width="max-content">
-                <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
-            </Table.DataCell>
-            <Table.DataCell>{målgruppe.type}</Table.DataCell>
-            <Table.DataCell>
-                <DateInput
-                    erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
-                    label={'Fra'}
-                    hideLabel
-                    value={målgruppeForm.fom}
-                    onChange={(dato) =>
-                        settMålgruppeForm((prevState) => ({ ...prevState, fom: dato }))
-                    }
-                    size="small"
-                />
-            </Table.DataCell>
-            <Table.DataCell>
-                <DateInput
-                    erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
-                    label={'Til'}
-                    hideLabel
-                    value={målgruppeForm.tom}
-                    onChange={(dato) =>
-                        settMålgruppeForm((prevState) => ({ ...prevState, tom: dato }))
-                    }
-                    size="small"
-                />
-            </Table.DataCell>
-            <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
-            <Table.DataCell>
-                <KnappeRad>
-                    <Button size="small" onClick={() => leggTilNyMålgruppe(målgruppeForm)}>
-                        Lagre
-                    </Button>
-                    <Button onClick={avbrytRedigering} variant="secondary" size="small">
-                        Avbryt
-                    </Button>
-                </KnappeRad>
-            </Table.DataCell>
-        </Table.Row>
+        <>
+            <TabellRad
+                key={målgruppe.id}
+                $erEkspandert={målgruppeTyperMedImplisittMedlemskap.includes(målgruppe.type)}
+            >
+                <Table.DataCell width="max-content">
+                    <VilkårsresultatIkon vilkårsresultat={målgruppe.resultat} />
+                </Table.DataCell>
+                <Table.DataCell>{målgruppe.type}</Table.DataCell>
+                <Table.DataCell>
+                    <DateInput
+                        erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
+                        label={'Fra'}
+                        hideLabel
+                        value={målgruppeForm.fom}
+                        onChange={(dato) =>
+                            settMålgruppeForm((prevState) => ({ ...prevState, fom: dato }))
+                        }
+                        size="small"
+                    />
+                </Table.DataCell>
+                <Table.DataCell>
+                    <DateInput
+                        erLesevisning={målgruppe.kilde === KildeVilkårsperiode.SYSTEM}
+                        label={'Til'}
+                        hideLabel
+                        value={målgruppeForm.tom}
+                        onChange={(dato) =>
+                            settMålgruppeForm((prevState) => ({ ...prevState, tom: dato }))
+                        }
+                        size="small"
+                    />
+                </Table.DataCell>
+                <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
+                <Table.DataCell>
+                    <KnappeRad>
+                        <Button size="small" onClick={() => leggTilNyMålgruppe(målgruppeForm)}>
+                            Lagre
+                        </Button>
+                        <Button onClick={avbrytRedigering} variant="secondary" size="small">
+                            Avbryt
+                        </Button>
+                    </KnappeRad>
+                </Table.DataCell>
+            </TabellRad>
+            <EndreMålgruppeInnhold
+                målgruppeForm={målgruppeForm}
+                målgruppeType={målgruppe.type}
+                oppdaterBegrunnelse={(begrunnelse: string) =>
+                    settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
+                }
+                oppdaterDelvilkårSvar={(svar: SvarJaNei) =>
+                    settMålgruppeForm((prevState) => ({
+                        ...prevState,
+                        delvilkår: { ...prevState.delvilkår, medlemskap: svar },
+                    }))
+                }
+            />
+        </>
     );
 };
 
