@@ -2,11 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { styled } from 'styled-components';
 
+import Aktivitet from './Aktivitet/Aktivitet';
 import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
-import InngangsvilkårInnhold from './InngangsvilkårInnhold';
+import Målgruppe from './Målgruppe/Målgruppe';
 import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
+import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
+import { Stønadsperiode } from './typer/stønadsperiode';
 import { Vilkårperioder } from './typer/vilkårperiode';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -35,10 +38,9 @@ const Inngangsvilkår = () => {
     const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
         byggTomRessurs()
     );
-
-    useEffect(() => {
-        hentRegler();
-    }, [hentRegler]);
+    const [stønadsperioder, settStønadsperioder] = useState<Ressurs<Stønadsperiode[]>>(
+        byggTomRessurs()
+    );
 
     const hentVilkårperioderCallback = useCallback(() => {
         request<Vilkårperioder, null>(`/api/sak/vilkarperiode/behandling/${behandling.id}`).then(
@@ -48,18 +50,30 @@ const Inngangsvilkår = () => {
 
     const hentVilkårperioder = useRerunnableEffect(hentVilkårperioderCallback, [behandling.id]);
 
+    useEffect(() => {
+        request<Stønadsperiode[], null>(`/api/sak/stonadsperiode/${behandling.id}`).then(
+            settStønadsperioder
+        );
+    }, [behandling.id, request]);
+
+    useEffect(() => {
+        hentRegler();
+    }, [hentRegler]);
+
     return (
         <Container>
             {!erProd() && <FyllUtVilkårKnapp />}
-            <DataViewer response={{ regler, vilkårsvurdering, vilkårperioder }}>
-                {({ regler, vilkårsvurdering, vilkårperioder }) => (
+            <DataViewer response={{ regler, vilkårsvurdering, vilkårperioder, stønadsperioder }}>
+                {({ regler, vilkårsvurdering, vilkårperioder, stønadsperioder }) => (
                     <>
                         {features.nyeInngangsvilkår && (
                             <InngangsvilkårProvider
                                 vilkårperioder={vilkårperioder}
                                 hentVilkårperioder={hentVilkårperioder}
                             >
-                                <InngangsvilkårInnhold />
+                                <Målgruppe />
+                                <Aktivitet />
+                                <Stønadsperioder eksisterendeStønadsperioder={stønadsperioder} />
                             </InngangsvilkårProvider>
                         )}
                         <MålgruppeGammel
