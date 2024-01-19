@@ -7,9 +7,9 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import LeggTilAktivitet from './LeggTilAktivitet';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { ReglerForVilkår } from '../../../../typer/regel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
 import { Aktivitet } from '../typer/aktivitet';
@@ -19,10 +19,8 @@ const HvitTabell = styled(Table)`
     max-width: fit-content;
 `;
 
-const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
-    aktiviteter,
-}) => {
-    // const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
+const Aktivitet: React.FC = () => {
+    const { aktiviteter } = useInngangsvilkår();
 
     const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
 
