@@ -10,12 +10,12 @@ export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
     | MålgruppeType.OMSTILLINGSSTØNAD;
 
-export const svarJaMapping: Record<MålgrupperMedMedlemskapsvurdering, string> = {
+export const svarJaMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering, string> = {
     NEDSATT_ARBEIDSEVNE: 'Ja',
     OMSTILLINGSSTØNAD: 'Ja (vurdert etter første ledd)',
 };
 
-export const svarNeiMapping: Record<MålgrupperMedMedlemskapsvurdering, string> = {
+export const svarNeiMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering, string> = {
     NEDSATT_ARBEIDSEVNE: 'Ja',
     OMSTILLINGSSTØNAD: 'Nei (vurdert etter andre ledd)',
 };

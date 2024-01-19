@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
-import { MålgrupperMedMedlemskapsvurdering, svarJaMapping } from './utils';
+import { MålgrupperMedMedlemskapsvurdering, svarJaMappingMedlemskap } from './utils';
 import { SvarJaNei, Vurdering } from '../typer/vilkårperiode';
 
 const Medlemskap: React.FC<{
@@ -18,8 +18,8 @@ const Medlemskap: React.FC<{
                 onChange={(e) => oppdaterMedlemskap({ ...medlemskap, svar: e.target.value })}
                 size="small"
             >
-                <Radio value={SvarJaNei.JA}>{svarJaMapping[målgruppeType]}</Radio>
-                <Radio value={SvarJaNei.NEI}>{svarJaMapping[målgruppeType]}</Radio>
+                <Radio value={SvarJaNei.JA}>{svarJaMappingMedlemskap[målgruppeType]}</Radio>
+                <Radio value={SvarJaNei.NEI}>{svarJaMappingMedlemskap[målgruppeType]}</Radio>
             </RadioGroup>
             <Textarea
                 value={medlemskap?.begrunnelse}
