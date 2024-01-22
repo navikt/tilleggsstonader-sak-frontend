@@ -10,6 +10,6 @@ export const svarJaMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering,
 };
 
 export const svarNeiMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering, string> = {
-    NEDSATT_ARBEIDSEVNE: 'Ja',
+    NEDSATT_ARBEIDSEVNE: 'Nei',
     OMSTILLINGSSTØNAD: 'Nei (vurdert etter andre ledd)',
 };
