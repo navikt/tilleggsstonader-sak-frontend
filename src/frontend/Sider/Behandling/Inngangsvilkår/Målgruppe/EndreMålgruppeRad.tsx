@@ -19,6 +19,7 @@ import { KildeVilkårsperiode, Vurdering } from '../typer/vilkårperiode';
 const TabellRad = styled(Table.Row)`
     .navds-table__data-cell {
         border-color: transparent;
+        vertical-align: top;
     }
 `;
 
