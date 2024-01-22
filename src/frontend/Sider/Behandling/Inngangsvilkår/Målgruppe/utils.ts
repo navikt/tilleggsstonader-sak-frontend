@@ -15,9 +15,12 @@ export const svarNeiMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering
     OMSTILLINGSSTØNAD: 'Nei (vurdert etter andre ledd)',
 };
 
-export const nyMålgruppe: EndreMålgruppeForm = {
-    type: '',
-    fom: '',
-    tom: '',
-    delvilkår: { '@type': 'MÅLGRUPPE' },
+export const nyMålgruppe = (behandlingId: string): EndreMålgruppeForm => {
+    return {
+        behandlingId: behandlingId,
+        type: '',
+        fom: '',
+        tom: '',
+        delvilkår: { '@type': 'MÅLGRUPPE' },
+    };
 };

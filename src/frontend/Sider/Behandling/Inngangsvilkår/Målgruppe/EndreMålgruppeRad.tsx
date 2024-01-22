@@ -30,15 +30,8 @@ const KnappeRad = styled.div`
     gap: 0.5rem;
 `;
 
-interface EndreMålgruppe {
-    behandlingId: string;
-    fom?: string;
-    tom?: string;
-    delvilkår: DelvilkårMålgruppe;
-    begrunnelse?: string;
-}
-
 export interface EndreMålgruppeForm {
+    behandlingId: string;
     type: MålgruppeType | '';
     fom: string;
     tom: string;
@@ -46,8 +39,8 @@ export interface EndreMålgruppeForm {
     begrunnelse?: string;
 }
 
-const initaliserForm = (eksisterendeMålgruppe?: Målgruppe) => {
-    return eksisterendeMålgruppe || nyMålgruppe;
+const initaliserForm = (behandlingId: string, eksisterendeMålgruppe?: Målgruppe) => {
+    return eksisterendeMålgruppe || nyMålgruppe(behandlingId);
 };
 
 const EndreMålgruppeRad: React.FC<{
@@ -59,7 +52,7 @@ const EndreMålgruppeRad: React.FC<{
     const { oppdaterMålgruppe, leggTilMålgruppe } = useInngangsvilkår();
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(målgruppe)
+        initaliserForm(behandling.id, målgruppe)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -83,15 +76,12 @@ const EndreMålgruppeRad: React.FC<{
 
             const erNyPeriode = målgruppe === undefined;
 
-            return request<Målgruppe, EndreMålgruppe>(
+            return request<Målgruppe, EndreMålgruppeForm>(
                 erNyPeriode
                     ? `/api/sak/vilkarperiode/behandling/${behandling.id}`
                     : `/api/sak/vilkarperiode/${målgruppe.id}`,
                 'POST',
-                {
-                    ...målgruppeForm,
-                    behandlingId: behandling.id,
-                }
+                målgruppeForm
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
