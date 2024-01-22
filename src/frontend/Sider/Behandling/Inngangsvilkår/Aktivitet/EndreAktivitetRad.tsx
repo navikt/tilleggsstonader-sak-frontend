@@ -67,7 +67,7 @@ const EndreAktivitetRad: React.FC<{
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        erNyPeriode ? leggTilAktivitet : oppdaterAktivitet;
+                        erNyPeriode ? leggTilAktivitet(res.data) : oppdaterAktivitet(res.data);
                         avbrytRedigering();
                     } else {
                         settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
