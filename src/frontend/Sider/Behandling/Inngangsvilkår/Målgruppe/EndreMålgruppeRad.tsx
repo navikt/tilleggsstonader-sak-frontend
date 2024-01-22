@@ -1,34 +1,17 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { Button, Table } from '@navikt/ds-react';
-
 import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
 import { nyMålgruppe } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
 import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
 import { DelvilkårMålgruppe, Målgruppe, MålgruppeType } from '../typer/målgruppe';
-import { KildeVilkårsperiode, VilkårPeriodeResultat, Vurdering } from '../typer/vilkårperiode';
-
-const TabellRad = styled(Table.Row)`
-    .navds-table__data-cell {
-        border-color: transparent;
-        vertical-align: top;
-    }
-`;
-
-const KnappeRad = styled.div`
-    display: flex;
-    gap: 0.5rem;
-`;
+import { Vurdering } from '../typer/vilkårperiode';
+import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
 export interface EndreMålgruppeForm {
     behandlingId: string;
@@ -95,15 +78,20 @@ const EndreMålgruppeRad: React.FC<{
         }
     };
 
+    const oppdaterPeriode = (key: keyof Periode, nyVerdi: string) => {
+        settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
+    };
+
     return (
         <>
-            <TabellRad>
-                <Table.DataCell width="max-content">
-                    <VilkårsresultatIkon
-                        vilkårsresultat={målgruppe?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}
-                    />
-                </Table.DataCell>
-                <Table.DataCell>
+            <EndreVilkårperiodeRad
+                vilkårperiode={målgruppe}
+                periodeForm={målgruppeForm}
+                lagre={lagre}
+                avbrytRedigering={avbrytRedigering}
+                oppdaterPeriode={oppdaterPeriode}
+                periodeFeil={periodeFeil}
+                typeSelect={
                     <Select
                         label="Type"
                         hideLabel
@@ -122,49 +110,8 @@ const EndreMålgruppeRad: React.FC<{
                             <option value={type}>{type}</option>
                         ))}
                     </Select>
-                </Table.DataCell>
-                <Table.DataCell>
-                    <DateInput
-                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label={'Fra'}
-                        hideLabel
-                        value={målgruppeForm.fom}
-                        onChange={(dato) =>
-                            settMålgruppeForm((prevState) => ({
-                                ...prevState,
-                                fom: dato || '',
-                            }))
-                        }
-                        size="small"
-                        feil={periodeFeil?.fom}
-                    />
-                </Table.DataCell>
-                <Table.DataCell>
-                    <DateInput
-                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label={'Til'}
-                        hideLabel
-                        value={målgruppeForm.tom}
-                        onChange={(dato) =>
-                            settMålgruppeForm((prevState) => ({ ...prevState, tom: dato || '' }))
-                        }
-                        size="small"
-                        feil={periodeFeil?.tom}
-                    />
-                </Table.DataCell>
-                <Table.DataCell>{målgruppe?.kilde || KildeVilkårsperiode.MANUELL}</Table.DataCell>
-                <Table.DataCell>
-                    <KnappeRad>
-                        <Button size="small" onClick={lagre}>
-                            Legg til ny
-                        </Button>
-
-                        <Button onClick={avbrytRedigering} variant="secondary" size="small">
-                            Avbryt
-                        </Button>
-                    </KnappeRad>
-                </Table.DataCell>
-            </TabellRad>
+                }
+            />
             <EndreMålgruppeInnhold
                 målgruppeForm={målgruppeForm}
                 målgruppeType={målgruppeForm.type}
