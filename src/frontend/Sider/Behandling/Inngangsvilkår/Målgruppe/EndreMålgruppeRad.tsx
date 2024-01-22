@@ -23,7 +23,9 @@ export interface EndreMålgruppeForm {
 }
 
 const initaliserForm = (behandlingId: string, eksisterendeMålgruppe?: Målgruppe) => {
-    return eksisterendeMålgruppe || nyMålgruppe(behandlingId);
+    return eksisterendeMålgruppe === undefined
+        ? nyMålgruppe(behandlingId)
+        : { ...eksisterendeMålgruppe, behandlingId: behandlingId };
 };
 
 const EndreMålgruppeRad: React.FC<{
