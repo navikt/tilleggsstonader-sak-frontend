@@ -87,7 +87,7 @@ const EndreMålgruppeRad: React.FC<{
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        erNyPeriode ? leggTilMålgruppe : oppdaterMålgruppe(res.data);
+                        erNyPeriode ? leggTilMålgruppe(res.data) : oppdaterMålgruppe(res.data);
                         avbrytRedigering();
                     } else {
                         settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
