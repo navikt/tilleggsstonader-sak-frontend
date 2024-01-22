@@ -72,7 +72,7 @@ const EndreMålgruppeRad: React.FC<{
         return isValid(periodeFeil);
     };
 
-    const endreMålgruppe = () => {
+    const lagre = () => {
         if (laster || målgruppe === undefined) return;
         settFeilmelding(undefined);
 
@@ -80,8 +80,13 @@ const EndreMålgruppeRad: React.FC<{
 
         if (kanSendeInn) {
             settLaster(true);
+
+            const erNyPeriode = målgruppe === undefined;
+
             return request<Målgruppe, EndreMålgruppe>(
-                `/api/sak/vilkarperiode/${målgruppe.id}`,
+                erNyPeriode
+                    ? `/api/sak/vilkarperiode/behandling/${behandling.id}`
+                    : `/api/sak/vilkarperiode/${målgruppe.id}`,
                 'POST',
                 {
                     ...målgruppeForm,
@@ -90,32 +95,7 @@ const EndreMålgruppeRad: React.FC<{
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        oppdaterMålgruppe(res.data);
-                        avbrytRedigering();
-                    } else {
-                        settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
-                    }
-                })
-                .finally(() => settLaster(false));
-        }
-    };
-
-    const leggTilNyMålgruppe = () => {
-        if (laster || målgruppe !== undefined) return;
-        settFeilmelding(undefined);
-
-        const kanSendeInn = validerForm();
-
-        if (kanSendeInn) {
-            settLaster(true);
-            return request<Målgruppe, EndreMålgruppeForm>(
-                `/api/sak/vilkarperiode/behandling/${behandling.id}`,
-                'POST',
-                målgruppeForm
-            )
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        leggTilMålgruppe(res.data);
+                        erNyPeriode ? leggTilMålgruppe : oppdaterMålgruppe(res.data);
                         avbrytRedigering();
                     } else {
                         settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
@@ -185,15 +165,9 @@ const EndreMålgruppeRad: React.FC<{
                 <Table.DataCell>{målgruppe?.kilde || KildeVilkårsperiode.MANUELL}</Table.DataCell>
                 <Table.DataCell>
                     <KnappeRad>
-                        {målgruppe === undefined ? (
-                            <Button size="small" onClick={leggTilNyMålgruppe}>
-                                Legg til ny
-                            </Button>
-                        ) : (
-                            <Button size="small" onClick={endreMålgruppe}>
-                                Lagre
-                            </Button>
-                        )}
+                        <Button size="small" onClick={lagre}>
+                            Legg til ny
+                        </Button>
 
                         <Button onClick={avbrytRedigering} variant="secondary" size="small">
                             Avbryt
