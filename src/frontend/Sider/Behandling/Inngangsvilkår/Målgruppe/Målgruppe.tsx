@@ -33,7 +33,7 @@ const Målgruppe: React.FC = () => {
     };
 
     const kanSetteNyRadIRedigeringsmodus =
-        radIRedigeringsmodus === undefined || !leggerTilNyPeriode;
+        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
 
     const settNyRadIRedigeringsmodus = (id: string) => {
         if (kanSetteNyRadIRedigeringsmodus) {
