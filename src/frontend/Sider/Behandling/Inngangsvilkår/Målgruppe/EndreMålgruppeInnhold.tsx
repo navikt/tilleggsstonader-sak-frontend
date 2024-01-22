@@ -19,7 +19,7 @@ const Innhold = styled.div`
 `;
 
 const EndreMålgruppeInnhold: React.FC<{
-    målgruppeType: MålgruppeType;
+    målgruppeType: MålgruppeType | '';
     målgruppeForm: EndreMålgruppeForm;
     oppdaterBegrunnelse: (begrunnelse: string) => void;
     oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
@@ -27,6 +27,7 @@ const EndreMålgruppeInnhold: React.FC<{
 }> = ({ målgruppeType, målgruppeForm, oppdaterBegrunnelse, oppdaterDelvilkår, feilmelding }) => {
     const utledRelevanteVilkår = () => {
         switch (målgruppeType) {
+            case '':
             case MålgruppeType.AAP:
             case MålgruppeType.OVERGANGSSTØNAD:
             case MålgruppeType.UFØRETRYGD:

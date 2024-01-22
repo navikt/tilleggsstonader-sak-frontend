@@ -1,7 +1,6 @@
 import { Aktivitet } from './aktivitet';
 import { Målgruppe } from './målgruppe';
 import { Periode } from '../../../../utils/periode';
-import { Vilkårsresultat } from '../../vilkår';
 
 export interface Vilkårperioder {
     målgrupper: Målgruppe[];
@@ -10,10 +9,17 @@ export interface Vilkårperioder {
 
 export interface VilkårPeriode extends Periode {
     id: string;
-    resultat: Vilkårsresultat;
+    resultat: VilkårPeriodeResultat;
     begrunnelse?: string;
     kilde: KildeVilkårsperiode;
     slettetKommentar?: string;
+}
+
+export enum VilkårPeriodeResultat {
+    OPPFYLT = 'OPPFYLT',
+    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+    IKKE_VURDERT = 'IKKE_VURDERT',
+    SLETTET = 'SLETTET',
 }
 
 export enum KildeVilkårsperiode {
