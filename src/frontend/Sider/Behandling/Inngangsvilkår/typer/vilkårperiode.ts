@@ -9,7 +9,6 @@ export interface Vilkårperioder {
 
 export interface VilkårPeriode extends Periode {
     id: string;
-    behandlingId: string;
     resultat: VilkårPeriodeResultat;
     begrunnelse?: string;
     kilde: KildeVilkårsperiode;
