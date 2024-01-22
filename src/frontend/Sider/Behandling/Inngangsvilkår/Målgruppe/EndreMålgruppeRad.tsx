@@ -52,7 +52,7 @@ const EndreMålgruppeRad: React.FC<{
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    const leggTilNyMålgruppe = (form: EndreMålgruppeForm) => {
+    const endreMålgruppe = (form: EndreMålgruppeForm) => {
         if (laster) return;
         settLaster(true);
         settFeilmelding(undefined);
@@ -109,7 +109,7 @@ const EndreMålgruppeRad: React.FC<{
                 <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
                 <Table.DataCell>
                     <KnappeRad>
-                        <Button size="small" onClick={() => leggTilNyMålgruppe(målgruppeForm)}>
+                        <Button size="small" onClick={() => endreMålgruppe(målgruppeForm)}>
                             Lagre
                         </Button>
                         <Button onClick={avbrytRedigering} variant="secondary" size="small">
