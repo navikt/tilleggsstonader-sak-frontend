@@ -1,4 +1,5 @@
 import { erDatoEtterEllerLik, erDatoFørEllerLik } from './dato';
+import { FormErrors } from '../hooks/felles/useFormState';
 
 export type Periode = {
     fom: string;
@@ -27,4 +28,21 @@ export const validerPeriode = (periode: Periode): undefined | Partial<Periode> =
         };
     }
     return undefined;
+};
+
+export const validerPeriodeForm = (målgruppe: Periode): FormErrors<Periode> => {
+    const feil: FormErrors<Periode> = {
+        fom: undefined,
+        tom: undefined,
+    };
+
+    const periodeValidering = validerPeriode(målgruppe);
+    if (periodeValidering) {
+        return {
+            ...feil,
+            ...periodeValidering,
+        };
+    }
+
+    return feil;
 };
