@@ -19,7 +19,7 @@ const Medlemskap: React.FC<{
             <RadioGroup
                 value={medlemskap?.svar}
                 legend="Medlem"
-                onChange={(e) => oppdaterMedlemskap({ ...medlemskap, svar: e.target.value })}
+                onChange={(e) => oppdaterMedlemskap({ ...medlemskap, svar: e })}
                 size="small"
             >
                 <Radio value={SvarJaNei.JA}>{svarJaMappingMedlemskap[målgruppeType]}</Radio>
