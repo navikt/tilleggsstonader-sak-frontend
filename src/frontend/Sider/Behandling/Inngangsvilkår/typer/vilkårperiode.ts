@@ -16,7 +16,7 @@ export interface VilkårPeriode extends Periode {
     slettetKommentar?: string;
 }
 
-enum KildeVilkårsperiode {
+export enum KildeVilkårsperiode {
     MANUELL = 'MANUELL',
     SYSTEM = 'SYSTEM',
 }
@@ -25,4 +25,9 @@ export enum SvarJaNei {
     JA = 'JA',
     JA_IMPLISITT = 'JA_IMPLISITT',
     NEI = 'NEI',
+}
+
+export interface Vurdering {
+    svar?: SvarJaNei;
+    begrunnelse?: string;
 }
