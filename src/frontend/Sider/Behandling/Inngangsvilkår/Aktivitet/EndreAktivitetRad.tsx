@@ -9,7 +9,6 @@ import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
 import { Aktivitet, AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
-import { MålgruppeType } from '../typer/målgruppe';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
 export interface EndreAktivitetForm extends Periode {
@@ -106,7 +105,7 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                     >
                         <option value="">Velg</option>
-                        {Object.keys(MålgruppeType).map((type) => (
+                        {Object.keys(AktivitetType).map((type) => (
                             <option value={type}>{type}</option>
                         ))}
                     </Select>
