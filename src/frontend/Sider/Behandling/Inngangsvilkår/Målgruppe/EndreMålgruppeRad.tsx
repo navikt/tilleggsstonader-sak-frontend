@@ -56,14 +56,20 @@ const EndreMålgruppeRad: React.FC<{
     const [feilmelding, settFeilmelding] = useState<string>();
     const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
 
+    const validerForm = (): boolean => {
+        const periodeFeil = validerPeriodeForm(målgruppeForm);
+        settPeriodeFeil(periodeFeil);
+
+        return isValid(periodeFeil);
+    };
+
     const endreMålgruppe = (form: EndreMålgruppeForm) => {
         if (laster) return;
         settFeilmelding(undefined);
 
-        const periodeFeil = validerPeriodeForm(målgruppeForm);
-        settPeriodeFeil(periodeFeil);
+        const kanSendeInn = validerForm();
 
-        if (isValid(periodeFeil)) {
+        if (kanSendeInn) {
             settLaster(true);
             return request<Målgruppe, EndreMålgruppe>(
                 `/api/sak/vilkarperiode/${målgruppe.id}`,
