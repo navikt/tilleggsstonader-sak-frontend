@@ -66,7 +66,7 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const lagre = () => {
-        if (laster || målgruppe === undefined) return;
+        if (laster) return;
         settFeilmelding(undefined);
 
         const kanSendeInn = validerForm();
