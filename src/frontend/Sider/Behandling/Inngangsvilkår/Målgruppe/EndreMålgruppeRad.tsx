@@ -8,15 +8,18 @@ import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { Periode, validerPeriodeForm } from '../../../../utils/periode';
 import { DelvilkårMålgruppe, Målgruppe } from '../typer/målgruppe';
 import { KildeVilkårsperiode, Vurdering } from '../typer/vilkårperiode';
 
 const TabellRad = styled(Table.Row)`
     .navds-table__data-cell {
         border-color: transparent;
+        vertical-align: top;
     }
 `;
 
@@ -34,8 +37,8 @@ interface EndreMålgruppe {
 }
 
 export interface EndreMålgruppeForm {
-    fom?: string;
-    tom?: string;
+    fom: string;
+    tom: string;
     delvilkår: DelvilkårMålgruppe;
     begrunnelse?: string;
 }
@@ -51,28 +54,41 @@ const EndreMålgruppeRad: React.FC<{
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(målgruppe);
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+    const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
 
-    const leggTilNyMålgruppe = (form: EndreMålgruppeForm) => {
+    const validerForm = (): boolean => {
+        const periodeFeil = validerPeriodeForm(målgruppeForm);
+        settPeriodeFeil(periodeFeil);
+
+        return isValid(periodeFeil);
+    };
+
+    const endreMålgruppe = (form: EndreMålgruppeForm) => {
         if (laster) return;
-        settLaster(true);
         settFeilmelding(undefined);
-        return request<Målgruppe, EndreMålgruppe>(
-            `/api/sak/vilkarperiode/${målgruppe.id}`,
-            'POST',
-            {
-                ...form,
-                behandlingId: behandling.id,
-            }
-        )
-            .then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    oppdaterMålgruppe(res.data);
-                    avbrytRedigering();
-                } else {
-                    settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+
+        const kanSendeInn = validerForm();
+
+        if (kanSendeInn) {
+            settLaster(true);
+            return request<Målgruppe, EndreMålgruppe>(
+                `/api/sak/vilkarperiode/${målgruppe.id}`,
+                'POST',
+                {
+                    ...form,
+                    behandlingId: behandling.id,
                 }
-            })
-            .finally(() => settLaster(false));
+            )
+                .then((res) => {
+                    if (res.status === RessursStatus.SUKSESS) {
+                        oppdaterMålgruppe(res.data);
+                        avbrytRedigering();
+                    } else {
+                        settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                    }
+                })
+                .finally(() => settLaster(false));
+        }
     };
 
     return (
@@ -89,9 +105,10 @@ const EndreMålgruppeRad: React.FC<{
                         hideLabel
                         value={målgruppeForm.fom}
                         onChange={(dato) =>
-                            settMålgruppeForm((prevState) => ({ ...prevState, fom: dato }))
+                            settMålgruppeForm((prevState) => ({ ...prevState, fom: dato || '' }))
                         }
                         size="small"
+                        feil={periodeFeil?.fom}
                     />
                 </Table.DataCell>
                 <Table.DataCell>
@@ -101,15 +118,16 @@ const EndreMålgruppeRad: React.FC<{
                         hideLabel
                         value={målgruppeForm.tom}
                         onChange={(dato) =>
-                            settMålgruppeForm((prevState) => ({ ...prevState, tom: dato }))
+                            settMålgruppeForm((prevState) => ({ ...prevState, tom: dato || '' }))
                         }
                         size="small"
+                        feil={periodeFeil?.tom}
                     />
                 </Table.DataCell>
                 <Table.DataCell>{målgruppe.kilde}</Table.DataCell>
                 <Table.DataCell>
                     <KnappeRad>
-                        <Button size="small" onClick={() => leggTilNyMålgruppe(målgruppeForm)}>
+                        <Button size="small" onClick={() => endreMålgruppe(målgruppeForm)}>
                             Lagre
                         </Button>
                         <Button onClick={avbrytRedigering} variant="secondary" size="small">
