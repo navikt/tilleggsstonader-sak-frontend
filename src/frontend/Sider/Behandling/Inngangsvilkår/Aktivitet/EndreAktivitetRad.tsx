@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import AktivitetVilkår from './AktivitetVilkår';
 import { nyAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -9,6 +10,8 @@ import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
 import { Aktivitet, AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
+import { Vurdering } from '../typer/vilkårperiode';
+import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
 export interface EndreAktivitetForm extends Periode {
@@ -111,7 +114,24 @@ const EndreAktivitetRad: React.FC<{
                     </Select>
                 }
             />
-            {/* TODO: Legg inn vilkår for aktivitet */}
+            <EndreVilkårPeriodeInnhold
+                begrunnelse={aktivitetForm.begrunnelse}
+                oppdaterBegrunnelse={(begrunnelse: string) =>
+                    settAktivitetForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
+                }
+                feilmelding={feilmelding}
+                vilkår={
+                    <AktivitetVilkår
+                        aktivitetForm={aktivitetForm}
+                        oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
+                            settAktivitetForm((prevState) => ({
+                                ...prevState,
+                                delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                            }))
+                        }
+                    />
+                }
+            />
         </>
     );
 };

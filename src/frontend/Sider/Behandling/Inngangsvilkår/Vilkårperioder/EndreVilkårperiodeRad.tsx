@@ -75,7 +75,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             <Table.DataCell>
                 <KnappeRad>
                     <Button size="small" onClick={lagre}>
-                        Legg til ny
+                        Lagre
                     </Button>
 
                     <Button onClick={avbrytRedigering} variant="secondary" size="small">
