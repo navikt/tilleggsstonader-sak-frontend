@@ -1,3 +1,4 @@
+import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { MålgruppeType } from '../typer/målgruppe';
 
 export type MålgrupperMedMedlemskapsvurdering =
@@ -12,4 +13,14 @@ export const svarJaMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering,
 export const svarNeiMappingMedlemskap: Record<MålgrupperMedMedlemskapsvurdering, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nei',
     OMSTILLINGSSTØNAD: 'Nei (vurdert etter andre ledd)',
+};
+
+export const nyMålgruppe = (behandlingId: string): EndreMålgruppeForm => {
+    return {
+        behandlingId: behandlingId,
+        type: '',
+        fom: '',
+        tom: '',
+        delvilkår: { '@type': 'MÅLGRUPPE' },
+    };
 };

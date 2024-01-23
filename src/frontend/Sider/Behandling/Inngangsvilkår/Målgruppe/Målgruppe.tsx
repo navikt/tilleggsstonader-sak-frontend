@@ -7,7 +7,6 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
-import LeggTilMålgruppe from './LeggTilMålgruppe';
 import MålgruppeRad from './MålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
@@ -23,23 +22,27 @@ const HvitTabell = styled(Table)`
 const Målgruppe: React.FC = () => {
     const { målgrupper } = useInngangsvilkår();
 
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
+        settLeggerTilNyPeriode(false);
     };
 
+    const kanSetteNyRadIRedigeringsmodus =
+        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+
     const settNyRadIRedigeringsmodus = (id: string) => {
-        if (radIRedigeringsmodus !== undefined) {
+        if (kanSetteNyRadIRedigeringsmodus) {
+            settFeilmelding(undefined);
+            settRadIRedigeringsmodus(id);
+        } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
             );
-        } else {
-            settFeilmelding(undefined);
-            settRadIRedigeringsmodus(id);
         }
     };
 
@@ -76,14 +79,15 @@ const Målgruppe: React.FC = () => {
                             )}
                         </React.Fragment>
                     ))}
+                    {leggerTilNyPeriode && (
+                        <EndreMålgruppeRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                    )}
                 </Table.Body>
             </HvitTabell>
             <Feilmelding>{feilmelding}</Feilmelding>
-            {skalViseLeggTilPeriode ? (
-                <LeggTilMålgruppe skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
-            ) : (
+            {kanSetteNyRadIRedigeringsmodus && (
                 <Button
-                    onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
+                    onClick={() => settLeggerTilNyPeriode(true)}
                     size="small"
                     style={{ maxWidth: 'fit-content' }}
                     variant="secondary"
