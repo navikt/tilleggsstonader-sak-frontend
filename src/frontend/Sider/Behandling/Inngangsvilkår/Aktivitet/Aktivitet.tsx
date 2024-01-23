@@ -9,10 +9,9 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import LeggTilAktivitet from './LeggTilAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { formaterIsoDato } from '../../../../utils/dato';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
 import { Aktivitet } from '../typer/aktivitet';
+import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
@@ -43,33 +42,14 @@ const Aktivitet: React.FC = () => {
                 </Table.Header>
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
-                        <Table.ExpandableRow
-                            key={aktivitet.id}
-                            togglePlacement={'right'}
-                            // expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
-                            content={
-                                <>
-                                    {/* <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
-                                    <EndreVurderingComponent
-                                        vilkårType={aktivitet.vilkår.vilkårType}
-                                        regler={regler[aktivitet.vilkår.vilkårType].regler}
-                                        vilkår={aktivitet.vilkår}
-                                        oppdaterVilkår={oppdaterAktivitetVilkårState}
-                                    />
-                                    <Feilmelding>
-                                        {vilkårFeilmeldinger[aktivitet.vilkår.id]}
-                                    </Feilmelding> */}
-                                </>
-                            }
-                        >
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={aktivitet.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{aktivitet.type}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(aktivitet.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(aktivitet.tom)}</Table.DataCell>
-                            <Table.DataCell>Kilde</Table.DataCell>
-                        </Table.ExpandableRow>
+                        <React.Fragment key={aktivitet.id}>
+                            <VilkårperiodeRad
+                                vilkårperiode={aktivitet}
+                                type={aktivitet.type}
+                                // eslint-disable-next-line no-console
+                                startRedigering={() => console.log('TODO: Start redigering')}
+                            />
+                        </React.Fragment>
                     ))}
                 </Table.Body>
             </HvitTabell>
