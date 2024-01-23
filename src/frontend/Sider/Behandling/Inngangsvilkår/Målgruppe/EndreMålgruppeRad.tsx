@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
+import MålgruppeVilkår from './MålgruppeVilkår';
 import { nyMålgruppe } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -121,7 +121,7 @@ const EndreMålgruppeRad: React.FC<{
                 }
                 feilmelding={feilmelding}
                 vilkår={
-                    <EndreMålgruppeInnhold
+                    <MålgruppeVilkår
                         målgruppeForm={målgruppeForm}
                         oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                             settMålgruppeForm((prevState) => ({

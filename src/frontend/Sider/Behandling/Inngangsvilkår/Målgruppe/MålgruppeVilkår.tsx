@@ -7,7 +7,7 @@ import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe, MålgruppeType } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 
-const EndreMålgruppeInnhold: React.FC<{
+const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
     feilmelding?: string;
@@ -48,4 +48,4 @@ const EndreMålgruppeInnhold: React.FC<{
     }
 };
 
-export default EndreMålgruppeInnhold;
+export default MålgruppeVilkår;
