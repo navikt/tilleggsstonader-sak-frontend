@@ -11,6 +11,7 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
 import { DelvilkårMålgruppe, Målgruppe, MålgruppeType } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
+import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
 export interface EndreMålgruppeForm {
@@ -114,19 +115,22 @@ const EndreMålgruppeRad: React.FC<{
                     </Select>
                 }
             />
-            <EndreMålgruppeInnhold
-                målgruppeForm={målgruppeForm}
-                målgruppeType={målgruppeForm.type}
+            <EndreVilkårPeriodeInnhold
                 oppdaterBegrunnelse={(begrunnelse: string) =>
                     settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
                 }
-                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                    settMålgruppeForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
-                }
                 feilmelding={feilmelding}
+                vilkår={
+                    <EndreMålgruppeInnhold
+                        målgruppeForm={målgruppeForm}
+                        oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
+                            settMålgruppeForm((prevState) => ({
+                                ...prevState,
+                                delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                            }))
+                        }
+                    />
+                }
             />
         </>
     );
