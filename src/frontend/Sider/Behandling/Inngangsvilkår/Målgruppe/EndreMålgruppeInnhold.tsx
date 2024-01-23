@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { Table, Textarea } from '@navikt/ds-react';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import Medlemskap from './Medlemskap';
+import { svarJaMappingMedlemskap, svarNeiMappingMedlemskap } from './utils';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe, MålgruppeType } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 
@@ -35,24 +36,26 @@ const EndreMålgruppeInnhold: React.FC<{
 
             case MålgruppeType.OMSTILLINGSSTØNAD:
                 return (
-                    <Medlemskap
-                        medlemskap={målgruppeForm.delvilkår.medlemskap}
-                        oppdaterMedlemskap={(vurdering: Vurdering) =>
+                    <JaNeiVurdering
+                        label="medlemskap"
+                        vurdering={målgruppeForm.delvilkår.medlemskap}
+                        oppdaterVurdering={(vurdering: Vurdering) =>
                             oppdaterDelvilkår('medlemskap', vurdering)
                         }
-                        målgruppeType={målgruppeType}
+                        svarJa={svarJaMappingMedlemskap[MålgruppeType.OMSTILLINGSSTØNAD]}
+                        svarNei={svarNeiMappingMedlemskap[MålgruppeType.OMSTILLINGSSTØNAD]}
                     />
                 );
 
             case MålgruppeType.NEDSATT_ARBEIDSEVNE:
                 return (
                     //TODO: Vurdering av nedsatt arbeidsevne
-                    <Medlemskap
-                        medlemskap={målgruppeForm.delvilkår.medlemskap}
-                        oppdaterMedlemskap={(vurdering: Vurdering) =>
+                    <JaNeiVurdering
+                        label="medlemskap"
+                        vurdering={målgruppeForm.delvilkår.medlemskap}
+                        oppdaterVurdering={(vurdering: Vurdering) =>
                             oppdaterDelvilkår('medlemskap', vurdering)
                         }
-                        målgruppeType={målgruppeType}
                     />
                 );
             default:
