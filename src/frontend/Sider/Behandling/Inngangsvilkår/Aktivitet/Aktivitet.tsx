@@ -6,9 +6,10 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import LeggTilAktivitet from './LeggTilAktivitet';
+import EndreAktivitetRad from './EndreAktivitetRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
 import { Aktivitet } from '../typer/aktivitet';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
@@ -21,7 +22,29 @@ const HvitTabell = styled(Table)`
 const Aktivitet: React.FC = () => {
     const { aktiviteter } = useInngangsvilkår();
 
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
+    const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<string>();
+
+    const fjernRadIRedigeringsmodus = () => {
+        settFeilmelding(undefined);
+        settRadIRedigeringsmodus(undefined);
+        settLeggerTilNyPeriode(false);
+    };
+
+    const kanSetteNyRadIRedigeringsmodus =
+        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+
+    const settNyRadIRedigeringsmodus = (id: string) => {
+        if (kanSetteNyRadIRedigeringsmodus) {
+            settFeilmelding(undefined);
+            settRadIRedigeringsmodus(id);
+        } else {
+            settFeilmelding(
+                'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
+            );
+        }
+    };
 
     return (
         <VilkårPanel
@@ -43,21 +66,29 @@ const Aktivitet: React.FC = () => {
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
                         <React.Fragment key={aktivitet.id}>
-                            <VilkårperiodeRad
-                                vilkårperiode={aktivitet}
-                                type={aktivitet.type}
-                                // eslint-disable-next-line no-console
-                                startRedigering={() => console.log('TODO: Start redigering')}
-                            />
+                            {aktivitet.id === radIRedigeringsmodus ? (
+                                <EndreAktivitetRad
+                                    aktivitet={aktivitet}
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
+                            ) : (
+                                <VilkårperiodeRad
+                                    vilkårperiode={aktivitet}
+                                    type={aktivitet.type}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
+                                />
+                            )}
                         </React.Fragment>
                     ))}
+                    {leggerTilNyPeriode && (
+                        <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                    )}
                 </Table.Body>
             </HvitTabell>
-            {skalViseLeggTilPeriode ? (
-                <LeggTilAktivitet skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
-            ) : (
+            <Feilmelding>{feilmelding}</Feilmelding>
+            {kanSetteNyRadIRedigeringsmodus && (
                 <Button
-                    onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
+                    onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
                     size="small"
                     style={{ maxWidth: 'fit-content' }}
                     variant="secondary"

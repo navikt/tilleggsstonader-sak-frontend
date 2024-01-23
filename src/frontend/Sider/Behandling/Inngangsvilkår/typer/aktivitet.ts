@@ -6,9 +6,10 @@ export interface Aktivitet extends VilkårPeriode {
     delvilkår: DelvilkårAktivitet;
 }
 
-interface DelvilkårAktivitet {
+export interface DelvilkårAktivitet {
+    '@type': 'AKTIVITET';
     lønnet?: Vurdering;
-    mottarSykepenger: Vurdering;
+    mottarSykepenger?: Vurdering;
 }
 
 export enum AktivitetType {
