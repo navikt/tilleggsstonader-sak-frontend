@@ -63,9 +63,7 @@ const EndreMålgruppeRad: React.FC<{
             const erNyPeriode = målgruppe === undefined;
 
             return request<Målgruppe, EndreMålgruppeForm>(
-                erNyPeriode
-                    ? `/api/sak/vilkarperiode/behandling/${behandling.id}`
-                    : `/api/sak/vilkarperiode/${målgruppe.id}`,
+                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${målgruppe.id}`,
                 'POST',
                 målgruppeForm
             )
