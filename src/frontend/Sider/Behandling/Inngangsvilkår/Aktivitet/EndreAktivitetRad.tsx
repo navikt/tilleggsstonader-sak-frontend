@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import EndreMålgruppeInnhold from './EndreMålgruppeInnhold';
-import { nyMålgruppe } from './utils';
+import { nyAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -9,42 +8,40 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
-import { DelvilkårMålgruppe, Målgruppe, MålgruppeType } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import { Aktivitet, AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
-export interface EndreMålgruppeForm {
+export interface EndreAktivitetForm extends Periode {
     behandlingId: string;
-    type: MålgruppeType | '';
-    fom: string;
-    tom: string;
-    delvilkår: DelvilkårMålgruppe;
+    type: AktivitetType | '';
+    delvilkår: DelvilkårAktivitet;
     begrunnelse?: string;
 }
 
-const initaliserForm = (behandlingId: string, eksisterendeMålgruppe?: Målgruppe) => {
-    return eksisterendeMålgruppe === undefined
-        ? nyMålgruppe(behandlingId)
-        : { ...eksisterendeMålgruppe, behandlingId: behandlingId };
+const initaliserForm = (behandlingId: string, eksisterendeAktivitet?: Aktivitet) => {
+    return eksisterendeAktivitet === undefined
+        ? nyAktivitet(behandlingId)
+        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
-const EndreMålgruppeRad: React.FC<{
-    målgruppe?: Målgruppe;
+const EndreAktivitetRad: React.FC<{
+    aktivitet?: Aktivitet;
     avbrytRedigering: () => void;
-}> = ({ målgruppe, avbrytRedigering }) => {
+}> = ({ aktivitet, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { oppdaterMålgruppe, leggTilMålgruppe } = useInngangsvilkår();
+    const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
 
-    const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(behandling.id, målgruppe)
+    const [aktivitetForm, settAktivitetForm] = useState<EndreAktivitetForm>(
+        initaliserForm(behandling.id, aktivitet)
     );
     const [laster, settLaster] = useState<boolean>(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [feilmelding, settFeilmelding] = useState<string>();
     const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
 
     const validerForm = (): boolean => {
-        const periodeFeil = validerPeriodeForm(målgruppeForm);
+        const periodeFeil = validerPeriodeForm(aktivitetForm);
         settPeriodeFeil(periodeFeil);
 
         return isValid(periodeFeil);
@@ -59,16 +56,18 @@ const EndreMålgruppeRad: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            const erNyPeriode = målgruppe === undefined;
+            const erNyPeriode = aktivitet === undefined;
 
-            return request<Målgruppe, EndreMålgruppeForm>(
-                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${målgruppe.id}`,
+            return request<Aktivitet, EndreAktivitetForm>(
+                erNyPeriode
+                    ? `/api/sak/vilkarperiode/behandling/${behandling.id}`
+                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
                 'POST',
-                målgruppeForm
+                aktivitetForm
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        erNyPeriode ? leggTilMålgruppe(res.data) : oppdaterMålgruppe(res.data);
+                        erNyPeriode ? leggTilAktivitet(res.data) : oppdaterAktivitet(res.data);
                         avbrytRedigering();
                     } else {
                         settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
@@ -79,14 +78,14 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const oppdaterPeriode = (key: keyof Periode, nyVerdi: string) => {
-        settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
+        settAktivitetForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
     return (
         <>
             <EndreVilkårperiodeRad
-                vilkårperiode={målgruppe}
-                periodeForm={målgruppeForm}
+                vilkårperiode={aktivitet}
+                periodeForm={aktivitetForm}
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
@@ -95,39 +94,26 @@ const EndreMålgruppeRad: React.FC<{
                     <Select
                         label="Type"
                         hideLabel
-                        erLesevisning={målgruppe !== undefined}
-                        value={målgruppeForm.type}
+                        erLesevisning={aktivitet !== undefined}
+                        value={aktivitetForm.type}
                         onChange={(e) =>
-                            settMålgruppeForm((prevState) => ({
+                            settAktivitetForm((prevState) => ({
                                 ...prevState,
-                                type: e.target.value as MålgruppeType,
+                                type: e.target.value as AktivitetType,
                             }))
                         }
                         size="small"
                     >
                         <option value="">Velg</option>
-                        {Object.keys(MålgruppeType).map((type) => (
+                        {Object.keys(AktivitetType).map((type) => (
                             <option value={type}>{type}</option>
                         ))}
                     </Select>
                 }
             />
-            <EndreMålgruppeInnhold
-                målgruppeForm={målgruppeForm}
-                målgruppeType={målgruppeForm.type}
-                oppdaterBegrunnelse={(begrunnelse: string) =>
-                    settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
-                }
-                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                    settMålgruppeForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
-                }
-                feilmelding={feilmelding}
-            />
+            {/* TODO: Legg inn vilkår for aktivitet */}
         </>
     );
 };
 
-export default EndreMålgruppeRad;
+export default EndreAktivitetRad;

@@ -7,12 +7,12 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
-import MålgruppeRad from './MålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer/målgruppe';
+import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
@@ -72,8 +72,9 @@ const Målgruppe: React.FC = () => {
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
                                 />
                             ) : (
-                                <MålgruppeRad
-                                    målgruppe={målgruppe}
+                                <VilkårperiodeRad
+                                    vilkårperiode={målgruppe}
+                                    type={målgruppe.type}
                                     startRedigering={() => settNyRadIRedigeringsmodus(målgruppe.id)}
                                 />
                             )}
