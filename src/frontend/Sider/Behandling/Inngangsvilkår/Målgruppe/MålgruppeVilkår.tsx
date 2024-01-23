@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import { svarJaMappingMedlemskap, svarNeiMappingMedlemskap } from './utils';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe, MålgruppeType } from '../typer/målgruppe';
@@ -27,8 +26,8 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
-                    svarJa={svarJaMappingMedlemskap[MålgruppeType.OMSTILLINGSSTØNAD]}
-                    svarNei={svarNeiMappingMedlemskap[MålgruppeType.OMSTILLINGSSTØNAD]}
+                    svarJa="Ja (vurdert etter første ledd)"
+                    svarNei="'Nei (vurdert etter andre ledd)"
                 />
             );
 
