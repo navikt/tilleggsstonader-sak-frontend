@@ -9,7 +9,12 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
-import { DelvilkårMålgruppe, Målgruppe, MålgruppeType } from '../typer/målgruppe';
+import {
+    DelvilkårMålgruppe,
+    Målgruppe,
+    MålgruppeType,
+    målgruppeTypeTilTekst,
+} from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
@@ -108,7 +113,9 @@ const EndreMålgruppeRad: React.FC<{
                     >
                         <option value="">Velg</option>
                         {Object.keys(MålgruppeType).map((type) => (
-                            <option value={type}>{type}</option>
+                            <option value={type}>
+                                {målgruppeTypeTilTekst[type as MålgruppeType]}
+                            </option>
                         ))}
                     </Select>
                 }

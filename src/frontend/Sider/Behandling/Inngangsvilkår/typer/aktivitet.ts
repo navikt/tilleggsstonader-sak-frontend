@@ -17,3 +17,9 @@ export enum AktivitetType {
     UTDANNING = 'UTDANNING',
     REEL_ARBEIDSSØKER = 'REEL_ARBEIDSSØKER',
 }
+
+export const aktivitetTypeTilTekst: Record<AktivitetType, string> = {
+    TILTAK: 'Tiltak',
+    UTDANNING: 'Utdanning',
+    REEL_ARBEIDSSØKER: 'Reel arbeidssøker',
+};

@@ -9,7 +9,12 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
-import { Aktivitet, AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
+import {
+    Aktivitet,
+    AktivitetType,
+    DelvilkårAktivitet,
+    aktivitetTypeTilTekst,
+} from '../typer/aktivitet';
 import { Vurdering } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
@@ -109,7 +114,9 @@ const EndreAktivitetRad: React.FC<{
                     >
                         <option value="">Velg</option>
                         {Object.keys(AktivitetType).map((type) => (
-                            <option value={type}>{type}</option>
+                            <option value={type}>
+                                {aktivitetTypeTilTekst[type as AktivitetType]}
+                            </option>
                         ))}
                     </Select>
                 }
