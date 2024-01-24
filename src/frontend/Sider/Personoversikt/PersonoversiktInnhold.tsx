@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Tabs } from '@navikt/ds-react';
 
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
+import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 
 type TabWithRouter = {
@@ -21,6 +22,11 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
+        label: 'Dokumentoversikt',
+        path: 'dokumentoversikt',
+        komponent: (fagsakPersonId) => <Dokumentoversikt fagsakPersonId={fagsakPersonId} />,
+    },
+    {
         label: 'Brev',
         path: 'brev',
         komponent: (fagsakPersonId) => <FrittståendeBrevFane fagsakPersonId={fagsakPersonId} />,
@@ -28,7 +34,10 @@ const tabs: TabWithRouter[] = [
 ];
 
 const InnholdWrapper = styled.div`
-    padding: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `;
 
 const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {

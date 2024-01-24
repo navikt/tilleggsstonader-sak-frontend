@@ -1,7 +1,9 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { erPeriodeInnenforAnnenPeriode, validerPeriode } from '../../../../utils/periode';
-import { Vilkårsresultat } from '../../vilkår';
-import { Aktivitet, Målgruppe, Stønadsperiode } from '../typer';
+import { Aktivitet } from '../typer/aktivitet';
+import { Målgruppe } from '../typer/målgruppe';
+import { Stønadsperiode } from '../typer/stønadsperiode';
+import { VilkårPeriodeResultat } from '../typer/vilkårperiode';
 
 export const validerStønadsperioder = (
     stønadsperioder: Stønadsperiode[],
@@ -37,7 +39,7 @@ export const validerStønadsperioder = (
         const relevanteMålgrupper = målgrupper.filter(
             (målgruppe) =>
                 periode.målgruppe === målgruppe.type &&
-                målgruppe.vilkår.resultat === Vilkårsresultat.OPPFYLT
+                målgruppe.resultat === VilkårPeriodeResultat.OPPFYLT
         );
 
         if (relevanteMålgrupper.length === 0) {
@@ -61,7 +63,7 @@ export const validerStønadsperioder = (
         const relevanteAktiviteter = aktiviteter.filter(
             (aktivitet) =>
                 periode.aktivitet === aktivitet.type &&
-                aktivitet.vilkår.resultat === Vilkårsresultat.OPPFYLT
+                aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
         );
 
         if (relevanteAktiviteter.length === 0) {

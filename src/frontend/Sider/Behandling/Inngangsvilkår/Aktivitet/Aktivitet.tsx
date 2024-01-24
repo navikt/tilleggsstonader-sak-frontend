@@ -1,83 +1,94 @@
 import React, { useState } from 'react';
 
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import LeggTilAktivitet from './LeggTilAktivitet';
+import EndreAktivitetRad from './EndreAktivitetRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { ReglerForVilkår } from '../../../../typer/regel';
-import { formaterIsoPeriode } from '../../../../utils/dato';
-import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { Aktivitet } from '../typer';
+import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
+import { Aktivitet } from '../typer/aktivitet';
+import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+const HvitTabell = styled(Table)`
+    background-color: ${AWhite};
+    max-width: fit-content;
 `;
 
-const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }> = ({
-    aktiviteter,
-    regler,
-}) => {
-    const { vilkårFeilmeldinger, oppdaterAktivitetVilkårState } = useInngangsvilkår();
+const Aktivitet: React.FC = () => {
+    const { aktiviteter } = useInngangsvilkår();
 
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
+    const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<string>();
+
+    const fjernRadIRedigeringsmodus = () => {
+        settFeilmelding(undefined);
+        settRadIRedigeringsmodus(undefined);
+        settLeggerTilNyPeriode(false);
+    };
+
+    const kanSetteNyRadIRedigeringsmodus =
+        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+
+    const settNyRadIRedigeringsmodus = (id: string) => {
+        if (kanSetteNyRadIRedigeringsmodus) {
+            settFeilmelding(undefined);
+            settRadIRedigeringsmodus(id);
+        } else {
+            settFeilmelding(
+                'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
+            );
+        }
+    };
 
     return (
-        <Container>
-            <Heading size="medium">Aktivitet</Heading>
-            <Table>
+        <VilkårPanel
+            tittel="Aktivitet"
+            paragrafLenker={lovverkslenkerAktivitet}
+            rundskrivLenke={rundskrivAktivitet}
+        >
+            <HvitTabell size="small">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell style={{ width: '20px' }} />
                         <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell>Fra</Table.HeaderCell>
+                        <Table.HeaderCell>Til</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {aktiviteter.map((aktivitet) => (
-                        <Table.ExpandableRow
-                            key={aktivitet.vilkår.id}
-                            togglePlacement={'right'}
-                            expansionDisabled={aktivitet.vilkår.delvilkårsett.length === 0}
-                            content={
-                                <>
-                                    <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
-                                    <EndreVurderingComponent
-                                        vilkårType={aktivitet.vilkår.vilkårType}
-                                        regler={regler[aktivitet.vilkår.vilkårType].regler}
-                                        vilkår={aktivitet.vilkår}
-                                        oppdaterVilkår={oppdaterAktivitetVilkårState}
-                                    />
-                                    <Feilmelding>
-                                        {vilkårFeilmeldinger[aktivitet.vilkår.id]}
-                                    </Feilmelding>
-                                </>
-                            }
-                        >
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={aktivitet.vilkår.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{aktivitet.type}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
-                            </Table.DataCell>
-                        </Table.ExpandableRow>
+                        <React.Fragment key={aktivitet.id}>
+                            {aktivitet.id === radIRedigeringsmodus ? (
+                                <EndreAktivitetRad
+                                    aktivitet={aktivitet}
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
+                            ) : (
+                                <VilkårperiodeRad
+                                    vilkårperiode={aktivitet}
+                                    type={aktivitet.type}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
+                                />
+                            )}
+                        </React.Fragment>
                     ))}
+                    {leggerTilNyPeriode && (
+                        <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                    )}
                 </Table.Body>
-            </Table>
-            {skalViseLeggTilPeriode ? (
-                <LeggTilAktivitet skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
-            ) : (
+            </HvitTabell>
+            <Feilmelding>{feilmelding}</Feilmelding>
+            {kanSetteNyRadIRedigeringsmodus && (
                 <Button
-                    onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
+                    onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
                     size="small"
                     style={{ maxWidth: 'fit-content' }}
                     variant="secondary"
@@ -86,7 +97,7 @@ const Aktivitet: React.FC<{ aktiviteter: Aktivitet[]; regler: ReglerForVilkår }
                     Legg til ny aktivitet
                 </Button>
             )}
-        </Container>
+        </VilkårPanel>
     );
 };
 

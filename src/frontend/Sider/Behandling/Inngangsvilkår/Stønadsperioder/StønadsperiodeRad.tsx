@@ -5,7 +5,9 @@ import { Button, Select } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
-import { AktivitetType, MålgruppeType, Stønadsperiode } from '../typer';
+import { AktivitetType } from '../typer/aktivitet';
+import { MålgruppeType } from '../typer/målgruppe';
+import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
     stønadsperide: Stønadsperiode;

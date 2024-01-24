@@ -1,83 +1,94 @@
 import React, { useState } from 'react';
 
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import LeggTilMålgruppe from './LeggTilMålgruppe';
+import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { ReglerForVilkår } from '../../../../typer/regel';
-import { formaterIsoPeriode } from '../../../../utils/dato';
-import EndreVurderingComponent from '../../Vilkårvurdering/EndreVurderingComponent';
-import { Målgruppe } from '../typer';
+import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
+import { Målgruppe } from '../typer/målgruppe';
+import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+const HvitTabell = styled(Table)`
+    background-color: ${AWhite};
+    max-width: fit-content;
 `;
 
-const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår }> = ({
-    målgrupper,
-    regler,
-}) => {
-    const { vilkårFeilmeldinger, oppdaterMålgruppeVilkårState } = useInngangsvilkår();
+const Målgruppe: React.FC = () => {
+    const { målgrupper } = useInngangsvilkår();
 
-    const [skalViseLeggTilPeriode, settSkalViseLeggTilPeriode] = useState<boolean>(false);
+    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
+    const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<string>();
+
+    const fjernRadIRedigeringsmodus = () => {
+        settFeilmelding(undefined);
+        settRadIRedigeringsmodus(undefined);
+        settLeggerTilNyPeriode(false);
+    };
+
+    const kanSetteNyRadIRedigeringsmodus =
+        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+
+    const settNyRadIRedigeringsmodus = (id: string) => {
+        if (kanSetteNyRadIRedigeringsmodus) {
+            settFeilmelding(undefined);
+            settRadIRedigeringsmodus(id);
+        } else {
+            settFeilmelding(
+                'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
+            );
+        }
+    };
 
     return (
-        <Container>
-            <Heading size="medium">Målgruppe</Heading>
-            <Table>
+        <VilkårPanel
+            tittel="Målgruppe"
+            paragrafLenker={lovverkslenkerMålgruppe}
+            rundskrivLenke={rundskrivMålgruppe}
+        >
+            <HvitTabell size="small">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell style={{ width: '20px' }} />
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Periode</Table.HeaderCell>
+                        <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
+                        <Table.HeaderCell>Fra</Table.HeaderCell>
+                        <Table.HeaderCell>Til</Table.HeaderCell>
+                        <Table.HeaderCell>Kilde</Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {målgrupper.map((målgruppe) => (
-                        <Table.ExpandableRow
-                            key={målgruppe.vilkår.id}
-                            togglePlacement={'right'}
-                            expansionDisabled={målgruppe.vilkår.delvilkårsett.length === 0}
-                            content={
-                                <>
-                                    <Heading size={'xsmall'}>Vilkårsvurdering</Heading>
-                                    <EndreVurderingComponent
-                                        vilkårType={målgruppe.vilkår.vilkårType}
-                                        regler={regler[målgruppe.vilkår.vilkårType].regler}
-                                        vilkår={målgruppe.vilkår}
-                                        oppdaterVilkår={oppdaterMålgruppeVilkårState}
-                                    />
-                                    <Feilmelding>
-                                        {vilkårFeilmeldinger[målgruppe.vilkår.id]}
-                                    </Feilmelding>
-                                </>
-                            }
-                        >
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={målgruppe.vilkår.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{målgruppe.type}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
-                            </Table.DataCell>
-                        </Table.ExpandableRow>
+                        <React.Fragment key={målgruppe.id}>
+                            {målgruppe.id === radIRedigeringsmodus ? (
+                                <EndreMålgruppeRad
+                                    målgruppe={målgruppe}
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
+                            ) : (
+                                <VilkårperiodeRad
+                                    vilkårperiode={målgruppe}
+                                    type={målgruppe.type}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(målgruppe.id)}
+                                />
+                            )}
+                        </React.Fragment>
                     ))}
+                    {leggerTilNyPeriode && (
+                        <EndreMålgruppeRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                    )}
                 </Table.Body>
-            </Table>
-            {skalViseLeggTilPeriode ? (
-                <LeggTilMålgruppe skjulLeggTilPeriode={() => settSkalViseLeggTilPeriode(false)} />
-            ) : (
+            </HvitTabell>
+            <Feilmelding>{feilmelding}</Feilmelding>
+            {kanSetteNyRadIRedigeringsmodus && (
                 <Button
-                    onClick={() => settSkalViseLeggTilPeriode((prevState) => !prevState)}
+                    onClick={() => settLeggerTilNyPeriode(true)}
                     size="small"
                     style={{ maxWidth: 'fit-content' }}
                     variant="secondary"
@@ -86,7 +97,7 @@ const Målgruppe: React.FC<{ målgrupper: Målgruppe[]; regler: ReglerForVilkår
                     Legg til ny målgruppeperiode
                 </Button>
             )}
-        </Container>
+        </VilkårPanel>
     );
 };
 
