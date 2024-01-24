@@ -15,16 +15,16 @@ import useFormState, { FormState } from '../../../../../hooks/felles/useFormStat
 import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
-import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel';
+import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { RessursStatus, byggTomRessurs } from '../../../../../typer/ressurs';
+import { byggTomRessurs } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
     Stønadsperiode,
     Utgift,
 } from '../../../../../typer/vedtak';
-import { GrunnlagBarn, Vilkårsresultat } from '../../../vilkår';
+import { GrunnlagBarn } from '../../../vilkår';
 import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -141,15 +141,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         }
     };
 
-    // TODO: Finn ut hva vi vil skal være statuser her
-    const beregningsstatus =
-        beregningsresultat.status === RessursStatus.SUKSESS
-            ? Vilkårsresultat.OPPFYLT
-            : Vilkårsresultat.IKKE_TATT_STILLING_TIL;
-
     return (
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
-            <EkspanderbartPanel tittel="Beregning" resultat={beregningsstatus}>
+            <EkspanderbartPanel tittel="Beregning">
                 <InnholdContainer>
                     <StønadsperiodeValg
                         stønadsperioderState={stønadsperioderState}

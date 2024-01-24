@@ -1,166 +1,68 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import constate from 'constate';
 
-import { useApp } from './AppContext';
-import { useBehandling } from './BehandlingContext';
-import { Aktivitet, Målgruppe, Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer';
-import { SvarPåVilkår, Vilkår, Vurderingsfeilmelding } from '../Sider/Behandling/vilkår';
-import {
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../typer/ressurs';
+import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
+import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 
-export interface UseInngangsvilkår {
-    vilkårperioder: Ressurs<Vilkårperioder>;
+interface UseInngangsvilkår {
+    målgrupper: Målgruppe[];
     leggTilMålgruppe: (nyPeriode: Målgruppe) => void;
+    oppdaterMålgruppe: (oppdatertPeriode: Målgruppe) => void;
+    aktiviteter: Aktivitet[];
     leggTilAktivitet: (nyPeriode: Aktivitet) => void;
-    lagreVilkår: (vilkår: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    oppdaterMålgruppeVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
-    oppdaterAktivitetVilkårState: (svarPåVilkår: SvarPåVilkår) => void;
-    vilkårFeilmeldinger: Vurderingsfeilmelding;
+    oppdaterAktivitet: (oppdatertPeriode: Aktivitet) => void;
+    hentVilkårperioder: RerrunnableEffect;
+    // vilkårFeilmeldinger: Vurderingsfeilmelding;
 }
 
-export const [InngangsvilkårProvider, useInngangsvilkår] = constate((): UseInngangsvilkår => {
-    const { request } = useApp();
-    const { behandling } = useBehandling();
+interface Props {
+    vilkårperioder: Vilkårperioder;
+    hentVilkårperioder: RerrunnableEffect;
+}
 
-    const [vilkårperioder, settVilkårperioder] =
-        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
+export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
+    ({ vilkårperioder, hentVilkårperioder }: Props): UseInngangsvilkår => {
+        const [målgrupper, settMålgrupper] = useState<Målgruppe[]>(vilkårperioder.målgrupper);
+        const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
 
-    const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+        // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
-    const hentVilkårperioder = useCallback(
-        (behandlingId: string) => {
-            return request<Vilkårperioder, null>(`/api/sak/vilkar/${behandlingId}/periode`).then(
-                settVilkårperioder
+        const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
+            settMålgrupper((prevState) => [...prevState, nyPeriode]);
+        };
+
+        const oppdaterMålgruppe = (oppdatertPeriode: Målgruppe) => {
+            settMålgrupper((prevState) =>
+                prevState.map((målgruppe) =>
+                    målgruppe.id === oppdatertPeriode.id ? oppdatertPeriode : målgruppe
+                )
             );
-        },
-        [request]
-    );
+        };
 
-    useEffect(() => {
-        hentVilkårperioder(behandling.id);
-    }, [hentVilkårperioder, behandling.id]);
+        const leggTilAktivitet = (nyPeriode: Aktivitet) => {
+            settAktiviteter((prevState) => [...prevState, nyPeriode]);
+        };
 
-    const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
-        settVilkårperioder((prevState) =>
-            oppdaterVilkårsperioderMedNyMålgruppe(
-                prevState as RessursSuksess<Vilkårperioder>,
-                nyPeriode
-            )
-        );
-    };
+        const oppdaterAktivitet = (oppdatertPeriode: Aktivitet) => {
+            settAktiviteter((prevState) =>
+                prevState.map((aktivitet) =>
+                    aktivitet.id === oppdatertPeriode.id ? oppdatertPeriode : aktivitet
+                )
+            );
+        };
 
-    const leggTilAktivitet = (nyPeriode: Aktivitet) => {
-        settVilkårperioder((prevState) =>
-            oppdaterVilkårsperioderMedNyAktivitet(
-                prevState as RessursSuksess<Vilkårperioder>,
-                nyPeriode
-            )
-        );
-    };
-
-    const lagreVilkår = (vilkår: SvarPåVilkår): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
-    };
-
-    const oppdaterMålgruppeVilkårState = (svarPåVilkår: SvarPåVilkår) => {
-        lagreVilkår(svarPåVilkår).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVilkårperioder((prevState) =>
-                    oppdaterMålgruppeVilkår(prevState as RessursSuksess<Vilkårperioder>, res.data)
-                );
-            } else {
-                settVilkårfeilmeldinger((prevState) => ({
-                    ...prevState,
-                    [svarPåVilkår.id]: res.frontendFeilmelding,
-                }));
-            }
-        });
-    };
-
-    const oppdaterAktivitetVilkårState = (svarPåVilkår: SvarPåVilkår) => {
-        lagreVilkår(svarPåVilkår).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVilkårperioder((prevState) =>
-                    oppdaterAktivitetVilkår(prevState as RessursSuksess<Vilkårperioder>, res.data)
-                );
-            } else {
-                settVilkårfeilmeldinger((prevState) => ({
-                    ...prevState,
-                    [svarPåVilkår.id]: res.frontendFeilmelding,
-                }));
-            }
-        });
-    };
-
-    return {
-        vilkårperioder,
-        leggTilMålgruppe,
-        leggTilAktivitet,
-        lagreVilkår,
-        oppdaterMålgruppeVilkårState,
-        oppdaterAktivitetVilkårState,
-        vilkårFeilmeldinger,
-    };
-});
-
-const oppdaterVilkårsperioderMedNyMålgruppe = (
-    vilkårperioder: RessursSuksess<Vilkårperioder>,
-    nyPeriode: Målgruppe
-) => {
-    return {
-        ...vilkårperioder,
-        data: {
-            ...vilkårperioder.data,
-            målgrupper: [...vilkårperioder.data.målgrupper, nyPeriode],
-        },
-    };
-};
-
-const oppdaterVilkårsperioderMedNyAktivitet = (
-    vilkårperioder: RessursSuksess<Vilkårperioder>,
-    nyPeriode: Aktivitet
-) => {
-    return {
-        ...vilkårperioder,
-        data: {
-            ...vilkårperioder.data,
-            aktiviteter: [...vilkårperioder.data.aktiviteter, nyPeriode],
-        },
-    };
-};
-
-const oppdaterMålgruppeVilkår = (
-    vilkårperioder: RessursSuksess<Vilkårperioder>,
-    vilkår: Vilkår
-): RessursSuksess<Vilkårperioder> => {
-    return {
-        ...vilkårperioder,
-        data: {
-            ...vilkårperioder.data,
-            målgrupper: vilkårperioder.data.målgrupper.map((prevState) =>
-                prevState.vilkår.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
-            ),
-        },
-    };
-};
-
-const oppdaterAktivitetVilkår = (
-    vilkårperioder: RessursSuksess<Vilkårperioder>,
-    vilkår: Vilkår
-): RessursSuksess<Vilkårperioder> => {
-    return {
-        ...vilkårperioder,
-        data: {
-            ...vilkårperioder.data,
-            aktiviteter: vilkårperioder.data.aktiviteter.map((prevState) =>
-                prevState.vilkår.id === vilkår.id ? { ...prevState, vilkår: vilkår } : prevState
-            ),
-        },
-    };
-};
+        return {
+            målgrupper,
+            leggTilMålgruppe,
+            oppdaterMålgruppe,
+            aktiviteter,
+            leggTilAktivitet,
+            oppdaterAktivitet,
+            hentVilkårperioder,
+            // vilkårFeilmeldinger,
+        };
+    }
+);

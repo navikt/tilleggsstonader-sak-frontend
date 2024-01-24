@@ -94,7 +94,7 @@ export default function useFormState<T extends Record<string, unknown>>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isValid<T extends Record<string, any>>(errors: FormErrors<T>): boolean {
+export function isValid<T extends Record<string, any>>(errors: FormErrors<T>): boolean {
     return Object.keys(errors).reduce<boolean>((acc, key) => {
         const value = errors[key];
         if (typeof value === 'object') {

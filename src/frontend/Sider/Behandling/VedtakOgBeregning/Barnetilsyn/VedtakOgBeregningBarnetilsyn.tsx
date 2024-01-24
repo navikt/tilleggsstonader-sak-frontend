@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { Vilkårsresultat } from '../../vilkår';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
 const Container = styled.div`
@@ -34,12 +33,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     return (
         <Container>
             {/* TODO: Send inn korrekt resultat */}
-            <EkspanderbartPanel
-                tittel="Vedtak"
-                resultat={
-                    resultatType ? Vilkårsresultat.OPPFYLT : Vilkårsresultat.IKKE_TATT_STILLING_TIL
-                }
-            >
+            <EkspanderbartPanel tittel="Vedtak">
                 <SelectVedtaksresultat
                     resultatType={resultatType}
                     settResultatType={settResultatType}
