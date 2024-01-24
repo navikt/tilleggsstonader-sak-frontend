@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
 
@@ -6,6 +6,8 @@ import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Table } from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
+import SlettVilkRperiodeModal from './SlettVilkårperiodeModal';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { AktivitetType } from '../typer/aktivitet';
@@ -21,6 +23,12 @@ const VilkårperiodeRad: React.FC<{
     type: MålgruppeType | AktivitetType;
     startRedigering: () => void;
 }> = ({ vilkårperiode, type, startRedigering }) => {
+    const { behandlingErRedigerbar } = useBehandling();
+
+    const [visSlettModal, settVisSlettModal] = useState(false);
+    const visRedigerKnapper =
+        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && behandlingErRedigerbar;
+
     return (
         <TabellRad
             key={vilkårperiode.id}
@@ -34,14 +42,29 @@ const VilkårperiodeRad: React.FC<{
             <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
             <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
             <Table.DataCell>
-                <Button
-                    onClick={startRedigering}
-                    variant="secondary"
-                    size="small"
-                    icon={<PencilIcon />}
-                >
-                    Endre
-                </Button>
+                {visRedigerKnapper && (
+                    <>
+                        <Button
+                            onClick={startRedigering}
+                            variant="secondary"
+                            size="small"
+                            icon={<PencilIcon />}
+                        >
+                            Endre
+                        </Button>
+                        <Button
+                            icon={<TrashIcon />}
+                            size={'small'}
+                            variant={'tertiary'}
+                            onClick={() => settVisSlettModal(true)}
+                        />
+                        <SlettVilkRperiodeModal
+                            visModal={visSlettModal}
+                            settVisModal={settVisSlettModal}
+                            vilkårperiode={vilkårperiode}
+                        />
+                    </>
+                )}
             </Table.DataCell>
         </TabellRad>
     );

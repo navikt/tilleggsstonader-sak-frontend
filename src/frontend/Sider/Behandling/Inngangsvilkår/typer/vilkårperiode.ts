@@ -43,3 +43,8 @@ export interface Vurdering {
     svar?: SvarJaNei;
     begrunnelse?: string;
 }
+
+export interface SlettVilkårperiode {
+    behandlingId: string;
+    kommentar: string;
+}
