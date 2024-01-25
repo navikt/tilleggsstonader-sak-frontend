@@ -51,7 +51,7 @@ const Oppsummering: React.FC = () => {
                     </InfoSeksjon>
 
                     {behandlingFakta.barn.map((barn) => (
-                        <BarnDetaljer barn={barn} />
+                        <BarnDetaljer barn={barn} key={barn.barnId} />
                     ))}
 
                     <InfoSeksjon label="Vedlegg" />
