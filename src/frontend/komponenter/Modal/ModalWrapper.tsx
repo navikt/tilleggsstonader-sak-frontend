@@ -29,7 +29,7 @@ const ModalKnapp = styled(Button)`
 `;
 
 interface ModalProps {
-    tittel: string;
+    tittel?: string;
     visModal: boolean;
     onClose?: () => void;
     aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp; marginTop?: number };
@@ -60,7 +60,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                 onClose={onClose ? () => onClose() : () => null}
                 maxWidth={maxWidth}
                 aria-label={ariaLabel ? ariaLabel : tittel}
-                header={{ heading: tittel, closeButton: !!onClose }}
+                header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
             >
                 <Modal.Body>
                     <Innhold>{children}</Innhold>

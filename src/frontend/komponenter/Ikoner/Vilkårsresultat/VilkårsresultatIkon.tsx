@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
 
+import { TrashIcon } from '@navikt/aksel-icons';
+import { Tag } from '@navikt/ds-react';
+
 import IkkeOppfylt from './IkkeOppfylt';
 import IkkeVurdert from './IkkeVurdert';
 import Info from './Info';
@@ -29,6 +32,12 @@ export const VilkårsresultatIkon: FC<{
 
         case Vilkårsresultat.SKAL_IKKE_VURDERES:
             return <Info className={className} height={height} width={width} />;
+        case VilkårPeriodeResultat.SLETTET:
+            return (
+                <Tag size={'small'} variant={'neutral'} icon={<TrashIcon />}>
+                    Slettet
+                </Tag>
+            );
 
         default:
             return null;
