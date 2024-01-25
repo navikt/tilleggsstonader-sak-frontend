@@ -33,7 +33,7 @@ const VenstreMeny: React.FC = () => {
                     ))}
                 </Tabs.List>
                 {tabs.map((tab) => (
-                    <Tabs.Panel value={tab.value}>
+                    <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
                     </Tabs.Panel>
                 ))}
