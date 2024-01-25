@@ -27,39 +27,36 @@ const Oppsummering: React.FC = () => {
     useEffect(hentBehandlingFaktaCallback, [hentBehandlingFaktaCallback]);
 
     return (
-        <VStack gap="8">
-            <DataViewer response={{ behandlingFakta }}>
-                {({ behandlingFakta }) => (
-                    <>
-                        <InfoSeksjon label="Ytelse/situasjon">
-                            <Informasjonsrad
-                                kilde={Informasjonskilde.SØKNAD}
-                                verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse}
-                            />
-                        </InfoSeksjon>
+        <DataViewer response={{ behandlingFakta }}>
+            {({ behandlingFakta }) => (
+                <VStack gap="8">
+                    <InfoSeksjon label="Ytelse/situasjon">
+                        <Informasjonsrad
+                            kilde={Informasjonskilde.SØKNAD}
+                            verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse}
+                        />
+                    </InfoSeksjon>
 
-                        <InfoSeksjon label="Aktivitet">
-                            {/* TODO: Legg inn andre aktiviteter*/}
-                            <Informasjonsrad
-                                kilde={Informasjonskilde.SØKNAD}
-                                verdi={
-                                    behandlingFakta.aktivitet.søknadsgrunnlag?.utdanning ===
-                                    JaNei.JA
-                                        ? 'Utdanning'
-                                        : undefined
-                                }
-                            />
-                        </InfoSeksjon>
+                    <InfoSeksjon label="Aktivitet">
+                        {/* TODO: Legg inn andre aktiviteter*/}
+                        <Informasjonsrad
+                            kilde={Informasjonskilde.SØKNAD}
+                            verdi={
+                                behandlingFakta.aktivitet.søknadsgrunnlag?.utdanning === JaNei.JA
+                                    ? 'Utdanning'
+                                    : undefined
+                            }
+                        />
+                    </InfoSeksjon>
 
-                        {behandlingFakta.barn.map((barn) => (
-                            <BarnDetaljer barn={barn} />
-                        ))}
+                    {behandlingFakta.barn.map((barn) => (
+                        <BarnDetaljer barn={barn} />
+                    ))}
 
-                        <InfoSeksjon label="Vedlegg" />
-                    </>
-                )}
-            </DataViewer>
-        </VStack>
+                    <InfoSeksjon label="Vedlegg" />
+                </VStack>
+            )}
+        </DataViewer>
     );
 };
 
