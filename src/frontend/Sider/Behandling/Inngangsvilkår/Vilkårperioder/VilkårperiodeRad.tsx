@@ -62,6 +62,7 @@ const VilkårperiodeRad: React.FC<{
                             visModal={visSlettModal}
                             settVisModal={settVisSlettModal}
                             vilkårperiode={vilkårperiode}
+                            type={type}
                         />
                     </>
                 )}

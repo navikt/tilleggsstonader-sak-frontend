@@ -1,19 +1,24 @@
 import React, { SetStateAction, useState } from 'react';
 
-import { Textarea } from '@navikt/ds-react';
+import { Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { formaterIsoDato } from '../../../../utils/dato';
+import { AktivitetType } from '../typer/aktivitet';
+import { MålgruppeType } from '../typer/målgruppe';
 import { SlettVilkårperiode, VilkårPeriode } from '../typer/vilkårperiode';
 
 const SlettVilkårperiodeModal: React.FC<{
     visModal: boolean;
     settVisModal: React.Dispatch<SetStateAction<boolean>>;
     vilkårperiode: VilkårPeriode;
-}> = ({ vilkårperiode, visModal, settVisModal }) => {
+    type: MålgruppeType | AktivitetType;
+}> = ({ vilkårperiode, visModal, settVisModal, type }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { hentVilkårperioder } = useInngangsvilkår();
@@ -58,6 +63,7 @@ const SlettVilkårperiodeModal: React.FC<{
         <ModalWrapper
             visModal={visModal}
             onClose={lukkModal}
+            tittel={'Slett periode'}
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: slettVilkårsperiode,
@@ -69,12 +75,37 @@ const SlettVilkårperiodeModal: React.FC<{
                 },
             }}
         >
-            <Textarea
-                label={'Begrunnelse for sletting (obligatorisk)'}
-                value={slettBegrunnelse}
-                onChange={(e) => settSlettBegrunnelse(e.target.value)}
-                error={feil}
-            />
+            <VStack gap="4">
+                <Table>
+                    <Table.Header>
+                        <Table.Row shadeOnHover={false}>
+                            <Table.HeaderCell style={{ width: '20px' }} />
+                            <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
+                            <Table.HeaderCell>Fra</Table.HeaderCell>
+                            <Table.HeaderCell>Til</Table.HeaderCell>
+                            <Table.HeaderCell>Kilde</Table.HeaderCell>
+                            <Table.HeaderCell />
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        <Table.Row shadeOnHover={false}>
+                            <Table.DataCell width="max-content">
+                                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                            </Table.DataCell>
+                            <Table.DataCell>{type}</Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
+                            <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
+                        </Table.Row>
+                    </Table.Body>
+                </Table>
+                <Textarea
+                    label={'Begrunnelse for sletting (obligatorisk)'}
+                    value={slettBegrunnelse}
+                    onChange={(e) => settSlettBegrunnelse(e.target.value)}
+                    error={feil}
+                />
+            </VStack>
         </ModalWrapper>
     );
 };
