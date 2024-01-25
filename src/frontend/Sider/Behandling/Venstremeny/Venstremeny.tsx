@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Box, Tabs } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
+import Oppsummering from './Oppsummering/Oppsummering';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 
 const Container = styled(Sticky)`
@@ -18,7 +19,7 @@ const tabs = [
     {
         value: 'oppsummering',
         label: 'Oppsummert',
-        komponent: <p>Oppsummering</p>,
+        komponent: <Oppsummering />,
     },
 ];
 
