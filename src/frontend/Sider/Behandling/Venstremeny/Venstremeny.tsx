@@ -26,7 +26,7 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
-            <Tabs defaultValue="oppsummering" style={{ width: '100%' }}>
+            <Tabs defaultValue="oppsummering">
                 <Tabs.List>
                     {tabs.map((tab) => (
                         <Tabs.Tab label={tab.label} value={tab.value} />
