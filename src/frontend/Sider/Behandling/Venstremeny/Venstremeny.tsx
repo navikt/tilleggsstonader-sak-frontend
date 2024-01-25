@@ -29,7 +29,7 @@ const VenstreMeny: React.FC = () => {
             <Tabs defaultValue="oppsummering">
                 <Tabs.List>
                     {tabs.map((tab) => (
-                        <Tabs.Tab label={tab.label} value={tab.value} />
+                        <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
                     ))}
                 </Tabs.List>
                 {tabs.map((tab) => (
