@@ -29,27 +29,27 @@ const SlettVilkårperiodeModal: React.FC<{
 
     const slettVilkårsperiode = () => {
         if (laster) return;
+        if (!slettBegrunnelse) {
+            settFeil('Begrunnelse for sletting er påkrevd');
+            return;
+        }
         settLaster(true);
         settFeil('');
-        if (slettBegrunnelse) {
-            request<VilkårPeriode, SlettVilkårperiode>(
-                `/api/sak/vilkarperiode/${vilkårperiode.id}`,
-                'DELETE',
-                { behandlingId: behandling.id, kommentar: slettBegrunnelse }
-            )
-                .then((res: RessursSuksess<VilkårPeriode> | RessursFeilet) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        hentVilkårperioder.rerun();
-                        settVisModal(false);
-                    } else {
-                        settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
-                    }
-                })
-                .finally(() => settLaster(false));
-        } else {
-            settFeil('Begrunnelse for sletting er påkrevd');
-            settLaster(false);
-        }
+
+        request<VilkårPeriode, SlettVilkårperiode>(
+            `/api/sak/vilkarperiode/${vilkårperiode.id}`,
+            'DELETE',
+            { behandlingId: behandling.id, kommentar: slettBegrunnelse }
+        )
+            .then((res: RessursSuksess<VilkårPeriode> | RessursFeilet) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    hentVilkårperioder.rerun();
+                    settVisModal(false);
+                } else {
+                    settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const lukkModal = () => {
