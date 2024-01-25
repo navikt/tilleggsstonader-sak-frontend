@@ -8,6 +8,7 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { behandlingFaner } from './Fanemeny/faner';
 import Høyremeny from './Høyremeny/Høyremeny';
+import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
 import { VilkårProvider } from '../../context/VilkårContext';
@@ -52,6 +53,7 @@ const BehandlingInnhold: React.FC<{
                 <PersonHeader />
                 <BehandlingContainer>
                     <VilkårProvider behandling={behandling}>
+                        <VenstreMeny />
                         <InnholdWrapper>
                             <Fanemeny behandlingId={behandling.id} aktivFane={path} />
                             <Routes>
