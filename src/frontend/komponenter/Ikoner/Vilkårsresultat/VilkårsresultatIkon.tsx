@@ -34,7 +34,7 @@ export const VilkårsresultatIkon: FC<{
             return <Info className={className} height={height} width={width} />;
         case VilkårPeriodeResultat.SLETTET:
             return (
-                <Tag variant={'neutral'} icon={<TrashIcon />}>
+                <Tag size={'small'} variant={'neutral'} icon={<TrashIcon />}>
                     Slettet
                 </Tag>
             );
