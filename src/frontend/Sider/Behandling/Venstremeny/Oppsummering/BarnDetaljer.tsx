@@ -10,6 +10,7 @@ import { JaNei } from '../../../../typer/common';
 
 const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
+    const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
     const årsak = barn.søknadgrunnlag?.årsak;
 
     return (
@@ -18,11 +19,23 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
                 kilde={Informasjonskilde.SØKNAD}
                 verdi={typePass && typeBarnepassTilTekst[typePass]}
             />
-            {barn.søknadgrunnlag?.startetIFemte === JaNei.JA && (
-                <Informasjonsrad
-                    kilde={Informasjonskilde.SØKNAD}
-                    verdi={årsak && årsakBarnepassTilTekst[årsak]}
-                />
+            {startetIFemte !== undefined && (
+                <>
+                    <Informasjonsrad
+                        kilde={Informasjonskilde.SØKNAD}
+                        verdi={
+                            startetIFemte === JaNei.JA
+                                ? 'Startet i 5. klasse'
+                                : 'Ikke startet i 5. klasse'
+                        }
+                    />
+                    {startetIFemte === JaNei.JA && (
+                        <Informasjonsrad
+                            kilde={Informasjonskilde.SØKNAD}
+                            verdi={årsak && årsakBarnepassTilTekst[årsak]}
+                        />
+                    )}
+                </>
             )}
         </InfoSeksjon>
     );
