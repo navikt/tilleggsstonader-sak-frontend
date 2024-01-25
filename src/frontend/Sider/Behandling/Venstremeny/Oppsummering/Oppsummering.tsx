@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import BarnDetaljer from './BarnDetaljer';
 import { InfoSeksjon, Informasjonskilde, Informasjonsrad } from './Visningskomponenter';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -49,6 +50,10 @@ const Oppsummering: React.FC = () => {
                                 }
                             />
                         </InfoSeksjon>
+
+                        {behandlingFakta.barn.map((barn) => (
+                            <BarnDetaljer barn={barn} />
+                        ))}
 
                         <InfoSeksjon label="Vedlegg" />
                     </>
