@@ -17,11 +17,6 @@ const Header = styled.div`
     align-items: center;
 `;
 
-const HeaderInnhold = styled.div`
-    display: flex;
-    gap: 1rem;
-`;
-
 const Innhold = styled.div`
     padding: 2rem;
     display: flex;
@@ -30,18 +25,17 @@ const Innhold = styled.div`
 `;
 
 interface Props {
-    tittel: string;
-    headerInnhold?: React.ReactNode;
+    heading?: React.ReactNode;
+    tittel?: string;
     children: React.ReactNode;
 }
 
-const EkspanderbartPanel: FC<Props> = ({ tittel, headerInnhold, children }) => {
+const EkspanderbartPanel: FC<Props> = ({ heading, tittel, children }) => {
     return (
         <Container>
             <Header>
-                <Heading size="small">{tittel}</Heading>
-                <HeaderInnhold>{headerInnhold}</HeaderInnhold>
-                {/* TODO: Legg til knapp for å åpne og lukke panel */}
+                {tittel && <Heading size="small">{tittel}</Heading>}
+                {heading}
             </Header>
             <Innhold>{children}</Innhold>
         </Container>
