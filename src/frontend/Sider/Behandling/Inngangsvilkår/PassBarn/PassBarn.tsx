@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { VilkårpanelInnhold } from '../../../../komponenter/EkspanderbartPanel/VilkårpanelInnhold';
 import { Vilkårsregler } from '../../../../typer/regel';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
 import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../lenker';
 
