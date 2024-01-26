@@ -3,10 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import Aktivitet from './Aktivitet/Aktivitet';
-import AktivitetGammel from './AktivitetGammel/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
-import MålgruppeGammel from './MålgruppeGammel/Målgruppe';
 import PassBarn from './PassBarn/PassBarn';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { Stønadsperiode } from './typer/stønadsperiode';
@@ -76,14 +74,7 @@ const Inngangsvilkår = () => {
                                 <Stønadsperioder eksisterendeStønadsperioder={stønadsperioder} />
                             </InngangsvilkårProvider>
                         )}
-                        <MålgruppeGammel
-                            vilkårsregler={regler.vilkårsregler.MÅLGRUPPE}
-                            vilkårsvurdering={vilkårsvurdering}
-                        />
-                        <AktivitetGammel
-                            vilkårsregler={regler.vilkårsregler.AKTIVITET}
-                            vilkårsvurdering={vilkårsvurdering}
-                        />
+
                         <PassBarn
                             vilkårsregler={regler.vilkårsregler.PASS_BARN}
                             vilkårsvurdering={vilkårsvurdering}
