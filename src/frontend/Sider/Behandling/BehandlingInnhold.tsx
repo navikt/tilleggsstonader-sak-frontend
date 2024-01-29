@@ -4,10 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
+import { ABorderDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { FanePath, behandlingFaner } from './faner';
 import Høyremeny from './Høyremeny/Høyremeny';
 import VenstreMeny from './Venstremeny/Venstremeny';
+import { useApp } from '../../context/AppContext';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
 import { VilkårProvider } from '../../context/VilkårContext';
@@ -15,6 +17,7 @@ import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Personopplysninger } from '../../typer/personopplysninger';
+import { Toast } from '../../typer/toast';
 
 const BehandlingContainer = styled.div`
     display: flex;
@@ -37,20 +40,40 @@ const HøyreMenyWrapper = styled.div`
     z-index: 10;
 `;
 
+const DisabledTab = styled(Tabs.Tab)`
+    color: ${ATextSubtle};
+    &:hover {
+        box-shadow: none;
+        cursor: default;
+    }
+`;
+
 const BehandlingInnhold: React.FC<{
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
 }> = ({ behandling, hentBehandling, personopplysninger }) => {
     const navigate = useNavigate();
+    const { settToast } = useApp();
 
     const path = useLocation().pathname.split('/')[3];
 
     const [aktivFane, settAktivFane] = useState<string>(path || 'inngangsvilkar'); //path !== '' ? path : 'inngangsvilkar');
 
     const håndterFaneBytte = (nyFane: FanePath) => {
-        settAktivFane(nyFane);
-        navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
+        if (!faneErLåst(nyFane)) {
+            settAktivFane(nyFane);
+            navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
+        } else {
+            settToast(Toast.DISABLED_FANE);
+        }
+    };
+
+    const faneErLåst = (fanePath: FanePath) => {
+        if (fanePath === FanePath.SIMULERING) {
+            return true;
+        }
+        return false;
     };
 
     return (
@@ -66,15 +89,25 @@ const BehandlingInnhold: React.FC<{
                                 onChange={(e) => håndterFaneBytte(e as FanePath)}
                             >
                                 <Tabs.List>
-                                    {behandlingFaner.map((tab) => (
-                                        <Tabs.Tab
-                                            key={tab.path}
-                                            value={tab.path}
-                                            label={tab.navn}
-                                            icon={tab.ikon}
-                                        />
-                                    ))}
+                                    {behandlingFaner.map((tab) =>
+                                        faneErLåst(tab.path) ? (
+                                            <DisabledTab
+                                                key={tab.path}
+                                                value={tab.path}
+                                                label={tab.navn}
+                                                icon={tab.ikon}
+                                            />
+                                        ) : (
+                                            <Tabs.Tab
+                                                key={tab.path}
+                                                value={tab.path}
+                                                label={tab.navn}
+                                                icon={tab.ikon}
+                                            />
+                                        )
+                                    )}
                                 </Tabs.List>
+
                                 {behandlingFaner.map((tab) => (
                                     <Tabs.Panel key={tab.path} value={tab.path}>
                                         {tab.komponent(behandling.id)}
