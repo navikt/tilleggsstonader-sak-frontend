@@ -16,7 +16,9 @@ const SelectMedOptions: FC<Props> = ({ valg, ...props }) => {
         <Select {...props}>
             <option value="">Velg</option>
             {valg.map((v) => (
-                <option value={v.value}>{v.label}</option>
+                <option key={v.value} value={v.value}>
+                    {v.label}
+                </option>
             ))}
         </Select>
     );
