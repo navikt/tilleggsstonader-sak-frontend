@@ -46,10 +46,12 @@ const VilkårperiodeRad: React.FC<{
             disabled={vilkårperiode.resultat === VilkårPeriodeResultat.SLETTET}
         >
             <Table.DataCell width="max-content">
-                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                <HStack align="center">
+                    <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                </HStack>
             </Table.DataCell>
             <Table.DataCell>
-                <HStack>
+                <HStack align="center">
                     {type}
                     {vilkårperiode.begrunnelse && (
                         <>
