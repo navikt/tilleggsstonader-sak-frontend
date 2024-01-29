@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 
-import { Select as AkselSelect, SelectProps } from '@navikt/ds-react';
+import { Select as AkselSelect, SelectProps as AkselSelectProps } from '@navikt/ds-react';
 
 import Lesefelt from './Lesefelt';
 
-interface Props extends SelectProps {
+export interface SelectProps extends AkselSelectProps {
     erLesevisning: boolean;
     lesevisningVerdi?: string;
 }
 
-const Select: FC<Props> = ({
+const Select: FC<SelectProps> = ({
     children,
     className,
     erLesevisning = false,
