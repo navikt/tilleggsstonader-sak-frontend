@@ -1,4 +1,5 @@
 import { VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;
@@ -18,3 +19,18 @@ export enum MålgruppeType {
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
 }
+
+export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
+    AAP: 'AAP',
+    UFØRETRYGD: 'Uføretrygd',
+    OMSTILLINGSSTØNAD: 'Omstillingsstønad',
+    OVERGANGSSTØNAD: 'Overgangsstønad',
+    NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
+};
+
+export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
+    ([value, label]) => ({
+        value: value,
+        label: label,
+    })
+);
