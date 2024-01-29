@@ -5,6 +5,7 @@ import constate from 'constate';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
 import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 
 interface UseInngangsvilkår {
@@ -16,15 +17,24 @@ interface UseInngangsvilkår {
     oppdaterAktivitet: (oppdatertPeriode: Aktivitet) => void;
     hentVilkårperioder: RerrunnableEffect;
     // vilkårFeilmeldinger: Vurderingsfeilmelding;
+    stønadsperioder: Stønadsperiode[];
+    hentStønadsperioder: RerrunnableEffect;
 }
 
 interface Props {
     vilkårperioder: Vilkårperioder;
     hentVilkårperioder: RerrunnableEffect;
+    stønadsperioder: Stønadsperiode[];
+    hentStønadsperioder: RerrunnableEffect;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
-    ({ vilkårperioder, hentVilkårperioder }: Props): UseInngangsvilkår => {
+    ({
+        vilkårperioder,
+        hentVilkårperioder,
+        stønadsperioder,
+        hentStønadsperioder,
+    }: Props): UseInngangsvilkår => {
         const [målgrupper, settMålgrupper] = useState<Målgruppe[]>(vilkårperioder.målgrupper);
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
 
@@ -63,6 +73,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             oppdaterAktivitet,
             hentVilkårperioder,
             // vilkårFeilmeldinger,
+            stønadsperioder,
+            hentStønadsperioder,
         };
     }
 );

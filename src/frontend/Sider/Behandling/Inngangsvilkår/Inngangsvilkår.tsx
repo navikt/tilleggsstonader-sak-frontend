@@ -35,12 +35,10 @@ const Inngangsvilkår = () => {
     const { regler, hentRegler } = useRegler();
     const { vilkårsvurdering } = useVilkår();
 
-    const [vilkårperioder, settVilkårperioder] = useState<Ressurs<Vilkårperioder>>(
-        byggTomRessurs()
-    );
-    const [stønadsperioder, settStønadsperioder] = useState<Ressurs<Stønadsperiode[]>>(
-        byggTomRessurs()
-    );
+    const [vilkårperioder, settVilkårperioder] =
+        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
+    const [stønadsperioder, settStønadsperioder] =
+        useState<Ressurs<Stønadsperiode[]>>(byggTomRessurs());
 
     const hentVilkårperioderCallback = useCallback(() => {
         request<Vilkårperioder, null>(`/api/sak/vilkarperiode/behandling/${behandling.id}`).then(
@@ -50,11 +48,13 @@ const Inngangsvilkår = () => {
 
     const hentVilkårperioder = useRerunnableEffect(hentVilkårperioderCallback, [behandling.id]);
 
-    useEffect(() => {
+    const hentStønadsperioderCallback = useCallback(() => {
         request<Stønadsperiode[], null>(`/api/sak/stonadsperiode/${behandling.id}`).then(
             settStønadsperioder
         );
-    }, [behandling.id, request]);
+    }, [request, behandling.id]);
+
+    const hentStønadsperioder = useRerunnableEffect(hentStønadsperioderCallback, [behandling.id]);
 
     useEffect(() => {
         hentRegler();
@@ -70,10 +70,12 @@ const Inngangsvilkår = () => {
                             <InngangsvilkårProvider
                                 vilkårperioder={vilkårperioder}
                                 hentVilkårperioder={hentVilkårperioder}
+                                stønadsperioder={stønadsperioder}
+                                hentStønadsperioder={hentStønadsperioder}
                             >
                                 <Målgruppe />
                                 <Aktivitet />
-                                <Stønadsperioder eksisterendeStønadsperioder={stønadsperioder} />
+                                <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
                         <MålgruppeGammel

@@ -47,12 +47,10 @@ const initFormState = (
             : [tomStønadsperiodeRad()],
 });
 
-const Stønadsperioder: React.FC<{
-    eksisterendeStønadsperioder: Stønadsperiode[];
-}> = ({ eksisterendeStønadsperioder }) => {
+const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { målgrupper, aktiviteter } = useInngangsvilkår();
+    const { målgrupper, aktiviteter, stønadsperioder } = useInngangsvilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
@@ -66,10 +64,8 @@ const Stønadsperioder: React.FC<{
             ),
         };
     };
-    const formState = useFormState<StønadsperiodeForm>(
-        initFormState(eksisterendeStønadsperioder),
-        validerForm
-    );
+
+    const formState = useFormState<StønadsperiodeForm>(initFormState(stønadsperioder), validerForm);
 
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
 
