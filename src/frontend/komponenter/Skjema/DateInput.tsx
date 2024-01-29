@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import Lesefelt from './Lesefelt';
-import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
+import { formaterNullableIsoDato, nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 
 export interface Props {
     className?: string;
@@ -36,7 +36,7 @@ const DateInput: React.FC<Props> = ({
             className={className}
             label={label}
             hideLabel={hideLabel}
-            verdi={selectedDay?.toDateString()}
+            verdi={formaterNullableIsoDato(selectedDay?.toISOString())}
         />
     ) : (
         <DatePicker {...datepickerProps}>
