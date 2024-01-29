@@ -185,7 +185,6 @@ const Stønadsperioder: React.FC = () => {
                                             formState.errors.stønadsperioder &&
                                             formState.errors.stønadsperioder[indeks]
                                         }
-                                        radKanSlettes={indeks !== 0}
                                         erLeservisning={
                                             !behandlingErRedigerbar || redigerer === false
                                         }
@@ -194,7 +193,9 @@ const Stønadsperioder: React.FC = () => {
                             </Table.Body>
                         </HvitTabell>
                     )}
+
                     <Feilmelding>{feilmelding}</Feilmelding>
+
                     {behandlingErRedigerbar && <HStack gap="4">{utledAksjonsknapper()}</HStack>}
                 </VStack>
             </form>

@@ -16,7 +16,6 @@ interface Props {
     oppdaterStønadsperiode: (property: keyof Stønadsperiode, value: string | undefined) => void;
     leggTilTomRadUnder: () => void;
     slettPeriode: () => void;
-    radKanSlettes: boolean;
     erLeservisning: boolean;
 }
 
@@ -26,7 +25,6 @@ const StønadsperiodeRad: React.FC<Props> = ({
     oppdaterStønadsperiode,
     leggTilTomRadUnder,
     slettPeriode,
-    radKanSlettes,
     erLeservisning,
 }) => {
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
@@ -89,15 +87,13 @@ const StønadsperiodeRad: React.FC<Props> = ({
                         icon={<PlusCircleIcon />}
                         size="small"
                     />
-                    {radKanSlettes && (
-                        <Button
-                            type="button"
-                            onClick={slettPeriode}
-                            variant="tertiary"
-                            icon={<TrashIcon />}
-                            size="small"
-                        />
-                    )}
+                    <Button
+                        type="button"
+                        onClick={slettPeriode}
+                        variant="tertiary"
+                        icon={<TrashIcon />}
+                        size="small"
+                    />
                 </div>
             </Table.DataCell>
         </Table.Row>
