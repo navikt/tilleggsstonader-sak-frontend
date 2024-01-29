@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { PencilIcon } from '@navikt/aksel-icons';
+import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Table, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
@@ -192,6 +192,17 @@ const Stønadsperioder: React.FC = () => {
                                 ))}
                             </Table.Body>
                         </HvitTabell>
+                    )}
+                    {stønadsperioderState.value.length === 0 && redigerer === true && (
+                        <Button
+                            icon={<PlusCircleIcon />}
+                            size="small"
+                            onClick={() => {
+                                stønadsperioderState.setValue([tomStønadsperiodeRad()]);
+                            }}
+                        >
+                            Legg til stønadsperiode
+                        </Button>
                     )}
 
                     <Feilmelding>{feilmelding}</Feilmelding>
