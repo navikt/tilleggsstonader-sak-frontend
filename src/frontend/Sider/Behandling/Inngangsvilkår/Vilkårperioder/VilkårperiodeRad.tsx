@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { ChatIcon, PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Detail, HStack, Popover, Spacer, Table } from '@navikt/ds-react';
+import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import SlettVilkRperiodeModal from './SlettVilkårperiodeModal';
@@ -19,10 +19,7 @@ const TabellRad = styled(Table.Row)<{ disabled?: boolean }>`
     background: ${(props) => (props.disabled ? ABgSubtle : '')};
 `;
 
-const FlexDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+const BegrunnelseContainer = styled(VStack)`
     max-width: 48rem;
 `;
 
@@ -69,7 +66,7 @@ const VilkårperiodeRad: React.FC<{
                                 onClose={() => settVisBeskrivelse(false)}
                             >
                                 <Popover.Content>
-                                    <FlexDiv>
+                                    <BegrunnelseContainer gap="4">
                                         <Detail>
                                             Sist endret{' '}
                                             {formaterIsoDatoTidMedSekunder(
@@ -87,7 +84,7 @@ const VilkårperiodeRad: React.FC<{
                                             verdi={vilkårperiode.begrunnelse}
                                             label={'Begrunnelse periode'}
                                         />
-                                    </FlexDiv>
+                                    </BegrunnelseContainer>
                                 </Popover.Content>
                             </Popover>
                         </>
