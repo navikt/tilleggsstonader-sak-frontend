@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Select, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
-import { AktivitetType } from '../typer/aktivitet';
-import { MålgruppeType } from '../typer/målgruppe';
+import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
+import { AktivitetTypeOptions } from '../typer/aktivitet';
+import { MålgruppeTypeOptions } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
     leggTilTomRadUnder: () => void;
     slettPeriode: () => void;
     radKanSlettes: boolean;
+    erLeservisning: boolean;
 }
 
 const StønadsperiodeRad: React.FC<Props> = ({
@@ -25,6 +27,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
     leggTilTomRadUnder,
     slettPeriode,
     radKanSlettes,
+    erLeservisning,
 }) => {
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
@@ -32,38 +35,28 @@ const StønadsperiodeRad: React.FC<Props> = ({
     return (
         <Table.Row>
             <Table.DataCell>
-                <Select
+                <SelectMedOptions
+                    erLesevisning={erLeservisning}
+                    valg={MålgruppeTypeOptions}
                     label={'Målgruppe'}
                     hideLabel
                     value={stønadsperide.målgruppe}
                     onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
                     size="small"
                     error={finnFeilmelding('målgruppe')}
-                >
-                    <option value="">Velg</option>
-                    {Object.keys(MålgruppeType).map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </Select>
+                />
             </Table.DataCell>
             <Table.DataCell>
-                <Select
+                <SelectMedOptions
+                    erLesevisning={erLeservisning}
+                    valg={AktivitetTypeOptions}
                     label={'Aktivitet'}
                     hideLabel
                     value={stønadsperide.aktivitet}
                     onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
                     size="small"
                     error={finnFeilmelding('aktivitet')}
-                >
-                    <option value="">Velg</option>
-                    {Object.keys(AktivitetType).map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
-                </Select>
+                />
             </Table.DataCell>
             <Table.DataCell>
                 <DateInput

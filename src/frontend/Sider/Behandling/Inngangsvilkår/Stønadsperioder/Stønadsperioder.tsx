@@ -139,6 +139,7 @@ const Stønadsperioder: React.FC<{
                             <Table.HeaderCell>Aktivitet</Table.HeaderCell>
                             <Table.HeaderCell>Fra</Table.HeaderCell>
                             <Table.HeaderCell>Til</Table.HeaderCell>
+                            <Table.HeaderCell />
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -157,6 +158,7 @@ const Stønadsperioder: React.FC<{
                                     formState.errors.stønadsperioder[indeks]
                                 }
                                 radKanSlettes={indeks !== 0}
+                                erLeservisning={false}
                             />
                         ))}
                     </Table.Body>
