@@ -13,6 +13,7 @@ export interface VilkårPeriode extends Periode {
     begrunnelse?: string;
     kilde: KildeVilkårsperiode;
     slettetKommentar?: string;
+    sistEndret: string;
 }
 
 export enum VilkårPeriodeResultat {
