@@ -116,6 +116,10 @@ const Stønadsperioder: React.FC = () => {
         hentStønadsperioder.rerun();
     };
 
+    const initierFormMedTomRad = () => {
+        stønadsperioderState.setValue([tomStønadsperiodeRad()]);
+    };
+
     const utledAksjonsknapper = () => {
         if (redigerer) {
             return (
@@ -134,16 +138,32 @@ const Stønadsperioder: React.FC = () => {
                 </>
             );
         } else {
-            return (
-                <Button
-                    icon={<PencilIcon />}
-                    size="small"
-                    disabled={laster}
-                    onClick={() => settRedigerer(true)}
-                >
-                    Endre stønadsperioder
-                </Button>
-            );
+            if (stønadsperioderState.value.length === 0) {
+                return (
+                    <Button
+                        icon={<PlusCircleIcon />}
+                        size="small"
+                        disabled={laster}
+                        onClick={() => {
+                            settRedigerer(true);
+                            initierFormMedTomRad();
+                        }}
+                    >
+                        Legg til stønadsperiode
+                    </Button>
+                );
+            } else {
+                return (
+                    <Button
+                        icon={<PencilIcon />}
+                        size="small"
+                        disabled={laster}
+                        onClick={() => settRedigerer(true)}
+                    >
+                        Endre stønadsperioder
+                    </Button>
+                );
+            }
         }
     };
 
@@ -198,7 +218,7 @@ const Stønadsperioder: React.FC = () => {
                             icon={<PlusCircleIcon />}
                             size="small"
                             onClick={() => {
-                                stønadsperioderState.setValue([tomStønadsperiodeRad()]);
+                                initierFormMedTomRad;
                             }}
                         >
                             Legg til stønadsperiode
