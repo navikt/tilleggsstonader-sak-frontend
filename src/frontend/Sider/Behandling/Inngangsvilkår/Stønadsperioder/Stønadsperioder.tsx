@@ -41,10 +41,7 @@ const tomStønadsperiodeRad = (): Stønadsperiode => ({
 const initFormState = (
     eksisterendeStønadsperioder: Stønadsperiode[]
 ): FormState<StønadsperiodeForm> => ({
-    stønadsperioder:
-        eksisterendeStønadsperioder.length !== 0
-            ? eksisterendeStønadsperioder
-            : [tomStønadsperiodeRad()],
+    stønadsperioder: eksisterendeStønadsperioder,
 });
 
 const Stønadsperioder: React.FC = () => {
