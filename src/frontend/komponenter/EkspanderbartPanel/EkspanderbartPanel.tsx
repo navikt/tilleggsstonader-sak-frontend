@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const Header = styled.div`
     background-color: ${ABlue100};
-    padding: 1rem 2rem;
+    padding: 1rem;
     display: flex;
     gap: 2rem;
     align-items: center;
