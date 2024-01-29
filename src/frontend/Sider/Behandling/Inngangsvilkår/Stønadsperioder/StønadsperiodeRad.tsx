@@ -60,6 +60,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
             </Table.DataCell>
             <Table.DataCell>
                 <DateInput
+                    erLesevisning={erLeservisning}
                     label={'Fra'}
                     hideLabel
                     value={stønadsperide.fom}
@@ -70,6 +71,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
             </Table.DataCell>
             <Table.DataCell>
                 <DateInput
+                    erLesevisning={erLeservisning}
                     label={'Til'}
                     hideLabel
                     value={stønadsperide.tom}
