@@ -65,9 +65,7 @@ const EndreAktivitetRad: React.FC<{
             const erNyPeriode = aktivitet === undefined;
 
             return request<Aktivitet, EndreAktivitetForm>(
-                erNyPeriode
-                    ? `/api/sak/vilkarperiode/behandling/${behandling.id}`
-                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${aktivitet.id}`,
                 'POST',
                 aktivitetForm
             )
