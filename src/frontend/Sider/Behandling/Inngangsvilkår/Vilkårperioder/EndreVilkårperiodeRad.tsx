@@ -48,7 +48,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     periodeFeil,
 }) => {
     return (
-        <TabellRad $feilmeldingVises={!!periodeFeil}>
+        <TabellRad $feilmeldingVises={!!periodeFeil} shadeOnHover={false}>
             <Table.DataCell width="max-content">
                 <VilkårsresultatIkon
                     vilkårsresultat={vilkårperiode?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}

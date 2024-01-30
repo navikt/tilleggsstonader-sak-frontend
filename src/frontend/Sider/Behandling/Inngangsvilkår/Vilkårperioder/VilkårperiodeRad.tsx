@@ -42,6 +42,7 @@ const VilkårperiodeRad: React.FC<{
         <TabellRad
             key={vilkårperiode.id}
             disabled={vilkårperiode.resultat === VilkårPeriodeResultat.SLETTET}
+            shadeOnHover={false}
         >
             <Table.DataCell width="max-content">
                 <HStack align="center">
