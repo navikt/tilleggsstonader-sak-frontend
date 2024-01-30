@@ -16,7 +16,6 @@ import { ListState } from '../../../../hooks/felles/useListState';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 const HvitTabell = styled(Table)`
@@ -94,10 +93,8 @@ const Stønadsperioder: React.FC = () => {
             .finally(() => settLaster(false));
     };
 
-    const leggTilTomRadUnder = (indeks: number) => {
-        stønadsperioderState.setValue((prevState) =>
-            leggTilTomRadUnderIListe(prevState, tomStønadsperiodeRad(), indeks)
-        );
+    const leggTilNyPeriode = () => {
+        stønadsperioderState.setValue((prevState) => [...prevState, tomStønadsperiodeRad()]);
     };
 
     const slettPeriode = (indeks: number) => {
@@ -128,10 +125,6 @@ const Stønadsperioder: React.FC = () => {
         hentStønadsperioder.rerun();
     };
 
-    const initierFormMedTomRad = () => {
-        stønadsperioderState.setValue([tomStønadsperiodeRad()]);
-    };
-
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
@@ -156,7 +149,6 @@ const Stønadsperioder: React.FC = () => {
                                             property: keyof Stønadsperiode,
                                             value: string | undefined
                                         ) => oppdaterStønadsperiode(indeks, property, value)}
-                                        leggTilTomRadUnder={() => leggTilTomRadUnder(indeks)}
                                         slettPeriode={() => slettPeriode(indeks)}
                                         feilmeldinger={
                                             formState.errors.stønadsperioder &&
@@ -170,8 +162,8 @@ const Stønadsperioder: React.FC = () => {
                             </Table.Body>
                         </HvitTabell>
                     )}
-                    {stønadsperioderState.value.length === 0 && redigerer === true && (
-                        <LeggTilStønadsperiodeKnapp onClick={initierFormMedTomRad} />
+                    {redigerer === true && (
+                        <LeggTilStønadsperiodeKnapp onClick={leggTilNyPeriode} />
                     )}
 
                     <Feilmelding>{feilmelding}</Feilmelding>
@@ -183,7 +175,7 @@ const Stønadsperioder: React.FC = () => {
                                 finnesStønadsperioder={stønadsperioderState.value.length !== 0}
                                 laster={laster}
                                 avbrytRedigering={avbrytRedigering}
-                                initierFormMedTomRad={initierFormMedTomRad}
+                                initierFormMedTomRad={leggTilNyPeriode}
                                 startRedigering={() => settRedigerer(true)}
                             />
                         </HStack>

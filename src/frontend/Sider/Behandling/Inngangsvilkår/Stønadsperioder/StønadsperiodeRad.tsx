@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, Table } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
@@ -14,7 +14,6 @@ interface Props {
     stønadsperide: Stønadsperiode;
     feilmeldinger: FormErrors<Stønadsperiode>;
     oppdaterStønadsperiode: (property: keyof Stønadsperiode, value: string | undefined) => void;
-    leggTilTomRadUnder: () => void;
     slettPeriode: () => void;
     erLeservisning: boolean;
 }
@@ -23,7 +22,6 @@ const StønadsperiodeRad: React.FC<Props> = ({
     stønadsperide,
     feilmeldinger,
     oppdaterStønadsperiode,
-    leggTilTomRadUnder,
     slettPeriode,
     erLeservisning,
 }) => {
@@ -79,22 +77,15 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 />
             </Table.DataCell>
             <Table.DataCell>
-                <div>
-                    <Button
-                        type="button"
-                        onClick={leggTilTomRadUnder}
-                        variant="tertiary"
-                        icon={<PlusCircleIcon />}
-                        size="small"
-                    />
+                {!erLeservisning && (
                     <Button
                         type="button"
                         onClick={slettPeriode}
                         variant="tertiary"
                         icon={<TrashIcon />}
-                        size="small"
+                        size="xsmall"
                     />
-                </div>
+                )}
             </Table.DataCell>
         </Table.Row>
     );
