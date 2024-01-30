@@ -11,6 +11,9 @@ export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm");
 };
 
+export const formaterIsoDatoTidMedSekunder = (dato: string): string => {
+    return format(parseISO(dato), "dd.MM.yyyy 'kl'.HH:mm:ss");
+};
 export const formaterIsoPeriode = (fom: string, tom: string): string => {
     return formaterIsoDato(fom) + ' - ' + formaterIsoDato(tom);
 };
