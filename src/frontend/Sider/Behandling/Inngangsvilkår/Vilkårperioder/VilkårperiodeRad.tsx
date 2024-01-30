@@ -6,6 +6,7 @@ import { ChatIcon, PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
+import { KildeIkon } from './KildeIkon';
 import SlettVilkRperiodeModal from './SlettVilkårperiodeModal';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
@@ -93,7 +94,9 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
-            <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
+            <Table.DataCell>
+                <KildeIkon kilde={vilkårperiode.kilde} />
+            </Table.DataCell>
             <Table.DataCell>
                 {visRedigerKnapper && (
                     <>

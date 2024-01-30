@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Button, Table } from '@navikt/ds-react';
 
+import { KildeIkon } from './KildeIkon';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
@@ -86,7 +87,9 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     feil={periodeFeil?.tom}
                 />
             </Table.DataCell>
-            <Table.DataCell>{vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL}</Table.DataCell>
+            <Table.DataCell>
+                <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
+            </Table.DataCell>
             <Table.DataCell>
                 <KnappeRad>
                     <Button size="small" onClick={lagre}>
