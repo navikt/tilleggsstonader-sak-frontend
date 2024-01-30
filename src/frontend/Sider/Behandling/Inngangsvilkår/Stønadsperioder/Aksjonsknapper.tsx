@@ -66,7 +66,14 @@ export const Aksjonsknapper: React.FC<{
 
 export const LeggTilStønadsperiodeKnapp: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     return (
-        <Button icon={<PlusCircleIcon />} size="small" onClick={onClick}>
+        <Button
+            icon={<PlusCircleIcon />}
+            size="small"
+            onClick={(e) => {
+                e.preventDefault();
+                onClick();
+            }}
+        >
             Legg til stønadsperiode
         </Button>
     );
