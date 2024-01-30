@@ -58,7 +58,7 @@ const BehandlingInnhold: React.FC<{
 
     const path = useLocation().pathname.split('/')[3];
 
-    const [aktivFane, settAktivFane] = useState<string>(path || 'inngangsvilkar'); //path !== '' ? path : 'inngangsvilkar');
+    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(nyFane)) {
