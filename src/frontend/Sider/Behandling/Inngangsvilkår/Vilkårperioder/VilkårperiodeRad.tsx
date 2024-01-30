@@ -94,7 +94,7 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode.kilde} />
             </Table.DataCell>
             <Table.DataCell>

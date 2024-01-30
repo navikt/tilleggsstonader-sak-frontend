@@ -14,10 +14,10 @@ import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { KildeVilkårsperiode, VilkårPeriode, VilkårPeriodeResultat } from '../typer/vilkårperiode';
 
-const TabellRad = styled(Table.Row)`
+const TabellRad = styled(Table.Row)<{ $feilmeldingVises: boolean }>`
     .navds-table__data-cell {
         border-color: transparent;
-        vertical-align: top;
+        vertical-align: ${(props) => (props.$feilmeldingVises ? 'top' : 'center')};
     }
 `;
 
@@ -48,7 +48,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     periodeFeil,
 }) => {
     return (
-        <TabellRad>
+        <TabellRad $feilmeldingVises={!!periodeFeil}>
             <Table.DataCell width="max-content">
                 <VilkårsresultatIkon
                     vilkårsresultat={vilkårperiode?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}
@@ -87,7 +87,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     feil={periodeFeil?.tom}
                 />
             </Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
             </Table.DataCell>
             <Table.DataCell>
