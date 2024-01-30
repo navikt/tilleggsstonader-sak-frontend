@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
 export const Aksjonsknapper: React.FC<{
     redigerer: boolean;
@@ -20,31 +20,51 @@ export const Aksjonsknapper: React.FC<{
 }) => {
     if (redigerer) {
         return (
-            <>
-                <Button size="small" type="submit" disabled={laster}>
-                    Lagre
-                </Button>
+            <HStack justify="space-between">
+                <HStack gap="2">
+                    <Button size="small" type="submit" disabled={laster}>
+                        Lagre
+                    </Button>
+                    <Button
+                        type="button"
+                        disabled={laster}
+                        onClick={avbrytRedigering}
+                        size="small"
+                        variant="secondary"
+                    >
+                        Avbryt
+                    </Button>
+                </HStack>
                 <Button
-                    type="button"
-                    disabled={laster}
-                    onClick={avbrytRedigering}
+                    icon={<PlusCircleIcon />}
                     size="small"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        initierFormMedTomRad();
+                        startRedigering();
+                    }}
                     variant="tertiary"
                 >
-                    Avbryt
+                    Legg til periode
                 </Button>
-            </>
+            </HStack>
         );
     }
 
     if (!finnesStønadsperioder) {
         return (
-            <LeggTilStønadsperiodeKnapp
-                onClick={() => {
+            <Button
+                icon={<PlusCircleIcon />}
+                size="small"
+                onClick={(e) => {
+                    e.preventDefault();
                     initierFormMedTomRad();
                     startRedigering();
                 }}
-            />
+                style={{ maxWidth: 'fit-content' }}
+            >
+                Legg til stønadsperiode
+            </Button>
         );
     } else {
         return (
@@ -56,7 +76,7 @@ export const Aksjonsknapper: React.FC<{
                     e.preventDefault();
                     startRedigering();
                 }}
-                type="button"
+                style={{ maxWidth: 'fit-content' }}
             >
                 Endre stønadsperioder
             </Button>
@@ -68,11 +88,13 @@ export const LeggTilStønadsperiodeKnapp: React.FC<{ onClick: () => void }> = ({
     return (
         <Button
             icon={<PlusCircleIcon />}
-            size="small"
+            size="xsmall"
             onClick={(e) => {
                 e.preventDefault();
                 onClick();
             }}
+            style={{ maxWidth: 'fit-content' }}
+            variant="secondary"
         >
             Legg til stønadsperiode
         </Button>

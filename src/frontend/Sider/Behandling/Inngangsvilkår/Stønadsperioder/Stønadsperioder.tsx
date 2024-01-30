@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { HStack, Table, VStack } from '@navikt/ds-react';
+import { Table, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import { Aksjonsknapper, LeggTilStønadsperiodeKnapp } from './Aksjonsknapper';
+import { Aksjonsknapper } from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
@@ -162,23 +162,18 @@ const Stønadsperioder: React.FC = () => {
                             </Table.Body>
                         </HvitTabell>
                     )}
-                    {redigerer === true && (
-                        <LeggTilStønadsperiodeKnapp onClick={leggTilNyPeriode} />
-                    )}
 
                     <Feilmelding>{feilmelding}</Feilmelding>
 
                     {behandlingErRedigerbar && (
-                        <HStack gap="4">
-                            <Aksjonsknapper
-                                redigerer={redigerer}
-                                finnesStønadsperioder={stønadsperioderState.value.length !== 0}
-                                laster={laster}
-                                avbrytRedigering={avbrytRedigering}
-                                initierFormMedTomRad={leggTilNyPeriode}
-                                startRedigering={() => settRedigerer(true)}
-                            />
-                        </HStack>
+                        <Aksjonsknapper
+                            redigerer={redigerer}
+                            finnesStønadsperioder={stønadsperioderState.value.length !== 0}
+                            laster={laster}
+                            avbrytRedigering={avbrytRedigering}
+                            initierFormMedTomRad={leggTilNyPeriode}
+                            startRedigering={() => settRedigerer(true)}
+                        />
                     )}
                 </VStack>
             </form>
