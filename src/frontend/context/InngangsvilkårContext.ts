@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
@@ -42,6 +42,10 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             useState<Stønadsperiode[]>(hentedeStønadsperioder);
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+
+        useEffect(() => {
+            settStønadsperioder(hentedeStønadsperioder);
+        }, [hentedeStønadsperioder]);
 
         const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
             settMålgrupper((prevState) => [...prevState, nyPeriode]);
