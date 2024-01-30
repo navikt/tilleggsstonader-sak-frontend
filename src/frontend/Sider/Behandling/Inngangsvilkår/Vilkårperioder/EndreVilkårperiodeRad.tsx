@@ -92,11 +92,11 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             </Table.DataCell>
             <Table.DataCell>
                 <KnappeRad>
-                    <Button size="small" onClick={lagre}>
+                    <Button size="xsmall" onClick={lagre}>
                         Lagre
                     </Button>
 
-                    <Button onClick={avbrytRedigering} variant="secondary" size="small">
+                    <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                         Avbryt
                     </Button>
                 </KnappeRad>

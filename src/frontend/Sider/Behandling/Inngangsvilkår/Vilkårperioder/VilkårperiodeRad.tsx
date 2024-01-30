@@ -99,18 +99,18 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>
                 {visRedigerKnapper && (
-                    <>
+                    <HStack gap="2">
                         <Button
                             onClick={startRedigering}
                             variant="secondary"
-                            size="small"
+                            size="xsmall"
                             icon={<PencilIcon />}
                         >
                             Endre
                         </Button>
                         <Button
                             icon={<TrashIcon />}
-                            size={'small'}
+                            size="xsmall"
                             variant={'tertiary'}
                             onClick={() => settVisSlettModal(true)}
                         />
@@ -120,7 +120,7 @@ const VilkårperiodeRad: React.FC<{
                             vilkårperiode={vilkårperiode}
                             type={type}
                         />
-                    </>
+                    </HStack>
                 )}
             </Table.DataCell>
         </TabellRad>
