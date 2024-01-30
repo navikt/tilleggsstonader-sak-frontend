@@ -73,8 +73,8 @@ export const validerStønadsperioder = (
             };
         }
 
-        const aktivitetInnenfor = relevanteAktiviteter.some((målgruppe) =>
-            erPeriodeInnenforAnnenPeriode(periode, målgruppe)
+        const aktivitetInnenfor = relevanteAktiviteter.some((aktivitet) =>
+            erPeriodeInnenforAnnenPeriode(periode, aktivitet)
         );
 
         if (!aktivitetInnenfor) {
