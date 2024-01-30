@@ -6,10 +6,14 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
-import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
-import { DelvilkårMålgruppe, Målgruppe, MålgruppeType } from '../typer/målgruppe';
+import {
+    DelvilkårMålgruppe,
+    Målgruppe,
+    MålgruppeType,
+    MålgruppeTypeOptions,
+} from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
@@ -87,30 +91,17 @@ const EndreMålgruppeRad: React.FC<{
         <>
             <EndreVilkårperiodeRad
                 vilkårperiode={målgruppe}
-                periodeForm={målgruppeForm}
+                form={målgruppeForm}
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
                 periodeFeil={periodeFeil}
-                typeSelect={
-                    <Select
-                        label="Type"
-                        hideLabel
-                        erLesevisning={målgruppe !== undefined}
-                        value={målgruppeForm.type}
-                        onChange={(e) =>
-                            settMålgruppeForm((prevState) => ({
-                                ...prevState,
-                                type: e.target.value as MålgruppeType,
-                            }))
-                        }
-                        size="small"
-                    >
-                        <option value="">Velg</option>
-                        {Object.keys(MålgruppeType).map((type) => (
-                            <option value={type}>{type}</option>
-                        ))}
-                    </Select>
+                typeOptions={MålgruppeTypeOptions}
+                oppdaterType={(nyttValg) =>
+                    settMålgruppeForm((prevState) => ({
+                        ...prevState,
+                        type: nyttValg as MålgruppeType,
+                    }))
                 }
             />
             <EndreVilkårPeriodeInnhold
