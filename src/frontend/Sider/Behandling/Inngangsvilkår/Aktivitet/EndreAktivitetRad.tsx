@@ -6,10 +6,14 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
-import Select from '../../../../komponenter/Skjema/Select';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode, validerPeriodeForm } from '../../../../utils/periode';
-import { Aktivitet, AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
+import {
+    Aktivitet,
+    AktivitetType,
+    AktivitetTypeOptions,
+    DelvilkårAktivitet,
+} from '../typer/aktivitet';
 import { Vurdering } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
@@ -39,7 +43,6 @@ const EndreAktivitetRad: React.FC<{
         initaliserForm(behandling.id, aktivitet)
     );
     const [laster, settLaster] = useState<boolean>(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [feilmelding, settFeilmelding] = useState<string>();
     const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
 
@@ -88,30 +91,17 @@ const EndreAktivitetRad: React.FC<{
         <>
             <EndreVilkårperiodeRad
                 vilkårperiode={aktivitet}
-                periodeForm={aktivitetForm}
+                form={aktivitetForm}
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
                 periodeFeil={periodeFeil}
-                typeSelect={
-                    <Select
-                        label="Type"
-                        hideLabel
-                        erLesevisning={aktivitet !== undefined}
-                        value={aktivitetForm.type}
-                        onChange={(e) =>
-                            settAktivitetForm((prevState) => ({
-                                ...prevState,
-                                type: e.target.value as AktivitetType,
-                            }))
-                        }
-                        size="small"
-                    >
-                        <option value="">Velg</option>
-                        {Object.keys(AktivitetType).map((type) => (
-                            <option value={type}>{type}</option>
-                        ))}
-                    </Select>
+                typeOptions={AktivitetTypeOptions}
+                oppdaterType={(nyttValg) =>
+                    settAktivitetForm((prevState) => ({
+                        ...prevState,
+                        type: nyttValg as AktivitetType,
+                    }))
                 }
             />
             <EndreVilkårPeriodeInnhold
