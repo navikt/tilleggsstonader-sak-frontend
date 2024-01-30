@@ -7,7 +7,7 @@ import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { KildeIkon } from './KildeIkon';
-import SlettVilkRperiodeModal from './SlettVilkårperiodeModal';
+import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
@@ -114,7 +114,7 @@ const VilkårperiodeRad: React.FC<{
                             variant={'tertiary'}
                             onClick={() => settVisSlettModal(true)}
                         />
-                        <SlettVilkRperiodeModal
+                        <SlettVilkårperiodeModal
                             visModal={visSlettModal}
                             settVisModal={settVisSlettModal}
                             vilkårperiode={vilkårperiode}
