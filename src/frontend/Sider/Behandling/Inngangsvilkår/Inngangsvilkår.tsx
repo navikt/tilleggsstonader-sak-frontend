@@ -37,7 +37,7 @@ const Inngangsvilkår = () => {
 
     const [vilkårperioder, settVilkårperioder] =
         useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
-    const [stønadsperioder, settStønadsperioder] =
+    const [stønadsperioderRessurs, settStønadsperioderRessurs] =
         useState<Ressurs<Stønadsperiode[]>>(byggTomRessurs());
 
     const hentVilkårperioderCallback = useCallback(() => {
@@ -50,7 +50,7 @@ const Inngangsvilkår = () => {
 
     const hentStønadsperioderCallback = useCallback(() => {
         request<Stønadsperiode[], null>(`/api/sak/stonadsperiode/${behandling.id}`).then(
-            settStønadsperioder
+            settStønadsperioderRessurs
         );
     }, [request, behandling.id]);
 
@@ -63,14 +63,21 @@ const Inngangsvilkår = () => {
     return (
         <Container>
             {!erProd() && <FyllUtVilkårKnapp />}
-            <DataViewer response={{ regler, vilkårsvurdering, vilkårperioder, stønadsperioder }}>
+            <DataViewer
+                response={{
+                    regler,
+                    vilkårsvurdering,
+                    vilkårperioder,
+                    stønadsperioder: stønadsperioderRessurs,
+                }}
+            >
                 {({ regler, vilkårsvurdering, vilkårperioder, stønadsperioder }) => (
                     <>
                         {features.nyeInngangsvilkår && (
                             <InngangsvilkårProvider
                                 vilkårperioder={vilkårperioder}
                                 hentVilkårperioder={hentVilkårperioder}
-                                stønadsperioder={stønadsperioder}
+                                hentedeStønadsperioder={stønadsperioder}
                                 hentStønadsperioder={hentStønadsperioder}
                             >
                                 <Målgruppe />

@@ -18,13 +18,14 @@ interface UseInngangsvilkår {
     hentVilkårperioder: RerrunnableEffect;
     // vilkårFeilmeldinger: Vurderingsfeilmelding;
     stønadsperioder: Stønadsperiode[];
+    oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
     hentStønadsperioder: RerrunnableEffect;
 }
 
 interface Props {
     vilkårperioder: Vilkårperioder;
     hentVilkårperioder: RerrunnableEffect;
-    stønadsperioder: Stønadsperiode[];
+    hentedeStønadsperioder: Stønadsperiode[];
     hentStønadsperioder: RerrunnableEffect;
 }
 
@@ -32,11 +33,13 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
     ({
         vilkårperioder,
         hentVilkårperioder,
-        stønadsperioder,
+        hentedeStønadsperioder,
         hentStønadsperioder,
     }: Props): UseInngangsvilkår => {
         const [målgrupper, settMålgrupper] = useState<Målgruppe[]>(vilkårperioder.målgrupper);
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
+        const [stønadsperioder, settStønadsperioder] =
+            useState<Stønadsperiode[]>(hentedeStønadsperioder);
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
@@ -74,6 +77,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             hentVilkårperioder,
             // vilkårFeilmeldinger,
             stønadsperioder,
+            oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
+                settStønadsperioder(oppdaterteStønadsperioder),
             hentStønadsperioder,
         };
     }

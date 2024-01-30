@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -43,7 +43,13 @@ const initFormState = (
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { målgrupper, aktiviteter, stønadsperioder, hentStønadsperioder } = useInngangsvilkår();
+    const {
+        målgrupper,
+        aktiviteter,
+        stønadsperioder,
+        oppdaterStønadsperioder,
+        hentStønadsperioder,
+    } = useInngangsvilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
@@ -60,8 +66,11 @@ const Stønadsperioder: React.FC = () => {
     };
 
     const formState = useFormState<StønadsperiodeForm>(initFormState(stønadsperioder), validerForm);
-
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
+
+    useEffect(() => {
+        stønadsperioderState.setValue(stønadsperioder);
+    }, [stønadsperioder, stønadsperioderState]);
 
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
@@ -74,7 +83,7 @@ const Stønadsperioder: React.FC = () => {
         )
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    stønadsperioderState.setValue(res.data);
+                    oppdaterStønadsperioder(res.data);
                 } else {
                     settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
                 }
@@ -166,14 +175,6 @@ const Stønadsperioder: React.FC = () => {
             }
         }
     };
-
-    // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
-    // useEffect(() => {
-    //     if (stønadsperioderState.value[0].målgruppe !== '') {
-    //         formState.validateForm();
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [målgrupper, aktiviteter]);
 
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
