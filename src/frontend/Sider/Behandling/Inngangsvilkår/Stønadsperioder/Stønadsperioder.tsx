@@ -70,7 +70,9 @@ const Stønadsperioder: React.FC = () => {
 
     useEffect(() => {
         stønadsperioderState.setValue(stønadsperioder);
-    }, [stønadsperioder, stønadsperioderState]);
+        formState.nullstillErrors();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [stønadsperioder]);
 
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;

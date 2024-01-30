@@ -17,6 +17,7 @@ export type FormHook<T extends Record<string, any>> = {
     getProps(key: keyof T): FieldState | ListState<unknown> | RecordState<unknown>;
     errors: FormErrors<T>;
     setErrors: Dispatch<SetStateAction<FormErrors<T>>>;
+    nullstillErrors: () => void;
     validateForm: () => boolean;
     onSubmit(fn: (state: FormState<T>) => void): FormEventHandler<HTMLFormElement>;
     customValidate: (fn: Valideringsfunksjon<T>) => boolean;
@@ -34,19 +35,21 @@ export type Valideringsfunksjon<T extends Record<string, any | undefined>> = (
     state: FormState<T>
 ) => FormErrors<T>;
 
+function tomtErrorState<T extends Record<string, unknown>>(initialState: FormState<T>) {
+    return Object.keys(initialState).reduce(
+        (acc, key) => ({
+            ...acc,
+            [key]: undefined,
+        }),
+        {} as FormErrors<T>
+    ) as FormErrors<T>;
+}
+
 export default function useFormState<T extends Record<string, unknown>>(
     initialState: FormState<T>,
     valideringsfunksjon: Valideringsfunksjon<T>
 ): FormHook<T> {
-    const [errors, setErrors] = useState<FormErrors<T>>(
-        Object.keys(initialState).reduce(
-            (acc, key) => ({
-                ...acc,
-                [key]: undefined,
-            }),
-            {} as FormErrors<T>
-        ) as FormErrors<T>
-    );
+    const [errors, setErrors] = useState<FormErrors<T>>(tomtErrorState(initialState));
 
     const formState: InternalFormState<T> = Object.entries(initialState)
         .map(([key, value]) => {
@@ -77,6 +80,7 @@ export default function useFormState<T extends Record<string, unknown>>(
         },
         errors,
         setErrors,
+        nullstillErrors: () => setErrors(tomtErrorState(initialState)),
         onSubmit(fn: (state: FormState<T>) => void): FormEventHandler<HTMLFormElement> {
             return (event) => {
                 event.preventDefault();
