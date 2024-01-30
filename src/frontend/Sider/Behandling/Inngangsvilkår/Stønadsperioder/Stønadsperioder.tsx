@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Table, VStack } from '@navikt/ds-react';
+import { HStack, Table, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
+import { Aksjonsknapper, LeggTilStønadsperiodeKnapp } from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
@@ -85,6 +85,7 @@ const Stønadsperioder: React.FC = () => {
         )
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
+                    settRedigerer(false);
                     oppdaterStønadsperioder(res.data);
                 } else {
                     settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
@@ -131,53 +132,6 @@ const Stønadsperioder: React.FC = () => {
         stønadsperioderState.setValue([tomStønadsperiodeRad()]);
     };
 
-    const utledAksjonsknapper = () => {
-        if (redigerer) {
-            return (
-                <>
-                    <Button size="small" type="submit" disabled={laster}>
-                        Lagre
-                    </Button>
-                    <Button
-                        disabled={laster}
-                        onClick={avbrytRedigering}
-                        size="small"
-                        variant="tertiary"
-                    >
-                        Avbryt
-                    </Button>
-                </>
-            );
-        } else {
-            if (stønadsperioderState.value.length === 0) {
-                return (
-                    <Button
-                        icon={<PlusCircleIcon />}
-                        size="small"
-                        disabled={laster}
-                        onClick={() => {
-                            settRedigerer(true);
-                            initierFormMedTomRad();
-                        }}
-                    >
-                        Legg til stønadsperiode
-                    </Button>
-                );
-            } else {
-                return (
-                    <Button
-                        icon={<PencilIcon />}
-                        size="small"
-                        disabled={laster}
-                        onClick={() => settRedigerer(true)}
-                    >
-                        Endre stønadsperioder
-                    </Button>
-                );
-            }
-        }
-    };
-
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
@@ -217,20 +171,23 @@ const Stønadsperioder: React.FC = () => {
                         </HvitTabell>
                     )}
                     {stønadsperioderState.value.length === 0 && redigerer === true && (
-                        <Button
-                            icon={<PlusCircleIcon />}
-                            size="small"
-                            onClick={() => {
-                                initierFormMedTomRad;
-                            }}
-                        >
-                            Legg til stønadsperiode
-                        </Button>
+                        <LeggTilStønadsperiodeKnapp onClick={initierFormMedTomRad} />
                     )}
 
                     <Feilmelding>{feilmelding}</Feilmelding>
 
-                    {behandlingErRedigerbar && <HStack gap="4">{utledAksjonsknapper()}</HStack>}
+                    {behandlingErRedigerbar && (
+                        <HStack gap="4">
+                            <Aksjonsknapper
+                                redigerer={redigerer}
+                                finnesStønadsperioder={stønadsperioderState.value.length !== 0}
+                                laster={laster}
+                                avbrytRedigering={avbrytRedigering}
+                                initierFormMedTomRad={initierFormMedTomRad}
+                                startRedigering={() => settRedigerer(true)}
+                            />
+                        </HStack>
+                    )}
                 </VStack>
             </form>
         </EkspanderbartPanel>
