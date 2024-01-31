@@ -3,7 +3,7 @@ import React from 'react';
 import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack } from '@navikt/ds-react';
 
-export const Aksjonsknapper: React.FC<{
+const Aksjonsknapper: React.FC<{
     redigerer: boolean;
     finnesStønadsperioder: boolean;
     laster: boolean;
@@ -84,19 +84,4 @@ export const Aksjonsknapper: React.FC<{
     }
 };
 
-export const LeggTilStønadsperiodeKnapp: React.FC<{ onClick: () => void }> = ({ onClick }) => {
-    return (
-        <Button
-            icon={<PlusCircleIcon />}
-            size="xsmall"
-            onClick={(e) => {
-                e.preventDefault();
-                onClick();
-            }}
-            style={{ maxWidth: 'fit-content' }}
-            variant="secondary"
-        >
-            Legg til stønadsperiode
-        </Button>
-    );
-};
+export default Aksjonsknapper;

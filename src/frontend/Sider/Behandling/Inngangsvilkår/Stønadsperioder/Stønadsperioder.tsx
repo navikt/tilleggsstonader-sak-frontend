@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Table, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import { Aksjonsknapper } from './Aksjonsknapper';
+import Aksjonsknapper from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
