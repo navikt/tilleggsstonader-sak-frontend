@@ -8,7 +8,7 @@ export type Periode = {
 
 export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {
     return (
-        erDatoEtterEllerLik(periode.fom, annenPeriode.fom) &&
+        erDatoEtterEllerLik(annenPeriode.fom, periode.fom) &&
         erDatoFørEllerLik(periode.tom, annenPeriode.tom)
     );
 };

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { Table, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
+import Aksjonsknapper from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
@@ -15,16 +16,10 @@ import { ListState } from '../../../../hooks/felles/useListState';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
-`;
-
-const Knapp = styled(Button)`
-    max-width: fit-content;
-    margin-top: 1rem;
 `;
 
 export type StønadsperiodeForm = {
@@ -41,21 +36,18 @@ const tomStønadsperiodeRad = (): Stønadsperiode => ({
 const initFormState = (
     eksisterendeStønadsperioder: Stønadsperiode[]
 ): FormState<StønadsperiodeForm> => ({
-    stønadsperioder:
-        eksisterendeStønadsperioder.length !== 0
-            ? eksisterendeStønadsperioder
-            : [tomStønadsperiodeRad()],
+    stønadsperioder: eksisterendeStønadsperioder,
 });
 
-const Stønadsperioder: React.FC<{
-    eksisterendeStønadsperioder: Stønadsperiode[];
-}> = ({ eksisterendeStønadsperioder }) => {
+const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
-    const { behandling } = useBehandling();
-    const { målgrupper, aktiviteter } = useInngangsvilkår();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { målgrupper, aktiviteter, stønadsperioder, oppdaterStønadsperioder } =
+        useInngangsvilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
+    const [redigerer, settRedigerer] = useState<boolean>(false);
 
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
@@ -66,12 +58,15 @@ const Stønadsperioder: React.FC<{
             ),
         };
     };
-    const formState = useFormState<StønadsperiodeForm>(
-        initFormState(eksisterendeStønadsperioder),
-        validerForm
-    );
 
+    const formState = useFormState<StønadsperiodeForm>(initFormState(stønadsperioder), validerForm);
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
+
+    useEffect(() => {
+        stønadsperioderState.setValue(stønadsperioder);
+        formState.nullstillErrors();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [stønadsperioder]);
 
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
@@ -84,7 +79,8 @@ const Stønadsperioder: React.FC<{
         )
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    stønadsperioderState.setValue(res.data);
+                    settRedigerer(false);
+                    oppdaterStønadsperioder(res.data);
                 } else {
                     settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
                 }
@@ -92,19 +88,17 @@ const Stønadsperioder: React.FC<{
             .finally(() => settLaster(false));
     };
 
-    const leggTilTomRadUnder = (indeks: number) => {
-        stønadsperioderState.setValue((prevState) =>
-            leggTilTomRadUnderIListe(prevState, tomStønadsperiodeRad(), indeks)
-        );
+    const leggTilNyPeriode = () => {
+        stønadsperioderState.setValue((prevState) => [...prevState, tomStønadsperiodeRad()]);
     };
 
     const slettPeriode = (indeks: number) => {
         stønadsperioderState.remove(indeks);
 
-        formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => {
-            const stønadsperioder = (prevState.stønadsperioder ?? []).splice(indeks, 1);
-            return { ...prevState, stønadsperioder };
-        });
+        formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => ({
+            ...prevState,
+            stønadsperioder: (prevState.stønadsperioder ?? []).filter((_, i) => i !== indeks),
+        }));
     };
 
     const oppdaterStønadsperiode = (
@@ -121,52 +115,62 @@ const Stønadsperioder: React.FC<{
         );
     };
 
-    // Hvis målgrupper eller aktiviteter endrer seg, valider at stønadsperioder fortsatt er gyldige
-    useEffect(() => {
-        if (stønadsperioderState.value[0].målgruppe !== '') {
-            formState.validateForm();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [målgrupper, aktiviteter]);
+    const avbrytRedigering = () => {
+        settRedigerer(false);
+        stønadsperioderState.setValue(stønadsperioder);
+    };
 
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
-                <HvitTabell>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Målgruppe</Table.HeaderCell>
-                            <Table.HeaderCell>Aktivitet</Table.HeaderCell>
-                            <Table.HeaderCell>Fra</Table.HeaderCell>
-                            <Table.HeaderCell>Til</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {stønadsperioderState.value.map((periode, indeks) => (
-                            <StønadsperiodeRad
-                                key={periode.id}
-                                stønadsperide={periode}
-                                oppdaterStønadsperiode={(
-                                    property: keyof Stønadsperiode,
-                                    value: string | undefined
-                                ) => oppdaterStønadsperiode(indeks, property, value)}
-                                leggTilTomRadUnder={() => leggTilTomRadUnder(indeks)}
-                                slettPeriode={() => slettPeriode(indeks)}
-                                feilmeldinger={
-                                    formState.errors.stønadsperioder &&
-                                    formState.errors.stønadsperioder[indeks]
-                                }
-                                radKanSlettes={indeks !== 0}
-                            />
-                        ))}
-                    </Table.Body>
-                </HvitTabell>
+                <VStack gap="4">
+                    {stønadsperioderState.value.length !== 0 && (
+                        <HvitTabell size="small">
+                            <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>Målgruppe</Table.HeaderCell>
+                                    <Table.HeaderCell>Aktivitet</Table.HeaderCell>
+                                    <Table.HeaderCell>Fra</Table.HeaderCell>
+                                    <Table.HeaderCell>Til</Table.HeaderCell>
+                                    <Table.HeaderCell />
+                                </Table.Row>
+                            </Table.Header>
+                            <Table.Body>
+                                {stønadsperioderState.value.map((periode, indeks) => (
+                                    <StønadsperiodeRad
+                                        key={periode.id || indeks}
+                                        stønadsperide={periode}
+                                        oppdaterStønadsperiode={(
+                                            property: keyof Stønadsperiode,
+                                            value: string | undefined
+                                        ) => oppdaterStønadsperiode(indeks, property, value)}
+                                        slettPeriode={() => slettPeriode(indeks)}
+                                        feilmeldinger={
+                                            formState.errors.stønadsperioder &&
+                                            formState.errors.stønadsperioder[indeks]
+                                        }
+                                        erLeservisning={
+                                            !behandlingErRedigerbar || redigerer === false
+                                        }
+                                    />
+                                ))}
+                            </Table.Body>
+                        </HvitTabell>
+                    )}
 
-                <Feilmelding>{feilmelding}</Feilmelding>
-                <Knapp size="small" type="submit" disabled={laster}>
-                    Lagre
-                </Knapp>
-                <Feilmelding>{feilmelding}</Feilmelding>
+                    <Feilmelding>{feilmelding}</Feilmelding>
+
+                    {behandlingErRedigerbar && (
+                        <Aksjonsknapper
+                            redigerer={redigerer}
+                            finnesStønadsperioder={stønadsperioderState.value.length !== 0}
+                            laster={laster}
+                            avbrytRedigering={avbrytRedigering}
+                            initierFormMedTomRad={leggTilNyPeriode}
+                            startRedigering={() => settRedigerer(true)}
+                        />
+                    )}
+                </VStack>
             </form>
         </EkspanderbartPanel>
     );

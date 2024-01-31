@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
 import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 
 interface UseInngangsvilkår {
@@ -16,19 +17,35 @@ interface UseInngangsvilkår {
     oppdaterAktivitet: (oppdatertPeriode: Aktivitet) => void;
     hentVilkårperioder: RerrunnableEffect;
     // vilkårFeilmeldinger: Vurderingsfeilmelding;
+    stønadsperioder: Stønadsperiode[];
+    oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
+    hentStønadsperioder: RerrunnableEffect;
 }
 
 interface Props {
     vilkårperioder: Vilkårperioder;
     hentVilkårperioder: RerrunnableEffect;
+    hentedeStønadsperioder: Stønadsperiode[];
+    hentStønadsperioder: RerrunnableEffect;
 }
 
 export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
-    ({ vilkårperioder, hentVilkårperioder }: Props): UseInngangsvilkår => {
+    ({
+        vilkårperioder,
+        hentVilkårperioder,
+        hentedeStønadsperioder,
+        hentStønadsperioder,
+    }: Props): UseInngangsvilkår => {
         const [målgrupper, settMålgrupper] = useState<Målgruppe[]>(vilkårperioder.målgrupper);
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
+        const [stønadsperioder, settStønadsperioder] =
+            useState<Stønadsperiode[]>(hentedeStønadsperioder);
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
+
+        useEffect(() => {
+            settStønadsperioder(hentedeStønadsperioder);
+        }, [hentedeStønadsperioder]);
 
         const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
             settMålgrupper((prevState) => [...prevState, nyPeriode]);
@@ -63,6 +80,10 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             oppdaterAktivitet,
             hentVilkårperioder,
             // vilkårFeilmeldinger,
+            stønadsperioder,
+            oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
+                settStønadsperioder(oppdaterteStønadsperioder),
+            hentStønadsperioder,
         };
     }
 );
