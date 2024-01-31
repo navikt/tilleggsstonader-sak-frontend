@@ -35,7 +35,7 @@ export type Valideringsfunksjon<T extends Record<string, any | undefined>> = (
     state: FormState<T>
 ) => FormErrors<T>;
 
-function tomtErrorState<T extends Record<string, unknown>>(initialState: FormState<T>) {
+const tomtErrorState = <T extends Record<string, unknown>>(initialState: FormState<T>) => {
     return Object.keys(initialState).reduce(
         (acc, key) => ({
             ...acc,
@@ -43,7 +43,7 @@ function tomtErrorState<T extends Record<string, unknown>>(initialState: FormSta
         }),
         {} as FormErrors<T>
     ) as FormErrors<T>;
-}
+};
 
 export default function useFormState<T extends Record<string, unknown>>(
     initialState: FormState<T>,
