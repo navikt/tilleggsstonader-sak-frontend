@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+import { Tabs } from '@navikt/ds-react';
+import { ABorderDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import Fanemeny from './Fanemeny/Fanemeny';
-import { behandlingFaner } from './Fanemeny/faner';
+import { FanePath, behandlingFaner } from './faner';
 import Høyremeny from './Høyremeny/Høyremeny';
 import VenstreMeny from './Venstremeny/Venstremeny';
+import { useApp } from '../../context/AppContext';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
 import { VilkårProvider } from '../../context/VilkårContext';
@@ -16,6 +17,7 @@ import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Personopplysninger } from '../../typer/personopplysninger';
+import { Toast } from '../../typer/toast';
 
 const BehandlingContainer = styled.div`
     display: flex;
@@ -38,14 +40,41 @@ const HøyreMenyWrapper = styled.div`
     z-index: 10;
 `;
 
+const DisabledTab = styled(Tabs.Tab)`
+    color: ${ATextSubtle};
+    &:hover {
+        box-shadow: none;
+        cursor: default;
+    }
+`;
+
 const BehandlingInnhold: React.FC<{
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
 }> = ({ behandling, hentBehandling, personopplysninger }) => {
-    const paths = useLocation().pathname.split('/').slice(-1);
+    const navigate = useNavigate();
+    const { settToast } = useApp();
 
-    const path = paths.length ? paths[paths.length - 1] : '';
+    const path = useLocation().pathname.split('/')[3];
+
+    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+
+    const håndterFaneBytte = (nyFane: FanePath) => {
+        if (!faneErLåst(nyFane)) {
+            settAktivFane(nyFane);
+            navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
+        } else {
+            settToast(Toast.DISABLED_FANE);
+        }
+    };
+
+    const faneErLåst = (fanePath: FanePath) => {
+        if (fanePath === FanePath.SIMULERING) {
+            return true;
+        }
+        return false;
+    };
 
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
@@ -55,22 +84,36 @@ const BehandlingInnhold: React.FC<{
                     <VilkårProvider behandling={behandling}>
                         <VenstreMeny />
                         <InnholdWrapper>
-                            <Fanemeny behandlingId={behandling.id} aktivFane={path} />
-                            <Routes>
+                            <Tabs
+                                value={aktivFane}
+                                onChange={(e) => håndterFaneBytte(e as FanePath)}
+                            >
+                                <Tabs.List>
+                                    {behandlingFaner.map((tab) =>
+                                        faneErLåst(tab.path) ? (
+                                            <DisabledTab
+                                                key={tab.path}
+                                                value={tab.path}
+                                                label={tab.navn}
+                                                icon={tab.ikon}
+                                            />
+                                        ) : (
+                                            <Tabs.Tab
+                                                key={tab.path}
+                                                value={tab.path}
+                                                label={tab.navn}
+                                                icon={tab.ikon}
+                                            />
+                                        )
+                                    )}
+                                </Tabs.List>
+
                                 {behandlingFaner.map((tab) => (
-                                    <Route
-                                        key={tab.path}
-                                        path={`/${tab.path}`}
-                                        element={tab.komponent(behandling.id)}
-                                    />
+                                    <Tabs.Panel key={tab.path} value={tab.path}>
+                                        {tab.komponent(behandling.id)}
+                                    </Tabs.Panel>
                                 ))}
-                                <Route
-                                    path="*"
-                                    element={
-                                        <Navigate to={behandlingFaner[0].path} replace={true} />
-                                    }
-                                />
-                            </Routes>
+                            </Tabs>
                         </InnholdWrapper>
                     </VilkårProvider>
                     <HøyreMenyWrapper>

@@ -8,7 +8,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import VilkårPanel from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
 import { Målgruppe } from '../typer/målgruppe';

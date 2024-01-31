@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { VilkårpanelInnhold } from '../../../../komponenter/EkspanderbartPanel/VilkårpanelInnhold';
 import { Vilkårsregler } from '../../../../typer/regel';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import { Vilkårpanel } from '../../Vilkårspanel/Vilkårpanel';
-import { VilkårpanelInnhold } from '../../Vilkårspanel/VilkårpanelInnhold';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
+import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../lenker';
 
 interface Props {
     vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
@@ -35,10 +36,12 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         }
 
         return (
-            <Vilkårpanel
+            <VilkårPanelMedResultat
                 tittel={grunnlagBarn.registergrunnlag.navn}
-                vilkårsresultat={vilkår.resultat}
+                resultat={vilkår.resultat}
                 key={grunnlagBarn.barnId}
+                paragrafLenker={lovverkslenkerPassBarn}
+                rundskrivLenke={rundskrivPassBarn}
             >
                 <VilkårpanelInnhold>
                     {{
@@ -47,7 +50,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         ),
                     }}
                 </VilkårpanelInnhold>
-            </Vilkårpanel>
+            </VilkårPanelMedResultat>
         );
     });
 };

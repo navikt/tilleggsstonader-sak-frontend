@@ -37,3 +37,13 @@ export const lovverkslenkerAktivitet: Lenke[] = [
 ];
 
 export const rundskrivAktivitet = '';
+
+// TODO: Fyll inn riktige lenker
+export const lovverkslenkerPassBarn: Lenke[] = [
+    {
+        tekst: '§ x',
+        url: '',
+    },
+];
+
+export const rundskrivPassBarn = '';
