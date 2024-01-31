@@ -6,7 +6,8 @@ import { ChatIcon, PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import SlettVilkRperiodeModal from './SlettVilkårperiodeModal';
+import { KildeIkon } from './KildeIkon';
+import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
@@ -41,6 +42,7 @@ const VilkårperiodeRad: React.FC<{
         <TabellRad
             key={vilkårperiode.id}
             disabled={vilkårperiode.resultat === VilkårPeriodeResultat.SLETTET}
+            shadeOnHover={false}
         >
             <Table.DataCell width="max-content">
                 <HStack align="center">
@@ -93,31 +95,33 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
             <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
-            <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
+            <Table.DataCell align="center">
+                <KildeIkon kilde={vilkårperiode.kilde} />
+            </Table.DataCell>
             <Table.DataCell>
                 {visRedigerKnapper && (
-                    <>
+                    <HStack gap="2">
                         <Button
                             onClick={startRedigering}
                             variant="secondary"
-                            size="small"
+                            size="xsmall"
                             icon={<PencilIcon />}
                         >
                             Endre
                         </Button>
                         <Button
                             icon={<TrashIcon />}
-                            size={'small'}
+                            size="xsmall"
                             variant={'tertiary'}
                             onClick={() => settVisSlettModal(true)}
                         />
-                        <SlettVilkRperiodeModal
+                        <SlettVilkårperiodeModal
                             visModal={visSlettModal}
                             settVisModal={settVisSlettModal}
                             vilkårperiode={vilkårperiode}
                             type={type}
                         />
-                    </>
+                    </HStack>
                 )}
             </Table.DataCell>
         </TabellRad>

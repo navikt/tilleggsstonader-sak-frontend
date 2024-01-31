@@ -9,8 +9,8 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';
-import { AktivitetType } from '../typer/aktivitet';
-import { MålgruppeType } from '../typer/målgruppe';
+import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
 import { SlettVilkårperiode, VilkårPeriode } from '../typer/vilkårperiode';
 
 const SlettVilkårperiodeModal: React.FC<{
@@ -21,7 +21,7 @@ const SlettVilkårperiodeModal: React.FC<{
 }> = ({ vilkårperiode, visModal, settVisModal, type }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { hentVilkårperioder } = useInngangsvilkår();
+    const { oppdaterAktivitet, oppdaterMålgruppe } = useInngangsvilkår();
 
     const [feil, settFeil] = useState('');
     const [laster, settLaster] = useState(false);
@@ -43,7 +43,11 @@ const SlettVilkårperiodeModal: React.FC<{
         )
             .then((res: RessursSuksess<VilkårPeriode> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    hentVilkårperioder.rerun();
+                    if (type in MålgruppeType) {
+                        oppdaterMålgruppe(res.data as Målgruppe);
+                    } else {
+                        oppdaterAktivitet(res.data as Aktivitet);
+                    }
                     settVisModal(false);
                 } else {
                     settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
