@@ -14,7 +14,11 @@ import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
 import { formaterIsoDato, formaterIsoDatoTidMedSekunder } from '../../../../utils/dato';
 import { AktivitetType } from '../typer/aktivitet';
 import { MålgruppeType } from '../typer/målgruppe';
-import { VilkårPeriode, VilkårPeriodeResultat } from '../typer/vilkårperiode';
+import {
+    VilkårPeriode,
+    VilkårPeriodeResultat,
+    vilkårperiodeTypeTilTekst,
+} from '../typer/vilkårperiode';
 
 const TabellRad = styled(Table.Row)<{ disabled?: boolean }>`
     background: ${(props) => (props.disabled ? ABgSubtle : '')};
@@ -51,7 +55,7 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>
                 <HStack align="center">
-                    {type}
+                    {vilkårperiodeTypeTilTekst[type]}
                     {vilkårperiode.begrunnelse && (
                         <>
                             <Spacer />

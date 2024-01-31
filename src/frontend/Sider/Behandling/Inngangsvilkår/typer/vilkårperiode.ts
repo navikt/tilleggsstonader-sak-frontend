@@ -1,5 +1,5 @@
-import { Aktivitet } from './aktivitet';
-import { Målgruppe } from './målgruppe';
+import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
+import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
 import { Periode } from '../../../../utils/periode';
 
 export interface Vilkårperioder {
@@ -49,3 +49,8 @@ export interface SlettVilkårperiode {
     behandlingId: string;
     kommentar: string;
 }
+
+export const vilkårperiodeTypeTilTekst: Record<MålgruppeType | AktivitetType, string> = {
+    ...MålgruppeTypeTilTekst,
+    ...AktivitetTypeTilTekst,
+};

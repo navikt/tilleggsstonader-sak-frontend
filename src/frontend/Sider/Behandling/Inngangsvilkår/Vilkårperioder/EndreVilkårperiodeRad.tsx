@@ -12,7 +12,12 @@ import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/S
 import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
-import { KildeVilkårsperiode, VilkårPeriode, VilkårPeriodeResultat } from '../typer/vilkårperiode';
+import {
+    KildeVilkårsperiode,
+    VilkårPeriode,
+    VilkårPeriodeResultat,
+    vilkårperiodeTypeTilTekst,
+} from '../typer/vilkårperiode';
 
 const TabellRad = styled(Table.Row)<{ $feilmeldingVises: boolean }>`
     .navds-table__data-cell {
@@ -60,6 +65,9 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     hideLabel
                     erLesevisning={vilkårperiode !== undefined}
                     value={form.type}
+                    lesevisningVerdi={
+                        form.type !== '' ? vilkårperiodeTypeTilTekst[form.type] : undefined
+                    }
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
                     size="small"
