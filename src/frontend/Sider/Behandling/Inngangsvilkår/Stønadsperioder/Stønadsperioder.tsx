@@ -102,7 +102,7 @@ const Stønadsperioder: React.FC = () => {
 
         formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => ({
             ...prevState,
-            stønadsperioder: prevState.stønadsperioder.filter((_, i) => i !== indeks),
+            stønadsperioder: (prevState.stønadsperioder ?? []).filter((_, i) => i !== indeks),
         }));
     };
 
