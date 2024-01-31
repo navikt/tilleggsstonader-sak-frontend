@@ -4,7 +4,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Button, Table } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
+import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { AktivitetTypeOptions } from '../typer/aktivitet';
 import { MålgruppeTypeOptions } from '../typer/målgruppe';
@@ -55,7 +55,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 />
             </Table.DataCell>
             <Table.DataCell>
-                <DateInput
+                <DateInputMedLeservisning
                     erLesevisning={erLeservisning}
                     label={'Fra'}
                     hideLabel
@@ -66,7 +66,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 />
             </Table.DataCell>
             <Table.DataCell>
-                <DateInput
+                <DateInputMedLeservisning
                     erLesevisning={erLeservisning}
                     label={'Til'}
                     hideLabel

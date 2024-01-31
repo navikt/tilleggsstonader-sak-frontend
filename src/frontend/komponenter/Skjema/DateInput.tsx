@@ -2,43 +2,24 @@ import React, { ReactNode } from 'react';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
-import Lesefelt from './Lesefelt';
-import { formaterDato, nullableTilDato, tilLocaleDateString } from '../../utils/dato';
+import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 
-export interface Props {
-    className?: string;
-    erLesevisning?: boolean;
+export interface DateInputProps {
     feil?: ReactNode;
     hideLabel?: boolean;
-    label?: string;
+    label: string;
     onChange: (dato?: string) => void;
     size?: 'small' | 'medium';
     value?: string;
 }
 
-const DateInput: React.FC<Props> = ({
-    className,
-    erLesevisning = false,
-    feil,
-    hideLabel,
-    label,
-    onChange,
-    size,
-    value,
-}) => {
-    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
+const DateInput: React.FC<DateInputProps> = ({ feil, hideLabel, label, onChange, size, value }) => {
+    const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(value),
         onDateChange: (val) => onChange(val ? tilLocaleDateString(val) : val),
     });
 
-    return erLesevisning ? (
-        <Lesefelt
-            className={className}
-            label={label}
-            hideLabel={hideLabel}
-            verdi={formaterDato(selectedDay)}
-        />
-    ) : (
+    return (
         <DatePicker {...datepickerProps}>
             <DatePicker.Input
                 {...inputProps}
