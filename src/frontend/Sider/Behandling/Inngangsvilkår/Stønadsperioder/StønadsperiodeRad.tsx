@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Select } from '@navikt/ds-react';
+import { Button, Select, Table } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
@@ -30,72 +30,82 @@ const StønadsperiodeRad: React.FC<Props> = ({
         feilmeldinger && feilmeldinger[property];
 
     return (
-        <>
-            <Select
-                label={'Målgruppe'}
-                hideLabel
-                value={stønadsperide.målgruppe}
-                onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
-                size="small"
-                error={finnFeilmelding('målgruppe')}
-            >
-                <option value="">Velg</option>
-                {Object.keys(MålgruppeType).map((type) => (
-                    <option key={type} value={type}>
-                        {type}
-                    </option>
-                ))}
-            </Select>
-            <Select
-                label={'Aktivitet'}
-                hideLabel
-                value={stønadsperide.aktivitet}
-                onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
-                size="small"
-                error={finnFeilmelding('aktivitet')}
-            >
-                <option value="">Velg</option>
-                {Object.keys(AktivitetType).map((type) => (
-                    <option key={type} value={type}>
-                        {type}
-                    </option>
-                ))}
-            </Select>
-            <DateInput
-                label={'Fra'}
-                hideLabel
-                value={stønadsperide.fom}
-                onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
-                size="small"
-                feil={finnFeilmelding('fom')}
-            />
-            <DateInput
-                label={'Til'}
-                hideLabel
-                value={stønadsperide.tom}
-                onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
-                size="small"
-                feil={finnFeilmelding('tom')}
-            />
-            <div>
-                <Button
-                    type="button"
-                    onClick={leggTilTomRadUnder}
-                    variant="tertiary"
-                    icon={<PlusCircleIcon />}
+        <Table.Row>
+            <Table.DataCell>
+                <Select
+                    label={'Målgruppe'}
+                    hideLabel
+                    value={stønadsperide.målgruppe}
+                    onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
                     size="small"
+                    error={finnFeilmelding('målgruppe')}
+                >
+                    <option value="">Velg</option>
+                    {Object.keys(MålgruppeType).map((type) => (
+                        <option key={type} value={type}>
+                            {type}
+                        </option>
+                    ))}
+                </Select>
+            </Table.DataCell>
+            <Table.DataCell>
+                <Select
+                    label={'Aktivitet'}
+                    hideLabel
+                    value={stønadsperide.aktivitet}
+                    onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
+                    size="small"
+                    error={finnFeilmelding('aktivitet')}
+                >
+                    <option value="">Velg</option>
+                    {Object.keys(AktivitetType).map((type) => (
+                        <option key={type} value={type}>
+                            {type}
+                        </option>
+                    ))}
+                </Select>
+            </Table.DataCell>
+            <Table.DataCell>
+                <DateInput
+                    label={'Fra'}
+                    hideLabel
+                    value={stønadsperide.fom}
+                    onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
+                    size="small"
+                    feil={finnFeilmelding('fom')}
                 />
-                {radKanSlettes && (
+            </Table.DataCell>
+            <Table.DataCell>
+                <DateInput
+                    label={'Til'}
+                    hideLabel
+                    value={stønadsperide.tom}
+                    onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
+                    size="small"
+                    feil={finnFeilmelding('tom')}
+                />
+            </Table.DataCell>
+            <Table.DataCell>
+                <div>
                     <Button
                         type="button"
-                        onClick={slettPeriode}
+                        onClick={leggTilTomRadUnder}
                         variant="tertiary"
-                        icon={<TrashIcon />}
+                        icon={<PlusCircleIcon />}
                         size="small"
                     />
-                )}
-            </div>
-        </>
+                    {radKanSlettes && (
+                        <Button
+                            type="button"
+                            onClick={slettPeriode}
+                            variant="tertiary"
+                            icon={<TrashIcon />}
+                            size="small"
+                        />
+                    )}
+                </div>
+            </Table.DataCell>
+        </Table.Row>
     );
 };
 
