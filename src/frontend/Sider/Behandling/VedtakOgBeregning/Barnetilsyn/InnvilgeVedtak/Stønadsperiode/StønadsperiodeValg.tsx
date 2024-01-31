@@ -8,7 +8,7 @@ import { Button, Heading, Label } from '@navikt/ds-react';
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../../../hooks/felles/useListState';
-import DateInput from '../../../../../../komponenter/Skjema/DateInput';
+import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Stønadsperiode, StønadsperiodeProperty } from '../../../../../../typer/vedtak';
 import { leggTilTomRadUnderIListe, tomStønadsperiodeRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
@@ -76,7 +76,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
                 <Label size="small">Til</Label>
                 {stønadsperioderState.value.map((stønadsperiode, indeks) => (
                     <React.Fragment key={stønadsperiode.endretKey}>
-                        <DateInput
+                        <DateInputMedLeservisning
                             label="Fra"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}
@@ -87,7 +87,7 @@ const StønadsperiodeValg: React.FC<Props> = ({
                             size="small"
                             feil={errorState && errorState[indeks]?.fom}
                         />
-                        <DateInput
+                        <DateInputMedLeservisning
                             label="Til"
                             hideLabel
                             erLesevisning={!behandlingErRedigerbar}

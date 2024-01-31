@@ -7,7 +7,7 @@ import { Button, Table } from '@navikt/ds-react';
 import { KildeIkon } from './KildeIkon';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
+import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
@@ -66,7 +66,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 />
             </Table.DataCell>
             <Table.DataCell>
-                <DateInput
+                <DateInputMedLeservisning
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Fra'}
                     hideLabel
@@ -77,7 +77,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 />
             </Table.DataCell>
             <Table.DataCell>
-                <DateInput
+                <DateInputMedLeservisning
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Til'}
                     hideLabel

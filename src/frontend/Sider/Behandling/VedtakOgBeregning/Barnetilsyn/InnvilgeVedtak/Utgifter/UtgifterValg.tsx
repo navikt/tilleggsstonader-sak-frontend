@@ -7,7 +7,7 @@ import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
-import DateInput from '../../../../../../komponenter/Skjema/DateInput';
+import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
@@ -111,7 +111,7 @@ const UtgifterValg: React.FC<Props> = ({
                                 error={errorState && errorState[indeks]?.utgift}
                                 size="small"
                             />
-                            <DateInput
+                            <DateInputMedLeservisning
                                 label="Fra"
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
@@ -126,7 +126,7 @@ const UtgifterValg: React.FC<Props> = ({
                                 feil={errorState && errorState[indeks]?.fom}
                                 size="small"
                             />
-                            <DateInput
+                            <DateInputMedLeservisning
                                 label="Til"
                                 hideLabel
                                 erLesevisning={!behandlingErRedigerbar}
