@@ -100,10 +100,10 @@ const Stønadsperioder: React.FC = () => {
     const slettPeriode = (indeks: number) => {
         stønadsperioderState.remove(indeks);
 
-        formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => {
-            const stønadsperioder = (prevState.stønadsperioder ?? []).splice(indeks, 1);
-            return { ...prevState, stønadsperioder };
-        });
+        formState.setErrors((prevState: FormErrors<StønadsperiodeForm>) => ({
+            ...prevState,
+            stønadsperioder: prevState.stønadsperioder.filter((_, i) => i !== indeks),
+        }));
     };
 
     const oppdaterStønadsperiode = (
