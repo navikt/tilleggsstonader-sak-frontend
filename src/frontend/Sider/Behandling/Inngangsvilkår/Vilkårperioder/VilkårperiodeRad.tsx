@@ -3,7 +3,16 @@ import React, { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { ChatIcon, PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/ds-react';
+import {
+    BodyShort,
+    Button,
+    Detail,
+    HStack,
+    Popover,
+    Spacer,
+    Table,
+    VStack,
+} from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { KildeIkon } from './KildeIkon';
@@ -14,7 +23,11 @@ import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
 import { formaterIsoDato, formaterIsoDatoTidMedSekunder } from '../../../../utils/dato';
 import { AktivitetType } from '../typer/aktivitet';
 import { MålgruppeType } from '../typer/målgruppe';
-import { VilkårPeriode, VilkårPeriodeResultat } from '../typer/vilkårperiode';
+import {
+    VilkårPeriode,
+    VilkårPeriodeResultat,
+    vilkårperiodeTypeTilTekst,
+} from '../typer/vilkårperiode';
 
 const TabellRad = styled(Table.Row)<{ disabled?: boolean }>`
     background: ${(props) => (props.disabled ? ABgSubtle : '')};
@@ -51,7 +64,7 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>
                 <HStack align="center">
-                    {type}
+                    <BodyShort size="small">{vilkårperiodeTypeTilTekst[type]}</BodyShort>
                     {vilkårperiode.begrunnelse && (
                         <>
                             <Spacer />
@@ -93,8 +106,12 @@ const VilkårperiodeRad: React.FC<{
                     )}
                 </HStack>
             </Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
+            <Table.DataCell>
+                <BodyShort size="small">{formaterIsoDato(vilkårperiode.fom)}</BodyShort>
+            </Table.DataCell>
+            <Table.DataCell>
+                <BodyShort size="small">{formaterIsoDato(vilkårperiode.tom)}</BodyShort>
+            </Table.DataCell>
             <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode.kilde} />
             </Table.DataCell>
