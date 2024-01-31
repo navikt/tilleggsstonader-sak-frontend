@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Label } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
+import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
@@ -17,15 +18,8 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { leggTilTomRadUnderIListe } from '../../VedtakOgBeregning/Barnetilsyn/utils';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(5, max-content);
-    grid-gap: 0.5rem 1rem;
-    align-items: start;
-
-    > :nth-child(5n) {
-        grid-column: 1;
-    }
+const HvitTabell = styled(Table)`
+    background-color: ${AWhite};
 `;
 
 const Knapp = styled(Button)`
@@ -62,6 +56,7 @@ const Stønadsperioder: React.FC<{
 
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
+
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
             stønadsperioder: validerStønadsperioder(
@@ -137,30 +132,35 @@ const Stønadsperioder: React.FC<{
     return (
         <EkspanderbartPanel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
-                <Grid>
-                    <Label size="small">Målgruppe</Label>
-                    <Label size="small">Aktivitet</Label>
-                    <Label size="small">Fra</Label>
-                    <Label size="small">Til</Label>
-
-                    {stønadsperioderState.value.map((periode, indeks) => (
-                        <StønadsperiodeRad
-                            key={periode.id}
-                            stønadsperide={periode}
-                            oppdaterStønadsperiode={(
-                                property: keyof Stønadsperiode,
-                                value: string | undefined
-                            ) => oppdaterStønadsperiode(indeks, property, value)}
-                            leggTilTomRadUnder={() => leggTilTomRadUnder(indeks)}
-                            slettPeriode={() => slettPeriode(indeks)}
-                            feilmeldinger={
-                                formState.errors.stønadsperioder &&
-                                formState.errors.stønadsperioder[indeks]
-                            }
-                            radKanSlettes={indeks !== 0}
-                        />
-                    ))}
-                </Grid>
+                <HvitTabell>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Målgruppe</Table.HeaderCell>
+                            <Table.HeaderCell>Aktivitet</Table.HeaderCell>
+                            <Table.HeaderCell>Fra</Table.HeaderCell>
+                            <Table.HeaderCell>Til</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {stønadsperioderState.value.map((periode, indeks) => (
+                            <StønadsperiodeRad
+                                key={periode.id}
+                                stønadsperide={periode}
+                                oppdaterStønadsperiode={(
+                                    property: keyof Stønadsperiode,
+                                    value: string | undefined
+                                ) => oppdaterStønadsperiode(indeks, property, value)}
+                                leggTilTomRadUnder={() => leggTilTomRadUnder(indeks)}
+                                slettPeriode={() => slettPeriode(indeks)}
+                                feilmeldinger={
+                                    formState.errors.stønadsperioder &&
+                                    formState.errors.stønadsperioder[indeks]
+                                }
+                                radKanSlettes={indeks !== 0}
+                            />
+                        ))}
+                    </Table.Body>
+                </HvitTabell>
 
                 <Feilmelding>{feilmelding}</Feilmelding>
                 <Knapp size="small" type="submit" disabled={laster}>
