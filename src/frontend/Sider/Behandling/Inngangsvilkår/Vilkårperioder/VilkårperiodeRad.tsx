@@ -3,7 +3,16 @@ import React, { useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { ChatIcon, PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Detail, HStack, Popover, Spacer, Table, VStack } from '@navikt/ds-react';
+import {
+    BodyShort,
+    Button,
+    Detail,
+    HStack,
+    Popover,
+    Spacer,
+    Table,
+    VStack,
+} from '@navikt/ds-react';
 import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { KildeIkon } from './KildeIkon';
@@ -55,7 +64,7 @@ const VilkårperiodeRad: React.FC<{
             </Table.DataCell>
             <Table.DataCell>
                 <HStack align="center">
-                    {vilkårperiodeTypeTilTekst[type]}
+                    <BodyShort size="small">{vilkårperiodeTypeTilTekst[type]}</BodyShort>
                     {vilkårperiode.begrunnelse && (
                         <>
                             <Spacer />
@@ -97,8 +106,12 @@ const VilkårperiodeRad: React.FC<{
                     )}
                 </HStack>
             </Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
+            <Table.DataCell>
+                <BodyShort size="small">{formaterIsoDato(vilkårperiode.fom)}</BodyShort>
+            </Table.DataCell>
+            <Table.DataCell>
+                <BodyShort size="small">{formaterIsoDato(vilkårperiode.tom)}</BodyShort>
+            </Table.DataCell>
             <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode.kilde} />
             </Table.DataCell>
