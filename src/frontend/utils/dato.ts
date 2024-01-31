@@ -30,6 +30,10 @@ export const nullableTilDato = (dato: string | Date | undefined): Date | undefin
     }
 };
 
+export const formaterDato = (dato?: string | Date): string | undefined => {
+    return dato && format(tilDato(dato), 'dd.MM.yyyy');
+};
+
 export const dagensDatoFormatert = (): string => {
     return new Date().toLocaleDateString('no-NO', {
         day: '2-digit',
