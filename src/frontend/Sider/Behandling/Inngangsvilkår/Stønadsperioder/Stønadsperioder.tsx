@@ -42,13 +42,8 @@ const initFormState = (
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const {
-        målgrupper,
-        aktiviteter,
-        stønadsperioder,
-        oppdaterStønadsperioder,
-        hentStønadsperioder,
-    } = useInngangsvilkår();
+    const { målgrupper, aktiviteter, stønadsperioder, oppdaterStønadsperioder } =
+        useInngangsvilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
@@ -122,7 +117,7 @@ const Stønadsperioder: React.FC = () => {
 
     const avbrytRedigering = () => {
         settRedigerer(false);
-        hentStønadsperioder.rerun();
+        stønadsperioderState.setValue(stønadsperioder);
     };
 
     return (
