@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Button, Table } from '@navikt/ds-react';
 
+import { KildeIkon } from './KildeIkon';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
@@ -13,10 +14,10 @@ import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { KildeVilkårsperiode, VilkårPeriode, VilkårPeriodeResultat } from '../typer/vilkårperiode';
 
-const TabellRad = styled(Table.Row)`
+const TabellRad = styled(Table.Row)<{ $feilmeldingVises: boolean }>`
     .navds-table__data-cell {
         border-color: transparent;
-        vertical-align: top;
+        vertical-align: ${(props) => (props.$feilmeldingVises ? 'top' : 'center')};
     }
 `;
 
@@ -47,7 +48,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     periodeFeil,
 }) => {
     return (
-        <TabellRad>
+        <TabellRad $feilmeldingVises={!!periodeFeil} shadeOnHover={false}>
             <Table.DataCell width="max-content">
                 <VilkårsresultatIkon
                     vilkårsresultat={vilkårperiode?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}
@@ -86,14 +87,16 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     feil={periodeFeil?.tom}
                 />
             </Table.DataCell>
-            <Table.DataCell>{vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL}</Table.DataCell>
+            <Table.DataCell align="center">
+                <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
+            </Table.DataCell>
             <Table.DataCell>
                 <KnappeRad>
-                    <Button size="small" onClick={lagre}>
+                    <Button size="xsmall" onClick={lagre}>
                         Lagre
                     </Button>
 
-                    <Button onClick={avbrytRedigering} variant="secondary" size="small">
+                    <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                         Avbryt
                     </Button>
                 </KnappeRad>
