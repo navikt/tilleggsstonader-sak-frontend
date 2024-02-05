@@ -9,6 +9,7 @@ import {
 
 import Brev from './Brev/Brev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
+import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 
@@ -49,7 +50,7 @@ export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[
         {
             navn: faneNavnStønadsvilkår[stønadstype],
             path: FanePath.STØNADSVILKÅR,
-            komponent: () => <p>Vilkår for arbeid</p>,
+            komponent: () => <Stønadsvilkår />,
             ikon: <HouseHeartIcon />,
         },
         {

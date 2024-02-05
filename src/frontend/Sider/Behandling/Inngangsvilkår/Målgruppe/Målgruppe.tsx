@@ -10,7 +10,7 @@ import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../lenker';
+import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
 import { Målgruppe } from '../typer/målgruppe';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 

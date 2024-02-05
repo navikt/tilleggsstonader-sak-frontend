@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { BodyShort, HStack, Heading, Link } from '@navikt/ds-react';
 
 import EkspanderbartPanel from './EkspanderbartPanel';
-import { Lenke } from '../../Sider/Behandling/Inngangsvilkår/lenker';
+import { Lenke } from '../../Sider/Behandling/lenker';
 import { Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { VilkårsresultatIkon } from '../Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 
