@@ -42,10 +42,15 @@ const initFormState = (
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { målgrupper, aktiviteter, stønadsperioder, oppdaterStønadsperioder } =
-        useInngangsvilkår();
+    const {
+        målgrupper,
+        aktiviteter,
+        stønadsperioder,
+        oppdaterStønadsperioder,
+        stønadsperiodeFeil,
+        settStønadsperiodeFeil,
+    } = useInngangsvilkår();
 
-    const [feilmelding, settFeilmelding] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
     const [redigerer, settRedigerer] = useState<boolean>(false);
 
@@ -71,7 +76,7 @@ const Stønadsperioder: React.FC = () => {
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
         settLaster(true);
-        settFeilmelding(undefined);
+        settStønadsperiodeFeil(undefined);
         return request<Stønadsperiode[], Stønadsperiode>(
             `/api/sak/stonadsperiode/${behandling.id}`,
             'POST',
@@ -82,7 +87,7 @@ const Stønadsperioder: React.FC = () => {
                     settRedigerer(false);
                     oppdaterStønadsperioder(res.data);
                 } else {
-                    settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                    settStønadsperiodeFeil(`Feilet legg til periode:${res.frontendFeilmelding}`);
                 }
             })
             .finally(() => settLaster(false));
@@ -158,7 +163,7 @@ const Stønadsperioder: React.FC = () => {
                         </HvitTabell>
                     )}
 
-                    <Feilmelding>{feilmelding}</Feilmelding>
+                    <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
 
                     {behandlingErRedigerbar && (
                         <Aksjonsknapper
