@@ -15,10 +15,10 @@ const MålgruppeVilkår: React.FC<{
         case '':
         case MålgruppeType.AAP:
         case MålgruppeType.OVERGANGSSTØNAD:
-        case MålgruppeType.UFØRETRYGD:
             return null;
 
         case MålgruppeType.OMSTILLINGSSTØNAD:
+        case MålgruppeType.UFØRETRYGD:
             return (
                 <JaNeiVurdering
                     label="medlemskap"
@@ -27,7 +27,7 @@ const MålgruppeVilkår: React.FC<{
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
                     svarJa="Ja (vurdert etter første ledd)"
-                    svarNei="'Nei (vurdert etter andre ledd)"
+                    svarNei="Nei (vurdert etter andre ledd)"
                 />
             );
 
