@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Tabs } from '@navikt/ds-react';
 import { ABorderDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, behandlingFaner } from './faner';
+import { FanePath, hentBehandlingfaner } from './faner';
 import Høyremeny from './Høyremeny/Høyremeny';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { useApp } from '../../context/AppContext';
@@ -75,6 +75,8 @@ const BehandlingInnhold: React.FC<{
         }
         return false;
     };
+
+    const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
 
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>

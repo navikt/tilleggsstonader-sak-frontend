@@ -3,9 +3,9 @@ import React from 'react';
 import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { VilkårpanelInnhold } from '../../../../komponenter/EkspanderbartPanel/VilkårpanelInnhold';
 import { Vilkårsregler } from '../../../../typer/regel';
+import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
-import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../lenker';
 
 interface Props {
     vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;

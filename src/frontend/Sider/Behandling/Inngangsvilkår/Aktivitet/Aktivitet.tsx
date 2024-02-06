@@ -10,7 +10,7 @@ import EndreAktivitetRad from './EndreAktivitetRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../lenker';
+import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import { Aktivitet } from '../typer/aktivitet';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
