@@ -14,7 +14,7 @@ import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/Vedtak
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 
 export type FanerMedRouter = {
-    navn: string;
+    navn: FaneNavn | StønadsvilkårFaneNavn;
     path: FanePath;
     komponent: (behandlingId: string) => React.ReactNode | undefined;
     ikon?: React.ReactNode;
@@ -27,17 +27,21 @@ export enum FaneNavn {
     BREV = 'Vedtaksbrev',
 }
 
+export enum StønadsvilkårFaneNavn {
+    PASS_BARN = 'Pass barn',
+}
+
+const faneNavnStønadsvilkår: Record<Stønadstype, StønadsvilkårFaneNavn> = {
+    BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
+};
+
 export enum FanePath {
     INNGANGSVILKÅR = 'inngangsvilkar',
-    STØNADSVILKÅR = 'arbeidsvilkar',
+    STØNADSVILKÅR = 'stonadsvilkar',
     VEDTAK_OG_BEREGNING = 'vedtak-og-beregning',
     SIMULERING = 'simulering',
     BREV = 'brev',
 }
-
-const faneNavnStønadsvilkår: Record<Stønadstype, string> = {
-    BARNETILSYN: 'Pass barn',
-};
 
 export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[] => {
     return [
