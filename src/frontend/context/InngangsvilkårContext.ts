@@ -18,6 +18,8 @@ interface UseInngangsvilkår {
     hentVilkårperioder: RerrunnableEffect;
     // vilkårFeilmeldinger: Vurderingsfeilmelding;
     stønadsperioder: Stønadsperiode[];
+    stønadsperiodeFeil: string | undefined;
+    settStønadsperiodeFeil: (feilmelding: string | undefined) => void;
     oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
     hentStønadsperioder: RerrunnableEffect;
 }
@@ -40,6 +42,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
         const [stønadsperioder, settStønadsperioder] =
             useState<Stønadsperiode[]>(hentedeStønadsperioder);
+        const [stønadsperiodeFeil, settStønadsperiodeFeil] = useState<string>();
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
@@ -81,6 +84,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             hentVilkårperioder,
             // vilkårFeilmeldinger,
             stønadsperioder,
+            stønadsperiodeFeil,
+            settStønadsperiodeFeil,
             oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
                 settStønadsperioder(oppdaterteStønadsperioder),
             hentStønadsperioder,

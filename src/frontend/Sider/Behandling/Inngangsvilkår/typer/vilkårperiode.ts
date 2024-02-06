@@ -7,6 +7,17 @@ export interface Vilkårperioder {
     aktiviteter: Aktivitet[];
 }
 
+export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe> {
+    periode: T;
+    stønadsperiodeStatus: StønadsperiodeStatus;
+    stønadsperiodeFeil?: string;
+}
+
+export enum StønadsperiodeStatus {
+    Feil = 'Feil',
+    Ok = 'Ok',
+}
+
 export interface VilkårPeriode extends Periode {
     id: string;
     resultat: VilkårPeriodeResultat;

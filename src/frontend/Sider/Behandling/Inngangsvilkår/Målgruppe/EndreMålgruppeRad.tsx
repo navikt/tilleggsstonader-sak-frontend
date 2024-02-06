@@ -14,7 +14,11 @@ import {
     MålgruppeType,
     MålgruppeTypeOptions,
 } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import {
+    LagreVilkårperiodeResponse,
+    StønadsperiodeStatus,
+    Vurdering,
+} from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
@@ -39,7 +43,7 @@ const EndreMålgruppeRad: React.FC<{
 }> = ({ målgruppe, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { oppdaterMålgruppe, leggTilMålgruppe } = useInngangsvilkår();
+    const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
         initaliserForm(behandling.id, målgruppe)
@@ -66,14 +70,21 @@ const EndreMålgruppeRad: React.FC<{
 
             const erNyPeriode = målgruppe === undefined;
 
-            return request<Målgruppe, EndreMålgruppeForm>(
+            return request<LagreVilkårperiodeResponse<Målgruppe>, EndreMålgruppeForm>(
                 erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${målgruppe.id}`,
                 'POST',
                 målgruppeForm
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        erNyPeriode ? leggTilMålgruppe(res.data) : oppdaterMålgruppe(res.data);
+                        erNyPeriode
+                            ? leggTilMålgruppe(res.data.periode)
+                            : oppdaterMålgruppe(res.data.periode);
+                        if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
+                            settStønadsperiodeFeil(undefined);
+                        } else {
+                            settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
+                        }
                         avbrytRedigering();
                     } else {
                         settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
