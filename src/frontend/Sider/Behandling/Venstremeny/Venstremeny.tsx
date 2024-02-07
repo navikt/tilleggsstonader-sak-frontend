@@ -12,7 +12,7 @@ const Container = styled(Sticky)`
     top: 97px;
     border-right: 1px solid ${ABorderDefault};
     height: calc(100vh - 97px);
-    min-width: 18rem;
+    width: 20rem;
 `;
 
 const tabs = [
