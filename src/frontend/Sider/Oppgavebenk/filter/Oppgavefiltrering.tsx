@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Select, TextField } from '@navikt/ds-react';
+import { Button, Select, TextField, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
 import {
@@ -23,18 +23,14 @@ import { oppgaveTypeTilTekst } from '../typer/oppgavetema';
 const FlexDiv = styled.div`
     display: flex;
     flex-wrap: wrap;
-    column-gap: 1.5rem;
+    column-gap: 1rem;
     row-gap: 1rem;
 `;
 
 const KnappWrapper = styled.div`
     display: flex;
     flex-direction: row;
-    margin-top: 1rem;
-`;
-
-const FiltreringKnapp = styled(Button)`
-    margin-right: 1.5rem;
+    gap: 1rem;
 `;
 
 const hentLagretFiltrering = (
@@ -94,7 +90,7 @@ export const Oppgavefiltrering = () => {
     }
 
     return (
-        <>
+        <VStack gap="4">
             <FlexDiv>
                 <Select
                     value={oppgaveRequest.oppgavetype}
@@ -158,17 +154,18 @@ export const Oppgavefiltrering = () => {
                 />
             </FlexDiv>
             <KnappWrapper>
-                <FiltreringKnapp onClick={sjekkFeilOgHentOppgaver} type={'submit'}>
+                <Button onClick={sjekkFeilOgHentOppgaver} type={'submit'} size="small">
                     Hent oppgaver
-                </FiltreringKnapp>
-                <FiltreringKnapp
+                </Button>
+                <Button
                     variant={'secondary'}
                     onClick={tilbakestillFiltrering}
                     type={'button'}
+                    size="small"
                 >
                     Tilbakestill filtrering
-                </FiltreringKnapp>
+                </Button>
             </KnappWrapper>
-        </>
+        </VStack>
     );
 };
