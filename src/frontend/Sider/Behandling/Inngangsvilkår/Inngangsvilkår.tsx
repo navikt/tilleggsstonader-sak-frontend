@@ -18,7 +18,7 @@ import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
-import { erProd } from '../../../utils/miljø';
+import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -53,7 +53,7 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            {!erProd() && <FyllUtVilkårKnapp />}
+            {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
                     vilkårperioder,
