@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -75,6 +75,10 @@ const BehandlingInnhold: React.FC<{
         }
         return false;
     };
+
+    useEffect(() => {
+        settAktivFane(path);
+    }, [path]);
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
 
