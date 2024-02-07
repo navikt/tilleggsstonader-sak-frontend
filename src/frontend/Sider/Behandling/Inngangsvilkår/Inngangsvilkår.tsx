@@ -17,7 +17,7 @@ import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
-import { erProd } from '../../../utils/miljø';
+import { erLokalt } from '../../../utils/miljø';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -50,7 +50,7 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            {!erProd() && <FyllUtVilkårKnapp />}
+            {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
                     vilkårperioder,
