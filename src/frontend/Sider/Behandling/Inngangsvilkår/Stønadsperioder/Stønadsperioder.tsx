@@ -42,25 +42,15 @@ const initFormState = (
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const {
-        målgrupper,
-        aktiviteter,
-        stønadsperioder,
-        oppdaterStønadsperioder,
-        stønadsperiodeFeil,
-        settStønadsperiodeFeil,
-    } = useInngangsvilkår();
+    const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
+        useInngangsvilkår();
 
     const [laster, settLaster] = useState<boolean>(false);
     const [redigerer, settRedigerer] = useState<boolean>(false);
 
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
-            stønadsperioder: validerStønadsperioder(
-                formState.stønadsperioder,
-                målgrupper,
-                aktiviteter
-            ),
+            stønadsperioder: validerStønadsperioder(formState.stønadsperioder),
         };
     };
 
