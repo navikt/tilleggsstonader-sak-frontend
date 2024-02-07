@@ -7,6 +7,7 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
@@ -21,6 +22,7 @@ const HvitTabell = styled(Table)`
 
 const Aktivitet: React.FC = () => {
     const { aktiviteter } = useInngangsvilkår();
+    const { behandlingErRedigerbar } = useBehandling();
 
     const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
@@ -92,7 +94,7 @@ const Aktivitet: React.FC = () => {
                 </HvitTabell>
             )}
             <Feilmelding>{feilmelding}</Feilmelding>
-            {kanSetteNyRadIRedigeringsmodus && (
+            {kanSetteNyRadIRedigeringsmodus && behandlingErRedigerbar && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
                     size="small"
