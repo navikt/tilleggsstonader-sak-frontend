@@ -100,6 +100,7 @@ export const Oppgavefiltrering = () => {
                     value={oppgaveRequest.oppgavetype}
                     label="Type"
                     onChange={oppdaterOppgaveTargetValue('oppgavetype')}
+                    size="small"
                 >
                     <option value="">Alle</option>
                     {Object.entries(oppgaveTypeTilTekst).map(([type, val]) => (
@@ -112,6 +113,7 @@ export const Oppgavefiltrering = () => {
                     value={oppgaveRequest.behandlingstema}
                     label="Gjelder"
                     onChange={oppdaterOppgaveTargetValue('behandlingstema')}
+                    size="small"
                 >
                     <option value="">Alle</option>
                     {Object.entries(behandlingstemaTilTekst).map(([type, val]) => (
@@ -124,6 +126,7 @@ export const Oppgavefiltrering = () => {
                     value={oppgaveRequest.enhet}
                     label="Enhet"
                     onChange={oppdaterOppgaveTargetValue('enhet')}
+                    size="small"
                 >
                     {Object.entries(
                         enhetTilTekst(
@@ -151,6 +154,7 @@ export const Oppgavefiltrering = () => {
                         }
                     }}
                     autoComplete="off"
+                    size="small"
                 />
             </FlexDiv>
             <KnappWrapper>
