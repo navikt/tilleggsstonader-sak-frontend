@@ -77,7 +77,7 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-            <HStack gap="4">
+            <HStack>
                 <Button
                     variant="primary"
                     size="small"
@@ -86,9 +86,6 @@ const Inngangsvilkår = () => {
                     }
                 >
                     Neste steg
-                </Button>
-                <Button variant="secondary" size="small" onClick={() => navigate('/')}>
-                    Forsett senere
                 </Button>
             </HStack>
         </Container>
