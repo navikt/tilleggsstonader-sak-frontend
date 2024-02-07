@@ -56,7 +56,7 @@ const SaksbehandlerVelger: React.FC<Props> = ({ oppgaveRequest, settOppgaveReque
     };
 
     return (
-        <Select value={saksbehandlerTekst} label="Saksbehandler" onChange={onChange}>
+        <Select value={saksbehandlerTekst} label="Saksbehandler" onChange={onChange} size="small">
             <option value="Alle">Alle</option>
             <option value="Fordelte">Fordelte</option>
             <option value="Ufordelte">Ufordelte</option>

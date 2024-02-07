@@ -9,14 +9,9 @@ import { IdentGruppe, Oppgave } from './typer/oppgave';
 import { usePagineringState } from '../../hooks/felles/usePaginerState';
 import { useSorteringState } from '../../hooks/felles/useSorteringState';
 import { PartialRecord } from '../../typer/common';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+const Tabell = styled(Table)`
+    width: 1100px;
 `;
-
 interface Props {
     oppgaver: Oppgave[];
 }
@@ -47,11 +42,8 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
     );
 
     return (
-        <Container>
-            {antallSider > 1 && (
-                <Pagination page={valgtSide} count={antallSider} onPageChange={settValgtSide} />
-            )}
-            <Table
+        <>
+            <Tabell
                 size="small"
                 sort={sortState}
                 onSortChange={(sortKey) => settSortering(sortKey as keyof Oppgave)}
@@ -75,8 +67,16 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                         <Oppgaverad key={oppgave.id} oppgave={oppgave} />
                     ))}
                 </Table.Body>
-            </Table>
-        </Container>
+            </Tabell>
+            {antallSider > 1 && (
+                <Pagination
+                    page={valgtSide}
+                    count={antallSider}
+                    onPageChange={settValgtSide}
+                    size="small"
+                />
+            )}
+        </>
     );
 };
 
