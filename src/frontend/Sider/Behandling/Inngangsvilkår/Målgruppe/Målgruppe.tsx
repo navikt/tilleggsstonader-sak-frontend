@@ -16,7 +16,7 @@ import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
     background-color: ${AWhite};
-    max-width: fit-content;
+    max-width: 750px;
 `;
 
 const Målgruppe: React.FC = () => {
