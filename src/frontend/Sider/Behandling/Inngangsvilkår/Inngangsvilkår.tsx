@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
@@ -18,12 +19,14 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
+import { FanePath } from '../faner';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
 `;
 
 const Inngangsvilkår = () => {
+    const navigate = useNavigate();
     const { request } = useApp();
     const { behandling } = useBehandling();
 
@@ -74,6 +77,17 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
+            <HStack>
+                <Button
+                    variant="primary"
+                    size="small"
+                    onClick={() =>
+                        navigate(`/behandling/${behandling.id}/${FanePath.STØNADSVILKÅR}`)
+                    }
+                >
+                    Neste steg
+                </Button>
+            </HStack>
         </Container>
     );
 };
