@@ -12,7 +12,7 @@ const Container = styled(Sticky)`
     top: 97px;
     border-right: 1px solid ${ABorderDefault};
     height: calc(100vh - 97px);
-    min-width: 18rem;
+    width: 20rem;
 `;
 
 const tabs = [
@@ -26,7 +26,7 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
-            <Tabs defaultValue="oppsummering">
+            <Tabs defaultValue="oppsummering" style={{ width: 'inherit' }}>
                 <Tabs.List>
                     {tabs.map((tab) => (
                         <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
