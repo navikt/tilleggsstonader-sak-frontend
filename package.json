@@ -10,7 +10,7 @@
     "build:dev": "cd src/backend && yarn build",
     "start:dev": "cd src/backend && yarn start:dev",
     "start:dev-preprod": "cd src/backend && yarn start:dev-preprod",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css}": [
