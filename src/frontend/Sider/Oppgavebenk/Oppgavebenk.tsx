@@ -11,7 +11,7 @@ import { useApp } from '../../context/AppContext';
 import { OppgaveProvider, useOppgave } from '../../context/OppgaveContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
-import { erLokalt } from '../../utils/miljø';
+import { erProd } from '../../utils/miljø';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -55,7 +55,7 @@ const Oppgavebenk: React.FC = () => {
 
     return (
         <div>
-            {erLokalt() && <OpprettDummyBehandling />}
+            {!erProd() && <OpprettDummyBehandling />}
             <OppgaveProvider>
                 <OppgavebenkContainer />
             </OppgaveProvider>
