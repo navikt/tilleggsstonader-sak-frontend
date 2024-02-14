@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -70,15 +70,8 @@ const BehandlingInnhold: React.FC<{
     };
 
     const faneErLåst = (fanePath: FanePath) => {
-        if (fanePath === FanePath.SIMULERING) {
-            return true;
-        }
-        return false;
+        return fanePath === FanePath.SIMULERING;
     };
-
-    useEffect(() => {
-        settAktivFane(path);
-    }, [path]);
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
 
