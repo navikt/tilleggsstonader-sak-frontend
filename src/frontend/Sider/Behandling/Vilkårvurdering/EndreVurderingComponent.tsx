@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@navikt/ds-react';
+import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import {
@@ -26,6 +27,13 @@ const Container = styled.div`
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
+`;
+
+const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
+    border-left: ${({ $erUndervilkår }) =>
+        $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
+    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
+    margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '1.5rem')};
 `;
 
 const EndreVurderingComponent: FC<{
@@ -128,10 +136,10 @@ const EndreVurderingComponent: FC<{
         <form onSubmit={onSubmit}>
             <Container>
                 {delvikårsett.map((delvikår, delvikårIndex) => {
-                    return delvikår.vurderinger.map((svar) => {
+                    return delvikår.vurderinger.map((svar, indeks) => {
                         const regel = regler[svar.regelId];
                         return (
-                            <React.Fragment key={regel.regelId}>
+                            <DelvilkårContainer $erUndervilkår={indeks !== 0} key={regel.regelId}>
                                 <VurderDelvilkår
                                     vurdering={svar}
                                     regel={regel}
@@ -153,7 +161,7 @@ const EndreVurderingComponent: FC<{
                                     svar={svar}
                                     regel={regel}
                                 />
-                            </React.Fragment>
+                            </DelvilkårContainer>
                         );
                     });
                 })}
