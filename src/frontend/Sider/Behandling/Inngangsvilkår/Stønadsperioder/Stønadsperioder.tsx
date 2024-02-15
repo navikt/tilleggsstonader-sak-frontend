@@ -16,6 +16,8 @@ import { ListState } from '../../../../hooks/felles/useListState';
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { Toast } from '../../../../typer/toast';
+import { maxIsoDate, minIsoDate } from '../../../../utils/dato';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 const HvitTabell = styled(Table)`
@@ -40,10 +42,18 @@ const initFormState = (
 });
 
 const Stønadsperioder: React.FC = () => {
-    const { request } = useApp();
+    const { request, settToast } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
-        useInngangsvilkår();
+    const {
+        målgrupper,
+        aktiviteter,
+        stønadsperioder,
+        oppdaterStønadsperioder,
+        stønadsperiodeFeil,
+        velgKombinasjon,
+        settVelgKombinasjon,
+        settStønadsperiodeFeil,
+    } = useInngangsvilkår();
 
     const [laster, settLaster] = useState<boolean>(false);
     const [redigerer, settRedigerer] = useState<boolean>(false);
@@ -62,6 +72,28 @@ const Stønadsperioder: React.FC = () => {
         formState.nullstillErrors();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stønadsperioder]);
+
+    useEffect(() => {
+        const målgruppeId = velgKombinasjon?.målgruppeId;
+        const aktivitetId = velgKombinasjon?.aktivitetId;
+        if (!målgruppeId || !aktivitetId) {
+            return;
+        }
+        const målgruppe = målgrupper.find((p) => p.id == målgruppeId);
+        const aktivitet = aktiviteter.find((p) => p.id == aktivitetId);
+        if (målgruppe && aktivitet) {
+            const stønadsperiode = {
+                målgruppe: målgruppe.type,
+                aktivitet: aktivitet.type,
+                fom: maxIsoDate(målgruppe.fom, aktivitet.fom),
+                tom: minIsoDate(målgruppe.tom, aktivitet.tom),
+            };
+            stønadsperioderState.push(stønadsperiode);
+            settToast(Toast.LAGT_TIL_STØNADSPERIODE);
+            settVelgKombinasjon(undefined);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [målgrupper, aktiviteter, velgKombinasjon]);
 
     const handleSubmit = (form: FormState<StønadsperiodeForm>) => {
         if (laster) return;
@@ -163,6 +195,9 @@ const Stønadsperioder: React.FC = () => {
                             avbrytRedigering={avbrytRedigering}
                             initierFormMedTomRad={leggTilNyPeriode}
                             startRedigering={() => settRedigerer(true)}
+                            settVelgMålgruppe={() =>
+                                settVelgKombinasjon((prevState) => (prevState ? undefined : {}))
+                            }
                         />
                     )}
                 </VStack>

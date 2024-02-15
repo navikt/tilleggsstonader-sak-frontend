@@ -2,7 +2,7 @@ import React from 'react';
 
 import DateInput, { DateInputProps } from './DateInput';
 import Lesefelt from './Lesefelt';
-import { formaterDato } from '../../utils/dato';
+import { formaterNullableDato } from '../../utils/dato';
 
 export interface Props extends DateInputProps {
     className?: string;
@@ -23,7 +23,7 @@ const DateInputMedLeservisning: React.FC<Props> = ({
             className={className}
             label={label}
             hideLabel={hideLabel}
-            verdi={formaterDato(value)}
+            verdi={formaterNullableDato(value)}
             size={size}
         />
     ) : (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
@@ -22,6 +22,13 @@ interface UseInngangsvilkår {
     settStønadsperiodeFeil: (feilmelding: string | undefined) => void;
     oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
     hentStønadsperioder: RerrunnableEffect;
+    velgKombinasjon: VelgKombinasjon | undefined;
+    settVelgKombinasjon: Dispatch<SetStateAction<VelgKombinasjon | undefined>>;
+}
+
+interface VelgKombinasjon {
+    målgruppeId?: string;
+    aktivitetId?: string;
 }
 
 interface Props {
@@ -43,6 +50,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
         const [stønadsperioder, settStønadsperioder] =
             useState<Stønadsperiode[]>(hentedeStønadsperioder);
         const [stønadsperiodeFeil, settStønadsperiodeFeil] = useState<string>();
+
+        const [velgKombinasjon, settVelgKombinasjon] = useState<VelgKombinasjon>();
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
@@ -89,6 +98,8 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
                 settStønadsperioder(oppdaterteStønadsperioder),
             hentStønadsperioder,
+            velgKombinasjon,
+            settVelgKombinasjon,
         };
     }
 );

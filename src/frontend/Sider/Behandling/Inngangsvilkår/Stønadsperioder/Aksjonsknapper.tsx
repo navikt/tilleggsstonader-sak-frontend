@@ -10,6 +10,7 @@ const Aksjonsknapper: React.FC<{
     avbrytRedigering: () => void;
     initierFormMedTomRad: () => void;
     startRedigering: () => void;
+    settVelgMålgruppe: () => void;
 }> = ({
     redigerer,
     finnesStønadsperioder,
@@ -17,6 +18,7 @@ const Aksjonsknapper: React.FC<{
     avbrytRedigering,
     initierFormMedTomRad,
     startRedigering,
+    settVelgMålgruppe,
 }) => {
     if (redigerer) {
         return (
@@ -47,39 +49,78 @@ const Aksjonsknapper: React.FC<{
                 >
                     Legg til periode
                 </Button>
+                <Button
+                    icon={<PlusCircleIcon />}
+                    size="small"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        settVelgMålgruppe();
+                    }}
+                    variant="tertiary"
+                >
+                    YOLO
+                </Button>
             </HStack>
         );
     }
 
     if (!finnesStønadsperioder) {
         return (
-            <Button
-                icon={<PlusCircleIcon />}
-                size="small"
-                onClick={(e) => {
-                    e.preventDefault();
-                    initierFormMedTomRad();
-                    startRedigering();
-                }}
-                style={{ maxWidth: 'fit-content' }}
-            >
-                Legg til stønadsperiode
-            </Button>
+            <HStack justify="space-between">
+                <Button
+                    icon={<PlusCircleIcon />}
+                    size="small"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        initierFormMedTomRad();
+                        startRedigering();
+                    }}
+                    style={{ maxWidth: 'fit-content' }}
+                >
+                    Legg til stønadsperiode
+                </Button>
+                <Button
+                    icon={<PlusCircleIcon />}
+                    size="small"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        settVelgMålgruppe();
+                        startRedigering();
+                    }}
+                    variant="tertiary"
+                >
+                    YOLO
+                </Button>
+            </HStack>
         );
     } else {
         return (
-            <Button
-                icon={<PencilIcon />}
-                size="small"
-                disabled={laster}
-                onClick={(e) => {
-                    e.preventDefault();
-                    startRedigering();
-                }}
-                style={{ maxWidth: 'fit-content' }}
-            >
-                Endre stønadsperioder
-            </Button>
+            <HStack justify="space-between">
+                <Button
+                    icon={<PencilIcon />}
+                    size="small"
+                    disabled={laster}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        startRedigering();
+                    }}
+                    style={{ maxWidth: 'fit-content' }}
+                >
+                    Endre stønadsperioder
+                </Button>
+                <Button
+                    icon={<PlusCircleIcon />}
+                    size="small"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        settVelgMålgruppe();
+                        startRedigering();
+                    }}
+                    variant="tertiary"
+                >
+                    YOLO
+                </Button>
+            </HStack>
         );
     }
 };

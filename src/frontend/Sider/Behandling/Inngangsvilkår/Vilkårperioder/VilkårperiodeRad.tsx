@@ -18,9 +18,11 @@ import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { KildeIkon } from './KildeIkon';
 import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
 import { formaterIsoDato, formaterIsoDatoTidMedSekunder } from '../../../../utils/dato';
+import { isMålgruppe } from '../Målgruppe/utils';
 import { AktivitetType } from '../typer/aktivitet';
 import { MålgruppeType } from '../typer/målgruppe';
 import {
@@ -29,8 +31,9 @@ import {
     vilkårperiodeTypeTilTekst,
 } from '../typer/vilkårperiode';
 
-const TabellRad = styled(Table.Row)<{ disabled?: boolean }>`
+const TabellRad = styled(Table.Row)<{ disabled?: boolean; marked: boolean }>`
     background: ${(props) => (props.disabled ? ABgSubtle : '')};
+    border: ${(props) => (props.marked ? '2px solid red' : '')};
 `;
 
 const BegrunnelseContainer = styled(VStack)`
@@ -43,10 +46,13 @@ const VilkårperiodeRad: React.FC<{
     startRedigering: () => void;
 }> = ({ vilkårperiode, type, startRedigering }) => {
     const { behandlingErRedigerbar } = useBehandling();
+    const { velgKombinasjon, settVelgKombinasjon } = useInngangsvilkår();
 
     const [visSlettModal, settVisSlettModal] = useState(false);
     const visRedigerKnapper =
-        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && behandlingErRedigerbar;
+        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET &&
+        behandlingErRedigerbar &&
+        velgKombinasjon === undefined;
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [visBeskrivelse, settVisBeskrivelse] = useState(false);
@@ -56,6 +62,10 @@ const VilkårperiodeRad: React.FC<{
             key={vilkårperiode.id}
             disabled={vilkårperiode.resultat === VilkårPeriodeResultat.SLETTET}
             shadeOnHover={false}
+            marked={
+                velgKombinasjon?.målgruppeId === vilkårperiode.id ||
+                velgKombinasjon?.aktivitetId === vilkårperiode.id
+            }
         >
             <Table.DataCell width="max-content">
                 <HStack align="center">
@@ -139,6 +149,22 @@ const VilkårperiodeRad: React.FC<{
                             type={type}
                         />
                     </HStack>
+                )}
+                {velgKombinasjon && (
+                    <Button
+                        onClick={() =>
+                            settVelgKombinasjon((prevState) => ({
+                                ...prevState,
+                                [isMålgruppe(type) ? 'målgruppeId' : 'aktivitetId']:
+                                    vilkårperiode.id,
+                            }))
+                        }
+                        variant="secondary"
+                        size="xsmall"
+                        icon={<PencilIcon />}
+                    >
+                        Yolo
+                    </Button>
                 )}
             </Table.DataCell>
         </TabellRad>

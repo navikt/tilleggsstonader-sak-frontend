@@ -1,4 +1,5 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { AktivitetType } from '../typer/aktivitet';
 import { MålgruppeType } from '../typer/målgruppe';
 
 export type MålgrupperMedMedlemskapsvurdering =
@@ -13,4 +14,8 @@ export const nyMålgruppe = (behandlingId: string): EndreMålgruppeForm => {
         tom: '',
         delvilkår: { '@type': 'MÅLGRUPPE' },
     };
+};
+
+export const isMålgruppe = (type: MålgruppeType | AktivitetType): type is MålgruppeType => {
+    return Object.keys(MålgruppeType).includes(type);
 };

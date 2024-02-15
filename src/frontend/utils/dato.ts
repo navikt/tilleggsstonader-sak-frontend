@@ -30,8 +30,12 @@ export const nullableTilDato = (dato: string | Date | undefined): Date | undefin
     }
 };
 
-export const formaterDato = (dato?: string | Date): string | undefined => {
-    return dato && format(tilDato(dato), 'dd.MM.yyyy');
+export const formaterDato = (dato: string | Date) => format(tilDato(dato), 'dd.MM.yyyy');
+
+export const formaterTilIsoDato = (dato: string | Date) => format(tilDato(dato), 'yyyy-MM-dd');
+
+export const formaterNullableDato = (dato?: string | Date): string | undefined => {
+    return dato && formaterDato(dato);
 };
 
 export const dagensDatoFormatert = (): string => {
@@ -75,3 +79,17 @@ const erGyldigFormat = (verdi: string): boolean => {
 
 export const erGyldigDato = (dato: string | Date): boolean =>
     typeof dato === 'string' ? erGyldigFormat(dato) && isValid(tilDato(dato)) : isValid(dato);
+
+export const minIsoDate = (first: string, second: string): string => {
+    const firstDate = tilDato(first);
+    const secondDate = tilDato(second);
+    const minDate = firstDate < secondDate ? firstDate : secondDate;
+    return formaterTilIsoDato(minDate);
+};
+
+export const maxIsoDate = (first: string, second: string): string => {
+    const firstDate = tilDato(first);
+    const secondDate = tilDato(second);
+    const maxDate = firstDate > secondDate ? firstDate : secondDate;
+    return formaterTilIsoDato(maxDate);
+};
