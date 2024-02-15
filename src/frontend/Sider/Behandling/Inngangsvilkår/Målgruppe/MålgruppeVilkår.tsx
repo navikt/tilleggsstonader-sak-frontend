@@ -4,7 +4,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe, MålgruppeType } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import { BegrunnelseObligatorisk, Vurdering } from '../typer/vilkårperiode';
 
 const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
@@ -28,6 +28,7 @@ const MålgruppeVilkår: React.FC<{
                     }
                     svarJa="Ja (vurdert etter første ledd)"
                     svarNei="Nei (vurdert etter andre ledd)"
+                    begrunnelsePåkrevd={BegrunnelseObligatorisk.OBLIGATORISK_HVIS_SVAR_NEI}
                 />
             );
 
@@ -40,6 +41,7 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
+                    begrunnelsePåkrevd={BegrunnelseObligatorisk.OBLIGATORISK_HVIS_SVAR_NEI}
                 />
             );
         default:
