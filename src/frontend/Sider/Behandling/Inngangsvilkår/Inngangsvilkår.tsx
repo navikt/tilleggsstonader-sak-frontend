@@ -8,6 +8,7 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
+import Pølsa from './Pølsa';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { Stønadsperiode } from './typer/stønadsperiode';
 import { Vilkårperioder } from './typer/vilkårperiode';
@@ -71,6 +72,7 @@ const Inngangsvilkår = () => {
                             >
                                 <Målgruppe />
                                 <Aktivitet />
+                                <Pølsa />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
