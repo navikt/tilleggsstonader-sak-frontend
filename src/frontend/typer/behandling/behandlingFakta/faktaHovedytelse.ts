@@ -3,7 +3,7 @@ export interface FaktaHovedytelse {
 }
 
 interface SøknadsgrunnlagHovedytelse {
-    hovedytelse: Hovedytelse;
+    hovedytelse: Hovedytelse[];
 }
 
 enum Hovedytelse {
