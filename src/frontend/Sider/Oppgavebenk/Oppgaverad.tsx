@@ -14,6 +14,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
         settAnker(anker ? null : element.currentTarget);
     };
+
     const behandlingstema =
         oppgave.behandlingstema && behandlingstemaTilTekst[oppgave.behandlingstema];
 

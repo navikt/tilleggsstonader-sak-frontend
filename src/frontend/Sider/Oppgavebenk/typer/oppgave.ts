@@ -76,28 +76,24 @@ export enum IdentGruppe {
     SAMHANDLERNR = 'SAMHANDLERNR',
 }
 
-export type BehandlingstemaStønadstype = 'ab0177' | 'ab0028' | 'ab0071';
-export type Behandlingstema = BehandlingstemaStønadstype | 'ab0007';
-
-export const behandlingstemaStønadstypeTilTekst: Record<BehandlingstemaStønadstype, string> = {
-    ab0071: 'Overgangsstønad',
-    ab0177: 'Skolepenger',
-    ab0028: 'Barnetilsyn',
-};
+export enum Behandlingstema {
+    Tilsyn_Barn = 'ab0300',
+}
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
-    ...behandlingstemaStønadstypeTilTekst,
-    ab0007: 'Tilbakekreving',
+    ab0300: 'Tilsyn barn',
 };
 
-export type OppgavetypeTilbakekreving = 'ae0161';
-export type OppgavetypeKlage = 'ae0058';
-export type OppgaveBehandlingstype = OppgavetypeTilbakekreving | OppgavetypeKlage;
-
-export const oppgavetypeTilbakekreving: OppgavetypeTilbakekreving = 'ae0161';
-export const oppgavetypeKlage: OppgavetypeKlage = 'ae0058';
+export enum OppgaveBehandlingstype {
+    Feilutbetaling = 'ae0161',
+    Klage = 'ae0058',
+    Anke = 'ae0046',
+    Utland = 'ae0106',
+}
 
 export const oppgaveBehandlingstypeTilTekst: Record<OppgaveBehandlingstype, string> = {
-    ae0161: 'Tilbakekreving',
+    ae0046: 'Anke',
+    ae0106: 'Utland',
+    ae0161: 'Feilutbetaling',
     ae0058: 'Klage',
 };
