@@ -15,9 +15,8 @@ const Oppsummering: React.FC = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [behandlingFakta, settBehandlingFakta] = useState<Ressurs<BehandlingFakta>>(
-        byggTomRessurs()
-    );
+    const [behandlingFakta, settBehandlingFakta] =
+        useState<Ressurs<BehandlingFakta>>(byggTomRessurs());
 
     const hentBehandlingFaktaCallback = useCallback(() => {
         request<BehandlingFakta, null>(`/api/sak/behandling/${behandling.id}/fakta`).then(
@@ -34,7 +33,9 @@ const Oppsummering: React.FC = () => {
                     <InfoSeksjon label="Ytelse/situasjon">
                         <Informasjonsrad
                             kilde={Informasjonskilde.SØKNAD}
-                            verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse}
+                            verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse?.join(
+                                ', '
+                            )}
                         />
                     </InfoSeksjon>
 
