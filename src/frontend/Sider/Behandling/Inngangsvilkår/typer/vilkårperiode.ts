@@ -45,6 +45,12 @@ export enum SvarJaNei {
     NEI = 'NEI',
 }
 
+export enum BegrunnelseObligatorisk {
+    OBLIGATORISK = 'OBLIGATORISK',
+    VALGFRI = 'VALGFRI',
+    OBLIGATORISK_HVIS_SVAR_NEI = 'OBLIGATORISK_HVIS_SVAR_NEI',
+}
+
 export const svarJaNeiMapping: Record<SvarJaNei, string> = {
     JA: 'Ja',
     JA_IMPLISITT: 'Ja',
