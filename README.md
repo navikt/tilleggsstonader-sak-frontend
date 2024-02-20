@@ -27,3 +27,7 @@ Lag en `.env` fil i `src/backend` og legg inn:
 AZURE_APP_CLIENT_ID=<clientId>
 AZURE_APP_CLIENT_SECRET=<clientSecret>
 ```
+
+## Kode generert av GitHub Copilot
+
+Dette repoet bruker GitHub Copilot til å generere kode.
