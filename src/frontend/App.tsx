@@ -6,6 +6,7 @@ import { InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import PersonSøk from './komponenter/PersonSøk';
+import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
@@ -20,6 +21,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     const { autentisert } = useApp();
     return (
         <BrowserRouter>
+            <ScrollToTop />
             {autentisert ? (
                 <Routes>
                     <Route
