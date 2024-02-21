@@ -1,9 +1,13 @@
+import { JaNei } from '../../common';
+
 export interface FaktaHovedytelse {
     søknadsgrunnlag?: SøknadsgrunnlagHovedytelse;
 }
 
 interface SøknadsgrunnlagHovedytelse {
     hovedytelse: Hovedytelse[];
+    boddSammenhengende?: JaNei;
+    planleggerBoINorgeNeste12mnd?: JaNei;
 }
 
 enum Hovedytelse {
