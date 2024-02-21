@@ -22,11 +22,9 @@ import {
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
-export interface EndreMålgruppeForm {
+export interface EndreMålgruppeForm extends Periode {
     behandlingId: string;
     type: MålgruppeType | '';
-    fom: string;
-    tom: string;
     delvilkår: DelvilkårMålgruppe;
     begrunnelse?: string;
 }
