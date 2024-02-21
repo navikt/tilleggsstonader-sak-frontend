@@ -16,13 +16,13 @@ export interface DelvilkårAktivitet {
 export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
-    REEL_ARBEIDSSØKER = 'REEL_ARBEIDSSØKER',
+    REELL_ARBEIDSSØKER = 'REELL_ARBEIDSSØKER',
 }
 
 export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     TILTAK: 'Tiltak',
     UTDANNING: 'Utdanning',
-    REEL_ARBEIDSSØKER: 'Reell arbeidssøker',
+    REELL_ARBEIDSSØKER: 'Reell arbeidssøker',
 };
 
 export const AktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
