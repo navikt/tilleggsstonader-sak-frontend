@@ -114,7 +114,7 @@ const VilkårperiodeRad: React.FC<{
                 <BodyShort size="small">{formaterIsoDato(vilkårperiode.tom)}</BodyShort>
             </Table.DataCell>
             {aktivitetsdager && (
-                <Table.DataCell>
+                <Table.DataCell align="center">
                     <BodyShort size="small">{aktivitetsdager}</BodyShort>
                 </Table.DataCell>
             )}
