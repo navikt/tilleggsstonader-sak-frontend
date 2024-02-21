@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Table, TextField } from '@navikt/ds-react';
+
 import AktivitetVilkår from './AktivitetVilkår';
 import { nyAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
@@ -23,6 +25,7 @@ import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeIn
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 
 export interface EndreAktivitetForm extends Periode {
+    aktivitetsdager: number;
     behandlingId: string;
     type: AktivitetType | '';
     delvilkår: DelvilkårAktivitet;
@@ -112,6 +115,24 @@ const EndreAktivitetRad: React.FC<{
                         ...prevState,
                         type: nyttValg as AktivitetType,
                     }))
+                }
+                ekstraCeller={
+                    <Table.DataCell>
+                        <TextField
+                            label="Aktivitetsdager"
+                            type="text"
+                            value={aktivitetForm.aktivitetsdager}
+                            onChange={(event) =>
+                                settAktivitetForm((prevState) => ({
+                                    ...prevState,
+                                    aktivitetsdager: parseInt(event.target.value),
+                                }))
+                            }
+                            inputMode="numeric"
+                            size="small"
+                            hideLabel
+                        />
+                    </Table.DataCell>
                 }
             />
             <EndreVilkårPeriodeInnhold

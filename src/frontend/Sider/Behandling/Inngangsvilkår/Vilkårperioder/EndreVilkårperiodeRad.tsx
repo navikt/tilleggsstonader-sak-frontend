@@ -40,6 +40,7 @@ interface Props {
     oppdaterType: (nyttvalg: string) => void;
     typeOptions: SelectOption[];
     periodeFeil?: FormErrors<Periode>;
+    ekstraCeller?: React.ReactNode;
 }
 
 const EndreVilkårperiodeRad: React.FC<Props> = ({
@@ -51,6 +52,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     oppdaterType,
     typeOptions,
     periodeFeil,
+    ekstraCeller,
 }) => {
     return (
         <TabellRad $feilmeldingVises={!!periodeFeil} shadeOnHover={false}>
@@ -95,6 +97,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     feil={periodeFeil?.tom}
                 />
             </Table.DataCell>
+            {ekstraCeller}
             <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
             </Table.DataCell>

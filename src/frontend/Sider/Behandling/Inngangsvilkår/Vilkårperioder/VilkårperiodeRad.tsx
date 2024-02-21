@@ -41,7 +41,8 @@ const VilkårperiodeRad: React.FC<{
     vilkårperiode: VilkårPeriode;
     type: MålgruppeType | AktivitetType;
     startRedigering: () => void;
-}> = ({ vilkårperiode, type, startRedigering }) => {
+    aktivitetsdager?: number;
+}> = ({ vilkårperiode, type, startRedigering, aktivitetsdager }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
     const [visSlettModal, settVisSlettModal] = useState(false);
@@ -112,6 +113,11 @@ const VilkårperiodeRad: React.FC<{
             <Table.DataCell>
                 <BodyShort size="small">{formaterIsoDato(vilkårperiode.tom)}</BodyShort>
             </Table.DataCell>
+            {aktivitetsdager && (
+                <Table.DataCell>
+                    <BodyShort size="small">{aktivitetsdager}</BodyShort>
+                </Table.DataCell>
+            )}
             <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode.kilde} />
             </Table.DataCell>

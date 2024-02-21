@@ -4,6 +4,7 @@ import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 export interface Aktivitet extends VilkårPeriode {
     id: string;
     type: AktivitetType;
+    aktivitetsdager: number;
     delvilkår: DelvilkårAktivitet;
 }
 

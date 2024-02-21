@@ -12,7 +12,6 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
-import { Aktivitet } from '../typer/aktivitet';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
@@ -64,6 +63,7 @@ const Aktivitet: React.FC = () => {
                             <Table.HeaderCell>Type</Table.HeaderCell>
                             <Table.HeaderCell>Fra</Table.HeaderCell>
                             <Table.HeaderCell>Til</Table.HeaderCell>
+                            <Table.HeaderCell>Aktivitetsdager</Table.HeaderCell>
                             <Table.HeaderCell>Kilde</Table.HeaderCell>
                             <Table.HeaderCell />
                         </Table.Row>
@@ -83,6 +83,7 @@ const Aktivitet: React.FC = () => {
                                         startRedigering={() =>
                                             settNyRadIRedigeringsmodus(aktivitet.id)
                                         }
+                                        aktivitetsdager={aktivitet.aktivitetsdager}
                                     />
                                 )}
                             </React.Fragment>
