@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, CopyButton, HStack, Heading } from '@navikt/ds-react';
+import { BodyShort, CopyButton, Heading, HStack } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -16,7 +16,6 @@ const Container = styled(Sticky)`
     padding: ${ASpacing2} ${ASpacing4};
 
     border-bottom: 1px solid ${ABorderStrong};
-    top: 48px;
 `;
 
 const PersonHeader: React.FC = () => {
