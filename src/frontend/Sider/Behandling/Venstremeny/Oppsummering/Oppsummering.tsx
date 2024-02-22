@@ -8,18 +8,12 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import {
+    boddSammenhengendeMapping,
+    planleggerBoINorgeNeste12mndMapping,
+} from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei } from '../../../../typer/common';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
-
-const boddSammenhengendeMapping: Record<JaNei, string> = {
-    JA: 'Bodd sammenhengende i Norge siste 12 mnd',
-    NEI: 'Ikke sammenhengende i Norge siste 12 mnd',
-};
-
-const planleggerBoINorgeNeste12mndMapping: Record<JaNei, string> = {
-    JA: 'Planlegger å bo i Norge neste 12 mnd',
-    NEI: 'Ikke planlagt å bo i Norge neste 12 mnd',
-};
 
 const Oppsummering: React.FC = () => {
     const { request } = useApp();
