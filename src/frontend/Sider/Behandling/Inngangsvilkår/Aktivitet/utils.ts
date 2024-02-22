@@ -6,6 +6,7 @@ export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
         type: '',
         fom: '',
         tom: '',
+        aktivitetsdager: 5,
         delvilkår: { '@type': 'AKTIVITET' },
     };
 };
