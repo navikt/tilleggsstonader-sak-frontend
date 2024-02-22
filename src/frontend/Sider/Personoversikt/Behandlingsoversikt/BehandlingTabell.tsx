@@ -6,6 +6,7 @@ import { Button, Table } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { Behandling } from '../../../typer/behandling/behandling';
+import { erBehandlingRedigerbar } from '../../../typer/behandling/behandlingStatus';
 import { PartialRecord } from '../../../typer/common';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
@@ -64,14 +65,15 @@ const BehandlingTabell: React.FC<{
                             </Link>
                         </Table.DataCell>
                         <Table.DataCell>
-                            {/* TODO: Må gås opp hvordan henlegg skal fungere */}
-                            <Button
-                                variant="secondary"
-                                size="small"
-                                onClick={() => henleggBehandling(behandling.id)}
-                            >
-                                Henlegg
-                            </Button>
+                            {erBehandlingRedigerbar(behandling) && (
+                                <Button
+                                    variant="secondary"
+                                    size="small"
+                                    onClick={() => henleggBehandling(behandling.id)}
+                                >
+                                    Henlegg
+                                </Button>
+                            )}
                         </Table.DataCell>
                     </Table.Row>
                 ))}

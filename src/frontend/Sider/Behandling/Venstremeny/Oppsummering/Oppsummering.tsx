@@ -3,13 +3,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import BarnDetaljer from './BarnDetaljer';
-import { InfoSeksjon, Informasjonskilde, Informasjonsrad } from './Visningskomponenter';
+import { Informasjonskilde, Informasjonsrad, InfoSeksjon } from './Visningskomponenter';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import {
+    boddSammenhengendeMapping,
+    planleggerBoINorgeNeste12mndMapping,
+} from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei } from '../../../../typer/common';
-import { Ressurs, byggTomRessurs } from '../../../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
 const Oppsummering: React.FC = () => {
     const { request } = useApp();
@@ -37,6 +41,29 @@ const Oppsummering: React.FC = () => {
                                 ', '
                             )}
                         />
+                        {behandlingFakta.hovedytelse.søknadsgrunnlag?.boddSammenhengende && (
+                            <Informasjonsrad
+                                kilde={Informasjonskilde.SØKNAD}
+                                verdi={
+                                    boddSammenhengendeMapping[
+                                        behandlingFakta.hovedytelse.søknadsgrunnlag
+                                            .boddSammenhengende
+                                    ]
+                                }
+                            />
+                        )}
+                        {behandlingFakta.hovedytelse.søknadsgrunnlag
+                            ?.planleggerBoINorgeNeste12mnd && (
+                            <Informasjonsrad
+                                kilde={Informasjonskilde.SØKNAD}
+                                verdi={
+                                    planleggerBoINorgeNeste12mndMapping[
+                                        behandlingFakta.hovedytelse.søknadsgrunnlag
+                                            .planleggerBoINorgeNeste12mnd
+                                    ]
+                                }
+                            />
+                        )}
                     </InfoSeksjon>
 
                     <InfoSeksjon label="Aktivitet">
