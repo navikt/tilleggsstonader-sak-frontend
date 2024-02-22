@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Table, TextField } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 
 import AktivitetVilkår from './AktivitetVilkår';
 import { nyAktivitet } from './utils';
@@ -8,6 +8,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import TextField from '../../../../komponenter/Skjema/TextField';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
@@ -18,6 +19,7 @@ import {
     DelvilkårAktivitet,
 } from '../typer/aktivitet';
 import {
+    KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
     Vurdering,
@@ -135,6 +137,7 @@ const EndreAktivitetRad: React.FC<{
                 ekstraCeller={
                     <Table.DataCell>
                         <TextField
+                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Aktivitetsdager"
                             hideLabel
                             value={
