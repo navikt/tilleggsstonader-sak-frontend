@@ -42,15 +42,6 @@ const initaliserForm = (behandlingId: string, eksisterendeAktivitet?: Aktivitet)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
-function validerAktivitetsdager(aktivitetsdager: number | undefined): string | undefined {
-    const feilmelding = 'Aktivitetsdager må være et tall mellom 1 og 5';
-    if (!harTallverdi(aktivitetsdager)) {
-        return feilmelding;
-    } else if (aktivitetsdager < 1 || aktivitetsdager > 5) {
-        return feilmelding;
-    }
-}
-
 const EndreAktivitetRad: React.FC<{
     aktivitet?: Aktivitet;
     avbrytRedigering: () => void;
@@ -63,7 +54,6 @@ const EndreAktivitetRad: React.FC<{
         initaliserForm(behandling.id, aktivitet)
     );
     const [laster, settLaster] = useState<boolean>(false);
-    const [aktivitetsdagerFeil, settAktivitetsdagerFeil] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<EndreVilkårsperiode>>();
@@ -72,10 +62,7 @@ const EndreAktivitetRad: React.FC<{
         const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
-        const aktivitetsdagerFeil = validerAktivitetsdager(aktivitetForm.aktivitetsdager);
-        settAktivitetsdagerFeil(aktivitetsdagerFeil);
-
-        return isValid(vilkårsperiodeFeil) && aktivitetsdagerFeil === undefined;
+        return isValid(vilkårsperiodeFeil);
     };
 
     const lagre = () => {
@@ -152,7 +139,7 @@ const EndreAktivitetRad: React.FC<{
                                 }))
                             }
                             size="small"
-                            error={aktivitetsdagerFeil}
+                            error={vilkårsperiodeFeil?.aktivitetsdager}
                         />
                     </Table.DataCell>
                 }

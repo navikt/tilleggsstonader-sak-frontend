@@ -1,15 +1,8 @@
-import { erDatoEtterEllerLik, erDatoFørEllerLik } from './dato';
+import { erDatoEtterEllerLik } from './dato';
 
 export type Periode = {
     fom: string;
     tom: string;
-};
-
-export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Periode): boolean => {
-    return (
-        erDatoEtterEllerLik(annenPeriode.fom, periode.fom) &&
-        erDatoFørEllerLik(periode.tom, annenPeriode.tom)
-    );
 };
 
 export const validerPeriode = (periode: Periode): undefined | Partial<Periode> => {
@@ -23,7 +16,7 @@ export const validerPeriode = (periode: Periode): undefined | Partial<Periode> =
 
     if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
         return {
-            tom: 'Til-dato må være etter før-dato',
+            tom: 'Til-dato må være etter fra-dato',
         };
     }
     return undefined;
