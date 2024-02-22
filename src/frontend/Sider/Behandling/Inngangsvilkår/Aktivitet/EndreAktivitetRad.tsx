@@ -9,7 +9,8 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { Periode, validerPeriodeForm } from '../../../../utils/periode';
+import { Periode } from '../../../../utils/periode';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetType,
@@ -23,9 +24,10 @@ import {
 } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
+import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
 export interface EndreAktivitetForm extends Periode {
-    aktivitetsdager: number;
+    aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
     delvilkår: DelvilkårAktivitet;
@@ -37,6 +39,15 @@ const initaliserForm = (behandlingId: string, eksisterendeAktivitet?: Aktivitet)
         ? nyAktivitet(behandlingId)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
+
+function validerAktivitetsdager(aktivitetsdager: number | undefined): string | undefined {
+    const feilmelding = 'Aktivitetsdager må være et tall mellom 1 og 5';
+    if (!harTallverdi(aktivitetsdager)) {
+        return feilmelding;
+    } else if (aktivitetsdager < 1 || aktivitetsdager > 5) {
+        return feilmelding;
+    }
+}
 
 const EndreAktivitetRad: React.FC<{
     aktivitet?: Aktivitet;
@@ -50,14 +61,19 @@ const EndreAktivitetRad: React.FC<{
         initaliserForm(behandling.id, aktivitet)
     );
     const [laster, settLaster] = useState<boolean>(false);
+    const [aktivitetsdagerFeil, settAktivitetsdagerFeil] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
+    const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
+        useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const periodeFeil = validerPeriodeForm(aktivitetForm);
-        settPeriodeFeil(periodeFeil);
+        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
+        settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
-        return isValid(periodeFeil);
+        const aktivitetsdagerFeil = validerAktivitetsdager(aktivitetForm.aktivitetsdager);
+        settAktivitetsdagerFeil(aktivitetsdagerFeil);
+
+        return isValid(vilkårsperiodeFeil) && aktivitetsdagerFeil === undefined;
     };
 
     const lagre = () => {
@@ -108,7 +124,7 @@ const EndreAktivitetRad: React.FC<{
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
-                periodeFeil={periodeFeil}
+                vilkårsperiodeFeil={vilkårsperiodeFeil}
                 typeOptions={AktivitetTypeOptions}
                 oppdaterType={(nyttValg) =>
                     settAktivitetForm((prevState) => ({
@@ -120,17 +136,20 @@ const EndreAktivitetRad: React.FC<{
                     <Table.DataCell>
                         <TextField
                             label="Aktivitetsdager"
-                            type="text"
-                            value={aktivitetForm.aktivitetsdager}
+                            hideLabel
+                            value={
+                                harTallverdi(aktivitetForm.aktivitetsdager)
+                                    ? aktivitetForm.aktivitetsdager
+                                    : ''
+                            }
                             onChange={(event) =>
                                 settAktivitetForm((prevState) => ({
                                     ...prevState,
-                                    aktivitetsdager: parseInt(event.target.value),
+                                    aktivitetsdager: tilHeltall(event.target.value),
                                 }))
                             }
-                            inputMode="numeric"
                             size="small"
-                            hideLabel
+                            error={aktivitetsdagerFeil}
                         />
                     </Table.DataCell>
                 }

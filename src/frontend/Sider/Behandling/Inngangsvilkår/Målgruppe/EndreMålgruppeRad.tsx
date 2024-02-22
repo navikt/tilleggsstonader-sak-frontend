@@ -7,7 +7,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { Periode, validerPeriodeForm } from '../../../../utils/periode';
+import { Periode } from '../../../../utils/periode';
 import {
     DelvilkårMålgruppe,
     Målgruppe,
@@ -21,6 +21,7 @@ import {
 } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
+import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
 export interface EndreMålgruppeForm extends Periode {
     behandlingId: string;
@@ -48,13 +49,14 @@ const EndreMålgruppeRad: React.FC<{
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
+    const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
+        useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const periodeFeil = validerPeriodeForm(målgruppeForm);
-        settPeriodeFeil(periodeFeil);
+        const vilkårsperiodeFeil = validerVilkårsperiode(målgruppeForm);
+        settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
-        return isValid(periodeFeil);
+        return isValid(vilkårsperiodeFeil);
     };
 
     const lagre = () => {
@@ -104,7 +106,7 @@ const EndreMålgruppeRad: React.FC<{
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
-                periodeFeil={periodeFeil}
+                vilkårsperiodeFeil={vilkårsperiodeFeil}
                 typeOptions={MålgruppeTypeOptions}
                 oppdaterType={(nyttValg) =>
                     settMålgruppeForm((prevState) => ({

@@ -1,5 +1,4 @@
 import { erDatoEtterEllerLik, erDatoFørEllerLik } from './dato';
-import { FormErrors } from '../hooks/felles/useFormState';
 
 export type Periode = {
     fom: string;
@@ -15,34 +14,17 @@ export const erPeriodeInnenforAnnenPeriode = (periode: Periode, annenPeriode: Pe
 
 export const validerPeriode = (periode: Periode): undefined | Partial<Periode> => {
     if (!periode.fom) {
-        return { fom: 'Mangler fradato for periode' };
+        return { fom: 'Mangler fra-dato' };
     }
 
     if (!periode.tom) {
-        return { tom: 'Mangler tildato for periode' };
+        return { tom: 'Mangler til-dato' };
     }
 
     if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
         return {
-            tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
+            tom: 'Til-dato må være etter før-dato',
         };
     }
     return undefined;
-};
-
-export const validerPeriodeForm = (målgruppe: Periode): FormErrors<Periode> => {
-    const feil: FormErrors<Periode> = {
-        fom: undefined,
-        tom: undefined,
-    };
-
-    const periodeValidering = validerPeriode(målgruppe);
-    if (periodeValidering) {
-        return {
-            ...feil,
-            ...periodeValidering,
-        };
-    }
-
-    return feil;
 };
