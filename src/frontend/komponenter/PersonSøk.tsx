@@ -43,6 +43,9 @@ const PersonSøk: React.FC = () => {
     const nullstillSøkefelt = () => {
         settFeilmelding(undefined);
         settSøkestreng('');
+        if (søkRef.current) {
+            søkRef.current.blur();
+        }
     };
 
     const søkPerson = useCallback(
