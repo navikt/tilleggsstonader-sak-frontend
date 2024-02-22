@@ -101,6 +101,7 @@ const PersonSøk: React.FC = () => {
                     value={søkestreng}
                     ref={søkRef}
                     size="small"
+                    autoComplete="off"
                 />
             </form>
             <Popover
