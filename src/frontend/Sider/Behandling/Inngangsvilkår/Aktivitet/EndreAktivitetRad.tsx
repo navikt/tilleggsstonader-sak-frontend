@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 
+import { Table } from '@navikt/ds-react';
+
 import AktivitetVilkår from './AktivitetVilkår';
 import { nyAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import TextField from '../../../../komponenter/Skjema/TextField';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { Periode, validerPeriodeForm } from '../../../../utils/periode';
+import { Periode } from '../../../../utils/periode';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetType,
@@ -15,14 +19,17 @@ import {
     DelvilkårAktivitet,
 } from '../typer/aktivitet';
 import {
+    KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
 import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
+import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
 export interface EndreAktivitetForm extends Periode {
+    aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
     delvilkår: DelvilkårAktivitet;
@@ -48,13 +55,14 @@ const EndreAktivitetRad: React.FC<{
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [periodeFeil, settPeriodeFeil] = useState<FormErrors<Periode>>();
+    const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
+        useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const periodeFeil = validerPeriodeForm(aktivitetForm);
-        settPeriodeFeil(periodeFeil);
+        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
+        settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
-        return isValid(periodeFeil);
+        return isValid(vilkårsperiodeFeil);
     };
 
     const lagre = () => {
@@ -105,13 +113,35 @@ const EndreAktivitetRad: React.FC<{
                 lagre={lagre}
                 avbrytRedigering={avbrytRedigering}
                 oppdaterPeriode={oppdaterPeriode}
-                periodeFeil={periodeFeil}
+                vilkårsperiodeFeil={vilkårsperiodeFeil}
                 typeOptions={AktivitetTypeOptions}
                 oppdaterType={(nyttValg) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,
                         type: nyttValg as AktivitetType,
                     }))
+                }
+                ekstraCeller={
+                    <Table.DataCell>
+                        <TextField
+                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                            label="Aktivitetsdager"
+                            hideLabel
+                            value={
+                                harTallverdi(aktivitetForm.aktivitetsdager)
+                                    ? aktivitetForm.aktivitetsdager
+                                    : ''
+                            }
+                            onChange={(event) =>
+                                settAktivitetForm((prevState) => ({
+                                    ...prevState,
+                                    aktivitetsdager: tilHeltall(event.target.value),
+                                }))
+                            }
+                            size="small"
+                            error={vilkårsperiodeFeil?.aktivitetsdager}
+                        />
+                    </Table.DataCell>
                 }
             />
             <EndreVilkårPeriodeInnhold

@@ -23,5 +23,15 @@ export const tilTallverdi = (verdi: number | string | undefined): number | undef
     return Number(verdi);
 };
 
-export const harTallverdi = (verdi: number | undefined | null | string): boolean =>
+export const tilHeltall = (verdi: number | string | undefined): number | undefined => {
+    if (!verdi) {
+        return undefined;
+    }
+    if (typeof verdi === 'string') {
+        return isNaN(parseInt(verdi)) ? undefined : parseInt(verdi);
+    }
+    return verdi;
+};
+
+export const harTallverdi = (verdi: number | undefined | null | string): verdi is number =>
     verdi !== undefined && verdi !== null;

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 
 import { KildeIkon } from './KildeIkon';
+import { EndreVilkårsperiode } from './validering';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -39,7 +40,8 @@ interface Props {
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
     oppdaterType: (nyttvalg: string) => void;
     typeOptions: SelectOption[];
-    periodeFeil?: FormErrors<Periode>;
+    vilkårsperiodeFeil?: FormErrors<EndreVilkårsperiode>;
+    ekstraCeller?: React.ReactNode;
 }
 
 const EndreVilkårperiodeRad: React.FC<Props> = ({
@@ -50,10 +52,11 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     oppdaterPeriode,
     oppdaterType,
     typeOptions,
-    periodeFeil,
+    vilkårsperiodeFeil,
+    ekstraCeller,
 }) => {
     return (
-        <TabellRad $feilmeldingVises={!!periodeFeil} shadeOnHover={false}>
+        <TabellRad $feilmeldingVises={!!vilkårsperiodeFeil} shadeOnHover={false}>
             <Table.DataCell width="max-content">
                 <VilkårsresultatIkon
                     vilkårsresultat={vilkårperiode?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}
@@ -71,6 +74,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
                     size="small"
+                    error={vilkårsperiodeFeil?.type}
                 />
             </Table.DataCell>
             <Table.DataCell>
@@ -81,7 +85,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     value={form?.fom}
                     onChange={(dato) => oppdaterPeriode('fom', dato || '')}
                     size="small"
-                    feil={periodeFeil?.fom}
+                    feil={vilkårsperiodeFeil?.fom}
                 />
             </Table.DataCell>
             <Table.DataCell>
@@ -92,9 +96,10 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     value={form?.tom}
                     onChange={(dato) => oppdaterPeriode('tom', dato || '')}
                     size="small"
-                    feil={periodeFeil?.tom}
+                    feil={vilkårsperiodeFeil?.tom}
                 />
             </Table.DataCell>
+            {ekstraCeller}
             <Table.DataCell align="center">
                 <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
             </Table.DataCell>
