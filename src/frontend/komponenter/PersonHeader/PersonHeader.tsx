@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+
 import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
@@ -16,7 +17,6 @@ const Container = styled(Sticky)`
     padding: ${ASpacing2} ${ASpacing4};
 
     border-bottom: 1px solid ${ABorderStrong};
-    top: 48px;
 `;
 
 const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
