@@ -40,12 +40,21 @@ const PersonSøk: React.FC = () => {
     const [søkestreng, settSøkestreng] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
 
+    const nullstillSøkefelt = () => {
+        settFeilmelding(undefined);
+        settSøkestreng('');
+        if (søkRef.current) {
+            søkRef.current.blur();
+        }
+    };
+
     const søkPerson = useCallback(
         (personIdent: string) => {
             request<Søkeresultat, { personIdent: string }>(`/api/sak/sok/person`, 'POST', {
                 personIdent: personIdent,
             }).then((resultat) => {
                 if (resultat.status === RessursStatus.SUKSESS) {
+                    nullstillSøkefelt();
                     navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
                     settFeilmelding(resultat.frontendFeilmelding);
@@ -61,6 +70,7 @@ const PersonSøk: React.FC = () => {
                 `/api/sak/sok/person/fagsak-ekstern/${eksternFagsakId}`
             ).then((resultat) => {
                 if (resultat.status === RessursStatus.SUKSESS) {
+                    nullstillSøkefelt();
                     navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
                     settFeilmelding(resultat.frontendFeilmelding);
@@ -73,7 +83,6 @@ const PersonSøk: React.FC = () => {
     const søk = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!søkestreng) return;
-
         if (erPositivtTall(søkestreng) && søkestreng.length !== 11) {
             søkPersonEksternFagsakId(søkestreng);
         } else {
@@ -92,6 +101,7 @@ const PersonSøk: React.FC = () => {
                     value={søkestreng}
                     ref={søkRef}
                     size="small"
+                    autoComplete="off"
                 />
             </form>
             <Popover

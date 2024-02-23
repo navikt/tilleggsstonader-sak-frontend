@@ -70,7 +70,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
 }) => {
     return (
         <>
-            <Sticky>
+            <Sticky $zIndex={100}>
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
