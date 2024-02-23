@@ -9,6 +9,7 @@ export interface Behandling {
     id: string;
     forrigeBehandlingId?: string;
     fagsakId: string;
+    fagsakPersonId: string;
     steg: Steg;
     type: BehandlingType;
     status: BehandlingStatus;
