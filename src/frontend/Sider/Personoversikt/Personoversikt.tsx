@@ -15,9 +15,8 @@ const Personoversikt = () => {
 
     const fagsakPersonId = useParams<{ fagsakPersonId: string }>().fagsakPersonId as string;
 
-    const [personopplysninger, settPersonopplysninger] = useState<Ressurs<Personopplysninger>>(
-        byggTomRessurs()
-    );
+    const [personopplysninger, settPersonopplysninger] =
+        useState<Ressurs<Personopplysninger>>(byggTomRessurs());
 
     useEffect(() => {
         request<Personopplysninger, null>(
@@ -29,7 +28,7 @@ const Personoversikt = () => {
         <DataViewer response={{ personopplysninger }}>
             {({ personopplysninger }) => (
                 <PersonopplysningerProvider personopplysninger={personopplysninger}>
-                    <PersonHeader />
+                    <PersonHeader fagsakPersonId={fagsakPersonId} />
                     <PersonoversiktInnhold fagsakPersonId={fagsakPersonId} />
                 </PersonopplysningerProvider>
             )}

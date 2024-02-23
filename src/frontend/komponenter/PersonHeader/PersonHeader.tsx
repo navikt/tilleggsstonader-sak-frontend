@@ -2,7 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, CopyButton, Heading, HStack } from '@navikt/ds-react';
+
+import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -18,7 +19,7 @@ const Container = styled(Sticky)`
     border-bottom: 1px solid ${ABorderStrong};
 `;
 
-const PersonHeader: React.FC = () => {
+const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { personopplysninger } = usePersonopplysninger();
 
     return (
@@ -26,7 +27,7 @@ const PersonHeader: React.FC = () => {
             <Heading size="xsmall">{personopplysninger.navn.visningsnavn}</Heading>
             <BodyShort>|</BodyShort>
             <HStack gap="2" align="center">
-                {personopplysninger.personIdent}
+                <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
         </Container>

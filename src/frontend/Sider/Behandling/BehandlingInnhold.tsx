@@ -78,7 +78,7 @@ const BehandlingInnhold: React.FC<{
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
-                <PersonHeader />
+                <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
                 <BehandlingContainer>
                     <VilkårProvider behandling={behandling}>
                         <VenstreMeny />
