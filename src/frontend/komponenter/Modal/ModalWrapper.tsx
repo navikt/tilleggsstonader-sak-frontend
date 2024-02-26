@@ -59,7 +59,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                 open={visModal}
                 onClose={onClose ? () => onClose() : () => null}
                 maxWidth={maxWidth}
-                aria-label={ariaLabel ? ariaLabel : tittel}
+                aria-label={ariaLabel ? ariaLabel : tittel || ''}
                 header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
             >
                 <Modal.Body>
