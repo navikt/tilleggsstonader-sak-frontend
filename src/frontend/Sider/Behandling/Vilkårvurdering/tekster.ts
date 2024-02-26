@@ -10,11 +10,12 @@ export const regelIdTilTekst: Record<string, string> = {
     MOTTAR_SYKEPENGER_GJENNOM_AKTIVITET: 'Mottar bruker sykepenger gjennom aktivitet?',
 
     // PASS_BARN
-    DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgifter av annet regelverk?',
-    ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte for dette barnet?',
-    UTGIFTER_DOKUMENTERT: 'Er utgiftene tilfredstillende dokumentert?',
-    HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Har barnet fullført 4. skoleår?',
-    UNNTAK_ALDER: 'Oppfylles unntak etter å ha fullført 4. skoleår?',
+    DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgiftene av annen lovgivning enn folketrygden?',
+    ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
+    UTGIFTER_DOKUMENTERT: 'Er utgifter til pass dokumentert tilfredstillende?',
+    HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?',
+    UNNTAK_ALDER:
+        'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
     PASS_BEHOV_DOKUMENTERT: 'Behov for pass tilfredsstillende dokumentert?',
 };
 
@@ -28,7 +29,7 @@ export const svarIdTilTekst: Record<string, string> = {
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
-        'Ja, barnet har fullført fjerde skoleår og det er dokumentert at barnet trenger vesentlig mer tilsyn enn jevnaldrende',
+        'Ja, legeerklæring viser at barnet har behov for vesentlig mer pleie/tilsyn',
     FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
-        'Ja, barnet har fullført fjerde skoleår og det er dokumentert at forsørgeren har langvarig og/eller uregelmessig arbeidstid',
+        'Ja, tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
 };
