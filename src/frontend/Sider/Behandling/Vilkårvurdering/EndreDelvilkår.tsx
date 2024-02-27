@@ -19,12 +19,6 @@ import {
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
 `;
@@ -34,12 +28,13 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
         $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '11px' : '0')};
     margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '16px')};
+    margin-bottom: 16px;
     gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `32px` : `48px`)};
     display: flex;
 
     @media (max-width: 900px) {
         flex-direction: column;
-        gap: 0;
+        gap: 11px;
     }
 `;
 
@@ -136,14 +131,21 @@ const EndreDelvilkår: FC<{
         //settPanelITilstand(vurdering.vilkårType, EkspandertTilstand.EKSPANDERT);
     };
 
+    const Skillelinje = styled.hr`
+        border-top: 1px solid white;
+        border-left: none;
+    `;
+
     return (
         <form onSubmit={onSubmit}>
-            <Container>
-                {delvikårsett.map((delvikår, delvikårIndex) => {
-                    return delvikår.vurderinger.map((svar, indeks) => {
-                        const regel = regler[svar.regelId];
-                        return (
-                            <DelvilkårContainer $erUndervilkår={indeks !== 0} key={regel.regelId}>
+            {delvikårsett.map((delvikår, delvikårIndex) => {
+                return delvikår.vurderinger.map((svar, indeks) => {
+                    const regel = regler[svar.regelId];
+                    const erUndervilkår = indeks !== 0;
+                    return (
+                        <>
+                            {delvikårIndex !== 0 && !erUndervilkår && <Skillelinje />}
+                            <DelvilkårContainer $erUndervilkår={erUndervilkår} key={regel.regelId}>
                                 <DelvilkårRadioknapper
                                     vurdering={svar}
                                     regel={regel}
@@ -166,11 +168,16 @@ const EndreDelvilkår: FC<{
                                     regel={regel}
                                 />
                             </DelvilkårContainer>
-                        );
-                    });
-                })}
-            </Container>
-            {skalViseLagreKnapp && <LagreKnapp size={'small'}>Lagre</LagreKnapp>}
+                        </>
+                    );
+                });
+            })}
+            {skalViseLagreKnapp && (
+                <>
+                    <Skillelinje />
+                    <LagreKnapp size={'small'}>Lagre</LagreKnapp>
+                </>
+            )}
         </form>
     );
 };
