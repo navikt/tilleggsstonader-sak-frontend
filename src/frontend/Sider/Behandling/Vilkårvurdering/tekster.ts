@@ -12,7 +12,7 @@ export const regelIdTilTekst: Record<string, string> = {
     // PASS_BARN
     DEKKES_UTGIFTER_ANNET_REGELVERK: 'Dekkes utgiftene av annen lovgivning enn folketrygden?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
-    UTGIFTER_DOKUMENTERT: 'Er utgifter til pass dokumentert tilfredstillende?',
+    UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredstillende dokumentert?',
     HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
