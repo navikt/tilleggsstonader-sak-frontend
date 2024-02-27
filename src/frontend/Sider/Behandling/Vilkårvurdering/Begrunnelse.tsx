@@ -20,11 +20,14 @@ const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
         return null;
     }
 
+    const begrunnelsestekst = 'Begrunnelse '.concat(
+        begrunnelseType !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
+    );
+
     return (
         <Textarea
-            label={'Begrunnelse'.concat(
-                begrunnelseType === BegrunnelseRegel.VALGFRI ? ' (hvis aktuelt)' : ''
-            )}
+            label={begrunnelsestekst}
+            resize
             value={svar.begrunnelse || ''}
             onChange={(e) => onChange(e.target.value)}
             maxLength={0}
