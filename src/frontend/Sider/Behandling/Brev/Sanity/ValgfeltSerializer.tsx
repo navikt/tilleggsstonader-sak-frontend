@@ -23,6 +23,9 @@ export const ValgfeltSerializer =
             <PortableText
                 value={valg.innhold}
                 components={{
+                    block: {
+                        normal: ({ children }) => <div>{children}</div>,
+                    },
                     marks: {
                         variabel: VariabelSerializer(variabler),
                     },
