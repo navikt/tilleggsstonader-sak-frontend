@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@navikt/ds-react';
-import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import Beregningsresultat from './Beregningsresultat';
 import Utgifter from './Utgifter/Utgifter';
@@ -38,11 +37,6 @@ const InnholdContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-`;
-
-const Divider = styled.hr`
-    width: 100%;
-    border-top: 1px solid ${AWhite};
 `;
 
 const Knapp = styled(Button)`
@@ -134,7 +128,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
             <EkspanderbartPanel tittel="Beregning">
                 <InnholdContainer>
-                    <Divider />
                     <Utgifter
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
