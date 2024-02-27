@@ -24,8 +24,8 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
 
     useEffect(() => {
         // TODO: Oppdater sjekk av resultat når flere implementeres
-        // Sjekker at stønadsperioder eksisterer så resultat kun settes til innvilget om det finnes data
-        if (vedtak.status === RessursStatus.SUKSESS && vedtak.data.stønadsperioder) {
+        // Sjekker at utgifter eksisterer så resultat kun settes til innvilget om det finnes data
+        if (vedtak.status === RessursStatus.SUKSESS && vedtak.data.utgifter) {
             settResultatType(BehandlingResultat.INNVILGET);
         }
     }, [vedtak]);

@@ -6,7 +6,6 @@ export enum VedtakType {
 
 export type InnvilgeVedtakForBarnetilsyn = {
     resultatType: BehandlingResultat.INNVILGET; // TODO: Sjekk om nødvendig å ta med
-    stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
     _type?: VedtakType.InnvilgelseBarnetilsyn; // TODO: Sjekk om nødvendig å ta med
 };
