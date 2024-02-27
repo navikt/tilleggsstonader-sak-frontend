@@ -28,6 +28,8 @@ const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
         <Textarea
             label={begrunnelsestekst}
             resize
+            size="small"
+            minRows={3}
             value={svar.begrunnelse || ''}
             onChange={(e) => onChange(e.target.value)}
             maxLength={0}

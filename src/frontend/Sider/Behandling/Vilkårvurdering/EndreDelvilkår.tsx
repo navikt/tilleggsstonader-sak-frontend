@@ -6,17 +6,17 @@ import { Button } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
+import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     erAlleDelvilkårBesvarte,
-    hentSvarsalternativ,
+    hentSvaralternativ,
     kanHaBegrunnelse,
     kopierBegrunnelse,
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
-import VurderDelvilkår from './VurderDelvilkår';
-import { BegrunnelseRegel, Regler, Svarsalternativ } from '../../../typer/regel';
+import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
 
 const Container = styled.div`
@@ -34,9 +34,16 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
         $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
     margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '1.5rem')};
+    display: flex;
+    gap: 4rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 0;
+    }
 `;
 
-const EndreVurderingComponent: FC<{
+const EndreDelvilkår: FC<{
     vilkårType: Vilkårtype;
     regler: Regler;
     oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
@@ -64,7 +71,7 @@ const EndreVurderingComponent: FC<{
         nyttSvar: Vurdering
     ) => {
         const { begrunnelse } = nyttSvar;
-        const svarsalternativ: Svarsalternativ | undefined = hentSvarsalternativ(regler, nyttSvar);
+        const svarsalternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
         if (!svarsalternativ) {
             return;
         }
@@ -85,10 +92,7 @@ const EndreVurderingComponent: FC<{
         delvilkårIndex: number,
         nyttSvar: Vurdering
     ) => {
-        const svarsalternativer: Svarsalternativ | undefined = hentSvarsalternativ(
-            regler,
-            nyttSvar
-        );
+        const svarsalternativer: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
 
         if (!svarsalternativer) {
             return;
@@ -140,7 +144,7 @@ const EndreVurderingComponent: FC<{
                         const regel = regler[svar.regelId];
                         return (
                             <DelvilkårContainer $erUndervilkår={indeks !== 0} key={regel.regelId}>
-                                <VurderDelvilkår
+                                <DelvilkårRadioknapper
                                     vurdering={svar}
                                     regel={regel}
                                     settVurdering={(nyVurdering) =>
@@ -170,4 +174,4 @@ const EndreVurderingComponent: FC<{
         </form>
     );
 };
-export default EndreVurderingComponent;
+export default EndreDelvilkår;
