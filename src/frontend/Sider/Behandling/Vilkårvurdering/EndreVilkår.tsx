@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { ErrorMessage } from '@navikt/ds-react';
 
-import EndreVurderingComponent from './EndreVurderingComponent';
+import EndreDelvilkår from './EndreDelvilkår';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
@@ -15,7 +15,7 @@ interface Props {
     regler: Regler;
 }
 
-const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
+const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
     const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
                     Oppdatering av vilkår feilet: {feilmelding}
                 </ErrorMessage>
             )}
-            <EndreVurderingComponent
+            <EndreDelvilkår
                 oppdaterVilkår={oppdaterVilkår}
                 vilkårType={vilkår.vilkårType}
                 regler={regler}
@@ -53,4 +53,4 @@ const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
         </>
     );
 };
-export default EndreVurdering;
+export default EndreVilkår;

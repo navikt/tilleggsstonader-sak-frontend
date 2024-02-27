@@ -4,7 +4,7 @@ import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPa
 import { Vilkårsregler } from '../../../../typer/regel';
 import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import VisEllerEndreVurdering from '../../Vilkårvurdering/VisEllerEndreVurdering';
+import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
     vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
@@ -42,7 +42,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 paragrafLenker={lovverkslenkerPassBarn}
                 rundskrivLenke={rundskrivPassBarn}
             >
-                <VisEllerEndreVurdering vilkår={vilkår} regler={vilkårsregler.regler} />
+                <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
             </VilkårPanelMedResultat>
         );
     });

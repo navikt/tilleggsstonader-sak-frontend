@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import EndreVurdering from './EndreVurdering';
+import EndreVilkår from './EndreVilkår';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
 import { Vilkår } from '../vilkår';
@@ -10,17 +10,17 @@ interface Props {
     regler: Regler;
 }
 
-const VisEllerEndreVurdering: FC<Props> = ({ vilkår, regler }) => {
+const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { feilmeldinger } = useVilkår();
     const feilmelding = feilmeldinger[vilkår.id];
 
     // TODO: Switch på redigeringsmodus
     return (
-        <EndreVurdering
+        <EndreVilkår
             vilkår={vilkår}
             feilmelding={feilmelding} // TODO: Legge til "|| resetFeilmelding" igjen?
             regler={regler}
         />
     );
 };
-export default VisEllerEndreVurdering;
+export default VisEllerEndreVilkår;

@@ -14,12 +14,12 @@ export enum BegrunnelseRegel {
     'UTEN' = 'UTEN',
 }
 
-export interface Svarsalternativ {
+export interface Svaralternativ {
     regelId: RegelId;
     begrunnelseType: BegrunnelseRegel;
 }
 
-type SvarMapping = Record<SvarId, Svarsalternativ>;
+type SvarMapping = Record<SvarId, Svaralternativ>;
 
 export interface Regel {
     regelId: string;
