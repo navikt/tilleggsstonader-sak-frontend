@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Textarea } from '@navikt/ds-react';
 
 import { BegrunnelseRegel, Regel } from '../../../typer/regel';
@@ -26,12 +24,8 @@ const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
         begrunnelseType !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
     );
 
-    const SlightlyWiderTextarea = styled(Textarea)`
-        width: 250px;
-    `;
-
     return (
-        <SlightlyWiderTextarea
+        <Textarea
             label={begrunnelsestekst}
             resize
             size="small"
@@ -39,6 +33,7 @@ const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
             value={svar.begrunnelse || ''}
             onChange={(e) => onChange(e.target.value)}
             maxLength={0}
+            style={{ width: '250px' }}
         />
     );
 };
