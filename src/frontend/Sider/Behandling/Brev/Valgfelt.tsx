@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction } from 'react';
 
 import { Select } from '@navikt/ds-react';
 
@@ -7,6 +7,7 @@ import { FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import Variabler from './Variabler';
 
 interface Props {
+    valgtVerdi: string | undefined;
     valgfelt: Valgfelt;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
     variabler: Record<string, string>;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const Valgfelt: React.FC<Props> = ({
+    valgtVerdi,
     valgfelt,
     settValgfelt,
     variabler,
@@ -23,8 +25,6 @@ const Valgfelt: React.FC<Props> = ({
     settFritekst,
     settVariabler,
 }) => {
-    const [valgt, settValgt] = useState<string>();
-
     const finnValgtBlock = (id: string | undefined) =>
         valgfelt.valg.find(
             (valg) =>
@@ -32,15 +32,14 @@ const Valgfelt: React.FC<Props> = ({
                 (valg._type === 'fritekst' && id === 'fritekst')
         );
 
-    const valgtBlock = finnValgtBlock(valgt);
+    const valgtBlock = finnValgtBlock(valgtVerdi);
 
     return (
         <>
             <Select
                 label={valgfelt.visningsnavn}
-                value={valgt || ''}
+                value={valgtVerdi || ''}
                 onChange={(e) => {
-                    settValgt(e.target.value);
                     settValgfelt((prevState) => {
                         const valgtBlock = finnValgtBlock(e.target.value);
 

@@ -1,67 +1,26 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
-import { Stønadsperiode, Utgift } from '../../../../../typer/vedtak';
-import { erDatoEtterEllerLik } from '../../../../../utils/dato';
+import { Utgift } from '../../../../../typer/vedtak';
 
 export const validerInnvilgetVedtakForm = ({
-    stønadsperioder,
     utgifter,
 }: InnvilgeVedtakForm): FormErrors<InnvilgeVedtakForm> => {
     return {
         ...validerPerioder({
-            stønadsperioder,
             utgifter,
         }),
     };
 };
 
 export const validerPerioder = ({
-    stønadsperioder,
     utgifter,
 }: {
-    stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
 }): FormErrors<{
-    stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
 }> => {
     return {
-        ...validerStønadsperioder(stønadsperioder),
         ...validerUtgifter(utgifter),
-    };
-};
-
-const validerStønadsperioder = (
-    stønadsperioder: Stønadsperiode[]
-): FormErrors<{
-    stønadsperioder: Stønadsperiode[];
-}> => {
-    const feilIStønadsperioder = stønadsperioder.map((periode) => {
-        const stønadsperiodeFeil: FormErrors<Stønadsperiode> = {
-            fom: undefined,
-            tom: undefined,
-        };
-
-        if (!periode.fom) {
-            return { ...stønadsperiodeFeil, fom: 'Mangler fradato for periode' };
-        }
-
-        if (!periode.tom) {
-            return { ...stønadsperiodeFeil, tom: 'Mangler tildato for periode' };
-        }
-
-        if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
-            return {
-                ...stønadsperiodeFeil,
-                tom: 'Sluttdato (til) må være etter startdato (fra) for periode',
-            };
-        }
-
-        return stønadsperiodeFeil;
-    });
-
-    return {
-        stønadsperioder: feilIStønadsperioder,
     };
 };
 

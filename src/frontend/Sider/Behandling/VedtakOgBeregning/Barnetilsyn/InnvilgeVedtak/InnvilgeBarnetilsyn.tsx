@@ -3,16 +3,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@navikt/ds-react';
-import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import Beregningsresultat from './Beregningsresultat';
-import StønadsperiodeValg from './Stønadsperiode/StønadsperiodeValg';
 import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
-import { ListState } from '../../../../../hooks/felles/useListState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
@@ -21,14 +18,12 @@ import { byggTomRessurs } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
-    Stønadsperiode,
     Utgift,
 } from '../../../../../typer/vedtak';
 import { GrunnlagBarn } from '../../../vilkår';
-import { lagVedtakRequest, tomStønadsperiodeRad, tomUtgiftPerBarn } from '../utils';
+import { lagVedtakRequest, tomUtgiftPerBarn } from '../utils';
 
 export type InnvilgeVedtakForm = {
-    stønadsperioder: Stønadsperiode[];
     utgifter: Record<string, Utgift[]>;
 };
 
@@ -44,17 +39,9 @@ const InnholdContainer = styled.div`
     gap: 2rem;
 `;
 
-const Divider = styled.hr`
-    width: 100%;
-    border-top: 1px solid ${AWhite};
-`;
-
 const Knapp = styled(Button)`
     width: max-content;
 `;
-
-const initStønadsperioder = (vedtak: InnvilgeVedtakForBarnetilsyn | undefined) =>
-    vedtak ? vedtak.stønadsperioder : [tomStønadsperiodeRad()];
 
 const initUtgifter = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
@@ -65,7 +52,6 @@ const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
     barnIBehandling: GrunnlagBarn[]
 ) => ({
-    stønadsperioder: initStønadsperioder(vedtak),
     utgifter: initUtgifter(vedtak, barnIBehandling),
 });
 
@@ -87,13 +73,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         validerInnvilgetVedtakForm
     );
 
-    const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
 
     const [laster, settLaster] = useState<boolean>(false);
-    const [beregningsresultat, settBeregningsresultat] = useState(
-        byggTomRessurs<BeregningsresultatTilsynBarn>()
-    );
+    const [beregningsresultat, settBeregningsresultat] =
+        useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
 
     // TODO: Finn ut hva denne gjør
     useEffect(() => {
@@ -130,7 +114,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     const beregnBarnetilsyn = () => {
         if (formState.customValidate(validerPerioder)) {
             const vedtaksRequest = lagVedtakRequest({
-                stønadsperioder: stønadsperioderState.value,
                 utgifter: utgifterState.value,
             });
             request<BeregningsresultatTilsynBarn, InnvilgeVedtakForBarnetilsyn>(
@@ -145,12 +128,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
             <EkspanderbartPanel tittel="Beregning">
                 <InnholdContainer>
-                    <StønadsperiodeValg
-                        stønadsperioderState={stønadsperioderState}
-                        errorState={formState.errors.stønadsperioder}
-                        settValideringsFeil={formState.setErrors}
-                    />
-                    <Divider />
                     <Utgifter
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
