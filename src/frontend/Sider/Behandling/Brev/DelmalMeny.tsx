@@ -7,6 +7,7 @@ import { Switch } from '@navikt/ds-react';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
 import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
+import valgfelt from './Valgfelt';
 import Variabler from './Variabler';
 
 interface Props {
@@ -29,6 +30,7 @@ const FlexColumn = styled.div`
 
 export const DelmalMeny: React.FC<Props> = ({
     delmal,
+    valgfelt,
     settValgfelt,
     variabler,
     settVariabler,
@@ -51,6 +53,7 @@ export const DelmalMeny: React.FC<Props> = ({
                     case 'valgfelt':
                         return (
                             <Valgfelt
+                                valgtVerdi={(valgfelt[val._id] as unknown as valgfelt)?._id}
                                 valgfelt={val}
                                 settValgfelt={settValgfelt}
                                 variabler={variabler}
