@@ -4,7 +4,7 @@ import {
     Regel,
     RegelId,
     Regler,
-    Svarsalternativ,
+    Svaralternativ,
 } from '../../../typer/regel';
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
 import { Delvilkår, Vurdering } from '../vilkår';
@@ -14,7 +14,7 @@ export const manglerBegrunnelse = (begrunnelse: string | undefined | null): bool
 };
 
 export function begrunnelseErPåkrevdOgMangler(
-    svarsalternativ: Svarsalternativ,
+    svarsalternativ: Svaralternativ,
     begrunnelse: Begrunnelse
 ): boolean {
     if (svarsalternativ.begrunnelseType === BegrunnelseRegel.PÅKREVD) {
@@ -24,7 +24,7 @@ export function begrunnelseErPåkrevdOgMangler(
 }
 
 export function begrunnelseErPåkrevdOgUtfyllt(
-    svarsalternativ: Svarsalternativ,
+    svarsalternativ: Svaralternativ,
     begrunnelse: Begrunnelse
 ): boolean {
     if (svarsalternativ.begrunnelseType === BegrunnelseRegel.PÅKREVD) {
@@ -41,10 +41,10 @@ export const forventerBegrunnelsePåAlleSvarsalternativ = (regel: Regel) => {
     );
 };
 
-export function hentSvarsalternativ(
+export function hentSvaralternativ(
     regler: Regler,
     vurdering: Vurdering
-): Svarsalternativ | undefined {
+): Svaralternativ | undefined {
     if (!vurdering.svar) {
         return undefined;
     } else {
@@ -61,7 +61,7 @@ export function erAlleDelvilkårBesvarte(delvilkårsett: Delvilkår[], regler: R
             if (!sisteVurderingen.svar) {
                 return false;
             }
-            const svarsalternativ = hentSvarsalternativ(regler, sisteVurderingen);
+            const svarsalternativ = hentSvaralternativ(regler, sisteVurderingen);
             return svarsalternativ?.regelId === 'SLUTT_NODE';
         });
 
@@ -72,7 +72,7 @@ export function erAlleDelvilkårBesvarte(delvilkårsett: Delvilkår[], regler: R
                 if (!vurdering.svar) {
                     return false;
                 }
-                const svarsalternativ = hentSvarsalternativ(regler, vurdering);
+                const svarsalternativ = hentSvaralternativ(regler, vurdering);
                 return (
                     svarsalternativ &&
                     !begrunnelseErPåkrevdOgMangler(svarsalternativ, vurdering.begrunnelse)
@@ -95,7 +95,7 @@ export function leggTilNesteIdHvis(
     return nySvarArray;
 }
 
-export const kanHaBegrunnelse = (svarsalternativ: Svarsalternativ) =>
+export const kanHaBegrunnelse = (svarsalternativ: Svaralternativ) =>
     svarsalternativ.begrunnelseType !== BegrunnelseRegel.UTEN;
 
 export const oppdaterSvarIListe = (
@@ -121,7 +121,7 @@ export const oppdaterSvarIListe = (
     );
 };
 
-const harBegrunnelsePåNesteRegel = (svarsalternativer: Svarsalternativ, regler: Regler) =>
+const harBegrunnelsePåNesteRegel = (svarsalternativer: Svaralternativ, regler: Regler) =>
     svarsalternativer.regelId !== 'SLUTT_NODE' &&
     forventerBegrunnelsePåAlleSvarsalternativ(regler[svarsalternativer.regelId]);
 
@@ -129,7 +129,7 @@ export const kopierBegrunnelse = (
     tidligereVurderinger: Vurdering[],
     nyeVurderinger: Vurdering[],
     nyttSvar: Vurdering,
-    svarsalternativer: Svarsalternativ,
+    svarsalternativer: Svaralternativ,
     regler: Regler
 ) => {
     const svarIndex = tidligereVurderinger.findIndex((s) => s.regelId === nyttSvar.regelId);

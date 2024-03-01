@@ -1,23 +1,13 @@
 import React, { FC, useState } from 'react';
 
-import styled from 'styled-components';
+import { ErrorMessage } from '@navikt/ds-react';
 
-import { ArrowUndoIcon } from '@navikt/aksel-icons';
-import { Button, ErrorMessage, Heading } from '@navikt/ds-react';
-
-import EndreVurderingComponent from './EndreVurderingComponent';
+import EndreDelvilkår from './EndreDelvilkår';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { SvarPåVilkår, Vilkår } from '../vilkår';
-
-const TittelOgKnappContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-`;
 
 interface Props {
     vilkår: Vilkår;
@@ -25,7 +15,7 @@ interface Props {
     regler: Regler;
 }
 
-const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
+const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
     const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
@@ -54,16 +44,7 @@ const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
                     Oppdatering av vilkår feilet: {feilmelding}
                 </ErrorMessage>
             )}
-            <TittelOgKnappContainer>
-                <Heading size={'small'} level={'3'}>
-                    Vilkår vurderes
-                </Heading>
-                <Button type="button" variant="tertiary" icon={<ArrowUndoIcon />} size={'small'}>
-                    Avbryt
-                </Button>
-            </TittelOgKnappContainer>
-
-            <EndreVurderingComponent
+            <EndreDelvilkår
                 oppdaterVilkår={oppdaterVilkår}
                 vilkårType={vilkår.vilkårType}
                 regler={regler}
@@ -72,4 +53,4 @@ const EndreVurdering: FC<Props> = ({ vilkår, feilmelding, regler }) => {
         </>
     );
 };
-export default EndreVurdering;
+export default EndreVilkår;

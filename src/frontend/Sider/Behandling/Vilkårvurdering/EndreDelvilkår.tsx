@@ -2,28 +2,22 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
+import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     erAlleDelvilkårBesvarte,
-    hentSvarsalternativ,
+    hentSvaralternativ,
     kanHaBegrunnelse,
     kopierBegrunnelse,
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
-import VurderDelvilkår from './VurderDelvilkår';
-import { BegrunnelseRegel, Regler, Svarsalternativ } from '../../../typer/regel';
+import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
@@ -33,10 +27,22 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
         $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
-    margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '1.5rem')};
+    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
+    display: flex;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1rem;
+    }
 `;
 
-const EndreVurderingComponent: FC<{
+const Skillelinje = styled.hr`
+    border-top: 1px solid white;
+    border-left: none;
+    width: 100%;
+`;
+
+const EndreDelvilkår: FC<{
     vilkårType: Vilkårtype;
     regler: Regler;
     oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
@@ -64,7 +70,7 @@ const EndreVurderingComponent: FC<{
         nyttSvar: Vurdering
     ) => {
         const { begrunnelse } = nyttSvar;
-        const svarsalternativ: Svarsalternativ | undefined = hentSvarsalternativ(regler, nyttSvar);
+        const svarsalternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
         if (!svarsalternativ) {
             return;
         }
@@ -85,10 +91,7 @@ const EndreVurderingComponent: FC<{
         delvilkårIndex: number,
         nyttSvar: Vurdering
     ) => {
-        const svarsalternativer: Svarsalternativ | undefined = hentSvarsalternativ(
-            regler,
-            nyttSvar
-        );
+        const svarsalternativer: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
 
         if (!svarsalternativer) {
             return;
@@ -134,40 +137,58 @@ const EndreVurderingComponent: FC<{
 
     return (
         <form onSubmit={onSubmit}>
-            <Container>
+            <VStack gap="4">
                 {delvikårsett.map((delvikår, delvikårIndex) => {
                     return delvikår.vurderinger.map((svar, indeks) => {
-                        const regel = regler[svar.regelId];
+                        const gjeldendeRegel = regler[svar.regelId];
+                        const erUndervilkår = indeks !== 0;
                         return (
-                            <DelvilkårContainer $erUndervilkår={indeks !== 0} key={regel.regelId}>
-                                <VurderDelvilkår
-                                    vurdering={svar}
-                                    regel={regel}
-                                    settVurdering={(nyVurdering) =>
-                                        oppdaterSvar(
-                                            delvikår.vurderinger,
-                                            delvikårIndex,
-                                            nyVurdering
-                                        )
-                                    }
-                                />
-                                <Begrunnelse
-                                    onChange={(begrunnelse) =>
-                                        oppdaterBegrunnelse(delvikår.vurderinger, delvikårIndex, {
-                                            ...svar,
-                                            begrunnelse,
-                                        })
-                                    }
-                                    svar={svar}
-                                    regel={regel}
-                                />
-                            </DelvilkårContainer>
+                            <>
+                                {delvikårIndex !== 0 && !erUndervilkår && <Skillelinje />}
+                                <DelvilkårContainer
+                                    $erUndervilkår={erUndervilkår}
+                                    key={gjeldendeRegel.regelId}
+                                >
+                                    <DelvilkårRadioknapper
+                                        vurdering={svar}
+                                        regel={gjeldendeRegel}
+                                        settVurdering={(nyVurdering) =>
+                                            oppdaterSvar(
+                                                delvikår.vurderinger,
+                                                delvikårIndex,
+                                                nyVurdering
+                                            )
+                                        }
+                                    />
+                                    <Begrunnelse
+                                        onChange={(begrunnelse) =>
+                                            oppdaterBegrunnelse(
+                                                delvikår.vurderinger,
+                                                delvikårIndex,
+                                                {
+                                                    ...svar,
+                                                    begrunnelse,
+                                                }
+                                            )
+                                        }
+                                        vurdering={svar}
+                                        regel={gjeldendeRegel}
+                                    />
+                                </DelvilkårContainer>
+                            </>
                         );
                     });
                 })}
-            </Container>
-            {skalViseLagreKnapp && <LagreKnapp size={'small'}>Lagre</LagreKnapp>}
+                {skalViseLagreKnapp && (
+                    <>
+                        <Skillelinje />
+                        <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
+                            Lagre
+                        </LagreKnapp>
+                    </>
+                )}
+            </VStack>
         </form>
     );
 };
-export default EndreVurderingComponent;
+export default EndreDelvilkår;
