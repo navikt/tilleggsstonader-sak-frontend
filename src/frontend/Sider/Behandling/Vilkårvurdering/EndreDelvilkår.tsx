@@ -38,6 +38,11 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
+const Skillelinje = styled.hr`
+    border-top: 1px solid white;
+    border-left: none;
+`;
+
 const EndreDelvilkår: FC<{
     vilkårType: Vilkårtype;
     regler: Regler;
@@ -131,24 +136,22 @@ const EndreDelvilkår: FC<{
         //settPanelITilstand(vurdering.vilkårType, EkspandertTilstand.EKSPANDERT);
     };
 
-    const Skillelinje = styled.hr`
-        border-top: 1px solid white;
-        border-left: none;
-    `;
-
     return (
         <form onSubmit={onSubmit}>
             {delvikårsett.map((delvikår, delvikårIndex) => {
                 return delvikår.vurderinger.map((svar, indeks) => {
-                    const regel = regler[svar.regelId];
+                    const gjeldendeRegel = regler[svar.regelId];
                     const erUndervilkår = indeks !== 0;
                     return (
                         <>
                             {delvikårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                            <DelvilkårContainer $erUndervilkår={erUndervilkår} key={regel.regelId}>
+                            <DelvilkårContainer
+                                $erUndervilkår={erUndervilkår}
+                                key={gjeldendeRegel.regelId}
+                            >
                                 <DelvilkårRadioknapper
                                     vurdering={svar}
-                                    regel={regel}
+                                    regel={gjeldendeRegel}
                                     settVurdering={(nyVurdering) =>
                                         oppdaterSvar(
                                             delvikår.vurderinger,
@@ -164,8 +167,8 @@ const EndreDelvilkår: FC<{
                                             begrunnelse,
                                         })
                                     }
-                                    svar={svar}
-                                    regel={regel}
+                                    vurdering={svar}
+                                    regel={gjeldendeRegel}
                                 />
                             </DelvilkårContainer>
                         </>

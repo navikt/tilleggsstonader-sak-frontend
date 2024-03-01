@@ -9,43 +9,38 @@ import { BegrunnelseRegel, Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
 interface Props {
-    svar: Vurdering;
+    vurdering: Vurdering;
     regel: Regel;
     onChange: (tekst: string) => void;
 }
 
-const Begrunnelse: FC<Props> = ({ svar, onChange, regel }) => {
-    const begrunnelseType = svar.svar && regel.svarMapping[svar.svar].begrunnelseType;
-    const skjulBegrunnelse = (begrunnelseType || BegrunnelseRegel.UTEN) === BegrunnelseRegel.UTEN;
+const FixedWidthTextarea = styled(Textarea)`
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+`;
+
+const Begrunnelse: FC<Props> = ({ vurdering, onChange, regel }) => {
+    const typeBegrunnelse = vurdering.svar && regel.svarMapping[vurdering.svar].begrunnelseType;
+    const skjulBegrunnelse = typeBegrunnelse === BegrunnelseRegel.UTEN;
 
     if (skjulBegrunnelse) {
         return null;
     }
 
     const begrunnelsestekst = 'Begrunnelse '.concat(
-        begrunnelseType !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
+        typeBegrunnelse !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
     );
 
-    const Container = styled.div`
-        display: flex;
-        flex-direction: column;
-    `;
-
     return (
-        <Container>
-            <Textarea
-                label={begrunnelsestekst}
-                resize
-                size="small"
-                minRows={3}
-                value={svar.begrunnelse || ''}
-                onChange={(e) => onChange(e.target.value)}
-                maxLength={0}
-                style={{
-                    width: '250px',
-                }}
-            />
-        </Container>
+        <FixedWidthTextarea
+            label={begrunnelsestekst}
+            resize
+            size="small"
+            minRows={3}
+            value={vurdering.begrunnelse || ''}
+            onChange={(e) => onChange(e.target.value)}
+        />
     );
 };
 export default Begrunnelse;
