@@ -26,15 +26,15 @@ const LagreKnapp = styled(Button)`
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
         $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
-    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '11px' : '0')};
-    margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '16px')};
-    margin-bottom: 16px;
-    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `32px` : `48px`)};
+    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
+    margin-top: ${({ $erUndervilkår }) => ($erUndervilkår ? '0' : '1rem')};
+    margin-bottom: 1rem;
+    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
     display: flex;
 
     @media (max-width: 900px) {
         flex-direction: column;
-        gap: 11px;
+        gap: 1rem;
     }
 `;
 
