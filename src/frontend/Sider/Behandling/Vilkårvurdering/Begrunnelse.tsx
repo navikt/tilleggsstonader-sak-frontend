@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Textarea } from '@navikt/ds-react';
+import { Textarea, VStack } from '@navikt/ds-react';
 
 import { BegrunnelseRegel, Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
@@ -14,9 +14,7 @@ interface Props {
     onChange: (tekst: string) => void;
 }
 
-const FixedWidthTextarea = styled(Textarea)`
-    display: flex;
-    flex-direction: column;
+const BegrunnelseContainer = styled(VStack)`
     width: 250px;
 `;
 
@@ -33,14 +31,16 @@ const Begrunnelse: FC<Props> = ({ vurdering, onChange, regel }) => {
     );
 
     return (
-        <FixedWidthTextarea
-            label={begrunnelsestekst}
-            resize
-            size="small"
-            minRows={3}
-            value={vurdering.begrunnelse || ''}
-            onChange={(e) => onChange(e.target.value)}
-        />
+        <BegrunnelseContainer>
+            <Textarea
+                label={begrunnelsestekst}
+                resize
+                size="small"
+                minRows={3}
+                value={vurdering.begrunnelse || ''}
+                onChange={(e) => onChange(e.target.value)}
+            />
+        </BegrunnelseContainer>
     );
 };
 export default Begrunnelse;
