@@ -61,6 +61,7 @@ export interface GrunnlagBarn {
 
 interface RegistergrunnlagBarn {
     navn: string;
+    alder?: string;
     dødsdato?: string;
 }
 
