@@ -27,11 +27,11 @@ const Innhold = styled.div`
 interface Props {
     tittel: string;
     ikon?: React.ReactNode;
-    heading?: React.ReactNode;
+    ekstraHeading?: React.ReactNode;
     children: React.ReactNode;
 }
 
-const EkspanderbartPanel: FC<Props> = ({ heading, tittel, ikon, children }) => {
+const EkspanderbartPanel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
     return (
         <Container>
             <Header>
@@ -39,7 +39,7 @@ const EkspanderbartPanel: FC<Props> = ({ heading, tittel, ikon, children }) => {
                     {ikon}
                     <Heading size="small">{tittel}</Heading>
                 </HStack>
-                {heading}
+                {ekstraHeading}
             </Header>
             <Innhold>{children}</Innhold>
         </Container>

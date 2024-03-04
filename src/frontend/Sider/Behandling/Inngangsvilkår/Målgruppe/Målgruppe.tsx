@@ -53,7 +53,7 @@ const Målgruppe: React.FC = () => {
     return (
         <EkspanderbartPanel
             tittel="Målgruppe"
-            heading={
+            ekstraHeading={
                 <ParagrafOgRundskrivLenker
                     paragrafLenker={lovverkslenkerMålgruppe}
                     rundskrivLenke={rundskrivMålgruppe}

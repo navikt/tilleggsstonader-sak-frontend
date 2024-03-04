@@ -53,7 +53,7 @@ const Aktivitet: React.FC = () => {
     return (
         <EkspanderbartPanel
             tittel="Aktivitet"
-            heading={
+            ekstraHeading={
                 <ParagrafOgRundskrivLenker
                     paragrafLenker={lovverkslenkerAktivitet}
                     rundskrivLenke={rundskrivAktivitet}

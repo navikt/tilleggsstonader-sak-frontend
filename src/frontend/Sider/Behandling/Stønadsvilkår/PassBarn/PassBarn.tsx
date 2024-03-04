@@ -42,13 +42,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             <EkspanderbartPanel
                 tittel={barnetsNavn}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
-                heading={
-                    <>
-                        <ParagrafOgRundskrivLenker
-                            paragrafLenker={lovverkslenkerAktivitet}
-                            rundskrivLenke={rundskrivPassBarn}
-                        />
-                    </>
+                ekstraHeading={
+                    <ParagrafOgRundskrivLenker
+                        paragrafLenker={lovverkslenkerAktivitet}
+                        rundskrivLenke={rundskrivPassBarn}
+                    />
                 }
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
