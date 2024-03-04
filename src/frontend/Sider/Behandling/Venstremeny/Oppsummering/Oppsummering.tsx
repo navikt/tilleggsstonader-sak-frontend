@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import BarnDetaljer from './BarnDetaljer';
+import Vedlegg from './Vedlegg';
 import { Informasjonskilde, Informasjonsrad, InfoSeksjon } from './Visningskomponenter';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -82,7 +83,7 @@ const Oppsummering: React.FC = () => {
                         <BarnDetaljer barn={barn} key={barn.barnId} />
                     ))}
 
-                    <InfoSeksjon label="Vedlegg" />
+                    <Vedlegg fakta={behandlingFakta.dokumentasjon} />
                 </VStack>
             )}
         </DataViewer>
