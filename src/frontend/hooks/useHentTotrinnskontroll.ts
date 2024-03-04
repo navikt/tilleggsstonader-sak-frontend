@@ -6,9 +6,8 @@ import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 export const useHentTotrinnskontroll = () => {
     const { request } = useApp();
-    const [totrinnskontroll, settTotrinnskontroll] = useState<Ressurs<TotrinnskontrollResponse>>(
-        byggTomRessurs()
-    );
+    const [totrinnskontroll, settTotrinnskontroll] =
+        useState<Ressurs<TotrinnskontrollResponse>>(byggTomRessurs());
 
     const hentTotrinnskontroll = useCallback(
         (behandlingId: string) => {

@@ -54,9 +54,8 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
 
     const [feilmeldinger, settFeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
-    const [vilkårsvurdering, settVilkårsvurdering] = useState<Ressurs<Vilkårsvurdering>>(
-        byggTomRessurs()
-    );
+    const [vilkårsvurdering, settVilkårsvurdering] =
+        useState<Ressurs<Vilkårsvurdering>>(byggTomRessurs());
 
     const hentVilkårsvurdering = useCallback(() => {
         settVilkårsvurdering(byggHenterRessurs());
