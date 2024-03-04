@@ -9,10 +9,10 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
-import { Målgruppe } from '../typer/målgruppe';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
@@ -51,10 +51,14 @@ const Målgruppe: React.FC = () => {
     };
 
     return (
-        <VilkårPanel
+        <EkspanderbartPanel
             tittel="Målgruppe"
-            paragrafLenker={lovverkslenkerMålgruppe}
-            rundskrivLenke={rundskrivMålgruppe}
+            heading={
+                <ParagrafOgRundskrivLenker
+                    paragrafLenker={lovverkslenkerMålgruppe}
+                    rundskrivLenke={rundskrivMålgruppe}
+                />
+            }
         >
             {skalViseTabell && (
                 <HvitTabell size="small">
@@ -105,7 +109,7 @@ const Målgruppe: React.FC = () => {
                     Legg til ny målgruppe
                 </Button>
             )}
-        </VilkårPanel>
+        </EkspanderbartPanel>
     );
 };
 

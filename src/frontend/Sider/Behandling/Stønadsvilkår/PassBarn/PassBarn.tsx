@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { Heading, HStack } from '@navikt/ds-react';
+
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
+import { lovverkslenkerAktivitet, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -34,16 +38,25 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             return <div>Fant ikke grunnlag for barn</div>;
         }
 
+        const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
+
         return (
-            <VilkårPanelMedResultat
-                tittel={grunnlagBarn.registergrunnlag.navn}
-                resultat={vilkår.resultat}
-                key={grunnlagBarn.barnId}
-                paragrafLenker={lovverkslenkerPassBarn}
-                rundskrivLenke={rundskrivPassBarn}
+            <EkspanderbartPanel
+                heading={
+                    <>
+                        <HStack gap="2">
+                            <VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />
+                            <Heading size="small">{barnetsNavn}</Heading>
+                        </HStack>
+                        <ParagrafOgRundskrivLenker
+                            paragrafLenker={lovverkslenkerAktivitet}
+                            rundskrivLenke={rundskrivPassBarn}
+                        />
+                    </>
+                }
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
-            </VilkårPanelMedResultat>
+            </EkspanderbartPanel>
         );
     });
 };

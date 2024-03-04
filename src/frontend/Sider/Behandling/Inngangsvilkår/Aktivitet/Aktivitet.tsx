@@ -9,8 +9,9 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
@@ -50,10 +51,14 @@ const Aktivitet: React.FC = () => {
     };
 
     return (
-        <VilkårPanel
+        <EkspanderbartPanel
             tittel="Aktivitet"
-            paragrafLenker={lovverkslenkerAktivitet}
-            rundskrivLenke={rundskrivAktivitet}
+            heading={
+                <ParagrafOgRundskrivLenker
+                    paragrafLenker={lovverkslenkerAktivitet}
+                    rundskrivLenke={rundskrivAktivitet}
+                />
+            }
         >
             {skalViseTabell && (
                 <HvitTabell size="small">
@@ -106,7 +111,7 @@ const Aktivitet: React.FC = () => {
                     Legg til ny aktivitet
                 </Button>
             )}
-        </VilkårPanel>
+        </EkspanderbartPanel>
     );
 };
 
