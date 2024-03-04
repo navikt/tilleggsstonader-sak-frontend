@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 
-import { BodyShort, HStack, Heading, Link } from '@navikt/ds-react';
+import { Heading, HStack } from '@navikt/ds-react';
 
 import EkspanderbartPanel from './EkspanderbartPanel';
 import { Lenke } from '../../Sider/Behandling/lenker';
 import { Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { VilkårsresultatIkon } from '../Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { ParagrafOgRundskrivLenker } from '../ParagrafOgRundskrivLenker';
 
 interface Props {
     tittel: string;
@@ -54,26 +55,5 @@ export const VilkårPanelMedResultat: FC<{ resultat: Vilkårsresultat } & Props>
         >
             {children}
         </EkspanderbartPanel>
-    );
-};
-
-const ParagrafOgRundskrivLenker: React.FC<{
-    paragrafLenker: Lenke[];
-    rundskrivLenke: string;
-}> = ({ paragrafLenker, rundskrivLenke }) => {
-    return (
-        <HStack gap="4">
-            <BodyShort>
-                {paragrafLenker.map((lenke, indeks) => (
-                    <React.Fragment key={indeks}>
-                        <Link key={indeks} href={lenke.url}>
-                            {lenke.tekst}
-                        </Link>
-                        {indeks !== paragrafLenker.length - 1 && ', '}
-                    </React.Fragment>
-                ))}
-            </BodyShort>
-            <Link href={rundskrivLenke}>Rundskriv</Link>
-        </HStack>
     );
 };
