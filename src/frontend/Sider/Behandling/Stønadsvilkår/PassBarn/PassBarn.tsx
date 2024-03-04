@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Heading, HStack } from '@navikt/ds-react';
-
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
@@ -42,12 +40,10 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
 
         return (
             <EkspanderbartPanel
+                tittel={barnetsNavn}
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
                 heading={
                     <>
-                        <HStack gap="2">
-                            <VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />
-                            <Heading size="small">{barnetsNavn}</Heading>
-                        </HStack>
                         <ParagrafOgRundskrivLenker
                             paragrafLenker={lovverkslenkerAktivitet}
                             rundskrivLenke={rundskrivPassBarn}

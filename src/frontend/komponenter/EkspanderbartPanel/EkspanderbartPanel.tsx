@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Heading } from '@navikt/ds-react';
+import { Heading, HStack } from '@navikt/ds-react';
 import { ABlue100, ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 const Container = styled.div`
@@ -25,16 +25,20 @@ const Innhold = styled.div`
 `;
 
 interface Props {
+    tittel: string;
+    ikon?: React.ReactNode;
     heading?: React.ReactNode;
-    tittel?: string;
     children: React.ReactNode;
 }
 
-const EkspanderbartPanel: FC<Props> = ({ heading, tittel, children }) => {
+const EkspanderbartPanel: FC<Props> = ({ heading, tittel, ikon, children }) => {
     return (
         <Container>
             <Header>
-                {tittel && <Heading size="small">{tittel}</Heading>}
+                <HStack gap="2">
+                    {ikon}
+                    <Heading size="small">{tittel}</Heading>
+                </HStack>
                 {heading}
             </Header>
             <Innhold>{children}</Innhold>
