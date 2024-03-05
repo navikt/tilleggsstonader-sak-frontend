@@ -33,9 +33,8 @@ export const useHentFagsakPersonUtvidet =
     (): HentFagsakPersonResponse<FagsakPersonMedBehandlinger> => {
         const { request } = useApp();
 
-        const [fagsakPerson, settFagsakPerson] = useState<Ressurs<FagsakPersonMedBehandlinger>>(
-            byggTomRessurs()
-        );
+        const [fagsakPerson, settFagsakPerson] =
+            useState<Ressurs<FagsakPersonMedBehandlinger>>(byggTomRessurs());
 
         const hentFagsakPerson = useCallback(
             (fagsakPersonId: string) => {
