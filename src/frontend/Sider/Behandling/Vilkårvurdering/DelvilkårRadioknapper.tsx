@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { BodyShort, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
+import { Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
 import { svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
@@ -24,7 +24,8 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     return (
         <Container>
             <RadioGroup
-                legend={mapRegelIdTilDelvilkårLabel(regel.regelId)}
+                legend={mapRegelIdTilSpørsmål(regel.regelId)}
+                description={mapRegelIdTilBeskrivelse(regel.regelId)}
                 value={vurdering.svar || ''}
                 size="small"
             >
@@ -50,30 +51,33 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     );
 };
 
-const mapRegelIdTilDelvilkårLabel = (regelId: string): React.ReactNode => {
+const mapRegelIdTilSpørsmål = (regelId: string): string => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
-            return (
-                <>
-                    Er utgifter til pass tilfredsstillende dokumentert?
-                    <ReadMore size="small" header={'Slik gjør du vurderingen'}>
-                        Hva skal stå her?🤷‍
-                    </ReadMore>
-                </>
-            );
+            return 'Er utgifter til pass tilfredsstillende dokumentert?';
         case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return (
-                <>
-                    Mottar den andre forelderen støtte til pass av barnet?
-                    <BodyShort size="small">Dette inkluderer både søker og foresatt</BodyShort>
-                </>
-            );
+            return 'Mottar den andre forelderen støtte til pass av barnet?';
         case 'HAR_ALDER_LAVERE_ENN_GRENSEVERDI':
             return 'Er barnet ferdig med 4. skoleår?';
         case 'UNNTAK_ALDER':
             return 'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?';
         default:
             return `${regelId} mangler mapping`;
+    }
+};
+
+const mapRegelIdTilBeskrivelse = (regelId: string): React.ReactNode => {
+    switch (regelId) {
+        case 'UTGIFTER_DOKUMENTERT':
+            return (
+                <ReadMore size="small" header="Slik gjør du vurderingen">
+                    Hva skal stå her?🤷‍
+                </ReadMore>
+            );
+        case 'ANNEN_FORELDER_MOTTAR_STØTTE':
+            return 'Dette inkluderer både søker og foresatt';
+        default:
+            return null;
     }
 };
 
