@@ -3,9 +3,9 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Radio, RadioGroup } from '@navikt/ds-react';
+import { BodyShort, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { regelIdTilTekst, svarIdTilTekst } from './tekster';
+import { svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -24,7 +24,7 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilTekst[regel.regelId] || `${regel.regelId} mangler mapping`}
+                legend={mapRegelIdTilDelvilkårLabel(regel.regelId)}
                 value={vurdering.svar || ''}
                 size="small"
             >
@@ -48,6 +48,33 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
             </RadioGroup>
         </Container>
     );
+};
+
+const mapRegelIdTilDelvilkårLabel = (regelId: string): React.ReactNode => {
+    switch (regelId) {
+        case 'UTGIFTER_DOKUMENTERT':
+            return (
+                <>
+                    Er utgifter til pass tilfredsstillende dokumentert?
+                    <ReadMore size="small" header={'Slik gjør du vurderingen'}>
+                        Hva skal stå her?🤷‍
+                    </ReadMore>
+                </>
+            );
+        case 'ANNEN_FORELDER_MOTTAR_STØTTE':
+            return (
+                <>
+                    Mottar den andre forelderen støtte til pass av barnet?
+                    <BodyShort size="small">Dette inkluderer både søker og foresatt</BodyShort>
+                </>
+            );
+        case 'HAR_ALDER_LAVERE_ENN_GRENSEVERDI':
+            return 'Er barnet ferdig med 4. skoleår?';
+        case 'UNNTAK_ALDER':
+            return 'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?';
+        default:
+            return `${regelId} mangler mapping`;
+    }
 };
 
 export default DelvilkårRadioknapper;
