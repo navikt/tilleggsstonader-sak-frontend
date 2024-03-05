@@ -14,9 +14,8 @@ import {
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
     const { request } = useApp();
-    const [oppgaveRessurs, settOppgaveRessurs] = useState<Ressurs<OppgaverResponse>>(
-        byggTomRessurs()
-    );
+    const [oppgaveRessurs, settOppgaveRessurs] =
+        useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
