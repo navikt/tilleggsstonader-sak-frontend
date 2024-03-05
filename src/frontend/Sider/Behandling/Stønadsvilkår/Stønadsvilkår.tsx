@@ -8,6 +8,8 @@ import PassBarn from './PassBarn/PassBarn';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
+import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
+import { FanePath } from '../faner';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -36,6 +38,7 @@ const Stønadsvilkår = () => {
                     />
                 )}
             </DataViewer>
+            <NesteStegKnapp nesteFane={FanePath.VEDTAK_OG_BEREGNING} />
         </Container>
     );
 };
