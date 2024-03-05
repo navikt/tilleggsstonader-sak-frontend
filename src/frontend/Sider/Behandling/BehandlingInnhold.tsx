@@ -8,6 +8,7 @@ import { ABorderDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { FanePath, hentBehandlingfaner } from './faner';
 import Høyremeny from './Høyremeny/Høyremeny';
+import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { useApp } from '../../context/AppContext';
 import { BehandlingProvider } from '../../context/BehandlingContext';
@@ -106,6 +107,8 @@ const BehandlingInnhold: React.FC<{
                                         )
                                     )}
                                 </Tabs.List>
+
+                                <SettPåVentContainer />
 
                                 {behandlingFaner.map((tab) => (
                                     <Tabs.Panel key={tab.path} value={tab.path}>

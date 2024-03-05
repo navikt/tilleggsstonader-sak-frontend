@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+
+import styled from 'styled-components';
+
+import { Button } from '@navikt/ds-react';
+import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
+
+import SettPåVentForm from './SettPåVentForm';
+import SettOpVentInformasjon from './SettPåVentInformasjon';
+import { StatusSettPåVent } from './typer';
+import { useApp } from '../../../context/AppContext';
+import { useBehandling } from '../../../context/BehandlingContext';
+import DataViewer from '../../../komponenter/DataViewer';
+import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
+
+const Container = styled.div`
+    margin: 2rem;
+    padding: 2rem;
+    background: ${AGray100};
+`;
+
+const SettPåVentContainer = () => {
+    const { request } = useApp();
+    const {
+        behandling,
+        behandlingErRedigerbar,
+        statusPåVentRedigering,
+        settStatusPåVentRedigering,
+    } = useBehandling();
+
+    const [statusResponse, settStatusResponse] =
+        useState<Ressurs<StatusSettPåVent>>(byggTomRessurs());
+
+    useEffect(() => {
+        if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
+            request<StatusSettPåVent, null>(`/api/sak/sett-pa-vent/${behandling.id}`).then(
+                settStatusResponse
+            );
+        }
+        // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    const harStatusSattPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
+
+    if (harStatusSattPåVent && statusResponse.status === RessursStatus.IKKE_HENTET) {
+        return null;
+    } else if (harStatusSattPåVent) {
+        return (
+            <Container>
+                <DataViewer response={{ statusResponse }}>
+                    {({ statusResponse }) => (
+                        <>
+                            <SettOpVentInformasjon status={statusResponse} />
+                            {statusPåVentRedigering && (
+                                <SettPåVentForm
+                                    status={statusResponse}
+                                    settStatusPåVent={settStatusResponse}
+                                />
+                            )}
+                        </>
+                    )}
+                </DataViewer>
+            </Container>
+        );
+    } else if (statusPåVentRedigering) {
+        return (
+            <Container>
+                <SettPåVentForm status={undefined} settStatusPåVent={settStatusResponse} />
+            </Container>
+        );
+    } else if (behandlingErRedigerbar) {
+        return <Button onClick={() => settStatusPåVentRedigering(true)}>Sett på vent</Button>;
+    } else {
+        return null;
+    }
+};
+export default SettPåVentContainer;
