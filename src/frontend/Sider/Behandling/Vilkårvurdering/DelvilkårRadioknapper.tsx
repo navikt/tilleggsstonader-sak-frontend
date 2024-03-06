@@ -13,13 +13,14 @@ interface Props {
     regel: Regel;
     vurdering: Vurdering;
     settVurdering: (nyttSvar: Vurdering) => void;
+    feilmelding?: string;
 }
 
 const Container = styled.div`
     width: 300px;
 `;
 
-const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) => {
+const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering, feilmelding }) => {
     const svaralternativer = Object.keys(regel.svarMapping);
     return (
         <Container>
@@ -28,6 +29,7 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
                 description={Spørsmålsbeskrivelse(regel.regelId)}
                 value={vurdering.svar || ''}
                 size="small"
+                error={feilmelding}
             >
                 {svaralternativer.map((svarId) => {
                     return (
