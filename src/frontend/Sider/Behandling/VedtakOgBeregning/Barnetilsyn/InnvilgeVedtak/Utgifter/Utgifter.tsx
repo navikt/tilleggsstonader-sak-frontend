@@ -2,8 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading } from '@navikt/ds-react';
-
 import UtgifterValg from './UtgifterValg';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
@@ -32,9 +30,6 @@ const Utgifter: React.FC<Props> = ({
 }) => {
     return (
         <div>
-            <Heading spacing size="small" level="5">
-                Dokumenterte utgifter
-            </Heading>
             <Container>
                 {barnIBehandling.map((barn) => (
                     <UtgifterValg
