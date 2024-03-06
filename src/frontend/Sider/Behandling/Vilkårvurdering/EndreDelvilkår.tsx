@@ -2,13 +2,14 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
+    erAlleDelvilkårBesvarte,
     hentSvaralternativ,
     kanHaBegrunnelse,
     kopierBegrunnelse,
@@ -121,6 +122,8 @@ const EndreDelvilkår: FC<{
         // settIkkePersistertKomponent(vurdering.id);
     };
 
+    const skalViseLagreKnapp = erAlleDelvilkårBesvarte(delvikårsett, regler);
+
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         oppdaterVilkår({
@@ -176,12 +179,14 @@ const EndreDelvilkår: FC<{
                         );
                     });
                 })}
-                <HStack gap="1">
-                    <Skillelinje />
-                    <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
-                        Lagre
-                    </LagreKnapp>
-                </HStack>
+                {skalViseLagreKnapp && (
+                    <>
+                        <Skillelinje />
+                        <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
+                            Lagre
+                        </LagreKnapp>
+                    </>
+                )}
             </VStack>
         </form>
     );
