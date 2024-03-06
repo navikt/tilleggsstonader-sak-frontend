@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { CopyButton, HStack, Label } from '@navikt/ds-react';
-
 import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
+import { VerdiMedKopiknapp } from '../../../../komponenter/VerdiMedKopiknapp';
 import { Vilkårsregler } from '../../../../typer/regel';
 import { lovverkslenkerAktivitet, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
@@ -45,12 +44,10 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             <EkspanderbartPanel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                key={grunnlagBarn.barnId}
                 ekstraHeading={
                     <>
-                        <HStack gap="1" align="center">
-                            <Label>{grunnlagBarn.ident}</Label>
-                            <CopyButton copyText={grunnlagBarn.ident} size="small" />
-                        </HStack>
+                        <VerdiMedKopiknapp verdi={grunnlagBarn.ident} />
                         <ParagrafOgRundskrivLenker
                             paragrafLenker={lovverkslenkerAktivitet}
                             rundskrivLenke={rundskrivPassBarn}
