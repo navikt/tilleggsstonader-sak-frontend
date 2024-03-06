@@ -139,6 +139,13 @@ const EndreDelvilkår: FC<{
         }
     };
 
+    const nullstillFeilmelding = (regelId: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { [regelId]: _, ...nyeFeilmeldinger } = feilmeldinger;
+
+        settFeilmeldinger(nyeFeilmeldinger);
+    };
+
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <VStack gap="4">
@@ -164,6 +171,7 @@ const EndreDelvilkår: FC<{
                                             )
                                         }
                                         feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
+                                        nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
                                         onChange={(begrunnelse) =>

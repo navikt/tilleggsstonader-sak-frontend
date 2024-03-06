@@ -14,13 +14,20 @@ interface Props {
     vurdering: Vurdering;
     settVurdering: (nyttSvar: Vurdering) => void;
     feilmelding?: string;
+    nullstillFeilmelding: (regelId: string) => void;
 }
 
 const Container = styled.div`
     width: 300px;
 `;
 
-const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering, feilmelding }) => {
+const DelvilkårRadioknapper: FC<Props> = ({
+    regel,
+    vurdering,
+    settVurdering,
+    feilmelding,
+    nullstillFeilmelding,
+}) => {
     const svaralternativer = Object.keys(regel.svarMapping);
     return (
         <Container>
@@ -31,20 +38,19 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering, fe
                 size="small"
                 error={feilmelding}
             >
-                {svaralternativer.map((svarId) => {
+                {svaralternativer.map((svar) => {
+                    const regelId = regel.regelId;
                     return (
                         <Radio
-                            key={`${regel.regelId}_${svarId}`}
-                            name={`${regel.regelId}_${svarId}`}
-                            value={svarId}
-                            onChange={() =>
-                                settVurdering({
-                                    svar: svarId,
-                                    regelId: regel.regelId,
-                                })
-                            }
+                            key={`${regelId}_${svar}`}
+                            name={`${regelId}_${svar}`}
+                            value={svar}
+                            onChange={() => {
+                                settVurdering({ svar, regelId });
+                                nullstillFeilmelding(regelId);
+                            }}
                         >
-                            {svarIdTilTekst[svarId] || svarId}
+                            {svarIdTilTekst[svar] || svar}
                         </Radio>
                     );
                 })}
