@@ -140,10 +140,8 @@ const EndreDelvilkår: FC<{
     };
 
     const nullstillFeilmelding = (regelId: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [regelId]: _, ...nyeFeilmeldinger } = feilmeldinger;
-
-        settFeilmeldinger(nyeFeilmeldinger);
+        const resterendeFeilmeldinger = { ...feilmeldinger, [regelId]: undefined };
+        settFeilmeldinger(resterendeFeilmeldinger);
     };
 
     return (

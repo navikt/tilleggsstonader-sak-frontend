@@ -2,7 +2,7 @@ import { BegrunnelseRegel, Regel, Regler } from '../../../typer/regel';
 import { Delvilkår } from '../vilkår';
 
 export type Feilmeldinger = {
-    [regelId: string]: string;
+    [regelId: string]: string | undefined;
 };
 
 export const validerVilkårsvurderinger = (
