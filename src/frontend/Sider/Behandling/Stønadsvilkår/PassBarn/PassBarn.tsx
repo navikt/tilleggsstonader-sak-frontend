@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import Panel from '../../../../komponenter/Panel/Panel';
-import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { VerdiMedKopiknapp } from '../../../../komponenter/VerdiMedKopiknapp';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
 import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
@@ -41,22 +40,16 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         const barnetsAlder = grunnlagBarn.registergrunnlag.alder || '-';
 
         return (
-            <Panel
+            <VilkårPanel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                ekstraHeading={<VerdiMedKopiknapp verdi={grunnlagBarn.ident} />}
+                lovverkslenker={lovverkslenkerPassBarn}
+                rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
-                ekstraHeading={
-                    <>
-                        <VerdiMedKopiknapp verdi={grunnlagBarn.ident} />
-                        <ParagrafOgRundskrivLenker
-                            paragrafLenker={lovverkslenkerPassBarn}
-                            rundskrivLenke={rundskrivPassBarn}
-                        />
-                    </>
-                }
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
-            </Panel>
+            </VilkårPanel>
         );
     });
 };

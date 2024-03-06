@@ -10,8 +10,7 @@ import EndreAktivitetRad from './EndreAktivitetRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import Panel from '../../../../komponenter/Panel/Panel';
-import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
@@ -51,14 +50,10 @@ const Aktivitet: React.FC = () => {
     };
 
     return (
-        <Panel
+        <VilkårPanel
             tittel="Aktivitet"
-            ekstraHeading={
-                <ParagrafOgRundskrivLenker
-                    paragrafLenker={lovverkslenkerAktivitet}
-                    rundskrivLenke={rundskrivAktivitet}
-                />
-            }
+            lovverkslenker={lovverkslenkerAktivitet}
+            rundskrivlenke={rundskrivAktivitet}
         >
             {skalViseTabell && (
                 <HvitTabell size="small">
@@ -111,7 +106,7 @@ const Aktivitet: React.FC = () => {
                     Legg til ny aktivitet
                 </Button>
             )}
-        </Panel>
+        </VilkårPanel>
     );
 };
 

@@ -10,8 +10,7 @@ import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import Panel from '../../../../komponenter/Panel/Panel';
-import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
@@ -51,14 +50,10 @@ const Målgruppe: React.FC = () => {
     };
 
     return (
-        <Panel
+        <VilkårPanel
             tittel="Målgruppe"
-            ekstraHeading={
-                <ParagrafOgRundskrivLenker
-                    paragrafLenker={lovverkslenkerMålgruppe}
-                    rundskrivLenke={rundskrivMålgruppe}
-                />
-            }
+            lovverkslenker={lovverkslenkerMålgruppe}
+            rundskrivlenke={rundskrivMålgruppe}
         >
             {skalViseTabell && (
                 <HvitTabell size="small">
@@ -109,7 +104,7 @@ const Målgruppe: React.FC = () => {
                     Legg til ny målgruppe
                 </Button>
             )}
-        </Panel>
+        </VilkårPanel>
     );
 };
 
