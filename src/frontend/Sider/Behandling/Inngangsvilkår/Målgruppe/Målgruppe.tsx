@@ -52,7 +52,7 @@ const Målgruppe: React.FC = () => {
     return (
         <VilkårPanel
             tittel="Målgruppe"
-            lovverkslenker={lovverkslenkerMålgruppe}
+            paragraflenker={lovverkslenkerMålgruppe}
             rundskrivlenke={rundskrivMålgruppe}
         >
             {skalViseTabell && (

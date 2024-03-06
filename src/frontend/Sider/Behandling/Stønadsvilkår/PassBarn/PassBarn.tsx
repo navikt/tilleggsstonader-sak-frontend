@@ -44,7 +44,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
                 ekstraHeading={<VerdiMedKopiknapp verdi={grunnlagBarn.ident} />}
-                lovverkslenker={lovverkslenkerPassBarn}
+                paragraflenker={lovverkslenkerPassBarn}
                 rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
             >

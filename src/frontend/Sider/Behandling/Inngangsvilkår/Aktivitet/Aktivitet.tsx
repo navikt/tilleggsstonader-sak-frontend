@@ -52,7 +52,7 @@ const Aktivitet: React.FC = () => {
     return (
         <VilkårPanel
             tittel="Aktivitet"
-            lovverkslenker={lovverkslenkerAktivitet}
+            paragraflenker={lovverkslenkerAktivitet}
             rundskrivlenke={rundskrivAktivitet}
         >
             {skalViseTabell && (
