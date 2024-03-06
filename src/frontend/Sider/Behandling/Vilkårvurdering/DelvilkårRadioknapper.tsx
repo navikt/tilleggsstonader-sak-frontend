@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 
 import { Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { svarIdTilTekst } from './tekster';
+import { regelIdTilSpørsmål, regelIdTilSpørsmålsbeskrivelse, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -24,8 +24,8 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     return (
         <Container>
             <RadioGroup
-                legend={mapRegelIdTilSpørsmål(regel.regelId)}
-                description={mapRegelIdTilBeskrivelse(regel.regelId)}
+                legend={regelIdTilSpørsmål[regel.regelId] || regel.regelId}
+                description={Spørsmålsbeskrivelse(regel.regelId)}
                 value={vurdering.svar || ''}
                 size="small"
             >
@@ -51,31 +51,16 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     );
 };
 
-const mapRegelIdTilSpørsmål = (regelId: string): string => {
-    switch (regelId) {
-        case 'UTGIFTER_DOKUMENTERT':
-            return 'Er utgifter til pass tilfredsstillende dokumentert?';
-        case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return 'Mottar den andre forelderen støtte til pass av barnet?';
-        case 'HAR_ALDER_LAVERE_ENN_GRENSEVERDI':
-            return 'Er barnet ferdig med 4. skoleår?';
-        case 'UNNTAK_ALDER':
-            return 'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?';
-        default:
-            return `${regelId} mangler mapping`;
-    }
-};
-
-const mapRegelIdTilBeskrivelse = (regelId: string): React.ReactNode => {
+const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
             return (
                 <ReadMore size="small" header="Slik gjør du vurderingen">
-                    Hva skal stå her?🤷‍
+                    {regelIdTilSpørsmålsbeskrivelse[regelId]}
                 </ReadMore>
             );
         case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return 'Dette inkluderer både søker og foresatt';
+            return regelIdTilSpørsmålsbeskrivelse[regelId];
         default:
             return null;
     }
