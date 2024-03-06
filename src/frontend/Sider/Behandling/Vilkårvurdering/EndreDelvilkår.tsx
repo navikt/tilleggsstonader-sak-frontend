@@ -83,7 +83,6 @@ const EndreDelvilkår: FC<{
             () => begrunnelseErPåkrevdOgUtfyllt(svarsalternativ, begrunnelse)
         );
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedNesteRegel);
-        // settIkkePersistertKomponent(vurdering.id);
     };
 
     const oppdaterSvar = (

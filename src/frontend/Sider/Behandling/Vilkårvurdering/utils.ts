@@ -7,21 +7,7 @@ import {
     Svaralternativ,
 } from '../../../typer/regel';
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
-import { Delvilkår, Vurdering } from '../vilkår';
-
-export const manglerBegrunnelse = (begrunnelse: string | undefined | null): boolean => {
-    return !begrunnelse || begrunnelse.trim().length === 0;
-};
-
-export function begrunnelseErPåkrevdOgMangler(
-    svarsalternativ: Svaralternativ,
-    begrunnelse: Begrunnelse
-): boolean {
-    if (svarsalternativ.begrunnelseType === BegrunnelseRegel.PÅKREVD) {
-        return manglerBegrunnelse(begrunnelse);
-    }
-    return false;
-}
+import { Vurdering } from '../vilkår';
 
 export function begrunnelseErPåkrevdOgUtfyllt(
     svarsalternativ: Svaralternativ,
@@ -51,36 +37,6 @@ export function hentSvaralternativ(
         const regel = regler[vurdering.regelId];
         return regel.svarMapping[vurdering.svar];
     }
-}
-
-export function erAlleDelvilkårBesvarte(delvilkårsett: Delvilkår[], regler: Regler): boolean {
-    const erPåSisteNod = delvilkårsett
-        .map((delvilkår) => delvilkår.vurderinger)
-        .map((listeMedVurderinger) => listeMedVurderinger[listeMedVurderinger.length - 1])
-        .every((sisteVurderingen) => {
-            if (!sisteVurderingen.svar) {
-                return false;
-            }
-            const svarsalternativ = hentSvaralternativ(regler, sisteVurderingen);
-            return svarsalternativ?.regelId === 'SLUTT_NODE';
-        });
-
-    const harBesvartAllePåkrevdeBegrunnelser = delvilkårsett
-        .map((delvilkår) => delvilkår.vurderinger)
-        .every((delvilkår) =>
-            delvilkår.every((vurdering) => {
-                if (!vurdering.svar) {
-                    return false;
-                }
-                const svarsalternativ = hentSvaralternativ(regler, vurdering);
-                return (
-                    svarsalternativ &&
-                    !begrunnelseErPåkrevdOgMangler(svarsalternativ, vurdering.begrunnelse)
-                );
-            })
-        );
-
-    return erPåSisteNod && harBesvartAllePåkrevdeBegrunnelser;
 }
 
 export function leggTilNesteIdHvis(
