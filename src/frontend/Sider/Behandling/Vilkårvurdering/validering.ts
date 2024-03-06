@@ -1,4 +1,4 @@
-import { Begrunnelse, BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
+import { BegrunnelseRegel, Regel, Regler } from '../../../typer/regel';
 import { Delvilkår } from '../vilkår';
 
 export type Feilmeldinger = {
@@ -14,15 +14,18 @@ export const validerVilkårsvurderinger = (
     delvilkårsett.map((delvilkår) => {
         delvilkår.vurderinger.map((vurdering) => {
             const gjeldendeRegelId = vurdering.regelId;
+
             if (!vurdering.svar) {
                 valideringsfeil[gjeldendeRegelId] = 'Du må ta et valg';
                 return;
             }
 
-            const valgtSvaralternativ = regler[gjeldendeRegelId]?.svarMapping[vurdering.svar!];
-
-            if (begrunnelseErPåkrevdOgMangler(valgtSvaralternativ, vurdering.begrunnelse)) {
+            if (
+                begrunnelseKreves(vurdering.svar, regler[gjeldendeRegelId]) &&
+                erUtenInnhold(vurdering.begrunnelse)
+            ) {
                 valideringsfeil[gjeldendeRegelId] = 'Begrunnelse er obligatorisk for dette valget';
+                return;
             }
         });
     });
@@ -30,16 +33,12 @@ export const validerVilkårsvurderinger = (
     return valideringsfeil;
 };
 
-function begrunnelseErPåkrevdOgMangler(
-    svarsalternativ: Svaralternativ,
-    begrunnelse: Begrunnelse
-): boolean {
-    if (svarsalternativ.begrunnelseType === BegrunnelseRegel.PÅKREVD) {
-        return manglerBegrunnelse(begrunnelse);
-    }
-    return false;
-}
+const begrunnelseKreves = (svar: string, regel: Regel): boolean => {
+    const valgtSvaralternativ = regel?.svarMapping[svar];
 
-const manglerBegrunnelse = (begrunnelse: string | undefined | null): boolean => {
-    return !begrunnelse || begrunnelse.trim().length === 0;
+    return valgtSvaralternativ?.begrunnelseType === BegrunnelseRegel.PÅKREVD;
+};
+
+const erUtenInnhold = (str: string | undefined | null): boolean => {
+    return !str || str.trim() === '';
 };
