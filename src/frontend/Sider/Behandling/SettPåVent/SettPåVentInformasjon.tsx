@@ -42,8 +42,8 @@ const SettOpVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status
                 {status.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ')}
             </div>
             <div>
-                <strong>Beskrivelse: </strong>
-                <Beskrivelse>{status.oppgaveBeskrivelse}</Beskrivelse>
+                <strong>Kommentar: </strong>
+                <Beskrivelse>{status.kommentar}</Beskrivelse>
             </div>
             {!statusPåVentRedigering && (
                 <HStack gap={'4'}>

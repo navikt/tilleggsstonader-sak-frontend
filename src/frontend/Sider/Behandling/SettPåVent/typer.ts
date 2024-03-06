@@ -1,15 +1,15 @@
 export interface SettPåVent {
     årsaker: ÅrsakSettPåVent[];
-    frist?: string;
     kommentar?: string;
+    frist?: string;
     oppgaveVersjon?: number;
 }
 
 export interface StatusSettPåVent {
     årsaker: ÅrsakSettPåVent[];
+    kommentar?: string;
     frist?: string;
     oppgaveVersjon: number;
-    oppgaveBeskrivelse?: string;
 }
 
 export interface SettPåVentError extends Omit<SettPåVent, 'årsaker'> {
