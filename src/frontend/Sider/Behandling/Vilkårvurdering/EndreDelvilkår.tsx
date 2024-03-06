@@ -16,6 +16,7 @@ import {
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
+import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
 
@@ -34,12 +35,6 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
         flex-direction: column;
         gap: 1rem;
     }
-`;
-
-const Skillelinje = styled.hr`
-    border-top: 1px solid white;
-    border-left: none;
-    width: 100%;
 `;
 
 const EndreDelvilkår: FC<{
