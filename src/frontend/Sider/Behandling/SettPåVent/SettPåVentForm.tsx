@@ -23,7 +23,7 @@ import DateInput from '../../../komponenter/Skjema/DateInput';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 
 const ÅrsakContainer = styled.div`
-    width: 20rem;
+    width: 35rem;
 `;
 
 const SettPåVentForm: React.FC<{
@@ -114,7 +114,7 @@ const SettPåVentForm: React.FC<{
                 />
             </HStack>
             <Textarea
-                label={'Kommentar (valgri)'}
+                label={'Kommentar (valgfri)'}
                 description={'Forklar gjerne hva som er gjort.'}
                 value={settPåVent.kommentar || ''}
                 onChange={(e) =>
