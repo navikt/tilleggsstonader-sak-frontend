@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { VerdiMedKopiknapp } from '../../../../komponenter/VerdiMedKopiknapp';
+import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
+import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -43,8 +43,13 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             <VilkårPanel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
-                ekstraHeading={<VerdiMedKopiknapp verdi={grunnlagBarn.ident} />}
-                paragraflenker={lovverkslenkerPassBarn}
+                ekstraHeading={
+                    <InlineKopiknapp
+                        kopitekst={grunnlagBarn.ident}
+                        tooltipTekst="Kopier fødselsnummer"
+                    />
+                }
+                paragraflenker={paragraflenkerPassBarn}
                 rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
             >
