@@ -3,9 +3,9 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Radio, RadioGroup } from '@navikt/ds-react';
+import { Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { regelIdTilTekst, svarIdTilTekst } from './tekster';
+import { regelIdTilSpørsmål, regelIdTilSpørsmålsbeskrivelse, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -24,7 +24,8 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilTekst[regel.regelId] || `${regel.regelId} mangler mapping`}
+                legend={regelIdTilSpørsmål[regel.regelId] || regel.regelId}
+                description={Spørsmålsbeskrivelse(regel.regelId)}
                 value={vurdering.svar || ''}
                 size="small"
             >
@@ -48,6 +49,21 @@ const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) 
             </RadioGroup>
         </Container>
     );
+};
+
+const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
+    switch (regelId) {
+        case 'UTGIFTER_DOKUMENTERT':
+            return (
+                <ReadMore size="small" header="Slik gjør du vurderingen">
+                    {regelIdTilSpørsmålsbeskrivelse[regelId]}
+                </ReadMore>
+            );
+        case 'ANNEN_FORELDER_MOTTAR_STØTTE':
+            return regelIdTilSpørsmålsbeskrivelse[regelId];
+        default:
+            return null;
+    }
 };
 
 export default DelvilkårRadioknapper;
