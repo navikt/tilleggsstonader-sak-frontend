@@ -5,7 +5,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { VerdiMedKopiknapp } from '../../../../komponenter/VerdiMedKopiknapp';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { lovverkslenkerAktivitet, rundskrivPassBarn } from '../../lenker';
+import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -49,7 +49,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                     <>
                         <VerdiMedKopiknapp verdi={grunnlagBarn.ident} />
                         <ParagrafOgRundskrivLenker
-                            paragrafLenker={lovverkslenkerAktivitet}
+                            paragrafLenker={lovverkslenkerPassBarn}
                             rundskrivLenke={rundskrivPassBarn}
                         />
                     </>
