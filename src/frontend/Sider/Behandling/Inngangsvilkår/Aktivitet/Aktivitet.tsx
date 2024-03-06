@@ -9,8 +9,8 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
@@ -51,7 +51,7 @@ const Aktivitet: React.FC = () => {
     };
 
     return (
-        <EkspanderbartPanel
+        <Panel
             tittel="Aktivitet"
             ekstraHeading={
                 <ParagrafOgRundskrivLenker
@@ -111,7 +111,7 @@ const Aktivitet: React.FC = () => {
                     Legg til ny aktivitet
                 </Button>
             )}
-        </EkspanderbartPanel>
+        </Panel>
     );
 };
 

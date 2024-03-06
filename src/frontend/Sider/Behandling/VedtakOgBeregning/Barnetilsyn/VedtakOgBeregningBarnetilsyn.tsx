@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
 import { RessursStatus } from '../../../../typer/ressurs';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
@@ -33,12 +33,12 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     return (
         <Container>
             {/* TODO: Send inn korrekt resultat */}
-            <EkspanderbartPanel tittel="Vedtak">
+            <Panel tittel="Vedtak">
                 <SelectVedtaksresultat
                     resultatType={resultatType}
                     settResultatType={settResultatType}
                 />
-            </EkspanderbartPanel>
+            </Panel>
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => {
                     switch (resultatType) {

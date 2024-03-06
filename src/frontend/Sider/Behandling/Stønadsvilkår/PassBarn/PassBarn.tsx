@@ -1,7 +1,7 @@
 import React from 'react';
 
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { VerdiMedKopiknapp } from '../../../../komponenter/VerdiMedKopiknapp';
 import { Vilkårsregler } from '../../../../typer/regel';
@@ -41,7 +41,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         const barnetsAlder = grunnlagBarn.registergrunnlag.alder || '-';
 
         return (
-            <EkspanderbartPanel
+            <Panel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
                 ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
                 key={grunnlagBarn.barnId}
@@ -56,7 +56,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 }
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
-            </EkspanderbartPanel>
+            </Panel>
         );
     });
 };

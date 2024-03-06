@@ -9,8 +9,8 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/ParagrafOgRundskrivLenker';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
@@ -51,7 +51,7 @@ const Målgruppe: React.FC = () => {
     };
 
     return (
-        <EkspanderbartPanel
+        <Panel
             tittel="Målgruppe"
             ekstraHeading={
                 <ParagrafOgRundskrivLenker
@@ -109,7 +109,7 @@ const Målgruppe: React.FC = () => {
                     Legg til ny målgruppe
                 </Button>
             )}
-        </EkspanderbartPanel>
+        </Panel>
     );
 };
 

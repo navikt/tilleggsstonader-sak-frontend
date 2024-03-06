@@ -31,7 +31,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const EkspanderbartPanel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
+const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
     return (
         <Container>
             <Header>
@@ -46,4 +46,4 @@ const EkspanderbartPanel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }
     );
 };
 
-export default EkspanderbartPanel;
+export default Panel;
