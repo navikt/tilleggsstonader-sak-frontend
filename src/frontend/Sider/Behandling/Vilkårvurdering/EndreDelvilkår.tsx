@@ -141,24 +141,21 @@ const EndreDelvilkår: FC<{
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <VStack gap="4">
-                {delvilkårsett.map((delvikår, delvikårIndex) => {
+                {delvilkårsett.map((delvikår, delvilkårIndex) => {
                     return delvikår.vurderinger.map((svar, indeks) => {
                         const gjeldendeRegel = regler[svar.regelId];
                         const erUndervilkår = indeks !== 0;
                         return (
-                            <>
-                                {delvikårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                                <DelvilkårContainer
-                                    $erUndervilkår={erUndervilkår}
-                                    key={gjeldendeRegel.regelId}
-                                >
+                            <React.Fragment key={gjeldendeRegel.regelId + vilkår.barnId}>
+                                {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
+                                <DelvilkårContainer $erUndervilkår={erUndervilkår}>
                                     <DelvilkårRadioknapper
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
                                         settVurdering={(nyVurdering) =>
                                             oppdaterSvar(
                                                 delvikår.vurderinger,
-                                                delvikårIndex,
+                                                delvilkårIndex,
                                                 nyVurdering
                                             )
                                         }
@@ -169,7 +166,7 @@ const EndreDelvilkår: FC<{
                                         onChange={(begrunnelse) =>
                                             oppdaterBegrunnelse(
                                                 delvikår.vurderinger,
-                                                delvikårIndex,
+                                                delvilkårIndex,
                                                 {
                                                     ...svar,
                                                     begrunnelse,
@@ -180,7 +177,7 @@ const EndreDelvilkår: FC<{
                                         regel={gjeldendeRegel}
                                     />
                                 </DelvilkårContainer>
-                            </>
+                            </React.Fragment>
                         );
                     });
                 })}
