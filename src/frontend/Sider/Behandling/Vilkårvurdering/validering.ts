@@ -1,9 +1,7 @@
-import { BegrunnelseRegel, Regel, Regler } from '../../../typer/regel';
+import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
 import { Delvilkår } from '../vilkår';
 
-export type Feilmeldinger = {
-    [regelId: string]: string | undefined;
-};
+export type Feilmeldinger = Record<RegelId, string | undefined>;
 
 export const validerVilkårsvurderinger = (
     delvilkårsett: Delvilkår[],

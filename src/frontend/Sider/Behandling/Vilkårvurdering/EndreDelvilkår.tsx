@@ -113,7 +113,6 @@ const EndreDelvilkår: FC<{
         );
 
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
-        // settIkkePersistertKomponent(vurdering.id);
     };
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
