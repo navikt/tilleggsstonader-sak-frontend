@@ -6,9 +6,9 @@ import { hjelpetekster } from './tekster';
 
 export const SlikGjørDuVurderingen: React.FC<{ regelId: string }> = ({ regelId }) => {
     return (
-        <ReadMore header="Slik gjør du vurderingen">
-            {hjelpetekster[regelId].map((avsnitt) => (
-                <BodyLong spacing size="small">
+        <ReadMore header="Slik gjør du vurderingen" size="small">
+            {hjelpetekster[regelId].map((avsnitt, indeks) => (
+                <BodyLong spacing size="small" key={indeks}>
                     {avsnitt}
                 </BodyLong>
             ))}
