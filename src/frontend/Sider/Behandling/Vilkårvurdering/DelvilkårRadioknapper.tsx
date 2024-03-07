@@ -29,17 +29,17 @@ const DelvilkårRadioknapper: FC<Props> = ({
     nullstillFeilmelding,
 }) => {
     const svaralternativer = Object.keys(regel.svarMapping);
+    const regelId = regel.regelId;
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilSpørsmål[regel.regelId] || regel.regelId}
-                description={Spørsmålsbeskrivelse(regel.regelId)}
+                legend={regelIdTilSpørsmål[regelId] || regelId}
+                description={Spørsmålsbeskrivelse(regelId)}
                 value={vurdering.svar || ''}
                 size="small"
                 error={feilmelding}
             >
                 {svaralternativer.map((svar) => {
-                    const regelId = regel.regelId;
                     return (
                         <Radio
                             key={`${regelId}_${svar}`}

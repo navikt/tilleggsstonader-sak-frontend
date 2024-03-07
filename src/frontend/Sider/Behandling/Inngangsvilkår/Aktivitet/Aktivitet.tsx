@@ -11,7 +11,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 

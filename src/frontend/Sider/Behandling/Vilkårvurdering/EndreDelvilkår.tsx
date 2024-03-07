@@ -135,8 +135,7 @@ const EndreDelvilkår: FC<{
     };
 
     const nullstillFeilmelding = (regelId: string) => {
-        const resterendeFeilmeldinger = { ...feilmeldinger, [regelId]: undefined };
-        settFeilmeldinger(resterendeFeilmeldinger);
+        settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
 
     return (
