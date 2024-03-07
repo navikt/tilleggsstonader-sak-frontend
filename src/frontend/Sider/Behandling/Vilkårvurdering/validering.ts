@@ -11,24 +11,24 @@ export const validerVilkårsvurderinger = (
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = {};
 
-    delvilkårsett.map((delvilkår) => {
-        delvilkår.vurderinger.map((vurdering) => {
-            const gjeldendeRegelId = vurdering.regelId;
+    delvilkårsett
+        .flatMap((delvilkår) => delvilkår.vurderinger)
+        .forEach((vurdering) => {
+            const gjeldendeRegel = vurdering.regelId;
 
             if (!vurdering.svar) {
-                valideringsfeil[gjeldendeRegelId] = 'Du må ta et valg';
+                valideringsfeil[gjeldendeRegel] = 'Du må ta et valg';
                 return;
             }
 
             if (
-                begrunnelseKreves(vurdering.svar, regler[gjeldendeRegelId]) &&
+                begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
                 erUtenInnhold(vurdering.begrunnelse)
             ) {
-                valideringsfeil[gjeldendeRegelId] = 'Begrunnelse er obligatorisk for dette valget';
+                valideringsfeil[gjeldendeRegel] = 'Begrunnelse er obligatorisk for dette valget';
                 return;
             }
         });
-    });
 
     return valideringsfeil;
 };
