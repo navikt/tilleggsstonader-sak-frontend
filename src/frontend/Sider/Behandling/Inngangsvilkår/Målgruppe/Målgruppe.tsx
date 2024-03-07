@@ -9,10 +9,9 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
-import { Målgruppe } from '../typer/målgruppe';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
@@ -53,8 +52,8 @@ const Målgruppe: React.FC = () => {
     return (
         <VilkårPanel
             tittel="Målgruppe"
-            paragrafLenker={lovverkslenkerMålgruppe}
-            rundskrivLenke={rundskrivMålgruppe}
+            paragraflenker={lovverkslenkerMålgruppe}
+            rundskrivlenke={rundskrivMålgruppe}
         >
             {skalViseTabell && (
                 <HvitTabell size="small">

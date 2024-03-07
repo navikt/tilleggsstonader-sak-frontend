@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { VilkårPanelMedResultat } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { lovverkslenkerPassBarn, rundskrivPassBarn } from '../../lenker';
+import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -34,16 +36,25 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             return <div>Fant ikke grunnlag for barn</div>;
         }
 
+        const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
+        const barnetsAlder = grunnlagBarn.registergrunnlag.alder || '-';
+
         return (
-            <VilkårPanelMedResultat
-                tittel={grunnlagBarn.registergrunnlag.navn}
-                resultat={vilkår.resultat}
+            <VilkårPanel
+                tittel={`${barnetsNavn} (${barnetsAlder} år)`}
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                ekstraHeading={
+                    <InlineKopiknapp
+                        kopitekst={grunnlagBarn.ident}
+                        tooltipTekst="Kopier fødselsnummer"
+                    />
+                }
+                paragraflenker={paragraflenkerPassBarn}
+                rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
-                paragrafLenker={lovverkslenkerPassBarn}
-                rundskrivLenke={rundskrivPassBarn}
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
-            </VilkårPanelMedResultat>
+            </VilkårPanel>
         );
     });
 };

@@ -9,9 +9,9 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårPanel } from '../../../../komponenter/EkspanderbartPanel/VilkårPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { lovverkslenkerAktivitet, rundskrivAktivitet } from '../../lenker';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const HvitTabell = styled(Table)`
@@ -52,8 +52,8 @@ const Aktivitet: React.FC = () => {
     return (
         <VilkårPanel
             tittel="Aktivitet"
-            paragrafLenker={lovverkslenkerAktivitet}
-            rundskrivLenke={rundskrivAktivitet}
+            paragraflenker={paragraflenkerAktivitet}
+            rundskrivlenke={rundskrivAktivitet}
         >
             {skalViseTabell && (
                 <HvitTabell size="small">

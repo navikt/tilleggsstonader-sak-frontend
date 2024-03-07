@@ -12,7 +12,7 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
-import EkspanderbartPanel from '../../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
+import Panel from '../../../../../komponenter/Panel/Panel';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { byggTomRessurs } from '../../../../../typer/ressurs';
 import {
@@ -126,7 +126,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
 
     return (
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
-            <EkspanderbartPanel tittel="Beregning">
+            <Panel tittel="Beregning">
                 <InnholdContainer>
                     <Utgifter
                         barnIBehandling={barnIBehandling}
@@ -145,7 +145,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                         </Knapp>
                     )}
                 </InnholdContainer>
-            </EkspanderbartPanel>
+            </Panel>
             {behandlingErRedigerbar && (
                 <Knapp type="submit" variant="primary" disabled={laster}>
                     Lagre vedtak

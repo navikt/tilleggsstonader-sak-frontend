@@ -13,8 +13,8 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
-import EkspanderbartPanel from '../../../../komponenter/EkspanderbartPanel/EkspanderbartPanel';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
@@ -116,7 +116,7 @@ const Stønadsperioder: React.FC = () => {
     };
 
     return (
-        <EkspanderbartPanel tittel="Stønadsperioder">
+        <Panel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
@@ -144,9 +144,7 @@ const Stønadsperioder: React.FC = () => {
                                             formState.errors.stønadsperioder &&
                                             formState.errors.stønadsperioder[indeks]
                                         }
-                                        erLeservisning={
-                                            !behandlingErRedigerbar || redigerer === false
-                                        }
+                                        erLeservisning={!behandlingErRedigerbar || !redigerer}
                                     />
                                 ))}
                             </Table.Body>
@@ -167,7 +165,7 @@ const Stønadsperioder: React.FC = () => {
                     )}
                 </VStack>
             </form>
-        </EkspanderbartPanel>
+        </Panel>
     );
 };
 
