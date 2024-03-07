@@ -14,36 +14,44 @@ interface Props {
     regel: Regel;
     vurdering: Vurdering;
     settVurdering: (nyttSvar: Vurdering) => void;
+    feilmelding?: string;
+    nullstillFeilmelding: (regelId: string) => void;
 }
 
 const Container = styled.div`
     width: 400px;
 `;
 
-const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) => {
+const DelvilkårRadioknapper: FC<Props> = ({
+    regel,
+    vurdering,
+    settVurdering,
+    feilmelding,
+    nullstillFeilmelding,
+}) => {
     const svaralternativer = Object.keys(regel.svarMapping);
+    const regelId = regel.regelId;
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilSpørsmål[regel.regelId] || regel.regelId}
-                description={Spørsmålsbeskrivelse(regel.regelId)}
+                legend={regelIdTilSpørsmål[regelId] || regelId}
+                description={Spørsmålsbeskrivelse(regelId)}
                 value={vurdering.svar || ''}
                 size="small"
+                error={feilmelding}
             >
-                {svaralternativer.map((svarId) => {
+                {svaralternativer.map((svar) => {
                     return (
                         <Radio
-                            key={`${regel.regelId}_${svarId}`}
-                            name={`${regel.regelId}_${svarId}`}
-                            value={svarId}
-                            onChange={() =>
-                                settVurdering({
-                                    svar: svarId,
-                                    regelId: regel.regelId,
-                                })
-                            }
+                            key={`${regelId}_${svar}`}
+                            name={`${regelId}_${svar}`}
+                            value={svar}
+                            onChange={() => {
+                                settVurdering({ svar, regelId });
+                                nullstillFeilmelding(regelId);
+                            }}
                         >
-                            {svarIdTilTekst[svarId] || svarId}
+                            {svarIdTilTekst[svar] || svar}
                         </Radio>
                     );
                 })}
