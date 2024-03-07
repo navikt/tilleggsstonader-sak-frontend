@@ -48,6 +48,8 @@ const SettPåVentForm: React.FC<{
         settSettPåVent((prevState) => ({ ...prevState, frist: finnNyFrist(prevState.årsaker) }));
     }, [settPåVent.årsaker]);
 
+    const oppdatererEksisterendeSettPåVent = !!status;
+
     const oppdaterÅrsaker = (option: string, isSelected: boolean) => {
         const årsak = tekstTilÅrsak[option];
         settSettPåVent((prevState) => {
@@ -70,7 +72,7 @@ const SettPåVentForm: React.FC<{
         settLaster(true);
         request<StatusSettPåVent, SettPåVent>(
             `/api/sak/sett-pa-vent/${behandling.id}`,
-            status ? 'PUT' : 'POST',
+            oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
             settPåVent
         ).then((response) => {
             settLaster(false);
@@ -127,7 +129,7 @@ const SettPåVentForm: React.FC<{
             />
             <HStack gap={'4'}>
                 <Button size={'small'} onClick={settPåVentClick}>
-                    Sett på vent
+                    {oppdatererEksisterendeSettPåVent ? 'Oppdater' : 'Sett på vent'}
                 </Button>
                 <Button
                     size={'small'}

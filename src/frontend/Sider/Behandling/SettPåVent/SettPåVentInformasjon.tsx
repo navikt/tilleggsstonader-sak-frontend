@@ -48,7 +48,7 @@ const SettOpVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status
             {!statusPåVentRedigering && (
                 <HStack gap={'4'}>
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
-                        Redigere
+                        Oppdater
                     </Button>
                     <Button size={'small'} variant={'secondary'} onClick={taAvVent}>
                         Ta av vent
