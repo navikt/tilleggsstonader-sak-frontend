@@ -1,5 +1,6 @@
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
+// regelId brukes både til
 export type SluttNode = 'SLUTT_NODE';
 
 export type RegelId = SluttNode | string;
