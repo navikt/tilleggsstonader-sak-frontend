@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import Utgifter from './Utgifter/Utgifter';
@@ -13,6 +13,7 @@ import useFormState, { FormState } from '../../../../../hooks/felles/useFormStat
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { byggTomRessurs } from '../../../../../typer/ressurs';
 import {
@@ -31,12 +32,6 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-`;
-
-const InnholdContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
 `;
 
 const Knapp = styled(Button)`
@@ -127,13 +122,14 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     return (
         <Form onSubmit={formState.onSubmit(handleSubmit)}>
             <Panel tittel="Beregning">
-                <InnholdContainer>
+                <VStack gap="8">
                     <Utgifter
                         barnIBehandling={barnIBehandling}
                         utgifterState={utgifterState}
                         errorState={formState.errors.utgifter}
                         settValideringsFeil={formState.setErrors}
                     />
+                    <Skillelinje />
                     <DataViewer response={{ beregningsresultat }}>
                         {({ beregningsresultat }) => (
                             <Beregningsresultat beregningsresultat={beregningsresultat} />
@@ -144,7 +140,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                             Beregn
                         </Knapp>
                     )}
-                </InnholdContainer>
+                </VStack>
             </Panel>
             {behandlingErRedigerbar && (
                 <Knapp type="submit" variant="primary" disabled={laster}>
