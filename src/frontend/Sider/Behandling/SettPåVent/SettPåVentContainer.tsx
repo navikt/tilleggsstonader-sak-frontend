@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button } from '@navikt/ds-react';
 import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
 
 import SettPåVentForm from './SettPåVentForm';
@@ -22,12 +21,7 @@ const Container = styled.div`
 
 const SettPåVentContainer = () => {
     const { request } = useApp();
-    const {
-        behandling,
-        behandlingErRedigerbar,
-        statusPåVentRedigering,
-        settStatusPåVentRedigering,
-    } = useBehandling();
+    const { behandling, statusPåVentRedigering } = useBehandling();
 
     const [statusResponse, settStatusResponse] =
         useState<Ressurs<StatusSettPåVent>>(byggTomRessurs());
@@ -69,8 +63,6 @@ const SettPåVentContainer = () => {
                 <SettPåVentForm status={undefined} settStatusPåVent={settStatusResponse} />
             </Container>
         );
-    } else if (behandlingErRedigerbar) {
-        return <Button onClick={() => settStatusPåVentRedigering(true)}>Sett på vent</Button>;
     } else {
         return null;
     }

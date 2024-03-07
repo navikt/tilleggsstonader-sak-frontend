@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Tabs } from '@navikt/ds-react';
+import { Button, Tabs } from '@navikt/ds-react';
 import { ABorderDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { FanePath, hentBehandlingfaner } from './faner';
@@ -11,7 +11,7 @@ import Høyremeny from './Høyremeny/Høyremeny';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { useApp } from '../../context/AppContext';
-import { BehandlingProvider } from '../../context/BehandlingContext';
+import { BehandlingProvider, useBehandling } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
 import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
@@ -28,6 +28,16 @@ const InnholdWrapper = styled.div`
     flex-grow: 1;
 
     max-width: calc(100% - 20rem);
+`;
+
+const TabsList = styled(Tabs.List)`
+    width: 100%;
+`;
+
+const Tabsknapp = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 `;
 
 const HøyreMenyWrapper = styled.div`
@@ -49,13 +59,15 @@ const DisabledTab = styled(Tabs.Tab)`
     }
 `;
 
-const BehandlingInnhold: React.FC<{
-    behandling: Behandling;
-    hentBehandling: RerrunnableEffect;
-    personopplysninger: Personopplysninger;
-}> = ({ behandling, hentBehandling, personopplysninger }) => {
+const BehandlingTabsMedPanel = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
+    const {
+        behandling,
+        behandlingErRedigerbar,
+        settStatusPåVentRedigering,
+        statusPåVentRedigering,
+    } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
 
@@ -75,7 +87,51 @@ const BehandlingInnhold: React.FC<{
     };
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
+    return (
+        <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
+            <TabsList>
+                {behandlingFaner.map((tab) =>
+                    faneErLåst(tab.path) ? (
+                        <DisabledTab
+                            key={tab.path}
+                            value={tab.path}
+                            label={tab.navn}
+                            icon={tab.ikon}
+                        />
+                    ) : (
+                        <Tabs.Tab
+                            key={tab.path}
+                            value={tab.path}
+                            label={tab.navn}
+                            icon={tab.ikon}
+                        />
+                    )
+                )}
+                {behandlingErRedigerbar && !statusPåVentRedigering && (
+                    <Tabsknapp>
+                        <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
+                            Sett på vent
+                        </Button>
+                    </Tabsknapp>
+                )}
+            </TabsList>
 
+            <SettPåVentContainer />
+
+            {behandlingFaner.map((tab) => (
+                <Tabs.Panel key={tab.path} value={tab.path}>
+                    {tab.komponent(behandling.id)}
+                </Tabs.Panel>
+            ))}
+        </Tabs>
+    );
+};
+
+const BehandlingInnhold: React.FC<{
+    behandling: Behandling;
+    hentBehandling: RerrunnableEffect;
+    personopplysninger: Personopplysninger;
+}> = ({ behandling, hentBehandling, personopplysninger }) => {
     return (
         <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
@@ -84,38 +140,7 @@ const BehandlingInnhold: React.FC<{
                     <VilkårProvider behandling={behandling}>
                         <VenstreMeny />
                         <InnholdWrapper>
-                            <Tabs
-                                value={aktivFane}
-                                onChange={(e) => håndterFaneBytte(e as FanePath)}
-                            >
-                                <Tabs.List>
-                                    {behandlingFaner.map((tab) =>
-                                        faneErLåst(tab.path) ? (
-                                            <DisabledTab
-                                                key={tab.path}
-                                                value={tab.path}
-                                                label={tab.navn}
-                                                icon={tab.ikon}
-                                            />
-                                        ) : (
-                                            <Tabs.Tab
-                                                key={tab.path}
-                                                value={tab.path}
-                                                label={tab.navn}
-                                                icon={tab.ikon}
-                                            />
-                                        )
-                                    )}
-                                </Tabs.List>
-
-                                <SettPåVentContainer />
-
-                                {behandlingFaner.map((tab) => (
-                                    <Tabs.Panel key={tab.path} value={tab.path}>
-                                        {tab.komponent(behandling.id)}
-                                    </Tabs.Panel>
-                                ))}
-                            </Tabs>
+                            <BehandlingTabsMedPanel />
                         </InnholdWrapper>
                     </VilkårProvider>
                     <HøyreMenyWrapper>
