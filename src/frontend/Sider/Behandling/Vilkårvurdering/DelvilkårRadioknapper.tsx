@@ -3,9 +3,10 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
+import { Radio, RadioGroup } from '@navikt/ds-react';
 
-import { regelIdTilSpørsmål, regelIdTilSpørsmålsbeskrivelse, svarIdTilTekst } from './tekster';
+import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
+import { regelIdTilSpørsmål, hjelpetekster, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const Container = styled.div`
-    width: 300px;
+    width: 400px;
 `;
 
 const DelvilkårRadioknapper: FC<Props> = ({
@@ -62,13 +63,9 @@ const DelvilkårRadioknapper: FC<Props> = ({
 const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
-            return (
-                <ReadMore size="small" header="Slik gjør du vurderingen">
-                    {regelIdTilSpørsmålsbeskrivelse[regelId]}
-                </ReadMore>
-            );
+            return <SlikGjørDuVurderingen regelId={regelId} />;
         case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return regelIdTilSpørsmålsbeskrivelse[regelId];
+            return hjelpetekster[regelId][0];
         default:
             return null;
     }
