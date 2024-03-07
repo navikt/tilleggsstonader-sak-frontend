@@ -9,7 +9,8 @@ import { FanePath } from '../../Sider/Behandling/faner';
 
 export const NesteStegKnapp: FC<{
     nesteFane: FanePath;
-}> = ({ nesteFane }) => {
+    children?: React.ReactNode;
+}> = ({ nesteFane, children }) => {
     const navigate = useNavigate();
 
     const { behandling } = useBehandling();
@@ -21,7 +22,7 @@ export const NesteStegKnapp: FC<{
                 size="small"
                 onClick={() => navigate(`/behandling/${behandling.id}/${nesteFane}`)}
             >
-                Neste steg
+                {children || 'Neste steg'}
             </Button>
         </HStack>
     );
