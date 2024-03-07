@@ -1,9 +1,12 @@
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
-// regelId brukes både til
-export type SluttNode = 'SLUTT_NODE';
-
+/*
+Regeltreet er bygd opp av regler og tilhørende svaralternativer. Disse kan igjen kan ha nye regler knytta til seg.
+I tilfellene der et svar *ikke* krever oppfølgingssørsmål, vil regelID=SLUTT_NODE i svaralternativet.
+*/
 export type RegelId = SluttNode | string;
+
+export type SluttNode = 'SLUTT_NODE';
 
 export type SvarId = string;
 
