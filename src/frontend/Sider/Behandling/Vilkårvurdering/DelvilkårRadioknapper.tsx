@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Container = styled.div`
-    width: 300px;
+    width: 400px;
 `;
 
 const DelvilkårRadioknapper: FC<Props> = ({ regel, vurdering, settVurdering }) => {
