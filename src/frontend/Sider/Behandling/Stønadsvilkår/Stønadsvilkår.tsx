@@ -38,7 +38,9 @@ const Stønadsvilkår = () => {
                     />
                 )}
             </DataViewer>
-            <NesteStegKnapp nesteFane={FanePath.VEDTAK_OG_BEREGNING} />
+            <NesteStegKnapp nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                Fullfør vilkårsvurdering og gå videre
+            </NesteStegKnapp>
         </Container>
     );
 };
