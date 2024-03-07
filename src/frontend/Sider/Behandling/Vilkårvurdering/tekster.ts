@@ -23,7 +23,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
 };
 
-export const spørsmålsforklaringer: Record<RegelId, string[]> = {
+export const hjelpetekster: Record<RegelId, string[]> = {
     UTGIFTER_DOKUMENTERT: [
         'Hvis dokumentasjon mangler eller er mangelfull sender du mangelbrev før du gjør vurderingen. Sett saken på vent. Frist er 14 dager frem  i tid.',
         'Faktura fra SFO/AKS må inneholde barnets navn, gjelde for perioden som bruker har fått stønad for og inneholde summen bruker har betalt for pass og hva som er utgifter til kost.',
