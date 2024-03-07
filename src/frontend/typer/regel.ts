@@ -1,9 +1,12 @@
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
 /*
-Regeltreet er bygd opp av regler og tilhørende svaralternativer. Disse kan igjen kan ha nye regler knytta til seg.
-I tilfellene der et svar *ikke* krever oppfølgingssørsmål, vil regelID=SLUTT_NODE i svaralternativet.
-*/
+ * Regeltreet er bygd opp av regler og tilhørende svaralternativer. Svaralternativet kan igjen kan ha nye regler knytta til seg.
+ *
+ * Strukturen til treet defineres ved å angi regelId til oppfølgningsspørsmålet i svaret til det gjeldende spørsmålet
+ *
+ * regelId = SLUTT_NODE brukes for å definere at svaret  *ikke* krever oppfølgingssørsmål
+ */
 export type RegelId = SluttNode | string;
 
 export type SluttNode = 'SLUTT_NODE';
