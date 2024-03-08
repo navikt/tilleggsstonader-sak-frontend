@@ -41,7 +41,7 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
-        settAktivFane(path);
+        settAktivFane(path || FanePath.INNGANGSVILKÅR);
     }, [path]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
