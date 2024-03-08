@@ -11,7 +11,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 const Container = styled.div`
     margin: 2rem;
@@ -35,11 +35,8 @@ const SettPåVentContainer = () => {
         // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const harStatusSattPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    if (harStatusSattPåVent && statusResponse.status === RessursStatus.IKKE_HENTET) {
-        return null;
-    } else if (harStatusSattPåVent) {
+    if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
         return (
             <Container>
                 <DataViewer response={{ statusResponse }}>
