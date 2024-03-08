@@ -29,7 +29,7 @@ export const lovverkslenkerMålgruppe: Lenke[] = [
 export const rundskrivMålgruppe = '';
 
 // TODO: Fyll inn riktige lenker
-export const lovverkslenkerAktivitet: Lenke[] = [
+export const paragraflenkerAktivitet: Lenke[] = [
     {
         tekst: '§ x',
         url: '',
@@ -39,7 +39,7 @@ export const lovverkslenkerAktivitet: Lenke[] = [
 export const rundskrivAktivitet = '';
 
 // TODO: Fyll inn riktige lenker
-export const lovverkslenkerPassBarn: Lenke[] = [
+export const paragraflenkerPassBarn: Lenke[] = [
     {
         tekst: '§ x',
         url: '',

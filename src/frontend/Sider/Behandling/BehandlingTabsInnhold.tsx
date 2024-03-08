@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -43,6 +43,10 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
 
     const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+
+    useEffect(() => {
+        settAktivFane(path);
+    }, [path]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(nyFane)) {

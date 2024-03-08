@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
@@ -16,6 +15,9 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
+import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
+import { RedigerStegKnapp } from '../../../komponenter/NesteStegKnapp/RedigerStegKnapp';
+import { Steg } from '../../../typer/behandling/steg';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
@@ -26,7 +28,6 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 `;
 
 const Inngangsvilkår = () => {
-    const navigate = useNavigate();
     const { request } = useApp();
     const { behandling } = useBehandling();
 
@@ -77,17 +78,13 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-            <HStack>
-                <Button
-                    variant="primary"
-                    size="small"
-                    onClick={() =>
-                        navigate(`/behandling/${behandling.id}/${FanePath.STØNADSVILKÅR}`)
-                    }
-                >
-                    Neste steg
-                </Button>
-            </HStack>
+            {behandling.steg === Steg.INNGANGSVILKÅR ? (
+                <NesteStegKnapp nesteFane={FanePath.STØNADSVILKÅR}>
+                    Ferdigstill inngangsvilkår og gå videre
+                </NesteStegKnapp>
+            ) : (
+                <RedigerStegKnapp steg={Steg.INNGANGSVILKÅR} />
+            )}
         </Container>
     );
 };

@@ -11,8 +11,14 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/
 import { formaterIsoDato } from '../../../../utils/dato';
 import { Aktivitet, AktivitetType } from '../typer/aktivitet';
 import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
-import { SlettVilkårperiode, VilkårPeriode } from '../typer/vilkårperiode';
+import {
+    LagreVilkårperiodeResponse,
+    SlettVilkårperiode,
+    StønadsperiodeStatus,
+    VilkårPeriode,
+} from '../typer/vilkårperiode';
 
+type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe>;
 const SlettVilkårperiodeModal: React.FC<{
     visModal: boolean;
     settVisModal: React.Dispatch<SetStateAction<boolean>>;
@@ -21,7 +27,7 @@ const SlettVilkårperiodeModal: React.FC<{
 }> = ({ vilkårperiode, visModal, settVisModal, type }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { oppdaterAktivitet, oppdaterMålgruppe } = useInngangsvilkår();
+    const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
 
     const [feil, settFeil] = useState('');
     const [laster, settLaster] = useState(false);
@@ -36,17 +42,22 @@ const SlettVilkårperiodeModal: React.FC<{
         settLaster(true);
         settFeil('');
 
-        request<VilkårPeriode, SlettVilkårperiode>(
+        request<Response, SlettVilkårperiode>(
             `/api/sak/vilkarperiode/${vilkårperiode.id}`,
             'DELETE',
             { behandlingId: behandling.id, kommentar: slettBegrunnelse }
         )
-            .then((res: RessursSuksess<VilkårPeriode> | RessursFeilet) => {
+            .then((res: RessursSuksess<Response> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    if (type in MålgruppeType) {
-                        oppdaterMålgruppe(res.data as Målgruppe);
+                    if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
+                        settStønadsperiodeFeil(undefined);
                     } else {
-                        oppdaterAktivitet(res.data as Aktivitet);
+                        settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
+                    }
+                    if (type in MålgruppeType) {
+                        oppdaterMålgruppe(res.data.periode as Målgruppe);
+                    } else {
+                        oppdaterAktivitet(res.data.periode as Aktivitet);
                     }
                     settVisModal(false);
                 } else {
