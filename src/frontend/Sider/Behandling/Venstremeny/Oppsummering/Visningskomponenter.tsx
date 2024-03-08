@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { DatabaseIcon, FileTextIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
@@ -17,10 +17,10 @@ const mapIkon = (ikon: Informasjonskilde) => {
     }
 };
 
-export const Informasjonsrad: React.FC<{ kilde: Informasjonskilde; verdi?: string }> = ({
-    kilde,
-    verdi = 'Ingen data registrert',
-}) => {
+export const Informasjonsrad: React.FC<{
+    kilde: Informasjonskilde;
+    verdi?: string | ReactNode;
+}> = ({ kilde, verdi = 'Ingen data registrert' }) => {
     return (
         <HStack gap="2">
             {mapIkon(kilde)}
