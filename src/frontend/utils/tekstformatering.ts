@@ -1,5 +1,5 @@
 const replaceUnderscoreWithSpace = (str: string): string => {
-    return str.replace('_', ' ');
+    return str.replaceAll('_', ' ');
 };
 
 const toTitleCase = (str: string): string =>

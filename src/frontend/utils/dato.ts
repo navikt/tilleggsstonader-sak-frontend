@@ -1,4 +1,13 @@
-import { format, formatISO, isAfter, isBefore, isEqual, isValid, parseISO } from 'date-fns';
+import {
+    addDays,
+    format,
+    formatISO,
+    isAfter,
+    isBefore,
+    isEqual,
+    isValid,
+    parseISO,
+} from 'date-fns';
 
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);
@@ -41,7 +50,8 @@ export const dagensDatoFormatert = (): string => {
         year: 'numeric',
     });
 };
-const tilDato = (dato: string | Date): Date => (typeof dato === 'string' ? parseISO(dato) : dato);
+export const tilDato = (dato: string | Date): Date =>
+    typeof dato === 'string' ? parseISO(dato) : dato;
 
 export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
@@ -75,3 +85,6 @@ const erGyldigFormat = (verdi: string): boolean => {
 
 export const erGyldigDato = (dato: string | Date): boolean =>
     typeof dato === 'string' ? erGyldigFormat(dato) && isValid(tilDato(dato)) : isValid(dato);
+
+export const plusDager = (dato: string | Date, antallDager: number): string =>
+    tilLocaleDateString(addDays(tilDato(dato), antallDager));
