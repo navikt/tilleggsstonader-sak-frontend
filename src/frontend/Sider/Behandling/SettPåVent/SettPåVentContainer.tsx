@@ -34,7 +34,7 @@ const SettPåVentContainer = () => {
         }
         // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [behandling.id]);
 
     if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
         return (
