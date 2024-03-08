@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
 import { Button, Heading, HStack, Textarea, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 
@@ -43,11 +44,10 @@ const SettPåVentForm: React.FC<{
         oppgaveVersjon: status?.oppgaveVersjon,
     });
 
-    const [formErrors, settFormErrors] = useState<FormErrors<SettPåVentError>>();
+    // Brukes for å nullstille DateInput då DatePicker ellers må nullstilled fra useDatepicker
+    const [datoKey, settDatoKey] = useState<string>(uuid());
 
-    useEffect(() => {
-        settSettPåVent((prevState) => ({ ...prevState, frist: finnNyFrist(prevState.årsaker) }));
-    }, [settPåVent.årsaker]);
+    const [formErrors, settFormErrors] = useState<FormErrors<SettPåVentError>>();
 
     const oppdatererEksisterendeSettPåVent = !!status;
 
@@ -57,8 +57,9 @@ const SettPåVentForm: React.FC<{
             const årsaker = isSelected
                 ? [...prevState.årsaker, årsak]
                 : prevState.årsaker.filter((o) => o !== årsak);
-            return { ...prevState, årsaker: årsaker };
+            return { ...prevState, årsaker: årsaker, frist: finnNyFrist(årsaker) };
         });
+        settDatoKey(uuid());
     };
 
     const settPåVentClick = () => {
@@ -113,6 +114,7 @@ const SettPåVentForm: React.FC<{
                     />
                 </ÅrsakContainer>
                 <DateInput
+                    key={datoKey}
                     label={'Frist for svar'}
                     onChange={(dato) =>
                         settSettPåVent((prevState) => ({ ...prevState, frist: dato || '' }))
