@@ -19,9 +19,12 @@ const Container = styled.div`
     background: ${AGray100};
 `;
 
-const SettPåVentContainer = () => {
+const SettPåVentContainer: React.FC<{
+    statusPåVentRedigering: boolean;
+    settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ statusPåVentRedigering, settStatusPåVentRedigering }) => {
     const { request } = useApp();
-    const { behandling, statusPåVentRedigering } = useBehandling();
+    const { behandling } = useBehandling();
 
     const [statusResponse, settStatusResponse] =
         useState<Ressurs<StatusSettPåVent>>(byggTomRessurs());
@@ -42,11 +45,16 @@ const SettPåVentContainer = () => {
                 <DataViewer response={{ statusResponse }}>
                     {({ statusResponse }) => (
                         <>
-                            <SettPåVentInformasjon status={statusResponse} />
+                            <SettPåVentInformasjon
+                                status={statusResponse}
+                                statusPåVentRedigering={statusPåVentRedigering}
+                                settStatusPåVentRedigering={settStatusPåVentRedigering}
+                            />
                             {statusPåVentRedigering && (
                                 <SettPåVentForm
                                     status={statusResponse}
                                     settStatusPåVent={settStatusResponse}
+                                    settStatusPåVentRedigering={settStatusPåVentRedigering}
                                 />
                             )}
                         </>
@@ -57,7 +65,11 @@ const SettPåVentContainer = () => {
     } else if (statusPåVentRedigering) {
         return (
             <Container>
-                <SettPåVentForm status={undefined} settStatusPåVent={settStatusResponse} />
+                <SettPåVentForm
+                    status={undefined}
+                    settStatusPåVent={settStatusResponse}
+                    settStatusPåVentRedigering={settStatusPåVentRedigering}
+                />
             </Container>
         );
     } else {

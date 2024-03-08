@@ -14,12 +14,15 @@ import { formaterIsoDato } from '../../../utils/dato';
 const Beskrivelse = styled(BodyLong)`
     white-space: pre-wrap;
 `;
-const SettPåVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status }) => {
+const SettPåVentInformasjon: React.FC<{
+    status: StatusSettPåVent;
+    statusPåVentRedigering: boolean;
+    settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ status, statusPåVentRedigering, settStatusPåVentRedigering }) => {
     const { request } = useApp();
     const { behandling, hentBehandling } = useBehandling();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { statusPåVentRedigering, settStatusPåVentRedigering } = useBehandling();
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
 
     const taAvVent = () => {

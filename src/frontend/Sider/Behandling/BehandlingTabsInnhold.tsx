@@ -33,16 +33,12 @@ const DisabledTab = styled(Tabs.Tab)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const {
-        behandling,
-        behandlingErRedigerbar,
-        settStatusPåVentRedigering,
-        statusPåVentRedigering,
-    } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
 
     const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+    const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
         settAktivFane(path);
@@ -91,7 +87,10 @@ const BehandlingTabsInnhold = () => {
                 )}
             </TabsList>
 
-            <SettPåVentContainer />
+            <SettPåVentContainer
+                statusPåVentRedigering={statusPåVentRedigering}
+                settStatusPåVentRedigering={settStatusPåVentRedigering}
+            />
 
             {behandlingFaner.map((tab) => (
                 <Tabs.Panel key={tab.path} value={tab.path}>

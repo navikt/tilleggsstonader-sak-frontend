@@ -29,8 +29,9 @@ const ÅrsakContainer = styled.div`
 const SettPåVentForm: React.FC<{
     status: StatusSettPåVent | undefined;
     settStatusPåVent: (status: Ressurs<StatusSettPåVent>) => void;
-}> = ({ status, settStatusPåVent }) => {
-    const { behandling, settStatusPåVentRedigering, hentBehandling } = useBehandling();
+    settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ status, settStatusPåVent, settStatusPåVentRedigering }) => {
+    const { behandling, hentBehandling } = useBehandling();
     const { request } = useApp();
 
     const [laster, settLaster] = useState(false);
