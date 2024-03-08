@@ -14,7 +14,7 @@ import { formaterIsoDato } from '../../../utils/dato';
 const Beskrivelse = styled(BodyLong)`
     white-space: pre-wrap;
 `;
-const SettOpVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status }) => {
+const SettPåVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status }) => {
     const { request } = useApp();
     const { behandling, hentBehandling } = useBehandling();
     const [laster, settLaster] = useState<boolean>(false);
@@ -60,4 +60,4 @@ const SettOpVentInformasjon: React.FC<{ status: StatusSettPåVent }> = ({ status
     );
 };
 
-export default SettOpVentInformasjon;
+export default SettPåVentInformasjon;

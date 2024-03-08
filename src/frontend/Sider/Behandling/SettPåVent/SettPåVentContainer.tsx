@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
 
 import SettPåVentForm from './SettPåVentForm';
-import SettOpVentInformasjon from './SettPåVentInformasjon';
+import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -42,7 +42,7 @@ const SettPåVentContainer = () => {
                 <DataViewer response={{ statusResponse }}>
                     {({ statusResponse }) => (
                         <>
-                            <SettOpVentInformasjon status={statusResponse} />
+                            <SettPåVentInformasjon status={statusResponse} />
                             {statusPåVentRedigering && (
                                 <SettPåVentForm
                                     status={statusResponse}
