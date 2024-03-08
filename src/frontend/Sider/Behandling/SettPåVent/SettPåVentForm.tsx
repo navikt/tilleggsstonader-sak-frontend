@@ -100,11 +100,10 @@ const SettPåVentForm: React.FC<{
     return (
         <VStack gap={'4'}>
             <Heading size={'medium'}>Sett behandling på vent</Heading>
-            <HStack gap={'4'} align={'end'}>
+            <HStack gap={'4'}>
                 <ÅrsakContainer>
                     <UNSAFE_Combobox
-                        label="Hva venter vi på?"
-                        description={'Du kan velge flere'}
+                        label="Hva venter vi på? (Du kan velge flere)"
                         filteredOptions={filteredOptions}
                         isMultiSelect
                         onToggleSelected={oppdaterÅrsaker}
