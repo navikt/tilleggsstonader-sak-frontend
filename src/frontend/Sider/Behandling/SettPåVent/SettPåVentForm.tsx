@@ -14,7 +14,7 @@ import {
     ÅrsakSettPåVent,
     årsakTilTekst,
 } from './typer';
-import { validerSettPåVent } from './validerSettPåVent';
+import { harValgtAnnet, validerSettPåVent } from './validerSettPåVent';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { FormErrors, isValid } from '../../../hooks/felles/useFormState';
@@ -90,6 +90,11 @@ const SettPåVentForm: React.FC<{
     const filteredOptions = alleÅrsaker
         .filter((årsak) => settPåVent.årsaker.indexOf(årsak as ÅrsakSettPåVent) === -1)
         .map((årsak) => årsakTilTekst[årsak as ÅrsakSettPåVent]);
+
+    const kommentarLabel = harValgtAnnet(settPåVent.årsaker)
+        ? 'Kommentar (påkrevd)'
+        : 'Kommentar (valgfri)';
+
     return (
         <VStack gap={'4'}>
             <Heading size={'medium'}>Sett behandling på vent</Heading>
@@ -116,7 +121,7 @@ const SettPåVentForm: React.FC<{
                 />
             </HStack>
             <Textarea
-                label={'Kommentar (valgfri)'}
+                label={kommentarLabel}
                 description={'Forklar gjerne hva som er gjort.'}
                 value={settPåVent.kommentar || ''}
                 onChange={(e) =>
@@ -125,6 +130,7 @@ const SettPåVentForm: React.FC<{
                         kommentar: e.target.value || '',
                     }))
                 }
+                maxLength={1000}
                 error={formErrors?.kommentar}
             />
             <HStack gap={'4'}>

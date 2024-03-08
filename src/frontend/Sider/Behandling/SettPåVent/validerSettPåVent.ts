@@ -1,6 +1,6 @@
-import { SettPåVent, SettPåVentError } from './typer';
+import { SettPåVent, SettPåVentError, ÅrsakSettPåVent } from './typer';
 import { FormErrors } from '../../../hooks/felles/useFormState';
-import { harIkkeVerdi } from '../../../utils/utils';
+import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
 
 export const validerSettPåVent = (settPåVent: SettPåVent): FormErrors<SettPåVentError> => {
     let feil: FormErrors<SettPåVentError> = {
@@ -21,6 +21,15 @@ export const validerSettPåVent = (settPåVent: SettPåVent): FormErrors<SettPå
             frist: 'Mangler frist',
         };
     }
+    if (harValgtAnnet(settPåVent.årsaker) && !harVerdi(settPåVent.kommentar)) {
+        feil = {
+            ...feil,
+            kommentar: 'Mangler påkrevd kommentar',
+        };
+    }
 
     return feil;
 };
+
+export const harValgtAnnet = (årsaker: ÅrsakSettPåVent[]) =>
+    årsaker.some((årsak) => årsak === ÅrsakSettPåVent.ANNET);
