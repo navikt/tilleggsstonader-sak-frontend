@@ -37,7 +37,7 @@ const Begrunnelse: FC<Props> = ({ vurdering, onChange, regel }) => {
                 resize
                 size="small"
                 minRows={3}
-                value={vurdering.begrunnelse || ''}
+                value={vurdering.begrunnelse}
                 onChange={(e) => onChange(e.target.value)}
             />
         </BegrunnelseContainer>
