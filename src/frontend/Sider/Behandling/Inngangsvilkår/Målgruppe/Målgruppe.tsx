@@ -21,7 +21,7 @@ const HvitTabell = styled(Table)`
 
 const Målgruppe: React.FC = () => {
     const { målgrupper } = useInngangsvilkår();
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandlingErRedigerbar, behandling } = useBehandling();
 
     const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
@@ -35,6 +35,11 @@ const Målgruppe: React.FC = () => {
 
     const kanSetteNyRadIRedigeringsmodus =
         radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+
+    const erIStegInngangsvilkår = behandling.steg === 'INNGANGSVILKÅR';
+
+    const visLeggTilKnapp =
+        erIStegInngangsvilkår && kanSetteNyRadIRedigeringsmodus && behandlingErRedigerbar;
 
     const skalViseTabell = målgrupper.length > 0 || leggerTilNyPeriode;
 
@@ -93,7 +98,7 @@ const Målgruppe: React.FC = () => {
                 </HvitTabell>
             )}
             <Feilmelding>{feilmelding}</Feilmelding>
-            {kanSetteNyRadIRedigeringsmodus && behandlingErRedigerbar && (
+            {visLeggTilKnapp && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode(true)}
                     size="small"

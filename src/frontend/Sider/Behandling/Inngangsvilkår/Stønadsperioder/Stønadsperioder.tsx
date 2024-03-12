@@ -15,6 +15,7 @@ import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/us
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import Panel from '../../../../komponenter/Panel/Panel';
+import { Steg } from '../../../../typer/behandling/steg';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
@@ -115,6 +116,8 @@ const Stønadsperioder: React.FC = () => {
         stønadsperioderState.setValue(stønadsperioder);
     };
 
+    const erIStegInngangsvilkår = behandling.steg === Steg.INNGANGSVILKÅR;
+
     return (
         <Panel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
@@ -144,7 +147,11 @@ const Stønadsperioder: React.FC = () => {
                                             formState.errors.stønadsperioder &&
                                             formState.errors.stønadsperioder[indeks]
                                         }
-                                        erLeservisning={!behandlingErRedigerbar || !redigerer}
+                                        erLeservisning={
+                                            !behandlingErRedigerbar ||
+                                            !redigerer ||
+                                            !erIStegInngangsvilkår
+                                        }
                                     />
                                 ))}
                             </Table.Body>
@@ -153,7 +160,7 @@ const Stønadsperioder: React.FC = () => {
 
                     <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
 
-                    {behandlingErRedigerbar && (
+                    {behandlingErRedigerbar && erIStegInngangsvilkår && (
                         <Aksjonsknapper
                             redigerer={redigerer}
                             finnesStønadsperioder={stønadsperioderState.value.length !== 0}
