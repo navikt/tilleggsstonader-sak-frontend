@@ -9,6 +9,7 @@ import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
 import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
+import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -38,7 +39,7 @@ const Stønadsvilkår = () => {
                     />
                 )}
             </DataViewer>
-            <NesteStegKnapp nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+            <NesteStegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
                 Fullfør vilkårsvurdering og gå videre
             </NesteStegKnapp>
         </Container>
