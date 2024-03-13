@@ -162,14 +162,12 @@ const EndreDelvilkår: FC<{
                                         nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
-                                        onChange={(begrunnelse) =>
+                                        vurdering={delvilkårsvurdering}
+                                        regel={gjeldendeRegel}
+                                        settBegrunnelse={(begrunnelse) =>
                                             oppdaterBegrunnelse(
-                                                delvikår.vurderinger,
-                                                delvilkårIndex,
-                                                {
-                                                    ...svar,
-                                                    begrunnelse,
-                                                }
+                                                delvilkårsvurdering.regelId,
+                                                begrunnelse
                                             )
                                         }
                                         vurdering={svar}
