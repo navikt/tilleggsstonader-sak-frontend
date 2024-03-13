@@ -1,15 +1,23 @@
 import { BegrunnelseRegel, RegelId } from '../../../typer/regel';
-import { Vilkårsvurderinger } from '../vilkår';
+import { Vilkårsvurdering } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
 
-export const validerVilkårsvurderinger = (
-    vilkårsvurderinger: Vilkårsvurderinger
-): Feilmeldinger => {
+export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = {};
 
-    Object.entries(vilkårsvurderinger).forEach(([regel, delvilkårsvurdering]) => {
+    Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
+        const erAvhengig = delvilkårsvurdering.følgerFraAnnenRegel;
+
+        if (erAvhengig) {
+            // Hvis en regel er avhengig av svaret på en annen regel, og dette svaret IKKE er valgt, så trenger vi ikke
+            // validere denne underregelen noe mer.
+            const { avhengigRegel, avhengigSvar } = erAvhengig;
+            if (vilkårsvurdering[avhengigRegel].svar !== avhengigSvar) {
+                return;
+            }
+        }
 
         if (!gjeldendeSvar) {
             valideringsfeil[regel] = 'Du må ta et valg';
