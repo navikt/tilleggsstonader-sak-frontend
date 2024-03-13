@@ -1,32 +1,30 @@
 import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
-import { Delvilkår } from '../vilkår';
+import { Vurdering } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
 
 export const validerVilkårsvurderinger = (
-    delvilkårsett: Delvilkår[],
+    vurderinger: Vurdering[],
     regler: Regler
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = {};
 
-    delvilkårsett
-        .flatMap((delvilkår) => delvilkår.vurderinger)
-        .forEach((vurdering) => {
-            const gjeldendeRegel = vurdering.regelId;
+    vurderinger.forEach((vurdering) => {
+        const gjeldendeRegel = vurdering.regelId;
 
-            if (!vurdering.svar) {
-                valideringsfeil[gjeldendeRegel] = 'Du må ta et valg';
-                return;
-            }
+        if (!vurdering.svar) {
+            valideringsfeil[gjeldendeRegel] = 'Du må ta et valg';
+            return;
+        }
 
-            if (
-                begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
-                erUtenInnhold(vurdering.begrunnelse)
-            ) {
-                valideringsfeil[gjeldendeRegel] = 'Begrunnelse er obligatorisk for dette valget';
-                return;
-            }
-        });
+        if (
+            begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
+            manglerInnhold(vurdering.begrunnelse)
+        ) {
+            valideringsfeil[gjeldendeRegel] = 'Begrunnelse er obligatorisk for dette valget';
+            return;
+        }
+    });
 
     return valideringsfeil;
 };
@@ -37,6 +35,6 @@ const begrunnelseKreves = (svar: string, regel: Regel): boolean => {
     return valgtSvaralternativ?.begrunnelseType === BegrunnelseRegel.PÅKREVD;
 };
 
-const erUtenInnhold = (str: string | undefined | null): boolean => {
+const manglerInnhold = (str: string | undefined | null): boolean => {
     return !str || str.trim() === '';
 };
