@@ -7,7 +7,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { SvarPåVilkår, Vilkår } from '../vilkår';
+import { DelvilkårSvar, SvarPåVilkår, Vilkår } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
@@ -37,6 +37,15 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
         }
     };
 
+    const oppdaterVurderinger = (delvilkårsett: DelvilkårSvar[]) => {
+        const svarPåVilkår: SvarPåVilkår = {
+            id: vilkår.id,
+            behandlingId: vilkår.behandlingId,
+            delvilkårsett: delvilkårsett,
+        };
+        oppdaterVilkår(svarPåVilkår);
+    };
+
     return (
         <>
             {feilmelding && (
@@ -45,10 +54,11 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
                 </ErrorMessage>
             )}
             <EndreDelvilkår
-                oppdaterVilkår={oppdaterVilkår}
-                vilkårType={vilkår.vilkårType}
                 regler={regler}
-                vilkår={vilkår}
+                delvilkårSvarsett={vilkår.delvilkårsett.map((delvilkår) => ({
+                    vurderinger: delvilkår.vurderinger,
+                }))}
+                oppdaterDelvilkårSvarSett={oppdaterVurderinger}
             />
         </>
     );
