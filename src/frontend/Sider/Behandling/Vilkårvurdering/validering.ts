@@ -1,38 +1,32 @@
-import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
-import { Vurdering } from '../vilkår';
+import { BegrunnelseRegel, RegelId } from '../../../typer/regel';
+import { Vilkårsvurderinger } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
 
 export const validerVilkårsvurderinger = (
-    vurderinger: Vurdering[],
-    regler: Regler
+    vilkårsvurderinger: Vilkårsvurderinger
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = {};
 
-    vurderinger.forEach((vurdering) => {
-        const gjeldendeRegel = vurdering.regelId;
+    Object.entries(vilkårsvurderinger).forEach(([regel, delvilkårsvurdering]) => {
+        const gjeldendeSvar = delvilkårsvurdering.svar;
 
-        if (!vurdering.svar) {
-            valideringsfeil[gjeldendeRegel] = 'Du må ta et valg';
+        if (!gjeldendeSvar) {
+            valideringsfeil[regel] = 'Du må ta et valg';
             return;
         }
 
-        if (
-            begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
-            manglerInnhold(vurdering.begrunnelse)
-        ) {
-            valideringsfeil[gjeldendeRegel] = 'Begrunnelse er obligatorisk for dette valget';
+        const kreverBegrunnelse =
+            delvilkårsvurdering.svaralternativer[gjeldendeSvar].begrunnelsesType ===
+            BegrunnelseRegel.PÅKREVD;
+
+        if (kreverBegrunnelse && manglerInnhold(delvilkårsvurdering.begrunnelse)) {
+            valideringsfeil[regel] = 'Begrunnelse er obligatorisk for dette valget';
             return;
         }
     });
 
     return valideringsfeil;
-};
-
-const begrunnelseKreves = (svar: string, regel: Regel): boolean => {
-    const valgtSvaralternativ = regel?.svarMapping[svar];
-
-    return valgtSvaralternativ?.begrunnelseType === BegrunnelseRegel.PÅKREVD;
 };
 
 const manglerInnhold = (str: string | undefined | null): boolean => {

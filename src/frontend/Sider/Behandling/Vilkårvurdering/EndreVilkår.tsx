@@ -55,10 +55,10 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
             )}
             <EndreDelvilkår
                 regler={regler}
-                delvilkårSvarsett={vilkår.delvilkårsett.map((delvilkår) => ({
+                vilkårsvurdering={vilkår.delvilkårsett.map((delvilkår) => ({
                     vurderinger: delvilkår.vurderinger,
                 }))}
-                oppdaterDelvilkårSvarSett={oppdaterVurderinger}
+                settVilkårsvurdering={oppdaterVurderinger}
             />
         </>
     );

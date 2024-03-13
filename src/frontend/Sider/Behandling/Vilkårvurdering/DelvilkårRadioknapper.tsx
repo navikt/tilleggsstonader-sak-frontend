@@ -7,10 +7,12 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
 import { hjelpetekster, regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
-import { Regel, SvarId } from '../../../typer/regel';
+import { SvarId } from '../../../typer/regel';
+import { Svaralternativer } from '../vilkår';
 
 interface Props {
-    regel: Regel;
+    regel: string;
+    svaralternativer: Svaralternativer;
     gjeldendeSvar: SvarId | undefined;
     settSvar: (nyttSvar: SvarId) => void;
     feilmelding?: string;
@@ -23,35 +25,33 @@ const Container = styled.div`
 
 const DelvilkårRadioknapper: FC<Props> = ({
     regel,
+    svaralternativer,
     gjeldendeSvar,
     settSvar,
     feilmelding,
     nullstillFeilmelding,
 }) => {
-    const svaralternativer = Object.keys(regel.svarMapping);
-    const regelId = regel.regelId;
-
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilSpørsmål[regelId] || regelId}
-                description={Spørsmålsbeskrivelse(regelId)}
+                legend={regelIdTilSpørsmål[regel] || regel}
+                description={Spørsmålsbeskrivelse(regel)}
                 value={gjeldendeSvar || ''}
                 size="small"
                 error={feilmelding}
             >
-                {svaralternativer.map((svar) => {
+                {Object.keys(svaralternativer).map((svaralternativ) => {
                     return (
                         <Radio
-                            key={`${regelId}_${svar}`}
-                            name={`${regelId}_${svar}`}
-                            value={svar}
+                            key={`${regel}_${svaralternativ}`}
+                            name={`${regel}_${svaralternativ}`}
+                            value={svaralternativ}
                             onChange={() => {
-                                settSvar(svar);
-                                nullstillFeilmelding(regelId);
+                                settSvar(svaralternativ);
+                                nullstillFeilmelding(regel);
                             }}
                         >
-                            {svarIdTilTekst[svar] || svar}
+                            {svarIdTilTekst[svaralternativ] || svaralternativ}
                         </Radio>
                     );
                 })}

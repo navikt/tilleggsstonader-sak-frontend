@@ -1,4 +1,4 @@
-import { BegrunnelseType, SvarId } from '../../typer/regel';
+import { BegrunnelseRegel, BegrunnelseType, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
@@ -26,6 +26,9 @@ export interface Vurdering {
     svar?: SvarId;
     begrunnelse?: BegrunnelseType;
 }
+
+export interface VurderingNy {}
+
 export interface Vilkår {
     id: string;
     behandlingId: string;
@@ -34,8 +37,27 @@ export interface Vilkår {
     barnId?: string;
     endretAv: string;
     endretTid: string;
-    delvilkårsett: DelvilkårSvar[];
+    delvilkårsett: Vilkårsvurderinger;
     opphavsvilkår?: Opphavsvilkår;
+}
+
+export interface Vilkårsvurderinger {
+    [key: string]: Delvilkårsvurdering;
+}
+
+export interface Delvilkårsvurdering {
+    følgerFraRegel?: string;
+    svar?: string;
+    begrunnelse?: string;
+    svaralternativer: Svaralternativer;
+}
+
+export interface Svaralternativer {
+    [key: string]: Svaralternativ;
+}
+
+export interface Svaralternativ {
+    begrunnelsesType: BegrunnelseRegel;
 }
 
 export interface Opphavsvilkår {
@@ -50,6 +72,10 @@ export interface Delvilkår {
 
 export interface DelvilkårSvar {
     vurderinger: Vurdering[];
+}
+
+export interface DelvilkårSvarNy {
+    vurderinger: VurderingNy[];
 }
 
 interface GrunnlagHovedytelse {}
