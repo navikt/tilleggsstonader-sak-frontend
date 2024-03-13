@@ -130,16 +130,21 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                         settValideringsFeil={formState.setErrors}
                     />
                     <Skillelinje />
+                    {behandlingErRedigerbar && (
+                        <Knapp
+                            type="button"
+                            variant="primary"
+                            size="small"
+                            onClick={beregnBarnetilsyn}
+                        >
+                            Beregn
+                        </Knapp>
+                    )}
                     <DataViewer response={{ beregningsresultat }}>
                         {({ beregningsresultat }) => (
                             <Beregningsresultat beregningsresultat={beregningsresultat} />
                         )}
                     </DataViewer>
-                    {behandlingErRedigerbar && (
-                        <Knapp type="button" variant="primary" onClick={beregnBarnetilsyn}>
-                            Beregn
-                        </Knapp>
-                    )}
                 </VStack>
             </Panel>
             {behandlingErRedigerbar && (
