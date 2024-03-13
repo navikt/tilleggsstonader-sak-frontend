@@ -10,7 +10,7 @@ interface Props {
     regler: Regler;
 }
 
-const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
+const VisEllerEndreVilkår: FC<Props> = ({ vilkår }) => {
     const { feilmeldinger } = useVilkår();
     const feilmelding = feilmeldinger[vilkår.id];
 
@@ -19,7 +19,6 @@ const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
         <EndreVilkår
             vilkår={vilkår}
             feilmelding={feilmelding} // TODO: Legge til "|| resetFeilmelding" igjen?
-            regler={regler}
         />
     );
 };

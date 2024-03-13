@@ -5,12 +5,12 @@ import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
 import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
-import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { Inngangsvilkårtype, Vilkårssett } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
     vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
-    vilkårsvurdering: Vilkårsvurdering;
+    vilkårsvurdering: Vilkårssett;
 }
 
 const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
@@ -25,12 +25,12 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     const finnBarnIGrunnlag = (barnId: string) =>
         vilkårsvurdering.grunnlag.barn.find((barn) => barn.barnId === barnId);
 
-    return vilkårsett.map((vilkår) => {
-        if (!vilkår.barnId) {
+    return vilkårsett.map((vilkårPerBarn) => {
+        if (!vilkårPerBarn.barnId) {
             return <div>Vilkår er ikke knyttet til et barn</div>;
         }
 
-        const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
+        const grunnlagBarn = finnBarnIGrunnlag(vilkårPerBarn.barnId);
 
         if (!grunnlagBarn) {
             return <div>Fant ikke grunnlag for barn</div>;
@@ -42,7 +42,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return (
             <VilkårPanel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårPerBarn.resultat} />}
                 ekstraHeading={
                     <InlineKopiknapp
                         kopitekst={grunnlagBarn.ident}
@@ -53,7 +53,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
             >
-                <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
+                <VisEllerEndreVilkår vilkår={vilkårPerBarn} regler={vilkårsregler.regler} />
             </VilkårPanel>
         );
     });

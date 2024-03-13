@@ -5,23 +5,21 @@ import { ErrorMessage } from '@navikt/ds-react';
 import EndreDelvilkår from './EndreDelvilkår';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
-import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { DelvilkårSvar, SvarPåVilkår, Vilkår } from '../vilkår';
+import { LagreVilkårsvurdering, Vilkår, Vilkårsvurdering } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
     feilmelding: string | undefined;
-    regler: Regler;
 }
 
-const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
+const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
     const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
     const { lagreVilkår } = useVilkår();
 
-    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
+    const oppdaterVilkår = (svarPåVilkår: LagreVilkårsvurdering) => {
         if (!oppdatererVilkår) {
             settOppdatererVilkår(true);
             lagreVilkår(svarPåVilkår).then((response: RessursSuksess<Vilkår> | RessursFeilet) => {
@@ -37,11 +35,11 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
         }
     };
 
-    const oppdaterVurderinger = (delvilkårsett: DelvilkårSvar[]) => {
-        const svarPåVilkår: SvarPåVilkår = {
+    const oppdaterVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering) => {
+        const svarPåVilkår: LagreVilkårsvurdering = {
             id: vilkår.id,
             behandlingId: vilkår.behandlingId,
-            delvilkårsett: delvilkårsett,
+            vilkårsvurdering: vilkårsvurdering,
         };
         oppdaterVilkår(svarPåVilkår);
     };
@@ -54,11 +52,8 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
                 </ErrorMessage>
             )}
             <EndreDelvilkår
-                regler={regler}
-                vilkårsvurdering={vilkår.delvilkårsett.map((delvilkår) => ({
-                    vurderinger: delvilkår.vurderinger,
-                }))}
-                settVilkårsvurdering={oppdaterVurderinger}
+                vilkårsvurdering={vilkår.vilkårsvurdering}
+                settVilkårsvurdering={oppdaterVilkårsvurdering}
             />
         </>
     );

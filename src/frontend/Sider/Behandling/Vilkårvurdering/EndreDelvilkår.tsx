@@ -7,11 +7,11 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Vilkårsvurderinger } from '../vilkår';
+import { Vilkårsvurdering } from '../vilkår';
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
@@ -31,18 +31,18 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 `;
 
 const EndreDelvilkår: FC<{
-    vilkårsvurdering: Vilkårsvurderinger;
-    settVilkårsvurdering: (delvilkår: Vilkårsvurderinger) => void;
+    vilkårsvurdering: Vilkårsvurdering;
+    settVilkårsvurdering: (delvilkår: Vilkårsvurdering) => void;
 }> = ({ settVilkårsvurdering, vilkårsvurdering }) => {
     const [vilkårsvurderinger, settVilkårsvurderinger] =
-        useState<Vilkårsvurderinger>(vilkårsvurdering);
+        useState<Vilkårsvurdering>(vilkårsvurdering);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
+    const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(vilkårsvurderinger);
+        const valideringsfeil = validerVilkårsvurdering(vilkårsvurderinger);
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
@@ -75,7 +75,7 @@ const EndreDelvilkår: FC<{
     };
 
     return (
-        <form onSubmit={validerOgLagreVilkårsvurderinger}>
+        <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
                 {Object.entries(vilkårsvurderinger).map(([regel, delvilkårsvurdering], indeks) => {
                     const svar = delvilkårsvurdering.svar;
@@ -84,7 +84,7 @@ const EndreDelvilkår: FC<{
                         ? delvilkårsvurdering.svaralternativer[svar].begrunnelsesType
                         : BegrunnelseRegel.VALGFRI;
 
-                    const erUndervilkår = delvilkårsvurdering.følgerFraRegel !== null;
+                    const erUndervilkår = delvilkårsvurdering.følgerFraAnnenRegel !== null;
 
                     return (
                         <React.Fragment key={self.crypto.randomUUID()}>

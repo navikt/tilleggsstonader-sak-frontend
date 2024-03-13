@@ -37,19 +37,19 @@ export interface Vilkår {
     barnId?: string;
     endretAv: string;
     endretTid: string;
-    delvilkårsett: Vilkårsvurderinger;
+    vilkårsvurdering: Vilkårsvurdering;
     opphavsvilkår?: Opphavsvilkår;
 }
 
-export interface Vilkårsvurderinger {
+export interface Vilkårsvurdering {
     [key: string]: Delvilkårsvurdering;
 }
 
 export interface Delvilkårsvurdering {
-    følgerFraRegel?: string;
     svar?: string;
     begrunnelse?: string;
     svaralternativer: Svaralternativer;
+    følgerFraAnnenRegel?: { avhengigRegel: string; avhengigSvar: string };
 }
 
 export interface Svaralternativer {
@@ -103,12 +103,12 @@ interface VilkårGrunnlag {
     barn: GrunnlagBarn[];
 }
 
-export interface Vilkårsvurdering {
+export interface Vilkårssett {
     vilkårsett: Vilkår[];
     grunnlag: VilkårGrunnlag;
 }
 
-export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vilkårsvurdering' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 

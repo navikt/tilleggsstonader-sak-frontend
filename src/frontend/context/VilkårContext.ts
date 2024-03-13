@@ -5,9 +5,9 @@ import constate from 'constate';
 import { useApp } from './AppContext';
 import {
     OppdaterVilkår,
-    SvarPåVilkår,
+    LagreVilkårsvurdering,
     Vilkår,
-    Vilkårsvurdering,
+    Vilkårssett,
     Vurderingsfeilmelding,
 } from '../Sider/Behandling/vilkår';
 import { Behandling } from '../typer/behandling/behandling';
@@ -25,9 +25,9 @@ interface Props {
 }
 
 const oppdaterVilkårsvurderingMedVilkår = (
-    vilkårsvurdering: RessursSuksess<Vilkårsvurdering>,
+    vilkårsvurdering: RessursSuksess<Vilkårssett>,
     vilkår: Vilkår
-): RessursSuksess<Vilkårsvurdering> => {
+): RessursSuksess<Vilkårssett> => {
     return {
         ...vilkårsvurdering,
         data: {
@@ -40,10 +40,12 @@ const oppdaterVilkårsvurderingMedVilkår = (
 };
 
 export interface UseVilkår {
-    vilkårsvurdering: Ressurs<Vilkårsvurdering>;
+    vilkårsvurdering: Ressurs<Vilkårssett>;
     hentVilkårsvurdering: () => void;
     oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
-    lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+    lagreVilkår: (
+        vurdering: LagreVilkårsvurdering
+    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     feilmeldinger: Vurderingsfeilmelding;
     nullstillVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
@@ -55,11 +57,11 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     const [feilmeldinger, settFeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
     const [vilkårsvurdering, settVilkårsvurdering] =
-        useState<Ressurs<Vilkårsvurdering>>(byggTomRessurs());
+        useState<Ressurs<Vilkårssett>>(byggTomRessurs());
 
     const hentVilkårsvurdering = useCallback(() => {
         settVilkårsvurdering(byggHenterRessurs());
-        return request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandling.id}`).then(
+        return request<Vilkårssett, void>(`/api/sak/vilkar/${behandling.id}`).then(
             settVilkårsvurdering
         );
     }, [request, behandling.id]);
@@ -85,14 +87,16 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         });
     };
 
-    const lagreVilkår = (vilkår: SvarPåVilkår): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår).then(
+    const lagreVilkårsvurdering = (
+        vilkår: LagreVilkårsvurdering
+    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
+        return request<Vilkår, LagreVilkårsvurdering>(`/api/sak/vilkar`, 'POST', vilkår).then(
             (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     fjernFeilmelding(respons.data.id);
                     settVilkårsvurdering((prevVilkårsvurdering) =>
                         oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
+                            prevVilkårsvurdering as RessursSuksess<Vilkårssett>, // prevVilkårsvurdering kan ikke være != SUKESS her
                             respons.data
                         )
                     );
@@ -112,7 +116,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
                 if (respons.status === RessursStatus.SUKSESS) {
                     settVilkårsvurdering((prevVilkårsvurdering) =>
                         oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
+                            prevVilkårsvurdering as RessursSuksess<Vilkårssett>, // prevVilkårsvurdering kan ikke være != SUKESS her
                             respons.data
                         )
                     );
@@ -129,7 +133,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
                 if (respons.status === RessursStatus.SUKSESS) {
                     settVilkårsvurdering((prevVilkårsvurdering) =>
                         oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
+                            prevVilkårsvurdering as RessursSuksess<Vilkårssett>, // prevVilkårsvurdering kan ikke være != SUKESS her
                             respons.data
                         )
                     );
@@ -141,7 +145,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
 
     const oppdaterGrunnlagsdataOgHentVilkårsvurdering = useCallback(
         (behandlingId: string) =>
-            request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandlingId}/oppdater`).then(
+            request<Vilkårssett, void>(`/api/sak/vilkar/${behandlingId}/oppdater`).then(
                 settVilkårsvurdering
             ),
         [request]
@@ -150,7 +154,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     return {
         vilkårsvurdering,
         hentVilkårsvurdering,
-        lagreVilkår,
+        lagreVilkår: lagreVilkårsvurdering,
         feilmeldinger,
         nullstillVilkår,
         ikkeVurderVilkår,
