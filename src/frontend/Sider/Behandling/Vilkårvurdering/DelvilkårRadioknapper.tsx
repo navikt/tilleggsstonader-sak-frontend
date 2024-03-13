@@ -6,14 +6,13 @@ import { styled } from 'styled-components';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
-import { regelIdTilSpørsmål, hjelpetekster, svarIdTilTekst } from './tekster';
-import { Regel } from '../../../typer/regel';
-import { Vurdering } from '../vilkår';
+import { hjelpetekster, regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
+import { Regel, SvarId } from '../../../typer/regel';
 
 interface Props {
     regel: Regel;
-    vurdering: Vurdering;
-    settVurdering: (nyttSvar: Vurdering) => void;
+    gjeldendeSvar: SvarId | undefined;
+    settSvar: (nyttSvar: SvarId) => void;
     feilmelding?: string;
     nullstillFeilmelding: (regelId: string) => void;
 }
@@ -24,19 +23,20 @@ const Container = styled.div`
 
 const DelvilkårRadioknapper: FC<Props> = ({
     regel,
-    vurdering,
-    settVurdering,
+    gjeldendeSvar,
+    settSvar,
     feilmelding,
     nullstillFeilmelding,
 }) => {
     const svaralternativer = Object.keys(regel.svarMapping);
     const regelId = regel.regelId;
+
     return (
         <Container>
             <RadioGroup
                 legend={regelIdTilSpørsmål[regelId] || regelId}
                 description={Spørsmålsbeskrivelse(regelId)}
-                value={vurdering.svar || ''}
+                value={gjeldendeSvar || ''}
                 size="small"
                 error={feilmelding}
             >
@@ -47,7 +47,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
                             name={`${regelId}_${svar}`}
                             value={svar}
                             onChange={() => {
-                                settVurdering({ svar, regelId });
+                                settSvar(svar);
                                 nullstillFeilmelding(regelId);
                             }}
                         >
