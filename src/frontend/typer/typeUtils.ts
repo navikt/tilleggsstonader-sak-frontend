@@ -8,3 +8,7 @@ export function valuerOrThrow<T>(
 
     return verdi;
 }
+
+export function erTomtObjekt(obj: object) {
+    return Object.keys(obj).length === 0;
+}

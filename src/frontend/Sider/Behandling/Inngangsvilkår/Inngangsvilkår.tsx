@@ -16,7 +16,8 @@ import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext
 import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
-import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
+import { Steg } from '../../../typer/behandling/steg';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
@@ -76,7 +77,9 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-            <NesteStegKnapp nesteFane={FanePath.STØNADSVILKÅR} />
+            <NesteStegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
+                Ferdigstill inngangsvilkår og gå videre
+            </NesteStegKnapp>
         </Container>
     );
 };
