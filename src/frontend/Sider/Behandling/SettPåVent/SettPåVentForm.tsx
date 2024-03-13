@@ -40,7 +40,7 @@ const SettPåVentForm: React.FC<{
     const [settPåVent, settSettPåVent] = useState<SettPåVent>({
         årsaker: status?.årsaker || [],
         frist: status?.frist,
-        kommentar: undefined,
+        kommentar: status?.kommentar,
         oppgaveVersjon: status?.oppgaveVersjon,
     });
 
