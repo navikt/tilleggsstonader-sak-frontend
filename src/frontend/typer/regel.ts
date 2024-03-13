@@ -13,7 +13,7 @@ export type SluttNode = 'SLUTT_NODE';
 
 export type SvarId = string;
 
-export type Begrunnelse = string | undefined;
+export type BegrunnelseType = string | undefined;
 
 export enum BegrunnelseRegel {
     'PÅKREVD' = 'PÅKREVD',

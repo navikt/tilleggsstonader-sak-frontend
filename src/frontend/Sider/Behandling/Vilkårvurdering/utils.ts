@@ -1,5 +1,5 @@
 import {
-    Begrunnelse,
+    BegrunnelseType,
     BegrunnelseRegel,
     Regel,
     RegelId,
@@ -11,7 +11,7 @@ import { Vurdering } from '../vilkår';
 
 export function begrunnelseErPåkrevdOgUtfyllt(
     svarsalternativ: Svaralternativ,
-    begrunnelse: Begrunnelse
+    begrunnelse: BegrunnelseType
 ): boolean {
     if (svarsalternativ.begrunnelseType === BegrunnelseRegel.PÅKREVD) {
         return !begrunnelse || begrunnelse.trim().length > 0;
