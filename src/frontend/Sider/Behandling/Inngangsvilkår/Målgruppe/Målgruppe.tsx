@@ -7,8 +7,8 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
@@ -21,7 +21,7 @@ const HvitTabell = styled(Table)`
 
 const Målgruppe: React.FC = () => {
     const { målgrupper } = useInngangsvilkår();
-    const { behandlingErRedigerbar, behandling } = useBehandling();
+    const { erStegOgBehandlingRedigerbar } = useSteg();
 
     const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
@@ -35,11 +35,6 @@ const Målgruppe: React.FC = () => {
 
     const kanSetteNyRadIRedigeringsmodus =
         radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
-
-    const erIStegInngangsvilkår = behandling.steg === 'INNGANGSVILKÅR';
-
-    const visLeggTilKnapp =
-        erIStegInngangsvilkår && kanSetteNyRadIRedigeringsmodus && behandlingErRedigerbar;
 
     const skalViseTabell = målgrupper.length > 0 || leggerTilNyPeriode;
 
@@ -98,7 +93,7 @@ const Målgruppe: React.FC = () => {
                 </HvitTabell>
             )}
             <Feilmelding>{feilmelding}</Feilmelding>
-            {visLeggTilKnapp && (
+            {kanSetteNyRadIRedigeringsmodus && erStegOgBehandlingRedigerbar && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode(true)}
                     size="small"

@@ -7,8 +7,8 @@ import { Button, Table } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
@@ -21,7 +21,7 @@ const HvitTabell = styled(Table)`
 
 const Aktivitet: React.FC = () => {
     const { aktiviteter } = useInngangsvilkår();
-    const { behandlingErRedigerbar, behandling } = useBehandling();
+    const { erStegOgBehandlingRedigerbar } = useSteg();
 
     const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
@@ -38,10 +38,6 @@ const Aktivitet: React.FC = () => {
 
     const skalViseTabell = aktiviteter.length > 0 || leggerTilNyPeriode;
 
-    const erIStegInngangsvilkår = behandling.steg === 'INNGANGSVILKÅR';
-
-    const visLeggTilKnapp =
-        kanSetteNyRadIRedigeringsmodus && behandlingErRedigerbar && erIStegInngangsvilkår;
     const settNyRadIRedigeringsmodus = (id: string) => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
@@ -99,7 +95,7 @@ const Aktivitet: React.FC = () => {
                 </HvitTabell>
             )}
             <Feilmelding>{feilmelding}</Feilmelding>
-            {visLeggTilKnapp && (
+            {kanSetteNyRadIRedigeringsmodus && erStegOgBehandlingRedigerbar && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
                     size="small"

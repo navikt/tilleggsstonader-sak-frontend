@@ -10,6 +10,7 @@ import { FanePath, hentBehandlingfaner } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
+import { StegProvider } from '../../context/StegContext';
 import { Toast } from '../../typer/toast';
 
 const TabsList = styled(Tabs.List)`
@@ -35,9 +36,9 @@ const BehandlingTabsInnhold = () => {
     const { settToast } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
 
-    const path = useLocation().pathname.split('/')[3];
+    const path = useLocation().pathname.split('/')[3] as FanePath;
 
-    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+    const [aktivFane, settAktivFane] = useState<FanePath>(path || FanePath.INNGANGSVILKÅR);
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
@@ -59,45 +60,47 @@ const BehandlingTabsInnhold = () => {
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
     return (
-        <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
-            <TabsList>
-                {behandlingFaner.map((tab) =>
-                    faneErLåst(tab.path) ? (
-                        <DisabledTab
-                            key={tab.path}
-                            value={tab.path}
-                            label={tab.navn}
-                            icon={tab.ikon}
-                        />
-                    ) : (
-                        <Tabs.Tab
-                            key={tab.path}
-                            value={tab.path}
-                            label={tab.navn}
-                            icon={tab.ikon}
-                        />
-                    )
-                )}
-                {behandlingErRedigerbar && !statusPåVentRedigering && (
-                    <Tabsknapp>
-                        <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
-                            Sett på vent
-                        </Button>
-                    </Tabsknapp>
-                )}
-            </TabsList>
+        <StegProvider fane={aktivFane} behandling={behandling}>
+            <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
+                <TabsList>
+                    {behandlingFaner.map((tab) =>
+                        faneErLåst(tab.path) ? (
+                            <DisabledTab
+                                key={tab.path}
+                                value={tab.path}
+                                label={tab.navn}
+                                icon={tab.ikon}
+                            />
+                        ) : (
+                            <Tabs.Tab
+                                key={tab.path}
+                                value={tab.path}
+                                label={tab.navn}
+                                icon={tab.ikon}
+                            />
+                        )
+                    )}
+                    {behandlingErRedigerbar && !statusPåVentRedigering && (
+                        <Tabsknapp>
+                            <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
+                                Sett på vent
+                            </Button>
+                        </Tabsknapp>
+                    )}
+                </TabsList>
 
-            <SettPåVentContainer
-                statusPåVentRedigering={statusPåVentRedigering}
-                settStatusPåVentRedigering={settStatusPåVentRedigering}
-            />
+                <SettPåVentContainer
+                    statusPåVentRedigering={statusPåVentRedigering}
+                    settStatusPåVentRedigering={settStatusPåVentRedigering}
+                />
 
-            {behandlingFaner.map((tab) => (
-                <Tabs.Panel key={tab.path} value={tab.path}>
-                    {tab.komponent(behandling.id)}
-                </Tabs.Panel>
-            ))}
-        </Tabs>
+                {behandlingFaner.map((tab) => (
+                    <Tabs.Panel key={tab.path} value={tab.path}>
+                        {tab.komponent(behandling.id)}
+                    </Tabs.Panel>
+                ))}
+            </Tabs>
+        </StegProvider>
     );
 };
 

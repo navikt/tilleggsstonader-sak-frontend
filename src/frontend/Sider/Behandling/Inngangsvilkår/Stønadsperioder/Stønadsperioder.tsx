@@ -11,11 +11,11 @@ import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../../context/StegContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import Panel from '../../../../komponenter/Panel/Panel';
-import { Steg } from '../../../../typer/behandling/steg';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
@@ -42,7 +42,8 @@ const initFormState = (
 
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
-    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { behandling } = useBehandling();
+    const { erStegOgBehandlingRedigerbar } = useSteg();
     const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
         useInngangsvilkår();
 
@@ -116,8 +117,6 @@ const Stønadsperioder: React.FC = () => {
         stønadsperioderState.setValue(stønadsperioder);
     };
 
-    const erIStegInngangsvilkår = behandling.steg === Steg.INNGANGSVILKÅR;
-
     return (
         <Panel tittel="Stønadsperioder">
             <form onSubmit={formState.onSubmit(handleSubmit)}>
@@ -147,11 +146,7 @@ const Stønadsperioder: React.FC = () => {
                                             formState.errors.stønadsperioder &&
                                             formState.errors.stønadsperioder[indeks]
                                         }
-                                        erLeservisning={
-                                            !behandlingErRedigerbar ||
-                                            !redigerer ||
-                                            !erIStegInngangsvilkår
-                                        }
+                                        erLeservisning={!erStegOgBehandlingRedigerbar || !redigerer}
                                     />
                                 ))}
                             </Table.Body>
@@ -160,7 +155,7 @@ const Stønadsperioder: React.FC = () => {
 
                     <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
 
-                    {behandlingErRedigerbar && erIStegInngangsvilkår && (
+                    {erStegOgBehandlingRedigerbar && (
                         <Aksjonsknapper
                             redigerer={redigerer}
                             finnesStønadsperioder={stønadsperioderState.value.length !== 0}
