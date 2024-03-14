@@ -9,21 +9,21 @@ import {
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
 import { Vilkårsvurdering, Vurdering } from '../vilkår';
 
-export const vurderAvhengighet = (
+export const vurderAvhengighetTilOverordnetValg = (
     vilkårsvurdering: Vilkårsvurdering,
-    regel: string
+    regelenSomSkalSjekkes: string
 ): { erAvhengig: boolean; avhengighetErOppfylt: boolean | undefined } => {
-    const følgerFraAnnenRegel = vilkårsvurdering[regel].følgerFraAnnenRegel;
+    const følgerFraOverordnetValg = vilkårsvurdering[regelenSomSkalSjekkes].følgerFraOverordnetValg;
 
-    const erAvhengig = følgerFraAnnenRegel != null;
+    const erAvhengig = følgerFraOverordnetValg != null;
 
     if (!erAvhengig) {
         return { avhengighetErOppfylt: undefined, erAvhengig };
     }
 
-    const { avhengigRegel, avhengigSvar } = følgerFraAnnenRegel;
+    const { regel, svar } = følgerFraOverordnetValg;
 
-    const avhengighetErOppfylt = vilkårsvurdering[avhengigRegel].svar === avhengigSvar;
+    const avhengighetErOppfylt = vilkårsvurdering[regel].svar === svar;
 
     return { erAvhengig, avhengighetErOppfylt };
 };

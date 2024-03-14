@@ -1,4 +1,4 @@
-import { vurderAvhengighet } from './utils';
+import { vurderAvhengighetTilOverordnetValg } from './utils';
 import { BegrunnelseRegel, RegelId } from '../../../typer/regel';
 import { Vilkårsvurdering } from '../vilkår';
 
@@ -10,7 +10,10 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
     Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
 
-        const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighet(vilkårsvurdering, regel);
+        const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighetTilOverordnetValg(
+            vilkårsvurdering,
+            regel
+        );
 
         if (erAvhengig && !avhengighetErOppfylt) {
             return;

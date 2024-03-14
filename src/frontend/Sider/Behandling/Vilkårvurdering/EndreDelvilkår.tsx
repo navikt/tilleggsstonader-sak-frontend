@@ -7,7 +7,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { vurderAvhengighet } from './utils';
+import { vurderAvhengighetTilOverordnetValg } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
@@ -78,7 +78,7 @@ const EndreDelvilkår: FC<{
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
                 {Object.entries(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
-                    const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighet(
+                    const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighetTilOverordnetValg(
                         vurdering,
                         regel
                     );

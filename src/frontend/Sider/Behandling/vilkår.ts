@@ -42,22 +42,25 @@ export interface Vilkår {
 }
 
 export interface Vilkårsvurdering {
-    [key: string]: Delvilkårsvurdering;
+    [regel: string]: Delvilkårsvurdering;
 }
 
 export interface Delvilkårsvurdering {
     svar: string | null;
     begrunnelse: string | null;
     svaralternativer: Svaralternativer;
-    følgerFraAnnenRegel: { avhengigRegel: string; avhengigSvar: string } | null;
+    følgerFraOverordnetValg: OverordnetValg | null;
+}
+
+interface OverordnetValg {
+    regel: string;
+    svar: string;
 }
 
 export interface Svaralternativer {
-    [key: string]: Svaralternativ;
-}
-
-export interface Svaralternativ {
-    begrunnelsesType: BegrunnelseRegel;
+    [svaralternativ: string]: {
+        begrunnelsesType: BegrunnelseRegel;
+    };
 }
 
 export interface Opphavsvilkår {
