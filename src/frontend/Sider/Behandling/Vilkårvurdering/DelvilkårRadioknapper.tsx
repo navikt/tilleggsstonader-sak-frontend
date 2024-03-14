@@ -13,7 +13,7 @@ import { Svaralternativer } from '../vilkår';
 interface Props {
     regel: string;
     svaralternativer: Svaralternativer;
-    gjeldendeSvar: SvarId | undefined;
+    gjeldendeSvar: SvarId | null;
     settSvar: (nyttSvar: SvarId) => void;
     feilmelding?: string;
     nullstillFeilmelding: (regelId: string) => void;

@@ -1,3 +1,4 @@
+import { vurderAvhengighet } from './utils';
 import { BegrunnelseRegel, RegelId } from '../../../typer/regel';
 import { Vilkårsvurdering } from '../vilkår';
 
@@ -8,15 +9,11 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
 
     Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
-        const erAvhengig = delvilkårsvurdering.følgerFraAnnenRegel;
 
-        if (erAvhengig) {
-            // Hvis en regel er avhengig av svaret på en annen regel, og dette svaret IKKE er valgt, så trenger vi ikke
-            // validere denne underregelen noe mer.
-            const { avhengigRegel, avhengigSvar } = erAvhengig;
-            if (vilkårsvurdering[avhengigRegel].svar !== avhengigSvar) {
-                return;
-            }
+        const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighet(vilkårsvurdering, regel);
+
+        if (erAvhengig && !avhengighetErOppfylt) {
+            return;
         }
 
         if (!gjeldendeSvar) {

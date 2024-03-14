@@ -7,7 +7,26 @@ import {
     Svaralternativ,
 } from '../../../typer/regel';
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
-import { Vurdering } from '../vilkår';
+import { Vilkårsvurdering, Vurdering } from '../vilkår';
+
+export const vurderAvhengighet = (
+    vilkårsvurdering: Vilkårsvurdering,
+    regel: string
+): { erAvhengig: boolean; avhengighetErOppfylt: boolean | undefined } => {
+    const følgerFraAnnenRegel = vilkårsvurdering[regel].følgerFraAnnenRegel;
+
+    const erAvhengig = følgerFraAnnenRegel != null;
+
+    if (!erAvhengig) {
+        return { avhengighetErOppfylt: undefined, erAvhengig };
+    }
+
+    const { avhengigRegel, avhengigSvar } = følgerFraAnnenRegel;
+
+    const avhengighetErOppfylt = vilkårsvurdering[avhengigRegel].svar === avhengigSvar;
+
+    return { erAvhengig, avhengighetErOppfylt };
+};
 
 export function begrunnelseErPåkrevdOgUtfyllt(
     svarsalternativ: Svaralternativ,

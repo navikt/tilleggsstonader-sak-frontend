@@ -46,10 +46,10 @@ export interface Vilkårsvurdering {
 }
 
 export interface Delvilkårsvurdering {
-    svar?: string;
-    begrunnelse?: string;
+    svar: string | null;
+    begrunnelse: string | null;
     svaralternativer: Svaralternativer;
-    følgerFraAnnenRegel?: { avhengigRegel: string; avhengigSvar: string };
+    følgerFraAnnenRegel: { avhengigRegel: string; avhengigSvar: string } | null;
 }
 
 export interface Svaralternativer {

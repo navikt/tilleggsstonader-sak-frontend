@@ -7,6 +7,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
+import { vurderAvhengighet } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
@@ -32,21 +33,20 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 
 const EndreDelvilkår: FC<{
     vilkårsvurdering: Vilkårsvurdering;
-    settVilkårsvurdering: (delvilkår: Vilkårsvurdering) => void;
-}> = ({ settVilkårsvurdering, vilkårsvurdering }) => {
-    const [vilkårsvurderinger, settVilkårsvurderinger] =
-        useState<Vilkårsvurdering>(vilkårsvurdering);
+    oppdaterVilkårsvurdering: (delvilkår: Vilkårsvurdering) => void;
+}> = ({ oppdaterVilkårsvurdering, vilkårsvurdering }) => {
+    const [vurdering, settVurdering] = useState<Vilkårsvurdering>(vilkårsvurdering);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
     const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurdering(vilkårsvurderinger);
+        const valideringsfeil = validerVilkårsvurdering(vurdering);
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            settVilkårsvurdering(vilkårsvurdering);
+            oppdaterVilkårsvurdering(vilkårsvurdering);
         }
     };
 
@@ -59,7 +59,7 @@ const EndreDelvilkår: FC<{
         nyttSvar?: SvarId,
         nyBegrunnelse?: BegrunnelseType
     ) => {
-        settVilkårsvurderinger((prevState) => {
+        settVurdering((prevState) => {
             const vurderingSomSkalOppdateres = prevState[regelId];
 
             if (nyttSvar) {
@@ -77,19 +77,26 @@ const EndreDelvilkår: FC<{
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
-                {Object.entries(vilkårsvurderinger).map(([regel, delvilkårsvurdering], indeks) => {
+                {Object.entries(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
+                    const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighet(
+                        vurdering,
+                        regel
+                    );
+
+                    if (erAvhengig && !avhengighetErOppfylt) {
+                        return;
+                    }
+
                     const svar = delvilkårsvurdering.svar;
 
                     const begrunnelsestype = svar
                         ? delvilkårsvurdering.svaralternativer[svar].begrunnelsesType
                         : BegrunnelseRegel.VALGFRI;
 
-                    const erUndervilkår = delvilkårsvurdering.følgerFraAnnenRegel !== null;
-
                     return (
                         <React.Fragment key={self.crypto.randomUUID()}>
-                            {indeks !== 0 && !erUndervilkår && <Skillelinje />}
-                            <DelvilkårContainer $erUndervilkår={erUndervilkår}>
+                            {indeks !== 0 && !erAvhengig && <Skillelinje />}
+                            <DelvilkårContainer $erUndervilkår={erAvhengig}>
                                 <DelvilkårRadioknapper
                                     regel={regel}
                                     svaralternativer={delvilkårsvurdering.svaralternativer}
