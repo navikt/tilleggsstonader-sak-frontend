@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, hentBehandlingfaner } from './faner';
+import { FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -36,9 +36,9 @@ const BehandlingTabsInnhold = () => {
     const { settToast } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
 
-    const path = useLocation().pathname.split('/')[3] as FanePath;
+    const path = useLocation().pathname.split('/')[3];
 
-    const [aktivFane, settAktivFane] = useState<FanePath>(path || FanePath.INNGANGSVILKÅR);
+    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const BehandlingTabsInnhold = () => {
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
     return (
-        <StegProvider fane={aktivFane} behandling={behandling}>
+        <StegProvider fane={isFanePath(aktivFane) ? aktivFane : undefined} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                 <TabsList>
                     {behandlingFaner.map((tab) =>

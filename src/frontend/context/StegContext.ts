@@ -6,20 +6,20 @@ import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 import { Steg } from '../typer/behandling/steg';
 
 const faneTilSteg: Record<FanePath, Steg> = {
-    [FanePath.INNGANGSVILKÅR]: Steg.INNGANGSVILKÅR,
-    [FanePath.STØNADSVILKÅR]: Steg.VILKÅR,
-    [FanePath.VEDTAK_OG_BEREGNING]: Steg.BEREGNE_YTELSE,
-    [FanePath.SIMULERING]: Steg.SEND_TIL_BESLUTTER,
-    [FanePath.BREV]: Steg.SEND_TIL_BESLUTTER,
+    inngangsvilkar: Steg.INNGANGSVILKÅR,
+    stonadsvilkar: Steg.VILKÅR,
+    'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
+    simulering: Steg.SEND_TIL_BESLUTTER,
+    brev: Steg.SEND_TIL_BESLUTTER,
 };
 
 interface Props {
-    fane: FanePath;
+    fane: FanePath | undefined;
     behandling: Behandling;
 }
 
 export const [StegProvider, useSteg] = constate(({ fane, behandling }: Props) => {
-    const erStegRedigerbar = behandling.steg === faneTilSteg[fane];
+    const erStegRedigerbar = fane && behandling.steg === faneTilSteg[fane];
     const erStegOgBehandlingRedigerbar = erStegRedigerbar && erBehandlingRedigerbar(behandling);
 
     return {
