@@ -11,7 +11,12 @@ import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
+import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
+
+const StickyTablistContainer = styled(Sticky)`
+    top: 97px;
+`;
 
 const TabsList = styled(Tabs.List)`
     width: 100%;
@@ -62,32 +67,37 @@ const BehandlingTabsInnhold = () => {
     return (
         <StegProvider fane={isFanePath(aktivFane) ? aktivFane : undefined} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
-                <TabsList>
-                    {behandlingFaner.map((tab) =>
-                        faneErLåst(tab.path) ? (
-                            <DisabledTab
-                                key={tab.path}
-                                value={tab.path}
-                                label={tab.navn}
-                                icon={tab.ikon}
-                            />
-                        ) : (
-                            <Tabs.Tab
-                                key={tab.path}
-                                value={tab.path}
-                                label={tab.navn}
-                                icon={tab.ikon}
-                            />
-                        )
-                    )}
-                    {behandlingErRedigerbar && !statusPåVentRedigering && (
-                        <Tabsknapp>
-                            <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
-                                Sett på vent
-                            </Button>
-                        </Tabsknapp>
-                    )}
-                </TabsList>
+                <StickyTablistContainer>
+                    <TabsList>
+                        {behandlingFaner.map((tab) =>
+                            faneErLåst(tab.path) ? (
+                                <DisabledTab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            ) : (
+                                <Tabs.Tab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            )
+                        )}
+                        {behandlingErRedigerbar && !statusPåVentRedigering && (
+                            <Tabsknapp>
+                                <Button
+                                    size={'small'}
+                                    onClick={() => settStatusPåVentRedigering(true)}
+                                >
+                                    Sett på vent
+                                </Button>
+                            </Tabsknapp>
+                        )}
+                    </TabsList>
+                </StickyTablistContainer>
 
                 <SettPåVentContainer
                     statusPåVentRedigering={statusPåVentRedigering}
