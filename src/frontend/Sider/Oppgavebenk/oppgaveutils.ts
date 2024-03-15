@@ -2,6 +2,7 @@ import { Oppgave } from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
 
 export const JOURNALPOST_QUERY_STRING = 'journalpostId';
+export const GJELDER_KLAGE_QUERY_STRING = 'gjelderKlage';
 export const OPPGAVEID_QUERY_STRING = 'oppgaveId';
 
 const behandlingssakerForSaksbehandling: Oppgavetype[] = ['BEH_SAK', 'GOD_VED', 'BEH_UND_VED'];
