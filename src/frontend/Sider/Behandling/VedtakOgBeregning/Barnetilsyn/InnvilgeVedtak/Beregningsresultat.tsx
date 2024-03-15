@@ -40,9 +40,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                     <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
                     <BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>
                     <BodyShort size="small">{periode.dagsats}</BodyShort>
-                    <BodyShort size="small">
-                        {periode.grunnlag.antallDagerTotal * periode.dagsats}
-                    </BodyShort>
+                    <BodyShort size="small">{periode.månedsbeløp}</BodyShort>
                 </React.Fragment>
             ))}
         </Grid>
