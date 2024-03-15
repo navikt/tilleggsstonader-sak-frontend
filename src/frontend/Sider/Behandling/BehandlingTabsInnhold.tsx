@@ -43,11 +43,13 @@ const BehandlingTabsInnhold = () => {
 
     const path = useLocation().pathname.split('/')[3];
 
-    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+    const [aktivFane, settAktivFane] = useState<FanePath>(
+        isFanePath(path) ? path : FanePath.INNGANGSVILKÅR
+    );
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
-        settAktivFane(path || FanePath.INNGANGSVILKÅR);
+        settAktivFane(isFanePath(path) ? path : FanePath.INNGANGSVILKÅR);
     }, [path]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
@@ -65,7 +67,7 @@ const BehandlingTabsInnhold = () => {
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
     return (
-        <StegProvider fane={isFanePath(aktivFane) ? aktivFane : undefined} behandling={behandling}>
+        <StegProvider fane={aktivFane} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                 <StickyTablistContainer>
                     <TabsList>
