@@ -40,6 +40,7 @@ const SelectVedtaksresultat: FC<Props> = ({ resultatType, settResultatType }) =>
                     // settIkkePersistertKomponent(VEDTAK_OG_BEREGNING);
                 }}
                 lesevisningVerdi={resultatType && behandlingResultatTilTekst[resultatType]}
+                size="small"
             >
                 <option value="">Velg</option>
                 <option value={BehandlingResultat.INNVILGET}>Innvilge</option>
