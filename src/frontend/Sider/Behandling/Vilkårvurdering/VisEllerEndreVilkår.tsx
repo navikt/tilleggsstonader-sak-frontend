@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import EndreVilkår from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
-import { useBehandling } from '../../../context/BehandlingContext';
+import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
 import { Vilkår } from '../vilkår';
@@ -15,9 +15,9 @@ interface Props {
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { feilmeldinger } = useVilkår();
     const feilmelding = feilmeldinger[vilkår.id];
-    const { behandlingErRedigerbar, behandling } = useBehandling();
+    const { behandlingOgStegErRedigerbar } = useSteg();
 
-    return behandlingErRedigerbar && behandling.steg === 'VILKÅR' ? (
+    return behandlingOgStegErRedigerbar ? (
         <EndreVilkår
             vilkår={vilkår}
             feilmelding={feilmelding} // TODO: Legge til "|| resetFeilmelding" igjen?
