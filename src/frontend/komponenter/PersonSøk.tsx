@@ -3,11 +3,11 @@ import React, { FormEvent, useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { Alert, Popover, Search } from '@navikt/ds-react';
+import { Alert, Button, Popover, Search } from '@navikt/ds-react';
 import { ATextDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../context/AppContext';
-import { RessursStatus } from '../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 export type Søkeresultat = {
     personIdent: string;
@@ -38,10 +38,12 @@ const PersonSøk: React.FC = () => {
     const navigate = useNavigate();
     const søkRef = useRef<HTMLDivElement>(null);
     const [søkestreng, settSøkestreng] = useState<string>();
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [søkeresultat, settSøkeresultat] = useState<
+        RessursFeilet | RessursSuksess<Søkeresultat>
+    >();
 
     const nullstillSøkefelt = () => {
-        settFeilmelding(undefined);
+        settSøkeresultat(undefined);
         settSøkestreng('');
         if (søkRef.current) {
             søkRef.current.blur();
@@ -53,11 +55,11 @@ const PersonSøk: React.FC = () => {
             request<Søkeresultat, { personIdent: string }>(`/api/sak/sok/person`, 'POST', {
                 personIdent: personIdent,
             }).then((resultat) => {
-                if (resultat.status === RessursStatus.SUKSESS) {
+                if (resultat.status === RessursStatus.SUKSESS && resultat.data.fagsakPersonId) {
                     nullstillSøkefelt();
                     navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
-                    settFeilmelding(resultat.frontendFeilmelding);
+                    settSøkeresultat(resultat);
                 }
             });
         },
@@ -73,7 +75,7 @@ const PersonSøk: React.FC = () => {
                     nullstillSøkefelt();
                     navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
-                    settFeilmelding(resultat.frontendFeilmelding);
+                    settSøkeresultat(resultat);
                 }
             });
         },
@@ -88,6 +90,21 @@ const PersonSøk: React.FC = () => {
         } else {
             søkPerson(søkestreng);
         }
+    };
+
+    const opprettFagsakPerson = () => {
+        if (!søkestreng) return;
+
+        request<string, { ident: string }>(`/api/sak/fagsak-person`, 'POST', {
+            ident: søkestreng,
+        }).then((resultat) => {
+            if (resultat.status === RessursStatus.SUKSESS) {
+                nullstillSøkefelt();
+                navigate(`/person/${resultat.data}`);
+            } else {
+                settSøkeresultat(resultat);
+            }
+        });
     };
 
     return (
@@ -106,9 +123,9 @@ const PersonSøk: React.FC = () => {
             </form>
             <Popover
                 anchorEl={søkRef.current}
-                open={feilmelding !== undefined}
+                open={søkeresultat !== undefined}
                 onClose={() => {
-                    settFeilmelding(undefined);
+                    settSøkeresultat(undefined);
                 }}
                 arrow={false}
                 placement="bottom"
@@ -118,7 +135,17 @@ const PersonSøk: React.FC = () => {
                         padding: '0px',
                     }}
                 >
-                    <StyledAlert variant="error">{feilmelding}</StyledAlert>
+                    {søkeresultat && søkeresultat.status === RessursStatus.SUKSESS && (
+                        <StyledAlert variant="info">
+                            Person finnes i arena
+                            <Button onClick={opprettFagsakPerson}>Opprett person</Button>
+                        </StyledAlert>
+                    )}
+                    {søkeresultat && søkeresultat.status !== RessursStatus.SUKSESS && (
+                        <StyledAlert variant="error">
+                            {søkeresultat.frontendFeilmelding}
+                        </StyledAlert>
+                    )}
                 </Popover.Content>
             </Popover>
         </Container>
