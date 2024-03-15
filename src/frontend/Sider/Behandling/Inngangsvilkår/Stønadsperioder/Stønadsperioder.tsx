@@ -43,7 +43,7 @@ const initFormState = (
 const Stønadsperioder: React.FC = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { erStegOgBehandlingRedigerbar } = useSteg();
+    const { behandlingOgStegErRedigerbar } = useSteg();
     const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
         useInngangsvilkår();
 
@@ -146,7 +146,7 @@ const Stønadsperioder: React.FC = () => {
                                             formState.errors.stønadsperioder &&
                                             formState.errors.stønadsperioder[indeks]
                                         }
-                                        erLeservisning={!erStegOgBehandlingRedigerbar || !redigerer}
+                                        erLeservisning={!behandlingOgStegErRedigerbar || !redigerer}
                                     />
                                 ))}
                             </Table.Body>
@@ -155,7 +155,7 @@ const Stønadsperioder: React.FC = () => {
 
                     <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
 
-                    {erStegOgBehandlingRedigerbar && (
+                    {behandlingOgStegErRedigerbar && (
                         <Aksjonsknapper
                             redigerer={redigerer}
                             finnesStønadsperioder={stønadsperioderState.value.length !== 0}

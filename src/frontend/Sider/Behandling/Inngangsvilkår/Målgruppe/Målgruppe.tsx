@@ -21,7 +21,7 @@ const HvitTabell = styled(Table)`
 
 const Målgruppe: React.FC = () => {
     const { målgrupper } = useInngangsvilkår();
-    const { erStegOgBehandlingRedigerbar } = useSteg();
+    const { behandlingOgStegErRedigerbar } = useSteg();
 
     const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
@@ -93,7 +93,7 @@ const Målgruppe: React.FC = () => {
                 </HvitTabell>
             )}
             <Feilmelding>{feilmelding}</Feilmelding>
-            {kanSetteNyRadIRedigeringsmodus && erStegOgBehandlingRedigerbar && (
+            {kanSetteNyRadIRedigeringsmodus && behandlingOgStegErRedigerbar && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode(true)}
                     size="small"
