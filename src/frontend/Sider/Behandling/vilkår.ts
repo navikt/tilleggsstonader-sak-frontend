@@ -37,7 +37,7 @@ export interface Vilkår {
     barnId?: string;
     endretAv: string;
     endretTid: string;
-    vilkårsvurdering: Vilkårsvurdering;
+    vurdering: Vilkårsvurdering;
     opphavsvilkår?: Opphavsvilkår;
 }
 
@@ -106,12 +106,12 @@ interface VilkårGrunnlag {
     barn: GrunnlagBarn[];
 }
 
-export interface Vilkårssett {
+export interface Vilkårsvurderinger {
     vilkårsett: Vilkår[];
     grunnlag: VilkårGrunnlag;
 }
 
-export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vilkårsvurdering' | 'behandlingId'>;
+export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vurdering' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 

@@ -2,12 +2,10 @@ import React, { FC } from 'react';
 
 import EndreVilkår from './EndreVilkår';
 import { useVilkår } from '../../../context/VilkårContext';
-import { Regler } from '../../../typer/regel';
 import { Vilkår } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
-    regler: Regler;
 }
 
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår }) => {

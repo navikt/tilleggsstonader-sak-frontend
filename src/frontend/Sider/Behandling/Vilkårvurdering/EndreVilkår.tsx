@@ -3,9 +3,6 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { useVilkår } from '../../../context/VilkårContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { LagreVilkårsvurdering, Vilkår, Vilkårsvurdering } from '../vilkår';
 
 interface Props {
@@ -14,24 +11,25 @@ interface Props {
 }
 
 const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
-    const { hentBehandling } = useBehandling();
+    // const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
-    const { lagreVilkår } = useVilkår();
+    // const { lagreVilkår } = useVilkår();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const oppdaterVilkår = (svarPåVilkår: LagreVilkårsvurdering) => {
         if (!oppdatererVilkår) {
             settOppdatererVilkår(true);
-            lagreVilkår(svarPåVilkår).then((response: RessursSuksess<Vilkår> | RessursFeilet) => {
-                settOppdatererVilkår(false);
-                if (response.status === RessursStatus.SUKSESS) {
-                    //settRedigeringsmodus(Redigeringsmodus.VISNING);
-                    hentBehandling.rerun();
-                } /*else {
-                    settNyEierModalState(ModalState.LUKKET);
-                    hentAnsvarligSaksbehandler.rerun();
-                }*/
-            });
+            // lagreVilkår(svarPåVilkår).then((response: RessursSuksess<Vilkår> | RessursFeilet) => {
+            //     settOppdatererVilkår(false);
+            //     if (response.status === RessursStatus.SUKSESS) {
+            //         //settRedigeringsmodus(Redigeringsmodus.VISNING);
+            //         hentBehandling.rerun();
+            //     } /*else {
+            //         settNyEierModalState(ModalState.LUKKET);
+            //         hentAnsvarligSaksbehandler.rerun();
+            //     }*/
+            // });
         }
     };
 
@@ -39,7 +37,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
         const svarPåVilkår: LagreVilkårsvurdering = {
             id: vilkår.id,
             behandlingId: vilkår.behandlingId,
-            vilkårsvurdering: vilkårsvurdering,
+            vurdering: vilkårsvurdering,
         };
         oppdaterVilkår(svarPåVilkår);
     };
@@ -52,7 +50,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
                 </ErrorMessage>
             )}
             <EndreDelvilkår
-                vilkårsvurdering={vilkår.vilkårsvurdering}
+                vilkårsvurdering={vilkår.vurdering}
                 oppdaterVilkårsvurdering={oppdaterVilkårsvurdering}
             />
         </>

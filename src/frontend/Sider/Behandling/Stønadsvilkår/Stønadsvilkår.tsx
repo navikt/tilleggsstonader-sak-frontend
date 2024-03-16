@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { styled } from 'styled-components';
 
@@ -6,7 +6,6 @@ import { VStack } from '@navikt/ds-react';
 
 import PassBarn from './PassBarn/PassBarn';
 import { useVilkår } from '../../../context/VilkårContext';
-import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
 import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
 import { FanePath } from '../faner';
@@ -16,27 +15,16 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 `;
 
 const Stønadsvilkår = () => {
-    const { regler, hentRegler } = useRegler();
-    const { vilkårsvurdering } = useVilkår();
-
-    useEffect(() => {
-        hentRegler();
-    }, [hentRegler]);
+    const { vilkårsvurderinger } = useVilkår();
 
     return (
         <Container>
             <DataViewer
                 response={{
-                    regler,
-                    vilkårsvurdering,
+                    vilkårsvurderinger,
                 }}
             >
-                {({ regler, vilkårsvurdering }) => (
-                    <PassBarn
-                        vilkårsregler={regler.vilkårsregler.PASS_BARN}
-                        vilkårsvurdering={vilkårsvurdering}
-                    />
-                )}
+                {({ vilkårsvurderinger }) => <PassBarn vilkårsvurderinger={vilkårsvurderinger} />}
             </DataViewer>
             <NesteStegKnapp nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
                 Fullfør vilkårsvurdering og gå videre
