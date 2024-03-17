@@ -1,4 +1,4 @@
-import { Begrunnelsestype, BegrunnelseType, SvarId } from '../../typer/regel';
+import { Begrunnelsestype, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
@@ -24,7 +24,7 @@ export enum Inngangsvilkårtype {
 export interface Vurdering {
     regelId: string;
     svar?: SvarId;
-    begrunnelse?: BegrunnelseType;
+    begrunnelse?: string;
 }
 
 export interface VurderingNy {}
@@ -111,7 +111,18 @@ export interface Vilkårsvurderinger {
     grunnlag: VilkårGrunnlag;
 }
 
-export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vurdering' | 'behandlingId'>;
+export interface OppdaterDelvilkårvurdering {
+    regel: string;
+    svar: SvarId | null; // TODO (ikke superviktig): Strengt tatt skal vel ikke svar kunne sendes inn som null, men er usikker på hvordan jeg best løser det.
+    begrunnelse: string | null;
+}
+
+// export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vurdering' | 'behandlingId'>;
+export type LagreVilkårsvurdering = {
+    id: string;
+    behandlingId: string;
+    vurdering: OppdaterDelvilkårvurdering[];
+};
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 

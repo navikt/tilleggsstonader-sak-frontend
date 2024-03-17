@@ -13,8 +13,6 @@ export type SluttNode = 'SLUTT_NODE';
 
 export type SvarId = string;
 
-export type BegrunnelseType = string | undefined;
-
 export type Begrunnelsestype = 'PÅKREVD' | 'VALGFRI' | 'UTEN';
 
 export interface Svaralternativ {

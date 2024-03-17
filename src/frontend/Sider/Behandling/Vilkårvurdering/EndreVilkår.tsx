@@ -3,6 +3,9 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
+import { useBehandling } from '../../../context/BehandlingContext';
+import { useVilkår } from '../../../context/VilkårContext';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { LagreVilkårsvurdering, Vilkår, Vilkårsvurdering } from '../vilkår';
 
 interface Props {
@@ -11,35 +14,39 @@ interface Props {
 }
 
 const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
-    // const { hentBehandling } = useBehandling();
+    const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
-    // const { lagreVilkår } = useVilkår();
+    const { lagreVilkårsvurdering } = useVilkår();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const oppdaterVilkår = (svarPåVilkår: LagreVilkårsvurdering) => {
+    const oppdaterVilkårsvurdering = (vurdering: LagreVilkårsvurdering) => {
         if (!oppdatererVilkår) {
             settOppdatererVilkår(true);
-            // lagreVilkår(svarPåVilkår).then((response: RessursSuksess<Vilkår> | RessursFeilet) => {
-            //     settOppdatererVilkår(false);
-            //     if (response.status === RessursStatus.SUKSESS) {
-            //         //settRedigeringsmodus(Redigeringsmodus.VISNING);
-            //         hentBehandling.rerun();
-            //     } /*else {
-            //         settNyEierModalState(ModalState.LUKKET);
-            //         hentAnsvarligSaksbehandler.rerun();
-            //     }*/
-            // });
+            lagreVilkårsvurdering(vurdering).then(
+                (response: RessursSuksess<Vilkår> | RessursFeilet) => {
+                    settOppdatererVilkår(false);
+                    if (response.status === RessursStatus.SUKSESS) {
+                        //settRedigeringsmodus(Redigeringsmodus.VISNING);
+                        hentBehandling.rerun();
+                    } /*else {
+                    settNyEierModalState(ModalState.LUKKET);
+                    hentAnsvarligSaksbehandler.rerun();
+                }*/
+                }
+            );
         }
     };
 
-    const oppdaterVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering) => {
-        const svarPåVilkår: LagreVilkårsvurdering = {
+    const lagreVilkårsvurderingFun = (vilkårsvurdering: Vilkårsvurdering) => {
+        oppdaterVilkårsvurdering({
             id: vilkår.id,
             behandlingId: vilkår.behandlingId,
-            vurdering: vilkårsvurdering,
-        };
-        oppdaterVilkår(svarPåVilkår);
+            vurdering: Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
+                regel: regelId,
+                svar: delvilkårsvurdering.svar,
+                begrunnelse: delvilkårsvurdering.begrunnelse,
+            })),
+        });
     };
 
     return (
@@ -51,7 +58,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
             )}
             <EndreDelvilkår
                 vilkårsvurdering={vilkår.vurdering}
-                lagreVilkårsvurdering={oppdaterVilkårsvurdering}
+                lagreVilkårsvurdering={lagreVilkårsvurderingFun}
             />
         </>
     );
