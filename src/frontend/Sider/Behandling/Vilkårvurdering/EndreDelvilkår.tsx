@@ -10,7 +10,7 @@ import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import { vurderAvhengighetTilOverordnetValg } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import { BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
+import { RegelId, SvarId } from '../../../typer/regel';
 import { erTomtObjekt } from '../../../typer/typeUtils';
 import { Vilkårsvurdering } from '../vilkår';
 
@@ -54,25 +54,27 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
 
-    const oppdaterVurdering = (
-        regelId: RegelId,
-        nyttSvar?: SvarId,
-        nyBegrunnelse?: BegrunnelseType
-    ) => {
+    const oppdaterSvar = (regelId: RegelId, nyttSvar: SvarId) =>
         settVurdering((prevState) => {
-            const vurderingSomSkalOppdateres = prevState[regelId];
-
-            if (nyttSvar) {
-                vurderingSomSkalOppdateres.svar = nyttSvar;
-            }
-
-            if (nyBegrunnelse) {
-                vurderingSomSkalOppdateres.begrunnelse = nyBegrunnelse;
-            }
-
-            return { ...prevState, [regelId]: vurderingSomSkalOppdateres };
+            return {
+                ...prevState,
+                [regelId]: {
+                    ...prevState[regelId],
+                    ...{ svar: nyttSvar },
+                },
+            };
         });
-    };
+
+    const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse: string) =>
+        settVurdering((prevState) => {
+            return {
+                ...prevState,
+                [regelId]: {
+                    ...prevState[regelId],
+                    ...{ begrunnelse: nyBegrunnelse },
+                },
+            };
+        });
 
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>
@@ -92,14 +94,14 @@ const EndreDelvilkår: FC<{
                         : 'VALGFRI';
 
                     return (
-                        <React.Fragment key={self.crypto.randomUUID()}>
+                        <React.Fragment key={regel}>
                             {indeks !== 0 && !følgerAvOverordnetValg && <Skillelinje />}
                             <DelvilkårContainer $erUndervilkår={følgerAvOverordnetValg}>
                                 <DelvilkårRadioknapper
                                     regel={regel}
                                     svaralternativer={delvilkårsvurdering.svaralternativer}
                                     gjeldendeSvar={svar}
-                                    settSvar={(nyttSvar) => oppdaterVurdering(regel, nyttSvar)}
+                                    settSvar={(nyttSvar) => oppdaterSvar(regel, nyttSvar)}
                                     feilmelding={feilmeldinger[regel]}
                                     nullstillFeilmelding={nullstillFeilmelding}
                                 />
@@ -107,7 +109,7 @@ const EndreDelvilkår: FC<{
                                     gjeldendeBegrunnelse={delvilkårsvurdering.begrunnelse}
                                     begrunnelsestype={begrunnelsestype}
                                     settBegrunnelse={(begrunnelse) =>
-                                        oppdaterVurdering(regel, begrunnelse)
+                                        oppdaterBegrunnelse(regel, begrunnelse || '')
                                     }
                                 />
                             </DelvilkårContainer>
