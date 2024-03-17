@@ -3,18 +3,18 @@ import { Vilkårsvurdering } from '../vilkår';
 export const vurderAvhengighetTilOverordnetValg = (
     vilkårsvurdering: Vilkårsvurdering,
     regelenSomSkalSjekkes: string
-): { erAvhengig: boolean; avhengighetErOppfylt: boolean | undefined } => {
+): { følgerAvOverordnetValg: boolean; valgetErOppfylt: boolean | undefined } => {
     const følgerFraOverordnetValg = vilkårsvurdering[regelenSomSkalSjekkes].følgerFraOverordnetValg;
 
-    const erAvhengig = følgerFraOverordnetValg != null;
+    const følgerAvOverordnetValg = følgerFraOverordnetValg != null;
 
-    if (!erAvhengig) {
-        return { avhengighetErOppfylt: undefined, erAvhengig };
+    if (!følgerAvOverordnetValg) {
+        return { valgetErOppfylt: undefined, følgerAvOverordnetValg };
     }
 
     const { regel, svar } = følgerFraOverordnetValg;
 
-    const avhengighetErOppfylt = vilkårsvurdering[regel].svar === svar;
+    const valgetErOppfylt = vilkårsvurdering[regel].svar === svar;
 
-    return { erAvhengig, avhengighetErOppfylt };
+    return { følgerAvOverordnetValg, valgetErOppfylt };
 };

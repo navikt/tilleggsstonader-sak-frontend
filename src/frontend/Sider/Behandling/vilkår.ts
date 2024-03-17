@@ -1,4 +1,4 @@
-import { BegrunnelseRegel, BegrunnelseType, SvarId } from '../../typer/regel';
+import { Begrunnelsestype, BegrunnelseType, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
@@ -59,7 +59,7 @@ interface OverordnetValg {
 
 export interface Svaralternativer {
     [svaralternativ: string]: {
-        begrunnelsesType: BegrunnelseRegel;
+        begrunnelsestype: Begrunnelsestype;
     };
 }
 

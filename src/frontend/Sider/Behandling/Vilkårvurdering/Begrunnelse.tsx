@@ -5,11 +5,11 @@ import { styled } from 'styled-components';
 
 import { Textarea, VStack } from '@navikt/ds-react';
 
-import { BegrunnelseRegel } from '../../../typer/regel';
+import { Begrunnelsestype } from '../../../typer/regel';
 
 interface Props {
     gjeldendeBegrunnelse: string | null;
-    typeBegrunnelse: BegrunnelseRegel;
+    begrunnelsestype: Begrunnelsestype;
     settBegrunnelse: (tekst: string | undefined) => void;
 }
 
@@ -17,13 +17,13 @@ const BegrunnelseContainer = styled(VStack)`
     width: 250px;
 `;
 
-const Begrunnelse: FC<Props> = ({ gjeldendeBegrunnelse, settBegrunnelse, typeBegrunnelse }) => {
-    if (typeBegrunnelse === BegrunnelseRegel.UTEN) {
+const Begrunnelse: FC<Props> = ({ gjeldendeBegrunnelse, settBegrunnelse, begrunnelsestype }) => {
+    if (begrunnelsestype === 'UTEN') {
         return null;
     }
 
     const begrunnelsestekst = 'Begrunnelse '.concat(
-        typeBegrunnelse === BegrunnelseRegel.PÅKREVD ? '(obligatorisk)' : '(valgfri)'
+        begrunnelsestype === 'PÅKREVD' ? '(obligatorisk)' : '(valgfri)'
     );
 
     return (

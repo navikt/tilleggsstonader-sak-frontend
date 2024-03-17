@@ -10,7 +10,7 @@ import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import { vurderAvhengighetTilOverordnetValg } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import { BegrunnelseRegel, BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
+import { BegrunnelseType, RegelId, SvarId } from '../../../typer/regel';
 import { erTomtObjekt } from '../../../typer/typeUtils';
 import { Vilkårsvurdering } from '../vilkår';
 
@@ -33,8 +33,8 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 
 const EndreDelvilkår: FC<{
     vilkårsvurdering: Vilkårsvurdering;
-    oppdaterVilkårsvurdering: (delvilkår: Vilkårsvurdering) => void;
-}> = ({ oppdaterVilkårsvurdering, vilkårsvurdering }) => {
+    lagreVilkårsvurdering: (vurdering: Vilkårsvurdering) => void;
+}> = ({ lagreVilkårsvurdering, vilkårsvurdering }) => {
     const [vurdering, settVurdering] = useState<Vilkårsvurdering>(vilkårsvurdering);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
@@ -46,7 +46,7 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            oppdaterVilkårsvurdering(vilkårsvurdering);
+            lagreVilkårsvurdering(vilkårsvurdering);
         }
     };
 
@@ -78,25 +78,23 @@ const EndreDelvilkår: FC<{
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
                 {Object.entries(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
-                    const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighetTilOverordnetValg(
-                        vurdering,
-                        regel
-                    );
+                    const { følgerAvOverordnetValg, valgetErOppfylt } =
+                        vurderAvhengighetTilOverordnetValg(vurdering, regel);
 
-                    if (erAvhengig && !avhengighetErOppfylt) {
+                    if (følgerAvOverordnetValg && !valgetErOppfylt) {
                         return;
                     }
 
                     const svar = delvilkårsvurdering.svar;
 
                     const begrunnelsestype = svar
-                        ? delvilkårsvurdering.svaralternativer[svar].begrunnelsesType
-                        : BegrunnelseRegel.VALGFRI;
+                        ? delvilkårsvurdering.svaralternativer[svar]?.begrunnelsestype
+                        : 'VALGFRI';
 
                     return (
                         <React.Fragment key={self.crypto.randomUUID()}>
-                            {indeks !== 0 && !erAvhengig && <Skillelinje />}
-                            <DelvilkårContainer $erUndervilkår={erAvhengig}>
+                            {indeks !== 0 && !følgerAvOverordnetValg && <Skillelinje />}
+                            <DelvilkårContainer $erUndervilkår={følgerAvOverordnetValg}>
                                 <DelvilkårRadioknapper
                                     regel={regel}
                                     svaralternativer={delvilkårsvurdering.svaralternativer}
@@ -107,7 +105,7 @@ const EndreDelvilkår: FC<{
                                 />
                                 <Begrunnelse
                                     gjeldendeBegrunnelse={delvilkårsvurdering.begrunnelse}
-                                    typeBegrunnelse={begrunnelsestype}
+                                    begrunnelsestype={begrunnelsestype}
                                     settBegrunnelse={(begrunnelse) =>
                                         oppdaterVurdering(regel, begrunnelse)
                                     }

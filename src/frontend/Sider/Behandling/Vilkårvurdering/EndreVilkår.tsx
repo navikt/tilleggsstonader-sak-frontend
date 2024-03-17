@@ -51,7 +51,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
             )}
             <EndreDelvilkår
                 vilkårsvurdering={vilkår.vurdering}
-                oppdaterVilkårsvurdering={oppdaterVilkårsvurdering}
+                lagreVilkårsvurdering={oppdaterVilkårsvurdering}
             />
         </>
     );

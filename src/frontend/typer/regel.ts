@@ -15,15 +15,11 @@ export type SvarId = string;
 
 export type BegrunnelseType = string | undefined;
 
-export enum BegrunnelseRegel {
-    'PÅKREVD' = 'PÅKREVD',
-    'VALGFRI' = 'VALGFRI',
-    'UTEN' = 'UTEN',
-}
+export type Begrunnelsestype = 'PÅKREVD' | 'VALGFRI' | 'UTEN';
 
 export interface Svaralternativ {
     regelId: RegelId;
-    begrunnelseType: BegrunnelseRegel;
+    begrunnelseType: Begrunnelsestype;
 }
 
 type SvarMapping = Record<SvarId, Svaralternativ>;

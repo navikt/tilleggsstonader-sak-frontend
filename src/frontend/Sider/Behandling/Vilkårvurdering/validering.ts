@@ -1,5 +1,5 @@
 import { vurderAvhengighetTilOverordnetValg } from './utils';
-import { BegrunnelseRegel, RegelId } from '../../../typer/regel';
+import { RegelId } from '../../../typer/regel';
 import { Vilkårsvurdering } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
@@ -10,12 +10,12 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
     Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
 
-        const { erAvhengig, avhengighetErOppfylt } = vurderAvhengighetTilOverordnetValg(
+        const { følgerAvOverordnetValg, valgetErOppfylt } = vurderAvhengighetTilOverordnetValg(
             vilkårsvurdering,
             regel
         );
 
-        if (erAvhengig && !avhengighetErOppfylt) {
+        if (følgerAvOverordnetValg && !valgetErOppfylt) {
             return;
         }
 
@@ -25,8 +25,7 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
         }
 
         const kreverBegrunnelse =
-            delvilkårsvurdering.svaralternativer[gjeldendeSvar].begrunnelsesType ===
-            BegrunnelseRegel.PÅKREVD;
+            delvilkårsvurdering.svaralternativer[gjeldendeSvar].begrunnelsestype === 'PÅKREVD';
 
         if (kreverBegrunnelse && manglerInnhold(delvilkårsvurdering.begrunnelse)) {
             valideringsfeil[regel] = 'Begrunnelse er obligatorisk for dette valget';
