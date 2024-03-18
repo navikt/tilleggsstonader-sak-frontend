@@ -20,9 +20,9 @@ interface Props {
 
 export const [StegProvider, useSteg] = constate(({ fane, behandling }: Props) => {
     const erStegRedigerbar = fane && behandling.steg === faneTilSteg[fane];
-    const behandlingOgStegErRedigerbar = erStegRedigerbar && erBehandlingRedigerbar(behandling);
+    const stegErRedigerbar = erStegRedigerbar && erBehandlingRedigerbar(behandling);
 
     return {
-        behandlingOgStegErRedigerbar,
+        stegErRedigerbar,
     };
 });

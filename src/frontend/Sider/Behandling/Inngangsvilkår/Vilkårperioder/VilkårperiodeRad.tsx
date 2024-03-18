@@ -43,11 +43,11 @@ const VilkårperiodeRad: React.FC<{
     startRedigering: () => void;
     aktivitetsdager?: number;
 }> = ({ vilkårperiode, type, startRedigering, aktivitetsdager }) => {
-    const { behandlingOgStegErRedigerbar } = useSteg();
+    const { stegErRedigerbar } = useSteg();
 
     const [visSlettModal, settVisSlettModal] = useState(false);
     const visRedigerKnapper =
-        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && behandlingOgStegErRedigerbar;
+        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && stegErRedigerbar;
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [visBeskrivelse, settVisBeskrivelse] = useState(false);
