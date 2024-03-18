@@ -54,10 +54,10 @@ interface Props {
     lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
     settResultatType: (val: BehandlingResultat | undefined) => void;
     låsFraDatoFørsteRad: boolean;
-    barnIBehandling: GrunnlagBarn[];
+    barnMedOppfylteVilkår: GrunnlagBarn[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehandling }) => {
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppfylteVilkår }) => {
     const { request } = useApp();
     const { behandlingErRedigerbar, behandling } = useBehandling();
     // TODO: Prøve å slippe denne castingen
@@ -124,7 +124,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
             <Panel tittel="Beregning">
                 <VStack gap="8">
                     <Utgifter
-                        barnIBehandling={barnIBehandling}
+                        barnMedOppfylteVilkår={barnMedOppfylteVilkår}
                         utgifterState={utgifterState}
                         errorState={formState.errors.utgifter}
                         settValideringsFeil={formState.setErrors}
