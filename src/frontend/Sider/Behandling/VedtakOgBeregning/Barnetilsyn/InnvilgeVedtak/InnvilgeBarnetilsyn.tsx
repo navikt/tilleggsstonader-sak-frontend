@@ -22,7 +22,7 @@ import {
     Utgift,
 } from '../../../../../typer/vedtak';
 import { GrunnlagBarn } from '../../../vilkår';
-import { lagVedtakRequest, tomUtgiftPerBarn } from '../utils';
+import { lagVedtakRequest, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     utgifter: Record<string, Utgift[]>;
@@ -39,15 +39,22 @@ const Knapp = styled(Button)`
 `;
 
 const initUtgifter = (
-    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
-    barnIBehandling: GrunnlagBarn[]
-) => (vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling));
+    barnMedOppfylteVilkår: GrunnlagBarn[],
+    vedtak?: InnvilgeVedtakForBarnetilsyn
+): Record<string, Utgift[]> =>
+    barnMedOppfylteVilkår.reduce((acc, barn) => {
+        const utgiftForBarn = vedtak?.utgifter[barn.barnId];
+        return {
+            ...acc,
+            [barn.barnId]: utgiftForBarn ? utgiftForBarn : [tomUtgiftRad()],
+        };
+    }, {});
 
 const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
-    barnIBehandling: GrunnlagBarn[]
+    barnMedOppfylteVilkår: GrunnlagBarn[]
 ) => ({
-    utgifter: initUtgifter(vedtak, barnIBehandling),
+    utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
 });
 
 interface Props {
@@ -64,7 +71,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretInnvilgetVedtak, barnIBehandling),
+        initFormState(lagretInnvilgetVedtak, barnMedOppfylteVilkår),
         validerInnvilgetVedtakForm
     );
 
