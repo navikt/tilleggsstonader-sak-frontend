@@ -36,7 +36,6 @@ const EndreDelvilkår: FC<{
     lagreVilkårsvurdering: (vurdering: Vilkårsvurdering) => void;
 }> = ({ lagreVilkårsvurdering, vilkårsvurdering }) => {
     const [vurdering, settVurdering] = useState<Vilkårsvurdering>(vilkårsvurdering);
-
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
     const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +45,7 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            lagreVilkårsvurdering(vilkårsvurdering);
+            lagreVilkårsvurdering(vurdering);
         }
     };
 
@@ -65,7 +64,7 @@ const EndreDelvilkår: FC<{
             };
         });
 
-    const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse: string) =>
+    const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse: string) => {
         settVurdering((prevState) => {
             return {
                 ...prevState,
@@ -75,6 +74,7 @@ const EndreDelvilkår: FC<{
                 },
             };
         });
+    };
 
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>

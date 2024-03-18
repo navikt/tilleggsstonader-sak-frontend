@@ -61,9 +61,9 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
 
     const hentVilkårsvurderinger = useCallback(() => {
         settVilkårsvurderinger(byggHenterRessurs());
-        return request<Vilkårsvurderinger, void>(`/api/sak/vilkar/${behandling.id}`).then(
-            settVilkårsvurderinger
-        );
+        return request<Vilkårsvurderinger, void>(
+            `/api/sak/vilkar/${behandling.id}/vurderinger`
+        ).then(settVilkårsvurderinger);
     }, [request, behandling.id]);
 
     useEffect(() => {
@@ -91,7 +91,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         lagreVilkårsvurdering: LagreVilkårsvurdering
     ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
         return request<Vilkår, LagreVilkårsvurdering>(
-            `/api/sak/vilkar`,
+            `/api/sak/vilkar/oppdater`,
             'POST',
             lagreVilkårsvurdering
         ).then((respons: RessursSuksess<Vilkår> | RessursFeilet) => {
