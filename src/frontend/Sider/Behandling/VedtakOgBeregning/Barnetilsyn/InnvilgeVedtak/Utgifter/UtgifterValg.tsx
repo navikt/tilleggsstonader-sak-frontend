@@ -12,6 +12,7 @@ import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
+import { utledNavnFnrOgAlder } from '../../../../../../utils/tekstformatering';
 import { GrunnlagBarn } from '../../../../vilkår';
 import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
@@ -84,7 +85,11 @@ const UtgifterValg: React.FC<Props> = ({
     return (
         <div>
             <Heading spacing size="xsmall" level="5">
-                {barn.registergrunnlag.navn}
+                {utledNavnFnrOgAlder(
+                    barn.registergrunnlag.navn,
+                    barn.ident,
+                    barn.registergrunnlag.alder
+                )}
             </Heading>
             {utgifter && utgifter.length > 0 && (
                 <Grid $lesevisning={!behandlingErRedigerbar}>
@@ -164,7 +169,6 @@ const UtgifterValg: React.FC<Props> = ({
                 </Grid>
             )}
         </div>
-        // {/* <Button onClick={leggTilTomRadUnder}>Legg til utgift</Button> */}
     );
 };
 
