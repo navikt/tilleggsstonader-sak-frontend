@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { useApp } from '../../../context/AppContext';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -83,6 +84,9 @@ interface Props {
 }
 
 const JournalføringSide: React.FC<Props> = ({ oppgaveId, gjelderKlage, journalResponse }) => {
+    const { saksbehandler, erSaksbehandler, settToast } = useApp();
+    const navigate = useNavigate();
+
     return (
         <div>
             <h1>Journalføring</h1>

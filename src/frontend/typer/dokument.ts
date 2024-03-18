@@ -15,9 +15,12 @@ export interface DokumentInfo {
     utsendingsinfo?: Utsendingsinfo;
 }
 
-interface LogiskVedlegg {
+export interface LogiskVedlegg {
+    logiskVedleggId: string;
     tittel: string;
 }
+
+export type LogiskeVedleggPåDokument = Record<string, LogiskVedlegg[]>;
 
 interface Utsendingsinfo {
     varselSendt: VarselSendt[];
