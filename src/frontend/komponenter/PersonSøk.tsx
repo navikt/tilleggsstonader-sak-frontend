@@ -3,7 +3,7 @@ import React, { FormEvent, useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { Alert, Button, Popover, Search } from '@navikt/ds-react';
+import { Alert, Button, Popover, Search, VStack } from '@navikt/ds-react';
 import { ATextDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../context/AppContext';
@@ -137,8 +137,12 @@ const PersonSøk: React.FC = () => {
                 >
                     {søkeresultat && søkeresultat.status === RessursStatus.SUKSESS && (
                         <StyledAlert variant="info">
-                            Person finnes i arena
-                            <Button onClick={opprettFagsakPerson}>Opprett person</Button>
+                            <VStack>
+                                <span>Personen finnes i Arena</span>
+                                <Button size={'small'} onClick={opprettFagsakPerson}>
+                                    Opprett personen
+                                </Button>
+                            </VStack>
                         </StyledAlert>
                     )}
                     {søkeresultat && søkeresultat.status !== RessursStatus.SUKSESS && (
