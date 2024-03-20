@@ -15,9 +15,9 @@ interface Props {
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { feilmeldinger } = useVilkår();
     const feilmelding = feilmeldinger[vilkår.id];
-    const { behandlingOgStegErRedigerbar } = useSteg();
+    const { erStegRedigerbart } = useSteg();
 
-    return behandlingOgStegErRedigerbar ? (
+    return erStegRedigerbart ? (
         <EndreVilkår
             vilkår={vilkår}
             feilmelding={feilmelding} // TODO: Legge til "|| resetFeilmelding" igjen?
