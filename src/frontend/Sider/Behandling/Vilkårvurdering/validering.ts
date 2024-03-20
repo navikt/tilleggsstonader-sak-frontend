@@ -1,4 +1,5 @@
-import { vurderAvhengighetTilOverordnetValg } from './utils';
+import { finnAvhengighetTilOverordnetValg } from './utils';
+import { manglerInnhold } from '../../../typer/typeUtils';
 import { RegelId, Vilkårsvurdering } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
@@ -9,12 +10,10 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
     Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
 
-        const { følgerAvOverordnetValg, valgetErOppfylt } = vurderAvhengighetTilOverordnetValg(
-            vilkårsvurdering,
-            regel
-        );
+        const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
+            finnAvhengighetTilOverordnetValg(vilkårsvurdering, regel);
 
-        if (følgerAvOverordnetValg && !valgetErOppfylt) {
+        if (følgerAvOverordnetValg && !overordnetValgErOppfylt) {
             return;
         }
 
@@ -33,8 +32,4 @@ export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): 
     });
 
     return valideringsfeil;
-};
-
-const manglerInnhold = (str: string | undefined | null): boolean => {
-    return !str || str.trim() === '';
 };

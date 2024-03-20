@@ -7,7 +7,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { vurderAvhengighetTilOverordnetValg } from './utils';
+import { finnAvhengighetTilOverordnetValg } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { erTomtObjekt } from '../../../typer/typeUtils';
@@ -37,21 +37,6 @@ const EndreDelvilkår: FC<{
     const [vurdering, settVurdering] = useState<Vilkårsvurdering>(vilkårsvurdering);
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        const valideringsfeil = validerVilkårsvurdering(vurdering);
-        settFeilmeldinger(valideringsfeil);
-
-        if (erTomtObjekt(valideringsfeil)) {
-            lagreVilkårsvurdering(vurdering);
-        }
-    };
-
-    const nullstillFeilmelding = (regelId: string) => {
-        settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
-    };
-
     const oppdaterSvar = (regel: RegelId, nyttSvar: SvarId) =>
         settVurdering((prevState) => {
             return {
@@ -75,14 +60,29 @@ const EndreDelvilkår: FC<{
         });
     };
 
+    const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const valideringsfeil = validerVilkårsvurdering(vurdering);
+        settFeilmeldinger(valideringsfeil);
+
+        if (erTomtObjekt(valideringsfeil)) {
+            lagreVilkårsvurdering(vurdering);
+        }
+    };
+
+    const nullstillFeilmelding = (regelId: string) => {
+        settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
+    };
+
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
                 {Object.entries(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
-                    const { følgerAvOverordnetValg, valgetErOppfylt } =
-                        vurderAvhengighetTilOverordnetValg(vurdering, regel);
+                    const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
+                        finnAvhengighetTilOverordnetValg(vurdering, regel);
 
-                    if (følgerAvOverordnetValg && !valgetErOppfylt) {
+                    if (følgerAvOverordnetValg && !overordnetValgErOppfylt) {
                         return;
                     }
 
@@ -97,7 +97,7 @@ const EndreDelvilkår: FC<{
                             {indeks !== 0 && !følgerAvOverordnetValg && <Skillelinje />}
                             <DelvilkårContainer $erUndervilkår={følgerAvOverordnetValg}>
                                 <DelvilkårRadioknapper
-                                    regel={regel}
+                                    regelId={regel}
                                     svaralternativer={delvilkårsvurdering.svaralternativer}
                                     gjeldendeSvar={svar}
                                     settSvar={(nyttSvar) => oppdaterSvar(regel, nyttSvar)}

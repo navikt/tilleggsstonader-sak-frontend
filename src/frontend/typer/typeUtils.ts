@@ -12,3 +12,7 @@ export function valuerOrThrow<T>(
 export function erTomtObjekt(obj: object) {
     return Object.keys(obj).length === 0;
 }
+
+export const manglerInnhold = (str: string | undefined | null): boolean => {
+    return !str || str.trim() === '';
+};

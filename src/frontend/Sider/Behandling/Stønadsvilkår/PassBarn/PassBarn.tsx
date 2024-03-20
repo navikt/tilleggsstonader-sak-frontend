@@ -4,7 +4,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
-import { Vilkårstype, Vilkår, Vilkårsvurderinger } from '../../vilkår';
+import { Vilkårstype, Vilkårsvurderinger } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
@@ -23,7 +23,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsvurderinger }) => {
     const finnBarnIGrunnlag = (barnId: string) =>
         vilkårsvurderinger.grunnlag.barn.find((barn) => barn.barnId === barnId);
 
-    return vilkårsettPassBarn.map((vilkårPerBarn: Vilkår) => {
+    return vilkårsettPassBarn.map((vilkårPerBarn) => {
         if (!vilkårPerBarn.barnId) {
             return <div>Vilkår er ikke knyttet til et barn</div>;
         }

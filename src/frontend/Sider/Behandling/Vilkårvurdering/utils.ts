@@ -1,20 +1,22 @@
-import { Vilkårsvurdering } from '../vilkår';
+import { RegelId, Vilkårsvurdering } from '../vilkår';
 
-export const vurderAvhengighetTilOverordnetValg = (
+export const finnAvhengighetTilOverordnetValg = (
     vilkårsvurdering: Vilkårsvurdering,
-    regelenSomSkalSjekkes: string
-): { følgerAvOverordnetValg: boolean; valgetErOppfylt: boolean | undefined } => {
+    regelenSomSkalSjekkes: RegelId
+): { følgerAvOverordnetValg: boolean; overordnetValgErOppfylt: boolean | undefined } => {
     const følgerFraOverordnetValg = vilkårsvurdering[regelenSomSkalSjekkes].følgerFraOverordnetValg;
 
-    const følgerAvOverordnetValg = følgerFraOverordnetValg != null;
-
-    if (!følgerAvOverordnetValg) {
-        return { valgetErOppfylt: undefined, følgerAvOverordnetValg };
+    if (følgerFraOverordnetValg === null) {
+        return {
+            følgerAvOverordnetValg: false,
+            overordnetValgErOppfylt: undefined,
+        };
     }
 
     const { regel, svar } = følgerFraOverordnetValg;
 
-    const valgetErOppfylt = vilkårsvurdering[regel].svar === svar;
-
-    return { følgerAvOverordnetValg, valgetErOppfylt };
+    return {
+        følgerAvOverordnetValg: true,
+        overordnetValgErOppfylt: vilkårsvurdering[regel].svar === svar,
+    };
 };

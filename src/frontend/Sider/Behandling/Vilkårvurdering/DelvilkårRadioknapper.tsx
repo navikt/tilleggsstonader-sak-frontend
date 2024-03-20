@@ -10,7 +10,7 @@ import { hjelpetekster, regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { RegelId, Svaralternativer, SvarId } from '../vilkår';
 
 interface Props {
-    regel: RegelId;
+    regelId: RegelId;
     svaralternativer: Svaralternativer;
     gjeldendeSvar: SvarId | null;
     settSvar: (nyttSvar: SvarId) => void;
@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const DelvilkårRadioknapper: FC<Props> = ({
-    regel,
+    regelId,
     svaralternativer,
     gjeldendeSvar,
     settSvar,
@@ -33,21 +33,22 @@ const DelvilkårRadioknapper: FC<Props> = ({
     return (
         <Container>
             <RadioGroup
-                legend={regelIdTilSpørsmål[regel] || regel}
-                description={Spørsmålsbeskrivelse(regel)}
+                legend={regelIdTilSpørsmål[regelId] || regelId}
+                description={Spørsmålsbeskrivelse(regelId)}
                 value={gjeldendeSvar || ''}
                 size="small"
                 error={feilmelding}
             >
                 {Object.keys(svaralternativer).map((svaralternativ) => {
+                    const radioId = `${regelId}_${svaralternativ}`;
                     return (
                         <Radio
-                            key={`${regel}_${svaralternativ}`}
-                            name={`${regel}_${svaralternativ}`}
+                            key={radioId}
+                            name={radioId}
                             value={svaralternativ}
                             onChange={() => {
                                 settSvar(svaralternativ);
-                                nullstillFeilmelding(regel);
+                                nullstillFeilmelding(regelId);
                             }}
                         >
                             {svarIdTilTekst[svaralternativ] || svaralternativ}

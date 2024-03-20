@@ -1,3 +1,5 @@
+import { RegelId } from '../vilkår';
+
 export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
@@ -13,7 +15,7 @@ export const svarIdTilTekst: Record<string, string> = {
         'Ja, tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
 };
 
-export const regelIdTilSpørsmål: Record<string, string> = {
+export const regelIdTilSpørsmål: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredsstillende dokumentert?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
     HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?',
@@ -21,7 +23,7 @@ export const regelIdTilSpørsmål: Record<string, string> = {
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
 };
 
-export const hjelpetekster: Record<string, string[]> = {
+export const hjelpetekster: Record<RegelId, string[]> = {
     UTGIFTER_DOKUMENTERT: [
         'Hvis dokumentasjon mangler eller er mangelfull sender du mangelbrev før du gjør vurderingen. Sett saken på vent. Frist er 14 dager frem  i tid.',
         'Faktura fra SFO/AKS må inneholde barnets navn, gjelde for perioden som bruker har fått stønad for og inneholde summen bruker har betalt for pass og hva som er utgifter til kost.',

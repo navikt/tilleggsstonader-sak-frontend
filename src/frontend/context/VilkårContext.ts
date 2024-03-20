@@ -35,8 +35,8 @@ const oppdaterVilkårsvurderingMedVilkår = (
 };
 
 export interface UseVilkår {
-    vilkårsvurderinger: Ressurs<Vilkårsvurderinger>;
-    hentVilkårsvurderinger: () => void;
+    vilkårsvurdering: Ressurs<Vilkårsvurderinger>;
+    hentVilkårsvurdering: () => void;
     oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
     lagreVilkårsvurdering: (
         vurdering: OppdaterVilkårsvurdering
@@ -51,19 +51,19 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
 
     const [feilmeldinger, settFeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
-    const [vilkårsvurderinger, settVilkårsvurderinger] =
+    const [vilkårsvurdering, settVilkårsvurdering] =
         useState<Ressurs<Vilkårsvurderinger>>(byggTomRessurs());
 
-    const hentVilkårsvurderinger = useCallback(() => {
-        settVilkårsvurderinger(byggHenterRessurs());
+    const hentVilkårsvurdering = useCallback(() => {
+        settVilkårsvurdering(byggHenterRessurs());
         return request<Vilkårsvurderinger, void>(
             `/api/sak/vilkar/${behandling.id}/vurderinger`
-        ).then(settVilkårsvurderinger);
+        ).then(settVilkårsvurdering);
     }, [request, behandling.id]);
 
     useEffect(() => {
-        hentVilkårsvurderinger();
-    }, [hentVilkårsvurderinger]);
+        hentVilkårsvurdering();
+    }, [hentVilkårsvurdering]);
 
     const fjernFeilmelding = (id: string) => {
         settFeilmeldinger((prevFeilmeldinger) => {
@@ -92,7 +92,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         ).then((respons: RessursSuksess<Vilkår> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
                 fjernFeilmelding(respons.data.id);
-                settVilkårsvurderinger((prevVilkårsvurdering) =>
+                settVilkårsvurdering((prevVilkårsvurdering) =>
                     oppdaterVilkårsvurderingMedVilkår(
                         prevVilkårsvurdering as RessursSuksess<Vilkårsvurderinger>, // prevVilkårsvurdering kan ikke være != SUKESS her
                         respons.data
@@ -111,7 +111,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         return request<Vilkår, OppdaterVilkår>(`/api/sak/vilkar/nullstill`, 'POST', vilkår).then(
             (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    settVilkårsvurderinger((prevVilkårsvurdering) =>
+                    settVilkårsvurdering((prevVilkårsvurdering) =>
                         oppdaterVilkårsvurderingMedVilkår(
                             prevVilkårsvurdering as RessursSuksess<Vilkårsvurderinger>, // prevVilkårsvurdering kan ikke være != SUKESS her
                             respons.data
@@ -128,7 +128,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         return request<Vilkår, OppdaterVilkår>(`/api/sak/vilkar/ikkevurder`, 'POST', vilkår).then(
             (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    settVilkårsvurderinger((prevVilkårsvurdering) =>
+                    settVilkårsvurdering((prevVilkårsvurdering) =>
                         oppdaterVilkårsvurderingMedVilkår(
                             prevVilkårsvurdering as RessursSuksess<Vilkårsvurderinger>, // prevVilkårsvurdering kan ikke være != SUKESS her
                             respons.data
@@ -143,14 +143,14 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     const oppdaterGrunnlagsdataOgHentVilkårsvurdering = useCallback(
         (behandlingId: string) =>
             request<Vilkårsvurderinger, void>(`/api/sak/vilkar/${behandlingId}/oppdater`).then(
-                settVilkårsvurderinger
+                settVilkårsvurdering
             ),
         [request]
     );
 
     return {
-        vilkårsvurderinger,
-        hentVilkårsvurderinger,
+        vilkårsvurdering: vilkårsvurdering,
+        hentVilkårsvurdering: hentVilkårsvurdering,
         lagreVilkårsvurdering,
         feilmeldinger,
         nullstillVilkår,
