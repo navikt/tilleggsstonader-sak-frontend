@@ -7,11 +7,10 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
 import { hjelpetekster, regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
-import { SvarId } from '../../../typer/regel';
-import { Svaralternativer } from '../vilkår';
+import { RegelId, Svaralternativer, SvarId } from '../vilkår';
 
 interface Props {
-    regel: string;
+    regel: RegelId;
     svaralternativer: Svaralternativer;
     gjeldendeSvar: SvarId | null;
     settSvar: (nyttSvar: SvarId) => void;
@@ -60,12 +59,12 @@ const DelvilkårRadioknapper: FC<Props> = ({
     );
 };
 
-const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
-    switch (regelId) {
+const Spørsmålsbeskrivelse = (regel: RegelId): React.ReactNode => {
+    switch (regel) {
         case 'UTGIFTER_DOKUMENTERT':
-            return <SlikGjørDuVurderingen regelId={regelId} />;
+            return <SlikGjørDuVurderingen regelId={regel} />;
         case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return hjelpetekster[regelId][0];
+            return hjelpetekster[regel][0];
         default:
             return null;
     }

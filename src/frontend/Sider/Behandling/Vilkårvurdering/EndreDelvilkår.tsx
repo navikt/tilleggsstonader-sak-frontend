@@ -10,9 +10,8 @@ import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import { vurderAvhengighetTilOverordnetValg } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import { RegelId, SvarId } from '../../../typer/regel';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Vilkårsvurdering } from '../vilkår';
+import { RegelId, SvarId, Vilkårsvurdering } from '../vilkår';
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
@@ -53,23 +52,23 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
 
-    const oppdaterSvar = (regelId: RegelId, nyttSvar: SvarId) =>
+    const oppdaterSvar = (regel: RegelId, nyttSvar: SvarId) =>
         settVurdering((prevState) => {
             return {
                 ...prevState,
-                [regelId]: {
-                    ...prevState[regelId],
+                [regel]: {
+                    ...prevState[regel],
                     ...{ svar: nyttSvar },
                 },
             };
         });
 
-    const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse: string) => {
+    const oppdaterBegrunnelse = (regel: RegelId, nyBegrunnelse: string) => {
         settVurdering((prevState) => {
             return {
                 ...prevState,
-                [regelId]: {
-                    ...prevState[regelId],
+                [regel]: {
+                    ...prevState[regel],
                     ...{ begrunnelse: nyBegrunnelse },
                 },
             };

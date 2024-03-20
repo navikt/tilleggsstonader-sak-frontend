@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 
 import { Textarea, VStack } from '@navikt/ds-react';
 
-import { Begrunnelsestype } from '../../../typer/regel';
+import { Begrunnelsestype } from '../vilkår';
 
 interface Props {
     gjeldendeBegrunnelse: string | null;

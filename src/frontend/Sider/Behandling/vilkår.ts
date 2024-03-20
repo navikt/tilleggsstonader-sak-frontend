@@ -1,5 +1,3 @@
-import { Begrunnelsestype, SvarId } from '../../typer/regel';
-
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
     AUTOMATISK_OPPFYLT = 'AUTOMATISK_OPPFYLT',
@@ -9,9 +7,7 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export type Vilkårtype = Inngangsvilkårtype;
-
-export enum Inngangsvilkårtype {
+export enum Vilkårstype {
     MÅLGRUPPE = 'MÅLGRUPPE',
     MÅLGRUPPE_AAP = 'MÅLGRUPPE_AAP',
     MÅLGRUPPE_AAP_FERDIG_AVKLART = 'MÅLGRUPPE_AAP_FERDIG_AVKLART',
@@ -21,19 +17,16 @@ export enum Inngangsvilkårtype {
     PASS_BARN = 'PASS_BARN',
 }
 
-export interface Vurdering {
-    regelId: string;
-    svar?: SvarId;
-    begrunnelse?: string;
-}
+export type Begrunnelsestype = 'PÅKREVD' | 'VALGFRI' | 'UTEN';
 
-export interface VurderingNy {}
+export type SvarId = string;
+export type RegelId = string;
 
 export interface Vilkår {
     id: string;
     behandlingId: string;
     resultat: Vilkårsresultat;
-    vilkårType: Vilkårtype;
+    vilkårType: Vilkårstype;
     barnId?: string;
     endretAv: string;
     endretTid: string;
@@ -42,7 +35,7 @@ export interface Vilkår {
 }
 
 export interface Vilkårsvurdering {
-    [regel: string]: Delvilkårsvurdering;
+    [regel: RegelId]: Delvilkårsvurdering;
 }
 
 export interface Delvilkårsvurdering {
@@ -53,8 +46,8 @@ export interface Delvilkårsvurdering {
 }
 
 interface OverordnetValg {
-    regel: string;
-    svar: string;
+    regel: RegelId;
+    svar: SvarId;
 }
 
 export interface Svaralternativer {
@@ -66,19 +59,6 @@ export interface Svaralternativer {
 export interface Opphavsvilkår {
     behandlingId: string;
     endretTid: string;
-}
-
-export interface Delvilkår {
-    resultat: Vilkårsresultat;
-    vurderinger: Vurdering[];
-}
-
-export interface DelvilkårSvar {
-    vurderinger: Vurdering[];
-}
-
-export interface DelvilkårSvarNy {
-    vurderinger: VurderingNy[];
 }
 
 interface GrunnlagHovedytelse {}
@@ -109,23 +89,4 @@ interface VilkårGrunnlag {
 export interface Vilkårsvurderinger {
     vilkårsett: Vilkår[];
     grunnlag: VilkårGrunnlag;
-}
-
-export interface OppdaterDelvilkårvurdering {
-    regel: string;
-    svar: SvarId | null; // TODO (ikke superviktig): Strengt tatt skal vel ikke svar kunne sendes inn som null, men er usikker på hvordan jeg best løser det.
-    begrunnelse: string | null;
-}
-
-// export type LagreVilkårsvurdering = Pick<Vilkår, 'id' | 'vurdering' | 'behandlingId'>;
-export type LagreVilkårsvurdering = {
-    id: string;
-    behandlingId: string;
-    vurdering: OppdaterDelvilkårvurdering[];
-};
-
-export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
-
-export interface Vurderingsfeilmelding {
-    [Key: string]: string;
 }

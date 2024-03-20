@@ -4,7 +4,7 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
-import { Inngangsvilkårtype, Vilkår, Vilkårsvurderinger } from '../../vilkår';
+import { Vilkårstype, Vilkår, Vilkårsvurderinger } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const PassBarn: React.FC<Props> = ({ vilkårsvurderinger }) => {
     const vilkårsettPassBarn = vilkårsvurderinger.vilkårsett.filter(
-        (vilkår) => vilkår.vilkårType === Inngangsvilkårtype.PASS_BARN
+        (vilkår) => vilkår.vilkårType === Vilkårstype.PASS_BARN
     );
 
     if (vilkårsettPassBarn.length === 0) {
