@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import constate from 'constate';
 
 import { useApp } from './AppContext';
-import { Vilkår, Vilkårsvurderinger, RegelId, SvarId } from '../Sider/Behandling/vilkår';
+import { Vilkår, Vilkårsvurderinger } from '../Sider/Behandling/vilkår';
+import { OppdaterVilkårsvurdering } from '../Sider/Behandling/Vilkårvurdering/oppdatering';
 import { Behandling } from '../typer/behandling/behandling';
 import {
     byggHenterRessurs,
@@ -38,18 +39,12 @@ export interface UseVilkår {
     hentVilkårsvurderinger: () => void;
     oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
     lagreVilkårsvurdering: (
-        vurdering: LagreVilkårsvurdering
+        vurdering: OppdaterVilkårsvurdering
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     feilmeldinger: Vurderingsfeilmelding;
     nullstillVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
-
-export type LagreVilkårsvurdering = {
-    id: string;
-    behandlingId: string;
-    vurdering: OppdaterDelvilkårvurdering[];
-};
 
 export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): UseVilkår => {
     const { request } = useApp();
@@ -88,9 +83,9 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     };
 
     const lagreVilkårsvurdering = (
-        lagreVilkårsvurdering: LagreVilkårsvurdering
+        lagreVilkårsvurdering: OppdaterVilkårsvurdering
     ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, LagreVilkårsvurdering>(
+        return request<Vilkår, OppdaterVilkårsvurdering>(
             `/api/sak/vilkar/oppdater`,
             'POST',
             lagreVilkårsvurdering
@@ -163,12 +158,6 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         oppdaterGrunnlagsdataOgHentVilkårsvurdering,
     };
 });
-
-interface OppdaterDelvilkårvurdering {
-    regel: RegelId;
-    svar: SvarId | null;
-    begrunnelse: string | null;
-}
 
 type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 

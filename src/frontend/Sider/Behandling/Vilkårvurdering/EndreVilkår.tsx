@@ -3,8 +3,9 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
+import { OppdaterVilkårsvurdering, mapTilOppdaterDelvilkårsvurderinger } from './oppdatering';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { LagreVilkårsvurdering, useVilkår } from '../../../context/VilkårContext';
+import { useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { Vilkår, Vilkårsvurdering } from '../vilkår';
 
@@ -19,7 +20,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
 
     const { lagreVilkårsvurdering } = useVilkår();
 
-    const oppdaterVilkårsvurdering = (vurdering: LagreVilkårsvurdering) => {
+    const oppdaterVilkårsvurdering = (vurdering: OppdaterVilkårsvurdering) => {
         if (!oppdatererVilkår) {
             settOppdatererVilkår(true);
             lagreVilkårsvurdering(vurdering).then(
@@ -37,18 +38,6 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
         }
     };
 
-    const lagreVilkårsvurderingFun = (vilkårsvurdering: Vilkårsvurdering) => {
-        oppdaterVilkårsvurdering({
-            id: vilkår.id,
-            behandlingId: vilkår.behandlingId,
-            vurdering: Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
-                regel: regelId,
-                svar: delvilkårsvurdering.svar,
-                begrunnelse: delvilkårsvurdering.begrunnelse,
-            })),
-        });
-    };
-
     return (
         <>
             {feilmelding && (
@@ -58,9 +47,16 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
             )}
             <EndreDelvilkår
                 vilkårsvurdering={vilkår.vurdering}
-                lagreVilkårsvurdering={lagreVilkårsvurderingFun}
+                lagreVilkårsvurdering={(vilkårsvurdering: Vilkårsvurdering) => {
+                    oppdaterVilkårsvurdering({
+                        id: vilkår.id,
+                        behandlingId: vilkår.behandlingId,
+                        vurdering: mapTilOppdaterDelvilkårsvurderinger(vilkårsvurdering),
+                    });
+                }}
             />
         </>
     );
 };
+
 export default EndreVilkår;
