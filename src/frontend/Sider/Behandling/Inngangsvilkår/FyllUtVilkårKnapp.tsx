@@ -16,7 +16,7 @@ const Knapp = styled(Button)`
 const FyllUtVilkårKnapp: React.FC = () => {
     const { request } = useApp();
     const { hentBehandling, behandling } = useBehandling();
-    const { hentVilkårsvurderinger } = useVilkår();
+    const { hentVilkårsvurdering } = useVilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>('');
 
@@ -25,14 +25,14 @@ const FyllUtVilkårKnapp: React.FC = () => {
             (res) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     settFeilmelding('');
-                    hentVilkårsvurderinger();
+                    hentVilkårsvurdering();
                     hentBehandling.rerun();
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
             }
         );
-    }, [behandling, hentBehandling, hentVilkårsvurderinger, request]);
+    }, [behandling, hentBehandling, hentVilkårsvurdering, request]);
 
     return (
         <>

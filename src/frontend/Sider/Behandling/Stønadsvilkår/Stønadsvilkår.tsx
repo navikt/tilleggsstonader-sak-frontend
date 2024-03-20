@@ -16,13 +16,13 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 `;
 
 const Stønadsvilkår = () => {
-    const { vilkårsvurderinger } = useVilkår();
+    const { vilkårsvurdering } = useVilkår();
 
     return (
         <Container>
             <DataViewer
                 response={{
-                    vilkårsvurderinger,
+                    vilkårsvurderinger: vilkårsvurdering,
                 }}
             >
                 {({ vilkårsvurderinger }) => <PassBarn vilkårsvurderinger={vilkårsvurderinger} />}

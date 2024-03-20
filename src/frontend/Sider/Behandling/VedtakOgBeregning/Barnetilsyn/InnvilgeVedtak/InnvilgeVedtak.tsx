@@ -12,16 +12,16 @@ interface Props {
 }
 
 export const InnvilgeVedtak: FC<Props> = ({ settResultatType, lagretVedtak }) => {
-    const { vilkårsvurderinger } = useVilkår();
+    const { vilkårsvurdering } = useVilkår();
 
     return (
         // TODO: Revurderes fra og med
-        <DataViewer response={{ vilkårsvurderinger }}>
-            {({ vilkårsvurderinger }) => (
+        <DataViewer response={{ vilkårsvurdering }}>
+            {({ vilkårsvurdering }) => (
                 <InnvilgeBarnetilsyn
                     settResultatType={settResultatType}
                     låsFraDatoFørsteRad={false}
-                    barnIBehandling={vilkårsvurderinger.grunnlag.barn}
+                    barnIBehandling={vilkårsvurdering.grunnlag.barn}
                     lagretVedtak={lagretVedtak}
                 />
             )}
