@@ -4,9 +4,9 @@ import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useVilkår } from '../../../context/VilkårContext';
+import { LagreVilkårsvurdering, useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { LagreVilkårsvurdering, Vilkår, Vilkårsvurdering } from '../vilkår';
+import { Vilkår, Vilkårsvurdering } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;

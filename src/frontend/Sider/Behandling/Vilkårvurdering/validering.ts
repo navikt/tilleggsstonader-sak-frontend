@@ -1,6 +1,5 @@
 import { vurderAvhengighetTilOverordnetValg } from './utils';
-import { RegelId } from '../../../typer/regel';
-import { Vilkårsvurdering } from '../vilkår';
+import { RegelId, Vilkårsvurdering } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
 

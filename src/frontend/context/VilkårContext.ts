@@ -3,13 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import constate from 'constate';
 
 import { useApp } from './AppContext';
-import {
-    OppdaterVilkår,
-    LagreVilkårsvurdering,
-    Vilkår,
-    Vurderingsfeilmelding,
-    Vilkårsvurderinger,
-} from '../Sider/Behandling/vilkår';
+import { Vilkår, Vilkårsvurderinger, RegelId, SvarId } from '../Sider/Behandling/vilkår';
 import { Behandling } from '../typer/behandling/behandling';
 import {
     byggHenterRessurs,
@@ -50,6 +44,12 @@ export interface UseVilkår {
     nullstillVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
+
+export type LagreVilkårsvurdering = {
+    id: string;
+    behandlingId: string;
+    vurdering: OppdaterDelvilkårvurdering[];
+};
 
 export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): UseVilkår => {
     const { request } = useApp();
@@ -163,3 +163,15 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         oppdaterGrunnlagsdataOgHentVilkårsvurdering,
     };
 });
+
+interface OppdaterDelvilkårvurdering {
+    regel: RegelId;
+    svar: SvarId | null;
+    begrunnelse: string | null;
+}
+
+type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
+
+interface Vurderingsfeilmelding {
+    [Key: string]: string;
+}
