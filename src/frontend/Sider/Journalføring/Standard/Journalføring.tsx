@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Heading } from '@navikt/ds-react';
+
 import { useApp } from '../../../context/AppContext';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
+import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import {
@@ -13,6 +16,7 @@ import {
     JOURNALPOST_QUERY_STRING,
     OPPGAVEID_QUERY_STRING,
 } from '../../Oppgavebenk/oppgaveutils';
+import PdfVisning from '../Felles/PdfVisning';
 
 export const SideLayout = styled.div``;
 
@@ -44,6 +48,16 @@ export const FlexKnapper = styled.div`
     justify-content: space-between;
 `;
 
+const InnerContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+`;
+
+const Tittel = styled(Heading)`
+    margin-bottom: 0.5rem;
+`;
+
 export const Journalføring: React.FC = () => {
     const query: URLSearchParams = useQueryParams();
     const oppgaveId = query.get(OPPGAVEID_QUERY_STRING);
@@ -61,6 +75,8 @@ export const Journalføring: React.FC = () => {
     if (!oppgaveId || !journalpostId) {
         return <Navigate to="/oppgavebenk" />;
     }
+
+    console.log('rendrer journalføring');
 
     return (
         <DataViewer response={{ journalResponse }}>
@@ -86,13 +102,30 @@ interface Props {
 const JournalføringSide: React.FC<Props> = ({ oppgaveId, gjelderKlage, journalResponse }) => {
     const { saksbehandler, erSaksbehandler, settToast } = useApp();
     const navigate = useNavigate();
+    const journalpostState: JournalføringState = useJournalføringState(
+        journalResponse,
+        oppgaveId,
+        gjelderKlage
+    );
+
+    const { journalpost } = journalpostState;
+
+    const [feilmelding, settFeilmelding] = useState<string>('');
 
     return (
-        <div>
-            <h1>Journalføring</h1>
-            <p>{oppgaveId}</p>
-            <p>{gjelderKlage}</p>
-            <p>{journalResponse.navn}</p>
-        </div>
+        <Kolonner>
+            <Venstrekolonne>
+                <InnerContainer>
+                    <section>
+                        <Tittel size={'medium'} level={'1'}>
+                            Journalføring
+                        </Tittel>
+                    </section>
+                </InnerContainer>
+            </Venstrekolonne>
+            <Høyrekolonne>
+                <PdfVisning journalpost={journalpost} />
+            </Høyrekolonne>
+        </Kolonner>
     );
 };

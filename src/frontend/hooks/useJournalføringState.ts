@@ -5,7 +5,7 @@ import { Journalføringsårsak } from '../Sider/Journalføring/Felles/utils.';
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, LogiskeVedleggPåDokument } from '../typer/dokument';
-import { JournalpostResponse } from '../typer/journalpost';
+import { Journalpost, JournalpostResponse } from '../typer/journalpost';
 
 interface NyAvsender {
     erBruker: boolean;
@@ -18,7 +18,9 @@ export enum Journalføringsaksjon {
     JOURNALFØR_PÅ_FAGSAK = 'JOURNALFØR_PÅ_FAGSAK',
 }
 
-export interface JournalføringState {}
+export interface JournalføringState {
+    journalpost: Journalpost;
+}
 
 export const useJournalføringState = (
     journalResponse: JournalpostResponse,
@@ -28,9 +30,9 @@ export const useJournalføringState = (
     const { harStrukturertSøknad, journalpost, personIdent } = journalResponse;
 
     const initielleLogiskeVedlegg = journalResponse.journalpost.dokumenter.reduce(
-        (acc, { dokumentinfoId, logiskeVedlegg }) => ({
+        (acc, { dokumentInfoId, logiskeVedlegg }) => ({
             ...acc,
-            [dokumentinfoId]: logiskeVedlegg,
+            [dokumentInfoId]: logiskeVedlegg,
         }),
         {} as LogiskeVedleggPåDokument
     );
@@ -48,7 +50,7 @@ export const useJournalføringState = (
     };
 
     const utledFørsteDokument = (dokumenter: DokumentInfo[]) =>
-        dokumenter.length > 0 ? dokumenter[0].dokumentinfoId : '';
+        dokumenter.length > 0 ? dokumenter[0].dokumentInfoId : '';
 
     const { fagsakPerson, hentFagsakPerson } = useHentFagsakPerson();
 
@@ -66,5 +68,7 @@ export const useJournalføringState = (
         journalResponse.journalpost.datoMottatt
     );
 
-    return {};
+    return {
+        journalpost,
+    };
 };

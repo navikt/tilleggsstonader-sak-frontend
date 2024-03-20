@@ -1,7 +1,7 @@
 import { AvsenderMottaker, Journalposttype, Journalstatus } from './journalpost';
 
 export interface DokumentInfo {
-    dokumentinfoId: string;
+    dokumentInfoId: string;
     filnavn?: string;
     tittel: string;
     journalpostId: string;
