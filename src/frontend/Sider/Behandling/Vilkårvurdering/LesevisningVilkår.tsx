@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
+import { vurderingerSomSkalVises } from './utils';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { Vilkår } from '../vilkår';
 
@@ -24,20 +25,21 @@ const LesevisningVilkår: FC<{
 }> = ({ vilkår }) => {
     return (
         <Grid>
-            {vilkår.delvilkårsett.map((delvilkår) =>
-                delvilkår.vurderinger.map((svar) => (
-                    <React.Fragment key={svar.regelId}>
+            {vurderingerSomSkalVises(vilkår.vurdering).map(([regelId, delvilkårsvurdering]) => {
+                const svar = delvilkårsvurdering.svar;
+                const begrunnelse = delvilkårsvurdering.begrunnelse;
+
+                return (
+                    <React.Fragment key={regelId}>
                         <Svar
-                            key={svar.regelId}
-                            label={regelIdTilSpørsmål[svar.regelId]}
-                            verdi={(svar.svar && svarIdTilTekst[svar.svar]) || '-'}
+                            key={regelId}
+                            label={regelIdTilSpørsmål[regelId]}
+                            verdi={(svar && svarIdTilTekst[svar]) || '-'}
                         />
-                        {svar.begrunnelse && (
-                            <Begrunnelse label={'Begrunnelse'} verdi={svar.begrunnelse} />
-                        )}
+                        {begrunnelse && <Begrunnelse label={'Begrunnelse'} verdi={begrunnelse} />}
                     </React.Fragment>
-                ))
-            )}
+                );
+            })}
         </Grid>
     );
 };

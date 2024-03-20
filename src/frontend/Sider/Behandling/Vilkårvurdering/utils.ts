@@ -1,4 +1,4 @@
-import { RegelId, Vilkårsvurdering } from '../vilkår';
+import { Delvilkårsvurdering, RegelId, Vilkårsvurdering } from '../vilkår';
 
 export const finnAvhengighetTilOverordnetValg = (
     vilkårsvurdering: Vilkårsvurdering,
@@ -20,3 +20,13 @@ export const finnAvhengighetTilOverordnetValg = (
         overordnetValgErOppfylt: vilkårsvurdering[regel].svar === svar,
     };
 };
+
+export const vurderingerSomSkalVises = (
+    vilkårsvurdering: Vilkårsvurdering
+): [string, Delvilkårsvurdering][] =>
+    Object.entries(vilkårsvurdering).filter(([regelId]) => {
+        const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
+            finnAvhengighetTilOverordnetValg(vilkårsvurdering, regelId);
+
+        return !(følgerAvOverordnetValg && !overordnetValgErOppfylt);
+    });

@@ -7,7 +7,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { finnAvhengighetTilOverordnetValg } from './utils';
+import { vurderingerSomSkalVises } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { erTomtObjekt } from '../../../typer/typeUtils';
@@ -78,19 +78,15 @@ const EndreDelvilkår: FC<{
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
-                {Object.entries(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
-                    const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
-                        finnAvhengighetTilOverordnetValg(vurdering, regel);
-
-                    if (følgerAvOverordnetValg && !overordnetValgErOppfylt) {
-                        return;
-                    }
-
+                {vurderingerSomSkalVises(vurdering).map(([regel, delvilkårsvurdering], indeks) => {
                     const svar = delvilkårsvurdering.svar;
 
                     const begrunnelsestype = svar
                         ? delvilkårsvurdering.svaralternativer[svar]?.begrunnelsestype
                         : 'VALGFRI';
+
+                    const følgerAvOverordnetValg =
+                        delvilkårsvurdering.følgerFraOverordnetValg !== null;
 
                     return (
                         <React.Fragment key={regel}>
