@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -13,38 +13,58 @@ import { Feilmelding } from '../Feil/Feilmelding';
 
 export const NesteStegKnapp: FC<{
     nesteFane: FanePath;
+    steg: Steg;
     children: React.ReactNode;
-}> = ({ nesteFane, children }) => {
+}> = ({ nesteFane, children, steg }) => {
     const navigate = useNavigate();
     const { request } = useApp();
 
     const { behandling, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
+    const redigerSteg = () => {
+        settFeilmelding('');
+        request<string, { steg: Steg }>(`/api/sak/steg/behandling/${behandling.id}/reset`, 'POST', {
+            steg: steg,
+        }).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                hentBehandling.rerun();
+            } else {
+                settFeilmelding(`Kunne ikke redigere steg: ${res.frontendFeilmelding}`);
+            }
+        });
+    };
+
     const gåtTilNesteSteg = () => {
         settFeilmelding('');
-        if (behandling.steg === Steg.INNGANGSVILKÅR) {
-            request<string, null>(
-                `/api/sak/steg/behandling/${behandling.id}/inngangsvilkaar`,
-                'POST'
-            ).then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    hentBehandling.rerun();
-                    navigate(`/behandling/${behandling.id}/${nesteFane}`);
-                } else {
-                    settFeilmelding(`Kunne ikke gå til neste steg:${res.frontendFeilmelding}`);
-                }
-            });
-        }
-        navigate(`/behandling/${behandling.id}/${nesteFane}`);
+        request<string, { steg: Steg }>(
+            `/api/sak/steg/behandling/${behandling.id}/ferdigstill`,
+            'POST',
+            {
+                steg: behandling.steg,
+            }
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                hentBehandling.rerun();
+                navigate(`/behandling/${behandling.id}/${nesteFane}`);
+            } else {
+                settFeilmelding(`Kunne ikke gå til neste steg: ${res.frontendFeilmelding}`);
+            }
+        });
     };
 
     return (
-        <HStack>
-            <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
-                {children}
-            </Button>
+        <VStack align={'start'}>
+            {behandling.steg === steg ? (
+                <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
+                    {children}
+                </Button>
+            ) : (
+                <Button variant="secondary" size="small" onClick={redigerSteg}>
+                    Rediger steg
+                </Button>
+            )}
             <Feilmelding>{feilmelding}</Feilmelding>
-        </HStack>
+        </VStack>
     );
 };

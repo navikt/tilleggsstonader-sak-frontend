@@ -6,11 +6,17 @@ import styled from 'styled-components';
 import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, hentBehandlingfaner } from './faner';
+import { FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
+import { StegProvider } from '../../context/StegContext';
+import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
+
+const StickyTablistContainer = styled(Sticky)`
+    top: 97px;
+`;
 
 const TabsList = styled(Tabs.List)`
     width: 100%;
@@ -37,11 +43,13 @@ const BehandlingTabsInnhold = () => {
 
     const path = useLocation().pathname.split('/')[3];
 
-    const [aktivFane, settAktivFane] = useState<string>(path || FanePath.INNGANGSVILKÅR);
+    const [aktivFane, settAktivFane] = useState<FanePath>(
+        isFanePath(path) ? path : FanePath.INNGANGSVILKÅR
+    );
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     useEffect(() => {
-        settAktivFane(path || FanePath.INNGANGSVILKÅR);
+        settAktivFane(isFanePath(path) ? path : FanePath.INNGANGSVILKÅR);
     }, [path]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
@@ -59,45 +67,52 @@ const BehandlingTabsInnhold = () => {
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
     return (
-        <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
-            <TabsList>
-                {behandlingFaner.map((tab) =>
-                    faneErLåst(tab.path) ? (
-                        <DisabledTab
-                            key={tab.path}
-                            value={tab.path}
-                            label={tab.navn}
-                            icon={tab.ikon}
-                        />
-                    ) : (
-                        <Tabs.Tab
-                            key={tab.path}
-                            value={tab.path}
-                            label={tab.navn}
-                            icon={tab.ikon}
-                        />
-                    )
-                )}
-                {behandlingErRedigerbar && !statusPåVentRedigering && (
-                    <Tabsknapp>
-                        <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
-                            Sett på vent
-                        </Button>
-                    </Tabsknapp>
-                )}
-            </TabsList>
+        <StegProvider fane={aktivFane} behandling={behandling}>
+            <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
+                <StickyTablistContainer>
+                    <TabsList>
+                        {behandlingFaner.map((tab) =>
+                            faneErLåst(tab.path) ? (
+                                <DisabledTab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            ) : (
+                                <Tabs.Tab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            )
+                        )}
+                        {behandlingErRedigerbar && !statusPåVentRedigering && (
+                            <Tabsknapp>
+                                <Button
+                                    size={'small'}
+                                    onClick={() => settStatusPåVentRedigering(true)}
+                                >
+                                    Sett på vent
+                                </Button>
+                            </Tabsknapp>
+                        )}
+                    </TabsList>
+                </StickyTablistContainer>
 
-            <SettPåVentContainer
-                statusPåVentRedigering={statusPåVentRedigering}
-                settStatusPåVentRedigering={settStatusPåVentRedigering}
-            />
+                <SettPåVentContainer
+                    statusPåVentRedigering={statusPåVentRedigering}
+                    settStatusPåVentRedigering={settStatusPåVentRedigering}
+                />
 
-            {behandlingFaner.map((tab) => (
-                <Tabs.Panel key={tab.path} value={tab.path}>
-                    {tab.komponent(behandling.id)}
-                </Tabs.Panel>
-            ))}
-        </Tabs>
+                {behandlingFaner.map((tab) => (
+                    <Tabs.Panel key={tab.path} value={tab.path}>
+                        {tab.komponent(behandling.id)}
+                    </Tabs.Panel>
+                ))}
+            </Tabs>
+        </StegProvider>
     );
 };
 

@@ -17,7 +17,7 @@ import { ABgSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { KildeIkon } from './KildeIkon';
 import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
-import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
 import { formaterIsoDato, formaterIsoDatoTidMedSekunder } from '../../../../utils/dato';
@@ -43,11 +43,11 @@ const VilkårperiodeRad: React.FC<{
     startRedigering: () => void;
     aktivitetsdager?: number;
 }> = ({ vilkårperiode, type, startRedigering, aktivitetsdager }) => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandlingOgStegErRedigerbar } = useSteg();
 
     const [visSlettModal, settVisSlettModal] = useState(false);
     const visRedigerKnapper =
-        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && behandlingErRedigerbar;
+        vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET && behandlingOgStegErRedigerbar;
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [visBeskrivelse, settVisBeskrivelse] = useState(false);
