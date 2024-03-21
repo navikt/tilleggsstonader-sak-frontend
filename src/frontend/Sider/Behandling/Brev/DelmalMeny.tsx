@@ -12,7 +12,7 @@ import Variabler from './Variabler';
 
 interface Props {
     delmal: DelmalType;
-    valgfelt: Record<string, Valg>;
+    valgfelt: Partial<Record<string, Valg>>;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
     variabler: Record<string, string>;
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
