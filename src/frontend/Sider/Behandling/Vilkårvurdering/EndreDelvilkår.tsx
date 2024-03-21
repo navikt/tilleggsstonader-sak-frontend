@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -53,28 +53,24 @@ const EndreDelvilkår: FC<{
         )
     );
 
-    const oppdaterSvar = (regel: RegelId, nyttSvar: SvarId) =>
-        settVurdering((prevState) => {
-            return {
-                ...prevState,
-                [regel]: {
-                    ...prevState[regel],
-                    ...{ svar: nyttSvar },
-                },
-            };
-        });
-
-    const oppdaterBegrunnelse = (regel: RegelId, nyBegrunnelse: string) => {
-        settVurdering((prevState) => {
-            return {
-                ...prevState,
-                [regel]: {
-                    ...prevState[regel],
-                    ...{ begrunnelse: nyBegrunnelse },
-                },
-            };
-        });
-    };
+    useEffect(() => {
+        settSvarsett(
+            Object.fromEntries(
+                Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
+                    regelId,
+                    delvilkårsvurdering?.svar,
+                ])
+            )
+        );
+        settBegrunnelser(
+            Object.fromEntries(
+                Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
+                    regelId,
+                    delvilkårsvurdering?.begrunnelse,
+                ])
+            )
+        );
+    }, [vilkårsvurdering]);
 
     const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
