@@ -4,11 +4,11 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
-import { Vilkårstype, Vilkårsvurderinger } from '../../vilkår';
+import { Vilkårstype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
-    vilkårsvurderinger: Vilkårsvurderinger;
+    vilkårsvurderinger: Vilkårsvurdering;
 }
 
 const PassBarn: React.FC<Props> = ({ vilkårsvurderinger }) => {

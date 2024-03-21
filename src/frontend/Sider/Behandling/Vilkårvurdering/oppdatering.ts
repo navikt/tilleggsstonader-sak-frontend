@@ -1,5 +1,5 @@
 import { delvilkårSomErRelevante } from './utils';
-import { RegelId, VurderingInput, SvarId, Vilkårsvurdering, Delvilkårsvurdering } from '../vilkår';
+import { RegelId, VurderingInput, SvarId, Delvilkårsett, Delvilkår } from '../vilkår';
 
 export type OppdaterVilkårsvurdering = {
     id: string;
@@ -13,12 +13,12 @@ interface OppdaterDelvilkårvurdering {
     begrunnelse: string | null;
 }
 
-const skalHaBegrunnelse = (delvilkårsvurdering: Delvilkårsvurdering): boolean =>
+const skalHaBegrunnelse = (delvilkårsvurdering: Delvilkår): boolean =>
     delvilkårsvurdering.svar != null &&
     delvilkårsvurdering.svaralternativer[delvilkårsvurdering.svar].begrunnelsestype !== 'UTEN';
 
 export const mapTilOppdaterDelvilkårsvurderinger = (
-    vilkårsvurdering: Vilkårsvurdering
+    vilkårsvurdering: Delvilkårsett
 ): OppdaterDelvilkårvurdering[] =>
     delvilkårSomErRelevante(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
         regel: regelId,
@@ -28,15 +28,15 @@ export const mapTilOppdaterDelvilkårsvurderinger = (
             : null,
     }));
 
-export const oppdaterVilkårsvurderinger = (
-    vilkårsvurdering: Vilkårsvurdering,
+export const oppdaterVurderinger = (
+    delvilkårsett: Delvilkårsett,
     nyVurdering: VurderingInput
-): Vilkårsvurdering => {
+): Delvilkårsett => {
     return Object.fromEntries(
-        Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
+        Object.entries(delvilkårsett).map(([regelId, delvilkår]) => [
             regelId,
             {
-                ...delvilkårsvurdering,
+                ...delvilkår,
                 ...{ svar: nyVurdering[regelId].svar },
                 ...{ begrunnelse: nyVurdering[regelId].begrunnelse },
             },
@@ -44,7 +44,7 @@ export const oppdaterVilkårsvurderinger = (
     );
 };
 
-export const mapTilVurderingInput = (vilkårsvurdering: Vilkårsvurdering): VurderingInput => {
+export const mapTilVurderingInput = (vilkårsvurdering: Delvilkårsett): VurderingInput => {
     return Object.fromEntries(
         Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
             regelId,

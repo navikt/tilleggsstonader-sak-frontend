@@ -25,7 +25,7 @@ const LesevisningVilkår: FC<{
 }> = ({ vilkår }) => {
     return (
         <Grid>
-            {delvilkårSomErRelevante(vilkår.vurdering).map(([regelId, delvilkårsvurdering]) => {
+            {delvilkårSomErRelevante(vilkår.delvilkårsett).map(([regelId, delvilkårsvurdering]) => {
                 const svar = delvilkårsvurdering.svar;
                 const begrunnelse = delvilkårsvurdering.begrunnelse;
 

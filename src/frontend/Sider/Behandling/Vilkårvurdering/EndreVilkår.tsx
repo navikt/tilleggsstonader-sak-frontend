@@ -7,7 +7,7 @@ import { OppdaterVilkårsvurdering, mapTilOppdaterDelvilkårsvurderinger } from 
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { Vilkår, Vilkårsvurdering } from '../vilkår';
+import { Vilkår, Delvilkårsett } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
@@ -46,8 +46,8 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
                 </ErrorMessage>
             )}
             <EndreDelvilkår
-                vilkårsvurdering={vilkår.vurdering}
-                lagreVilkårsvurdering={(nyeVurderinger: Vilkårsvurdering) => {
+                delvilkårsett={vilkår.delvilkårsett}
+                lagreVilkårsvurdering={(nyeVurderinger: Delvilkårsett) => {
                     oppdaterVilkårsvurdering({
                         id: vilkår.id,
                         behandlingId: vilkår.behandlingId,

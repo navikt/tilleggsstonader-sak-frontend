@@ -60,12 +60,12 @@ const DelvilkårRadioknapper: FC<Props> = ({
     );
 };
 
-const Spørsmålsbeskrivelse = (regel: RegelId): React.ReactNode => {
-    switch (regel) {
+const Spørsmålsbeskrivelse = (regelId: RegelId): React.ReactNode => {
+    switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
-            return <SlikGjørDuVurderingen regelId={regel} />;
+            return <SlikGjørDuVurderingen regelId={regelId} />;
         case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return hjelpetekster[regel][0];
+            return hjelpetekster[regelId][0];
         default:
             return null;
     }

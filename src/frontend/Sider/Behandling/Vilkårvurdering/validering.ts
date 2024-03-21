@@ -1,17 +1,17 @@
 import { finnAvhengighetTilOverordnetValg } from './utils';
 import { manglerInnhold } from '../../../typer/typeUtils';
-import { RegelId, Vilkårsvurdering } from '../vilkår';
+import { RegelId, Delvilkårsett } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
 
-export const validerVilkårsvurdering = (vilkårsvurdering: Vilkårsvurdering): Feilmeldinger => {
+export const validerVilkårsvurdering = (delvilkårsett: Delvilkårsett): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = {};
 
-    Object.entries(vilkårsvurdering).forEach(([regel, delvilkårsvurdering]) => {
+    Object.entries(delvilkårsett).forEach(([regel, delvilkårsvurdering]) => {
         const gjeldendeSvar = delvilkårsvurdering.svar;
 
         const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
-            finnAvhengighetTilOverordnetValg(vilkårsvurdering, regel);
+            finnAvhengighetTilOverordnetValg(delvilkårsett, regel);
 
         if (følgerAvOverordnetValg && !overordnetValgErOppfylt) {
             return;

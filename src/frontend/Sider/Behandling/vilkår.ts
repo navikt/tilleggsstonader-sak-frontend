@@ -32,15 +32,15 @@ export interface Vilkår {
     barnId?: string;
     endretAv: string;
     endretTid: string;
-    vurdering: Vilkårsvurdering;
+    delvilkårsett: Delvilkårsett;
     opphavsvilkår?: Opphavsvilkår;
 }
 
-export interface Vilkårsvurdering {
-    [regel: RegelId]: Delvilkårsvurdering;
+export interface Delvilkårsett {
+    [regel: RegelId]: Delvilkår;
 }
 
-export interface Delvilkårsvurdering {
+export interface Delvilkår {
     svar: string | null;
     begrunnelse: string | null;
     svaralternativer: Svaralternativer;
@@ -88,7 +88,7 @@ interface VilkårGrunnlag {
     barn: GrunnlagBarn[];
 }
 
-export interface Vilkårsvurderinger {
+export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
     grunnlag: VilkårGrunnlag;
 }

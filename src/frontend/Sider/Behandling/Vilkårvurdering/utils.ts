@@ -1,7 +1,7 @@
-import { Delvilkårsvurdering, RegelId, Vilkårsvurdering } from '../vilkår';
+import { Delvilkår, RegelId, Delvilkårsett } from '../vilkår';
 
 export const finnAvhengighetTilOverordnetValg = (
-    vilkårsvurdering: Vilkårsvurdering,
+    vilkårsvurdering: Delvilkårsett,
     regelenSomSkalSjekkes: RegelId
 ): { følgerAvOverordnetValg: boolean; overordnetValgErOppfylt: boolean | undefined } => {
     const følgerFraOverordnetValg = vilkårsvurdering[regelenSomSkalSjekkes].følgerFraOverordnetValg;
@@ -21,12 +21,10 @@ export const finnAvhengighetTilOverordnetValg = (
     };
 };
 
-export const delvilkårSomErRelevante = (
-    vilkårsvurdering: Vilkårsvurdering
-): [string, Delvilkårsvurdering][] =>
-    Object.entries(vilkårsvurdering).filter(([regelId]) => {
+export const delvilkårSomErRelevante = (delvilkårsett: Delvilkårsett): [string, Delvilkår][] =>
+    Object.entries(delvilkårsett).filter(([regelId]) => {
         const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
-            finnAvhengighetTilOverordnetValg(vilkårsvurdering, regelId);
+            finnAvhengighetTilOverordnetValg(delvilkårsett, regelId);
 
         return !(følgerAvOverordnetValg && !overordnetValgErOppfylt);
     });
