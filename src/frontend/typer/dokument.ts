@@ -20,6 +20,7 @@ export interface LogiskVedlegg {
     tittel: string;
 }
 
+export type DokumentTitler = Record<string, string>;
 export type LogiskeVedleggPåDokument = Record<string, LogiskVedlegg[]>;
 
 interface Utsendingsinfo {

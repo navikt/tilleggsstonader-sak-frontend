@@ -2,25 +2,27 @@ import React, { useMemo } from 'react';
 
 import styled from 'styled-components';
 
-import { Journalpost } from '../../../typer/journalpost';
+import { JournalføringState } from '../../../hooks/useJournalføringState';
 
 const Container = styled.div`
     flex: 1 1 auto;
 `;
 
 const PdfVisning: React.FC<{
-    journalpost: Journalpost;
-}> = ({ journalpost }) => {
+    journalpostState: JournalføringState;
+}> = ({ journalpostState }) => {
+    const { journalpost, valgtDokumentPanel } = journalpostState;
+
     const dokumentMemo = useMemo(() => {
         return (
             <iframe
                 title={'dokument'}
-                src={`/dokument/journalpost/${journalpost.journalpostId}/dokument-pdf/${journalpost.dokumenter[0].dokumentInfoId}`}
+                src={`/dokument/journalpost/${journalpost.journalpostId}/dokument-pdf/${valgtDokumentPanel}`}
                 width={'100%'}
                 height={'100%'}
             />
         );
-    }, [journalpost.dokumenter, journalpost.journalpostId]);
+    }, [journalpost.journalpostId, valgtDokumentPanel]);
 
     return <Container>{dokumentMemo}</Container>;
 };

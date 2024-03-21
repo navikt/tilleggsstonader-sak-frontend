@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Heading } from '@navikt/ds-react';
 
-import { useApp } from '../../../context/AppContext';
+import Dokumenter from './Dokumenter';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
@@ -17,8 +17,6 @@ import {
     OPPGAVEID_QUERY_STRING,
 } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
-
-export const SideLayout = styled.div``;
 
 export const Kolonner = styled.div`
     display: flex;
@@ -42,16 +40,11 @@ export const Høyrekolonne = styled.div`
     height: calc(100vh - 4rem);
 `;
 
-export const FlexKnapper = styled.div`
-    margin: 1rem;
-    display: flex;
-    justify-content: space-between;
-`;
-
 const InnerContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    min-width: 42.75rem;
 `;
 
 const Tittel = styled(Heading)`
@@ -76,8 +69,6 @@ export const Journalføring: React.FC = () => {
         return <Navigate to="/oppgavebenk" />;
     }
 
-    console.log('rendrer journalføring');
-
     return (
         <DataViewer response={{ journalResponse }}>
             {({ journalResponse }) => {
@@ -99,18 +90,8 @@ interface Props {
     journalResponse: JournalpostResponse;
 }
 
-const JournalføringSide: React.FC<Props> = ({ oppgaveId, gjelderKlage, journalResponse }) => {
-    const { saksbehandler, erSaksbehandler, settToast } = useApp();
-    const navigate = useNavigate();
-    const journalpostState: JournalføringState = useJournalføringState(
-        journalResponse,
-        oppgaveId,
-        gjelderKlage
-    );
-
-    const { journalpost } = journalpostState;
-
-    const [feilmelding, settFeilmelding] = useState<string>('');
+const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
+    const journalpostState: JournalføringState = useJournalføringState(journalResponse);
 
     return (
         <Kolonner>
@@ -121,10 +102,16 @@ const JournalføringSide: React.FC<Props> = ({ oppgaveId, gjelderKlage, journalR
                             Journalføring
                         </Tittel>
                     </section>
+                    <section>
+                        <Tittel size={'small'} level={'2'}>
+                            Dokumenter
+                        </Tittel>
+                        <Dokumenter journalpostState={journalpostState} />
+                    </section>
                 </InnerContainer>
             </Venstrekolonne>
             <Høyrekolonne>
-                <PdfVisning journalpost={journalpost} />
+                <PdfVisning journalpostState={journalpostState} />
             </Høyrekolonne>
         </Kolonner>
     );

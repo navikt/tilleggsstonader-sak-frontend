@@ -24,6 +24,7 @@
     "@navikt/ds-react": "^6.1.0",
     "@navikt/ds-react-internal": "^3.4.3",
     "@navikt/ds-tokens": "^6.1.0",
+    "@navikt/familie-form-elements": "^15.0.0",
     "@portabletext/react": "^3.0.9",
     "@sanity/client": "^6.15.1",
     "constate": "^3.3.2",
