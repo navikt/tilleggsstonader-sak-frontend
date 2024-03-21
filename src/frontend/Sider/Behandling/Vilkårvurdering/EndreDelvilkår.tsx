@@ -7,8 +7,8 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { oppdaterVilkårsvurderinger } from './oppdatering';
-import { delvilkårSomSkalVises } from './utils';
+import { mapTilVurderingInput, oppdaterVilkårsvurderinger } from './oppdatering';
+import { delvilkårSomErRelevante } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { erTomtObjekt } from '../../../typer/typeUtils';
@@ -33,64 +33,43 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 
 const EndreDelvilkår: FC<{
     vilkårsvurdering: Vilkårsvurdering;
-    lagreVilkårsvurdering: (svarsett: VurderingInput, begrunnelser: VurderingInput) => void;
+    lagreVilkårsvurdering: (oppdaterteVurderinger: Vilkårsvurdering) => void;
 }> = ({ lagreVilkårsvurdering, vilkårsvurdering }) => {
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
-    const [begrunnelser, settBegrunnelser] = useState<VurderingInput>(
-        Object.fromEntries(
-            Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
-                regelId,
-                delvilkårsvurdering?.begrunnelse,
-            ])
-        )
-    );
-    const [svarsett, settSvarsett] = useState<VurderingInput>(
-        Object.fromEntries(
-            Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
-                regelId,
-                delvilkårsvurdering?.svar,
-            ])
-        )
+
+    const [brukerinput, settBrukerinput] = useState<VurderingInput>(
+        mapTilVurderingInput(vilkårsvurdering)
     );
 
     useEffect(() => {
-        settSvarsett(
-            Object.fromEntries(
-                Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
-                    regelId,
-                    delvilkårsvurdering?.svar,
-                ])
-            )
-        );
-        settBegrunnelser(
-            Object.fromEntries(
-                Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
-                    regelId,
-                    delvilkårsvurdering?.begrunnelse,
-                ])
-            )
-        );
+        settBrukerinput(mapTilVurderingInput(vilkårsvurdering));
     }, [vilkårsvurdering]);
 
     const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurdering(
-            oppdaterVilkårsvurderinger(vilkårsvurdering, svarsett, begrunnelser)
-        );
+        const oppdaterteVurderinger = oppdaterVilkårsvurderinger(vilkårsvurdering, brukerinput);
+
+        const valideringsfeil = validerVilkårsvurdering(oppdaterteVurderinger);
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            lagreVilkårsvurdering(svarsett, begrunnelser);
+            lagreVilkårsvurdering(oppdaterteVurderinger);
         }
     };
 
     const oppdaterSvar = (regelId: RegelId, nyttSvar: string) => {
-        settSvarsett({ ...svarsett, [regelId]: nyttSvar || null });
+        settBrukerinput({
+            ...brukerinput,
+            [regelId]: { ...brukerinput[regelId], svar: nyttSvar || null },
+        });
     };
 
     const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse?: string) => {
-        settBegrunnelser({ ...begrunnelser, [regelId]: nyBegrunnelse || null });
+        settBrukerinput({
+            ...brukerinput,
+            [regelId]: { ...brukerinput[regelId], begrunnelse: nyBegrunnelse || null },
+        });
     };
 
     const nullstillFeilmelding = (regelId: string) => {
@@ -100,10 +79,10 @@ const EndreDelvilkår: FC<{
     return (
         <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
-                {delvilkårSomSkalVises(
-                    oppdaterVilkårsvurderinger(vilkårsvurdering, svarsett, begrunnelser)
+                {delvilkårSomErRelevante(
+                    oppdaterVilkårsvurderinger(vilkårsvurdering, brukerinput)
                 ).map(([regel, delvilkårsvurdering], indeks) => {
-                    const gjeldendeSvar = svarsett[regel];
+                    const gjeldendeSvar = delvilkårsvurdering.svar;
 
                     const begrunnelsestype = gjeldendeSvar
                         ? delvilkårsvurdering.svaralternativer[gjeldendeSvar]?.begrunnelsestype
@@ -125,7 +104,9 @@ const EndreDelvilkår: FC<{
                                     nullstillFeilmelding={nullstillFeilmelding}
                                 />
                                 <Begrunnelse
-                                    gjeldendeBegrunnelse={begrunnelser[regel] || undefined}
+                                    gjeldendeBegrunnelse={
+                                        delvilkårsvurdering.begrunnelse || undefined
+                                    }
                                     begrunnelsestype={begrunnelsestype}
                                     settBegrunnelse={(begrunnelse) =>
                                         oppdaterBegrunnelse(regel, begrunnelse)

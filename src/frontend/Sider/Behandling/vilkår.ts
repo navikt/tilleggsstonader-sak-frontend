@@ -17,7 +17,7 @@ export enum Vilkårstype {
     PASS_BARN = 'PASS_BARN',
 }
 
-export type VurderingInput = Record<RegelId, string | null>;
+export type VurderingInput = Record<RegelId, { svar: SvarId | null; begrunnelse: string | null }>;
 
 export type Begrunnelsestype = 'PÅKREVD' | 'VALGFRI' | 'UTEN';
 

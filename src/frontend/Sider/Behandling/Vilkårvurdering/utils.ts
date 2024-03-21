@@ -21,7 +21,7 @@ export const finnAvhengighetTilOverordnetValg = (
     };
 };
 
-export const delvilkårSomSkalVises = (
+export const delvilkårSomErRelevante = (
     vilkårsvurdering: Vilkårsvurdering
 ): [string, Delvilkårsvurdering][] =>
     Object.entries(vilkårsvurdering).filter(([regelId]) => {

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
-import { delvilkårSomSkalVises } from './utils';
+import { delvilkårSomErRelevante } from './utils';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { Vilkår } from '../vilkår';
 
@@ -25,7 +25,7 @@ const LesevisningVilkår: FC<{
 }> = ({ vilkår }) => {
     return (
         <Grid>
-            {delvilkårSomSkalVises(vilkår.vurdering).map(([regelId, delvilkårsvurdering]) => {
+            {delvilkårSomErRelevante(vilkår.vurdering).map(([regelId, delvilkårsvurdering]) => {
                 const svar = delvilkårsvurdering.svar;
                 const begrunnelse = delvilkårsvurdering.begrunnelse;
 

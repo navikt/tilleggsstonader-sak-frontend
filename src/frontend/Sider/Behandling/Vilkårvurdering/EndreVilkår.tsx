@@ -3,15 +3,11 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
-import {
-    OppdaterVilkårsvurdering,
-    mapTilOppdaterDelvilkårsvurderinger,
-    oppdaterVilkårsvurderinger,
-} from './oppdatering';
+import { OppdaterVilkårsvurdering, mapTilOppdaterDelvilkårsvurderinger } from './oppdatering';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { VurderingInput, Vilkår } from '../vilkår';
+import { Vilkår, Vilkårsvurdering } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
@@ -51,13 +47,11 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
             )}
             <EndreDelvilkår
                 vilkårsvurdering={vilkår.vurdering}
-                lagreVilkårsvurdering={(svarsett: VurderingInput, begrunnelser: VurderingInput) => {
+                lagreVilkårsvurdering={(nyeVurderinger: Vilkårsvurdering) => {
                     oppdaterVilkårsvurdering({
                         id: vilkår.id,
                         behandlingId: vilkår.behandlingId,
-                        vurdering: mapTilOppdaterDelvilkårsvurderinger(
-                            oppdaterVilkårsvurderinger(vilkår.vurdering, svarsett, begrunnelser)
-                        ),
+                        vurdering: mapTilOppdaterDelvilkårsvurderinger(nyeVurderinger),
                     });
                 }}
             />
