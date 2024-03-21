@@ -5,7 +5,6 @@ export interface FaktaDokumentasjon {
 
 export interface Dokumentasjon {
     type: string;
-    harSendtInn: boolean;
     dokumenter: Dokument[];
     identBarn?: string;
 }
