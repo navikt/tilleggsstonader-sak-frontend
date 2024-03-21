@@ -1,4 +1,5 @@
-import { RegelId, SvarId, Vilkårsvurdering } from '../vilkår';
+import { delvilkårSomSkalVises } from './utils';
+import { RegelId, VurderingInput, SvarId, Vilkårsvurdering } from '../vilkår';
 
 export type OppdaterVilkårsvurdering = {
     id: string;
@@ -15,8 +16,25 @@ interface OppdaterDelvilkårvurdering {
 export const mapTilOppdaterDelvilkårsvurderinger = (
     vilkårsvurdering: Vilkårsvurdering
 ): OppdaterDelvilkårvurdering[] =>
-    Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
+    delvilkårSomSkalVises(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
         regel: regelId,
         svar: delvilkårsvurdering.svar,
         begrunnelse: delvilkårsvurdering.begrunnelse,
     }));
+
+export const oppdaterVilkårsvurderinger = (
+    vilkårsvurdering: Vilkårsvurdering,
+    nyeSvar: VurderingInput,
+    nyeBegrunnelser: VurderingInput
+): Vilkårsvurdering => {
+    return Object.fromEntries(
+        Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
+            regelId,
+            {
+                ...delvilkårsvurdering,
+                ...{ svar: nyeSvar[regelId] },
+                ...{ begrunnelse: nyeBegrunnelser[regelId] },
+            },
+        ])
+    );
+};

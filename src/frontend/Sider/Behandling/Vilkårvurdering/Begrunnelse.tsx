@@ -8,8 +8,8 @@ import { Textarea, VStack } from '@navikt/ds-react';
 import { Begrunnelsestype } from '../vilkår';
 
 interface Props {
-    gjeldendeBegrunnelse: string | null;
     begrunnelsestype: Begrunnelsestype;
+    gjeldendeBegrunnelse?: string;
     settBegrunnelse: (tekst: string | undefined) => void;
 }
 
@@ -33,7 +33,7 @@ const Begrunnelse: FC<Props> = ({ gjeldendeBegrunnelse, settBegrunnelse, begrunn
                 resize
                 size="small"
                 minRows={3}
-                value={gjeldendeBegrunnelse || undefined}
+                value={gjeldendeBegrunnelse}
                 onChange={(e) => settBegrunnelse(e.target.value)}
             />
         </BegrunnelseContainer>
