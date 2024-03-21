@@ -1,5 +1,5 @@
 import { delvilkårSomErRelevante } from './utils';
-import { RegelId, VurderingInput, SvarId, Vilkårsvurdering } from '../vilkår';
+import { RegelId, VurderingInput, SvarId, Vilkårsvurdering, Delvilkårsvurdering } from '../vilkår';
 
 export type OppdaterVilkårsvurdering = {
     id: string;
@@ -13,13 +13,19 @@ interface OppdaterDelvilkårvurdering {
     begrunnelse: string | null;
 }
 
+const skalHaBegrunnelse = (delvilkårsvurdering: Delvilkårsvurdering): boolean =>
+    delvilkårsvurdering.svar != null &&
+    delvilkårsvurdering.svaralternativer[delvilkårsvurdering.svar].begrunnelsestype !== 'UTEN';
+
 export const mapTilOppdaterDelvilkårsvurderinger = (
     vilkårsvurdering: Vilkårsvurdering
 ): OppdaterDelvilkårvurdering[] =>
     delvilkårSomErRelevante(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
         regel: regelId,
         svar: delvilkårsvurdering.svar,
-        begrunnelse: delvilkårsvurdering.begrunnelse,
+        begrunnelse: skalHaBegrunnelse(delvilkårsvurdering)
+            ? delvilkårsvurdering.begrunnelse
+            : null,
     }));
 
 export const oppdaterVilkårsvurderinger = (

@@ -35,7 +35,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
             <RadioGroup
                 legend={regelIdTilSpørsmål[regelId] || regelId}
                 description={Spørsmålsbeskrivelse(regelId)}
-                value={gjeldendeSvar || ''}
+                value={gjeldendeSvar}
                 size="small"
                 error={feilmelding}
             >
