@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { Heading } from '@navikt/ds-react';
 
+import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
@@ -107,6 +108,12 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
                             Dokumenter
                         </Tittel>
                         <Dokumenter journalpostState={journalpostState} />
+                    </section>
+                    <section>
+                        <Tittel size={'small'} level={'2'}>
+                            Bruker
+                        </Tittel>
+                        <BrukerPanel journalpostResponse={journalResponse} />
                     </section>
                 </InnerContainer>
             </Venstrekolonne>
