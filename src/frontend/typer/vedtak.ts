@@ -58,6 +58,7 @@ export type BeregningsresultatTilsynBarn = {
 
 type Beregningsresultat = {
     dagsats: number;
+    månedsbeløp: number;
     grunnlag: Beregningsgrunnlag;
 };
 

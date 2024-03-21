@@ -151,7 +151,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                 onClick={tildelOgGåTilOppgaveutførelse}
                 disabled={laster}
             >
-                Tildel meg
+                {oppgaveErSaksbehandling(oppgave) ? 'Behandle' : 'Tildel meg'}
             </TabellKnapp>
         );
 };

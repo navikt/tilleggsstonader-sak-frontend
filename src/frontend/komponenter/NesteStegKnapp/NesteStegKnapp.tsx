@@ -30,7 +30,7 @@ export const NesteStegKnapp: FC<{
             if (res.status === RessursStatus.SUKSESS) {
                 hentBehandling.rerun();
             } else {
-                settFeilmelding(`Kunne redigere steg: ${res.frontendFeilmelding}`);
+                settFeilmelding(`Kunne ikke redigere steg: ${res.frontendFeilmelding}`);
             }
         });
     };

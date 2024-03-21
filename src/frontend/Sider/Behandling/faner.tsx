@@ -43,6 +43,19 @@ export enum FanePath {
     BREV = 'brev',
 }
 
+export const isFanePath = (path: string): path is FanePath => {
+    switch (path) {
+        case FanePath.INNGANGSVILKÅR:
+        case FanePath.STØNADSVILKÅR:
+        case FanePath.VEDTAK_OG_BEREGNING:
+        case FanePath.SIMULERING:
+        case FanePath.BREV:
+            return true;
+        default:
+            return false;
+    }
+};
+
 export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[] => {
     return [
         {

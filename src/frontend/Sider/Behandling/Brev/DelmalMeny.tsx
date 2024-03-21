@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import { Switch } from '@navikt/ds-react';
 
+import { idEllerFritekst } from './brevUtils';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
 import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
-import valgfelt from './Valgfelt';
 import Variabler from './Variabler';
 
 interface Props {
@@ -53,7 +53,7 @@ export const DelmalMeny: React.FC<Props> = ({
                     case 'valgfelt':
                         return (
                             <Valgfelt
-                                valgtVerdi={(valgfelt[val._id] as unknown as valgfelt)?._id}
+                                valgtVerdi={idEllerFritekst(valgfelt[val._id])}
                                 valgfelt={val}
                                 settValgfelt={settValgfelt}
                                 variabler={variabler}
