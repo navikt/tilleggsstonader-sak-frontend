@@ -4,7 +4,7 @@ import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
 import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
 import { InnvilgeVedtakForBarnetilsyn, Utgift, VedtakType } from '../../../../typer/vedtak';
-import { GrunnlagBarn } from '../../vilkår';
+import { GrunnlagBarn, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
 
 export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
     barnIBehandling.reduce((acc, barn) => {
@@ -29,4 +29,16 @@ export const lagVedtakRequest = (
         _type: VedtakType.InnvilgelseBarnetilsyn,
         resultatType: BehandlingResultat.INNVILGET,
     };
+};
+
+export const barnSomOppfyllerAlleVilkår = (vilkår: Vilkårsvurdering) => {
+    const barnSomOppfyllerVilkår = vilkår.vilkårsett
+        .filter(
+            (vurdering) =>
+                vurdering.resultat === Vilkårsresultat.OPPFYLT ||
+                vurdering.resultat === Vilkårsresultat.AUTOMATISK_OPPFYLT
+        )
+        .map((vurdering) => vurdering.barnId);
+
+    return vilkår.grunnlag.barn.filter((barn) => barnSomOppfyllerVilkår.includes(barn.barnId));
 };
