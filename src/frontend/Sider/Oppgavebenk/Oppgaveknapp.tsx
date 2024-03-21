@@ -9,7 +9,6 @@ import { Button, Dropdown } from '@navikt/ds-react';
 import {
     lagJournalføringUrl,
     oppgaveErJournalføring,
-    oppgaveErJournalføringKlage,
     oppgaveErSaksbehandling,
 } from './oppgaveutils';
 import { Oppgave, OppgaveResponse } from './typer/oppgave';
@@ -67,20 +66,17 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
             .finally(() => settLaster(false));
     };
 
-    const gåTilJournalføring = (type: 'klage' | 'stønad') => {
+    const gåTilJournalføring = () => {
         const journalpostId = oppgave.journalpostId || '';
-        const oppgaveId = oppgave.id || '';
-        const gjelderKlage = type === 'klage';
-        navigate(lagJournalføringUrl(journalpostId, oppgaveId, gjelderKlage));
+        const oppgaveId = oppgave.id;
+        navigate(lagJournalføringUrl(journalpostId, oppgaveId));
     };
 
     const gåTilOppgaveUtførelse = () => {
         if (oppgaveErSaksbehandling(oppgave)) {
             gåTilBehandleSakOppgave();
-        } else if (oppgaveErJournalføringKlage(oppgave)) {
-            gåTilJournalføring('klage');
         } else if (oppgaveErJournalføring(oppgave)) {
-            gåTilJournalføring('stønad');
+            gåTilJournalføring();
         } else {
             // TODO kan legges til senere
             //hentFagsakOgTriggRedirectTilBehandlingsoversikt(utledetFolkeregisterIdent(oppgave));

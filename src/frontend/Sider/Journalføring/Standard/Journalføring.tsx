@@ -11,11 +11,7 @@ import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { JournalpostResponse } from '../../../typer/journalpost';
-import {
-    GJELDER_KLAGE_QUERY_STRING,
-    JOURNALPOST_QUERY_STRING,
-    OPPGAVEID_QUERY_STRING,
-} from '../../Oppgavebenk/oppgaveutils';
+import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 
 export const Kolonner = styled.div`
@@ -29,7 +25,7 @@ export const Venstrekolonne = styled.div`
     height: inherit;
     overflow: auto;
     @media (min-width: 1225px) {
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 3.5rem);
         max-width: 750px;
     }
 `;
@@ -37,7 +33,7 @@ export const Høyrekolonne = styled.div`
     display: flex;
     flex: 1 1 auto;
     min-width: 450px;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 3.5rem);
 `;
 
 const InnerContainer = styled.div`
@@ -47,15 +43,10 @@ const InnerContainer = styled.div`
     min-width: 42.75rem;
 `;
 
-const Tittel = styled(Heading)`
-    margin-bottom: 0.5rem;
-`;
-
 export const Journalføring: React.FC = () => {
     const query: URLSearchParams = useQueryParams();
     const oppgaveId = query.get(OPPGAVEID_QUERY_STRING);
     const journalpostId = query.get(JOURNALPOST_QUERY_STRING);
-    const gjelderKlage = query.get(GJELDER_KLAGE_QUERY_STRING) === 'true';
 
     const { hentJournalPost, journalResponse } = useHentJournalpost();
 
@@ -73,11 +64,7 @@ export const Journalføring: React.FC = () => {
         <DataViewer response={{ journalResponse }}>
             {({ journalResponse }) => {
                 return (
-                    <JournalføringSide
-                        oppgaveId={oppgaveId}
-                        gjelderKlage={gjelderKlage}
-                        journalResponse={journalResponse}
-                    />
+                    <JournalføringSide oppgaveId={oppgaveId} journalResponse={journalResponse} />
                 );
             }}
         </DataViewer>
@@ -86,7 +73,6 @@ export const Journalføring: React.FC = () => {
 
 interface Props {
     oppgaveId: string;
-    gjelderKlage: boolean;
     journalResponse: JournalpostResponse;
 }
 
@@ -98,14 +84,14 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
             <Venstrekolonne>
                 <InnerContainer>
                     <section>
-                        <Tittel size={'medium'} level={'1'}>
+                        <Heading spacing size={'medium'} level={'1'}>
                             Journalføring
-                        </Tittel>
+                        </Heading>
                     </section>
                     <section>
-                        <Tittel size={'small'} level={'2'}>
+                        <Heading spacing size={'small'} level={'2'}>
                             Dokumenter
-                        </Tittel>
+                        </Heading>
                         <Dokumenter journalpostState={journalpostState} />
                     </section>
                 </InnerContainer>
