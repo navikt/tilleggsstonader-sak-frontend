@@ -12,7 +12,7 @@ import { delvilkårSomErRelevante } from './utils';
 import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { RegelId, VurderingInput, Vilkårsvurdering } from '../vilkår';
+import { RegelId, VurderingInput, Vilkårsvurdering, SvarId } from '../vilkår';
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
@@ -58,7 +58,7 @@ const EndreDelvilkår: FC<{
         }
     };
 
-    const oppdaterSvar = (regelId: RegelId, nyttSvar: string) => {
+    const oppdaterSvar = (regelId: RegelId, nyttSvar: SvarId) => {
         settBrukerinput({
             ...brukerinput,
             [regelId]: { ...brukerinput[regelId], svar: nyttSvar || null },
