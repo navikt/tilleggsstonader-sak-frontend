@@ -21,7 +21,7 @@ export const finnAvhengighetTilOverordnetValg = (
     };
 };
 
-export const delvilkårSomErRelevante = (delvilkårsett: Delvilkårsett): [string, Delvilkår][] =>
+export const delvilkårSomErRelevante = (delvilkårsett: Delvilkårsett): [RegelId, Delvilkår][] =>
     Object.entries(delvilkårsett).filter(([regelId]) => {
         const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
             finnAvhengighetTilOverordnetValg(delvilkårsett, regelId);
