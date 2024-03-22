@@ -3,13 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import constate from 'constate';
 
 import { useApp } from './AppContext';
-import {
-    OppdaterVilkår,
-    SvarPåVilkår,
-    Vilkår,
-    Vilkårsvurdering,
-    Vurderingsfeilmelding,
-} from '../Sider/Behandling/vilkår';
+import { Vilkår, Vilkårsvurdering } from '../Sider/Behandling/vilkår';
+import { SvarPåVilkår } from '../Sider/Behandling/Vilkårvurdering/oppdatering';
 import { Behandling } from '../typer/behandling/behandling';
 import {
     byggHenterRessurs,
@@ -59,7 +54,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
 
     const hentVilkårsvurdering = useCallback(() => {
         settVilkårsvurdering(byggHenterRessurs());
-        return request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandling.id}`).then(
+        return request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandling.id}/vurderinger`).then(
             settVilkårsvurdering
         );
     }, [request, behandling.id]);
@@ -86,7 +81,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     };
 
     const lagreVilkår = (vilkår: SvarPåVilkår): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår).then(
+        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar/oppdater`, 'POST', vilkår).then(
             (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     fjernFeilmelding(respons.data.id);
@@ -148,8 +143,8 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
     );
 
     return {
-        vilkårsvurdering,
-        hentVilkårsvurdering,
+        vilkårsvurdering: vilkårsvurdering,
+        hentVilkårsvurdering: hentVilkårsvurdering,
         lagreVilkår,
         feilmeldinger,
         nullstillVilkår,
@@ -157,3 +152,9 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         oppdaterGrunnlagsdataOgHentVilkårsvurdering,
     };
 });
+
+type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
+
+interface Vurderingsfeilmelding {
+    [Key: string]: string;
+}

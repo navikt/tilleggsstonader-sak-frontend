@@ -1,5 +1,3 @@
-import { Begrunnelse, SvarId } from '../../typer/regel';
-
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
     AUTOMATISK_OPPFYLT = 'AUTOMATISK_OPPFYLT',
@@ -9,9 +7,7 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export type Vilkårtype = Inngangsvilkårtype;
-
-export enum Inngangsvilkårtype {
+export enum Vilkårstype {
     MÅLGRUPPE = 'MÅLGRUPPE',
     MÅLGRUPPE_AAP = 'MÅLGRUPPE_AAP',
     MÅLGRUPPE_AAP_FERDIG_AVKLART = 'MÅLGRUPPE_AAP_FERDIG_AVKLART',
@@ -21,31 +17,50 @@ export enum Inngangsvilkårtype {
     PASS_BARN = 'PASS_BARN',
 }
 
-export interface Vurdering {
-    regelId: string;
-    svar?: SvarId;
-    begrunnelse?: Begrunnelse;
-}
+export type VurderingInput = Record<RegelId, { svar: SvarId | null; begrunnelse: string | null }>;
+
+export type Begrunnelsestype = 'PÅKREVD' | 'VALGFRI' | 'UTEN';
+
+export type SvarId = string;
+export type RegelId = string;
+
 export interface Vilkår {
     id: string;
     behandlingId: string;
     resultat: Vilkårsresultat;
-    vilkårType: Vilkårtype;
+    vilkårType: Vilkårstype;
     barnId?: string;
     endretAv: string;
     endretTid: string;
-    delvilkårsett: Delvilkår[];
+    delvilkårsett: Delvilkårsett;
     opphavsvilkår?: Opphavsvilkår;
+}
+
+export interface Delvilkårsett {
+    [regel: RegelId]: Delvilkår;
+}
+
+export interface Delvilkår {
+    svar: string | null;
+    begrunnelse: string | null;
+    svaralternativer: Svaralternativer;
+    følgerFraOverordnetValg: OverordnetValg | null;
+}
+
+interface OverordnetValg {
+    regel: RegelId;
+    svar: SvarId;
+}
+
+export interface Svaralternativer {
+    [svaralternativ: string]: {
+        begrunnelsestype: Begrunnelsestype;
+    };
 }
 
 export interface Opphavsvilkår {
     behandlingId: string;
     endretTid: string;
-}
-
-export interface Delvilkår {
-    resultat: Vilkårsresultat;
-    vurderinger: Vurdering[];
 }
 
 interface GrunnlagHovedytelse {}
@@ -76,12 +91,4 @@ interface VilkårGrunnlag {
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
     grunnlag: VilkårGrunnlag;
-}
-
-export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
-
-export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
-
-export interface Vurderingsfeilmelding {
-    [Key: string]: string;
 }

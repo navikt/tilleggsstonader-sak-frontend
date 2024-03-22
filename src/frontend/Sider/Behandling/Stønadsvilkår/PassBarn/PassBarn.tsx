@@ -3,34 +3,32 @@ import React from 'react';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { Vilkårsregler } from '../../../../typer/regel';
 import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
-import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { Vilkårstype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
-    vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
-    vilkårsvurdering: Vilkårsvurdering;
+    vilkårsvurderinger: Vilkårsvurdering;
 }
 
-const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
-    const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
+const PassBarn: React.FC<Props> = ({ vilkårsvurderinger }) => {
+    const vilkårsettPassBarn = vilkårsvurderinger.vilkårsett.filter(
+        (vilkår) => vilkår.vilkårType === Vilkårstype.PASS_BARN
     );
 
-    if (vilkårsett.length === 0) {
+    if (vilkårsettPassBarn.length === 0) {
         return <div>Mangler vurderinger for pass av barn</div>;
     }
 
     const finnBarnIGrunnlag = (barnId: string) =>
-        vilkårsvurdering.grunnlag.barn.find((barn) => barn.barnId === barnId);
+        vilkårsvurderinger.grunnlag.barn.find((barn) => barn.barnId === barnId);
 
-    return vilkårsett.map((vilkår) => {
-        if (!vilkår.barnId) {
+    return vilkårsettPassBarn.map((vilkårPerBarn) => {
+        if (!vilkårPerBarn.barnId) {
             return <div>Vilkår er ikke knyttet til et barn</div>;
         }
 
-        const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
+        const grunnlagBarn = finnBarnIGrunnlag(vilkårPerBarn.barnId);
 
         if (!grunnlagBarn) {
             return <div>Fant ikke grunnlag for barn</div>;
@@ -42,7 +40,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return (
             <VilkårPanel
                 tittel={`${barnetsNavn} (${barnetsAlder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårPerBarn.resultat} />}
                 ekstraHeading={
                     <InlineKopiknapp
                         kopitekst={grunnlagBarn.ident}
@@ -53,7 +51,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 rundskrivlenke={rundskrivPassBarn}
                 key={grunnlagBarn.barnId}
             >
-                <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
+                <VisEllerEndreVilkår vilkår={vilkårPerBarn} />
             </VilkårPanel>
         );
     });

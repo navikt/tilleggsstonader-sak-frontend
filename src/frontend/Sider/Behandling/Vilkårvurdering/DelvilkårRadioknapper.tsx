@@ -6,14 +6,14 @@ import { styled } from 'styled-components';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
-import { regelIdTilSpørsmål, hjelpetekster, svarIdTilTekst } from './tekster';
-import { Regel } from '../../../typer/regel';
-import { Vurdering } from '../vilkår';
+import { hjelpetekster, regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
+import { RegelId, Svaralternativer, SvarId } from '../vilkår';
 
 interface Props {
-    regel: Regel;
-    vurdering: Vurdering;
-    settVurdering: (nyttSvar: Vurdering) => void;
+    regelId: RegelId;
+    svaralternativer: Svaralternativer;
+    gjeldendeSvar: SvarId | null;
+    settSvar: (nyttSvar: SvarId) => void;
     feilmelding?: string;
     nullstillFeilmelding: (regelId: string) => void;
 }
@@ -23,35 +23,35 @@ const Container = styled.div`
 `;
 
 const DelvilkårRadioknapper: FC<Props> = ({
-    regel,
-    vurdering,
-    settVurdering,
+    regelId,
+    svaralternativer,
+    gjeldendeSvar,
+    settSvar,
     feilmelding,
     nullstillFeilmelding,
 }) => {
-    const svaralternativer = Object.keys(regel.svarMapping);
-    const regelId = regel.regelId;
     return (
         <Container>
             <RadioGroup
                 legend={regelIdTilSpørsmål[regelId] || regelId}
                 description={Spørsmålsbeskrivelse(regelId)}
-                value={vurdering.svar || ''}
+                value={gjeldendeSvar}
                 size="small"
                 error={feilmelding}
             >
-                {svaralternativer.map((svar) => {
+                {Object.keys(svaralternativer).map((svaralternativ) => {
+                    const radioId = `${regelId}_${svaralternativ}`;
                     return (
                         <Radio
-                            key={`${regelId}_${svar}`}
-                            name={`${regelId}_${svar}`}
-                            value={svar}
+                            key={radioId}
+                            name={radioId}
+                            value={svaralternativ}
                             onChange={() => {
-                                settVurdering({ svar, regelId });
+                                settSvar(svaralternativ);
                                 nullstillFeilmelding(regelId);
                             }}
                         >
-                            {svarIdTilTekst[svar] || svar}
+                            {svarIdTilTekst[svaralternativ] || svaralternativ}
                         </Radio>
                     );
                 })}
@@ -60,7 +60,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
     );
 };
 
-const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
+const Spørsmålsbeskrivelse = (regelId: RegelId): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
             return <SlikGjørDuVurderingen regelId={regelId} />;

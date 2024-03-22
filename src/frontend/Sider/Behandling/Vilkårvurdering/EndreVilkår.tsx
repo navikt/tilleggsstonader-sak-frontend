@@ -3,19 +3,18 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
+import { mapTilOppdaterDelvilkårsvurderinger, SvarPåVilkår } from './oppdatering';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
-import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { SvarPåVilkår, Vilkår } from '../vilkår';
+import { Vilkår, Delvilkårsett } from '../vilkår';
 
 interface Props {
     vilkår: Vilkår;
     feilmelding: string | undefined;
-    regler: Regler;
 }
 
-const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
+const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
     const { hentBehandling } = useBehandling();
     const [oppdatererVilkår, settOppdatererVilkår] = useState<boolean>(false);
 
@@ -45,12 +44,17 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding, regler }) => {
                 </ErrorMessage>
             )}
             <EndreDelvilkår
-                oppdaterVilkår={oppdaterVilkår}
-                vilkårType={vilkår.vilkårType}
-                regler={regler}
-                vilkår={vilkår}
+                delvilkårsett={vilkår.delvilkårsett}
+                oppdaterVilkår={(nyeVurderinger: Delvilkårsett) => {
+                    oppdaterVilkår({
+                        id: vilkår.id,
+                        behandlingId: vilkår.behandlingId,
+                        vurdering: mapTilOppdaterDelvilkårsvurderinger(nyeVurderinger),
+                    });
+                }}
             />
         </>
     );
 };
+
 export default EndreVilkår;

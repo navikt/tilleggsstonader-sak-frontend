@@ -1,4 +1,4 @@
-import { RegelId } from '../../../typer/regel';
+import { RegelId } from '../vilkår';
 
 export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',

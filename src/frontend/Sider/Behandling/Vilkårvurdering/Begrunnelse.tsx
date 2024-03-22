@@ -5,29 +5,25 @@ import { styled } from 'styled-components';
 
 import { Textarea, VStack } from '@navikt/ds-react';
 
-import { BegrunnelseRegel, Regel } from '../../../typer/regel';
-import { Vurdering } from '../vilkår';
+import { Begrunnelsestype } from '../vilkår';
 
 interface Props {
-    vurdering: Vurdering;
-    regel: Regel;
-    onChange: (tekst: string) => void;
+    begrunnelsestype: Begrunnelsestype;
+    gjeldendeBegrunnelse?: string;
+    settBegrunnelse: (tekst: string | undefined) => void;
 }
 
 const BegrunnelseContainer = styled(VStack)`
     width: 250px;
 `;
 
-const Begrunnelse: FC<Props> = ({ vurdering, onChange, regel }) => {
-    const typeBegrunnelse = vurdering.svar && regel.svarMapping[vurdering.svar].begrunnelseType;
-    const skjulBegrunnelse = typeBegrunnelse === BegrunnelseRegel.UTEN;
-
-    if (skjulBegrunnelse) {
+const Begrunnelse: FC<Props> = ({ gjeldendeBegrunnelse, settBegrunnelse, begrunnelsestype }) => {
+    if (begrunnelsestype === 'UTEN') {
         return null;
     }
 
     const begrunnelsestekst = 'Begrunnelse '.concat(
-        typeBegrunnelse !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
+        begrunnelsestype === 'PÅKREVD' ? '(obligatorisk)' : '(valgfri)'
     );
 
     return (
@@ -37,8 +33,8 @@ const Begrunnelse: FC<Props> = ({ vurdering, onChange, regel }) => {
                 resize
                 size="small"
                 minRows={3}
-                value={vurdering.begrunnelse || ''}
-                onChange={(e) => onChange(e.target.value)}
+                value={gjeldendeBegrunnelse}
+                onChange={(e) => settBegrunnelse(e.target.value)}
             />
         </BegrunnelseContainer>
     );

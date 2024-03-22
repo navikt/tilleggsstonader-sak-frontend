@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -7,19 +7,12 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import {
-    begrunnelseErPåkrevdOgUtfyllt,
-    hentSvaralternativ,
-    kanHaBegrunnelse,
-    kopierBegrunnelse,
-    leggTilNesteIdHvis,
-    oppdaterSvarIListe,
-} from './utils';
-import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { mapTilVurderingInput, oppdaterVurderinger } from './oppdatering';
+import { delvilkårSomErRelevante } from './utils';
+import { Feilmeldinger, validerVilkårsvurdering } from './validering';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
+import { RegelId, VurderingInput, Delvilkårsett, SvarId } from '../vilkår';
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
@@ -39,98 +32,44 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 `;
 
 const EndreDelvilkår: FC<{
-    vilkårType: Vilkårtype;
-    regler: Regler;
-    oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
-    vilkår: Vilkår;
-}> = ({ regler, oppdaterVilkår, vilkår }) => {
-    const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
-    const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
-        settDelvilkårsett((prevSvar) => {
-            const prevDelvilkårsett = prevSvar[index];
-            return [
-                ...prevSvar.slice(0, index),
-                {
-                    ...prevDelvilkårsett,
-                    vurderinger: nySvarArray,
-                },
-                ...prevSvar.slice(index + 1),
-            ];
-        });
-    };
-
-    const oppdaterBegrunnelse = (
-        vurderinger: Vurdering[],
-        delvilkårIndex: number,
-        nyttSvar: Vurdering
-    ) => {
-        const { begrunnelse } = nyttSvar;
-        const svarsalternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
-        if (!svarsalternativ) {
-            return;
-        }
-
-        const oppdaterteSvar = oppdaterSvarIListe(nyttSvar, vurderinger, true);
-
-        const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svarsalternativ.regelId,
-            oppdaterteSvar,
-            () => begrunnelseErPåkrevdOgUtfyllt(svarsalternativ, begrunnelse)
-        );
-        oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedNesteRegel);
-    };
-
-    const oppdaterSvar = (
-        vurderinger: Vurdering[],
-        delvilkårIndex: number,
-        nyttSvar: Vurdering
-    ) => {
-        const svaralternativer: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
-
-        if (!svaralternativer) {
-            return;
-        }
-
-        const oppdaterteSvar = oppdaterSvarIListe(
-            nyttSvar,
-            vurderinger,
-            false,
-            kanHaBegrunnelse(svaralternativer)
-        );
-
-        const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svaralternativer.regelId,
-            oppdaterteSvar,
-            () => svaralternativer.begrunnelseType !== BegrunnelseRegel.PÅKREVD
-        );
-
-        const oppdaterteSvarMedKopiertBegrunnelse = kopierBegrunnelse(
-            vurderinger,
-            oppdaterteSvarMedNesteRegel,
-            nyttSvar,
-            svaralternativer,
-            regler
-        );
-
-        oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
-    };
-
+    delvilkårsett: Delvilkårsett;
+    oppdaterVilkår: (oppdaterteDelvilkår: Delvilkårsett) => void;
+}> = ({ oppdaterVilkår, delvilkårsett }) => {
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
+    const [vurderingInput, settVurderingInput] = useState<VurderingInput>(
+        mapTilVurderingInput(delvilkårsett)
+    );
+
+    useEffect(() => {
+        settVurderingInput(mapTilVurderingInput(delvilkårsett));
+    }, [delvilkårsett]);
+
+    const oppdaterteVurderinger = oppdaterVurderinger(delvilkårsett, vurderingInput);
+
+    const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, regler);
-
+        const valideringsfeil = validerVilkårsvurdering(oppdaterteVurderinger);
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            oppdaterVilkår({
-                id: vilkår.id,
-                behandlingId: vilkår.behandlingId,
-                delvilkårsett: delvilkårsett,
-            });
+            oppdaterVilkår(oppdaterteVurderinger);
         }
+    };
+
+    const oppdaterSvar = (regelId: RegelId, nyttSvar: SvarId) => {
+        settVurderingInput({
+            ...vurderingInput,
+            [regelId]: { ...vurderingInput[regelId], svar: nyttSvar || null },
+        });
+    };
+
+    const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse?: string) => {
+        settVurderingInput({
+            ...vurderingInput,
+            [regelId]: { ...vurderingInput[regelId], begrunnelse: nyBegrunnelse || null },
+        });
     };
 
     const nullstillFeilmelding = (regelId: string) => {
@@ -138,48 +77,42 @@ const EndreDelvilkår: FC<{
     };
 
     return (
-        <form onSubmit={validerOgLagreVilkårsvurderinger}>
+        <form onSubmit={validerOgLagreVilkårsvurdering}>
             <VStack gap="4">
-                {delvilkårsett.map((delvikår, delvilkårIndex) => {
-                    return delvikår.vurderinger.map((svar, indeks) => {
-                        const gjeldendeRegel = regler[svar.regelId];
-                        const erUndervilkår = indeks !== 0;
+                {delvilkårSomErRelevante(oppdaterteVurderinger).map(
+                    ([regel, delvilkår], indeks) => {
+                        const gjeldendeSvar = delvilkår.svar;
+
+                        const begrunnelsestype = gjeldendeSvar
+                            ? delvilkår.svaralternativer[gjeldendeSvar]?.begrunnelsestype
+                            : 'VALGFRI';
+
+                        const følgerFraOverordnetValg = delvilkår.følgerFraOverordnetValg !== null;
+
                         return (
-                            <React.Fragment key={gjeldendeRegel.regelId + vilkår.barnId}>
-                                {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                                <DelvilkårContainer $erUndervilkår={erUndervilkår}>
+                            <React.Fragment key={regel}>
+                                {indeks !== 0 && !følgerFraOverordnetValg && <Skillelinje />}
+                                <DelvilkårContainer $erUndervilkår={følgerFraOverordnetValg}>
                                     <DelvilkårRadioknapper
-                                        vurdering={svar}
-                                        regel={gjeldendeRegel}
-                                        settVurdering={(nyVurdering) =>
-                                            oppdaterSvar(
-                                                delvikår.vurderinger,
-                                                delvilkårIndex,
-                                                nyVurdering
-                                            )
-                                        }
-                                        feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
+                                        regelId={regel}
+                                        svaralternativer={delvilkår.svaralternativer}
+                                        gjeldendeSvar={gjeldendeSvar}
+                                        settSvar={(nyttSvar) => oppdaterSvar(regel, nyttSvar)}
+                                        feilmelding={feilmeldinger[regel]}
                                         nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
-                                        onChange={(begrunnelse) =>
-                                            oppdaterBegrunnelse(
-                                                delvikår.vurderinger,
-                                                delvilkårIndex,
-                                                {
-                                                    ...svar,
-                                                    begrunnelse,
-                                                }
-                                            )
+                                        gjeldendeBegrunnelse={delvilkår.begrunnelse || undefined}
+                                        begrunnelsestype={begrunnelsestype}
+                                        settBegrunnelse={(begrunnelse) =>
+                                            oppdaterBegrunnelse(regel, begrunnelse)
                                         }
-                                        vurdering={svar}
-                                        regel={gjeldendeRegel}
                                     />
                                 </DelvilkårContainer>
                             </React.Fragment>
                         );
-                    });
-                })}
+                    }
+                )}
                 <HStack gap="1">
                     <Skillelinje />
                     <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
