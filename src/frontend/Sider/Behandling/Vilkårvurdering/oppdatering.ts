@@ -1,7 +1,7 @@
 import { delvilkårSomErRelevante } from './utils';
 import { RegelId, VurderingInput, SvarId, Delvilkårsett, Delvilkår } from '../vilkår';
 
-export type OppdaterVilkårsvurdering = {
+export type SvarPåVilkår = {
     id: string;
     behandlingId: string;
     vurdering: OppdaterDelvilkårvurdering[];
@@ -42,11 +42,11 @@ export const oppdaterVurderinger = (
     );
 };
 
-export const mapTilVurderingInput = (vilkårsvurdering: Delvilkårsett): VurderingInput => {
+export const mapTilVurderingInput = (delvilkårsett: Delvilkårsett): VurderingInput => {
     return Object.fromEntries(
-        Object.entries(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => [
+        Object.entries(delvilkårsett).map(([regelId, delvilkår]) => [
             regelId,
-            { svar: delvilkårsvurdering.svar, begrunnelse: delvilkårsvurdering?.begrunnelse },
+            { svar: delvilkår.svar, begrunnelse: delvilkår?.begrunnelse },
         ])
     );
 };

@@ -33,19 +33,19 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 
 const EndreDelvilkår: FC<{
     delvilkårsett: Delvilkårsett;
-    lagreVilkårsvurdering: (oppdaterteDelvilkår: Delvilkårsett) => void;
-}> = ({ lagreVilkårsvurdering, delvilkårsett }) => {
+    oppdaterVilkår: (oppdaterteDelvilkår: Delvilkårsett) => void;
+}> = ({ oppdaterVilkår, delvilkårsett }) => {
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const [brukervurderinger, settBrukervurderinger] = useState<VurderingInput>(
+    const [vurderingInput, settVurderingInput] = useState<VurderingInput>(
         mapTilVurderingInput(delvilkårsett)
     );
 
     useEffect(() => {
-        settBrukervurderinger(mapTilVurderingInput(delvilkårsett));
+        settVurderingInput(mapTilVurderingInput(delvilkårsett));
     }, [delvilkårsett]);
 
-    const oppdaterteVurderinger = oppdaterVurderinger(delvilkårsett, brukervurderinger);
+    const oppdaterteVurderinger = oppdaterVurderinger(delvilkårsett, vurderingInput);
 
     const validerOgLagreVilkårsvurdering = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -54,21 +54,21 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            lagreVilkårsvurdering(oppdaterteVurderinger);
+            oppdaterVilkår(oppdaterteVurderinger);
         }
     };
 
     const oppdaterSvar = (regelId: RegelId, nyttSvar: SvarId) => {
-        settBrukervurderinger({
-            ...brukervurderinger,
-            [regelId]: { ...brukervurderinger[regelId], svar: nyttSvar || null },
+        settVurderingInput({
+            ...vurderingInput,
+            [regelId]: { ...vurderingInput[regelId], svar: nyttSvar || null },
         });
     };
 
     const oppdaterBegrunnelse = (regelId: RegelId, nyBegrunnelse?: string) => {
-        settBrukervurderinger({
-            ...brukervurderinger,
-            [regelId]: { ...brukervurderinger[regelId], begrunnelse: nyBegrunnelse || null },
+        settVurderingInput({
+            ...vurderingInput,
+            [regelId]: { ...vurderingInput[regelId], begrunnelse: nyBegrunnelse || null },
         });
     };
 
