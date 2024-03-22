@@ -26,5 +26,5 @@ export const delvilkårSomErRelevante = (delvilkårsett: Delvilkårsett): [strin
         const { følgerAvOverordnetValg, overordnetValgErOppfylt } =
             finnAvhengighetTilOverordnetValg(delvilkårsett, regelId);
 
-        return !følgerAvOverordnetValg && overordnetValgErOppfylt;
+        return !følgerAvOverordnetValg || overordnetValgErOppfylt;
     });

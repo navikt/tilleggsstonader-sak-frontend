@@ -3,7 +3,10 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
-import { SvarPåVilkår, mapTilOppdaterDelvilkårsvurderinger } from './oppdatering';
+import {
+    mapTilOppdaterDelvilkårsvurderinger,
+    OppdaterVilkårsvurdering as SvarPåVilkår,
+} from './oppdatering';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
