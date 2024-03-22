@@ -37,7 +37,7 @@ const DelmalPreview = styled.div`
 
 interface Props {
     delmal: DelmalType;
-    valgfelt: Record<Valgfelt['_id'], Valg>;
+    valgfelt: Partial<Record<Valgfelt['_id'], Valg>>;
     settValgfelt: React.Dispatch<SetStateAction<Record<Valgfelt['_id'], Valg>>>;
     variabler: Record<string, string>;
     settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
@@ -48,7 +48,7 @@ interface Props {
 }
 
 export const CustomComponets = (
-    valgfelt: Record<string, Valg>,
+    valgfelt: Partial<Record<string, Valg>>,
     variabler: Record<string, string>,
     fritekst: Record<string, FritekstAvsnitt[] | undefined>
 ) => ({

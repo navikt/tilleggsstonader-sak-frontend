@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import { VStack } from '@navikt/ds-react';
 
 import PassBarn from './PassBarn/PassBarn';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
@@ -17,6 +18,7 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 
 const Stønadsvilkår = () => {
     const { vilkårsvurdering } = useVilkår();
+    const { behandlingErRedigerbar } = useBehandling();
 
     return (
         <Container>
@@ -27,9 +29,11 @@ const Stønadsvilkår = () => {
             >
                 {({ vilkårsvurderinger }) => <PassBarn vilkårsvurderinger={vilkårsvurderinger} />}
             </DataViewer>
-            <NesteStegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                Fullfør vilkårsvurdering og gå videre
-            </NesteStegKnapp>
+            {behandlingErRedigerbar && (
+                <NesteStegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                    Fullfør vilkårsvurdering og gå videre
+                </NesteStegKnapp>
+            )}
         </Container>
     );
 };
