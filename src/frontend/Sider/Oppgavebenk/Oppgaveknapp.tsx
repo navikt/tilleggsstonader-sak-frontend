@@ -6,7 +6,11 @@ import styled from 'styled-components';
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown } from '@navikt/ds-react';
 
-import { oppgaveErSaksbehandling } from './oppgaveutils';
+import {
+    lagJournalføringUrl,
+    oppgaveErJournalføring,
+    oppgaveErSaksbehandling,
+} from './oppgaveutils';
 import { Oppgave, OppgaveResponse } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgave } from '../../context/OppgaveContext';
@@ -28,7 +32,8 @@ interface Props {
     oppgave: Oppgave;
 }
 
-const skalViseFortsettKnapp = (oppgave: Oppgave) => oppgaveErSaksbehandling(oppgave);
+const skalViseFortsettKnapp = (oppgave: Oppgave) =>
+    oppgaveErSaksbehandling(oppgave) || oppgaveErJournalføring(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler, request } = useApp();
@@ -61,9 +66,17 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
             .finally(() => settLaster(false));
     };
 
+    const gåTilJournalføring = () => {
+        const journalpostId = oppgave.journalpostId || '';
+        const oppgaveId = oppgave.id;
+        navigate(lagJournalføringUrl(journalpostId, oppgaveId));
+    };
+
     const gåTilOppgaveUtførelse = () => {
         if (oppgaveErSaksbehandling(oppgave)) {
             gåTilBehandleSakOppgave();
+        } else if (oppgaveErJournalføring(oppgave)) {
+            gåTilJournalføring();
         } else {
             // TODO kan legges til senere
             //hentFagsakOgTriggRedirectTilBehandlingsoversikt(utledetFolkeregisterIdent(oppgave));

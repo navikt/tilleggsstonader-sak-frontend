@@ -10,6 +10,7 @@ import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
+import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
@@ -30,7 +31,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     >
                         <Route path={''} element={<Oppgavebenk />} />
                         <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
-
+                        <Route path={'/journalfor'} element={<Journalføring />} />
                         <Route
                             path={'/behandling/:behandlingId/*'}
                             element={<BehandlingContainer />}

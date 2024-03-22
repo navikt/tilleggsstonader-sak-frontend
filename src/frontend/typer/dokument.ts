@@ -1,7 +1,7 @@
 import { AvsenderMottaker, Journalposttype, Journalstatus } from './journalpost';
 
 export interface DokumentInfo {
-    dokumentinfoId: string;
+    dokumentInfoId: string;
     filnavn?: string;
     tittel: string;
     journalpostId: string;
@@ -15,9 +15,13 @@ export interface DokumentInfo {
     utsendingsinfo?: Utsendingsinfo;
 }
 
-interface LogiskVedlegg {
+export interface LogiskVedlegg {
+    logiskVedleggId: string;
     tittel: string;
 }
+
+export type DokumentTitler = Record<string, string>;
+export type LogiskeVedleggPåDokument = Record<string, LogiskVedlegg[]>;
 
 interface Utsendingsinfo {
     varselSendt: VarselSendt[];
