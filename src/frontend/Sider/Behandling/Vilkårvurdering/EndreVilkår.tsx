@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
-import { OppdaterVilkårsvurdering, mapTilOppdaterDelvilkårsvurderinger } from './oppdatering';
+import { SvarPåVilkår, mapTilOppdaterDelvilkårsvurderinger } from './oppdatering';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
@@ -20,10 +20,10 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
 
     const { lagreVilkårsvurdering } = useVilkår();
 
-    const oppdaterVilkårsvurdering = (vurdering: OppdaterVilkårsvurdering) => {
+    const oppdaterVilkår = (svarPåVilkår: SvarPåVilkår) => {
         if (!oppdatererVilkår) {
             settOppdatererVilkår(true);
-            lagreVilkårsvurdering(vurdering).then(
+            lagreVilkårsvurdering(svarPåVilkår).then(
                 (response: RessursSuksess<Vilkår> | RessursFeilet) => {
                     settOppdatererVilkår(false);
                     if (response.status === RessursStatus.SUKSESS) {
@@ -48,7 +48,7 @@ const EndreVilkår: FC<Props> = ({ vilkår, feilmelding }) => {
             <EndreDelvilkår
                 delvilkårsett={vilkår.delvilkårsett}
                 lagreVilkårsvurdering={(nyeVurderinger: Delvilkårsett) => {
-                    oppdaterVilkårsvurdering({
+                    oppdaterVilkår({
                         id: vilkår.id,
                         behandlingId: vilkår.behandlingId,
                         vurdering: mapTilOppdaterDelvilkårsvurderinger(nyeVurderinger),
