@@ -1,5 +1,5 @@
 import { finnAvhengighetTilOverordnetValg } from './utils';
-import { manglerInnhold } from '../../../typer/typeUtils';
+import { harIkkeVerdi } from '../../../utils/utils';
 import { RegelId, Delvilkårsett } from '../vilkår';
 
 export type Feilmeldinger = Record<RegelId, string | undefined>;
@@ -25,7 +25,7 @@ export const validerVilkårsvurdering = (delvilkårsett: Delvilkårsett): Feilme
         const kreverBegrunnelse =
             delvilkårsvurdering.svaralternativer[gjeldendeSvar].begrunnelsestype === 'PÅKREVD';
 
-        if (kreverBegrunnelse && manglerInnhold(delvilkårsvurdering.begrunnelse)) {
+        if (kreverBegrunnelse && harIkkeVerdi(delvilkårsvurdering.begrunnelse)) {
             valideringsfeil[regel] = 'Begrunnelse er obligatorisk for dette valget';
             return;
         }
