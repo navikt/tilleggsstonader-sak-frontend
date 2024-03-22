@@ -13,19 +13,17 @@ interface OppdaterDelvilkårvurdering {
     begrunnelse: string | null;
 }
 
-const skalHaBegrunnelse = (delvilkårsvurdering: Delvilkår): boolean =>
+const kanHaBegrunnelse = (delvilkårsvurdering: Delvilkår): boolean =>
     delvilkårsvurdering.svar != null &&
     delvilkårsvurdering.svaralternativer[delvilkårsvurdering.svar].begrunnelsestype !== 'UTEN';
 
 export const mapTilOppdaterDelvilkårsvurderinger = (
     vilkårsvurdering: Delvilkårsett
 ): OppdaterDelvilkårvurdering[] =>
-    delvilkårSomErRelevante(vilkårsvurdering).map(([regelId, delvilkårsvurdering]) => ({
+    delvilkårSomErRelevante(vilkårsvurdering).map(([regelId, delvilkår]) => ({
         regel: regelId,
-        svar: delvilkårsvurdering.svar,
-        begrunnelse: skalHaBegrunnelse(delvilkårsvurdering)
-            ? delvilkårsvurdering.begrunnelse
-            : null,
+        svar: delvilkår.svar,
+        begrunnelse: kanHaBegrunnelse(delvilkår) ? delvilkår.begrunnelse : null,
     }));
 
 export const oppdaterVurderinger = (
@@ -37,8 +35,8 @@ export const oppdaterVurderinger = (
             regelId,
             {
                 ...delvilkår,
-                ...{ svar: nyVurdering[regelId].svar },
-                ...{ begrunnelse: nyVurdering[regelId].begrunnelse },
+                svar: nyVurdering[regelId].svar,
+                begrunnelse: nyVurdering[regelId].begrunnelse,
             },
         ])
     );
