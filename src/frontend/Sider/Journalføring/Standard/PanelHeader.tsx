@@ -6,11 +6,6 @@ import { EnvelopeClosedIcon, PersonCircleIcon } from '@navikt/aksel-icons';
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
 import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
 
-const Container = styled.div`
-    display: flex;
-    gap: 1rem;
-`;
-
 const IkonContainer = styled.div`
     color: ${ABlue500};
 `;
@@ -29,7 +24,7 @@ export const PanelHeader: React.FC<Props> = ({ navn, personIdent, type }) => {
     const tittel = `${navn} - ${personIdent}`;
 
     return (
-        <Container>
+        <HStack gap="4">
             <IkonContainer>
                 {type == PanelHeaderType.Bruker && <PersonCircleIcon fontSize={'3.5rem'} />}
                 {type == PanelHeaderType.Avsender && <EnvelopeClosedIcon fontSize={'3.5rem'} />}
@@ -38,6 +33,6 @@ export const PanelHeader: React.FC<Props> = ({ navn, personIdent, type }) => {
                 <Label as={'p'}>{tittel}</Label>
                 <CopyButton copyText={personIdent} variant="action" />
             </HStack>
-        </Container>
+        </HStack>
     );
 };

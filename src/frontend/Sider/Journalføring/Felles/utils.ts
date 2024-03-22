@@ -4,6 +4,7 @@ import { LogiskVedlegg } from '../../../typer/dokument';
 
 export type MultiSelectValue = { label: string; value: string };
 
+// TODO: Avklar hvilke titler som skal være med i denne listen
 export const dokumentTitler: string[] = [
     'Anke på tilbakekreving',
     'Arbeidsforhold',
@@ -30,10 +31,7 @@ export const dokumentTitler: string[] = [
     'Rettsavgjørelse',
     'Skatteopplysninger',
     'Stevning',
-    'Søknad om overgangsstønad',
-    'Søknad om skolepenger',
-    'Søknad om barnetilsyn',
-    'Tilmelding til NAV som reell arbeidssøker ved krav om overgangsstønad',
+    'Søknad om støtte til pass av barn',
     'Uttalelse',
     'Uttalelse tilbakekreving',
 ];

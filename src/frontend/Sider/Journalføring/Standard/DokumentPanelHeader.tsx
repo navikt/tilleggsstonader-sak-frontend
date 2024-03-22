@@ -3,22 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { FileTextFillIcon, FileTextIcon } from '@navikt/aksel-icons';
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
 
 import { LogiskVedlegg } from '../../../typer/dokument';
-
-const Container = styled.div`
-    display: flex;
-    gap: 1rem;
-`;
-
-const DokumentTitler = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    justify-content: center;
-`;
 
 const IkonContainer = styled.div`
     color: ${ABlue500};
@@ -27,7 +15,7 @@ const IkonContainer = styled.div`
 interface Props {
     dokumentTittel: string;
     erValgt: boolean;
-    logiskeVedlegg: LogiskVedlegg[] | undefined;
+    logiskeVedlegg: LogiskVedlegg[];
 }
 
 export const DokumentPanelHeader: React.FC<Props> = ({
@@ -36,7 +24,7 @@ export const DokumentPanelHeader: React.FC<Props> = ({
     logiskeVedlegg,
 }) => {
     return (
-        <Container>
+        <HStack gap="4">
             <IkonContainer>
                 {erValgt ? (
                     <FileTextFillIcon fontSize={'3.5rem'} />
@@ -44,18 +32,16 @@ export const DokumentPanelHeader: React.FC<Props> = ({
                     <FileTextIcon fontSize={'3.5rem'} />
                 )}
             </IkonContainer>
-            <DokumentTitler>
+            <VStack gap="2" justify="center">
                 <Label as={'p'}>{dokumentTittel}</Label>
-                {logiskeVedlegg !== undefined &&
-                    logiskeVedlegg !== null &&
-                    logiskeVedlegg.length > 0 && (
-                        <VStack gap={'0'}>
-                            {logiskeVedlegg.map((it) => (
-                                <BodyShort key={it.logiskVedleggId}>{it.tittel}</BodyShort>
-                            ))}
-                        </VStack>
-                    )}
-            </DokumentTitler>
-        </Container>
+                {logiskeVedlegg.length > 0 && (
+                    <VStack gap={'0'}>
+                        {logiskeVedlegg.map((it) => (
+                            <BodyShort key={it.logiskVedleggId}>{it.tittel}</BodyShort>
+                        ))}
+                    </VStack>
+                )}
+            </VStack>
+        </HStack>
     );
 };
