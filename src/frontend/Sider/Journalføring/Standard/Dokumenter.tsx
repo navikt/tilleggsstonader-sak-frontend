@@ -18,16 +18,14 @@ interface Props {
     journalpostState: JournalføringState;
 }
 
-const Dokumenter: React.FC<Props> = ({ journalpostState }) => {
-    return (
-        <Liste>
-            {journalpostState.journalpost.dokumenter.map((dokument) => (
-                <li key={dokument.dokumentInfoId}>
-                    <DokumentPanel dokument={dokument} journalpostState={journalpostState} />
-                </li>
-            ))}
-        </Liste>
-    );
-};
+const Dokumenter: React.FC<Props> = ({ journalpostState }) => (
+    <Liste>
+        {journalpostState.journalpost.dokumenter.map((dokument) => (
+            <li key={dokument.dokumentInfoId}>
+                <DokumentPanel dokument={dokument} journalpostState={journalpostState} />
+            </li>
+        ))}
+    </Liste>
+);
 
 export default Dokumenter;

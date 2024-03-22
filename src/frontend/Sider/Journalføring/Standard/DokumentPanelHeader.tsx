@@ -15,7 +15,7 @@ const IkonContainer = styled.div`
 interface Props {
     dokumentTittel: string;
     erValgt: boolean;
-    logiskeVedlegg: LogiskVedlegg[] | undefined;
+    logiskeVedlegg: LogiskVedlegg[];
 }
 
 export const DokumentPanelHeader: React.FC<Props> = ({
@@ -34,15 +34,13 @@ export const DokumentPanelHeader: React.FC<Props> = ({
             </IkonContainer>
             <VStack gap="2" justify="center">
                 <Label as={'p'}>{dokumentTittel}</Label>
-                {logiskeVedlegg !== undefined &&
-                    logiskeVedlegg !== null &&
-                    logiskeVedlegg.length > 0 && (
-                        <VStack gap={'0'}>
-                            {logiskeVedlegg.map((it) => (
-                                <BodyShort key={it.logiskVedleggId}>{it.tittel}</BodyShort>
-                            ))}
-                        </VStack>
-                    )}
+                {logiskeVedlegg.length > 0 && (
+                    <VStack gap={'0'}>
+                        {logiskeVedlegg.map((it) => (
+                            <BodyShort key={it.logiskVedleggId}>{it.tittel}</BodyShort>
+                        ))}
+                    </VStack>
+                )}
             </VStack>
         </HStack>
     );

@@ -62,11 +62,9 @@ export const Journalføring: React.FC = () => {
 
     return (
         <DataViewer response={{ journalResponse }}>
-            {({ journalResponse }) => {
-                return (
-                    <JournalføringSide oppgaveId={oppgaveId} journalResponse={journalResponse} />
-                );
-            }}
+            {({ journalResponse }) => (
+                <JournalføringSide oppgaveId={oppgaveId} journalResponse={journalResponse} />
+            )}
         </DataViewer>
     );
 };
