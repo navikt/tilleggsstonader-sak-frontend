@@ -1,9 +1,11 @@
 /* eslint-disable */
 import cookieParser from 'cookie-parser';
-import { Express } from 'express';
+import { Express, NextFunction, Request, Response } from 'express';
 import session from 'express-session';
-import { custom, Issuer } from 'openid-client';
+import { BaseClient, custom, Issuer, TokenSet } from 'openid-client';
 import { getClientConfig } from '../auth/client';
+import logger from '../logger';
+import { redirectResponseToLogin } from './util';
 
 export const setupLocal = (app: Express) => {
     app.use(cookieParser());
@@ -28,11 +30,13 @@ export const setupLocal = (app: Express) => {
     custom.setHttpOptionsDefaults({
         timeout: 7500,
     });
+    let client: BaseClient | undefined = undefined;
 
     Issuer.discover(oidcIssuerUrl).then((issuer) => {
-        const client = new issuer.Client(loginClientConfig);
+        const issuerClient = new issuer.Client(loginClientConfig);
+        client = issuerClient;
         app.get('/oauth2/login', (req, res) => {
-            const authorizationUrl = client.authorizationUrl({
+            const authorizationUrl = issuerClient.authorizationUrl({
                 scope: `openid offline_access profile ${loginClientConfig.client_id}/.default`,
             });
             const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
@@ -45,18 +49,22 @@ export const setupLocal = (app: Express) => {
         });
 
         app.get('/oauth2/callback', async (req, res) => {
-            const params = client.callbackParams(req);
+            const params = issuerClient.callbackParams(req);
 
             try {
-                const tokenSet = await client.callback(loginClientConfig.redirect_uri, params, {
-                    //nonce: 'your-nonce-value', // Generate and validate nonce to prevent CSRF
-                });
+                const tokenSet = await issuerClient.callback(
+                    loginClientConfig.redirect_uri,
+                    params,
+                    {
+                        //nonce: 'your-nonce-value', // Generate and validate nonce to prevent CSRF
+                    }
+                );
                 const accessToken = tokenSet.access_token;
                 if (!accessToken) {
                     res.status(500).send('Callback failed');
                 } else {
                     // @ts-ignore
-                    req.session.accessToken = accessToken;
+                    req.session.tokenSet = tokenSet;
                     // @ts-ignore
                     res.redirect(req.session.redirectUrl);
                 }
@@ -72,4 +80,52 @@ export const setupLocal = (app: Express) => {
             });
         });
     });
+
+    // esnure authenticated
+    app.use('/api/sak', (req, res, next) => {
+        if (!client) {
+            logger.error('Refresh av token. Har ikke initiert client');
+            res.status(500).send('Har ikke initiert client');
+            return;
+        }
+        ensureAuthenticated(client, req, res, next);
+    });
 };
+
+const ensureAuthenticated = (
+    client: BaseClient,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    // @ts-ignore
+    if (!req.session.tokenSet) {
+        logger.error('ensureAuthenticated - Mangler sesjon med token');
+        redirectResponseToLogin(req, res);
+        return;
+    }
+    // @ts-ignore
+    const tokenSet: TokenSet = new TokenSet(req.session.tokenSet);
+    if (erUtgått(tokenSet)) {
+        logger.info('ensureAuthenticated - Token har utgått. Refresher token.');
+        client
+            .refresh(tokenSet)
+            .then((newTokenSet) => {
+                // @ts-ignore
+                req.session.tokenSet = newTokenSet;
+                logger.info('ensureAuthenticated - Refreshet token');
+                next();
+            })
+            .catch((e) => {
+                console.log('ensureAuthenticated - Feilet refresh av token', e);
+                redirectResponseToLogin(req, res);
+            });
+    } else {
+        next();
+    }
+};
+
+// kallkjedene kan ta litt tid, og tokenet kan i corner-case gå ut i løpet av kjeden. Så innfører et buffer
+// på 2 minutter.
+const erUtgått = (tokenSet: TokenSet): boolean =>
+    tokenSet.expired() || (tokenSet.expires_in !== undefined && tokenSet.expires_in < 120);

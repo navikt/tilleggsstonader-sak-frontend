@@ -4,14 +4,12 @@ import { decodeJwt } from 'jose';
 import { azureOBO, verify } from './client';
 import { withInMemoryCache } from './inMemoryCache';
 import { getTokenFromHeader, secondsUntil } from './secondsUntil';
+import { redirectResponseToLogin } from './util';
 import { logWarn } from '../logger';
 import { ApplicationName, miljø } from '../miljø';
 
 const AUTHORIZATION_HEADER = 'authorization';
 const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
-
-const redirectResponseToLogin = (req: Request, res: Response) =>
-    res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
 
 export const validateToken = (redirectToLogin: boolean = false): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {
