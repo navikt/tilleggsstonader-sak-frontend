@@ -28,6 +28,12 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         []
     ); // Saksbehandler skal inn som dep etter hvert
 
+    const loggUt = useCallback(() => {
+        fetch('/oauth2/logout').then(() => {
+            settAutentisert(false);
+        });
+    }, []);
+
     useEffect(() => {
         settErSaksbehandler(harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'));
     }, [saksbehandler, appEnv]);
@@ -35,6 +41,7 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
     return {
         request,
         autentisert,
+        loggUt,
         saksbehandler,
         erSaksbehandler,
         appEnv,
