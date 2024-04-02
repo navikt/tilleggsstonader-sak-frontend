@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { Heading } from '@navikt/ds-react';
 
+import AvsenderPanel from './AvsenderPanel';
 import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
@@ -98,6 +99,15 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
                             Bruker
                         </Heading>
                         <BrukerPanel journalpostResponse={journalResponse} />
+                    </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Avsender
+                        </Heading>
+                        <AvsenderPanel
+                            journalpostResponse={journalResponse}
+                            journalpostState={journalpostState}
+                        />
                     </section>
                 </InnerContainer>
             </Venstrekolonne>

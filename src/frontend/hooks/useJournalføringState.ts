@@ -11,6 +11,14 @@ export interface JournalføringState {
     settLogiskeVedleggPåDokument: Dispatch<SetStateAction<LogiskeVedleggPåDokument>>;
     valgtDokumentPanel: string;
     settValgtDokumentPanel: Dispatch<SetStateAction<string>>;
+    nyAvsender: NyAvsender | undefined;
+    settNyAvsender: Dispatch<SetStateAction<NyAvsender | undefined>>;
+}
+
+interface NyAvsender {
+    erBruker: boolean;
+    navn?: string;
+    personIdent?: string;
 }
 
 export const useJournalføringState = (journalResponse: JournalpostResponse): JournalføringState => {
@@ -33,6 +41,7 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
     const [valgtDokumentPanel, settValgtDokumentPanel] = useState<string>(
         utledFørsteDokument(journalpost.dokumenter)
     );
+    const [nyAvsender, settNyAvsender] = useState<NyAvsender>();
 
     return {
         dokumentTitler,
@@ -42,5 +51,7 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
         settLogiskeVedleggPåDokument,
         valgtDokumentPanel,
         settValgtDokumentPanel,
+        nyAvsender,
+        settNyAvsender,
     };
 };
