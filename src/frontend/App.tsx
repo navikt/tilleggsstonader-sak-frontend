@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 
-import { InternalHeader, Spacer } from '@navikt/ds-react';
+import { LeaveIcon } from '@navikt/aksel-icons';
+import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import PersonSøk from './komponenter/PersonSøk';
@@ -20,6 +21,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const { autentisert } = useApp();
+
     return (
         <BrowserRouter>
             <ScrollToTop />
@@ -69,6 +71,7 @@ const App: React.FC = () => {
 const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
+    const { loggUt } = useApp();
     return (
         <>
             <Sticky $zIndex={100}>
@@ -76,7 +79,19 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
                     <PersonSøk />
-                    <InternalHeader.User name={innloggetSaksbehandler.name} />
+                    <Dropdown>
+                        <InternalHeader.UserButton
+                            as={Dropdown.Toggle}
+                            name={innloggetSaksbehandler.name}
+                        />
+                        <Dropdown.Menu>
+                            <Dropdown.Menu.List>
+                                <Dropdown.Menu.List.Item onClick={loggUt}>
+                                    Logg ut <Spacer /> <LeaveIcon aria-hidden fontSize="1.5rem" />
+                                </Dropdown.Menu.List.Item>
+                            </Dropdown.Menu.List>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </InternalHeader>
             </Sticky>
             <Outlet />
