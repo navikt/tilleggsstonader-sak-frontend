@@ -11,6 +11,7 @@ import {
     HStack,
     Label,
     TextField,
+    VStack,
 } from '@navikt/ds-react';
 import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
 
@@ -22,10 +23,7 @@ const ExpansionCardHeader = styled(ExpansionCard.Header)`
     padding-bottom: 0.35rem;
 `;
 
-const ExpansionCardContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+const ExpansionCardContent = styled(VStack).attrs({ gap: '4' })`
     padding-bottom: 1rem;
 `;
 
