@@ -1,6 +1,7 @@
 import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
 
 import { LogiskVedlegg } from '../../../typer/dokument';
+import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
 
@@ -63,11 +64,6 @@ export const mapMultiselectValueTilLogiskeVedlegg = (
     }
 };
 
-export enum Journalføringsårsak {
-    DIGITAL_SØKNAD = 'DIGITAL_SØKNAD',
-    ETTERSENDING = 'ETTERSENDING',
-    IKKE_VALGT = 'IKKE_VALGT',
-    KLAGE = 'KLAGE',
-    KLAGE_TILBAKEKREVING = 'KLAGE_TILBAKEKREVING',
-    PAPIRSØKNAD = 'PAPIRSØKNAD',
-}
+export const journalføringGjelderKlage = (journalføringsårsak: Journalføringsårsak) =>
+    journalføringsårsak === Journalføringsårsak.KLAGE ||
+    journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
