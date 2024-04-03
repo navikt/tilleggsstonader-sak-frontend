@@ -20,8 +20,7 @@ export interface Journalpost {
     journalforendeEnhet?: string;
     kanal?: string;
     dokumenter: DokumentInfo[];
-    relevanteDatoer: RelevantDato[];
-    datoMottatt?: string;
+    relevanteDatoer?: RelevantDato[];
     avsenderMottaker: AvsenderMottaker | undefined;
 }
 
@@ -75,3 +74,6 @@ export interface BrukerInfo {
 type BrukerId = 'AKTOERID' | 'FNR';
 
 type RelevantDato = { dato: string; datotype: string };
+
+export const utledDatoMottatt = (datoer?: RelevantDato[]): string | undefined =>
+    datoer?.find((dato) => dato.datotype === 'DATO_REGISTRERT')?.dato;

@@ -4,7 +4,7 @@ import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalfør
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
-import { Journalpost, JournalpostResponse } from '../typer/journalpost';
+import { Journalpost, JournalpostResponse, utledDatoMottatt } from '../typer/journalpost';
 
 export enum Journalføringsaksjon {
     OPPRETT_BEHANDLING = 'OPPRETT_BEHANDLING',
@@ -77,7 +77,7 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
         Journalføringsaksjon.JOURNALFØR_PÅ_FAGSAK
     );
     const [mottattDato, settMottattDato] = useState<string | undefined>(
-        journalResponse.journalpost.datoMottatt
+        utledDatoMottatt(journalResponse.journalpost.relevanteDatoer)
     );
 
     return {
