@@ -27,6 +27,13 @@ Lag en `.env` fil i `src/backend` og legg inn:
 AZURE_APP_CLIENT_ID=<clientId>
 AZURE_APP_CLIENT_SECRET=<clientSecret>
 ```
+# Feilsøking
+Feilmelding ved oppstart av app: 
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/attachToken' imported from <...>/src/backend/build/server.js 
+```
+Løsning: Du trenger Node-versjon 18. 
+
 
 ## Kode generert av GitHub Copilot
 
