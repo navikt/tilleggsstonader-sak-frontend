@@ -65,17 +65,17 @@ const EndreDelvilkår: FC<{
         nyttSvar: Vurdering
     ) => {
         const { begrunnelse } = nyttSvar;
-        const svarsalternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
-        if (!svarsalternativ) {
+        const svaralternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
+        if (!svaralternativ) {
             return;
         }
 
         const oppdaterteSvar = oppdaterSvarIListe(nyttSvar, vurderinger, true);
 
         const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svarsalternativ.regelId,
+            svaralternativ.regelId,
             oppdaterteSvar,
-            () => begrunnelseErPåkrevdOgUtfyllt(svarsalternativ, begrunnelse)
+            () => begrunnelseErPåkrevdOgUtfyllt(svaralternativ, begrunnelse)
         );
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedNesteRegel);
     };
@@ -162,7 +162,7 @@ const EndreDelvilkår: FC<{
                                         nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
-                                        onChange={(begrunnelse) =>
+                                        oppdaterBegrunnelse={(begrunnelse) =>
                                             oppdaterBegrunnelse(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
