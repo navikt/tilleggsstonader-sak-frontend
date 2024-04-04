@@ -7,7 +7,6 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import LesevisningVilkår from './LesevisningVilkår';
 import { MeldingHvisLagringFeilet } from './MeldingHvisLagringFeilet';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
@@ -43,12 +42,11 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 const EndreDelvilkår: FC<{
     regler: Regler;
     vilkår: Vilkår;
-}> = ({ regler, vilkår }) => {
+    avsluttRedigering: () => void;
+}> = ({ regler, vilkår, avsluttRedigering }) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
-
-    const [erIRedigeringsmodus, settErIRedigeringsmodus] = useState<boolean>(true);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
 
@@ -138,7 +136,7 @@ const EndreDelvilkår: FC<{
                 delvilkårsett: delvilkårsett,
             }).then((response: Ressurs<Vilkår>) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    settErIRedigeringsmodus(false);
+                    avsluttRedigering();
                 }
             });
         }
@@ -147,26 +145,6 @@ const EndreDelvilkår: FC<{
     const nullstillFeilmelding = (regelId: string) => {
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
-
-    if (!erIRedigeringsmodus) {
-        return (
-            <>
-                <LesevisningVilkår vilkår={vilkår} />
-                <VStack gap={'6'}>
-                    <Skillelinje />
-                    <SmallButton
-                        variant="secondary"
-                        onClick={() => {
-                            settDetFinnesUlagredeEndringer(false);
-                            settErIRedigeringsmodus(true);
-                        }}
-                    >
-                        Rediger
-                    </SmallButton>
-                </VStack>
-            </>
-        );
-    }
 
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>

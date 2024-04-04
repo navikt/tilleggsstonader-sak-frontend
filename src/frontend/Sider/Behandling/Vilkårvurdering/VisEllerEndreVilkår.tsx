@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import EndreDelvilkår from './EndreDelvilkår';
 import LesevisningVilkår from './LesevisningVilkår';
@@ -14,10 +14,16 @@ interface Props {
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { erStegRedigerbart } = useSteg();
 
-    return erStegRedigerbart ? (
-        <EndreDelvilkår vilkår={vilkår} regler={regler} />
+    const [redigerer, settRedigerer] = useState<boolean>(!!erStegRedigerbart);
+
+    return redigerer ? (
+        <EndreDelvilkår
+            vilkår={vilkår}
+            regler={regler}
+            avsluttRedigering={() => settRedigerer(false)}
+        />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} />
+        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
     );
 };
 export default VisEllerEndreVilkår;
