@@ -2,13 +2,13 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { HStack, VStack } from '@navikt/ds-react';
+import { Button, Tag, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import { FeilmeldingFraVilkårsoppdatering } from './FeilmeldingFravilkårsoppdatering';
-import { LagreknappMedStatus } from './LagreknappMedStatus';
+import LesevisningVilkår from './LesevisningVilkår';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     hentSvaralternativ,
@@ -38,7 +38,7 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-const EndreDelvilkår: FC<{
+const EndreVilkår: FC<{
     regler: Regler;
     vilkår: Vilkår;
 }> = ({ regler, vilkår }) => {
@@ -130,17 +130,40 @@ const EndreDelvilkår: FC<{
                 delvilkårsett: delvilkårsett,
             }).then((response: Ressurs<Vilkår>) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    settErLagret(true);
+                    settErErÅpenForRedigering(false);
                 }
             });
         }
     };
 
-    const [erLagret, settErLagret] = useState<boolean>(false);
+    const [erÅpenForRedigering, settErErÅpenForRedigering] = useState<boolean>(true);
+
+    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
 
     const nullstillFeilmelding = (regelId: string) => {
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
+
+    if (!erÅpenForRedigering) {
+        return (
+            <>
+                <LesevisningVilkår vilkår={vilkår} />
+                <VStack gap={'6'}>
+                    <Skillelinje />
+                    <Button
+                        style={{ maxWidth: 'fit-content' }}
+                        size="small"
+                        onClick={() => {
+                            settDetFinnesUlagredeEndringer(false);
+                            settErErÅpenForRedigering(true);
+                        }}
+                    >
+                        Rediger
+                    </Button>
+                </VStack>
+            </>
+        );
+    }
 
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
@@ -157,7 +180,7 @@ const EndreDelvilkår: FC<{
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
                                         settVurdering={(nyVurdering) => {
-                                            settErLagret(false);
+                                            settDetFinnesUlagredeEndringer(true);
                                             oppdaterSvar(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
@@ -169,7 +192,7 @@ const EndreDelvilkår: FC<{
                                     />
                                     <Begrunnelse
                                         oppdaterBegrunnelse={(begrunnelse) => {
-                                            settErLagret(false);
+                                            settDetFinnesUlagredeEndringer(true);
                                             oppdaterBegrunnelse(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
@@ -187,13 +210,20 @@ const EndreDelvilkår: FC<{
                         );
                     });
                 })}
-                <HStack gap="1">
+                <VStack gap="4">
                     <Skillelinje />
-                    <LagreknappMedStatus vilkårId={vilkår.id} erLagret={erLagret} />
-                </HStack>
-                <FeilmeldingFraVilkårsoppdatering vilkårId={vilkår.id} />
+                    <Button size="small" style={{ maxWidth: 'fit-content' }}>
+                        Lagre
+                    </Button>
+                    {detFinnesUlagredeEndringer && (
+                        <Tag size="small" variant={'warning'} style={{ maxWidth: 'fit-content' }}>
+                            Du har ulagrede endringer
+                        </Tag>
+                    )}
+                    <FeilmeldingFraVilkårsoppdatering vilkårId={vilkår.id} />
+                </VStack>
             </VStack>
         </form>
     );
 };
-export default EndreDelvilkår;
+export default EndreVilkår;

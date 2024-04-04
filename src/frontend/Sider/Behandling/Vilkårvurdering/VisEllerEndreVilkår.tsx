@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import EndreDelvilkår from './EndreDelvilkår';
+import EndreVilkår from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
@@ -15,7 +15,7 @@ const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { erStegRedigerbart } = useSteg();
 
     return erStegRedigerbart ? (
-        <EndreDelvilkår vilkår={vilkår} regler={regler} />
+        <EndreVilkår vilkår={vilkår} regler={regler} />
     ) : (
         <LesevisningVilkår vilkår={vilkår} />
     );
