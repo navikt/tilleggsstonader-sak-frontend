@@ -127,3 +127,6 @@ export const arkivtemaerTilTekst: Record<Arkivtema, string> = {
     YRA: 'Yrkesrettet attføring',
     YRK: 'Yrkesskade',
 };
+
+export const utledArkivtema = (tema: Arkivtema | undefined) =>
+    tema ? arkivtemaerTilTekst[tema] : 'Tema ikke satt';

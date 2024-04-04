@@ -15,11 +15,16 @@ import {
 import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
 
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
-import { Arkivtema, arkivtemaerTilTekst } from '../../../typer/arkivtema';
+import { Arkivtema, utledArkivtema } from '../../../typer/arkivtema';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { Journalpost } from '../../../typer/journalpost';
 import { formaterIsoDato } from '../../../utils/dato';
-import { journalføringGjelderKlage } from '../Felles/utils';
+import {
+    journalføringGjelderKlage,
+    utledNesteJournalføringsårsak,
+    valgbareJournalføringsårsaker,
+    valgbareStønadstyper,
+} from '../Felles/utils';
 import { Journalføringsårsak, journalføringsårsakTilTekst } from '../typer/journalføringsårsak';
 
 const IkonContainer = styled.div`
@@ -65,28 +70,13 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
         journalføringsårsak === Journalføringsårsak.IKKE_VALGT || stønadstype === undefined
     );
 
-    const tema = journalpost.tema
-        ? arkivtemaerTilTekst[journalpost.tema as Arkivtema]
-        : 'Tema ikke satt';
+    const tema = utledArkivtema(journalpost.tema as Arkivtema);
     const datoMottatt = journalpostState.mottattDato
         ? formaterIsoDato(journalpostState.mottattDato)
         : 'Ikke satt';
     const kanRedigere = journalføringsårsak !== Journalføringsårsak.DIGITAL_SØKNAD;
     const klageGjelderTilbakekreving =
         journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
-    const utledNesteJournalføringsårsak = (prevState: Journalføringsårsak) =>
-        prevState === Journalføringsårsak.KLAGE
-            ? Journalføringsårsak.KLAGE_TILBAKEKREVING
-            : Journalføringsårsak.KLAGE;
-    const valgbareStønadstyper = [Stønadstype.BARNETILSYN];
-    const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) => [
-        Journalføringsårsak.IKKE_VALGT,
-        Journalføringsårsak.ETTERSENDING,
-        årsak === Journalføringsårsak.KLAGE_TILBAKEKREVING
-            ? Journalføringsårsak.KLAGE_TILBAKEKREVING
-            : Journalføringsårsak.KLAGE,
-        Journalføringsårsak.PAPIRSØKNAD,
-    ];
 
     return (
         <ExpansionCard
