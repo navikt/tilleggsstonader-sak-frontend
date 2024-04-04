@@ -40,7 +40,7 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-const EndreVilkår: FC<{
+const EndreDelVilkår: FC<{
     regler: Regler;
     vilkår: Vilkår;
 }> = ({ regler, vilkår }) => {
@@ -225,4 +225,4 @@ const EndreVilkår: FC<{
         </form>
     );
 };
-export default EndreVilkår;
+export default EndreDelVilkår;
