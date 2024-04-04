@@ -7,7 +7,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import { FeilmeldingFraVilkårsoppdatering } from './FeilmeldingFravilkårsoppdatering';
+import { Lagringsfeilmeldinger } from './Lagringsfeilmeldinger';
 import LesevisningVilkår from './LesevisningVilkår';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
@@ -219,7 +219,7 @@ const EndreDelVilkår: FC<{
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
-                    <FeilmeldingFraVilkårsoppdatering vilkårId={vilkår.id} />
+                    <Lagringsfeilmeldinger vilkårId={vilkår.id} />
                 </VStack>
             </VStack>
         </form>

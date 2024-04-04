@@ -4,7 +4,7 @@ import { ErrorMessage } from '@navikt/ds-react';
 
 import { useVilkår } from '../../../context/VilkårContext';
 
-export function FeilmeldingFraVilkårsoppdatering(props: { vilkårId: string }) {
+export function Lagringsfeilmeldinger(props: { vilkårId: string }) {
     const { feilmeldinger } = useVilkår();
 
     const feilmelding = feilmeldinger[props.vilkårId];
