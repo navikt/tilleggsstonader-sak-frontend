@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Tag, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -20,6 +20,8 @@ import {
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
+import SmallButton from '../../../komponenter/SmallButton';
+import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
@@ -43,7 +45,13 @@ const EndreVilkår: FC<{
     vilkår: Vilkår;
 }> = ({ regler, vilkår }) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
+
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
+
+    const [erIRedigeringsmodus, settErIRedigeringsmodus] = useState<boolean>(true);
+
+    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
+
     const { lagreVilkår } = useVilkår();
 
     const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
@@ -130,36 +138,30 @@ const EndreVilkår: FC<{
                 delvilkårsett: delvilkårsett,
             }).then((response: Ressurs<Vilkår>) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    settErErÅpenForRedigering(false);
+                    settErIRedigeringsmodus(false);
                 }
             });
         }
     };
 
-    const [erÅpenForRedigering, settErErÅpenForRedigering] = useState<boolean>(true);
-
-    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
-
     const nullstillFeilmelding = (regelId: string) => {
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
 
-    if (!erÅpenForRedigering) {
+    if (!erIRedigeringsmodus) {
         return (
             <>
                 <LesevisningVilkår vilkår={vilkår} />
                 <VStack gap={'6'}>
                     <Skillelinje />
-                    <Button
-                        style={{ maxWidth: 'fit-content' }}
-                        size="small"
+                    <SmallButton
                         onClick={() => {
                             settDetFinnesUlagredeEndringer(false);
-                            settErErÅpenForRedigering(true);
+                            settErIRedigeringsmodus(true);
                         }}
                     >
                         Rediger
-                    </Button>
+                    </SmallButton>
                 </VStack>
             </>
         );
@@ -212,13 +214,9 @@ const EndreVilkår: FC<{
                 })}
                 <VStack gap="4">
                     <Skillelinje />
-                    <Button size="small" style={{ maxWidth: 'fit-content' }}>
-                        Lagre
-                    </Button>
+                    <SmallButton>Lagre</SmallButton>
                     {detFinnesUlagredeEndringer && (
-                        <Tag size="small" variant={'warning'} style={{ maxWidth: 'fit-content' }}>
-                            Du har ulagrede endringer
-                        </Tag>
+                        <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
                     <FeilmeldingFraVilkårsoppdatering vilkårId={vilkår.id} />
                 </VStack>
