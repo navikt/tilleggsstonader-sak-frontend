@@ -2,11 +2,13 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { HStack, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
+import { FeilmeldingFraVilkårsoppdatering } from './FeilmeldingFravilkårsoppdatering';
+import { LagreknappMedStatus } from './LagreknappMedStatus';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     hentSvaralternativ,
@@ -16,14 +18,12 @@ import {
     oppdaterSvarIListe,
 } from './utils';
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { useVilkår } from '../../../context/VilkårContext';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
+import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-`;
+import { Delvilkår, Vilkår, Vurdering } from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -39,12 +39,13 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 `;
 
 const EndreDelvilkår: FC<{
-    vilkårType: Vilkårtype;
     regler: Regler;
-    oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
     vilkår: Vilkår;
-}> = ({ regler, oppdaterVilkår, vilkår }) => {
+}> = ({ regler, vilkår }) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
+    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
+    const { lagreVilkår } = useVilkår();
+
     const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
         settDelvilkårsett((prevSvar) => {
             const prevDelvilkårsett = prevSvar[index];
@@ -115,8 +116,6 @@ const EndreDelvilkår: FC<{
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
     };
 
-    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
-
     const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -125,13 +124,19 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            oppdaterVilkår({
+            lagreVilkår({
                 id: vilkår.id,
                 behandlingId: vilkår.behandlingId,
                 delvilkårsett: delvilkårsett,
+            }).then((response: Ressurs<Vilkår>) => {
+                if (response.status === RessursStatus.SUKSESS) {
+                    settErLagret(true);
+                }
             });
         }
     };
+
+    const [erLagret, settErLagret] = useState<boolean>(false);
 
     const nullstillFeilmelding = (regelId: string) => {
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
@@ -151,18 +156,20 @@ const EndreDelvilkår: FC<{
                                     <DelvilkårRadioknapper
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
-                                        settVurdering={(nyVurdering) =>
+                                        settVurdering={(nyVurdering) => {
+                                            settErLagret(false);
                                             oppdaterSvar(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
                                                 nyVurdering
-                                            )
-                                        }
+                                            );
+                                        }}
                                         feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
                                         nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
-                                        oppdaterBegrunnelse={(begrunnelse) =>
+                                        oppdaterBegrunnelse={(begrunnelse) => {
+                                            settErLagret(false);
                                             oppdaterBegrunnelse(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
@@ -170,8 +177,8 @@ const EndreDelvilkår: FC<{
                                                     ...svar,
                                                     begrunnelse,
                                                 }
-                                            )
-                                        }
+                                            );
+                                        }}
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
                                     />
@@ -182,10 +189,9 @@ const EndreDelvilkår: FC<{
                 })}
                 <HStack gap="1">
                     <Skillelinje />
-                    <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
-                        Lagre
-                    </LagreKnapp>
+                    <LagreknappMedStatus vilkårId={vilkår.id} erLagret={erLagret} />
                 </HStack>
+                <FeilmeldingFraVilkårsoppdatering vilkårId={vilkår.id} />
             </VStack>
         </form>
     );
