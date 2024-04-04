@@ -20,7 +20,7 @@ export interface Journalpost {
     journalforendeEnhet?: string;
     kanal?: string;
     dokumenter: DokumentInfo[];
-    relevanteDatoer: RelevantDato[];
+    relevanteDatoer?: RelevantDato[];
     datoMottatt?: string;
     avsenderMottaker: AvsenderMottaker | undefined;
 }

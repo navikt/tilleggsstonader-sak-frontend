@@ -1,6 +1,8 @@
 import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
 
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { LogiskVedlegg } from '../../../typer/dokument';
+import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
 
@@ -63,11 +65,22 @@ export const mapMultiselectValueTilLogiskeVedlegg = (
     }
 };
 
-export enum Journalføringsårsak {
-    DIGITAL_SØKNAD = 'DIGITAL_SØKNAD',
-    ETTERSENDING = 'ETTERSENDING',
-    IKKE_VALGT = 'IKKE_VALGT',
-    KLAGE = 'KLAGE',
-    KLAGE_TILBAKEKREVING = 'KLAGE_TILBAKEKREVING',
-    PAPIRSØKNAD = 'PAPIRSØKNAD',
-}
+export const journalføringGjelderKlage = (journalføringsårsak: Journalføringsårsak) =>
+    journalføringsårsak === Journalføringsårsak.KLAGE ||
+    journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
+
+export const utledNesteJournalføringsårsak = (prevState: Journalføringsårsak) =>
+    prevState === Journalføringsårsak.KLAGE
+        ? Journalføringsårsak.KLAGE_TILBAKEKREVING
+        : Journalføringsårsak.KLAGE;
+
+export const valgbareStønadstyper = [Stønadstype.BARNETILSYN];
+
+export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) => [
+    Journalføringsårsak.IKKE_VALGT,
+    Journalføringsårsak.ETTERSENDING,
+    årsak === Journalføringsårsak.KLAGE_TILBAKEKREVING
+        ? Journalføringsårsak.KLAGE_TILBAKEKREVING
+        : Journalføringsårsak.KLAGE,
+    Journalføringsårsak.PAPIRSØKNAD,
+];

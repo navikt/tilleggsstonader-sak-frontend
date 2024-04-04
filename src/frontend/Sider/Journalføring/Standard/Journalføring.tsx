@@ -8,6 +8,7 @@ import { Heading } from '@navikt/ds-react';
 import AvsenderPanel from './AvsenderPanel';
 import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
+import JournalpostPanel from './JournalpostPanel';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
@@ -87,6 +88,10 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
                         <Heading spacing size={'medium'} level={'1'}>
                             Journalføring
                         </Heading>
+                        <JournalpostPanel
+                            journalpost={journalResponse.journalpost}
+                            journalpostState={journalpostState}
+                        />
                     </section>
                     <section>
                         <Heading spacing size={'small'} level={'2'}>
