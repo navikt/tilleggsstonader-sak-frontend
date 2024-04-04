@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import EndreDelvilkår from './EndreVilkår';
+import EndreDelvilkår from './EndreDelvilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
