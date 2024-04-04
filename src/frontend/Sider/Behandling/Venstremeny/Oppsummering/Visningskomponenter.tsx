@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { DatabaseIcon, FileTextIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react';
 
 export enum Informasjonskilde {
     REGISTER = 'REGISTER',
@@ -35,7 +35,9 @@ export const InfoSeksjon: React.FC<{ label: string; children?: React.ReactNode }
 }) => {
     return (
         <VStack gap="4">
-            <Label size="small">{label}</Label>
+            <Heading level={'4'} size={'xsmall'}>
+                {label}
+            </Heading>
             {children}
         </VStack>
     );

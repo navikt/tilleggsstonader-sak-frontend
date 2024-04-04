@@ -7,3 +7,8 @@ export enum JaNei {
     JA = 'JA',
     NEI = 'NEI',
 }
+
+export const jaNeiTilTekst: Record<JaNei, string> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+};
