@@ -155,6 +155,7 @@ const EndreVilkår: FC<{
                 <VStack gap={'6'}>
                     <Skillelinje />
                     <SmallButton
+                        variant="secondary"
                         onClick={() => {
                             settDetFinnesUlagredeEndringer(false);
                             settErIRedigeringsmodus(true);
