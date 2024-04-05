@@ -8,6 +8,7 @@ import { Tabs } from '@navikt/ds-react';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
+import SakOgAktivitet from './SakOgAktivitet/SakOgAktivitet';
 
 type TabWithRouter = {
     label: string;
@@ -20,6 +21,11 @@ const tabs: TabWithRouter[] = [
         label: 'Behandlingsoversikt',
         path: 'behandlinger',
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
+    },
+    {
+        label: 'Sak og aktivitet',
+        path: 'sak-aktivitet',
+        komponent: (fagsakPersonId) => <SakOgAktivitet fagsakPersonId={fagsakPersonId} />,
     },
     {
         label: 'Dokumentoversikt',
