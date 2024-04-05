@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import { Heading } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
 import Select from '../../../../komponenter/Skjema/Select';
 import {
     BehandlingResultat,
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const SelectVedtaksresultat: FC<Props> = ({ resultatType, settResultatType }) => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
     // const { settIkkePersistertKomponent } = useApp();
 
     return (
@@ -29,7 +29,7 @@ const SelectVedtaksresultat: FC<Props> = ({ resultatType, settResultatType }) =>
                 Vedtaksresultat
             </Heading>
             <Select
-                erLesevisning={!behandlingErRedigerbar}
+                erLesevisning={!erStegRedigerbart}
                 label={'Vedtaksresultat'}
                 hideLabel
                 value={resultatType || ''}

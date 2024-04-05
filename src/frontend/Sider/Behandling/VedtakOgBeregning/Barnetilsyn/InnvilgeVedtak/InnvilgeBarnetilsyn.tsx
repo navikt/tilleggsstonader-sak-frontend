@@ -9,6 +9,7 @@ import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
+import { useSteg } from '../../../../../context/StegContext';
 import useFormState from '../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
@@ -56,7 +57,8 @@ interface Props {
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehandling }) => {
     const { request } = useApp();
-    const { behandlingErRedigerbar, behandling } = useBehandling();
+    const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
@@ -129,7 +131,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                         settValideringsFeil={formState.setErrors}
                     />
                     <Skillelinje />
-                    {behandlingErRedigerbar && (
+                    {erStegRedigerbart && (
                         <Knapp
                             type="button"
                             variant="primary"
