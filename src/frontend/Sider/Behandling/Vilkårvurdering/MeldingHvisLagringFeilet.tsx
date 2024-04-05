@@ -4,7 +4,7 @@ import { ErrorMessage } from '@navikt/ds-react';
 
 import { useVilkår } from '../../../context/VilkårContext';
 
-export function MeldingHvisLagringFeilet(props: { vilkårId: string }) {
+const MeldingHvisLagringFeilet(props: { vilkårId: string }) {
     const { feilmeldinger } = useVilkår();
 
     const feilmelding = feilmeldinger[props.vilkårId];
@@ -19,3 +19,5 @@ export function MeldingHvisLagringFeilet(props: { vilkårId: string }) {
         </>
     );
 }
+
+export default MeldingHvisLagringFeilet

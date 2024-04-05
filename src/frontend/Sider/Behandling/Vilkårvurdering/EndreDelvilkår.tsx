@@ -8,7 +8,7 @@ import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
 import LesevisningVilkår from './LesevisningVilkår';
-import { MeldingHvisLagringFeilet } from './MeldingHvisLagringFeilet';
+import MeldingHvisLagringFeilet from './MeldingHvisLagringFeilet';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     hentSvaralternativ,
