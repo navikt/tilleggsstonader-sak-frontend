@@ -7,7 +7,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { FanePath } from '../../Sider/Behandling/faner';
-import { Steg } from '../../typer/behandling/steg';
+import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
@@ -59,11 +59,12 @@ export const StegKnapp: FC<{
 
     return (
         <VStack align={'start'}>
-            {behandling.steg === steg ? (
+            {behandling.steg === steg && (
                 <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
                     {children}
                 </Button>
-            ) : (
+            )}
+            {stegErEtterAnnetSteg(behandling.steg, steg) && (
                 <Button variant="secondary" size="small" onClick={redigerSteg}>
                     Rediger steg
                 </Button>
