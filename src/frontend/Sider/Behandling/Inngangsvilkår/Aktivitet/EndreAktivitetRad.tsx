@@ -140,6 +140,7 @@ const EndreAktivitetRad: React.FC<{
                             }
                             size="small"
                             error={vilkårsperiodeFeil?.aktivitetsdager}
+                            autoComplete="off"
                         />
                     </Table.DataCell>
                 }

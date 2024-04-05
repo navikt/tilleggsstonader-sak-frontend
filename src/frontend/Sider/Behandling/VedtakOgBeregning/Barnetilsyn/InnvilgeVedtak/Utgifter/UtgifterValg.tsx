@@ -110,6 +110,7 @@ const UtgifterValg: React.FC<Props> = ({
                                 }
                                 error={errorState && errorState[indeks]?.utgift}
                                 size="small"
+                                autoComplete="off"
                             />
                             <DateInputMedLeservisning
                                 label="Fra"
