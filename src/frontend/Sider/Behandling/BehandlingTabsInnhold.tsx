@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -42,19 +42,12 @@ const BehandlingTabsInnhold = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
-
-    const [aktivFane, settAktivFane] = useState<FanePath>(
-        isFanePath(path) ? path : FanePath.INNGANGSVILKÅR
-    );
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    useEffect(() => {
-        settAktivFane(isFanePath(path) ? path : FanePath.INNGANGSVILKÅR);
-    }, [path]);
+    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(nyFane)) {
-            settAktivFane(nyFane);
             navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
         } else {
             settToast(Toast.DISABLED_FANE);
