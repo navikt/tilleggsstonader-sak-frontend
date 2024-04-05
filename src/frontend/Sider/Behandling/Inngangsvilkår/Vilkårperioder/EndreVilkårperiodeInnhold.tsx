@@ -16,7 +16,7 @@ const Innhold = styled.div`
 
 const EndreVilkårPeriodeInnhold: React.FC<{
     vilkår: React.ReactNode;
-    begrunnelse?: string;
+    begrunnelse: string | undefined;
     oppdaterBegrunnelse: (begrunnelse: string) => void;
     feilmelding?: string;
 }> = ({ vilkår, begrunnelse, oppdaterBegrunnelse, feilmelding }) => {
