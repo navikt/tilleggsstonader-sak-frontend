@@ -10,13 +10,9 @@ const MeldingHvisLagringFeilet(props: { vilkårId: string }) {
     const feilmelding = feilmeldinger[props.vilkårId];
 
     return (
-        <>
-            {feilmelding && (
-                <ErrorMessage size={'small'}>
-                    Oppdatering av vilkår feilet: {feilmelding}
-                </ErrorMessage>
-            )}
-        </>
+        feilmelding && (
+            <ErrorMessage size={'small'}>Oppdatering av vilkår feilet: {feilmelding}</ErrorMessage>
+        )
     );
 }
 
