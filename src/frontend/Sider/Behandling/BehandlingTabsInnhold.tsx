@@ -6,12 +6,14 @@ import styled from 'styled-components';
 import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { FanePath, faneTilSteg, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { Behandling } from '../../typer/behandling/behandling';
+import { stegErLåstForBehandling } from '../../typer/behandling/steg';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -30,11 +32,19 @@ const Tabsknapp = styled.div`
 
 const DisabledTab = styled(Tabs.Tab)`
     color: ${ATextSubtle};
+
     &:hover {
         box-shadow: none;
         cursor: default;
     }
 `;
+
+const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
+    if (fanePath === FanePath.SIMULERING) {
+        return true;
+    }
+    return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
+};
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
@@ -47,15 +57,11 @@ const BehandlingTabsInnhold = () => {
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
     const håndterFaneBytte = (nyFane: FanePath) => {
-        if (!faneErLåst(nyFane)) {
+        if (!faneErLåst(behandling, nyFane)) {
             navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
         } else {
             settToast(Toast.DISABLED_FANE);
         }
-    };
-
-    const faneErLåst = (fanePath: FanePath) => {
-        return fanePath === FanePath.SIMULERING;
     };
 
     const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
@@ -65,7 +71,7 @@ const BehandlingTabsInnhold = () => {
                 <StickyTablistContainer>
                     <TabsList>
                         {behandlingFaner.map((tab) =>
-                            faneErLåst(tab.path) ? (
+                            faneErLåst(behandling, tab.path) ? (
                                 <DisabledTab
                                     key={tab.path}
                                     value={tab.path}
