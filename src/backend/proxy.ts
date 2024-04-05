@@ -25,16 +25,18 @@ const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     }
 };
 
-export const doProxy = (context: string, applicationName: ApplicationName): RequestHandler => {
+export const doProxy = (
+    context: string,
+    applicationName: ApplicationName,
+    pathRewriter: (path: string) => string = (path) => path
+): RequestHandler => {
     return createProxyMiddleware(context, {
         changeOrigin: true,
         logLevel: 'info',
-        logProvider: () => {
-            return logger;
-        },
+        logProvider: () => logger,
         onProxyReq: restream,
         pathRewrite: (path: string) => {
-            return path.replace(context, '');
+            return pathRewriter(path.replace(context, ''));
         },
         secure: true,
         target: `${miljø.clients[applicationName].url}`,

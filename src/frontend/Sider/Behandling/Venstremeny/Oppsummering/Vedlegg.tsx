@@ -4,6 +4,7 @@ import { Link } from '@navikt/ds-react';
 
 import { Informasjonskilde, Informasjonsrad, InfoSeksjon } from './Visningskomponenter';
 import { FaktaDokumentasjon } from '../../../../typer/behandling/behandlingFakta/faktaDokumentasjon';
+import { lenkeDokument } from '../../../../utils/dokumentLenke';
 
 const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
     if (!fakta) return null;
@@ -17,7 +18,11 @@ const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
                         verdi={
                             <Link
                                 target="_blank"
-                                href={`/dokument/journalpost/${fakta.journalpostId}/dokument-pdf/${dokument.dokumentInfoId}`}
+                                href={lenkeDokument(
+                                    fakta.journalpostId,
+                                    dokument.dokumentInfoId,
+                                    dokumentasjon.type
+                                )}
                             >
                                 {dokumentasjon.type}
                             </Link>

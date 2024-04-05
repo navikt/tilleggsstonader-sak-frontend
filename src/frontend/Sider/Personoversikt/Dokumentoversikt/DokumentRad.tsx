@@ -4,18 +4,16 @@ import { Link, Table } from '@navikt/ds-react';
 
 import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
-import { formaterIsoDatoTid } from '../../../utils/dato';
+import { formaterNullableIsoDatoTid } from '../../../utils/dato';
+import { lenkeDokumentInfo } from '../../../utils/dokumentLenke';
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
         <Table.Row>
-            <Table.DataCell>{formaterIsoDatoTid(dokument.dato)}</Table.DataCell>
+            <Table.DataCell>{formaterNullableIsoDatoTid(dokument.dato)}</Table.DataCell>
             <Table.DataCell>{dokument.journalposttype}</Table.DataCell>
             <Table.DataCell>
-                <Link
-                    target="_blank"
-                    href={`/dokument/journalpost/${dokument.journalpostId}/dokument-pdf/${dokument.dokumentInfoId}`}
-                >
+                <Link target="_blank" href={lenkeDokumentInfo(dokument)}>
                     {dokument.tittel}
                 </Link>
             </Table.DataCell>

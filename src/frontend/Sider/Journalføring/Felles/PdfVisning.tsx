@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { JournalføringState } from '../../../hooks/useJournalføringState';
+import { lenkeDokumentUtenTittel } from '../../../utils/dokumentLenke';
 
 const Container = styled.div`
     flex: 1 1 auto;
@@ -17,7 +18,7 @@ const PdfVisning: React.FC<{
         return (
             <iframe
                 title={'dokument'}
-                src={`/dokument/journalpost/${journalpost.journalpostId}/dokument-pdf/${valgtDokumentPanel}`}
+                src={lenkeDokumentUtenTittel(journalpost.journalpostId, valgtDokumentPanel)}
                 width={'100%'}
                 height={'100%'}
             />

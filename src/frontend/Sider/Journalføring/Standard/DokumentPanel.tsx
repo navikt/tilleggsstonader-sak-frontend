@@ -10,11 +10,11 @@ import { FamilieReactSelect, ISelectOption } from '@navikt/familie-form-elements
 import { DokumentPanelHeader } from './DokumentPanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 import { DokumentInfo } from '../../../typer/dokument';
-import { åpneFilIEgenTab } from '../../../utils/utils';
+import { åpneFilIEgenTab } from '../../../utils/dokumentLenke';
 import {
     dokumentTitlerMultiSelect,
-    mapLogiskeVedleggTilMultiselectValue,
     mapDokumentTittelTilMultiselectValue,
+    mapLogiskeVedleggTilMultiselectValue,
     mapMultiselectValueTilLogiskeVedlegg,
 } from '../Felles/utils';
 

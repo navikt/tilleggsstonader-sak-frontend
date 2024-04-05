@@ -64,7 +64,14 @@ app.use(
     '/dokument',
     addRequestInfo(),
     attachToken(ApplicationName.sak),
-    doProxy('/dokument', ApplicationName.sak)
+    doProxy('/dokument', ApplicationName.sak, (path) => {
+        const parts = path.split('/');
+        if (parts.length === 6 && parts[1] === 'journalpost' && parts[3] === 'dokument-pdf') {
+            return parts.slice(0, -1).join('/'); // sletter siste del som brukes som tittel
+        } else {
+            return path;
+        }
+    })
 );
 
 app.listen(PORT, () => {
