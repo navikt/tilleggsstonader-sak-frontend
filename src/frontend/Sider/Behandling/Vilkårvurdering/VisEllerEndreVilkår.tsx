@@ -14,9 +14,9 @@ interface Props {
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
     const { erStegRedigerbart } = useSteg();
 
-    const [redigerer, settRedigerer] = useState<boolean>(!!erStegRedigerbart);
+    const [redigerer, settRedigerer] = useState<boolean>(true);
 
-    return redigerer ? (
+    return erStegRedigerbart && redigerer ? (
         <EndreDelvilkår
             vilkår={vilkår}
             regler={regler}
