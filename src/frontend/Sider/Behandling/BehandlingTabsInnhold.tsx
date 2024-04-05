@@ -6,14 +6,12 @@ import styled from 'styled-components';
 import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, faneTilSteg, hentBehandlingfaner, isFanePath } from './faner';
+import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
-import { Behandling } from '../../typer/behandling/behandling';
-import { stegErLåstForBehandling } from '../../typer/behandling/steg';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -39,13 +37,6 @@ const DisabledTab = styled(Tabs.Tab)`
     }
 `;
 
-const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
-    if (fanePath === FanePath.SIMULERING) {
-        return true;
-    }
-    return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
-};
-
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
@@ -64,14 +55,14 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
+    const behandlingFaner = hentBehandlingfaner(behandling);
     return (
         <StegProvider fane={aktivFane} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                 <StickyTablistContainer>
                     <TabsList>
                         {behandlingFaner.map((tab) =>
-                            faneErLåst(behandling, tab.path) ? (
+                            tab.erLåst ? (
                                 <DisabledTab
                                     key={tab.path}
                                     value={tab.path}
@@ -105,11 +96,13 @@ const BehandlingTabsInnhold = () => {
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
 
-                {behandlingFaner.map((tab) => (
-                    <Tabs.Panel key={tab.path} value={tab.path}>
-                        {tab.komponent(behandling.id)}
-                    </Tabs.Panel>
-                ))}
+                {behandlingFaner
+                    .filter((fane) => !fane.erLåst)
+                    .map((tab) => (
+                        <Tabs.Panel key={tab.path} value={tab.path}>
+                            {tab.komponent(behandling.id)}
+                        </Tabs.Panel>
+                    ))}
             </Tabs>
         </StegProvider>
     );

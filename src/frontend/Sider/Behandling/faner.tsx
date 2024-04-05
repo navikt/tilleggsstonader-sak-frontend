@@ -11,14 +11,16 @@ import Brev from './Brev/Brev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
+import { Behandling } from '../../typer/behandling/behandling';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
-import { Steg } from '../../typer/behandling/steg';
+import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
     path: FanePath;
     komponent: (behandlingId: string) => React.ReactNode | undefined;
     ikon?: React.ReactNode;
+    erLåst?: boolean;
 };
 
 export enum FaneNavn {
@@ -65,7 +67,14 @@ export const isFanePath = (path: string): path is FanePath => {
     }
 };
 
-export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[] => {
+export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
+    if (fanePath === FanePath.SIMULERING) {
+        return true;
+    }
+    return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
+};
+
+export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,
@@ -74,7 +83,7 @@ export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[
             ikon: <PersonRectangleIcon />,
         },
         {
-            navn: faneNavnStønadsvilkår[stønadstype],
+            navn: faneNavnStønadsvilkår[behandling.stønadstype],
             path: FanePath.STØNADSVILKÅR,
             komponent: () => <Stønadsvilkår />,
             ikon: <HouseHeartIcon />,
@@ -84,17 +93,20 @@ export const hentBehandlingfaner = (stønadstype: Stønadstype): FanerMedRouter[
             path: FanePath.VEDTAK_OG_BEREGNING,
             komponent: () => <VedtakOgBeregningBarnetilsyn />,
             ikon: <CalculatorIcon />,
+            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
         },
         {
             navn: FaneNavn.SIMULERING,
             path: FanePath.SIMULERING,
             komponent: () => <p>Simulering</p>,
+            erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
         {
             navn: FaneNavn.BREV,
             path: FanePath.BREV,
             komponent: () => <Brev />,
             ikon: <EnvelopeClosedIcon />,
+            erLåst: faneErLåst(behandling, FanePath.BREV),
         },
     ];
 };
