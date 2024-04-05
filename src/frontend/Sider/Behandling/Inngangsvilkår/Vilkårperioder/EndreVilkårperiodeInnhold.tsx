@@ -28,7 +28,7 @@ const EndreVilkårPeriodeInnhold: React.FC<{
                     {vilkår}
                     <Textarea
                         label={'Kommentar til periode'}
-                        value={begrunnelse}
+                        value={begrunnelse || ''}
                         onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                         size="small"
                     />
