@@ -9,6 +9,7 @@ import DataViewer from '../../komponenter/DataViewer';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Personopplysninger } from '../../typer/personopplysninger';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import { dokumenttittel } from '../../utils/env';
 
 const Personoversikt = () => {
     const { request } = useApp();
@@ -23,6 +24,10 @@ const Personoversikt = () => {
             `/api/sak/personopplysninger/fagsak-person/${fagsakPersonId}`
         ).then(settPersonopplysninger);
     }, [request, fagsakPersonId]);
+
+    useEffect(() => {
+        document.title = dokumenttittel('Personoversikt');
+    }, []);
 
     return (
         <DataViewer response={{ personopplysninger }}>

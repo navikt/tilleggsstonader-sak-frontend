@@ -19,3 +19,5 @@ export const hentEnv = (settEnv: (env: AppEnv | undefined) => void) => {
             console.log('Feilet henting av env', err);
         });
 };
+
+export const dokumenttittel = (tittel: string) => `TS: ${tittel}`;

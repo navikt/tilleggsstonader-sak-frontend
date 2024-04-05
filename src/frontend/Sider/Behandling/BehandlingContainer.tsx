@@ -9,13 +9,13 @@ import DataViewer from '../../komponenter/DataViewer';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Personopplysninger } from '../../typer/personopplysninger';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import { dokumenttittel } from '../../utils/env';
 
 const BehandlingContainer = () => {
     const { request } = useApp();
     const [behandling, settBehandling] = useState<Ressurs<Behandling>>(byggTomRessurs());
-    const [personopplysninger, settPersonopplysninger] = useState<Ressurs<Personopplysninger>>(
-        byggTomRessurs()
-    );
+    const [personopplysninger, settPersonopplysninger] =
+        useState<Ressurs<Personopplysninger>>(byggTomRessurs());
 
     const behandlingId = useParams<{
         behandlingId: string;
@@ -32,6 +32,10 @@ const BehandlingContainer = () => {
             settPersonopplysninger
         );
     }, [request, behandlingId]);
+
+    useEffect(() => {
+        document.title = dokumenttittel('Behandling');
+    }, []);
 
     return (
         <DataViewer response={{ behandling, personopplysninger }}>

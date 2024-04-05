@@ -11,6 +11,7 @@ import { useApp } from '../../context/AppContext';
 import { OppgaveProvider, useOppgave } from '../../context/OppgaveContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
+import { dokumenttittel } from '../../utils/env';
 import { erProd } from '../../utils/miljø';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -39,7 +40,7 @@ const Oppgavebenk: React.FC = () => {
     const { erSaksbehandler } = useApp();
 
     useEffect(() => {
-        document.title = 'Oppgavebenk';
+        document.title = dokumenttittel('Oppgavebenk');
     }, []);
 
     if (!erSaksbehandler) {

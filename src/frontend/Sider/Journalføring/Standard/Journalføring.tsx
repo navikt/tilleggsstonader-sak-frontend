@@ -14,6 +14,7 @@ import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { JournalpostResponse } from '../../../typer/journalpost';
+import { dokumenttittel } from '../../../utils/env';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 
@@ -54,7 +55,7 @@ export const Journalføring: React.FC = () => {
     const { hentJournalPost, journalResponse } = useHentJournalpost();
 
     useEffect(() => {
-        document.title = 'Journalpost';
+        document.title = dokumenttittel('Journalpost');
         hentJournalPost(journalpostId);
     }, [hentJournalPost, journalpostId]);
 
