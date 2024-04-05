@@ -11,7 +11,8 @@ import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateI
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
 import { tilÅrMåned } from '../../../../../../utils/dato';
-import { harTallverdi, tilTallverdi } from '../../../../../../utils/tall';
+import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
+import { fjernSpaces } from '../../../../../../utils/utils';
 import { GrunnlagBarn } from '../../../../vilkår';
 import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
@@ -105,7 +106,7 @@ const UtgifterValg: React.FC<Props> = ({
                                     oppdaterUtgiftFelt(
                                         indeks,
                                         UtgifterProperty.UTGIFT,
-                                        tilTallverdi(e.target.value)
+                                        tilHeltall(fjernSpaces(e.target.value))
                                     )
                                 }
                                 error={errorState && errorState[indeks]?.utgift}
