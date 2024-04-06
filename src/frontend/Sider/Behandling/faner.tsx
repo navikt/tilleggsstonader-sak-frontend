@@ -12,6 +12,7 @@ import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
+import { Steg } from '../../typer/behandling/steg';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
@@ -42,6 +43,14 @@ export enum FanePath {
     SIMULERING = 'simulering',
     BREV = 'brev',
 }
+
+export const faneTilSteg: Record<FanePath, Steg> = {
+    inngangsvilkar: Steg.INNGANGSVILKÅR,
+    stonadsvilkar: Steg.VILKÅR,
+    'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
+    simulering: Steg.SEND_TIL_BESLUTTER,
+    brev: Steg.SEND_TIL_BESLUTTER,
+};
 
 export const isFanePath = (path: string): path is FanePath => {
     switch (path) {
