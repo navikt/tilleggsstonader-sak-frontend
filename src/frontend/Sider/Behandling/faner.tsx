@@ -12,6 +12,7 @@ import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { Behandling } from '../../typer/behandling/behandling';
+import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
 
@@ -74,6 +75,22 @@ export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
+const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
+    if (behandling.resultat !== BehandlingResultat.HENLAGT) {
+        return [
+            {
+                navn: FaneNavn.BREV,
+                path: FanePath.BREV,
+                komponent: () => <Brev />,
+                ikon: <EnvelopeClosedIcon />,
+                erLåst: faneErLåst(behandling, FanePath.BREV),
+            },
+        ];
+    } else {
+        return [];
+    }
+};
+
 export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
         {
@@ -101,12 +118,6 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
             komponent: () => <p>Simulering</p>,
             erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
-        {
-            navn: FaneNavn.BREV,
-            path: FanePath.BREV,
-            komponent: () => <Brev />,
-            ikon: <EnvelopeClosedIcon />,
-            erLåst: faneErLåst(behandling, FanePath.BREV),
-        },
+        ...brevfaneHvisIkkeHenlagt(behandling),
     ];
 };
