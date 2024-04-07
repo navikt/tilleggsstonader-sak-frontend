@@ -11,7 +11,7 @@ import { Steg } from '../../typer/behandling/steg';
 import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
-export const NesteStegKnapp: FC<{
+export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;
     children: React.ReactNode;

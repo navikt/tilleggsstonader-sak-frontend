@@ -15,7 +15,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
-import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
+import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
@@ -78,9 +78,9 @@ const Inngangsvilkår = () => {
                 )}
             </DataViewer>
             {behandlingErRedigerbar && (
-                <NesteStegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
+                <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
                     Ferdigstill inngangsvilkår og gå videre
-                </NesteStegKnapp>
+                </StegKnapp>
             )}
         </Container>
     );

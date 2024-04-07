@@ -9,7 +9,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
-import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
+import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 
@@ -42,9 +42,9 @@ const Stønadsvilkår = () => {
                 )}
             </DataViewer>
             {behandlingErRedigerbar && (
-                <NesteStegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
                     Fullfør vilkårsvurdering og gå videre
-                </NesteStegKnapp>
+                </StegKnapp>
             )}
         </Container>
     );
