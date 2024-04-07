@@ -13,6 +13,7 @@ import { Vilkårperioder } from './typer/vilkårperiode';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../context/StegContext';
 import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import { NesteStegKnapp } from '../../../komponenter/NesteStegKnapp/NesteStegKnapp';
@@ -29,6 +30,7 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 const Inngangsvilkår = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const [vilkårperioder, settVilkårperioder] =
         useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
@@ -53,7 +55,6 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
                     vilkårperioder,
@@ -69,6 +70,9 @@ const Inngangsvilkår = () => {
                                 hentedeStønadsperioder={stønadsperioder}
                                 hentStønadsperioder={hentStønadsperioder}
                             >
+                                {erLokalt() && erStegRedigerbart && (
+                                    <FyllUtVilkårKnapp type={'inngangsvilkår'} />
+                                )}
                                 <Målgruppe />
                                 <Aktivitet />
                                 <Stønadsperioder />
