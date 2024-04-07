@@ -28,7 +28,7 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 
 const Inngangsvilkår = () => {
     const { request } = useApp();
-    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { behandling } = useBehandling();
 
     const [vilkårperioder, settVilkårperioder] =
         useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
@@ -77,11 +77,9 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-            {behandlingErRedigerbar && (
-                <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
-                    Ferdigstill inngangsvilkår og gå videre
-                </StegKnapp>
-            )}
+            <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
+                Ferdigstill inngangsvilkår og gå videre
+            </StegKnapp>
         </Container>
     );
 };

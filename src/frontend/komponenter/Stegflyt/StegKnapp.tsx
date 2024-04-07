@@ -19,7 +19,7 @@ export const StegKnapp: FC<{
     const navigate = useNavigate();
     const { request } = useApp();
 
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const redigerSteg = () => {
@@ -52,6 +52,10 @@ export const StegKnapp: FC<{
             }
         });
     };
+
+    if (!behandlingErRedigerbar) {
+        return null;
+    }
 
     return (
         <VStack align={'start'}>

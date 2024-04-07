@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { VStack } from '@navikt/ds-react';
 
 import PassBarn from './PassBarn/PassBarn';
-import { useBehandling } from '../../../context/BehandlingContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRegler } from '../../../hooks/useRegler';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -20,7 +19,6 @@ const Container = styled(VStack).attrs({ gap: '8' })`
 const Stønadsvilkår = () => {
     const { regler, hentRegler } = useRegler();
     const { vilkårsvurdering } = useVilkår();
-    const { behandlingErRedigerbar } = useBehandling();
 
     useEffect(() => {
         hentRegler();
@@ -41,11 +39,9 @@ const Stønadsvilkår = () => {
                     />
                 )}
             </DataViewer>
-            {behandlingErRedigerbar && (
-                <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                    Fullfør vilkårsvurdering og gå videre
-                </StegKnapp>
-            )}
+            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                Fullfør vilkårsvurdering og gå videre
+            </StegKnapp>
         </Container>
     );
 };
