@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import constate from 'constate';
 
+import { useEffectNotInitialRender } from '../hooks/felles/useEffectNotInitialRender';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
@@ -46,9 +47,14 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
 
         // const [vilkårFeilmeldinger, settVilkårfeilmeldinger] = useState<Vurderingsfeilmelding>({});
 
-        useEffect(() => {
+        useEffectNotInitialRender(() => {
             settStønadsperioder(hentedeStønadsperioder);
         }, [hentedeStønadsperioder]);
+
+        useEffectNotInitialRender(() => {
+            settMålgrupper(vilkårperioder.målgrupper);
+            settAktiviteter(vilkårperioder.aktiviteter);
+        }, [vilkårperioder]);
 
         const leggTilMålgruppe = (nyPeriode: Målgruppe) => {
             settMålgrupper((prevState) => [...prevState, nyPeriode]);
