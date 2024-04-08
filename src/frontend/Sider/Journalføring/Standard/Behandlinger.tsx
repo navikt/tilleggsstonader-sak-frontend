@@ -76,12 +76,6 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
 
                 return (
                     <VStack gap="4">
-                        <Alert variant="info">
-                            Merk at du ikke lenger trenger å knytte dokumenter til spesifikke
-                            behandlinger da de automatisk knyttes til bruker. Du kan i listen under
-                            få oversikt over tidligere behandlinger og vurdere om det skal opprettes
-                            en ny behandling fra denne journalføringen.
-                        </Alert>
                         <Table zebraStripes={true}>
                             <Table.Header>
                                 <Table.Row>
