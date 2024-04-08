@@ -1,7 +1,12 @@
 import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
 
+import { Behandling } from '../../../typer/behandling/behandling';
+import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
+import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { LogiskVedlegg } from '../../../typer/dokument';
+import { Fagsak } from '../../../typer/fagsak';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
@@ -84,3 +89,26 @@ export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) =
         : Journalføringsårsak.KLAGE,
     Journalføringsårsak.PAPIRSØKNAD,
 ];
+
+export const alleBehandlingerErFerdigstiltEllerSattPåVent = (fagsak: Fagsak) =>
+    fagsak.behandlinger.every(
+        (behandling) =>
+            behandling.status === BehandlingStatus.FERDIGSTILT ||
+            (behandling.status === BehandlingStatus.SATT_PÅ_VENT &&
+                behandling.type === BehandlingType.REVURDERING)
+    );
+
+export const utledBehandlingstype = (tidligereBehandlinger: Behandling[]): BehandlingType => {
+    const harIverksattTidligereBehandlinger = tidligereBehandlinger.some(
+        (tidligereBehandling) => tidligereBehandling.resultat !== BehandlingResultat.HENLAGT
+    );
+
+    return harIverksattTidligereBehandlinger
+        ? BehandlingType.REVURDERING
+        : BehandlingType.FØRSTEGANGSBEHANDLING;
+};
+
+export const behandlingerNyesteFørst = (
+    stønadstype: Stønadstype | undefined,
+    behandlinger: Behandling[]
+) => (stønadstype && behandlinger.length > 0 ? behandlinger.slice().reverse() : []);
