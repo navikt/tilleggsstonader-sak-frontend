@@ -24,6 +24,10 @@ const Personoversikt = () => {
         ).then(settPersonopplysninger);
     }, [request, fagsakPersonId]);
 
+    useEffect(() => {
+        document.title = 'Personoversikt';
+    }, []);
+
     return (
         <DataViewer response={{ personopplysninger }}>
             {({ personopplysninger }) => (
