@@ -1,22 +1,38 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useHentFagsak } from './useHentFagsak';
+import { useApp } from '../context/AppContext';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
 import { Fagsak } from '../typer/fagsak';
 import { Journalpost, JournalpostResponse } from '../typer/journalpost';
-import { Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+
+interface NyAvsender {
+    erBruker: boolean;
+    navn?: string;
+    personIdent?: string;
+}
 
 export enum Journalføringsaksjon {
     OPPRETT_BEHANDLING = 'OPPRETT_BEHANDLING',
     JOURNALFØR_PÅ_FAGSAK = 'JOURNALFØR_PÅ_FAGSAK',
 }
-interface NyAvsender {
-    erBruker: boolean;
-    navn?: string;
-    personIdent?: string;
+
+export interface JournalføringRequest {
+    fagsakId: string;
+    oppgaveId: string;
+    nyAvsender: NyAvsender | undefined;
+    dokumentTitler: DokumentTitler | undefined;
+    logiskeVedlegg: LogiskeVedleggPåDokument | undefined;
+    journalførendeEnhet: string;
+    årsak: Journalføringsårsak;
+    aksjon: Journalføringsaksjon;
+    mottattDato: string | undefined;
+    ident: string;
+    stønadstype: Stønadstype | undefined;
 }
 
 export interface JournalføringState {
@@ -38,9 +54,16 @@ export interface JournalføringState {
     settJournalføringsaksjon: Dispatch<SetStateAction<Journalføringsaksjon>>;
     mottattDato: string | undefined;
     settMottattDato: Dispatch<SetStateAction<string | undefined>>;
+    innsending: Ressurs<string>;
+    fullførJournalføring: () => void;
+    visBekreftelsesModal: boolean;
+    settVisBekreftelsesModal: Dispatch<SetStateAction<boolean>>;
 }
 
-export const useJournalføringState = (journalResponse: JournalpostResponse): JournalføringState => {
+export const useJournalføringState = (
+    journalResponse: JournalpostResponse,
+    oppgaveId: string
+): JournalføringState => {
     const { harStrukturertSøknad, journalpost, personIdent } = journalResponse;
 
     const initielleLogiskeVedlegg = journalResponse.journalpost.dokumenter.reduce(
@@ -64,6 +87,7 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
     const utledFørsteDokument = (dokumenter: DokumentInfo[]) =>
         dokumenter.length > 0 ? dokumenter[0].dokumentInfoId : '';
 
+    const { request } = useApp();
     const { fagsak, hentFagsak } = useHentFagsak();
 
     const [dokumentTitler, settDokumentTitler] = useState<DokumentTitler>();
@@ -85,12 +109,45 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
     const [mottattDato, settMottattDato] = useState<string | undefined>(
         journalResponse.journalpost.datoMottatt
     );
+    const [innsending, settInnsending] = useState<Ressurs<string>>(byggTomRessurs());
+    const [visBekreftelsesModal, settVisBekreftelsesModal] = useState<boolean>(false);
 
     useEffect(() => {
         if (stønadstype) {
             hentFagsak(personIdent, stønadstype);
         }
     }, [personIdent, stønadstype, hentFagsak]);
+
+    const fullførJournalføring = () => {
+        if (innsending.status === RessursStatus.HENTER) {
+            return;
+        }
+
+        if (fagsak.status !== RessursStatus.SUKSESS) {
+            return;
+        }
+
+        const journalføringRequest: JournalføringRequest = {
+            dokumentTitler: dokumentTitler,
+            logiskeVedlegg: logiskeVedleggPåDokument,
+            ident: personIdent,
+            stønadstype: stønadstype,
+            fagsakId: fagsak.data.id,
+            oppgaveId: oppgaveId,
+            journalførendeEnhet: '9999', // TODO: Utled journalførende enhet fra saksbehandler
+            årsak: journalføringsårsak,
+            aksjon: journalføringsaksjon,
+            mottattDato: mottattDato,
+            nyAvsender: nyAvsender,
+        };
+        settInnsending(byggHenterRessurs());
+
+        request<string, JournalføringRequest>(
+            `/api/sak/journalpost/${journalpost.journalpostId}/fullfor`,
+            'POST',
+            journalføringRequest
+        ).then(settInnsending);
+    };
 
     return {
         fagsak,
@@ -111,5 +168,9 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
         settJournalføringsaksjon,
         mottattDato,
         settMottattDato,
+        innsending,
+        fullførJournalføring,
+        visBekreftelsesModal,
+        settVisBekreftelsesModal,
     };
 };

@@ -1,5 +1,6 @@
 import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
 
+import { Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
@@ -7,6 +8,7 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { LogiskVedlegg } from '../../../typer/dokument';
 import { Fagsak } from '../../../typer/fagsak';
+import { JournalpostResponse } from '../../../typer/journalpost';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
@@ -112,3 +114,13 @@ export const behandlingerNyesteFørst = (
     stønadstype: Stønadstype | undefined,
     behandlinger: Behandling[]
 ) => (stønadstype && behandlinger.length > 0 ? behandlinger.slice().reverse() : []);
+
+export const skalViseBekreftelsesmodal = (
+    journalResponse: JournalpostResponse,
+    journalføringsaksjon: Journalføringsaksjon,
+    erPapirSøknad: boolean,
+    erKlage: boolean
+) =>
+    journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING
+        ? false
+        : journalResponse.harStrukturertSøknad || erPapirSøknad || erKlage;

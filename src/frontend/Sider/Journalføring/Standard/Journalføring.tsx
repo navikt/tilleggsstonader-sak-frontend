@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Alert, Heading } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
 
 import AvsenderPanel from './AvsenderPanel';
 import Behandlinger from './Behandlinger';
 import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
 import JournalpostPanel from './JournalpostPanel';
+import { BekreftJournalføringModal } from './Modal';
+import { validerJournalføring } from './validerJournalføring';
 import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { JournalpostResponse } from '../../../typer/journalpost';
+import { RessursStatus } from '../../../typer/ressurs';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
+import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
+import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export const Kolonner = styled.div`
     display: flex;
@@ -33,6 +38,11 @@ export const Venstrekolonne = styled.div`
         max-width: 750px;
     }
 `;
+
+export const Knapp = styled(Button)`
+    width: fit-content;
+`;
+
 export const Høyrekolonne = styled.div`
     display: flex;
     flex: 1 1 auto;
@@ -78,60 +88,121 @@ interface Props {
     journalResponse: JournalpostResponse;
 }
 
-const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
-    const journalpostState: JournalføringState = useJournalføringState(journalResponse);
+const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => {
+    const journalpostState: JournalføringState = useJournalføringState(journalResponse, oppgaveId);
+    const navigate = useNavigate();
+
+    const {
+        fagsak,
+        fullførJournalføring,
+        settVisBekreftelsesModal,
+        journalføringsaksjon,
+        journalføringsårsak,
+    } = journalpostState;
 
     const [feilmelding, settFeilmelding] = useState<string>('');
 
+    const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
+    const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
+
+    const validerOgJournalfør = () => {
+        settFeilmelding('');
+        if (fagsak.status !== RessursStatus.SUKSESS) {
+            settFeilmelding('Henting av fagsak feilet. Last inn siden på nytt.');
+            return;
+        }
+        const valideringsfeil = validerJournalføring(
+            journalResponse,
+            journalpostState,
+            fagsak.data
+        );
+
+        if (valideringsfeil) {
+            settFeilmelding(valideringsfeil);
+        } else if (
+            skalViseBekreftelsesmodal(
+                journalResponse,
+                journalføringsaksjon,
+                erPapirSøknad,
+                journalføringGjelderKlage(journalføringsårsak)
+            )
+        ) {
+            settVisBekreftelsesModal(true);
+        } else {
+            fullførJournalføring();
+        }
+    };
+
     return (
-        <Kolonner>
-            <Venstrekolonne>
-                <InnerContainer>
-                    <section>
-                        <Heading spacing size={'medium'} level={'1'}>
-                            Journalføring
-                        </Heading>
-                        <JournalpostPanel
-                            journalpost={journalResponse.journalpost}
-                            journalpostState={journalpostState}
-                        />
-                    </section>
-                    <section>
-                        <Heading spacing size={'small'} level={'2'}>
-                            Dokumenter
-                        </Heading>
-                        <Dokumenter journalpostState={journalpostState} />
-                    </section>
-                    <section>
-                        <Heading spacing size={'small'} level={'2'}>
-                            Bruker
-                        </Heading>
-                        <BrukerPanel journalpostResponse={journalResponse} />
-                    </section>
-                    <section>
-                        <Heading spacing size={'small'} level={'2'}>
-                            Avsender
-                        </Heading>
-                        <AvsenderPanel
-                            journalpostResponse={journalResponse}
-                            journalpostState={journalpostState}
-                        />
-                    </section>
-                    <section>
-                        <Heading spacing size={'small'} level={'2'}>
-                            Behandling
-                        </Heading>
-                        <Behandlinger
-                            journalpostState={journalpostState}
-                            settFeilmelding={settFeilmelding}
-                        />
-                    </section>
-                    {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
-                </InnerContainer>
-            </Venstrekolonne>
-            <Høyrekolonne>
-                <PdfVisning journalpostState={journalpostState} />
-            </Høyrekolonne>
-        </Kolonner>
+        <>
+            <Kolonner>
+                <Venstrekolonne>
+                    <InnerContainer>
+                        <section>
+                            <Heading spacing size={'medium'} level={'1'}>
+                                Journalføring
+                            </Heading>
+                            <JournalpostPanel
+                                journalpost={journalResponse.journalpost}
+                                journalpostState={journalpostState}
+                            />
+                        </section>
+                        <section>
+                            <Heading spacing size={'small'} level={'2'}>
+                                Dokumenter
+                            </Heading>
+                            <Dokumenter journalpostState={journalpostState} />
+                        </section>
+                        <section>
+                            <Heading spacing size={'small'} level={'2'}>
+                                Bruker
+                            </Heading>
+                            <BrukerPanel journalpostResponse={journalResponse} />
+                        </section>
+                        <section>
+                            <Heading spacing size={'small'} level={'2'}>
+                                Avsender
+                            </Heading>
+                            <AvsenderPanel
+                                journalpostResponse={journalResponse}
+                                journalpostState={journalpostState}
+                            />
+                        </section>
+                        <section>
+                            <Heading spacing size={'small'} level={'2'}>
+                                Behandling
+                            </Heading>
+                            <Behandlinger
+                                journalpostState={journalpostState}
+                                settFeilmelding={settFeilmelding}
+                            />
+                        </section>
+                        {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
+                        <HStack gap="4" justify="end">
+                            <Knapp
+                                size={'small'}
+                                variant={'tertiary'}
+                                onClick={() => navigate('/oppgavebenk')}
+                            >
+                                Avbryt
+                            </Knapp>
+                            <Knapp
+                                size={'small'}
+                                variant={'primary'}
+                                onClick={validerOgJournalfør}
+                                loading={senderInnJournalføring}
+                                disabled={senderInnJournalføring}
+                            >
+                                Journalfør
+                            </Knapp>
+                        </HStack>
+                    </InnerContainer>
+                </Venstrekolonne>
+                <Høyrekolonne>
+                    <PdfVisning journalpostState={journalpostState} />
+                </Høyrekolonne>
+            </Kolonner>
+            <BekreftJournalføringModal journalpostState={journalpostState} />
+        </>
     );
 };
