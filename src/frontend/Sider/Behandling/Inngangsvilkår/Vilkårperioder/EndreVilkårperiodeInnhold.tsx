@@ -16,7 +16,7 @@ const Innhold = styled.div`
 
 const EndreVilkårPeriodeInnhold: React.FC<{
     vilkår: React.ReactNode;
-    begrunnelse?: string;
+    begrunnelse: string | undefined;
     oppdaterBegrunnelse: (begrunnelse: string) => void;
     feilmelding?: string;
 }> = ({ vilkår, begrunnelse, oppdaterBegrunnelse, feilmelding }) => {
@@ -28,7 +28,7 @@ const EndreVilkårPeriodeInnhold: React.FC<{
                     {vilkår}
                     <Textarea
                         label={'Kommentar til periode'}
-                        value={begrunnelse}
+                        value={begrunnelse || ''}
                         onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                         size="small"
                     />

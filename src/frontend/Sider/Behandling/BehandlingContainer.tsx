@@ -13,9 +13,8 @@ import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 const BehandlingContainer = () => {
     const { request } = useApp();
     const [behandling, settBehandling] = useState<Ressurs<Behandling>>(byggTomRessurs());
-    const [personopplysninger, settPersonopplysninger] = useState<Ressurs<Personopplysninger>>(
-        byggTomRessurs()
-    );
+    const [personopplysninger, settPersonopplysninger] =
+        useState<Ressurs<Personopplysninger>>(byggTomRessurs());
 
     const behandlingId = useParams<{
         behandlingId: string;
@@ -32,6 +31,10 @@ const BehandlingContainer = () => {
             settPersonopplysninger
         );
     }, [request, behandlingId]);
+
+    useEffect(() => {
+        document.title = 'Behandling';
+    }, []);
 
     return (
         <DataViewer response={{ behandling, personopplysninger }}>

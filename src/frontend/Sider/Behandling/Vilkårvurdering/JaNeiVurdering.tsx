@@ -41,7 +41,7 @@ const JaNeiVurdering: React.FC<{
     return (
         <>
             <RadioGroup
-                value={vurdering?.svar}
+                value={vurdering?.svar || ''}
                 legend={label}
                 onChange={(e) => oppdaterVurdering({ ...vurdering, svar: e })}
                 size="small"
@@ -50,7 +50,7 @@ const JaNeiVurdering: React.FC<{
                 <Radio value={SvarJaNei.NEI}>{svarNei}</Radio>
             </RadioGroup>
             <Textarea
-                value={vurdering?.begrunnelse}
+                value={vurdering?.begrunnelse || ''}
                 onChange={(e) => oppdaterVurdering({ ...vurdering, begrunnelse: e.target.value })}
                 label={begunnelseLabel(begrunnelsePåkrevd, vurdering?.svar)}
                 size="small"

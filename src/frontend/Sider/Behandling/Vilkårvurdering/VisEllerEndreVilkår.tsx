@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
-import EndreVilkår from './EndreVilkår';
+import EndreDelvilkår from './EndreDelvilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
-import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
 import { Vilkår } from '../vilkår';
 
@@ -13,18 +12,18 @@ interface Props {
 }
 
 const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
-    const { feilmeldinger } = useVilkår();
-    const feilmelding = feilmeldinger[vilkår.id];
     const { erStegRedigerbart } = useSteg();
 
-    return erStegRedigerbart ? (
-        <EndreVilkår
+    const [redigerer, settRedigerer] = useState<boolean>(true);
+
+    return erStegRedigerbart && redigerer ? (
+        <EndreDelvilkår
             vilkår={vilkår}
-            feilmelding={feilmelding} // TODO: Legge til "|| resetFeilmelding" igjen?
             regler={regler}
+            avsluttRedigering={() => settRedigerer(false)}
         />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} />
+        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
     );
 };
 export default VisEllerEndreVilkår;

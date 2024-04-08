@@ -2,6 +2,8 @@ export const harIkkeVerdi = (str: string | undefined | null): boolean => !harVer
 
 export const harVerdi = (str: string | undefined | null): boolean => !!str && str.trim() !== '';
 
+export const fjernSpaces = (str: string) => str.replace(/ /g, '');
+
 export const åpneFilIEgenTab = (
     journalpostId: string,
     dokumentinfoId: string,
