@@ -82,6 +82,7 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
                                     innhold: avsnitt.innhold,
                                 })
                             }
+                            autoComplete="off"
                         />
                         <Textarea
                             label={'Innhold'}

@@ -115,6 +115,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                                 }}
                                 size={'small'}
                                 value={nyAvsender?.navn || ''}
+                                autoComplete="off"
                             />
                         </ExpansionCardContent>
                     </ExpansionCard.Content>

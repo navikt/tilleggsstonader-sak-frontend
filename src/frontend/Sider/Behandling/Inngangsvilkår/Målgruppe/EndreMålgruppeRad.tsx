@@ -116,6 +116,7 @@ const EndreMålgruppeRad: React.FC<{
                 }
             />
             <EndreVilkårPeriodeInnhold
+                begrunnelse={målgruppeForm.begrunnelse}
                 oppdaterBegrunnelse={(begrunnelse: string) =>
                     settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
                 }
