@@ -1,10 +1,13 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import { useHentFagsak } from './useHentFagsak';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
+import { Fagsak } from '../typer/fagsak';
 import { Journalpost, JournalpostResponse } from '../typer/journalpost';
+import { Ressurs } from '../typer/ressurs';
 
 export enum Journalføringsaksjon {
     OPPRETT_BEHANDLING = 'OPPRETT_BEHANDLING',
@@ -17,6 +20,7 @@ interface NyAvsender {
 }
 
 export interface JournalføringState {
+    fagsak: Ressurs<Fagsak>;
     dokumentTitler?: DokumentTitler;
     settDokumentTitler: Dispatch<SetStateAction<DokumentTitler | undefined>>;
     journalpost: Journalpost;
@@ -37,7 +41,7 @@ export interface JournalføringState {
 }
 
 export const useJournalføringState = (journalResponse: JournalpostResponse): JournalføringState => {
-    const { harStrukturertSøknad, journalpost } = journalResponse;
+    const { harStrukturertSøknad, journalpost, personIdent } = journalResponse;
 
     const initielleLogiskeVedlegg = journalResponse.journalpost.dokumenter.reduce(
         (acc, { dokumentInfoId, logiskeVedlegg }) => ({
@@ -60,6 +64,8 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
     const utledFørsteDokument = (dokumenter: DokumentInfo[]) =>
         dokumenter.length > 0 ? dokumenter[0].dokumentInfoId : '';
 
+    const { fagsak, hentFagsak } = useHentFagsak();
+
     const [dokumentTitler, settDokumentTitler] = useState<DokumentTitler>();
     const [logiskeVedleggPåDokument, settLogiskeVedleggPåDokument] =
         useState<LogiskeVedleggPåDokument>(initielleLogiskeVedlegg);
@@ -80,7 +86,14 @@ export const useJournalføringState = (journalResponse: JournalpostResponse): Jo
         journalResponse.journalpost.datoMottatt
     );
 
+    useEffect(() => {
+        if (stønadstype) {
+            hentFagsak(personIdent, stønadstype);
+        }
+    }, [personIdent, stønadstype, hentFagsak]);
+
     return {
+        fagsak,
         dokumentTitler,
         settDokumentTitler,
         journalpost,

@@ -4,3 +4,10 @@ export enum BehandlingType {
     TILBAKEKREVING = 'TILBAKEKREVING',
     KLAGE = 'KLAGE',
 }
+
+export const behandlingTypeTilTekst: Record<BehandlingType, string> = {
+    FØRSTEGANGSBEHANDLING: 'Førstegangsbehandling',
+    REVURDERING: 'Revurdering',
+    TILBAKEKREVING: 'Tilbakekreving',
+    KLAGE: 'Klage',
+};

@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Heading } from '@navikt/ds-react';
+import { Alert, Heading } from '@navikt/ds-react';
 
 import AvsenderPanel from './AvsenderPanel';
+import Behandlinger from './Behandlinger';
 import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
 import JournalpostPanel from './JournalpostPanel';
@@ -80,6 +81,8 @@ interface Props {
 const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
     const journalpostState: JournalføringState = useJournalføringState(journalResponse);
 
+    const [feilmelding, settFeilmelding] = useState<string>('');
+
     return (
         <Kolonner>
             <Venstrekolonne>
@@ -114,6 +117,16 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse }) => {
                             journalpostState={journalpostState}
                         />
                     </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Behandling
+                        </Heading>
+                        <Behandlinger
+                            journalpostState={journalpostState}
+                            settFeilmelding={settFeilmelding}
+                        />
+                    </section>
+                    {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                 </InnerContainer>
             </Venstrekolonne>
             <Høyrekolonne>
