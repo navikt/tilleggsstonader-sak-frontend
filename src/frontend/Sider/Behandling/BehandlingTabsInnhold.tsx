@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -30,6 +30,7 @@ const Tabsknapp = styled.div`
 
 const DisabledTab = styled(Tabs.Tab)`
     color: ${ATextSubtle};
+
     &:hover {
         box-shadow: none;
         cursor: default;
@@ -47,25 +48,21 @@ const BehandlingTabsInnhold = () => {
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
     const håndterFaneBytte = (nyFane: FanePath) => {
-        if (!faneErLåst(nyFane)) {
+        if (!faneErLåst(behandling, nyFane)) {
             navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
         } else {
             settToast(Toast.DISABLED_FANE);
         }
     };
 
-    const faneErLåst = (fanePath: FanePath) => {
-        return fanePath === FanePath.SIMULERING;
-    };
-
-    const behandlingFaner = hentBehandlingfaner(behandling.stønadstype);
+    const behandlingFaner = hentBehandlingfaner(behandling);
     return (
         <StegProvider fane={aktivFane} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                 <StickyTablistContainer>
                     <TabsList>
                         {behandlingFaner.map((tab) =>
-                            faneErLåst(tab.path) ? (
+                            tab.erLåst ? (
                                 <DisabledTab
                                     key={tab.path}
                                     value={tab.path}
@@ -99,11 +96,13 @@ const BehandlingTabsInnhold = () => {
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
 
-                {behandlingFaner.map((tab) => (
-                    <Tabs.Panel key={tab.path} value={tab.path}>
-                        {tab.komponent(behandling.id)}
-                    </Tabs.Panel>
-                ))}
+                {behandlingFaner
+                    .filter((fane) => !fane.erLåst)
+                    .map((tab) => (
+                        <Tabs.Panel key={tab.path} value={tab.path}>
+                            {tab.komponent(behandling.id)}
+                        </Tabs.Panel>
+                    ))}
             </Tabs>
         </StegProvider>
     );

@@ -1,3 +1,5 @@
+import { Behandling } from './behandling';
+
 export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VILKÅR = 'VILKÅR',
@@ -10,3 +12,18 @@ export enum Steg {
     LAG_SAKSBEHANDLINGSBLANKETT = 'LAG_SAKSBEHANDLINGSBLANKETT',
     PUBLISER_VEDTAKSHENDELSE = 'PUBLISER_VEDTAKSHENDELSE',
 }
+
+const rekkefølgeSteg = Object.values(Steg).reduce(
+    (acc, curr, indeks) => {
+        acc[curr] = indeks;
+        return acc;
+    },
+    {} as Record<Steg, number>
+);
+
+export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
+    rekkefølgeSteg[steg] > rekkefølgeSteg[annetSteg];
+
+export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
+    [Steg.BEREGNE_YTELSE, Steg.SEND_TIL_BESLUTTER].includes(faneSteg) &&
+    stegErEtterAnnetSteg(faneSteg, behandling.steg);
