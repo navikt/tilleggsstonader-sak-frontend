@@ -8,8 +8,7 @@ const toTitleCase = (str: string): string =>
 export const formaterEnumVerdi = (str: string): string =>
     replaceUnderscoreWithSpace(toTitleCase(str));
 
-export const utledNavnFnrOgAlder = (registerNavn: string, ident: string, alder?: string) => {
-    const formatertAlder = alder ? ' (' + alder + ' år)' : '';
-
-    return registerNavn + ' ' + ident + formatertAlder;
+export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string) => {
+    const formatertAlder = alder ? ` (${alder} år)` : '';
+    return `${navn} ${ident}${formatertAlder}`;
 };
