@@ -12,19 +12,19 @@ import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 interface Props {
     errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
-    barnIBehandling: GrunnlagBarn[];
+    barnMedOppfylteVilkår: GrunnlagBarn[];
     settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
 const Utgifter: React.FC<Props> = ({
     utgifterState,
-    barnIBehandling,
+    barnMedOppfylteVilkår,
     errorState,
     settValideringsFeil,
 }) => {
     return (
         <VStack gap="12">
-            {barnIBehandling.map((barn) => (
+            {barnMedOppfylteVilkår.map((barn) => (
                 <UtgifterValg
                     barn={barn}
                     utgifter={utgifterState.value[barn.barnId]}

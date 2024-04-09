@@ -5,6 +5,7 @@ import { useVilkår } from '../../../../../context/VilkårContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { InnvilgeVedtakForBarnetilsyn } from '../../../../../typer/vedtak';
+import { barnSomOppfyllerAlleVilkår } from '../utils';
 
 interface Props {
     settResultatType: (val: BehandlingResultat | undefined) => void;
@@ -21,7 +22,7 @@ export const InnvilgeVedtak: FC<Props> = ({ settResultatType, lagretVedtak }) =>
                 <InnvilgeBarnetilsyn
                     settResultatType={settResultatType}
                     låsFraDatoFørsteRad={false}
-                    barnIBehandling={vilkårsvurdering.grunnlag.barn}
+                    barnMedOppfylteVilkår={barnSomOppfyllerAlleVilkår(vilkårsvurdering)}
                     lagretVedtak={lagretVedtak}
                 />
             )}
