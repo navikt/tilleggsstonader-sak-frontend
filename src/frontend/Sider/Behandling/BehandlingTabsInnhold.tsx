@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -46,6 +46,14 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
+
+    useEffect(() => {
+        if (faneErLåst(behandling, aktivFane)) {
+            navigate(FanePath.INNGANGSVILKÅR);
+        }
+        // skal kun sjekke om fane er låst etter at behandling er oppdatert
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [behandling]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {
