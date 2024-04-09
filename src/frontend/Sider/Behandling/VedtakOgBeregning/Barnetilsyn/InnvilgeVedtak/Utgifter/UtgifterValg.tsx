@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../../../context/BehandlingContext';
+import { useSteg } from '../../../../../../context/StegContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
@@ -44,7 +44,7 @@ const UtgifterValg: React.FC<Props> = ({
     oppdaterUtgiter,
     settValideringsFeil,
 }) => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const oppdaterUtgift = (utgiftIndex: number, oppdatertUtgift: Utgift) => {
         const oppdaterteUtgifter = utgifter.map((utgift, indeks) =>
@@ -93,7 +93,7 @@ const UtgifterValg: React.FC<Props> = ({
                 )}
             </Heading>
             {utgifter && utgifter.length > 0 && (
-                <Grid $lesevisning={!behandlingErRedigerbar}>
+                <Grid $lesevisning={!erStegRedigerbart}>
                     <Label size="small">Månedlig utgift</Label>
                     <Label size="small">Fra</Label>
                     <Label size="small">Til</Label>
@@ -101,7 +101,7 @@ const UtgifterValg: React.FC<Props> = ({
                     {utgifter.map((utgiftsperiode, indeks) => (
                         <React.Fragment key={utgiftsperiode.endretKey}>
                             <TextField
-                                erLesevisning={!behandlingErRedigerbar}
+                                erLesevisning={!erStegRedigerbart}
                                 label="Utgifter"
                                 hideLabel
                                 value={
@@ -121,7 +121,7 @@ const UtgifterValg: React.FC<Props> = ({
                             <DateInputMedLeservisning
                                 label="Fra"
                                 hideLabel
-                                erLesevisning={!behandlingErRedigerbar}
+                                erLesevisning={!erStegRedigerbart}
                                 value={utgiftsperiode.fom}
                                 onChange={(dato?: string) =>
                                     oppdaterUtgiftFelt(
@@ -136,7 +136,7 @@ const UtgifterValg: React.FC<Props> = ({
                             <DateInputMedLeservisning
                                 label="Til"
                                 hideLabel
-                                erLesevisning={!behandlingErRedigerbar}
+                                erLesevisning={!erStegRedigerbart}
                                 value={utgiftsperiode.tom}
                                 onChange={(dato?: string) =>
                                     oppdaterUtgiftFelt(
@@ -148,24 +148,26 @@ const UtgifterValg: React.FC<Props> = ({
                                 feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
-                            <div>
-                                <Button
-                                    type="button"
-                                    onClick={() => leggTilTomRadUnder(indeks)}
-                                    variant="tertiary"
-                                    icon={<PlusCircleIcon />}
-                                    size="small"
-                                />
-                                {indeks !== 0 && (
+                            {erStegRedigerbart && (
+                                <div>
                                     <Button
                                         type="button"
-                                        onClick={() => slettPeriode(barn.barnId, indeks)}
+                                        onClick={() => leggTilTomRadUnder(indeks)}
                                         variant="tertiary"
-                                        icon={<TrashIcon />}
+                                        icon={<PlusCircleIcon />}
                                         size="small"
                                     />
-                                )}
-                            </div>
+                                    {indeks !== 0 && (
+                                        <Button
+                                            type="button"
+                                            onClick={() => slettPeriode(barn.barnId, indeks)}
+                                            variant="tertiary"
+                                            icon={<TrashIcon />}
+                                            size="small"
+                                        />
+                                    )}
+                                </div>
+                            )}
                         </React.Fragment>
                     ))}
                 </Grid>
