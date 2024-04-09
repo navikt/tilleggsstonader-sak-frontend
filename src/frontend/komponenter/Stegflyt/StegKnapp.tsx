@@ -7,11 +7,11 @@ import { Button, VStack } from '@navikt/ds-react';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { FanePath } from '../../Sider/Behandling/faner';
-import { Steg } from '../../typer/behandling/steg';
+import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
-export const NesteStegKnapp: FC<{
+export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;
     children: React.ReactNode;
@@ -19,7 +19,7 @@ export const NesteStegKnapp: FC<{
     const navigate = useNavigate();
     const { request } = useApp();
 
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const redigerSteg = () => {
@@ -53,13 +53,18 @@ export const NesteStegKnapp: FC<{
         });
     };
 
+    if (!behandlingErRedigerbar) {
+        return null;
+    }
+
     return (
         <VStack align={'start'}>
-            {behandling.steg === steg ? (
+            {behandling.steg === steg && (
                 <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
                     {children}
                 </Button>
-            ) : (
+            )}
+            {stegErEtterAnnetSteg(behandling.steg, steg) && (
                 <Button variant="secondary" size="small" onClick={redigerSteg}>
                     Rediger steg
                 </Button>
