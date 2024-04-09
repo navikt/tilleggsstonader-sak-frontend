@@ -1,3 +1,30 @@
+import { DokumentInfo } from './dokument';
+import { Behandlingstema } from '../Sider/Oppgavebenk/typer/oppgave';
+
+export interface JournalpostResponse {
+    journalpost: Journalpost;
+    personIdent: string;
+    navn: string;
+    harStrukturertSøknad: boolean;
+}
+
+export interface Journalpost {
+    journalpostId: string;
+    journalposttype: Journalposttype;
+    journalstatus: Journalstatus;
+    tema: string;
+    behandlingstema?: Behandlingstema;
+    tittel?: string;
+    sak?: string;
+    bruker: BrukerInfo;
+    journalforendeEnhet?: string;
+    kanal?: string;
+    dokumenter: DokumentInfo[];
+    relevanteDatoer?: RelevantDato[];
+    datoMottatt?: string;
+    avsenderMottaker: AvsenderMottaker | undefined;
+}
+
 export enum Journalstatus {
     MOTTATT = 'MOTTATT',
     JOURNALFOERT = 'JOURNALFOERT',
@@ -39,3 +66,12 @@ export interface AvsenderMottaker {
 }
 
 export type AvsenderMottakerIdType = 'FNR' | 'HPRNR' | 'NULL' | 'ORGNR' | 'UKJENT' | 'UTL_ORG';
+
+export interface BrukerInfo {
+    id: string;
+    type: BrukerId;
+}
+
+type BrukerId = 'AKTOERID' | 'FNR';
+
+type RelevantDato = { dato: string; datotype: string };

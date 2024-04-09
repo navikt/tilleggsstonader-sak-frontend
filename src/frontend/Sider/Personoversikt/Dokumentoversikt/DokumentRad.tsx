@@ -14,7 +14,7 @@ const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
             <Table.DataCell>
                 <Link
                     target="_blank"
-                    href={`/dokument/journalpost/${dokument.journalpostId}/dokument-pdf/${dokument.dokumentinfoId}`}
+                    href={`/dokument/journalpost/${dokument.journalpostId}/dokument-pdf/${dokument.dokumentInfoId}`}
                 >
                     {dokument.tittel}
                 </Link>

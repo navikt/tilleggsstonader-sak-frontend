@@ -28,6 +28,7 @@ const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }
                                 key={variabel._id}
                                 value={variablerState[variabel._id] || ''}
                                 onChange={håndterInput}
+                                autoComplete="off"
                             />
                         </div>
                     );

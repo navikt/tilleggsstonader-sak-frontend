@@ -2,11 +2,12 @@ import React, { FC, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
+import MeldingHvisLagringFeilet from './MeldingHvisLagringFeilet';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     hentSvaralternativ,
@@ -16,14 +17,14 @@ import {
     oppdaterSvarIListe,
 } from './utils';
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { useVilkår } from '../../../context/VilkårContext';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
+import SmallButton from '../../../komponenter/SmallButton';
+import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
+import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Delvilkår, SvarPåVilkår, Vilkår, Vilkårtype, Vurdering } from '../vilkår';
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-`;
+import { Delvilkår, Vilkår, Vurdering } from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -39,12 +40,18 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 `;
 
 const EndreDelvilkår: FC<{
-    vilkårType: Vilkårtype;
     regler: Regler;
-    oppdaterVilkår: (svarPåVilkår: SvarPåVilkår) => void;
     vilkår: Vilkår;
-}> = ({ regler, oppdaterVilkår, vilkår }) => {
+    avsluttRedigering: () => void;
+}> = ({ regler, vilkår, avsluttRedigering }) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
+
+    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
+
+    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
+
+    const { lagreVilkår } = useVilkår();
+
     const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
         settDelvilkårsett((prevSvar) => {
             const prevDelvilkårsett = prevSvar[index];
@@ -65,17 +72,17 @@ const EndreDelvilkår: FC<{
         nyttSvar: Vurdering
     ) => {
         const { begrunnelse } = nyttSvar;
-        const svarsalternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
-        if (!svarsalternativ) {
+        const svaralternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
+        if (!svaralternativ) {
             return;
         }
 
         const oppdaterteSvar = oppdaterSvarIListe(nyttSvar, vurderinger, true);
 
         const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svarsalternativ.regelId,
+            svaralternativ.regelId,
             oppdaterteSvar,
-            () => begrunnelseErPåkrevdOgUtfyllt(svarsalternativ, begrunnelse)
+            () => begrunnelseErPåkrevdOgUtfyllt(svaralternativ, begrunnelse)
         );
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedNesteRegel);
     };
@@ -115,8 +122,6 @@ const EndreDelvilkår: FC<{
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
     };
 
-    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
-
     const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -125,10 +130,14 @@ const EndreDelvilkår: FC<{
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            oppdaterVilkår({
+            lagreVilkår({
                 id: vilkår.id,
                 behandlingId: vilkår.behandlingId,
                 delvilkårsett: delvilkårsett,
+            }).then((response: Ressurs<Vilkår>) => {
+                if (response.status === RessursStatus.SUKSESS) {
+                    avsluttRedigering();
+                }
             });
         }
     };
@@ -151,18 +160,20 @@ const EndreDelvilkår: FC<{
                                     <DelvilkårRadioknapper
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
-                                        settVurdering={(nyVurdering) =>
+                                        settVurdering={(nyVurdering) => {
+                                            settDetFinnesUlagredeEndringer(true);
                                             oppdaterSvar(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
                                                 nyVurdering
-                                            )
-                                        }
+                                            );
+                                        }}
                                         feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
                                         nullstillFeilmelding={nullstillFeilmelding}
                                     />
                                     <Begrunnelse
-                                        onChange={(begrunnelse) =>
+                                        oppdaterBegrunnelse={(begrunnelse) => {
+                                            settDetFinnesUlagredeEndringer(true);
                                             oppdaterBegrunnelse(
                                                 delvikår.vurderinger,
                                                 delvilkårIndex,
@@ -170,8 +181,8 @@ const EndreDelvilkår: FC<{
                                                     ...svar,
                                                     begrunnelse,
                                                 }
-                                            )
-                                        }
+                                            );
+                                        }}
                                         vurdering={svar}
                                         regel={gjeldendeRegel}
                                     />
@@ -180,12 +191,14 @@ const EndreDelvilkår: FC<{
                         );
                     });
                 })}
-                <HStack gap="1">
+                <VStack gap="4">
                     <Skillelinje />
-                    <LagreKnapp size={'small'} style={{ maxWidth: 'fit-content' }}>
-                        Lagre
-                    </LagreKnapp>
-                </HStack>
+                    <SmallButton>Lagre</SmallButton>
+                    {detFinnesUlagredeEndringer && (
+                        <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
+                    )}
+                    <MeldingHvisLagringFeilet vilkårId={vilkår.id} />
+                </VStack>
             </VStack>
         </form>
     );

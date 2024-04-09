@@ -22,6 +22,11 @@ export interface Fagsak {
     behandlinger: Behandling[];
 }
 
+export interface FagsakRequest {
+    personIdent: string;
+    stønadstype: Stønadstype;
+}
+
 export function utledFagsakId(stønadstype: Stønadstype, fagsakPerson: FagsakPerson): string {
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:

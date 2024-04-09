@@ -1,5 +1,6 @@
 import { FortroligEnhet, IkkeFortroligEnhet } from './enhet';
 import { Oppgavetype, Prioritet } from './oppgavetema';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
 export interface OppgaveResponse {
     behandlingId: string;
@@ -80,6 +81,17 @@ export type Behandlingstema = 'ab0300';
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
+};
+
+export const behandlingstemaTilStønadstype = (
+    behandlingstema: Behandlingstema | undefined
+): Stønadstype | undefined => {
+    switch (behandlingstema) {
+        case 'ab0300':
+            return Stønadstype.BARNETILSYN;
+        default:
+            return undefined;
+    }
 };
 
 export enum OppgaveBehandlingstype {

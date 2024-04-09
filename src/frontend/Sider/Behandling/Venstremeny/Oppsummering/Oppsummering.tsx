@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import ArbeidOgOpphold from './ArbeidOgOpphold';
 import BarnDetaljer from './BarnDetaljer';
 import Vedlegg from './Vedlegg';
 import { Informasjonskilde, Informasjonsrad, InfoSeksjon } from './Visningskomponenter';
@@ -9,10 +10,6 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import {
-    boddSammenhengendeMapping,
-    planleggerBoINorgeNeste12mndMapping,
-} from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei } from '../../../../typer/common';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
@@ -42,30 +39,14 @@ const Oppsummering: React.FC = () => {
                                 ', '
                             )}
                         />
-                        {behandlingFakta.hovedytelse.søknadsgrunnlag?.boddSammenhengende && (
-                            <Informasjonsrad
-                                kilde={Informasjonskilde.SØKNAD}
-                                verdi={
-                                    boddSammenhengendeMapping[
-                                        behandlingFakta.hovedytelse.søknadsgrunnlag
-                                            .boddSammenhengende
-                                    ]
-                                }
-                            />
-                        )}
-                        {behandlingFakta.hovedytelse.søknadsgrunnlag
-                            ?.planleggerBoINorgeNeste12mnd && (
-                            <Informasjonsrad
-                                kilde={Informasjonskilde.SØKNAD}
-                                verdi={
-                                    planleggerBoINorgeNeste12mndMapping[
-                                        behandlingFakta.hovedytelse.søknadsgrunnlag
-                                            .planleggerBoINorgeNeste12mnd
-                                    ]
-                                }
-                            />
-                        )}
                     </InfoSeksjon>
+                    {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                        <InfoSeksjon label={'Arbeid og opphold'}>
+                            <ArbeidOgOpphold
+                                fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                            />
+                        </InfoSeksjon>
+                    )}
 
                     <InfoSeksjon label="Aktivitet">
                         {/* TODO: Legg inn andre aktiviteter*/}

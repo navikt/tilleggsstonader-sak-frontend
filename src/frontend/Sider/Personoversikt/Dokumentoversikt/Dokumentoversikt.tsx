@@ -54,7 +54,7 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                         </Table.Header>
                         <Table.Body>
                             {dokumenter.map((dokument) => (
-                                <DokumentRad key={dokument.dokumentinfoId} dokument={dokument} />
+                                <DokumentRad key={dokument.dokumentInfoId} dokument={dokument} />
                             ))}
                         </Table.Body>
                     </Table>

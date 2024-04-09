@@ -14,7 +14,7 @@ export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[
                 _type == "block" => {
                      "markDefs": markDefs[]{
                         ...,
-                        _type == "reference" => @->{...}
+                        _type=="variabel" => variabelreferanse -> {...}    
                      }
                 },
                 _type == "fritekst" => { "parentId": ^._id },
@@ -31,7 +31,10 @@ export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[
                                     _type == "reference" => @->{...}
                                  }
                             },
-                            "variabler": nb[].markDefs[]->
+                            "variabler": nb[].markDefs[]{
+                                ...,
+                                _type=="variabel" => variabelreferanse -> {...}        
+                            },
                         },
                         _type == "fritekst" => { "parentId": ^._id }
                     }
