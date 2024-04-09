@@ -43,7 +43,7 @@ const initUtgifter = (
     vedtak?: InnvilgeVedtakForBarnetilsyn
 ): Record<string, Utgift[]> =>
     barnMedOppfylteVilkår.reduce((acc, barn) => {
-        const utgiftForBarn = vedtak?.utgifter[barn.barnId];
+        const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
             ...acc,
             [barn.barnId]: utgiftForBarn ? utgiftForBarn : [tomUtgiftRad()],
