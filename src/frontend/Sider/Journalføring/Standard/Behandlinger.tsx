@@ -7,17 +7,16 @@ import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-reac
 
 import { JournalføringState, Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
+import { Behandling } from '../../../typer/behandling/behandling';
 import {
     BehandlingResultat,
     behandlingResultatTilTekst,
 } from '../../../typer/behandling/behandlingResultat';
 import { behandlingStatusTilTekst } from '../../../typer/behandling/behandlingStatus';
 import { behandlingTypeTilTekst } from '../../../typer/behandling/behandlingType';
-import { Fagsak } from '../../../typer/fagsak';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 import {
     alleBehandlingerErFerdigstiltEllerSattPåVent,
-    behandlingerNyesteFørst,
     utledBehandlingstype,
 } from '../Felles/utils';
 
@@ -48,12 +47,11 @@ interface Props {
 }
 
 const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) => {
-    const { fagsak, journalføringsaksjon, settJournalføringsaksjon, stønadstype } =
-        journalpostState;
+    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalpostState;
 
-    const leggTilNyBehandlingForOpprettelse = (fagsak: Fagsak) => {
+    const leggTilNyBehandlingForOpprettelse = (behandlinger: Behandling[]) => {
         settFeilmelding('');
-        const kanOppretteNyBehandling = alleBehandlingerErFerdigstiltEllerSattPåVent(fagsak);
+        const kanOppretteNyBehandling = alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger);
 
         if (kanOppretteNyBehandling) {
             settJournalføringsaksjon(Journalføringsaksjon.OPPRETT_BEHANDLING);
@@ -68,11 +66,10 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
         journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING;
 
     return (
-        <DataViewer response={{ fagsak }}>
-            {({ fagsak }) => {
-                const behandlinger = behandlingerNyesteFørst(stønadstype, fagsak.behandlinger);
+        <DataViewer response={{ behandlinger }}>
+            {({ behandlinger }) => {
                 const behandlingstypePåNyBehandling =
-                    behandlingTypeTilTekst[utledBehandlingstype(fagsak.behandlinger)];
+                    behandlingTypeTilTekst[utledBehandlingstype(behandlinger)];
 
                 return (
                     <VStack gap="4">
@@ -135,7 +132,7 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
                         )}
                         <LeggTilKnapp
                             type="button"
-                            onClick={() => leggTilNyBehandlingForOpprettelse(fagsak)}
+                            onClick={() => leggTilNyBehandlingForOpprettelse(behandlinger)}
                             size="small"
                             disabled={skalOppretteNyBehandling}
                             variant="secondary"
