@@ -93,7 +93,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
     const navigate = useNavigate();
 
     const {
-        fagsak,
+        behandlinger,
         fullførJournalføring,
         settVisBekreftelsesModal,
         journalføringsaksjon,
@@ -107,14 +107,14 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     const validerOgJournalfør = () => {
         settFeilmelding('');
-        if (fagsak.status !== RessursStatus.SUKSESS) {
+        if (behandlinger.status !== RessursStatus.SUKSESS) {
             settFeilmelding('Henting av fagsak feilet. Last inn siden på nytt.');
             return;
         }
         const valideringsfeil = validerJournalføring(
             journalResponse,
             journalpostState,
-            fagsak.data
+            behandlinger.data
         );
 
         if (valideringsfeil) {

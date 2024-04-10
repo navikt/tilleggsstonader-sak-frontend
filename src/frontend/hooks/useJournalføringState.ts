@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { useHentFagsak } from './useHentFagsak';
+import { useHentBehandlinger } from './useHentBehandlinger';
 import { useApp } from '../context/AppContext';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
+import { Behandling } from '../typer/behandling/behandling';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
-import { Fagsak } from '../typer/fagsak';
 import { Journalpost, JournalpostResponse } from '../typer/journalpost';
 import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 
@@ -22,7 +22,6 @@ export enum Journalføringsaksjon {
 }
 
 export interface JournalføringRequest {
-    fagsakId: string;
     oppgaveId: string;
     nyAvsender: NyAvsender | undefined;
     dokumentTitler: DokumentTitler | undefined;
@@ -36,7 +35,7 @@ export interface JournalføringRequest {
 }
 
 export interface JournalføringState {
-    fagsak: Ressurs<Fagsak>;
+    behandlinger: Ressurs<Behandling[]>;
     dokumentTitler?: DokumentTitler;
     settDokumentTitler: Dispatch<SetStateAction<DokumentTitler | undefined>>;
     journalpost: Journalpost;
@@ -88,7 +87,8 @@ export const useJournalføringState = (
         dokumenter.length > 0 ? dokumenter[0].dokumentInfoId : '';
 
     const { request } = useApp();
-    const { fagsak, hentFagsak } = useHentFagsak();
+
+    const { behandlinger, hentBehandlinger } = useHentBehandlinger();
 
     const [dokumentTitler, settDokumentTitler] = useState<DokumentTitler>();
     const [logiskeVedleggPåDokument, settLogiskeVedleggPåDokument] =
@@ -114,16 +114,16 @@ export const useJournalføringState = (
 
     useEffect(() => {
         if (stønadstype) {
-            hentFagsak(personIdent, stønadstype);
+            hentBehandlinger(personIdent, stønadstype);
         }
-    }, [personIdent, stønadstype, hentFagsak]);
+    }, [personIdent, stønadstype, hentBehandlinger]);
 
     const fullførJournalføring = () => {
         if (innsending.status === RessursStatus.HENTER) {
             return;
         }
 
-        if (fagsak.status !== RessursStatus.SUKSESS) {
+        if (behandlinger.status !== RessursStatus.SUKSESS) {
             return;
         }
 
@@ -132,7 +132,6 @@ export const useJournalføringState = (
             logiskeVedlegg: logiskeVedleggPåDokument,
             ident: personIdent,
             stønadstype: stønadstype,
-            fagsakId: fagsak.data.id,
             oppgaveId: oppgaveId,
             journalførendeEnhet: '9999', // TODO: Utled journalførende enhet fra saksbehandler
             årsak: journalføringsårsak,
@@ -150,7 +149,7 @@ export const useJournalføringState = (
     };
 
     return {
-        fagsak,
+        behandlinger,
         dokumentTitler,
         settDokumentTitler,
         journalpost,

@@ -1,6 +1,6 @@
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
+import { Behandling } from '../../../typer/behandling/behandling';
 import { DokumentTitler } from '../../../typer/dokument';
-import { Fagsak } from '../../../typer/fagsak';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import {
     alleBehandlingerErFerdigstiltEllerSattPåVent,
@@ -11,11 +11,11 @@ import { Journalføringsårsak } from '../typer/journalføringsårsak';
 export const validerJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    fagsak: Fagsak
+    behandlinger: Behandling[]
 ): string | undefined => {
     if (journalføringGjelderKlage(journalpostState.journalføringsårsak))
         return validerKlageJournalføring(journalResponse, journalpostState);
-    return validerStandardJournalføring(journalResponse, journalpostState, fagsak);
+    return validerStandardJournalføring(journalResponse, journalpostState, behandlinger);
 };
 
 const validerKlageJournalføring = (
@@ -38,14 +38,14 @@ const validerKlageJournalføring = (
 const validerStandardJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    fagsak: Fagsak
+    behandlinger: Behandling[]
 ): string | undefined => {
     const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
 
     if (valideringsfeil) return valideringsfeil;
 
     if (journalpostState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING) {
-        return validerJournalføringTilNyBehandling(journalResponse, journalpostState, fagsak);
+        return validerJournalføringTilNyBehandling(journalResponse, journalpostState, behandlinger);
     }
 
     return undefined;
@@ -86,9 +86,9 @@ const validerFellesFelter = (
 const validerJournalføringTilNyBehandling = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    fagsak: Fagsak
+    behandlinger: Behandling[]
 ) => {
-    if (!alleBehandlingerErFerdigstiltEllerSattPåVent(fagsak))
+    if (!alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger))
         return 'Kan ikke journalføre på ny behandling når det finnes en behandling som ikke er ferdigstilt';
 
     if (journalResponse.harStrukturertSøknad) {

@@ -7,7 +7,6 @@ import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { LogiskVedlegg } from '../../../typer/dokument';
-import { Fagsak } from '../../../typer/fagsak';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
@@ -92,8 +91,8 @@ export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) =
     Journalføringsårsak.PAPIRSØKNAD,
 ];
 
-export const alleBehandlingerErFerdigstiltEllerSattPåVent = (fagsak: Fagsak) =>
-    fagsak.behandlinger.every(
+export const alleBehandlingerErFerdigstiltEllerSattPåVent = (behandlinger: Behandling[]) =>
+    behandlinger.every(
         (behandling) =>
             behandling.status === BehandlingStatus.FERDIGSTILT ||
             (behandling.status === BehandlingStatus.SATT_PÅ_VENT &&
@@ -109,11 +108,6 @@ export const utledBehandlingstype = (tidligereBehandlinger: Behandling[]): Behan
         ? BehandlingType.REVURDERING
         : BehandlingType.FØRSTEGANGSBEHANDLING;
 };
-
-export const behandlingerNyesteFørst = (
-    stønadstype: Stønadstype | undefined,
-    behandlinger: Behandling[]
-) => (stønadstype && behandlinger.length > 0 ? behandlinger.slice().reverse() : []);
 
 export const skalViseBekreftelsesmodal = (
     journalResponse: JournalpostResponse,
