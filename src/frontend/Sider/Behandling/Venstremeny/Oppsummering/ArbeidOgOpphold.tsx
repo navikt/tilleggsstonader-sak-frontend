@@ -38,6 +38,9 @@ const OppholdUtenforNorge12mnd: React.FC<{
     spørsmål?: JaNei;
     faktaOpphold: FaktaOppholdUtenforNorge[];
 }> = ({ tittel, spørsmål, faktaOpphold }) => {
+    if (!spørsmål) {
+        return null;
+    }
     return (
         <VStack gap={'2'}>
             <Label size="small">{tittel}</Label>

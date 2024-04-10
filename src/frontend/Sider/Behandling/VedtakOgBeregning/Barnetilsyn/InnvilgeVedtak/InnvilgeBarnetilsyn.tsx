@@ -9,62 +9,68 @@ import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
-import useFormState, { FormState } from '../../../../../hooks/felles/useFormState';
+import { useSteg } from '../../../../../context/StegContext';
+import useFormState from '../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
+import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { byggTomRessurs } from '../../../../../typer/ressurs';
+import { Steg } from '../../../../../typer/behandling/steg';
+import { byggTomRessurs, RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeVedtakForBarnetilsyn,
     Utgift,
 } from '../../../../../typer/vedtak';
+import { FanePath } from '../../../faner';
 import { GrunnlagBarn } from '../../../vilkår';
-import { lagVedtakRequest, tomUtgiftPerBarn } from '../utils';
+import { lagVedtakRequest, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     utgifter: Record<string, Utgift[]>;
 };
-
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 const Knapp = styled(Button)`
     width: max-content;
 `;
 
 const initUtgifter = (
-    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
-    barnIBehandling: GrunnlagBarn[]
-) => (vedtak ? vedtak.utgifter : tomUtgiftPerBarn(barnIBehandling));
+    barnMedOppfylteVilkår: GrunnlagBarn[],
+    vedtak?: InnvilgeVedtakForBarnetilsyn
+): Record<string, Utgift[]> =>
+    barnMedOppfylteVilkår.reduce((acc, barn) => {
+        const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
+        return {
+            ...acc,
+            [barn.barnId]: utgiftForBarn ? utgiftForBarn : [tomUtgiftRad()],
+        };
+    }, {});
 
 const initFormState = (
     vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
-    barnIBehandling: GrunnlagBarn[]
+    barnMedOppfylteVilkår: GrunnlagBarn[]
 ) => ({
-    utgifter: initUtgifter(vedtak, barnIBehandling),
+    utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
 });
 
 interface Props {
     lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
     settResultatType: (val: BehandlingResultat | undefined) => void;
     låsFraDatoFørsteRad: boolean;
-    barnIBehandling: GrunnlagBarn[];
+    barnMedOppfylteVilkår: GrunnlagBarn[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehandling }) => {
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppfylteVilkår }) => {
     const { request } = useApp();
-    const { behandlingErRedigerbar, behandling } = useBehandling();
+    const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
     // TODO: Prøve å slippe denne castingen
     const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretInnvilgetVedtak, barnIBehandling),
+        initFormState(lagretInnvilgetVedtak, barnMedOppfylteVilkår),
         validerInnvilgetVedtakForm
     );
 
@@ -90,20 +96,22 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
 
     const lagreVedtak = (vedtaksRequest: InnvilgeVedtakForBarnetilsyn) => {
         settLaster(true);
-        request<null, InnvilgeVedtakForBarnetilsyn>(
+        return request<null, InnvilgeVedtakForBarnetilsyn>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
             'POST',
             vedtaksRequest
-        )
-            // eslint-disable-next-line no-console
-            .then((res) => console.log('response: ', res))
-            .finally(() => settLaster(false));
+        ).finally(() => settLaster(false));
     };
 
-    const handleSubmit = (form: FormState<InnvilgeVedtakForm>) => {
-        const vedtaksRequest = lagVedtakRequest(form);
-        lagreVedtak(vedtaksRequest);
-        return form;
+    const validerOgLagreVedtak = (): Promise<RessursSuksess<unknown> | RessursFeilet> => {
+        if (formState.validateForm()) {
+            const request = lagVedtakRequest({
+                utgifter: utgifterState.value,
+            });
+            return lagreVedtak(request);
+        } else {
+            return Promise.reject();
+        }
     };
 
     const beregnBarnetilsyn = () => {
@@ -120,17 +128,17 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
     };
 
     return (
-        <Form onSubmit={formState.onSubmit(handleSubmit)}>
+        <>
             <Panel tittel="Beregning">
                 <VStack gap="8">
                     <Utgifter
-                        barnIBehandling={barnIBehandling}
+                        barnMedOppfylteVilkår={barnMedOppfylteVilkår}
                         utgifterState={utgifterState}
                         errorState={formState.errors.utgifter}
                         settValideringsFeil={formState.setErrors}
                     />
                     <Skillelinje />
-                    {behandlingErRedigerbar && (
+                    {erStegRedigerbart && (
                         <Knapp
                             type="button"
                             variant="primary"
@@ -147,11 +155,13 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnIBehand
                     </DataViewer>
                 </VStack>
             </Panel>
-            {behandlingErRedigerbar && (
-                <Knapp type="submit" variant="primary" disabled={laster}>
-                    Lagre vedtak
-                </Knapp>
-            )}
-        </Form>
+            <StegKnapp
+                steg={Steg.BEREGNE_YTELSE}
+                nesteFane={FanePath.BREV}
+                onNesteSteg={validerOgLagreVedtak}
+            >
+                Lagre vedtak og gå videre
+            </StegKnapp>
+        </>
     );
 };
