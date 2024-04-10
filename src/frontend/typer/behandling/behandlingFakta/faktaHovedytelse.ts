@@ -8,17 +8,21 @@ interface SøknadsgrunnlagHovedytelse {
     hovedytelse: Hovedytelse[];
     arbeidOgOpphold?: FaktaArbeidOgOpphold;
 }
+
+/**
+ * Denne burde ha liknende verdier som Ytelse i søknad
+ */
 enum Hovedytelse {
     AAP = 'AAP',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     GJENLEVENDEPENSJON = 'GJENLEVENDEPENSJON',
-    DAGPENGER = 'DAGPENGER',
-    TILTAKSPENGER = 'TILTAKSPENGER',
-    KVALIFIKASJONSPROGRAMMET = 'KVALIFIKASJONSPROGRAMMET',
-    INTRODUKSJONSPROGRAMMET = 'INTRODUKSJONSPROGRAMMET',
-    SYKEPENGER = 'SYKEPENGER',
     UFØRETRYGD = 'UFØRETRYGD',
+    TILTAKSPENGER = 'TILTAKSPENGER',
+    DAGPENGER = 'DAGPENGER',
+    SYKEPENGER = 'SYKEPENGER',
+    KVALIFISERINGSSTØNAD = 'KVALIFISERINGSSTØNAD',
     INGEN_PENGESTØTTE = 'INGEN_PENGESTØTTE',
+    INGEN_PASSENDE_ALTERNATIVER = 'INGEN_PASSENDE_ALTERNATIVER',
 }
 
 export interface FaktaArbeidOgOpphold {
@@ -54,6 +58,19 @@ enum ÅrsakOppholdUtenforNorge {
     FAMILIE_BESØK = 'FAMILIE_BESØK',
     ANNET = 'ANNET',
 }
+
+export const hovedytelseTilTekst: Record<Hovedytelse, string> = {
+    AAP: 'Arbeidsavklaringspenger (AAP)',
+    OVERGANGSSTØNAD: 'Enslig forsørger',
+    GJENLEVENDEPENSJON: 'Gjenlevendepensjon / etterlattepensjon / omstillingsstønad',
+    UFØRETRYGD: 'Uføretrygd',
+    TILTAKSPENGER: 'Tiltakspenger',
+    DAGPENGER: 'Dagpenger',
+    SYKEPENGER: 'Sykepenger',
+    KVALIFISERINGSSTØNAD: 'Kvalifiseringsstønad',
+    INGEN_PENGESTØTTE: 'Mottar ingen pengestøtte, men har nedsatt arbeidsevne',
+    INGEN_PASSENDE_ALTERNATIVER: 'Ingen av alternativene passer for meg',
+};
 
 export const typePengestøtteTilTekst: Record<TypePengestøtte, string> = {
     ANNEN_PENGESTØTTE: 'Annen pengestøtte',

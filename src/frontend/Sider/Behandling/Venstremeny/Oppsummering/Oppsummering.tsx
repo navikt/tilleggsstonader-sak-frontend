@@ -10,8 +10,10 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { hovedytelseTilTekst } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei } from '../../../../typer/common';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
+import { tekstEllerVerdi } from '../../../../utils/tekstformatering';
 
 const Oppsummering: React.FC = () => {
     const { request } = useApp();
@@ -35,9 +37,11 @@ const Oppsummering: React.FC = () => {
                     <InfoSeksjon label="Ytelse/situasjon">
                         <Informasjonsrad
                             kilde={Informasjonskilde.SØKNAD}
-                            verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse?.join(
-                                ', '
-                            )}
+                            verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse
+                                ?.map((hovedytelse) =>
+                                    tekstEllerVerdi(hovedytelseTilTekst, hovedytelse)
+                                )
+                                ?.join(', ')}
                         />
                     </InfoSeksjon>
                     {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (

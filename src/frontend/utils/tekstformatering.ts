@@ -12,3 +12,8 @@ export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string)
     const formatertAlder = alder ? ` (${alder} år)` : '';
     return `${navn} ${ident}${formatertAlder}`;
 };
+
+export const tekstEllerVerdi = <T extends string>(
+    mapping: Record<T, string>,
+    verdi?: T
+): string | undefined => (verdi && mapping[verdi]) || verdi;
