@@ -13,7 +13,11 @@ export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string)
     return `${navn} ${ident}${formatertAlder}`;
 };
 
-export const tekstEllerVerdi = <T extends string>(
+/**
+ * I tilfeller tekstmapping mapping skal man vise kode sånn at man ikke viser tom streng og saksbehandler
+ * går miste om at det finnes et verdi
+ */
+export const tekstEllerKode = <T extends string>(
     mapping: Record<T, string>,
-    verdi?: T
-): string | undefined => (verdi && mapping[verdi]) || verdi;
+    kode?: T
+): string | undefined => (kode && mapping[kode]) || kode;

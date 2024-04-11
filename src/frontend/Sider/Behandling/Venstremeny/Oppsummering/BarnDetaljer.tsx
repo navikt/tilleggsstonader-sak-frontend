@@ -7,6 +7,7 @@ import {
     årsakBarnepassTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { JaNei } from '../../../../typer/common';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
@@ -17,7 +18,7 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
         <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`}>
             <Informasjonsrad
                 kilde={Informasjonskilde.SØKNAD}
-                verdi={typePass && typeBarnepassTilTekst[typePass]}
+                verdi={tekstEllerKode(typeBarnepassTilTekst, typePass)}
             />
             {startetIFemte !== undefined && (
                 <>
@@ -32,7 +33,7 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
                     {startetIFemte === JaNei.JA && (
                         <Informasjonsrad
                             kilde={Informasjonskilde.SØKNAD}
-                            verdi={årsak && årsakBarnepassTilTekst[årsak]}
+                            verdi={tekstEllerKode(årsakBarnepassTilTekst, årsak)}
                         />
                     )}
                 </>

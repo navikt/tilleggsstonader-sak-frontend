@@ -11,6 +11,7 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoDato } from '../../../../utils/dato';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const OppholdUtenforNorge: React.FC<{ opphold: FaktaOppholdUtenforNorge }> = ({ opphold }) => {
     return (
@@ -21,7 +22,7 @@ const OppholdUtenforNorge: React.FC<{ opphold: FaktaOppholdUtenforNorge }> = ({ 
                     <BodyShort size="small">{opphold.land}</BodyShort>
                     <BodyShort size="small">
                         {opphold.årsak
-                            .map((årsak) => årsakOppholdUtenforNorgeTilTekst[årsak])
+                            .map((årsak) => tekstEllerKode(årsakOppholdUtenforNorgeTilTekst, årsak))
                             .join(', ')}
                     </BodyShort>
                     <BodyShort size="small">
@@ -82,7 +83,9 @@ const ArbeidOgOpphold: React.FC<{ fakta: FaktaArbeidOgOpphold }> = ({ fakta }) =
                                 )}
                                 <BodyShort size="small">
                                     {fakta.harPengestøtteAnnetLand
-                                        .map((pengestøtte) => typePengestøtteTilTekst[pengestøtte])
+                                        .map((pengestøtte) =>
+                                            tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
+                                        )
                                         .join(', ')}
                                 </BodyShort>
                             </VStack>

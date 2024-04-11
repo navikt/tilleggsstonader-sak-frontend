@@ -13,7 +13,7 @@ import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/be
 import { hovedytelseTilTekst } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei } from '../../../../typer/common';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
-import { tekstEllerVerdi } from '../../../../utils/tekstformatering';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Oppsummering: React.FC = () => {
     const { request } = useApp();
@@ -39,7 +39,7 @@ const Oppsummering: React.FC = () => {
                             kilde={Informasjonskilde.SØKNAD}
                             verdi={behandlingFakta.hovedytelse.søknadsgrunnlag?.hovedytelse
                                 ?.map((hovedytelse) =>
-                                    tekstEllerVerdi(hovedytelseTilTekst, hovedytelse)
+                                    tekstEllerKode(hovedytelseTilTekst, hovedytelse)
                                 )
                                 ?.join(', ')}
                         />
