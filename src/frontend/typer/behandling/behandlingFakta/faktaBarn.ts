@@ -20,11 +20,16 @@ interface SøknadsgrunnlagBarn {
 
 enum TypeBarnepass {
     BARNEHAGE_SFO_AKS = 'BARNEHAGE_SFO_AKS',
+    PRIVAT = 'PRIVAT',
+
+    // Deprecated, brukes ikke lengre i søknaden
     ANDRE = 'ANDRE',
 }
 
 export const typeBarnepassTilTekst: Record<TypeBarnepass, string> = {
     BARNEHAGE_SFO_AKS: 'Barnehage, SFO eller AKS',
+    PRIVAT: 'Privat ordning',
+
     ANDRE: 'Andre',
 };
 
