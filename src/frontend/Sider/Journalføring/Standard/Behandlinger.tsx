@@ -43,7 +43,7 @@ const LeggTilKnapp = styled(Button)`
 
 interface Props {
     journalpostState: JournalføringState;
-    settFeilmelding: Dispatch<SetStateAction<string>>;
+    settFeilmelding: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) => {

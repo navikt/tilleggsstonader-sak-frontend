@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
+import { Button, Heading, HStack } from '@navikt/ds-react';
 
 import AvsenderPanel from './AvsenderPanel';
 import Behandlinger from './Behandlinger';
@@ -16,6 +16,7 @@ import { useQueryParams } from '../../../hooks/felles/useQueryParams';
 import { useHentJournalpost } from '../../../hooks/useHentJournalpost';
 import { JournalføringState, useJournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { RessursStatus } from '../../../typer/ressurs';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
@@ -96,7 +97,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
         journalføringsårsak,
     } = journalpostState;
 
-    const [feilmelding, settFeilmelding] = useState<string>('');
+    const [feilmelding, settFeilmelding] = useState<string>();
 
     const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
     const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
@@ -173,7 +174,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                                 settFeilmelding={settFeilmelding}
                             />
                         </section>
-                        {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
+                        <Feilmelding>{feilmelding}</Feilmelding>
                         <HStack gap="4" justify="end">
                             <Button
                                 size={'small'}
