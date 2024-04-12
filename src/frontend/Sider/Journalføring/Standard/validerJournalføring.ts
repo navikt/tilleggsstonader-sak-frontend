@@ -2,6 +2,7 @@ import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJo
 import { Behandling } from '../../../typer/behandling/behandling';
 import { DokumentTitler } from '../../../typer/dokument';
 import { JournalpostResponse } from '../../../typer/journalpost';
+import { harIkkeVerdi } from '../../../utils/utils';
 import {
     alleBehandlingerErFerdigstiltEllerSattPåVent,
     journalføringGjelderKlage,
@@ -70,14 +71,11 @@ const validerFellesFelter = (
 
     if (
         nyAvsender?.erBruker &&
-        (nyAvsender.navn === undefined ||
-            nyAvsender.navn === '' ||
-            nyAvsender.personIdent === undefined ||
-            nyAvsender.personIdent === '')
+        (harIkkeVerdi(nyAvsender.navn) || harIkkeVerdi(nyAvsender.personIdent))
     )
         return 'Kan ikke velge at ny avsender er bruker uten å sende inn verdier for navn og personident';
 
-    if (nyAvsender?.erBruker === false && (nyAvsender.navn === undefined || nyAvsender.navn === ''))
+    if (nyAvsender?.erBruker === false && harIkkeVerdi(nyAvsender.navn))
         return 'Kan ikke sende inn uten avsender';
 
     return undefined;
