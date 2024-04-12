@@ -39,10 +39,6 @@ export const Venstrekolonne = styled.div`
     }
 `;
 
-export const Knapp = styled(Button)`
-    width: fit-content;
-`;
-
 export const Høyrekolonne = styled.div`
     display: flex;
     flex: 1 1 auto;
@@ -179,14 +175,14 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                         </section>
                         {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                         <HStack gap="4" justify="end">
-                            <Knapp
+                            <Button
                                 size={'small'}
                                 variant={'tertiary'}
                                 onClick={() => navigate('/oppgavebenk')}
                             >
                                 Avbryt
-                            </Knapp>
-                            <Knapp
+                            </Button>
+                            <Button
                                 size={'small'}
                                 variant={'primary'}
                                 onClick={validerOgJournalfør}
@@ -194,7 +190,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                                 disabled={senderInnJournalføring}
                             >
                                 Journalfør
-                            </Knapp>
+                            </Button>
                         </HStack>
                     </InnerContainer>
                 </Venstrekolonne>
