@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
+import { harVerdi } from '../../../utils/utils';
 import {
     SvarJaNei,
     Vurdering,
@@ -42,6 +43,13 @@ const JaNeiVurdering: React.FC<{
         }
     };
 
+    const oppdaterBegrunnelse = (nyBegrunnelse: string) => {
+        oppdaterVurdering({
+            ...vurdering,
+            begrunnelse: harVerdi(nyBegrunnelse) ? nyBegrunnelse : undefined,
+        });
+    };
+
     return (
         <>
             <RadioGroup
@@ -55,7 +63,7 @@ const JaNeiVurdering: React.FC<{
             </RadioGroup>
             <Textarea
                 value={vurdering?.begrunnelse || ''}
-                onChange={(e) => oppdaterVurdering({ ...vurdering, begrunnelse: e.target.value })}
+                onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 label={begunnelseLabel(begrunnelsePåkrevd, vurdering?.svar)}
                 size="small"
             />
