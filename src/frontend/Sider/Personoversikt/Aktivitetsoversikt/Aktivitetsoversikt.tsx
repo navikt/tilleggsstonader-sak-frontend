@@ -6,7 +6,7 @@ import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 
-const SakOgAktivitet: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
+const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
 
     const [aktiviteter, settAktiviteter] = useState<Ressurs<Aktivitet[]>>(byggHenterRessurs());
@@ -28,4 +28,4 @@ const SakOgAktivitet: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
     );
 };
 
-export default SakOgAktivitet;
+export default Aktivitetsoversikt;

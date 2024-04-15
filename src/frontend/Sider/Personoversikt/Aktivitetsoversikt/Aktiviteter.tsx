@@ -14,7 +14,7 @@ const Aktivitetstabell = styled(Table)`
 
 const Aktiviteter: React.FC<{ aktiviteter: Aktivitet[] }> = ({ aktiviteter }) => {
     return (
-        <Aktivitetstabell size={'small'}>
+        <Aktivitetstabell size={'small'} zebraStripes={true}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fom</Table.HeaderCell>

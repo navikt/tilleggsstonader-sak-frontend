@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
 
+import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
-import SakOgAktivitet from './SakOgAktivitet/SakOgAktivitet';
 
 type TabWithRouter = {
     label: string;
@@ -23,9 +23,9 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Sak og aktivitet',
-        path: 'sak-aktivitet',
-        komponent: (fagsakPersonId) => <SakOgAktivitet fagsakPersonId={fagsakPersonId} />,
+        label: 'Aktiviteter',
+        path: 'aktiviteter',
+        komponent: (fagsakPersonId) => <Aktivitetsoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
         label: 'Dokumentoversikt',
