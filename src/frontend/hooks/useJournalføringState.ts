@@ -30,7 +30,6 @@ export interface JournalføringRequest {
     årsak: Journalføringsårsak;
     aksjon: Journalføringsaksjon;
     mottattDato: string | undefined;
-    ident: string;
     stønadstype: Stønadstype | undefined;
 }
 
@@ -130,7 +129,6 @@ export const useJournalføringState = (
         const journalføringRequest: JournalføringRequest = {
             dokumentTitler: dokumentTitler,
             logiskeVedlegg: logiskeVedleggPåDokument,
-            ident: personIdent,
             stønadstype: stønadstype,
             oppgaveId: oppgaveId,
             journalførendeEnhet: '9999', // TODO: Utled journalførende enhet fra saksbehandler
