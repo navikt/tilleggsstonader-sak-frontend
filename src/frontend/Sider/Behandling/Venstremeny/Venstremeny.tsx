@@ -7,6 +7,7 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import Oppsummering from './Oppsummering/Oppsummering';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
+import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
@@ -30,6 +31,7 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
+            <Totrinnskontroll />
             <Tabs defaultValue="oppsummering" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
