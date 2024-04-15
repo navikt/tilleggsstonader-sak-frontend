@@ -10,6 +10,7 @@ export interface Målgruppe extends VilkårPeriode {
 export interface DelvilkårMålgruppe {
     '@type': 'MÅLGRUPPE';
     medlemskap?: Vurdering;
+    dekketAvAnnetRegelverk?: Vurdering;
 }
 
 export enum MålgruppeType {
@@ -34,3 +35,17 @@ export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
         label: label,
     })
 );
+
+export enum FaktiskMålgruppe {
+    NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
+    ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
+    GJENLEVENDE = 'GJENLEVENDE',
+}
+
+export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
+    AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    OMSTILLINGSSTØNAD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
+    NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+};

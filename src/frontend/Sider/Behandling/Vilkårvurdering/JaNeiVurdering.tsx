@@ -32,6 +32,10 @@ const JaNeiVurdering: React.FC<{
                 return svar === SvarJaNei.NEI
                     ? 'Begrunnelse (obligatorisk)'
                     : 'Begrunnelse (valgfri)';
+            case BegrunnelseObligatorisk.OBLIGATORISK_HVIS_SVAR_JA:
+                return svar === SvarJaNei.JA
+                    ? 'Begrunnelse (obligatorisk)'
+                    : 'Begrunnelse (valgfri)';
             case BegrunnelseObligatorisk.VALGFRI:
             default:
                 return 'Begrunnelse (valgfri)';
