@@ -49,6 +49,7 @@ export enum BegrunnelseObligatorisk {
     OBLIGATORISK = 'OBLIGATORISK',
     VALGFRI = 'VALGFRI',
     OBLIGATORISK_HVIS_SVAR_NEI = 'OBLIGATORISK_HVIS_SVAR_NEI',
+    OBLIGATORISK_HVIS_SVAR_JA = 'OBLIGATORISK_HVIS_SVAR_JA',
 }
 
 export const svarJaNeiMapping: Record<SvarJaNei, string> = {

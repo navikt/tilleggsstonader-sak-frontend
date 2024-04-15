@@ -1,5 +1,9 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import { MålgruppeType } from '../typer/målgruppe';
+import {
+    FaktiskMålgruppe,
+    MålgruppeType,
+    MålgruppeTypeTilFaktiskMålgruppe,
+} from '../typer/målgruppe';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -13,4 +17,14 @@ export const nyMålgruppe = (behandlingId: string): EndreMålgruppeForm => {
         tom: '',
         delvilkår: { '@type': 'MÅLGRUPPE' },
     };
+};
+
+export const målgrupperHvorMedlemskapMåVurderes = [
+    MålgruppeType.NEDSATT_ARBEIDSEVNE,
+    MålgruppeType.UFØRETRYGD,
+    MålgruppeType.OMSTILLINGSSTØNAD,
+];
+
+export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) => {
+    return MålgruppeTypeTilFaktiskMålgruppe[målgruppeType] === FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE;
 };
