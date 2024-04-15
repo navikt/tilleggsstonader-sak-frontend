@@ -36,6 +36,9 @@ export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
     })
 );
 
+// TODO: Endre navn på enum
+// FaktiskMålgruppe brukes som navn foreløpig
+// Disse verdiene er faktiske målgrupper, mens målgruppetype burde hete noe ala hovedytelse eller liknende
 export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
