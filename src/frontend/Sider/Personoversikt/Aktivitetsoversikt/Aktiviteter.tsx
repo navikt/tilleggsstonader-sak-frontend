@@ -4,17 +4,17 @@ import { styled } from 'styled-components';
 
 import { Table } from '@navikt/ds-react';
 
-import { Aktivitet, statutAktivitetTilTekst } from './typer';
+import { Registeraktivitet, statutAktivitetTilTekst } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { formatBoolean } from '../../../utils/tekstformatering';
 
-const Aktivitetstabell = styled(Table)`
+const Tabell = styled(Table)`
     width: 70%;
 `;
 
-const Aktiviteter: React.FC<{ aktiviteter: Aktivitet[] }> = ({ aktiviteter }) => {
+const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktiviteter }) => {
     return (
-        <Aktivitetstabell size={'small'} zebraStripes={true}>
+        <Tabell size={'small'} zebraStripes={true}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fom</Table.HeaderCell>
@@ -51,7 +51,7 @@ const Aktiviteter: React.FC<{ aktiviteter: Aktivitet[] }> = ({ aktiviteter }) =>
                     );
                 })}
             </Table.Body>
-        </Aktivitetstabell>
+        </Tabell>
     );
 };
 

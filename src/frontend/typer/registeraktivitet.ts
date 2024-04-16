@@ -1,4 +1,4 @@
-export interface Aktivitet {
+export interface Registeraktivitet {
     id: string;
     fom?: string;
     tom?: string;
