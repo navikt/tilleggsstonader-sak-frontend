@@ -48,7 +48,7 @@ export enum FaktiskMålgruppe {
 export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
     AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    OMSTILLINGSSTØNAD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
     OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
     NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
 };
