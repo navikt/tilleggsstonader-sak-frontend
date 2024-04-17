@@ -60,7 +60,6 @@ export const svarJaNeiMapping: Record<SvarJaNei, string> = {
 
 export interface Vurdering {
     svar?: SvarJaNei;
-    begrunnelse?: string;
 }
 
 export interface SlettVilkårperiode {
