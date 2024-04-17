@@ -18,7 +18,7 @@ import { GrunnlagBarn } from '../../../../vilkår';
 import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
-const Grid = styled.div<{ $lesevisning?: boolean }>`
+const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, max-content);
     grid-gap: 0.5rem 1rem;
@@ -93,7 +93,7 @@ const UtgifterValg: React.FC<Props> = ({
                 )}
             </Heading>
             {utgifter && utgifter.length > 0 && (
-                <Grid $lesevisning={!erStegRedigerbart}>
+                <Grid>
                     <Label size="small">Månedlig utgift</Label>
                     <Label size="small">Fra</Label>
                     <Label size="small">Til</Label>
