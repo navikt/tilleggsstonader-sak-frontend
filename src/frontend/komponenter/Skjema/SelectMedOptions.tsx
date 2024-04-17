@@ -1,20 +1,30 @@
 import React, { FC } from 'react';
 
-import { Select, SelectProps } from '@navikt/ds-react';
+import Select, { SelectProps } from './Select';
 
 export interface SelectOption {
     value: string;
     label: string;
 }
 
-interface Props extends Omit<SelectProps, 'children' | 'readOnly'> {
+interface Props extends Omit<SelectProps, 'children' | 'erLeservisning' | 'readOnly'> {
     valg: SelectOption[];
-    erLesevisning: boolean;
+    erLeservisning?: boolean;
+    readOnlyLeservisning?: boolean;
 }
 
-const SelectMedOptions: FC<Props> = ({ valg, erLesevisning, ...props }) => {
+const SelectMedOptions: FC<Props> = ({
+    valg,
+    erLesevisning,
+    readOnlyLeservisning = false,
+    ...props
+}) => {
     return (
-        <Select {...props} readOnly={erLesevisning}>
+        <Select
+            erLesevisning={erLesevisning && !readOnlyLeservisning}
+            readOnly={erLesevisning && readOnlyLeservisning}
+            {...props}
+        >
             <option value="">Velg</option>
             {valg.map((v) => (
                 <option key={v.value} value={v.value}>

@@ -64,6 +64,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <SelectMedOptions
                     label="Ytelse/situasjon"
                     erLesevisning={vilkårperiode !== undefined}
+                    readOnlyLeservisning
                     value={form.type}
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
