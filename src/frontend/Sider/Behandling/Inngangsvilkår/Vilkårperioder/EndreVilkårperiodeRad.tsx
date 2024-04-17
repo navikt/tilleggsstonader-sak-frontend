@@ -97,7 +97,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
             <Textarea
                 label={'Begrunnelse'}
-                value={vilkårperiode?.begrunnelse || ''}
+                value={form?.begrunnelse || ''}
                 onChange={(e) => oppdaterVilkårperiode('begrunnelse', e.target.value)}
                 size="small"
             />
