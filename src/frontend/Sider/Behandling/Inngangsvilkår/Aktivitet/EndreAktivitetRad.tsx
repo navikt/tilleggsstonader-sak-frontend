@@ -109,7 +109,7 @@ const EndreAktivitetRad: React.FC<{
             form={aktivitetForm}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
-            oppdaterVilkårperiode={oppdaterVilkårperiode}
+            oppdaterForm={oppdaterVilkårperiode}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
             typeOptions={AktivitetTypeOptions}
             oppdaterType={(nyttValg) =>

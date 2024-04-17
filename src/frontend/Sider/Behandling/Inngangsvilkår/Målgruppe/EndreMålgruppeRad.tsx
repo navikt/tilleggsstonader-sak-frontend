@@ -94,7 +94,7 @@ const EndreMålgruppeRad: React.FC<{
         }
     };
 
-    const oppdaterVilkårperiode = (key: keyof Målgruppe, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof Målgruppe, nyVerdi: string) => {
         settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
@@ -104,7 +104,7 @@ const EndreMålgruppeRad: React.FC<{
             form={målgruppeForm}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
-            oppdaterVilkårperiode={oppdaterVilkårperiode}
+            oppdaterForm={oppdaterForm}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
             typeOptions={MålgruppeTypeOptions}
             oppdaterType={(nyttValg) =>

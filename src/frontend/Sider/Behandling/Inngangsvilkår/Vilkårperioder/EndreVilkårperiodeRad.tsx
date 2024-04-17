@@ -33,7 +33,7 @@ interface Props {
     form: EndreMålgruppeForm | EndreAktivitetForm;
     avbrytRedigering: () => void;
     lagre: () => void;
-    oppdaterVilkårperiode: (key: keyof VilkårPeriode, nyVerdi: string) => void;
+    oppdaterForm: (key: keyof VilkårPeriode, nyVerdi: string) => void;
     oppdaterType: (nyttvalg: string) => void;
     typeOptions: SelectOption[];
     vilkårsperiodeFeil?: FormErrors<EndreVilkårsperiode>;
@@ -48,7 +48,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     form,
     avbrytRedigering,
     lagre,
-    oppdaterVilkårperiode,
+    oppdaterForm,
     oppdaterType,
     typeOptions,
     vilkårsperiodeFeil,
@@ -75,7 +75,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Fra'}
                     value={form?.fom}
-                    onChange={(dato) => oppdaterVilkårperiode('fom', dato || '')}
+                    onChange={(dato) => oppdaterForm('fom', dato || '')}
                     size="small"
                     feil={vilkårsperiodeFeil?.fom}
                 />
@@ -84,7 +84,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Til'}
                     value={form?.tom}
-                    onChange={(dato) => oppdaterVilkårperiode('tom', dato || '')}
+                    onChange={(dato) => oppdaterForm('tom', dato || '')}
                     size="small"
                     feil={vilkårsperiodeFeil?.tom}
                 />
@@ -98,7 +98,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             <Textarea
                 label={'Begrunnelse'}
                 value={form?.begrunnelse || ''}
-                onChange={(e) => oppdaterVilkårperiode('begrunnelse', e.target.value)}
+                onChange={(e) => oppdaterForm('begrunnelse', e.target.value)}
                 size="small"
             />
             <HStack gap="4">
