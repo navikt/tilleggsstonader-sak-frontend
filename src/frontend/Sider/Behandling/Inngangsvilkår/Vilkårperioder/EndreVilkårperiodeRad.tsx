@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
 import { Button, HStack, Textarea } from '@navikt/ds-react';
 
+import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
 import { EndreVilkårsperiode } from './validering';
 import VilkårperiodeKortBase from './VilkårperiodeKort/VilkårperiodeKortBase';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
@@ -55,6 +56,8 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     feilmelding,
     children,
 }) => {
+    const [visSlettModal, settVisSlettModal] = useState(false);
+
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
@@ -106,6 +109,23 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
+                {vilkårperiode !== undefined && (
+                    <>
+                        <Button
+                            size="small"
+                            variant={'tertiary'}
+                            onClick={() => settVisSlettModal(true)}
+                        >
+                            Slett
+                        </Button>
+                        <SlettVilkårperiodeModal
+                            avbrytRedigering={avbrytRedigering}
+                            visModal={visSlettModal}
+                            settVisModal={settVisSlettModal}
+                            vilkårperiode={vilkårperiode}
+                        />
+                    </>
+                )}
             </HStack>
 
             <Feilmelding>{feilmelding}</Feilmelding>

@@ -9,22 +9,21 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';
-import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { Aktivitet } from '../typer/aktivitet';
 import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
 import {
     LagreVilkårperiodeResponse,
     SlettVilkårperiode,
     StønadsperiodeStatus,
-    VilkårPeriode,
 } from '../typer/vilkårperiode';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe>;
 const SlettVilkårperiodeModal: React.FC<{
     visModal: boolean;
     settVisModal: React.Dispatch<SetStateAction<boolean>>;
-    vilkårperiode: VilkårPeriode;
-    type: MålgruppeType | AktivitetType;
-}> = ({ vilkårperiode, visModal, settVisModal, type }) => {
+    vilkårperiode: Målgruppe | Aktivitet;
+    avbrytRedigering: () => void;
+}> = ({ vilkårperiode, visModal, settVisModal, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
@@ -54,12 +53,13 @@ const SlettVilkårperiodeModal: React.FC<{
                     } else {
                         settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
                     }
-                    if (type in MålgruppeType) {
+                    if (vilkårperiode.type in MålgruppeType) {
                         oppdaterMålgruppe(res.data.periode as Målgruppe);
                     } else {
                         oppdaterAktivitet(res.data.periode as Aktivitet);
                     }
                     settVisModal(false);
+                    avbrytRedigering();
                 } else {
                     settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
                 }
@@ -107,7 +107,7 @@ const SlettVilkårperiodeModal: React.FC<{
                             <Table.DataCell width="max-content">
                                 <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
                             </Table.DataCell>
-                            <Table.DataCell>{type}</Table.DataCell>
+                            <Table.DataCell>{vilkårperiode.type}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
                             <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
