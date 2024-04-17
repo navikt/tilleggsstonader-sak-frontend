@@ -26,7 +26,7 @@ import {
 } from '../../../../../typer/vedtak';
 import { FanePath } from '../../../faner';
 import { GrunnlagBarn } from '../../../vilkår';
-import { lagVedtakRequest, tomUtgiftRad } from '../utils';
+import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     utgifter: Record<string, Utgift[]>;
@@ -44,7 +44,7 @@ const initUtgifter = (
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
             ...acc,
-            [barn.barnId]: utgiftForBarn ? utgiftForBarn : [tomUtgiftRad()],
+            [barn.barnId]: utgiftForBarn ? medEndretKey(utgiftForBarn) : [tomUtgiftRad()],
         };
     }, {});
 
