@@ -5,6 +5,7 @@ import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { Vurdering } from '../typer/vilkårperiode';
 
+// TODO: Rename til AktivitetDelvilkår
 const AktivitetVilkår: React.FC<{
     aktivitetForm: EndreAktivitetForm;
     oppdaterDelvilkår: (key: keyof DelvilkårAktivitet, vurdering: Vurdering) => void;
