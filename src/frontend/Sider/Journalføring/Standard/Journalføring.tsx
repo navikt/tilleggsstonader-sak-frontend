@@ -74,7 +74,7 @@ export const Journalføring: React.FC = () => {
 
     // TODO: Kan vurdere å vise en infostripe med feilmelding her
     if (!oppgaveId || !journalpostId) {
-        return <Navigate to="/oppgavebenk" />;
+        return <Navigate to="/" />;
     }
 
     return (
@@ -201,7 +201,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                             <Button
                                 size={'small'}
                                 variant={'tertiary'}
-                                onClick={() => navigate('/oppgavebenk')}
+                                onClick={() => navigate('/')}
                             >
                                 Avbryt
                             </Button>
