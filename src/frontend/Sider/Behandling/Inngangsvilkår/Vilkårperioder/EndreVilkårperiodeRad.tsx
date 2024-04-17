@@ -2,119 +2,114 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { Button, HStack, Textarea } from '@navikt/ds-react';
 
-import { KildeIkon } from './KildeIkon';
 import { EndreVilkårsperiode } from './validering';
+import VilkårperiodeKortBase from './VilkårperiodeKort/VilkårperiodeKortBase';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
-import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
-import {
-    KildeVilkårsperiode,
-    VilkårPeriode,
-    VilkårPeriodeResultat,
-    vilkårperiodeTypeTilTekst,
-} from '../typer/vilkårperiode';
+import { Aktivitet } from '../typer/aktivitet';
+import { Målgruppe } from '../typer/målgruppe';
+import { KildeVilkårsperiode, VilkårPeriode } from '../typer/vilkårperiode';
 
-const TabellRad = styled(Table.Row)<{ $feilmeldingVises: boolean }>`
-    .navds-table__data-cell {
-        border-color: transparent;
-        vertical-align: ${(props) => (props.$feilmeldingVises ? 'top' : 'center')};
-    }
-`;
-
-const KnappeRad = styled.div`
+const FeltContainer = styled.div`
+    flex-grow: 1;
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    heigth: max-content;
+
+    align-self: start;
+    align-items: center;
 `;
 
 interface Props {
-    vilkårperiode?: VilkårPeriode;
+    vilkårperiode?: Målgruppe | Aktivitet;
     form: EndreMålgruppeForm | EndreAktivitetForm;
     avbrytRedigering: () => void;
     lagre: () => void;
-    oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
+    oppdaterVilkårperiode: (key: keyof VilkårPeriode, nyVerdi: string) => void;
     oppdaterType: (nyttvalg: string) => void;
     typeOptions: SelectOption[];
     vilkårsperiodeFeil?: FormErrors<EndreVilkårsperiode>;
     ekstraCeller?: React.ReactNode;
+    feilmelding?: string;
+    children: React.ReactNode;
 }
 
+// TODO: Endre navn til EndreVilkårperiodeKort eller EndreVilkårperiode
 const EndreVilkårperiodeRad: React.FC<Props> = ({
     vilkårperiode,
     form,
     avbrytRedigering,
     lagre,
-    oppdaterPeriode,
+    oppdaterVilkårperiode,
     oppdaterType,
     typeOptions,
     vilkårsperiodeFeil,
     ekstraCeller,
+    feilmelding,
+    children,
 }) => {
     return (
-        <TabellRad $feilmeldingVises={!!vilkårsperiodeFeil} shadeOnHover={false}>
-            <Table.DataCell width="max-content">
-                <VilkårsresultatIkon
-                    vilkårsresultat={vilkårperiode?.resultat || VilkårPeriodeResultat.IKKE_VURDERT}
-                />
-            </Table.DataCell>
-            <Table.DataCell>
+        <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
+            <FeltContainer>
                 <SelectMedOptions
-                    label="Type"
-                    hideLabel
+                    label="Ytelse/situasjon"
                     erLesevisning={vilkårperiode !== undefined}
                     value={form.type}
-                    lesevisningVerdi={
-                        form.type !== '' ? vilkårperiodeTypeTilTekst[form.type] : undefined
-                    }
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
                     size="small"
                     error={vilkårsperiodeFeil?.type}
                 />
-            </Table.DataCell>
-            <Table.DataCell>
+
                 <DateInputMedLeservisning
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Fra'}
-                    hideLabel
                     value={form?.fom}
-                    onChange={(dato) => oppdaterPeriode('fom', dato || '')}
+                    onChange={(dato) => oppdaterVilkårperiode('fom', dato || '')}
                     size="small"
                     feil={vilkårsperiodeFeil?.fom}
                 />
-            </Table.DataCell>
-            <Table.DataCell>
+
                 <DateInputMedLeservisning
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Til'}
-                    hideLabel
                     value={form?.tom}
-                    onChange={(dato) => oppdaterPeriode('tom', dato || '')}
+                    onChange={(dato) => oppdaterVilkårperiode('tom', dato || '')}
                     size="small"
                     feil={vilkårsperiodeFeil?.tom}
                 />
-            </Table.DataCell>
-            {ekstraCeller}
-            <Table.DataCell align="center">
-                <KildeIkon kilde={vilkårperiode?.kilde || KildeVilkårsperiode.MANUELL} />
-            </Table.DataCell>
-            <Table.DataCell>
-                <KnappeRad>
-                    <Button size="xsmall" onClick={lagre}>
-                        Lagre
-                    </Button>
 
-                    <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
-                        Avbryt
-                    </Button>
-                </KnappeRad>
-            </Table.DataCell>
-        </TabellRad>
+                {ekstraCeller}
+            </FeltContainer>
+
+            <HStack gap="8">{children}</HStack>
+
+            {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
+            <Textarea
+                label={'Begrunnelse'}
+                value={vilkårperiode?.begrunnelse || ''}
+                onChange={(e) => oppdaterVilkårperiode('begrunnelse', e.target.value)}
+                size="small"
+            />
+            <HStack gap="4">
+                <Button size="xsmall" onClick={lagre}>
+                    Lagre
+                </Button>
+
+                <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
+                    Avbryt
+                </Button>
+            </HStack>
+
+            <Feilmelding>{feilmelding}</Feilmelding>
+        </VilkårperiodeKortBase>
     );
 };
 
