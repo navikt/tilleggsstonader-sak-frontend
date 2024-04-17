@@ -69,8 +69,8 @@ const Inngangsvilkår = () => {
                                 hentedeStønadsperioder={stønadsperioder}
                                 hentStønadsperioder={hentStønadsperioder}
                             >
-                                <Målgruppe />
                                 <Aktivitet />
+                                <Målgruppe />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
