@@ -30,5 +30,4 @@ export const hjelpetekster: Record<RegelId, string[]> = {
         'Faktura fra barnehage må i tillegg inneholde eventuelle kostnader til bleier, så det er mulig å trekke dette fra.',
         'Ved privat pass så skal det vurderes om det er sannsynlig at søker har hatt utgifter til barnepass i perioden det søkes for. Avtale mellom barnepasser og søker eller A-melding kan være eksempler på dokumentasjon som godtas. Skjermbilde av betalinger via vipps eller bankutskrift godkjennes ikke. ',
     ],
-    ANNEN_FORELDER_MOTTAR_STØTTE: ['Dette inkluderer både søker og foresatt'],
 };
