@@ -148,26 +148,28 @@ const UtgifterValg: React.FC<Props> = ({
                                 feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
-                            {erStegRedigerbart && (
-                                <div>
-                                    <Button
-                                        type="button"
-                                        onClick={() => leggTilTomRadUnder(indeks)}
-                                        variant="tertiary"
-                                        icon={<PlusCircleIcon />}
-                                        size="small"
-                                    />
-                                    {indeks !== 0 && (
+                            <div>
+                                {erStegRedigerbart && (
+                                    <>
                                         <Button
                                             type="button"
-                                            onClick={() => slettPeriode(barn.barnId, indeks)}
+                                            onClick={() => leggTilTomRadUnder(indeks)}
                                             variant="tertiary"
-                                            icon={<TrashIcon />}
+                                            icon={<PlusCircleIcon />}
                                             size="small"
                                         />
-                                    )}
-                                </div>
-                            )}
+                                        {indeks !== 0 && (
+                                            <Button
+                                                type="button"
+                                                onClick={() => slettPeriode(barn.barnId, indeks)}
+                                                variant="tertiary"
+                                                icon={<TrashIcon />}
+                                                size="small"
+                                            />
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </React.Fragment>
                     ))}
                 </Grid>
