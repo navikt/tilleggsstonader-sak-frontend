@@ -4,8 +4,9 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeErNedsattArbeidsevne, målgrupperHvorMedlemskapMåVurderes } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
-import { BegrunnelseObligatorisk, Vurdering } from '../typer/vilkårperiode';
+import { Vurdering } from '../typer/vilkårperiode';
 
+// TODO: Rename til MålgruppeDelvilkår
 const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
@@ -19,12 +20,11 @@ const MålgruppeVilkår: React.FC<{
         <>
             {målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type) && (
                 <JaNeiVurdering
-                    label="medlemskap"
+                    label="Medlemskap i folketrygden?"
                     vurdering={målgruppeForm.delvilkår.medlemskap}
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
-                    begrunnelsePåkrevd={BegrunnelseObligatorisk.OBLIGATORISK_HVIS_SVAR_NEI}
                 />
             )}
             {målgruppeErNedsattArbeidsevne(målgruppeForm.type) && (
@@ -34,7 +34,6 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('dekketAvAnnetRegelverk', vurdering)
                     }
-                    begrunnelsePåkrevd={BegrunnelseObligatorisk.OBLIGATORISK_HVIS_SVAR_JA}
                 />
             )}
         </>

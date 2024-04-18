@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { Table } from '@navikt/ds-react';
-
 import AktivitetVilkår from './AktivitetVilkår';
 import { nyAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
@@ -24,7 +22,6 @@ import {
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
@@ -42,6 +39,7 @@ const initaliserForm = (behandlingId: string, eksisterendeAktivitet?: Aktivitet)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
+// TODO: Rename til EndreAktivitet
 const EndreAktivitetRad: React.FC<{
     aktivitet?: Aktivitet;
     avbrytRedigering: () => void;
@@ -101,69 +99,57 @@ const EndreAktivitetRad: React.FC<{
         }
     };
 
-    const oppdaterPeriode = (key: keyof Periode, nyVerdi: string) => {
+    const oppdaterVilkårperiode = (key: keyof Aktivitet, nyVerdi: string) => {
         settAktivitetForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
     return (
-        <>
-            <EndreVilkårperiodeRad
-                vilkårperiode={aktivitet}
-                form={aktivitetForm}
-                lagre={lagre}
-                avbrytRedigering={avbrytRedigering}
-                oppdaterPeriode={oppdaterPeriode}
-                vilkårsperiodeFeil={vilkårsperiodeFeil}
-                typeOptions={AktivitetTypeOptions}
-                oppdaterType={(nyttValg) =>
+        <EndreVilkårperiodeRad
+            vilkårperiode={aktivitet}
+            form={aktivitetForm}
+            lagre={lagre}
+            avbrytRedigering={avbrytRedigering}
+            oppdaterForm={oppdaterVilkårperiode}
+            vilkårsperiodeFeil={vilkårsperiodeFeil}
+            typeOptions={AktivitetTypeOptions}
+            oppdaterType={(nyttValg) =>
+                settAktivitetForm((prevState) => ({
+                    ...prevState,
+                    type: nyttValg as AktivitetType,
+                }))
+            }
+            feilmelding={feilmelding}
+            ekstraCeller={
+                <TextField
+                    erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                    label="Aktivitetsdager"
+                    value={
+                        harTallverdi(aktivitetForm.aktivitetsdager)
+                            ? aktivitetForm.aktivitetsdager
+                            : ''
+                    }
+                    onChange={(event) =>
+                        settAktivitetForm((prevState) => ({
+                            ...prevState,
+                            aktivitetsdager: tilHeltall(event.target.value),
+                        }))
+                    }
+                    size="small"
+                    error={vilkårsperiodeFeil?.aktivitetsdager}
+                    autoComplete="off"
+                />
+            }
+        >
+            <AktivitetVilkår
+                aktivitetForm={aktivitetForm}
+                oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,
-                        type: nyttValg as AktivitetType,
+                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
                     }))
                 }
-                ekstraCeller={
-                    <Table.DataCell>
-                        <TextField
-                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                            label="Aktivitetsdager"
-                            hideLabel
-                            value={
-                                harTallverdi(aktivitetForm.aktivitetsdager)
-                                    ? aktivitetForm.aktivitetsdager
-                                    : ''
-                            }
-                            onChange={(event) =>
-                                settAktivitetForm((prevState) => ({
-                                    ...prevState,
-                                    aktivitetsdager: tilHeltall(event.target.value),
-                                }))
-                            }
-                            size="small"
-                            error={vilkårsperiodeFeil?.aktivitetsdager}
-                            autoComplete="off"
-                        />
-                    </Table.DataCell>
-                }
             />
-            <EndreVilkårPeriodeInnhold
-                begrunnelse={aktivitetForm.begrunnelse}
-                oppdaterBegrunnelse={(begrunnelse: string) =>
-                    settAktivitetForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
-                }
-                feilmelding={feilmelding}
-                vilkår={
-                    <AktivitetVilkår
-                        aktivitetForm={aktivitetForm}
-                        oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
-                            settAktivitetForm((prevState) => ({
-                                ...prevState,
-                                delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                            }))
-                        }
-                    />
-                }
-            />
-        </>
+        </EndreVilkårperiodeRad>
     );
 };
 
