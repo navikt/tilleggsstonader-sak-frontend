@@ -92,7 +92,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 {ekstraCeller}
             </FeltContainer>
 
-            <HStack gap="8">{children}</HStack>
+            {children}
 
             {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
             <Textarea

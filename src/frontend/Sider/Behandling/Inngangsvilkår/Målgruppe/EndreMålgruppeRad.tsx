@@ -115,15 +115,18 @@ const EndreMålgruppeRad: React.FC<{
             }
             feilmelding={feilmelding}
         >
-            <MålgruppeVilkår
-                målgruppeForm={målgruppeForm}
-                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                    settMålgruppeForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
-                }
-            />
+            {målgruppeForm.type !== '' && (
+                <MålgruppeVilkår
+                    type={målgruppeForm.type}
+                    delvilkår={målgruppeForm.delvilkår}
+                    oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
+                        settMålgruppeForm((prevState) => ({
+                            ...prevState,
+                            delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                        }))
+                    }
+                />
+            )}
         </EndreVilkårperiodeRad>
     );
 };
