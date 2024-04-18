@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { målgruppeErNedsattArbeidsevne, målgrupperHvorMedlemskapMåVurderes } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe, MålgruppeType } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import { SvarJaNei, Vurdering } from '../typer/vilkårperiode';
 
 const Container = styled.div`
     display: flex;
@@ -21,6 +21,10 @@ const MålgruppeVilkår: React.FC<{
 }> = ({ type, delvilkår, oppdaterDelvilkår }) => {
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(type);
     const skalVurdereDekketAvAnnetRegelverk = målgruppeErNedsattArbeidsevne(type);
+
+    if (skalVurdereDekketAvAnnetRegelverk && !delvilkår.dekketAvAnnetRegelverk?.svar) {
+        oppdaterDelvilkår('dekketAvAnnetRegelverk', { svar: SvarJaNei.NEI });
+    }
 
     if (skalVurdereMedlemskap || skalVurdereDekketAvAnnetRegelverk) {
         return (
