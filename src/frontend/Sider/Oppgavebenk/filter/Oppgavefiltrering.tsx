@@ -93,7 +93,7 @@ export const Oppgavefiltrering = () => {
         <VStack gap="4">
             <FlexDiv>
                 <Select
-                    value={oppgaveRequest.oppgavetype}
+                    value={oppgaveRequest.oppgavetype || ''}
                     label="Type"
                     onChange={oppdaterOppgaveTargetValue('oppgavetype')}
                     size="small"
@@ -106,7 +106,7 @@ export const Oppgavefiltrering = () => {
                     ))}
                 </Select>
                 <Select
-                    value={oppgaveRequest.behandlingstema}
+                    value={oppgaveRequest.behandlingstema || ''}
                     label="Gjelder"
                     onChange={oppdaterOppgaveTargetValue('behandlingstema')}
                     size="small"
