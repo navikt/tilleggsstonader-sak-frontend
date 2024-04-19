@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { nyAktivitet } from './utils';
+import { nyAktivitet, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -103,6 +103,14 @@ const EndreAktivitetRad: React.FC<{
         settAktivitetForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
+    const oppdaterType = (type: AktivitetType) => {
+        settAktivitetForm((prevState) => ({
+            ...prevState,
+            type: type,
+            delvilkår: resetDelvilkår(type, prevState.delvilkår),
+        }));
+    };
+
     return (
         <EndreVilkårperiodeRad
             vilkårperiode={aktivitet}
@@ -112,12 +120,7 @@ const EndreAktivitetRad: React.FC<{
             oppdaterForm={oppdaterVilkårperiode}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
             typeOptions={AktivitetTypeOptions}
-            oppdaterType={(nyttValg) =>
-                settAktivitetForm((prevState) => ({
-                    ...prevState,
-                    type: nyttValg as AktivitetType,
-                }))
-            }
+            oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
             ekstraCeller={
                 <TextField
