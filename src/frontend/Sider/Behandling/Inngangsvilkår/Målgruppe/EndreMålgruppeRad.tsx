@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe } from './utils';
+import { nyMålgruppe, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -98,6 +98,14 @@ const EndreMålgruppeRad: React.FC<{
         settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
+    const oppdaterType = (type: MålgruppeType) => {
+        settMålgruppeForm((prevState) => ({
+            ...prevState,
+            type: type,
+            delvilkår: resetDelvilkår(type, prevState.delvilkår),
+        }));
+    };
+
     return (
         <EndreVilkårperiodeRad
             vilkårperiode={målgruppe}
@@ -107,12 +115,7 @@ const EndreMålgruppeRad: React.FC<{
             oppdaterForm={oppdaterForm}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
             typeOptions={MålgruppeTypeOptions}
-            oppdaterType={(nyttValg) =>
-                settMålgruppeForm((prevState) => ({
-                    ...prevState,
-                    type: nyttValg as MålgruppeType,
-                }))
-            }
+            oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
             feilmelding={feilmelding}
         >
             <MålgruppeVilkår
