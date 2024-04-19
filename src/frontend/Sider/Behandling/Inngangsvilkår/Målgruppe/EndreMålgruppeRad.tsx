@@ -117,8 +117,7 @@ const EndreMålgruppeRad: React.FC<{
         >
             {målgruppeForm.type !== '' && (
                 <MålgruppeVilkår
-                    type={målgruppeForm.type}
-                    delvilkår={målgruppeForm.delvilkår}
+                    målgruppeForm={målgruppeForm}
                     oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                         settMålgruppeForm((prevState) => ({
                             ...prevState,
