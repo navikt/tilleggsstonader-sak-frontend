@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import { målgruppeErNedsattArbeidsevne, målgrupperHvorMedlemskapMåVurderes } from './utils';
+import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
@@ -22,7 +22,7 @@ const MålgruppeVilkår: React.FC<{
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
-    const skalVurdereDekketAvAnnetRegelverk = målgruppeErNedsattArbeidsevne(målgruppeForm.type);
+    const skalVurdereDekketAvAnnetRegelverk = skalVurdereDekkesAvAnnetRegelverk(målgruppeForm.type);
 
     if (!skalVurdereMedlemskap && !skalVurdereDekketAvAnnetRegelverk) {
         return null;
