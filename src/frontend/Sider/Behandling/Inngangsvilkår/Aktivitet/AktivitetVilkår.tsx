@@ -17,6 +17,8 @@ const AktivitetVilkår: React.FC<{
     aktivitetForm: EndreAktivitetForm;
     oppdaterDelvilkår: (key: keyof DelvilkårAktivitet, vurdering: Vurdering) => void;
 }> = ({ aktivitetForm, oppdaterDelvilkår }) => {
+    if (aktivitetForm.type === '') return null;
+
     const skalVurdereLønnet = aktivitetForm.type === AktivitetType.TILTAK;
 
     return (

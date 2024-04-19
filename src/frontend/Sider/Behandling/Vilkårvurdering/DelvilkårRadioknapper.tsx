@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
-import { regelIdTilSpørsmål, hjelpetekster, svarIdTilTekst } from './tekster';
+import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
 import { Vurdering } from '../vilkår';
 
@@ -64,8 +64,6 @@ const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
             return <SlikGjørDuVurderingen regelId={regelId} />;
-        case 'ANNEN_FORELDER_MOTTAR_STØTTE':
-            return hjelpetekster[regelId][0];
         default:
             return null;
     }

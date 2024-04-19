@@ -17,6 +17,13 @@ export const tomUtgiftRad = (): Utgift => ({
     endretKey: uuidv4(),
 });
 
+/**
+ * Legger på endretKey sånn at hver rad har en unik id
+ * Hvis ikke blir ikke renderingen riktig når man fjerner en rad
+ */
+export const medEndretKey = (utgifter: Utgift[]) =>
+    utgifter.map((utgift) => ({ ...utgift, endretKey: uuidv4() }));
+
 export const leggTilTomRadUnderIListe = <T>(liste: T[], nyRad: T, indeks: number): T[] => {
     return [...liste.slice(0, indeks + 1), nyRad, ...liste.slice(indeks + 1, liste.length)];
 };

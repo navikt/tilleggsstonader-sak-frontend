@@ -92,7 +92,7 @@ const EndreAktivitetRad: React.FC<{
                         }
                         avbrytRedigering();
                     } else {
-                        settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                        settFeilmelding(`Feilet legg til periode: ${res.frontendFeilmelding}`);
                     }
                 })
                 .finally(() => settLaster(false));

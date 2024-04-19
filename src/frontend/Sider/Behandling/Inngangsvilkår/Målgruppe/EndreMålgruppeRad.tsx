@@ -87,7 +87,7 @@ const EndreMålgruppeRad: React.FC<{
                         }
                         avbrytRedigering();
                     } else {
-                        settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                        settFeilmelding(`Feilet legg til periode: ${res.frontendFeilmelding}`);
                     }
                 })
                 .finally(() => settLaster(false));
@@ -115,18 +115,15 @@ const EndreMålgruppeRad: React.FC<{
             }
             feilmelding={feilmelding}
         >
-            {målgruppeForm.type !== '' && (
-                <MålgruppeVilkår
-                    type={målgruppeForm.type}
-                    delvilkår={målgruppeForm.delvilkår}
-                    oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                        settMålgruppeForm((prevState) => ({
-                            ...prevState,
-                            delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                        }))
-                    }
-                />
-            )}
+            <MålgruppeVilkår
+                målgruppeForm={målgruppeForm}
+                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
+                    settMålgruppeForm((prevState) => ({
+                        ...prevState,
+                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                    }))
+                }
+            />
         </EndreVilkårperiodeRad>
     );
 };

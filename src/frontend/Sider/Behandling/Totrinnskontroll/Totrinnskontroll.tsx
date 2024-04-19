@@ -112,7 +112,7 @@ const Totrinnskontroll: FC = () => {
                 onClose={() => settVisGodkjentModal(false)}
                 aksjonsknapper={{
                     hovedKnapp: {
-                        onClick: () => navigate('/oppgavebenk'),
+                        onClick: () => navigate('/'),
                         tekst: 'Til oppgavebenk',
                     },
                     lukkKnapp: { onClick: () => settVisGodkjentModal(false), tekst: 'Lukk' },

@@ -24,6 +24,6 @@ export interface Behandling {
 }
 
 export interface HentBehandlingerRequest {
-    personIdent: string;
+    ident: string;
     stønadstype: Stønadstype;
 }

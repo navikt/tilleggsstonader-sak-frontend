@@ -14,9 +14,9 @@ export const useHentBehandlinger = (): HentBehandlingerResponse => {
     const [behandlinger, settBehandlinger] = useState<Ressurs<Behandling[]>>(byggTomRessurs());
 
     const hentBehandlinger = useCallback(
-        (personIdent: string, stønadstype: Stønadstype) => {
+        (ident: string, stønadstype: Stønadstype) => {
             request<Behandling[], HentBehandlingerRequest>(`/api/sak/behandling/person`, 'POST', {
-                personIdent,
+                ident,
                 stønadstype,
             }).then(settBehandlinger);
         },
