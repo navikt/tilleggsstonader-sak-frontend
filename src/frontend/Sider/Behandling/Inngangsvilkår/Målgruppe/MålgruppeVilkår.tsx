@@ -1,10 +1,17 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeErNedsattArbeidsevne, målgrupperHvorMedlemskapMåVurderes } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import { SvarJaNei, Vurdering } from '../typer/vilkårperiode';
+
+const Container = styled.div`
+    display: flex;
+    gap: 2rem;
+`;
 
 // TODO: Rename til MålgruppeDelvilkår
 const MålgruppeVilkår: React.FC<{
@@ -12,13 +19,25 @@ const MålgruppeVilkår: React.FC<{
     oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
     feilmelding?: string;
 }> = ({ målgruppeForm, oppdaterDelvilkår }) => {
-    if (målgruppeForm.type === '') {
+    if (målgruppeForm.type === '') return null;
+
+    const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
+    const skalVurdereDekketAvAnnetRegelverk = målgruppeErNedsattArbeidsevne(målgruppeForm.type);
+
+    if (
+        skalVurdereDekketAvAnnetRegelverk &&
+        !målgruppeForm.delvilkår.dekketAvAnnetRegelverk?.svar
+    ) {
+        oppdaterDelvilkår('dekketAvAnnetRegelverk', { svar: SvarJaNei.NEI });
+    }
+
+    if (!skalVurdereMedlemskap && !skalVurdereDekketAvAnnetRegelverk) {
         return null;
     }
 
     return (
-        <>
-            {målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type) && (
+        <Container>
+            {skalVurdereMedlemskap && (
                 <JaNeiVurdering
                     label="Medlemskap i folketrygden?"
                     vurdering={målgruppeForm.delvilkår.medlemskap}
@@ -27,7 +46,7 @@ const MålgruppeVilkår: React.FC<{
                     }
                 />
             )}
-            {målgruppeErNedsattArbeidsevne(målgruppeForm.type) && (
+            {skalVurdereDekketAvAnnetRegelverk && (
                 <JaNeiVurdering
                     label="Dekkes utgiftene av annet regelverk?"
                     vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
@@ -36,7 +55,7 @@ const MålgruppeVilkår: React.FC<{
                     }
                 />
             )}
-        </>
+        </Container>
     );
 };
 
