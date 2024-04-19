@@ -31,32 +31,32 @@ const MålgruppeVilkår: React.FC<{
         oppdaterDelvilkår('dekketAvAnnetRegelverk', { svar: SvarJaNei.NEI });
     }
 
-    if (skalVurdereMedlemskap || skalVurdereDekketAvAnnetRegelverk) {
-        return (
-            <Container>
-                {skalVurdereMedlemskap && (
-                    <JaNeiVurdering
-                        label="Medlemskap i folketrygden?"
-                        vurdering={målgruppeForm.delvilkår.medlemskap}
-                        oppdaterVurdering={(vurdering: Vurdering) =>
-                            oppdaterDelvilkår('medlemskap', vurdering)
-                        }
-                    />
-                )}
-                {skalVurdereDekketAvAnnetRegelverk && (
-                    <JaNeiVurdering
-                        label="Dekkes utgiftene av annet regelverk?"
-                        vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
-                        oppdaterVurdering={(vurdering: Vurdering) =>
-                            oppdaterDelvilkår('dekketAvAnnetRegelverk', vurdering)
-                        }
-                    />
-                )}
-            </Container>
-        );
+    if (!skalVurdereMedlemskap && !skalVurdereDekketAvAnnetRegelverk) {
+        return null;
     }
 
-    return null;
+    return (
+        <Container>
+            {skalVurdereMedlemskap && (
+                <JaNeiVurdering
+                    label="Medlemskap i folketrygden?"
+                    vurdering={målgruppeForm.delvilkår.medlemskap}
+                    oppdaterVurdering={(vurdering: Vurdering) =>
+                        oppdaterDelvilkår('medlemskap', vurdering)
+                    }
+                />
+            )}
+            {skalVurdereDekketAvAnnetRegelverk && (
+                <JaNeiVurdering
+                    label="Dekkes utgiftene av annet regelverk?"
+                    vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
+                    oppdaterVurdering={(vurdering: Vurdering) =>
+                        oppdaterDelvilkår('dekketAvAnnetRegelverk', vurdering)
+                    }
+                />
+            )}
+        </Container>
+    );
 };
 
 export default MålgruppeVilkår;
