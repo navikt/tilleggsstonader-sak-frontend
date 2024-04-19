@@ -5,6 +5,7 @@ import {
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
+import { SvarJaNei } from '../typer/vilkårperiode';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -30,6 +31,12 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
     return MålgruppeTypeTilFaktiskMålgruppe[målgruppeType] === FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE;
 };
 
+export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
+    målgruppeErNedsattArbeidsevne(type);
+
+const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
+    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
+
 export const resetDelvilkår = (
     type: MålgruppeType,
     delvilkår: DelvilkårMålgruppe
@@ -38,7 +45,7 @@ export const resetDelvilkår = (
     medlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
         ? delvilkår.medlemskap
         : undefined,
-    dekketAvAnnetRegelverk: målgruppeErNedsattArbeidsevne(type)
-        ? delvilkår.dekketAvAnnetRegelverk
+    dekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
+        ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(delvilkår)
         : undefined,
 });
