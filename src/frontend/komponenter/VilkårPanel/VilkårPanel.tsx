@@ -40,7 +40,8 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
         </Panel>
     );
 };
-const ParagrafOgRundskrivLenker: React.FC<{
+
+export const ParagrafOgRundskrivLenker: React.FC<{
     paragrafLenker: Lenke[];
     rundskrivLenke: string;
 }> = ({ paragrafLenker, rundskrivLenke }) => {
