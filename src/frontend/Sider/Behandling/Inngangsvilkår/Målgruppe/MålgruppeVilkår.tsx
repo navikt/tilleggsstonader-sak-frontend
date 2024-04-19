@@ -6,7 +6,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeErNedsattArbeidsevne, målgrupperHvorMedlemskapMåVurderes } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
-import { SvarJaNei, Vurdering } from '../typer/vilkårperiode';
+import { Vurdering } from '../typer/vilkårperiode';
 
 const Container = styled.div`
     display: flex;
@@ -23,13 +23,6 @@ const MålgruppeVilkår: React.FC<{
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
     const skalVurdereDekketAvAnnetRegelverk = målgruppeErNedsattArbeidsevne(målgruppeForm.type);
-
-    if (
-        skalVurdereDekketAvAnnetRegelverk &&
-        !målgruppeForm.delvilkår.dekketAvAnnetRegelverk?.svar
-    ) {
-        oppdaterDelvilkår('dekketAvAnnetRegelverk', { svar: SvarJaNei.NEI });
-    }
 
     if (!skalVurdereMedlemskap && !skalVurdereDekketAvAnnetRegelverk) {
         return null;
