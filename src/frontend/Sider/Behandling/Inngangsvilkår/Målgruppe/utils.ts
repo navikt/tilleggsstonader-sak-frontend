@@ -73,6 +73,14 @@ export const finnBegrunnelseGrunnerMålgruppe = (
     return delvilkårSomMåBegrunnes;
 };
 
+export const harObligatoriskBegrunnelse = (målgruppeForm: EndreMålgruppeForm) => {
+    const begrunnelseGrunner = finnBegrunnelseGrunnerMålgruppe(
+        målgruppeForm.type,
+        målgruppeForm.delvilkår
+    );
+    return begrunnelseGrunner.length > 0;
+};
+
 export const erFormForMålgruppe = (
     vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
 ): vilkårperiode is EndreMålgruppeForm => {

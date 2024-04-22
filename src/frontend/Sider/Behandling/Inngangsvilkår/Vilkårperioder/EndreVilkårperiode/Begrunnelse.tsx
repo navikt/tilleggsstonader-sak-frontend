@@ -10,6 +10,7 @@ interface Props {
     begrunnelse?: string;
     oppdaterBegrunnelse: (nyBegrunnelse: string) => void;
     delvilkårSomKreverBegrunnelse: BegrunnelseGrunner[];
+    feil?: string;
 }
 
 const Liste = styled.ul`
@@ -20,6 +21,7 @@ const Begrunnelse: React.FC<Props> = ({
     begrunnelse,
     oppdaterBegrunnelse,
     delvilkårSomKreverBegrunnelse,
+    feil,
 }) => {
     const begrunnelseSuffix =
         delvilkårSomKreverBegrunnelse.length > 0 ? '(obligatorisk)' : '(valgfri)';
@@ -42,6 +44,7 @@ const Begrunnelse: React.FC<Props> = ({
             value={begrunnelse || ''}
             onChange={(e) => oppdaterBegrunnelse(e.target.value)}
             size="small"
+            error={feil}
         />
     );
 };

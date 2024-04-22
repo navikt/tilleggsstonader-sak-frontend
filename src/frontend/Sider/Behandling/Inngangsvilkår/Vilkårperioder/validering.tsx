@@ -1,22 +1,26 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
+import { harIkkeVerdi } from '../../../../utils/utils';
 import { AktivitetType } from '../typer/aktivitet';
 import { MålgruppeType } from '../typer/målgruppe';
 
 export interface EndreVilkårsperiode extends Periode {
     type: AktivitetType | MålgruppeType | '';
     aktivitetsdager?: number;
+    begrunnelse?: string;
 }
 
 export const validerVilkårsperiode = (
-    endretVilkårsperiode: EndreVilkårsperiode
+    endretVilkårsperiode: EndreVilkårsperiode,
+    erBegrunnelseObligatorisk: boolean
 ): FormErrors<EndreVilkårsperiode> => {
     const feil: FormErrors<EndreVilkårsperiode> = {
         fom: undefined,
         tom: undefined,
         type: undefined,
         aktivitetsdager: undefined,
+        begrunnelse: undefined,
     };
 
     if (endretVilkårsperiode.type === '') {
@@ -38,6 +42,9 @@ export const validerVilkårsperiode = (
     ) {
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
+
+    if (erBegrunnelseObligatorisk && harIkkeVerdi(endretVilkårsperiode.begrunnelse))
+        return { ...feil, begrunnelse: 'Begrunnelse er obligatorisk' };
 
     return feil;
 };

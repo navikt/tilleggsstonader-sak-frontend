@@ -34,3 +34,8 @@ export const finnBegrunnelseGrunnerAktivitet = (delvilkår: DelvilkårAktivitet)
 
     return delvilkårSomMåBegrunnes;
 };
+
+export const harObligatoriskBegrunnelse = (målgruppeForm: EndreAktivitetForm) => {
+    const begrunnelseGrunner = finnBegrunnelseGrunnerAktivitet(målgruppeForm.delvilkår);
+    return begrunnelseGrunner.length > 0;
+};

@@ -103,6 +103,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
                 delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="4">
                 <Button size="xsmall" onClick={lagre}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe, resetDelvilkår } from './utils';
+import { harObligatoriskBegrunnelse, nyMålgruppe, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -53,7 +53,9 @@ const EndreMålgruppeRad: React.FC<{
         useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(målgruppeForm);
+        const erBegrunnelseObligatorisk = harObligatoriskBegrunnelse(målgruppeForm);
+
+        const vilkårsperiodeFeil = validerVilkårsperiode(målgruppeForm, erBegrunnelseObligatorisk);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
