@@ -25,7 +25,7 @@ const VenstreKolonne = styled.div`
 
 const KnappOgOppsummeringContainer = styled.div`
     display: grid;
-    grid-template-columns: 32px 200px;
+    grid-template-columns: 32px 230px;
     gap: 1rem;
     align-items: start;
 
@@ -47,7 +47,7 @@ const VilkårperiodeKortBase: React.FC<{
                 {redigeringKnapp}
                 <OppsummertVilkårsvurdering
                     redigeres={redigeres}
-                    resultat={vilkårperiode?.resultat}
+                    vilkårperiode={vilkårperiode}
                     className="oppsummering"
                 />
             </KnappOgOppsummeringContainer>
