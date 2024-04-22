@@ -1,4 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
@@ -35,7 +36,11 @@ export const finnBegrunnelseGrunnerAktivitet = (delvilkår: DelvilkårAktivitet)
     return delvilkårSomMåBegrunnes;
 };
 
-export const harObligatoriskBegrunnelse = (målgruppeForm: EndreAktivitetForm) => {
-    const begrunnelseGrunner = finnBegrunnelseGrunnerAktivitet(målgruppeForm.delvilkår);
-    return begrunnelseGrunner.length > 0;
+export const erFormForAktivitet = (
+    vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
+): vilkårperiode is EndreAktivitetForm => {
+    return (
+        (Object.keys(AktivitetType).includes(vilkårperiode.type) || vilkårperiode.type === '') &&
+        vilkårperiode.delvilkår['@type'] === 'AKTIVITET'
+    );
 };

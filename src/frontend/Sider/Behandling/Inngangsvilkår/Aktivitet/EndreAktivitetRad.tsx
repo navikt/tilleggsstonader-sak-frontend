@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { harObligatoriskBegrunnelse, nyAktivitet, resetDelvilkår } from './utils';
+import { nyAktivitet, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -57,9 +57,7 @@ const EndreAktivitetRad: React.FC<{
         useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const erBegrunnelseObligatorisk = harObligatoriskBegrunnelse(aktivitetForm);
-
-        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm, erBegrunnelseObligatorisk);
+        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
