@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { styled } from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
+import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
@@ -22,8 +22,19 @@ import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
 
-const Container = styled(VStack).attrs({ gap: '8' })`
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     margin: 2rem;
+`;
+
+const VilkårContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem;
+    background-color: ${ABlue50};
 `;
 
 const Inngangsvilkår = () => {
@@ -69,8 +80,10 @@ const Inngangsvilkår = () => {
                                 hentedeStønadsperioder={stønadsperioder}
                                 hentStønadsperioder={hentStønadsperioder}
                             >
-                                <Aktivitet />
-                                <Målgruppe />
+                                <VilkårContainer>
+                                    <Aktivitet />
+                                    <Målgruppe />
+                                </VilkårContainer>
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}

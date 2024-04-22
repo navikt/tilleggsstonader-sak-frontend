@@ -3,7 +3,7 @@ export type Lenke = {
     url: string;
 };
 
-export const lovverkslenkerMålgruppe: Lenke[] = [
+export const paragraflenkerMålgruppe: Lenke[] = [
     {
         tekst: '§ 11-A3',
         url: 'https://lovdata.no/pro/#document/NL/lov/1997-02-28-19/%C2%A711a-3',

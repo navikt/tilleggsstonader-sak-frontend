@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, HStack, Heading } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
@@ -52,13 +52,16 @@ const Aktivitet: React.FC = () => {
     };
 
     return (
-        <VilkårPanel
-            tittel="Aktivitet"
-            paragraflenker={paragraflenkerAktivitet}
-            rundskrivlenke={rundskrivAktivitet}
-        >
+        <Container>
+            <HStack gap="8" align="center">
+                <Heading size="small">Aktivitet</Heading>
+                <ParagrafOgRundskrivLenker
+                    paragrafLenker={paragraflenkerAktivitet}
+                    rundskrivLenke={rundskrivAktivitet}
+                />
+            </HStack>
             {skalViseAktiviteter && (
-                <Container>
+                <>
                     {aktiviteter.map((aktivitet) => (
                         <React.Fragment key={aktivitet.id}>
                             {aktivitet.id === radIRedigeringsmodus ? (
@@ -77,7 +80,7 @@ const Aktivitet: React.FC = () => {
                     {leggerTilNyPeriode && (
                         <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                     )}
-                </Container>
+                </>
             )}
 
             <Feilmelding>{feilmelding}</Feilmelding>
@@ -93,7 +96,7 @@ const Aktivitet: React.FC = () => {
                     Legg til ny aktivitet
                 </Button>
             )}
-        </VilkårPanel>
+        </Container>
     );
 };
 

@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, HStack, Heading } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { lovverkslenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
+import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { paragraflenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const Container = styled.div`
@@ -52,13 +52,16 @@ const Målgruppe: React.FC = () => {
     };
 
     return (
-        <VilkårPanel
-            tittel="Målgruppe"
-            paragraflenker={lovverkslenkerMålgruppe}
-            rundskrivlenke={rundskrivMålgruppe}
-        >
+        <Container>
+            <HStack gap="8" align="center">
+                <Heading size="small">Målgruppe</Heading>
+                <ParagrafOgRundskrivLenker
+                    paragrafLenker={paragraflenkerMålgruppe}
+                    rundskrivLenke={rundskrivMålgruppe}
+                />
+            </HStack>
             {skalViseMålgrupper && (
-                <Container>
+                <>
                     {målgrupper.map((målgruppe) => (
                         <React.Fragment key={målgruppe.id}>
                             {målgruppe.id === radIRedigeringsmodus ? (
@@ -77,7 +80,7 @@ const Målgruppe: React.FC = () => {
                     {leggerTilNyPeriode && (
                         <EndreMålgruppeRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                     )}
-                </Container>
+                </>
             )}
 
             <Feilmelding>{feilmelding}</Feilmelding>
@@ -93,7 +96,7 @@ const Målgruppe: React.FC = () => {
                     Legg til ny målgruppe
                 </Button>
             )}
-        </VilkårPanel>
+        </Container>
     );
 };
 
