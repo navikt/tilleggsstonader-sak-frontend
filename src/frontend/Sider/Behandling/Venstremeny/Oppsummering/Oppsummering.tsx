@@ -11,7 +11,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { hovedytelseTilTekst } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
-import { JaNei } from '../../../../typer/common';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
@@ -53,15 +52,7 @@ const Oppsummering: React.FC = () => {
                     )}
 
                     <InfoSeksjon label="Aktivitet">
-                        {/* TODO: Legg inn andre aktiviteter*/}
-                        <Informasjonsrad
-                            kilde={Informasjonskilde.SØKNAD}
-                            verdi={
-                                behandlingFakta.aktivitet.søknadsgrunnlag?.utdanning === JaNei.JA
-                                    ? 'Utdanning'
-                                    : undefined
-                            }
-                        />
+                        {/* TODO: Legg inn info om aktiviteter*/}
                     </InfoSeksjon>
 
                     {behandlingFakta.barn.map((barn) => (
