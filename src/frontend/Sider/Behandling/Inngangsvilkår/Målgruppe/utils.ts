@@ -85,5 +85,5 @@ export const erFormForMålgruppe = (
 };
 
 export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårperiode is Målgruppe => {
-    return vilkårperiode.type in MålgruppeType && vilkårperiode.delvilkår['@type'] === 'MÅLGRUPPE';
+    return vilkårperiode.type in MålgruppeType;
 };
