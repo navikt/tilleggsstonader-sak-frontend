@@ -32,7 +32,7 @@ const Begrunnelse: React.FC<Props> = ({
             description={
                 delvilkårSomKreverBegrunnelse.length > 0 && (
                     <>
-                        Du må begrunne vurderingen av:
+                        Du må begrunne:
                         <Liste>
                             {delvilkårSomKreverBegrunnelse.map((delvilkår, indeks) => (
                                 <li key={indeks}>{begrunnelseTilTekst[delvilkår]}</li>

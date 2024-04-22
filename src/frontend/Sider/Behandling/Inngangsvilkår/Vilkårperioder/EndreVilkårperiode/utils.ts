@@ -12,9 +12,9 @@ export enum BegrunnelseGrunner {
 
 export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     MEDLEMSKAP: 'Medlemskap',
-    DEKKET_AV_ANNET_REGELVERK: 'Dekket av annet regelverk',
+    DEKKET_AV_ANNET_REGELVERK: 'Utgifter dekket av annet regelverk',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
-    LØNNET: 'Lønnet',
+    LØNNET: 'Ordinær lønn i tiltaket',
 };
 
 export const finnBegrunnelseGrunner = (
