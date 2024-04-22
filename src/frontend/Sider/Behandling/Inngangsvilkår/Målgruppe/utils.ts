@@ -1,4 +1,5 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import {
     DelvilkårMålgruppe,
     FaktiskMålgruppe,
@@ -6,6 +7,7 @@ import {
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode';
+import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -49,3 +51,33 @@ export const resetDelvilkår = (
         ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(delvilkår)
         : undefined,
 });
+
+export const finnBegrunnelseGrunnerMålgruppe = (
+    type: MålgruppeType | '',
+    delvilkår: DelvilkårMålgruppe
+) => {
+    const delvilkårSomMåBegrunnes = [];
+
+    if (type === MålgruppeType.NEDSATT_ARBEIDSEVNE) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+    }
+
+    if (type !== '' && målgrupperHvorMedlemskapMåVurderes.includes(type)) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.MEDLEMSKAP);
+    }
+
+    if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
+    }
+
+    return delvilkårSomMåBegrunnes;
+};
+
+export const erFormForMålgruppe = (
+    vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
+): vilkårperiode is EndreMålgruppeForm => {
+    return (
+        (Object.keys(MålgruppeType).includes(vilkårperiode.type) || vilkårperiode.type === '') &&
+        vilkårperiode.delvilkår['@type'] === 'MÅLGRUPPE'
+    );
+};

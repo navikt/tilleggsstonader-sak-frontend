@@ -19,7 +19,7 @@ import {
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
+import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
 export interface EndreMålgruppeForm extends Periode {

@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, Textarea } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
-import SlettVilkårperiodeModal from './SlettVilkårperiodeModal';
-import { EndreVilkårsperiode } from './validering';
-import VilkårperiodeKortBase from './VilkårperiodeKort/VilkårperiodeKortBase';
-import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
-import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
-import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
-import { Aktivitet } from '../typer/aktivitet';
-import { Målgruppe } from '../typer/målgruppe';
-import { KildeVilkårsperiode, VilkårPeriode } from '../typer/vilkårperiode';
+import Begrunnelse from './Begrunnelse';
+import { finnBegrunnelseGrunner } from './utils';
+import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
+import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
+import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
+import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
+import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
+import { Aktivitet } from '../../typer/aktivitet';
+import { Målgruppe } from '../../typer/målgruppe';
+import { KildeVilkårsperiode, VilkårPeriode } from '../../typer/vilkårperiode';
+import SlettVilkårperiodeModal from '../SlettVilkårperiodeModal';
+import { EndreVilkårsperiode } from '../validering';
+import VilkårperiodeKortBase from '../VilkårperiodeKort/VilkårperiodeKortBase';
 
 const FeltContainer = styled.div`
     flex-grow: 1;
@@ -25,7 +27,7 @@ const FeltContainer = styled.div`
     heigth: max-content;
 
     align-self: start;
-    align-items: center;
+    align-items: start;
 `;
 
 interface Props {
@@ -57,6 +59,8 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     children,
 }) => {
     const [visSlettModal, settVisSlettModal] = useState(false);
+
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunner(form);
 
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
@@ -94,12 +98,11 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
 
             {children}
 
-            {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
-            <Textarea
-                label={'Begrunnelse'}
-                value={form?.begrunnelse || ''}
-                onChange={(e) => oppdaterForm('begrunnelse', e.target.value)}
-                size="small"
+            <Begrunnelse
+                begrunnelse={form?.begrunnelse || ''}
+                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
+                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="4">
                 <Button size="xsmall" onClick={lagre}>
