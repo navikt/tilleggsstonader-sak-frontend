@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, Textarea } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
+import Begrunnelse from './Begrunnelse';
+import { finnBegrunnelseGrunner } from './utils';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -58,6 +60,8 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
 }) => {
     const [visSlettModal, settVisSlettModal] = useState(false);
 
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunner(form);
+
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
@@ -95,11 +99,10 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             {children}
 
             {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
-            <Textarea
-                label={'Begrunnelse'}
-                value={form?.begrunnelse || ''}
-                onChange={(e) => oppdaterForm('begrunnelse', e.target.value)}
-                size="small"
+            <Begrunnelse
+                begrunnelse={form?.begrunnelse || ''}
+                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
+                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
             />
             <HStack gap="4">
                 <Button size="xsmall" onClick={lagre}>
