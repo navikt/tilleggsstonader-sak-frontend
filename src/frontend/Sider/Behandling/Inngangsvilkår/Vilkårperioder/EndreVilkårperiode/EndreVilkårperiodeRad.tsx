@@ -98,7 +98,6 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
 
             {children}
 
-            {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
