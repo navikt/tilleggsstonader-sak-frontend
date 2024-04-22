@@ -32,3 +32,6 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     dekketAvAnnetRegelverk: 'utgifter dekt gjennom annet regelverk',
     mottarSykepenger: 'mottar sykepenger',
 };
+
+export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
+    delvilkårKeys.map((d) => delvilkårKeyTilTekst[d]).join(', ');

@@ -6,7 +6,7 @@ import { CircleBrokenIcon } from '@navikt/aksel-icons';
 import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
 import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
-import { VilkårperiodeResultatTilTekst, delvilkårKeyTilTekst } from './tekstmapping';
+import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
 import { finnDelvilkårMedResultat } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
@@ -52,7 +52,7 @@ const OppsummertVilkårsvurdering: React.FC<{
                 {delvilkårMedResultat.length > 0 && (
                     <Detail>
                         {formaterEnumVerdi(vilkårperiode.resultat)}:{' '}
-                        {delvilkårMedResultat.map((d) => delvilkårKeyTilTekst[d]).join(', ')}
+                        {formaterDelvilkårKeys(delvilkårMedResultat)}
                     </Detail>
                 )}
             </VStack>
