@@ -27,7 +27,7 @@ const FeltContainer = styled.div`
     heigth: max-content;
 
     align-self: start;
-    align-items: center;
+    align-items: start;
 `;
 
 interface Props {
