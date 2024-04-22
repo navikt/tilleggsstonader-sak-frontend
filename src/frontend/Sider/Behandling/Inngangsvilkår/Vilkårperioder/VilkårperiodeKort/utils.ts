@@ -14,7 +14,7 @@ export const finnDelvilkårMedResultat = (
     const delvilkårMedResultat: DelvilkårKey[] = [];
 
     Object.entries(delvilkår).forEach(([key, value]) => {
-        if (key !== '@type' && value.resultat === resultat) {
+        if (key !== '@type' && value?.resultat === resultat) {
             delvilkårMedResultat.push(key as DelvilkårKey);
         }
     });
