@@ -119,9 +119,8 @@ const EndreAktivitetRad: React.FC<{
         settAktivitetForm((prevState) => {
             const nyeDelvilkår = { ...prevState.delvilkår, [key]: vurdering };
 
-            if (prevState.type !== '') {
-                settDelvilkårSomKreverBegrunnelse(finnBegrunnelseGrunnerAktivitet(nyeDelvilkår));
-            }
+            settDelvilkårSomKreverBegrunnelse(finnBegrunnelseGrunnerAktivitet(nyeDelvilkår));
+
             return {
                 ...prevState,
                 delvilkår: nyeDelvilkår,
