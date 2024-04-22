@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Liste = styled.ul`
-    margin: 0.25rem;
+    margin: 0.25rem 0;
 `;
 
 const Begrunnelse: React.FC<Props> = ({
