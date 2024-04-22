@@ -4,7 +4,7 @@ import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
 export type DelvilkårKey = Exclude<keyof DelvilkårMålgruppe | keyof DelvilkårAktivitet, '@type'>;
 
-export const finnDelvilkårMedResultat = (
+export const finnDelvilkårTilOppsummering = (
     delvilkår: DelvilkårMålgruppe | DelvilkårAktivitet,
     resultat: VilkårPeriodeResultat
 ): DelvilkårKey[] => {

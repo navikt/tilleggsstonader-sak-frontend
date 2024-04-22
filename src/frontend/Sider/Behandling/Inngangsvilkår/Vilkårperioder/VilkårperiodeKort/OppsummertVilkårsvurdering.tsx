@@ -7,7 +7,7 @@ import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
 import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
 import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
-import { finnDelvilkårMedResultat } from './utils';
+import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { erMålgruppe } from '../../Målgruppe/utils';
@@ -31,7 +31,7 @@ const OppsummertVilkårsvurdering: React.FC<{
         return <OppsummeringKommer className={className} />;
     }
 
-    const delvilkårMedResultat = finnDelvilkårMedResultat(
+    const delvilkårSomMåOppsummeres = finnDelvilkårTilOppsummering(
         vilkårperiode.delvilkår,
         vilkårperiode.resultat
     );
@@ -49,10 +49,10 @@ const OppsummertVilkårsvurdering: React.FC<{
                         {formaterEnumVerdi(MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type])}
                     </Detail>
                 )}
-                {delvilkårMedResultat.length > 0 && (
+                {delvilkårSomMåOppsummeres.length > 0 && (
                     <Detail>
                         {formaterEnumVerdi(vilkårperiode.resultat)}:{' '}
-                        {formaterDelvilkårKeys(delvilkårMedResultat)}
+                        {formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}
                     </Detail>
                 )}
             </VStack>
