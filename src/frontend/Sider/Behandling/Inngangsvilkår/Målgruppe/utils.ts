@@ -5,6 +5,7 @@ import {
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
+import { BegrunnelseGrunner, SvarJaNei } from '../typer/vilkårperiode';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -42,3 +43,24 @@ export const resetDelvilkår = (
         ? delvilkår.dekketAvAnnetRegelverk
         : undefined,
 });
+
+export const finnBegrunnelseGrunnerMålgruppe = (
+    type: MålgruppeType,
+    delvilkår: DelvilkårMålgruppe
+) => {
+    const delvilkårSomMåBegrunnes = [];
+
+    if (type === MålgruppeType.NEDSATT_ARBEIDSEVNE) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+    }
+
+    if (målgrupperHvorMedlemskapMåVurderes.includes(type)) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.MEDLEMSKAP);
+    }
+
+    if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
+    }
+
+    return delvilkårSomMåBegrunnes;
+};

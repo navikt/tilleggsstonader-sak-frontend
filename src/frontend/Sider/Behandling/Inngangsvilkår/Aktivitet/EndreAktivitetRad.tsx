@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { nyAktivitet, resetDelvilkår } from './utils';
+import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -17,6 +17,7 @@ import {
     DelvilkårAktivitet,
 } from '../typer/aktivitet';
 import {
+    BegrunnelseGrunner,
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
@@ -55,6 +56,9 @@ const EndreAktivitetRad: React.FC<{
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<EndreVilkårsperiode>>();
+    const [delvilkårSomKreverBegrunnelse, settDelvilkårSomKreverBegrunnelse] = useState<
+        BegrunnelseGrunner[]
+    >([]);
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
@@ -111,6 +115,20 @@ const EndreAktivitetRad: React.FC<{
         }));
     };
 
+    const oppdaterDelvilkår = (key: keyof DelvilkårAktivitet, vurdering: Vurdering) => {
+        settAktivitetForm((prevState) => {
+            const nyeDelvilkår = { ...prevState.delvilkår, [key]: vurdering };
+
+            if (prevState.type !== '') {
+                settDelvilkårSomKreverBegrunnelse(finnBegrunnelseGrunnerAktivitet(nyeDelvilkår));
+            }
+            return {
+                ...prevState,
+                delvilkår: nyeDelvilkår,
+            };
+        });
+    };
+
     return (
         <EndreVilkårperiodeRad
             vilkårperiode={aktivitet}
@@ -122,6 +140,7 @@ const EndreAktivitetRad: React.FC<{
             typeOptions={AktivitetTypeOptions}
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
+            delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
             ekstraCeller={
                 <TextField
                     erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
@@ -146,10 +165,7 @@ const EndreAktivitetRad: React.FC<{
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
-                    settAktivitetForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
+                    oppdaterDelvilkår(key, vurdering)
                 }
             />
         </EndreVilkårperiodeRad>

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, Textarea } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
+import Begrunnelse from './Begrunnelse';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -12,7 +13,7 @@ import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
-import { KildeVilkårsperiode, VilkårPeriode } from '../../typer/vilkårperiode';
+import { BegrunnelseGrunner, KildeVilkårsperiode, VilkårPeriode } from '../../typer/vilkårperiode';
 import SlettVilkårperiodeModal from '../SlettVilkårperiodeModal';
 import { EndreVilkårsperiode } from '../validering';
 import VilkårperiodeKortBase from '../VilkårperiodeKort/VilkårperiodeKortBase';
@@ -40,6 +41,7 @@ interface Props {
     ekstraCeller?: React.ReactNode;
     feilmelding?: string;
     children: React.ReactNode;
+    delvilkårSomKreverBegrunnelse: BegrunnelseGrunner[];
 }
 
 // TODO: Endre navn til EndreVilkårperiodeKort eller EndreVilkårperiode
@@ -55,6 +57,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     ekstraCeller,
     feilmelding,
     children,
+    delvilkårSomKreverBegrunnelse,
 }) => {
     const [visSlettModal, settVisSlettModal] = useState(false);
 
@@ -94,12 +97,10 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
 
             {children}
 
-            {/* TODO: Håndter validering og visning av om begrunnelse er obligatorisk */}
-            <Textarea
-                label={'Begrunnelse'}
-                value={form?.begrunnelse || ''}
-                onChange={(e) => oppdaterForm('begrunnelse', e.target.value)}
-                size="small"
+            <Begrunnelse
+                begrunnelse={form?.begrunnelse}
+                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
+                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
             />
             <HStack gap="4">
                 <Button size="xsmall" onClick={lagre}>

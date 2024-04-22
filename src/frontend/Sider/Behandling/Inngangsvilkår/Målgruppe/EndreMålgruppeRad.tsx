@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe, resetDelvilkår } from './utils';
+import { finnBegrunnelseGrunnerMålgruppe, nyMålgruppe, resetDelvilkår } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -18,6 +18,7 @@ import {
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
     Vurdering,
+    BegrunnelseGrunner,
 } from '../typer/vilkårperiode';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
@@ -51,6 +52,9 @@ const EndreMålgruppeRad: React.FC<{
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<EndreVilkårsperiode>>();
+    const [delvilkårSomKreverBegrunnelse, settDelvilkårSomKreverBegrunnelse] = useState<
+        BegrunnelseGrunner[]
+    >([]);
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerVilkårsperiode(målgruppeForm);
@@ -106,6 +110,22 @@ const EndreMålgruppeRad: React.FC<{
         }));
     };
 
+    const oppdaterDelvilkår = (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => {
+        settMålgruppeForm((prevState) => {
+            const nyeDelvilkår = { ...prevState.delvilkår, [key]: vurdering };
+
+            if (prevState.type !== '') {
+                settDelvilkårSomKreverBegrunnelse(
+                    finnBegrunnelseGrunnerMålgruppe(prevState.type, nyeDelvilkår)
+                );
+            }
+            return {
+                ...prevState,
+                delvilkår: nyeDelvilkår,
+            };
+        });
+    };
+
     return (
         <EndreVilkårperiodeRad
             vilkårperiode={målgruppe}
@@ -117,14 +137,12 @@ const EndreMålgruppeRad: React.FC<{
             typeOptions={MålgruppeTypeOptions}
             oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
             feilmelding={feilmelding}
+            delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                    settMålgruppeForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
+                    oppdaterDelvilkår(key, vurdering)
                 }
             />
         </EndreVilkårperiodeRad>

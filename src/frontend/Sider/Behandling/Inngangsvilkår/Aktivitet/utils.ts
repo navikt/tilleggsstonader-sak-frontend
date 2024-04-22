@@ -1,5 +1,6 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
+import { BegrunnelseGrunner, SvarJaNei } from '../typer/vilkårperiode';
 
 export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
     return {
@@ -22,3 +23,13 @@ export const resetDelvilkår = (
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
     // fjerner ikke mottarSykepenger då den alltid skal vurderes
 });
+
+export const finnBegrunnelseGrunnerAktivitet = (delvilkår: DelvilkårAktivitet) => {
+    const delvilkårSomMåBegrunnes = [];
+
+    if (delvilkår.lønnet?.svar === SvarJaNei.JA) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+    }
+
+    return delvilkårSomMåBegrunnes;
+};

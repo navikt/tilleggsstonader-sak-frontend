@@ -71,3 +71,17 @@ export const vilkårperiodeTypeTilTekst: Record<MålgruppeType | AktivitetType, 
     ...MålgruppeTypeTilTekst,
     ...AktivitetTypeTilTekst,
 };
+
+export enum BegrunnelseGrunner {
+    MEDLEMSKAP = 'MEDLEMSKAP',
+    DEKKET_AV_ANNET_REGELVERK = 'DEKKET_AV_ANNET_REGELVERK',
+    NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
+    LØNNET = 'LØNNET',
+}
+
+export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
+    MEDLEMSKAP: 'Medlemskap',
+    DEKKET_AV_ANNET_REGELVERK: 'Dekket av annet regelverk',
+    NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
+    LØNNET: 'Lønnet',
+};
