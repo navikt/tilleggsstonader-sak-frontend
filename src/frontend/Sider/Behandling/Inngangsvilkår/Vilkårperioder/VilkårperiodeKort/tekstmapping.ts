@@ -29,7 +29,7 @@ export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, stri
 export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     lønnet: 'ordinær lønn i tiltak',
     medlemskap: 'medlemskap',
-    dekketAvAnnetRegelverk: 'utgifter dekt gjennom annet regelverk',
+    dekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
     mottarSykepenger: 'mottar sykepenger',
 };
 

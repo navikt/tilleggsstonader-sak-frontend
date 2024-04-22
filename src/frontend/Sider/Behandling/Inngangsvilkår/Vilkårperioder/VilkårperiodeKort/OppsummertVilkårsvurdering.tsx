@@ -51,8 +51,7 @@ const OppsummertVilkårsvurdering: React.FC<{
                 )}
                 {delvilkårSomMåOppsummeres.length > 0 && (
                     <Detail>
-                        {formaterEnumVerdi(vilkårperiode.resultat)}:{' '}
-                        {formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}
+                        {`${formaterEnumVerdi(vilkårperiode.resultat)}: ${formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}`}
                     </Detail>
                 )}
             </VStack>
