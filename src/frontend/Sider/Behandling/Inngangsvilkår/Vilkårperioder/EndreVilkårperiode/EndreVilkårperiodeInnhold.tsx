@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Table, Textarea } from '@navikt/ds-react';
 
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 
 const Innhold = styled.div`
     display: flex;
