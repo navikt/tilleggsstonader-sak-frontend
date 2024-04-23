@@ -60,6 +60,14 @@ export const svarJaNeiMapping: Record<SvarJaNei, string> = {
 
 export interface Vurdering {
     svar?: SvarJaNei;
+    resultat?: VilkårPeriodeResultat;
+}
+
+export enum ResultatDelvilkårperiode {
+    OPPFYLT = 'OPPFYLT',
+    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+    IKKE_VURDERT = 'IKKE_VURDERT',
+    IKKE_AKTUELT = 'IKKE_AKTUELT',
 }
 
 export interface SlettVilkårperiode {

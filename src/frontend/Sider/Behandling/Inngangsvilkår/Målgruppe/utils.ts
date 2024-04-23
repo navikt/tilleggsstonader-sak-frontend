@@ -1,8 +1,10 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
+import { Aktivitet } from '../typer/aktivitet';
 import {
     DelvilkårMålgruppe,
     FaktiskMålgruppe,
+    Målgruppe,
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
@@ -77,7 +79,11 @@ export const erFormForMålgruppe = (
     vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
 ): vilkårperiode is EndreMålgruppeForm => {
     return (
-        (Object.keys(MålgruppeType).includes(vilkårperiode.type) || vilkårperiode.type === '') &&
+        (vilkårperiode.type in MålgruppeType || vilkårperiode.type === '') &&
         vilkårperiode.delvilkår['@type'] === 'MÅLGRUPPE'
     );
+};
+
+export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårperiode is Målgruppe => {
+    return vilkårperiode.type in MålgruppeType;
 };

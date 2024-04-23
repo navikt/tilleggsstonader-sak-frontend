@@ -3,46 +3,71 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 import { CircleBrokenIcon } from '@navikt/aksel-icons';
-import { HStack, Label } from '@navikt/ds-react';
+import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
 import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
-import { VilkårperiodeResultatTilTekst } from './tekstmapping';
+import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
+import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
-import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
+import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
+import { erMålgruppe } from '../../Målgruppe/utils';
+import { Aktivitet } from '../../typer/aktivitet';
+import { Målgruppe, MålgruppeTypeTilFaktiskMålgruppe } from '../../typer/målgruppe';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 200px;
     border-left: 3px solid ${AGray200};
     padding-left: 1rem;
 `;
 
 const OppsummertVilkårsvurdering: React.FC<{
-    resultat?: VilkårPeriodeResultat;
+    vilkårperiode?: Målgruppe | Aktivitet;
     redigeres: boolean;
     className?: string;
-}> = ({ resultat, redigeres, className }) => {
+}> = ({ vilkårperiode, redigeres, className }) => {
+    if (!vilkårperiode || redigeres) {
+        return <OppsummeringKommer className={className} />;
+    }
+
+    const delvilkårSomMåOppsummeres = finnDelvilkårTilOppsummering(
+        vilkårperiode.delvilkår,
+        vilkårperiode.resultat
+    );
+
     return (
         <Container className={className}>
-            {redigeres || !resultat ? (
-                <HStack wrap={false} gap="4">
-                    <span>
-                        <CircleBrokenIcon />
-                    </span>
-                    <Label size="small">Oppsummert vilkårsvurdering vises når du lagrer</Label>
-                </HStack>
-            ) : (
-                <>
-                    <HStack align="center" gap="4">
-                        <VilkårsresultatIkon vilkårsresultat={resultat} />
-                        <Label size="small">{VilkårperiodeResultatTilTekst[resultat]}</Label>
-                    </HStack>
-                    {/* TODO: Oppsummering av vilkårsvurdering */}
-                    {/* Ikke vurdert - list opp vurdering hvor svar mangler, ikke oppfylt - alle som ikke er oppfylt */}
-                </>
-            )}
+            <HStack align="center" gap="4">
+                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                <Label size="small">{VilkårperiodeResultatTilTekst[vilkårperiode.resultat]}</Label>
+            </HStack>
+            <VStack gap="2">
+                {erMålgruppe(vilkårperiode) && (
+                    <Detail>
+                        <strong>Målgruppe: </strong>
+                        {formaterEnumVerdi(MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type])}
+                    </Detail>
+                )}
+                {delvilkårSomMåOppsummeres.length > 0 && (
+                    <Detail>
+                        {`${formaterEnumVerdi(vilkårperiode.resultat)}: ${formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}`}
+                    </Detail>
+                )}
+            </VStack>
+        </Container>
+    );
+};
+
+const OppsummeringKommer: React.FC<{ className?: string }> = ({ className }) => {
+    return (
+        <Container className={className}>
+            <HStack wrap={false} gap="4">
+                <span>
+                    <CircleBrokenIcon />
+                </span>
+                <Label size="small">Oppsummert vilkårsvurdering vises når du lagrer</Label>
+            </HStack>
         </Container>
     );
 };

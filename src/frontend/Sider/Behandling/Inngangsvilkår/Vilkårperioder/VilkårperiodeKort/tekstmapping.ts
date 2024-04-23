@@ -1,3 +1,4 @@
+import { DelvilkårKey } from './utils';
 import { SvarJaNei, VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
 export const medlemskapSvarTilTekst: Record<SvarJaNei, string> = {
@@ -24,3 +25,13 @@ export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, stri
     [VilkårPeriodeResultat.IKKE_VURDERT]: 'Mangelfull vurdering',
     [VilkårPeriodeResultat.SLETTET]: 'Slettet',
 };
+
+export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
+    lønnet: 'ordinær lønn i tiltak',
+    medlemskap: 'medlemskap',
+    dekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
+    mottarSykepenger: 'mottar sykepenger',
+};
+
+export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
+    delvilkårKeys.map((d) => delvilkårKeyTilTekst[d]).join(', ');
