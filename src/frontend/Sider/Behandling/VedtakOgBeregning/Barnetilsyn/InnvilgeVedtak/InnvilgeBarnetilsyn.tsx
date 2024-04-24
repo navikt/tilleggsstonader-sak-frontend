@@ -139,20 +139,22 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
                     />
                     <Skillelinje />
                     {erStegRedigerbart && (
-                        <Knapp
-                            type="button"
-                            variant="primary"
-                            size="small"
-                            onClick={beregnBarnetilsyn}
-                        >
-                            Beregn
-                        </Knapp>
+                        <>
+                            <Knapp
+                                type="button"
+                                variant="primary"
+                                size="small"
+                                onClick={beregnBarnetilsyn}
+                            >
+                                Beregn
+                            </Knapp>
+                            <DataViewer response={{ beregningsresultat }}>
+                                {({ beregningsresultat }) => (
+                                    <Beregningsresultat beregningsresultat={beregningsresultat} />
+                                )}
+                            </DataViewer>
+                        </>
                     )}
-                    <DataViewer response={{ beregningsresultat }}>
-                        {({ beregningsresultat }) => (
-                            <Beregningsresultat beregningsresultat={beregningsresultat} />
-                        )}
-                    </DataViewer>
                     {!erStegRedigerbart && lagretInnvilgetVedtak?.beregningsresultat && (
                         <Beregningsresultat
                             beregningsresultat={lagretInnvilgetVedtak?.beregningsresultat}
