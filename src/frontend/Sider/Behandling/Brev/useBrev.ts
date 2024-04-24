@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Brevmottakere } from './Brevmottakere/brevmottakereTyper';
-import { hentMalerQuery, malQuery } from './Sanity/queries';
+import { hentAlleMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
 import { Brevmal, MalStruktur } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -26,9 +26,9 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
 
     const hentBrevmaler = useCallback(() => {
         sanityClient
-            .fetch<Brevmal[]>(hentMalerQuery, {
+            // TODO: bruk hentMalerQuery og send med resultat
+            .fetch<Brevmal[]>(hentAlleMalerQuery, {
                 ytelse: ytelse,
-                resultat: resultat,
             })
             .then((data) => {
                 settBrevmaler(byggRessursSuksess(data));
