@@ -153,6 +153,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
                             <Beregningsresultat beregningsresultat={beregningsresultat} />
                         )}
                     </DataViewer>
+                    {!erStegRedigerbart && lagretInnvilgetVedtak?.beregningsresultat && (
+                        <Beregningsresultat
+                            beregningsresultat={lagretInnvilgetVedtak?.beregningsresultat}
+                        />
+                    )}
                 </VStack>
             </Panel>
             <StegKnapp
