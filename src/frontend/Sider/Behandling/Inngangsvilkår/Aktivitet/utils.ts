@@ -23,7 +23,6 @@ export const resetDelvilkår = (
 ): DelvilkårAktivitet => ({
     ...delvilkår,
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
-    // fjerner ikke mottarSykepenger då den alltid skal vurderes
 });
 
 export const finnBegrunnelseGrunnerAktivitet = (delvilkår: DelvilkårAktivitet) => {
