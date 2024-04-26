@@ -88,9 +88,9 @@ const Aktivitet: React.FC = () => {
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
-                    size="small"
+                    size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
-                    variant={skalViseAktiviteter ? 'secondary' : 'primary'}
+                    variant={skalViseAktiviteter ? 'tertiary' : 'primary'}
                     icon={<PlusCircleIcon />}
                 >
                     Legg til ny aktivitet

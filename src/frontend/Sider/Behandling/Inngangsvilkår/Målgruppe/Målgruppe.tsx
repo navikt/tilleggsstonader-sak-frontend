@@ -88,9 +88,9 @@ const Målgruppe: React.FC = () => {
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
                     onClick={() => settLeggerTilNyPeriode(true)}
-                    size="small"
+                    size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
-                    variant={skalViseMålgrupper ? 'secondary' : 'primary'}
+                    variant={skalViseMålgrupper ? 'tertiary' : 'primary'}
                     icon={<PlusCircleIcon />}
                 >
                     Legg til ny målgruppe

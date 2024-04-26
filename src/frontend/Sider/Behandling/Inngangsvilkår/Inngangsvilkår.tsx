@@ -25,7 +25,7 @@ import { FanePath } from '../faner';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
     margin: 2rem;
 `;
 

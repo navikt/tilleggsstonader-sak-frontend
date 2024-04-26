@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Button, Table } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -29,65 +29,57 @@ const StønadsperiodeRad: React.FC<Props> = ({
         feilmeldinger && feilmeldinger[property];
 
     return (
-        <Table.Row>
-            <Table.DataCell>
-                <SelectMedOptions
-                    erLesevisning={erLeservisning}
-                    valg={MålgruppeTypeOptions}
-                    label={'Målgruppe'}
-                    hideLabel
-                    value={stønadsperide.målgruppe}
-                    onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
-                    size="small"
-                    error={finnFeilmelding('målgruppe')}
+        <>
+            <SelectMedOptions
+                className="kolonne1"
+                erLesevisning={erLeservisning}
+                valg={MålgruppeTypeOptions}
+                label={'Målgruppe'}
+                hideLabel
+                value={stønadsperide.målgruppe}
+                onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
+                size="small"
+                error={finnFeilmelding('målgruppe')}
+            />
+
+            <SelectMedOptions
+                erLesevisning={erLeservisning}
+                valg={AktivitetTypeOptions}
+                label={'Aktivitet'}
+                hideLabel
+                value={stønadsperide.aktivitet}
+                onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
+                size="small"
+                error={finnFeilmelding('aktivitet')}
+            />
+            <DateInputMedLeservisning
+                erLesevisning={erLeservisning}
+                label={'Fra'}
+                hideLabel
+                value={stønadsperide.fom}
+                onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
+                size="small"
+                feil={finnFeilmelding('fom')}
+            />
+            <DateInputMedLeservisning
+                erLesevisning={erLeservisning}
+                label={'Til'}
+                hideLabel
+                value={stønadsperide.tom}
+                onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
+                size="small"
+                feil={finnFeilmelding('tom')}
+            />
+            {!erLeservisning && (
+                <Button
+                    type="button"
+                    onClick={slettPeriode}
+                    variant="tertiary"
+                    icon={<TrashIcon />}
+                    size="xsmall"
                 />
-            </Table.DataCell>
-            <Table.DataCell>
-                <SelectMedOptions
-                    erLesevisning={erLeservisning}
-                    valg={AktivitetTypeOptions}
-                    label={'Aktivitet'}
-                    hideLabel
-                    value={stønadsperide.aktivitet}
-                    onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
-                    size="small"
-                    error={finnFeilmelding('aktivitet')}
-                />
-            </Table.DataCell>
-            <Table.DataCell>
-                <DateInputMedLeservisning
-                    erLesevisning={erLeservisning}
-                    label={'Fra'}
-                    hideLabel
-                    value={stønadsperide.fom}
-                    onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
-                    size="small"
-                    feil={finnFeilmelding('fom')}
-                />
-            </Table.DataCell>
-            <Table.DataCell>
-                <DateInputMedLeservisning
-                    erLesevisning={erLeservisning}
-                    label={'Til'}
-                    hideLabel
-                    value={stønadsperide.tom}
-                    onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
-                    size="small"
-                    feil={finnFeilmelding('tom')}
-                />
-            </Table.DataCell>
-            <Table.DataCell>
-                {!erLeservisning && (
-                    <Button
-                        type="button"
-                        onClick={slettPeriode}
-                        variant="tertiary"
-                        icon={<TrashIcon />}
-                        size="xsmall"
-                    />
-                )}
-            </Table.DataCell>
-        </Table.Row>
+            )}
+        </>
     );
 };
 
