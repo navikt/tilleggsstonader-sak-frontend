@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { skalVurdereLønnet } from './utils';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårAktivitet } from '../typer/aktivitet';
 import { Vurdering } from '../typer/vilkårperiode';
-import {skalVurdereLønnet} from "./utils";
 
 const Container = styled.div`
     display: flex;
@@ -20,9 +20,13 @@ const AktivitetVilkår: React.FC<{
 }> = ({ aktivitetForm, oppdaterDelvilkår }) => {
     if (aktivitetForm.type === '') return null;
 
+    const visVurderingLønnet = skalVurdereLønnet(aktivitetForm.type);
+
+    if (!visVurderingLønnet) return null;
+
     return (
         <Container>
-            {skalVurdereLønnet(aktivitetForm.type) && (
+            {visVurderingLønnet && (
                 <JaNeiVurdering
                     label="Lønnet"
                     vurdering={aktivitetForm.delvilkår.lønnet}
@@ -31,13 +35,6 @@ const AktivitetVilkår: React.FC<{
                     }
                 />
             )}
-            <JaNeiVurdering
-                label="Sykepenger"
-                vurdering={aktivitetForm.delvilkår.mottarSykepenger}
-                oppdaterVurdering={(vurdering: Vurdering) =>
-                    oppdaterDelvilkår('mottarSykepenger', vurdering)
-                }
-            />
         </Container>
     );
 };

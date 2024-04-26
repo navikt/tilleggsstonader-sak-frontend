@@ -30,7 +30,6 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     lønnet: 'ordinær lønn i tiltak',
     medlemskap: 'medlemskap',
     dekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
-    mottarSykepenger: 'mottar sykepenger',
 };
 
 export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
