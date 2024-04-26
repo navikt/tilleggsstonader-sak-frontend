@@ -1,13 +1,10 @@
-import { BehandlingResultat } from './behandling/behandlingResultat';
-
 export enum VedtakType {
     InnvilgelseBarnetilsyn = 'InnvilgelseBarnetilsyn',
 }
 
 export type InnvilgeVedtakForBarnetilsyn = {
-    resultatType: BehandlingResultat.INNVILGET; // TODO: Sjekk om nødvendig å ta med
     utgifter: Record<string, Utgift[]>;
-    _type?: VedtakType.InnvilgelseBarnetilsyn; // TODO: Sjekk om nødvendig å ta med
+    beregningsresultat?: BeregningsresultatTilsynBarn;
 };
 
 export type Stønadsperiode = {
