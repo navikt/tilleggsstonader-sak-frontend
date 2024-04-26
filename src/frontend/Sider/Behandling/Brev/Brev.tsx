@@ -8,6 +8,7 @@ import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../typer/ressurs';
 import SendTilBeslutterFooter from '../Totrinnskontroll/SendTilBeslutterFooter';
@@ -29,6 +30,8 @@ const Brev: React.FC = () => {
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
+    const { vedtak } = useVedtak();
+
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
             settBrevmal(mellomlagretBrev.data.brevmal);
@@ -46,8 +49,8 @@ const Brev: React.FC = () => {
                                 brevmal={brevmal}
                                 settBrevmal={settBrevmal}
                             />
-                            <DataViewer response={{ malStruktur }}>
-                                {({ malStruktur }) => (
+                            <DataViewer response={{ malStruktur, vedtak }}>
+                                {({ malStruktur, vedtak }) => (
                                     <>
                                         <Brevmeny
                                             mal={malStruktur}
@@ -55,6 +58,7 @@ const Brev: React.FC = () => {
                                             mellomlagretBrev={mellomlagretBrev}
                                             fil={fil}
                                             settFil={settFil}
+                                            beregningsresultat={vedtak.beregningsresultat}
                                         />
                                         <SendTilBeslutterFooter />
                                     </>
