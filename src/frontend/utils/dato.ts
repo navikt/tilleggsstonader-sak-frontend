@@ -90,8 +90,5 @@ export const erGyldigDato = (dato: string | Date): boolean =>
 export const plusDager = (dato: string | Date, antallDager: number): string =>
     tilLocaleDateString(addDays(tilDato(dato), antallDager));
 
-export const formaterÅrMåned = (dato: string): string => {
-    const str = format(parseISO(dato), 'MMM yyyy', { locale: nb });
-
-    return str.charAt(0).toUpperCase() + str.slice(1);
-};
+export const formaterÅrMåned = (dato: string): string =>
+    format(parseISO(dato), 'MMM yyyy', { locale: nb });
