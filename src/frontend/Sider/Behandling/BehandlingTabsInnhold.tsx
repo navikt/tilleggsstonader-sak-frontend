@@ -26,6 +26,7 @@ const Tabsknapp = styled.div`
     display: flex;
     align-items: center;
     margin-left: auto;
+    margin-right: 1rem;
 `;
 
 const DisabledTab = styled(Tabs.Tab)`
@@ -91,6 +92,7 @@ const BehandlingTabsInnhold = () => {
                                 <Button
                                     size={'small'}
                                     onClick={() => settStatusPåVentRedigering(true)}
+                                    variant="secondary"
                                 >
                                     Sett på vent
                                 </Button>
