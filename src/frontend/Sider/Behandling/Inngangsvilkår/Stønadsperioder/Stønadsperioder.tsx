@@ -23,7 +23,7 @@ const Container = styled.div`
     gap: 1rem;
 `;
 
-const Grid = styled.div<{ $editMode: boolean }>`
+const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(5, max-content);
     grid-row-gap: 0.5rem;
@@ -136,7 +136,7 @@ const Stønadsperioder: React.FC = () => {
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
-                        <Grid $editMode={redigerer}>
+                        <Grid>
                             <Label>Målgruppe</Label>
                             <Label>Aktivitet</Label>
                             <Label>Fra</Label>
