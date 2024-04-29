@@ -5,18 +5,21 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
+import { lagHtmlFelt } from './lagHtmlFelt';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Ressurs } from '../../../typer/ressurs';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
 
 type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
     fil: Ressurs<string>;
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
+    beregningsresultat?: BeregningsresultatTilsynBarn;
 } & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
 
 const oppdaterStateForId =
@@ -56,6 +59,7 @@ const Brevmeny: React.FC<Props> = ({
     fagsakId,
     fil,
     settFil,
+    beregningsresultat,
 }) => {
     const { personopplysninger } = usePersonopplysninger();
     const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
@@ -64,6 +68,7 @@ const Brevmeny: React.FC<Props> = ({
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(initValgfelt || {});
+
     const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
         initVariabler || {}
     );
@@ -124,6 +129,7 @@ const Brevmeny: React.FC<Props> = ({
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
+                htmlVariabler: lagHtmlFelt(beregningsresultat),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);

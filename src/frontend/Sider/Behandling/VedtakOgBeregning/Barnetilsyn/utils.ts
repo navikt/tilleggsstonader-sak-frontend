@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
-import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
-import { InnvilgeVedtakForBarnetilsyn, Utgift, VedtakType } from '../../../../typer/vedtak';
+import { InnvilgeVedtakForBarnetilsyn, Utgift } from '../../../../typer/vedtak';
 import { GrunnlagBarn, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
 
 export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
@@ -33,8 +32,6 @@ export const lagVedtakRequest = (
 ): InnvilgeVedtakForBarnetilsyn => {
     return {
         utgifter: form.utgifter,
-        _type: VedtakType.InnvilgelseBarnetilsyn,
-        resultatType: BehandlingResultat.INNVILGET,
     };
 };
 
