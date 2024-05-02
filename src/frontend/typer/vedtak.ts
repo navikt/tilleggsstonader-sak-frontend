@@ -1,12 +1,17 @@
 export enum TypeVedtak {
-    INNVILGET = 'INNVILGET',
-    AVSLÅTT = 'AVSLÅTT',
+    INNVILGELSE = 'INNVILGELSE',
+    AVSLAG = 'AVSLAG',
 }
+
+export const typeVedtakTilTekst: Record<TypeVedtak, string> = {
+    INNVILGELSE: 'Innvilgelse',
+    AVSLAG: 'Avslag',
+};
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
 
 export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
-    vedtak.type === TypeVedtak.INNVILGET;
+    vedtak.type === TypeVedtak.INNVILGELSE;
 
 export type InnvilgeBarnetilsynRequest = {
     utgifter: Record<string, Utgift[]>;
@@ -14,7 +19,7 @@ export type InnvilgeBarnetilsynRequest = {
 };
 
 export interface InnvilgelseBarnetilsyn extends InnvilgeBarnetilsynRequest {
-    type: TypeVedtak.INNVILGET;
+    type: TypeVedtak.INNVILGELSE;
 }
 
 export type AvslåBarnetilsynRequest = {
@@ -22,7 +27,7 @@ export type AvslåBarnetilsynRequest = {
 };
 
 export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
-    type: TypeVedtak.AVSLÅTT;
+    type: TypeVedtak.AVSLAG;
 }
 
 export type Stønadsperiode = {

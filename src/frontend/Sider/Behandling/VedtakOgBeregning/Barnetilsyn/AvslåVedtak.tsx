@@ -45,6 +45,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 onChange={(e) => settBegrunnelse(e.target.value)}
                 error={feilmelding}
                 readOnly={!erStegRedigerbart}
+                style={{ width: '40rem' }}
             />
 
             <StegKnapp

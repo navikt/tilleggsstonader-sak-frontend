@@ -6,8 +6,7 @@ import { Heading } from '@navikt/ds-react';
 
 import { useSteg } from '../../../../context/StegContext';
 import Select from '../../../../komponenter/Skjema/Select';
-import { behandlingResultatTilTekst } from '../../../../typer/behandling/behandlingResultat';
-import { TypeVedtak } from '../../../../typer/vedtak';
+import { TypeVedtak, typeVedtakTilTekst } from '../../../../typer/vedtak';
 
 const Container = styled.div`
     width: max-content;
@@ -40,12 +39,12 @@ const SelectVedtaksresultat: FC<Props> = ({
                     settResultatType(vedtaksresultat);
                     // settIkkePersistertKomponent(VEDTAK_OG_BEREGNING);
                 }}
-                lesevisningVerdi={resultatType && behandlingResultatTilTekst[resultatType]}
+                lesevisningVerdi={resultatType && typeVedtakTilTekst[resultatType]}
                 size="small"
             >
                 <option value="">Velg</option>
-                <option value={TypeVedtak.INNVILGET}>Innvilge</option>
-                <option value={TypeVedtak.AVSLÅTT}>Avslå</option>
+                <option value={TypeVedtak.INNVILGELSE}>Innvilge</option>
+                <option value={TypeVedtak.AVSLAG}>Avslå</option>
             </Select>
         </Container>
     );

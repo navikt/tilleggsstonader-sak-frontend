@@ -40,12 +40,12 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => {
                     switch (typeVedtak) {
-                        case TypeVedtak.INNVILGET:
+                        case TypeVedtak.INNVILGELSE:
                             return (
                                 <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
                             );
 
-                        case TypeVedtak.AVSLÅTT:
+                        case TypeVedtak.AVSLAG:
                             return <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />;
 
                         case undefined:
