@@ -16,7 +16,6 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
-import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggTomRessurs, RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
 import {
@@ -58,8 +57,6 @@ const initFormState = (
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
-    settResultatType: (val: BehandlingResultat | undefined) => void;
-    låsFraDatoFørsteRad: boolean;
     barnMedOppfylteVilkår: GrunnlagBarn[];
 }
 

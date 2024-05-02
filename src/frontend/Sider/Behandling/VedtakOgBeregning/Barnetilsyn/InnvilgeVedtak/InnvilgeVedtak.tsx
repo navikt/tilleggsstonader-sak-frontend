@@ -3,16 +3,14 @@ import React, { FC } from 'react';
 import { InnvilgeBarnetilsyn } from './InnvilgeBarnetilsyn';
 import { useVilkår } from '../../../../../context/VilkårContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
-import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
 import { InnvilgelseBarnetilsyn } from '../../../../../typer/vedtak';
 import { barnSomOppfyllerAlleVilkår } from '../utils';
 
 interface Props {
-    settResultatType: (val: BehandlingResultat | undefined) => void;
     lagretVedtak?: InnvilgelseBarnetilsyn;
 }
 
-export const InnvilgeVedtak: FC<Props> = ({ settResultatType, lagretVedtak }) => {
+export const InnvilgeVedtak: FC<Props> = ({ lagretVedtak }) => {
     const { vilkårsvurdering } = useVilkår();
 
     return (
@@ -20,8 +18,6 @@ export const InnvilgeVedtak: FC<Props> = ({ settResultatType, lagretVedtak }) =>
         <DataViewer response={{ vilkårsvurdering }}>
             {({ vilkårsvurdering }) => (
                 <InnvilgeBarnetilsyn
-                    settResultatType={settResultatType}
-                    låsFraDatoFørsteRad={false}
                     barnMedOppfylteVilkår={barnSomOppfyllerAlleVilkår(vilkårsvurdering)}
                     lagretVedtak={lagretVedtak}
                 />
