@@ -64,11 +64,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    // TODO: Prøve å slippe denne castingen
-    const lagretInnvilgetVedtak = lagretVedtak as InnvilgelseBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretInnvilgetVedtak, barnMedOppfylteVilkår),
+        initFormState(lagretVedtak, barnMedOppfylteVilkår),
         validerInnvilgetVedtakForm
     );
 
@@ -80,7 +78,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
 
     // TODO: Finn ut hva denne gjør
     useEffect(() => {
-        if (!lagretInnvilgetVedtak && laster) {
+        if (!lagretVedtak && laster) {
             return;
         }
         // utgiftsperiodeState.setValue(initUtgiftsperioder(lagretInnvilgetVedtak));
@@ -90,7 +88,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
         }));
 
         // eslint-disable-next-line
-    }, [lagretInnvilgetVedtak]);
+    }, [lagretVedtak]);
 
     const lagreVedtak = (vedtaksRequest: InnvilgeBarnetilsynRequest) => {
         settLaster(true);
@@ -153,10 +151,8 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
                             </DataViewer>
                         </>
                     )}
-                    {!erStegRedigerbart && lagretInnvilgetVedtak?.beregningsresultat && (
-                        <Beregningsresultat
-                            beregningsresultat={lagretInnvilgetVedtak?.beregningsresultat}
-                        />
+                    {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
+                        <Beregningsresultat beregningsresultat={lagretVedtak?.beregningsresultat} />
                     )}
                 </VStack>
             </Panel>
