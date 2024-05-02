@@ -35,20 +35,20 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
             {/* TODO: Send inn korrekt resultat */}
             <Panel tittel="Vedtak">
                 <SelectVedtaksresultat
-                    resultatType={resultatType}
-                    settResultatType={settResultatType}
+                    resultatVedtak={resultatType}
+                    settResultatVedtak={settResultatType}
                 />
             </Panel>
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => {
-                    switch (resultatType) {
-                        case BehandlingResultat.INNVILGET:
+                    switch (resultatVedtak) {
+                        case TypeVedtak.INNVILGET:
                             return (
-                                <InnvilgeVedtak
-                                    settResultatType={settResultatType}
-                                    lagretVedtak={vedtak}
-                                />
+                                <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
                             );
+
+                        case TypeVedtak.AVSLÅTT:
+                            return <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />;
 
                         case undefined:
                             return null;

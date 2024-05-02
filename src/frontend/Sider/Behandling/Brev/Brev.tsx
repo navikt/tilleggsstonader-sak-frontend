@@ -11,6 +11,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../typer/ressurs';
+import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import SendTilBeslutterFooter from '../Totrinnskontroll/SendTilBeslutterFooter';
 
 const Container = styled.div`
@@ -58,7 +59,11 @@ const Brev: React.FC = () => {
                                             mellomlagretBrev={mellomlagretBrev}
                                             fil={fil}
                                             settFil={settFil}
-                                            beregningsresultat={vedtak.beregningsresultat}
+                                            beregningsresultat={
+                                                erVedtakInnvilgelse(vedtak)
+                                                    ? vedtak.beregningsresultat
+                                                    : undefined
+                                            }
                                         />
                                         <SendTilBeslutterFooter />
                                     </>

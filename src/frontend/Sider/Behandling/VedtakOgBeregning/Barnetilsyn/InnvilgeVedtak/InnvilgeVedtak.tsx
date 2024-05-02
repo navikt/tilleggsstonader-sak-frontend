@@ -4,12 +4,12 @@ import { InnvilgeBarnetilsyn } from './InnvilgeBarnetilsyn';
 import { useVilkår } from '../../../../../context/VilkårContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../../../typer/behandling/behandlingResultat';
-import { InnvilgeVedtakForBarnetilsyn } from '../../../../../typer/vedtak';
+import { InnvilgelseBarnetilsyn } from '../../../../../typer/vedtak';
 import { barnSomOppfyllerAlleVilkår } from '../utils';
 
 interface Props {
     settResultatType: (val: BehandlingResultat | undefined) => void;
-    lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
+    lagretVedtak?: InnvilgelseBarnetilsyn;
 }
 
 export const InnvilgeVedtak: FC<Props> = ({ settResultatType, lagretVedtak }) => {

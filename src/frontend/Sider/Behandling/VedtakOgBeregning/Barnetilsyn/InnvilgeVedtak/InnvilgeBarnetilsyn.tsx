@@ -21,7 +21,8 @@ import { Steg } from '../../../../../typer/behandling/steg';
 import { byggTomRessurs, RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
-    InnvilgeVedtakForBarnetilsyn,
+    InnvilgeBarnetilsynRequest,
+    InnvilgelseBarnetilsyn,
     Utgift,
 } from '../../../../../typer/vedtak';
 import { FanePath } from '../../../faner';
@@ -38,7 +39,7 @@ const Knapp = styled(Button)`
 
 const initUtgifter = (
     barnMedOppfylteVilkår: GrunnlagBarn[],
-    vedtak?: InnvilgeVedtakForBarnetilsyn
+    vedtak?: InnvilgelseBarnetilsyn
 ): Record<string, Utgift[]> =>
     barnMedOppfylteVilkår.reduce((acc, barn) => {
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
@@ -49,14 +50,14 @@ const initUtgifter = (
     }, {});
 
 const initFormState = (
-    vedtak: InnvilgeVedtakForBarnetilsyn | undefined,
+    vedtak: InnvilgelseBarnetilsyn | undefined,
     barnMedOppfylteVilkår: GrunnlagBarn[]
 ) => ({
     utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
 });
 
 interface Props {
-    lagretVedtak?: InnvilgeVedtakForBarnetilsyn;
+    lagretVedtak?: InnvilgelseBarnetilsyn;
     settResultatType: (val: BehandlingResultat | undefined) => void;
     låsFraDatoFørsteRad: boolean;
     barnMedOppfylteVilkår: GrunnlagBarn[];
@@ -67,7 +68,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     // TODO: Prøve å slippe denne castingen
-    const lagretInnvilgetVedtak = lagretVedtak as InnvilgeVedtakForBarnetilsyn;
+    const lagretInnvilgetVedtak = lagretVedtak as InnvilgelseBarnetilsyn;
 
     const formState = useFormState<InnvilgeVedtakForm>(
         initFormState(lagretInnvilgetVedtak, barnMedOppfylteVilkår),
@@ -94,9 +95,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
         // eslint-disable-next-line
     }, [lagretInnvilgetVedtak]);
 
-    const lagreVedtak = (vedtaksRequest: InnvilgeVedtakForBarnetilsyn) => {
+    const lagreVedtak = (vedtaksRequest: InnvilgeBarnetilsynRequest) => {
         settLaster(true);
-        return request<null, InnvilgeVedtakForBarnetilsyn>(
+        return request<null, InnvilgeBarnetilsynRequest>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
             'POST',
             vedtaksRequest
@@ -119,7 +120,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
             const vedtaksRequest = lagVedtakRequest({
                 utgifter: utgifterState.value,
             });
-            request<BeregningsresultatTilsynBarn, InnvilgeVedtakForBarnetilsyn>(
+            request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 vedtaksRequest
