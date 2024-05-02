@@ -75,9 +75,9 @@ const Delmal: React.FC<Props> = ({
 }) => {
     return (
         <Background>
-            <ExpansionCard aria-label={'Delmal'}>
+            <ExpansionCard aria-label={'Delmal'} size="small">
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title>{delmal.visningsnavn}</ExpansionCard.Title>
+                    <ExpansionCard.Title size="small">{delmal.visningsnavn}</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <Container>
@@ -92,9 +92,11 @@ const Delmal: React.FC<Props> = ({
                             inkluderIBrev={inkluderIBrev}
                             settInkluderIBrev={settInkluderIBrev}
                         />
-                        <ExpansionCard aria-label={'Forhåndvis delmal'}>
+                        <ExpansionCard aria-label={'Forhåndvis delmal'} size="small">
                             <ExpansionCard.Header>
-                                <ExpansionCard.Title>Generert brevtekst</ExpansionCard.Title>
+                                <ExpansionCard.Title size="small">
+                                    Generert brevtekst
+                                </ExpansionCard.Title>
                             </ExpansionCard.Header>
                             <ExpansionCard.Content>
                                 <DelmalPreview>

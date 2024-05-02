@@ -24,6 +24,7 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
                     settBrevmal(e.target.value);
                 }}
                 value={brevmal || ''}
+                size="small"
             >
                 <option value="">Velg</option>
                 {brevmaler.map((mal) => (
