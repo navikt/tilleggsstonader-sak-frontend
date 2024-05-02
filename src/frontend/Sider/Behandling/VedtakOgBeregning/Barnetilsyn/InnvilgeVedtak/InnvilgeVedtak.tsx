@@ -14,7 +14,6 @@ export const InnvilgeVedtak: FC<Props> = ({ lagretVedtak }) => {
     const { vilkårsvurdering } = useVilkår();
 
     return (
-        // TODO: Revurderes fra og med
         <DataViewer response={{ vilkårsvurdering }}>
             {({ vilkårsvurdering }) => (
                 <InnvilgeBarnetilsyn

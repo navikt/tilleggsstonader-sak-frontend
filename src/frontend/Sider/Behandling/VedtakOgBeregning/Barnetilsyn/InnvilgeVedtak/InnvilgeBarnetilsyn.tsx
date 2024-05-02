@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -72,31 +72,15 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
 
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
 
-    const [laster, settLaster] = useState<boolean>(false);
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
 
-    // TODO: Finn ut hva denne gjør
-    useEffect(() => {
-        if (!lagretVedtak && laster) {
-            return;
-        }
-        // utgiftsperiodeState.setValue(initUtgiftsperioder(lagretInnvilgetVedtak));
-        formState.setErrors((prevState) => ({
-            ...prevState,
-            utgiftsperioder: [],
-        }));
-
-        // eslint-disable-next-line
-    }, [lagretVedtak]);
-
     const lagreVedtak = (vedtaksRequest: InnvilgeBarnetilsynRequest) => {
-        settLaster(true);
         return request<null, InnvilgeBarnetilsynRequest>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
             'POST',
             vedtaksRequest
-        ).finally(() => settLaster(false));
+        );
     };
 
     const validerOgLagreVedtak = (): Promise<RessursSuksess<unknown> | RessursFeilet> => {
