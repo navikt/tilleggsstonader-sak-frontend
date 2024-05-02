@@ -2,12 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
+import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
-import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
 import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
 const Container = styled.div`
@@ -20,28 +21,25 @@ const Container = styled.div`
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak();
 
-    const [resultatType, settResultatType] = useState<BehandlingResultat | undefined>();
+    const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
     useEffect(() => {
-        // TODO: Oppdater sjekk av resultat når flere implementeres
-        // Sjekker at utgifter eksisterer så resultat kun settes til innvilget om det finnes data
-        if (vedtak.status === RessursStatus.SUKSESS && vedtak.data.utgifter) {
-            settResultatType(BehandlingResultat.INNVILGET);
+        if (vedtak.status === RessursStatus.SUKSESS) {
+            settTypeVedtak(vedtak.data.type);
         }
     }, [vedtak]);
 
     return (
         <Container>
-            {/* TODO: Send inn korrekt resultat */}
             <Panel tittel="Vedtak">
                 <SelectVedtaksresultat
-                    resultatVedtak={resultatType}
-                    settResultatVedtak={settResultatType}
+                    resultatVedtak={typeVedtak}
+                    settResultatVedtak={settTypeVedtak}
                 />
             </Panel>
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => {
-                    switch (resultatVedtak) {
+                    switch (typeVedtak) {
                         case TypeVedtak.INNVILGET:
                             return (
                                 <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
