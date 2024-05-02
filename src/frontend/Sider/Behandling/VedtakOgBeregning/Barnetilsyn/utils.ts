@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
-import { InnvilgeVedtakForBarnetilsyn, Utgift } from '../../../../typer/vedtak';
+import { InnvilgeBarnetilsynRequest, Utgift } from '../../../../typer/vedtak';
 import { GrunnlagBarn, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
 
 export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
@@ -29,7 +29,7 @@ export const leggTilTomRadUnderIListe = <T>(liste: T[], nyRad: T, indeks: number
 
 export const lagVedtakRequest = (
     form: FormState<InnvilgeVedtakForm>
-): InnvilgeVedtakForBarnetilsyn => {
+): InnvilgeBarnetilsynRequest => {
     return {
         utgifter: form.utgifter,
     };
