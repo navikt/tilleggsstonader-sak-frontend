@@ -7,6 +7,7 @@ export interface SettPåVent {
 
 export interface StatusSettPåVent {
     årsaker: ÅrsakSettPåVent[];
+    datoSattPåVent: string;
     kommentar?: string;
     frist?: string;
     oppgaveVersjon: number;
