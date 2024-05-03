@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { BodyLong, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
 
 import { StatusSettPåVent, årsakTilTekst } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
-import { formaterIsoDato } from '../../../utils/dato';
+import { datoMedTekstligMåned, formaterIsoDato } from '../../../utils/dato';
 
-const Beskrivelse = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 const SettPåVentInformasjon: React.FC<{
     status: StatusSettPåVent;
     statusPåVentRedigering: boolean;
@@ -23,7 +18,10 @@ const SettPåVentInformasjon: React.FC<{
     const { behandling, hentBehandling } = useBehandling();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
+
+    const datoSattPåVent = datoMedTekstligMåned(new Date(status.datoSattPåVent));
 
     const taAvVent = () => {
         if (laster) return;
@@ -39,15 +37,21 @@ const SettPåVentInformasjon: React.FC<{
 
     return (
         <VStack gap={'4'}>
-            <Heading size={'medium'}>Sett behandling på vent {frist}</Heading>
-            <div>
-                <strong>Venter på: </strong>
-                {status.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ')}
-            </div>
-            <div>
-                <strong>Kommentar: </strong>
-                <Beskrivelse>{status.kommentar}</Beskrivelse>
-            </div>
+            <Heading size={'small'}>Satt på vent {datoSattPåVent}</Heading>
+            <VStack gap="2">
+                <div>
+                    <strong>Venter på: </strong>
+                    {status.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ')}
+                </div>
+                <div>
+                    <strong>Frist: </strong>
+                    {frist}
+                </div>
+                <div>
+                    <strong>Kommentar fra saksbehandler: </strong>
+                    {status.kommentar}
+                </div>
+            </VStack>
             {!statusPåVentRedigering && (
                 <HStack gap={'4'}>
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
