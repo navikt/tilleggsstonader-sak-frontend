@@ -22,7 +22,7 @@ export const Informasjonsrad: React.FC<{
     verdi?: string | ReactNode;
 }> = ({ kilde, verdi = 'Ingen data registrert' }) => {
     return (
-        <HStack gap="2">
+        <HStack gap="2" wrap={false}>
             {mapIkon(kilde)}
             <BodyShort size="small">{verdi}</BodyShort>
         </HStack>
