@@ -20,24 +20,22 @@ const Aksjonsknapper: React.FC<{
 }) => {
     if (redigerer) {
         return (
-            <HStack justify="space-between">
-                <HStack gap="2">
-                    <Button size="small" type="submit" disabled={laster}>
-                        Lagre
-                    </Button>
-                    <Button
-                        type="button"
-                        disabled={laster}
-                        onClick={avbrytRedigering}
-                        size="small"
-                        variant="secondary"
-                    >
-                        Avbryt
-                    </Button>
-                </HStack>
+            <HStack gap="2" align="center">
+                <Button size="small" type="submit" disabled={laster}>
+                    Lagre stønadsperioder
+                </Button>
+                <Button
+                    type="button"
+                    disabled={laster}
+                    onClick={avbrytRedigering}
+                    size="small"
+                    variant="secondary"
+                >
+                    Avbryt
+                </Button>
                 <Button
                     icon={<PlusCircleIcon />}
-                    size="small"
+                    size="xsmall"
                     onClick={(e) => {
                         e.preventDefault();
                         initierFormMedTomRad();

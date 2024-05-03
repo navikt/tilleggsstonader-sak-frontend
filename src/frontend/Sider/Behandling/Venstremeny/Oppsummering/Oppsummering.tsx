@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import BarnDetaljer from './BarnDetaljer';
 import Vedlegg from './Vedlegg';
@@ -53,6 +54,7 @@ const Oppsummering: React.FC = () => {
 
                     <InfoSeksjon label="Aktivitet">
                         {/* TODO: Legg inn info om aktiviteter*/}
+                        <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
                     </InfoSeksjon>
 
                     {behandlingFakta.barn.map((barn) => (

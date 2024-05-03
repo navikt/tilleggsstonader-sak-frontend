@@ -9,5 +9,15 @@ export const VariabelSerializer =
             throw Error('Teknisk feil. Mangler variabel i block');
         }
 
+        if (value.erHtml) {
+            return (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: variabler[value._id] || 'Mangler html-variabel.',
+                    }}
+                ></div>
+            );
+        }
+
         return <span>{variabler[value._id] || `[${value.visningsnavn}]`}</span>;
     };

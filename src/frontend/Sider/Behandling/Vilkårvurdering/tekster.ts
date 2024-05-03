@@ -18,9 +18,11 @@ export const svarIdTilTekst: Record<string, string> = {
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredsstillende dokumentert?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
-    HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?',
+    HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
+
+    HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?', // TODO: Fjern meg etter at https://github.com/navikt/tilleggsstonader-sak/pull/284 er merget
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

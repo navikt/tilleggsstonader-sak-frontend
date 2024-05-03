@@ -1,6 +1,7 @@
 export const harIkkeVerdi = (str: string | undefined | null): boolean => !harVerdi(str);
 
-export const harVerdi = (str: string | undefined | null): boolean => !!str && str.trim() !== '';
+export const harVerdi = (str: string | undefined | null): str is string =>
+    !!str && str.trim() !== '';
 
 export const fjernSpaces = (str: string) => str.replace(/ /g, '');
 

@@ -48,13 +48,20 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const sendBrev = () => {
-        if (fil.status === RessursStatus.SUKSESS && brevmal) {
+        if (
+            fil.status === RessursStatus.SUKSESS &&
+            brevmaler.status === RessursStatus.SUKSESS &&
+            brevmal
+        ) {
+            const brevTittel = brevmaler.data.find((bm) => bm._id === brevmal)
+                ?.visningsnavn as string;
+
             request<null, { pdf: string; tittel: string }>(
                 `/api/sak/frittstaende-brev/send/${fagsakId}`,
                 'POST',
                 {
                     pdf: fil.data,
-                    tittel: brevmal,
+                    tittel: brevTittel,
                 }
             ).then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {

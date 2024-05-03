@@ -19,6 +19,7 @@ interface Props {
     variabler: Partial<Record<string, Record<string, string>>>;
     fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
     inkluderBeslutterSignaturPlaceholder?: boolean;
+    htmlVariabler: Record<string, string>;
 }
 
 const saksbehandlerSignaturPlaceholder = 'SAKSBEHANDLER_SIGNATUR';
@@ -34,6 +35,7 @@ const HtmlBrev: React.FC<Props> = ({
     mal,
     inkluderteDelmaler,
     inkluderBeslutterSignaturPlaceholder = true,
+    htmlVariabler,
 }) => (
     <html lang={'nb'}>
         <head>
@@ -75,7 +77,7 @@ const HtmlBrev: React.FC<Props> = ({
                                 value={delmal.blocks}
                                 components={CustomComponets(
                                     valgfelt[delmal._id] || {},
-                                    variabler[delmal._id] || {},
+                                    { ...variabler[delmal._id], ...htmlVariabler },
                                     fritekst[delmal._id] || {}
                                 )}
                             />

@@ -5,16 +5,19 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
+import { lagHtmlFelt } from './lagHtmlFelt';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Ressurs } from '../../../typer/ressurs';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
 
 type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
+    beregningsresultat?: BeregningsresultatTilsynBarn;
 } & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
 
 const oppdaterStateForId =
@@ -40,7 +43,14 @@ const FlexColumn = styled.div`
     gap: 1rem;
 `;
 
-const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsakId, settFil }) => {
+const Brevmeny: React.FC<Props> = ({
+    mal,
+    behandlingId,
+    mellomlagretBrev,
+    fagsakId,
+    settFil,
+    beregningsresultat,
+}) => {
     const { personopplysninger } = usePersonopplysninger();
     const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
         parseMellomlagretBrev(mellomlagretBrev);
@@ -48,6 +58,7 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(initValgfelt || {});
+
     const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
         initVariabler || {}
     );
@@ -108,6 +119,7 @@ const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsak
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
+                htmlVariabler: lagHtmlFelt(beregningsresultat),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);

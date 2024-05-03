@@ -11,9 +11,11 @@ import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
+import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -39,6 +41,8 @@ const Brev: React.FC = () => {
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
+    const { vedtak } = useVedtak();
+
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
             settBrevmal(mellomlagretBrev.data.brevmal);
@@ -57,14 +61,19 @@ const Brev: React.FC = () => {
                                     brevmal={brevmal}
                                     settBrevmal={settBrevmal}
                                 />
-                                <DataViewer response={{ malStruktur }}>
-                                    {({ malStruktur }) => (
+                                <DataViewer response={{ malStruktur, vedtak }}>
+                                    {({ malStruktur, vedtak }) => (
                                         <>
                                             <Brevmeny
                                                 mal={malStruktur}
                                                 behandlingId={behandling.id}
                                                 mellomlagretBrev={mellomlagretBrev}
                                                 settFil={settFil}
+                                                beregningsresultat={
+                                                    erVedtakInnvilgelse(vedtak)
+                                                        ? vedtak.beregningsresultat
+                                                        : undefined
+                                                }
                                             />
                                             <SendTilBeslutterKnapp />
                                         </>
