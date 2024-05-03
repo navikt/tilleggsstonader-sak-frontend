@@ -34,13 +34,11 @@ const DokumentWrapper = styled.div`
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    margin: 0.5rem 0;
-    min-width: 600px;
 
     align-self: flex-start;
     align-items: center;
     position: sticky;
-    top: 100px;
+    top: 145px;
     left: 0;
 `;
 

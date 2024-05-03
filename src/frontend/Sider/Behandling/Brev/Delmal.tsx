@@ -14,7 +14,7 @@ import { VariabelSerializer } from './VariabelSerializer';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
-    width: 40rem;
+    width: 100%;
 `;
 
 const Container = styled.div`

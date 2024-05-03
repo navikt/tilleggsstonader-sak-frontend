@@ -7,7 +7,7 @@ import { Select } from '@navikt/ds-react';
 import { Brevmal } from './typer';
 
 const Container = styled.div`
-    max-width: 55rem;
+    max-width: fit-content;
 `;
 
 interface Props {

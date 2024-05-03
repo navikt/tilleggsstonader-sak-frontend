@@ -9,13 +9,11 @@ import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from '.
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
-import PdfVisning from '../../../komponenter/PdfVisning';
 import { Ressurs } from '../../../typer/ressurs';
 
 type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
-    fil: Ressurs<string>;
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
 } & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
 
@@ -36,27 +34,13 @@ const oppdaterStateForId =
         }));
     };
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
-`;
-
 const FlexColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    justify-content: flex-start;
 `;
 
-const Brevmeny: React.FC<Props> = ({
-    mal,
-    behandlingId,
-    mellomlagretBrev,
-    fagsakId,
-    fil,
-    settFil,
-}) => {
+const Brevmeny: React.FC<Props> = ({ mal, behandlingId, mellomlagretBrev, fagsakId, settFil }) => {
     const { personopplysninger } = usePersonopplysninger();
     const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
         parseMellomlagretBrev(mellomlagretBrev);
@@ -141,30 +125,30 @@ const Brevmeny: React.FC<Props> = ({
     ]);
 
     return (
-        <Container>
-            <FlexColumn>
-                {mal.delmaler.map((delmal) => (
-                    <Delmal
-                        delmal={delmal}
-                        key={delmal._id}
-                        valgfelt={valgfelt[delmal._id] || {}}
-                        settValgfelt={oppdaterStateForId(delmal._id, valgfelt, settValgfelt)}
-                        variabler={variabler[delmal._id] || {}}
-                        settVariabler={oppdaterStateForId(delmal._id, variabler, settVariabler)}
-                        fritekst={fritekst[delmal._id] || {}}
-                        settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
-                        inkluderIBrev={inkluderteDelmaler[delmal._id]}
-                        settInkluderIBrev={(inkluderIBrev) => {
-                            settInkluderteDelmaler((prevState) => ({
-                                ...prevState,
-                                [delmal._id]: inkluderIBrev,
-                            }));
-                        }}
-                    />
-                ))}
-            </FlexColumn>
-            <PdfVisning pdfFilInnhold={fil} />
-        </Container>
+        <FlexColumn>
+            {mal.delmaler.map(
+                (delmal) =>
+                    delmal.visningsdetaljer.skalVisesIBrevmeny && (
+                        <Delmal
+                            delmal={delmal}
+                            key={delmal._id}
+                            valgfelt={valgfelt[delmal._id] || {}}
+                            settValgfelt={oppdaterStateForId(delmal._id, valgfelt, settValgfelt)}
+                            variabler={variabler[delmal._id] || {}}
+                            settVariabler={oppdaterStateForId(delmal._id, variabler, settVariabler)}
+                            fritekst={fritekst[delmal._id] || {}}
+                            settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
+                            inkluderIBrev={inkluderteDelmaler[delmal._id]}
+                            settInkluderIBrev={(inkluderIBrev) => {
+                                settInkluderteDelmaler((prevState) => ({
+                                    ...prevState,
+                                    [delmal._id]: inkluderIBrev,
+                                }));
+                            }}
+                        />
+                    )
+            )}
+        </FlexColumn>
     );
 };
 
