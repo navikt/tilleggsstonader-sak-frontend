@@ -7,7 +7,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
-import { datoMedTekstligMåned, formaterIsoDato } from '../../../utils/dato';
+import { formaterIsoDato, tilTekstligDato } from '../../../utils/dato';
 
 const SettPåVentInformasjon: React.FC<{
     status: StatusSettPåVent;
@@ -21,7 +21,7 @@ const SettPåVentInformasjon: React.FC<{
 
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
 
-    const datoSattPåVent = datoMedTekstligMåned(new Date(status.datoSattPåVent));
+    const datoSattPåVent = tilTekstligDato(status.datoSattPåVent);
 
     const taAvVent = () => {
         if (laster) return;

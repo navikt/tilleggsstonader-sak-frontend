@@ -74,22 +74,8 @@ export const tilÅrMåned = (date: Date): string => {
     return formatISO(date).substring(0, 7);
 };
 
-export const datoMedTekstligMåned = (dato: Date): string => {
-    const måneder = [
-        'januar',
-        'februar',
-        'mars',
-        'april',
-        'mai',
-        'juni',
-        'juli',
-        'august',
-        'september',
-        'oktober',
-        'november',
-        'desember',
-    ];
-    return dato.getDay() + '. ' + måneder[dato.getMonth()] + ' ' + dato.getFullYear();
+export const tilTekstligDato = (dato: string) => {
+    return format(tilDato(dato), 'd. MMMM yyyy', { locale: nb });
 };
 
 const erGyldigFormat = (verdi: string): boolean => {
