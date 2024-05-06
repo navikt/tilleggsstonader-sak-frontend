@@ -7,7 +7,7 @@ import { Select } from '@navikt/ds-react';
 import { Brevmal } from './typer';
 
 const Container = styled.div`
-    max-width: 55rem;
+    max-width: fit-content;
 `;
 
 interface Props {
@@ -24,6 +24,7 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
                     settBrevmal(e.target.value);
                 }}
                 value={brevmal || ''}
+                size="small"
             >
                 <option value="">Velg</option>
                 {brevmaler.map((mal) => (
