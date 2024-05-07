@@ -1,4 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
@@ -17,7 +18,42 @@ export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
-export const resetDelvilkår = (
+export const resettAktivitet = (
+    nyType: AktivitetType,
+    eksisterendeAktivitetForm: EndreAktivitetForm
+): EndreAktivitetForm => ({
+    ...eksisterendeAktivitetForm,
+    type: nyType,
+    fom: resetFom(nyType, eksisterendeAktivitetForm),
+    tom: resetTom(nyType, eksisterendeAktivitetForm),
+    delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
+});
+
+const resetFom = (type: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
+    if (type === AktivitetType.INGEN_AKTIVITET) {
+        return treMånederTilbake();
+    }
+
+    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.fom);
+};
+
+const resetTom = (type: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
+    if (type === AktivitetType.INGEN_AKTIVITET) {
+        return dagensDato();
+    }
+
+    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.tom);
+};
+
+const resetEllerBeholdDato = (forrigeType: AktivitetType | '', forrigeDato: string) => {
+    if (forrigeType === AktivitetType.INGEN_AKTIVITET) {
+        return '';
+    }
+
+    return forrigeDato;
+};
+
+const resetDelvilkår = (
     type: AktivitetType,
     delvilkår: DelvilkårAktivitet
 ): DelvilkårAktivitet => ({

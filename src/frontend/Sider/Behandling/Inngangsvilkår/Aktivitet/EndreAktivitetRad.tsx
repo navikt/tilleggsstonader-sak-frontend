@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { nyAktivitet, resetDelvilkår } from './utils';
+import { nyAktivitet, resettAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -104,11 +104,7 @@ const EndreAktivitetRad: React.FC<{
     };
 
     const oppdaterType = (type: AktivitetType) => {
-        settAktivitetForm((prevState) => ({
-            ...prevState,
-            type: type,
-            delvilkår: resetDelvilkår(type, prevState.delvilkår),
-        }));
+        settAktivitetForm((prevState) => resettAktivitet(type, prevState));
     };
 
     return (

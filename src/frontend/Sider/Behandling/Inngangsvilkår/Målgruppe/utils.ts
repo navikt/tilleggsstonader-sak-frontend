@@ -1,4 +1,5 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { Aktivitet } from '../typer/aktivitet';
 import {
@@ -38,10 +39,42 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
 
-const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
-    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
+export const resettMålgruppe = (
+    nyType: MålgruppeType,
+    eksisterendeForm: EndreMålgruppeForm
+): EndreMålgruppeForm => ({
+    ...eksisterendeForm,
+    type: nyType,
+    fom: resetFom(nyType, eksisterendeForm),
+    tom: resetTom(nyType, eksisterendeForm),
+    delvilkår: resetDelvilkår(nyType, eksisterendeForm.delvilkår),
+});
 
-export const resetDelvilkår = (
+const resetFom = (type: MålgruppeType, eksisterendeForm: EndreMålgruppeForm) => {
+    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        return treMånederTilbake();
+    }
+
+    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.fom);
+};
+
+const resetTom = (type: MålgruppeType, eksisterendeForm: EndreMålgruppeForm) => {
+    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        return dagensDato();
+    }
+
+    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.tom);
+};
+
+const resetEllerBeholdDato = (forrigeType: MålgruppeType | '', forrigeDato: string) => {
+    if (forrigeType === MålgruppeType.INGEN_MÅLGRUPPE) {
+        return '';
+    }
+
+    return forrigeDato;
+};
+
+const resetDelvilkår = (
     type: MålgruppeType,
     delvilkår: DelvilkårMålgruppe
 ): DelvilkårMålgruppe => ({
@@ -53,6 +86,9 @@ export const resetDelvilkår = (
         ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(delvilkår)
         : undefined,
 });
+
+const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
+    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
 
 export const finnBegrunnelseGrunnerMålgruppe = (
     type: MålgruppeType | '',

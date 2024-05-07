@@ -1,5 +1,6 @@
 import {
     addDays,
+    addMonths,
     format,
     formatISO,
     isAfter,
@@ -51,6 +52,7 @@ export const dagensDatoFormatert = (): string => {
         year: 'numeric',
     });
 };
+
 export const tilDato = (dato: string | Date): Date =>
     typeof dato === 'string' ? parseISO(dato) : dato;
 
@@ -69,6 +71,9 @@ export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
 };
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
+
+export const nullableTilLocaleDateString = (dato: Date | undefined) =>
+    dato ? formatISO(dato, { representation: 'date' }) : dato;
 
 export const tilÅrMåned = (date: Date): string => {
     return formatISO(date).substring(0, 7);
@@ -96,3 +101,7 @@ export const plusDager = (dato: string | Date, antallDager: number): string =>
 
 export const formaterÅrMåned = (dato: string): string =>
     format(parseISO(dato), 'MMM yyyy', { locale: nb });
+
+export const dagensDato = (): string => tilLocaleDateString(new Date());
+
+export const treMånederTilbake = (): string => tilLocaleDateString(addMonths(new Date(), -3));
