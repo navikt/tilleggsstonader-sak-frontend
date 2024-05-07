@@ -104,6 +104,10 @@ export const finnBegrunnelseGrunnerMålgruppe = (
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.MEDLEMSKAP);
     }
 
+    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
+    }
+
     if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
     }

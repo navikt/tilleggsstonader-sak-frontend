@@ -61,11 +61,18 @@ const resetDelvilkår = (
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
 });
 
-export const finnBegrunnelseGrunnerAktivitet = (delvilkår: DelvilkårAktivitet) => {
+export const finnBegrunnelseGrunnerAktivitet = (
+    type: AktivitetType | '',
+    delvilkår: DelvilkårAktivitet
+) => {
     const delvilkårSomMåBegrunnes = [];
 
     if (delvilkår.lønnet?.svar === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+    }
+
+    if (type === AktivitetType.INGEN_AKTIVITET) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
     }
 
     return delvilkårSomMåBegrunnes;
