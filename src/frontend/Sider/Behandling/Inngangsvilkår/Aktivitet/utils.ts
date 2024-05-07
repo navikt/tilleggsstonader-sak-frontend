@@ -1,5 +1,6 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
 import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
+import { harTallverdi } from '../../../../utils/tall';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
@@ -11,7 +12,7 @@ export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
         type: '',
         fom: '',
         tom: '',
-        aktivitetsdager: 5,
+        aktivitetsdager: undefined,
         delvilkår: { '@type': 'AKTIVITET' },
     };
 };
@@ -26,6 +27,7 @@ export const resettAktivitet = (
     type: nyType,
     fom: resetFom(nyType, eksisterendeAktivitetForm),
     tom: resetTom(nyType, eksisterendeAktivitetForm),
+    aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
     delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
 });
 
@@ -51,6 +53,16 @@ const resetEllerBeholdDato = (forrigeType: AktivitetType | '', forrigeDato: stri
     }
 
     return forrigeDato;
+};
+
+const resetAktivitetsdager = (nyType: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
+    if (nyType === AktivitetType.INGEN_AKTIVITET) {
+        return undefined;
+    } else if (!harTallverdi(eksisterendeForm.aktivitetsdager)) {
+        return 5;
+    }
+
+    return eksisterendeForm.aktivitetsdager;
 };
 
 const resetDelvilkår = (

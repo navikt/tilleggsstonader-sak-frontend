@@ -119,24 +119,26 @@ const EndreAktivitetRad: React.FC<{
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
             ekstraCeller={
-                <TextField
-                    erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                    label="Aktivitetsdager"
-                    value={
-                        harTallverdi(aktivitetForm.aktivitetsdager)
-                            ? aktivitetForm.aktivitetsdager
-                            : ''
-                    }
-                    onChange={(event) =>
-                        settAktivitetForm((prevState) => ({
-                            ...prevState,
-                            aktivitetsdager: tilHeltall(event.target.value),
-                        }))
-                    }
-                    size="small"
-                    error={vilkårsperiodeFeil?.aktivitetsdager}
-                    autoComplete="off"
-                />
+                aktivitetForm.type !== AktivitetType.INGEN_AKTIVITET && (
+                    <TextField
+                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                        label="Aktivitetsdager"
+                        value={
+                            harTallverdi(aktivitetForm.aktivitetsdager)
+                                ? aktivitetForm.aktivitetsdager
+                                : ''
+                        }
+                        onChange={(event) =>
+                            settAktivitetForm((prevState) => ({
+                                ...prevState,
+                                aktivitetsdager: tilHeltall(event.target.value),
+                            }))
+                        }
+                        size="small"
+                        error={vilkårsperiodeFeil?.aktivitetsdager}
+                        autoComplete="off"
+                    />
+                )
             }
         >
             <AktivitetVilkår
