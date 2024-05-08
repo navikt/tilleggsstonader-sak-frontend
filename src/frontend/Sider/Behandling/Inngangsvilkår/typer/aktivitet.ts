@@ -25,6 +25,12 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     REELL_ARBEIDSSØKER: 'Reell arbeidssøker',
 };
 
+export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
+    if (type === '') return type;
+
+    return AktivitetTypeTilTekst[type];
+};
+
 export const AktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
     ([value, label]) => ({
         value: value,

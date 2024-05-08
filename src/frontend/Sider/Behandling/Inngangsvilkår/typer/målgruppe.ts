@@ -29,6 +29,12 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
 };
 
+export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
+    if (type === '') return type;
+
+    return MålgruppeTypeTilTekst[type];
+};
+
 export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
     ([value, label]) => ({
         value: value,
