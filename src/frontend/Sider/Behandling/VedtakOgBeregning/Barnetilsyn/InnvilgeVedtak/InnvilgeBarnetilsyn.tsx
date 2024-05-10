@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -66,7 +66,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { stønadsperioder, hentStønadsperioder } = useStønadsperioder();
+    const { stønadsperioder } = useStønadsperioder(behandling.id);
 
     const formState = useFormState<InnvilgeVedtakForm>(
         initFormState(lagretVedtak, barnMedOppfylteVilkår),
@@ -77,11 +77,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
-
-    useEffect(() => {
-        hentStønadsperioder(behandling.id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling.id]);
 
     const lagreVedtak = (vedtaksRequest: InnvilgeBarnetilsynRequest) => {
         return request<null, InnvilgeBarnetilsynRequest>(

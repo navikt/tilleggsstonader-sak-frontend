@@ -37,12 +37,10 @@ const VilkårContainer = styled.div`
 const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
 
-    const { stønadsperioder, hentStønadsperioder } = useStønadsperioder();
-    const { vilkårperioder, hentVilkårperioder } = useVilkårperioder();
+    const { stønadsperioder } = useStønadsperioder(behandling.id);
+    const { vilkårperioder } = useVilkårperioder(behandling.id);
 
     useEffect(() => {
-        hentStønadsperioder(behandling.id);
-        hentVilkårperioder(behandling.id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling.id]);
 
