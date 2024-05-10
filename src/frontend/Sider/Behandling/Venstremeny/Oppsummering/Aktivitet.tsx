@@ -21,9 +21,9 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
                     verdi={`Annen aktivitet: ${annenAktivitet}`}
                 />
             )}
-            {erLønnetAktivitet && erLønnetAktivitet === 'JA' ? (
+            {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
                 <Informasjonsrad kilde={Informasjonskilde.SØKNAD} verdi={`Lønnet aktivitet`} />
-            ) : null}
+            )}
         </>
     );
 };
