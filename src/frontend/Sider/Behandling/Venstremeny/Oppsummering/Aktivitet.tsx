@@ -10,10 +10,15 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
 
     return (
         <>
-            {aktiviteter?.map((aktivitet) =>
-                aktivitet !== 'Annet' && (
-                    <Informasjonsrad kilde={Informasjonskilde.SØKNAD} verdi={aktivitet} />
-                )
+            {aktiviteter?.map(
+                (aktivitet) =>
+                    aktivitet !== 'Annet' && (
+                        <Informasjonsrad
+                            key={aktivitet}
+                            kilde={Informasjonskilde.SØKNAD}
+                            verdi={aktivitet}
+                        />
+                    )
             )}
             {annenAktivitet && (
                 <Informasjonsrad
