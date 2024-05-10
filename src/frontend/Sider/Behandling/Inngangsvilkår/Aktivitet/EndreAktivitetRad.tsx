@@ -6,6 +6,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -47,6 +48,10 @@ const EndreAktivitetRad: React.FC<{
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
+        useTriggRerendringAvDateInput();
+    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
+        useTriggRerendringAvDateInput();
 
     const [aktivitetForm, settAktivitetForm] = useState<EndreAktivitetForm>(
         initaliserForm(behandling.id, aktivitet)
@@ -105,6 +110,8 @@ const EndreAktivitetRad: React.FC<{
 
     const oppdaterType = (type: AktivitetType) => {
         settAktivitetForm((prevState) => resettAktivitet(type, prevState));
+        oppdaterFomDatoKey();
+        oppdaterTomDatoKey();
     };
 
     return (
@@ -118,6 +125,8 @@ const EndreAktivitetRad: React.FC<{
             typeOptions={AktivitetTypeOptions}
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
+            fomKeyDato={fomKeyDato}
+            tomKeyDato={tomKeyDato}
             ekstraCeller={
                 aktivitetForm.type !== AktivitetType.INGEN_AKTIVITET && (
                     <TextField

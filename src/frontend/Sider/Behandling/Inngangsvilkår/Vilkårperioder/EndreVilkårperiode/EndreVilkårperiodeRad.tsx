@@ -42,6 +42,8 @@ interface Props {
     ekstraCeller?: React.ReactNode;
     feilmelding?: string;
     children: React.ReactNode;
+    fomKeyDato: string | undefined;
+    tomKeyDato: string | undefined;
 }
 
 // TODO: Endre navn til EndreVilkårperiodeKort eller EndreVilkårperiode
@@ -57,6 +59,8 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     ekstraCeller,
     feilmelding,
     children,
+    fomKeyDato,
+    tomKeyDato,
 }) => {
     const [visSlettModal, settVisSlettModal] = useState(false);
 
@@ -76,6 +80,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 />
 
                 <DateInputMedLeservisning
+                    key={fomKeyDato}
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Fra'}
                     value={form?.fom}
@@ -85,6 +90,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 />
 
                 <DateInputMedLeservisning
+                    key={tomKeyDato}
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
                     label={'Til'}
                     value={form?.tom}

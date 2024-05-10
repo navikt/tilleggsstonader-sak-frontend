@@ -72,9 +72,6 @@ export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
-export const nullableTilLocaleDateString = (dato: Date | undefined) =>
-    dato ? formatISO(dato, { representation: 'date' }) : dato;
-
 export const tilÅrMåned = (date: Date): string => {
     return formatISO(date).substring(0, 7);
 };
