@@ -23,6 +23,7 @@ const DateInput: React.FC<DateInputProps> = ({ feil, hideLabel, label, onChange,
         onDateChange: (val) => onChange(val ? tilLocaleDateString(val) : val),
     });
 
+    // Oppdater valgt dato i datepicker om value endres utenfra
     useEffect(() => {
         if (nullableTilLocaleDateString(selectedDay) !== value) {
             setSelected(nullableTilDato(value));
