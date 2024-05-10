@@ -1,5 +1,6 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
 import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
+import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
@@ -22,37 +23,30 @@ export const skalVurdereLønnet = (type: AktivitetType | '') => type === Aktivit
 export const resettAktivitet = (
     nyType: AktivitetType,
     eksisterendeAktivitetForm: EndreAktivitetForm
-): EndreAktivitetForm => ({
-    ...eksisterendeAktivitetForm,
-    type: nyType,
-    fom: resetFom(nyType, eksisterendeAktivitetForm),
-    tom: resetTom(nyType, eksisterendeAktivitetForm),
-    aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
-    delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
-});
+): EndreAktivitetForm => {
+    const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm);
 
-const resetFom = (type: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
-    if (type === AktivitetType.INGEN_AKTIVITET) {
-        return treMånederTilbake();
-    }
-
-    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.fom);
+    return {
+        ...eksisterendeAktivitetForm,
+        type: nyType,
+        fom: fom,
+        tom: tom,
+        aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
+        delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
+    };
 };
 
-const resetTom = (type: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
-    if (type === AktivitetType.INGEN_AKTIVITET) {
-        return dagensDato();
+const resetPeriode = (nyType: string, eksisterendeForm: EndreAktivitetForm): Periode => {
+    if (nyType === AktivitetType.INGEN_AKTIVITET) {
+        return { fom: treMånederTilbake(), tom: dagensDato() };
     }
 
-    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.tom);
-};
-
-const resetEllerBeholdDato = (forrigeType: AktivitetType | '', forrigeDato: string) => {
-    if (forrigeType === AktivitetType.INGEN_AKTIVITET) {
-        return '';
+    if (eksisterendeForm.type === AktivitetType.INGEN_AKTIVITET) {
+        // Resetter datoer om de forrige var satt automatisk
+        return { fom: '', tom: '' };
     }
 
-    return forrigeDato;
+    return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
 const resetAktivitetsdager = (nyType: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {

@@ -1,5 +1,6 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
+import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { Aktivitet } from '../typer/aktivitet';
 import {
@@ -42,36 +43,28 @@ export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
 export const resettMålgruppe = (
     nyType: MålgruppeType,
     eksisterendeForm: EndreMålgruppeForm
-): EndreMålgruppeForm => ({
-    ...eksisterendeForm,
-    type: nyType,
-    fom: resetFom(nyType, eksisterendeForm),
-    tom: resetTom(nyType, eksisterendeForm),
-    delvilkår: resetDelvilkår(nyType, eksisterendeForm.delvilkår),
-});
-
-const resetFom = (type: MålgruppeType, eksisterendeForm: EndreMålgruppeForm) => {
-    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
-        return treMånederTilbake();
-    }
-
-    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.fom);
+): EndreMålgruppeForm => {
+    const { fom, tom } = resetPeriode(nyType, eksisterendeForm);
+    return {
+        ...eksisterendeForm,
+        type: nyType,
+        fom: fom,
+        tom: tom,
+        delvilkår: resetDelvilkår(nyType, eksisterendeForm.delvilkår),
+    };
 };
 
-const resetTom = (type: MålgruppeType, eksisterendeForm: EndreMålgruppeForm) => {
-    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
-        return dagensDato();
+const resetPeriode = (nyType: string, eksisterendeForm: EndreMålgruppeForm): Periode => {
+    if (nyType === MålgruppeType.INGEN_MÅLGRUPPE) {
+        return { fom: treMånederTilbake(), tom: dagensDato() };
     }
 
-    return resetEllerBeholdDato(eksisterendeForm.type, eksisterendeForm.tom);
-};
-
-const resetEllerBeholdDato = (forrigeType: MålgruppeType | '', forrigeDato: string) => {
-    if (forrigeType === MålgruppeType.INGEN_MÅLGRUPPE) {
-        return '';
+    if (eksisterendeForm.type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        // Resetter datoer om de forrige var satt automatisk
+        return { fom: '', tom: '' };
     }
 
-    return forrigeDato;
+    return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
 const resetDelvilkår = (
