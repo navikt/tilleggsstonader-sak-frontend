@@ -1,4 +1,6 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
+import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { Aktivitet } from '../typer/aktivitet';
 import {
@@ -38,10 +40,34 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
 
-const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
-    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
+export const resettMålgruppe = (
+    nyType: MålgruppeType,
+    eksisterendeForm: EndreMålgruppeForm
+): EndreMålgruppeForm => {
+    const { fom, tom } = resetPeriode(nyType, eksisterendeForm);
+    return {
+        ...eksisterendeForm,
+        type: nyType,
+        fom: fom,
+        tom: tom,
+        delvilkår: resetDelvilkår(nyType, eksisterendeForm.delvilkår),
+    };
+};
 
-export const resetDelvilkår = (
+const resetPeriode = (nyType: string, eksisterendeForm: EndreMålgruppeForm): Periode => {
+    if (nyType === MålgruppeType.INGEN_MÅLGRUPPE) {
+        return { fom: treMånederTilbake(), tom: dagensDato() };
+    }
+
+    if (eksisterendeForm.type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        // Resetter datoer om de forrige var satt automatisk
+        return { fom: '', tom: '' };
+    }
+
+    return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
+};
+
+const resetDelvilkår = (
     type: MålgruppeType,
     delvilkår: DelvilkårMålgruppe
 ): DelvilkårMålgruppe => ({
@@ -53,6 +79,9 @@ export const resetDelvilkår = (
         ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(delvilkår)
         : undefined,
 });
+
+const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
+    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
 
 export const finnBegrunnelseGrunnerMålgruppe = (
     type: MålgruppeType | '',
@@ -66,6 +95,10 @@ export const finnBegrunnelseGrunnerMålgruppe = (
 
     if (type !== '' && målgrupperHvorMedlemskapMåVurderes.includes(type)) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.MEDLEMSKAP);
+    }
+
+    if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
     }
 
     if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe, resetDelvilkår } from './utils';
+import { nyMålgruppe, resettMålgruppe } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
@@ -43,6 +44,10 @@ const EndreMålgruppeRad: React.FC<{
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
+        useTriggRerendringAvDateInput();
+    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
+        useTriggRerendringAvDateInput();
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
         initaliserForm(behandling.id, målgruppe)
@@ -99,11 +104,9 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const oppdaterType = (type: MålgruppeType) => {
-        settMålgruppeForm((prevState) => ({
-            ...prevState,
-            type: type,
-            delvilkår: resetDelvilkår(type, prevState.delvilkår),
-        }));
+        settMålgruppeForm((prevState) => resettMålgruppe(type, prevState));
+        oppdaterFomDatoKey();
+        oppdaterTomDatoKey();
     };
 
     return (
@@ -117,6 +120,8 @@ const EndreMålgruppeRad: React.FC<{
             typeOptions={MålgruppeTypeOptions}
             oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
             feilmelding={feilmelding}
+            fomKeyDato={fomKeyDato}
+            tomKeyDato={tomKeyDato}
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}

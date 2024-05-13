@@ -17,12 +17,14 @@ export enum AktivitetType {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',
     REELL_ARBEIDSSØKER = 'REELL_ARBEIDSSØKER',
+    INGEN_AKTIVITET = 'INGEN_AKTIVITET',
 }
 
 export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     TILTAK: 'Tiltak',
     UTDANNING: 'Utdanning',
     REELL_ARBEIDSSØKER: 'Reell arbeidssøker',
+    INGEN_AKTIVITET: 'Ingen aktivitet',
 };
 
 export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {

@@ -19,6 +19,7 @@ export enum MålgruppeType {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
+    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
@@ -27,6 +28,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
     OVERGANGSSTØNAD: 'Overgangsstønad',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
+    INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
 export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
@@ -49,6 +51,7 @@ export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
+    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
 export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
@@ -57,4 +60,5 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
     OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
     NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
 };

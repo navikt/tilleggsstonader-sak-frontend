@@ -10,20 +10,24 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
 
     return (
         <>
-            {aktiviteter?.map((akt) => (
-                <Informasjonsrad kilde={Informasjonskilde.SØKNAD} verdi={akt} />
-            ))}
+            {aktiviteter?.map(
+                (aktivitet) =>
+                    aktivitet !== 'Annet' && (
+                        <Informasjonsrad
+                            key={aktivitet}
+                            kilde={Informasjonskilde.SØKNAD}
+                            verdi={aktivitet}
+                        />
+                    )
+            )}
             {annenAktivitet && (
                 <Informasjonsrad
                     kilde={Informasjonskilde.SØKNAD}
                     verdi={`Annen aktivitet: ${annenAktivitet}`}
                 />
             )}
-            {erLønnetAktivitet && (
-                <Informasjonsrad
-                    kilde={Informasjonskilde.SØKNAD}
-                    verdi={`Lønnet aktivitet: ${erLønnetAktivitet}`}
-                />
+            {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
+                <Informasjonsrad kilde={Informasjonskilde.SØKNAD} verdi={`Lønnet aktivitet`} />
             )}
         </>
     );
