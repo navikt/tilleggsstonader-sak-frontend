@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { styled } from 'styled-components';
 
@@ -39,10 +39,6 @@ const Inngangsvilkår = () => {
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
     const { vilkårperioder } = useVilkårperioder(behandling.id);
-
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling.id]);
 
     return (
         <Container>
