@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { nyAktivitet, resetDelvilkår } from './utils';
+import { nyAktivitet, resettAktivitet } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -47,6 +48,10 @@ const EndreAktivitetRad: React.FC<{
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
+        useTriggRerendringAvDateInput();
+    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
+        useTriggRerendringAvDateInput();
 
     const [aktivitetForm, settAktivitetForm] = useState<EndreAktivitetForm>(
         initaliserForm(behandling.id, aktivitet)
@@ -104,11 +109,9 @@ const EndreAktivitetRad: React.FC<{
     };
 
     const oppdaterType = (type: AktivitetType) => {
-        settAktivitetForm((prevState) => ({
-            ...prevState,
-            type: type,
-            delvilkår: resetDelvilkår(type, prevState.delvilkår),
-        }));
+        settAktivitetForm((prevState) => resettAktivitet(type, prevState));
+        oppdaterFomDatoKey();
+        oppdaterTomDatoKey();
     };
 
     return (
@@ -122,25 +125,29 @@ const EndreAktivitetRad: React.FC<{
             typeOptions={AktivitetTypeOptions}
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
+            fomKeyDato={fomKeyDato}
+            tomKeyDato={tomKeyDato}
             ekstraCeller={
-                <TextField
-                    erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                    label="Aktivitetsdager"
-                    value={
-                        harTallverdi(aktivitetForm.aktivitetsdager)
-                            ? aktivitetForm.aktivitetsdager
-                            : ''
-                    }
-                    onChange={(event) =>
-                        settAktivitetForm((prevState) => ({
-                            ...prevState,
-                            aktivitetsdager: tilHeltall(event.target.value),
-                        }))
-                    }
-                    size="small"
-                    error={vilkårsperiodeFeil?.aktivitetsdager}
-                    autoComplete="off"
-                />
+                aktivitetForm.type !== AktivitetType.INGEN_AKTIVITET && (
+                    <TextField
+                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                        label="Aktivitetsdager"
+                        value={
+                            harTallverdi(aktivitetForm.aktivitetsdager)
+                                ? aktivitetForm.aktivitetsdager
+                                : ''
+                        }
+                        onChange={(event) =>
+                            settAktivitetForm((prevState) => ({
+                                ...prevState,
+                                aktivitetsdager: tilHeltall(event.target.value),
+                            }))
+                        }
+                        size="small"
+                        error={vilkårsperiodeFeil?.aktivitetsdager}
+                        autoComplete="off"
+                    />
+                )
             }
         >
             <AktivitetVilkår

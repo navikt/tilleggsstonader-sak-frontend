@@ -41,6 +41,7 @@ export const validerVilkårsperiode = (
 
     if (
         erFormForAktivitet(endretVilkårsperiode) &&
+        endretVilkårsperiode.type !== AktivitetType.INGEN_AKTIVITET &&
         !aktivitetsdagerErGyldigTall(endretVilkårsperiode.aktivitetsdager)
     ) {
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
