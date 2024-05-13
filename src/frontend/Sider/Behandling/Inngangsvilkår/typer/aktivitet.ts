@@ -27,6 +27,12 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     INGEN_AKTIVITET: 'Ingen aktivitet',
 };
 
+export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
+    if (type === '') return type;
+
+    return AktivitetTypeTilTekst[type];
+};
+
 export const AktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
     ([value, label]) => ({
         value: value,

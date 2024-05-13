@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
+import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import Utgifter from './Utgifter/Utgifter';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
@@ -12,6 +13,7 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import useFormState from '../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../hooks/felles/useRecordState';
+import { useStønadsperioder } from '../../../../../hooks/useStønadsperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
@@ -64,6 +66,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
+    const { stønadsperioder } = useStønadsperioder(behandling.id);
 
     const formState = useFormState<InnvilgeVedtakForm>(
         initFormState(lagretVedtak, barnMedOppfylteVilkår),
@@ -111,6 +114,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
         <>
             <Panel tittel="Beregning">
                 <VStack gap="8">
+                    <DataViewer response={{ stønadsperioder }}>
+                        {({ stønadsperioder }) => (
+                            <OppsummeringStønadsperioder stønadsperioder={stønadsperioder} />
+                        )}
+                    </DataViewer>
                     <Utgifter
                         barnMedOppfylteVilkår={barnMedOppfylteVilkår}
                         utgifterState={utgifterState}

@@ -31,6 +31,12 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
+export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
+    if (type === '') return type;
+
+    return MålgruppeTypeTilTekst[type];
+};
+
 export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
     ([value, label]) => ({
         value: value,
