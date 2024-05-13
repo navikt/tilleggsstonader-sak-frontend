@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { styled } from 'styled-components';
 
+import { TextField } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
+import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
@@ -15,6 +17,8 @@ import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
+import { Registeraktivitet } from '../../../typer/registeraktivitet';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
@@ -34,15 +38,35 @@ const VilkårContainer = styled.div`
     background-color: ${ABlue50};
 `;
 
+const RegistrerteAktiviteterContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    padding: 2rem;
+`;
+
 const Inngangsvilkår = () => {
+    const { request } = useApp();
     const { behandling } = useBehandling();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
     const { vilkårperioder } = useVilkårperioder(behandling.id);
 
+    const [registerAktiviteter, settRegisterAktiviteter] =
+        useState<Ressurs<Registeraktivitet[]>>(byggTomRessurs());
+
+    const hentRegisterAktivitetCallback = useCallback(() => {
+        request<Registeraktivitet[], null>(`/api/sak/aktivitet/behandling/${behandling.id}`).then(
+            settRegisterAktiviteter
+        );
+    }, [request, behandling.id]);
+
+    useEffect(hentRegisterAktivitetCallback, [hentRegisterAktivitetCallback]);
+
     return (
         <Container>
             {erLokalt() && <FyllUtVilkårKnapp />}
+
             <DataViewer
                 response={{
                     vilkårperioder,
@@ -56,11 +80,40 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
-                                <VilkårContainer>
-                                    <Aktivitet />
-                                    <Målgruppe />
-                                </VilkårContainer>
-                                <Stønadsperioder />
+                                <>
+                                    <DataViewer response={{ registerAktiviteter }}>
+                                        {({ registerAktiviteter }) => (
+                                            <>
+                                                <h2>Brukers registrerte aktiviteter</h2>
+                                                <RegistrerteAktiviteterContainer>
+                                                    <TextField label={'Type'}></TextField>
+                                                    <TextField label={'Status'}></TextField>
+                                                    <TextField label={'Startdato'}></TextField>
+                                                    <TextField label={'Sluttdato'}></TextField>
+                                                    <TextField
+                                                        label={'Aktivitetsdager'}
+                                                    ></TextField>
+                                                </RegistrerteAktiviteterContainer>
+                                                {registerAktiviteter.map((aktivitet) => {
+                                                    return (
+                                                        <RegistrerteAktiviteterContainer>
+                                                            <div>{aktivitet.type}</div>
+                                                            <div>{aktivitet.status}</div>
+                                                            <div>{aktivitet.fom}</div>
+                                                            <div>{aktivitet.tom}</div>
+                                                            <div>{aktivitet.antallDagerPerUke}</div>
+                                                        </RegistrerteAktiviteterContainer>
+                                                    );
+                                                })}
+                                            </>
+                                        )}
+                                    </DataViewer>
+                                    <VilkårContainer>
+                                        <Aktivitet />
+                                        <Målgruppe />
+                                    </VilkårContainer>
+                                    <Stønadsperioder />
+                                </>
                             </InngangsvilkårProvider>
                         )}
                     </>
