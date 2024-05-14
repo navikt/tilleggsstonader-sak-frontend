@@ -9,6 +9,7 @@ import Vedlegg from './Vedlegg';
 import { Informasjonskilde, Informasjonsrad, InfoSeksjon } from './Visningskomponenter';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { hovedytelseTilTekst } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
+import { formaterDato } from '../../../../utils/dato';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Oppsummering: React.FC = () => {
@@ -16,6 +17,14 @@ const Oppsummering: React.FC = () => {
 
     return (
         <VStack gap="8">
+            {behandlingFakta.søknadMottattTidspunkt && (
+                <InfoSeksjon label="Søknadsdato">
+                    <Informasjonsrad
+                        kilde={Informasjonskilde.SØKNAD}
+                        verdi={formaterDato(behandlingFakta.søknadMottattTidspunkt)}
+                    />
+                </InfoSeksjon>
+            )}
             <InfoSeksjon label="Ytelse/situasjon">
                 <Informasjonsrad
                     kilde={Informasjonskilde.SØKNAD}
