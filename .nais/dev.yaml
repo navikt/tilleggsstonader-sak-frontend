@@ -33,6 +33,7 @@ spec:
       memory: "256Mi"
   ingresses:
     - "https://tilleggsstonader.intern.dev.nav.no"
+    - "https://tilleggsstonader.ansatt.dev.nav.no"
   accessPolicy:
     outbound:
       rules:
