@@ -43,8 +43,8 @@ const SelectVedtaksresultat: FC<Props> = ({
                 size="small"
             >
                 <option value="">Velg</option>
-                <option value={TypeVedtak.INNVILGELSE}>Innvilge</option>
-                <option value={TypeVedtak.AVSLAG}>Avslå</option>
+                <option value={TypeVedtak.INNVILGELSE}>Innvilgelse</option>
+                <option value={TypeVedtak.AVSLAG}>Avslag</option>
             </Select>
         </Container>
     );
