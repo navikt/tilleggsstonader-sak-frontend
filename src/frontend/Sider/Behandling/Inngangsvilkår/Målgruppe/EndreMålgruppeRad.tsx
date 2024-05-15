@@ -42,7 +42,7 @@ const EndreMålgruppeRad: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering }) => {
     const { request } = useApp();
-    const { behandling } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -104,7 +104,9 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const oppdaterType = (type: MålgruppeType) => {
-        settMålgruppeForm((prevState) => resettMålgruppe(type, prevState));
+        settMålgruppeForm((prevState) =>
+            resettMålgruppe(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+        );
         oppdaterFomDatoKey();
         oppdaterTomDatoKey();
     };
