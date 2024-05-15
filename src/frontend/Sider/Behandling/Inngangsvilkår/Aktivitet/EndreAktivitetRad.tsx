@@ -46,7 +46,7 @@ const EndreAktivitetRad: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering }) => {
     const { request } = useApp();
-    const { behandling } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -109,7 +109,9 @@ const EndreAktivitetRad: React.FC<{
     };
 
     const oppdaterType = (type: AktivitetType) => {
-        settAktivitetForm((prevState) => resettAktivitet(type, prevState));
+        settAktivitetForm((prevState) =>
+            resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+        );
         oppdaterFomDatoKey();
         oppdaterTomDatoKey();
     };

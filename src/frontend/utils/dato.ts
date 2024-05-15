@@ -8,6 +8,7 @@ import {
     isEqual,
     isValid,
     parseISO,
+    startOfMonth,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
@@ -101,4 +102,8 @@ export const formaterÅrMåned = (dato: string): string =>
 
 export const dagensDato = (): string => tilLocaleDateString(new Date());
 
-export const treMånederTilbake = (): string => tilLocaleDateString(addMonths(new Date(), -3));
+// Funksjon finner første dag i måneden tre måneder før gitt dato eller dagens dato
+export const førsteDagIMånedTreMånederForut = (dato?: string): string => {
+    const utgangspunktDato = dato ? tilDato(dato) : new Date();
+    return tilLocaleDateString(startOfMonth(addMonths(tilDato(utgangspunktDato), -3)));
+};
