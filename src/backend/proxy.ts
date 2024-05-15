@@ -3,7 +3,6 @@ import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 
-import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 
 export const addRequestInfo = (): RequestHandler => {
@@ -25,18 +24,18 @@ const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     }
 };
 
-export const doProxy = (context: string, applicationName: ApplicationName): RequestHandler => {
-    return createProxyMiddleware(context, {
-        changeOrigin: true,
-        logLevel: 'info',
-        logProvider: () => {
-            return logger;
-        },
-        onProxyReq: restream,
-        pathRewrite: (path: string) => {
-            return path.replace(context, '');
-        },
-        secure: true,
+export const doProxy = (
+    applicationName: ApplicationName,
+    pathRewrite?: { [regexp: string]: string }
+): RequestHandler => {
+    return createProxyMiddleware({
         target: `${miljø.clients[applicationName].url}`,
+        changeOrigin: true,
+        secure: true,
+        logger: console,
+        on: {
+            proxyReq: restream,
+        },
+        pathRewrite: pathRewrite,
     });
 };

@@ -57,14 +57,14 @@ app.use(
     '/api/sak',
     addRequestInfo(),
     attachToken(ApplicationName.sak),
-    doProxy('/api/sak', ApplicationName.sak)
+    doProxy(ApplicationName.sak, { '/sak': '' })
 );
 
 app.use(
     '/dokument',
     addRequestInfo(),
     attachToken(ApplicationName.sak),
-    doProxy('/dokument', ApplicationName.sak)
+    doProxy(ApplicationName.sak, { '/dokument': '' })
 );
 
 app.listen(PORT, () => {
