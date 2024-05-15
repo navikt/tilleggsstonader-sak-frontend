@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { styled } from 'styled-components';
 
-import { TextField } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
+import RegisterAktiviteter from './RegisterAktivteter';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -38,13 +38,6 @@ const VilkårContainer = styled.div`
     background-color: ${ABlue50};
 `;
 
-const RegistrerteAktiviteterContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 3rem;
-    padding: 2rem;
-`;
-
 const Inngangsvilkår = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
@@ -66,7 +59,6 @@ const Inngangsvilkår = () => {
     return (
         <Container>
             {erLokalt() && <FyllUtVilkårKnapp />}
-
             <DataViewer
                 response={{
                     vilkårperioder,
@@ -83,29 +75,9 @@ const Inngangsvilkår = () => {
                                 <>
                                     <DataViewer response={{ registerAktiviteter }}>
                                         {({ registerAktiviteter }) => (
-                                            <>
-                                                <h2>Brukers registrerte aktiviteter</h2>
-                                                <RegistrerteAktiviteterContainer>
-                                                    <TextField label={'Type'}></TextField>
-                                                    <TextField label={'Status'}></TextField>
-                                                    <TextField label={'Startdato'}></TextField>
-                                                    <TextField label={'Sluttdato'}></TextField>
-                                                    <TextField
-                                                        label={'Aktivitetsdager'}
-                                                    ></TextField>
-                                                </RegistrerteAktiviteterContainer>
-                                                {registerAktiviteter.map((aktivitet) => {
-                                                    return (
-                                                        <RegistrerteAktiviteterContainer>
-                                                            <div>{aktivitet.type}</div>
-                                                            <div>{aktivitet.status}</div>
-                                                            <div>{aktivitet.fom}</div>
-                                                            <div>{aktivitet.tom}</div>
-                                                            <div>{aktivitet.antallDagerPerUke}</div>
-                                                        </RegistrerteAktiviteterContainer>
-                                                    );
-                                                })}
-                                            </>
+                                            <RegisterAktiviteter
+                                                aktiviteter={registerAktiviteter}
+                                            />
                                         )}
                                     </DataViewer>
                                     <VilkårContainer>
