@@ -43,4 +43,19 @@ export const oppgaveTypeTilTekst: Record<Oppgavetype, string> = {
     VUR_SVAR: 'Vurder svar',
 };
 
+export const oppgaverTyperSomSkalVisesFørst: Oppgavetype[] = [
+    'BEH_SAK',
+    'GOD_VED',
+    'JFR',
+    'KONT_BRUK',
+    'SVAR_IK_MOT',
+    'VUR',
+    'VURD_HENV',
+    'VUR_KONS_YTE',
+];
+
+export const øvrigeOppgaveTyper: Oppgavetype[] = Object.keys(oppgaveTypeTilTekst).filter(
+    (type) => !oppgaverTyperSomSkalVisesFørst.includes(type as Oppgavetype)
+) as Oppgavetype[];
+
 export type Prioritet = 'HOY' | 'NORM' | 'LAV';
