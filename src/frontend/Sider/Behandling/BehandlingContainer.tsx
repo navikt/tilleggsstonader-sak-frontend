@@ -23,9 +23,22 @@ const BehandlingContainer = () => {
         behandlingId: string;
     }>().behandlingId as string;
 
-    const hentBehandlingCallback = useCallback(() => {
-        request<Behandling, null>(`/api/sak/behandling/${behandlingId}`).then(settBehandling);
+    const hentBehandlingFaktaCallback = useCallback(() => {
+        request<BehandlingFakta, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
+            settBehandlingFakta
+        );
     }, [request, behandlingId]);
+
+    const hentBehandlingCallback = useCallback(() => {
+        request<Behandling, null>(`/api/sak/behandling/${behandlingId}`).then((behandling) => {
+            settBehandling(behandling);
+
+            if (behandling.status === 'SUKSESS' && behandlingFakta.status === 'IKKE_HENTET') {
+                hentBehandlingFaktaCallback();
+            }
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [request, behandlingId, hentBehandlingFaktaCallback]);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
 
@@ -38,14 +51,6 @@ const BehandlingContainer = () => {
     useEffect(() => {
         document.title = 'Behandling';
     }, []);
-
-    const hentBehandlingFaktaCallback = useCallback(() => {
-        request<BehandlingFakta, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
-            settBehandlingFakta
-        );
-    }, [request, behandlingId]);
-
-    useEffect(hentBehandlingFaktaCallback, [hentBehandlingFaktaCallback]);
 
     return (
         <DataViewer response={{ behandling, personopplysninger, behandlingFakta }}>
