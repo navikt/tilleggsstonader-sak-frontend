@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { Informasjonskilde, Informasjonsrad } from './Visningskomponenter';
+import { BriefcaseIcon } from '@navikt/aksel-icons';
+import { BodyShort } from '@navikt/ds-react';
+
+import { InfoSeksjon } from './Visningskomponenter';
 import { FaktaAktivtet } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 
 const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
@@ -9,27 +12,22 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
     const erLønnetAktivitet = aktivitet.søknadsgrunnlag?.lønnetAktivitet;
 
     return (
-        <>
+        <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
             {aktiviteter?.map(
                 (aktivitet) =>
                     aktivitet !== 'Annet' && (
-                        <Informasjonsrad
-                            key={aktivitet}
-                            kilde={Informasjonskilde.SØKNAD}
-                            verdi={aktivitet}
-                        />
+                        <BodyShort size="small" key={aktivitet}>
+                            {aktivitet}
+                        </BodyShort>
                     )
             )}
             {annenAktivitet && (
-                <Informasjonsrad
-                    kilde={Informasjonskilde.SØKNAD}
-                    verdi={`Annen aktivitet: ${annenAktivitet}`}
-                />
+                <BodyShort size="small">Annen aktivitet: {annenAktivitet}</BodyShort>
             )}
             {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
-                <Informasjonsrad kilde={Informasjonskilde.SØKNAD} verdi={`Lønnet aktivitet`} />
+                <BodyShort size="small">Lønnet aktivitet</BodyShort>
             )}
-        </>
+        </InfoSeksjon>
     );
 };
 

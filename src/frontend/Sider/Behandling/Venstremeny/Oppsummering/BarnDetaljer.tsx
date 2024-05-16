@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { InfoSeksjon, Informasjonskilde, Informasjonsrad } from './Visningskomponenter';
+import { ChildEyesIcon } from '@navikt/aksel-icons';
+import { BodyShort } from '@navikt/ds-react';
+
+import { InfoSeksjon } from './Visningskomponenter';
 import {
     FaktaBarn,
     typeBarnepassTilTekst,
@@ -15,26 +18,20 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const årsak = barn.søknadgrunnlag?.årsak;
 
     return (
-        <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`}>
-            <Informasjonsrad
-                kilde={Informasjonskilde.SØKNAD}
-                verdi={tekstEllerKode(typeBarnepassTilTekst, typePass)}
-            />
+        <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
+            <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
             {startetIFemte !== undefined && (
                 <>
-                    <Informasjonsrad
-                        kilde={Informasjonskilde.SØKNAD}
-                        verdi={
-                            startetIFemte === JaNei.JA
-                                ? 'Startet i 5. klasse'
-                                : 'Ikke startet i 5. klasse'
-                        }
-                    />
+                    <BodyShort size="small">
+                        {startetIFemte === JaNei.JA
+                            ? 'Startet i 5. klasse'
+                            : 'Ikke startet i 5. klasse'}
+                    </BodyShort>
+
                     {startetIFemte === JaNei.JA && (
-                        <Informasjonsrad
-                            kilde={Informasjonskilde.SØKNAD}
-                            verdi={tekstEllerKode(årsakBarnepassTilTekst, årsak)}
-                        />
+                        <BodyShort size="small">
+                            {tekstEllerKode(årsakBarnepassTilTekst, årsak)}{' '}
+                        </BodyShort>
                     )}
                 </>
             )}

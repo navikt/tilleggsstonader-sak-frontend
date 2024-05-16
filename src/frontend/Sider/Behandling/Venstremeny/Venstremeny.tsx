@@ -22,8 +22,8 @@ const StickyTablistContainer = styled(Sticky)`
 
 const tabs = [
     {
-        value: 'oppsummering',
-        label: 'Oppsummert',
+        value: 'søknaden',
+        label: 'Søknaden',
         komponent: <Oppsummering />,
     },
 ];
@@ -32,7 +32,7 @@ const VenstreMeny: React.FC = () => {
     return (
         <Container>
             <Totrinnskontroll />
-            <Tabs defaultValue="oppsummering" style={{ width: 'inherit', height: '100%' }}>
+            <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
                         {tabs.map((tab) => (
