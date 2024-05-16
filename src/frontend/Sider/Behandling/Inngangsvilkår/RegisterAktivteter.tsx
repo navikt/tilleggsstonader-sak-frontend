@@ -6,7 +6,6 @@ import { Button, Table } from '@navikt/ds-react';
 
 import { Registeraktivitet } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../utils/dato';
-import { erProd } from '../../../utils/miljø';
 
 const Tabell = styled(Table)`
     width: 50%;
@@ -41,8 +40,8 @@ const RegisterAktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ a
                                 </Table.DataCell>
                                 <Table.DataCell>{aktivitet.antallDagerPerUke}</Table.DataCell>
                                 <Table.DataCell>
-                                    {/*Skjules i PROD fordi knappen ikke har noen funksjon enda*/}
-                                    {!erProd() && (
+                                    {/*Skjules fordi knappen ikke har noen funksjon enda*/}
+                                    {false && (
                                         <Button
                                             size={'small'}
                                             onClick={() => console.log('Legg til aktivitet')}
