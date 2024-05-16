@@ -18,7 +18,11 @@ import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/rol
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import { enhetTilTekst, FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
-import { oppgaveTypeTilTekst } from '../typer/oppgavetema';
+import {
+    oppgaverTyperSomSkalVisesFørst,
+    oppgaveTypeTilTekst,
+    øvrigeOppgaveTyper,
+} from '../typer/oppgavetema';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -82,7 +86,6 @@ export const Oppgavefiltrering = () => {
     const tilbakestillFiltrering = () => {
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
-        hentOppgaver(tomOppgaveRequest);
     };
 
     if (lasterFraLokalt) {
@@ -99,11 +102,18 @@ export const Oppgavefiltrering = () => {
                     size="small"
                 >
                     <option value="">Alle</option>
-                    {Object.entries(oppgaveTypeTilTekst).map(([type, val]) => (
+                    {oppgaverTyperSomSkalVisesFørst.map((type) => (
                         <option key={type} value={type}>
-                            {val}
+                            {oppgaveTypeTilTekst[type]}
                         </option>
                     ))}
+                    <optgroup label={'Øvrige'}>
+                        {øvrigeOppgaveTyper.map((type) => (
+                            <option key={type} value={type}>
+                                {oppgaveTypeTilTekst[type]}
+                            </option>
+                        ))}
+                    </optgroup>
                 </Select>
                 <Select
                     value={oppgaveRequest.behandlingstema || ''}
