@@ -83,7 +83,7 @@ export const Oppgavefiltrering = () => {
         hentOppgaver(oppgaveRequest);
     };
 
-    const tilbakestillFiltrering = () => {
+    const nullstillFiltrering = () => {
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
     };
@@ -169,11 +169,11 @@ export const Oppgavefiltrering = () => {
                 </Button>
                 <Button
                     variant={'secondary'}
-                    onClick={tilbakestillFiltrering}
+                    onClick={nullstillFiltrering}
                     type={'button'}
                     size="small"
                 >
-                    Tilbakestill filtrering
+                    Nullstill filtre
                 </Button>
             </KnappWrapper>
         </VStack>
