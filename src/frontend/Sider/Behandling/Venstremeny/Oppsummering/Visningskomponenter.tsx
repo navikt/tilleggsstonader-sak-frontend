@@ -1,43 +1,20 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-import { DatabaseIcon, FileTextIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react';
+import { HStack, Heading, VStack } from '@navikt/ds-react';
 
-export enum Informasjonskilde {
-    REGISTER = 'REGISTER',
-    SØKNAD = 'SØKNAD',
-}
-
-const mapIkon = (ikon: Informasjonskilde) => {
-    switch (ikon) {
-        case Informasjonskilde.REGISTER:
-            return <DatabaseIcon />;
-        case Informasjonskilde.SØKNAD:
-            return <FileTextIcon />;
-    }
-};
-
-export const Informasjonsrad: React.FC<{
-    kilde: Informasjonskilde;
-    verdi?: string | ReactNode;
-}> = ({ kilde, verdi = 'Ingen data registrert' }) => {
+export const InfoSeksjon: React.FC<{
+    label: string;
+    ikon: React.ReactNode;
+    children?: React.ReactNode;
+}> = ({ label, ikon, children }) => {
     return (
-        <HStack gap="2" wrap={false}>
-            {mapIkon(kilde)}
-            <BodyShort size="small">{verdi}</BodyShort>
-        </HStack>
-    );
-};
-
-export const InfoSeksjon: React.FC<{ label: string; children?: React.ReactNode }> = ({
-    label,
-    children,
-}) => {
-    return (
-        <VStack gap="4">
-            <Heading level={'4'} size={'xsmall'}>
-                {label}
-            </Heading>
+        <VStack gap="2">
+            <HStack gap="2" align="center" wrap={false}>
+                <div style={{ height: '18px' }}>{ikon}</div>
+                <Heading level={'4'} size={'xsmall'}>
+                    {label}
+                </Heading>
+            </HStack>
             {children}
         </VStack>
     );
