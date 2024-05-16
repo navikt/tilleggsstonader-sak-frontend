@@ -1,7 +1,11 @@
 import React from 'react';
 
 import { Informasjonskilde, Informasjonsrad } from './Visningskomponenter';
-import { FaktaAktivtet } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
+import {
+    FaktaAktivtet,
+    typeAnnenAktivitetTilTekst,
+} from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
     const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
@@ -23,7 +27,7 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
             {annenAktivitet && (
                 <Informasjonsrad
                     kilde={Informasjonskilde.SØKNAD}
-                    verdi={`Annen aktivitet: ${annenAktivitet}`}
+                    verdi={`Annen aktivitet: ${tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
                 />
             )}
             {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
