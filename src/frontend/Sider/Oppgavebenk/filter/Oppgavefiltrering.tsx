@@ -82,7 +82,6 @@ export const Oppgavefiltrering = () => {
     const tilbakestillFiltrering = () => {
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
-        hentOppgaver(tomOppgaveRequest);
     };
 
     if (lasterFraLokalt) {
