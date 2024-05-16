@@ -72,20 +72,16 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
-                                <>
-                                    <DataViewer response={{ registerAktiviteter }}>
-                                        {({ registerAktiviteter }) => (
-                                            <RegisterAktiviteter
-                                                aktiviteter={registerAktiviteter}
-                                            />
-                                        )}
-                                    </DataViewer>
-                                    <VilkårContainer>
-                                        <Aktivitet />
-                                        <Målgruppe />
-                                    </VilkårContainer>
-                                    <Stønadsperioder />
-                                </>
+                                <DataViewer response={{ registerAktiviteter }}>
+                                    {({ registerAktiviteter }) => (
+                                        <RegisterAktiviteter aktiviteter={registerAktiviteter} />
+                                    )}
+                                </DataViewer>
+                                <VilkårContainer>
+                                    <Aktivitet />
+                                    <Målgruppe />
+                                </VilkårContainer>
+                                <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
                     </>
