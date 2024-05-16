@@ -1,5 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
-import { dagensDato, treMånederTilbake } from '../../../../utils/dato';
+import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
@@ -22,9 +22,10 @@ export const skalVurdereLønnet = (type: AktivitetType | '') => type === Aktivit
 
 export const resettAktivitet = (
     nyType: AktivitetType,
-    eksisterendeAktivitetForm: EndreAktivitetForm
+    eksisterendeAktivitetForm: EndreAktivitetForm,
+    søknadMottattTidspunkt?: string
 ): EndreAktivitetForm => {
-    const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm);
+    const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
     return {
         ...eksisterendeAktivitetForm,
@@ -36,9 +37,13 @@ export const resettAktivitet = (
     };
 };
 
-const resetPeriode = (nyType: string, eksisterendeForm: EndreAktivitetForm): Periode => {
+const resetPeriode = (
+    nyType: string,
+    eksisterendeForm: EndreAktivitetForm,
+    søknadMottattTidspunkt?: string
+): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
-        return { fom: treMånederTilbake(), tom: dagensDato() };
+        return { fom: førsteDagIMånedTreMånederForut(søknadMottattTidspunkt), tom: dagensDato() };
     }
 
     if (eksisterendeForm.type === AktivitetType.INGEN_AKTIVITET) {
