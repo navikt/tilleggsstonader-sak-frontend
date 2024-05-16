@@ -4,7 +4,11 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
-import { FaktaAktivtet } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
+import {
+    FaktaAktivtet,
+    typeAnnenAktivitetTilTekst,
+} from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
     const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
@@ -22,7 +26,9 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
                     )
             )}
             {annenAktivitet && (
-                <BodyShort size="small">Annen aktivitet: {annenAktivitet}</BodyShort>
+                <BodyShort size="small">
+                    Annen aktivitet: {tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}
+                </BodyShort>
             )}
             {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
                 <BodyShort size="small">Lønnet aktivitet</BodyShort>
