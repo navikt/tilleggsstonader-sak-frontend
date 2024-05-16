@@ -12,7 +12,7 @@ import { InfoSeksjon } from './Visningskomponenter';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { formaterDato } from '../../../../utils/dato';
 
-const Oppsummering: React.FC = () => {
+const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta } = useBehandling();
 
     return (
@@ -44,4 +44,4 @@ const Oppsummering: React.FC = () => {
     );
 };
 
-export default Oppsummering;
+export default OppsummeringSøknad;
