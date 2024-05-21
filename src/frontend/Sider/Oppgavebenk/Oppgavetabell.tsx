@@ -22,7 +22,6 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?
     opprettetTidspunkt: { tittel: 'Opprettet', erSorterbar: true },
     identer: { tittel: 'Ident' },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
-    fristFerdigstillelse: { tittel: 'Frist', erSorterbar: true },
 };
 
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
@@ -31,7 +30,7 @@ export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
 
 const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
     const { sortertListe, settSortering, sortState } = useSorteringState<Oppgave>(oppgaver, {
-        orderBy: 'fristFerdigstillelse',
+        orderBy: 'opprettetTidspunkt',
         direction: 'ascending',
     });
 
