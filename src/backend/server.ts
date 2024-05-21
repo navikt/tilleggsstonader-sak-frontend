@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import RateLimit from 'express-rate-limit';
 import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -18,6 +19,13 @@ const app = express();
 const BASE_PATH = '';
 const buildPath = path.resolve(process.cwd(), miljø.builldPath);
 const PORT = 3000;
+
+app.use(
+    RateLimit({
+        windowMs: 60 * 1000, // 60 seconds
+        limit: 120, // limit each IP to 120 requests per windowMs
+    })
+);
 
 app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
 
