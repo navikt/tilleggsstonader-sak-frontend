@@ -24,10 +24,7 @@ const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     }
 };
 
-export const doProxy = (
-    applicationName: ApplicationName,
-    pathRewrite?: { [regexp: string]: string }
-): RequestHandler => {
+export const doProxy = (applicationName: ApplicationName): RequestHandler => {
     return createProxyMiddleware({
         target: `${miljø.clients[applicationName].url}`,
         changeOrigin: true,
@@ -36,6 +33,5 @@ export const doProxy = (
         on: {
             proxyReq: restream,
         },
-        pathRewrite: pathRewrite,
     });
 };
