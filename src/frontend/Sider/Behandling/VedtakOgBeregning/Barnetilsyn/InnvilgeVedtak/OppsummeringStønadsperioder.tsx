@@ -14,6 +14,10 @@ const OppsummeringStønadsperioder: React.FC<{ stønadsperioder: Stønadsperiode
         return `${tilTekstligDato(stønadsperiode.fom)} - ${tilTekstligDato(stønadsperiode.tom)} (${målgruppeTypeTilTekst(stønadsperiode.målgruppe)}, ${aktivitetTypeTilTekst(stønadsperiode.aktivitet)})`;
     };
 
+    if (stønadsperioder.length === 0) {
+        return null;
+    }
+
     return (
         <List as="ul" title="Stønadsperioder" size="small">
             {stønadsperioder.map((stønadsperiode, index) => (
