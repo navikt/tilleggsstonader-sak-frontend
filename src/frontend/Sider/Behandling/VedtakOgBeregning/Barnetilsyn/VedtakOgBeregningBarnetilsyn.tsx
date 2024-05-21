@@ -9,7 +9,6 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
-import SelectVedtaksresultat from '../Felles/SelectVedtaksresultat';
 
 const Container = styled.div`
     padding: 1rem 2rem;
