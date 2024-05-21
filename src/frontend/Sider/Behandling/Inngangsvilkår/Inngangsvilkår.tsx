@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { styled } from 'styled-components';
 
@@ -48,13 +48,11 @@ const Inngangsvilkår = () => {
     const [registerAktiviteter, settRegisterAktiviteter] =
         useState<Ressurs<Registeraktivitet[]>>(byggTomRessurs());
 
-    const hentRegisterAktivitetCallback = useCallback(() => {
+    useEffect(() => {
         request<Registeraktivitet[], null>(`/api/sak/aktivitet/behandling/${behandling.id}`).then(
             settRegisterAktiviteter
         );
-    }, [request, behandling.id]);
-
-    useEffect(hentRegisterAktivitetCallback, [hentRegisterAktivitetCallback]);
+    }, [behandling.id, request]);
 
     return (
         <Container>
