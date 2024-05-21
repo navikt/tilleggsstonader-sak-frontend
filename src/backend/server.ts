@@ -71,7 +71,7 @@ app.use(
 app.use(
     RateLimit({
         windowMs: 60 * 1000, // 60 seconds
-        limit: 120, // limit each IP to 120 requests per windowMs
+        limit: 120, // limit to 120 requests per windowMs
         keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
     })
 );
