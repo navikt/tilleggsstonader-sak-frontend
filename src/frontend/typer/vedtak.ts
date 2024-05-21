@@ -23,7 +23,24 @@ export interface InnvilgelseBarnetilsyn extends InnvilgeBarnetilsynRequest {
 }
 
 export type AvslåBarnetilsynRequest = {
+    årsakAvslag: ÅrsakAvslag[];
     begrunnelse: string;
+};
+
+export enum ÅrsakAvslag {
+    INGEN_AKTIVITET = 'INGEN_AKTIVITET',
+    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+    INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE = 'INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE',
+    MANGELFULL_DOKUMENTASJON = 'MANGELFULL_DOKUMENTASJON',
+    ANNET = 'ANNET',
+}
+
+export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
+    INGEN_AKTIVITET: 'Ingen aktivitet',
+    INGEN_MÅLGRUPPE: 'Ingen målgruppe',
+    INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: 'Ingen overlapp aktivitet/målgruppe',
+    MANGELFULL_DOKUMENTASJON: 'Mangelfull dokumentasjon',
+    ANNET: 'Annet',
 };
 
 export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
