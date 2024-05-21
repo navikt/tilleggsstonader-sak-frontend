@@ -1,8 +1,13 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
 import { useApp } from './AppContext';
+import { oppgaveRequestMedDefaultEnhet } from '../Sider/Oppgavebenk/filter/filterutils';
+import {
+    hentFraLocalStorage,
+    oppgaveRequestKey,
+} from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
 import {
     byggHenterRessurs,
@@ -12,13 +17,33 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../typer/ressurs';
+import { harStrengtFortroligRolle } from '../utils/roller';
+import { Saksbehandler } from '../utils/saksbehandler';
+
+const hentLagretOppgaveRequest = (
+    saksbehandler: Saksbehandler,
+    harSaksbehandlerStrengtFortroligRolle: boolean
+): OppgaveRequest => {
+    const fraLocalStorage = hentFraLocalStorage<OppgaveRequest>(
+        oppgaveRequestKey(saksbehandler.navIdent),
+        {}
+    );
+
+    return oppgaveRequestMedDefaultEnhet(fraLocalStorage, harSaksbehandlerStrengtFortroligRolle);
+};
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
-    const { request } = useApp();
+    const { request, saksbehandler, appEnv } = useApp();
     const [oppgaveRessurs, settOppgaveRessurs] =
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [laster, settLaster] = useState<boolean>(false);
+    const [lasterOppgaveRequestFraLokalt, settLasterOppgaveRequestFraLokalt] =
+        useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+
+    const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>({});
+
+    const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
 
     const hentOppgaver = useCallback(
         (data: OppgaveRequest) => {
@@ -29,6 +54,16 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         },
         [request]
     );
+
+    useEffect(() => {
+        const lagretFiltrering = hentLagretOppgaveRequest(
+            saksbehandler,
+            harSaksbehandlerStrengtFortroligRolle
+        );
+        settOppgaveRequest(lagretFiltrering);
+        settLasterOppgaveRequestFraLokalt(false);
+        hentOppgaver(lagretFiltrering);
+    }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
     const oppdaterOppgaveEtterTilbakestilling = (oppdatertOppgave: Oppgave) => {
         settOppgaveRessurs((prevState) => {
@@ -102,5 +137,8 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         tilbakestillFordeling,
         settOppgaveTilSaksbehandler,
         oppdaterOppgaveEtterTilbakestilling,
+        lasterOppgaveRequestFraLokalt,
+        oppgaveRequest,
+        settOppgaveRequest,
     };
 });
