@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { Button, Heading, Table } from '@navikt/ds-react';
 
 import { Registeraktivitet } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../utils/dato';
@@ -13,8 +13,8 @@ const Tabell = styled(Table)`
 
 const RegisterAktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktiviteter }) => {
     return (
-        <>
-            <h2>Brukers registrerte aktiviteter</h2>
+        <div>
+            <Heading size="small">Brukers registrerte aktiviteter</Heading>
             <Tabell size={'small'}>
                 <Table.Header>
                     <Table.Row>
@@ -55,7 +55,7 @@ const RegisterAktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ a
                     })}
                 </Table.Body>
             </Tabell>
-        </>
+        </div>
     );
 };
 
