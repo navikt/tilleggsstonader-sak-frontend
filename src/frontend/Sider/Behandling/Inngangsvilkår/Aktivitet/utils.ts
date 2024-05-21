@@ -79,7 +79,7 @@ export const finnBegrunnelseGrunnerAktivitet = (
     const delvilkårSomMåBegrunnes = [];
 
     if (delvilkår.lønnet?.svar === SvarJaNei.JA) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
