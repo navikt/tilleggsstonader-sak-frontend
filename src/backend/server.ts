@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { attachToken, validateToken } from './auth/attachToken';
+import { attachToken, getTokenFromHeader, validateToken } from './auth/attachToken';
 import { setupLocal } from './auth/local';
 import { getProfile } from './auth/profile';
 import logger from './logger';
@@ -19,14 +19,6 @@ const app = express();
 const BASE_PATH = '';
 const buildPath = path.resolve(process.cwd(), miljø.builldPath);
 const PORT = 3000;
-
-app.use(
-    RateLimit({
-        windowMs: 60 * 1000, // 60 seconds
-        limit: 120, // limit each IP to 120 requests per windowMs
-        keyGenerator: (req) => req.session.id,
-    })
-);
 
 app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
 
@@ -74,6 +66,14 @@ app.use(
     addRequestInfo(),
     attachToken(ApplicationName.sak),
     doProxy(ApplicationName.sak)
+);
+
+app.use(
+    RateLimit({
+        windowMs: 60 * 1000, // 60 seconds
+        limit: 120, // limit each IP to 120 requests per windowMs
+        keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
+    })
 );
 
 app.listen(PORT, () => {
