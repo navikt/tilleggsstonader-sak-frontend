@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import { Express, NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import { BaseClient, custom, Issuer, TokenSet } from 'openid-client';
-import { getClientConfig } from '../auth/client';
+import { getClientConfig } from './client';
 import logger from '../logger';
 import { redirectResponseToLogin } from './util';
 
@@ -15,7 +15,7 @@ export const setupLocal = (app: Express) => {
             name: 'tilleggsstonad-local',
             resave: false,
             saveUninitialized: false,
-            secret: '2E3V4I6R5NCAAOM4FHOYOI8JO34V2A6B',
+            secret: 'DUMMY_SECRET',
         })
     );
 
@@ -42,9 +42,8 @@ export const setupLocal = (app: Express) => {
             const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
             const redirectUrl = regex ? regex[1] : 'invalid';
 
-            const successRedirect = regex ? redirectUrl : '/';
             // @ts-ignore
-            req.session.redirectUrl = successRedirect;
+            req.session.redirectUrl = regex ? redirectUrl : '/';
             res.redirect(authorizationUrl);
         });
 
