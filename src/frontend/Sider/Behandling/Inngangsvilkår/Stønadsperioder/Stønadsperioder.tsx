@@ -90,7 +90,7 @@ const Stønadsperioder: React.FC = () => {
                     settRedigerer(false);
                     oppdaterStønadsperioder(res.data);
                 } else {
-                    settStønadsperiodeFeil(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                    settStønadsperiodeFeil(`Feilet legg til periode: ${res.frontendFeilmelding}`);
                 }
             })
             .finally(() => settLaster(false));
