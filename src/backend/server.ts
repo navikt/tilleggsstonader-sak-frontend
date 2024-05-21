@@ -24,6 +24,7 @@ app.use(
     RateLimit({
         windowMs: 60 * 1000, // 60 seconds
         limit: 120, // limit each IP to 120 requests per windowMs
+        keyGenerator: (req) => req.session.id,
     })
 );
 
