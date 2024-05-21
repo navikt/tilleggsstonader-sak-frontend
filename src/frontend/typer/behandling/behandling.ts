@@ -22,3 +22,8 @@ export interface Behandling {
     stønadstype: Stønadstype;
     vedtaksdato?: string;
 }
+
+export interface HentBehandlingerRequest {
+    ident: string;
+    stønadstype: Stønadstype;
+}

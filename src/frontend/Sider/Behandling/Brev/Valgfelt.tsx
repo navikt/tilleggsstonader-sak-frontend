@@ -48,6 +48,7 @@ const Valgfelt: React.FC<Props> = ({
                             : prevState;
                     });
                 }}
+                size="small"
             >
                 <option value={''}>Velg</option>
                 {valgfelt.valg.map((valg, index) =>

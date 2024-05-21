@@ -12,15 +12,8 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 export type Søkeresultat = {
     personIdent: string;
     visningsnavn: string;
-    kjønn: Kjønn;
     fagsakPersonId?: string;
 };
-
-enum Kjønn {
-    KVINNE = 'KVINNE',
-    MANN = 'MANN',
-    UKJENT = 'UKJENT',
-}
 
 const Container = styled.div`
     padding: 0.5rem;

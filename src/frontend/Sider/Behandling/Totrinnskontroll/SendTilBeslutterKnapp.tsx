@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button } from '@navikt/ds-react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { Button, HStack } from '@navikt/ds-react';
 
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -14,26 +13,12 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
-const Footer = styled.footer`
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: ${ABorderStrong};
+const Knapp = styled(Button)`
+    margin: 0 auto;
+    display: block;
 `;
 
-const MidtstiltInnhold = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    margin-right: 50%;
-`;
-
-const HovedKnapp = styled(Button)`
-    margin-left: 1rem;
-    margin-right: 1rem;
-`;
-
-const SendTilBeslutterFooter: React.FC = () => {
+const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
@@ -67,16 +52,19 @@ const SendTilBeslutterFooter: React.FC = () => {
     };
 
     return (
-        <>
+        <HStack align="start">
             {behandlingErRedigerbar && (
-                <Footer>
-                    <Feilmelding>{feilmelding}</Feilmelding>
-                    <MidtstiltInnhold>
-                        <HovedKnapp onClick={sendTilBeslutter} disabled={laster} type={'button'}>
-                            Ferdigstill behandling
-                        </HovedKnapp>
-                    </MidtstiltInnhold>
-                </Footer>
+                <>
+                    <Knapp
+                        onClick={sendTilBeslutter}
+                        disabled={laster}
+                        type={'button'}
+                        size="small"
+                    >
+                        Send til beslutter
+                    </Knapp>
+                    <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                </>
             )}
             <ModalWrapper
                 tittel={'Vedtaket er ferdigstilt'}
@@ -94,8 +82,8 @@ const SendTilBeslutterFooter: React.FC = () => {
                     marginTop: 4,
                 }}
             />
-        </>
+        </HStack>
     );
 };
 
-export default SendTilBeslutterFooter;
+export default SendTilBeslutterKnapp;

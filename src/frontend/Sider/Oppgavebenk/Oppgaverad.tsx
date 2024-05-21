@@ -53,7 +53,6 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>
-            <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
         </Table.Row>
     );
 };

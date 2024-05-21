@@ -2,11 +2,21 @@ const replaceUnderscoreWithSpace = (str: string): string => {
     return str.replaceAll('_', ' ');
 };
 
-const toTitleCase = (str: string): string =>
+export const toTitleCase = (str: string): string =>
     str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 
 export const formaterEnumVerdi = (str: string): string =>
     replaceUnderscoreWithSpace(toTitleCase(str));
+
+export const formatBoolean = (bool?: boolean): string => {
+    if (bool === true) {
+        return 'Ja';
+    } else if (bool === false) {
+        return 'Nei';
+    } else {
+        return '';
+    }
+};
 
 export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string) => {
     const formatertAlder = alder ? ` (${alder} år)` : '';

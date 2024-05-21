@@ -40,7 +40,8 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
         </Panel>
     );
 };
-const ParagrafOgRundskrivLenker: React.FC<{
+
+export const ParagrafOgRundskrivLenker: React.FC<{
     paragrafLenker: Lenke[];
     rundskrivLenke: string;
 }> = ({ paragrafLenker, rundskrivLenke }) => {
@@ -49,14 +50,16 @@ const ParagrafOgRundskrivLenker: React.FC<{
             <BodyShort>
                 {paragrafLenker.map((lenke, indeks) => (
                     <React.Fragment key={indeks}>
-                        <Link key={indeks} href={lenke.url}>
+                        <Link key={indeks} href={lenke.url} target="_blank">
                             {lenke.tekst}
                         </Link>
                         {indeks !== paragrafLenker.length - 1 && ', '}
                     </React.Fragment>
                 ))}
             </BodyShort>
-            <Link href={rundskrivLenke}>Rundskriv</Link>
+            <Link href={rundskrivLenke} target="_blank">
+                Rundskriv
+            </Link>
         </HStack>
     );
 };

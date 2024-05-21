@@ -113,7 +113,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                 <OppgaveValgMeny
                     valg={[
                         {
-                            label: 'Fjern meg',
+                            label: 'Flytt fra meg',
                             onClick: utførHandlingOgHentOppgavePåNytt(() =>
                                 tilbakestillFordeling(oppgave)
                             ),

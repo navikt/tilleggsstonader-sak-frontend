@@ -5,6 +5,7 @@ import constate from 'constate';
 import { useApp } from './AppContext';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
 import {
+    byggHenterRessurs,
     byggTomRessurs,
     Ressurs,
     RessursFeilet,
@@ -21,6 +22,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
 
     const hentOppgaver = useCallback(
         (data: OppgaveRequest) => {
+            settOppgaveRessurs(byggHenterRessurs());
             request<OppgaverResponse, OppgaveRequest>(`/api/sak/oppgave/soek`, 'POST', data).then(
                 settOppgaveRessurs
             );

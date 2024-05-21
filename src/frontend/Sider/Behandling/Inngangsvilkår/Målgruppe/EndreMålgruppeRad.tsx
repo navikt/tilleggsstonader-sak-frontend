@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe } from './utils';
+import { nyMålgruppe, resettMålgruppe } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
@@ -19,8 +20,7 @@ import {
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import EndreVilkårPeriodeInnhold from '../Vilkårperioder/EndreVilkårperiodeInnhold';
-import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiodeRad';
+import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 
 export interface EndreMålgruppeForm extends Periode {
@@ -36,13 +36,18 @@ const initaliserForm = (behandlingId: string, eksisterendeMålgruppe?: Målgrupp
         : { ...eksisterendeMålgruppe, behandlingId: behandlingId };
 };
 
+// TODO: Endre navn til EndreMålgruppe
 const EndreMålgruppeRad: React.FC<{
     målgruppe?: Målgruppe;
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering }) => {
     const { request } = useApp();
-    const { behandling } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
+        useTriggRerendringAvDateInput();
+    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
+        useTriggRerendringAvDateInput();
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
         initaliserForm(behandling.id, målgruppe)
@@ -87,53 +92,49 @@ const EndreMålgruppeRad: React.FC<{
                         }
                         avbrytRedigering();
                     } else {
-                        settFeilmelding(`Feilet legg til periode:${res.frontendFeilmelding}`);
+                        settFeilmelding(`Feilet legg til periode: ${res.frontendFeilmelding}`);
                     }
                 })
                 .finally(() => settLaster(false));
         }
     };
 
-    const oppdaterPeriode = (key: keyof Periode, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof Målgruppe, nyVerdi: string) => {
         settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
+    const oppdaterType = (type: MålgruppeType) => {
+        settMålgruppeForm((prevState) =>
+            resettMålgruppe(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+        );
+        oppdaterFomDatoKey();
+        oppdaterTomDatoKey();
+    };
+
     return (
-        <>
-            <EndreVilkårperiodeRad
-                vilkårperiode={målgruppe}
-                form={målgruppeForm}
-                lagre={lagre}
-                avbrytRedigering={avbrytRedigering}
-                oppdaterPeriode={oppdaterPeriode}
-                vilkårsperiodeFeil={vilkårsperiodeFeil}
-                typeOptions={MålgruppeTypeOptions}
-                oppdaterType={(nyttValg) =>
+        <EndreVilkårperiodeRad
+            vilkårperiode={målgruppe}
+            form={målgruppeForm}
+            lagre={lagre}
+            avbrytRedigering={avbrytRedigering}
+            oppdaterForm={oppdaterForm}
+            vilkårsperiodeFeil={vilkårsperiodeFeil}
+            typeOptions={MålgruppeTypeOptions}
+            oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
+            feilmelding={feilmelding}
+            fomKeyDato={fomKeyDato}
+            tomKeyDato={tomKeyDato}
+        >
+            <MålgruppeVilkår
+                målgruppeForm={målgruppeForm}
+                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,
-                        type: nyttValg as MålgruppeType,
+                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
                     }))
                 }
             />
-            <EndreVilkårPeriodeInnhold
-                begrunnelse={målgruppeForm.begrunnelse}
-                oppdaterBegrunnelse={(begrunnelse: string) =>
-                    settMålgruppeForm((prevState) => ({ ...prevState, begrunnelse: begrunnelse }))
-                }
-                feilmelding={feilmelding}
-                vilkår={
-                    <MålgruppeVilkår
-                        målgruppeForm={målgruppeForm}
-                        oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                            settMålgruppeForm((prevState) => ({
-                                ...prevState,
-                                delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                            }))
-                        }
-                    />
-                }
-            />
-        </>
+        </EndreVilkårperiodeRad>
     );
 };
 

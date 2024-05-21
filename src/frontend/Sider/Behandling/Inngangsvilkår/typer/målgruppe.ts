@@ -10,6 +10,7 @@ export interface Målgruppe extends VilkårPeriode {
 export interface DelvilkårMålgruppe {
     '@type': 'MÅLGRUPPE';
     medlemskap?: Vurdering;
+    dekketAvAnnetRegelverk?: Vurdering;
 }
 
 export enum MålgruppeType {
@@ -18,6 +19,7 @@ export enum MålgruppeType {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
+    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
@@ -26,6 +28,13 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
     OVERGANGSSTØNAD: 'Overgangsstønad',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
+    INGEN_MÅLGRUPPE: 'Ingen målgruppe',
+};
+
+export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
+    if (type === '') return type;
+
+    return MålgruppeTypeTilTekst[type];
 };
 
 export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
@@ -34,3 +43,22 @@ export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
         label: label,
     })
 );
+
+// TODO: Endre navn på enum
+// FaktiskMålgruppe brukes som navn foreløpig
+// Disse verdiene er faktiske målgrupper, mens målgruppetype burde hete noe ala hovedytelse eller liknende
+export enum FaktiskMålgruppe {
+    NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
+    ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
+    GJENLEVENDE = 'GJENLEVENDE',
+    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+}
+
+export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
+    AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
+    OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
+    NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
+    INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
+};

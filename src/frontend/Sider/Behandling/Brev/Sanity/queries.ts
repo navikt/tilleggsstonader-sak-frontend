@@ -2,6 +2,8 @@ import groq from 'groq';
 
 export const hentMalerQuery = groq`*[ytelse == $ytelse && resultat == $resultat]`;
 
+export const hentAlleMalerQuery = groq`*[ytelse == $ytelse]`;
+
 export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[_id == "${id}"][0]{
 ...,
     "brevtittel": brevtittel.${målform === 'bokmål' ? 'tittelNB' : ''},

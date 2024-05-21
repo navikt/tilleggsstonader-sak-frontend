@@ -5,7 +5,7 @@ import { Select as AkselSelect, SelectProps as AkselSelectProps } from '@navikt/
 import Lesefelt from './Lesefelt';
 
 export interface SelectProps extends AkselSelectProps {
-    erLesevisning: boolean;
+    erLesevisning?: boolean;
     lesevisningVerdi?: string;
 }
 

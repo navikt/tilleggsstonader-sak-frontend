@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Table, VStack } from '@navikt/ds-react';
-import { AWhite } from '@navikt/ds-tokens/dist/tokens';
+import { Heading, Label, VStack } from '@navikt/ds-react';
 
 import Aksjonsknapper from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
@@ -15,12 +14,24 @@ import { useSteg } from '../../../../context/StegContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
-const HvitTabell = styled(Table)`
-    background-color: ${AWhite};
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(5, max-content);
+    grid-row-gap: 0.5rem;
+    grid-column-gap: 1.5rem;
+
+    .kolonne1 {
+        grid-column: 1;
+    }
 `;
 
 export type StønadsperiodeForm = {
@@ -118,39 +129,36 @@ const Stønadsperioder: React.FC = () => {
     };
 
     return (
-        <Panel tittel="Stønadsperioder">
+        <Container>
+            <Heading spacing size="small">
+                Sett stønadsperioder
+            </Heading>
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
-                        <HvitTabell size="small">
-                            <Table.Header>
-                                <Table.Row>
-                                    <Table.HeaderCell>Målgruppe</Table.HeaderCell>
-                                    <Table.HeaderCell>Aktivitet</Table.HeaderCell>
-                                    <Table.HeaderCell>Fra</Table.HeaderCell>
-                                    <Table.HeaderCell>Til</Table.HeaderCell>
-                                    <Table.HeaderCell />
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                {stønadsperioderState.value.map((periode, indeks) => (
-                                    <StønadsperiodeRad
-                                        key={periode.id || indeks}
-                                        stønadsperide={periode}
-                                        oppdaterStønadsperiode={(
-                                            property: keyof Stønadsperiode,
-                                            value: string | undefined
-                                        ) => oppdaterStønadsperiode(indeks, property, value)}
-                                        slettPeriode={() => slettPeriode(indeks)}
-                                        feilmeldinger={
-                                            formState.errors.stønadsperioder &&
-                                            formState.errors.stønadsperioder[indeks]
-                                        }
-                                        erLeservisning={!erStegRedigerbart || !redigerer}
-                                    />
-                                ))}
-                            </Table.Body>
-                        </HvitTabell>
+                        <Grid>
+                            <Label>Målgruppe</Label>
+                            <Label>Aktivitet</Label>
+                            <Label>Fra</Label>
+                            <Label>Til</Label>
+
+                            {stønadsperioderState.value.map((periode, indeks) => (
+                                <StønadsperiodeRad
+                                    key={periode.id || indeks}
+                                    stønadsperide={periode}
+                                    oppdaterStønadsperiode={(
+                                        property: keyof Stønadsperiode,
+                                        value: string | undefined
+                                    ) => oppdaterStønadsperiode(indeks, property, value)}
+                                    slettPeriode={() => slettPeriode(indeks)}
+                                    feilmeldinger={
+                                        formState.errors.stønadsperioder &&
+                                        formState.errors.stønadsperioder[indeks]
+                                    }
+                                    erLeservisning={!erStegRedigerbart || !redigerer}
+                                />
+                            ))}
+                        </Grid>
                     )}
 
                     <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
@@ -167,7 +175,7 @@ const Stønadsperioder: React.FC = () => {
                     )}
                 </VStack>
             </form>
-        </Panel>
+        </Container>
     );
 };
 

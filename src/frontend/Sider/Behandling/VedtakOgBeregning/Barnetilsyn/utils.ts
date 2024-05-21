@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
-import { BehandlingResultat } from '../../../../typer/behandling/behandlingResultat';
-import { InnvilgeVedtakForBarnetilsyn, Utgift, VedtakType } from '../../../../typer/vedtak';
+import { InnvilgeBarnetilsynRequest, Utgift } from '../../../../typer/vedtak';
 import { GrunnlagBarn, Vilkårsresultat, Vilkårsvurdering } from '../../vilkår';
 
 export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
@@ -17,17 +16,22 @@ export const tomUtgiftRad = (): Utgift => ({
     endretKey: uuidv4(),
 });
 
+/**
+ * Legger på endretKey sånn at hver rad har en unik id
+ * Hvis ikke blir ikke renderingen riktig når man fjerner en rad
+ */
+export const medEndretKey = (utgifter: Utgift[]) =>
+    utgifter.map((utgift) => ({ ...utgift, endretKey: uuidv4() }));
+
 export const leggTilTomRadUnderIListe = <T>(liste: T[], nyRad: T, indeks: number): T[] => {
     return [...liste.slice(0, indeks + 1), nyRad, ...liste.slice(indeks + 1, liste.length)];
 };
 
 export const lagVedtakRequest = (
     form: FormState<InnvilgeVedtakForm>
-): InnvilgeVedtakForBarnetilsyn => {
+): InnvilgeBarnetilsynRequest => {
     return {
         utgifter: form.utgifter,
-        _type: VedtakType.InnvilgelseBarnetilsyn,
-        resultatType: BehandlingResultat.INNVILGET,
     };
 };
 

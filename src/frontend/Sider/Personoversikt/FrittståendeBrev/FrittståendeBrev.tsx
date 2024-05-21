@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import styled from 'styled-components';
+
+import { Button, VStack } from '@navikt/ds-react';
+import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { byggTomRessurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
@@ -12,6 +16,15 @@ import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
+
+const ToKolonner = styled.div`
+    display: flex;
+    gap: 1rem;
+
+    @media (max-width: ${ABreakpointLgDown}) {
+        flex-wrap: wrap;
+    }
+`;
 
 const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: string }> = ({
     valgtStønadstype,
@@ -35,13 +48,20 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const sendBrev = () => {
-        if (fil.status === RessursStatus.SUKSESS && brevmal) {
+        if (
+            fil.status === RessursStatus.SUKSESS &&
+            brevmaler.status === RessursStatus.SUKSESS &&
+            brevmal
+        ) {
+            const brevTittel = brevmaler.data.find((bm) => bm._id === brevmal)
+                ?.visningsnavn as string;
+
             request<null, { pdf: string; tittel: string }>(
                 `/api/sak/frittstaende-brev/send/${fagsakId}`,
                 'POST',
                 {
                     pdf: fil.data,
-                    tittel: brevmal,
+                    tittel: brevTittel,
                 }
             ).then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
@@ -63,28 +83,33 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     return (
         <DataViewer response={{ brevmaler }}>
             {({ brevmaler }) => (
-                <>
-                    <VelgBrevmal
-                        brevmaler={brevmaler}
-                        brevmal={brevmal}
-                        settBrevmal={settBrevmal}
-                    />
-                    <DataViewer response={{ malStruktur, mellomlagretBrev }}>
-                        {({ malStruktur, mellomlagretBrev }) => (
-                            <Brevmeny
-                                mal={malStruktur}
-                                mellomlagretBrev={mellomlagretBrev}
-                                fagsakId={fagsakId}
-                                fil={fil}
-                                settFil={settFil}
-                            />
+                <ToKolonner>
+                    <VStack gap="8" align="start">
+                        <VelgBrevmal
+                            brevmaler={brevmaler}
+                            brevmal={brevmal}
+                            settBrevmal={settBrevmal}
+                        />
+
+                        <DataViewer response={{ malStruktur, mellomlagretBrev }}>
+                            {({ malStruktur, mellomlagretBrev }) => (
+                                <Brevmeny
+                                    mal={malStruktur}
+                                    mellomlagretBrev={mellomlagretBrev}
+                                    fagsakId={fagsakId}
+                                    settFil={settFil}
+                                />
+                            )}
+                        </DataViewer>
+                        {fil.status === RessursStatus.SUKSESS && (
+                            <Button onClick={sendBrev} size="small">
+                                Send brev
+                            </Button>
                         )}
-                    </DataViewer>
-                    {fil.status === RessursStatus.SUKSESS && (
-                        <Button onClick={sendBrev}>Send brev</Button>
-                    )}
-                    <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                </>
+                        <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                    </VStack>
+                    <PdfVisning pdfFilInnhold={fil} />
+                </ToKolonner>
             )}
         </DataViewer>
     );

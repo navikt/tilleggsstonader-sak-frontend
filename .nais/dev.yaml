@@ -22,7 +22,7 @@ spec:
     max: 2
     cpuThresholdPercentage: 50
   prometheus:
-    enabled: true
+    enabled: false
     path: "/metrics"
   resources:
     limits:
@@ -33,6 +33,7 @@ spec:
       memory: "256Mi"
   ingresses:
     - "https://tilleggsstonader.intern.dev.nav.no"
+    - "https://tilleggsstonader.ansatt.dev.nav.no"
   accessPolicy:
     outbound:
       rules:

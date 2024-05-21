@@ -34,6 +34,8 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             label="Velg stønadstype"
                             onChange={(e) => settValgtStønadstype(e.target.value as Stønadstype)}
                             value={valgtStønadstype}
+                            size="small"
+                            style={{ maxWidth: 'fit-content' }}
                         >
                             <option value={''}>Velg</option>
                             {fagsakPerson.tilsynBarn && (

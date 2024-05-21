@@ -2,10 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
-
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
-import Høyremeny from './Høyremeny/Høyremeny';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
@@ -13,6 +10,7 @@ import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
+import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 
 const BehandlingContainer = styled.div`
@@ -25,24 +23,18 @@ const InnholdWrapper = styled.div`
     max-width: calc(100% - 20rem);
 `;
 
-const HøyreMenyWrapper = styled.div`
-    border-left: 2px solid ${ABorderDefault};
-    background-color: white;
-
-    width: 20rem;
-    min-width: 20rem;
-
-    // Når skjermen blir for liten  så blir høyremenyn liggendes ovenfor venstredelen
-    z-index: 10;
-`;
-
 const BehandlingInnhold: React.FC<{
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
-}> = ({ behandling, hentBehandling, personopplysninger }) => {
+    behandlingFakta: BehandlingFakta;
+}> = ({ behandling, hentBehandling, personopplysninger, behandlingFakta }) => {
     return (
-        <BehandlingProvider behandling={behandling} hentBehandling={hentBehandling}>
+        <BehandlingProvider
+            behandling={behandling}
+            hentBehandling={hentBehandling}
+            behandlingFakta={behandlingFakta}
+        >
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
                 <BehandlingContainer>
@@ -52,9 +44,6 @@ const BehandlingInnhold: React.FC<{
                             <BehandlingTabsInnhold />
                         </InnholdWrapper>
                     </VilkårProvider>
-                    <HøyreMenyWrapper>
-                        <Høyremeny />
-                    </HøyreMenyWrapper>
                 </BehandlingContainer>
             </PersonopplysningerProvider>
         </BehandlingProvider>
