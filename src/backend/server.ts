@@ -43,6 +43,14 @@ if (process.env.NODE_ENV === 'development') {
 app.use(bodyParser.json({ limit: '200mb' }));
 app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 
+app.use(
+    RateLimit({
+        windowMs: 60 * 1000, // 60 seconds
+        limit: 120, // limit to 120 requests per windowMs
+        keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
+    })
+);
+
 app.get(/^(?!.*\/(internal|static|api|oauth2|dokument)\/).*$/, validateToken(true), (_req, res) => {
     res.sendFile('index.html', { root: buildPath });
 });
@@ -66,14 +74,6 @@ app.use(
     addRequestInfo(),
     attachToken(ApplicationName.sak),
     doProxy(ApplicationName.sak)
-);
-
-app.use(
-    RateLimit({
-        windowMs: 60 * 1000, // 60 seconds
-        limit: 120, // limit to 120 requests per windowMs
-        keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
-    })
 );
 
 app.listen(PORT, () => {
