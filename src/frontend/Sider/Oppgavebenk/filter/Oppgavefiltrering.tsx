@@ -10,7 +10,7 @@ import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
-import { defaultOppgaveRequest } from '../oppgaverequestUtil';
+import { defaultOppgaveRequest, nullstillSortering } from '../oppgaverequestUtil';
 import { enhetTilTekst } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
 import {
@@ -47,8 +47,10 @@ export const Oppgavefiltrering = () => {
             oppdaterOppgave(key)(e.target.value);
 
     const sjekkFeilOgHentOppgaver = () => {
-        lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), oppgaveRequest);
-        hentOppgaver(oppgaveRequest);
+        const nullstiltSortering = nullstillSortering(oppgaveRequest);
+        settOppgaveRequest(nullstiltSortering);
+        lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), nullstiltSortering);
+        hentOppgaver(nullstiltSortering);
     };
 
     const nullstillFiltrering = () => {
