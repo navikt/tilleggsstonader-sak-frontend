@@ -9,6 +9,7 @@ export const oppdaterFilter = (
     if (!val || val === '') {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [key]: setNull, ...remainder } = object;
+        // @ts-ignore
         return remainder;
     }
     return {

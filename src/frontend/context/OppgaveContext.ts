@@ -4,6 +4,7 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
+import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
 import {
     byggHenterRessurs,
@@ -24,7 +25,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>({});
+    const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>(defaultOppgaveRequest);
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
 

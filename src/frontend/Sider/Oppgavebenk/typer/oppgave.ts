@@ -23,10 +23,10 @@ export interface OppgaveRequest {
     erUtenMappe?: boolean;
     ident?: string;
 
-    limit?: number;
-    offset?: number;
-    orderBy?: OppgaveOrderBy;
-    order?: OppgaveOrder;
+    limit: number;
+    offset: number;
+    orderBy: OppgaveOrderBy;
+    order: OppgaveOrder;
 }
 
 export type OppgaveOrderBy = 'OPPRETTET_TIDSPUNKT' | 'AKTIV_DATO' | 'FRIST' | 'ENDRET_TIDSPUNKT';
