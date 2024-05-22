@@ -21,6 +21,7 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?
     behandlingstema: { tittel: 'Stønad', erSorterbar: false },
     opprettetTidspunkt: { tittel: 'Opprettet', erSorterbar: true },
     identer: { tittel: 'Ident' },
+    navn: { tittel: 'Navn' },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
 };
 

@@ -62,6 +62,11 @@ export interface Oppgave {
     endretTidspunkt?: string;
     prioritet?: Prioritet;
     status?: string;
+
+    /*
+    Ekstra felter som er lagt til i backend
+     */
+    navn?: string;
 }
 
 export interface IOppgaveIdent {
