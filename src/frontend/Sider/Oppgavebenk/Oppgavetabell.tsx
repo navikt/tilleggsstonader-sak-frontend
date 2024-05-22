@@ -32,23 +32,25 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: Op
     tilordnetRessurs: { tittel: 'Saksbehandler' },
 };
 
+const orderByTilHeader: Record<OppgaveOrderBy, keyof Oppgave> = Object.entries(
+    tabellHeaders
+).reduce(
+    (prev, [key, { orderBy }]) => ({
+        ...prev,
+        ...(orderBy ? { [orderBy]: key } : {}),
+    }),
+    {} as Record<OppgaveOrderBy, keyof Oppgave>
+);
+
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
     oppgave.identer?.filter((i) => i.gruppe === IdentGruppe.FOLKEREGISTERIDENT)[0].ident ||
     'Ukjent ident';
 
-const utledKeyForOrderBy = (oppgaveRequest: OppgaveRequest): keyof Oppgave => {
-    const orderBy = Object.entries(tabellHeaders).find(
-        ([, { orderBy }]) => orderBy && orderBy === oppgaveRequest.orderBy
-    )?.[0] as keyof Oppgave;
-    return orderBy ?? 'opprettetTidspunkt';
-};
-
 const utledOrderByFraKey = (oppgaveKey: keyof Oppgave): OppgaveOrderBy =>
-    Object.entries(tabellHeaders).find(([key]) => key === oppgaveKey)?.[1].orderBy ??
-    defaultSortering.orderBy;
+    tabellHeaders[oppgaveKey]?.orderBy ?? defaultSortering.orderBy;
 
 const utledTabellSort = (oppgaveRequest: OppgaveRequest): SortState => ({
-    orderBy: utledKeyForOrderBy(oppgaveRequest),
+    orderBy: orderByTilHeader[oppgaveRequest.orderBy] ?? 'opprettetTidspunkt',
     direction: oppgaveRequest.order === 'ASC' ? 'ascending' : 'descending',
 });
 
