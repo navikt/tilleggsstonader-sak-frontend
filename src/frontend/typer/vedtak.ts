@@ -29,7 +29,7 @@ export type AvslåBarnetilsynRequest = {
 
 export enum ÅrsakAvslag {
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
-    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+    IKKE_I_MÅLGRUPPE = 'IKKE_I_MÅLGRUPPE',
     INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE = 'INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE',
     MANGELFULL_DOKUMENTASJON = 'MANGELFULL_DOKUMENTASJON',
     ANNET = 'ANNET',
@@ -37,7 +37,7 @@ export enum ÅrsakAvslag {
 
 export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     INGEN_AKTIVITET: 'Ingen aktivitet',
-    INGEN_MÅLGRUPPE: 'Ingen målgruppe',
+    IKKE_I_MÅLGRUPPE: 'Ingen målgruppe',
     INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: 'Ingen overlapp aktivitet/målgruppe',
     MANGELFULL_DOKUMENTASJON: 'Mangelfull dokumentasjon',
     ANNET: 'Annet',
