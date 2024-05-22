@@ -22,7 +22,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [laster, settLaster] = useState<boolean>(false);
     const [lasterOppgaveRequestFraLocaleStorage, settLasterOppgaveRequestFraLocaleStorage] =
-        useState<boolean>(false);
+        useState<boolean>(true);
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>(defaultOppgaveRequest);
