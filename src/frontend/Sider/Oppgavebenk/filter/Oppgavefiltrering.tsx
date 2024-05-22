@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 import { Button, Select, TextField, VStack } from '@navikt/ds-react';
 
-import { oppdaterFilter } from './filterutils';
+import { oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
-import { enhetTilTekst, FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
+import { defaultOppgaveRequest } from '../oppgaverequestUtil';
+import { enhetTilTekst } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
@@ -37,9 +38,6 @@ export const Oppgavefiltrering = () => {
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
-    const tomOppgaveRequest = harSaksbehandlerStrengtFortroligRolle
-        ? { enhet: FortroligEnhet.VIKAFOSSEN }
-        : { enhet: IkkeFortroligEnhet.NAY };
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -54,6 +52,10 @@ export const Oppgavefiltrering = () => {
     };
 
     const nullstillFiltrering = () => {
+        const tomOppgaveRequest = oppgaveRequestMedDefaultEnhet(
+            defaultOppgaveRequest,
+            harSaksbehandlerStrengtFortroligRolle
+        );
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
     };
