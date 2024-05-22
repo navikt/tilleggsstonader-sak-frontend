@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
+import OpprettNyBehandlingModal from './OpprettNyBehandlingModal';
 import PersonoversiktInnhold from './PersonoversiktInnhold';
 import { useApp } from '../../context/AppContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
@@ -28,12 +30,19 @@ const Personoversikt = () => {
         document.title = 'Personoversikt';
     }, []);
 
+    const ModalWrapper = styled.div`
+        padding: 0 2rem;
+    `;
+
     return (
         <DataViewer response={{ personopplysninger }}>
             {({ personopplysninger }) => (
                 <PersonopplysningerProvider personopplysninger={personopplysninger}>
                     <PersonHeader fagsakPersonId={fagsakPersonId} />
                     <PersonoversiktInnhold fagsakPersonId={fagsakPersonId} />
+                    <ModalWrapper>
+                        <OpprettNyBehandlingModal />
+                    </ModalWrapper>
                 </PersonopplysningerProvider>
             )}
         </DataViewer>
