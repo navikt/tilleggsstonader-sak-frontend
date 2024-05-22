@@ -4,13 +4,17 @@ import styled from 'styled-components';
 
 import { Button, Select, TextField, VStack } from '@navikt/ds-react';
 
-import { oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
+import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
-import { defaultOppgaveRequest, nullstillSortering } from '../oppgaverequestUtil';
+import {
+    defaultOppgaveRequest,
+    nullstillSortering,
+    oppgaveRequestMedDefaultEnhet,
+} from '../oppgaverequestUtil';
 import { enhetTilTekst } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
 import {

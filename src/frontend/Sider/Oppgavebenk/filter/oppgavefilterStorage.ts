@@ -1,6 +1,9 @@
-import { oppgaveRequestMedDefaultEnhet } from './filterutils';
 import { Saksbehandler } from '../../../utils/saksbehandler';
-import { defaultOppgaveRequest, defaultSortering } from '../oppgaverequestUtil';
+import {
+    defaultOppgaveRequest,
+    defaultSortering,
+    oppgaveRequestMedDefaultEnhet,
+} from '../oppgaverequestUtil';
 import { OppgaveRequest } from '../typer/oppgave';
 
 export const oppgaveRequestKeyPrefix = 'oppgaveFiltreringRequest';
