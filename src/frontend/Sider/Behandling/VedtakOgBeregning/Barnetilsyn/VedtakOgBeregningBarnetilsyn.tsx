@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import AvslåVedtak from './AvslåVedtak';
+import AvslåVedtak from './AvslåVedtak/AvslåVedtak';
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';

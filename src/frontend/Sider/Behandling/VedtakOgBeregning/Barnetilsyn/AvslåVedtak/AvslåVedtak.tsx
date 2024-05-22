@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea } from '@navikt/ds-react';
 
-import { useApp } from '../../../../context/AppContext';
-import { useBehandling } from '../../../../context/BehandlingContext';
-import { useSteg } from '../../../../context/StegContext';
-import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
-import { Steg } from '../../../../typer/behandling/steg';
+import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
+import { useSteg } from '../../../../../context/StegContext';
+import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
+import { Steg } from '../../../../../typer/behandling/steg';
 import {
     AvslagBarnetilsyn,
     AvslåBarnetilsynRequest,
     ÅrsakAvslag,
     årsakAvslagTilTekst,
-} from '../../../../typer/vedtak';
-import { harVerdi } from '../../../../utils/utils';
-import { FanePath } from '../../faner';
+} from '../../../../../typer/vedtak';
+import { harVerdi } from '../../../../../utils/utils';
+import { FanePath } from '../../../faner';
 
 const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
