@@ -1,4 +1,4 @@
-import { OppgaveRequest } from './typer/oppgave';
+import { OppgaveRequest, OppgaverResponse } from './typer/oppgave';
 
 const OPPGAVE_SIDE_STØRRELSE = 15;
 
@@ -17,3 +17,9 @@ export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveReque
 export const defaultOppgaveRequest: OppgaveRequest = {
     ...defaultSortering,
 };
+
+export const utledSide = (oppgaveRequest: OppgaveRequest | undefined) =>
+    oppgaveRequest?.offset ? Math.ceil(oppgaveRequest.offset / OPPGAVE_SIDE_STØRRELSE) + 1 : 1;
+
+export const utledAntallSider = (oppgaverResponse: OppgaverResponse) =>
+    Math.ceil(oppgaverResponse.antallTreffTotalt / OPPGAVE_SIDE_STØRRELSE);
