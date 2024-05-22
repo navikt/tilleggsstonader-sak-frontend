@@ -1,3 +1,8 @@
+import { oppgaveRequestMedDefaultEnhet } from './filterutils';
+import { Saksbehandler } from '../../../utils/saksbehandler';
+import { defaultOppgaveRequest, defaultSortering } from '../oppgaverequestUtil';
+import { OppgaveRequest } from '../typer/oppgave';
+
 export const oppgaveRequestKeyPrefix = 'oppgaveFiltreringRequest';
 
 export const oppgaveRequestKey = (innloggetIdent: string): string => {
@@ -19,4 +24,27 @@ export const hentFraLocalStorage = <T>(key: string, fallbackVerdi: T): T => {
     } catch {
         return fallbackVerdi;
     }
+};
+
+export const hentLagretOppgaveRequest = (
+    saksbehandler: Saksbehandler,
+    harSaksbehandlerStrengtFortroligRolle: boolean
+): OppgaveRequest => {
+    const fraLocalStorage = hentFraLocalStorage<Partial<OppgaveRequest>>(
+        oppgaveRequestKey(saksbehandler.navIdent),
+        defaultOppgaveRequest
+    );
+
+    const fraLocalStorageMedDefaultVerdier: OppgaveRequest = {
+        ...fraLocalStorage,
+        limit: fraLocalStorage.limit ?? defaultSortering.limit,
+        offset: fraLocalStorage.offset ?? defaultSortering.offset,
+        order: defaultSortering.order,
+        orderBy: defaultSortering.orderBy,
+    };
+
+    return oppgaveRequestMedDefaultEnhet(
+        fraLocalStorageMedDefaultVerdier,
+        harSaksbehandlerStrengtFortroligRolle
+    );
 };
