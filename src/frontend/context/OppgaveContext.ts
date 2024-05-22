@@ -21,7 +21,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     const [oppgaveRessurs, settOppgaveRessurs] =
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [laster, settLaster] = useState<boolean>(false);
-    const [lasterOppgaveRequestFraLokalt, settLasterOppgaveRequestFraLokalt] =
+    const [lasterOppgaveRequestFraLocaleStorage, settLasterOppgaveRequestFraLocaleStorage] =
         useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -45,7 +45,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
             harSaksbehandlerStrengtFortroligRolle
         );
         settOppgaveRequest(lagretFiltrering);
-        settLasterOppgaveRequestFraLokalt(false);
+        settLasterOppgaveRequestFraLocaleStorage(false);
         hentOppgaver(lagretFiltrering);
     }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
@@ -121,7 +121,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         tilbakestillFordeling,
         settOppgaveTilSaksbehandler,
         oppdaterOppgaveEtterTilbakestilling,
-        lasterOppgaveRequestFraLokalt,
+        lasterOppgaveRequestFraLocaleStorage,
         oppgaveRequest,
         settOppgaveRequest,
     };

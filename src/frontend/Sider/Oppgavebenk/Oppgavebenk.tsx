@@ -24,9 +24,9 @@ const AlertContainer = styled.div`
 `;
 
 const OppgavebenkContainer = () => {
-    const { feilmelding, oppgaveRessurs, lasterOppgaveRequestFraLokalt } = useOppgave();
+    const { feilmelding, oppgaveRessurs, lasterOppgaveRequestFraLocaleStorage } = useOppgave();
 
-    if (lasterOppgaveRequestFraLokalt) {
+    if (lasterOppgaveRequestFraLocaleStorage) {
         return <SystemetLaster />;
     }
 
