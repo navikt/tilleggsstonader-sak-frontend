@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea } from '@navikt/ds-react';
 
+import { FeilmeldingAvslag, valider } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
+import { erTomtObjekt } from '../../../../../typer/typeUtils';
 import {
     AvslagBarnetilsyn,
     AvslåBarnetilsynRequest,
     ÅrsakAvslag,
     årsakAvslagTilTekst,
 } from '../../../../../typer/vedtak';
-import { harVerdi } from '../../../../../utils/utils';
 import { FanePath } from '../../../faner';
 
 const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
@@ -23,7 +24,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
 
     const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
-    const [feilmelding, settFeilmelding] = useState<string | undefined>();
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingAvslag>({});
 
     const lagreVedtak = () => {
         return request<null, AvslåBarnetilsynRequest>(
@@ -34,12 +35,13 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     };
 
     const validerOgLagreVedtak = () => {
-        if (!harVerdi(begrunnelse)) {
-            settFeilmelding('Begrunnelse for avslag må fylles ut');
-            return Promise.reject();
-        } else {
-            settFeilmelding(undefined);
+        const feil = valider(årsaker, begrunnelse);
+        settFeilmeldinger(feil);
+
+        if (erTomtObjekt(feil)) {
             return lagreVedtak();
+        } else {
+            return Promise.reject();
         }
     };
 
@@ -53,6 +55,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
+                error={feilmeldinger.årsaker}
             >
                 {Object.keys(ÅrsakAvslag).map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
@@ -64,7 +67,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 label="Begrunnelse for avslag"
                 value={begrunnelse}
                 onChange={(e) => settBegrunnelse(e.target.value)}
-                error={feilmelding}
+                error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
                 style={{ width: '40rem' }}
                 size="small"
