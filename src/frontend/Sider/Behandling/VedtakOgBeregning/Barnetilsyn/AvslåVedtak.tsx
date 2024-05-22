@@ -21,7 +21,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { erStegRedigerbart } = useSteg();
     const { request } = useApp();
 
-    const [årsakAvslag, settÅrsakAvslag] = useState<ÅrsakAvslag[]>(vedtak?.årsakAvslag || []);
+    const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
     const [feilmelding, settFeilmelding] = useState<string | undefined>();
 
@@ -29,7 +29,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
         return request<null, AvslåBarnetilsynRequest>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`,
             'POST',
-            { årsakAvslag: årsakAvslag, begrunnelse: begrunnelse }
+            { årsakerAvslag: årsaker, begrunnelse: begrunnelse }
         );
     };
 
@@ -47,15 +47,17 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
         <>
             <CheckboxGroup
                 legend="Årsak til avslag"
-                value={årsakAvslag}
+                value={årsaker}
                 onChange={(e) => {
-                    settÅrsakAvslag(e);
+                    settÅrsaker(e);
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
             >
                 {Object.keys(ÅrsakAvslag).map((årsak) => (
-                    <Checkbox value={årsak}>{årsakAvslagTilTekst[årsak as ÅrsakAvslag]}</Checkbox>
+                    <Checkbox value={årsak} key={årsak}>
+                        {årsakAvslagTilTekst[årsak as ÅrsakAvslag]}
+                    </Checkbox>
                 ))}
             </CheckboxGroup>
             <Textarea

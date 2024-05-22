@@ -23,7 +23,7 @@ export interface InnvilgelseBarnetilsyn extends InnvilgeBarnetilsynRequest {
 }
 
 export type AvslåBarnetilsynRequest = {
-    årsakAvslag: ÅrsakAvslag[];
+    årsakerAvslag: ÅrsakAvslag[];
     begrunnelse: string;
 };
 
