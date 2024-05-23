@@ -5,12 +5,14 @@ export const JOURNALPOST_QUERY_STRING = 'journalpostId';
 export const OPPGAVEID_QUERY_STRING = 'oppgaveId';
 
 const behandlingssakerForSaksbehandling: Oppgavetype[] = ['BEH_SAK', 'GOD_VED', 'BEH_UND_VED'];
-export const oppgaveErSaksbehandling = (oppgave: Oppgave) => {
+
+export const oppgaveErSaksbehandling = (oppgave: Oppgave): boolean => {
     const { behandlesAvApplikasjon, oppgavetype } = oppgave;
-    return (
+    return !!(
         behandlesAvApplikasjon === 'tilleggsstonader-sak' &&
         oppgavetype &&
-        behandlingssakerForSaksbehandling.includes(oppgavetype)
+        behandlingssakerForSaksbehandling.includes(oppgavetype) &&
+        oppgave.behandlingId
     );
 };
 

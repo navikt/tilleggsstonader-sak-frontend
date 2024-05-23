@@ -75,6 +75,7 @@ export interface Oppgave {
     Ekstra felter som er lagt til i backend
      */
     navn?: string;
+    behandlingId?: string;
 }
 
 export interface IOppgaveIdent {
