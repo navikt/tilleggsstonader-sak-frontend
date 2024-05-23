@@ -1,4 +1,4 @@
-name: Build, push, and deploy app to dev and prod
+name: Build and deploy to prod and dev
 
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
   build:
     name: Build and push Docker container
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -58,6 +59,7 @@ jobs:
     name: Deploy to NAIS
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Deploy til dev-gcp

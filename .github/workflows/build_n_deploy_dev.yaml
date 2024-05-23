@@ -1,4 +1,4 @@
-name: Build, push, and deploy app to dev
+name: Build and deploy to dev
 
 on: [workflow_dispatch]
 env:
@@ -13,6 +13,7 @@ jobs:
   build:
     name: Build and push Docker container
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -48,6 +49,7 @@ jobs:
     name: Deploy to NAIS
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2

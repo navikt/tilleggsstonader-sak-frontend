@@ -6,6 +6,7 @@ jobs:
   build:
     name: Bygg app
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
