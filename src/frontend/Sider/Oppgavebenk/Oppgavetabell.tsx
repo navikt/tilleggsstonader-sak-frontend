@@ -6,7 +6,12 @@ import { Pagination, Table } from '@navikt/ds-react';
 import { SortState } from '@navikt/ds-react/src/table/types';
 
 import Oppgaverad from './Oppgaverad';
-import { defaultSortering, utledAntallSider, utledSide } from './oppgaverequestUtil';
+import {
+    defaultSortering,
+    OPPGAVE_SIDE_STØRRELSE,
+    utledAntallSider,
+    utledSide,
+} from './oppgaverequestUtil';
 import {
     IdentGruppe,
     Oppgave,
@@ -63,7 +68,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
     const oppdaterValgtSide = (valgtSide: number) => {
         const oppdatertOppgaveRequest: OppgaveRequest = {
             ...oppgaveRequest,
-            offset: (valgtSide - 1) * defaultSortering.offset,
+            offset: (valgtSide - 1) * OPPGAVE_SIDE_STØRRELSE,
         };
         settOppgaveRequest(oppdatertOppgaveRequest);
         hentOppgaver(oppdatertOppgaveRequest);

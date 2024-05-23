@@ -1,7 +1,7 @@
 import { FortroligEnhet, IkkeFortroligEnhet } from './typer/enhet';
 import { OppgaveRequest, OppgaverResponse } from './typer/oppgave';
 
-const OPPGAVE_SIDE_STØRRELSE = 15;
+export const OPPGAVE_SIDE_STØRRELSE = 15;
 
 export const defaultSortering: Pick<OppgaveRequest, 'offset' | 'limit' | 'order' | 'orderBy'> = {
     offset: 0,
