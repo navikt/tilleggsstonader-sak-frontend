@@ -3,7 +3,7 @@ import { decodeJwt } from 'jose';
 
 import { azureOBO, verify } from './client';
 import { withInMemoryCache } from './inMemoryCache';
-import { getTokenFromHeader, secondsUntil } from './secondsUntil';
+import { secondsUntil } from './secondsUntil';
 import { redirectResponseToLogin } from './util';
 import { logWarn } from '../logger';
 import { ApplicationName, miljø } from '../miljø';
@@ -62,6 +62,19 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
             return res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
         }
     };
+};
+
+export const getTokenFromHeader = (req: Request): string | null => {
+    if (process.env.NODE_ENV === 'development') {
+        // @ts-ignore lokalt lagres accessToken i sessionen for å kunne logge inn uten wonderwall
+        return req.session.tokenSet?.access_token;
+    }
+    const { authorization } = req.headers;
+    if (authorization == null) return null;
+    if (!authorization.includes('Bearer ')) {
+        return null;
+    }
+    return authorization.split(' ')[1];
 };
 
 const cachedAzureOBOProvoder = withInMemoryCache(azureOBO);

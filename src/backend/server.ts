@@ -1,11 +1,12 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import RateLimit from 'express-rate-limit';
 import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { attachToken, validateToken } from './auth/attachToken';
+import { attachToken, getTokenFromHeader, validateToken } from './auth/attachToken';
 import { setupLocal } from './auth/local';
 import { getProfile } from './auth/profile';
 import logger from './logger';
@@ -41,6 +42,14 @@ if (process.env.NODE_ENV === 'development') {
 // Sett opp bodyParser og router etter proxy. Spesielt viktig med tanke på større payloads som blir parset av bodyParser
 app.use(bodyParser.json({ limit: '200mb' }));
 app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
+
+app.use(
+    RateLimit({
+        windowMs: 60 * 1000, // 60 seconds
+        limit: 120, // limit to 120 requests per windowMs
+        keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
+    })
+);
 
 app.get(/^(?!.*\/(internal|static|api|oauth2|dokument)\/).*$/, validateToken(true), (_req, res) => {
     res.sendFile('index.html', { root: buildPath });

@@ -22,7 +22,15 @@ export interface OppgaveRequest {
     fristTom?: string;
     erUtenMappe?: boolean;
     ident?: string;
+
+    limit: number;
+    offset: number;
+    orderBy: OppgaveOrderBy;
+    order: OppgaveOrder;
 }
+
+export type OppgaveOrderBy = 'OPPRETTET_TIDSPUNKT' | 'AKTIV_DATO' | 'FRIST' | 'ENDRET_TIDSPUNKT';
+export type OppgaveOrder = 'ASC' | 'DESC';
 
 export interface OppgaverResponse {
     antallTreffTotalt: number;
@@ -62,6 +70,11 @@ export interface Oppgave {
     endretTidspunkt?: string;
     prioritet?: Prioritet;
     status?: string;
+
+    /*
+    Ekstra felter som er lagt til i backend
+     */
+    navn?: string;
 }
 
 export interface IOppgaveIdent {
