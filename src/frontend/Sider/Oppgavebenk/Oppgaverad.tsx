@@ -50,6 +50,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                 </Popover>
             </Table.DataCell>
             <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
+            <Table.DataCell>{oppgave.navn}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>

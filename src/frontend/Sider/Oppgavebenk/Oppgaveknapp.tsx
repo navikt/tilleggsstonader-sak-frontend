@@ -11,10 +11,9 @@ import {
     oppgaveErJournalføring,
     oppgaveErSaksbehandling,
 } from './oppgaveutils';
-import { Oppgave, OppgaveResponse } from './typer/oppgave';
+import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgave } from '../../context/OppgaveContext';
-import { RessursStatus } from '../../typer/ressurs';
 
 const TabellKnapp = styled(Button)`
     width: fit-content;
@@ -36,13 +35,12 @@ const skalViseFortsettKnapp = (oppgave: Oppgave) =>
     oppgaveErSaksbehandling(oppgave) || oppgaveErJournalføring(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
-    const { saksbehandler, request } = useApp();
+    const { saksbehandler } = useApp();
     const navigate = useNavigate();
     const {
         settOppgaveTilSaksbehandler,
         tilbakestillFordeling,
         laster,
-        settLaster,
         settFeilmelding,
         oppdaterOppgaveEtterTilbakestilling,
     } = useOppgave();
@@ -50,20 +48,8 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
 
-    const gåTilBehandleSakOppgave = () => {
-        if (laster) return;
-        settLaster(true);
-        request<OppgaveResponse, null>(`/api/sak/oppgave/${oppgave.id}`)
-            .then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    return Promise.resolve(res.data.behandlingId);
-                } else {
-                    return Promise.reject(new Error(res.frontendFeilmelding));
-                }
-            })
-            .then((behandlingId) => navigate(`/behandling/${behandlingId}`))
-            .catch((error: Error) => settFeilmelding(error.message))
-            .finally(() => settLaster(false));
+    const gåTilBehandleSakOppgave = (behandlingId: string) => {
+        navigate(`/behandling/${behandlingId}`);
     };
 
     const gåTilJournalføring = () => {
@@ -73,8 +59,8 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     };
 
     const gåTilOppgaveUtførelse = () => {
-        if (oppgaveErSaksbehandling(oppgave)) {
-            gåTilBehandleSakOppgave();
+        if (oppgaveErSaksbehandling(oppgave) && oppgave.behandlingId) {
+            gåTilBehandleSakOppgave(oppgave.behandlingId);
         } else if (oppgaveErJournalføring(oppgave)) {
             gåTilJournalføring();
         } else {

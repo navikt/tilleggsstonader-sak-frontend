@@ -1,22 +1,21 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import styled from 'styled-components';
 
 import { Button, Select, TextField, VStack } from '@navikt/ds-react';
 
-import { oppdaterFilter, oppgaveRequestMedDefaultEnhet } from './filterutils';
-import {
-    hentFraLocalStorage,
-    lagreTilLocalStorage,
-    oppgaveRequestKey,
-} from './oppgavefilterStorage';
+import { oppdaterFilter } from './filterutils';
+import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
-import SystemetLaster from '../../../komponenter/SystemetLaster/SystemetLaster';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
-import { Saksbehandler } from '../../../utils/saksbehandler';
-import { enhetTilTekst, FortroligEnhet, IkkeFortroligEnhet } from '../typer/enhet';
+import {
+    defaultOppgaveRequest,
+    nullstillSortering,
+    oppgaveRequestMedDefaultEnhet,
+} from '../oppgaverequestUtil';
+import { enhetTilTekst } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
@@ -37,39 +36,12 @@ const KnappWrapper = styled.div`
     gap: 1rem;
 `;
 
-const hentLagretFiltrering = (
-    saksbehandler: Saksbehandler,
-    harSaksbehandlerStrengtFortroligRolle: boolean
-): OppgaveRequest => {
-    const fraLocalStorage = hentFraLocalStorage<OppgaveRequest>(
-        oppgaveRequestKey(saksbehandler.navIdent),
-        {}
-    );
-
-    return oppgaveRequestMedDefaultEnhet(fraLocalStorage, harSaksbehandlerStrengtFortroligRolle);
-};
-
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
-    const { hentOppgaver } = useOppgave();
-    const [lasterFraLokalt, settLasterFraLokalt] = useState(true);
-    const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>({});
+    const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
-    const tomOppgaveRequest = harSaksbehandlerStrengtFortroligRolle
-        ? { enhet: FortroligEnhet.VIKAFOSSEN }
-        : { enhet: IkkeFortroligEnhet.NAY };
-
-    useEffect(() => {
-        const lagretFiltrering = hentLagretFiltrering(
-            saksbehandler,
-            harSaksbehandlerStrengtFortroligRolle
-        );
-        settOppgaveRequest(lagretFiltrering);
-        settLasterFraLokalt(false);
-        hentOppgaver(lagretFiltrering);
-    }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -79,18 +51,20 @@ export const Oppgavefiltrering = () => {
             oppdaterOppgave(key)(e.target.value);
 
     const sjekkFeilOgHentOppgaver = () => {
-        lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), oppgaveRequest);
-        hentOppgaver(oppgaveRequest);
+        const nullstiltSortering = nullstillSortering(oppgaveRequest);
+        settOppgaveRequest(nullstiltSortering);
+        lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), nullstiltSortering);
+        hentOppgaver(nullstiltSortering);
     };
 
     const nullstillFiltrering = () => {
+        const tomOppgaveRequest = oppgaveRequestMedDefaultEnhet(
+            defaultOppgaveRequest,
+            harSaksbehandlerStrengtFortroligRolle
+        );
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
     };
-
-    if (lasterFraLokalt) {
-        return <SystemetLaster />;
-    }
 
     return (
         <VStack gap="4">
