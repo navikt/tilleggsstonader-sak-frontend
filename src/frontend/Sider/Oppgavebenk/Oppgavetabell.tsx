@@ -3,49 +3,87 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Pagination, Table } from '@navikt/ds-react';
+import { SortState } from '@navikt/ds-react/src/table/types';
 
 import Oppgaverad from './Oppgaverad';
-import { IdentGruppe, Oppgave } from './typer/oppgave';
-import { usePagineringState } from '../../hooks/felles/usePaginerState';
-import { useSorteringState } from '../../hooks/felles/useSorteringState';
+import { defaultSortering, utledAntallSider, utledSide } from './oppgaverequestUtil';
+import {
+    IdentGruppe,
+    Oppgave,
+    OppgaveOrderBy,
+    OppgaveRequest,
+    OppgaverResponse,
+} from './typer/oppgave';
+import { useOppgave } from '../../context/OppgaveContext';
 import { PartialRecord } from '../../typer/common';
+
 const Tabell = styled(Table)`
     width: 1100px;
 `;
 interface Props {
-    oppgaver: Oppgave[];
+    oppgaverResponse: OppgaverResponse;
 }
 
-const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; erSorterbar?: boolean }> = {
-    oppgavetype: { tittel: 'Oppgavetype', erSorterbar: false },
-    behandlingstema: { tittel: 'Stønad', erSorterbar: false },
-    opprettetTidspunkt: { tittel: 'Opprettet', erSorterbar: true },
+const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: OppgaveOrderBy }> = {
+    oppgavetype: { tittel: 'Oppgavetype' },
+    behandlingstema: { tittel: 'Stønad' },
+    opprettetTidspunkt: { tittel: 'Opprettet', orderBy: 'OPPRETTET_TIDSPUNKT' },
     identer: { tittel: 'Ident' },
     tilordnetRessurs: { tittel: 'Saksbehandler' },
 };
+
+const orderByTilHeader: Record<OppgaveOrderBy, keyof Oppgave> = Object.entries(
+    tabellHeaders
+).reduce(
+    (prev, [key, { orderBy }]) => ({
+        ...prev,
+        ...(orderBy ? { [orderBy]: key } : {}),
+    }),
+    {} as Record<OppgaveOrderBy, keyof Oppgave>
+);
 
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
     oppgave.identer?.filter((i) => i.gruppe === IdentGruppe.FOLKEREGISTERIDENT)[0].ident ||
     'Ukjent ident';
 
-const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
-    const { sortertListe, settSortering, sortState } = useSorteringState<Oppgave>(oppgaver, {
-        orderBy: 'opprettetTidspunkt',
-        direction: 'ascending',
-    });
+const utledOrderByFraKey = (oppgaveKey: keyof Oppgave): OppgaveOrderBy =>
+    tabellHeaders[oppgaveKey]?.orderBy ?? defaultSortering.orderBy;
 
-    const { valgtSide, settValgtSide, slicedListe, antallSider } = usePagineringState(
-        sortertListe,
-        1,
-        15
-    );
+const utledTabellSort = (oppgaveRequest: OppgaveRequest): SortState => ({
+    orderBy: orderByTilHeader[oppgaveRequest.orderBy] ?? 'opprettetTidspunkt',
+    direction: oppgaveRequest.order === 'ASC' ? 'ascending' : 'descending',
+});
+
+const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
+    const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+    const side = utledSide(oppgaveRequest);
+    const antallSider = utledAntallSider(oppgaverResponse);
+
+    const oppdaterValgtSide = (valgtSide: number) => {
+        const oppdatertOppgaveRequest: OppgaveRequest = {
+            ...oppgaveRequest,
+            offset: (valgtSide - 1) * defaultSortering.offset,
+        };
+        settOppgaveRequest(oppdatertOppgaveRequest);
+        hentOppgaver(oppdatertOppgaveRequest);
+    };
+
+    const oppdaterSortering = (orderKey: keyof Oppgave) => {
+        const oppdatertOppgaveRequest: OppgaveRequest = {
+            ...oppgaveRequest,
+            orderBy: utledOrderByFraKey(orderKey),
+            order: oppgaveRequest.order === 'ASC' ? 'DESC' : 'ASC',
+        };
+        settOppgaveRequest(oppdatertOppgaveRequest);
+        hentOppgaver(oppdatertOppgaveRequest);
+    };
 
     return (
         <>
             <Tabell
                 size="small"
-                sort={sortState}
-                onSortChange={(sortKey) => settSortering(sortKey as keyof Oppgave)}
+                sort={utledTabellSort(oppgaveRequest)}
+                onSortChange={(sortKey) => oppdaterSortering(sortKey as keyof Oppgave)}
                 zebraStripes
             >
                 <Table.Header>
@@ -54,7 +92,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                             <Table.ColumnHeader
                                 key={`${indeks}${key}`}
                                 sortKey={key}
-                                sortable={value.erSorterbar}
+                                sortable={!!value.orderBy}
                             >
                                 {value.tittel}
                             </Table.ColumnHeader>
@@ -62,16 +100,16 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaver }) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {slicedListe.map((oppgave) => (
+                    {oppgaverResponse.oppgaver.map((oppgave) => (
                         <Oppgaverad key={oppgave.id} oppgave={oppgave} />
                     ))}
                 </Table.Body>
             </Tabell>
             {antallSider > 1 && (
                 <Pagination
-                    page={valgtSide}
+                    page={side}
                     count={antallSider}
-                    onPageChange={settValgtSide}
+                    onPageChange={oppdaterValgtSide}
                     size="small"
                 />
             )}

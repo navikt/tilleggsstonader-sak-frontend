@@ -11,6 +11,7 @@ import { useApp } from '../../context/AppContext';
 import { OppgaveProvider, useOppgave } from '../../context/OppgaveContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
+import SystemetLaster from '../../komponenter/SystemetLaster/SystemetLaster';
 import { erProd } from '../../utils/miljø';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -23,12 +24,17 @@ const AlertContainer = styled.div`
 `;
 
 const OppgavebenkContainer = () => {
-    const { feilmelding, oppgaveRessurs } = useOppgave();
+    const { feilmelding, oppgaveRessurs, lasterOppgaveRequestFraLocaleStorage } = useOppgave();
+
+    if (lasterOppgaveRequestFraLocaleStorage) {
+        return <SystemetLaster />;
+    }
+
     return (
         <Container>
             <Oppgavefiltrering />
             <DataViewer response={{ oppgaver: oppgaveRessurs }}>
-                {({ oppgaver }) => <Oppgavetabell oppgaver={oppgaver.oppgaver} />}
+                {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}
             </DataViewer>
             <Feilmelding>{feilmelding}</Feilmelding>
         </Container>
