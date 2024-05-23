@@ -12,7 +12,6 @@ interface Props {
 
 const VelgTypeVedtak: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     const { erStegRedigerbart } = useSteg();
-    // const { settIkkePersistertKomponent } = useApp();
 
     return (
         <RadioGroup
