@@ -10,7 +10,7 @@ interface Props {
     settTypeVedtak: (val: TypeVedtak | undefined) => void;
 }
 
-const VelgTypeVedtak: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
+const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     const { erStegRedigerbart } = useSteg();
 
     return (
@@ -30,4 +30,4 @@ const VelgTypeVedtak: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     );
 };
 
-export default VelgTypeVedtak;
+export default VelgVedtakResultat;

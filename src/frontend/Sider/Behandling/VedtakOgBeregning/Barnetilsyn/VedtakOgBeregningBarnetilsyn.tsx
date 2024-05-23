@@ -8,7 +8,7 @@ import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
-import VelgTypeVedtak from '../Felles/VelgTypeVedtak';
+import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -30,7 +30,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
 
     return (
         <Container>
-            <VelgTypeVedtak typeVedtak={typeVedtak} settTypeVedtak={settTypeVedtak} />
+            <VelgVedtakResultat typeVedtak={typeVedtak} settTypeVedtak={settTypeVedtak} />
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => {
                     switch (typeVedtak) {
