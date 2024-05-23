@@ -79,6 +79,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
             ...oppgaveRequest,
             orderBy: utledOrderByFraKey(orderKey),
             order: oppgaveRequest.order === 'ASC' ? 'DESC' : 'ASC',
+            offset: 0,
         };
         settOppgaveRequest(oppdatertOppgaveRequest);
         hentOppgaver(oppdatertOppgaveRequest);
