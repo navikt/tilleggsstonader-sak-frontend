@@ -17,7 +17,7 @@ const developmentConfig = {
     devtool: 'inline-source-map',
     output: {
         filename: '[name].bundle.js',
-        path: path.join(process.cwd(), miljø.builldPath),
+        path: path.join(process.cwd(), miljø.buildPath),
         publicPath: '/assets/',
         clean: true,
     },

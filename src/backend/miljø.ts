@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export enum ApplicationName {
     sak = 'sak',
+    klage = 'klage',
 }
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
@@ -15,6 +16,7 @@ type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'e
 type Roller = {
     [key in Rolle]: string;
 };
+
 interface AzureSettings {
     client_id: string;
     client_secret: string;
@@ -31,7 +33,7 @@ type ClientConfig = {
 };
 
 interface Miljø {
-    builldPath: string;
+    buildPath: string;
     clients: ClientConfig;
     azure: AzureSettings;
     roller: Roller;
@@ -76,7 +78,11 @@ const prodRoller: Roller = {
 const clientsLocal = (): ClientConfig => ({
     [ApplicationName.sak]: {
         url: 'http://localhost:8101/api',
-        audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak-lokal',
+        audience: 'localhost.tilleggsstonader.tilleggsstonader-sak-lokal',
+    },
+    [ApplicationName.klage]: {
+        url: 'https://tilleggsstonader-klage.intern.dev.nav.no/api',
+        audience: 'localhost.tilleggsstonader.tilleggsstonader-klage',
     },
 });
 
@@ -85,19 +91,28 @@ const clientsLocalPreprod = (): ClientConfig => ({
         url: 'https://tilleggsstonader-sak.intern.dev.nav.no/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
     },
+    [ApplicationName.klage]: {
+        url: 'https://tilleggsstonader-klage.intern.dev.nav.no/TODO',
+        audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
+    },
 });
+
 const lokaltMiljø = (clients: ClientConfig): Miljø => ({
-    builldPath: '../../dist_development',
+    buildPath: '../../dist_development',
     clients: clients,
     azure: lokalAzure(),
     roller: devRoller,
 });
 
 const devMiljø = (): Miljø => ({
-    builldPath: '../../app/build',
+    buildPath: '../../app/build',
     clients: {
         [ApplicationName.sak]: {
             url: 'http://tilleggsstonader-sak/api',
+            audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
+        },
+        [ApplicationName.klage]: {
+            url: 'http://tilleggsstonader-klage/api',
             audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
         },
     },
@@ -106,10 +121,14 @@ const devMiljø = (): Miljø => ({
 });
 
 const prodMiljø = (): Miljø => ({
-    builldPath: '../../app/build',
+    buildPath: '../../app/build',
     clients: {
         [ApplicationName.sak]: {
             url: 'http://tilleggsstonader-sak/api',
+            audience: 'prod-gcp.tilleggsstonader.tilleggsstonader-sak',
+        },
+        [ApplicationName.klage]: {
+            url: 'http://tilleggsstonader-klage/api',
             audience: 'prod-gcp.tilleggsstonader.tilleggsstonader-sak',
         },
     },
