@@ -78,11 +78,11 @@ const prodRoller: Roller = {
 const clientsLocal = (): ClientConfig => ({
     [ApplicationName.sak]: {
         url: 'http://localhost:8101/api',
-        audience: 'localhost.tilleggsstonader.tilleggsstonader-sak-lokal',
+        audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak-lokal',
     },
     [ApplicationName.klage]: {
-        url: 'https://tilleggsstonader-klage.intern.dev.nav.no/api',
-        audience: 'localhost.tilleggsstonader.tilleggsstonader-klage',
+        url: 'http://localhost:8120/api',
+        audience: 'localhost.tilleggsstonader.tilleggsstonader-klage-lokal',
     },
 });
 
