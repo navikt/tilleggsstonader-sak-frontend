@@ -17,7 +17,7 @@ import developmentConfig from './webpack/webpack.development';
 const app = express();
 
 const BASE_PATH = '';
-const buildPath = path.resolve(process.cwd(), miljø.builldPath);
+const buildPath = path.resolve(process.cwd(), miljø.buildPath);
 const PORT = 3000;
 
 app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
@@ -74,6 +74,13 @@ app.use(
     addRequestInfo(),
     attachToken(ApplicationName.sak),
     doProxy(ApplicationName.sak)
+);
+
+app.use(
+    '/api/klage',
+    addRequestInfo(),
+    attachToken(ApplicationName.klage),
+    doProxy(ApplicationName.klage)
 );
 
 app.listen(PORT, () => {
