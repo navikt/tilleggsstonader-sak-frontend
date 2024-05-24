@@ -3,6 +3,7 @@ import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 
+import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 
 export const addRequestInfo = (): RequestHandler => {
@@ -29,7 +30,7 @@ export const doProxy = (applicationName: ApplicationName): RequestHandler => {
         target: `${miljø.clients[applicationName].url}`,
         changeOrigin: true,
         secure: true,
-        logger: console,
+        logger: logger,
         on: {
             proxyReq: restream,
         },
