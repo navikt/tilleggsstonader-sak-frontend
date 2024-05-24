@@ -113,7 +113,7 @@ const devMiljø = (): Miljø => ({
         },
         [ApplicationName.klage]: {
             url: 'http://tilleggsstonader-klage/api',
-            audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
+            audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
         },
     },
     azure: devProdAzure(),
