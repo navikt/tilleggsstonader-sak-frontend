@@ -92,7 +92,7 @@ const clientsLocalPreprod = (): ClientConfig => ({
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak',
     },
     [ApplicationName.klage]: {
-        url: 'https://tilleggsstonader-klage.intern.dev.nav.no/TODO',
+        url: 'https://tilleggsstonader-klage.intern.dev.nav.no/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
     },
 });
