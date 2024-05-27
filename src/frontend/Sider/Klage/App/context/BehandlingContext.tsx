@@ -2,9 +2,9 @@ import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../typer/routing';
-// import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
+import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
-// import { useHentBehandling } from '../hooks/useHentBehandling';
+import { useHentBehandling } from '../hooks/useHentBehandling';
 // import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
@@ -18,16 +18,16 @@ import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
 
-    // const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
+    const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerResponse } =
         useHentPersonopplysninger(behandlingId);
-    // const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
+    const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     // const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
     //     useHentBehandlingHistorikk(behandlingId);
     // const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
-    // const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
+    const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
 
-    // const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
+    const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
     // const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
     //     behandlingId,
     // ]);
@@ -59,7 +59,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     // const [oppdatertVurdering, settOppdatertVurdering] = useState<IVurdering>(initiellVurdering);
 
     return {
-        // behandling,
+        behandling,
         // behandlingErRedigerbar,
         personopplysningerResponse,
         // behandlingHistorikk,
