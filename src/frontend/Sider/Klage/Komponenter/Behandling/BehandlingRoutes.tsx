@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as React from 'react';
-// import { Formkrav } from './Formkrav/Formkrav';
+import { Formkrav } from './Formkrav/Formkrav';
 // import { Brev } from './Brev/Brev';
 // import { Resultat } from './Resultat/Resultat';
 // import { Vurdering } from './Vurdering/Vurdering';
@@ -28,8 +28,8 @@ const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
 
     return (
         <Routes>
-            <Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />
-            {/*<Route path="/formkrav" element={<Formkrav behandling={behandling} />} />*/}
+            {/*<Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />*/}
+            <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
             {/*<Route path="/vurdering" element={<Vurdering behandlingId={behandling.id} />} />*/}
             {/*<Route path="/brev" element={<Brev behandlingId={behandling.id} />} />*/}
             {/*<Route path="/resultat" element={<Resultat />} />*/}

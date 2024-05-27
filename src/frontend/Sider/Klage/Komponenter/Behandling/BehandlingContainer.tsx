@@ -14,7 +14,6 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 // import { HenleggModal } from './Henleggelse/HenleggModal';
-// import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 // import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 // import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 
@@ -58,10 +57,10 @@ const BehandlingContainer: FC = () => {
 };
 
 const BehandlingContent: FC<{
-    // behandling: Behandling;
+    behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({
-    // behandling,
+    behandling,
     personopplysninger,
 }) => {
     // useSetValgtFagsakId(behandling.fagsakId);
@@ -73,12 +72,12 @@ const BehandlingContent: FC<{
             <ScrollToTop />
             <VisittkortComponent
                 personopplysninger={personopplysninger}
-                // behandling={behandling}
+                behandling={behandling}
             />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     {/*<Fanemeny behandling={behandling} />*/}
-                    {/*<BehandlingRoutes behandling={behandling} />*/}
+                    <BehandlingRoutes behandling={behandling} />
                     {/*<HenleggModal behandling={behandling} />*/}
                 </InnholdWrapper>
                 {/*<HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>*/}
@@ -92,7 +91,7 @@ const BehandlingContent: FC<{
 const BehandlingOverbygg: FC = () => {
     const {
         personopplysningerResponse,
-        // behandling
+        behandling
     } = useBehandling();
 
     useEffect(() => {
@@ -102,16 +101,16 @@ const BehandlingOverbygg: FC = () => {
     return (
         <DataViewer
             response={{
-                // behandling,
+                behandling,
                 personopplysningerResponse,
             }}
         >
             {({
-                // behandling,
+                behandling,
                 personopplysningerResponse,
             }) => (
                 <BehandlingContent
-                    // behandling={behandling}
+                    behandling={behandling}
                     personopplysninger={personopplysningerResponse}
                 />
             )}

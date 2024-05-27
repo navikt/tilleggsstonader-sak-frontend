@@ -35,19 +35,26 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
 
-    // useEffect(() => {
-    //     settBehandlingErRedigerbar(
-    //         behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
-    //     );
-    //     hentVilkårsvurderinger(behandlingId);
-    // }, [behandling, behandlingId, hentVilkårsvurderinger]);
-    // useEffect(() => {
-    //     settFormkravOppfylt(
-    //         vilkårsvurderinger.status === RessursStatus.SUKSESS &&
-    //             påKlagetVedtakValgt(vilkårsvurderinger.data) &&
-    //             alleVilkårOppfylt(vilkårsvurderinger.data)
-    //     );
-    // }, [vilkårsvurderinger]);
+    useEffect(() => {
+        settBehandlingErRedigerbar(
+            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
+        );
+        // hentVilkårsvurderinger(behandlingId);
+    }, [
+        behandling,
+        behandlingId,
+        // hentVilkårsvurderinger
+    ]);
+    useEffect(() => {
+        settFormkravOppfylt(
+            // vilkårsvurderinger.status === RessursStatus.SUKSESS &&
+            //     påKlagetVedtakValgt(vilkårsvurderinger.data) &&
+            //     alleVilkårOppfylt(vilkårsvurderinger.data)
+            true // TODO: Jeg er hardkodet, fjern meg
+        );
+    }, [
+        // vilkårsvurderinger
+    ]);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
@@ -60,10 +67,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     return {
         behandling,
-        // behandlingErRedigerbar,
+        behandlingErRedigerbar,
         personopplysningerResponse,
         // behandlingHistorikk,
-        // hentBehandling,
+        hentBehandling,
         // hentBehandlingshistorikk,
         visBrevmottakereModal,
         settVisBrevmottakereModal,
@@ -75,7 +82,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingEndret,
         // oppdatertVurdering,
         // settOppdatertVurdering,
-        // formkravOppfylt,
+        formkravOppfylt,
     };
 });
 

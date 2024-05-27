@@ -2,6 +2,7 @@ import { Stønadstype } from './stønadstype';
 import { BehandlingStatus } from './behandlingstatus';
 import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
 
+// TODO: Bruk vår egen Fagsystem-enum
 export enum Fagsystem {
     EF = 'EF',
     BA = 'BA',

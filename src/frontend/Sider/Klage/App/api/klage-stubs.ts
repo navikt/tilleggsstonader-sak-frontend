@@ -1,9 +1,22 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
 import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-import { Behandling, BehandlingResultat, Fagsystem, PåklagetVedtakstype, StegType } from '../typer/fagsak';
+import {
+    Behandling,
+    BehandlingResultat,
+    Fagsystem,
+    PåklagetVedtakstype,
+    StegType,
+} from '../typer/fagsak';
 import { BehandlingStatus } from '../typer/behandlingstatus';
 import { Stønadstype } from '../typer/stønadstype';
+import {
+    FagsystemType,
+    FormkravFristUnntak,
+    IFormkravVilkår,
+    VilkårStatus,
+} from '../../Komponenter/Behandling/Formkrav/typer';
+import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 
 export const saksbehandlerDummyData: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -57,3 +70,31 @@ export const behandlingDummydata: Behandling = {
     klageMottatt: "2024-05-22",
     fagsystemRevurdering: undefined
 };
+
+export const formkravVilkårDummyData: IFormkravVilkår = {
+    behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+    klagePart: VilkårStatus.IKKE_SATT,
+    klageKonkret: VilkårStatus.IKKE_SATT,
+    klagefristOverholdt: VilkårStatus.IKKE_SATT,
+    klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+    klageSignert: VilkårStatus.IKKE_SATT,
+    saksbehandlerBegrunnelse: undefined,
+    brevtekst: undefined,
+    endretTid: "2024-05-27T17:25:49.182",
+    påklagetVedtak: {
+        eksternFagsystemBehandlingId: undefined,
+        påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
+        fagsystemVedtak: undefined,
+        manuellVedtaksdato: undefined,
+    }
+};
+
+export const fagsystemVedakDummydata: FagsystemVedtak[] = [
+    {
+        eksternBehandlingId: "17934",
+        behandlingstype: "Førstegangsbehandling",
+        resultat: "Innvilget",
+        vedtakstidspunkt: "2024-01-22T17:13:23.621",
+        fagsystemType: FagsystemType.ORDNIÆR,
+    }
+] 
