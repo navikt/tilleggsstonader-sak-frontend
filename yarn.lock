@@ -1273,34 +1273,6 @@
     classnames "^2.5.1"
     react-select "^5.8.0"
 
-"@navikt/familie-header@^14.0.1":
-  version "14.0.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-header/14.0.1/94a8eb670296b12b805ac0290bea9a8ed79b657d#94a8eb670296b12b805ac0290bea9a8ed79b657d"
-  integrity sha512-rYNU4B3qTa+nFBzn/XDdb9Vn7tCU1n3t5OpqaTAEr30p2gZb6xxl42D+frOSb5q4D1WaAC+P4YssQXYSk9fn7w==
-  dependencies:
-    "@navikt/familie-ikoner" "^9.0.1"
-    "@navikt/familie-typer" "^8.0.2"
-    "@navikt/fnrvalidator" "^2.0.7"
-
-"@navikt/familie-ikoner@^9.0.1":
-  version "9.0.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-ikoner/9.0.1/3bd93f512311ac68dc2ccc6eaae65718e2a6b203#3bd93f512311ac68dc2ccc6eaae65718e2a6b203"
-  integrity sha512-7A6ZlWtmx0MlnIANpJFBvsgxsBoQ9RRMHTrDDjtGTZ/LcxvOQFGlSiea06OplKus/z3GN9slooz/Qpdyt1tReg==
-  dependencies:
-    "@navikt/familie-typer" "^8.0.2"
-
-"@navikt/familie-typer@^8.0.2":
-  version "8.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-typer/8.0.2/21bcc780c35b6a8699d1c52b54e61d83580736f7#21bcc780c35b6a8699d1c52b54e61d83580736f7"
-  integrity sha512-pKSpCzryJE6eiN/Ssox1oLLKPW5ezsT+/gTHbhgxOtM/frFSZLguSjwhgiDp2kovckJ84nxhnQurK6igw8GEHw==
-
-"@navikt/fnrvalidator@^2.0.7":
-  version "2.0.7"
-  resolved "https://npm.pkg.github.com/download/@navikt/fnrvalidator/2.0.7/89ceb6a448fbd068e4ad8ff7a414705bd0ea6315#89ceb6a448fbd068e4ad8ff7a414705bd0ea6315"
-  integrity sha512-3TQ2NLUk1rstZEoF65r9dr4RZxvmBEcXNKfA1dcZNpLw0SAb89WwcRpUrZMhd+7UdrfmKvfoTBvsfBwMoP9cyw==
-  dependencies:
-    typescript "^5.4.2"
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
