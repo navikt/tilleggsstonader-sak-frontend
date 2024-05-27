@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 // import { AppProvider, useApp } from './App/context/AppContext';
 // import { ISaksbehandler } from './App/typer/saksbehandler';
@@ -85,9 +87,9 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
 };
 
 const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    // innloggetSaksbehandler,
+    innloggetSaksbehandler,
 }) => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     // const { valgtSide, byttUrl, settByttUrl } = useApp();
     //
     // useEffect(() => {
