@@ -55,10 +55,10 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
 
 const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
-    // behandling: Behandling;
+    behandling: Behandling;
 }> = ({
     personopplysninger,
-    // behandling
+    behandling
 }) => {
     const {
         personIdent,
