@@ -5,7 +5,7 @@ import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
 import { ISaksbehandler } from '../typer/saksbehandler';
 import constate from 'constate';
-// import { EToast } from '../typer/toast';
+import { EToast } from '../typer/toast';
 import { AppEnv } from '../api/env';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 
@@ -25,7 +25,7 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
     const [valgtSide, settValgtSide] = useState<string | undefined>();
     const [visUlagretDataModal, settVisUlagretDataModal] = useState(false);
     const [byttUrl, settByttUrl] = useState(false);
-    // const [toast, settToast] = useState<EToast | undefined>();
+    const [toast, settToast] = useState<EToast | undefined>();
     const [valgtFagsakId, settValgtFagsakId] = useState<string>();
     const [personIdent, settPersonIdent] = useState<string>();
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
@@ -98,8 +98,8 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
         settVisUlagretDataModal,
         byttUrl,
         settByttUrl,
-        // toast,
-        // settToast,
+        toast,
+        settToast,
         appEnv,
         valgtFagsakId,
         settValgtFagsakId,

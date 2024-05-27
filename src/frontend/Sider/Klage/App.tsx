@@ -1,28 +1,22 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AppProvider, useApp } from './App/context/AppContext';
-// import { ISaksbehandler } from './App/typer/saksbehandler';
 // import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
 // import { TogglesProvider } from './App/context/TogglesContext';
 import { Route, Routes } from 'react-router-dom';
-// import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
-// import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
-// import { AppEnv, hentEnv } from './App/api/env';
-// import { Toast } from './Felles/Toast/Toast';
-// import { TestSide } from './Komponenter/test/TestSide';
-// import { BodyLong } from '@navikt/ds-react';
-// import { ModalWrapper } from './Felles/Modal/ModalWrapper';
+import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
+import { AppEnv, hentEnv } from './App/api/env';
+import { Toast } from './Felles/Toast/Toast';
+import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 
-import { BodyLong, Label } from '@navikt/ds-react';
+import { BodyLong } from '@navikt/ds-react';
 
-import { AppEnv, hentEnv } from './App/api/env';
 import { hentInnloggetBruker } from './App/api/saksbehandler';
 import { ISaksbehandler } from './App/typer/saksbehandler';
-import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
-// import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import UlagretDataModal from './Felles/Modal/UlagretDataModal';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -64,19 +58,21 @@ export default App;
 const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
-    // const { autentisert } = useApp();
+    const { autentisert } = useApp();
 
-    // if (!autentisert) {
-    //     <BrowserRouter>
-    //         <ModalWrapper
-    //             tittel={'Ugyldig sesjon'}
-    //             visModal={true}
-    //             ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
-    //         >
-    //             <Innhold>Prøv å last siden på nytt</Innhold>
-    //         </ModalWrapper>
-    //     </BrowserRouter>;
-    //}
+    if (!autentisert) {
+        return (
+            // <BrowserRouter>
+            <ModalWrapper
+                tittel={'Ugyldig sesjon'}
+                visModal={true}
+                ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+            >
+                <Innhold>Prøv å last siden på nytt</Innhold>
+            </ModalWrapper>
+        );
+        // </BrowserRouter>;
+    }
 
     return (
         // <BrowserRouter>
@@ -89,23 +85,23 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const navigate = useNavigate();
-    // const { valgtSide, byttUrl, settByttUrl } = useApp();
-    //
-    // useEffect(() => {
-    //     if (valgtSide && byttUrl) {
-    //         settByttUrl(false);
-    //         navigate(valgtSide);
-    //     }
-    ////     eslint-disable-next-line
-    // }, [byttUrl, valgtSide]);
+    const { valgtSide, byttUrl, settByttUrl } = useApp();
+
+    useEffect(() => {
+        if (valgtSide && byttUrl) {
+            settByttUrl(false);
+            navigate(valgtSide);
+        }
+    //     eslint-disable-next-line
+    }, [byttUrl, valgtSide]);
 
     return (
         <>
             <Routes>
                 <Route path="/:behandlingId/*" element={<BehandlingContainer />} />
             </Routes>
-            {/*<UlagretDataModal />*/}
-            {/*<Toast />*/}
+            <UlagretDataModal />
+            <Toast />
         </>
     );
 };
