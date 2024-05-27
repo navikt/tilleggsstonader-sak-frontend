@@ -7,6 +7,7 @@ export interface Vilkårsoppsummering {
 
 export interface BarnOppsummering {
     barnId: string;
+    ident: string;
     navn: string;
     alder?: number;
     oppfyllerAlleVilkår: boolean;

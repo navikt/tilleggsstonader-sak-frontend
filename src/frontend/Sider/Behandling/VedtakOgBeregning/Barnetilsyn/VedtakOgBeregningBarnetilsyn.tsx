@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { HStack } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak/AvslåVedtak';
-import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
+import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import OppsummeringVilkår from './OppsummeringVilkår';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -55,18 +55,12 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
 
     return (
         <>
-            <DataViewer response={{ vedtak }}>
-                {({ vedtak }) => (
+            <DataViewer response={{ vedtak, vilkårsoppsummering }}>
+                {({ vedtak, vilkårsoppsummering }) => (
                     <Container>
                         <Panel tittel="Vedtak">
                             <HStack gap="10">
-                                <DataViewer response={{ vilkårsoppsummering }}>
-                                    {({ vilkårsoppsummering }) => (
-                                        <OppsummeringVilkår
-                                            vilkårsoppsummering={vilkårsoppsummering}
-                                        />
-                                    )}
-                                </DataViewer>
+                                <OppsummeringVilkår vilkårsoppsummering={vilkårsoppsummering} />
                                 <Skillelinje />
                                 <HStack gap="16">
                                     <VelgVedtakResultat
@@ -81,7 +75,10 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
+                            <InnvilgeBarnetilsyn
+                                lagretVedtak={vedtak as InnvilgelseBarnetilsyn}
+                                vilkårsvurderteBarn={vilkårsoppsummering.passBarn}
+                            />
                         )}
                     </Container>
                 )}
