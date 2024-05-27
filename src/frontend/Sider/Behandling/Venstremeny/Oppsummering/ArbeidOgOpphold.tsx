@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BriefcaseIcon } from '@navikt/aksel-icons';
+import { GlobeIcon } from '@navikt/aksel-icons';
 import { BodyShort, Label } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
@@ -53,7 +53,7 @@ const OppholdUtenforNorge12mnd: React.FC<{
 
 const ArbeidOgOpphold: React.FC<{ fakta: FaktaArbeidOgOpphold }> = ({ fakta }) => {
     return (
-        <InfoSeksjon label={'Arbeid og opphold'} ikon={<BriefcaseIcon />}>
+        <InfoSeksjon label={'Arbeid og opphold'} ikon={<GlobeIcon />}>
             {fakta.jobberIAnnetLand === JaNei.NEI && (
                 <BodyShort size="small">
                     Jobber i annet land: {jaNeiTilTekst[fakta.jobberIAnnetLand]}
