@@ -12,6 +12,7 @@ import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
+import { App as KlageApp } from './Sider/Klage/App';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
@@ -38,6 +39,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                             path={'/behandling/:behandlingId/*'}
                             element={<BehandlingContainer />}
                         />
+                        <Route path={'/klagebehandling/*'} element={<KlageApp />} />
                     </Route>
                 </Routes>
             ) : (
