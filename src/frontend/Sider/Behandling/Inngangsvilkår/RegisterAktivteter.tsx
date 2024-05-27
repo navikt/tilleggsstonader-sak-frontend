@@ -4,14 +4,18 @@ import { styled } from 'styled-components';
 
 import { Button, Heading, Table } from '@navikt/ds-react';
 
-import { Registeraktivitet } from '../../../typer/registeraktivitet';
+import { RegisterAktivteter } from './typer/vilkårperiode';
+import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 
 const Tabell = styled(Table)`
     width: 50%;
 `;
 
-const RegisterAktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktiviteter }) => {
+const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter }> = ({
+    aktivitetGrunnlag,
+}) => {
+    const { leggTilAktivitetFraRegister } = useInngangsvilkår();
     return (
         <div>
             <Heading size="small">Brukers registrerte aktiviteter</Heading>
@@ -27,7 +31,7 @@ const RegisterAktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ a
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {aktiviteter.map((aktivitet) => {
+                    {aktivitetGrunnlag.aktiviteter.map((aktivitet) => {
                         return (
                             <Table.Row key={aktivitet.id}>
                                 <Table.DataCell>{aktivitet.type}</Table.DataCell>
