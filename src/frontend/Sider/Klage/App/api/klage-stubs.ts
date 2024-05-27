@@ -1,7 +1,9 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
 import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-// import { kjønnType } from '@navikt/familie-typer';
+import { Behandling, BehandlingResultat, Fagsystem, PåklagetVedtakstype, StegType } from '../typer/fagsak';
+import { BehandlingStatus } from '../typer/behandlingstatus';
+import { Stønadstype } from '../typer/stønadstype';
 
 export const saksbehandlerDummyData: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -31,4 +33,27 @@ export const personopplysningerDummyData: IPersonopplysninger = {
     egenAnsatt: false,
     vergemål: [],
     navEnhet: "FA1",
+};
+
+export const behandlingDummydata: Behandling = {
+    id: "56694255-4a4a-407e-9079-8b14a7acbe80",
+    fagsakId: "c0656c5b-878e-470e-864f-dbafbae9cd82",
+    steg: StegType.FORMKRAV, // Map to StegType enum
+    status: BehandlingStatus.OPPRETTET, // Map to BehandlingStatus enum
+    sistEndret: "2024-05-27T17:25:49",
+    opprettet: "2024-05-27T17:25:48.658",
+    resultat: BehandlingResultat.IKKE_SATT, // Map to BehandlingResultat enum
+    vedtakDato: undefined,
+    stønadstype: Stønadstype.OVERGANGSSTØNAD, // Assuming this is imported from somewhere
+    klageinstansResultat: [],
+    påklagetVedtak: {
+        eksternFagsystemBehandlingId: undefined,
+        påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT, // Map to PåklagetVedtakstype enum
+        fagsystemVedtak: undefined,
+        manuellVedtaksdato: undefined,
+    },
+    eksternFagsystemFagsakId: "200054236",
+    fagsystem: Fagsystem.EF, // Map to Fagsystem enum
+    klageMottatt: "2024-05-22",
+    fagsystemRevurdering: undefined
 };
