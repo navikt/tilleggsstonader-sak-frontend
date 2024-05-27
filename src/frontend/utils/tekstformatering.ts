@@ -23,6 +23,11 @@ export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string)
     return `${navn} ${ident}${formatertAlder}`;
 };
 
+export const utledNavnOgAlder = (navn: string, alder?: number) => {
+    const formatertAlder = alder ? ` (${alder} år)` : '';
+    return `${navn} ${formatertAlder}`;
+};
+
 /**
  * I tilfeller tekstmapping mapping skal man vise kode sånn at man ikke viser tom streng og saksbehandler
  * går miste om at det finnes et verdi

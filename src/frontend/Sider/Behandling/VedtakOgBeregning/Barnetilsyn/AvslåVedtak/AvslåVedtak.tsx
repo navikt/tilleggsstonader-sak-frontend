@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { Checkbox, CheckboxGroup, Textarea } from '@navikt/ds-react';
-import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
+import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingAvslag, valider } from './validering';
 import { useApp } from '../../../../../context/AppContext';
@@ -19,15 +16,6 @@ import {
     årsakAvslagTilTekst,
 } from '../../../../../typer/vedtak';
 import { FanePath } from '../../../faner';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-left: 1rem;
-
-    border-left: 4px solid ${ABlue500};
-`;
 
 const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
@@ -58,7 +46,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     };
 
     return (
-        <Container>
+        <VStack gap="4">
             <CheckboxGroup
                 legend="Årsak til avslag"
                 value={årsaker}
@@ -81,7 +69,6 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 onChange={(e) => settBegrunnelse(e.target.value)}
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
-                style={{ width: '40rem' }}
                 size="small"
             />
 
@@ -92,7 +79,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
-        </Container>
+        </VStack>
     );
 };
 

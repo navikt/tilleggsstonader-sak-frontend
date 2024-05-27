@@ -1,13 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
+import { HStack } from '@navikt/ds-react';
+
 import AvslåVedtak from './AvslåVedtak/AvslåVedtak';
 import { InnvilgeVedtak } from './InnvilgeVedtak/InnvilgeVedtak';
+import OppsummeringVilkår from './OppsummeringVilkår';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { RessursStatus } from '../../../../typer/ressurs';
+import Panel from '../../../../komponenter/Panel/Panel';
+import { Ressurs, RessursStatus, byggTomRessurs } from '../../../../typer/ressurs';
 import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
+import { Vilkårsoppsummering } from '../../../../typer/vilkårsoppsummering';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
@@ -17,10 +24,28 @@ const Container = styled.div`
     gap: 1.5rem;
 `;
 
+const Skillelinje = styled.div`
+    border-left: 1px solid white;
+`;
+
 const VedtakOgBeregningBarnetilsyn: FC = () => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
     const { vedtak } = useVedtak();
 
+    const [vilkårsoppsummering, settVilkårsoppsummering] =
+        useState<Ressurs<Vilkårsoppsummering>>(byggTomRessurs());
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
+
+    const hentVilkåroppsummering = useCallback(() => {
+        request<Vilkårsoppsummering, null>(`/api/sak/vilkarsoppsummering/${behandling.id}`).then(
+            settVilkårsoppsummering
+        );
+    }, [behandling, request]);
+
+    useEffect(() => {
+        hentVilkåroppsummering();
+    }, [hentVilkåroppsummering]);
 
     useEffect(() => {
         if (vedtak.status === RessursStatus.SUKSESS) {
@@ -29,28 +54,39 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     }, [vedtak]);
 
     return (
-        <Container>
-            <VelgVedtakResultat typeVedtak={typeVedtak} settTypeVedtak={settTypeVedtak} />
+        <>
             <DataViewer response={{ vedtak }}>
-                {({ vedtak }) => {
-                    switch (typeVedtak) {
-                        case TypeVedtak.INNVILGELSE:
-                            return (
-                                <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
-                            );
+                {({ vedtak }) => (
+                    <Container>
+                        <Panel tittel="Vedtak">
+                            <HStack gap="10">
+                                <DataViewer response={{ vilkårsoppsummering }}>
+                                    {({ vilkårsoppsummering }) => (
+                                        <OppsummeringVilkår
+                                            vilkårsoppsummering={vilkårsoppsummering}
+                                        />
+                                    )}
+                                </DataViewer>
+                                <Skillelinje />
+                                <HStack gap="16">
+                                    <VelgVedtakResultat
+                                        typeVedtak={typeVedtak}
+                                        settTypeVedtak={settTypeVedtak}
+                                    />
+                                    {typeVedtak === TypeVedtak.AVSLAG && (
+                                        <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
+                                    )}
+                                </HStack>
+                            </HStack>
+                        </Panel>
 
-                        case TypeVedtak.AVSLAG:
-                            return <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />;
-
-                        case undefined:
-                            return null;
-
-                        default:
-                            return <p>Ikke implementert</p>;
-                    }
-                }}
+                        {typeVedtak === TypeVedtak.INNVILGELSE && (
+                            <InnvilgeVedtak lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
+                        )}
+                    </Container>
+                )}
             </DataViewer>
-        </Container>
+        </>
     );
 };
 
