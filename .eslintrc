@@ -79,5 +79,6 @@
     },
     "env": {
         "node": true
-    }
+    },
+    "ignorePatterns": ["src/frontend/Sider/Klage/*"] // <<< TODO Fjern denne når klageløsniningen er ferdig kopiert over fra EF
 }
