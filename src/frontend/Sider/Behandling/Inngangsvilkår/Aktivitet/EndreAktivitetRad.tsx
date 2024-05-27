@@ -8,6 +8,7 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
@@ -34,9 +35,13 @@ export interface EndreAktivitetForm extends Periode {
     begrunnelse?: string;
 }
 
-const initaliserForm = (behandlingId: string, eksisterendeAktivitet?: Aktivitet) => {
+const initaliserForm = (
+    behandlingId: string,
+    eksisterendeAktivitet?: Aktivitet,
+    aktivitetFraRegister?: Registeraktivitet
+): EndreAktivitetForm => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId)
+        ? nyAktivitet(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
@@ -47,14 +52,20 @@ const EndreAktivitetRad: React.FC<{
 }> = ({ aktivitet, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
+    const {
+        oppdaterAktivitet,
+        leggTilAktivitet,
+        settStønadsperiodeFeil,
+        aktivitetFraRegister,
+        settAktivitetFraRegister,
+    } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
     const [aktivitetForm, settAktivitetForm] = useState<EndreAktivitetForm>(
-        initaliserForm(behandling.id, aktivitet)
+        initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -92,6 +103,7 @@ const EndreAktivitetRad: React.FC<{
 
                         if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
                             settStønadsperiodeFeil(undefined);
+                            settAktivitetFraRegister(undefined);
                         } else {
                             settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
                         }

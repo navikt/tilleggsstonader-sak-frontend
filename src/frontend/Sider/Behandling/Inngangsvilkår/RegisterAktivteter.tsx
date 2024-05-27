@@ -44,15 +44,12 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter }> =
                                 </Table.DataCell>
                                 <Table.DataCell>{aktivitet.antallDagerPerUke}</Table.DataCell>
                                 <Table.DataCell>
-                                    {/*Skjules fordi knappen ikke har noen funksjon enda*/}
-                                    {false && (
-                                        <Button
-                                            size={'small'}
-                                            onClick={() => console.log('Legg til aktivitet')}
-                                        >
-                                            Legg til
-                                        </Button>
-                                    )}
+                                    <Button
+                                        size={'small'}
+                                        onClick={() => leggTilAktivitetFraRegister(aktivitet)}
+                                    >
+                                        Legg til
+                                    </Button>
                                 </Table.DataCell>
                             </Table.Row>
                         );

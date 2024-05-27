@@ -1,4 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -7,16 +8,34 @@ import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
 
-export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
-    return {
-        behandlingId: behandlingId,
-        type: '',
-        fom: '',
-        tom: '',
-        aktivitetsdager: undefined,
-        delvilkår: { '@type': 'AKTIVITET' },
-    };
+export const nyAktivitet = (
+    behandlingId: string,
+    aktivitetFraRegister: Registeraktivitet | undefined
+): EndreAktivitetForm => {
+    return aktivitetFraRegister
+        ? {
+              behandlingId: behandlingId,
+              type: aktivitetFraRegister.erUtdanning
+                  ? AktivitetType.UTDANNING
+                  : AktivitetType.TILTAK,
+              fom: aktivitetFraRegister.fom || '',
+              tom: aktivitetFraRegister.tom || '',
+              aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
+              begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
+              delvilkår: { '@type': 'AKTIVITET' },
+          }
+        : {
+              behandlingId: behandlingId,
+              type: '',
+              fom: '',
+              tom: '',
+              aktivitetsdager: undefined,
+              delvilkår: { '@type': 'AKTIVITET' },
+          };
 };
+
+const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
+    `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 

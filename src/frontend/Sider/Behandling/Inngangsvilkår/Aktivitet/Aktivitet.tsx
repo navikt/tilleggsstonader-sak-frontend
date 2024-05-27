@@ -25,20 +25,20 @@ const Aktivitet: React.FC = () => {
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
-    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
+    const { leggerTilNyAktivitet, settLeggerTilNyAktivitet } = useInngangsvilkår();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
-        settLeggerTilNyPeriode(false);
+        settLeggerTilNyAktivitet(false);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
-        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+        radIRedigeringsmodus === undefined && !leggerTilNyAktivitet;
 
-    const skalViseAktiviteter = aktiviteter.length > 0 || leggerTilNyPeriode;
+    const skalViseAktiviteter = aktiviteter.length > 0 || leggerTilNyAktivitet;
 
     const settNyRadIRedigeringsmodus = (id: string) => {
         if (kanSetteNyRadIRedigeringsmodus) {
@@ -77,7 +77,7 @@ const Aktivitet: React.FC = () => {
                             )}
                         </React.Fragment>
                     ))}
-                    {leggerTilNyPeriode && (
+                    {leggerTilNyAktivitet && (
                         <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                     )}
                 </>
@@ -87,7 +87,7 @@ const Aktivitet: React.FC = () => {
 
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
-                    onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
+                    onClick={() => settLeggerTilNyAktivitet((prevState) => !prevState)}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
                     variant={skalViseAktiviteter ? 'tertiary' : 'primary'}
