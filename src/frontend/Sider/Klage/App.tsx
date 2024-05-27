@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
-// import { AppProvider, useApp } from './App/context/AppContext';
+import { AppProvider, useApp } from './App/context/AppContext';
 // import { ISaksbehandler } from './App/typer/saksbehandler';
 // import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
 // import { TogglesProvider } from './App/context/TogglesContext';
@@ -17,7 +16,7 @@ import { Route, Routes } from 'react-router-dom';
 // import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 
-import { BodyLong } from '@navikt/ds-react';
+import { BodyLong, Label } from '@navikt/ds-react';
 
 import { AppEnv, hentEnv } from './App/api/env';
 import { hentInnloggetBruker } from './App/api/saksbehandler';
@@ -51,11 +50,11 @@ export const App: React.FC = () => {
     }
     return (
         // <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
-        //     <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
-        //         <TogglesProvider>
-        <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
-        // </TogglesProvider>
-        // </AppProvider>
+        <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+            {/*         <TogglesProvider>*/}
+            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            {/*</TogglesProvider>*/}
+        </AppProvider>
         // </ErrorBoundary>
     );
 };
@@ -81,7 +80,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
 
     return (
         // <BrowserRouter>
-            <AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />
+        <AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />
         // </BrowserRouter>
     );
 };
@@ -102,7 +101,6 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
 
     return (
         <>
-            {/*<HeaderMedSøk innloggetSaksbehandler={innloggetSaksbehandler} />*/}
             <Routes>
                 <Route path="/:behandlingId/*" element={<BehandlingContainer />} />
             </Routes>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../typer/routing';
 // import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
-// import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
+import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 // import { useHentBehandling } from '../hooks/useHentBehandling';
 // import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
@@ -19,8 +19,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
 
     // const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
-    // const { hentPersonopplysninger, personopplysningerResponse } =
-    //     useHentPersonopplysninger(behandlingId);
+    const { hentPersonopplysninger, personopplysningerResponse } =
+        useHentPersonopplysninger(behandlingId);
     // const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     // const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
     //     useHentBehandlingHistorikk(behandlingId);
@@ -32,9 +32,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     //     behandlingId,
     // ]);
 
-    // // eslint-disable-next-line
-    // useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
-    //
+    // eslint-disable-next-line
+    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
+
     // useEffect(() => {
     //     settBehandlingErRedigerbar(
     //         behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
@@ -61,7 +61,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     return {
         // behandling,
         // behandlingErRedigerbar,
-        // personopplysningerResponse,
+        personopplysningerResponse,
         // behandlingHistorikk,
         // hentBehandling,
         // hentBehandlingshistorikk,

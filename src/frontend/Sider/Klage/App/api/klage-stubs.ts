@@ -1,4 +1,7 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
+import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
+import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
+// import { kjønnType } from '@navikt/familie-typer';
 
 export const saksbehandlerDummyData: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -15,4 +18,17 @@ export const saksbehandlerDummyData: ISaksbehandler = {
     identifier: 'F_Z994808.E_Z994808@trygdeetaten.no',
     navIdent: 'X123',
     enhet: '000',
+};
+
+export const personopplysningerDummyData: IPersonopplysninger = {
+    personIdent: '25518735813',
+    navn: 'HURTIG PLEIE',
+    kjønn: kjønnType.KVINNE,
+    adressebeskyttelse: undefined,
+    folkeregisterpersonstatus: Folkeregisterpersonstatus.BOSATT,
+    dødsdato: undefined,
+    fullmakt: [],
+    egenAnsatt: false,
+    vergemål: [],
+    navEnhet: "FA1",
 };

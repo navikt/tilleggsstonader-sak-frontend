@@ -2,12 +2,8 @@
 
 // import { kjønnType } from '@navikt/familie-typer';
 
-export declare enum kjønnType {
-    KVINNE = "KVINNE",
-    MANN = "MANN",
-    UKJENT = "UKJENT"
-}
 
+import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
 
 export interface IPersonopplysninger {
     personIdent: string;

@@ -8,11 +8,11 @@ import styled from 'styled-components';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
-// import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
+import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
-// import DataViewer from '../../Felles/DataViewer/DataViewer';
+import DataViewer from '../../Felles/DataViewer/DataViewer';
 // import { HenleggModal } from './Henleggelse/HenleggModal';
 // import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 // import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
@@ -50,18 +50,20 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
 `;
 
 const BehandlingContainer: FC = () => {
-    // return (
-    // <BehandlingProvider>
-    //     <BehandlingOverbygg />
-    // </BehandlingProvider>
-    // );
-    return <div>Har du noe å klage på?</div>; // ++
+    return (
+        <BehandlingProvider>
+            <BehandlingOverbygg />
+        </BehandlingProvider>
+    );
 };
 
 const BehandlingContent: FC<{
-    behandling: Behandling;
+    // behandling: Behandling;
     personopplysninger: IPersonopplysninger;
-}> = ({ behandling, personopplysninger }) => {
+}> = ({
+    // behandling,
+    personopplysninger,
+}) => {
     // useSetValgtFagsakId(behandling.fagsakId);
     // useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
@@ -69,11 +71,14 @@ const BehandlingContent: FC<{
     return (
         <>
             <ScrollToTop />
-            {/*<VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />*/}
+            <VisittkortComponent
+                personopplysninger={personopplysninger}
+                // behandling={behandling}
+            />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     {/*<Fanemeny behandling={behandling} />*/}
-                    <BehandlingRoutes behandling={behandling} />
+                    {/*<BehandlingRoutes behandling={behandling} />*/}
                     {/*<HenleggModal behandling={behandling} />*/}
                 </InnholdWrapper>
                 {/*<HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>*/}
@@ -84,23 +89,34 @@ const BehandlingContent: FC<{
     );
 };
 
-// const BehandlingOverbygg: FC = () => {
-//     const { personopplysningerResponse, behandling } = useBehandling();
-//
-//     useEffect(() => {
-//         document.title = 'Klagebehandling';
-//     }, []);
-//
-//     return (
-//         <DataViewer response={{ behandling, personopplysningerResponse }}>
-//             {({ behandling, personopplysningerResponse }) => (
-//                 <BehandlingContent
-//                     behandling={behandling}
-//                     personopplysninger={personopplysningerResponse}
-//                 />
-//             )}
-//         </DataViewer>
-//     );
-// };
+const BehandlingOverbygg: FC = () => {
+    const {
+        personopplysningerResponse,
+        // behandling
+    } = useBehandling();
+
+    useEffect(() => {
+        document.title = 'Klagebehandling';
+    }, []);
+
+    return (
+        <DataViewer
+            response={{
+                // behandling,
+                personopplysningerResponse,
+            }}
+        >
+            {({
+                // behandling,
+                personopplysningerResponse,
+            }) => (
+                <BehandlingContent
+                    // behandling={behandling}
+                    personopplysninger={personopplysningerResponse}
+                />
+            )}
+        </DataViewer>
+    );
+};
 
 export default BehandlingContainer;
