@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 // import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
 // import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-// import BehandlingRoutes from './BehandlingRoutes';
-// import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
+import BehandlingRoutes from './BehandlingRoutes';
+import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 // import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
-// import { Behandling } from '../../App/typer/fagsak';
-// import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import { Behandling } from '../../App/typer/fagsak';
+import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 // import DataViewer from '../../Felles/DataViewer/DataViewer';
 // import { HenleggModal } from './Henleggelse/HenleggModal';
 // import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
@@ -57,49 +58,49 @@ const BehandlingContainer: FC = () => {
     return <div>Har du noe å klage på?</div>; // ++
 };
 
-// const BehandlingContent: FC<{
-//     behandling: Behandling;
-//     personopplysninger: IPersonopplysninger;
-// }> = ({ behandling, personopplysninger }) => {
-//     useSetValgtFagsakId(behandling.fagsakId);
-//     useSetPersonIdent(personopplysninger.personIdent);
-//     const { åpenHøyremeny } = useBehandling();
-//
-//     return (
-//         <>
-//             <ScrollToTop />
-//             <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
-//             <Container>
-//                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-//                     <Fanemeny behandling={behandling} />
-//                     <BehandlingRoutes behandling={behandling} />
-//                     <HenleggModal behandling={behandling} />
-//                 </InnholdWrapper>
-//                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-//                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
-//                 </HøyreMenyWrapper>
-//             </Container>
-//         </>
-//     );
-// };
+const BehandlingContent: FC<{
+    behandling: Behandling;
+    personopplysninger: IPersonopplysninger;
+}> = ({ behandling, personopplysninger }) => {
+    // useSetValgtFagsakId(behandling.fagsakId);
+    // useSetPersonIdent(personopplysninger.personIdent);
+    const { åpenHøyremeny } = useBehandling();
+
+    return (
+        <>
+            <ScrollToTop />
+            {/*<VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />*/}
+            <Container>
+                <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
+                    {/*<Fanemeny behandling={behandling} />*/}
+                    <BehandlingRoutes behandling={behandling} />
+                    {/*<HenleggModal behandling={behandling} />*/}
+                </InnholdWrapper>
+                {/*<HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>*/}
+                {/*    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />*/}
+                {/*</HøyreMenyWrapper>*/}
+            </Container>
+        </>
+    );
+};
 
 // const BehandlingOverbygg: FC = () => {
-// const { personopplysningerResponse, behandling } = useBehandling();
-
-// useEffect(() => {
-//     document.title = 'Klagebehandling';
-// }, []);
+//     const { personopplysningerResponse, behandling } = useBehandling();
 //
-// return (
-//     <DataViewer response={{ behandling, personopplysningerResponse }}>
-//         {({ behandling, personopplysningerResponse }) => (
-//             <BehandlingContent
-//                 behandling={behandling}
-//                 personopplysninger={personopplysningerResponse}
-//             />
-//         )}
-//     </DataViewer>
-// );
+//     useEffect(() => {
+//         document.title = 'Klagebehandling';
+//     }, []);
+//
+//     return (
+//         <DataViewer response={{ behandling, personopplysningerResponse }}>
+//             {({ behandling, personopplysningerResponse }) => (
+//                 <BehandlingContent
+//                     behandling={behandling}
+//                     personopplysninger={personopplysningerResponse}
+//                 />
+//             )}
+//         </DataViewer>
+//     );
 // };
 
 export default BehandlingContainer;
