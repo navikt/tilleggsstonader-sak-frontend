@@ -2,11 +2,6 @@ import { FortroligEnhet, IkkeFortroligEnhet } from './enhet';
 import { Oppgavetype, Prioritet } from './oppgavetema';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
-export interface OppgaveResponse {
-    behandlingId: string;
-    gsakId: string;
-}
-
 export interface OppgaveRequest {
     behandlingstema?: Behandlingstema;
     oppgavetype?: Oppgavetype;
