@@ -9,6 +9,7 @@ import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useVisFeilmeldingVidUnload } from '../../../hooks/useVisFeilmeldingVidUnload';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
@@ -38,6 +39,8 @@ const SettPåVentContainer: React.FC<{
         // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling.id]);
+
+    useVisFeilmeldingVidUnload(statusPåVentRedigering);
 
     if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
         return (
