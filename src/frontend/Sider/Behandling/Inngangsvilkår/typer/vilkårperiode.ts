@@ -6,7 +6,7 @@ import RegisterAktivteter from '../RegisterAktivteter';
 
 export interface VilkårperioderResponse {
     vilkårperioder: Vilkårperioder;
-    grunnlag: VilkårperioderGrunnlag;
+    grunnlag: VilkårperioderGrunnlag | undefined;
 }
 export interface Vilkårperioder {
     målgrupper: Målgruppe[];

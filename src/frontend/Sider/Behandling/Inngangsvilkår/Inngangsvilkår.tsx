@@ -58,7 +58,7 @@ const Inngangsvilkår = () => {
                                 hentedeStønadsperioder={stønadsperioder}
                             >
                                 <RegisterAktiviteter
-                                    aktivitetGrunnlag={vilkårperioderResponse.grunnlag.aktivitet}
+                                    aktivitetGrunnlag={vilkårperioderResponse.grunnlag?.aktivitet}
                                 />
                                 <VilkårContainer>
                                     <Aktivitet />

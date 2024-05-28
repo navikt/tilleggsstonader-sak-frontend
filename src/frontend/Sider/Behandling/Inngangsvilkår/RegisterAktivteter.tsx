@@ -12,10 +12,19 @@ const Tabell = styled(Table)`
     width: 50%;
 `;
 
-const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter }> = ({
+const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | undefined }> = ({
     aktivitetGrunnlag,
 }) => {
     const { leggTilAktivitetFraRegister } = useInngangsvilkår();
+
+    if (aktivitetGrunnlag === undefined) {
+        return (
+            <Alert variant={'info'} inline>
+                Deet ble ikke hentet aktiviteter fra register for denne behandlingen
+            </Alert>
+        );
+    }
+
     return (
         <div>
             <Heading size="small">Brukers registrerte aktiviteter</Heading>
