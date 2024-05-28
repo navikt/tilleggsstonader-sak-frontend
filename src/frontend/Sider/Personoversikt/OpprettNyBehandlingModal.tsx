@@ -66,6 +66,7 @@ const OpprettNyBehandlingModal = () => {
                                 klageGjelderTilbakekreving: klageGjelderTilbakekreving,
                             }),
                         tekst: 'Opprett',
+                        disabled: true,
                     },
                     lukkKnapp: {
                         onClick: () => lukkModal(),
