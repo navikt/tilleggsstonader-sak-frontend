@@ -45,8 +45,8 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | un
                         {aktivitetGrunnlag.aktiviteter.map((aktivitet) => {
                             return (
                                 <Table.Row key={aktivitet.id}>
-                                    <Table.DataCell>{aktivitet.type}</Table.DataCell>
                                     <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>
+                                    <Table.DataCell>{aktivitet.status}</Table.DataCell>
                                     <Table.DataCell>
                                         {formaterNullableIsoDato(aktivitet.fom)}
                                     </Table.DataCell>
