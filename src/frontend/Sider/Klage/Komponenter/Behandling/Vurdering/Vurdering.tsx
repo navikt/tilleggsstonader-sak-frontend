@@ -58,6 +58,7 @@ const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
         return false;
     }
 };
+
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -78,29 +79,30 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    // useEffect(() => {
-    //     if (behandlingId !== undefined) {
-    //         if (vurdering.status !== RessursStatus.SUKSESS) {
-    //             hentVurdering(behandlingId);
-    //         }
-    //     }
-    //     // eslint-disable-next-line
-    // }, [behandlingId, hentVurdering]);
+    useEffect(() => {
+        if (behandlingId !== undefined) {
+            if (vurdering.status !== RessursStatus.SUKSESS) {
+                hentVurdering(behandlingId);
+            }
+        }
+        // eslint-disable-next-line
+    }, [behandlingId, hentVurdering]);
 
+    // TODO: Kall mot settFormkrav lager en inf loop
     // useEffect(() => {
     //     axiosRequest<IFormkravVilkår, null>({
     //         method: 'GET',
     //         url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
     //     }).then(settFormkrav);
     // }, [axiosRequest, behandlingId, settFormkrav]);
-    settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårDummyData}) // ++
+    // settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårDummyData}) // ++
 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
             settOppdatertVurdering(vurdering.data);
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settOppdatertVurdering]);
-
+    //
     const opprettVurdering = () => {
         if (senderInn) {
             return;
@@ -148,117 +150,117 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         navigate(`/klagebehandling/${behandlingId}/brev`);
     }
 
-    return (
-        <DataViewer response={{ formkrav }}>
-            {({ formkrav }) => {
-                const skalViseVurderingsvalg =
-                    påKlagetVedtakValgt(formkrav) && alleVilkårOppfylt(formkrav);
-
-                return (
-                    <>
-                        {behandlingErRedigerbar && !skalViseVurderingsvalg && (
-                            <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
-                        )}
-                        {!behandlingErRedigerbar && skalViseVurderingsvalg && (
-                            <VurderingLesemodus vurdering={oppdatertVurdering} />
-                        )}
-                        {behandlingErRedigerbar && skalViseVurderingsvalg && (
-                            <>
-                                <Vedtak
-                                    settVedtak={settOppdatertVurdering}
-                                    vedtakValgt={oppdatertVurdering.vedtak}
-                                    vedtakValgmuligheter={vedtakValgTilTekst}
-                                    endring={settIkkePersistertKomponent}
-                                />
-                                {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
-                                    <>
-                                        <Årsak
-                                            settÅrsak={settOppdatertVurdering}
-                                            årsakValgt={oppdatertVurdering.årsak}
-                                            årsakValgmuligheter={årsakValgTilTekst}
-                                            endring={settIkkePersistertKomponent}
-                                        />
-                                        <FritekstFeltWrapper>
-                                            <EnsligTextArea
-                                                label="Begrunnelse for omgjøring (internt notat)"
-                                                value={oppdatertVurdering.begrunnelseOmgjøring}
-                                                onChange={(e) => {
-                                                    settIkkePersistertKomponent(e.target.value);
-                                                    settOppdatertVurdering((tidligereTilstand) => ({
-                                                        ...tidligereTilstand,
-                                                        begrunnelseOmgjøring: e.target.value,
-                                                    }));
-                                                    settVurderingEndret(true);
-                                                }}
-                                                size="medium"
-                                                erLesevisning={false}
-                                            />
-                                        </FritekstFeltWrapper>
-                                    </>
-                                )}
-                                {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
-                                    <>
-                                        <HjemmelVelger
-                                            settHjemmel={settOppdatertVurdering}
-                                            hjemmelValgt={oppdatertVurdering.hjemmel}
-                                            endring={settIkkePersistertKomponent}
-                                        />
-                                        <FritekstFeltWrapper>
-                                            <EnsligTextArea
-                                                label="Innstilling til NAV Klageinstans (kommer med i brev til bruker)"
-                                                value={oppdatertVurdering.innstillingKlageinstans}
-                                                onChange={(e) => {
-                                                    settIkkePersistertKomponent(e.target.value);
-                                                    settOppdatertVurdering((tidligereTilstand) => ({
-                                                        ...tidligereTilstand,
-                                                        innstillingKlageinstans: e.target.value,
-                                                    }));
-                                                    settVurderingEndret(true);
-                                                }}
-                                                size="medium"
-                                                erLesevisning={false}
-                                            />
-                                            {/*<LesMerTekstInnstilling />*/}
-                                        </FritekstFeltWrapper>
-                                        <InterntNotat
-                                            behandlingErRedigerbar={behandlingErRedigerbar}
-                                            tekst={oppdatertVurdering?.interntNotat}
-                                            oppdaterTekst={oppdaterNotat}
-                                        />
-                                    </>
-                                )}
-                                <VurderingKnapper>
-                                    {(vurderingEndret || melding?.type === 'error') && (
-                                        <Button
-                                            variant="primary"
-                                            size="medium"
-                                            onClick={opprettVurdering}
-                                            disabled={!erAlleFelterUtfylt(oppdatertVurdering)}
-                                        >
-                                            Lagre vurdering
-                                        </Button>
-                                    )}
-                                    {!vurderingEndret && melding?.type !== 'error' && (
-                                        <Button
-                                            variant="primary"
-                                            size="medium"
-                                            onClick={navigerTilBrev}
-                                        >
-                                            Fortsett
-                                        </Button>
-                                    )}
-                                </VurderingKnapper>
-                                {melding && (
-                                    <AlertStyled variant={melding.type} size="medium">
-                                        {melding.tekst}
-                                    </AlertStyled>
-                                )}
-                            </>
-                        )}
-                    </>
-                );
-            }}
-        </DataViewer>
+    return (<></>
+        // <DataViewer response={{ formkrav }}>
+        //     {({ formkrav }) => {
+        //         const skalViseVurderingsvalg =
+        //             påKlagetVedtakValgt(formkrav) && alleVilkårOppfylt(formkrav);
+        //
+        //         return (
+        //             <>
+        //                 {behandlingErRedigerbar && !skalViseVurderingsvalg && (
+        //                     <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
+        //                 )}
+        //                 {!behandlingErRedigerbar && skalViseVurderingsvalg && (
+        //                     <VurderingLesemodus vurdering={oppdatertVurdering} />
+        //                 )}
+        //                 {behandlingErRedigerbar && skalViseVurderingsvalg && (
+        //                     <>
+        //                         <Vedtak
+        //                             settVedtak={settOppdatertVurdering}
+        //                             vedtakValgt={oppdatertVurdering.vedtak}
+        //                             vedtakValgmuligheter={vedtakValgTilTekst}
+        //                             endring={settIkkePersistertKomponent}
+        //                         />
+        //                         {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
+        //                             <>
+        //                                 <Årsak
+        //                                     settÅrsak={settOppdatertVurdering}
+        //                                     årsakValgt={oppdatertVurdering.årsak}
+        //                                     årsakValgmuligheter={årsakValgTilTekst}
+        //                                     endring={settIkkePersistertKomponent}
+        //                                 />
+        //                                 <FritekstFeltWrapper>
+        //                                     <EnsligTextArea
+        //                                         label="Begrunnelse for omgjøring (internt notat)"
+        //                                         value={oppdatertVurdering.begrunnelseOmgjøring}
+        //                                         onChange={(e) => {
+        //                                             settIkkePersistertKomponent(e.target.value);
+        //                                             settOppdatertVurdering((tidligereTilstand) => ({
+        //                                                 ...tidligereTilstand,
+        //                                                 begrunnelseOmgjøring: e.target.value,
+        //                                             }));
+        //                                             settVurderingEndret(true);
+        //                                         }}
+        //                                         size="medium"
+        //                                         erLesevisning={false}
+        //                                     />
+        //                                 </FritekstFeltWrapper>
+        //                             </>
+        //                         )}
+        //                         {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
+        //                             <>
+        //                                 <HjemmelVelger
+        //                                     settHjemmel={settOppdatertVurdering}
+        //                                     hjemmelValgt={oppdatertVurdering.hjemmel}
+        //                                     endring={settIkkePersistertKomponent}
+        //                                 />
+        //                                 <FritekstFeltWrapper>
+        //                                     <EnsligTextArea
+        //                                         label="Innstilling til NAV Klageinstans (kommer med i brev til bruker)"
+        //                                         value={oppdatertVurdering.innstillingKlageinstans}
+        //                                         onChange={(e) => {
+        //                                             settIkkePersistertKomponent(e.target.value);
+        //                                             settOppdatertVurdering((tidligereTilstand) => ({
+        //                                                 ...tidligereTilstand,
+        //                                                 innstillingKlageinstans: e.target.value,
+        //                                             }));
+        //                                             settVurderingEndret(true);
+        //                                         }}
+        //                                         size="medium"
+        //                                         erLesevisning={false}
+        //                                     />
+        //                                     {/*<LesMerTekstInnstilling />*/}
+        //                                 </FritekstFeltWrapper>
+        //                                 <InterntNotat
+        //                                     behandlingErRedigerbar={behandlingErRedigerbar}
+        //                                     tekst={oppdatertVurdering?.interntNotat}
+        //                                     oppdaterTekst={oppdaterNotat}
+        //                                 />
+        //                             </>
+        //                         )}
+        //                         <VurderingKnapper>
+        //                             {(vurderingEndret || melding?.type === 'error') && (
+        //                                 <Button
+        //                                     variant="primary"
+        //                                     size="medium"
+        //                                     onClick={opprettVurdering}
+        //                                     disabled={!erAlleFelterUtfylt(oppdatertVurdering)}
+        //                                 >
+        //                                     Lagre vurdering
+        //                                 </Button>
+        //                             )}
+        //                             {!vurderingEndret && melding?.type !== 'error' && (
+        //                                 <Button
+        //                                     variant="primary"
+        //                                     size="medium"
+        //                                     onClick={navigerTilBrev}
+        //                                 >
+        //                                     Fortsett
+        //                                 </Button>
+        //                             )}
+        //                         </VurderingKnapper>
+        //                         {melding && (
+        //                             <AlertStyled variant={melding.type} size="medium">
+        //                                 {melding.tekst}
+        //                             </AlertStyled>
+        //                         )}
+        //                     </>
+        //                 )}
+        //             </>
+        //         );
+        //     }}
+        // </DataViewer>
     );
 };
 

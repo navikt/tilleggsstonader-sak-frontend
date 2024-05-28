@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 // import { Brev } from './Brev/Brev';
 // import { Resultat } from './Resultat/Resultat';
-import { Vurdering } from './Vurdering/Vurdering';
 import { Behandling, StegType } from '../../App/typer/fagsak';
+import { Vurdering } from './Vurdering/Vurdering';
 
 interface Props {
     behandling: Behandling;
