@@ -304,7 +304,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
+                            navigate(`/klagebehandling/${vurderinger.behandlingId}/${urlSuffiks}`)
                         }
                     >
                         Fortsett
