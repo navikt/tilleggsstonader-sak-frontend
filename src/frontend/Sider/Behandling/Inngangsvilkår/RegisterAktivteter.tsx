@@ -2,11 +2,11 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Alert, Button, Heading, Table } from '@navikt/ds-react';
+import { Alert, Button, Detail, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { RegisterAktivteter } from './typer/vilkårperiode';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
-import { formaterNullableIsoDato } from '../../../utils/dato';
+import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
 
 const Tabell = styled(Table)`
     width: 50%;
@@ -26,7 +26,7 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | un
     }
 
     return (
-        <div>
+        <VStack>
             <Heading size="small">Brukers registrerte aktiviteter</Heading>
             {aktivitetGrunnlag.aktiviteter.length > 0 ? (
                 <Tabell size={'small'}>
@@ -71,7 +71,11 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | un
                     Bruker har ingen registrerte aktiviteter
                 </Alert>
             )}
-        </div>
+            <Detail textColor="subtle">
+                Opplysninger hentet fra Arena{' '}
+                {formaterNullableIsoDatoTid(aktivitetGrunnlag.tidspunktHentet)}
+            </Detail>
+        </VStack>
     );
 };
 
