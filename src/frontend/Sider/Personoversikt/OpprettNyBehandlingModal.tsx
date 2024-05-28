@@ -1,45 +1,39 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Button, Modal, Select } from '@navikt/ds-react';
+import { Button, Select, VStack } from '@navikt/ds-react';
 
 import KlageGjelderTilbakekreving from './KlageGjelderTilbakekreving';
 import { useApp } from '../../context/AppContext';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
+import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 import DateInput from '../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../typer/ressurs';
 
-export const StyledSelect = styled(Select)`
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    width: 33.5rem;
+export const DatoWrapper = styled.div`
+    margin-top: 1rem;
 `;
 
-const DatoContainer = styled.div`
-    margin-top: 2rem;
-    margin-bottom: 18rem;
-`;
+interface OpprettKlageRequest {
+    mottattDato: string;
+    klageGjelderTilbakekreving: boolean;
+}
 
 const OpprettNyBehandlingModal = () => {
     const { request } = useApp();
-    const ref = useRef<HTMLDialogElement>(null);
 
+    const [visModal, settVisModal] = useState(false);
     const [nyBehandlingValg, settNyBehandlingValg] = useState('');
     const [klageGjelderTilbakekreving, settKlageGjelderTilbakekreving] = useState<boolean>(false);
     const [kravMottattDato, settKravMottattDato] = useState('');
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    interface OpprettKlageRequest {
-        mottattDato: string;
-        klageGjelderTilbakekreving: boolean;
-    }
-
     const opprettKlage = (data: OpprettKlageRequest) => {
         request<null, OpprettKlageRequest>(`/tilleggsstonader-klage`, 'POST', data).then(
             (response) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    ref.current?.close();
+                    lukkModal();
                 } else {
                     settFeilmelding(response.frontendFeilmelding || response.melding);
                 }
@@ -47,28 +41,55 @@ const OpprettNyBehandlingModal = () => {
         );
     };
 
+    const lukkModal = () => {
+        settVisModal(false);
+        settFeilmelding('');
+        settKlageGjelderTilbakekreving(false);
+        settKravMottattDato('');
+        settNyBehandlingValg('');
+    };
+
     return (
         <div className="py-16">
-            <Button variant={'secondary'} onClick={() => ref.current?.showModal()}>
+            <Button variant={'secondary'} onClick={() => settVisModal(true)}>
                 Opprett ny behandling
             </Button>
-            <Modal ref={ref} header={{ heading: 'Opprett ny behandling' }}>
-                <Modal.Body>
-                    <StyledSelect
+            <ModalWrapper
+                visModal={visModal}
+                onClose={lukkModal}
+                tittel="Opprett ny behandling"
+                aksjonsknapper={{
+                    hovedKnapp: {
+                        onClick: () =>
+                            opprettKlage({
+                                mottattDato: kravMottattDato,
+                                klageGjelderTilbakekreving: klageGjelderTilbakekreving,
+                            }),
+                        tekst: 'Opprett',
+                    },
+                    lukkKnapp: {
+                        onClick: () => lukkModal(),
+                        tekst: 'Avbryt',
+                    },
+                    marginTop: 4,
+                }}
+            >
+                <VStack gap="4">
+                    <Select
                         label="Behandlingstype"
                         value={nyBehandlingValg || ''}
                         onChange={(value) => settNyBehandlingValg(value.target.value)}
                     >
                         <option value="">Velg</option>
                         <option value="klage">Klage</option>
-                    </StyledSelect>
+                    </Select>
                     {nyBehandlingValg && (
-                        <div>
+                        <>
                             <KlageGjelderTilbakekreving
                                 klageGjelderTilbakekreving={klageGjelderTilbakekreving}
                                 settKlageGjelderTilbakekreving={settKlageGjelderTilbakekreving}
                             />
-                            <DatoContainer>
+                            <DatoWrapper>
                                 <DateInput
                                     label={'Krav mottat'}
                                     onChange={(dato: string | undefined) =>
@@ -76,36 +97,12 @@ const OpprettNyBehandlingModal = () => {
                                     }
                                     value={kravMottattDato}
                                 />
-                                <Feilmelding variant={'alert'}>{feilmelding}</Feilmelding>
-                            </DatoContainer>
-                        </div>
+                            </DatoWrapper>
+                            <Feilmelding variant={'alert'}>{feilmelding}</Feilmelding>
+                        </>
                     )}
-                </Modal.Body>
-                {nyBehandlingValg && (
-                    <div>
-                        <Modal.Footer>
-                            <Button
-                                type="button"
-                                onClick={() =>
-                                    opprettKlage({
-                                        mottattDato: kravMottattDato,
-                                        klageGjelderTilbakekreving: klageGjelderTilbakekreving,
-                                    })
-                                }
-                            >
-                                Opprett
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="tertiary"
-                                onClick={() => ref.current?.close()}
-                            >
-                                Avbryt
-                            </Button>
-                        </Modal.Footer>
-                    </div>
-                )}
-            </Modal>
+                </VStack>
+            </ModalWrapper>
         </div>
     );
 };

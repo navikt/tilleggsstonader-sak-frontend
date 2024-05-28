@@ -9,25 +9,6 @@ const ModalContainer = styled(Modal)<{ maxWidth?: number }>`
     max-width: ${(props) => (props.maxWidth ? `${props.maxWidth}rem` : '40rem')};
 `;
 
-const Innhold = styled.div`
-    margin-right: 2rem;
-    margin-left: 2rem;
-`;
-
-const ButtonContainer = styled.div<{ $marginTop?: number }>`
-    display: flex;
-    justify-content: flex-end;
-    margin-top: ${(props) => (props.$marginTop ? `${props.$marginTop}rem` : '1rem')};
-    margin-right: 2rem;
-    margin-bottom: 0.5rem;
-`;
-
-const ModalKnapp = styled(Button)`
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-    margin-left: 1rem;
-`;
-
 interface ModalProps {
     tittel?: string;
     visModal: boolean;
@@ -62,27 +43,27 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                 aria-label={ariaLabel ? ariaLabel : tittel || ''}
                 header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
             >
-                <Modal.Body>
-                    <Innhold>{children}</Innhold>
-                    {aksjonsknapper && (
-                        <ButtonContainer $marginTop={aksjonsknapper.marginTop}>
-                            <ModalKnapp
-                                variant="tertiary"
-                                onClick={aksjonsknapper.lukkKnapp.onClick}
-                                disabled={aksjonsknapper.lukkKnapp.disabled}
-                            >
-                                {aksjonsknapper.lukkKnapp.tekst}
-                            </ModalKnapp>
-                            <ModalKnapp
-                                variant="primary"
-                                onClick={aksjonsknapper.hovedKnapp.onClick}
-                                disabled={aksjonsknapper.hovedKnapp.disabled}
-                            >
-                                {aksjonsknapper.hovedKnapp.tekst}
-                            </ModalKnapp>
-                        </ButtonContainer>
-                    )}
-                </Modal.Body>
+                <Modal.Body>{children}</Modal.Body>
+                {aksjonsknapper && (
+                    <Modal.Footer>
+                        <Button
+                            variant="primary"
+                            onClick={aksjonsknapper.hovedKnapp.onClick}
+                            disabled={aksjonsknapper.hovedKnapp.disabled}
+                            size="small"
+                        >
+                            {aksjonsknapper.hovedKnapp.tekst}
+                        </Button>
+                        <Button
+                            variant="tertiary"
+                            onClick={aksjonsknapper.lukkKnapp.onClick}
+                            disabled={aksjonsknapper.lukkKnapp.disabled}
+                            size="small"
+                        >
+                            {aksjonsknapper.lukkKnapp.tekst}
+                        </Button>
+                    </Modal.Footer>
+                )}
             </ModalContainer>
         )
     );
