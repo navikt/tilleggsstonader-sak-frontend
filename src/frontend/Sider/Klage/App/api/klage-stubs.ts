@@ -17,6 +17,8 @@ import {
     VilkårStatus,
 } from '../../Komponenter/Behandling/Formkrav/typer';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
+import { IVurdering, VedtakValg } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import { FolketrygdHjemmel } from '../../Komponenter/Behandling/Vurdering/hjemmel';
 
 export const saksbehandlerDummyData: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -105,3 +107,13 @@ export const fagsystemVedakDummydata: FagsystemVedtak[] = [
         fagsystemType: FagsystemType.ORDNIÆR,
     }
 ] 
+
+export const vurderingStub: IVurdering = {
+    behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK,
+    årsak: undefined ,
+    begrunnelseOmgjøring: undefined ,
+    hjemmel: FolketrygdHjemmel.FT_FEMTEN_TO,
+    innstillingKlageinstans: "Dette er fritekst",
+    interntNotat: undefined
+}

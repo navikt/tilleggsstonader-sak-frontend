@@ -56,7 +56,7 @@ export const useHentFormkravVilkår = (): {
     // };
 
 
-    // TODO: Bygg ut disse dummy-funksjoenne når vi får backend opp å kjøre
+    // TODO: Bytt ut disse dummy-funksjonene når vi får backend opp å kjøre
     const hentVilkårsvurderinger = () => {
         settVilkårsvurderinger({ status: RessursStatus.SUKSESS, data: formkravVilkårDummyData });
     };
