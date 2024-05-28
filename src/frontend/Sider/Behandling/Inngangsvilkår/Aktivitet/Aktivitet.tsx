@@ -6,6 +6,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
+import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
@@ -21,7 +22,10 @@ const Container = styled.div`
     max-width: max-content;
 `;
 
+const KOMPONENT = 'aktiviteter';
+
 const Aktivitet: React.FC = () => {
+    const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
@@ -33,6 +37,7 @@ const Aktivitet: React.FC = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
         settLeggerTilNyPeriode(false);
+        nullstillIkkePersistertKomponent(KOMPONENT);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
@@ -44,6 +49,7 @@ const Aktivitet: React.FC = () => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
             settRadIRedigeringsmodus(id);
+            settIkkePersistertKomponent(KOMPONENT);
         } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
@@ -87,7 +93,10 @@ const Aktivitet: React.FC = () => {
 
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
-                    onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
+                    onClick={() => {
+                        settLeggerTilNyPeriode((prevState) => !prevState);
+                        settIkkePersistertKomponent(KOMPONENT);
+                    }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
                     variant={skalViseAktiviteter ? 'tertiary' : 'primary'}
