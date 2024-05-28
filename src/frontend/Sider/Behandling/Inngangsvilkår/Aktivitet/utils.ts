@@ -11,28 +11,36 @@ import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils
 export const nyAktivitet = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetForm => {
-    return aktivitetFraRegister
-        ? {
-              behandlingId: behandlingId,
-              type: aktivitetFraRegister.erUtdanning
-                  ? AktivitetType.UTDANNING
-                  : AktivitetType.TILTAK,
-              fom: aktivitetFraRegister.fom || '',
-              tom: aktivitetFraRegister.tom || '',
-              aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
-              begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-              delvilkår: { '@type': 'AKTIVITET' },
-          }
-        : {
-              behandlingId: behandlingId,
-              type: '',
-              fom: '',
-              tom: '',
-              aktivitetsdager: undefined,
-              delvilkår: { '@type': 'AKTIVITET' },
-          };
-};
+): EndreAktivitetForm =>
+    aktivitetFraRegister
+        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
+        : nyTomAktivitet(behandlingId);
+
+function nyAktivitetFraRegister(
+    behandlingId: string,
+    aktivitetFraRegister: Registeraktivitet
+): EndreAktivitetForm {
+    return {
+        behandlingId: behandlingId,
+        type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
+        fom: aktivitetFraRegister.fom || '',
+        tom: aktivitetFraRegister.tom || '',
+        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
+        begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
+        delvilkår: { '@type': 'AKTIVITET' },
+    };
+}
+
+function nyTomAktivitet(behandlingId: string): EndreAktivitetForm {
+    return {
+        behandlingId: behandlingId,
+        type: '',
+        fom: '',
+        tom: '',
+        aktivitetsdager: undefined,
+        delvilkår: { '@type': 'AKTIVITET' },
+    };
+}
 
 const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
     `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
