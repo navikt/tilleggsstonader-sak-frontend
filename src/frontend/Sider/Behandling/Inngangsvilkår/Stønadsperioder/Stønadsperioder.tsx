@@ -51,8 +51,10 @@ const initFormState = (
     stønadsperioder: eksisterendeStønadsperioder,
 });
 
+const KOMPONENT = 'stønadsperioder';
+
 const Stønadsperioder: React.FC = () => {
-    const { request } = useApp();
+    const { request, settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
@@ -66,6 +68,15 @@ const Stønadsperioder: React.FC = () => {
             stønadsperioder: validerStønadsperioder(formState.stønadsperioder),
         };
     };
+
+    useEffect(() => {
+        if (redigerer) {
+            settIkkePersistertKomponent(KOMPONENT);
+        } else {
+            nullstillIkkePersistertKomponent(KOMPONENT);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [redigerer]);
 
     const formState = useFormState<StønadsperiodeForm>(initFormState(stønadsperioder), validerForm);
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
