@@ -7,7 +7,7 @@ export interface Registerytelser {
 export interface PeriodeYtelseRegister {
     type: TypeRegisterYtelse;
     fom: string;
-    tom: string;
+    tom?: string;
 }
 
 export interface HentetInformasjon {
@@ -18,9 +18,11 @@ export interface HentetInformasjon {
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
+    OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'AAP',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
+    OMSTILLINGSSTØNAD: 'Omstillingsstønad',
 };
