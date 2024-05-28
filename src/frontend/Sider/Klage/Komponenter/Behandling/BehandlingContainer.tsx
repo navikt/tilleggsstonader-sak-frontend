@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
 
-// import Høyremeny from './Høyremeny/Høyremeny';
+import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
 // import Fanemeny from './Fanemeny/Fanemeny';
@@ -80,9 +80,9 @@ const BehandlingContent: FC<{
                     <BehandlingRoutes behandling={behandling} />
                     {/*<HenleggModal behandling={behandling} />*/}
                 </InnholdWrapper>
-                {/*<HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>*/}
-                {/*    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />*/}
-                {/*</HøyreMenyWrapper>*/}
+                <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
+                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
+                </HøyreMenyWrapper>
             </Container>
         </>
     );
