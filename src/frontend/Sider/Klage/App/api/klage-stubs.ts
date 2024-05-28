@@ -73,21 +73,28 @@ export const behandlingDummydata: Behandling = {
 
 export const formkravVilkårDummyData: IFormkravVilkår = {
     behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
-    klagePart: VilkårStatus.IKKE_SATT,
-    klageKonkret: VilkårStatus.IKKE_SATT,
-    klagefristOverholdt: VilkårStatus.IKKE_SATT,
+    klagePart: VilkårStatus.OPPFYLT,
+    klageKonkret: VilkårStatus.OPPFYLT,
+    klagefristOverholdt: VilkårStatus.OPPFYLT,
     klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
-    klageSignert: VilkårStatus.IKKE_SATT,
-    saksbehandlerBegrunnelse: undefined,
-    brevtekst: undefined,
-    endretTid: "2024-05-27T17:25:49.182",
+    klageSignert: VilkårStatus.OPPFYLT,
+    saksbehandlerBegrunnelse: "",
+    endretTid: "2024-05-28T08:14:20.478",
     påklagetVedtak: {
-        eksternFagsystemBehandlingId: undefined,
-        påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
-        fagsystemVedtak: undefined,
+        eksternFagsystemBehandlingId: "17934",
+        påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
+        fagsystemVedtak: {
+            eksternBehandlingId: "17934",
+            behandlingstype: "Førstegangsbehandling",
+            resultat: "Innvilget",
+            vedtakstidspunkt: "2024-01-22T17:13:23.621",
+            fagsystemType: FagsystemType.ORDNIÆR,
+            //regelverk: "NASJONAL"
+        },
         manuellVedtaksdato: undefined,
+        //regelverk: "NASJONAL"
     }
-};
+}
 
 export const fagsystemVedakDummydata: FagsystemVedtak[] = [
     {
