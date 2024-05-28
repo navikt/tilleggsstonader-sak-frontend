@@ -7,6 +7,7 @@ import { Alert, Button, Detail, Heading, Table, VStack } from '@navikt/ds-react'
 import { RegisterAktivteter } from './typer/vilkårperiode';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
+import { erProd } from '../../../utils/miljø';
 
 const Tabell = styled(Table)`
     width: 50%;
@@ -54,12 +55,16 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | un
                                     </Table.DataCell>
                                     <Table.DataCell>{aktivitet.antallDagerPerUke}</Table.DataCell>
                                     <Table.DataCell>
-                                        <Button
-                                            size={'small'}
-                                            onClick={() => leggTilAktivitetFraRegister(aktivitet)}
-                                        >
-                                            Legg til
-                                        </Button>
+                                        {!erProd() && (
+                                            <Button
+                                                size={'small'}
+                                                onClick={() =>
+                                                    leggTilAktivitetFraRegister(aktivitet)
+                                                }
+                                            >
+                                                Legg til
+                                            </Button>
+                                        )}
                                     </Table.DataCell>
                                 </Table.Row>
                             );
