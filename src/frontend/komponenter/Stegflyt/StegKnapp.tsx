@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
+const feilmeldingUlagretData = 'Har ulagret data, vennligst ferdigstill';
+
 export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;
@@ -18,13 +20,20 @@ export const StegKnapp: FC<{
     children: React.ReactNode;
 }> = ({ nesteFane, steg, onNesteSteg, children }) => {
     const navigate = useNavigate();
-    const { request } = useApp();
+    const { request, harUlagretData, nullstillIkkePersisterteKomponenter } = useApp();
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
+    useEffect(() => {
+        if (!harUlagretData && feilmelding === feilmeldingUlagretData) {
+            settFeilmelding(undefined);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [harUlagretData]);
+
     const redigerSteg = () => {
-        settFeilmelding('');
+        settFeilmelding(undefined);
         request<string, { steg: Steg }>(`/api/sak/steg/behandling/${behandling.id}/reset`, 'POST', {
             steg: steg,
         }).then((res) => {
@@ -36,8 +45,12 @@ export const StegKnapp: FC<{
         });
     };
 
-    const gåtTilNesteSteg = () => {
-        settFeilmelding('');
+    const gåTilNesteSteg = () => {
+        if (harUlagretData) {
+            settFeilmelding(feilmeldingUlagretData);
+            return;
+        }
+        settFeilmelding(undefined);
         const håndterSteg = onNesteSteg
             ? onNesteSteg()
             : request<string, { steg: Steg }>(
@@ -64,7 +77,7 @@ export const StegKnapp: FC<{
     return (
         <VStack align={'start'}>
             {behandling.steg === steg && (
-                <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
+                <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
                     {children}
                 </Button>
             )}
