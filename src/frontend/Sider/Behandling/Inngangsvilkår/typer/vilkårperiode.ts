@@ -1,10 +1,25 @@
 import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
 import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Periode } from '../../../../utils/periode';
+import RegisterAktivteter from '../RegisterAktivteter';
 
+export interface VilkårperioderResponse {
+    vilkårperioder: Vilkårperioder;
+    grunnlag: VilkårperioderGrunnlag | undefined;
+}
 export interface Vilkårperioder {
     målgrupper: Målgruppe[];
     aktiviteter: Aktivitet[];
+}
+
+export interface VilkårperioderGrunnlag {
+    aktivitet: RegisterAktivteter;
+}
+
+export interface RegisterAktivteter {
+    tidspunktHentet: string;
+    aktiviteter: Registeraktivitet[];
 }
 
 export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe> {
