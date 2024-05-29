@@ -1,4 +1,4 @@
-// import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Behandling,
     behandlingResultatTilTekst,
@@ -8,25 +8,25 @@ import {
 } from '../../../App/typer/fagsak';
 import { ensure } from '../../../utils/utils';
 
-// export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
-//     const visning = [
-//         ...new Set(
-//             steg.map((historikk, _, historikkListe) =>
-//                 ensure(historikkListe.find((steg) => historikk.steg == steg.steg))
-//             )
-//         ),
-//     ].reverse();
-//
-//     const venterPåSvarFraKabal = visning[visning.length - 1].steg === StegType.OVERFØRING_TIL_KABAL;
-//     if (venterPåSvarFraKabal) {
-//         return [
-//             ...visning,
-//             lagHistorikkInnslag(StegType.KABAL_VENTER_SVAR),
-//             lagHistorikkInnslag(StegType.BEHANDLING_FERDIGSTILT),
-//         ];
-//     }
-//     return visning;
-// };
+export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
+    const visning = [
+        ...new Set(
+            steg.map((historikk, _, historikkListe) =>
+                ensure(historikkListe.find((steg) => historikk.steg == steg.steg))
+            )
+        ),
+    ].reverse();
+
+    const venterPåSvarFraKabal = visning[visning.length - 1].steg === StegType.OVERFØRING_TIL_KABAL;
+    if (venterPåSvarFraKabal) {
+        return [
+            ...visning,
+            lagHistorikkInnslag(StegType.KABAL_VENTER_SVAR),
+            lagHistorikkInnslag(StegType.BEHANDLING_FERDIGSTILT),
+        ];
+    }
+    return visning;
+};
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
     const erFeilregistrert = behandling.klageinstansResultat.some(
@@ -56,9 +56,9 @@ export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
         : behandlingResultatTilTekst[behandling.resultat];
 };
 
-// const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
-//     behandlingId: '',
-//     steg: steg,
-//     opprettetAv: '',
-//     endretTid: '',
-// });
+const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
+    behandlingId: '',
+    steg: steg,
+    opprettetAv: '',
+    endretTid: '',
+});

@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
-// import Fanemeny from './Fanemeny/Fanemeny';
+import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
@@ -14,8 +14,8 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 // import { HenleggModal } from './Henleggelse/HenleggModal';
-// import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
-// import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
+import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 
 const Container = styled.div`
     display: flex;
@@ -63,8 +63,8 @@ const BehandlingContent: FC<{
     behandling,
     personopplysninger,
 }) => {
-    // useSetValgtFagsakId(behandling.fagsakId);
-    // useSetPersonIdent(personopplysninger.personIdent);
+    useSetValgtFagsakId(behandling.fagsakId);
+    useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
 
     return (
@@ -76,7 +76,7 @@ const BehandlingContent: FC<{
             />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    {/*<Fanemeny behandling={behandling} />*/}
+                    <Fanemeny behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     {/*<HenleggModal behandling={behandling} />*/}
                 </InnholdWrapper>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
@@ -6,6 +6,7 @@ import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
 import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
 import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { Registeraktivitet } from '../typer/registeraktivitet';
 
 interface UseInngangsvilkår {
     målgrupper: Målgruppe[];
@@ -18,6 +19,11 @@ interface UseInngangsvilkår {
     stønadsperiodeFeil: string | undefined;
     settStønadsperiodeFeil: (feilmelding: string | undefined) => void;
     oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
+    leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
+    leggerTilNyAktivitet: boolean;
+    settLeggerTilNyAktivitet: React.Dispatch<SetStateAction<boolean>>;
+    aktivitetFraRegister?: Registeraktivitet;
+    settAktivitetFraRegister: React.Dispatch<SetStateAction<Registeraktivitet | undefined>>;
 }
 
 interface Props {
@@ -29,6 +35,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
     ({ vilkårperioder, hentedeStønadsperioder }: Props): UseInngangsvilkår => {
         const [målgrupper, settMålgrupper] = useState<Målgruppe[]>(vilkårperioder.målgrupper);
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
+        const [leggerTilNyAktivitet, settLeggerTilNyAktivitet] = useState<boolean>(false);
         const [stønadsperioder, settStønadsperioder] =
             useState<Stønadsperiode[]>(hentedeStønadsperioder);
         const [stønadsperiodeFeil, settStønadsperiodeFeil] = useState<string>();
@@ -53,6 +60,15 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             settAktiviteter((prevState) => [...prevState, nyPeriode]);
         };
 
+        const leggTilAktivitetFraRegister = (aktivitet: Registeraktivitet) => {
+            if (leggerTilNyAktivitet) return;
+
+            settAktivitetFraRegister(aktivitet);
+            settLeggerTilNyAktivitet(true);
+        };
+
+        const [aktivitetFraRegister, settAktivitetFraRegister] = useState<Registeraktivitet>();
+
         const oppdaterAktivitet = (oppdatertPeriode: Aktivitet) => {
             settAktiviteter((prevState) =>
                 prevState.map((aktivitet) =>
@@ -71,8 +87,13 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             stønadsperioder,
             stønadsperiodeFeil,
             settStønadsperiodeFeil,
+            leggTilAktivitetFraRegister,
             oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
                 settStønadsperioder(oppdaterteStønadsperioder),
+            leggerTilNyAktivitet,
+            settLeggerTilNyAktivitet,
+            aktivitetFraRegister,
+            settAktivitetFraRegister,
         };
     }
 );

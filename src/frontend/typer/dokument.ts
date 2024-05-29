@@ -15,6 +15,11 @@ export interface DokumentInfo {
     utsendingsinfo?: Utsendingsinfo;
 }
 
+export enum Tema {
+    TSO = 'TSO',
+    TSR = 'TSR',
+}
+
 export interface LogiskVedlegg {
     logiskVedleggId: string;
     tittel: string;
