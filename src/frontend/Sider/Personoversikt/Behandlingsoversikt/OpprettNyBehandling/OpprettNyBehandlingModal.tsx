@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
-import { useApp } from '../../context/AppContext';
-import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
-import { BehandlingType, behandlingTypeTilTekst } from '../../typer/behandling/behandlingType';
-import { RessursStatus } from '../../typer/ressurs';
+import { useApp } from '../../../../context/AppContext';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import {
+    BehandlingType,
+    behandlingTypeTilTekst,
+} from '../../../../typer/behandling/behandlingType';
+import { RessursStatus } from '../../../../typer/ressurs';
 
 interface OpprettKlageRequest {
     mottattDato: string;

@@ -4,8 +4,8 @@ import { styled } from 'styled-components';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
-import DateInput from '../../komponenter/Skjema/DateInput';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import DateInput from '../../../../komponenter/Skjema/DateInput';
 
 interface Props {
     klageGjelderTilbakekreving: boolean;
