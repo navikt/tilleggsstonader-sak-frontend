@@ -29,10 +29,12 @@ const Container = styled.div`
     border-left: 4px solid ${ABlue500};
 `;
 
+const KOMPONENT = 'beregning_avslå';
+
 const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { request } = useApp();
+    const { request, settIkkePersistertKomponent } = useApp();
 
     const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
@@ -64,6 +66,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 value={årsaker}
                 onChange={(e) => {
                     settÅrsaker(e);
+                    settIkkePersistertKomponent(KOMPONENT);
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
@@ -78,7 +81,10 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
             <Textarea
                 label="Begrunnelse for avslag"
                 value={begrunnelse}
-                onChange={(e) => settBegrunnelse(e.target.value)}
+                onChange={(e) => {
+                    settBegrunnelse(e.target.value);
+                    settIkkePersistertKomponent(KOMPONENT);
+                }}
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
                 style={{ width: '40rem' }}
@@ -89,6 +95,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.BREV}
                 onNesteSteg={validerOgLagreVedtak}
+                validerUlagretData={false}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
