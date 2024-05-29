@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Popover, Table } from '@navikt/ds-react';
+import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
@@ -25,6 +25,9 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             ? behandlingstype + ' - ' + behandlingstema
             : behandlingstype
         : behandlingstema;
+
+    const folkeregistrertIdent = utledetFolkeregisterIdent(oppgave);
+
     return (
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
@@ -49,7 +52,12 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     </Popover.Content>
                 </Popover>
             </Table.DataCell>
-            <Table.DataCell>{utledetFolkeregisterIdent(oppgave)}</Table.DataCell>
+            <Table.DataCell>
+                <HStack align="center">
+                    {folkeregistrertIdent}
+                    <CopyButton size="small" copyText={folkeregistrertIdent} />
+                </HStack>
+            </Table.DataCell>
             <Table.DataCell>{oppgave.navn}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
