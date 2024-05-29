@@ -45,7 +45,7 @@ const EndreDelvilkår: FC<{
     vilkår: Vilkår;
     avsluttRedigering: () => void;
 }> = ({ regler, vilkår, avsluttRedigering }) => {
-    const { nullstillIkkePersistertKomponent, settIkkePersistertKomponent } = useApp();
+    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
@@ -56,12 +56,12 @@ const EndreDelvilkår: FC<{
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
-            settIkkePersistertKomponent(vilkår.id);
+            settUlagretKomponent(vilkår.id);
         } else {
-            nullstillIkkePersistertKomponent(vilkår.id);
+            nullstillUlagretKomponent(vilkår.id);
         }
         return () => {
-            nullstillIkkePersistertKomponent(vilkår.id);
+            nullstillUlagretKomponent(vilkår.id);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [detFinnesUlagredeEndringer]);

@@ -8,8 +8,8 @@ import { useApp } from '../context/AppContext';
  * Kan ikke kjøre navigate direkte fordi navigate er i blocked state,
  * selv om nullstill ligger før denne metoden
  */
-export const useNavigateUtenUlagretSjekk = () => {
-    const { nullstillIkkePersisterteKomponenter } = useApp();
+export const useNavigateUtenSjekkForUlagredeKomponenter = () => {
+    const { nullstillUlagredeKomponenter } = useApp();
     const navigate = useNavigate();
 
     const [path, settPath] = useState<string>();
@@ -20,7 +20,7 @@ export const useNavigateUtenUlagretSjekk = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [path]);
     return (path: string) => {
-        nullstillIkkePersisterteKomponenter();
+        nullstillUlagredeKomponenter();
         settPath(path);
     };
 };

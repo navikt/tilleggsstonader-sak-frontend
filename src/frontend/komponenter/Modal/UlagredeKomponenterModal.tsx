@@ -5,11 +5,15 @@ import ReactRouterPrompt from 'react-router-prompt';
 import { ModalWrapper } from './ModalWrapper';
 import { useApp } from '../../context/AppContext';
 
-const UlagretDataModal: FC = () => {
-    const { nullstillIkkePersisterteKomponenter, harUlagretData } = useApp();
+/**
+ * Viser modal i tilfelle man prøver å navigere til en annen side når det finnes ulagrede komponenter.
+ * Viser også en alert på engelsk hvis man prøver å lukke vinduet når det finnes ulagede komponenter.
+ */
+const UlagredeKomponenterModal: FC = () => {
+    const { nullstillUlagredeKomponenter, harUlagradeKomponenter } = useApp();
 
     return (
-        <ReactRouterPrompt when={harUlagretData}>
+        <ReactRouterPrompt when={harUlagradeKomponenter}>
             {({ isActive, onConfirm, onCancel }) => (
                 <ModalWrapper
                     tittel={
@@ -25,7 +29,8 @@ const UlagretDataModal: FC = () => {
                         lukkKnapp: {
                             onClick: () => {
                                 onConfirm();
-                                setTimeout(nullstillIkkePersisterteKomponenter, 10);
+                                // Hack for å få nullstille ulagede komponenter i en annen rendering, kall direkte virker ikke
+                                setTimeout(nullstillUlagredeKomponenter, 0);
                             },
                             tekst: 'Forlat siden',
                         },
@@ -37,4 +42,4 @@ const UlagretDataModal: FC = () => {
     );
 };
 
-export default UlagretDataModal;
+export default UlagredeKomponenterModal;

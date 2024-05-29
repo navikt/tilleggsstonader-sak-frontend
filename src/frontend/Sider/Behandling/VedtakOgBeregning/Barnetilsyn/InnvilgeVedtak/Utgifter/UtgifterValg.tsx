@@ -8,6 +8,7 @@ import { Button, Heading, Label } from '@navikt/ds-react';
 import { useApp } from '../../../../../../context/AppContext';
 import { useSteg } from '../../../../../../context/StegContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
+import { UlagretKomponent } from '../../../../../../hooks/useUlagredeKomponenter';
 import MonthInputMedLeservisning from '../../../../../../komponenter/Skjema/MonthInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
@@ -38,8 +39,6 @@ interface Props {
     settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
-const KOMPONENT = 'beregning_innvilge_utgifter';
-
 const UtgifterValg: React.FC<Props> = ({
     utgifter,
     barn,
@@ -47,7 +46,7 @@ const UtgifterValg: React.FC<Props> = ({
     oppdaterUtgiter,
     settValideringsFeil,
 }) => {
-    const { settIkkePersistertKomponent } = useApp();
+    const { settUlagretKomponent } = useApp();
     const { erStegRedigerbart } = useSteg();
 
     const oppdaterUtgift = (utgiftIndex: number, oppdatertUtgift: Utgift) => {
@@ -67,12 +66,12 @@ const UtgifterValg: React.FC<Props> = ({
             ...utgifter[indeks],
             [property]: value,
         });
-        settIkkePersistertKomponent(KOMPONENT);
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     const leggTilTomRadUnder = (utgiftIndex: number) => {
         oppdaterUtgiter(leggTilTomRadUnderIListe(utgifter, tomUtgiftRad(), utgiftIndex));
-        settIkkePersistertKomponent(KOMPONENT);
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     const slettPeriode = (barnId: string, utgiftIndex: number) => {
@@ -87,7 +86,7 @@ const UtgifterValg: React.FC<Props> = ({
             ).splice(utgiftIndex, 1);
             return { ...prevState, utgiftsperioder };
         });
-        settIkkePersistertKomponent(KOMPONENT);
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     return (

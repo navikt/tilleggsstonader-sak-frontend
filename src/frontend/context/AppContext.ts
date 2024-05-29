@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
-import { useUlagretData } from '../hooks/useUlagretData';
+import { useUlagredeKomponenter } from '../hooks/useUlagredeKomponenter';
 import { Toast } from '../typer/toast';
 import { AppEnv } from '../utils/env';
 import { fetchFn, Method } from '../utils/fetch';
@@ -40,11 +40,11 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
     }, [saksbehandler, appEnv]);
 
     const {
-        harUlagretData,
-        nullstillIkkePersistertKomponent,
-        nullstillIkkePersisterteKomponenter,
-        settIkkePersistertKomponent,
-    } = useUlagretData();
+        harUlagradeKomponenter,
+        settUlagretKomponent,
+        nullstillUlagretKomponent,
+        nullstillUlagredeKomponenter,
+    } = useUlagredeKomponenter();
 
     return {
         request,
@@ -56,10 +56,10 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         toast,
         settToast,
 
-        harUlagretData,
-        nullstillIkkePersistertKomponent,
-        nullstillIkkePersisterteKomponenter,
-        settIkkePersistertKomponent,
+        harUlagradeKomponenter,
+        settUlagretKomponent,
+        nullstillUlagretKomponent,
+        nullstillUlagredeKomponenter,
     };
 });
 

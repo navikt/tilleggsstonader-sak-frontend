@@ -12,7 +12,7 @@ import { LeaveIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
-import UlagretDataModal from './komponenter/Modal/UlagretDataModal';
+import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
 import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
@@ -99,7 +99,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
             <ScrollToTop />
             <Outlet />
             <Toast />
-            <UlagretDataModal />
+            <UlagredeKomponenterModal />
         </>
     );
 };

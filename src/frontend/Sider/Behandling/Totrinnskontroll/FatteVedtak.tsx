@@ -18,7 +18,8 @@ import {
 import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useNavigateUtenUlagretSjekk } from '../../../hooks/useNavigateUtenUlagretSjekk';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
+import { UlagretKomponent } from '../../../hooks/useUlagredeKomponenter';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
@@ -49,15 +50,12 @@ enum Totrinnsresultat {
     UNDERKJENT = 'UNDERKJENT',
 }
 
-const KOMPONENT = 'totrinnskontroll';
-
 const FatteVedtak: React.FC<{
     settVisGodkjentModal: (vis: boolean) => void;
     settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
 }> = ({ settVisGodkjentModal, settTotrinnskontroll }) => {
-    const { request, settToast, settIkkePersistertKomponent, nullstillIkkePersisterteKomponenter } =
-        useApp();
-    const navigate = useNavigateUtenUlagretSjekk();
+    const { request, settToast, settUlagretKomponent, nullstillUlagredeKomponenter } = useApp();
+    const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { behandling, hentBehandling } = useBehandling();
 
     const [resultat, settResultat] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
@@ -92,7 +90,7 @@ const FatteVedtak: React.FC<{
                         hentBehandling.rerun();
                         settTotrinnskontroll(response);
                         //hentBehandlingshistorikk.rerun();
-                        nullstillIkkePersisterteKomponenter();
+                        nullstillUlagredeKomponenter();
                         settVisGodkjentModal(true);
                     } else {
                         settToast(Toast.VEDTAK_UNDERKJENT);
@@ -111,7 +109,7 @@ const FatteVedtak: React.FC<{
         if (resultat === Totrinnsresultat.GODKJENT) {
             settÅrsakerUnderkjent([]);
         }
-        settIkkePersistertKomponent(KOMPONENT);
+        settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
     };
 
     return (
@@ -144,7 +142,7 @@ const FatteVedtak: React.FC<{
                             value={årsakerUnderkjent}
                             onChange={(årsaker) => {
                                 settÅrsakerUnderkjent(årsaker);
-                                settIkkePersistertKomponent(KOMPONENT);
+                                settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                             }}
                         >
                             {Object.values(ÅrsakUnderkjent).map((årsak) => (
@@ -159,7 +157,7 @@ const FatteVedtak: React.FC<{
                         maxLength={0}
                         onChange={(e) => {
                             settBegrunnelse(e.target.value);
-                            settIkkePersistertKomponent(KOMPONENT);
+                            settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                         }}
                         label={'Begrunnelse'}
                     />

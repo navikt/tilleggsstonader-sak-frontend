@@ -9,6 +9,7 @@ import EndreAktivitetRad from './EndreAktivitetRad';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
+import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
@@ -22,10 +23,8 @@ const Container = styled.div`
     max-width: max-content;
 `;
 
-const KOMPONENT = 'aktiviteter';
-
 const Aktivitet: React.FC = () => {
-    const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
@@ -37,7 +36,7 @@ const Aktivitet: React.FC = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
         settLeggerTilNyPeriode(false);
-        nullstillIkkePersistertKomponent(KOMPONENT);
+        nullstillUlagretKomponent(UlagretKomponent.AKTIVITET);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
@@ -49,7 +48,7 @@ const Aktivitet: React.FC = () => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
             settRadIRedigeringsmodus(id);
-            settIkkePersistertKomponent(KOMPONENT);
+            settUlagretKomponent(UlagretKomponent.AKTIVITET);
         } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
@@ -95,7 +94,7 @@ const Aktivitet: React.FC = () => {
                 <Button
                     onClick={() => {
                         settLeggerTilNyPeriode((prevState) => !prevState);
-                        settIkkePersistertKomponent(KOMPONENT);
+                        settUlagretKomponent(UlagretKomponent.AKTIVITET);
                     }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}

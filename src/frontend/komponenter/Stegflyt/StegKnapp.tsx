@@ -4,7 +4,7 @@ import { Button, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
-import { useNavigateUtenUlagretSjekk } from '../../hooks/useNavigateUtenUlagretSjekk';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { FanePath } from '../../Sider/Behandling/faner';
 import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
@@ -16,21 +16,21 @@ export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;
     onNesteSteg?: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
-    validerUlagretData?: boolean;
+    validerUlagedeKomponenter?: boolean;
     children: React.ReactNode;
-}> = ({ nesteFane, steg, onNesteSteg, validerUlagretData = true, children }) => {
-    const navigate = useNavigateUtenUlagretSjekk();
-    const { request, harUlagretData } = useApp();
+}> = ({ nesteFane, steg, onNesteSteg, validerUlagedeKomponenter = true, children }) => {
+    const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
+    const { request, harUlagradeKomponenter } = useApp();
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     useEffect(() => {
-        if (!harUlagretData && feilmelding === feilmeldingUlagretData) {
+        if (!harUlagradeKomponenter && feilmelding === feilmeldingUlagretData) {
             settFeilmelding(undefined);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [harUlagretData]);
+    }, [harUlagradeKomponenter]);
 
     const redigerSteg = () => {
         settFeilmelding(undefined);
@@ -46,7 +46,7 @@ export const StegKnapp: FC<{
     };
 
     const gåTilNesteSteg = () => {
-        if (validerUlagretData && harUlagretData) {
+        if (validerUlagedeKomponenter && harUlagradeKomponenter) {
             settFeilmelding(feilmeldingUlagretData);
             return;
         }
