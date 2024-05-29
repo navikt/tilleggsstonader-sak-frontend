@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Button, Select, VStack } from '@navikt/ds-react';
 
-import KlageGjelderTilbakekreving from './KlageGjelderTilbakekreving';
+import OpprettKlageBehandling from './OpprettKlageBehandling';
 import { useApp } from '../../context/AppContext';
-import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
-import DateInput from '../../komponenter/Skjema/DateInput';
 import { BehandlingType, behandlingTypeTilTekst } from '../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../typer/ressurs';
-
-export const DatoWrapper = styled.div`
-    margin-top: 1rem;
-`;
 
 interface OpprettKlageRequest {
     mottattDato: string;
@@ -91,22 +83,13 @@ const OpprettNyBehandlingModal = () => {
                         </option>
                     </Select>
                     {behandlingtype === BehandlingType.KLAGE && (
-                        <>
-                            <KlageGjelderTilbakekreving
-                                klageGjelderTilbakekreving={klageGjelderTilbakekreving}
-                                settKlageGjelderTilbakekreving={settKlageGjelderTilbakekreving}
-                            />
-                            <DatoWrapper>
-                                <DateInput
-                                    label={'Krav mottat'}
-                                    onChange={(dato: string | undefined) =>
-                                        settKravMottattDato(dato || '')
-                                    }
-                                    value={kravMottattDato}
-                                />
-                            </DatoWrapper>
-                            <Feilmelding variant={'alert'}>{feilmelding}</Feilmelding>
-                        </>
+                        <OpprettKlageBehandling
+                            klageGjelderTilbakekreving={klageGjelderTilbakekreving}
+                            settKlageGjelderTilbakekreving={settKlageGjelderTilbakekreving}
+                            kravMottattDato={kravMottattDato}
+                            settKravMottattDato={settKravMottattDato}
+                            feilmelding={feilmelding}
+                        />
                     )}
                 </VStack>
             </ModalWrapper>
