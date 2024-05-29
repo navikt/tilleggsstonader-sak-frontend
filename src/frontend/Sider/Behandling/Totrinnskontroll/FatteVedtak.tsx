@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -19,6 +18,7 @@ import {
 import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useNavigateUtenUlagretSjekk } from '../../../hooks/useNavigateUtenUlagretSjekk';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
@@ -49,12 +49,15 @@ enum Totrinnsresultat {
     UNDERKJENT = 'UNDERKJENT',
 }
 
+const KOMPONENT = 'totrinnskontroll';
+
 const FatteVedtak: React.FC<{
     settVisGodkjentModal: (vis: boolean) => void;
     settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
 }> = ({ settVisGodkjentModal, settTotrinnskontroll }) => {
-    const { request, settToast } = useApp();
-    const navigate = useNavigate();
+    const { request, settToast, settIkkePersistertKomponent, nullstillIkkePersisterteKomponenter } =
+        useApp();
+    const navigate = useNavigateUtenUlagretSjekk();
     const { behandling, hentBehandling } = useBehandling();
 
     const [resultat, settResultat] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
@@ -89,6 +92,7 @@ const FatteVedtak: React.FC<{
                         hentBehandling.rerun();
                         settTotrinnskontroll(response);
                         //hentBehandlingshistorikk.rerun();
+                        nullstillIkkePersisterteKomponenter();
                         settVisGodkjentModal(true);
                     } else {
                         settToast(Toast.VEDTAK_UNDERKJENT);
@@ -107,6 +111,7 @@ const FatteVedtak: React.FC<{
         if (resultat === Totrinnsresultat.GODKJENT) {
             settÅrsakerUnderkjent([]);
         }
+        settIkkePersistertKomponent(KOMPONENT);
     };
 
     return (
@@ -137,7 +142,10 @@ const FatteVedtak: React.FC<{
                             legend={'Årsak til underkjennelse'}
                             description={'Manglende eller feil opplysninger om:'}
                             value={årsakerUnderkjent}
-                            onChange={settÅrsakerUnderkjent}
+                            onChange={(årsaker) => {
+                                settÅrsakerUnderkjent(årsaker);
+                                settIkkePersistertKomponent(KOMPONENT);
+                            }}
                         >
                             {Object.values(ÅrsakUnderkjent).map((årsak) => (
                                 <Checkbox key={årsak} value={årsak}>
@@ -151,6 +159,7 @@ const FatteVedtak: React.FC<{
                         maxLength={0}
                         onChange={(e) => {
                             settBegrunnelse(e.target.value);
+                            settIkkePersistertKomponent(KOMPONENT);
                         }}
                         label={'Begrunnelse'}
                     />
