@@ -21,7 +21,7 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | un
     if (aktivitetGrunnlag === undefined) {
         return (
             <Alert variant={'info'} inline>
-                Deet ble ikke hentet aktiviteter fra register for denne behandlingen
+                Det ble ikke hentet aktiviteter fra register for denne behandlingen
             </Alert>
         );
     }
