@@ -14,8 +14,8 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 // import { HenleggModal } from './Henleggelse/HenleggModal';
-// import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
-// import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
+import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 
 const Container = styled.div`
     display: flex;
@@ -63,8 +63,8 @@ const BehandlingContent: FC<{
     behandling,
     personopplysninger,
 }) => {
-    // useSetValgtFagsakId(behandling.fagsakId);
-    // useSetPersonIdent(personopplysninger.personIdent);
+    useSetValgtFagsakId(behandling.fagsakId);
+    useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
 
     return (
