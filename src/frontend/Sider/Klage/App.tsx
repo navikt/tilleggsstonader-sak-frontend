@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AppProvider, useApp } from './App/context/AppContext';
-// import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
 // import { TogglesProvider } from './App/context/TogglesContext';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
@@ -43,13 +43,13 @@ export const App: React.FC = () => {
         return null;
     }
     return (
-        // <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
+        <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
         <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
             {/*         <TogglesProvider>*/}
             <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
             {/*</TogglesProvider>*/}
         </AppProvider>
-        // </ErrorBoundary>
+        </ErrorBoundary>
     );
 };
 
