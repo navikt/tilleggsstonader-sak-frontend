@@ -5,11 +5,11 @@ import { Heading, Table } from '@navikt/ds-react';
 import DokumentRad from './DokumentRad';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { DokumentInfo } from '../../../typer/dokument';
+import { DokumentInfo, Tema } from '../../../typer/dokument';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 
 type VedleggRequest = {
-    tema?: string[]; // Arkiv
+    tema?: Tema[]; // Arkiv
     journalposttype?: string;
     journalstatus?: string;
 };
@@ -24,7 +24,7 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
             request<DokumentInfo[], VedleggRequest>(
                 `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
                 'POST',
-                {}
+                { tema: [Tema.TSO, Tema.TSR] }
             ).then(settDokumenter);
         },
         [request]
