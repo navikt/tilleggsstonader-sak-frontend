@@ -9,6 +9,7 @@ import { useApp } from '../../context/AppContext';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 import DateInput from '../../komponenter/Skjema/DateInput';
+import { BehandlingType, behandlingTypeTilTekst } from '../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../typer/ressurs';
 
 export const DatoWrapper = styled.div`
@@ -24,7 +25,7 @@ const OpprettNyBehandlingModal = () => {
     const { request } = useApp();
 
     const [visModal, settVisModal] = useState(false);
-    const [nyBehandlingValg, settNyBehandlingValg] = useState('');
+    const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
     const [klageGjelderTilbakekreving, settKlageGjelderTilbakekreving] = useState<boolean>(false);
     const [kravMottattDato, settKravMottattDato] = useState('');
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -46,7 +47,7 @@ const OpprettNyBehandlingModal = () => {
         settFeilmelding('');
         settKlageGjelderTilbakekreving(false);
         settKravMottattDato('');
-        settNyBehandlingValg('');
+        settBehandlingtype(undefined);
     };
 
     return (
@@ -77,14 +78,19 @@ const OpprettNyBehandlingModal = () => {
             >
                 <VStack gap="4">
                     <Select
+                        value={behandlingtype}
                         label="Behandlingstype"
-                        value={nyBehandlingValg || ''}
-                        onChange={(value) => settNyBehandlingValg(value.target.value)}
+                        onChange={(event) => {
+                            // event.persist(); //TODO: ER DENNE NØDNVENDIG?
+                            settBehandlingtype(event.target.value as BehandlingType);
+                        }}
                     >
-                        <option value="">Velg</option>
-                        <option value="klage">Klage</option>
+                        <option value={''}>Velg</option>
+                        <option value="KLAGE">
+                            {behandlingTypeTilTekst[BehandlingType.KLAGE]}
+                        </option>
                     </Select>
-                    {nyBehandlingValg && (
+                    {behandlingtype === BehandlingType.KLAGE && (
                         <>
                             <KlageGjelderTilbakekreving
                                 klageGjelderTilbakekreving={klageGjelderTilbakekreving}
