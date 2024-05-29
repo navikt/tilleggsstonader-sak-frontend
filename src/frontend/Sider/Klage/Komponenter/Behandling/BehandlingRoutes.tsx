@@ -24,7 +24,7 @@ const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
         }
     };
 
-    const redirectUrl = `/${behandling.id}/${utledRedirectUrl()}`;
+    // const redirectUrl = `/${behandling.id}/${utledRedirectUrl()}`;
 
     return (
         <Routes>

@@ -4,13 +4,13 @@ import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { useApp } from '../../../App/context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../App/typer/toast';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 
 const GridContainer = styled.div`
     display: grid;
@@ -64,11 +64,15 @@ export const BrevmottakereModal: FC<{
 
     const kallSettBrevmottakere = useCallback(
         (brevmottakere: IBrevmottakere) =>
-            axiosRequest<IBrevmottakere, IBrevmottakere>({
-                url: `familie-klage/api/brev/${behandlingId}/mottakere`,
-                method: 'POST',
+            // axiosRequest<IBrevmottakere, IBrevmottakere>({
+            //     url: `familie-klage/api/brev/${behandlingId}/mottakere`,
+            //     method: 'POST',
+            //     data: brevmottakere,
+            // }),
+            Promise.resolve({
                 data: brevmottakere,
-            }),
+                status: RessursStatus.SUKSESS,
+            } as RessursSuksess<IBrevmottakere>),
         [axiosRequest, behandlingId]
     );
 
