@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
-// import Fanemeny from './Fanemeny/Fanemeny';
+import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
@@ -76,7 +76,7 @@ const BehandlingContent: FC<{
             />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    {/*<Fanemeny behandling={behandling} />*/}
+                    <Fanemeny behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     {/*<HenleggModal behandling={behandling} />*/}
                 </InnholdWrapper>
