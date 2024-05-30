@@ -39,10 +39,15 @@ export default useMellomlagringBrev;
 
 export function parseMellomlagretBrev(mellomlagretBrev: MellomlagretBrevDto | undefined) {
     const {
-        inkluderteDelmaler: initInkluderterDelmaler = undefined,
-        fritekst: initFritekst = undefined,
-        valgfelt: initValgfelt = undefined,
-        variabler: initVariabler = undefined,
+        inkluderteDelmaler: mellomlagredeInkluderteDelmaler = undefined,
+        fritekst: mellomlagredeFritekstfelt = undefined,
+        valgfelt: mellomlagredeValgfelt = undefined,
+        variabler: mellomlagredeVariabler = undefined,
     } = mellomlagretBrev ? (JSON.parse(mellomlagretBrev?.brevverdier) as IBrevverdier) : {};
-    return { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler };
+    return {
+        mellomlagredeInkluderteDelmaler,
+        mellomlagredeFritekstfelt,
+        mellomlagredeValgfelt,
+        mellomlagredeVariabler,
+    };
 }

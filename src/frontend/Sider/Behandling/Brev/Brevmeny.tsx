@@ -52,21 +52,25 @@ const Brevmeny: React.FC<Props> = ({
     beregningsresultat,
 }) => {
     const { personopplysninger } = usePersonopplysninger();
-    const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
-        parseMellomlagretBrev(mellomlagretBrev);
+    const {
+        mellomlagredeInkluderteDelmaler,
+        mellomlagredeFritekstfelt,
+        mellomlagredeValgfelt,
+        mellomlagredeVariabler,
+    } = parseMellomlagretBrev(mellomlagretBrev);
 
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
-    >(initValgfelt || {});
+    >(mellomlagredeValgfelt || {});
 
-    const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
-        initVariabler || {}
-    );
+    const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
+        return { ...mellomlagredeVariabler };
+    });
 
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
         mal.delmaler.reduce((acc, current) => {
             const delmalErMedIMellomlager = !!(
-                initInkluderterDelmaler && initInkluderterDelmaler[current._id]
+                mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
             );
             return {
                 ...acc,
@@ -77,7 +81,7 @@ const Brevmeny: React.FC<Props> = ({
 
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
-    >(initFritekst || {});
+    >(mellomlagredeFritekstfelt || {});
 
     const { request } = useApp();
 
