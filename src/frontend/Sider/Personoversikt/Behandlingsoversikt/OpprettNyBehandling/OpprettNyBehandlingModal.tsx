@@ -76,7 +76,6 @@ const OpprettNyBehandlingModal = () => {
                         value={behandlingtype}
                         label="Behandlingstype"
                         onChange={(event) => {
-                            // event.persist(); //TODO: ER DENNE NØDNVENDIG?
                             settBehandlingtype(event.target.value as BehandlingType);
                         }}
                     >
