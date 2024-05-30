@@ -29,8 +29,9 @@ const UlagredeKomponenterModal: FC = () => {
                         lukkKnapp: {
                             onClick: () => {
                                 onConfirm();
-                                // Hack for å få nullstille ulagede komponenter i en annen rendering, kall direkte virker ikke
-                                setTimeout(nullstillUlagredeKomponenter, 0);
+                                // Hack fordi samtidighet ikke helt fungerer
+                                // hvis man kaller nullstill direkte fjenes modalen før onConfirm blir kallet på eller noe slik
+                                setTimeout(nullstillUlagredeKomponenter, 10);
                             },
                             tekst: 'Forlat siden',
                         },
