@@ -2,8 +2,6 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
-
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
@@ -25,14 +23,6 @@ const Container = styled.div`
     flex-direction: column;
     gap: 3rem;
     margin: 2rem;
-`;
-
-const VilkårContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    padding: 2rem;
-    background-color: ${ABlue50};
 `;
 
 const Inngangsvilkår = () => {
@@ -60,10 +50,8 @@ const Inngangsvilkår = () => {
                                 <RegisterAktiviteter
                                     aktivitetGrunnlag={vilkårperioderResponse.grunnlag?.aktivitet}
                                 />
-                                <VilkårContainer>
-                                    <Aktivitet />
-                                    <Målgruppe />
-                                </VilkårContainer>
+                                <Aktivitet />
+                                <Målgruppe />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
