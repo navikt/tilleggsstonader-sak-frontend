@@ -14,7 +14,7 @@ export interface IBrevverdier {
     inkluderteDelmaler?: Record<string, boolean>;
     fritekst?: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
     valgfelt?: Partial<Record<string, Record<string, Fritekst | Tekst>>>;
-    variabler?: Partial<Record<string, Record<string, string>>>;
+    variabler?: Partial<Record<string, string>>;
 }
 
 const useMellomlagringBrev = () => {

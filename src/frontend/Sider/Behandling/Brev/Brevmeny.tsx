@@ -90,7 +90,7 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler: Record<string, boolean>,
         fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>,
         valgfelt: Partial<Record<string, Record<string, Fritekst | Tekst>>>,
-        variabler: Partial<Record<string, Record<string, string>>>
+        variabler: Partial<Record<string, string>>
     ) => {
         const mellomlagerUrl = behandlingId
             ? `/api/sak/brev/mellomlager/${behandlingId}`
@@ -150,8 +150,8 @@ const Brevmeny: React.FC<Props> = ({
                             key={delmal._id}
                             valgfelt={valgfelt[delmal._id] || {}}
                             settValgfelt={oppdaterStateForId(delmal._id, valgfelt, settValgfelt)}
-                            variabler={variabler[delmal._id] || {}}
-                            settVariabler={oppdaterStateForId(delmal._id, variabler, settVariabler)}
+                            variabler={variabler || {}}
+                            settVariabler={settVariabler}
                             fritekst={fritekst[delmal._id] || {}}
                             settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
                             inkluderIBrev={inkluderteDelmaler[delmal._id]}

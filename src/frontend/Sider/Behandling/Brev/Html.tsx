@@ -16,7 +16,7 @@ interface Props {
     mal: MalStruktur;
     inkluderteDelmaler: Record<string, boolean>;
     valgfelt: Partial<Record<string, Record<string, Valg>>>;
-    variabler: Partial<Record<string, Record<string, string>>>;
+    variabler: Partial<Record<string, string>>;
     fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
     inkluderBeslutterSignaturPlaceholder?: boolean;
     htmlVariabler: Record<string, string>;
@@ -77,7 +77,7 @@ const HtmlBrev: React.FC<Props> = ({
                                 value={delmal.blocks}
                                 components={CustomComponets(
                                     valgfelt[delmal._id] || {},
-                                    { ...variabler[delmal._id], ...htmlVariabler },
+                                    { ...variabler, ...htmlVariabler },
                                     fritekst[delmal._id] || {}
                                 )}
                             />
