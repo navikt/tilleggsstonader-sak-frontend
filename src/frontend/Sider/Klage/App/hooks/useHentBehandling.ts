@@ -2,7 +2,7 @@ import { byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useState } from 'react';
 import { Behandling } from '../typer/fagsak';
-import { behandlingDummydata } from '../api/klage-stubs';
+import { behandlingStub } from '../api/klage-stubs';
 
 // export const useHentBehandling = (
 //     behandlingId: string
@@ -39,7 +39,7 @@ export const useHentBehandling = (
     const [behandling, settBehandling] = useState<Ressurs<Behandling>>(byggTomRessurs());
 
     const hentBehandlingCallback = () => {
-        settBehandling({ status: RessursStatus.SUKSESS, data: behandlingDummydata });
+        settBehandling({ status: RessursStatus.SUKSESS, data: behandlingStub });
     };
 
     return {

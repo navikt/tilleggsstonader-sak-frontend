@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
-import { EBrevmottakerRolle, IBrevmottakere } from '../Brevmottakere/typer';
+import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
-import { AxiosRequestConfig } from 'axios';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { brevmottakereStub } from '../../../App/api/klage-stubs';
 
 const Grid = styled.div`
     display: grid;
@@ -106,7 +106,7 @@ const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => 
         // axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
         //     settMottakere(res)
         // );
-        settMottakere(byggTomRessurs()) // ++
+        settMottakere({status: RessursStatus.SUKSESS, data: brevmottakereStub}) // ++
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {

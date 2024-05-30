@@ -24,7 +24,7 @@ import { harVerdi } from '../../../App/utils/utils';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
-import { formkravVilkårDummyData } from '../../../App/api/klage-stubs';
+import { formkravVilkårStub } from '../../../App/api/klage-stubs';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -96,7 +96,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     // }, [axiosRequest, behandlingId, settFormkrav]);
 
     useEffect(() => {
-        settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårDummyData}) // ++
+        settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårStub}) // ++
     }, [settFormkrav]);
 
     useEffect(() => {

@@ -3,7 +3,7 @@ import { byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { Behandling } from '../typer/fagsak';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
-import { fagsystemVedakDummydata } from '../api/klage-stubs';
+import { fagsystemVedakStub } from '../api/klage-stubs';
 
 export const useHentFagsystemVedtak = (): {
     hentFagsystemVedtak: (behandling: Behandling) => void;
@@ -32,7 +32,7 @@ export const useHentFagsystemVedtak = (): {
 
     // TODO: Ta i bruk den ekte funksjonen når vi har fått på plass backend
     const hentFagsystemVedtak = () => {
-        settFagsystemVedtak({ status: RessursStatus.SUKSESS, data: fagsystemVedakDummydata });
+        settFagsystemVedtak({ status: RessursStatus.SUKSESS, data: fagsystemVedakStub });
     };
 
     return {

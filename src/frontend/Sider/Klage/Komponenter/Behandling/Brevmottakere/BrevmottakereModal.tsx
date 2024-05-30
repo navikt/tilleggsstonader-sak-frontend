@@ -10,7 +10,8 @@ import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../App/typer/toast';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { brevmottakereStub } from '../../../App/api/klage-stubs';
 
 const GridContainer = styled.div`
     display: grid;
@@ -70,7 +71,7 @@ export const BrevmottakereModal: FC<{
             //     data: brevmottakere,
             // }),
             Promise.resolve({
-                data: brevmottakere,
+                data: brevmottakereStub,
                 status: RessursStatus.SUKSESS,
             } as RessursSuksess<IBrevmottakere>),
         [axiosRequest, behandlingId]
