@@ -116,7 +116,6 @@ const Totrinnskontroll: FC = () => {
                         tekst: 'Til oppgavebenk',
                     },
                     lukkKnapp: { onClick: () => settVisGodkjentModal(false), tekst: 'Lukk' },
-                    marginTop: 4,
                 }}
             />
         </>
