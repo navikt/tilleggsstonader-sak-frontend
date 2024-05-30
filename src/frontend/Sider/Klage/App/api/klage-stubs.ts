@@ -1,13 +1,7 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
 import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-import {
-    Behandling,
-    BehandlingResultat,
-    Fagsystem,
-    PåklagetVedtakstype,
-    StegType,
-} from '../typer/fagsak';
+import { Behandling, BehandlingResultat, Fagsystem, PåklagetVedtakstype, StegType } from '../typer/fagsak';
 import { BehandlingStatus } from '../typer/behandlingstatus';
 import { Stønadstype } from '../typer/stønadstype';
 import {
@@ -19,10 +13,8 @@ import {
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { IVurdering, VedtakValg } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { FolketrygdHjemmel } from '../../Komponenter/Behandling/Vurdering/hjemmel';
-import {
-    EBrevmottakerRolle,
-    IBrevmottakere,
-} from '../../Komponenter/Behandling/Brevmottakere/typer';
+import { EBrevmottakerRolle, IBrevmottakere } from '../../Komponenter/Behandling/Brevmottakere/typer';
+import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 
 export const saksbehandlerStub: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -132,3 +124,24 @@ export const brevmottakereStub: IBrevmottakere = {
     ],
     organisasjoner: []
 }
+
+export const behandlingshistorikkStub: IBehandlingshistorikk[] = [
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.VURDERING,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:24:17.341055"
+    },
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.FORMKRAV,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:16:29.451124"
+    },
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.FORMKRAV,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:15:29.345039"
+    },
+]

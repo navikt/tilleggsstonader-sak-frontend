@@ -23,28 +23,15 @@ const TidslinjeContainer = styled.div<{ åpenHøyremeny: boolean }>`
 `;
 
 export const Resultat: React.FC = () => {
-    const {
-        behandling,
-        hentBehandling,
-        // behandlingHistorikk,
-        åpenHøyremeny,
-    } = useBehandling();
+    const { behandling, hentBehandling, behandlingHistorikk, åpenHøyremeny } = useBehandling();
 
     useEffect(() => {
         hentBehandling.rerun();
     }, [hentBehandling]);
 
     return (
-        <DataViewer
-            response={{
-                behandling,
-                // behandlingHistorikk
-            }}
-        >
-            {({
-                behandling,
-                // behandlingHistorikk
-            }) => (
+        <DataViewer response={{ behandling, behandlingHistorikk }}>
+            {({ behandling, behandlingHistorikk }) => (
                 <>
                     <HeadingContainer>
                         <Heading spacing size="large" level="5">
@@ -56,7 +43,7 @@ export const Resultat: React.FC = () => {
                     <TidslinjeContainer åpenHøyremeny={åpenHøyremeny}>
                         <Tidslinje
                             behandling={behandling}
-                            // behandlingHistorikk={behandlingHistorikk}
+                            behandlingHistorikk={behandlingHistorikk}
                             åpenHøyremeny={åpenHøyremeny}
                         />
                     </TidslinjeContainer>

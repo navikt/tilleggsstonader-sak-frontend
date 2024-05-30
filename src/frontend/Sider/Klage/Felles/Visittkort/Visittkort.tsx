@@ -111,22 +111,22 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
 
-                {/*<TagsKnyttetTilBehandling>*/}
-                {/*    <EtikettSuksess>*/}
-                {/*        {stønadstypeTilTekstKort[behandling.stønadstype]}*/}
-                {/*    </EtikettSuksess>*/}
-                {/*</TagsKnyttetTilBehandling>*/}
+                <TagsKnyttetTilBehandling>
+                    <EtikettSuksess>
+                        {stønadstypeTilTekstKort[behandling.stønadstype]}
+                    </EtikettSuksess>
+                </TagsKnyttetTilBehandling>
             </Visittkort>
 
-            {/*{behandling && (*/}
-            {/*    <>*/}
-            {/*        <AlleStatuser behandling={behandling} />*/}
-            {/*        <StatuserLitenSkjerm>*/}
-            {/*            <StatusMeny behandling={behandling} />*/}
-            {/*        </StatuserLitenSkjerm>*/}
-            {/*    </>*/}
-            {/*)}*/}
-            {/*{behandling && erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}*/}
+            {behandling && (
+                <>
+                    <AlleStatuser behandling={behandling} />
+                    <StatuserLitenSkjerm>
+                        <StatusMeny behandling={behandling} />
+                    </StatuserLitenSkjerm>
+                </>
+            )}
+            {behandling && erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
         </VisittkortWrapper>
     );
 };
