@@ -13,7 +13,7 @@ interface ModalProps {
     tittel?: string;
     visModal: boolean;
     onClose?: () => void;
-    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp; marginTop?: number };
+    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp };
     maxWidth?: number;
     ariaLabel?: string;
     children?: React.ReactNode;

@@ -68,7 +68,6 @@ const OpprettNyBehandlingModal = () => {
                         onClick: () => lukkModal(),
                         tekst: 'Avbryt',
                     },
-                    marginTop: 4,
                 }}
             >
                 <VStack gap="4">
