@@ -8,6 +8,7 @@ import { lagHtmlStringAvBrev } from './Html';
 import { lagHtmlFelt } from './lagHtmlFelt';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
+import { useVerdierForBrev } from './useVerdierForBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Ressurs } from '../../../typer/ressurs';
@@ -63,8 +64,9 @@ const Brevmeny: React.FC<Props> = ({
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(mellomlagredeValgfelt || {});
 
+    const { variabelStore } = useVerdierForBrev(beregningsresultat);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
-        return { ...mellomlagredeVariabler };
+        return { ...mellomlagredeVariabler, ...variabelStore };
     });
 
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
