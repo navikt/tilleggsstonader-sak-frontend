@@ -48,46 +48,42 @@ const Aktivitet: React.FC = () => {
             paragraflenker={paragraflenkerAktivitet}
             rundskrivlenke={rundskrivAktivitet}
         >
-            <>
-                {skalViseAktiviteter && (
-                    <>
-                        {aktiviteter.map((aktivitet) => (
-                            <React.Fragment key={aktivitet.id}>
-                                {aktivitet.id === radIRedigeringsmodus ? (
-                                    <EndreAktivitetRad
-                                        aktivitet={aktivitet}
-                                        avbrytRedigering={fjernRadIRedigeringsmodus}
-                                    />
-                                ) : (
-                                    <VilkårperiodeRad
-                                        vilkårperiode={aktivitet}
-                                        startRedigering={() =>
-                                            settNyRadIRedigeringsmodus(aktivitet.id)
-                                        }
-                                    />
-                                )}
-                            </React.Fragment>
-                        ))}
-                        {leggerTilNyAktivitet && (
-                            <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
-                        )}
-                    </>
-                )}
+            {skalViseAktiviteter && (
+                <>
+                    {aktiviteter.map((aktivitet) => (
+                        <React.Fragment key={aktivitet.id}>
+                            {aktivitet.id === radIRedigeringsmodus ? (
+                                <EndreAktivitetRad
+                                    aktivitet={aktivitet}
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
+                            ) : (
+                                <VilkårperiodeRad
+                                    vilkårperiode={aktivitet}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
+                                />
+                            )}
+                        </React.Fragment>
+                    ))}
+                    {leggerTilNyAktivitet && (
+                        <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                    )}
+                </>
+            )}
 
-                <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding>{feilmelding}</Feilmelding>
 
-                {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
-                    <Button
-                        onClick={() => settLeggerTilNyAktivitet((prevState) => !prevState)}
-                        size="xsmall"
-                        style={{ maxWidth: 'fit-content' }}
-                        variant="secondary"
-                        icon={<PlusCircleIcon />}
-                    >
-                        Legg til ny aktivitet
-                    </Button>
-                )}
-            </>
+            {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
+                <Button
+                    onClick={() => settLeggerTilNyAktivitet((prevState) => !prevState)}
+                    size="xsmall"
+                    style={{ maxWidth: 'fit-content' }}
+                    variant="secondary"
+                    icon={<PlusCircleIcon />}
+                >
+                    Legg til ny aktivitet
+                </Button>
+            )}
         </VilkårPanel>
     );
 };
