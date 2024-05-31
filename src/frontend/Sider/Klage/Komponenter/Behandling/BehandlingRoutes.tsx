@@ -24,11 +24,11 @@ const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
         }
     };
 
-    // const redirectUrl = `/${behandling.id}/${utledRedirectUrl()}`;
+    const redirectUrl = `klagebehandling/${behandling.id}/${utledRedirectUrl()}`;
 
     return (
         <Routes>
-            {/*<Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />*/}
+            <Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />
             <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
             <Route path="/vurdering" element={<Vurdering behandlingId={behandling.id} />} />
             <Route path="/brev" element={<Brev behandlingId={behandling.id} />} />

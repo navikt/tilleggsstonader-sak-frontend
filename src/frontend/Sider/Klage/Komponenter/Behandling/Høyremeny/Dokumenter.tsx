@@ -22,7 +22,7 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const dokumentConfig: AxiosRequestConfig = useMemo(
         () => ({
             method: 'GET',
-            url: `/familie-klage/api/vedlegg/${behandlingId}`,
+            url: `/api/klage/vedlegg/${behandlingId}`,
         }),
         [behandlingId]
     );

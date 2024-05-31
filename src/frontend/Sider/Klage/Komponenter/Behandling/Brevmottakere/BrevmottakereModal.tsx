@@ -65,15 +65,11 @@ export const BrevmottakereModal: FC<{
 
     const kallSettBrevmottakere = useCallback(
         (brevmottakere: IBrevmottakere) =>
-            // axiosRequest<IBrevmottakere, IBrevmottakere>({
-            //     url: `familie-klage/api/brev/${behandlingId}/mottakere`,
-            //     method: 'POST',
-            //     data: brevmottakere,
-            // }),
-            Promise.resolve({
-                data: brevmottakereStub,
-                status: RessursStatus.SUKSESS,
-            } as RessursSuksess<IBrevmottakere>),
+            axiosRequest<IBrevmottakere, IBrevmottakere>({
+                url: `api/klage/brev/${behandlingId}/mottakere`,
+                method: 'POST',
+                data: brevmottakere,
+            }),
         [axiosRequest, behandlingId]
     );
 

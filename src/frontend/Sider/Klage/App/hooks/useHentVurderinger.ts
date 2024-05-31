@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
     byggTomRessurs,
     Ressurs,
@@ -8,7 +8,6 @@ import {
 } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
-import { vurderingStub } from '../api/klage-stubs';
 
 interface IMelding {
     tekst: string;
@@ -31,62 +30,42 @@ export const useHentVurderinger = (): {
     const [melding, settMelding] = useState<IMelding>();
 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs);
-    //
-    // const hentVurdering = useCallback(
-    //     (behandlingId: string) => {
-    //         axiosRequest<IVurdering, null>({
-    //             method: 'GET',
-    //             url: `/familie-klage/api/vurdering/${behandlingId}`,
-    //         }).then((hentetVurdering: RessursSuksess<IVurdering> | RessursFeilet) => {
-    //             settVurdering(hentetVurdering);
-    //         });
-    //     },
-    //     [axiosRequest]
-    // );
-    //
-    // const lagreVurdering = (
-    //     vurdering: IVurdering
-    // ): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
-    //     settFeilVedLagring('');
-    //     return axiosRequest<IVurdering, IVurdering>({
-    //         method: 'POST',
-    //         url: `/familie-klage/api/vurdering`,
-    //         data: vurdering,
-    //     }).then((respons: RessursSuksess<IVurdering> | RessursFeilet) => {
-    //         if (respons.status === RessursStatus.SUKSESS) {
-    //             settVurdering(respons);
-    //             settMelding({
-    //                 tekst: 'Vurderingen er lagret',
-    //                 type: 'success',
-    //             });
-    //         } else {
-    //             settMelding({
-    //                 tekst: respons.frontendFeilmelding || 'Noe gikk galt ved innsending',
-    //                 type: 'error',
-    //             });
-    //         }
-    //         return respons;
-    //     });
-    // };
 
-    // TODO: Bytt ut disse to dummy-funksjonene når backend er på plass
-    const hentVurdering = () => {
-        settVurdering({ status: RessursStatus.SUKSESS, data: vurderingStub });
-    };
+    const hentVurdering = useCallback(
+        (behandlingId: string) => {
+            axiosRequest<IVurdering, null>({
+                method: 'GET',
+                url: `/api/klage/vurdering/${behandlingId}`,
+            }).then((hentetVurdering: RessursSuksess<IVurdering> | RessursFeilet) => {
+                settVurdering(hentetVurdering);
+            });
+        },
+        [axiosRequest]
+    );
 
     const lagreVurdering = (
         vurdering: IVurdering
     ): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
         settFeilVedLagring('');
-
-        settVurdering({ status: RessursStatus.SUKSESS, data: vurderingStub });
-
-        settMelding({
-            tekst: 'Vurderingen er lagret',
-            type: 'success',
+        return axiosRequest<IVurdering, IVurdering>({
+            method: 'POST',
+            url: `/api/klage/vurdering`,
+            data: vurdering,
+        }).then((respons: RessursSuksess<IVurdering> | RessursFeilet) => {
+            if (respons.status === RessursStatus.SUKSESS) {
+                settVurdering(respons);
+                settMelding({
+                    tekst: 'Vurderingen er lagret',
+                    type: 'success',
+                });
+            } else {
+                settMelding({
+                    tekst: respons.frontendFeilmelding || 'Noe gikk galt ved innsending',
+                    type: 'error',
+                });
+            }
+            return respons;
         });
-
-        return Promise.resolve({ status: RessursStatus.SUKSESS, data: vurderingStub });
     };
 
     return {

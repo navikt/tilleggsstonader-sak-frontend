@@ -81,7 +81,7 @@ const clientsLocal = (): ClientConfig => ({
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-sak-lokal',
     },
     [ApplicationName.klage]: {
-        url: 'http://localhost:8120/api',
+        url: 'http://localhost:8090/api',
         audience: 'localhost.tilleggsstonader.tilleggsstonader-klage-lokal',
     },
 });

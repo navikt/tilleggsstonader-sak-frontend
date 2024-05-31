@@ -8,6 +8,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { brevmottakereStub } from '../../../App/api/klage-stubs';
+import { AxiosRequestConfig } from 'axios';
 
 const Grid = styled.div`
     display: grid;
@@ -99,14 +100,13 @@ const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => 
     const [mottakere, settMottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
-        // const behandlingConfig: AxiosRequestConfig = {
-        //     method: 'GET',
-        //     url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
-        // };
-        // axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
-        //     settMottakere(res)
-        // );
-        settMottakere({status: RessursStatus.SUKSESS, data: brevmottakereStub}) // ++
+        const behandlingConfig: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/api/klage/brev/${behandlingId}/mottakere`,
+        };
+        axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
+            settMottakere(res)
+        );
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {

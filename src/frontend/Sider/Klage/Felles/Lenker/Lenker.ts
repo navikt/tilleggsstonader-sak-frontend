@@ -11,7 +11,7 @@ export const lagAInntektLink = async (
 ): Promise<string> => {
     return await axiosRequest<string, null>({
         method: 'GET',
-        url: `/familie-klage/api/inntekt/fagsak/${fagsakId}/generer-url`,
+        url: `/api/klage/inntekt/fagsak/${fagsakId}/generer-url`,
     })
         .then((response: Ressurs<string>) => {
             return response.status === RessursStatus.SUKSESS

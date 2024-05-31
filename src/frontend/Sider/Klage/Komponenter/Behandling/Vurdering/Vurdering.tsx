@@ -88,12 +88,12 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         // eslint-disable-next-line
     }, [behandlingId, hentVurdering]);
 
-    // useEffect(() => {
-    //     axiosRequest<IFormkravVilkår, null>({
-    //         method: 'GET',
-    //         url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-    //     }).then(settFormkrav);
-    // }, [axiosRequest, behandlingId, settFormkrav]);
+    useEffect(() => {
+        axiosRequest<IFormkravVilkår, null>({
+            method: 'GET',
+            url: `/api/klage/formkrav/vilkar/${behandlingId}`,
+        }).then(settFormkrav);
+    }, [axiosRequest, behandlingId, settFormkrav]);
 
     useEffect(() => {
         settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårStub}) // ++

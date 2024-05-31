@@ -70,10 +70,10 @@ export const OmgjørVedtak: React.FC<{
 
     useEffect(() => {
         if (behandlingErRedigerbar) {
-            // axiosRequest<KanOppretteRevurdering, null>({
-            //     method: 'GET',
-            //     url: `/familie-klage/api/behandling/${behandlingId}/kan-opprette-revurdering`,
-            // }).then(settKanOppretteRevurdering);
+            axiosRequest<KanOppretteRevurdering, null>({
+                method: 'GET',
+                url: `/api/klage/behandling/${behandlingId}/kan-opprette-revurdering`,
+            }).then(settKanOppretteRevurdering);
             settKanOppretteRevurdering(byggTomRessurs())
         }
     }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
