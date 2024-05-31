@@ -12,11 +12,11 @@ import { UlagretKomponent } from '../../../../../../hooks/useUlagredeKomponenter
 import MonthInputMedLeservisning from '../../../../../../komponenter/Skjema/MonthInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
+import { BarnOppsummering } from '../../../../../../typer/vilkårsoppsummering';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { utledNavnFnrOgAlder } from '../../../../../../utils/tekstformatering';
 import { fjernSpaces } from '../../../../../../utils/utils';
-import { GrunnlagBarn } from '../../../../vilkår';
 import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
@@ -34,7 +34,7 @@ const Grid = styled.div`
 interface Props {
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
-    barn: GrunnlagBarn;
+    barn: BarnOppsummering;
     oppdaterUtgiter: (utgifter: Utgift[]) => void;
     settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
@@ -92,11 +92,7 @@ const UtgifterValg: React.FC<Props> = ({
     return (
         <div>
             <Heading spacing size="xsmall" level="5">
-                {utledNavnFnrOgAlder(
-                    barn.registergrunnlag.navn,
-                    barn.ident,
-                    barn.registergrunnlag.alder
-                )}
+                {utledNavnFnrOgAlder(barn.navn, barn.ident, barn.alder)}
             </Heading>
             {utgifter && utgifter.length > 0 && (
                 <Grid>

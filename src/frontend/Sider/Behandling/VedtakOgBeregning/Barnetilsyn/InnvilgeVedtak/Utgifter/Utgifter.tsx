@@ -6,13 +6,13 @@ import UtgifterValg from './UtgifterValg';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { RecordState } from '../../../../../../hooks/felles/useRecordState';
 import { Utgift } from '../../../../../../typer/vedtak';
-import { GrunnlagBarn } from '../../../../vilkår';
+import { BarnOppsummering } from '../../../../../../typer/vilkårsoppsummering';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
 interface Props {
     errorState: FormErrors<Record<string, Utgift[]>>;
     utgifterState: RecordState<Utgift[]>;
-    barnMedOppfylteVilkår: GrunnlagBarn[];
+    barnMedOppfylteVilkår: BarnOppsummering[];
     settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
 
