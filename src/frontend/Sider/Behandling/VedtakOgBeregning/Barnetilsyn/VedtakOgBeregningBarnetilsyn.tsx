@@ -41,7 +41,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
         request<Vilkårsoppsummering, null>(`/api/sak/vilkarsoppsummering/${behandling.id}`).then(
             settVilkårsoppsummering
         );
-    }, [behandling, request]);
+    }, [behandling.id, request]);
 
     useEffect(() => {
         hentVilkåroppsummering();
