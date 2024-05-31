@@ -37,7 +37,7 @@ export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
                 )}
             </TittelLinje>
             <BehandlingTabell behandlinger={fagsak.behandlinger} />
-            {!erProd() && <OpprettNyBehandlingModal />}
+            {!erProd() && <OpprettNyBehandlingModal fagsak={fagsak} />}
         </Container>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Button, Select, VStack } from '@navikt/ds-react';
 
@@ -9,14 +9,18 @@ import {
     BehandlingType,
     behandlingTypeTilTekst,
 } from '../../../../typer/behandling/behandlingType';
+import { Fagsak } from '../../../../typer/fagsak';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 interface OpprettKlageRequest {
     mottattDato: string;
-    klageGjelderTilbakekreving: boolean;
 }
 
-const OpprettNyBehandlingModal = () => {
+interface Props {
+    fagsak: Fagsak;
+}
+
+const OpprettNyBehandlingModal: FC<Props> = ({ fagsak }) => {
     const { request } = useApp();
 
     const [visModal, settVisModal] = useState(false);
@@ -26,7 +30,7 @@ const OpprettNyBehandlingModal = () => {
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprettKlage = (data: OpprettKlageRequest) => {
-        request<null, OpprettKlageRequest>(`/tilleggsstonader-klage`, 'POST', data).then(
+        request<null, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsak.id}`, 'POST', data).then(
             (response) => {
                 if (response.status === RessursStatus.SUKSESS) {
                     lukkModal();
@@ -59,7 +63,6 @@ const OpprettNyBehandlingModal = () => {
                         onClick: () =>
                             opprettKlage({
                                 mottattDato: kravMottattDato,
-                                klageGjelderTilbakekreving: klageGjelderTilbakekreving,
                             }),
                         tekst: 'Opprett',
                         disabled: true,
