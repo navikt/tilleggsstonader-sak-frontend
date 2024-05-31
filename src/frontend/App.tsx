@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Outlet,
+    Route,
+    RouterProvider,
+} from 'react-router-dom';
 
 import { LeaveIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
+import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
 import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
@@ -23,35 +30,28 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
 }) => {
     const { autentisert } = useApp();
 
-    return (
-        <BrowserRouter>
-            <ScrollToTop />
-            {autentisert ? (
-                <Routes>
-                    <Route
-                        path={'/'}
-                        element={<AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />}
-                    >
-                        <Route path={''} element={<Oppgavebenk />} />
-                        <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
-                        <Route path={'/journalfor'} element={<Journalføring />} />
-                        <Route
-                            path={'/behandling/:behandlingId/*'}
-                            element={<BehandlingContainer />}
-                        />
-                        <Route path={'/klagebehandling/*'} element={<KlageApp />} />
-                    </Route>
-                </Routes>
+    const router = createBrowserRouter(
+        createRoutesFromElements(
+            autentisert ? (
+                <Route
+                    path={'/'}
+                    element={<AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />}
+                >
+                    <Route path={''} element={<Oppgavebenk />} />
+                    <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
+                    <Route path={'/journalfor'} element={<Journalføring />} />
+                    <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
+                    <Route path={'/klagebehandling/*'} element={<KlageApp />} />
+                </Route>
             ) : (
-                <Routes>
-                    <Route
-                        path={'*'}
-                        element={<div>Sesjonen har utløpt. Prøv å last inn siden på nytt.</div>}
-                    />
-                </Routes>
-            )}
-        </BrowserRouter>
+                <Route
+                    path={'*'}
+                    element={<div>Sesjonen har utløpt. Prøv å last inn siden på nytt.</div>}
+                />
+            )
+        )
     );
+    return <RouterProvider router={router} />;
 };
 
 const App: React.FC = () => {
@@ -96,8 +96,10 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     </Dropdown>
                 </InternalHeader>
             </Sticky>
+            <ScrollToTop />
             <Outlet />
             <Toast />
+            <UlagredeKomponenterModal />
         </>
     );
 };

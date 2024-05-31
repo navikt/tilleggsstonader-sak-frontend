@@ -9,6 +9,7 @@ import { FeilmeldingAvslag, valider } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
+import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../../typer/typeUtils';
@@ -32,7 +33,7 @@ const Container = styled.div`
 const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { request } = useApp();
+    const { request, settUlagretKomponent } = useApp();
 
     const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
@@ -64,6 +65,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 value={årsaker}
                 onChange={(e) => {
                     settÅrsaker(e);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
@@ -78,7 +80,10 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
             <Textarea
                 label="Begrunnelse for avslag"
                 value={begrunnelse}
-                onChange={(e) => settBegrunnelse(e.target.value)}
+                onChange={(e) => {
+                    settBegrunnelse(e.target.value);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
+                }}
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
                 style={{ width: '40rem' }}
@@ -89,6 +94,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.BREV}
                 onNesteSteg={validerOgLagreVedtak}
+                validerUlagedeKomponenter={false}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>

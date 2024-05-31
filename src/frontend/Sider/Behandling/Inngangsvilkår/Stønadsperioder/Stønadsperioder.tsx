@@ -13,6 +13,7 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/useFormState';
 import { ListState } from '../../../../hooks/felles/useListState';
+import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
@@ -52,7 +53,7 @@ const initFormState = (
 });
 
 const Stønadsperioder: React.FC = () => {
-    const { request } = useApp();
+    const { request, settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { stønadsperioder, oppdaterStønadsperioder, stønadsperiodeFeil, settStønadsperiodeFeil } =
@@ -66,6 +67,15 @@ const Stønadsperioder: React.FC = () => {
             stønadsperioder: validerStønadsperioder(formState.stønadsperioder),
         };
     };
+
+    useEffect(() => {
+        if (redigerer) {
+            settUlagretKomponent(UlagretKomponent.STØNADSPERIODER);
+        } else {
+            nullstillUlagretKomponent(UlagretKomponent.STØNADSPERIODER);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [redigerer]);
 
     const formState = useFormState<StønadsperiodeForm>(initFormState(stønadsperioder), validerForm);
     const stønadsperioderState = formState.getProps('stønadsperioder') as ListState<Stønadsperiode>;
