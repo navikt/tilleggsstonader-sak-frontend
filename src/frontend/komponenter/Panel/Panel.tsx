@@ -35,7 +35,7 @@ const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
     return (
         <Container>
             <Header>
-                <HStack gap="2">
+                <HStack gap="2" align="center">
                     {ikon}
                     <Heading size="small">{tittel}</Heading>
                 </HStack>

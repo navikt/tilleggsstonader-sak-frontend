@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Heading } from '@navikt/ds-react';
+import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useApp } from '../../../../context/AppContext';
@@ -11,17 +9,9 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    max-width: max-content;
-`;
 
 const Aktivitet: React.FC = () => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
@@ -57,14 +47,12 @@ const Aktivitet: React.FC = () => {
     };
 
     return (
-        <Container>
-            <HStack gap="8" align="center">
-                <Heading size="small">Aktivitet</Heading>
-                <ParagrafOgRundskrivLenker
-                    paragrafLenker={paragraflenkerAktivitet}
-                    rundskrivLenke={rundskrivAktivitet}
-                />
-            </HStack>
+        <VilkårPanel
+            ikon={<BriefcaseIcon />}
+            tittel="Aktivitet"
+            paragraflenker={paragraflenkerAktivitet}
+            rundskrivlenke={rundskrivAktivitet}
+        >
             {skalViseAktiviteter && (
                 <>
                     {aktiviteter.map((aktivitet) => (
@@ -98,13 +86,13 @@ const Aktivitet: React.FC = () => {
                     }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
-                    variant={skalViseAktiviteter ? 'tertiary' : 'primary'}
+                    variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
                     Legg til ny aktivitet
                 </Button>
             )}
-        </Container>
+        </VilkårPanel>
     );
 };
 

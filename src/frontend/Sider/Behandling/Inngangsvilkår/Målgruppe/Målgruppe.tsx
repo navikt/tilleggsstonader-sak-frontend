@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Heading } from '@navikt/ds-react';
+import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { useApp } from '../../../../context/AppContext';
@@ -11,17 +9,9 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    max-width: max-content;
-`;
 
 const Målgruppe: React.FC = () => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
@@ -57,14 +47,12 @@ const Målgruppe: React.FC = () => {
     };
 
     return (
-        <Container>
-            <HStack gap="8" align="center">
-                <Heading size="small">Målgruppe</Heading>
-                <ParagrafOgRundskrivLenker
-                    paragrafLenker={paragraflenkerMålgruppe}
-                    rundskrivLenke={rundskrivMålgruppe}
-                />
-            </HStack>
+        <VilkårPanel
+            ikon={<CardIcon />}
+            tittel="Målgruppe"
+            paragraflenker={paragraflenkerMålgruppe}
+            rundskrivlenke={rundskrivMålgruppe}
+        >
             {skalViseMålgrupper && (
                 <>
                     {målgrupper.map((målgruppe) => (
@@ -98,13 +86,13 @@ const Målgruppe: React.FC = () => {
                     }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
-                    variant={skalViseMålgrupper ? 'tertiary' : 'primary'}
+                    variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
                     Legg til ny målgruppe
                 </Button>
             )}
-        </Container>
+        </VilkårPanel>
     );
 };
 
