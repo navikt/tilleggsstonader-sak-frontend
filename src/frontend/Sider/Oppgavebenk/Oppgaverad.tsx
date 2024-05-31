@@ -53,7 +53,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                 </Popover>
             </Table.DataCell>
             <Table.DataCell>
-                <HStack align="center">
+                <HStack align="center" wrap={false}>
                     {folkeregistrertIdent}
                     <CopyButton size="small" copyText={folkeregistrertIdent} />
                 </HStack>
