@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { HStack, Radio, RadioGroup } from '@navikt/ds-react';
+import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { useSteg } from '../../../../context/StegContext';
 import { TypeVedtak } from '../../../../typer/vedtak';
@@ -21,11 +21,10 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
                 settTypeVedtak(e as TypeVedtak);
             }}
             readOnly={!erStegRedigerbart}
+            size="small"
         >
-            <HStack gap="4">
-                <Radio value={TypeVedtak.INNVILGELSE}>Innvilgelse</Radio>
-                <Radio value={TypeVedtak.AVSLAG}>Avslag</Radio>
-            </HStack>
+            <Radio value={TypeVedtak.INNVILGELSE}>Innvilgelse</Radio>
+            <Radio value={TypeVedtak.AVSLAG}>Avslag</Radio>
         </RadioGroup>
     );
 };
