@@ -13,12 +13,14 @@ export const useNavigateUtenSjekkForUlagredeKomponenter = () => {
     const navigate = useNavigate();
 
     const [path, settPath] = useState<string>();
+
     useEffect(() => {
         if (path) {
             navigate(path);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [path]);
+
     return (path: string) => {
         nullstillUlagredeKomponenter();
         settPath(path);

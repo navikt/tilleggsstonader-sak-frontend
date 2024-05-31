@@ -12,6 +12,10 @@ import { Feilmelding } from '../Feil/Feilmelding';
 
 const feilmeldingUlagretData = 'Har ulagret data, vennligst ferdigstill';
 
+/**
+ *
+ * @param validerUlagedeKomponenter default true, settes til false når man eks på vedtakssiden lagrer ned data via "gå til neste steg" og då ikke trenger å validere ulagret data
+ */
 export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;

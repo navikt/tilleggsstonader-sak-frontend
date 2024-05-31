@@ -30,12 +30,11 @@ const UlagredeKomponenterModal: FC = () => {
                             onClick: () => {
                                 onConfirm();
                                 // Hack fordi samtidighet ikke helt fungerer
-                                // hvis man kaller nullstill direkte fjenes modalen før onConfirm blir kallet på eller noe slik
+                                // hvis man kaller nullstill direkte fjenes modalen før onConfirm blir kallet på og man blir ikke sendt videre
                                 setTimeout(nullstillUlagredeKomponenter, 10);
                             },
                             tekst: 'Forlat siden',
                         },
-                        marginTop: 4,
                     }}
                 />
             )}

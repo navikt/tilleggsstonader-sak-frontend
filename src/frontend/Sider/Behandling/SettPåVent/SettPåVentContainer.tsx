@@ -9,7 +9,7 @@ import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useVisFeilmeldingVidUnload } from '../../../hooks/useVisFeilmeldingVidUnload';
+import { useVisFeilmeldingVedUnload } from '../../../hooks/useVisFeilmeldingVedUnload';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
@@ -40,7 +40,7 @@ const SettPåVentContainer: React.FC<{
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling.id]);
 
-    useVisFeilmeldingVidUnload(statusPåVentRedigering);
+    useVisFeilmeldingVedUnload(statusPåVentRedigering);
 
     if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
         return (
