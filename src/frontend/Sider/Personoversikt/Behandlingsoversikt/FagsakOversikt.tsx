@@ -5,7 +5,9 @@ import { styled } from 'styled-components';
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
 import BehandlingTabell from './BehandlingTabell';
+import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { Fagsak } from '../../../typer/fagsak';
+import { erProd } from '../../../utils/miljø';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
 const Container = styled.div`
@@ -35,6 +37,7 @@ export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
                 )}
             </TittelLinje>
             <BehandlingTabell behandlinger={fagsak.behandlinger} />
+            {!erProd() && <OpprettNyBehandlingModal />}
         </Container>
     );
 };

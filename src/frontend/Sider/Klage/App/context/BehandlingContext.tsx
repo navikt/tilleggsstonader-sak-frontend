@@ -5,7 +5,7 @@ import { IBehandlingParams } from '../typer/routing';
 import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
-// import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
+import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
@@ -22,38 +22,38 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const { hentPersonopplysninger, personopplysningerResponse } =
         useHentPersonopplysninger(behandlingId);
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
-    // const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
-    //     useHentBehandlingHistorikk(behandlingId);
+    const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
+        useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
-    // const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
-    //     behandlingId,
-    // ]);
+    const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
+        behandlingId,
+    ]);
 
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
 
-    // useEffect(() => {
-    //     // settBehandlingErRedigerbar(
-    //     //     behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
-    //     // );
-    //     hentVilkårsvurderinger(behandlingId);
-    // }, [
-    //     behandling,
-    //     behandlingId,
-    //     hentVilkårsvurderinger
-    // ]);
-    // useEffect(() => {
-    //     settFormkravOppfylt(
-    //         vilkårsvurderinger.status === RessursStatus.SUKSESS &&
-    //             påKlagetVedtakValgt(vilkårsvurderinger.data) &&
-    //             alleVilkårOppfylt(vilkårsvurderinger.data)
-    //     );
-    // }, [
-    //     vilkårsvurderinger
-    // ]);
+    useEffect(() => {
+        settBehandlingErRedigerbar(
+            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
+        );
+        hentVilkårsvurderinger(behandlingId);
+    }, [
+        behandling,
+        behandlingId,
+        hentVilkårsvurderinger
+    ]);
+    useEffect(() => {
+        settFormkravOppfylt(
+            vilkårsvurderinger.status === RessursStatus.SUKSESS &&
+                påKlagetVedtakValgt(vilkårsvurderinger.data) &&
+                alleVilkårOppfylt(vilkårsvurderinger.data)
+        );
+    }, [
+        vilkårsvurderinger
+    ]);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
@@ -68,9 +68,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         behandling,
         behandlingErRedigerbar,
         personopplysningerResponse,
-        // behandlingHistorikk,
+        behandlingHistorikk,
         hentBehandling,
-        // hentBehandlingshistorikk,
+        hentBehandlingshistorikk,
         visBrevmottakereModal,
         settVisBrevmottakereModal,
         visHenleggModal,

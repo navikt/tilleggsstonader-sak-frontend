@@ -8,7 +8,7 @@ import {
     RessursSuksess,
 } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
-import { formkravVilkårDummyData } from '../api/klage-stubs';
+import { formkravVilkårStub } from '../api/klage-stubs';
 
 export const useHentFormkravVilkår = (): {
     vilkårsvurderinger: Ressurs<IFormkravVilkår>;
@@ -58,15 +58,15 @@ export const useHentFormkravVilkår = (): {
 
     // TODO: Bytt ut disse dummy-funksjonene når vi får backend opp å kjøre
     const hentVilkårsvurderinger = () => {
-        settVilkårsvurderinger({ status: RessursStatus.SUKSESS, data: formkravVilkårDummyData });
+        settVilkårsvurderinger({ status: RessursStatus.SUKSESS, data: formkravVilkårStub });
     };
 
     const lagreVilkårsvurderinger = (
         vurderinger: IFormkravVilkår
     ): Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet> => {
         settFeilVedLagring('');
-        settVilkårsvurderinger({ status: RessursStatus.SUKSESS, data: formkravVilkårDummyData });
-        return Promise.resolve({ status: RessursStatus.SUKSESS, data: formkravVilkårDummyData });
+        settVilkårsvurderinger({ status: RessursStatus.SUKSESS, data: formkravVilkårStub });
+        return Promise.resolve({ status: RessursStatus.SUKSESS, data: formkravVilkårStub });
     };
 
     return {

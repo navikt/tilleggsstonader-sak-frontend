@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Heading, Table } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 
-import DokumentRad from './DokumentRad';
+import { DokumentTabell } from './DokumentTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { DokumentInfo } from '../../../typer/dokument';
-import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
+import { DokumentInfo, Tema } from '../../../typer/dokument';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 type VedleggRequest = {
-    tema?: string[]; // Arkiv
+    tema?: Tema[]; // Arkiv
     journalposttype?: string;
     journalstatus?: string;
 };
@@ -24,7 +24,7 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
             request<DokumentInfo[], VedleggRequest>(
                 `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
                 'POST',
-                {}
+                { tema: [Tema.TSO, Tema.TSR] }
             ).then(settDokumenter);
         },
         [request]
@@ -40,25 +40,7 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 Dokumentoversikt
             </Heading>
             <DataViewer response={{ dokumenter }}>
-                {({ dokumenter }) => (
-                    <Table size="small" zebraStripes>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>Dato</Table.HeaderCell>
-                                <Table.HeaderCell>Inn/ut</Table.HeaderCell>
-                                <Table.HeaderCell>Tittel</Table.HeaderCell>
-                                <Table.HeaderCell>Avsender/mottaker</Table.HeaderCell>
-                                <Table.HeaderCell>Tema</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {dokumenter.map((dokument) => (
-                                <DokumentRad key={dokument.dokumentInfoId} dokument={dokument} />
-                            ))}
-                        </Table.Body>
-                    </Table>
-                )}
+                {({ dokumenter }) => <DokumentTabell dokumenter={dokumenter} />}
             </DataViewer>
         </>
     );

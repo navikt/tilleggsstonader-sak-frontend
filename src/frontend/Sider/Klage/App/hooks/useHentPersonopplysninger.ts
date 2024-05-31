@@ -1,7 +1,7 @@
 import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 import { useCallback, useState } from 'react';
 import { IPersonopplysninger } from '../typer/personopplysninger';
-import { personopplysningerDummyData } from '../api/klage-stubs';
+import { personopplysningerStub } from '../api/klage-stubs';
 
 // export const useHentPersonopplysninger = (
 //     behandlingId: string
@@ -42,7 +42,7 @@ export const useHentPersonopplysninger = (
     const hentPersonopplysninger = () => {
         settPersonopplysningerResponse({
             status: RessursStatus.SUKSESS,
-            data: personopplysningerDummyData,
+            data: personopplysningerStub,
         });
     };
 

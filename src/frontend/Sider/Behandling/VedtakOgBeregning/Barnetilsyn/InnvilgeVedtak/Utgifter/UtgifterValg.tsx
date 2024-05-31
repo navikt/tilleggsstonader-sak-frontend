@@ -5,16 +5,18 @@ import styled from 'styled-components';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label } from '@navikt/ds-react';
 
+import { useApp } from '../../../../../../context/AppContext';
 import { useSteg } from '../../../../../../context/StegContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
+import { UlagretKomponent } from '../../../../../../hooks/useUlagredeKomponenter';
 import MonthInputMedLeservisning from '../../../../../../komponenter/Skjema/MonthInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
+import { BarnOppsummering } from '../../../../../../typer/vilkårsoppsummering';
 import { tilÅrMåned } from '../../../../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { utledNavnFnrOgAlder } from '../../../../../../utils/tekstformatering';
 import { fjernSpaces } from '../../../../../../utils/utils';
-import { GrunnlagBarn } from '../../../../vilkår';
 import { leggTilTomRadUnderIListe, tomUtgiftRad } from '../../utils';
 import { InnvilgeVedtakForm } from '../InnvilgeBarnetilsyn';
 
@@ -32,7 +34,7 @@ const Grid = styled.div`
 interface Props {
     errorState: FormErrors<Utgift[]>;
     utgifter: Utgift[];
-    barn: GrunnlagBarn;
+    barn: BarnOppsummering;
     oppdaterUtgiter: (utgifter: Utgift[]) => void;
     settValideringsFeil: Dispatch<SetStateAction<FormErrors<InnvilgeVedtakForm>>>;
 }
@@ -44,6 +46,7 @@ const UtgifterValg: React.FC<Props> = ({
     oppdaterUtgiter,
     settValideringsFeil,
 }) => {
+    const { settUlagretKomponent } = useApp();
     const { erStegRedigerbart } = useSteg();
 
     const oppdaterUtgift = (utgiftIndex: number, oppdatertUtgift: Utgift) => {
@@ -63,10 +66,12 @@ const UtgifterValg: React.FC<Props> = ({
             ...utgifter[indeks],
             [property]: value,
         });
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     const leggTilTomRadUnder = (utgiftIndex: number) => {
         oppdaterUtgiter(leggTilTomRadUnderIListe(utgifter, tomUtgiftRad(), utgiftIndex));
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     const slettPeriode = (barnId: string, utgiftIndex: number) => {
@@ -81,16 +86,13 @@ const UtgifterValg: React.FC<Props> = ({
             ).splice(utgiftIndex, 1);
             return { ...prevState, utgiftsperioder };
         });
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
     return (
         <div>
             <Heading spacing size="xsmall" level="5">
-                {utledNavnFnrOgAlder(
-                    barn.registergrunnlag.navn,
-                    barn.ident,
-                    barn.registergrunnlag.alder
-                )}
+                {utledNavnFnrOgAlder(barn.navn, barn.ident, barn.alder)}
             </Heading>
             {utgifter && utgifter.length > 0 && (
                 <Grid>

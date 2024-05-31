@@ -94,17 +94,14 @@ export const Status = styled.div<StatusProps>`
     margin-right: ${(props) => (props.kunEttElement ? '0' : '1.3rem')};
 
     flex-gap: 0.5rem;
+
     > p {
         font-size: 14px;
         margin: 0.2rem;
     }
 `;
 
-export const StatusMeny: FC<{
-    // behandling: Behandling
-}> = ({
-                                   // behandling
-}) => {
+export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
     const { appEnv } = useApp();
     return (
@@ -123,64 +120,64 @@ export const StatusMeny: FC<{
                         <li>
                             <Status>
                                 <GråTekst>Stønadstype</GråTekst>
-                                {/*<BodyShort>{stønadstypeTilTekst[behandling.stønadstype]}</BodyShort>*/}
+                                <BodyShort>{stønadstypeTilTekst[behandling.stønadstype]}</BodyShort>
                             </Status>
                         </li>
                     </VisStønadOgBehandlingstypePåLitenSkjerm>
                     <li>
                         <Status>
                             <GråTekst>Behandlingsstatus</GråTekst>
-                            {/*<BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>*/}
+                            <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Behandlingsresultat</GråTekst>
-                            {/*<BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>*/}
+                            <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Opprettet</GråTekst>
-                            {/*<BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>*/}
+                            <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Sist endret</GråTekst>
-                            {/*<BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>*/}
+                            <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
                         </Status>
                     </li>
-                    {/*{behandling.påklagetVedtak.eksternFagsystemBehandlingId && (*/}
-                    {/*    <li>*/}
-                    {/*        <Status>*/}
-                    {/*            <Link*/}
-                    {/*                href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}*/}
-                    {/*                target="_blank"*/}
-                    {/*            >*/}
-                    {/*                Gå til behandling*/}
-                    {/*                <ExternalLinkIcon*/}
-                    {/*                    aria-label="Gå til behandling"*/}
-                    {/*                    fontSize="1.5rem"*/}
-                    {/*                />*/}
-                    {/*            </Link>*/}
-                    {/*        </Status>*/}
-                    {/*    </li>*/}
-                    {/*)}*/}
-                    {/*<li>*/}
-                    {/*    <Status>*/}
-                    {/*        <Link*/}
-                    {/*            href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}*/}
-                    {/*            target="_blank"*/}
-                    {/*        >*/}
-                    {/*            Gå til saksoversikt*/}
-                    {/*            <ExternalLinkIcon*/}
-                    {/*                aria-label="Gå til saksoversikt"*/}
-                    {/*                fontSize="1.5rem"*/}
-                    {/*            />*/}
-                    {/*        </Link>*/}
-                    {/*    </Status>*/}
-                    {/*</li>*/}
+                    {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
+                        <li>
+                            <Status>
+                                <Link
+                                    href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
+                                    target="_blank"
+                                >
+                                    Gå til behandling
+                                    <ExternalLinkIcon
+                                        aria-label="Gå til behandling"
+                                        fontSize="1.5rem"
+                                    />
+                                </Link>
+                            </Status>
+                        </li>
+                    )}
+                    <li>
+                        <Status>
+                            <Link
+                                href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                                target="_blank"
+                            >
+                                Gå til saksoversikt
+                                <ExternalLinkIcon
+                                    aria-label="Gå til saksoversikt"
+                                    fontSize="1.5rem"
+                                />
+                            </Link>
+                        </Status>
+                    </li>
                 </ul>
             </StatusMenyInnhold>
         </div>

@@ -26,8 +26,8 @@ import {
     InnvilgelseBarnetilsyn,
     Utgift,
 } from '../../../../../typer/vedtak';
+import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 import { FanePath } from '../../../faner';
-import { GrunnlagBarn } from '../../../vilkår';
 import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -39,9 +39,9 @@ const Knapp = styled(Button)`
 `;
 
 const initUtgifter = (
-    barnMedOppfylteVilkår: GrunnlagBarn[],
+    barnMedOppfylteVilkår: BarnOppsummering[],
     vedtak?: InnvilgelseBarnetilsyn
-): Record<string, Utgift[]> =>
+): Record<string, BarnOppsummering[]> =>
     barnMedOppfylteVilkår.reduce((acc, barn) => {
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
@@ -52,21 +52,23 @@ const initUtgifter = (
 
 const initFormState = (
     vedtak: InnvilgelseBarnetilsyn | undefined,
-    barnMedOppfylteVilkår: GrunnlagBarn[]
+    barnMedOppfylteVilkår: BarnOppsummering[]
 ) => ({
     utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
 });
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
-    barnMedOppfylteVilkår: GrunnlagBarn[];
+    vilkårsvurderteBarn: BarnOppsummering[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppfylteVilkår }) => {
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvurderteBarn }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { stønadsperioder } = useStønadsperioder(behandling.id);
+
+    const barnMedOppfylteVilkår = vilkårsvurderteBarn.filter((barn) => barn.oppfyllerAlleVilkår);
 
     const formState = useFormState<InnvilgeVedtakForm>(
         initFormState(lagretVedtak, barnMedOppfylteVilkår),
@@ -152,6 +154,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.BREV}
                 onNesteSteg={validerOgLagreVedtak}
+                validerUlagedeKomponenter={false}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>

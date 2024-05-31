@@ -1,13 +1,7 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
 import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-import {
-    Behandling,
-    BehandlingResultat,
-    Fagsystem,
-    PåklagetVedtakstype,
-    StegType,
-} from '../typer/fagsak';
+import { Behandling, BehandlingResultat, Fagsystem, PåklagetVedtakstype, StegType } from '../typer/fagsak';
 import { BehandlingStatus } from '../typer/behandlingstatus';
 import { Stønadstype } from '../typer/stønadstype';
 import {
@@ -19,8 +13,10 @@ import {
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { IVurdering, VedtakValg } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { FolketrygdHjemmel } from '../../Komponenter/Behandling/Vurdering/hjemmel';
+import { EBrevmottakerRolle, IBrevmottakere } from '../../Komponenter/Behandling/Brevmottakere/typer';
+import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 
-export const saksbehandlerDummyData: ISaksbehandler = {
+export const saksbehandlerStub: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
     email: 'F_Z994808.E_Z994808@trygdeetaten.no',
     firstName: 'Navn',
@@ -37,7 +33,7 @@ export const saksbehandlerDummyData: ISaksbehandler = {
     enhet: '000',
 };
 
-export const personopplysningerDummyData: IPersonopplysninger = {
+export const personopplysningerStub: IPersonopplysninger = {
     personIdent: '25518735813',
     navn: 'HURTIG PLEIE',
     kjønn: kjønnType.KVINNE,
@@ -50,7 +46,7 @@ export const personopplysningerDummyData: IPersonopplysninger = {
     navEnhet: "FA1",
 };
 
-export const behandlingDummydata: Behandling = {
+export const behandlingStub: Behandling = {
     id: "56694255-4a4a-407e-9079-8b14a7acbe80",
     fagsakId: "c0656c5b-878e-470e-864f-dbafbae9cd82",
     steg: StegType.FORMKRAV, // Map to StegType enum
@@ -73,7 +69,7 @@ export const behandlingDummydata: Behandling = {
     fagsystemRevurdering: undefined
 };
 
-export const formkravVilkårDummyData: IFormkravVilkår = {
+export const formkravVilkårStub: IFormkravVilkår = {
     behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
     klagePart: VilkårStatus.OPPFYLT,
     klageKonkret: VilkårStatus.OPPFYLT,
@@ -98,7 +94,7 @@ export const formkravVilkårDummyData: IFormkravVilkår = {
     }
 }
 
-export const fagsystemVedakDummydata: FagsystemVedtak[] = [
+export const fagsystemVedakStub: FagsystemVedtak[] = [
     {
         eksternBehandlingId: "17934",
         behandlingstype: "Førstegangsbehandling",
@@ -117,3 +113,35 @@ export const vurderingStub: IVurdering = {
     innstillingKlageinstans: "Dette er fritekst",
     interntNotat: undefined
 }
+
+export const brevmottakereStub: IBrevmottakere = {
+    personer: [
+        {
+            personIdent: "25518735813",
+            navn: "HURTIG PLEIE",
+            mottakerRolle: EBrevmottakerRolle.BRUKER
+        }
+    ],
+    organisasjoner: []
+}
+
+export const behandlingshistorikkStub: IBehandlingshistorikk[] = [
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.VURDERING,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:24:17.341055"
+    },
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.FORMKRAV,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:16:29.451124"
+    },
+    {
+        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        steg: StegType.FORMKRAV,
+        opprettetAv: "Z994781",
+        endretTid: "2024-05-28T08:15:29.345039"
+    },
+]
