@@ -4,14 +4,17 @@ import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
+import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
+import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const Aktivitet: React.FC = () => {
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
@@ -23,6 +26,7 @@ const Aktivitet: React.FC = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
         settLeggerTilNyAktivitet(false);
+        nullstillUlagretKomponent(UlagretKomponent.AKTIVITET);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
@@ -34,6 +38,7 @@ const Aktivitet: React.FC = () => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
             settRadIRedigeringsmodus(id);
+            settUlagretKomponent(UlagretKomponent.AKTIVITET);
         } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
@@ -75,7 +80,10 @@ const Aktivitet: React.FC = () => {
 
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
-                    onClick={() => settLeggerTilNyAktivitet((prevState) => !prevState)}
+                    onClick={() => {
+                        settLeggerTilNyAktivitet((prevState) => !prevState);
+                        settUlagretKomponent(UlagretKomponent.AKTIVITET);
+                    }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
                     variant="secondary"

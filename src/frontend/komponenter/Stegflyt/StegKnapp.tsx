@@ -1,30 +1,43 @@
-import React, { FC, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Button, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { FanePath } from '../../Sider/Behandling/faner';
 import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
+const feilmeldingUlagretData = 'Har ulagret data, vennligst ferdigstill';
+
+/**
+ *
+ * @param validerUlagedeKomponenter default true, settes til false når man eks på vedtakssiden lagrer ned data via "gå til neste steg" og då ikke trenger å validere ulagret data
+ */
 export const StegKnapp: FC<{
     nesteFane: FanePath;
     steg: Steg;
     onNesteSteg?: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
+    validerUlagedeKomponenter?: boolean;
     children: React.ReactNode;
-}> = ({ nesteFane, steg, onNesteSteg, children }) => {
-    const navigate = useNavigate();
-    const { request } = useApp();
+}> = ({ nesteFane, steg, onNesteSteg, validerUlagedeKomponenter = true, children }) => {
+    const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
+    const { request, harUlagradeKomponenter } = useApp();
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>();
 
+    useEffect(() => {
+        if (!harUlagradeKomponenter && feilmelding === feilmeldingUlagretData) {
+            settFeilmelding(undefined);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [harUlagradeKomponenter]);
+
     const redigerSteg = () => {
-        settFeilmelding('');
+        settFeilmelding(undefined);
         request<string, { steg: Steg }>(`/api/sak/steg/behandling/${behandling.id}/reset`, 'POST', {
             steg: steg,
         }).then((res) => {
@@ -36,8 +49,12 @@ export const StegKnapp: FC<{
         });
     };
 
-    const gåtTilNesteSteg = () => {
-        settFeilmelding('');
+    const gåTilNesteSteg = () => {
+        if (validerUlagedeKomponenter && harUlagradeKomponenter) {
+            settFeilmelding(feilmeldingUlagretData);
+            return;
+        }
+        settFeilmelding(undefined);
         const håndterSteg = onNesteSteg
             ? onNesteSteg()
             : request<string, { steg: Steg }>(
@@ -64,7 +81,7 @@ export const StegKnapp: FC<{
     return (
         <VStack align={'start'}>
             {behandling.steg === steg && (
-                <Button variant="primary" size="small" onClick={gåtTilNesteSteg}>
+                <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
                     {children}
                 </Button>
             )}

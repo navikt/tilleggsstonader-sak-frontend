@@ -46,6 +46,7 @@ export const oppgaveTypeTilTekst: Record<Oppgavetype, string> = {
 export const oppgaverTyperSomSkalVisesFørst: Oppgavetype[] = [
     'BEH_SAK',
     'GOD_VED',
+    'BEH_UND_VED',
     'JFR',
     'KONT_BRUK',
     'SVAR_IK_MOT',

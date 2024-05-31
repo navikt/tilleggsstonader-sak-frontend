@@ -152,6 +152,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, barnMedOppf
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.BREV}
                 onNesteSteg={validerOgLagreVedtak}
+                validerUlagedeKomponenter={false}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
