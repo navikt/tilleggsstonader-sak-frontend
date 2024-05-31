@@ -30,15 +30,17 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak }) => {
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprettKlage = (data: OpprettKlageRequest) => {
-        request<null, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsak.id}`, 'POST', data).then(
-            (response) => {
-                if (response.status === RessursStatus.SUKSESS) {
-                    lukkModal();
-                } else {
-                    settFeilmelding(response.frontendFeilmelding || response.melding);
-                }
+        request<string, OpprettKlageRequest>(
+            `/api/sak/klage/fagsak/${fagsak.id}`,
+            'POST',
+            data
+        ).then((response) => {
+            if (response.status === RessursStatus.SUKSESS) {
+                lukkModal();
+            } else {
+                settFeilmelding(response.frontendFeilmelding || response.melding);
             }
-        );
+        });
     };
 
     const lukkModal = () => {
