@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { styled } from 'styled-components';
 
@@ -9,7 +9,6 @@ import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import RegisterAktiviteter from './RegisterAktivteter';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
-import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
@@ -17,8 +16,6 @@ import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
-import { Registeraktivitet } from '../../../typer/registeraktivitet';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
@@ -39,42 +36,30 @@ const VilkårContainer = styled.div`
 `;
 
 const Inngangsvilkår = () => {
-    const { request } = useApp();
     const { behandling } = useBehandling();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
-    const { vilkårperioder } = useVilkårperioder(behandling.id);
-
-    const [registerAktiviteter, settRegisterAktiviteter] =
-        useState<Ressurs<Registeraktivitet[]>>(byggTomRessurs());
-
-    useEffect(() => {
-        request<Registeraktivitet[], null>(`/api/sak/aktivitet/behandling/${behandling.id}`).then(
-            settRegisterAktiviteter
-        );
-    }, [behandling.id, request]);
+    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
 
     return (
         <Container>
             {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
-                    vilkårperioder,
+                    vilkårperioderResponse,
                     stønadsperioder,
                 }}
             >
-                {({ vilkårperioder, stønadsperioder }) => (
+                {({ vilkårperioderResponse, stønadsperioder }) => (
                     <>
                         {features.nyeInngangsvilkår && (
                             <InngangsvilkårProvider
-                                vilkårperioder={vilkårperioder}
+                                vilkårperioder={vilkårperioderResponse.vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
-                                <DataViewer response={{ registerAktiviteter }}>
-                                    {({ registerAktiviteter }) => (
-                                        <RegisterAktiviteter aktiviteter={registerAktiviteter} />
-                                    )}
-                                </DataViewer>
+                                <RegisterAktiviteter
+                                    aktivitetGrunnlag={vilkårperioderResponse.grunnlag?.aktivitet}
+                                />
                                 <VilkårContainer>
                                     <Aktivitet />
                                     <Målgruppe />

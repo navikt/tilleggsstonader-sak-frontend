@@ -79,7 +79,6 @@ const SendTilBeslutterKnapp: React.FC = () => {
                         onClick: () => lukkModal(),
                         tekst: 'Lukk',
                     },
-                    marginTop: 4,
                 }}
             />
         </HStack>

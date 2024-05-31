@@ -6,8 +6,10 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
+import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
+import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { ParagrafOgRundskrivLenker } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
@@ -22,28 +24,31 @@ const Container = styled.div`
 `;
 
 const Aktivitet: React.FC = () => {
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
-    const [leggerTilNyPeriode, settLeggerTilNyPeriode] = useState<boolean>(false);
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
+    const { leggerTilNyAktivitet, settLeggerTilNyAktivitet } = useInngangsvilkår();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
-        settLeggerTilNyPeriode(false);
+        settLeggerTilNyAktivitet(false);
+        nullstillUlagretKomponent(UlagretKomponent.AKTIVITET);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
-        radIRedigeringsmodus === undefined && !leggerTilNyPeriode;
+        radIRedigeringsmodus === undefined && !leggerTilNyAktivitet;
 
-    const skalViseAktiviteter = aktiviteter.length > 0 || leggerTilNyPeriode;
+    const skalViseAktiviteter = aktiviteter.length > 0 || leggerTilNyAktivitet;
 
     const settNyRadIRedigeringsmodus = (id: string) => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
             settRadIRedigeringsmodus(id);
+            settUlagretKomponent(UlagretKomponent.AKTIVITET);
         } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
@@ -77,7 +82,7 @@ const Aktivitet: React.FC = () => {
                             )}
                         </React.Fragment>
                     ))}
-                    {leggerTilNyPeriode && (
+                    {leggerTilNyAktivitet && (
                         <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                     )}
                 </>
@@ -87,7 +92,10 @@ const Aktivitet: React.FC = () => {
 
             {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                 <Button
-                    onClick={() => settLeggerTilNyPeriode((prevState) => !prevState)}
+                    onClick={() => {
+                        settLeggerTilNyAktivitet((prevState) => !prevState);
+                        settUlagretKomponent(UlagretKomponent.AKTIVITET);
+                    }}
                     size="xsmall"
                     style={{ maxWidth: 'fit-content' }}
                     variant={skalViseAktiviteter ? 'tertiary' : 'primary'}

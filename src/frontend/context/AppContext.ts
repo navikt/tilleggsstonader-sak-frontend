@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import constate from 'constate';
 
+import { useUlagredeKomponenter } from '../hooks/useUlagredeKomponenter';
 import { Toast } from '../typer/toast';
 import { AppEnv } from '../utils/env';
 import { fetchFn, Method } from '../utils/fetch';
@@ -38,6 +39,13 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         settErSaksbehandler(harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'));
     }, [saksbehandler, appEnv]);
 
+    const {
+        harUlagradeKomponenter,
+        settUlagretKomponent,
+        nullstillUlagretKomponent,
+        nullstillUlagredeKomponenter,
+    } = useUlagredeKomponenter();
+
     return {
         request,
         autentisert,
@@ -47,6 +55,11 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         appEnv,
         toast,
         settToast,
+
+        harUlagradeKomponenter,
+        settUlagretKomponent,
+        nullstillUlagretKomponent,
+        nullstillUlagredeKomponenter,
     };
 });
 

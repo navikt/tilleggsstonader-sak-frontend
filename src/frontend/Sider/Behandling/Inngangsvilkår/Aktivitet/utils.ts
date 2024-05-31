@@ -1,4 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -7,7 +8,30 @@ import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
 
-export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
+export const nyAktivitet = (
+    behandlingId: string,
+    aktivitetFraRegister: Registeraktivitet | undefined
+): EndreAktivitetForm =>
+    aktivitetFraRegister
+        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
+        : nyTomAktivitet(behandlingId);
+
+function nyAktivitetFraRegister(
+    behandlingId: string,
+    aktivitetFraRegister: Registeraktivitet
+): EndreAktivitetForm {
+    return {
+        behandlingId: behandlingId,
+        type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
+        fom: aktivitetFraRegister.fom || '',
+        tom: aktivitetFraRegister.tom || '',
+        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
+        begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
+        delvilkår: { '@type': 'AKTIVITET' },
+    };
+}
+
+function nyTomAktivitet(behandlingId: string): EndreAktivitetForm {
     return {
         behandlingId: behandlingId,
         type: '',
@@ -16,7 +40,10 @@ export const nyAktivitet = (behandlingId: string): EndreAktivitetForm => {
         aktivitetsdager: undefined,
         delvilkår: { '@type': 'AKTIVITET' },
     };
-};
+}
+
+const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
+    `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 

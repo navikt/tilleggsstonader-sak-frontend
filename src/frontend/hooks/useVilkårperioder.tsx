@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { VilkårperioderResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
-    vilkårperioder: Ressurs<Vilkårperioder>;
+    vilkårperioderResponse: Ressurs<VilkårperioderResponse>;
 }
 
 export const useVilkårperioder = (behandlingId: string): Response => {
     const { request } = useApp();
     const [vilkårperioder, settVilkårperioder] =
-        useState<Ressurs<Vilkårperioder>>(byggTomRessurs());
+        useState<Ressurs<VilkårperioderResponse>>(byggTomRessurs());
 
     useEffect(() => {
-        request<Vilkårperioder, null>(`/api/sak/vilkarperiode/behandling/${behandlingId}`).then(
-            settVilkårperioder
-        );
+        request<VilkårperioderResponse, null>(
+            `/api/sak/vilkarperiode/behandling/${behandlingId}/v2`
+        ).then(settVilkårperioder);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId]);
 
     return {
-        vilkårperioder,
+        vilkårperioderResponse: vilkårperioder,
     };
 };
