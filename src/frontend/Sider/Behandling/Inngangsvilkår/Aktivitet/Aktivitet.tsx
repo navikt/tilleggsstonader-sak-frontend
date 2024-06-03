@@ -57,7 +57,7 @@ const Aktivitet: React.FC<{ grunnlag: RegisterAktivteter | undefined }> = ({ gru
         >
             <RegisterAktiviteter aktivitetGrunnlag={grunnlag} />
 
-            <Label>Aktivitet knyttet til behandling</Label>
+            <Label>Aktiviteter knyttet til behandling</Label>
             {skalViseAktiviteter && (
                 <>
                     {aktiviteter.map((aktivitet) => (
