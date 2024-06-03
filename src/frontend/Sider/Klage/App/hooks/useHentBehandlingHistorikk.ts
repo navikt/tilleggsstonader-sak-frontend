@@ -1,8 +1,7 @@
-import { byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
-import { behandlingshistorikkStub, behandlingStub } from '../api/klage-stubs';
 import { AxiosRequestConfig } from 'axios';
 
 export const useHentBehandlingHistorikk = (

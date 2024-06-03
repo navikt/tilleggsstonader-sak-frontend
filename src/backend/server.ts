@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 app.use(
     RateLimit({
         windowMs: 60 * 1000, // 60 seconds
-        limit: 120, // limit to 120 requests per windowMs
+        limit: 240, // limit to 120 requests per windowMs
         keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
     })
 );
