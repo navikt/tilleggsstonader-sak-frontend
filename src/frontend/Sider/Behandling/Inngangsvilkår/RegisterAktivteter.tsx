@@ -37,7 +37,7 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | und
     if (aktivitetGrunnlag.aktiviteter.length === 0) {
         return (
             <Alert variant={'info'} inline>
-                Vi fant ingen aktiviteter på bruker fra og med 01.01.2023
+                Bruker har ingen registrerte aktiviteter
                 <Detail>{opplysningerHentetTekst}</Detail>
             </Alert>
         );
