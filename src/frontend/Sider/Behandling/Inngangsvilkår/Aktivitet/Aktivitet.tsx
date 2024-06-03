@@ -13,10 +13,10 @@ import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel'
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
-import { RegisterAktivteter } from '../typer/vilkårperiode';
+import { AktivitetGrunnlag } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Aktivitet: React.FC<{ grunnlag: RegisterAktivteter | undefined }> = ({ grunnlag }) => {
+const Aktivitet: React.FC<{ grunnlag: AktivitetGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();

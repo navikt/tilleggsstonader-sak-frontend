@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { Alert, Button, Detail, Table, VStack } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { RegisterAktivteter } from './typer/vilkårperiode';
+import { AktivitetGrunnlag } from './typer/vilkårperiode';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
 import ExpansionCard from '../../../komponenter/ExpansionCard';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
@@ -19,7 +19,7 @@ const TabellContainer = styled(Table)`
     --ac-table-cell-hover-border: ${ABorderDivider};
 `;
 
-const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: RegisterAktivteter | undefined }> = ({
+const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | undefined }> = ({
     aktivitetGrunnlag,
 }) => {
     const { leggTilAktivitetFraRegister } = useInngangsvilkår();

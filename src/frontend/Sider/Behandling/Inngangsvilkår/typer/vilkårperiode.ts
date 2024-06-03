@@ -2,7 +2,6 @@ import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
 import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Periode } from '../../../../utils/periode';
-import RegisterAktivteter from '../RegisterAktivteter';
 
 export interface VilkårperioderResponse {
     vilkårperioder: Vilkårperioder;
@@ -14,10 +13,10 @@ export interface Vilkårperioder {
 }
 
 export interface VilkårperioderGrunnlag {
-    aktivitet: RegisterAktivteter;
+    aktivitet: AktivitetGrunnlag;
 }
 
-export interface RegisterAktivteter {
+export interface AktivitetGrunnlag {
     tidspunktHentet: string;
     aktiviteter: Registeraktivitet[];
 }
