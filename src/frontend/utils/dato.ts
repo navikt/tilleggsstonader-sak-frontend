@@ -78,7 +78,11 @@ export const tilÅrMåned = (date: Date): string => {
 };
 
 export const tilTekstligDato = (dato: string) => {
-    return format(tilDato(dato), 'd. MMMM yyyy', { locale: nb });
+    return formaterTilTekstligDato(tilDato(dato));
+};
+
+export const formaterTilTekstligDato = (dato: Date): string => {
+    return format(dato, 'd. MMMM yyyy', { locale: nb });
 };
 
 const erGyldigFormat = (verdi: string): boolean => {

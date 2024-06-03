@@ -1,5 +1,5 @@
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
-import { formaterDato, tilDato } from '../../../utils/dato';
+import { formaterTilTekstligDato, tilDato } from '../../../utils/dato';
 
 export type VariabelStore = { [variabelId: string]: string };
 
@@ -43,8 +43,10 @@ export const useVerdierForBrev = (
 
     return {
         variabelStore: {
-            [variabelIdVedtakFraDato]: formaterDato(minsteFomDato) || '',
-            [VariabelIdVedtakTilDato]: formaterDato(størsteTomDato) || '',
+            [variabelIdVedtakFraDato]: minsteFomDato ? formaterTilTekstligDato(minsteFomDato) : '',
+            [VariabelIdVedtakTilDato]: størsteTomDato
+                ? formaterTilTekstligDato(størsteTomDato)
+                : '',
         },
     };
 };
