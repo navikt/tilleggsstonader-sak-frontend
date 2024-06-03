@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Label } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
 import { useApp } from '../../../../context/AppContext';
@@ -11,9 +11,11 @@ import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
+import RegisterAktiviteter from '../RegisterAktivteter';
+import { RegisterAktivteter } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Aktivitet: React.FC = () => {
+const Aktivitet: React.FC<{ grunnlag: RegisterAktivteter | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
@@ -53,6 +55,9 @@ const Aktivitet: React.FC = () => {
             paragraflenker={paragraflenkerAktivitet}
             rundskrivlenke={rundskrivAktivitet}
         >
+            <RegisterAktiviteter aktivitetGrunnlag={grunnlag} />
+
+            <Label>Aktivitet knyttet til behandling</Label>
             {skalViseAktiviteter && (
                 <>
                     {aktiviteter.map((aktivitet) => (
