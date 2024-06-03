@@ -10,6 +10,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
 import { RegisterAktivteter } from '../typer/vilkårperiode';
@@ -55,48 +56,54 @@ const Aktivitet: React.FC<{ grunnlag: RegisterAktivteter | undefined }> = ({ gru
             paragraflenker={paragraflenkerAktivitet}
             rundskrivlenke={rundskrivAktivitet}
         >
-            <RegisterAktiviteter aktivitetGrunnlag={grunnlag} />
+            <FlexColumn gap={2}>
+                <RegisterAktiviteter aktivitetGrunnlag={grunnlag} />
 
-            <Label>Aktiviteter knyttet til behandling</Label>
-            {skalViseAktiviteter && (
-                <>
-                    {aktiviteter.map((aktivitet) => (
-                        <React.Fragment key={aktivitet.id}>
-                            {aktivitet.id === radIRedigeringsmodus ? (
-                                <EndreAktivitetRad
-                                    aktivitet={aktivitet}
-                                    avbrytRedigering={fjernRadIRedigeringsmodus}
-                                />
-                            ) : (
-                                <VilkårperiodeRad
-                                    vilkårperiode={aktivitet}
-                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
-                                />
+                <FlexColumn>
+                    <Label>Aktiviteter knyttet til behandling</Label>
+                    {skalViseAktiviteter && (
+                        <>
+                            {aktiviteter.map((aktivitet) => (
+                                <React.Fragment key={aktivitet.id}>
+                                    {aktivitet.id === radIRedigeringsmodus ? (
+                                        <EndreAktivitetRad
+                                            aktivitet={aktivitet}
+                                            avbrytRedigering={fjernRadIRedigeringsmodus}
+                                        />
+                                    ) : (
+                                        <VilkårperiodeRad
+                                            vilkårperiode={aktivitet}
+                                            startRedigering={() =>
+                                                settNyRadIRedigeringsmodus(aktivitet.id)
+                                            }
+                                        />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            {leggerTilNyAktivitet && (
+                                <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                             )}
-                        </React.Fragment>
-                    ))}
-                    {leggerTilNyAktivitet && (
-                        <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                        </>
                     )}
-                </>
-            )}
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+                    <Feilmelding>{feilmelding}</Feilmelding>
 
-            {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
-                <Button
-                    onClick={() => {
-                        settLeggerTilNyAktivitet((prevState) => !prevState);
-                        settUlagretKomponent(UlagretKomponent.AKTIVITET);
-                    }}
-                    size="xsmall"
-                    style={{ maxWidth: 'fit-content' }}
-                    variant="secondary"
-                    icon={<PlusCircleIcon />}
-                >
-                    Legg til aktivitet manuelt
-                </Button>
-            )}
+                    {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
+                        <Button
+                            onClick={() => {
+                                settLeggerTilNyAktivitet((prevState) => !prevState);
+                                settUlagretKomponent(UlagretKomponent.AKTIVITET);
+                            }}
+                            size="xsmall"
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til aktivitet manuelt
+                        </Button>
+                    )}
+                </FlexColumn>
+            </FlexColumn>
         </VilkårPanel>
     );
 };
