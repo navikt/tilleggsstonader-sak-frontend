@@ -6,8 +6,8 @@ import { Variabel } from './typer';
 
 interface Props {
     variabler: Variabel[];
-    variablerState: Record<string, string>;
-    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+    variablerState: Partial<Record<string, string>>;
+    settVariabler: React.Dispatch<SetStateAction<Partial<Record<string, string>>>>;
 }
 
 const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }) => {

@@ -1,3 +1,5 @@
+import { AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
     AVSLAG = 'AVSLAG',
@@ -47,6 +49,19 @@ export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
     type: TypeVedtak.AVSLAG;
 }
 
+export type StønadsperiodeGrunnlag = {
+    stønadsperiode: Stønadsperiode;
+    aktiviteter: Aktivitet[];
+    antallDager: number;
+};
+
+type Aktivitet = {
+    type: AktivitetType;
+    fom: string;
+    tom: string;
+    aktivitetsdager: number;
+};
+
 export type Stønadsperiode = {
     fom: string;
     tom: string;
@@ -71,24 +86,6 @@ export enum UtgifterProperty {
     UTGIFT = 'utgift',
 }
 
-export enum Utgiftsperiodetype {
-    ORDINÆR = 'ORDINÆR',
-}
-
-export const utgiftsperiodetypeTilTekst: Record<Utgiftsperiodetype, string> = {
-    ORDINÆR: 'Ordinær',
-};
-
-export enum UtgiftsperiodeAktivitet {
-    TILTAK = 'TILTAK',
-    UTDANNING = 'UTDANNING',
-}
-
-export const utgiftsperiodeAktivitetTilTekst: Record<UtgiftsperiodeAktivitet, string> = {
-    TILTAK: 'Tiltak',
-    UTDANNING: 'Utdanning',
-};
-
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
 };
@@ -102,7 +99,7 @@ type Beregningsresultat = {
 type Beregningsgrunnlag = {
     måned: string;
     makssats: number;
-    stønadsperioder: Stønadsperiode[];
+    stønadsperioderGrunnlag: StønadsperiodeGrunnlag[];
     utgifter: UtgiftBarn[];
     antallDagerTotal: number;
     utgifterTotal: number;

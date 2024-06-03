@@ -8,6 +8,7 @@ import { lagHtmlStringAvBrev } from './Html';
 import { lagHtmlFelt } from './lagHtmlFelt';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
+import { useVerdierForBrev } from './useVerdierForBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Ressurs } from '../../../typer/ressurs';
@@ -52,21 +53,26 @@ const Brevmeny: React.FC<Props> = ({
     beregningsresultat,
 }) => {
     const { personopplysninger } = usePersonopplysninger();
-    const { initInkluderterDelmaler, initFritekst, initValgfelt, initVariabler } =
-        parseMellomlagretBrev(mellomlagretBrev);
+    const {
+        mellomlagredeInkluderteDelmaler,
+        mellomlagredeFritekstfelt,
+        mellomlagredeValgfelt,
+        mellomlagredeVariabler,
+    } = parseMellomlagretBrev(mellomlagretBrev);
 
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
-    >(initValgfelt || {});
+    >(mellomlagredeValgfelt || {});
 
-    const [variabler, settVariabler] = useState<Partial<Record<string, Record<string, string>>>>(
-        initVariabler || {}
-    );
+    const { variabelStore } = useVerdierForBrev(beregningsresultat);
+    const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
+        return { ...mellomlagredeVariabler, ...variabelStore };
+    });
 
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
         mal.delmaler.reduce((acc, current) => {
             const delmalErMedIMellomlager = !!(
-                initInkluderterDelmaler && initInkluderterDelmaler[current._id]
+                mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
             );
             return {
                 ...acc,
@@ -77,7 +83,7 @@ const Brevmeny: React.FC<Props> = ({
 
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
-    >(initFritekst || {});
+    >(mellomlagredeFritekstfelt || {});
 
     const { request } = useApp();
 
@@ -86,7 +92,7 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler: Record<string, boolean>,
         fritekst: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>,
         valgfelt: Partial<Record<string, Record<string, Fritekst | Tekst>>>,
-        variabler: Partial<Record<string, Record<string, string>>>
+        variabler: Partial<Record<string, string>>
     ) => {
         const mellomlagerUrl = behandlingId
             ? `/api/sak/brev/mellomlager/${behandlingId}`
@@ -146,8 +152,8 @@ const Brevmeny: React.FC<Props> = ({
                             key={delmal._id}
                             valgfelt={valgfelt[delmal._id] || {}}
                             settValgfelt={oppdaterStateForId(delmal._id, valgfelt, settValgfelt)}
-                            variabler={variabler[delmal._id] || {}}
-                            settVariabler={oppdaterStateForId(delmal._id, variabler, settVariabler)}
+                            variabler={variabler || {}}
+                            settVariabler={settVariabler}
                             fritekst={fritekst[delmal._id] || {}}
                             settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
                             inkluderIBrev={inkluderteDelmaler[delmal._id]}
