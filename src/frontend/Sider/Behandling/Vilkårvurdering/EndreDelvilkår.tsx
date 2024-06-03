@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -17,6 +17,7 @@ import {
     oppdaterSvarIListe,
 } from './utils';
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { useApp } from '../../../context/AppContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import SmallButton from '../../../komponenter/SmallButton';
@@ -44,6 +45,7 @@ const EndreDelvilkår: FC<{
     vilkår: Vilkår;
     avsluttRedigering: () => void;
 }> = ({ regler, vilkår, avsluttRedigering }) => {
+    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
@@ -51,6 +53,18 @@ const EndreDelvilkår: FC<{
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
 
     const { lagreVilkår } = useVilkår();
+
+    useEffect(() => {
+        if (detFinnesUlagredeEndringer) {
+            settUlagretKomponent(vilkår.id);
+        } else {
+            nullstillUlagretKomponent(vilkår.id);
+        }
+        return () => {
+            nullstillUlagretKomponent(vilkår.id);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [detFinnesUlagredeEndringer]);
 
     const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
         settDelvilkårsett((prevSvar) => {

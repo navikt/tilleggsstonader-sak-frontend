@@ -6,10 +6,10 @@ import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
 import BehandlingTabell from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
+import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { Fagsak } from '../../../typer/fagsak';
 import { KlageBehandling } from '../../../typer/klage';
 import { erProd } from '../../../utils/miljø';
-import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
 const Container = styled.div`
     display: flex;
@@ -38,7 +38,7 @@ export const FagsakOversikt: React.FC<Props> = ({
         <Container>
             <TittelLinje>
                 <Heading size="small" level="3">
-                    Fagsak: {formaterEnumVerdi(fagsak.stønadstype)}
+                    Fagsak: {stønadstypeTilTekst[fagsak.stønadstype]}
                 </Heading>
                 <BodyShort size="small">({fagsak.eksternId})</BodyShort>
                 {fagsak.erLøpende && (

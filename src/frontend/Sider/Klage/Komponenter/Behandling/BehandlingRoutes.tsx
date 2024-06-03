@@ -11,7 +11,7 @@ interface Props {
 }
 
 const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
-    const utledRedirectUrl = (): string => {
+    const utledRedirectPath = (): string => {
         switch (behandling.steg) {
             case StegType.FORMKRAV:
                 return 'formkrav';
@@ -24,7 +24,7 @@ const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
         }
     };
 
-    const redirectUrl = `klagebehandling/${behandling.id}/${utledRedirectUrl()}`;
+    const redirectUrl = `/klagebehandling/${behandling.id}/${utledRedirectPath()}`;
 
     return (
         <Routes>

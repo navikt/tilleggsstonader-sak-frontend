@@ -10,8 +10,8 @@ interface Props {
     valgtVerdi: string | undefined;
     valgfelt: Valgfelt;
     settValgfelt: React.Dispatch<SetStateAction<Record<string, Valg>>>;
-    variabler: Record<string, string>;
-    settVariabler: React.Dispatch<SetStateAction<Record<string, string>>>;
+    variabler: Partial<Record<string, string>>;
+    settVariabler: React.Dispatch<SetStateAction<Partial<Record<string, string>>>>;
     fritekst: Record<string, FritekstAvsnitt[] | undefined>;
     settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
 }

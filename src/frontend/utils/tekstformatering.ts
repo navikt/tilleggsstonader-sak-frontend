@@ -18,9 +18,14 @@ export const formatBoolean = (bool?: boolean): string => {
     }
 };
 
-export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: string) => {
+export const utledNavnFnrOgAlder = (navn: string, ident: string, alder?: number) => {
     const formatertAlder = alder ? ` (${alder} år)` : '';
     return `${navn} ${ident}${formatertAlder}`;
+};
+
+export const utledNavnOgAlder = (navn: string, alder?: number) => {
+    const formatertAlder = alder ? ` (${alder} år)` : '';
+    return `${navn} ${formatertAlder}`;
 };
 
 /**

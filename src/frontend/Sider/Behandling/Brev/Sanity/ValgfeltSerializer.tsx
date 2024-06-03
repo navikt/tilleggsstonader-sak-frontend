@@ -9,7 +9,7 @@ import { VariabelSerializer } from '../VariabelSerializer';
 export const ValgfeltSerializer =
     (
         valgfelt: Partial<Record<string, Fritekst | Tekst>>,
-        variabler: Record<string, string>,
+        variabler: Partial<Record<string, string>>,
         fritekst: Record<string, FritekstAvsnitt[] | undefined>
     ): React.FC<{ value: Valgfelt }> =>
     ({ value }) => {

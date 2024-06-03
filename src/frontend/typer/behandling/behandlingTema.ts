@@ -3,5 +3,5 @@ export enum Stønadstype {
 }
 
 export const stønadstypeTilTekst: Record<Stønadstype, string> = {
-    BARNETILSYN: 'Barnetilsyn',
+    BARNETILSYN: 'Tilsyn barn',
 };
