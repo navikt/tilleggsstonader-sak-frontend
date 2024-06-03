@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
@@ -69,17 +69,28 @@ const Brevmeny: React.FC<Props> = ({
         return { ...mellomlagredeVariabler, ...variabelStore };
     });
 
-    const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
-        mal.delmaler.reduce((acc, current) => {
-            const delmalErMedIMellomlager = !!(
-                mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
-            );
-            return {
-                ...acc,
-                [current._id]: current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
-            };
-        }, {})
+    const initialiserInkluderteDelmaler = useCallback(
+        () =>
+            mal.delmaler.reduce((acc, current) => {
+                const delmalErMedIMellomlager = !!(
+                    mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
+                );
+                return {
+                    ...acc,
+                    [current._id]:
+                        current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
+                };
+            }, {}),
+        [mal, mellomlagredeInkluderteDelmaler]
     );
+
+    const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
+        initialiserInkluderteDelmaler()
+    );
+
+    useEffect(() => {
+        settInkluderteDelmaler(initialiserInkluderteDelmaler());
+    }, [initialiserInkluderteDelmaler, mal]);
 
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
