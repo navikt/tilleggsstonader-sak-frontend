@@ -60,32 +60,31 @@ export const utledBehandlingLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
-    // return utledEksternBehandlingLenke(
-    //     behandling,
-    //     behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
-    //     eksternLenker
-    // );
+    return utledEksternBehandlingLenke(
+        behandling,
+        behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
+        eksternLenker
+    );
     return "TODO: utledBehandlingLenke"
 };
 
-// export const utledEksternBehandlingLenke = (
-//     behandling: Behandling,
-//     eksternBehandlingId: string | undefined,
-//     eksternLenker: Eksternlenker
-// ): string => {
-//     return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
-//         behandling.eksternFagsystemFagsakId
-//     }/${eksternBehandlingId}`;
-// };
+export const utledEksternBehandlingLenke = (
+    behandling: Behandling,
+    eksternBehandlingId: string | undefined,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/${eksternBehandlingId}`;
+};
 
 export const utledSaksoversiktLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
-    // return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
-    //     behandling.eksternFagsystemFagsakId
-    // }/saksoversikt`;
-    return "TODO: utledSaksoversiktLenke"
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/saksoversikt`;
 };
 
 export const utledFagsystemUrl = (fagsystem: Fagsystem, eksternLenker: Eksternlenker): string => {

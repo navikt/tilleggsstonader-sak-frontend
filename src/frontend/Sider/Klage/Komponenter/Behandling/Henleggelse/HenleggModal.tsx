@@ -38,26 +38,25 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         }
         settHenleggerBehandling(true);
 
-        // axiosRequest<string, { årsak: EHenlagtårsak }>({
-        //     method: 'POST',
-        //     url: `/familie-klage/api/behandling/${behandling.id}/henlegg`,
-        //     data: {
-        //         årsak: henlagtårsak as EHenlagtårsak,
-        //     },
-        // })
-        //     .then((respons: RessursSuksess<string> | RessursFeilet) => {
-        //         if (respons.status === RessursStatus.SUKSESS) {
-        lukkModal();
-        hentBehandling.rerun();
-        // hentBehandlingshistorikk.rerun();
-        navigate(`/klagebehandling/${behandling.id}/resultat`);
-        settToast(EToast.BEHANDLING_HENLAGT);
-        // } else {
-        //     settFeilmelding(respons.frontendFeilmelding);
-        // }
-        // })
-        // .finally(() => settHenleggerBehandling(false));
-        settHenleggerBehandling(false); // ++
+        axiosRequest<string, { årsak: EHenlagtårsak }>({
+            method: 'POST',
+            url: `/api/klage/behandling/${behandling.id}/henlegg`,
+            data: {
+                årsak: henlagtårsak as EHenlagtårsak,
+            },
+        })
+            .then((respons: RessursSuksess<string> | RessursFeilet) => {
+                if (respons.status === RessursStatus.SUKSESS) {
+                    lukkModal();
+                    hentBehandling.rerun();
+                    // hentBehandlingshistorikk.rerun();
+                    navigate(`/klagebehandling/${behandling.id}/resultat`);
+                    settToast(EToast.BEHANDLING_HENLAGT);
+                } else {
+                    settFeilmelding(respons.frontendFeilmelding);
+                }
+            })
+            .finally(() => settHenleggerBehandling(false));
     };
 
     const lukkModal = () => {

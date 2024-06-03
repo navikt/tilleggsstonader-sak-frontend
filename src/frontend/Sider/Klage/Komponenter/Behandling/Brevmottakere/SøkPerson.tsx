@@ -26,7 +26,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
         if (søkIdent && søkIdent.length === 11) {
             axiosRequest<PersonSøk, { personIdent: string; behandlingId: string }>({
                 method: 'POST',
-                url: 'familie-klage/api/sok/person',
+                url: 'api/klage/sok/person',
                 data: {
                     personIdent: søkIdent,
                     behandlingId: behandlingId,
