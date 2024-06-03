@@ -94,7 +94,7 @@ const Aktivitet: React.FC<{ grunnlag: RegisterAktivteter | undefined }> = ({ gru
                     variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
-                    Legg til ny aktivitet
+                    Legg til aktivitet manuelt
                 </Button>
             )}
         </VilkårPanel>
