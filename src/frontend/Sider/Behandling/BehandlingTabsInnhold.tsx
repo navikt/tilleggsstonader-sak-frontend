@@ -7,6 +7,7 @@ import { Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { VarselVedtakIArena } from './Felles/VarselVedtakIArena';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -105,6 +106,8 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
+
+                <VarselVedtakIArena />
 
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
