@@ -7,9 +7,9 @@ import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { AktivitetGrunnlag } from './typer/vilkårperiode';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../context/StegContext';
 import ExpansionCard from '../../../komponenter/ExpansionCard';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
-import { erProd } from '../../../utils/miljø';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
 const TabellContainer = styled(Table)`
@@ -22,6 +22,7 @@ const TabellContainer = styled(Table)`
 const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | undefined }> = ({
     aktivitetGrunnlag,
 }) => {
+    const { erStegRedigerbart } = useSteg();
     const { leggTilAktivitetFraRegister } = useInngangsvilkår();
 
     if (aktivitetGrunnlag === undefined) {
@@ -78,7 +79,7 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | und
                                                 {aktivitet.antallDagerPerUke}
                                             </Table.DataCell>
                                             <Table.DataCell>
-                                                {!erProd() && (
+                                                {erStegRedigerbart && (
                                                     <Button
                                                         size={'small'}
                                                         onClick={() =>
