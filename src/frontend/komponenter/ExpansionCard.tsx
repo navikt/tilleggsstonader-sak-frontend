@@ -20,6 +20,7 @@ const ExpansionCard: React.FC<{ tittel: string; maxWidth: number; children: Reac
             size="small"
             style={{ backgroundColor: 'inherit' }}
             maxWidth={maxWidth}
+            defaultOpen
         >
             <AkselExpansionCard.Header>
                 <AkselExpansionCard.Title size="small">{tittel}</AkselExpansionCard.Title>
