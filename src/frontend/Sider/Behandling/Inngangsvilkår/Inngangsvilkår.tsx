@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
-import RegisterAktiviteter from './RegisterAktivteter';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
@@ -17,6 +16,7 @@ import { Steg } from '../../../typer/behandling/steg';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
+import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     display: flex;
@@ -33,6 +33,8 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
+            <VarselVedtakIArena />
+
             {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
@@ -47,10 +49,7 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioderResponse.vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
-                                <RegisterAktiviteter
-                                    aktivitetGrunnlag={vilkårperioderResponse.grunnlag?.aktivitet}
-                                />
-                                <Aktivitet />
+                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag?.aktivitet} />
                                 <Målgruppe />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
