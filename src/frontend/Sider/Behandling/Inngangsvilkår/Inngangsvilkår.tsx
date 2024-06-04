@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
-import RegisterAktiviteter from './RegisterAktivteter';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
@@ -50,10 +49,7 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioderResponse.vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
-                                <RegisterAktiviteter
-                                    aktivitetGrunnlag={vilkårperioderResponse.grunnlag?.aktivitet}
-                                />
-                                <Aktivitet />
+                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag?.aktivitet} />
                                 <Målgruppe />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
