@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
@@ -58,7 +58,7 @@ const Brevmeny: React.FC<Props> = ({
         mellomlagredeFritekstfelt,
         mellomlagredeValgfelt,
         mellomlagredeVariabler,
-    } = parseMellomlagretBrev(mellomlagretBrev);
+    } = useMemo(() => parseMellomlagretBrev(mellomlagretBrev), [mellomlagretBrev]);
 
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
