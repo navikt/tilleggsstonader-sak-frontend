@@ -77,10 +77,6 @@ export const tilÅrMåned = (date: Date): string => {
     return formatISO(date).substring(0, 7);
 };
 
-export const tilTekstligDato = (dato: string) => {
-    return formaterTilTekstligDato(tilDato(dato));
-};
-
 export const formaterTilTekstligDato = (dato: Date | string): string => {
     return format(tilDato(dato), 'd. MMMM yyyy', { locale: nb });
 };
