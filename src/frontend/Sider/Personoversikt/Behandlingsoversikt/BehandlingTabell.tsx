@@ -36,7 +36,7 @@ const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
 interface TabellBehandling {
     id: string;
     opprettet: string;
-    type: BehandlingType | string;
+    type: BehandlingType;
     behandlingsårsak: BehandlingÅrsak | KlageÅrsak | undefined;
     status: BehandlingStatus | KlagebehandlingStatus;
     vedtaksdato?: string | undefined;
@@ -65,6 +65,9 @@ const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) 
     const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
         behandling.type !== BehandlingType.KLAGE &&
         erBehandlingRedigerbar(behandling.status as BehandlingStatus);
+
+    const utledUrl = (type: BehandlingType) =>
+        type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
 
     const tabellBehandlinger: TabellBehandling[] = behandlinger.map((behandling) => {
         return {
@@ -118,7 +121,9 @@ const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) 
                         </Table.DataCell>
 
                         <Table.DataCell>
-                            <Link to={{ pathname: `/behandling/${behandling.id}` }}>
+                            <Link
+                                to={{ pathname: `${utledUrl(behandling.type)}/${behandling.id}` }}
+                            >
                                 {formaterEnumVerdi(behandling.resultat)}
                             </Link>
                         </Table.DataCell>

@@ -69,7 +69,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                                 mottattDato: kravMottattDato,
                             }),
                         tekst: 'Opprett',
-                        disabled: true,
                     },
                     lukkKnapp: {
                         onClick: () => lukkModal(),
