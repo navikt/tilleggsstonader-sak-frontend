@@ -17,6 +17,7 @@ import { Steg } from '../../../typer/behandling/steg';
 import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
+import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     display: flex;
@@ -33,7 +34,9 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            {erLokalt() && <FyllUtVilkårKnapp />}
+            <VarselVedtakIArena />
+
+            {!erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
                     vilkårperioderResponse,
