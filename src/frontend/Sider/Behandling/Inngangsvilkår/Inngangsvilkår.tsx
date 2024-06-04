@@ -36,7 +36,7 @@ const Inngangsvilkår = () => {
         <Container>
             <VarselVedtakIArena />
 
-            {!erLokalt() && <FyllUtVilkårKnapp />}
+            {erLokalt() && <FyllUtVilkårKnapp />}
             <DataViewer
                 response={{
                     vilkårperioderResponse,
