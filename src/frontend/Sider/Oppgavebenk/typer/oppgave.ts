@@ -15,7 +15,6 @@ export interface OppgaveRequest {
     opprettetTom?: string;
     fristFom?: string;
     fristTom?: string;
-    erUtenMappe?: boolean;
     ident?: string;
 
     limit: number;
