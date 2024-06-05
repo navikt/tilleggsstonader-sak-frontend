@@ -4,6 +4,7 @@ import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
+import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -53,6 +54,7 @@ const Målgruppe: React.FC = () => {
             paragraflenker={paragraflenkerMålgruppe}
             rundskrivlenke={rundskrivMålgruppe}
         >
+            <MålgruppeHjelpetekst />
             {skalViseMålgrupper && (
                 <>
                     {målgrupper.map((målgruppe) => (
