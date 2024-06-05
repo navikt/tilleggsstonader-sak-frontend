@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { Alert, Button, Detail, Table, VStack } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { AktivitetGrunnlag } from './typer/vilkårperiode';
+import { VilkårperioderGrunnlag } from './typer/vilkårperiode';
 import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../context/StegContext';
 import ExpansionCard from '../../../komponenter/ExpansionCard';
@@ -19,13 +19,13 @@ const TabellContainer = styled(Table)`
     --ac-table-cell-hover-border: ${ABorderDivider};
 `;
 
-const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | undefined }> = ({
-    aktivitetGrunnlag,
+const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
+    grunnlag,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { leggTilAktivitetFraRegister } = useInngangsvilkår();
 
-    if (aktivitetGrunnlag === undefined) {
+    if (grunnlag === undefined) {
         return (
             <Alert variant={'info'} inline>
                 Det ble ikke hentet aktiviteter fra register for denne behandlingen
@@ -33,12 +33,17 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | und
         );
     }
 
-    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(aktivitetGrunnlag.tidspunktHentet)}`;
+    const aktiviteter = grunnlag.aktivitet.aktiviteter;
+    const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    if (aktivitetGrunnlag.aktiviteter.length === 0) {
+    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
+
+    if (aktiviteter.length === 0) {
         return (
             <Alert variant={'info'} inline>
-                Bruker har ingen registrerte aktiviteter
+                Bruker har ingen registrerte aktiviteter fra og med{' '}
+                {formaterNullableIsoDato(hentetInformasjon.fom)} til og med{' '}
+                {formaterNullableIsoDato(hentetInformasjon.tom)}
                 <Detail>{opplysningerHentetTekst}</Detail>
             </Alert>
         );
@@ -61,7 +66,7 @@ const RegisterAktiviteter: React.FC<{ aktivitetGrunnlag: AktivitetGrunnlag | und
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-                                {aktivitetGrunnlag.aktiviteter.map((aktivitet) => {
+                                {aktiviteter.map((aktivitet) => {
                                     return (
                                         <Table.Row key={aktivitet.id}>
                                             <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>

@@ -13,10 +13,10 @@ import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel'
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
-import { AktivitetGrunnlag } from '../typer/vilkårperiode';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Aktivitet: React.FC<{ grunnlag: AktivitetGrunnlag | undefined }> = ({ grunnlag }) => {
+const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
@@ -57,7 +57,7 @@ const Aktivitet: React.FC<{ grunnlag: AktivitetGrunnlag | undefined }> = ({ grun
             rundskrivlenke={rundskrivAktivitet}
         >
             <FlexColumn gap={2}>
-                <RegisterAktiviteter aktivitetGrunnlag={grunnlag} />
+                <RegisterAktiviteter grunnlag={grunnlag} />
 
                 <FlexColumn>
                     <Label>Aktiviteter knyttet til behandling</Label>
