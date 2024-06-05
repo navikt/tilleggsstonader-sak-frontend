@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === 'development') {
 export enum ApplicationName {
     sak = 'sak',
     klage = 'klage',
+    endringslogg = 'endringslogg',
 }
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
@@ -84,6 +85,10 @@ const clientsLocal = (): ClientConfig => ({
         url: 'http://localhost:8090/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage-lokal',
     },
+    [ApplicationName.endringslogg]: {
+        url: 'https://familie-endringslogg.intern.dev.nav.no',
+        audience: 'dev-gcp.teamfamilie.familie-endringslogg',
+    },
 });
 
 const clientsLocalPreprod = (): ClientConfig => ({
@@ -94,6 +99,10 @@ const clientsLocalPreprod = (): ClientConfig => ({
     [ApplicationName.klage]: {
         url: 'https://tilleggsstonader-klage.intern.dev.nav.no/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
+    },
+    [ApplicationName.endringslogg]: {
+        url: 'https://familie-endringslogg.intern.dev.nav.no',
+        audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
 });
 
@@ -115,6 +124,10 @@ const devMiljø = (): Miljø => ({
             url: 'http://tilleggsstonader-klage/api',
             audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
         },
+        [ApplicationName.endringslogg]: {
+            url: 'https://familie-endringslogg.intern.dev.nav.no',
+            audience: 'dev-gcp.teamfamilie.familie-endringslogg',
+        },
     },
     azure: devProdAzure(),
     roller: devRoller,
@@ -130,6 +143,10 @@ const prodMiljø = (): Miljø => ({
         [ApplicationName.klage]: {
             url: 'http://tilleggsstonader-klage/api',
             audience: 'prod-gcp.tilleggsstonader.tilleggsstonader-klage',
+        },
+        [ApplicationName.endringslogg]: {
+            url: 'https://familie-endringslogg.intern.nav.no',
+            audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
     },
     azure: devProdAzure(),
