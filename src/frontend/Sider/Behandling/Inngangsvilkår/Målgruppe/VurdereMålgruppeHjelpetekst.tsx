@@ -45,7 +45,7 @@ export const VurdereMålgruppeHjelpetekst = (props: { type: MålgruppeType }) =>
     }
 
     return (
-        <LesMerTekst header={'Slik vurderer du medlemskap'} size={'small'}>
+        <LesMerTekst key={props.type} header={'Slik vurderer du medlemskap'} size={'small'}>
             {tekst}
         </LesMerTekst>
     );
