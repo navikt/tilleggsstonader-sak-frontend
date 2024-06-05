@@ -5,7 +5,7 @@ import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
-import { oppgaveTypeTilTekst } from './typer/oppgavetema';
+import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
@@ -32,7 +32,10 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
                 {oppgave.oppgavetype
-                    ? oppgaveTypeTilTekst[oppgave.oppgavetype]
+                    ? oppgaveTypeTilVisningstekstSomTarHensynTilKlage(
+                          oppgave.oppgavetype,
+                          oppgave.behandlingstype
+                      )
                     : 'Mangler oppgavetype'}
             </Table.DataCell>
             <Table.DataCell>{typeBehandling}</Table.DataCell>
