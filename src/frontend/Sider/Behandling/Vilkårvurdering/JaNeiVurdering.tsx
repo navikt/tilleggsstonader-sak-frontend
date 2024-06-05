@@ -10,7 +10,7 @@ const JaNeiVurdering: React.FC<{
     oppdaterVurdering: (vurdering: Vurdering) => void;
     svarJa?: string;
     svarNei?: string;
-    readMore?: React.JSX.Element;
+    readMore?: React.ReactNode;
 }> = ({
     vurdering,
     oppdaterVurdering,
