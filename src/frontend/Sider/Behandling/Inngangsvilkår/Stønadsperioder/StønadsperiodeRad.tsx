@@ -6,8 +6,8 @@ import { Button } from '@navikt/ds-react';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
-import { AktivitetTypeOptions } from '../typer/aktivitet';
-import { MålgruppeTypeOptions } from '../typer/målgruppe';
+import { aktivitetTypeOptions } from '../typer/aktivitet';
+import { målgruppeTypeOptions } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
@@ -33,7 +33,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
             <SelectMedOptions
                 className="kolonne1"
                 erLesevisning={erLeservisning}
-                valg={MålgruppeTypeOptions}
+                valg={målgruppeTypeOptions}
                 label={'Målgruppe'}
                 hideLabel
                 value={stønadsperide.målgruppe}
@@ -44,7 +44,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
 
             <SelectMedOptions
                 erLesevisning={erLeservisning}
-                valg={AktivitetTypeOptions}
+                valg={aktivitetTypeOptions}
                 label={'Aktivitet'}
                 hideLabel
                 value={stønadsperide.aktivitet}

@@ -15,7 +15,7 @@ import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetType,
-    AktivitetTypeOptions,
+    aktivitetTypeOptions,
     DelvilkårAktivitet,
 } from '../typer/aktivitet';
 import {
@@ -136,7 +136,7 @@ const EndreAktivitetRad: React.FC<{
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
-            typeOptions={AktivitetTypeOptions}
+            typeOptions={aktivitetTypeOptions}
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
             fomKeyDato={fomKeyDato}

@@ -33,7 +33,7 @@ export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
     return AktivitetTypeTilTekst[type];
 };
 
-export const AktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
+export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
     ([value, label]) => ({
         value: value,
         label: label,
