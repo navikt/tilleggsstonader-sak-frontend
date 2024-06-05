@@ -10,5 +10,6 @@ export interface BarnOppsummering {
     ident: string;
     navn: string;
     alder?: number;
+    alderNårStønadsperiodeBegynner?: number;
     oppfyllerAlleVilkår: boolean;
 }

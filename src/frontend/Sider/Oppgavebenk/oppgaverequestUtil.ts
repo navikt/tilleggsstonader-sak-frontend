@@ -17,6 +17,7 @@ export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveReque
 
 export const defaultOppgaveRequest: OppgaveRequest = {
     ...defaultSortering,
+    oppgaverPåVent: false,
 };
 
 export const oppgaveRequestMedDefaultEnhet = (
