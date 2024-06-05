@@ -1,6 +1,7 @@
 import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
 import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
+import { TypeRegisterYtelse } from '../../../../typer/registerytelser';
 import { Periode } from '../../../../utils/periode';
 
 export interface VilkårperioderResponse {
@@ -14,11 +15,22 @@ export interface Vilkårperioder {
 
 export interface VilkårperioderGrunnlag {
     aktivitet: AktivitetGrunnlag;
+    ytelse: YtelseGrunnlag;
     hentetInformasjon: HentetInformasjon;
 }
 
 interface AktivitetGrunnlag {
     aktiviteter: Registeraktivitet[];
+}
+
+interface YtelseGrunnlag {
+    perioder: PeriodeGrunnlagYtelse[];
+}
+
+interface PeriodeGrunnlagYtelse {
+    type: TypeRegisterYtelse;
+    fom: string;
+    tom?: string;
 }
 
 interface HentetInformasjon {
