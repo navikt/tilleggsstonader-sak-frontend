@@ -10,7 +10,7 @@ import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../ut
 const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
     grunnlag,
 }) => {
-    if (grunnlag === undefined) {
+    if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
                 Det ble ikke hentet aktiviteter fra register for denne behandlingen
