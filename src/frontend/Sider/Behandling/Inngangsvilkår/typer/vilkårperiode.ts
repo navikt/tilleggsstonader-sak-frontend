@@ -14,11 +14,17 @@ export interface Vilkårperioder {
 
 export interface VilkårperioderGrunnlag {
     aktivitet: AktivitetGrunnlag;
+    hentetInformasjon: HentetInformasjon;
 }
 
-export interface AktivitetGrunnlag {
-    tidspunktHentet: string;
+interface AktivitetGrunnlag {
     aktiviteter: Registeraktivitet[];
+}
+
+interface HentetInformasjon {
+    tidspunktHentet: string;
+    fom: string;
+    tom: string;
 }
 
 export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe> {
