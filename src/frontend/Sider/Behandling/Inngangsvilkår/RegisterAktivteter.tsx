@@ -57,7 +57,7 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
                         <Table size={'small'}>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell scope="col">Type</Table.HeaderCell>
+                                    <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
                                     <Table.HeaderCell scope="col">Startdato</Table.HeaderCell>
                                     <Table.HeaderCell scope="col">Sluttdato</Table.HeaderCell>
