@@ -4,12 +4,14 @@ import styled from 'styled-components';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
+import { VurdereMålgruppeHjelpetekst } from './VurdereMålgruppeHjelpetekst';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 
 const Container = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 2rem;
 `;
 
@@ -37,6 +39,7 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
+                    readMore={<VurdereMålgruppeHjelpetekst type={målgruppeForm.type} />}
                 />
             )}
             {skalVurdereDekketAvAnnetRegelverk && (
