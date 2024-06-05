@@ -22,7 +22,7 @@ export enum TypeRegisterYtelse {
 }
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
-    AAP: 'AAP',
-    ENSLIG_FORSØRGER: 'Enslig forsørger',
+    AAP: 'Arbeidsavklaringspenger',
+    ENSLIG_FORSØRGER: 'Overgangsstønad',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
 };
