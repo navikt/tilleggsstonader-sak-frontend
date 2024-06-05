@@ -125,7 +125,7 @@ const devMiljø = (): Miljø => ({
             audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
         },
         [ApplicationName.endringslogg]: {
-            url: 'https://familie-endringslogg.intern.dev.nav.no',
+            url: 'http://familie-endringslogg.teamfamilie',
             audience: 'dev-gcp.teamfamilie.familie-endringslogg',
         },
     },
@@ -145,7 +145,7 @@ const prodMiljø = (): Miljø => ({
             audience: 'prod-gcp.tilleggsstonader.tilleggsstonader-klage',
         },
         [ApplicationName.endringslogg]: {
-            url: 'https://familie-endringslogg.intern.nav.no',
+            url: 'http://familie-endringslogg.teamfamilie',
             audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
     },
