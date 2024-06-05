@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Alert, Button, Detail, Table, VStack } from '@navikt/ds-react';
+import { Alert, Button, Detail, HStack, HelpText, Table, VStack } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { VilkårperioderGrunnlag } from './typer/vilkårperiode';
@@ -27,7 +27,7 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
 
     if (grunnlag === undefined) {
         return (
-            <Alert variant={'info'} inline>
+            <Alert variant={'info'} inline size="small">
                 Det ble ikke hentet aktiviteter fra register for denne behandlingen
             </Alert>
         );
@@ -36,14 +36,12 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
     const aktiviteter = grunnlag.aktivitet.aktiviteter;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
+    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)} for perioden ${formaterNullableIsoDato(hentetInformasjon.fom)} - ${formaterNullableIsoDato(hentetInformasjon.tom)}`;
 
     if (aktiviteter.length === 0) {
         return (
-            <Alert variant={'info'} inline>
-                Bruker har ingen registrerte aktiviteter fra og med{' '}
-                {formaterNullableIsoDato(hentetInformasjon.fom)} til og med{' '}
-                {formaterNullableIsoDato(hentetInformasjon.tom)}
+            <Alert variant={'info'} inline size="small">
+                Vi fant ingen stønadsberettigede aktiviteteter registrert på bruker.
                 <Detail>{opplysningerHentetTekst}</Detail>
             </Alert>
         );
@@ -86,7 +84,7 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
                                             <Table.DataCell>
                                                 {erStegRedigerbart && (
                                                     <Button
-                                                        size={'small'}
+                                                        size="xsmall"
                                                         onClick={() =>
                                                             leggTilAktivitetFraRegister(aktivitet)
                                                         }
@@ -101,9 +99,15 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
                             </Table.Body>
                         </Table>
                     </TabellContainer>
-                    <Detail>
-                        <strong>{opplysningerHentetTekst}</strong>
-                    </Detail>
+                    <HStack gap="2" align="center">
+                        <Detail>
+                            <strong>{opplysningerHentetTekst}</strong>
+                        </Detail>
+                        <HelpText>
+                            Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
+                            aktiviteter i personoversikten.
+                        </HelpText>
+                    </HStack>
                 </VStack>
             </ExpansionCard>
         </VStack>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Alert, Detail, Table, VStack } from '@navikt/ds-react';
+import { Alert, Detail, HStack, HelpText, Table, VStack } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
@@ -22,7 +22,7 @@ const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined 
 }) => {
     if (grunnlag === undefined) {
         return (
-            <Alert variant={'info'} inline>
+            <Alert variant={'info'} inline size="small">
                 Det ble ikke hentet ytelser fra register for denne behandlingen
             </Alert>
         );
@@ -31,11 +31,11 @@ const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined 
     const perioderMedYtelse = grunnlag.ytelse.perioder;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
+    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)} for perioden ${formaterNullableIsoDato(hentetInformasjon.fom)} - ${formaterNullableIsoDato(hentetInformasjon.tom)}`;
 
     if (perioderMedYtelse.length === 0) {
         return (
-            <Alert variant={'info'} inline>
+            <Alert variant={'info'} inline size="small">
                 Vi finner ingen relevante ytelser registrert på bruker fra og med{' '}
                 {formaterNullableIsoDato(hentetInformasjon.fom)} til og med{' '}
                 {formaterNullableIsoDato(hentetInformasjon.tom)}
@@ -76,9 +76,15 @@ const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined 
                             </Table.Body>
                         </Table>
                     </TabellContainer>
-                    <Detail>
-                        <strong>{opplysningerHentetTekst}</strong>
-                    </Detail>
+                    <HStack gap="2" align="center">
+                        <Detail>
+                            <strong>{opplysningerHentetTekst}</strong>
+                        </Detail>
+                        <HelpText>
+                            Vi henter kun perioder med arbeidsavklaringspenger, rett til
+                            overgangsstønad og omstillingsstønad.
+                        </HelpText>
+                    </HStack>
                 </VStack>
             </ExpansionCard>
         </VStack>
