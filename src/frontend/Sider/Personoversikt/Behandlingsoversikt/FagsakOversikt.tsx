@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const TittelLinje = styled.div`
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: center;
 `;
 
@@ -27,9 +27,9 @@ export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
         <Container>
             <TittelLinje>
                 <Heading size="small" level="3">
-                    Fagsak: {stønadstypeTilTekst[fagsak.stønadstype]}
+                    {stønadstypeTilTekst[fagsak.stønadstype]}
                 </Heading>
-                <BodyShort size="small">({fagsak.eksternId})</BodyShort>
+                <BodyShort size="small">(Saksnummer: {fagsak.eksternId})</BodyShort>
                 {fagsak.erLøpende && (
                     <Tag variant={'info'} size={'small'}>
                         Løpende
