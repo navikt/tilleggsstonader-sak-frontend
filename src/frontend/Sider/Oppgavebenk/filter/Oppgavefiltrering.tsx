@@ -142,7 +142,7 @@ export const Oppgavefiltrering = () => {
                     size="small"
                 />
                 <AlignetCheckbox
-                    value={oppgaveRequest['oppgaverPåVent']}
+                    checked={oppgaveRequest['oppgaverPåVent'] || false}
                     onChange={(e) => {
                         oppdaterOppgave('oppgaverPåVent')(e.target.checked);
                     }}
