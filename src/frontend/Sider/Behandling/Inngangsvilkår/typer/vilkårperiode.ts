@@ -27,7 +27,7 @@ interface YtelseGrunnlag {
     perioder: PeriodeGrunnlagYtelse[];
 }
 
-interface PeriodeGrunnlagYtelse {
+export interface PeriodeGrunnlagYtelse {
     type: TypeRegisterYtelse;
     fom: string;
     tom?: string;
