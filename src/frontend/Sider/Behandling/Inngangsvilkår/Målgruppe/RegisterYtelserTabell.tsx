@@ -6,7 +6,7 @@ import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { registerYtelseTilTekst } from '../../../../typer/registerytelser';
-import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { PeriodeGrunnlagYtelse } from '../typer/vilkårperiode';
 
 const HvitTabell = styled(Table)`
@@ -33,7 +33,7 @@ const RegisterYtelserTabell: React.FC<{ perioderMedYtelse: PeriodeGrunnlagYtelse
                     return (
                         <Table.Row key={indeks}>
                             <Table.DataCell>{registerYtelseTilTekst[ytelse.type]}</Table.DataCell>
-                            <Table.DataCell>{formaterNullableIsoDato(ytelse.fom)}</Table.DataCell>
+                            <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                         </Table.Row>
                     );
