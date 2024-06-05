@@ -2,31 +2,33 @@ import React from 'react';
 
 import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
 
-import RegisterAktiviteterTabell from './RegisterAktivteterTabell';
-import { VilkårperioderGrunnlag } from './typer/vilkårperiode';
-import ExpansionCard from '../../../komponenter/ExpansionCard';
-import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
+import RegisterYtelserTabell from './RegisterYtelserTabell';
+import ExpansionCard from '../../../../komponenter/ExpansionCard';
+import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 
-const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
+const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
     grunnlag,
 }) => {
     if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
-                Det ble ikke hentet aktiviteter fra register for denne behandlingen
+                Det ble ikke hentet ytelser fra register for denne behandlingen
             </Alert>
         );
     }
 
-    const aktiviteter = grunnlag.aktivitet.aktiviteter;
+    const perioderMedYtelse = grunnlag.ytelse.perioder;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
     const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)} for perioden ${formaterNullableIsoDato(hentetInformasjon.fom)} - ${formaterNullableIsoDato(hentetInformasjon.tom)}`;
 
-    if (aktiviteter.length === 0) {
+    if (perioderMedYtelse.length === 0) {
         return (
             <Alert variant={'info'} inline size="small">
-                Vi fant ingen stønadsberettigede aktiviteteter registrert på bruker.
+                Vi finner ingen relevante ytelser registrert på bruker fra og med{' '}
+                {formaterNullableIsoDato(hentetInformasjon.fom)} til og med{' '}
+                {formaterNullableIsoDato(hentetInformasjon.tom)}
                 <Detail>{opplysningerHentetTekst}</Detail>
             </Alert>
         );
@@ -34,16 +36,16 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
 
     return (
         <VStack>
-            <ExpansionCard tittel="Aktiviteter registrert på bruker" maxWidth={800}>
+            <ExpansionCard tittel="Relevante ytelser registrert på bruker" maxWidth={600}>
                 <VStack gap="4">
-                    <RegisterAktiviteterTabell aktiviteter={aktiviteter} />
+                    <RegisterYtelserTabell perioderMedYtelse={perioderMedYtelse} />
                     <HStack gap="2" align="center">
                         <Detail>
                             <strong>{opplysningerHentetTekst}</strong>
                         </Detail>
                         <HelpText>
-                            Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
-                            aktiviteter i personoversikten.
+                            Vi henter kun perioder med arbeidsavklaringspenger, rett til
+                            overgangsstønad og omstillingsstønad.
                         </HelpText>
                     </HStack>
                 </VStack>
@@ -52,4 +54,4 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
     );
 };
 
-export default RegisterAktiviteter;
+export default RegisterYtelser;

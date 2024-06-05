@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyLong, ReadMore } from '@navikt/ds-react';
 
 export const MålgruppeHjelpetekst = () => (
-    <ReadMore header={'Slik gjør du vurderingen'}>
+    <ReadMore header={'Slik gjør du vurderingen'} size="small">
         <BodyLong size={'small'} spacing>
             Dersom søker oppgir å ha <strong>overgangsstønad</strong>, men ikke mottar stønaden, må
             du be NAY enslig forsørger (kontornummer 4489) vurdere om søker har rett til

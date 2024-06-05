@@ -50,7 +50,7 @@ const Inngangsvilkår = () => {
                                 hentedeStønadsperioder={stønadsperioder}
                             >
                                 <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
-                                <Målgruppe />
+                                <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                                 <Stønadsperioder />
                             </InngangsvilkårProvider>
                         )}
