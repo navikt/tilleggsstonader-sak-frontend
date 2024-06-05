@@ -44,6 +44,10 @@ export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
     })
 );
 
+export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.filter(
+    (option) => option.value !== MålgruppeType.INGEN_MÅLGRUPPE
+);
+
 // TODO: Endre navn på enum
 // FaktiskMålgruppe brukes som navn foreløpig
 // Disse verdiene er faktiske målgrupper, mens målgruppetype burde hete noe ala hovedytelse eller liknende
