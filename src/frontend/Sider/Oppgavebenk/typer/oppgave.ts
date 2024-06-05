@@ -6,7 +6,7 @@ export interface OppgaveRequest {
     behandlingstema?: Behandlingstema;
     oppgavetype?: Oppgavetype;
     enhet?: FortroligEnhet | IkkeFortroligEnhet;
-    mappeId?: number;
+    oppgaverPåVent: boolean;
     saksbehandler?: string;
     journalpostId?: string;
     tilordnetRessurs?: string;
@@ -15,7 +15,6 @@ export interface OppgaveRequest {
     opprettetTom?: string;
     fristFom?: string;
     fristTom?: string;
-    erUtenMappe?: boolean;
     ident?: string;
 
     limit: number;
