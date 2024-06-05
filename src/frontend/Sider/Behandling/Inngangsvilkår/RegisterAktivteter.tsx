@@ -38,7 +38,7 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
 
     const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
 
-    if (aktiviteter.length > 0) {
+    if (aktiviteter.length === 0) {
         return (
             <Alert variant={'info'} inline>
                 Bruker har ingen registrerte aktiviteter fra og med{' '}
