@@ -46,7 +46,7 @@ const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined 
 
     return (
         <VStack>
-            <ExpansionCard tittel="Relevante ytelser registrert på bruker" maxWidth={800}>
+            <ExpansionCard tittel="Relevante ytelser registrert på bruker" maxWidth={600}>
                 <VStack gap="4">
                     <TabellContainer>
                         <Table size={'small'}>
