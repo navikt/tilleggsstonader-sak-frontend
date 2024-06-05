@@ -10,6 +10,7 @@ import {
 
 import { LeaveIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
+import Endringslogg from '@navikt/familie-endringslogg';
 
 import { AppProvider, useApp } from './context/AppContext';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
@@ -80,6 +81,17 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
+                    <Endringslogg
+                        userId={innloggetSaksbehandler.navIdent}
+                        dataFetchingIntervalSeconds={60 * 15}
+                        appId={'TS'}
+                        backendUrl={'/endringslogg'}
+                        dataset={'production'}
+                        maxEntries={50}
+                        appName={'Tilleggsstønader'}
+                        alignLeft={true}
+                        stil={'lys'}
+                    />
                     <PersonSøk />
                     <Dropdown>
                         <InternalHeader.UserButton

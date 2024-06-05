@@ -38,6 +38,8 @@ spec:
     outbound:
       rules:
         - application: tilleggsstonader-sak
+        - application: familie-endringslogg
+          namespace: teamfamilie
   azure:
     sidecar:
       enabled: true

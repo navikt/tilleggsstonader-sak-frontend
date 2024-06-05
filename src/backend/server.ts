@@ -83,6 +83,8 @@ app.use(
     doProxy(ApplicationName.klage)
 );
 
+app.use('/endringslogg', addRequestInfo(), doProxy(ApplicationName.endringslogg));
+
 app.listen(PORT, () => {
     logger.info(`Server startet på PORT=${PORT}`);
 }).on('error', (err: Error) => {

@@ -4,6 +4,7 @@ import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
+import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
 import RegisterYtelser from './RegisterYtelser';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -59,7 +60,10 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
             <FlexColumn gap={2}>
                 <RegisterYtelser grunnlag={grunnlag} />
                 <FlexColumn>
-                    <Label>Målgrupper knyttet til denne behandlingen</Label>
+                    <div>
+                        <Label>Målgrupper knyttet til denne behandlingen</Label>
+                        <MålgruppeHjelpetekst />
+                    </div>
                     {skalViseMålgrupper && (
                         <>
                             {målgrupper.map((målgruppe) => (
