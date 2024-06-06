@@ -23,13 +23,15 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { leggerTilNyAktivitet, settLeggerTilNyAktivitet } = useInngangsvilkår();
+    const { leggerTilNyAktivitet, settLeggerTilNyAktivitet, settAktivitetFraRegister } =
+        useInngangsvilkår();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
         settLeggerTilNyAktivitet(false);
         nullstillUlagretKomponent(UlagretKomponent.AKTIVITET);
+        settAktivitetFraRegister(undefined);
     };
 
     const kanSetteNyRadIRedigeringsmodus =
@@ -81,7 +83,10 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                                 </React.Fragment>
                             ))}
                             {leggerTilNyAktivitet && (
-                                <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                                <EndreAktivitetRad
+                                    key="ny"
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                />
                             )}
                         </>
                     )}
