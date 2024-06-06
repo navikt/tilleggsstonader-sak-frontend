@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Select, TextField, VStack } from '@navikt/ds-react';
+import { Button, Checkbox, Select, TextField, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
@@ -36,6 +36,11 @@ const KnappWrapper = styled.div`
     gap: 1rem;
 `;
 
+const AlignetCheckbox = styled(Checkbox)`
+    margin-bottom: -0.5rem;
+    align-self: flex-end;
+`;
+
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
@@ -43,7 +48,7 @@ export const Oppgavefiltrering = () => {
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
 
-    const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number) =>
+    const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number | boolean) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
 
     const oppdaterOppgaveTargetValue =
@@ -136,6 +141,15 @@ export const Oppgavefiltrering = () => {
                     autoComplete="off"
                     size="small"
                 />
+                <AlignetCheckbox
+                    checked={oppgaveRequest['oppgaverPåVent'] || false}
+                    onChange={(e) => {
+                        nullstillFiltrering();
+                        oppdaterOppgave('oppgaverPåVent')(e.target.checked);
+                    }}
+                >
+                    Oppgaver på vent
+                </AlignetCheckbox>
             </FlexDiv>
             <KnappWrapper>
                 <Button onClick={sjekkFeilOgHentOppgaver} type={'submit'} size="small">

@@ -15,7 +15,7 @@ import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetType,
-    AktivitetTypeOptions,
+    aktivitetTypeOptions,
     DelvilkårAktivitet,
 } from '../typer/aktivitet';
 import {
@@ -52,13 +52,8 @@ const EndreAktivitetRad: React.FC<{
 }> = ({ aktivitet, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
-    const {
-        oppdaterAktivitet,
-        leggTilAktivitet,
-        settStønadsperiodeFeil,
-        aktivitetFraRegister,
-        settAktivitetFraRegister,
-    } = useInngangsvilkår();
+    const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil, aktivitetFraRegister } =
+        useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
@@ -103,7 +98,6 @@ const EndreAktivitetRad: React.FC<{
 
                         if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
                             settStønadsperiodeFeil(undefined);
-                            settAktivitetFraRegister(undefined);
                         } else {
                             settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
                         }
@@ -136,7 +130,7 @@ const EndreAktivitetRad: React.FC<{
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
-            typeOptions={AktivitetTypeOptions}
+            typeOptions={aktivitetTypeOptions}
             oppdaterType={(nyttValg) => oppdaterType(nyttValg as AktivitetType)}
             feilmelding={feilmelding}
             fomKeyDato={fomKeyDato}
