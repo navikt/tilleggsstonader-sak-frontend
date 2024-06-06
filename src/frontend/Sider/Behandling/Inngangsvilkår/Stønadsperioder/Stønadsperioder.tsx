@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { SealCheckmarkIcon } from '@navikt/aksel-icons';
-import { Label, VStack } from '@navikt/ds-react';
+import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import Aksjonsknapper from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
@@ -136,6 +136,11 @@ const Stønadsperioder: React.FC = () => {
 
     return (
         <Panel tittel="Stønadsperioder" ikon={<SealCheckmarkIcon />}>
+            {stønadsperioderState.value.length === 0 && !erStegRedigerbart && (
+                <BodyShort>
+                    Det ble ikke registrert noen stønadsperioder i denne behandlingen
+                </BodyShort>
+            )}
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
