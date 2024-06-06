@@ -83,10 +83,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                                 </React.Fragment>
                             ))}
                             {leggerTilNyAktivitet && (
-                                <EndreAktivitetRad
-                                    key="ny"
-                                    avbrytRedigering={fjernRadIRedigeringsmodus}
-                                />
+                                <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                             )}
                         </>
                     )}
