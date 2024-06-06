@@ -13,7 +13,7 @@ import {
     DelvilkårMålgruppe,
     Målgruppe,
     MålgruppeType,
-    MålgruppeTypeOptions,
+    målgruppeTypeOptions,
 } from '../typer/målgruppe';
 import {
     LagreVilkårperiodeResponse,
@@ -119,7 +119,7 @@ const EndreMålgruppeRad: React.FC<{
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterForm}
             vilkårsperiodeFeil={vilkårsperiodeFeil}
-            typeOptions={MålgruppeTypeOptions}
+            typeOptions={målgruppeTypeOptions}
             oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
             feilmelding={feilmelding}
             fomKeyDato={fomKeyDato}

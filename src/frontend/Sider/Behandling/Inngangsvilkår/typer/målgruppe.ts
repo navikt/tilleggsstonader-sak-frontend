@@ -37,11 +37,15 @@ export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
     return MålgruppeTypeTilTekst[type];
 };
 
-export const MålgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
+export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
     ([value, label]) => ({
         value: value,
         label: label,
     })
+);
+
+export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.filter(
+    (option) => option.value !== MålgruppeType.INGEN_MÅLGRUPPE
 );
 
 // TODO: Endre navn på enum

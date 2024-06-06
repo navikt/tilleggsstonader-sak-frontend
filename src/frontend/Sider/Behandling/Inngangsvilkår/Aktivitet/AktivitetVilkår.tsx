@@ -28,7 +28,7 @@ const AktivitetVilkår: React.FC<{
         <Container>
             {visVurderingLønnet && (
                 <JaNeiVurdering
-                    label="Lønnet"
+                    label="Mottar bruker ordinær lønn i tiltaket?"
                     vurdering={aktivitetForm.delvilkår.lønnet}
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('lønnet', vurdering)

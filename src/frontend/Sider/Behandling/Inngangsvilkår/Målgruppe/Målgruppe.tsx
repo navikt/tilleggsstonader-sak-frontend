@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 
 import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Label } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
+import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
+import RegisterYtelser from './RegisterYtelser';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { paragraflenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
-const Målgruppe: React.FC = () => {
+const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { målgrupper } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
@@ -53,45 +57,56 @@ const Målgruppe: React.FC = () => {
             paragraflenker={paragraflenkerMålgruppe}
             rundskrivlenke={rundskrivMålgruppe}
         >
-            {skalViseMålgrupper && (
-                <>
-                    {målgrupper.map((målgruppe) => (
-                        <React.Fragment key={målgruppe.id}>
-                            {målgruppe.id === radIRedigeringsmodus ? (
-                                <EndreMålgruppeRad
-                                    målgruppe={målgruppe}
-                                    avbrytRedigering={fjernRadIRedigeringsmodus}
-                                />
-                            ) : (
-                                <VilkårperiodeRad
-                                    vilkårperiode={målgruppe}
-                                    startRedigering={() => settNyRadIRedigeringsmodus(målgruppe.id)}
-                                />
+            <FlexColumn gap={2}>
+                <RegisterYtelser grunnlag={grunnlag} />
+                <FlexColumn>
+                    <div>
+                        <Label>Målgrupper knyttet til denne behandlingen</Label>
+                        <MålgruppeHjelpetekst />
+                    </div>
+                    {skalViseMålgrupper && (
+                        <>
+                            {målgrupper.map((målgruppe) => (
+                                <React.Fragment key={målgruppe.id}>
+                                    {målgruppe.id === radIRedigeringsmodus ? (
+                                        <EndreMålgruppeRad
+                                            målgruppe={målgruppe}
+                                            avbrytRedigering={fjernRadIRedigeringsmodus}
+                                        />
+                                    ) : (
+                                        <VilkårperiodeRad
+                                            vilkårperiode={målgruppe}
+                                            startRedigering={() =>
+                                                settNyRadIRedigeringsmodus(målgruppe.id)
+                                            }
+                                        />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            {leggerTilNyPeriode && (
+                                <EndreMålgruppeRad avbrytRedigering={fjernRadIRedigeringsmodus} />
                             )}
-                        </React.Fragment>
-                    ))}
-                    {leggerTilNyPeriode && (
-                        <EndreMålgruppeRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                        </>
                     )}
-                </>
-            )}
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+                    <Feilmelding>{feilmelding}</Feilmelding>
 
-            {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
-                <Button
-                    onClick={() => {
-                        settLeggerTilNyPeriode(true);
-                        settUlagretKomponent(UlagretKomponent.MÅLGRUPPE);
-                    }}
-                    size="xsmall"
-                    style={{ maxWidth: 'fit-content' }}
-                    variant="secondary"
-                    icon={<PlusCircleIcon />}
-                >
-                    Legg til ny målgruppe
-                </Button>
-            )}
+                    {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
+                        <Button
+                            onClick={() => {
+                                settLeggerTilNyPeriode(true);
+                                settUlagretKomponent(UlagretKomponent.MÅLGRUPPE);
+                            }}
+                            size="xsmall"
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til ny målgruppe
+                        </Button>
+                    )}
+                </FlexColumn>
+            </FlexColumn>
         </VilkårPanel>
     );
 };
