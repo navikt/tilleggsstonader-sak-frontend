@@ -35,6 +35,12 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/a
 Løsning: Du trenger Node-versjon 18. 
 
 
+##### App vil ikke starte lokalt
+Vanlig grunn til at oppstart feiler er at det har skjedd endringer i node-backenden (backend for frontend), og den må da bygges på nytt.
+
+Løsning: Kjør `yarn build:dev`
+
+
 ## Kode generert av GitHub Copilot
 
 Dette repoet bruker GitHub Copilot til å generere kode.
