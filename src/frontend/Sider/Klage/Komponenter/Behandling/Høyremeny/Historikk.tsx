@@ -6,21 +6,21 @@ import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
 
 const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
-    // const { behandling, behandlingHistorikk } = useBehandling();
+    const { behandling, behandlingHistorikk } = useBehandling();
 
     if (hidden) {
         return <></>;
     }
 
-    return (<></>
-        // <DataViewer response={{ behandling, behandlingHistorikk }}>
-        //     {({ behandling, behandlingHistorikk }) => (
-        //         <HistorikkContainer
-        //             behandling={behandling}
-        //             behandlingHistorikk={behandlingHistorikk}
-        //         />
-        //     )}
-        // </DataViewer>
+    return (
+        <DataViewer response={{ behandling, behandlingHistorikk }}>
+            {({ behandling, behandlingHistorikk }) => (
+                <HistorikkContainer
+                    behandling={behandling}
+                    behandlingHistorikk={behandlingHistorikk}
+                />
+            )}
+        </DataViewer>
     );
 };
 
