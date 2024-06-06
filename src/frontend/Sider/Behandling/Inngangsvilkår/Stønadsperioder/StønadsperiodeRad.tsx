@@ -33,6 +33,16 @@ const StønadsperiodeRad: React.FC<Props> = ({
             <SelectMedOptions
                 className="kolonne1"
                 erLesevisning={erLeservisning}
+                valg={aktivitetTypeOptionsForStønadsperiode}
+                label={'Aktivitet'}
+                hideLabel
+                value={stønadsperide.aktivitet}
+                onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
+                size="small"
+                error={finnFeilmelding('aktivitet')}
+            />
+            <SelectMedOptions
+                erLesevisning={erLeservisning}
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
@@ -42,16 +52,6 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 error={finnFeilmelding('målgruppe')}
             />
 
-            <SelectMedOptions
-                erLesevisning={erLeservisning}
-                valg={aktivitetTypeOptionsForStønadsperiode}
-                label={'Aktivitet'}
-                hideLabel
-                value={stønadsperide.aktivitet}
-                onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
-                size="small"
-                error={finnFeilmelding('aktivitet')}
-            />
             <DateInputMedLeservisning
                 erLesevisning={erLeservisning}
                 label={'Fra'}
