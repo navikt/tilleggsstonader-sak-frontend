@@ -1,14 +1,4 @@
-import React from 'react';
-
-import styled from 'styled-components';
-
-import { ReadMore } from '@navikt/ds-react';
-
 import { MålgruppeType } from '../typer/målgruppe';
-
-const LesMerTekst = styled(ReadMore)`
-    max-width: 30rem;
-`;
 
 const nedsattArbeidsevne =
     'Se rundskriv til folketrygdloven kapittel 2. ' +
@@ -28,25 +18,15 @@ const gjenlevende =
     'kan tilleggsstønader ikke gis fordi medlemskapsvilkåret ikke er oppfylt. ' +
     'Du må derfor innhente medlemskapsstatus fra NAV Familie og pensjonsytelser.';
 
-export const VurdereMålgruppeHjelpetekst = (props: { type: MålgruppeType }) => {
-    let tekst: string;
-    switch (props.type) {
+export const målgruppeTilMedlemskapHjelpetekst = (type: MålgruppeType) => {
+    switch (type) {
         case MålgruppeType.NEDSATT_ARBEIDSEVNE:
-            tekst = nedsattArbeidsevne;
-            break;
+            return nedsattArbeidsevne;
         case MålgruppeType.UFØRETRYGD:
-            tekst = uføretrygd;
-            break;
+            return uføretrygd;
         case MålgruppeType.OMSTILLINGSSTØNAD:
-            tekst = gjenlevende;
-            break;
+            return gjenlevende;
         default:
             return undefined;
     }
-
-    return (
-        <LesMerTekst key={props.type} header={'Slik vurderer du medlemskap'} size={'small'}>
-            {tekst}
-        </LesMerTekst>
-    );
 };

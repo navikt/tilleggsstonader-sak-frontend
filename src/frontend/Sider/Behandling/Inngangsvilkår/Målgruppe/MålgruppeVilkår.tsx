@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
-import { VurdereMålgruppeHjelpetekst } from './VurdereMålgruppeHjelpetekst';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
@@ -39,7 +39,7 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
                     }
-                    readMore={<VurdereMålgruppeHjelpetekst type={målgruppeForm.type} />}
+                    hjelpetekst={målgruppeTilMedlemskapHjelpetekst(målgruppeForm.type)}
                 />
             )}
             {skalVurdereDekketAvAnnetRegelverk && (
