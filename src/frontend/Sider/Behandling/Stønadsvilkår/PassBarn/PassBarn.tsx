@@ -37,7 +37,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         }
 
         const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
-        const barnetsAlder = grunnlagBarn.registergrunnlag.alder || '-';
+        const barnetsAlder = grunnlagBarn.registergrunnlag.alder ?? '-';
 
         return (
             <VilkårPanel
