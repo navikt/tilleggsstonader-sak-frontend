@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Label, VStack } from '@navikt/ds-react';
+import { SealCheckmarkIcon } from '@navikt/aksel-icons';
+import { Label, VStack } from '@navikt/ds-react';
 
 import Aksjonsknapper from './Aksjonsknapper';
 import StønadsperiodeRad from './StønadsperiodeRad';
@@ -15,14 +16,9 @@ import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/us
 import { ListState } from '../../../../hooks/felles/useListState';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 const Grid = styled.div`
     display: grid;
@@ -139,16 +135,13 @@ const Stønadsperioder: React.FC = () => {
     };
 
     return (
-        <Container>
-            <Heading spacing size="small">
-                Sett stønadsperioder
-            </Heading>
+        <Panel tittel="Stønadsperioder" ikon={<SealCheckmarkIcon />}>
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
                         <Grid>
-                            <Label>Målgruppe</Label>
                             <Label>Aktivitet</Label>
+                            <Label>Målgruppe</Label>
                             <Label>Fra</Label>
                             <Label>Til</Label>
 
@@ -185,7 +178,7 @@ const Stønadsperioder: React.FC = () => {
                     )}
                 </VStack>
             </form>
-        </Container>
+        </Panel>
     );
 };
 
