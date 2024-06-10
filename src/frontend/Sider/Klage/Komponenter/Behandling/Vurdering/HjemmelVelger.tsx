@@ -6,9 +6,7 @@ import { IVurdering } from './vurderingValg';
 import {
     Hjemmel,
     alleHjemlerTilVisningstekst,
-    folketrygdHjemmelTilVisningstekst,
-    baHjemlerTilVisningstekst,
-    ksHjemlerTilVisningstekst,
+    folketrygdlovenHjemmelTilVisningstekst,
 } from './hjemmel';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursStatus } from '../../../App/typer/ressurs';
@@ -34,14 +32,10 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
     const hjemmelValgmuligheter: Record<string, string> = React.useMemo(() => {
         if (behandling.status === RessursStatus.SUKSESS) {
             switch (behandling.data.stønadstype) {
-                case Stønadstype.BARNETRYGD:
-                    return baHjemlerTilVisningstekst;
-                case Stønadstype.KONTANTSTØTTE:
-                    return ksHjemlerTilVisningstekst;
                 case Stønadstype.BARNETILSYN:
                 case Stønadstype.OVERGANGSSTØNAD:
                 case Stønadstype.SKOLEPENGER:
-                    return folketrygdHjemmelTilVisningstekst;
+                    return folketrygdlovenHjemmelTilVisningstekst;
                 default:
                     return alleHjemlerTilVisningstekst;
             }
