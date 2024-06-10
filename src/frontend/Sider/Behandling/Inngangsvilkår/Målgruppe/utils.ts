@@ -106,10 +106,8 @@ export const finnBegrunnelseGrunnerMålgruppe = (
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
     }
 
-    if (type === MålgruppeType.SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING) {
-        delvilkårSomMåBegrunnes.push(
-            BegrunnelseGrunner.SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING
-        );
+    if (type === MålgruppeType.SYKEPENGER_100_PROSENT) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
     }
 
     if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {

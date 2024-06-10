@@ -19,7 +19,7 @@ export enum MålgruppeType {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
-    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING = 'SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING',
+    SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
@@ -29,7 +29,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
     OVERGANGSSTØNAD: 'Overgangsstønad',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
-    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING: '100% sykepenger for fulltidsstilling',
+    SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
@@ -49,7 +49,7 @@ export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
 export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.filter(
     (option) =>
         option.value !== MålgruppeType.INGEN_MÅLGRUPPE &&
-        option.value !== MålgruppeType.SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING
+        option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
 );
 
 // TODO: Endre navn på enum
@@ -59,7 +59,7 @@ export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
-    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING = 'SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING',
+    SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
@@ -67,8 +67,7 @@ export const faktisktMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
-    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING:
-        '100% sykepenger gir ikke rett til tilleggsstønader',
+    SYKEPENGER_100_PROSENT: '100% sykepenger gir ikke rett til tilleggsstønader',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
@@ -78,7 +77,6 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
     OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
     NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING:
-        FaktiskMålgruppe.SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING,
+    SYKEPENGER_100_PROSENT: FaktiskMålgruppe.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
 };
