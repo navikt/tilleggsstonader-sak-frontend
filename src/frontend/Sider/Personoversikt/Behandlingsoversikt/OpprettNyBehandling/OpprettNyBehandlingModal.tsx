@@ -18,9 +18,10 @@ interface OpprettKlageRequest {
 
 interface Props {
     fagsak: Fagsak;
+    hentKlagebehandlinger: () => void;
 }
 
-const OpprettNyBehandlingModal: FC<Props> = ({ fagsak }) => {
+const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) => {
     const { request } = useApp();
 
     const [visModal, settVisModal] = useState(false);
@@ -35,6 +36,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak }) => {
             data
         ).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
+                hentKlagebehandlinger();
                 lukkModal();
             } else {
                 settFeilmelding(response.frontendFeilmelding || response.melding);
@@ -65,7 +67,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak }) => {
                                 mottattDato: kravMottattDato,
                             }),
                         tekst: 'Opprett',
-                        disabled: false,
                     },
                     lukkKnapp: {
                         onClick: () => lukkModal(),

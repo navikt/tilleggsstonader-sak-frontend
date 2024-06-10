@@ -38,6 +38,7 @@ spec:
     outbound:
       rules:
         - application: tilleggsstonader-sak
+        - application: tilleggsstonader-klage
         - application: familie-endringslogg
           namespace: teamfamilie
   azure:

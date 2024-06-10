@@ -8,6 +8,7 @@ import BehandlingTabell from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { Fagsak } from '../../../typer/fagsak';
+import { KlageBehandling } from '../../../typer/klage';
 import { erProd } from '../../../utils/miljø';
 
 const Container = styled.div`
@@ -22,7 +23,17 @@ const TittelLinje = styled.div`
     align-items: center;
 `;
 
-export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
+interface Props {
+    fagsak: Fagsak;
+    klagebehandlinger: KlageBehandling[];
+    hentKlagebehandlinger: () => void;
+}
+
+export const FagsakOversikt: React.FC<Props> = ({
+    fagsak,
+    klagebehandlinger,
+    hentKlagebehandlinger,
+}) => {
     return (
         <Container>
             <TittelLinje>
@@ -36,8 +47,16 @@ export const FagsakOversikt: React.FC<{ fagsak: Fagsak }> = ({ fagsak }) => {
                     </Tag>
                 )}
             </TittelLinje>
-            <BehandlingTabell behandlinger={fagsak.behandlinger} />
-            {!erProd() && <OpprettNyBehandlingModal fagsak={fagsak} />}
+            <BehandlingTabell
+                behandlinger={fagsak.behandlinger}
+                klagebehandlinger={klagebehandlinger}
+            />
+            {!erProd() && (
+                <OpprettNyBehandlingModal
+                    fagsak={fagsak}
+                    hentKlagebehandlinger={hentKlagebehandlinger}
+                />
+            )}
         </Container>
     );
 };

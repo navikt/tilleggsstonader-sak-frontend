@@ -13,7 +13,7 @@ interface Props {
 
 export const [BehandlingProvider, useBehandling] = constate(
     ({ behandling, hentBehandling, behandlingFakta }: Props) => {
-        const behandlingErRedigerbar = erBehandlingRedigerbar(behandling);
+        const behandlingErRedigerbar = erBehandlingRedigerbar(behandling.status);
 
         return {
             behandling,
