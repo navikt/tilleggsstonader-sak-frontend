@@ -4,13 +4,13 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../../../App/typer/routing';
 import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
-// import { Dokumentliste, DokumentProps } from '@navikt/familie-dokumentliste';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { Heading } from '@navikt/ds-react';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
 import styled from 'styled-components';
+import { Dokumentliste, DokumentProps } from '../../../familie-felles-frontend/familie-dokumentliste';
 
 const OverSkrift = styled(Heading)`
     margin-top: 0.5rem;
@@ -26,50 +26,50 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         }),
         [behandlingId]
     );
-    // const dokumentResponse = useDataHenter<DokumentProps[], null>(dokumentConfig);
-    //
-    // const sorterDokumentlisten = (dokumenter: DokumentProps[]) => {
-    //     return dokumenter
-    //         .sort((a, b) => {
-    //             if (!a.dato) {
-    //                 return 1;
-    //             } else if (!b.dato) {
-    //                 return -1;
-    //             }
-    //             return compareDesc(new Date(a.dato), new Date(b.dato));
-    //         })
-    //         .map((dokument) => {
-    //             return { ...dokument, dato: formaterNullableIsoDatoTid(dokument.dato) };
-    //         });
-    // };
-    //
-    // const lastNedDokument = (dokument: DokumentProps) => {
-    //     åpneFilIEgenTab(
-    //         dokument.journalpostId,
-    //         dokument.dokumentinfoId,
-    //         dokument.tittel || dokument.filnavn || ''
-    //     );
-    // };
+    const dokumentResponse = useDataHenter<DokumentProps[], null>(dokumentConfig);
+
+    const sorterDokumentlisten = (dokumenter: DokumentProps[]) => {
+        return dokumenter
+            .sort((a, b) => {
+                if (!a.dato) {
+                    return 1;
+                } else if (!b.dato) {
+                    return -1;
+                }
+                return compareDesc(new Date(a.dato), new Date(b.dato));
+            })
+            .map((dokument) => {
+                return { ...dokument, dato: formaterNullableIsoDatoTid(dokument.dato) };
+            });
+    };
+
+    const lastNedDokument = (dokument: DokumentProps) => {
+        åpneFilIEgenTab(
+            dokument.journalpostId,
+            dokument.dokumentinfoId,
+            dokument.tittel || dokument.filnavn || ''
+        );
+    };
 
     if (hidden) {
         return <></>;
     }
 
-    return (<></>
-        // <DataViewer response={{ dokumentResponse }}>
-        //     {({ dokumentResponse }) => {
-        //         const sortertDokumentliste = sorterDokumentlisten(dokumentResponse);
-        //         return (
-        //             <>
-        //                 <OverSkrift size={'small'}>Dokumentoversikt</OverSkrift>
-        //                 <Dokumentliste
-        //                     dokumenter={sortertDokumentliste}
-        //                     onClick={lastNedDokument}
-        //                 />
-        //             </>
-        //         );
-        //     }}
-        // </DataViewer>
+    return (
+        <DataViewer response={{ dokumentResponse }}>
+            {({ dokumentResponse }) => {
+                const sortertDokumentliste = sorterDokumentlisten(dokumentResponse);
+                return (
+                    <>
+                        <OverSkrift size={'small'}>Dokumentoversikt</OverSkrift>
+                        <Dokumentliste
+                            dokumenter={sortertDokumentliste}
+                            onClick={lastNedDokument}
+                        />
+                    </>
+                );
+            }}
+        </DataViewer>
     );
 };
 

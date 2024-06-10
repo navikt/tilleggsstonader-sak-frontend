@@ -1,6 +1,7 @@
 export interface Personopplysninger {
     personIdent: string;
     navn: Navn;
+    harVergemål: boolean;
 }
 
 interface Navn {
