@@ -30,7 +30,7 @@ AZURE_APP_CLIENT_SECRET=<clientSecret>
 # Feilsøking
 Feilmelding ved oppstart av app: 
 ```
-Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/attachToken' imported from <...>/src/backend/build/server.js 
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/token' imported from <...>/src/backend/build/server.js 
 ```
 Løsning: Du trenger Node-versjon 18. 
 

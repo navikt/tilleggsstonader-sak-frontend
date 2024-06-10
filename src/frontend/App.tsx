@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import FlagProvider, { IConfig, useFlag } from '@unleash/proxy-client-react';
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -31,6 +32,9 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
 }) => {
     const { autentisert } = useApp();
 
+    const enabled = useFlag('sak.kan-opprette-revurdering');
+    console.log('sak.kan-opprette-revurdering', enabled);
+
     const router = createBrowserRouter(
         createRoutesFromElements(
             autentisert ? (
@@ -54,6 +58,12 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     );
     return <RouterProvider router={router} />;
 };
+const config: IConfig = {
+    appName: 'ts-sak-frontend',
+    url: `${location.origin}/api/toggle`,
+    clientKey: 'settes-i-backend', // A client-side API token OR one of your proxy's designated client keys (previously known as proxy secrets)
+    refreshInterval: 120, // How often (in seconds) the client should poll the proxy for updates
+};
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
@@ -66,7 +76,15 @@ const App: React.FC = () => {
     }
     return (
         <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
-            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            <FlagProvider
+                config={{
+                    ...config,
+                    context: { userId: innloggetSaksbehandler.navIdent },
+                    environment: appEnv.unleashEnv,
+                }}
+            >
+                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            </FlagProvider>
         </AppProvider>
     );
 };

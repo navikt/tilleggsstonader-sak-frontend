@@ -10,6 +10,7 @@ export enum ApplicationName {
     sak = 'sak',
     klage = 'klage',
     endringslogg = 'endringslogg',
+    unleash = 'unleash',
 }
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
@@ -33,10 +34,16 @@ type ClientConfig = {
     };
 };
 
+interface UnleashSettings {
+    token: string;
+    environment: string;
+}
+
 interface Miljø {
     buildPath: string;
     clients: ClientConfig;
     azure: AzureSettings;
+    unleash: UnleashSettings;
     roller: Roller;
 }
 
@@ -56,6 +63,14 @@ const devProdAzure = (): AzureSettings => ({
     issuer: envVar('AZURE_OPENID_CONFIG_ISSUER'),
     token_endpoint: envVar('AZURE_OPENID_CONFIG_TOKEN_ENDPOINT'),
     openid_config_jwks_uri: envVar('AZURE_OPENID_CONFIG_JWKS_URI'),
+});
+
+/**
+ * @param environment skal være den samme som i unleash-apitoken-preprod.yaml
+ */
+const unleash = (environment: 'development' | 'production'): UnleashSettings => ({
+    token: envVar('UNLEASH_SERVER_API_TOKEN'),
+    environment: environment,
 });
 
 const devRoller: Roller = {
@@ -89,6 +104,10 @@ const clientsLocal = (): ClientConfig => ({
         url: 'https://familie-endringslogg.intern.dev.nav.no',
         audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
+    [ApplicationName.unleash]: {
+        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+        audience: '',
+    },
 });
 
 const clientsLocalPreprod = (): ClientConfig => ({
@@ -104,12 +123,17 @@ const clientsLocalPreprod = (): ClientConfig => ({
         url: 'https://familie-endringslogg.intern.dev.nav.no',
         audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
+    [ApplicationName.unleash]: {
+        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+        audience: '',
+    },
 });
 
 const lokaltMiljø = (clients: ClientConfig): Miljø => ({
     buildPath: '../../dist_development',
     clients: clients,
     azure: lokalAzure(),
+    unleash: unleash('development'),
     roller: devRoller,
 });
 
@@ -128,8 +152,13 @@ const devMiljø = (): Miljø => ({
             url: 'http://familie-endringslogg.teamfamilie',
             audience: 'dev-gcp.teamfamilie.familie-endringslogg',
         },
+        [ApplicationName.unleash]: {
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+            audience: '',
+        },
     },
     azure: devProdAzure(),
+    unleash: unleash('development'),
     roller: devRoller,
 });
 
@@ -148,8 +177,13 @@ const prodMiljø = (): Miljø => ({
             url: 'http://familie-endringslogg.teamfamilie',
             audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
+        [ApplicationName.unleash]: {
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+            audience: '',
+        },
     },
     azure: devProdAzure(),
+    unleash: unleash('production'),
     roller: prodRoller,
 });
 
