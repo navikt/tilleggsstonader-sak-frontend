@@ -2,12 +2,12 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { registerYtelseTilTekst } from '../../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
-import { PeriodeGrunnlagYtelse } from '../typer/vilkårperiode';
+import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 
 const HvitTabell = styled(Table)`
     background: white;
@@ -16,9 +16,10 @@ const HvitTabell = styled(Table)`
     --ac-table-cell-hover-border: ${ABorderDivider};
 `;
 
-const RegisterYtelserTabell: React.FC<{ perioderMedYtelse: PeriodeGrunnlagYtelse[] }> = ({
-    perioderMedYtelse,
-}) => {
+const RegisterYtelserTabell: React.FC<{
+    perioderMedYtelse: YtelseGrunnlagPeriode[];
+    lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
+}> = ({ perioderMedYtelse, lagRadForPeriode }) => {
     return (
         <HvitTabell size="small">
             <Table.Header>
@@ -26,6 +27,7 @@ const RegisterYtelserTabell: React.FC<{ perioderMedYtelse: PeriodeGrunnlagYtelse
                     <Table.HeaderCell scope="col">Ytelse</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Startdato</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Sluttdato</Table.HeaderCell>
+                    <Table.HeaderCell scope="col" />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -35,6 +37,11 @@ const RegisterYtelserTabell: React.FC<{ perioderMedYtelse: PeriodeGrunnlagYtelse
                             <Table.DataCell>{registerYtelseTilTekst[ytelse.type]}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
+                            <Table.DataCell>
+                                <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
+                                    Bruk
+                                </Button>
+                            </Table.DataCell>
                         </Table.Row>
                     );
                 })}

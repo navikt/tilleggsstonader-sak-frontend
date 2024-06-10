@@ -24,10 +24,10 @@ interface AktivitetGrunnlag {
 }
 
 interface YtelseGrunnlag {
-    perioder: PeriodeGrunnlagYtelse[];
+    perioder: YtelseGrunnlagPeriode[];
 }
 
-export interface PeriodeGrunnlagYtelse {
+export interface YtelseGrunnlagPeriode {
     type: TypeRegisterYtelse;
     fom: string;
     tom?: string;
