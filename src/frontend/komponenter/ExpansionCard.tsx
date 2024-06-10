@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { ExpansionCard as AkselExpansionCard } from '@navikt/ds-react';
 
-const StyledExpansionCard = styled(AkselExpansionCard)<{ maxWidth: number }>`
+const StyledExpansionCard = styled(AkselExpansionCard)<{ maxwidth: number }>`
     --ac-expansioncard-bg: inherit;
-    max-width: ${({ maxWidth }) => maxWidth}px;
+    max-width: ${({ maxwidth }) => maxwidth}px;
 `;
 
 const ExpansionCard: React.FC<{ tittel: string; maxWidth: number; children: React.ReactNode }> = ({
@@ -19,7 +19,7 @@ const ExpansionCard: React.FC<{ tittel: string; maxWidth: number; children: Reac
             aria-labelledby={tittel}
             size="small"
             style={{ backgroundColor: 'inherit' }}
-            maxWidth={maxWidth}
+            maxwidth={maxWidth}
             defaultOpen
         >
             <AkselExpansionCard.Header>
