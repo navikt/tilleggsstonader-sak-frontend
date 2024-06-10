@@ -2,7 +2,8 @@ import { useCallback, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Klagebehandlinger } from '../typer/klage';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { byggRessursSuksess, byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { erProd } from '../utils/miljø';
 
 interface Response {
     hentKlagebehandlinger: (fagsakPersonId: string) => void;
@@ -17,9 +18,15 @@ export const useHentKlagebehandlinger = (): Response => {
 
     const hentKlagebehandlinger = useCallback(
         (fagsakPersonId: string) => {
-            request<Klagebehandlinger, null>(`/api/sak/klage/fagsak-person/${fagsakPersonId}`).then(
-                settKlagebehandlinger
-            );
+            // TODO: Fjern prodsjekk når klage-backend er oppe å gå i prod
+            if (erProd()) {
+                const midlertidigMocketKlagebehandling: Klagebehandlinger = { barnetilsyn: [] };
+                settKlagebehandlinger(byggRessursSuksess(midlertidigMocketKlagebehandling));
+            } else {
+                request<Klagebehandlinger, null>(
+                    `/api/sak/klage/fagsak-person/${fagsakPersonId}`
+                ).then(settKlagebehandlinger);
+            }
         },
         [request]
     );
