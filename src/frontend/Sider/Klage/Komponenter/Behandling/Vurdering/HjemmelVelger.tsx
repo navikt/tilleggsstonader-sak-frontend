@@ -1,16 +1,9 @@
 import * as React from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
 import { IVurdering } from './vurderingValg';
-import {
-    Hjemmel,
-    alleHjemlerTilVisningstekst,
-    folketrygdlovenHjemmelTilVisningstekst,
-} from './hjemmel';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { RessursStatus } from '../../../App/typer/ressurs';
-import { Stønadstype } from '../../../App/typer/stønadstype';
+import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -28,20 +21,6 @@ interface IHjemmel {
 }
 
 export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, endring }) => {
-    const { behandling, settVurderingEndret } = useBehandling();
-    const hjemmelValgmuligheter: Record<string, string> = React.useMemo(() => {
-        if (behandling.status === RessursStatus.SUKSESS) {
-            switch (behandling.data.stønadstype) {
-                case Stønadstype.BARNETILSYN:
-                case Stønadstype.OVERGANGSSTØNAD:
-                case Stønadstype.SKOLEPENGER:
-                    return folketrygdlovenHjemmelTilVisningstekst;
-                default:
-                    return alleHjemlerTilVisningstekst;
-            }
-        }
-        return alleHjemlerTilVisningstekst;
-    }, [behandling]);
     return (
         <HjemmelStyled>
             <Heading spacing size="medium" level="5">
@@ -61,16 +40,17 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
                                     hjemmel: e.target.value,
                                 }) as IVurdering
                         );
-                        settVurderingEndret(true);
                     }}
                     hideLabel
                 >
                     <option value={''}>Velg</option>
-                    {Object.keys(hjemmelValgmuligheter).map((nøkkel, index) => (
-                        <option value={nøkkel} key={index}>
-                            {hjemmelValgmuligheter[nøkkel]}
-                        </option>
-                    ))}
+                    {Object.keys(alleHjemlerTilVisningstekst).map(
+                        (hjemmel: string, index: number) => (
+                            <option value={hjemmel as Hjemmel} key={index}>
+                                {alleHjemlerTilVisningstekst[hjemmel as Hjemmel]}
+                            </option>
+                        )
+                    )}
                 </Select>
             </HjemmelInnholdStyled>
         </HjemmelStyled>
