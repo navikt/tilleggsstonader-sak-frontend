@@ -2,7 +2,7 @@ import React from 'react';
 
 import Lesefelt from './Lesefelt';
 import MonthInput, { MonthInputProps } from './MonthInput';
-import { formaterDato } from '../../utils/dato';
+import { formaterNullableÅrMåned } from '../../utils/dato';
 
 export interface Props extends MonthInputProps {
     className?: string;
@@ -23,7 +23,7 @@ const MonthInputMedLeservisning: React.FC<Props> = ({
             className={className}
             label={label}
             hideLabel={hideLabel}
-            verdi={formaterDato(value)}
+            verdi={formaterNullableÅrMåned(value)}
             size={size}
         />
     ) : (

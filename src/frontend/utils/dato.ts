@@ -97,6 +97,9 @@ export const erGyldigDato = (dato: string | Date): boolean =>
 export const plusDager = (dato: string | Date, antallDager: number): string =>
     tilLocaleDateString(addDays(tilDato(dato), antallDager));
 
+export const formaterNullableÅrMåned = (dato: string | undefined): string | undefined =>
+    dato && formaterÅrMåned(dato);
+
 export const formaterÅrMåned = (dato: string): string =>
     format(parseISO(dato), 'MMM yyyy', { locale: nb });
 
