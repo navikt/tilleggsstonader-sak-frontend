@@ -7,7 +7,10 @@ import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
-import { KanIkkeOppretteRevurderingÅrsak, KanOppretteRevurdering } from '../../../App/typer/kanOppretteRevurdering';
+import {
+    KanIkkeOppretteRevurderingÅrsak,
+    KanOppretteRevurdering,
+} from '../../../App/typer/kanOppretteRevurdering';
 
 const AlertContainer = styled.div`
     padding: 2rem;
@@ -69,13 +72,13 @@ export const OmgjørVedtak: React.FC<{
     };
 
     useEffect(() => {
-        if (behandlingErRedigerbar) {
-            axiosRequest<KanOppretteRevurdering, null>({
-                method: 'GET',
-                url: `/api/klage/behandling/${behandlingId}/kan-opprette-revurdering`,
-            }).then(settKanOppretteRevurdering);
-            settKanOppretteRevurdering(byggTomRessurs())
-        }
+        // if (behandlingErRedigerbar) {
+        //     axiosRequest<KanOppretteRevurdering, null>({
+        //         method: 'GET',
+        //         url: `/api/klage/behandling/${behandlingId}/kan-opprette-revurdering`,
+        //     }).then(settKanOppretteRevurdering);
+        //     settKanOppretteRevurdering(byggTomRessurs())
+        // }
     }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
 
     if (!behandlingErRedigerbar) {
@@ -85,6 +88,30 @@ export const OmgjørVedtak: React.FC<{
             </AlertContainer>
         );
     }
+
+    // TODO: Når revurderinger støttes, kan det første return-statementet her fjernes. Fjern utkommenteringen i useEffect over.
+    return (
+        <div>
+            <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
+            <ModalWrapper
+                tittel={'Bekreft ferdigstillelse av klagebehandling'}
+                visModal={visModal}
+                onClose={() => lukkModal()}
+                aksjonsknapper={{
+                    hovedKnapp: {
+                        onClick: ferdigstill,
+                        tekst: 'Ferdigstill',
+                        disabled: senderInn,
+                    },
+                    lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
+                    marginTop: 4,
+                }}
+            >
+                {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+            </ModalWrapper>
+        </div>
+    );
+
     return (
         <DataViewer response={{ kanOppretteRevurdering }}>
             {({ kanOppretteRevurdering }) => (
