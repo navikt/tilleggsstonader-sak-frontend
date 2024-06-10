@@ -12,7 +12,11 @@ import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårs
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/aktivitet';
-import { Målgruppe, MålgruppeTypeTilFaktiskMålgruppe } from '../../typer/målgruppe';
+import {
+    faktisktMålgruppeTilTekst,
+    Målgruppe,
+    MålgruppeTypeTilFaktiskMålgruppe,
+} from '../../typer/målgruppe';
 
 const Container = styled.div`
     display: flex;
@@ -46,7 +50,11 @@ const OppsummertVilkårsvurdering: React.FC<{
                 {erMålgruppe(vilkårperiode) && (
                     <Detail>
                         <strong>Målgruppe: </strong>
-                        {formaterEnumVerdi(MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type])}
+                        {
+                            faktisktMålgruppeTilTekst[
+                                MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type]
+                            ]
+                        }
                     </Detail>
                 )}
                 {delvilkårSomMåOppsummeres.length > 0 && (
