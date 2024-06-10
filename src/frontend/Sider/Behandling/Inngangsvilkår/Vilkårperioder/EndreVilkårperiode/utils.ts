@@ -9,6 +9,7 @@ export enum BegrunnelseGrunner {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     LØNNET = 'LØNNET',
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
+    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING = 'SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
@@ -18,6 +19,7 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     LØNNET: 'Ordinær lønn i tiltaket',
     INGEN_AKTIVITET: 'Ingen aktivitet',
+    SYKEPENGER_100_PROSENT_FOR_FULLTIDSSTILLING: '100% sykepenger for fulltidsstilling',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
