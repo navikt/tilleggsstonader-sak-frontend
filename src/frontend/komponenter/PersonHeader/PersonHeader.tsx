@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
+import { BodyShort, CopyButton, Heading, HStack, Link, Tag } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -30,6 +30,14 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
                 <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
+            {personopplysninger.harVergemål && (
+                <>
+                    <BodyShort>|</BodyShort>
+                    <Tag variant={'warning'} size={'small'}>
+                        Verge
+                    </Tag>
+                </>
+            )}
         </Container>
     );
 };

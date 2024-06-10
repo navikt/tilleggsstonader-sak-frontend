@@ -26,7 +26,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
 
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
-    const [klageGjelderTilbakekreving, settKlageGjelderTilbakekreving] = useState<boolean>(false);
     const [kravMottattDato, settKravMottattDato] = useState('');
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -48,7 +47,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
     const lukkModal = () => {
         settVisModal(false);
         settFeilmelding('');
-        settKlageGjelderTilbakekreving(false);
         settKravMottattDato('');
         settBehandlingtype(undefined);
     };
@@ -91,8 +89,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                     </Select>
                     {behandlingtype === BehandlingType.KLAGE && (
                         <OpprettKlageBehandling
-                            klageGjelderTilbakekreving={klageGjelderTilbakekreving}
-                            settKlageGjelderTilbakekreving={settKlageGjelderTilbakekreving}
                             kravMottattDato={kravMottattDato}
                             settKravMottattDato={settKravMottattDato}
                             feilmelding={feilmelding}
