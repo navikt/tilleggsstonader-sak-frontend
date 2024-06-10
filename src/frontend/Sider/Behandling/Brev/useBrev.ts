@@ -56,11 +56,11 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
         }
     }, [request, behandling]);
 
-    useEffect(hentBrevmaler, [hentBrevmaler]);
-    useEffect(hentMalStruktur, [hentMalStruktur]);
     useEffect(hentBrevmottakere, [hentBrevmottakere]);
 
     return {
+        hentBrevmaler,
+        hentMalStruktur,
         brevmaler,
         brevmal,
         settBrevmal,

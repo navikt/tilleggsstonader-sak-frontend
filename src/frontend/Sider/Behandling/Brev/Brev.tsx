@@ -33,11 +33,16 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
-        behandling.stønadstype,
-        'INNVILGET',
-        behandling
-    ); // TODO ikke bruk hardkodet resultat
+    const {
+        brevmaler,
+        brevmal,
+        settBrevmal,
+        hentBrevmaler,
+        hentMalStruktur,
+        malStruktur,
+        fil,
+        settFil,
+    } = useBrev(behandling.stønadstype, 'INNVILGET', behandling);
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
@@ -48,6 +53,18 @@ const Brev: React.FC = () => {
             settBrevmal(mellomlagretBrev.data.brevmal);
         }
     }, [mellomlagretBrev, settBrevmal]);
+
+    useEffect(() => {
+        if (behandlingErRedigerbar) {
+            hentBrevmaler();
+        }
+    }, [behandlingErRedigerbar, hentBrevmaler]);
+
+    useEffect(() => {
+        if (behandlingErRedigerbar) {
+            hentMalStruktur();
+        }
+    }, [behandlingErRedigerbar, hentMalStruktur]);
 
     return (
         <Container>
