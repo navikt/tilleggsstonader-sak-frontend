@@ -1,11 +1,13 @@
 import { IToggle } from 'unleash-proxy-client';
 
+import { Toggle } from './toggles';
+
 /**
  * Feature flags er automatisk enabled, hvis man ønsker å overskreve de brukes eks
- * 'sak.kan-opprette-revurdering': false,
+ * [Toggle.KAN_OPPRETTE_REVURDERING]: false,
  */
-const featureFlags: { [name: string]: boolean } = {
-    'sak.kan-opprette-revurdering': true,
+const featureFlags: Partial<Record<Toggle, boolean>> = {
+    [Toggle.KAN_OPPRETTE_REVURDERING]: true,
 };
 
 export const mockFlags: IToggle[] = Object.entries(featureFlags).map(([name, enabled]) => ({
