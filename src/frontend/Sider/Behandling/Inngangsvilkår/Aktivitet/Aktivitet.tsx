@@ -23,40 +23,29 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
     const { erStegRedigerbart } = useSteg();
 
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
-    const [leggerTilNyAktivitet, settLeggerTilNyAktivitet] = useState<boolean>(false);
     const [aktivitetFraRegister, settAktivitetFraRegister] = useState<Registeraktivitet>();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
         settRadIRedigeringsmodus(undefined);
-        settLeggerTilNyAktivitet(false);
         nullstillUlagretKomponent(UlagretKomponent.AKTIVITET);
         settAktivitetFraRegister(undefined);
     };
 
-    const kanSetteNyRadIRedigeringsmodus =
-        radIRedigeringsmodus === undefined && !leggerTilNyAktivitet;
+    const kanSetteNyRadIRedigeringsmodus = radIRedigeringsmodus === undefined && erStegRedigerbart;
 
-    const skalViseAktiviteter = aktiviteter.length > 0 || leggerTilNyAktivitet;
-
-    const settNyRadIRedigeringsmodus = (id: string) => {
+    const settNyRadIRedigeringsmodus = (id?: string, aktivitetFraRegister?: Registeraktivitet) => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
-            settRadIRedigeringsmodus(id);
+            settRadIRedigeringsmodus(id || 'nyPeriode');
+            settAktivitetFraRegister(aktivitetFraRegister);
             settUlagretKomponent(UlagretKomponent.AKTIVITET);
         } else {
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
             );
         }
-    };
-
-    const leggTilAktivitetFraRegister = (aktivitet: Registeraktivitet) => {
-        if (leggerTilNyAktivitet) return;
-
-        settAktivitetFraRegister(aktivitet);
-        settLeggerTilNyAktivitet(true);
     };
 
     return (
@@ -69,47 +58,41 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             <FlexColumn gap={2}>
                 <RegisterAktiviteter
                     grunnlag={grunnlag}
-                    leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                    leggTilAktivitetFraRegister={(valgtAktivitet: Registeraktivitet) =>
+                        settNyRadIRedigeringsmodus(undefined, valgtAktivitet)
+                    }
                 />
 
                 <FlexColumn>
                     <Label>Aktiviteter knyttet til behandling</Label>
-                    {skalViseAktiviteter && (
-                        <>
-                            {aktiviteter.map((aktivitet) => (
-                                <React.Fragment key={aktivitet.id}>
-                                    {aktivitet.id === radIRedigeringsmodus ? (
-                                        <EndreAktivitetRad
-                                            aktivitet={aktivitet}
-                                            avbrytRedigering={fjernRadIRedigeringsmodus}
-                                        />
-                                    ) : (
-                                        <VilkårperiodeRad
-                                            vilkårperiode={aktivitet}
-                                            startRedigering={() =>
-                                                settNyRadIRedigeringsmodus(aktivitet.id)
-                                            }
-                                        />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                            {leggerTilNyAktivitet && (
+
+                    {aktiviteter.map((aktivitet) => (
+                        <React.Fragment key={aktivitet.id}>
+                            {aktivitet.id === radIRedigeringsmodus ? (
                                 <EndreAktivitetRad
+                                    aktivitet={aktivitet}
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
-                                    aktivitetFraRegister={aktivitetFraRegister}
+                                />
+                            ) : (
+                                <VilkårperiodeRad
+                                    vilkårperiode={aktivitet}
+                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
                                 />
                             )}
-                        </>
+                        </React.Fragment>
+                    ))}
+                    {radIRedigeringsmodus === 'nyPeriode' && (
+                        <EndreAktivitetRad
+                            avbrytRedigering={fjernRadIRedigeringsmodus}
+                            aktivitetFraRegister={aktivitetFraRegister}
+                        />
                     )}
 
                     <Feilmelding>{feilmelding}</Feilmelding>
 
                     {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                         <Button
-                            onClick={() => {
-                                settLeggerTilNyAktivitet((prevState) => !prevState);
-                                settUlagretKomponent(UlagretKomponent.AKTIVITET);
-                            }}
+                            onClick={() => settNyRadIRedigeringsmodus()}
                             size="xsmall"
                             style={{ maxWidth: 'fit-content' }}
                             variant="secondary"
