@@ -2,7 +2,7 @@ import { Roller } from '../utils/roller';
 
 export interface AppEnv {
     roller: Roller;
-    unleashEnv: string;
+    unleashEnv: 'mock' | 'development' | 'production';
 }
 
 export const hentEnv = (settEnv: (env: AppEnv | undefined) => void) => {

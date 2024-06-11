@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import FlagProvider, { IConfig, useFlag } from '@unleash/proxy-client-react';
+import FlagProvider, { IConfig } from '@unleash/proxy-client-react';
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -26,14 +26,12 @@ import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
+import { mockUnleashServer } from './utils/unleashMock';
 
 const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const { autentisert } = useApp();
-
-    const enabled = useFlag('sak.kan-opprette-revurdering');
-    console.log('sak.kan-opprette-revurdering', enabled);
 
     const router = createBrowserRouter(
         createRoutesFromElements(
@@ -82,6 +80,7 @@ const App: React.FC = () => {
                     context: { userId: innloggetSaksbehandler.navIdent },
                     environment: appEnv.unleashEnv,
                 }}
+                unleashClient={appEnv.unleashEnv === 'mock' ? mockUnleashServer : undefined}
             >
                 <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
             </FlagProvider>

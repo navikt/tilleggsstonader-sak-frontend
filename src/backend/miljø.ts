@@ -68,8 +68,8 @@ const devProdAzure = (): AzureSettings => ({
 /**
  * @param environment skal være den samme som i unleash-apitoken-preprod.yaml
  */
-const unleash = (environment: 'development' | 'production'): UnleashSettings => ({
-    token: envVar('UNLEASH_SERVER_API_TOKEN'),
+const unleash = (environment: 'mock' | 'development' | 'production'): UnleashSettings => ({
+    token: environment !== 'mock' ? envVar('UNLEASH_SERVER_API_TOKEN') : 'mock',
     environment: environment,
 });
 
@@ -129,13 +129,17 @@ const clientsLocalPreprod = (): ClientConfig => ({
     },
 });
 
-const lokaltMiljø = (clients: ClientConfig): Miljø => ({
-    buildPath: '../../dist_development',
-    clients: clients,
-    azure: lokalAzure(),
-    unleash: unleash('development'),
-    roller: devRoller,
-});
+const lokaltMiljø = (clients: ClientConfig): Miljø => {
+    const brukUnleash = envVar('BRUK_UNLEASH', false, 'false');
+    const unleashEnvironment = brukUnleash === 'true' ? 'development' : 'mock';
+    return {
+        buildPath: '../../dist_development',
+        clients: clients,
+        azure: lokalAzure(),
+        unleash: unleash(unleashEnvironment),
+        roller: devRoller,
+    };
+};
 
 const devMiljø = (): Miljø => ({
     buildPath: '../../app/build',
