@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
+import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import {
     BehandlingType,
@@ -39,9 +40,11 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                         }}
                     >
                         <option value={''}>Velg</option>
-                        <option value="KLAGE">
-                            {behandlingTypeTilTekst[BehandlingType.KLAGE]}
-                        </option>
+                        {[BehandlingType.REVURDERING, BehandlingType.KLAGE].map((type) => (
+                            <option key={type} value={type}>
+                                {behandlingTypeTilTekst[type]}
+                            </option>
+                        ))}
                     </Select>
                     {behandlingtype === BehandlingType.KLAGE && (
                         <OpprettKlageBehandling
@@ -49,6 +52,9 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                             lukkModal={lukkModal}
                             hentKlagebehandlinger={hentKlagebehandlinger}
                         />
+                    )}
+                    {behandlingtype === BehandlingType.REVURDERING && (
+                        <OpprettRevurderingBehandling fagsak={fagsak} lukkModal={lukkModal} />
                     )}
                 </VStack>
             </ModalWrapper>
