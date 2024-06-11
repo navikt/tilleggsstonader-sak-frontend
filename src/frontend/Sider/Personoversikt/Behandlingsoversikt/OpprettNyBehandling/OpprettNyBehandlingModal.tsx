@@ -14,9 +14,14 @@ import { Fagsak } from '../../../../typer/fagsak';
 interface Props {
     fagsak: Fagsak;
     hentKlagebehandlinger: () => void;
+    hentBehandlinger: () => void;
 }
 
-const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) => {
+const OpprettNyBehandlingModal: FC<Props> = ({
+    fagsak,
+    hentKlagebehandlinger,
+    hentBehandlinger,
+}) => {
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
 
@@ -54,7 +59,11 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                         />
                     )}
                     {behandlingtype === BehandlingType.REVURDERING && (
-                        <OpprettRevurderingBehandling fagsak={fagsak} lukkModal={lukkModal} />
+                        <OpprettRevurderingBehandling
+                            fagsak={fagsak}
+                            lukkModal={lukkModal}
+                            hentBehandlinger={hentBehandlinger}
+                        />
                     )}
                 </VStack>
             </ModalWrapper>

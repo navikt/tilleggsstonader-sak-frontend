@@ -10,13 +10,14 @@ import { RessursStatus } from '../../../../typer/ressurs';
 interface Props {
     fagsak: Fagsak;
     lukkModal: () => void;
+    hentBehandlinger: () => void;
 }
 
 interface OpprettBehandlingRequest {
     fagsakId: string;
 }
 
-const OpprettRevurderingBehandling: React.FC<Props> = ({ fagsak, lukkModal }) => {
+const OpprettRevurderingBehandling: React.FC<Props> = ({ fagsak, lukkModal, hentBehandlinger }) => {
     const { request } = useApp();
 
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -26,7 +27,7 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({ fagsak, lukkModal }) =>
             fagsakId: fagsak.id,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
-                //hentBehandlinger(); // TODO
+                hentBehandlinger();
                 lukkModal();
             } else {
                 settFeilmelding(response.frontendFeilmelding || response.melding);
