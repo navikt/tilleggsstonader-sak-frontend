@@ -1,20 +1,16 @@
-import { UnleashClient } from 'unleash-proxy-client';
+import { IToggle } from 'unleash-proxy-client';
 
 /**
  * Feature flags er automatisk enabled, hvis man ønsker å overskreve de brukes eks
  * 'sak.kan-opprette-revurdering': false,
  */
-const featureFlags: { [key: string]: boolean } = {
+const featureFlags: { [name: string]: boolean } = {
     'sak.kan-opprette-revurdering': true,
 };
 
-export const mockUnleashServer: UnleashClient = {
-    isEnabled: (toggleName: string): boolean => featureFlags[toggleName] ?? true,
-    // @ts-ignore
-    on: () => {},
-    // @ts-ignore
-    off: () => {},
-    // @ts-ignore
-    start: () => {},
-    stop: () => {},
-};
+export const mockFlags: IToggle[] = Object.entries(featureFlags).map(([name, enabled]) => ({
+    name: name,
+    enabled: enabled,
+    variant: { name: name, enabled: enabled },
+    impressionData: false,
+}));

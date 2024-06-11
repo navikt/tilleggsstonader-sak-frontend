@@ -26,7 +26,7 @@ import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
-import { mockUnleashServer } from './utils/unleashMock';
+import { mockFlags } from './utils/unleashMock';
 
 const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
@@ -59,7 +59,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
 const config: IConfig = {
     appName: 'ts-sak-frontend',
     url: `${location.origin}/api/toggle`,
-    clientKey: 'settes-i-backend', // A client-side API token OR one of your proxy's designated client keys (previously known as proxy secrets)
+    clientKey: 'settes-i-backend',
     refreshInterval: 120, // How often (in seconds) the client should poll the proxy for updates
 };
 
@@ -79,8 +79,9 @@ const App: React.FC = () => {
                     ...config,
                     context: { userId: innloggetSaksbehandler.navIdent },
                     environment: appEnv.unleashEnv,
+                    bootstrap: appEnv.unleashEnv !== 'mock' ? undefined : mockFlags,
                 }}
-                unleashClient={appEnv.unleashEnv === 'mock' ? mockUnleashServer : undefined}
+                startClient={appEnv.unleashEnv !== 'mock'}
             >
                 <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
             </FlagProvider>
