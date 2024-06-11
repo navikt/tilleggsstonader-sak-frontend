@@ -11,6 +11,7 @@ import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
@@ -22,9 +23,9 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
     const { erStegRedigerbart } = useSteg();
 
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
+    const [leggerTilNyAktivitet, settLeggerTilNyAktivitet] = useState<boolean>(false);
+    const [aktivitetFraRegister, settAktivitetFraRegister] = useState<Registeraktivitet>();
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { leggerTilNyAktivitet, settLeggerTilNyAktivitet, settAktivitetFraRegister } =
-        useInngangsvilkår();
 
     const fjernRadIRedigeringsmodus = () => {
         settFeilmelding(undefined);
@@ -51,6 +52,13 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
         }
     };
 
+    const leggTilAktivitetFraRegister = (aktivitet: Registeraktivitet) => {
+        if (leggerTilNyAktivitet) return;
+
+        settAktivitetFraRegister(aktivitet);
+        settLeggerTilNyAktivitet(true);
+    };
+
     return (
         <VilkårPanel
             ikon={<BriefcaseIcon />}
@@ -59,7 +67,10 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             rundskrivlenke={rundskrivAktivitet}
         >
             <FlexColumn gap={2}>
-                <RegisterAktiviteter grunnlag={grunnlag} />
+                <RegisterAktiviteter
+                    grunnlag={grunnlag}
+                    leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                />
 
                 <FlexColumn>
                     <Label>Aktiviteter knyttet til behandling</Label>
@@ -83,7 +94,10 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                                 </React.Fragment>
                             ))}
                             {leggerTilNyAktivitet && (
-                                <EndreAktivitetRad avbrytRedigering={fjernRadIRedigeringsmodus} />
+                                <EndreAktivitetRad
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                    aktivitetFraRegister={aktivitetFraRegister}
+                                />
                             )}
                         </>
                     )}

@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { useInngangsvilkår } from '../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../context/StegContext';
 import { Registeraktivitet } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../utils/dato';
@@ -18,11 +17,11 @@ const Tabell = styled(Table)`
     --ac-table-cell-hover-border: ${ABorderDivider};
 `;
 
-const RegisterAktiviteterTabell: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({
-    aktiviteter,
-}) => {
+const RegisterAktiviteterTabell: React.FC<{
+    aktiviteter: Registeraktivitet[];
+    leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
+}> = ({ aktiviteter, leggTilAktivitetFraRegister }) => {
     const { erStegRedigerbart } = useSteg();
-    const { leggTilAktivitetFraRegister } = useInngangsvilkår();
 
     return (
         <Tabell size={'small'}>
