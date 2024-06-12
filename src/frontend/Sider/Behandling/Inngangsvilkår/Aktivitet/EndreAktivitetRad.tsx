@@ -49,11 +49,11 @@ const initaliserForm = (
 const EndreAktivitetRad: React.FC<{
     aktivitet?: Aktivitet;
     avbrytRedigering: () => void;
-}> = ({ aktivitet, avbrytRedigering }) => {
+    aktivitetFraRegister?: Registeraktivitet;
+}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil, aktivitetFraRegister } =
-        useInngangsvilkår();
+    const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =

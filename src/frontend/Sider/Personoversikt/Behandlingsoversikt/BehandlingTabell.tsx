@@ -6,10 +6,23 @@ import { Button, Table } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { Behandling } from '../../../typer/behandling/behandling';
-import { erBehandlingRedigerbar } from '../../../typer/behandling/behandlingStatus';
+import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
+import {
+    BehandlingStatus,
+    erBehandlingRedigerbar,
+} from '../../../typer/behandling/behandlingStatus';
+import { BehandlingType } from '../../../typer/behandling/behandlingType';
+import { BehandlingÅrsak } from '../../../typer/behandling/behandlingÅrsak';
 import { PartialRecord } from '../../../typer/common';
+import {
+    KlageBehandling,
+    KlagebehandlingResultat,
+    KlagebehandlingStatus,
+    KlageÅrsak,
+} from '../../../typer/klage';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
+import { sorterBehandlinger } from '../../../utils/behandlingutil';
 
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     opprettet: 'Behandling opprettetdato',
@@ -20,9 +33,22 @@ const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     resultat: 'Resultat',
 };
 
-const BehandlingTabell: React.FC<{
+interface TabellBehandling {
+    id: string;
+    opprettet: string;
+    type: BehandlingType;
+    behandlingsårsak: BehandlingÅrsak | KlageÅrsak | undefined;
+    status: BehandlingStatus | KlagebehandlingStatus;
+    vedtaksdato?: string | undefined;
+    resultat: BehandlingResultat | KlagebehandlingResultat | undefined;
+}
+
+interface Props {
     behandlinger: Behandling[];
-}> = ({ behandlinger }) => {
+    klagebehandlinger: KlageBehandling[];
+}
+
+const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) => {
     const { request } = useApp();
 
     const henleggBehandling = useCallback(
@@ -36,6 +62,41 @@ const BehandlingTabell: React.FC<{
         [request]
     );
 
+    const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
+        behandling.type !== BehandlingType.KLAGE &&
+        erBehandlingRedigerbar(behandling.status as BehandlingStatus);
+
+    const utledUrl = (type: BehandlingType) =>
+        type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
+
+    const tabellBehandlinger: TabellBehandling[] = behandlinger.map((behandling) => {
+        return {
+            id: behandling.id,
+            opprettet: behandling.opprettet,
+            type: behandling.type,
+            behandlingsårsak: behandling.behandlingsårsak,
+            status: behandling.status,
+            vedtaksdato: behandling.vedtaksdato,
+            resultat: behandling.resultat,
+        };
+    });
+
+    const tabellKlagebehandlinger: TabellBehandling[] = klagebehandlinger.map((behandling) => {
+        return {
+            id: behandling.id,
+            opprettet: behandling.opprettet,
+            type: BehandlingType.KLAGE,
+            behandlingsårsak: behandling.årsak,
+            status: behandling.status,
+            vedtaksdato: behandling.vedtaksdato,
+            resultat: behandling.resultat,
+        };
+    });
+
+    const alleBehandlinger = tabellBehandlinger
+        .concat(tabellKlagebehandlinger)
+        .sort(sorterBehandlinger);
+
     return (
         <Table size="small">
             <Table.Header>
@@ -47,7 +108,7 @@ const BehandlingTabell: React.FC<{
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {behandlinger.map((behandling) => (
+                {alleBehandlinger.map((behandling) => (
                     <Table.Row key={behandling.id}>
                         <Table.DataCell>{formaterIsoDatoTid(behandling.opprettet)}</Table.DataCell>
                         <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
@@ -60,12 +121,14 @@ const BehandlingTabell: React.FC<{
                         </Table.DataCell>
 
                         <Table.DataCell>
-                            <Link to={{ pathname: `/behandling/${behandling.id}` }}>
+                            <Link
+                                to={{ pathname: `${utledUrl(behandling.type)}/${behandling.id}` }}
+                            >
                                 {formaterEnumVerdi(behandling.resultat)}
                             </Link>
                         </Table.DataCell>
                         <Table.DataCell>
-                            {erBehandlingRedigerbar(behandling) && (
+                            {skalViseHenleggKnapp(behandling) && (
                                 <Button
                                     variant="secondary"
                                     size="small"

@@ -1,5 +1,3 @@
-import { Behandling } from './behandling';
-
 export enum BehandlingStatus {
     OPPRETTET = 'OPPRETTET',
     UTREDES = 'UTREDES',
@@ -18,5 +16,5 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
     SATT_PÅ_VENT: 'Satt på vent',
 };
 
-export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
-    [BehandlingStatus.OPPRETTET, BehandlingStatus.UTREDES].includes(behandling.status);
+export const erBehandlingRedigerbar = (status: BehandlingStatus): boolean =>
+    [BehandlingStatus.OPPRETTET, BehandlingStatus.UTREDES].includes(status);
