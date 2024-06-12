@@ -58,7 +58,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
     useEffect(() => {
         if (radIRedigeringsmodus === 'nyPeriode') {
-            nyPeriodeRef.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
+            nyPeriodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }, [radIRedigeringsmodus]);
 
