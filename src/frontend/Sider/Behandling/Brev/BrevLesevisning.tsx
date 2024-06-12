@@ -31,7 +31,7 @@ const BrevLesevisning: React.FC = () => {
 
     return (
         <Container>
-            <PdfVisning pdfFilInnhold={brevPdf} />;
+            <PdfVisning pdfFilInnhold={brevPdf} />
         </Container>
     );
 };
