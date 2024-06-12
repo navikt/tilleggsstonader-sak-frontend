@@ -106,6 +106,10 @@ export const finnBegrunnelseGrunnerMålgruppe = (
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
     }
 
+    if (type === MålgruppeType.SYKEPENGER_100_PROSENT) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
+    }
+
     if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
     }
