@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import styled from 'styled-components';
+
+import { BodyLong, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 
 import { StatusSettPåVent, årsakTilTekst } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -12,6 +14,10 @@ import {
     formaterNullableTilTekstligDato,
     formaterTilTekstligDato,
 } from '../../../utils/dato';
+
+const Kommentar = styled(BodyLong)`
+    white-space: pre-wrap;
+`;
 
 const SettPåVentInformasjon: React.FC<{
     status: StatusSettPåVent;
@@ -61,7 +67,7 @@ const SettPåVentInformasjon: React.FC<{
                 </div>
                 <div>
                     <strong>Kommentar fra saksbehandler: </strong>
-                    {status.kommentar}
+                    <Kommentar>{status.kommentar}</Kommentar>
                 </div>
             </VStack>
             {!statusPåVentRedigering && (
