@@ -31,12 +31,13 @@ const nyMålgruppeFraRegister = (
     behandlingId: string,
     registrertYtelsePeriode: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
+    const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
     return {
         behandlingId: behandlingId,
-        type: typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type],
+        type: type,
         fom: registrertYtelsePeriode.fom,
         tom: registrertYtelsePeriode.tom || '',
-        delvilkår: { '@type': 'MÅLGRUPPE' },
+        delvilkår: resetDelvilkår(type, { '@type': 'MÅLGRUPPE' }),
     };
 };
 
