@@ -5,11 +5,13 @@ import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
 import RegisterAktiviteterTabell from './RegisterAktivteterTabell';
 import { VilkårperioderGrunnlag } from './typer/vilkårperiode';
 import ExpansionCard from '../../../komponenter/ExpansionCard';
+import { Registeraktivitet } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
 
-const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
-    grunnlag,
-}) => {
+const RegisterAktiviteter: React.FC<{
+    grunnlag: VilkårperioderGrunnlag | undefined;
+    leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
+}> = ({ grunnlag, leggTilAktivitetFraRegister }) => {
     if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
@@ -36,7 +38,10 @@ const RegisterAktiviteter: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefi
         <VStack>
             <ExpansionCard tittel="Aktiviteter registrert på bruker" maxWidth={800}>
                 <VStack gap="4">
-                    <RegisterAktiviteterTabell aktiviteter={aktiviteter} />
+                    <RegisterAktiviteterTabell
+                        aktiviteter={aktiviteter}
+                        leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                    />
                     <HStack gap="2" align="center">
                         <Detail>
                             <strong>{opplysningerHentetTekst}</strong>
