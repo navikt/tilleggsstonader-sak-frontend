@@ -8,11 +8,11 @@ enum FolketrygdlovenHjemmel {
     FTRL_11_A_3 = 'FTRL_11_A_3',
     FTRL_11_A_4 = 'FTRL_11_A_4',
     FTRL_11_A_4_3 = 'FTRL_11_A_4_3',
-    FTRL_441 = 'FTRL_441',
+    FTRL_15_11 = 'FTRL_15_11',
     FTRL_17_10_17_15 = 'FTRL_17_10_17_15',
     FTRL_21_12 = 'FTRL_21_12',
-    FTRL_1000_022_013 = 'FTRL_1000_022_013',
-    FTRL_1000_022_015 = 'FTRL_1000_022_015',
+    FTRL_22_13 = 'FTRL_22_13',
+    FTRL_22_15 = 'FTRL_22_15',
     FTRL_22_17A = 'FTRL_22_17A',
 }
 
@@ -61,11 +61,11 @@ export const folketrygdlovenHjemmelTilVisningstekst: Record<FolketrygdlovenHjemm
     FTRL_11_A_3: 'FTRL_11_A_3',
     FTRL_11_A_4: 'FTRL_11_A_4',
     FTRL_11_A_4_3: 'FTRL_11_A_4_3',
-    FTRL_441: 'FTRL_441',
+    FTRL_15_11: 'FTRL_15_11',
     FTRL_17_10_17_15: 'FTRL_17_10_17_15',
     FTRL_21_12: 'FTRL_21_12',
-    FTRL_1000_022_013: 'FTRL_1000_022_013',
-    FTRL_1000_022_015: 'FTRL_1000_022_015',
+    FTRL_22_13: 'FTRL_22_13',
+    FTRL_22_15: 'FTRL_22_15',
     FTRL_22_17A: 'FTRL_22_17A',
 };
 
