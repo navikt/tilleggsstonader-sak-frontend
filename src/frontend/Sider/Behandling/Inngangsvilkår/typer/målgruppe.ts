@@ -63,14 +63,6 @@ export enum FaktiskMålgruppe {
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 }
 
-export const faktisktMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
-    NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
-    ENSLIG_FORSØRGER: 'Enslig forsørger',
-    GJENLEVENDE: 'Gjenlevende',
-    SYKEPENGER_100_PROSENT: '100% sykepenger gir ikke rett til tilleggsstønader',
-    INGEN_MÅLGRUPPE: 'Ingen målgruppe',
-};
-
 export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
     AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
