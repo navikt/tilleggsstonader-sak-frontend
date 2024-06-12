@@ -1,22 +1,34 @@
-import { ReactNode } from 'react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Alert, ErrorMessage } from '@navikt/ds-react';
 
-export const Feilmelding: React.FC<{
+interface Props {
     children: ReactNode | undefined;
     variant?: 'inline' | 'alert';
-}> = ({ children, variant }) => {
-    if (!children) {
-        return null;
-    }
+    id?: string;
+}
 
-    switch (variant) {
-        case 'alert':
-            return <Alert variant="error">{children}</Alert>;
+export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElement, Props>(
+    ({ children, variant, id }, ref) => {
+        if (!children) {
+            return null;
+        }
 
-        case 'inline':
-        default:
-            return <ErrorMessage>{children}</ErrorMessage>;
+        switch (variant) {
+            case 'alert':
+                return (
+                    <Alert id={id} ref={ref} variant="error">
+                        {children}
+                    </Alert>
+                );
+
+            case 'inline':
+            default:
+                return (
+                    <ErrorMessage id={id} ref={ref}>
+                        {children}
+                    </ErrorMessage>
+                );
+        }
     }
-};
+);

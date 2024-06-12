@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
@@ -22,6 +22,9 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
 
+    const nyPeriodeRef = useRef<HTMLDivElement>(null);
+    const feilmeldingRef = useRef<HTMLDivElement>(null);
+
     const [radIRedigeringsmodus, settRadIRedigeringsmodus] = useState<string>();
     const [aktivitetFraRegister, settAktivitetFraRegister] = useState<Registeraktivitet>();
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -35,6 +38,10 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
     const kanSetteNyRadIRedigeringsmodus = radIRedigeringsmodus === undefined && erStegRedigerbart;
 
+    const scrollTilFeilmelding = () => {
+        nyPeriodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
     const settNyRadIRedigeringsmodus = (id?: string, aktivitetFraRegister?: Registeraktivitet) => {
         if (kanSetteNyRadIRedigeringsmodus) {
             settFeilmelding(undefined);
@@ -45,8 +52,22 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             settFeilmelding(
                 'Det er kun mulig redigere en rad om gangen. Lagre eller avbryt pågående redigering.'
             );
+            scrollTilFeilmelding();
         }
     };
+
+    useEffect(() => {
+        if (radIRedigeringsmodus === 'nyPeriode') {
+            nyPeriodeRef.current?.scrollIntoView({ behavior: 'instant', block: 'center' });
+        }
+    }, [radIRedigeringsmodus]);
+
+    useEffect(() => {
+        // Nødvendig for å trigge scroll ved feilmelding satt før komponent er rendret
+        if (feilmelding) {
+            scrollTilFeilmelding();
+        }
+    }, [feilmelding]);
 
     return (
         <VilkårPanel
@@ -82,13 +103,17 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                         </React.Fragment>
                     ))}
                     {radIRedigeringsmodus === 'nyPeriode' && (
-                        <EndreAktivitetRad
-                            avbrytRedigering={fjernRadIRedigeringsmodus}
-                            aktivitetFraRegister={aktivitetFraRegister}
-                        />
+                        <div ref={nyPeriodeRef}>
+                            <EndreAktivitetRad
+                                avbrytRedigering={fjernRadIRedigeringsmodus}
+                                aktivitetFraRegister={aktivitetFraRegister}
+                            />
+                        </div>
                     )}
 
-                    <Feilmelding>{feilmelding}</Feilmelding>
+                    <Feilmelding id="aktivitetRedigeringFeilmelding" ref={feilmeldingRef}>
+                        {feilmelding}
+                    </Feilmelding>
 
                     {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                         <Button
