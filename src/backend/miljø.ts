@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 
+import logger from './logger';
 import { envVar } from './utils';
 
 if (process.env.NODE_ENV === 'development') {
@@ -124,7 +125,7 @@ const clientsLocalPreprod = (): ClientConfig => ({
         audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
     [ApplicationName.unleash]: {
-        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
         audience: '',
     },
 });
@@ -132,6 +133,8 @@ const clientsLocalPreprod = (): ClientConfig => ({
 const lokaltMiljø = (clients: ClientConfig): Miljø => {
     const brukUnleash = envVar('BRUK_UNLEASH', false, 'false');
     const unleashEnvironment = brukUnleash === 'true' ? 'development' : 'mock';
+    logger.info(`Unleasn, brukUnleash=${brukUnleash} unleashEnv=${unleashEnvironment}`);
+
     return {
         buildPath: '../../dist_development',
         clients: clients,
@@ -157,7 +160,7 @@ const devMiljø = (): Miljø => ({
             audience: 'dev-gcp.teamfamilie.familie-endringslogg',
         },
         [ApplicationName.unleash]: {
-            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
             audience: '',
         },
     },
@@ -182,7 +185,7 @@ const prodMiljø = (): Miljø => ({
             audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
         [ApplicationName.unleash]: {
-            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io',
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
             audience: '',
         },
     },
