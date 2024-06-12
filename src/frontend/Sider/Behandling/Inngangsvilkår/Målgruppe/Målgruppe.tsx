@@ -60,7 +60,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
 
     useEffect(() => {
         if (radSomRedigeres) {
-            nyPeriodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            feilmeldingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }, [radSomRedigeres]);
 

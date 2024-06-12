@@ -39,7 +39,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
     const kanSetteNyRadIRedigeringsmodus = radIRedigeringsmodus === undefined && erStegRedigerbart;
 
     const scrollTilFeilmelding = () => {
-        nyPeriodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        feilmeldingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     const settNyRadIRedigeringsmodus = (id?: string, aktivitetFraRegister?: Registeraktivitet) => {
