@@ -7,7 +7,11 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
-import { formaterIsoDato, formaterTilTekstligDato } from '../../../utils/dato';
+import {
+    formaterIsoDato,
+    formaterNullableTilTekstligDato,
+    formaterTilTekstligDato,
+} from '../../../utils/dato';
 
 const SettPåVentInformasjon: React.FC<{
     status: StatusSettPåVent;
@@ -37,8 +41,16 @@ const SettPåVentInformasjon: React.FC<{
 
     return (
         <VStack gap={'4'}>
-            <Heading size={'small'}>Satt på vent {datoSattPåVent}</Heading>
+            <Heading size={'small'}>
+                Satt på vent {datoSattPåVent} av {status.opprettetAv}
+            </Heading>
             <VStack gap="2">
+                {status.endretAv && (
+                    <div>
+                        <strong>Sist endret: </strong>
+                        {formaterNullableTilTekstligDato(status.endretTid)} av {status.endretAv}
+                    </div>
+                )}
                 <div>
                     <strong>Venter på: </strong>
                     {status.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ')}
