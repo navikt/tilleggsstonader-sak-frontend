@@ -10,6 +10,18 @@ export const typeVedtakTilTekst: Record<TypeVedtak, string> = {
     AVSLAG: 'Avslag',
 };
 
+/**
+ * Mapper fra type vedtak til typen malen er definert som i Sanity.
+ */
+export const typeVedtakTilSanitytype = (type: TypeVedtak): string => {
+    switch (type) {
+        case TypeVedtak.INNVILGELSE:
+            return 'INNVILGET';
+        default:
+            return type;
+    }
+};
+
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
 
 export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>

@@ -15,7 +15,7 @@ import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erVedtakInnvilgelse } from '../../../typer/vedtak';
+import { erVedtakInnvilgelse, typeVedtakTilSanitytype } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -33,21 +33,43 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    const { brevmaler, brevmal, settBrevmal, malStruktur, fil, settFil } = useBrev(
-        behandling.stønadstype,
-        'INNVILGET',
-        behandling
-    ); // TODO ikke bruk hardkodet resultat
+    const {
+        brevmaler,
+        brevmal,
+        settBrevmal,
+        hentBrevmaler,
+        hentMalStruktur,
+        malStruktur,
+        fil,
+        settFil,
+    } = useBrev(behandling.stønadstype, behandling);
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
     const { vedtak } = useVedtak();
 
     useEffect(() => {
-        if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
+        const brevmalFraMellomlagerErGyldigForResultat =
+            mellomlagretBrev.status === RessursStatus.SUKSESS &&
+            brevmaler.status === RessursStatus.SUKSESS &&
+            brevmaler.data.map((mal) => mal._id).includes(mellomlagretBrev.data.brevmal);
+
+        if (brevmalFraMellomlagerErGyldigForResultat) {
             settBrevmal(mellomlagretBrev.data.brevmal);
         }
-    }, [mellomlagretBrev, settBrevmal]);
+    }, [brevmaler, mellomlagretBrev, settBrevmal]);
+
+    useEffect(() => {
+        if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
+            hentBrevmaler(typeVedtakTilSanitytype(vedtak.data.type));
+        }
+    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status]);
+
+    useEffect(() => {
+        if (behandlingErRedigerbar) {
+            hentMalStruktur();
+        }
+    }, [behandlingErRedigerbar, hentMalStruktur]);
 
     return (
         <Container>
