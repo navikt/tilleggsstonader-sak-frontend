@@ -59,7 +59,7 @@ const HtmlBrev: React.FC<Props> = ({
                         <p>{brevdatoPlaceholder}</p>
                     </div>
                     <div className={'tittel-og-personinfo'}>
-                        <h2 className="tittel">{mal.brevtittel.toUpperCase()}</h2>
+                        <h2 className="tittel">{mal.brevtittel}</h2>
                         <div className="kolonner">
                             <div className="personinfo">
                                 <div>Navn: {navn}</div>
