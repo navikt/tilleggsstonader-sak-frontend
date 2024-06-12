@@ -49,10 +49,15 @@ const Brev: React.FC = () => {
     const { vedtak } = useVedtak();
 
     useEffect(() => {
-        if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
+        const brevmalFraMellomlagerErGyldigForResultat =
+            mellomlagretBrev.status === RessursStatus.SUKSESS &&
+            brevmaler.status === RessursStatus.SUKSESS &&
+            brevmaler.data.map((mal) => mal._id).includes(mellomlagretBrev.data.brevmal);
+
+        if (brevmalFraMellomlagerErGyldigForResultat) {
             settBrevmal(mellomlagretBrev.data.brevmal);
         }
-    }, [mellomlagretBrev, settBrevmal]);
+    }, [brevmaler, mellomlagretBrev, settBrevmal]);
 
     useEffect(() => {
         if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
