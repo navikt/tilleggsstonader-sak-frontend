@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
+import { useSteg } from '../../../../context/StegContext';
 import { registerYtelseTilTekst } from '../../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
@@ -20,6 +21,8 @@ const RegisterYtelserTabell: React.FC<{
     perioderMedYtelse: YtelseGrunnlagPeriode[];
     lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
 }> = ({ perioderMedYtelse, lagRadForPeriode }) => {
+    const { erStegRedigerbart } = useSteg();
+
     return (
         <HvitTabell size="small">
             <Table.Header>
@@ -38,9 +41,11 @@ const RegisterYtelserTabell: React.FC<{
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                             <Table.DataCell>
-                                <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
-                                    Bruk
-                                </Button>
+                                {erStegRedigerbart && (
+                                    <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
+                                        Bruk
+                                    </Button>
+                                )}
                             </Table.DataCell>
                         </Table.Row>
                     );
