@@ -8,6 +8,9 @@ export interface SettPåVent {
 export interface StatusSettPåVent {
     årsaker: ÅrsakSettPåVent[];
     datoSattPåVent: string;
+    opprettetAv: string;
+    endretAv?: string;
+    endretTid?: string;
     kommentar?: string;
     frist?: string;
     oppgaveVersjon: number;
