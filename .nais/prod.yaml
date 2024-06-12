@@ -40,6 +40,8 @@ spec:
         - application: tilleggsstonader-klage
         - application: familie-endringslogg
           namespace: teamfamilie
+      external:
+        - host: tilleggsstonader-unleash-api.nav.cloud.nais.io
   azure:
     sidecar:
       enabled: true
