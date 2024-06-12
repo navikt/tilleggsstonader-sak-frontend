@@ -5,11 +5,10 @@ import { Alert, ErrorMessage } from '@navikt/ds-react';
 interface Props {
     children: ReactNode | undefined;
     variant?: 'inline' | 'alert';
-    id?: string;
 }
 
 export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElement, Props>(
-    ({ children, variant, id }, ref) => {
+    ({ children, variant }, ref) => {
         if (!children) {
             return null;
         }
@@ -17,18 +16,14 @@ export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElemen
         switch (variant) {
             case 'alert':
                 return (
-                    <Alert id={id} ref={ref} variant="error">
+                    <Alert ref={ref} variant="error">
                         {children}
                     </Alert>
                 );
 
             case 'inline':
             default:
-                return (
-                    <ErrorMessage id={id} ref={ref}>
-                        {children}
-                    </ErrorMessage>
-                );
+                return <ErrorMessage ref={ref}>{children}</ErrorMessage>;
         }
     }
 );

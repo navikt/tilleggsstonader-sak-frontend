@@ -111,9 +111,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                         </div>
                     )}
 
-                    <Feilmelding id="aktivitetRedigeringFeilmelding" ref={feilmeldingRef}>
-                        {feilmelding}
-                    </Feilmelding>
+                    <Feilmelding ref={feilmeldingRef}>{feilmelding}</Feilmelding>
 
                     {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                         <Button
