@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Brevmottakere } from './Brevmottakere/brevmottakereTyper';
-import { hentAlleMalerQuery, malQuery } from './Sanity/queries';
+import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
 import { Brevmal, MalStruktur } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -14,7 +14,7 @@ import {
     Ressurs,
 } from '../../../typer/ressurs';
 
-const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling) => {
+const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
     const sanityClient = useSanityClient();
     const { request } = useApp();
 
@@ -24,10 +24,10 @@ const useBrev = (ytelse: Stønadstype, resultat: string, behandling?: Behandling
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const hentBrevmaler = useCallback(() => {
+    const hentBrevmaler = useCallback((resultat: string) => {
         sanityClient
-            // TODO: bruk hentMalerQuery og send med resultat
-            .fetch<Brevmal[]>(hentAlleMalerQuery, {
+            .fetch<Brevmal[]>(hentMalerQuery, {
+                resultat: resultat,
                 ytelse: ytelse,
             })
             .then((data) => {

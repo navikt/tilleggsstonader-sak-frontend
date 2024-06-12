@@ -15,7 +15,7 @@ import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erVedtakInnvilgelse } from '../../../typer/vedtak';
+import { erVedtakInnvilgelse, typeVedtakTilSanitytype } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -42,7 +42,7 @@ const Brev: React.FC = () => {
         malStruktur,
         fil,
         settFil,
-    } = useBrev(behandling.stønadstype, 'INNVILGET', behandling);
+    } = useBrev(behandling.stønadstype, behandling);
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
@@ -55,10 +55,10 @@ const Brev: React.FC = () => {
     }, [mellomlagretBrev, settBrevmal]);
 
     useEffect(() => {
-        if (behandlingErRedigerbar) {
-            hentBrevmaler();
+        if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
+            hentBrevmaler(typeVedtakTilSanitytype(vedtak.data.type));
         }
-    }, [behandlingErRedigerbar, hentBrevmaler]);
+    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status]);
 
     useEffect(() => {
         if (behandlingErRedigerbar) {
