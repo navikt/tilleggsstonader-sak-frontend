@@ -3,51 +3,30 @@ import React, { FC, useState } from 'react';
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
-import { useApp } from '../../../../context/AppContext';
+import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import {
     BehandlingType,
     behandlingTypeTilTekst,
 } from '../../../../typer/behandling/behandlingType';
 import { Fagsak } from '../../../../typer/fagsak';
-import { RessursStatus } from '../../../../typer/ressurs';
-
-interface OpprettKlageRequest {
-    mottattDato: string;
-}
 
 interface Props {
     fagsak: Fagsak;
     hentKlagebehandlinger: () => void;
+    hentBehandlinger: () => void;
 }
 
-const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) => {
-    const { request } = useApp();
-
+const OpprettNyBehandlingModal: FC<Props> = ({
+    fagsak,
+    hentKlagebehandlinger,
+    hentBehandlinger,
+}) => {
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
-    const [kravMottattDato, settKravMottattDato] = useState('');
-    const [feilmelding, settFeilmelding] = useState<string>();
-
-    const opprettKlage = (data: OpprettKlageRequest) => {
-        request<string, OpprettKlageRequest>(
-            `/api/sak/klage/fagsak/${fagsak.id}`,
-            'POST',
-            data
-        ).then((response) => {
-            if (response.status === RessursStatus.SUKSESS) {
-                hentKlagebehandlinger();
-                lukkModal();
-            } else {
-                settFeilmelding(response.frontendFeilmelding || response.melding);
-            }
-        });
-    };
 
     const lukkModal = () => {
         settVisModal(false);
-        settFeilmelding('');
-        settKravMottattDato('');
         settBehandlingtype(undefined);
     };
 
@@ -56,24 +35,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
             <Button variant={'secondary'} onClick={() => settVisModal(true)}>
                 Opprett ny behandling
             </Button>
-            <ModalWrapper
-                visModal={visModal}
-                onClose={lukkModal}
-                tittel="Opprett ny behandling"
-                aksjonsknapper={{
-                    hovedKnapp: {
-                        onClick: () =>
-                            opprettKlage({
-                                mottattDato: kravMottattDato,
-                            }),
-                        tekst: 'Opprett',
-                    },
-                    lukkKnapp: {
-                        onClick: () => lukkModal(),
-                        tekst: 'Avbryt',
-                    },
-                }}
-            >
+            <ModalWrapper visModal={visModal} onClose={lukkModal} tittel={'Opprett ny behandling'}>
                 <VStack gap="4">
                     <Select
                         value={behandlingtype}
@@ -83,15 +45,24 @@ const OpprettNyBehandlingModal: FC<Props> = ({ fagsak, hentKlagebehandlinger }) 
                         }}
                     >
                         <option value={''}>Velg</option>
-                        <option value="KLAGE">
-                            {behandlingTypeTilTekst[BehandlingType.KLAGE]}
-                        </option>
+                        {[BehandlingType.REVURDERING, BehandlingType.KLAGE].map((type) => (
+                            <option key={type} value={type}>
+                                {behandlingTypeTilTekst[type]}
+                            </option>
+                        ))}
                     </Select>
                     {behandlingtype === BehandlingType.KLAGE && (
                         <OpprettKlageBehandling
-                            kravMottattDato={kravMottattDato}
-                            settKravMottattDato={settKravMottattDato}
-                            feilmelding={feilmelding}
+                            fagsak={fagsak}
+                            lukkModal={lukkModal}
+                            hentKlagebehandlinger={hentKlagebehandlinger}
+                        />
+                    )}
+                    {behandlingtype === BehandlingType.REVURDERING && (
+                        <OpprettRevurderingBehandling
+                            fagsak={fagsak}
+                            lukkModal={lukkModal}
+                            hentBehandlinger={hentBehandlinger}
                         />
                     )}
                 </VStack>
