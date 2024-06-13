@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import FlagProvider, { IConfig } from '@unleash/proxy-client-react';
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -25,6 +26,7 @@ import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
+import { mockFlags } from './utils/unleashMock';
 
 const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
@@ -54,6 +56,12 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     );
     return <RouterProvider router={router} />;
 };
+const config: IConfig = {
+    appName: 'ts-sak-frontend',
+    url: `${location.origin}/api/toggle`,
+    clientKey: 'settes-i-backend',
+    refreshInterval: 120, // How often (in seconds) the client should poll the proxy for updates
+};
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
@@ -66,7 +74,17 @@ const App: React.FC = () => {
     }
     return (
         <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
-            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            <FlagProvider
+                config={{
+                    ...config,
+                    context: { userId: innloggetSaksbehandler.navIdent },
+                    environment: appEnv.unleashEnv,
+                    bootstrap: appEnv.unleashEnv !== 'mock' ? undefined : mockFlags,
+                }}
+                startClient={appEnv.unleashEnv !== 'mock'}
+            >
+                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            </FlagProvider>
         </AppProvider>
     );
 };

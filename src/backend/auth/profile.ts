@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { decodeJwt } from 'jose';
 
-import { getTokenFromHeader } from './attachToken';
+import { getTokenFromHeader } from './token';
 
 export const getProfile = (): RequestHandler => {
     return async (req: Request, res: Response, next: NextFunction) => {

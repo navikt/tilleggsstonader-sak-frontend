@@ -8,7 +8,7 @@ import { redirectResponseToLogin } from './util';
 import { logWarn } from '../logger';
 import { ApplicationName, miljø } from '../miljø';
 
-const AUTHORIZATION_HEADER = 'authorization';
+export const AUTHORIZATION_HEADER = 'authorization';
 const WONDERWALL_ID_TOKEN_HEADER = 'x-wonderwall-id-token';
 
 export const validateToken = (redirectToLogin: boolean = false): RequestHandler => {
@@ -92,6 +92,17 @@ const getValidatedTokenFromHeader = async (req: Request) => {
     }
     return token;
 };
+
+export const getUserIdFromToken = (req: Request) => {
+    const token = getTokenFromHeader(req);
+    if (token == null) {
+        return null;
+    }
+    const payload = decodeJwt(token);
+
+    return payload.NAVident;
+};
+
 const prepareSecuredRequest = async (req: Request, applicationName: ApplicationName) => {
     const token = await getValidatedTokenFromHeader(req);
     if (!token) return null;
