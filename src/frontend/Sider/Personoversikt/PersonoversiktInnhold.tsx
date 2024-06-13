@@ -9,6 +9,7 @@ import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
+import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
 
 type TabWithRouter = {
@@ -22,6 +23,11 @@ const tabs: TabWithRouter[] = [
         label: 'Behandlinger',
         path: 'behandlinger',
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
+    },
+    {
+        label: 'Oppgaver',
+        path: 'oppgaver',
+        komponent: () => <Oppgaveoversikt />,
     },
     {
         label: 'Aktiviteter',
