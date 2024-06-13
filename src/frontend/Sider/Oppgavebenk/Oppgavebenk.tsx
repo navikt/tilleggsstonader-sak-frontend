@@ -26,7 +26,8 @@ const AlertContainer = styled.div`
 
 const OppgavebenkContainer = () => {
     const { feilmelding, oppgaveRessurs } = useOppgave();
-    const { lasterOppgaveRequestFraLocaleStorage } = useOppgaveFilter();
+    const { lasterOppgaveRequestFraLocaleStorage, oppgaveRequest, settOppgaveRequest } =
+        useOppgaveFilter();
 
     if (lasterOppgaveRequestFraLocaleStorage) {
         return <SystemetLaster />;
@@ -36,7 +37,13 @@ const OppgavebenkContainer = () => {
         <Container>
             <Oppgavefiltrering />
             <DataViewer response={{ oppgaver: oppgaveRessurs }}>
-                {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}
+                {({ oppgaver }) => (
+                    <Oppgavetabell
+                        oppgaverResponse={oppgaver}
+                        oppgaveRequest={oppgaveRequest}
+                        settOppgaveRequest={settOppgaveRequest}
+                    />
+                )}
             </DataViewer>
             <Feilmelding>{feilmelding}</Feilmelding>
         </Container>

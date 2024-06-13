@@ -20,7 +20,6 @@ import {
     OppgaverResponse,
 } from './typer/oppgave';
 import { useOppgave } from '../../context/OppgaveContext';
-import { useOppgaveFilter } from '../../context/OppgaveFilterContext';
 import { PartialRecord } from '../../typer/common';
 
 const Tabell = styled(Table)`
@@ -28,6 +27,8 @@ const Tabell = styled(Table)`
 `;
 interface Props {
     oppgaverResponse: OppgaverResponse;
+    oppgaveRequest: OppgaveRequest;
+    settOppgaveRequest: (oppgaveRequest: OppgaveRequest) => void;
 }
 
 const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: OppgaveOrderBy }> = {
@@ -61,9 +62,12 @@ const utledTabellSort = (oppgaveRequest: OppgaveRequest): SortState => ({
     direction: oppgaveRequest.order === 'ASC' ? 'ascending' : 'descending',
 });
 
-const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
+const Oppgavetabell: React.FC<Props> = ({
+    oppgaverResponse,
+    oppgaveRequest,
+    settOppgaveRequest,
+}) => {
     const { hentOppgaver } = useOppgave();
-    const { oppgaveRequest, settOppgaveRequest } = useOppgaveFilter();
     const side = utledSide(oppgaveRequest);
     const antallSider = utledAntallSider(oppgaverResponse);
 
