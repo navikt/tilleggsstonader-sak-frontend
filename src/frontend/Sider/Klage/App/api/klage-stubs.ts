@@ -1,7 +1,13 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
 import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-import { Behandling, BehandlingResultat, Fagsystem, PåklagetVedtakstype, StegType } from '../typer/fagsak';
+import {
+    Behandling,
+    BehandlingResultat,
+    Fagsystem,
+    PåklagetVedtakstype,
+    StegType,
+} from '../typer/fagsak';
 import { BehandlingStatus } from '../typer/behandlingstatus';
 import { Stønadstype } from '../typer/stønadstype';
 import {
@@ -11,9 +17,10 @@ import {
     VilkårStatus,
 } from '../../Komponenter/Behandling/Formkrav/typer';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
-import { IVurdering, VedtakValg } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
-import { FolketrygdHjemmel } from '../../Komponenter/Behandling/Vurdering/hjemmel';
-import { EBrevmottakerRolle, IBrevmottakere } from '../../Komponenter/Behandling/Brevmottakere/typer';
+import {
+    EBrevmottakerRolle,
+    IBrevmottakere,
+} from '../../Komponenter/Behandling/Brevmottakere/typer';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 
 export const saksbehandlerStub: ISaksbehandler = {
@@ -43,16 +50,16 @@ export const personopplysningerStub: IPersonopplysninger = {
     fullmakt: [],
     egenAnsatt: false,
     vergemål: [],
-    navEnhet: "FA1",
+    navEnhet: 'FA1',
 };
 
 export const behandlingStub: Behandling = {
-    id: "56694255-4a4a-407e-9079-8b14a7acbe80",
-    fagsakId: "c0656c5b-878e-470e-864f-dbafbae9cd82",
+    id: '56694255-4a4a-407e-9079-8b14a7acbe80',
+    fagsakId: 'c0656c5b-878e-470e-864f-dbafbae9cd82',
     steg: StegType.FORMKRAV, // Map to StegType enum
     status: BehandlingStatus.OPPRETTET, // Map to BehandlingStatus enum
-    sistEndret: "2024-05-27T17:25:49",
-    opprettet: "2024-05-27T17:25:48.658",
+    sistEndret: '2024-05-27T17:25:49',
+    opprettet: '2024-05-27T17:25:48.658',
     resultat: BehandlingResultat.IKKE_SATT, // Map to BehandlingResultat enum
     vedtakDato: undefined,
     stønadstype: Stønadstype.OVERGANGSSTØNAD, // Assuming this is imported from somewhere
@@ -63,85 +70,75 @@ export const behandlingStub: Behandling = {
         fagsystemVedtak: undefined,
         manuellVedtaksdato: undefined,
     },
-    eksternFagsystemFagsakId: "200054236",
+    eksternFagsystemFagsakId: '200054236',
     fagsystem: Fagsystem.EF, // Map to Fagsystem enum
-    klageMottatt: "2024-05-22",
-    fagsystemRevurdering: undefined
+    klageMottatt: '2024-05-22',
+    fagsystemRevurdering: undefined,
 };
 
 export const formkravVilkårStub: IFormkravVilkår = {
-    behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+    behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
     klagePart: VilkårStatus.OPPFYLT,
     klageKonkret: VilkårStatus.OPPFYLT,
     klagefristOverholdt: VilkårStatus.OPPFYLT,
     klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
     klageSignert: VilkårStatus.OPPFYLT,
-    saksbehandlerBegrunnelse: "",
-    endretTid: "2024-05-28T08:14:20.478",
+    saksbehandlerBegrunnelse: '',
+    endretTid: '2024-05-28T08:14:20.478',
     påklagetVedtak: {
-        eksternFagsystemBehandlingId: "17934",
+        eksternFagsystemBehandlingId: '17934',
         påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
         fagsystemVedtak: {
-            eksternBehandlingId: "17934",
-            behandlingstype: "Førstegangsbehandling",
-            resultat: "Innvilget",
-            vedtakstidspunkt: "2024-01-22T17:13:23.621",
+            eksternBehandlingId: '17934',
+            behandlingstype: 'Førstegangsbehandling',
+            resultat: 'Innvilget',
+            vedtakstidspunkt: '2024-01-22T17:13:23.621',
             fagsystemType: FagsystemType.ORDNIÆR,
             //regelverk: "NASJONAL"
         },
         manuellVedtaksdato: undefined,
         //regelverk: "NASJONAL"
-    }
-}
+    },
+};
 
 export const fagsystemVedakStub: FagsystemVedtak[] = [
     {
-        eksternBehandlingId: "17934",
-        behandlingstype: "Førstegangsbehandling",
-        resultat: "Innvilget",
-        vedtakstidspunkt: "2024-01-22T17:13:23.621",
+        eksternBehandlingId: '17934',
+        behandlingstype: 'Førstegangsbehandling',
+        resultat: 'Innvilget',
+        vedtakstidspunkt: '2024-01-22T17:13:23.621',
         fagsystemType: FagsystemType.ORDNIÆR,
-    }
-] 
-
-export const vurderingStub: IVurdering = {
-    behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
-    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK,
-    årsak: undefined ,
-    begrunnelseOmgjøring: undefined ,
-    hjemmel: FolketrygdHjemmel.FT_FEMTEN_TO,
-    innstillingKlageinstans: "Dette er fritekst",
-    interntNotat: undefined
-}
+    },
+];
 
 export const brevmottakereStub: IBrevmottakere = {
     personer: [
         {
-            personIdent: "25518735813",
-            navn: "HURTIG PLEIE",
-            mottakerRolle: EBrevmottakerRolle.BRUKER
-        }
+            personIdent: '25518735813',
+            navn: 'HURTIG PLEIE',
+            mottakerRolle: EBrevmottakerRolle.BRUKER,
+        },
     ],
-    organisasjoner: []
-}
+    organisasjoner: [],
+};
 
 export const behandlingshistorikkStub: IBehandlingshistorikk[] = [
     {
-        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
         steg: StegType.VURDERING,
-        opprettetAv: "Z994781",
-        endretTid: "2024-05-28T08:24:17.341055"
+        opprettetAv: 'Z994781',
+        endretTid: '2024-05-28T08:24:17.341055',
     },
     {
-        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
         steg: StegType.FORMKRAV,
-        opprettetAv: "Z994781",
-        endretTid: "2024-05-28T08:16:29.451124"
+        opprettetAv: 'Z994781',
+        endretTid: '2024-05-28T08:16:29.451124',
     },
     {
-        behandlingId: "56694255-4a4a-407e-9079-8b14a7acbe80",
+        behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
         steg: StegType.FORMKRAV,
-        opprettetAv: "Z994781",
-        endretTid: "2024-05-28T08:15:29.345039"
+        opprettetAv: 'Z994781',
+        endretTid: '2024-05-28T08:15:29.345039',
     },
-]
+];
