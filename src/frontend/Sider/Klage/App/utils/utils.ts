@@ -35,8 +35,7 @@ export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512)
         byteArrays.push(byteArray);
     }
 
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
+    return new Blob(byteArrays, { type: contentType });
 };
 
 export const toTitleCase = (str: string): string =>
@@ -131,7 +130,7 @@ export const åpneFilIEgenTab = (
     filnavn: string
 ): void => {
     const newWindow = window.open(
-        `/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
+        `/api/klage/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
         '_blank'
     );
     setTimeout(function () {
