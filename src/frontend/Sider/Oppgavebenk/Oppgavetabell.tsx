@@ -20,6 +20,7 @@ import {
     OppgaverResponse,
 } from './typer/oppgave';
 import { useOppgave } from '../../context/OppgaveContext';
+import { useOppgaveFilter } from '../../context/OppgaveFilterContext';
 import { PartialRecord } from '../../typer/common';
 
 const Tabell = styled(Table)`
@@ -61,7 +62,8 @@ const utledTabellSort = (oppgaveRequest: OppgaveRequest): SortState => ({
 });
 
 const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
-    const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+    const { hentOppgaver } = useOppgave();
+    const { oppgaveRequest, settOppgaveRequest } = useOppgaveFilter();
     const side = utledSide(oppgaveRequest);
     const antallSider = utledAntallSider(oppgaverResponse);
 

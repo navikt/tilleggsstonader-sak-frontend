@@ -9,6 +9,7 @@ import Oppgavetabell from './Oppgavetabell';
 import { OpprettDummyBehandling } from './OpprettDummyBehandling';
 import { useApp } from '../../context/AppContext';
 import { OppgaveProvider, useOppgave } from '../../context/OppgaveContext';
+import { OppgaveFilterProvider, useOppgaveFilter } from '../../context/OppgaveFilterContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import SystemetLaster from '../../komponenter/SystemetLaster/SystemetLaster';
@@ -24,7 +25,8 @@ const AlertContainer = styled.div`
 `;
 
 const OppgavebenkContainer = () => {
-    const { feilmelding, oppgaveRessurs, lasterOppgaveRequestFraLocaleStorage } = useOppgave();
+    const { feilmelding, oppgaveRessurs } = useOppgave();
+    const { lasterOppgaveRequestFraLocaleStorage } = useOppgaveFilter();
 
     if (lasterOppgaveRequestFraLocaleStorage) {
         return <SystemetLaster />;
@@ -63,7 +65,9 @@ const Oppgavebenk: React.FC = () => {
         <div>
             {!erProd() && <OpprettDummyBehandling />}
             <OppgaveProvider>
-                <OppgavebenkContainer />
+                <OppgaveFilterProvider>
+                    <OppgavebenkContainer />
+                </OppgaveFilterProvider>
             </OppgaveProvider>
         </div>
     );
