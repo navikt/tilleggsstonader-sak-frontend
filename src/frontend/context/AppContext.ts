@@ -40,6 +40,7 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
     }, [saksbehandler, appEnv]);
 
     const {
+        ulagradeKomponenter,
         harUlagradeKomponenter,
         settUlagretKomponent,
         nullstillUlagretKomponent,
@@ -56,6 +57,7 @@ const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
         toast,
         settToast,
 
+        ulagradeKomponenter,
         harUlagradeKomponenter,
         settUlagretKomponent,
         nullstillUlagretKomponent,
