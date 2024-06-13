@@ -25,7 +25,7 @@ export const MålgruppeHjelpetekst = () => (
             A-3 er oppfylt.
         </BodyLong>
         <BodyLong size={'small'}>
-            <strong>100% sykepenger</strong> gjelder hvis søker er sykemeldt fra 100%
+            <strong>100% sykepenger</strong> hvis søker mottar 100 % sykepenger fra en
             fulltidsstilling eller fra fast deltidsstilling hvor søker ikke har annen inntekt eller
             ytelse fra NAV. F.eks. hvis søker er i 70% stilling og mottar 100% sykepenger for denne
             stillingen.
