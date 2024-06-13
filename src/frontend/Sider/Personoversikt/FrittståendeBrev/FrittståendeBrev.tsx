@@ -32,10 +32,17 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
 }) => {
     const { request, settToast } = useApp();
 
-    const { brevmaler, brevmal, settBrevmal, malStruktur, settMalStruktur, fil, settFil } = useBrev(
-        valgtStønadstype,
-        'FRITTSTAENDE'
-    );
+    const {
+        brevmaler,
+        brevmal,
+        settBrevmal,
+        malStruktur,
+        settMalStruktur,
+        fil,
+        settFil,
+        hentMalStruktur,
+        hentBrevmaler,
+    } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev, settMellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
 
@@ -44,6 +51,16 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
             settBrevmal(mellomlagretBrev.data.brevmal);
         }
     }, [mellomlagretBrev, settBrevmal]);
+
+    useEffect(() => {
+        hentBrevmaler('FRITTSTAENDE');
+    }, [hentBrevmaler]);
+
+    useEffect(() => {
+        if (brevmal) {
+            hentMalStruktur();
+        }
+    }, [brevmal, hentMalStruktur]);
 
     const [feilmelding, settFeilmelding] = useState<string>();
 

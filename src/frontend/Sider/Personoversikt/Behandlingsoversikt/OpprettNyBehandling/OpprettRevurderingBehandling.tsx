@@ -4,31 +4,30 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Fagsak } from '../../../../typer/fagsak';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 interface Props {
     fagsak: Fagsak;
-    hentKlagebehandlinger: () => void;
     lukkModal: () => void;
+    hentBehandlinger: () => void;
 }
 
-interface OpprettKlageRequest {
-    mottattDato: string;
+interface OpprettBehandlingRequest {
+    fagsakId: string;
 }
 
-const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger, lukkModal }) => {
+const OpprettRevurderingBehandling: React.FC<Props> = ({ fagsak, lukkModal, hentBehandlinger }) => {
     const { request } = useApp();
-    const [kravMottattDato, settKravMottattDato] = useState('');
+
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprett = () => {
-        request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsak.id}`, 'POST', {
-            mottattDato: kravMottattDato,
+        request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
+            fagsakId: fagsak.id,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
-                hentKlagebehandlinger();
+                hentBehandlinger();
                 lukkModal();
             } else {
                 settFeilmelding(response.frontendFeilmelding || response.melding);
@@ -38,11 +37,6 @@ const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger
 
     return (
         <VStack gap="4">
-            <DateInput
-                label={'Krav mottatt'}
-                onChange={(dato: string | undefined) => settKravMottattDato(dato || '')}
-                value={kravMottattDato}
-            />
             <HStack gap="4" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">
                     Avbryt
@@ -56,4 +50,4 @@ const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger
     );
 };
 
-export default OpprettKlageBehandling;
+export default OpprettRevurderingBehandling;

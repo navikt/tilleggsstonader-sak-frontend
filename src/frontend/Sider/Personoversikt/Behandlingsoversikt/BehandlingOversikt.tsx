@@ -15,6 +15,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     }, [fagsakPersonId, hentFagsakPerson, hentKlagebehandlinger]);
 
     const rekjørHentKlagebehandlinger = () => hentKlagebehandlinger(fagsakPersonId);
+    const rekjørHentBehandlinger = () => hentFagsakPerson(fagsakPersonId);
 
     return (
         <DataViewer response={{ fagsakPerson, klagebehandlinger }}>
@@ -25,6 +26,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                             fagsak={fagsakPerson.tilsynBarn}
                             klagebehandlinger={klagebehandlinger.barnetilsyn}
                             hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            hentBehandlinger={rekjørHentBehandlinger}
                         />
                     )}
                 </>

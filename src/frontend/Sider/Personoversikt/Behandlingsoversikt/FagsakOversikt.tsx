@@ -27,12 +27,14 @@ interface Props {
     fagsak: Fagsak;
     klagebehandlinger: KlageBehandling[];
     hentKlagebehandlinger: () => void;
+    hentBehandlinger: () => void;
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
     fagsak,
     klagebehandlinger,
     hentKlagebehandlinger,
+    hentBehandlinger,
 }) => {
     return (
         <Container>
@@ -55,6 +57,7 @@ export const FagsakOversikt: React.FC<Props> = ({
                 <OpprettNyBehandlingModal
                     fagsak={fagsak}
                     hentKlagebehandlinger={hentKlagebehandlinger}
+                    hentBehandlinger={hentBehandlinger}
                 />
             )}
         </Container>

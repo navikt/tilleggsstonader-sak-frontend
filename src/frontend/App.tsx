@@ -88,7 +88,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         backendUrl={'/endringslogg'}
                         dataset={'production'}
                         maxEntries={50}
-                        appName={'Tilleggsstønader'}
+                        appName={'TS-sak'}
                         alignLeft={true}
                         stil={'lys'}
                     />

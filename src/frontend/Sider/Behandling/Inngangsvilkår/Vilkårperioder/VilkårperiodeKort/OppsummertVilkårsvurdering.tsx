@@ -12,7 +12,11 @@ import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårs
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/aktivitet';
-import { Målgruppe, MålgruppeTypeTilFaktiskMålgruppe } from '../../typer/målgruppe';
+import {
+    FaktiskMålgruppe,
+    Målgruppe,
+    MålgruppeTypeTilFaktiskMålgruppe,
+} from '../../typer/målgruppe';
 
 const Container = styled.div`
     display: flex;
@@ -21,6 +25,14 @@ const Container = styled.div`
     border-left: 3px solid ${AGray200};
     padding-left: 1rem;
 `;
+
+export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppe, string> = {
+    NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
+    ENSLIG_FORSØRGER: 'Enslig forsørger',
+    GJENLEVENDE: 'Gjenlevende',
+    SYKEPENGER_100_PROSENT: 'Ikke i målgruppe',
+    INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
+};
 
 const OppsummertVilkårsvurdering: React.FC<{
     vilkårperiode?: Målgruppe | Aktivitet;
@@ -46,7 +58,11 @@ const OppsummertVilkårsvurdering: React.FC<{
                 {erMålgruppe(vilkårperiode) && (
                     <Detail>
                         <strong>Målgruppe: </strong>
-                        {formaterEnumVerdi(MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type])}
+                        {
+                            informasjonForFaktisktMålgruppe[
+                                MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type]
+                            ]
+                        }
                     </Detail>
                 )}
                 {delvilkårSomMåOppsummeres.length > 0 && (
