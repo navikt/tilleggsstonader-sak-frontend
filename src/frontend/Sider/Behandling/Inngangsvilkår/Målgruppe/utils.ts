@@ -1,4 +1,5 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
@@ -10,14 +11,37 @@ import {
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
-import { SvarJaNei } from '../typer/vilkårperiode';
+import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
     | MålgruppeType.OMSTILLINGSSTØNAD;
 
-export const nyMålgruppe = (behandlingId: string): EndreMålgruppeForm => {
+export const nyMålgruppe = (
+    behandlingId: string,
+    registrertYtelsePeriode?: YtelseGrunnlagPeriode
+): EndreMålgruppeForm => {
+    return registrertYtelsePeriode
+        ? nyMålgruppeFraRegister(behandlingId, registrertYtelsePeriode)
+        : tomMålgruppeForm(behandlingId);
+};
+
+const nyMålgruppeFraRegister = (
+    behandlingId: string,
+    registrertYtelsePeriode: YtelseGrunnlagPeriode
+): EndreMålgruppeForm => {
+    const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
+    return {
+        behandlingId: behandlingId,
+        type: type,
+        fom: registrertYtelsePeriode.fom,
+        tom: registrertYtelsePeriode.tom || '',
+        delvilkår: resetDelvilkår(type, { '@type': 'MÅLGRUPPE' }),
+    };
+};
+
+const tomMålgruppeForm = (behandlingId: string): EndreMålgruppeForm => {
     return {
         behandlingId: behandlingId,
         type: '',
