@@ -45,8 +45,8 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
                 >
                     <option value={''}>Velg</option>
                     {Object.keys(alleHjemlerTilVisningstekst).map(
-                        (hjemmel: string, index: number) => (
-                            <option value={hjemmel as Hjemmel} key={index}>
+                        (hjemmel: string) => (
+                            <option value={hjemmel as Hjemmel} key={hjemmel}>
                                 {alleHjemlerTilVisningstekst[hjemmel as Hjemmel]}
                             </option>
                         )
