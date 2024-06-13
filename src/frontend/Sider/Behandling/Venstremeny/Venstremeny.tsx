@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Box, Tabs } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
+import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
@@ -26,13 +27,18 @@ const tabs = [
         label: 'Søknaden',
         komponent: <OppsummeringSøknad />,
     },
+    {
+        value: 'historikk',
+        label: 'Historikk',
+        komponent: <Historikk />,
+    },
 ];
 
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
             <Totrinnskontroll />
-            <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
+            <Tabs defaultValue="historikk" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
                         {tabs.map((tab) => (
