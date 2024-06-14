@@ -3,8 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Detail, Label } from '@navikt/ds-react';
-import { ABlue500, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
+import { AGray100, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
 
+import HendelseIkon from './HendelseIkon';
 import Metadata from './Metadata';
 import { Hendelseshistorikk, hendelseTilHistorikkTekst } from './typer';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
@@ -37,7 +38,11 @@ const BlåRunding = styled.div`
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: ${ABlue500};
+    background-color: ${AGray100};
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const InnholdContainer = styled.div`
@@ -51,7 +56,9 @@ const HistorikkElement: React.FC<HistorikkElementProps> = ({
     return (
         <Container>
             <div>
-                <BlåRunding />
+                <BlåRunding>
+                    <HendelseIkon hendelse={behandlingshistorikk.hendelse} />
+                </BlåRunding>
                 {!erSisteElementIListe && <Linje />}
             </div>
             <InnholdContainer>
