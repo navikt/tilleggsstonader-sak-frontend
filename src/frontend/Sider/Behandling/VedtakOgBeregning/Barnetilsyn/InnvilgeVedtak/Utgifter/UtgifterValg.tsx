@@ -159,7 +159,9 @@ const UtgifterValg: React.FC<Props> = ({
                                             variant="tertiary"
                                             icon={<PlusCircleIcon />}
                                             size="small"
-                                        />
+                                        >
+                                            Legg til utgift
+                                        </Button>
                                         {indeks !== 0 && (
                                             <Button
                                                 type="button"
