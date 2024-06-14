@@ -7,6 +7,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import Beregningsresultat from './Beregningsresultat';
 import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import Utgifter from './Utgifter/Utgifter';
+import { UtgifterLesMer } from './UtgifterLesMer';
 import { VarselBarnUnder2År } from './VarselBarnUnder2år';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
@@ -122,6 +123,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
                             <OppsummeringStønadsperioder stønadsperioder={stønadsperioder} />
                         )}
                     </DataViewer>
+                    <UtgifterLesMer />
                     <Utgifter
                         barnMedOppfylteVilkår={barnMedOppfylteVilkår}
                         utgifterState={utgifterState}
