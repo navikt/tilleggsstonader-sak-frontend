@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Detail, Label } from '@navikt/ds-react';
 import { ABlue500, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
 
+import Metadata from './Metadata';
 import { Hendelseshistorikk, hendelseTilHistorikkTekst } from './typer';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
 
@@ -17,6 +18,7 @@ const Linje = styled.div`
     margin-right: 12px;
     border-right: 1px dashed ${AGray400};
     min-height: 60px;
+    height: 100%;
 `;
 
 const Container = styled.li`
@@ -38,6 +40,10 @@ const BlåRunding = styled.div`
     background-color: ${ABlue500};
 `;
 
+const InnholdContainer = styled.div`
+    margin-bottom: 1rem;
+`;
+
 const HistorikkElement: React.FC<HistorikkElementProps> = ({
     behandlingshistorikk,
     erSisteElementIListe,
@@ -48,7 +54,7 @@ const HistorikkElement: React.FC<HistorikkElementProps> = ({
                 <BlåRunding />
                 {!erSisteElementIListe && <Linje />}
             </div>
-            <div>
+            <InnholdContainer>
                 <Label size="small">
                     {hendelseTilHistorikkTekst[behandlingshistorikk.hendelse]}
                 </Label>
@@ -56,7 +62,10 @@ const HistorikkElement: React.FC<HistorikkElementProps> = ({
                     {formaterIsoDatoTidKort(behandlingshistorikk.endretTid)} |{' '}
                     {behandlingshistorikk.endretAvNavn}
                 </Detail>
-            </div>
+                {behandlingshistorikk.metadata && (
+                    <Metadata metadata={behandlingshistorikk.metadata} />
+                )}
+            </InnholdContainer>
         </Container>
     );
 };

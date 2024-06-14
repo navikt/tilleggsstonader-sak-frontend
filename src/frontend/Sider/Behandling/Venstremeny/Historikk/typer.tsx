@@ -1,8 +1,23 @@
+import { ÅrsakSettPåVent } from '../../SettPåVent/typer';
+import { ÅrsakUnderkjent } from '../../Totrinnskontroll/typer';
+
 export interface Hendelseshistorikk {
     behandlingId: string;
     hendelse: Hendelse;
     endretAvNavn: string;
     endretTid: string;
+    metadata?: HendelseMetadata;
+}
+
+export type HendelseMetadata = SattPåVentMetadata | VedtakUnderkjentMetadata;
+
+export interface SattPåVentMetadata {
+    årsaker: ÅrsakSettPåVent[];
+}
+
+export interface VedtakUnderkjentMetadata {
+    årsakerUnderkjent: ÅrsakUnderkjent[];
+    begrunnelse: string;
 }
 
 export enum Hendelse {
