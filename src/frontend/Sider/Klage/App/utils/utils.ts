@@ -130,7 +130,7 @@ export const åpneFilIEgenTab = (
     filnavn: string
 ): void => {
     const newWindow = window.open(
-        `/api/klage/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
+        `/dokument/journalpost/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
         '_blank'
     );
     setTimeout(function () {
