@@ -128,5 +128,16 @@ export const arkivtemaerTilTekst: Record<Arkivtema, string> = {
     YRK: 'Yrkesskade',
 };
 
+export const relevanteArkivtemaer: Arkivtema[] = [
+    Arkivtema.TSO,
+    Arkivtema.TSR,
+    Arkivtema.ENF,
+    Arkivtema.AAP,
+    Arkivtema.EYO,
+    Arkivtema.OPP,
+    Arkivtema.UFO,
+    Arkivtema.YRK,
+];
+
 export const utledArkivtema = (tema: Arkivtema | undefined) =>
     tema ? arkivtemaerTilTekst[tema] : 'Tema ikke satt';
