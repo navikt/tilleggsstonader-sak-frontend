@@ -1,7 +1,7 @@
 import { ÅrsakSettPåVent } from '../../SettPåVent/typer';
 import { ÅrsakUnderkjent } from '../../Totrinnskontroll/typer';
 
-export interface Hendelseshistorikk {
+export interface HistorikkHendelse {
     behandlingId: string;
     hendelse: Hendelse;
     endretAvNavn: string;

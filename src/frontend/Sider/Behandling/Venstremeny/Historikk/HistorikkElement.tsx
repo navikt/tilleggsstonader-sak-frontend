@@ -7,13 +7,8 @@ import { AGray100, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
 
 import HendelseIkon from './HendelseIkon';
 import Metadata from './Metadata';
-import { Hendelseshistorikk, hendelseTilHistorikkTekst } from './typer';
+import { HistorikkHendelse, hendelseTilHistorikkTekst } from './typer';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
-
-export interface HistorikkElementProps {
-    erSisteElementIListe: boolean;
-    behandlingshistorikk: Hendelseshistorikk;
-}
 
 const Linje = styled.div`
     margin-right: 12px;
@@ -49,29 +44,25 @@ const InnholdContainer = styled.div`
     margin-bottom: 1rem;
 `;
 
-const HistorikkElement: React.FC<HistorikkElementProps> = ({
-    behandlingshistorikk,
-    erSisteElementIListe,
-}) => {
+const HistorikkElement: React.FC<{
+    erSisteElementIListe: boolean;
+    historikkHendelse: HistorikkHendelse;
+}> = ({ historikkHendelse, erSisteElementIListe }) => {
     return (
         <Container>
             <div>
                 <BlåRunding>
-                    <HendelseIkon hendelse={behandlingshistorikk.hendelse} />
+                    <HendelseIkon hendelse={historikkHendelse.hendelse} />
                 </BlåRunding>
                 {!erSisteElementIListe && <Linje />}
             </div>
             <InnholdContainer>
-                <Label size="small">
-                    {hendelseTilHistorikkTekst[behandlingshistorikk.hendelse]}
-                </Label>
+                <Label size="small">{hendelseTilHistorikkTekst[historikkHendelse.hendelse]}</Label>
                 <Detail>
-                    {formaterIsoDatoTidKort(behandlingshistorikk.endretTid)} |{' '}
-                    {behandlingshistorikk.endretAvNavn}
+                    {formaterIsoDatoTidKort(historikkHendelse.endretTid)} |{' '}
+                    {historikkHendelse.endretAvNavn}
                 </Detail>
-                {behandlingshistorikk.metadata && (
-                    <Metadata metadata={behandlingshistorikk.metadata} />
-                )}
+                {historikkHendelse.metadata && <Metadata metadata={historikkHendelse.metadata} />}
             </InnholdContainer>
         </Container>
     );

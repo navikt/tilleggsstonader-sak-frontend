@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import HistorikkElement from './HistorikkElement';
-import { Hendelseshistorikk } from './typer';
+import { HistorikkHendelse } from './typer';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -18,10 +18,10 @@ const Historikk: React.FC = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [historikk, settHistorikk] = useState<Ressurs<Hendelseshistorikk[]>>(byggTomRessurs());
+    const [historikk, settHistorikk] = useState<Ressurs<HistorikkHendelse[]>>(byggTomRessurs());
 
     useEffect(() => {
-        request<Hendelseshistorikk[], null>(`/api/sak/behandlingshistorikk/${behandling.id}`).then(
+        request<HistorikkHendelse[], null>(`/api/sak/behandlingshistorikk/${behandling.id}`).then(
             settHistorikk
         );
     }, [request, behandling.id]);
@@ -36,7 +36,7 @@ const Historikk: React.FC = () => {
                         return (
                             <HistorikkElement
                                 erSisteElementIListe={erSisteElementIListe}
-                                behandlingshistorikk={historikkElement}
+                                historikkHendelse={historikkElement}
                                 key={index}
                             />
                         );
