@@ -9,5 +9,5 @@ export const erSettPåVentMetadata = (
 export const erVedtakUnderkjentMetadata = (
     metadata: HendelseMetadata
 ): metadata is VedtakUnderkjentMetadata => {
-    return 'årsakerUnderkjent' in metadata;
+    return 'årsakerUnderkjent' in metadata && !!metadata.begrunnelse;
 };
