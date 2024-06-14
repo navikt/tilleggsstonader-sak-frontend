@@ -6,12 +6,13 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { attachToken, getTokenFromHeader, validateToken } from './auth/attachToken';
 import { setupLocal } from './auth/local';
 import { getProfile } from './auth/profile';
+import { getTokenFromHeader, attachToken, validateToken } from './auth/token';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
+import { attachUnleashAuthToken } from './toggle';
 import developmentConfig from './webpack/webpack.development';
 
 const app = express();
@@ -58,6 +59,7 @@ app.get(/^(?!.*\/(internal|static|api|oauth2|dokument)\/).*$/, validateToken(tru
 app.use('/api/env', addRequestInfo(), validateToken(), (req, res) => {
     res.status(200).send({
         roller: miljø.roller,
+        unleashEnv: miljø.unleash.environment,
     });
 });
 app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
@@ -81,6 +83,14 @@ app.use(
     addRequestInfo(),
     attachToken(ApplicationName.klage),
     doProxy(ApplicationName.klage)
+);
+
+app.use(
+    '/api/toggle',
+    addRequestInfo(),
+    validateToken(),
+    attachUnleashAuthToken(),
+    doProxy(ApplicationName.unleash)
 );
 
 app.use('/endringslogg', addRequestInfo(), doProxy(ApplicationName.endringslogg));

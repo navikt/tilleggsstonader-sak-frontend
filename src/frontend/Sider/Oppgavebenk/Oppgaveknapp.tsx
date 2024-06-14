@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
-import { Button, Dropdown } from '@navikt/ds-react';
+import { Button, Dropdown, HStack } from '@navikt/ds-react';
 
 import {
     lagJournalføringUrl,
@@ -18,13 +18,6 @@ import { useOppgave } from '../../context/OppgaveContext';
 const TabellKnapp = styled(Button)`
     width: fit-content;
     white-space: nowrap;
-`;
-
-const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
 `;
 
 interface Props {
@@ -82,8 +75,8 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
 
     if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (
-            <Container>
-                {skalViseFortsettKnapp(oppgave) ? (
+            <HStack justify={'space-between'}>
+                {skalViseFortsettKnapp(oppgave) && (
                     <TabellKnapp
                         type={'button'}
                         variant={'secondary'}
@@ -93,9 +86,8 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                     >
                         Fortsett
                     </TabellKnapp>
-                ) : (
-                    oppgave.tilordnetRessurs
                 )}
+
                 <OppgaveValgMeny
                     valg={[
                         {
@@ -106,12 +98,11 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                         },
                     ]}
                 />
-            </Container>
+            </HStack>
         );
     } else if (oppgave.tilordnetRessurs) {
         return (
-            <Container>
-                {oppgave.tilordnetRessurs}
+            <HStack justify={'end'}>
                 <OppgaveValgMeny
                     valg={[
                         {
@@ -122,7 +113,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
                         },
                     ]}
                 />
-            </Container>
+            </HStack>
         );
     } else
         return (

@@ -7,6 +7,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
+import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
@@ -30,17 +31,22 @@ export interface EndreMålgruppeForm extends Periode {
     begrunnelse?: string;
 }
 
-const initaliserForm = (behandlingId: string, eksisterendeMålgruppe?: Målgruppe) => {
+const initaliserForm = (
+    behandlingId: string,
+    eksisterendeMålgruppe?: Målgruppe,
+    registrertYtelsePeriode?: PeriodeYtelseRegister
+) => {
     return eksisterendeMålgruppe === undefined
-        ? nyMålgruppe(behandlingId)
+        ? nyMålgruppe(behandlingId, registrertYtelsePeriode)
         : { ...eksisterendeMålgruppe, behandlingId: behandlingId };
 };
 
 // TODO: Endre navn til EndreMålgruppe
 const EndreMålgruppeRad: React.FC<{
     målgruppe?: Målgruppe;
+    registerYtelsePeriode?: PeriodeYtelseRegister;
     avbrytRedigering: () => void;
-}> = ({ målgruppe, avbrytRedigering }) => {
+}> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
@@ -50,7 +56,7 @@ const EndreMålgruppeRad: React.FC<{
         useTriggRerendringAvDateInput();
 
     const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(behandling.id, målgruppe)
+        initaliserForm(behandling.id, målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();

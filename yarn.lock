@@ -1706,6 +1706,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@unleash/proxy-client-react@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-4.2.4.tgz#0342e5b101cdf1ce2dca8c111701fe39c47d0599"
+  integrity sha512-FWzKDqE28ZmogdXgL9caqMJTWnrVEMJWly8Ofbo1xNZHsk7R9jcWgozIXCWEPto/qijfyCBoat5xjsduT09l1g==
+
 "@webassemblyjs/ast@1.12.1", "@webassemblyjs/ast@^1.12.1":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.12.1.tgz#bb16a0e8b1914f979f45864c23819cc3e3f0d4bb"
@@ -5509,6 +5514,11 @@ through2@~2.0.3:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
+
 tiny-invariant@^1.0.0:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.3.3.tgz#46680b7a873a0d5d10005995eb90a70d74d60127"
@@ -5677,6 +5687,14 @@ unit-fns@^0.1.6:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/unit-fns/-/unit-fns-0.1.9.tgz#975f20a779cbd7a0ec9eeb3efde5c572534f7edb"
   integrity sha512-bxceIkc7n2icQmgQx8u3vX98ZBIcpL2YJDKIsWDFK7ZX1TTuLvtNWVNd9/oARCDHd7QQRzwc+zxabO0HSK8X0w==
+
+unleash-proxy-client@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-3.4.0.tgz#c9c4a8b0f18d77dc0b041eb76478c6ce74c98c1e"
+  integrity sha512-ivCzm//z+S2T3gSBSZY7HN+5GfoLXZIovMyH6lIZRe2/vCicEdXtXD6cnLTQ2LAiXGV7DpoSM1m8WZGoiLRzkw==
+  dependencies:
+    tiny-emitter "^2.1.0"
+    uuid "^9.0.1"
 
 update-browserslist-db@^1.0.13:
   version "1.0.16"

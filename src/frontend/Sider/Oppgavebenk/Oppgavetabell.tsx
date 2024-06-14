@@ -35,7 +35,7 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: Op
     opprettetTidspunkt: { tittel: 'Opprettet', orderBy: 'OPPRETTET_TIDSPUNKT' },
     identer: { tittel: 'Ident' },
     navn: { tittel: 'Navn' },
-    tilordnetRessurs: { tittel: 'Saksbehandler' },
+    tilordnetRessurs: { tittel: 'Tildelt' },
 };
 
 const orderByTilHeader: Record<OppgaveOrderBy, keyof Oppgave> = Object.entries(
@@ -104,6 +104,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
                                 {value.tittel}
                             </Table.ColumnHeader>
                         ))}
+                        <Table.ColumnHeader /* Knapp */ />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

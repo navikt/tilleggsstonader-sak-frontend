@@ -1,3 +1,5 @@
+import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+
 export interface Registerytelser {
     perioder: PeriodeYtelseRegister[];
     hentetInformasjon: HentetInformasjon[];
@@ -20,6 +22,12 @@ export enum TypeRegisterYtelse {
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
+
+export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
+    AAP: MålgruppeType.AAP,
+    ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
+    OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
+};
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',

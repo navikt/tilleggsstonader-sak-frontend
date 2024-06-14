@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 
+import logger from './logger';
 import { envVar } from './utils';
 
 if (process.env.NODE_ENV === 'development') {
@@ -10,6 +11,7 @@ export enum ApplicationName {
     sak = 'sak',
     klage = 'klage',
     endringslogg = 'endringslogg',
+    unleash = 'unleash',
 }
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
@@ -33,10 +35,16 @@ type ClientConfig = {
     };
 };
 
+interface UnleashSettings {
+    token: string;
+    environment: string;
+}
+
 interface Miljø {
     buildPath: string;
     clients: ClientConfig;
     azure: AzureSettings;
+    unleash: UnleashSettings;
     roller: Roller;
 }
 
@@ -56,6 +64,14 @@ const devProdAzure = (): AzureSettings => ({
     issuer: envVar('AZURE_OPENID_CONFIG_ISSUER'),
     token_endpoint: envVar('AZURE_OPENID_CONFIG_TOKEN_ENDPOINT'),
     openid_config_jwks_uri: envVar('AZURE_OPENID_CONFIG_JWKS_URI'),
+});
+
+/**
+ * @param environment skal være den samme som i unleash-apitoken-preprod.yaml
+ */
+const unleash = (environment: 'mock' | 'development' | 'production'): UnleashSettings => ({
+    token: environment !== 'mock' ? envVar('UNLEASH_SERVER_API_TOKEN') : 'mock',
+    environment: environment,
 });
 
 const devRoller: Roller = {
@@ -89,6 +105,10 @@ const clientsLocal = (): ClientConfig => ({
         url: 'https://familie-endringslogg.intern.dev.nav.no',
         audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
+    [ApplicationName.unleash]: {
+        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+        audience: '',
+    },
 });
 
 const clientsLocalPreprod = (): ClientConfig => ({
@@ -104,14 +124,25 @@ const clientsLocalPreprod = (): ClientConfig => ({
         url: 'https://familie-endringslogg.intern.dev.nav.no',
         audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
+    [ApplicationName.unleash]: {
+        url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+        audience: '',
+    },
 });
 
-const lokaltMiljø = (clients: ClientConfig): Miljø => ({
-    buildPath: '../../dist_development',
-    clients: clients,
-    azure: lokalAzure(),
-    roller: devRoller,
-});
+const lokaltMiljø = (clients: ClientConfig): Miljø => {
+    const brukUnleash = envVar('BRUK_UNLEASH', false, 'false');
+    const unleashEnvironment = brukUnleash === 'true' ? 'development' : 'mock';
+    logger.info(`Unleasn, brukUnleash=${brukUnleash} unleashEnv=${unleashEnvironment}`);
+
+    return {
+        buildPath: '../../dist_development',
+        clients: clients,
+        azure: lokalAzure(),
+        unleash: unleash(unleashEnvironment),
+        roller: devRoller,
+    };
+};
 
 const devMiljø = (): Miljø => ({
     buildPath: '../../app/build',
@@ -128,8 +159,13 @@ const devMiljø = (): Miljø => ({
             url: 'http://familie-endringslogg.teamfamilie',
             audience: 'dev-gcp.teamfamilie.familie-endringslogg',
         },
+        [ApplicationName.unleash]: {
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+            audience: '',
+        },
     },
     azure: devProdAzure(),
+    unleash: unleash('development'),
     roller: devRoller,
 });
 
@@ -148,8 +184,13 @@ const prodMiljø = (): Miljø => ({
             url: 'http://familie-endringslogg.teamfamilie',
             audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
+        [ApplicationName.unleash]: {
+            url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+            audience: '',
+        },
     },
     azure: devProdAzure(),
+    unleash: unleash('production'),
     roller: prodRoller,
 });
 

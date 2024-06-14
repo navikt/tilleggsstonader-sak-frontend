@@ -6,9 +6,22 @@ import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
 import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
+import { useApp } from '../../context/AppContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
+import { Saksbehandler } from '../../utils/saksbehandler';
+
+const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => {
+    if (!oppgave.tilordnetRessurs) {
+        return 'Ikke tildelt';
+    } else if (oppgave.tilordnetRessurs === saksbehandler.navIdent) {
+        return 'Meg';
+    } else {
+        return oppgave.tilordnetRessurs;
+    }
+};
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
+    const { saksbehandler } = useApp();
     const [anker, settAnker] = useState<Element | null>(null);
 
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
@@ -62,6 +75,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                 </HStack>
             </Table.DataCell>
             <Table.DataCell>{oppgave.navn}</Table.DataCell>
+            <Table.DataCell>{utledTildeltRessurs(oppgave, saksbehandler)}</Table.DataCell>
             <Table.DataCell>
                 <Oppgaveknapp oppgave={oppgave} />
             </Table.DataCell>

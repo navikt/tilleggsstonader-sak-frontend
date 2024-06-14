@@ -5,11 +5,12 @@ import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
 import RegisterYtelserTabell from './RegisterYtelserTabell';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
+import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 
-const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({
-    grunnlag,
-}) => {
+const RegisterYtelser: React.FC<{
+    grunnlag: VilkårperioderGrunnlag | undefined;
+    lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
+}> = ({ grunnlag, lagRadForPeriode }) => {
     if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
@@ -38,7 +39,10 @@ const RegisterYtelser: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined 
         <VStack>
             <ExpansionCard tittel="Relevante ytelser registrert på bruker" maxWidth={600}>
                 <VStack gap="4">
-                    <RegisterYtelserTabell perioderMedYtelse={perioderMedYtelse} />
+                    <RegisterYtelserTabell
+                        perioderMedYtelse={perioderMedYtelse}
+                        lagRadForPeriode={lagRadForPeriode}
+                    />
                     <HStack gap="2" align="center">
                         <Detail>
                             <strong>{opplysningerHentetTekst}</strong>

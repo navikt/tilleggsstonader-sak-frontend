@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
@@ -10,6 +12,7 @@ import {
     behandlingTypeTilTekst,
 } from '../../../../typer/behandling/behandlingType';
 import { Fagsak } from '../../../../typer/fagsak';
+import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsak: Fagsak;
@@ -24,6 +27,8 @@ const OpprettNyBehandlingModal: FC<Props> = ({
 }) => {
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
+
+    const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
 
     const lukkModal = () => {
         settVisModal(false);
@@ -45,7 +50,10 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                         }}
                     >
                         <option value={''}>Velg</option>
-                        {[BehandlingType.REVURDERING, BehandlingType.KLAGE].map((type) => (
+                        {[
+                            ...(kanOppretteRevurdering ? [BehandlingType.REVURDERING] : []),
+                            BehandlingType.KLAGE,
+                        ].map((type) => (
                             <option key={type} value={type}>
                                 {behandlingTypeTilTekst[type]}
                             </option>
