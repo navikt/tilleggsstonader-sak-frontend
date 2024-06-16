@@ -13,7 +13,11 @@ import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
-import { paragraflenkerMålgruppe, rundskrivMålgruppe } from '../../lenker';
+import {
+    lenkerForskriftMålgruppe,
+    lenkerParagrafMålgruppe,
+    rundskrivMålgruppe,
+} from '../../lenker';
 import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
@@ -75,8 +79,9 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
         <VilkårPanel
             ikon={<CardIcon />}
             tittel="Målgruppe"
-            paragraflenker={paragraflenkerMålgruppe}
+            paragraflenker={lenkerParagrafMålgruppe}
             rundskrivlenke={rundskrivMålgruppe}
+            forskriftlenker={lenkerForskriftMålgruppe}
         >
             <FlexColumn gap={2}>
                 <RegisterYtelser

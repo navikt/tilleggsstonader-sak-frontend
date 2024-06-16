@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, HStack, Link } from '@navikt/ds-react';
+import { HStack, Link } from '@navikt/ds-react';
 
 import { Lenke } from '../../Sider/Behandling/lenker';
 import Panel from '../Panel/Panel';
@@ -11,6 +11,7 @@ interface VilkårpanelProps {
     ekstraHeading?: React.ReactNode;
     paragraflenker: Lenke[];
     rundskrivlenke: string;
+    forskriftlenker: Lenke[];
     children: React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
     ekstraHeading,
     paragraflenker,
     rundskrivlenke,
+    forskriftlenker,
     children,
 }) => {
     return (
@@ -32,6 +34,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
                     <ParagrafOgRundskrivLenker
                         paragrafLenker={paragraflenker}
                         rundskrivLenke={rundskrivlenke}
+                        forskriftlenker={forskriftlenker}
                     />
                 </>
             }
@@ -44,22 +47,27 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
 export const ParagrafOgRundskrivLenker: React.FC<{
     paragrafLenker: Lenke[];
     rundskrivLenke: string;
-}> = ({ paragrafLenker, rundskrivLenke }) => {
+    forskriftlenker: Lenke[];
+}> = ({ paragrafLenker, rundskrivLenke, forskriftlenker }) => {
     return (
         <HStack gap="4">
-            <BodyShort>
-                {paragrafLenker.map((lenke, indeks) => (
-                    <React.Fragment key={indeks}>
-                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                            {lenke.tekst}
-                        </Link>
-                        {indeks !== paragrafLenker.length - 1 && ', '}
-                    </React.Fragment>
-                ))}
-            </BodyShort>
+            {paragrafLenker.map((lenke, indeks) => (
+                <React.Fragment key={indeks}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </React.Fragment>
+            ))}
             <Link href={rundskrivLenke} target="_blank" variant="neutral">
                 Rundskriv
             </Link>
+            {forskriftlenker.map((lenke, indeks) => (
+                <React.Fragment key={indeks}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </React.Fragment>
+            ))}
         </HStack>
     );
 };
