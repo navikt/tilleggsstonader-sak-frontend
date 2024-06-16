@@ -27,13 +27,13 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
 
     return vilkårsett.map((vilkår) => {
         if (!vilkår.barnId) {
-            return <div>Vilkår er ikke knyttet til et barn</div>;
+            return <div key={vilkår.id}>Vilkår er ikke knyttet til et barn</div>;
         }
 
         const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
 
         if (!grunnlagBarn) {
-            return <div>Fant ikke grunnlag for barn</div>;
+            return <div key={vilkår.id}>Fant ikke grunnlag for barn</div>;
         }
 
         const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
