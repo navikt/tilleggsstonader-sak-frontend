@@ -6,13 +6,16 @@ import { FritekstSerializer } from './FritekstSerializer';
 import { Fritekst, FritekstAvsnitt, Tekst, Valgfelt } from '../typer';
 import { VariabelSerializer } from '../VariabelSerializer';
 
-export const ValgfeltSerializer =
-    (
-        valgfelt: Partial<Record<string, Fritekst | Tekst>>,
-        variabler: Partial<Record<string, string>>,
-        fritekst: Record<string, FritekstAvsnitt[] | undefined>
-    ): React.FC<{ value: Valgfelt }> =>
-    ({ value }) => {
+interface Props {
+    value: Valgfelt;
+}
+
+export const ValgfeltSerializer = (
+    valgfelt: Partial<Record<string, Fritekst | Tekst>>,
+    variabler: Partial<Record<string, string>>,
+    fritekst: Record<string, FritekstAvsnitt[] | undefined>
+): React.FC<Props> =>
+    function ValgfeltSerializer({ value }: Props) {
         const valg = valgfelt[value._id];
 
         if (!valg) {

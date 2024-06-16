@@ -2,9 +2,12 @@ import React from 'react';
 
 import { Variabel } from './typer';
 
-export const VariabelSerializer =
-    (variabler: Partial<Record<string, string>>): React.FC<{ value?: Variabel }> =>
-    ({ value }) => {
+interface Props {
+    value?: Variabel;
+}
+
+export const VariabelSerializer = (variabler: Partial<Record<string, string>>): React.FC<Props> =>
+    function VariabelSerializer({ value }) {
         if (!value) {
             throw Error('Teknisk feil. Mangler variabel i block');
         }
