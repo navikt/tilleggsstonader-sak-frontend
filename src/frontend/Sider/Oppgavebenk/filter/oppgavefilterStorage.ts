@@ -1,3 +1,4 @@
+import { dagensDato } from '../../../utils/dato';
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import {
     defaultOppgaveRequest,
@@ -12,18 +13,28 @@ export const oppgaveRequestKey = (innloggetIdent: string): string => {
     return oppgaveRequestKeyPrefix + innloggetIdent;
 };
 
-export const lagreTilLocalStorage = <T>(key: string, request: T): void => {
+export const lagreTilLocalStorage = (key: string, request: OppgaveRequest): void => {
     try {
-        localStorage.setItem(key, JSON.stringify(request));
+        localStorage.setItem(key, JSON.stringify({ ...request, _datoLagret: dagensDato() }));
     } catch {
         // Ingen skade skjedd
     }
 };
 
-export const hentFraLocalStorage = <T>(key: string, fallbackVerdi: T): T => {
+export const hentFraLocalStorage = (
+    key: string,
+    fallbackVerdi: OppgaveRequest
+): Partial<OppgaveRequest> => {
     try {
         const request = localStorage.getItem(key);
-        return request ? JSON.parse(request) : fallbackVerdi;
+        if (request) {
+            // fjerner _datoLagret før obj returneres
+            const { _datoLagret, ...obj } = JSON.parse(request);
+            if (_datoLagret === dagensDato()) {
+                return obj;
+            }
+        }
+        return fallbackVerdi;
     } catch {
         return fallbackVerdi;
     }
@@ -33,7 +44,7 @@ export const hentLagretOppgaveRequest = (
     saksbehandler: Saksbehandler,
     harSaksbehandlerStrengtFortroligRolle: boolean
 ): OppgaveRequest => {
-    const fraLocalStorage = hentFraLocalStorage<Partial<OppgaveRequest>>(
+    const fraLocalStorage = hentFraLocalStorage(
         oppgaveRequestKey(saksbehandler.navIdent),
         defaultOppgaveRequest
     );
