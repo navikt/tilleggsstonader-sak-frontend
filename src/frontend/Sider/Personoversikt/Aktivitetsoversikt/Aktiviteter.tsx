@@ -42,7 +42,7 @@ const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktivitet
                                 {aktivitet.status && statutAktivitetTilTekst[aktivitet.status]}
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.arrangør}</Table.DataCell>
-                            <Table.DataCell>{aktivitet.antallDagerPerUke}</Table.DataCell>
+                            <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {formatBoolean(aktivitet.erStønadsberettiget)}
                             </Table.DataCell>
