@@ -1,5 +1,6 @@
 import { Oppgave } from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
+import { Saksbehandler } from '../../utils/saksbehandler';
 
 export const JOURNALPOST_QUERY_STRING = 'journalpostId';
 export const OPPGAVEID_QUERY_STRING = 'oppgaveId';
@@ -15,6 +16,13 @@ export const oppgaveErSaksbehandling = (oppgave: Oppgave): boolean => {
         oppgave.behandlingId
     );
 };
+
+export const saksbehandlerHarSendtTilGodkjenneVedtak = (
+    oppgave: Oppgave,
+    saksbehandler: Saksbehandler
+): boolean =>
+    oppgave.oppgavetype === 'GOD_VED' &&
+    oppgave.sendtTilTotrinnskontrollAv === saksbehandler.navIdent;
 
 export const oppgaveErJournalføring = (oppgave: Oppgave) => oppgave.oppgavetype === 'JFR';
 

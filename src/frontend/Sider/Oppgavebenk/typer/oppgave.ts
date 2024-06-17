@@ -70,6 +70,7 @@ export interface Oppgave {
      */
     navn?: string;
     behandlingId?: string;
+    sendtTilTotrinnskontrollAv?: string;
 }
 
 export interface IOppgaveIdent {
