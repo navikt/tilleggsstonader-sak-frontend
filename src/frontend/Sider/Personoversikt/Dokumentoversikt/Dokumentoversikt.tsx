@@ -10,12 +10,7 @@ import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
-import {
-    byggHenterRessurs,
-    byggRessursSuksess,
-    byggTomRessurs,
-    Ressurs,
-} from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { Toggle } from '../../../utils/toggles';
 
 type VedleggRequest = {
@@ -39,18 +34,14 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
 
     const hentDokumenter = useCallback(
         (fagsakPersonId: string) => {
-            if (vedleggRequest.tema.length === 0) {
-                settDokumenter(byggRessursSuksess([]));
-                return;
-            }
-
             settDokumenter(byggHenterRessurs());
             request<DokumentInfo[], VedleggRequest>(
                 `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
                 'POST',
                 {
                     ...vedleggRequest,
-                    tema: vedleggRequest.tema,
+                    tema:
+                        vedleggRequest.tema.length > 0 ? vedleggRequest.tema : relevanteArkivtemaer,
                 }
             ).then(settDokumenter);
         },

@@ -20,9 +20,9 @@ import {
     KlagebehandlingStatus,
     KlageÅrsak,
 } from '../../../typer/klage';
+import { sorterBehandlinger } from '../../../utils/behandlingutil';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
-import { sorterBehandlinger } from '../../../utils/behandlingutil';
 
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     opprettet: 'Behandling opprettetdato',

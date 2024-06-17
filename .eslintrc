@@ -1,6 +1,7 @@
 {
     "extends": [
         "eslint:recommended",
+        "plugin:react/recommended",
         "plugin:jsx-a11y/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
@@ -14,7 +15,7 @@
         "ecmaVersion": 2020,
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint", "prettier", "react-hooks", "import", "unused-imports"],
+    "plugins": ["@typescript-eslint", "prettier", "react-hooks", "react","import", "unused-imports"],
     "rules": {
         "import/extensions": [
             "off",
@@ -38,6 +39,10 @@
         "jsx-a11y/click-events-have-key-events": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
+        "react/jsx-key": ["error", {
+            "checkFragmentShorthand": true,
+            "checkKeyMustBeforeSpread": true
+        }],
         "no-console": "warn",
         "import/export": "warn",
         "import/order": [

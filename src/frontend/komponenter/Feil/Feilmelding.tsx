@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElement, Props>(
-    ({ children, variant }, ref) => {
+    function Feilmelding({ children, variant }, ref) {
         if (!children) {
             return null;
         }

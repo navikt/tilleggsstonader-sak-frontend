@@ -8,6 +8,7 @@ import { Button, Dropdown, HStack } from '@navikt/ds-react';
 
 import {
     lagJournalføringUrl,
+    saksbehandlerHarSendtTilGodkjenneVedtak,
     oppgaveErJournalføring,
     oppgaveErSaksbehandling,
 } from './oppgaveutils';
@@ -73,7 +74,9 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
             .then(gåTilOppgaveUtførelse)
             .catch((e) => settFeilmelding(e.message));
 
-    if (oppgaveTilordnetInnloggetSaksbehandler) {
+    if (saksbehandlerHarSendtTilGodkjenneVedtak(oppgave, saksbehandler)) {
+        return null;
+    } else if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (
             <HStack justify={'space-between'}>
                 {skalViseFortsettKnapp(oppgave) && (

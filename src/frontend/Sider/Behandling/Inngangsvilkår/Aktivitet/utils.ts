@@ -16,6 +16,13 @@ export const nyAktivitet = (
         ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
         : nyTomAktivitet(behandlingId);
 
+/**
+ * Prefyller aktivtetsdager med 5 dager hvis det gjelder utdanning då feltet mangler fra arena
+ * Ellers brukes antallDagerPerUke
+ */
+const aktivitetsdagerFraRegister = (aktivitetFraRegister: Registeraktivitet) =>
+    aktivitetFraRegister.erUtdanning ? 5 : aktivitetFraRegister.antallDagerPerUke;
+
 function nyAktivitetFraRegister(
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet
@@ -25,7 +32,7 @@ function nyAktivitetFraRegister(
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
+        aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
         delvilkår: { '@type': 'AKTIVITET' },
     };
