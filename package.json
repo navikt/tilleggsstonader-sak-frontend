@@ -10,7 +10,8 @@
     "build:dev": "cd src/backend && yarn build",
     "start:dev": "cd src/backend && yarn start:dev",
     "start:dev-preprod": "cd src/backend && yarn start:dev-preprod",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint-all": "eslint \"src/frontend/**/*.{js,jsx,ts,tsx,json,css}\" --ignore-pattern src/frontend/Sider/Klage/"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css} !(src/frontend/Sider/Klage/**/*)": [
