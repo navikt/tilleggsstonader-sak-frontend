@@ -100,12 +100,7 @@ export const lenkerParagrafPassBarn: Lenke[] = [
     },
 ];
 
-export const lenkerRundskrivPassBarn: Lenke[] = [
-    {
-        tekst: 'Rundskriv til forskrift',
-        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
-    },
-];
+export const lenkerRundskrivPassBarn: Lenke[] = [];
 
 export const lenkerForskriftPassBarn: Lenke[] = [
     {
@@ -115,5 +110,16 @@ export const lenkerForskriftPassBarn: Lenke[] = [
     {
         tekst: 'Rundskriv til forskrift',
         url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
+    },
+];
+
+export const lenkerBeregningTilsynBarn: Lenke[] = [
+    {
+        tekst: 'Forskrift',
+        url: 'https://lovdata.no/pro/forskrift/2015-07-02-867/§11',
+    },
+    {
+        tekst: 'Rundskriv til forskrift',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_11',
     },
 ];
