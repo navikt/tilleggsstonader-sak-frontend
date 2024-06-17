@@ -13,7 +13,7 @@ export const oppgaveRequestKey = (innloggetIdent: string): string => {
     return oppgaveRequestKeyPrefix + innloggetIdent;
 };
 
-export const lagreTilLocalStorage = (key: string, request: OppgaveRequest): void => {
+export const lagreTilLocalStorage = (key: string, request: Partial<OppgaveRequest>): void => {
     try {
         localStorage.setItem(key, JSON.stringify({ ...request, _datoLagret: dagensDato() }));
     } catch {
@@ -23,7 +23,7 @@ export const lagreTilLocalStorage = (key: string, request: OppgaveRequest): void
 
 export const hentFraLocalStorage = (
     key: string,
-    fallbackVerdi: OppgaveRequest
+    fallbackVerdi: Partial<OppgaveRequest>
 ): Partial<OppgaveRequest> => {
     try {
         const request = localStorage.getItem(key);
