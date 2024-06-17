@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, VStack } from '@navikt/ds-react';
+import { Button, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
@@ -30,6 +30,7 @@ import {
 } from '../../../../../typer/vedtak';
 import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 import { FanePath } from '../../../faner';
+import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -63,6 +64,20 @@ interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
     vilkårsvurderteBarn: BarnOppsummering[];
 }
+
+export const HeadingBeregning: React.FC = () => {
+    return (
+        <HStack gap="4" align={'end'}>
+            {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
+                <React.Fragment key={indeks}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </React.Fragment>
+            ))}
+        </HStack>
+    );
+};
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvurderteBarn }) => {
     const { request } = useApp();
@@ -116,7 +131,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
 
     return (
         <>
-            <Panel tittel="Beregning">
+            <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap="8">
                     <DataViewer response={{ stønadsperioder }}>
                         {({ stønadsperioder }) => (

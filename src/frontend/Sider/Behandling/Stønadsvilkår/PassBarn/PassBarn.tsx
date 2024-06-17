@@ -4,7 +4,11 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { paragraflenkerPassBarn, rundskrivPassBarn } from '../../lenker';
+import {
+    lenkerForskriftPassBarn,
+    lenkerParagrafPassBarn,
+    lenkerRundskrivPassBarn,
+} from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -49,8 +53,9 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         tooltipTekst="Kopier fødselsnummer"
                     />
                 }
-                paragraflenker={paragraflenkerPassBarn}
-                rundskrivlenke={rundskrivPassBarn}
+                paragraflenker={lenkerParagrafPassBarn}
+                rundskrivlenke={lenkerRundskrivPassBarn}
+                forskriftlenker={lenkerForskriftPassBarn}
                 key={grunnlagBarn.barnId}
             >
                 <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, HStack, Link } from '@navikt/ds-react';
+import { BodyShort, Detail, HStack, Link } from '@navikt/ds-react';
 
 import { Lenke } from '../../Sider/Behandling/lenker';
 import Panel from '../Panel/Panel';
@@ -10,7 +10,8 @@ interface VilkårpanelProps {
     ikon?: React.ReactNode;
     ekstraHeading?: React.ReactNode;
     paragraflenker: Lenke[];
-    rundskrivlenke: string;
+    rundskrivlenke: Lenke[];
+    forskriftlenker: Lenke[];
     children: React.ReactNode;
 }
 
@@ -20,6 +21,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
     ekstraHeading,
     paragraflenker,
     rundskrivlenke,
+    forskriftlenker,
     children,
 }) => {
     return (
@@ -32,6 +34,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
                     <ParagrafOgRundskrivLenker
                         paragrafLenker={paragraflenker}
                         rundskrivLenke={rundskrivlenke}
+                        forskriftlenker={forskriftlenker}
                     />
                 </>
             }
@@ -43,23 +46,39 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
 
 export const ParagrafOgRundskrivLenker: React.FC<{
     paragrafLenker: Lenke[];
-    rundskrivLenke: string;
-}> = ({ paragrafLenker, rundskrivLenke }) => {
+    rundskrivLenke: Lenke[];
+    forskriftlenker: Lenke[];
+}> = ({ paragrafLenker, rundskrivLenke, forskriftlenker }) => {
     return (
         <HStack gap="4">
-            <BodyShort>
+            <HStack gap="2">
                 {paragrafLenker.map((lenke, indeks) => (
-                    <React.Fragment key={indeks}>
+                    <BodyShort key={indeks} size={'small'}>
                         <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
                             {lenke.tekst}
                         </Link>
-                        {indeks !== paragrafLenker.length - 1 && ', '}
-                    </React.Fragment>
+                    </BodyShort>
                 ))}
-            </BodyShort>
-            <Link href={rundskrivLenke} target="_blank" variant="neutral">
-                Rundskriv
-            </Link>
+            </HStack>
+            <HStack gap="2">
+                <Detail>Rundskriv til:</Detail>
+                {rundskrivLenke.map((lenke, indeks) => (
+                    <BodyShort key={indeks} size={'small'}>
+                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                            {lenke.tekst}
+                        </Link>
+                    </BodyShort>
+                ))}
+            </HStack>
+            <HStack gap="2">
+                {forskriftlenker.map((lenke, indeks) => (
+                    <BodyShort key={indeks} size={'small'}>
+                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                            {lenke.tekst}
+                        </Link>
+                    </BodyShort>
+                ))}
+            </HStack>
         </HStack>
     );
 };
