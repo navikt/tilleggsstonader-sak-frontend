@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Box, Tabs } from '@navikt/ds-react';
@@ -8,6 +9,7 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
+import { Toggle } from '../../../utils/toggles';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
 const Container = styled.div`
@@ -27,14 +29,24 @@ const tabs = [
         label: 'Søknaden',
         komponent: <OppsummeringSøknad />,
     },
-    {
-        value: 'historikk',
-        label: 'Historikk',
-        komponent: <Historikk />,
-    },
 ];
 
 const VenstreMeny: React.FC = () => {
+    const visFiltrering = useFlag(Toggle.VIS_BEHANDLINGSHISTORIKK);
+
+    const historikkTab = {
+        value: 'historikk',
+        label: 'Historikk',
+        komponent: <Historikk />,
+    };
+
+    useEffect(() => {
+        if (visFiltrering && tabs.find((tab) => tab.value === 'historikk') === undefined) {
+            tabs.push(historikkTab);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [visFiltrering]);
+
     return (
         <Container>
             <Totrinnskontroll />
