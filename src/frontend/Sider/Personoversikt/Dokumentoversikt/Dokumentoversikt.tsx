@@ -50,7 +50,8 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 'POST',
                 {
                     ...vedleggRequest,
-                    tema: vedleggRequest.tema,
+                    tema:
+                        vedleggRequest.tema.length > 0 ? vedleggRequest.tema : relevanteArkivtemaer,
                 }
             ).then(settDokumenter);
         },
