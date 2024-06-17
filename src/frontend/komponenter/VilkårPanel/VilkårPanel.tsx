@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Detail, HStack, Link } from '@navikt/ds-react';
+import { BodyShort, Detail, HStack, Link } from '@navikt/ds-react';
 
 import { Lenke } from '../../Sider/Behandling/lenker';
 import Panel from '../Panel/Panel';
@@ -50,28 +50,28 @@ export const ParagrafOgRundskrivLenker: React.FC<{
     forskriftlenker: Lenke[];
 }> = ({ paragrafLenker, rundskrivLenke, forskriftlenker }) => {
     return (
-        <HStack gap="4" align={'end'}>
+        <HStack gap="2" align={'end'}>
             {paragrafLenker.map((lenke, indeks) => (
-                <React.Fragment key={indeks}>
+                <BodyShort key={indeks} size={'small'}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
                         {lenke.tekst}
                     </Link>
-                </React.Fragment>
+                </BodyShort>
             ))}
             <Detail>Rundskriv til:</Detail>
             {rundskrivLenke.map((lenke, indeks) => (
-                <React.Fragment key={indeks}>
+                <BodyShort key={indeks} size={'small'}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
                         {lenke.tekst}
                     </Link>
-                </React.Fragment>
+                </BodyShort>
             ))}
             {forskriftlenker.map((lenke, indeks) => (
-                <React.Fragment key={indeks}>
+                <BodyShort key={indeks} size={'small'}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
                         {lenke.tekst}
                     </Link>
-                </React.Fragment>
+                </BodyShort>
             ))}
         </HStack>
     );
