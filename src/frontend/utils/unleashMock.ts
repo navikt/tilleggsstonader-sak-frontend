@@ -10,9 +10,13 @@ const featureFlags: Partial<Record<Toggle, boolean>> = {
     [Toggle.KAN_OPPRETTE_REVURDERING]: true,
 };
 
-export const mockFlags: IToggle[] = Object.entries(Toggle).map(([, name]) => ({
-    name: name,
-    enabled: featureFlags[name] ?? true,
-    variant: { name: name, enabled: featureFlags[name] ?? true },
-    impressionData: false,
-}));
+export const mockFlags: IToggle[] = Object.values(Toggle).map((toggle) => {
+    const enabled = featureFlags[toggle] ?? true;
+
+    return {
+        name: toggle,
+        enabled: enabled,
+        variant: { name: toggle, enabled: enabled },
+        impressionData: false,
+    };
+});
