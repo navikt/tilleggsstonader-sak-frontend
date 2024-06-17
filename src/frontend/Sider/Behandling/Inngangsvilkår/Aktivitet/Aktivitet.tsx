@@ -15,7 +15,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import {
     lenkerForskriftAktivitet,
     lenkerParagrafAktivitet,
-    rundskrivAktivitet,
+    lenkerRundskrivAktivitet,
 } from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
@@ -78,7 +78,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             ikon={<BriefcaseIcon />}
             tittel="Aktivitet"
             paragraflenker={lenkerParagrafAktivitet}
-            rundskrivlenke={rundskrivAktivitet}
+            rundskrivlenke={lenkerRundskrivAktivitet}
             forskriftlenker={lenkerForskriftAktivitet}
         >
             <FlexColumn gap={2}>

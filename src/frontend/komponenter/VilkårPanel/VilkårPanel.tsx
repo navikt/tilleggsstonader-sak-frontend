@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HStack, Link } from '@navikt/ds-react';
+import { Detail, HStack, Link } from '@navikt/ds-react';
 
 import { Lenke } from '../../Sider/Behandling/lenker';
 import Panel from '../Panel/Panel';
@@ -10,7 +10,7 @@ interface VilkårpanelProps {
     ikon?: React.ReactNode;
     ekstraHeading?: React.ReactNode;
     paragraflenker: Lenke[];
-    rundskrivlenke: string;
+    rundskrivlenke: Lenke[];
     forskriftlenker: Lenke[];
     children: React.ReactNode;
 }
@@ -46,11 +46,11 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
 
 export const ParagrafOgRundskrivLenker: React.FC<{
     paragrafLenker: Lenke[];
-    rundskrivLenke: string;
+    rundskrivLenke: Lenke[];
     forskriftlenker: Lenke[];
 }> = ({ paragrafLenker, rundskrivLenke, forskriftlenker }) => {
     return (
-        <HStack gap="4">
+        <HStack gap="4" align={'end'}>
             {paragrafLenker.map((lenke, indeks) => (
                 <React.Fragment key={indeks}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
@@ -58,9 +58,14 @@ export const ParagrafOgRundskrivLenker: React.FC<{
                     </Link>
                 </React.Fragment>
             ))}
-            <Link href={rundskrivLenke} target="_blank" variant="neutral">
-                Rundskriv
-            </Link>
+            <Detail>Rundskriv til:</Detail>
+            {rundskrivLenke.map((lenke, indeks) => (
+                <React.Fragment key={indeks}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </React.Fragment>
+            ))}
             {forskriftlenker.map((lenke, indeks) => (
                 <React.Fragment key={indeks}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">

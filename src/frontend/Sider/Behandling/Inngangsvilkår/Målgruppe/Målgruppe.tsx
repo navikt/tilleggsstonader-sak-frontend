@@ -16,7 +16,7 @@ import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import {
     lenkerForskriftMålgruppe,
     lenkerParagrafMålgruppe,
-    rundskrivMålgruppe,
+    lenkerRundskrivMålgruppe,
 } from '../../lenker';
 import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
@@ -80,7 +80,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
             ikon={<CardIcon />}
             tittel="Målgruppe"
             paragraflenker={lenkerParagrafMålgruppe}
-            rundskrivlenke={rundskrivMålgruppe}
+            rundskrivlenke={lenkerRundskrivMålgruppe}
             forskriftlenker={lenkerForskriftMålgruppe}
         >
             <FlexColumn gap={2}>

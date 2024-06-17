@@ -4,7 +4,11 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';
-import { lenkerForskriftPassBarn, lenkerParagrafPassBarn, rundskrivPassBarn } from '../../lenker';
+import {
+    lenkerForskriftPassBarn,
+    lenkerParagrafPassBarn,
+    lenkerRundskrivPassBarn,
+} from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -50,7 +54,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                     />
                 }
                 paragraflenker={lenkerParagrafPassBarn}
-                rundskrivlenke={rundskrivPassBarn}
+                rundskrivlenke={lenkerRundskrivPassBarn}
                 forskriftlenker={lenkerForskriftPassBarn}
                 key={grunnlagBarn.barnId}
             >

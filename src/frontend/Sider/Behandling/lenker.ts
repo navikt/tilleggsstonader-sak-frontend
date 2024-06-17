@@ -18,16 +18,32 @@ export const lenkerParagrafMålgruppe: Lenke[] = [
     },
 ];
 
+export const lenkerRundskrivMålgruppe: Lenke[] = [
+    {
+        tekst: '§ 11 A-3',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_3',
+    },
+    {
+        tekst: '§ 15-11',
+        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
+    },
+    {
+        tekst: '§ 17-10',
+        url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
+    },
+];
+
 export const lenkerForskriftMålgruppe: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
     },
+    {
+        tekst: 'Rundskriv til forskrift',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
+    },
 ];
 
-export const rundskrivMålgruppe = '';
-
-// TODO: Fyll inn riktige lenker
 export const lenkerParagrafAktivitet: Lenke[] = [
     {
         tekst: '§ 11 A-4',
@@ -43,12 +59,29 @@ export const lenkerParagrafAktivitet: Lenke[] = [
     },
 ];
 
-export const rundskrivAktivitet = '';
+export const lenkerRundskrivAktivitet: Lenke[] = [
+    {
+        tekst: '§ 11 A-4',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_4',
+    },
+    {
+        tekst: '§ 15-11',
+        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
+    },
+    {
+        tekst: '§ 17-10',
+        url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
+    },
+];
 
 export const lenkerForskriftAktivitet: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
+    },
+    {
+        tekst: 'Rundskriv til forskrift',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
     },
 ];
 
@@ -67,11 +100,20 @@ export const lenkerParagrafPassBarn: Lenke[] = [
     },
 ];
 
-export const rundskrivPassBarn = '';
+export const lenkerRundskrivPassBarn: Lenke[] = [
+    {
+        tekst: 'Rundskriv til forskrift',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
+    },
+];
 
 export const lenkerForskriftPassBarn: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
+    },
+    {
+        tekst: 'Rundskriv til forskrift',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
     },
 ];
