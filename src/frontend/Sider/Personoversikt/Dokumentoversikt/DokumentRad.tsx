@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, Table } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { arkivtemaerTilTekst } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterNullableIsoDatoTid } from '../../../utils/dato';
@@ -21,7 +22,7 @@ const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
                 </Link>
             </Table.DataCell>
             <Table.DataCell>{dokument.avsenderMottaker?.navn}</Table.DataCell>
-            <Table.DataCell>{dokument.tema}</Table.DataCell>
+            <Table.DataCell>{dokument.tema && arkivtemaerTilTekst[dokument.tema]}</Table.DataCell>
             <Table.DataCell>{journalstatuserTilTekst[dokument.journalstatus]}</Table.DataCell>
         </Table.Row>
     );
