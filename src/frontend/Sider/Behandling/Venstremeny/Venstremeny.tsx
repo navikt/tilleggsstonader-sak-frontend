@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Box, Tabs } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
+import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
+import { Toggle } from '../../../utils/toggles';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
 const Container = styled.div`
@@ -28,19 +31,29 @@ const tabs = [
     },
 ];
 
+const historikkTab = {
+    value: 'historikk',
+    label: 'Historikk',
+    komponent: <Historikk />,
+};
+
 const VenstreMeny: React.FC = () => {
+    const visBehandlingshistorikk = useFlag(Toggle.VIS_BEHANDLINGSHISTORIKK);
+
+    const tabsSomSkalVises = [...tabs, ...(visBehandlingshistorikk ? [historikkTab] : [])];
+
     return (
         <Container>
             <Totrinnskontroll />
             <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
-                        {tabs.map((tab) => (
+                        {tabsSomSkalVises.map((tab) => (
                             <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
                 </StickyTablistContainer>
-                {tabs.map((tab) => (
+                {tabsSomSkalVises.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
                     </Tabs.Panel>
