@@ -24,7 +24,7 @@ const Historikk: React.FC = () => {
         request<HistorikkHendelse[], null>(`/api/sak/behandlingshistorikk/${behandling.id}`).then(
             settHistorikk
         );
-    }, [request, behandling.id]);
+    }, [request, behandling.id, behandling.status]);
 
     return (
         <DataViewer response={{ historikk }}>
