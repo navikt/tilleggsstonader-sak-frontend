@@ -73,9 +73,7 @@ export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
         valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
-        valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtElement === PåklagetVedtakstype.UTESTENGELSE ||
-        valgtElement === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
+        valgtElement === PåklagetVedtakstype.UTESTENGELSE
     );
 };
 
@@ -116,20 +114,15 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
         ? { ...tilbakestillFormkrav, saksbehandlerBegrunnelse: '', brevtekst: undefined }
         : tilbakestillFormkrav;
 
-    const tilbakestillUnntak =
-        vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
-            ? {
-                  ...tilbakestillFritekstfelter,
-                  klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
-              }
-            : tilbakestillFritekstfelter;
-
-    return tilbakestillUnntak;
+    return vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
+        ? {
+            ...tilbakestillFritekstfelter,
+            klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+        }
+        : tilbakestillFritekstfelter;
 };
 
 export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
     [
-        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
         PåklagetVedtakstype.UTESTENGELSE,
-        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
     ].includes(påklagetVedtakstype);
