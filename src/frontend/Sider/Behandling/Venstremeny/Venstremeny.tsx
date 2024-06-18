@@ -31,21 +31,16 @@ const tabs = [
     },
 ];
 
+const historikkTab = {
+    value: 'historikk',
+    label: 'Historikk',
+    komponent: <Historikk />,
+};
+
 const VenstreMeny: React.FC = () => {
-    const visFiltrering = useFlag(Toggle.VIS_BEHANDLINGSHISTORIKK);
+    const visBehandlingshistorikk = useFlag(Toggle.VIS_BEHANDLINGSHISTORIKK);
 
-    const historikkTab = {
-        value: 'historikk',
-        label: 'Historikk',
-        komponent: <Historikk />,
-    };
-
-    useEffect(() => {
-        if (visFiltrering && tabs.find((tab) => tab.value === 'historikk') === undefined) {
-            tabs.push(historikkTab);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [visFiltrering]);
+    const tabsSomSkalVises = [...tabs, ...(visBehandlingshistorikk ? [historikkTab] : [])];
 
     return (
         <Container>
@@ -53,12 +48,12 @@ const VenstreMeny: React.FC = () => {
             <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
-                        {tabs.map((tab) => (
+                        {tabsSomSkalVises.map((tab) => (
                             <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
                 </StickyTablistContainer>
-                {tabs.map((tab) => (
+                {tabsSomSkalVises.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
                     </Tabs.Panel>
