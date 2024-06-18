@@ -60,16 +60,18 @@ export const ParagrafOgRundskrivLenker: React.FC<{
                     </BodyShort>
                 ))}
             </HStack>
-            <HStack gap="2">
-                <Detail>Rundskriv til:</Detail>
-                {rundskrivLenke.map((lenke, indeks) => (
-                    <BodyShort key={indeks} size={'small'}>
-                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                            {lenke.tekst}
-                        </Link>
-                    </BodyShort>
-                ))}
-            </HStack>
+            {rundskrivLenke.length > 0 && (
+                <HStack gap="2">
+                    <Detail>Rundskriv til:</Detail>
+                    {rundskrivLenke.map((lenke, indeks) => (
+                        <BodyShort key={indeks} size={'small'}>
+                            <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                                {lenke.tekst}
+                            </Link>
+                        </BodyShort>
+                    ))}
+                </HStack>
+            )}
             <HStack gap="2">
                 {forskriftlenker.map((lenke, indeks) => (
                     <BodyShort key={indeks} size={'small'}>

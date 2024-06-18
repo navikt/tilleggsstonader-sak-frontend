@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';
@@ -11,7 +10,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 
 type VedleggRequest = {
     tema: Arkivtema[];
@@ -64,19 +62,15 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 : (prevState.tema ?? []).filter((t) => t !== option),
         }));
 
-    const visFiltrering = useFlag(Toggle.FILTRERING_DOKUMENTOVERSIKT);
-
     return (
         <>
-            {visFiltrering && (
-                <ComboBox
-                    label={'Filtrer tema(er)'}
-                    options={relevanteArkivtemaer.map(arkivtemaTilOption)}
-                    isMultiSelect
-                    onToggleSelected={onToggleSelected}
-                    selectedOptions={vedleggRequest.tema?.map(arkivtemaTilOption) ?? []}
-                />
-            )}
+            <ComboBox
+                label={'Filtrer tema(er)'}
+                options={relevanteArkivtemaer.map(arkivtemaTilOption)}
+                isMultiSelect
+                onToggleSelected={onToggleSelected}
+                selectedOptions={vedleggRequest.tema?.map(arkivtemaTilOption) ?? []}
+            />
             <DataViewer response={{ dokumenter }}>
                 {({ dokumenter }) => <DokumentTabell dokumenter={dokumenter} />}
             </DataViewer>
