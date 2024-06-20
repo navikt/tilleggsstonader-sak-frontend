@@ -69,20 +69,16 @@ export interface Behandling {
 
 export enum PåklagetVedtakstype {
     VEDTAK = 'VEDTAK',
-    INFOTRYGD_TILBAKEKREVING = 'INFOTRYGD_TILBAKEKREVING',
     UTEN_VEDTAK = 'UTEN_VEDTAK',
     IKKE_VALGT = 'IKKE_VALGT',
     UTESTENGELSE = 'UTESTENGELSE',
-    INFOTRYGD_ORDINÆRT_VEDTAK = 'INFOTRYGD_ORDINÆRT_VEDTAK',
 }
 
 export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
     IKKE_VALGT: 'Ikke valgt',
-    INFOTRYGD_TILBAKEKREVING: 'Tilbakekreving i Infotrygd',
     UTEN_VEDTAK: 'Har ikke klaget på et vedtak',
     VEDTAK: 'Vedtak',
     UTESTENGELSE: 'Utestengelse',
-    INFOTRYGD_ORDINÆRT_VEDTAK: 'Ordinært stønadsvedtak i Infotrygd',
 };
 
 export enum BehandlingResultat {
