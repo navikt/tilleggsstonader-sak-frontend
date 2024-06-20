@@ -33,6 +33,7 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: Op
     oppgavetype: { tittel: 'Oppgavetype' },
     behandlingstema: { tittel: 'Stønad' },
     opprettetTidspunkt: { tittel: 'Opprettet', orderBy: 'OPPRETTET_TIDSPUNKT' },
+    fristFerdigstillelse: { tittel: 'Frist', orderBy: 'FRIST' },
     identer: { tittel: 'Ident' },
     navn: { tittel: 'Navn' },
     tilordnetRessurs: { tittel: 'Tildelt' },
