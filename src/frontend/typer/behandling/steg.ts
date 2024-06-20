@@ -1,4 +1,4 @@
-import { Behandling } from './behandling';
+import { KlageBehandling } from './klageBehandling';
 
 export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
@@ -24,6 +24,6 @@ const rekkefølgeSteg = Object.values(Steg).reduce(
 export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
     rekkefølgeSteg[steg] > rekkefølgeSteg[annetSteg];
 
-export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
+export const stegErLåstForBehandling = (behandling: KlageBehandling, faneSteg: Steg) =>
     [Steg.BEREGNE_YTELSE, Steg.SEND_TIL_BESLUTTER].includes(faneSteg) &&
     stegErEtterAnnetSteg(faneSteg, behandling.steg);

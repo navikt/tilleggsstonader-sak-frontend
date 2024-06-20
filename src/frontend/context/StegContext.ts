@@ -1,12 +1,12 @@
 import constate from 'constate';
 
 import { FanePath, faneTilSteg } from '../Sider/Behandling/faner';
-import { Behandling } from '../typer/behandling/behandling';
+import { KlageBehandling } from '../typer/behandling/klageBehandling';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 
 interface Props {
     fane: FanePath | undefined;
-    behandling: Behandling;
+    behandling: KlageBehandling;
 }
 
 export const [StegProvider, useSteg] = constate(({ fane, behandling }: Props) => {

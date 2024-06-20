@@ -1,4 +1,4 @@
-import { Behandling } from './behandling/behandling';
+import { KlageBehandling } from './behandling/klageBehandling';
 import { Stønadstype } from './behandling/behandlingTema';
 import { valuerOrThrow } from './typeUtils';
 
@@ -19,7 +19,7 @@ export interface Fagsak {
     personIdent: string;
     stønadstype: Stønadstype;
     erLøpende: boolean;
-    behandlinger: Behandling[];
+    behandlinger: KlageBehandling[];
 }
 
 export function utledFagsakId(stønadstype: Stønadstype, fagsakPerson: FagsakPerson): string {

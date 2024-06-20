@@ -10,7 +10,7 @@ import {
     Vilkårsvurdering,
     Vurderingsfeilmelding,
 } from '../Sider/Behandling/vilkår';
-import { Behandling } from '../typer/behandling/behandling';
+import { KlageBehandling } from '../typer/behandling/klageBehandling';
 import {
     byggHenterRessurs,
     byggTomRessurs,
@@ -21,7 +21,7 @@ import {
 } from '../typer/ressurs';
 
 interface Props {
-    behandling: Behandling;
+    behandling: KlageBehandling;
 }
 
 const oppdaterVilkårsvurderingMedVilkår = (

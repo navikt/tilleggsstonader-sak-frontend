@@ -6,14 +6,14 @@ import BehandlingInnhold from './BehandlingInnhold';
 import { useApp } from '../../context/AppContext';
 import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
-import { Behandling } from '../../typer/behandling/behandling';
+import { KlageBehandling } from '../../typer/behandling/klageBehandling';
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
 const BehandlingContainer = () => {
     const { request } = useApp();
-    const [behandling, settBehandling] = useState<Ressurs<Behandling>>(byggTomRessurs());
+    const [behandling, settBehandling] = useState<Ressurs<KlageBehandling>>(byggTomRessurs());
     const [personopplysninger, settPersonopplysninger] =
         useState<Ressurs<Personopplysninger>>(byggTomRessurs());
     const [behandlingFakta, settBehandlingFakta] =
@@ -30,7 +30,7 @@ const BehandlingContainer = () => {
     }, [request, behandlingId]);
 
     const hentBehandlingCallback = useCallback(() => {
-        request<Behandling, null>(`/api/sak/behandling/${behandlingId}`).then((behandling) => {
+        request<KlageBehandling, null>(`/api/sak/behandling/${behandlingId}`).then((behandling) => {
             settBehandling(behandling);
 
             if (behandling.status === 'SUKSESS' && behandlingFakta.status === 'IKKE_HENTET') {

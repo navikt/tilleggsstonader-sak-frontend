@@ -14,7 +14,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useHentTotrinnskontroll } from '../../../hooks/useHentTotrinnskontroll';
 import { usePrevious } from '../../../hooks/usePrevious';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { KlageBehandling } from '../../../typer/behandling/klageBehandling';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 
@@ -62,8 +62,8 @@ const TotrinnskontrollSwitch: FC<{
  *  * Hvis status går fra utredes til fatter vedtak (sender til totrinnskontroll)
  */
 const skalHenteTotrinnskontroll = (
-    prevBehandling: Behandling | undefined,
-    behandling: Behandling
+    prevBehandling: KlageBehandling | undefined,
+    behandling: KlageBehandling
 ) => {
     const forrigeStatus = prevBehandling?.status;
     const nyStatus = behandling.status;

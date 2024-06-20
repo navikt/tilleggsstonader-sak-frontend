@@ -11,7 +11,7 @@ import Brev from './Brev/Brev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
-import { Behandling } from '../../typer/behandling/behandling';
+import { KlageBehandling } from '../../typer/behandling/klageBehandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
@@ -68,14 +68,14 @@ export const isFanePath = (path: string): path is FanePath => {
     }
 };
 
-export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
+export const faneErLåst = (behandling: KlageBehandling, fanePath: FanePath) => {
     if (fanePath === FanePath.SIMULERING) {
         return true;
     }
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
-const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
+const brevfaneHvisIkkeHenlagt = (behandling: KlageBehandling): FanerMedRouter[] => {
     if (behandling.resultat !== BehandlingResultat.HENLAGT) {
         return [
             {
@@ -91,7 +91,7 @@ const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
+export const hentBehandlingfaner = (behandling: KlageBehandling): FanerMedRouter[] => {
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,

@@ -4,7 +4,7 @@ import { useHentBehandlinger } from './useHentBehandlinger';
 import { useApp } from '../context/AppContext';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
-import { Behandling } from '../typer/behandling/behandling';
+import { KlageBehandling } from '../typer/behandling/klageBehandling';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
 import { Journalpost, JournalpostResponse } from '../typer/journalpost';
@@ -34,7 +34,7 @@ export interface JournalføringRequest {
 }
 
 export interface JournalføringState {
-    behandlinger: Ressurs<Behandling[]>;
+    behandlinger: Ressurs<KlageBehandling[]>;
     dokumentTitler?: DokumentTitler;
     settDokumentTitler: Dispatch<SetStateAction<DokumentTitler | undefined>>;
     journalpost: Journalpost;

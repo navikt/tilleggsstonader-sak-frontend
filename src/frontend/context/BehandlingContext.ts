@@ -1,12 +1,12 @@
 import constate from 'constate';
 
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
-import { Behandling } from '../typer/behandling/behandling';
+import { KlageBehandling } from '../typer/behandling/klageBehandling';
 import { BehandlingFakta } from '../typer/behandling/behandlingFakta/behandlingFakta';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 
 interface Props {
-    behandling: Behandling;
+    behandling: KlageBehandling;
     hentBehandling: RerrunnableEffect;
     behandlingFakta: BehandlingFakta;
 }

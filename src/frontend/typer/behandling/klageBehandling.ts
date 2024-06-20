@@ -5,7 +5,7 @@ import { BehandlingType } from './behandlingType';
 import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
 import { Steg } from './steg';
 
-export interface Behandling {
+export interface KlageBehandling {
     id: string;
     forrigeBehandlingId?: string;
     fagsakId: string;

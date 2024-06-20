@@ -7,7 +7,7 @@ import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-reac
 
 import { JournalføringState, Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { KlageBehandling } from '../../../typer/behandling/klageBehandling';
 import {
     BehandlingResultat,
     behandlingResultatTilTekst,
@@ -49,7 +49,7 @@ interface Props {
 const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) => {
     const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalpostState;
 
-    const leggTilNyBehandlingForOpprettelse = (behandlinger: Behandling[]) => {
+    const leggTilNyBehandlingForOpprettelse = (behandlinger: KlageBehandling[]) => {
         settFeilmelding('');
         const kanOppretteNyBehandling = alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger);
 

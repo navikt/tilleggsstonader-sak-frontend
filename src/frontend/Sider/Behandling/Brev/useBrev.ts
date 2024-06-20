@@ -5,7 +5,7 @@ import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
 import { Brevmal, MalStruktur } from './typer';
 import { useApp } from '../../../context/AppContext';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { KlageBehandling } from '../../../typer/behandling/klageBehandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import {
     byggRessursFeilet,
@@ -14,7 +14,7 @@ import {
     Ressurs,
 } from '../../../typer/ressurs';
 
-const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
+const useBrev = (ytelse: Stønadstype, behandling?: KlageBehandling) => {
     const sanityClient = useSanityClient();
     const { request } = useApp();
 

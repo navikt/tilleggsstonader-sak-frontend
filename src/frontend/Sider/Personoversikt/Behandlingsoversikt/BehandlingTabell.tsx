@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Table } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { KlageBehandling } from '../../../typer/behandling/klageBehandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import {
     BehandlingStatus,
@@ -24,7 +24,7 @@ import { sorterBehandlinger } from '../../../utils/behandlingutil';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
-const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
+const TabellData: PartialRecord<keyof KlageBehandling | 'vedtaksdato', string> = {
     opprettet: 'Behandling opprettetdato',
     type: 'Type',
     behandlingsårsak: 'Årsak',
@@ -44,7 +44,7 @@ interface TabellBehandling {
 }
 
 interface Props {
-    behandlinger: Behandling[];
+    behandlinger: KlageBehandling[];
     klagebehandlinger: KlageBehandling[];
 }
 

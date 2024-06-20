@@ -9,7 +9,7 @@ import { PersonopplysningerProvider } from '../../context/PersonopplysningerCont
 import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
-import { Behandling } from '../../typer/behandling/behandling';
+import { KlageBehandling } from '../../typer/behandling/klageBehandling';
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 
@@ -24,7 +24,7 @@ const InnholdWrapper = styled.div`
 `;
 
 const BehandlingInnhold: React.FC<{
-    behandling: Behandling;
+    behandling: KlageBehandling;
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
     behandlingFakta: BehandlingFakta;
