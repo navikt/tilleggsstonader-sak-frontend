@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, Link, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
@@ -69,11 +69,11 @@ export const HeadingBeregning: React.FC = () => {
     return (
         <HStack gap="4" align={'end'}>
             {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
-                <React.Fragment key={indeks}>
+                <BodyShort key={indeks} size={'small'}>
                     <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
                         {lenke.tekst}
                     </Link>
-                </React.Fragment>
+                </BodyShort>
             ))}
         </HStack>
     );
