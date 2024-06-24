@@ -48,7 +48,8 @@ const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOpprett
         return (
             <Alert variant={'warning'}>
                 Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En
-                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet.
+                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet. Dette
+                må gjøres manuelt.
             </Alert>
         );
     }
@@ -92,7 +93,12 @@ export const OmgjørVedtak: React.FC<{
     // TODO: Når revurderinger støttes, kan det første return-statementet her fjernes. Fjern utkommenteringen i useEffect over.
     return (
         <div>
-            <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
+            {behandlingErRedigerbar && (
+                <AlertContainer>
+                    <KanOppretteRevurderingTekst kanOppretteRevurdering={{ kanOpprettes: false }} />
+                    <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
+                </AlertContainer>
+            )}
             <ModalWrapper
                 tittel={'Bekreft ferdigstillelse av klagebehandling'}
                 visModal={visModal}
