@@ -232,12 +232,15 @@ export const MedholdRevurdering: React.FC<{
             <>
                 <Advarsel width={36} height={36} />
                 <Label size={'small'}>Må manuelt opprettes</Label>
-                {fagsystemRevurdering && (
-                    <Detail size="small">
-                        Årsak:{' '}
-                        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}
-                    </Detail>
-                )}
+                {/*{fagsystemRevurdering && (*/}
+                {/*    <Detail size="small">*/}
+                {/*        Årsak:{' '}*/}
+                {/*        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}*/}
+                {/*    </Detail>*/}
+                {/*)}*/}
+                <Detail> {/*TODO bytt ut disse tre linjene med utkommentert kode når revurdering støttes*/}
+                    Årsak: automatisk opprettelse støttes ikke per nå
+                </Detail>
                 <Button
                     as={'a'}
                     variant={'secondary'}
