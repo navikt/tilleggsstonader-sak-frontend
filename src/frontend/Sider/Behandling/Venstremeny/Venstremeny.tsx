@@ -29,31 +29,26 @@ const tabs = [
         label: 'Søknaden',
         komponent: <OppsummeringSøknad />,
     },
+    {
+        value: 'historikk',
+        label: 'Historikk',
+        komponent: <Historikk />,
+    },
 ];
 
-const historikkTab = {
-    value: 'historikk',
-    label: 'Historikk',
-    komponent: <Historikk />,
-};
-
 const VenstreMeny: React.FC = () => {
-    const visBehandlingshistorikk = useFlag(Toggle.VIS_BEHANDLINGSHISTORIKK);
-
-    const tabsSomSkalVises = [...tabs, ...(visBehandlingshistorikk ? [historikkTab] : [])];
-
     return (
         <Container>
             <Totrinnskontroll />
             <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
-                        {tabsSomSkalVises.map((tab) => (
+                        {tabs.map((tab) => (
                             <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
                 </StickyTablistContainer>
-                {tabsSomSkalVises.map((tab) => (
+                {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
                     </Tabs.Panel>
