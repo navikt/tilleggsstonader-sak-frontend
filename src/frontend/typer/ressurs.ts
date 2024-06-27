@@ -53,6 +53,15 @@ export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
     };
 };
 
+export const byggFeiletRessurs = <T>(melding: string, error?: Error): Ressurs<T> => {
+    return {
+        errorMelding: error ? error.message : undefined,
+        melding,
+        frontendFeilmelding: melding,
+        status: RessursStatus.FEILET,
+    };
+};
+
 export const pakkUtHvisSuksess = <T>(ressurs: Ressurs<T>) =>
     ressurs.status === RessursStatus.SUKSESS ? ressurs.data : undefined;
 
