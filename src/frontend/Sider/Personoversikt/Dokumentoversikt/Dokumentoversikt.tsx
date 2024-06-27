@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { DokumentTabell } from './DokumentTabell';
+import OpprettBehandlingFraJournalpost from './OpprettBehandlingFraJournalpost';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { Toggle } from '../../../utils/toggles';
 
 type VedleggRequest = {
     tema: Arkivtema[];
@@ -23,6 +26,10 @@ const ComboBox = styled(UNSAFE_Combobox)`
 
 const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
+
+    const kanOppretteBehandlingFraJournalpost = useFlag(
+        Toggle.KAN_OPPRETTE_BEHANDLING_FRA_JOURNALPOST
+    );
 
     const [dokumenter, settDokumenter] = useState<Ressurs<DokumentInfo[]>>(byggTomRessurs());
 
@@ -74,6 +81,8 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
             <DataViewer response={{ dokumenter }}>
                 {({ dokumenter }) => <DokumentTabell dokumenter={dokumenter} />}
             </DataViewer>
+
+            {kanOppretteBehandlingFraJournalpost && <OpprettBehandlingFraJournalpost />}
         </>
     );
 };

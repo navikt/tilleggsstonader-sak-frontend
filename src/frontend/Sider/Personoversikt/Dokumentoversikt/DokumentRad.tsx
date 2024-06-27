@@ -8,7 +8,10 @@ import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterNullableIsoDatoTid } from '../../../utils/dato';
 
-const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
+export const DokumentRad: React.FC<{
+    dokument: DokumentInfo;
+    kanOppretteBehandlingFraJournalpost: boolean;
+}> = ({ dokument, kanOppretteBehandlingFraJournalpost }) => {
     return (
         <Table.Row style={{ backgroundColor: `${AGray50}` }}>
             <Table.DataCell>{formaterNullableIsoDatoTid(dokument.dato)}</Table.DataCell>
@@ -24,6 +27,9 @@ const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
             <Table.DataCell>{dokument.avsenderMottaker?.navn}</Table.DataCell>
             <Table.DataCell>{dokument.tema && arkivtemaerTilTekst[dokument.tema]}</Table.DataCell>
             <Table.DataCell>{journalstatuserTilTekst[dokument.journalstatus]}</Table.DataCell>
+            {kanOppretteBehandlingFraJournalpost && (
+                <Table.DataCell>{dokument.journalpostId}</Table.DataCell>
+            )}
         </Table.Row>
     );
 };
