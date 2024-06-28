@@ -23,7 +23,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
         if (organisasjonsnummer?.length === 9) {
             axiosRequest<IOrganisasjon, null>({
                 method: 'GET',
-                url: `api/klage/sok/organisasjon/${organisasjonsnummer}`,
+                url: `api/sak/brevmottakere/organisasjon/${organisasjonsnummer}`,
             }).then((response: Ressurs<IOrganisasjon>) => {
                 settOrganisasjonRessurs(response);
             });
