@@ -19,7 +19,7 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         visHenleggModal,
         settVisHenleggModal,
         hentBehandling,
-        // hentBehandlingshistorikk
+        hentBehandlingshistorikk
     } = useBehandling();
 
     const { axiosRequest, settToast } = useApp();
@@ -49,7 +49,7 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
                     hentBehandling.rerun();
-                    // hentBehandlingshistorikk.rerun();
+                    hentBehandlingshistorikk.rerun();
                     navigate(`/klagebehandling/${behandling.id}/resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {

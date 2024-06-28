@@ -44,11 +44,11 @@ export const App: React.FC = () => {
     }
     return (
         <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
-        <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
-            {/*         <TogglesProvider>*/}
-            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
-            {/*</TogglesProvider>*/}
-        </AppProvider>
+            <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+                {/*         <TogglesProvider>*/}
+                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+                {/*</TogglesProvider>*/}
+            </AppProvider>
         </ErrorBoundary>
     );
 };
@@ -92,7 +92,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
             settByttUrl(false);
             navigate(valgtSide);
         }
-    //     eslint-disable-next-line
+        //     eslint-disable-next-line
     }, [byttUrl, valgtSide]);
 
     return (
