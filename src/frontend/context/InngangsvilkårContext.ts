@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
-import { Aktivitet } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
-import { Målgruppe } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { Aktivitet, AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+import { Målgruppe, MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
 import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
 import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 
@@ -14,6 +14,7 @@ interface UseInngangsvilkår {
     aktiviteter: Aktivitet[];
     leggTilAktivitet: (nyPeriode: Aktivitet) => void;
     oppdaterAktivitet: (oppdatertPeriode: Aktivitet) => void;
+    slettVilkårperiode: (type: MålgruppeType | AktivitetType, id: string) => void;
     stønadsperioder: Stønadsperiode[];
     stønadsperiodeFeil: string | undefined;
     settStønadsperiodeFeil: (feilmelding: string | undefined) => void;
@@ -49,6 +50,16 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             );
         };
 
+        const slettVilkårperiode = (type: MålgruppeType | AktivitetType, id: string) => {
+            if (type in MålgruppeType) {
+                settMålgrupper((prevState) => prevState.filter((målgruppe) => målgruppe.id !== id));
+            } else {
+                settAktiviteter((prevState) =>
+                    prevState.filter((aktivitet) => aktivitet.id !== id)
+                );
+            }
+        };
+
         const leggTilAktivitet = (nyPeriode: Aktivitet) => {
             settAktiviteter((prevState) => [...prevState, nyPeriode]);
         };
@@ -65,6 +76,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             målgrupper,
             leggTilMålgruppe,
             oppdaterMålgruppe,
+            slettVilkårperiode,
             aktiviteter,
             leggTilAktivitet,
             oppdaterAktivitet,

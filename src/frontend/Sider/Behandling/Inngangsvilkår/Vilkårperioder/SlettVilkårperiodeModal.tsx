@@ -10,14 +10,19 @@ import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { Aktivitet } from '../typer/aktivitet';
-import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
+import { Målgruppe } from '../typer/målgruppe';
 import {
+    KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     SlettVilkårperiode,
     StønadsperiodeStatus,
 } from '../typer/vilkårperiode';
+import { harIkkeVerdi } from '../../../../utils/utils';
+import { erMålgruppe } from '../Målgruppe/utils';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe>;
+type SlettPermanentResponse = LagreVilkårperiodeResponse<null>;
+
 const SlettVilkårperiodeModal: React.FC<{
     visModal: boolean;
     settVisModal: React.Dispatch<SetStateAction<boolean>>;
@@ -26,7 +31,12 @@ const SlettVilkårperiodeModal: React.FC<{
 }> = ({ vilkårperiode, visModal, settVisModal, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil, slettVilkårperiode } =
+        useInngangsvilkår();
+
+    const kanSlettePeriodePermanent =
+        vilkårperiode.kilde !== KildeVilkårsperiode.SYSTEM &&
+        harIkkeVerdi(vilkårperiode.forrigeVilkårperiodeId);
 
     const [feil, settFeil] = useState('');
     const [laster, settLaster] = useState(false);
@@ -34,37 +44,64 @@ const SlettVilkårperiodeModal: React.FC<{
 
     const slettVilkårsperiode = () => {
         if (laster) return;
-        if (!slettBegrunnelse) {
+
+        if (!kanSlettePeriodePermanent && !slettBegrunnelse) {
             settFeil('Begrunnelse for sletting er påkrevd');
             return;
         }
         settLaster(true);
         settFeil('');
 
+        const response = kanSlettePeriodePermanent
+            ? slettNyVilkårperiode()
+            : slettVilkårperiodeFraTidligereBehandling();
+
+        response.finally(() => settLaster(false));
+    };
+
+    const slettVilkårperiodeFraTidligereBehandling = () =>
         request<Response, SlettVilkårperiode>(
             `/api/sak/vilkarperiode/${vilkårperiode.id}`,
             'DELETE',
             { behandlingId: behandling.id, kommentar: slettBegrunnelse }
-        )
-            .then((res: RessursSuksess<Response> | RessursFeilet) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
-                        settStønadsperiodeFeil(undefined);
-                    } else {
-                        settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
-                    }
-                    if (vilkårperiode.type in MålgruppeType) {
-                        oppdaterMålgruppe(res.data.periode as Målgruppe);
-                    } else {
-                        oppdaterAktivitet(res.data.periode as Aktivitet);
-                    }
-                    settVisModal(false);
-                    avbrytRedigering();
+        ).then((res: RessursSuksess<Response> | RessursFeilet) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                oppdaterStønadsperiodeFeil(res.data);
+
+                if (erMålgruppe(res.data.periode)) {
+                    oppdaterMålgruppe(res.data.periode);
                 } else {
-                    settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
+                    oppdaterAktivitet(res.data.periode);
                 }
-            })
-            .finally(() => settLaster(false));
+                settVisModal(false);
+                avbrytRedigering();
+            } else {
+                settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
+            }
+        });
+
+    const slettNyVilkårperiode = () =>
+        request<SlettPermanentResponse, null>(
+            `/api/sak/vilkarperiode/${vilkårperiode.id}/permanent`,
+            'DELETE'
+        ).then((res: RessursSuksess<SlettPermanentResponse> | RessursFeilet) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                oppdaterStønadsperiodeFeil(res.data);
+                slettVilkårperiode(vilkårperiode.type, vilkårperiode.id);
+
+                settVisModal(false);
+                avbrytRedigering();
+            } else {
+                settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
+            }
+        });
+
+    const oppdaterStønadsperiodeFeil = (response: Response | SlettPermanentResponse) => {
+        if (response.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
+            settStønadsperiodeFeil(undefined);
+        } else {
+            settStønadsperiodeFeil(response.stønadsperiodeFeil);
+        }
     };
 
     const lukkModal = () => {
@@ -78,7 +115,11 @@ const SlettVilkårperiodeModal: React.FC<{
         <ModalWrapper
             visModal={visModal}
             onClose={lukkModal}
-            tittel={'Slett periode'}
+            tittel={
+                kanSlettePeriodePermanent
+                    ? 'Er du sikker på at du vil slette perioden?'
+                    : 'Slett periode'
+            }
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: slettVilkårsperiode,
@@ -90,37 +131,43 @@ const SlettVilkårperiodeModal: React.FC<{
                 },
             }}
         >
-            <VStack gap="4">
-                <Table>
-                    <Table.Header>
-                        <Table.Row shadeOnHover={false}>
-                            <Table.HeaderCell style={{ width: '20px' }} />
-                            <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
-                            <Table.HeaderCell>Fra</Table.HeaderCell>
-                            <Table.HeaderCell>Til</Table.HeaderCell>
-                            <Table.HeaderCell>Kilde</Table.HeaderCell>
-                            <Table.HeaderCell />
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        <Table.Row shadeOnHover={false}>
-                            <Table.DataCell width="max-content">
-                                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
-                            </Table.DataCell>
-                            <Table.DataCell>{vilkårperiode.type}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(vilkårperiode.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(vilkårperiode.tom)}</Table.DataCell>
-                            <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
-                <Textarea
-                    label={'Begrunnelse for sletting (obligatorisk)'}
-                    value={slettBegrunnelse}
-                    onChange={(e) => settSlettBegrunnelse(e.target.value)}
-                    error={feil}
-                />
-            </VStack>
+            {!kanSlettePeriodePermanent && (
+                <VStack gap="4">
+                    <Table>
+                        <Table.Header>
+                            <Table.Row shadeOnHover={false}>
+                                <Table.HeaderCell style={{ width: '20px' }} />
+                                <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
+                                <Table.HeaderCell>Fra</Table.HeaderCell>
+                                <Table.HeaderCell>Til</Table.HeaderCell>
+                                <Table.HeaderCell>Kilde</Table.HeaderCell>
+                                <Table.HeaderCell />
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            <Table.Row shadeOnHover={false}>
+                                <Table.DataCell width="max-content">
+                                    <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                                </Table.DataCell>
+                                <Table.DataCell>{vilkårperiode.type}</Table.DataCell>
+                                <Table.DataCell>
+                                    {formaterIsoDato(vilkårperiode.fom)}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {formaterIsoDato(vilkårperiode.tom)}
+                                </Table.DataCell>
+                                <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
+                            </Table.Row>
+                        </Table.Body>
+                    </Table>
+                    <Textarea
+                        label={'Begrunnelse for sletting (obligatorisk)'}
+                        value={slettBegrunnelse}
+                        onChange={(e) => settSlettBegrunnelse(e.target.value)}
+                        error={feil}
+                    />
+                </VStack>
+            )}
         </ModalWrapper>
     );
 };
