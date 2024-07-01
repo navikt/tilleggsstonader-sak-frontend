@@ -123,7 +123,7 @@ const SlettVilkårperiodeModal: React.FC<{
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: slettVilkårsperiode,
-                    tekst: 'Slett og lagre begrunnelse',
+                    tekst: kanSlettePeriodePermanent ? 'Slett' : 'Slett og lagre begrunnelse',
                 },
                 lukkKnapp: {
                     onClick: lukkModal,
