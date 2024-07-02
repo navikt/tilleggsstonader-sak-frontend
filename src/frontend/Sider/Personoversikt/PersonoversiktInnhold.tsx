@@ -11,6 +11,8 @@ import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
+import { useFlag } from '@unleash/proxy-client-react';
+import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {
     label: string;
@@ -23,11 +25,6 @@ const tabs: TabWithRouter[] = [
         label: 'Behandlinger',
         path: 'behandlinger',
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
-    },
-    {
-        label: 'Oppgaver',
-        path: 'oppgaver',
-        komponent: () => <Oppgaveoversikt />,
     },
     {
         label: 'Aktiviteter',
@@ -51,6 +48,12 @@ const tabs: TabWithRouter[] = [
     },
 ];
 
+const oppgaveTab = {
+    label: 'Oppgaver',
+    path: 'oppgaver',
+    komponent: () => <Oppgaveoversikt />,
+};
+
 const InnholdWrapper = styled.div`
     padding: 2rem;
     display: flex;
@@ -64,6 +67,10 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const paths = useLocation().pathname.split('/').slice(-1);
     const path = paths.length ? paths[paths.length - 1] : '';
 
+    const skalViseOppgavebenk = useFlag(Toggle.SKAL_VISE_OPPGAVER_PERSONOVERSIKT);
+
+    const tabsSomSkalVises = [...tabs, ...(skalViseOppgavebenk ? [oppgaveTab] : [])];
+
     return (
         <>
             <Tabs
@@ -73,14 +80,14 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                 }}
             >
                 <Tabs.List>
-                    {tabs.map((tab) => {
+                    {tabsSomSkalVises.map((tab) => {
                         return <Tabs.Tab key={tab.path} value={tab.path} label={tab.label} />;
                     })}
                 </Tabs.List>
             </Tabs>
             <InnholdWrapper>
                 <Routes>
-                    {tabs.map((tab) => (
+                    {tabsSomSkalVises.map((tab) => (
                         <Route
                             key={tab.path}
                             path={`/${tab.path}`}
