@@ -30,6 +30,14 @@ export const saksbehandlerStub: ISaksbehandler = {
     enhet: '000',
 };
 
+export const fagsystemVedakStub: FagsystemVedtak = {
+        eksternBehandlingId: '17934',
+        behandlingstype: 'Førstegangsbehandling',
+        resultat: 'Innvilget',
+        vedtakstidspunkt: '2024-01-22T17:13:23.621',
+        fagsystemType: FagsystemType.ORDNIÆR,
+    }
+
 export const formkravVilkårStub: IFormkravVilkår = {
     behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
     klagePart: VilkårStatus.OPPFYLT,
@@ -42,30 +50,11 @@ export const formkravVilkårStub: IFormkravVilkår = {
     påklagetVedtak: {
         eksternFagsystemBehandlingId: '17934',
         påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
-        fagsystemVedtak: {
-            behandlingId: '4fdee4ec-7b33-4015-9616-f1690edc5a3e',
-            eksternBehandlingId: '17934',
-            behandlingstype: 'Førstegangsbehandling',
-            resultat: 'Innvilget',
-            vedtakstidspunkt: '2024-01-22T17:13:23.621',
-            fagsystemType: FagsystemType.ORDNIÆR,
-            //regelverk: "NASJONAL"
-        },
+        fagsystemVedtak: fagsystemVedakStub,
         manuellVedtaksdato: undefined,
-        //regelverk: "NASJONAL"
+        // regelverk: "NASJONAL"
     },
 };
-
-export const fagsystemVedakStub: FagsystemVedtak[] = [
-    {
-        behandlingId: '4fdee4ec-7b33-4015-9616-f1690edc5a3e',
-        eksternBehandlingId: '17934',
-        behandlingstype: 'Førstegangsbehandling',
-        resultat: 'Innvilget',
-        vedtakstidspunkt: '2024-01-22T17:13:23.621',
-        fagsystemType: FagsystemType.ORDNIÆR,
-    },
-];
 
 export const brevmottakereStub: IBrevmottakere = {
     personer: [

@@ -1,12 +1,8 @@
-// Interface
-
-// import { kjønnType } from '@navikt/familie-typer';
-
-
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
 
 export interface IPersonopplysninger {
     personIdent: string;
+    fagsakPersonId: string,
     navn: string;
     kjønn: kjønnType;
     adressebeskyttelse?: Adressebeskyttelse;

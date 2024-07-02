@@ -42,6 +42,7 @@ export enum EFormalKravType {
 }
 
 export interface IFormkravVilkår {
+    behandlingId: string;
     klagePart: VilkårStatus;
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;
