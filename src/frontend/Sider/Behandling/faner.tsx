@@ -9,6 +9,7 @@ import {
 
 import Brev from './Brev/Brev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
+import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -69,9 +70,6 @@ export const isFanePath = (path: string): path is FanePath => {
 };
 
 export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
-    if (fanePath === FanePath.SIMULERING) {
-        return true;
-    }
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
@@ -115,7 +113,7 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
         {
             navn: FaneNavn.SIMULERING,
             path: FanePath.SIMULERING,
-            komponent: () => <p>Simulering</p>,
+            komponent: () => <Simulering />,
             erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
         ...brevfaneHvisIkkeHenlagt(behandling),

@@ -171,7 +171,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
             </Panel>
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
-                nesteFane={FanePath.BREV}
+                nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >
