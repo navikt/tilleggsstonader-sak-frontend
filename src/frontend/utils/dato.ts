@@ -118,3 +118,7 @@ export const førsteDagIMånedTreMånederForut = (dato?: string): string => {
     const utgangspunktDato = dato ? tilDato(dato) : new Date();
     return tilLocaleDateString(startOfMonth(addMonths(tilDato(utgangspunktDato), -3)));
 };
+
+export const formaterIsoÅr = (dato: string): number => {
+    return parseISO(dato).getFullYear();
+};
