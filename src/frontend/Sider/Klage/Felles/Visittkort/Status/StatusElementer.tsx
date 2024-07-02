@@ -100,11 +100,11 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
-
+export const StatusMeny: FC<{ behandling: Behandling; fagsakPersonId: string }> = ({
+    behandling,
+    fagsakPersonId,
+}) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
-
-    const a = useHentPersonopplysninger(behandling.id)
 
     return (
         <div>
@@ -154,7 +154,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         <li>
                             <Status>
                                 <Link
-                                    href={`/behandling/${behandling.påklagetVedtak.behandlingId}`}
+                                    href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
                                     target="_blank"
                                 >
                                     Gå til behandling
@@ -168,10 +168,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     )}
                     <li>
                         <Status>
-                            <Link
-                                href={`/person/TODO`}
-                                target="_blank"
-                            >
+                            <Link href={`/ekstern/person/${fagsakPersonId}`} target="_blank">
                                 Gå til saksoversikt
                                 <ExternalLinkIcon
                                     aria-label="Gå til saksoversikt"
@@ -186,7 +183,10 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const AlleStatuser: FC<{ behandling: Behandling; fagsakPersonId: string }> = ({
+    behandling,
+    fagsakPersonId,
+}) => {
     return (
         <Statuser>
             <Status>
@@ -208,7 +208,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
                 <Status>
                     <Link
-                        href={`/behandling/${behandling.påklagetVedtak.behandlingId}`}
+                        href={`/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
                         target="_blank"
                     >
                         Gå til behandling
@@ -217,11 +217,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 </Status>
             )}
             <Status>
-                <Link
-                    // href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
-                    href={"TODO"}
-                    target="_blank"
-                >
+                <Link href={`/ekstern/person/${fagsakPersonId}`} target="_blank">
                     Gå til saksoversikt
                     <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize="1.5rem" />
                 </Link>
