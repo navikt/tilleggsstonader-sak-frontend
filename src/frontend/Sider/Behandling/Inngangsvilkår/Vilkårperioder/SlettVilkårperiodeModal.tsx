@@ -17,11 +17,10 @@ import {
     SlettVilkårperiode,
     StønadsperiodeStatus,
 } from '../typer/vilkårperiode';
-import { harIkkeVerdi } from '../../../../utils/utils';
+import { harIkkeVerdi, harVerdi } from '../../../../utils/utils';
 import { erMålgruppe } from '../Målgruppe/utils';
 
-type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe>;
-type SlettPermanentResponse = LagreVilkårperiodeResponse<null>;
+type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe | null>;
 
 const SlettVilkårperiodeModal: React.FC<{
     visModal: boolean;
@@ -52,51 +51,39 @@ const SlettVilkårperiodeModal: React.FC<{
         settLaster(true);
         settFeil('');
 
-        const response = kanSlettePeriodePermanent
-            ? slettNyVilkårperiode()
-            : slettVilkårperiodeFraTidligereBehandling();
-
-        response.finally(() => settLaster(false));
-    };
-
-    const slettVilkårperiodeFraTidligereBehandling = () =>
         request<Response, SlettVilkårperiode>(
             `/api/sak/vilkarperiode/${vilkårperiode.id}`,
             'DELETE',
             { behandlingId: behandling.id, kommentar: slettBegrunnelse }
-        ).then((res: RessursSuksess<Response> | RessursFeilet) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                oppdaterStønadsperiodeFeil(res.data);
+        )
+            .then((res: RessursSuksess<Response> | RessursFeilet) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    oppdaterStønadsperiodeFeil(res.data);
 
-                if (erMålgruppe(res.data.periode)) {
-                    oppdaterMålgruppe(res.data.periode);
+                    if (res.data.periode) {
+                        markerPeriodeSomSlettet(res.data.periode);
+                    } else {
+                        slettVilkårperiode(vilkårperiode.type, vilkårperiode.id);
+                    }
+
+                    settVisModal(false);
+                    avbrytRedigering();
                 } else {
-                    oppdaterAktivitet(res.data.periode);
+                    settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
                 }
-                settVisModal(false);
-                avbrytRedigering();
-            } else {
-                settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
-            }
-        });
+            })
+            .finally(() => settLaster(false));
+    };
 
-    const slettNyVilkårperiode = () =>
-        request<SlettPermanentResponse, null>(
-            `/api/sak/vilkarperiode/${vilkårperiode.id}/permanent`,
-            'DELETE'
-        ).then((res: RessursSuksess<SlettPermanentResponse> | RessursFeilet) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                oppdaterStønadsperiodeFeil(res.data);
-                slettVilkårperiode(vilkårperiode.type, vilkårperiode.id);
+    const markerPeriodeSomSlettet = (periode: Aktivitet | Målgruppe) => {
+        if (erMålgruppe(periode)) {
+            oppdaterMålgruppe(periode);
+        } else {
+            oppdaterAktivitet(periode);
+        }
+    };
 
-                settVisModal(false);
-                avbrytRedigering();
-            } else {
-                settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
-            }
-        });
-
-    const oppdaterStønadsperiodeFeil = (response: Response | SlettPermanentResponse) => {
+    const oppdaterStønadsperiodeFeil = (response: Response) => {
         if (response.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
             settStønadsperiodeFeil(undefined);
         } else {
