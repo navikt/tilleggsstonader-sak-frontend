@@ -27,6 +27,8 @@ const Tabell = styled(Table)`
 `;
 interface Props {
     oppgaverResponse: OppgaverResponse;
+    oppgaveRequest: OppgaveRequest;
+    settOppgaveRequest: (oppgaveRequest: OppgaveRequest) => void;
 }
 
 const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: OppgaveOrderBy }> = {
@@ -61,8 +63,12 @@ const utledTabellSort = (oppgaveRequest: OppgaveRequest): SortState => ({
     direction: oppgaveRequest.order === 'ASC' ? 'ascending' : 'descending',
 });
 
-const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
-    const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+const Oppgavetabell: React.FC<Props> = ({
+    oppgaverResponse,
+    oppgaveRequest,
+    settOppgaveRequest,
+}) => {
+    const { hentOppgaver } = useOppgave();
     const side = utledSide(oppgaveRequest);
     const antallSider = utledAntallSider(oppgaverResponse);
 

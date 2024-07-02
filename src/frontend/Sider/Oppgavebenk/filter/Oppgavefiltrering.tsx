@@ -9,6 +9,7 @@ import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage'
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
+import { useOppgaveFilter } from '../../../context/OppgaveFilterContext';
 import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
 import {
     defaultOppgaveRequest,
@@ -43,7 +44,8 @@ const AlignetCheckbox = styled(Checkbox)`
 
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
-    const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+    const { hentOppgaver } = useOppgave();
+    const { oppgaveRequest, settOppgaveRequest } = useOppgaveFilter();
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
