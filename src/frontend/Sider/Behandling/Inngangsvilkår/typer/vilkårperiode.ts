@@ -39,7 +39,7 @@ interface HentetInformasjon {
     tom: string;
 }
 
-export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe> {
+export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe | null> {
     periode: T;
     stønadsperiodeStatus: StønadsperiodeStatus;
     stønadsperiodeFeil?: string;
@@ -57,6 +57,7 @@ export interface VilkårPeriode extends Periode {
     kilde: KildeVilkårsperiode;
     slettetKommentar?: string;
     sistEndret: string;
+    forrigeVilkårperiodeId?: string;
 }
 
 export enum VilkårPeriodeResultat {
