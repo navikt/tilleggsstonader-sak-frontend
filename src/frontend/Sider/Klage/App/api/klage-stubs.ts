@@ -1,15 +1,5 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
-import { Folkeregisterpersonstatus, IPersonopplysninger } from '../typer/personopplysninger';
-import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-import {
-    Behandling,
-    BehandlingResultat,
-    Fagsystem,
-    PåklagetVedtakstype,
-    StegType,
-} from '../typer/fagsak';
-import { BehandlingStatus } from '../typer/behandlingstatus';
-import { Stønadstype } from '../typer/stønadstype';
+import { PåklagetVedtakstype, StegType } from '../typer/fagsak';
 import {
     FagsystemType,
     FormkravFristUnntak,
@@ -40,41 +30,13 @@ export const saksbehandlerStub: ISaksbehandler = {
     enhet: '000',
 };
 
-export const personopplysningerStub: IPersonopplysninger = {
-    personIdent: '25518735813',
-    navn: 'HURTIG PLEIE',
-    kjønn: kjønnType.KVINNE,
-    adressebeskyttelse: undefined,
-    folkeregisterpersonstatus: Folkeregisterpersonstatus.BOSATT,
-    dødsdato: undefined,
-    fullmakt: [],
-    egenAnsatt: false,
-    vergemål: [],
-    navEnhet: 'FA1',
-};
-
-export const behandlingStub: Behandling = {
-    id: '56694255-4a4a-407e-9079-8b14a7acbe80',
-    fagsakId: 'c0656c5b-878e-470e-864f-dbafbae9cd82',
-    steg: StegType.FORMKRAV, // Map to StegType enum
-    status: BehandlingStatus.OPPRETTET, // Map to BehandlingStatus enum
-    sistEndret: '2024-05-27T17:25:49',
-    opprettet: '2024-05-27T17:25:48.658',
-    resultat: BehandlingResultat.IKKE_SATT, // Map to BehandlingResultat enum
-    vedtakDato: undefined,
-    stønadstype: Stønadstype.OVERGANGSSTØNAD, // Assuming this is imported from somewhere
-    klageinstansResultat: [],
-    påklagetVedtak: {
-        eksternFagsystemBehandlingId: undefined,
-        påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT, // Map to PåklagetVedtakstype enum
-        fagsystemVedtak: undefined,
-        manuellVedtaksdato: undefined,
-    },
-    eksternFagsystemFagsakId: '200054236',
-    fagsystem: Fagsystem.EF, // Map to Fagsystem enum
-    klageMottatt: '2024-05-22',
-    fagsystemRevurdering: undefined,
-};
+export const fagsystemVedakStub: FagsystemVedtak = {
+        eksternBehandlingId: '17934',
+        behandlingstype: 'Førstegangsbehandling',
+        resultat: 'Innvilget',
+        vedtakstidspunkt: '2024-01-22T17:13:23.621',
+        fagsystemType: FagsystemType.ORDNIÆR,
+    }
 
 export const formkravVilkårStub: IFormkravVilkår = {
     behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
@@ -88,28 +50,11 @@ export const formkravVilkårStub: IFormkravVilkår = {
     påklagetVedtak: {
         eksternFagsystemBehandlingId: '17934',
         påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
-        fagsystemVedtak: {
-            eksternBehandlingId: '17934',
-            behandlingstype: 'Førstegangsbehandling',
-            resultat: 'Innvilget',
-            vedtakstidspunkt: '2024-01-22T17:13:23.621',
-            fagsystemType: FagsystemType.ORDNIÆR,
-            //regelverk: "NASJONAL"
-        },
+        fagsystemVedtak: fagsystemVedakStub,
         manuellVedtaksdato: undefined,
-        //regelverk: "NASJONAL"
+        // regelverk: "NASJONAL"
     },
 };
-
-export const fagsystemVedakStub: FagsystemVedtak[] = [
-    {
-        eksternBehandlingId: '17934',
-        behandlingstype: 'Førstegangsbehandling',
-        resultat: 'Innvilget',
-        vedtakstidspunkt: '2024-01-22T17:13:23.621',
-        fagsystemType: FagsystemType.ORDNIÆR,
-    },
-];
 
 export const brevmottakereStub: IBrevmottakere = {
     personer: [

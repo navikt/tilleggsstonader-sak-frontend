@@ -17,6 +17,7 @@ class ErrorBoundary extends React.Component<IProps> {
         // eslint-disable-next-line no-console
         console.log(error, info);
         if (process.env.NODE_ENV !== 'development') {
+            // TODO: Kommenter ut disse linjene hvis vi ønsker å sende stacktraces til Sentry.
             // configureScope((scope) => {
             //     scope.setUser({
             //         username: this.props.innloggetSaksbehandler.displayName,

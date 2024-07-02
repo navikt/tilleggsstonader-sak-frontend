@@ -14,7 +14,6 @@ import { ClockIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import { useApp } from '../../../App/context/AppContext';
-import { utledEksternBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
@@ -217,12 +216,12 @@ export const MedholdRevurdering: React.FC<{
                     as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    href={utledEksternBehandlingLenke(
-                        behandling,
-                        eksternBehandlingId,
-                        appEnv.eksternlenker
-                    )}
-                >
+                    // href={utledEksternBehandlingLenke(
+                    //     behandling,
+                    //     eksternBehandlingId,
+                    //     appEnv.eksternlenker
+                    // )}
+                    href={"TODO"}>
                     Åpne revurdering
                 </Button>
             </>
@@ -245,7 +244,8 @@ export const MedholdRevurdering: React.FC<{
                     as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                    // href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                    href={"TODO"}
                 >
                     Gå til behandlingsoversikt
                 </Button>

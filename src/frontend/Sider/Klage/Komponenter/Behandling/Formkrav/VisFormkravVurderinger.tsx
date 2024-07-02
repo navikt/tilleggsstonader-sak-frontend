@@ -122,7 +122,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const {
         behandlingErRedigerbar,
         hentBehandling,
-        // hentBehandlingshistorikk
+        hentBehandlingshistorikk
     } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
@@ -153,7 +153,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 settOppdaterteVurderinger(nullstilteVurderinger);
                 settRedigeringsmodus(Redigeringsmodus.IKKE_PÅSTARTET);
                 hentBehandling.rerun();
-                // hentBehandlingshistorikk.rerun();
+                hentBehandlingshistorikk.rerun();
             }
         });
     };

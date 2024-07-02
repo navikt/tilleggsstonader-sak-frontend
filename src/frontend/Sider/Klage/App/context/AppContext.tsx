@@ -76,6 +76,7 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
                     return håndterRessurs(responsRessurs, innloggetSaksbehandler, response.headers);
                 })
                 .catch((error: AxiosError<Ressurs<RES>>) => {
+                    console.log("Axios Error");
                     if (error.message.includes('401')) {
                         settAutentisert(false);
                     }

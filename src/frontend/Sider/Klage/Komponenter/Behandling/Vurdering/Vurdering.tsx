@@ -70,7 +70,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         settOppdatertVurdering,
         vurderingEndret,
         settVurderingEndret,
-        // hentBehandlingshistorikk,
+        hentBehandlingshistorikk,
         hentBehandling,
         behandlingErRedigerbar,
     } = useBehandling();
@@ -135,7 +135,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settSenderInn(false);
                 settVurderingEndret(false);
                 hentBehandling.rerun();
-                // hentBehandlingshistorikk.rerun();
+                hentBehandlingshistorikk.rerun();
             }
         );
     };
