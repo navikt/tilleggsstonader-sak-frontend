@@ -20,12 +20,12 @@ interface OpprettKlageRequest {
 
 const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger, lukkModal }) => {
     const { request } = useApp();
-    const [kravMottattDato, settKravMottattDato] = useState('');
+    const [klageMottattDato, settKlageMottattDato] = useState('');
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprett = () => {
         request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsak.id}`, 'POST', {
-            mottattDato: kravMottattDato,
+            mottattDato: klageMottattDato,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
                 hentKlagebehandlinger();
@@ -39,9 +39,9 @@ const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger
     return (
         <VStack gap="4">
             <DateInput
-                label={'Krav mottatt'}
-                onChange={(dato: string | undefined) => settKravMottattDato(dato || '')}
-                value={kravMottattDato}
+                label={'Klage mottatt'}
+                onChange={(dato: string | undefined) => settKlageMottattDato(dato || '')}
+                value={klageMottattDato}
             />
             <HStack gap="4" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">

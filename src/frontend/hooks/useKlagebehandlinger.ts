@@ -1,9 +1,11 @@
 import { useCallback, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { useApp } from '../context/AppContext';
 import { Klagebehandlinger } from '../typer/klage';
 import { byggRessursSuksess, byggTomRessurs, Ressurs } from '../typer/ressurs';
-import { erProd } from '../utils/miljø';
+import { Toggle } from '../utils/toggles';
 
 interface Response {
     hentKlagebehandlinger: (fagsakPersonId: string) => void;
@@ -16,10 +18,12 @@ export const useHentKlagebehandlinger = (): Response => {
     const [klagebehandlinger, settKlagebehandlinger] =
         useState<Ressurs<Klagebehandlinger>>(byggTomRessurs());
 
+    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
+
     const hentKlagebehandlinger = useCallback(
         (fagsakPersonId: string) => {
             // TODO: Fjern prodsjekk når klage-backend er oppe å gå i prod
-            if (erProd()) {
+            if (!kanOppretteKlage) {
                 const midlertidigMocketKlagebehandling: Klagebehandlinger = { barnetilsyn: [] };
                 settKlagebehandlinger(byggRessursSuksess(midlertidigMocketKlagebehandling));
             } else {
@@ -28,7 +32,7 @@ export const useHentKlagebehandlinger = (): Response => {
                 ).then(settKlagebehandlinger);
             }
         },
-        [request]
+        [request, kanOppretteKlage]
     );
 
     return {

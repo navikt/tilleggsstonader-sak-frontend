@@ -50,7 +50,7 @@ export const oppgaveTypeTilVisningstekstSomTarHensynTilKlage = (
     oppgaveBehandlingstype?: OppgaveBehandlingstype
 ): string => {
     if (oppgavetype === 'BEH_SAK' && oppgaveBehandlingstype === OppgaveBehandlingstype.Klage) {
-          return 'Behandle sak (klage)';
+        return 'Behandle sak (klage)';
     }
     return oppgaveTypeTilTekst[oppgavetype];
 };

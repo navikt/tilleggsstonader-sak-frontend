@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import Utgifter from './Utgifter/Utgifter';
+import { UtgifterLesMer } from './UtgifterLesMer';
 import { VarselBarnUnder2År } from './VarselBarnUnder2år';
 import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
@@ -29,6 +30,7 @@ import {
 } from '../../../../../typer/vedtak';
 import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 import { FanePath } from '../../../faner';
+import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
@@ -62,6 +64,20 @@ interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
     vilkårsvurderteBarn: BarnOppsummering[];
 }
+
+export const HeadingBeregning: React.FC = () => {
+    return (
+        <HStack gap="4" align={'end'}>
+            {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
+                <BodyShort key={indeks} size={'small'}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </BodyShort>
+            ))}
+        </HStack>
+    );
+};
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvurderteBarn }) => {
     const { request } = useApp();
@@ -115,13 +131,14 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
 
     return (
         <>
-            <Panel tittel="Beregning">
+            <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap="8">
                     <DataViewer response={{ stønadsperioder }}>
                         {({ stønadsperioder }) => (
                             <OppsummeringStønadsperioder stønadsperioder={stønadsperioder} />
                         )}
                     </DataViewer>
+                    <UtgifterLesMer />
                     <Utgifter
                         barnMedOppfylteVilkår={barnMedOppfylteVilkår}
                         utgifterState={utgifterState}

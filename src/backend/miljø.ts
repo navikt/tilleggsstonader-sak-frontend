@@ -133,7 +133,7 @@ const clientsLocalPreprod = (): ClientConfig => ({
 const lokaltMiljø = (clients: ClientConfig): Miljø => {
     const brukUnleash = envVar('BRUK_UNLEASH', false, 'false');
     const unleashEnvironment = brukUnleash === 'true' ? 'development' : 'mock';
-    logger.info(`Unleasn, brukUnleash=${brukUnleash} unleashEnv=${unleashEnvironment}`);
+    logger.info(`Unleash, brukUnleash=${brukUnleash} unleashEnv=${unleashEnvironment}`);
 
     return {
         buildPath: '../../dist_development',
