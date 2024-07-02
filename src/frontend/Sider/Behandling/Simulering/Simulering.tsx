@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
+import Oppsumering from './Oppsumering';
 import SimuleringTabell from './SimuleringTabell';
 import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
@@ -34,7 +35,10 @@ const Simulering: React.FC = () => {
         <Container>
             <DataViewer response={{ simuleringsresultat }}>
                 {({ simuleringsresultat }) => (
-                    <SimuleringTabell perioder={simuleringsresultat.perioder} />
+                    <>
+                        <Oppsumering oppsumering={simuleringsresultat.oppsummering} />
+                        <SimuleringTabell perioder={simuleringsresultat.perioder} />
+                    </>
                 )}
             </DataViewer>
         </Container>
