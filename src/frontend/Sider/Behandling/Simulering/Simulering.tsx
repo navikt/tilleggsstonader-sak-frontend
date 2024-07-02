@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
+import styled from 'styled-components';
+
+import SimuleringTabell from './SimuleringTabell';
 import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import DataViewer from '../../../komponenter/DataViewer';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+
+const Container = styled.div`
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: fit-content;
+`;
 
 const Simulering: React.FC = () => {
     const { behandling } = useBehandling();
@@ -18,7 +30,15 @@ const Simulering: React.FC = () => {
         );
     }, [request, settSimuleringsresultat, behandling.id]);
 
-    return <div>Simulering</div>;
+    return (
+        <Container>
+            <DataViewer response={{ simuleringsresultat }}>
+                {({ simuleringsresultat }) => (
+                    <SimuleringTabell perioder={simuleringsresultat.perioder} />
+                )}
+            </DataViewer>
+        </Container>
+    );
 };
 
 export default Simulering;
