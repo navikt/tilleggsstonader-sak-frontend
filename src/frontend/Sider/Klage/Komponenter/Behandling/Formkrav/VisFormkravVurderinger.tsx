@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
-    harManuellVedtaksdato,
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
@@ -119,11 +118,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const {
-        behandlingErRedigerbar,
-        hentBehandling,
-        hentBehandlingshistorikk
-    } = useBehandling();
+    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
@@ -248,11 +243,6 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         ) : (
                             <div>
                                 <div>{påklagetVedtakstypeTilTekst[påklagetVedtakstype]}</div>
-                                <div>
-                                    {harManuellVedtaksdato(påklagetVedtakstype)
-                                        ? formaterNullableIsoDato(manuellVedtaksdato)
-                                        : ''}
-                                </div>
                             </div>
                         )}
                     </Svar>

@@ -6,7 +6,6 @@ import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
-    harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
@@ -73,38 +72,10 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-                <option value={PåklagetVedtakstype.UTESTENGELSE}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTESTENGELSE]}
-                </option>
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
             </FamilieSelect>
-            {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
-                <DatoWrapper>
-                    <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
-                    <Datovelger
-                        label={''}
-                        id={'vedtaksdato'}
-                        verdi={manuellVedtaksdato}
-                        settVerdi={(dato) => {
-                            settOppdaterteVurderinger((prevState) => ({
-                                ...prevState,
-                                påklagetVedtak: {
-                                    ...prevState.påklagetVedtak,
-                                    manuellVedtaksdato: dato as string,
-                                },
-                            }));
-                        }}
-                        feil={
-                            manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato)
-                                ? 'Ugyldig dato'
-                                : undefined
-                        }
-                        maksDato={new Date()}
-                    />
-                </DatoWrapper>
-            )}
         </SelectWrapper>
     );
 };
