@@ -21,7 +21,6 @@ import {
     vedtakstidspunktTilVisningstekst,
 } from './utils';
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/klagebehandling';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
@@ -32,6 +31,10 @@ import {
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
+import {
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/klagebehandling/påklagetVedtakstype';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;

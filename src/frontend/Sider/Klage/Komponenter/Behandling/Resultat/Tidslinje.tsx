@@ -2,10 +2,8 @@ import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
-    KlagebehandlingResultat,
-    behandlingStegTilTekst,
-    StegType,
-} from '../../../App/typer/klagebehandling';
+
+} from '../../../App/typer/klagebehandling/klagebehandling';
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
@@ -15,6 +13,8 @@ import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../../../utils/dato';
+import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
@@ -116,11 +116,12 @@ const filtrerResutatSteg = (
     if (behandling.resultat === KlagebehandlingResultat.HENLAGT) {
         historikk = historikk.filter(
             (steg) =>
-                steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
+                steg.steg === KlagebehandlingSteg.OPPRETTET ||
+                steg.steg === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT
         );
     }
     if (behandling.resultat === KlagebehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
-        historikk = historikk.filter((steg) => steg.steg !== StegType.VURDERING);
+        historikk = historikk.filter((steg) => steg.steg !== KlagebehandlingSteg.VURDERING);
     }
     return historikk;
 };
@@ -175,7 +176,8 @@ const Node: React.FC<{
     åpenHøyremeny: boolean;
 }> = ({ behandling, steg, åpenHøyremeny }) => {
     const tittelErToLinjer =
-        steg.steg === StegType.OVERFØRING_TIL_KABAL || steg.steg === StegType.KABAL_VENTER_SVAR;
+        steg.steg === KlagebehandlingSteg.OVERFØRING_TIL_KABAL ||
+        steg.steg === KlagebehandlingSteg.KABAL_VENTER_SVAR;
 
     return (
         <NodeContainer>

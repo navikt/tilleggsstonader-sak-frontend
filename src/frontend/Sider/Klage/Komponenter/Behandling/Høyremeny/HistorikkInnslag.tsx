@@ -2,10 +2,14 @@ import * as React from 'react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Klagebehandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/klagebehandling';
+import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
+import {
+    behandlingStegFullførtTilTekst,
+    KlagebehandlingSteg,
+} from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 
 const Innslag = styled.div`
     display: flex;
@@ -29,7 +33,7 @@ const Tekst = styled.div`
 
 interface IHistorikkOppdatering {
     behandling: Klagebehandling;
-    steg: StegType;
+    steg: KlagebehandlingSteg;
     opprettetAv: string;
     endretTid: string;
 }
@@ -48,7 +52,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
             </Ikon>
             <Tekst>
                 <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
-                {steg === StegType.BEHANDLING_FERDIGSTILT && (
+                {steg === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
                     </BodyShort>

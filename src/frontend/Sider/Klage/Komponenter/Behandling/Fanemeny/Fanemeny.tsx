@@ -6,12 +6,12 @@ import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
 import {
     Klagebehandling,
-    KlagebehandlingResultat,
-    behandlingStegTilRekkefølge,
-    StegType,
-} from '../../../App/typer/klagebehandling';
+
+} from '../../../App/typer/klagebehandling/klagebehandling';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { KlagebehandlingSteg, stegrekkefølge } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -33,14 +33,14 @@ interface Props {
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
     const { formkravOppfylt } = useBehandling();
-    const faneErLåst = (side: ISide, steg: StegType): boolean => {
+    const faneErLåst = (side: ISide, steg: KlagebehandlingSteg): boolean => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;
         }
         if (side.navn === SideNavn.BREV && behandling.resultat === KlagebehandlingResultat.HENLAGT) {
             return true;
         }
-        return side.rekkefølge > behandlingStegTilRekkefølge[steg];
+        return side.rekkefølge > stegrekkefølge[steg];
     };
 
     return (

@@ -1,12 +1,14 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
-    behandlingResultatTilTekst,
-    StegType,
     utfallTilTekst,
-} from '../../../App/typer/klagebehandling';
+} from '../../../App/typer/klagebehandling/klagebehandling';
 import { KlageinstansEventType } from '../../../../../typer/klage';
 import { ensure } from '../../../../../utils/utils';
+import { KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+
+
+import { behandlingResultatTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -17,12 +19,12 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
         ),
     ].reverse();
 
-    const venterPåSvarFraKabal = visning[visning.length - 1].steg === StegType.OVERFØRING_TIL_KABAL;
+    const venterPåSvarFraKabal = visning[visning.length - 1].steg === KlagebehandlingSteg.OVERFØRING_TIL_KABAL;
     if (venterPåSvarFraKabal) {
         return [
             ...visning,
-            lagHistorikkInnslag(StegType.KABAL_VENTER_SVAR),
-            lagHistorikkInnslag(StegType.BEHANDLING_FERDIGSTILT),
+            lagHistorikkInnslag(KlagebehandlingSteg.KABAL_VENTER_SVAR),
+            lagHistorikkInnslag(KlagebehandlingSteg.BEHANDLING_FERDIGSTILT),
         ];
     }
     return visning;
@@ -56,7 +58,7 @@ export const utledTekstForBehandlingsresultat = (behandling: Klagebehandling) =>
         : behandlingResultatTilTekst[behandling.resultat];
 };
 
-const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
+const lagHistorikkInnslag = (steg: KlagebehandlingSteg): IBehandlingshistorikk => ({
     behandlingId: '',
     steg: steg,
     opprettetAv: '',

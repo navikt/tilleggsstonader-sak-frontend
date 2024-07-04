@@ -1,7 +1,7 @@
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
-import { Klagebehandling } from '../typer/klagebehandling';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { AxiosRequestConfig } from 'axios';
 
 export const useHentBehandling = (

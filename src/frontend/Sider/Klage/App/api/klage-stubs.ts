@@ -1,5 +1,4 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
-import { PåklagetVedtakstype, StegType } from '../typer/klagebehandling';
 import {
     FagsystemType,
     FormkravFristUnntak,
@@ -12,6 +11,8 @@ import {
     IBrevmottakere,
 } from '../../Komponenter/Behandling/Brevmottakere/typer';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
+import { KlagebehandlingSteg } from '../typer/klagebehandling/klagebehandlingSteg';
+import { PåklagetVedtakstype } from '../typer/klagebehandling/påklagetVedtakstype';
 
 export const saksbehandlerStub: ISaksbehandler = {
     displayName: 'F_Z994808 E_Z994808',
@@ -70,19 +71,19 @@ export const brevmottakereStub: IBrevmottakere = {
 export const behandlingshistorikkStub: IBehandlingshistorikk[] = [
     {
         behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
-        steg: StegType.VURDERING,
+        steg: KlagebehandlingSteg.VURDERING,
         opprettetAv: 'Z994781',
         endretTid: '2024-05-28T08:24:17.341055',
     },
     {
         behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
-        steg: StegType.FORMKRAV,
+        steg: KlagebehandlingSteg.FORMKRAV,
         opprettetAv: 'Z994781',
         endretTid: '2024-05-28T08:16:29.451124',
     },
     {
         behandlingId: '56694255-4a4a-407e-9079-8b14a7acbe80',
-        steg: StegType.FORMKRAV,
+        steg: KlagebehandlingSteg.FORMKRAV,
         opprettetAv: 'Z994781',
         endretTid: '2024-05-28T08:15:29.345039',
     },

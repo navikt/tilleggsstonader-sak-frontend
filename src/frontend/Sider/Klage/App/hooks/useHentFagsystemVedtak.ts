@@ -1,9 +1,8 @@
 import { useCallback, useState } from 'react';
 import { byggSuksessRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
-import { Klagebehandling } from '../typer/klagebehandling';
+import { erBehandlingRedigerbar, Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
-import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 
 export const useHentFagsystemVedtak = (): {
     hentFagsystemVedtak: (behandling: Klagebehandling) => void;

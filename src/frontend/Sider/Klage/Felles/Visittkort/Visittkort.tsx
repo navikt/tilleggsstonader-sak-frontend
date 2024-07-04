@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { Personopplysninger } from '../../App/typer/personopplysninger';
 import styled from 'styled-components';
-import { Klagebehandling } from '../../App/typer/klagebehandling';
+import { erBehandlingRedigerbar, Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
-import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
 import { Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';

@@ -33,7 +33,8 @@ import {
 } from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { PåklagetVedtakstype } from '../../../App/typer/klagebehandling';
+
+import { PåklagetVedtakstype } from '../../../App/typer/klagebehandling/påklagetVedtakstype';
 
 const RadioGrupperContainer = styled.div`
     display: flex;

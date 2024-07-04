@@ -3,8 +3,9 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Brev } from './Brev/Brev';
 import { Resultat } from './Resultat/Resultat';
-import { Klagebehandling, StegType } from '../../App/typer/klagebehandling';
+import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { Vurdering } from './Vurdering/Vurdering';
+import { KlagebehandlingSteg } from '../../App/typer/klagebehandling/klagebehandlingSteg';
 
 interface Props {
     behandling: Klagebehandling;
@@ -13,11 +14,11 @@ interface Props {
 const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
     const utledRedirectPath = (): string => {
         switch (behandling.steg) {
-            case StegType.FORMKRAV:
+            case KlagebehandlingSteg.FORMKRAV:
                 return 'formkrav';
-            case StegType.VURDERING:
+            case KlagebehandlingSteg.VURDERING:
                 return 'vurdering';
-            case StegType.BREV:
+            case KlagebehandlingSteg.BREV:
                 return 'brev';
             default:
                 return 'resultat';

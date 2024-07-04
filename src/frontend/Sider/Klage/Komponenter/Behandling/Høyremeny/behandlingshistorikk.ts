@@ -1,8 +1,8 @@
-import { StegType } from '../../../App/typer/klagebehandling';
+import { KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 
 export interface IBehandlingshistorikk {
     behandlingId: string;
-    steg: StegType;
+    steg: KlagebehandlingSteg;
     opprettetAv: string;
     endretTid: string;
 }

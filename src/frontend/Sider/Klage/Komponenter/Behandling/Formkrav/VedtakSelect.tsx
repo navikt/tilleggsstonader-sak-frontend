@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IFormkravVilkår } from './typer';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/klagebehandling';
 import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,
@@ -9,6 +8,10 @@ import {
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import {
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/klagebehandling/påklagetVedtakstype';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
