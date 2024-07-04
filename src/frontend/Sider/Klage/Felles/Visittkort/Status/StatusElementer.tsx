@@ -8,7 +8,6 @@ import { stønadstypeTilTekst } from '../../../App/typer/stønadstype';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
-import { useHentPersonopplysninger } from '../../../App/hooks/useHentPersonopplysninger';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;
@@ -100,9 +99,8 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Behandling; fagsakPersonId: string }> = ({
+export const StatusMeny: FC<{ behandling: Behandling }> = ({
     behandling,
-    fagsakPersonId,
 }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
 
@@ -168,7 +166,10 @@ export const StatusMeny: FC<{ behandling: Behandling; fagsakPersonId: string }> 
                     )}
                     <li>
                         <Status>
-                            <Link href={`/ekstern/person/${fagsakPersonId}`} target="_blank">
+                            <Link
+                                href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
+                                target="_blank"
+                            >
                                 Gå til saksoversikt
                                 <ExternalLinkIcon
                                     aria-label="Gå til saksoversikt"
@@ -183,9 +184,8 @@ export const StatusMeny: FC<{ behandling: Behandling; fagsakPersonId: string }> 
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Behandling; fagsakPersonId: string }> = ({
+export const AlleStatuser: FC<{ behandling: Behandling }> = ({
     behandling,
-    fagsakPersonId,
 }) => {
     return (
         <Statuser>
@@ -208,7 +208,7 @@ export const AlleStatuser: FC<{ behandling: Behandling; fagsakPersonId: string }
             {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
                 <Status>
                     <Link
-                        href={`/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
+                        href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
                         target="_blank"
                     >
                         Gå til behandling
@@ -217,7 +217,10 @@ export const AlleStatuser: FC<{ behandling: Behandling; fagsakPersonId: string }
                 </Status>
             )}
             <Status>
-                <Link href={`/ekstern/person/${fagsakPersonId}`} target="_blank">
+                <Link
+                    href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
+                    target="_blank"
+                >
                     Gå til saksoversikt
                     <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize="1.5rem" />
                 </Link>
