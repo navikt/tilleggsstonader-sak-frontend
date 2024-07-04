@@ -117,3 +117,10 @@ export const oppgaveBehandlingstypeTilTekst: Record<OppgaveBehandlingstype, stri
     [OppgaveBehandlingstype.TidligereHjemsendtsak]: 'Tidligere hjemsendt sak',
     [OppgaveBehandlingstype.HjemsendtTilNyBehandling]: 'Hjemsendt til ny behandling',
 };
+
+export interface Mappe {
+    id: number;
+    navn: string;
+    enhetsnr: string;
+    tema: string;
+}
