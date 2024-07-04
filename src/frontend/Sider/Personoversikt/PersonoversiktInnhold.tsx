@@ -94,7 +94,10 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             element={tab.komponent(fagsakPersonId)}
                         />
                     ))}
-                    <Route path="*" element={<Navigate to="behandlinger" replace={true} />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to={tabsSomSkalVises[0].path} replace={true} />}
+                    />
                 </Routes>
             </InnholdWrapper>
         </>
