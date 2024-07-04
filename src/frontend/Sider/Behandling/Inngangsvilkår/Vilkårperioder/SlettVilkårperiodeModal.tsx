@@ -9,6 +9,8 @@ import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsres
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';
+import { harIkkeVerdi } from '../../../../utils/utils';
+import { erMålgruppe } from '../Målgruppe/utils';
 import { Aktivitet } from '../typer/aktivitet';
 import { Målgruppe } from '../typer/målgruppe';
 import {
@@ -17,8 +19,6 @@ import {
     SlettVilkårperiode,
     StønadsperiodeStatus,
 } from '../typer/vilkårperiode';
-import { harIkkeVerdi, harVerdi } from '../../../../utils/utils';
-import { erMålgruppe } from '../Målgruppe/utils';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe | null>;
 

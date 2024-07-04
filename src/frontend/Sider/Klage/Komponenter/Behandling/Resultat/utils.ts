@@ -5,8 +5,8 @@ import {
     StegType,
     utfallTilTekst,
 } from '../../../App/typer/fagsak';
-import { ensure } from '../../../utils/utils';
 import { KlageinstansEventType } from '../../../../../typer/klage';
+import { ensure } from '../../../../../utils/utils';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [

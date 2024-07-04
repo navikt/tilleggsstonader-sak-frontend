@@ -4,7 +4,7 @@ import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { harVerdi } from '../../../App/utils/utils';
+import { harVerdi } from '../../../../../utils/utils';
 
 const FritekstWrapper = styled.div`
     margin: 0 4rem 2rem 4rem;

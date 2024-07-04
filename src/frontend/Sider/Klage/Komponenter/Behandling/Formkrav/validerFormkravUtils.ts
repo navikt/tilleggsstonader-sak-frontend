@@ -1,8 +1,7 @@
 import { FormkravFristUnntak, IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import { harVerdi } from '../../../App/utils/utils';
 import { utledRadioKnapper } from './utils';
-import { erGyldigDato } from '../../../App/utils/dato';
+import { harVerdi } from '../../../../../utils/utils';
 
 export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,

@@ -20,11 +20,11 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
-import { harVerdi } from '../../../App/utils/utils';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { formkravVilkårStub } from '../../../App/api/klage-stubs';
+import { harVerdi } from '../../../../../utils/utils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;

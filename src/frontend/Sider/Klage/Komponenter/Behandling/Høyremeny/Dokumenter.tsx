@@ -8,9 +8,9 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { Heading } from '@navikt/ds-react';
-import { åpneFilIEgenTab } from '../../../App/utils/utils';
 import styled from 'styled-components';
 import { Dokumentliste, DokumentProps } from '../../../familie-felles-frontend/familie-dokumentliste';
+import { åpneFilIEgenTab } from '../../../../../utils/utils';
 
 const OverSkrift = styled(Heading)`
     margin-top: 0.5rem;
