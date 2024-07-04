@@ -3,13 +3,6 @@ import { BehandlingStatus } from './behandlingstatus';
 import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
 import { KlageinstansEventType, KlageinstansResultat, KlageinstansUtfall } from '../../../../typer/klage';
 
-// TODO: Bruk vår egen Fagsystem-enum
-export enum Fagsystem {
-    EF = 'EF',
-    BA = 'BA',
-    KS = 'KS',
-}
-
 export enum StegType {
     OPPRETTET = 'OPPRETTET',
     FORMKRAV = 'FORMKRAV',
@@ -63,7 +56,6 @@ export interface Klagebehandling {
     klageinstansResultat: KlageinstansResultat[];
     påklagetVedtak: PåklagetVedtak;
     eksternFagsystemFagsakId: string;
-    fagsystem: Fagsystem;
     klageMottatt: string;
     fagsystemRevurdering?: FagsystemRevurdering;
 }
