@@ -34,7 +34,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                         <ÅrVelger {...props} />
                     </Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.HeaderCell scope={'col'} key={p.fom}>
+                        <Table.HeaderCell scope={'col'} key={p.fom} style={{ width: '6rem' }}>
                             {toTitleCase(formaterÅrMåned(p.fom))}
                         </Table.HeaderCell>
                     ))}
