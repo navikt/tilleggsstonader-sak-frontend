@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import { Klagebehandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
@@ -28,7 +28,7 @@ const Tekst = styled.div`
 `;
 
 interface IHistorikkOppdatering {
-    behandling: Behandling;
+    behandling: Klagebehandling;
     steg: StegType;
     opprettetAv: string;
     endretTid: string;

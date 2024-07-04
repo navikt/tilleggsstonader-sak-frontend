@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
-    Behandling,
+    Klagebehandling,
     BehandlingResultat,
     behandlingStegTilTekst,
     StegType,
@@ -110,7 +110,7 @@ const Suksess = styled(Oppfylt)`
  */
 const filtrerResutatSteg = (
     behandlingHistorikk: IBehandlingshistorikk[],
-    behandling: Behandling
+    behandling: Klagebehandling
 ) => {
     let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
     if (behandling.resultat === BehandlingResultat.HENLAGT) {
@@ -126,7 +126,7 @@ const filtrerResutatSteg = (
 };
 
 export const Tidslinje: React.FC<{
-    behandling: Behandling;
+    behandling: Klagebehandling;
     behandlingHistorikk: IBehandlingshistorikk[];
     åpenHøyremeny: boolean;
 }> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
@@ -170,7 +170,7 @@ export const Tidslinje: React.FC<{
 };
 
 const Node: React.FC<{
-    behandling: Behandling;
+    behandling: Klagebehandling;
     steg: IBehandlingshistorikk;
     åpenHøyremeny: boolean;
 }> = ({ behandling, steg, åpenHøyremeny }) => {
@@ -198,7 +198,7 @@ const Node: React.FC<{
 };
 
 export const MedholdRevurdering: React.FC<{
-    behandling: Behandling;
+    behandling: Klagebehandling;
 }> = ({ behandling }) => {
     const { fagsystemRevurdering } = behandling;
     if (fagsystemRevurdering?.opprettetBehandling) {

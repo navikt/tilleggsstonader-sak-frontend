@@ -1,6 +1,6 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
-    Behandling,
+    Klagebehandling,
     behandlingResultatTilTekst,
     StegType,
     utfallTilTekst,
@@ -28,7 +28,7 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
     return visning;
 };
 
-export const utledTekstForEksternutfall = (behandling: Behandling) => {
+export const utledTekstForEksternutfall = (behandling: Klagebehandling) => {
     const erFeilregistrert = behandling.klageinstansResultat.some(
         (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
     );
@@ -49,7 +49,7 @@ export const utledTekstForEksternutfall = (behandling: Behandling) => {
     }
 };
 
-export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
+export const utledTekstForBehandlingsresultat = (behandling: Klagebehandling) => {
     const eksternUtfallTekst = utledTekstForEksternutfall(behandling);
     return eksternUtfallTekst
         ? eksternUtfallTekst

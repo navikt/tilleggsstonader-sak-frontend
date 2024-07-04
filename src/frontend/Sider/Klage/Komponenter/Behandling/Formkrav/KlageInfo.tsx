@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
-import { Behandling } from '../../../App/typer/fagsak';
+import { Klagebehandling } from '../../../App/typer/fagsak';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -39,7 +39,7 @@ const TabellRad = styled.div`
 interface IProps {
     vurderinger: IFormkravVilkår;
     redigeringsmodus: Redigeringsmodus;
-    behandling: Behandling;
+    behandling: Klagebehandling;
 }
 
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {

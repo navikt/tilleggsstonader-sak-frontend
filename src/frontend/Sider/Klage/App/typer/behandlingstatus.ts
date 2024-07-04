@@ -1,4 +1,4 @@
-import { Behandling, StegType } from './fagsak';
+import { Klagebehandling, StegType } from './fagsak';
 
 export enum BehandlingStatus {
     OPPRETTET = 'OPPRETTET',
@@ -14,5 +14,5 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
     FERDIGSTILT: 'Ferdigstilt',
 };
 
-export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
+export const erBehandlingRedigerbar = (behandling: Klagebehandling): boolean =>
     [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);

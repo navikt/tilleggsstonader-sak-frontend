@@ -50,7 +50,7 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
-export interface Behandling {
+export interface Klagebehandling {
     id: string;
     fagsakId: string;
     steg: StegType;

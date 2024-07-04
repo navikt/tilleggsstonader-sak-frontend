@@ -5,7 +5,7 @@ import { alleSider, ISide, SideNavn } from './sider';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
 import {
-    Behandling,
+    Klagebehandling,
     BehandlingResultat,
     behandlingStegTilRekkefølge,
     StegType,
@@ -28,7 +28,7 @@ const StyledFanemeny = styled.div`
 `;
 
 interface Props {
-    behandling: Behandling;
+    behandling: Klagebehandling;
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {

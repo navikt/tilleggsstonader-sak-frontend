@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Behandling } from '../../../App/typer/fagsak';
+import { Klagebehandling } from '../../../App/typer/fagsak';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { KlageinstansEventType } from '../../../../../typer/klage';
@@ -9,7 +9,7 @@ const AlerMedMaxbredde = styled(Alert)`
     max-width: 60rem;
 `;
 
-export const FeilregistrertVisning: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const feilregistrertResultat = behandling.klageinstansResultat.find(
         (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
     );

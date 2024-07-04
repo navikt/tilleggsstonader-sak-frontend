@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { Behandling } from '../../../App/typer/fagsak';
+import { Klagebehandling } from '../../../App/typer/fagsak';
 import { useApp } from '../../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
@@ -14,7 +14,7 @@ const AlertStripe = styled(Alert)`
     margin-top: 1rem;
 `;
 
-export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const {
         visHenleggModal,
         settVisHenleggModal,

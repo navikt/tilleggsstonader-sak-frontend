@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
-import { byggSuksessRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+import { byggSuksessRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
-import { Behandling } from '../typer/fagsak';
+import { Klagebehandling } from '../typer/fagsak';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 
 export const useHentFagsystemVedtak = (): {
-    hentFagsystemVedtak: (behandling: Behandling) => void;
+    hentFagsystemVedtak: (behandling: Klagebehandling) => void;
     fagsystemVedtak: Ressurs<FagsystemVedtak[]>;
 } => {
     const { axiosRequest } = useApp();
@@ -15,7 +15,7 @@ export const useHentFagsystemVedtak = (): {
         useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);
 
     const hentFagsystemVedtak = useCallback(
-        (behandling: Behandling) => {
+        (behandling: Klagebehandling) => {
             if (erBehandlingRedigerbar(behandling)) {
                 axiosRequest<FagsystemVedtak[], null>({
                     method: 'GET',

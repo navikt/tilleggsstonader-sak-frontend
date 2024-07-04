@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Brev } from './Brev/Brev';
 import { Resultat } from './Resultat/Resultat';
-import { Behandling, StegType } from '../../App/typer/fagsak';
+import { Klagebehandling, StegType } from '../../App/typer/fagsak';
 import { Vurdering } from './Vurdering/Vurdering';
 
 interface Props {
-    behandling: Behandling;
+    behandling: Klagebehandling;
 }
 
 const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {

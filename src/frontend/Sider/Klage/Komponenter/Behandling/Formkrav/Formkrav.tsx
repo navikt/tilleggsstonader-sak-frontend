@@ -6,13 +6,13 @@ import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { Behandling } from '../../../App/typer/fagsak';
+import { Klagebehandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
-export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const Formkrav: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
         useHentFormkravVilkår();
     const { fagsystemVedtak, hentFagsystemVedtak } = useHentFagsystemVedtak();
@@ -52,7 +52,7 @@ const FormkravKomponent: React.FC<{
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-    behandling: Behandling;
+    behandling: Klagebehandling;
     feilmelding: string;
     fagsystemVedtak: FagsystemVedtak[];
 }> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding, fagsystemVedtak }) => {

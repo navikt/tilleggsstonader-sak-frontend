@@ -1,5 +1,5 @@
 import {
-    Behandling,
+    Klagebehandling,
     BehandlingResultat,
     behandlingResultatTilTekst,
     StegType,
@@ -10,7 +10,7 @@ import { utledTekstForEksternutfall } from './Resultat/utils';
  * Forenklet utledning av stegutfall
  * Denne skal ikke brukes for formkrav eller vurdering hvis resultat = Henlagt
  */
-export const utledStegutfallForFerdigstiltBehandling = (behandling: Behandling, steg: StegType) => {
+export const utledStegutfallForFerdigstiltBehandling = (behandling: Klagebehandling, steg: StegType) => {
     switch (steg) {
         case StegType.FORMKRAV:
             return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST

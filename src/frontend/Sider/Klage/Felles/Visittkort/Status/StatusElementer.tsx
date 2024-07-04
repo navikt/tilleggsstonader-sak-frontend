@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
+import { Klagebehandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
 import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
@@ -99,7 +99,7 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Behandling }> = ({
+export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({
     behandling,
 }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
@@ -184,7 +184,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Behandling }> = ({
+export const AlleStatuser: FC<{ behandling: Klagebehandling }> = ({
     behandling,
 }) => {
     return (

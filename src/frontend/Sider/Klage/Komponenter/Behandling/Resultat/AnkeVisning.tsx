@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-    Behandling,
+    Klagebehandling,
     klagehendelseTypeTilTekst,
     utfallTilTekst,
 } from '../../../App/typer/fagsak';
@@ -13,7 +13,7 @@ const AlertMedMaxbredde = styled(Alert)`
     max-width: 60rem;
 `;
 
-export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const AnkeVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const ankeResultater = behandling.klageinstansResultat.filter((resultat) =>
         [
             KlageinstansEventType.ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET,
