@@ -68,6 +68,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     </Popover.Content>
                 </Popover>
             </Table.DataCell>
+            <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
             <Table.DataCell>
                 <HStack align="center" wrap={false}>
                     {folkeregistrertIdent}

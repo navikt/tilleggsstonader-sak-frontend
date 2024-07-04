@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
@@ -9,7 +10,7 @@ import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingM
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { Fagsak } from '../../../typer/fagsak';
 import { KlageBehandling } from '../../../typer/klage';
-import { erProd } from '../../../utils/miljø';
+import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
     display: flex;
@@ -36,6 +37,8 @@ export const FagsakOversikt: React.FC<Props> = ({
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
+    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
+
     return (
         <Container>
             <TittelLinje>
@@ -53,7 +56,7 @@ export const FagsakOversikt: React.FC<Props> = ({
                 behandlinger={fagsak.behandlinger}
                 klagebehandlinger={klagebehandlinger}
             />
-            {!erProd() && (
+            {kanOppretteKlage && (
                 <OpprettNyBehandlingModal
                     fagsak={fagsak}
                     hentKlagebehandlinger={hentKlagebehandlinger}

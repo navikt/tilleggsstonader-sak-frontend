@@ -1,3 +1,4 @@
+import { Arkivtema } from './arkivtema';
 import { AvsenderMottaker, Journalposttype, Journalstatus } from './journalpost';
 
 export interface DokumentInfo {
@@ -6,7 +7,7 @@ export interface DokumentInfo {
     tittel: string;
     journalpostId: string;
     dato?: string;
-    tema?: string; // Arkiv
+    tema?: Arkivtema;
     journalstatus: Journalstatus;
     journalposttype: Journalposttype;
     harSaksbehandlerTilgang: boolean;

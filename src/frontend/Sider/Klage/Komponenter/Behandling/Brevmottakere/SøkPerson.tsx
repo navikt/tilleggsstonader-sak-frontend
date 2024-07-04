@@ -5,14 +5,14 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
-import { VertikalSentrering } from '../../../App/utils/styling';
+import { VertikalSentrering } from '../../../utils/styling';
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     behandlingId: string;
 }
 
 interface PersonSøk {
-    personIdent: string;
+    ident: string;
     behandlingId: string;
     navn: string;
 }
@@ -26,7 +26,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
         if (søkIdent && søkIdent.length === 11) {
             axiosRequest<PersonSøk, { personIdent: string; behandlingId: string }>({
                 method: 'POST',
-                url: 'api/klage/sok/person',
+                url: 'api/sak/brevmottakere/person',
                 data: {
                     personIdent: søkIdent,
                     behandlingId: behandlingId,
@@ -59,7 +59,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                         <Søkeresultat>
                             <div>
                                 <BodyShort>{søkRessurs.navn}</BodyShort>
-                                {søkRessurs.personIdent}
+                                {søkRessurs.ident}
                             </div>
                             <VertikalSentrering>
                                 <div>
@@ -67,7 +67,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                                         variant="secondary"
                                         size="small"
                                         onClick={leggTilBrevmottaker(
-                                            søkRessurs.personIdent,
+                                            søkRessurs.ident,
                                             søkRessurs.navn
                                         )}
                                     >

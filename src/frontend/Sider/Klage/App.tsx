@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AppProvider, useApp } from './App/context/AppContext';
 import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
-// import { TogglesProvider } from './App/context/TogglesContext';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
 import { AppEnv, hentEnv } from './App/api/env';
@@ -28,14 +27,11 @@ export const App: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
-        hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
-            settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
-        });
-    }, []);
-
-    React.useEffect(() => {
         hentEnv().then((env: AppEnv) => {
             settAppEnv(env);
+        });
+        hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
+            settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
         });
     }, []);
 
@@ -44,46 +40,31 @@ export const App: React.FC = () => {
     }
     return (
         <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
-        <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
-            {/*         <TogglesProvider>*/}
-            <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
-            {/*</TogglesProvider>*/}
-        </AppProvider>
+            <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+            </AppProvider>
         </ErrorBoundary>
     );
 };
 
-export default App;
-
-const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({ innloggetSaksbehandler }) => {
     const { autentisert } = useApp();
 
-    if (!autentisert) {
-        return (
-            // <BrowserRouter>
-            <ModalWrapper
-                tittel={'Ugyldig sesjon'}
-                visModal={true}
-                ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
-            >
-                <Innhold>Prøv å last siden på nytt</Innhold>
-            </ModalWrapper>
-        );
-        // </BrowserRouter>;
-    }
-
-    return (
-        // <BrowserRouter>
+    return !autentisert ? (
+        <ModalWrapper
+            tittel={'Ugyldig sesjon'}
+            visModal={true}
+            ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+        >
+            <Innhold>Prøv å laste siden på nytt</Innhold>
+        </ModalWrapper>
+    ) : (
         <AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />
-        // </BrowserRouter>
     );
 };
 
-const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+
+const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = () => {
     const navigate = useNavigate();
     const { valgtSide, byttUrl, settByttUrl } = useApp();
 
@@ -92,7 +73,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
             settByttUrl(false);
             navigate(valgtSide);
         }
-    //     eslint-disable-next-line
+        //     eslint-disable-next-line
     }, [byttUrl, valgtSide]);
 
     return (

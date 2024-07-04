@@ -21,6 +21,18 @@ export const åpneFilIEgenTab = (
     }, 500);
 };
 
+// Brukes for å fjerne undefined og null fra lister som blir generert av .find()-funksjoner
+export function ensure<T>(
+    argument: T | undefined | null,
+    message = 'Verdien kan ikke være null eller underfined'
+): T {
+    if (argument === undefined || argument === null) {
+        throw new TypeError(message);
+    }
+
+    return argument;
+}
+
 // eslint-disable-next-line
 export const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => K) =>
     list.reduce(

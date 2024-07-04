@@ -20,7 +20,7 @@ export interface KlageBehandling {
 export interface KlageinstansResultat {
     type: KlageinstansEventType;
     utfall: KlageinstansUtfall;
-    mottattEllerAvsluttetTidspunkt: string | undefined;
+    mottattEllerAvsluttetTidspunkt: string;
     årsakFeilregistrert?: string;
 }
 

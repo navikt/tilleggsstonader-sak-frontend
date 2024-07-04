@@ -6,10 +6,8 @@ import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import styled from 'styled-components';
 import { stønadstypeTilTekst } from '../../../App/typer/stønadstype';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { useApp } from '../../../App/context/AppContext';
 import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
-import { utledBehandlingLenke, utledSaksoversiktLenke } from '../../../utils/utils';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;
@@ -101,9 +99,11 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const StatusMeny: FC<{ behandling: Behandling }> = ({
+    behandling,
+}) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
-    const { appEnv } = useApp();
+
     return (
         <div>
             <VisStatuserKnapp
@@ -152,7 +152,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         <li>
                             <Status>
                                 <Link
-                                    href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
+                                    href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
                                     target="_blank"
                                 >
                                     Gå til behandling
@@ -167,7 +167,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     <li>
                         <Status>
                             <Link
-                                href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                                href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
                                 target="_blank"
                             >
                                 Gå til saksoversikt
@@ -184,8 +184,9 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const { appEnv } = useApp();
+export const AlleStatuser: FC<{ behandling: Behandling }> = ({
+    behandling,
+}) => {
     return (
         <Statuser>
             <Status>
@@ -207,7 +208,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
                 <Status>
                     <Link
-                        href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
+                        href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
                         target="_blank"
                     >
                         Gå til behandling
@@ -217,7 +218,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             )}
             <Status>
                 <Link
-                    href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                    href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
                     target="_blank"
                 >
                     Gå til saksoversikt

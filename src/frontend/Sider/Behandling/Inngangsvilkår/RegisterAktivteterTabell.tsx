@@ -49,7 +49,7 @@ const RegisterAktiviteterTabell: React.FC<{
                             <Table.DataCell>
                                 {formaterNullableIsoDato(aktivitet.tom)}
                             </Table.DataCell>
-                            <Table.DataCell>{aktivitet.antallDagerPerUke}</Table.DataCell>
+                            <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {erStegRedigerbart && (
                                     <Button

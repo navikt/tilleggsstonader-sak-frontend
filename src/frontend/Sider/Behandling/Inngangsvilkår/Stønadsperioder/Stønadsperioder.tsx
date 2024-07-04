@@ -6,6 +6,7 @@ import { SealCheckmarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import Aksjonsknapper from './Aksjonsknapper';
+import { LesMerStønadsperioder } from './LesMerStønadsperioder';
 import StønadsperiodeRad from './StønadsperiodeRad';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
@@ -141,6 +142,7 @@ const Stønadsperioder: React.FC = () => {
                     Det ble ikke registrert noen stønadsperioder i denne behandlingen
                 </BodyShort>
             )}
+            <LesMerStønadsperioder />
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (

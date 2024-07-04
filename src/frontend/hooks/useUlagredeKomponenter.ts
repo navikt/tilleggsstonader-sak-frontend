@@ -26,6 +26,7 @@ export const useUlagredeKomponenter = () => {
     };
 
     return {
+        ulagradeKomponenter,
         harUlagradeKomponenter: ulagradeKomponenter.size > 0,
         settUlagretKomponent,
         nullstillUlagretKomponent,

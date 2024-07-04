@@ -12,7 +12,11 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { paragraflenkerAktivitet, rundskrivAktivitet } from '../../lenker';
+import {
+    lenkerForskriftAktivitet,
+    lenkerParagrafAktivitet,
+    lenkerRundskrivAktivitet,
+} from '../../lenker';
 import RegisterAktiviteter from '../RegisterAktivteter';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
@@ -73,8 +77,9 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
         <VilkårPanel
             ikon={<BriefcaseIcon />}
             tittel="Aktivitet"
-            paragraflenker={paragraflenkerAktivitet}
-            rundskrivlenke={rundskrivAktivitet}
+            paragraflenker={lenkerParagrafAktivitet}
+            rundskrivlenke={lenkerRundskrivAktivitet}
+            forskriftlenker={lenkerForskriftAktivitet}
         >
             <FlexColumn gap={2}>
                 <RegisterAktiviteter

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
-// import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
 import { Behandling } from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
@@ -120,9 +119,9 @@ const VisittkortComponent: FC<{
 
             {behandling && (
                 <>
-                    <AlleStatuser behandling={behandling} />
+                    <AlleStatuser behandling={behandling}/>
                     <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling} />
+                        <StatusMeny behandling={behandling}/>
                     </StatuserLitenSkjerm>
                 </>
             )}

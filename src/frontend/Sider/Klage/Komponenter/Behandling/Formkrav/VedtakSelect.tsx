@@ -6,13 +6,9 @@ import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
-    harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Label } from '@navikt/ds-react';
-import { erGyldigDato } from '../../../App/utils/dato';
-import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -73,45 +69,10 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-
-                <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
-                </option>
-                <option value={PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK]}
-                </option>
-                <option value={PåklagetVedtakstype.UTESTENGELSE}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTESTENGELSE]}
-                </option>
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
             </FamilieSelect>
-            {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
-                <DatoWrapper>
-                    <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
-                    <Datovelger
-                        label={''}
-                        id={'vedtaksdato'}
-                        verdi={manuellVedtaksdato}
-                        settVerdi={(dato) => {
-                            settOppdaterteVurderinger((prevState) => ({
-                                ...prevState,
-                                påklagetVedtak: {
-                                    ...prevState.påklagetVedtak,
-                                    manuellVedtaksdato: dato as string,
-                                },
-                            }));
-                        }}
-                        feil={
-                            manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato)
-                                ? 'Ugyldig dato'
-                                : undefined
-                        }
-                        maksDato={new Date()}
-                    />
-                </DatoWrapper>
-            )}
         </SelectWrapper>
     );
 };

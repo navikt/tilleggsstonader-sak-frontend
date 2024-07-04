@@ -56,7 +56,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     const {
         hentBehandling,
-        // hentBehandlingshistorikk,
+        hentBehandlingshistorikk,
         behandlingErRedigerbar,
     } = useBehandling();
     const navigate = useNavigate();
@@ -131,17 +131,12 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             if (res.status === RessursStatus.SUKSESS) {
                 lukkModal();
                 hentBehandling.rerun();
-                // hentBehandlingshistorikk.rerun();
+                hentBehandlingshistorikk.rerun();
                 navigate(`/klagebehandling/${behandlingId}/resultat`);
             } else {
                 settFeilmelding(res.frontendFeilmelding);
             }
         });
-        // TODO: bytt ut disse linjene med funksjonen over når backend funker
-        settSenderInn(false) // ++
-        lukkModal() // ++
-        hentBehandling.rerun() // ++
-        navigate("/klagebehandling/${behandlingId}/resultat/") // ++
     };
 
     const lukkModal = () => {

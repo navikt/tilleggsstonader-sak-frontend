@@ -19,8 +19,8 @@ export const VarselBarnUnder2År = (props: { vilkårsvurderteBarn: BarnOppsummer
             <Heading size={'xsmall'} level="3">
                 Mulig kontantstøtte. Søker har barn under 2 år.
             </Heading>
-            Sjekk om det utbetales kontantstøtte for barnet. Meld fra til utviklingsteamet hvis det er
-            tilfelle.
+            Sjekk om det utbetales kontantstøtte for barnet. Meld fra til utviklingsteamet hvis det
+            er tilfelle.
         </Alert>
     );
 };

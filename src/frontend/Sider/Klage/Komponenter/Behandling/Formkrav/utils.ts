@@ -9,9 +9,9 @@ import {
 } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
-import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../../../utils/dato';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
@@ -72,10 +72,7 @@ export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
 export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
-        valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
-        valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtElement === PåklagetVedtakstype.UTESTENGELSE ||
-        valgtElement === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
+        valgtElement === PåklagetVedtakstype.IKKE_VALGT
     );
 };
 
@@ -116,20 +113,10 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
         ? { ...tilbakestillFormkrav, saksbehandlerBegrunnelse: '', brevtekst: undefined }
         : tilbakestillFormkrav;
 
-    const tilbakestillUnntak =
-        vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
-            ? {
-                  ...tilbakestillFritekstfelter,
-                  klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
-              }
-            : tilbakestillFritekstfelter;
-
-    return tilbakestillUnntak;
+    return vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
+        ? {
+              ...tilbakestillFritekstfelter,
+              klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+          }
+        : tilbakestillFritekstfelter;
 };
-
-export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
-    [
-        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
-        PåklagetVedtakstype.UTESTENGELSE,
-        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
-    ].includes(påklagetVedtakstype);
