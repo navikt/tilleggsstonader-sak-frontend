@@ -61,7 +61,6 @@ const VisittkortComponent: FC<{
 }) => {
     const {
         personIdent,
-        fagsakPersonId,
         kjønn,
         navn,
         folkeregisterpersonstatus,
@@ -120,9 +119,9 @@ const VisittkortComponent: FC<{
 
             {behandling && (
                 <>
-                    <AlleStatuser behandling={behandling} fagsakPersonId={fagsakPersonId}/>
+                    <AlleStatuser behandling={behandling}/>
                     <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling} fagsakPersonId={fagsakPersonId} />
+                        <StatusMeny behandling={behandling}/>
                     </StatuserLitenSkjerm>
                 </>
             )}
