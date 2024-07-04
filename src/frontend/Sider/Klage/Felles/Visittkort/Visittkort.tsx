@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import styled from 'styled-components';
-import { Klagebehandling } from '../../App/typer/fagsak';
+import { Klagebehandling } from '../../App/typer/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';

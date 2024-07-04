@@ -1,9 +1,9 @@
 import {
     Klagebehandling,
-    BehandlingResultat,
+    KlagebehandlingResultat,
     behandlingResultatTilTekst,
     StegType,
-} from '../../App/typer/fagsak';
+} from '../../App/typer/klagebehandling';
 import { utledTekstForEksternutfall } from './Resultat/utils';
 
 /**
@@ -13,15 +13,15 @@ import { utledTekstForEksternutfall } from './Resultat/utils';
 export const utledStegutfallForFerdigstiltBehandling = (behandling: Klagebehandling, steg: StegType) => {
     switch (steg) {
         case StegType.FORMKRAV:
-            return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
+            return behandling.resultat === KlagebehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
                 ? 'Ikke oppfylt'
                 : 'Oppfylt';
         case StegType.VURDERING:
-            return behandling.resultat === BehandlingResultat.MEDHOLD
+            return behandling.resultat === KlagebehandlingResultat.MEDHOLD
                 ? 'Omgjør vedtak'
                 : 'Oppretthold vedtak';
         case StegType.BEHANDLING_FERDIGSTILT:
-            return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD
+            return behandling.resultat === KlagebehandlingResultat.IKKE_MEDHOLD
                 ? utledTekstForEksternutfall(behandling) || ''
                 : behandlingResultatTilTekst[behandling.resultat];
         default:

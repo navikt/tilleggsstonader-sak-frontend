@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IFormkravVilkår } from './typer';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/klagebehandling';
 import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,

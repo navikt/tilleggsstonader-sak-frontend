@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Brev } from './Brev/Brev';
 import { Resultat } from './Resultat/Resultat';
-import { Klagebehandling, StegType } from '../../App/typer/fagsak';
+import { Klagebehandling, StegType } from '../../App/typer/klagebehandling';
 import { Vurdering } from './Vurdering/Vurdering';
 
 interface Props {

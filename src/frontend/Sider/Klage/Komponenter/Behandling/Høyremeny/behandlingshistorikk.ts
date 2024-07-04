@@ -1,4 +1,4 @@
-import { StegType } from '../../../App/typer/fagsak';
+import { StegType } from '../../../App/typer/klagebehandling';
 
 export interface IBehandlingshistorikk {
     behandlingId: string;

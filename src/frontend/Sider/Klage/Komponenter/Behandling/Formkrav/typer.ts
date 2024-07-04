@@ -1,4 +1,4 @@
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype } from '../../../App/typer/klagebehandling';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export enum VilkårStatus {

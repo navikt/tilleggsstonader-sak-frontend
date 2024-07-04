@@ -21,7 +21,7 @@ import {
     vedtakstidspunktTilVisningstekst,
 } from './utils';
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/klagebehandling';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,

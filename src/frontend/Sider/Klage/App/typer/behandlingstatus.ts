@@ -1,4 +1,4 @@
-import { Klagebehandling, StegType } from './fagsak';
+import { Klagebehandling, StegType } from './klagebehandling';
 
 export enum BehandlingStatus {
     OPPRETTET = 'OPPRETTET',

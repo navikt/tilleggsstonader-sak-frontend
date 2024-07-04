@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Klagebehandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
+import { Klagebehandling, behandlingResultatTilTekst } from '../../../App/typer/klagebehandling';
 import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';

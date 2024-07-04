@@ -1,5 +1,5 @@
 import { ISaksbehandler } from '../typer/saksbehandler';
-import { PåklagetVedtakstype, StegType } from '../typer/fagsak';
+import { PåklagetVedtakstype, StegType } from '../typer/klagebehandling';
 import {
     FagsystemType,
     FormkravFristUnntak,

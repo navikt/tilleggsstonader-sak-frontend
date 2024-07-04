@@ -4,7 +4,7 @@ import {
     behandlingResultatTilTekst,
     StegType,
     utfallTilTekst,
-} from '../../../App/typer/fagsak';
+} from '../../../App/typer/klagebehandling';
 import { KlageinstansEventType } from '../../../../../typer/klage';
 import { ensure } from '../../../../../utils/utils';
 

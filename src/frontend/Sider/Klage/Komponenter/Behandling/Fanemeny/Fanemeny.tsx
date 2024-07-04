@@ -6,10 +6,10 @@ import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
 import {
     Klagebehandling,
-    BehandlingResultat,
+    KlagebehandlingResultat,
     behandlingStegTilRekkefølge,
     StegType,
-} from '../../../App/typer/fagsak';
+} from '../../../App/typer/klagebehandling';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
@@ -37,7 +37,7 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;
         }
-        if (side.navn === SideNavn.BREV && behandling.resultat === BehandlingResultat.HENLAGT) {
+        if (side.navn === SideNavn.BREV && behandling.resultat === KlagebehandlingResultat.HENLAGT) {
             return true;
         }
         return side.rekkefølge > behandlingStegTilRekkefølge[steg];

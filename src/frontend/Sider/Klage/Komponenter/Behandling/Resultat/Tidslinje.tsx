@@ -2,10 +2,10 @@ import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
-    BehandlingResultat,
+    KlagebehandlingResultat,
     behandlingStegTilTekst,
     StegType,
-} from '../../../App/typer/fagsak';
+} from '../../../App/typer/klagebehandling';
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
@@ -113,13 +113,13 @@ const filtrerResutatSteg = (
     behandling: Klagebehandling
 ) => {
     let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
-    if (behandling.resultat === BehandlingResultat.HENLAGT) {
+    if (behandling.resultat === KlagebehandlingResultat.HENLAGT) {
         historikk = historikk.filter(
             (steg) =>
                 steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
         );
     }
-    if (behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
+    if (behandling.resultat === KlagebehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
         historikk = historikk.filter((steg) => steg.steg !== StegType.VURDERING);
     }
     return historikk;
@@ -132,7 +132,7 @@ export const Tidslinje: React.FC<{
 }> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
     const historikk = filtrerResutatSteg(behandlingHistorikk, behandling);
 
-    const harFåttMedhold = behandling.resultat === BehandlingResultat.MEDHOLD;
+    const harFåttMedhold = behandling.resultat === KlagebehandlingResultat.MEDHOLD;
     return (
         <Flexbox åpenHøyremeny={åpenHøyremeny}>
             {historikk.map((steg, index) => {

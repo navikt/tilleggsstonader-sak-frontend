@@ -9,7 +9,7 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
-import { Klagebehandling } from '../../App/typer/fagsak';
+import { Klagebehandling } from '../../App/typer/klagebehandling';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 import DataViewer from '../../Felles/DataViewer/DataViewer';

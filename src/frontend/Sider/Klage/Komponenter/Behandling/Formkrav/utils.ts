@@ -7,7 +7,7 @@ import {
     PåklagetVedtak,
     VilkårStatus,
 } from './typer';
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype } from '../../../App/typer/klagebehandling';
 import { compareDesc } from 'date-fns';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';

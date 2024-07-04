@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Klagebehandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import { Klagebehandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/klagebehandling';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';

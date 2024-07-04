@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { byggSuksessRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
-import { Klagebehandling } from '../typer/fagsak';
+import { Klagebehandling } from '../typer/klagebehandling';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 

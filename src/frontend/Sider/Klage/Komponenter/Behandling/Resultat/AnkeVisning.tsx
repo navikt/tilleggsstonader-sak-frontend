@@ -3,7 +3,7 @@ import {
     Klagebehandling,
     klagehendelseTypeTilTekst,
     utfallTilTekst,
-} from '../../../App/typer/fagsak';
+} from '../../../App/typer/klagebehandling';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { KlageinstansEventType } from '../../../../../typer/klage';
