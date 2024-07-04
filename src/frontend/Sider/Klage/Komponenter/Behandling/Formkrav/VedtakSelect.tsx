@@ -23,10 +23,6 @@ const SelectWrapper = styled.div`
     width: 80%;
 `;
 
-const DatoWrapper = styled.div`
-    margin-top: 1rem;
-`;
-
 export const VedtakSelect: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     vedtak,
@@ -51,7 +47,6 @@ export const VedtakSelect: React.FC<IProps> = ({
         }
     };
 
-    const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
     return (
         <SelectWrapper>
             <FamilieSelect

@@ -42,8 +42,8 @@ const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
 const InnholdWrapper = styled.div<InnholdWrapperProps>`
     flex-shrink: 0;
     flex-grow: 1;
-    flex-basis: 0px;
-    min-width: 0px;
+    flex-basis: 0;
+    min-width: 0;
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
     z-index: 9;
 `;

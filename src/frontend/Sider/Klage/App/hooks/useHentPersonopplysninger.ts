@@ -1,4 +1,4 @@
-import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useCallback, useState } from 'react';
 import { Personopplysninger } from '../typer/personopplysninger';
 import { useApp } from '../context/AppContext';

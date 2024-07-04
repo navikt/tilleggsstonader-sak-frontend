@@ -37,13 +37,11 @@ export const SkalBrukerHaBrev: FC<Props> = ({
             );
 
             if (brukerErIListe) {
-                const mottakereUtenBruker = mottakere.filter(
+                return mottakere.filter(
                     (mottaker) => mottaker.mottakerRolle !== EBrevmottakerRolle.BRUKER
                 );
-
-                return mottakereUtenBruker;
             } else {
-                const mottakereMedBruker = [
+                return [
                     {
                         mottakerRolle: EBrevmottakerRolle.BRUKER,
                         personIdent: personopplysninger.personIdent,
@@ -51,7 +49,6 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                     },
                     ...mottakere,
                 ];
-                return mottakereMedBruker;
             }
         });
     };

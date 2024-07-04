@@ -55,7 +55,7 @@ const LinjeStiplet = styled.div<{ åpenHøyremeny: boolean }>`
     @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         border-left: 2px dashed black;
         margin: 0 auto 2px;
-        width: 0px;
+        width: 0;
         height: 2rem;
     }
     @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
@@ -71,7 +71,7 @@ const LinjeSort = styled.div<{ synlig: boolean; åpenHøyremeny: boolean }>`
         border-left: 2px solid black;
         margin: 0 auto;
         height: 2rem;
-        width: 0px;
+        width: 0;
     }
     @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         border-top: 2px solid ${(props) => (props.synlig ? 'black' : 'transparent')};

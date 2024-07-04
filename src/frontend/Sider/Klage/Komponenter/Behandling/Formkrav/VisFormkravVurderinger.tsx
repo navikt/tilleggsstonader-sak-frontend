@@ -70,7 +70,7 @@ const SvarElement = styled.ul`
 `;
 
 const Spørsmål = styled.li`
-    padding: 0rem 0;
+    padding: 0 0;
     width: 40%;
     font-weight: bold;
 `;

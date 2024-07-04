@@ -11,7 +11,6 @@ import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../App/typer/toast';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { brevmottakereStub } from '../../../App/api/klage-stubs';
 
 const GridContainer = styled.div`
     display: grid;
