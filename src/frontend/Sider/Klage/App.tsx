@@ -27,14 +27,11 @@ export const App: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
-        hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
-            settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
-        });
-    }, []);
-
-    React.useEffect(() => {
         hentEnv().then((env: AppEnv) => {
             settAppEnv(env);
+        });
+        hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
+            settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
         });
     }, []);
 
@@ -50,37 +47,24 @@ export const App: React.FC = () => {
     );
 };
 
-export default App;
-
-const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({ innloggetSaksbehandler }) => {
     const { autentisert } = useApp();
 
-    if (!autentisert) {
-        return (
-            // <BrowserRouter>
-            <ModalWrapper
-                tittel={'Ugyldig sesjon'}
-                visModal={true}
-                ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
-            >
-                <Innhold>Prøv å last siden på nytt</Innhold>
-            </ModalWrapper>
-        );
-        // </BrowserRouter>;
-    }
-
-    return (
-        // <BrowserRouter>
+    return !autentisert ? (
+        <ModalWrapper
+            tittel={'Ugyldig sesjon'}
+            visModal={true}
+            ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+        >
+            <Innhold>Prøv å laste siden på nytt</Innhold>
+        </ModalWrapper>
+    ) : (
         <AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />
-        // </BrowserRouter>
     );
 };
 
-const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+
+const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = () => {
     const navigate = useNavigate();
     const { valgtSide, byttUrl, settByttUrl } = useApp();
 
