@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Mappe, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
-import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
-import { useApp } from '../../../context/AppContext';
+import React, { useEffect, useState } from 'react';
+
 import Oppgaveliste from './Oppgaveliste';
-import DataViewer from '../../../komponenter/DataViewer';
 import { mapperTilIdRecord } from './utils';
+import { useApp } from '../../../context/AppContext';
+import DataViewer from '../../../komponenter/DataViewer';
+import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
+import { Mappe, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -13,21 +14,19 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
 
-    const hentOppgaver = useCallback(() => {
-        request<OppgaverResponse, null>(
-            `/api/sak/oppgave/soek/person/${fagsakPersonId}`,
-            'POST'
-        ).then(settOppgaveResponse);
-    }, [request]);
-
-    const hentMapper = useCallback(() => {
-        request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
-    }, [request]);
-
     useEffect(() => {
+        const hentOppgaver = () =>
+            request<OppgaverResponse, null>(
+                `/api/sak/oppgave/soek/person/${fagsakPersonId}`,
+                'POST'
+            ).then(settOppgaveResponse);
+
+        const hentMapper = () =>
+            request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
+
         hentOppgaver();
         hentMapper();
-    }, []);
+    }, [fagsakPersonId, request]);
 
     return (
         <DataViewer response={{ oppgaveResponse, mapper }}>
