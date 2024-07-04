@@ -38,6 +38,10 @@ export const formaterNullableIsoDatoTid = (dato?: string): string | undefined =>
     return dato && formaterIsoDatoTid(dato);
 };
 
+export const formaterIsoKlokke = (dato: string): string => {
+    return format(parseISO(dato), "'kl'.HH:mm");
+};
+
 export const nullableTilDato = (dato: string | Date | undefined): Date | undefined => {
     if (typeof dato === 'string') {
         return dato !== '' ? parseISO(dato) : undefined;

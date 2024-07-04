@@ -9,9 +9,9 @@ import {
 } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
-import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../../../utils/dato';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;

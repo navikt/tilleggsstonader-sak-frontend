@@ -4,12 +4,10 @@ import {
     Behandling,
     BehandlingResultat,
     behandlingStegTilTekst,
-    revurderingIkkeOpprettetÅrsak,
     StegType,
 } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
-import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { ClockIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
@@ -17,6 +15,7 @@ import { useApp } from '../../../App/context/AppContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
+import { formaterIsoDato, formaterIsoKlokke } from '../../../../../utils/dato';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;

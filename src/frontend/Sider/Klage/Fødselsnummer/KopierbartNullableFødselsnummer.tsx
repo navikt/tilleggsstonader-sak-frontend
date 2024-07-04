@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CopyButton } from '@navikt/ds-react';
-import { formaterFødselsnummer } from '../App/utils/formatter';
 
 const NoWrapSpan = styled.span`
     white-space: nowrap;
@@ -25,3 +24,6 @@ export const KopierbartNullableFødselsnummer: React.FC<{ fødselsnummer: string
         </NoWrapSpan>
     );
 };
+
+const formaterFødselsnummer = (fødselsnummer: string): string =>
+    fødselsnummer.substring(0, 6) + ' ' + fødselsnummer.substring(6);

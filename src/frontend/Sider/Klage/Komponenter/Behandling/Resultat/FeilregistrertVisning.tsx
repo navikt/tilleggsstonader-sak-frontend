@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Behandling } from '../../../App/typer/fagsak';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { KlageinstansEventType } from '../../../../../typer/klage';
+import { formaterIsoDatoTid } from '../../../../../utils/dato';
 
 const AlerMedMaxbredde = styled(Alert)`
     max-width: 60rem;
