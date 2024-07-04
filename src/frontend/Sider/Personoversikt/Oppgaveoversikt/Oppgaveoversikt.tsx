@@ -16,10 +16,9 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
 
     useEffect(() => {
         const hentOppgaver = () =>
-            request<OppgaverResponse, null>(
-                `/api/sak/oppgave/soek/person/${fagsakPersonId}`,
-                'POST'
-            ).then(settOppgaveResponse);
+            request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`).then(
+                settOppgaveResponse
+            );
 
         const hentMapper = () =>
             request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
