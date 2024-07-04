@@ -37,7 +37,7 @@ const TotrinnskontrollUnderkjent: React.FC<{
                     <Label>Årsak til underkjennelse</Label>
                     <Detail>Manglende eller feil opplysninger om:</Detail>
                     {totrinnskontroll.årsakerUnderkjent.map((årsakUnderkjent) => (
-                        <HStack gap="2" wrap={false} align="center">
+                        <HStack key={årsakUnderkjent} gap="2" wrap={false} align="center">
                             <CheckmarkIcon />
                             <BodyShort size="small">
                                 {årsakUnderkjentTilTekst[årsakUnderkjent]}
