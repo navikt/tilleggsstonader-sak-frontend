@@ -1,6 +1,7 @@
 import React from 'react';
 import { Oppgave } from '../../Oppgavebenk/typer/oppgave';
 import { Table } from '@navikt/ds-react';
+import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from '../../Oppgavebenk/typer/oppgavetema';
 import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import styled from 'styled-components';
@@ -29,7 +30,12 @@ const Oppgaveliste: React.FC<{ oppgaver: Oppgave[] }> = ({ oppgaver }) => {
             <Table.Body>
                 {oppgaver.map((oppgave) => (
                     <Table.Row key={oppgave.id}>
-                        <Table.DataCell>{oppgave.oppgavetype}</Table.DataCell>
+                        <Table.DataCell>
+                            {oppgave.oppgavetype &&
+                                oppgaveTypeTilVisningstekstSomTarHensynTilKlage(
+                                    oppgave.oppgavetype
+                                )}
+                        </Table.DataCell>
                         <Table.DataCell>
                             {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
                         </Table.DataCell>
