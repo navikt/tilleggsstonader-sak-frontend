@@ -9,9 +9,6 @@ import {
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Label } from '@navikt/ds-react';
-import { erGyldigDato } from '../../../App/utils/dato';
-import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
