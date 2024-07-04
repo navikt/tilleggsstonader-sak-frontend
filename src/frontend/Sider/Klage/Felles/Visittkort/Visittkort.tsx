@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import { Personopplysninger } from '../../App/typer/personopplysninger';
 import styled from 'styled-components';
 import { Klagebehandling } from '../../App/typer/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
@@ -53,7 +53,7 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
 `;
 
 const VisittkortComponent: FC<{
-    personopplysninger: IPersonopplysninger;
+    personopplysninger: Personopplysninger;
     behandling: Klagebehandling;
 }> = ({
     personopplysninger,

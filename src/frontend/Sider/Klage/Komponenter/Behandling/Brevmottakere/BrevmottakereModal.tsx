@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
+import { Personopplysninger } from '../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
@@ -48,7 +48,7 @@ const VertikalLinje = styled.div`
 
 export const BrevmottakereModal: FC<{
     behandlingId: string;
-    personopplysninger: IPersonopplysninger;
+    personopplysninger: Personopplysninger;
     mottakere: IBrevmottakere;
     kallHentBrevmottakere: () => void;
 }> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {

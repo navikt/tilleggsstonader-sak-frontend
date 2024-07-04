@@ -1,6 +1,6 @@
 import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
 
-export interface IPersonopplysninger {
+export interface Personopplysninger {
     personIdent: string;
     fagsakPersonId: string,
     navn: string;
@@ -10,12 +10,12 @@ export interface IPersonopplysninger {
     dødsdato?: string;
     fødselsdato?: string;
     egenAnsatt: boolean;
-    fullmakt: IFullmakt[];
+    fullmakt: Fullmakt[];
     navEnhet: string;
-    vergemål: IVergemål[];
+    vergemål: Vergemål[];
 }
 
-export interface IFullmakt {
+export interface Fullmakt {
     gyldigFraOgMed: string;
     gyldigTilOgMed: string;
     motpartsPersonident: string;
@@ -23,7 +23,7 @@ export interface IFullmakt {
     områder: string[];
 }
 
-export interface IVergemål {
+export interface Vergemål {
     embete?: string;
     type?: string;
     motpartsPersonident?: string;

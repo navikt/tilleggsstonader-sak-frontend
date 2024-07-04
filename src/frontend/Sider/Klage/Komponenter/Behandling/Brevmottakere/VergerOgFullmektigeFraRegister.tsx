@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
+import { Fullmakt, Vergemål } from '../../../App/typer/personopplysninger';
 import { IBrevmottaker } from './typer';
 import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import styled from 'styled-components';
@@ -10,8 +10,8 @@ import { VertikalSentrering } from '../../../utils/styling';
 interface Props {
     valgteMottakere: IBrevmottaker[];
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
-    verger: IVergemål[];
-    fullmakter: IFullmakt[];
+    verger: Vergemål[];
+    fullmakter: Fullmakt[];
 }
 
 const Undertittel = styled(Ingress)`
