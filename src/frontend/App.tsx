@@ -20,6 +20,7 @@ import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
+import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
 import { App as KlageApp } from './Sider/Klage/App';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
@@ -44,6 +45,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
                     <Route path={'/journalfor'} element={<Journalføring />} />
                     <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
+                    <Route path={'/ekstern/*'} element={<EksternOmruting />} />
                     <Route path={'/klagebehandling/*'} element={<KlageApp />} />
                 </Route>
             ) : (
