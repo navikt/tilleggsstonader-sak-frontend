@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../../../App/typer/routing';
-import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
+import { useDataHenter } from '../../../App/hooks/useDataHenter';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { Heading } from '@navikt/ds-react';
