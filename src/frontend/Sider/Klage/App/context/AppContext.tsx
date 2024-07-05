@@ -2,12 +2,12 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
-import { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
 import { ISaksbehandler } from '../typer/saksbehandler';
 import constate from 'constate';
 import { EToast } from '../typer/toast';
 import { AppEnv } from '../api/env';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
+import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 
 interface IProps {
     autentisertSaksbehandler: ISaksbehandler;
@@ -76,7 +76,7 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
                     return håndterRessurs(responsRessurs, innloggetSaksbehandler, response.headers);
                 })
                 .catch((error: AxiosError<Ressurs<RES>>) => {
-                    console.log("Axios Error");
+                    console.log('Axios Error');
                     if (error.message.includes('401')) {
                         settAutentisert(false);
                     }

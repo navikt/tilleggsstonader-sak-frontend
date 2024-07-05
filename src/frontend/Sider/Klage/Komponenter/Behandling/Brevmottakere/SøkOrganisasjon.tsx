@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { IOrganisasjonMottaker } from './typer';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';

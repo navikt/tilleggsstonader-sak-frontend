@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { RessursFeilet, RessursSuksess } from './ressurs';
+import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 
 export type AxiosRequestCallback = <RES, REQ>(
     config: AxiosRequestConfig<REQ>

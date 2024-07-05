@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 import { useApp } from '../../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';

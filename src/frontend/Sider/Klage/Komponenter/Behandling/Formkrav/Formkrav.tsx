@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';

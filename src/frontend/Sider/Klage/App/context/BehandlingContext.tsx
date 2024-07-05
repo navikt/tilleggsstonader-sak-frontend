@@ -6,7 +6,6 @@ import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { RessursStatus } from '../typer/ressurs';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
@@ -14,6 +13,7 @@ import {
     påKlagetVedtakValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling';
+import { RessursStatus } from '../../../../typer/ressurs';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;

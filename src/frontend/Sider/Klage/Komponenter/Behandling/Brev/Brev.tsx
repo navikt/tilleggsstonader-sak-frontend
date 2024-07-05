@@ -6,7 +6,7 @@ import {
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
-} from '../../../App/typer/ressurs';
+} from '../../../../../typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';

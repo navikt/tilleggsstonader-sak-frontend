@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react';
+
+import { useApp } from '../context/AppContext';
+import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import {
+    RessursSuksess,
     byggTomRessurs,
     Ressurs,
     RessursFeilet,
     RessursStatus,
-    RessursSuksess,
-} from '../typer/ressurs';
-import { useApp } from '../context/AppContext';
-import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+} from '../../../../typer/ressurs';
 
 interface IMelding {
     tekst: string;

@@ -13,7 +13,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import {
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,

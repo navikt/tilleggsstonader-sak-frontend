@@ -13,7 +13,7 @@ import {
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
-} from '../../../App/typer/ressurs';
+} from '../../../../../typer/ressurs';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';

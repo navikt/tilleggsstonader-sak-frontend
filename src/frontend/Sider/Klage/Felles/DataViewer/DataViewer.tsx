@@ -1,13 +1,8 @@
 import React, { ReactElement, ReactNode } from 'react';
-import {
-    harNoenRessursMedStatus,
-    Ressurs,
-    RessursStatus,
-    RessursSuksess,
-} from '../../App/typer/ressurs';
 import SystemetLaster from '../SystemetLaster/SystemetLaster';
 import AlertStripePreWrap from '../Visningskomponenter/AlertStripeFeilPreWrap';
 import { Alert } from '@navikt/ds-react';
+import { harNoenRessursMedStatus, Ressurs, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }

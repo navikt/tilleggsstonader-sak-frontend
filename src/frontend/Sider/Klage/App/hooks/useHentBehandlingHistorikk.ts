@@ -1,8 +1,8 @@
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';
+import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
 export const useHentBehandlingHistorikk = (
     behandlingId: string

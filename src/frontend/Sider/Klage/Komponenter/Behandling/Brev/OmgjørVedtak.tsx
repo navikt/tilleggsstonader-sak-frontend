@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';

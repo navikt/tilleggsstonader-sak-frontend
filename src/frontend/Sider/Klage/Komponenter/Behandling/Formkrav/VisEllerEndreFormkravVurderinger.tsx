@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { VisFormkravVurderinger } from './VisFormkravVurderinger';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
-import { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export interface IProps {

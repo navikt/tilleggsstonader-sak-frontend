@@ -1,7 +1,7 @@
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useCallback, useState } from 'react';
 import { Personopplysninger } from '../typer/personopplysninger';
 import { useApp } from '../context/AppContext';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
 export const useHentPersonopplysninger = (
     behandlingId: string

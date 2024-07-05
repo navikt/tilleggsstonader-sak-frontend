@@ -6,7 +6,7 @@ import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';
 
 const Grid = styled.div`
