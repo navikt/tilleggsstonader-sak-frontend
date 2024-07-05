@@ -14,7 +14,7 @@ import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling
 import { RessursStatus } from '../../../../typer/ressurs';
 import { useRerunnableEffect } from '../../../../hooks/useRerunnableEffect';
 
-const [BehandlingProvider, useBehandling] = constate(() => {
+const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
     const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
@@ -78,4 +78,4 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     };
 });
 
-export { BehandlingProvider, useBehandling };
+export { KlagebehandlingProvider, useKlagebehandling };

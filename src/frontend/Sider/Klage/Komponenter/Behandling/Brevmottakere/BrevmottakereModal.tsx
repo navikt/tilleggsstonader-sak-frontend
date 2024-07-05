@@ -3,7 +3,7 @@ import { Personopplysninger } from '../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';

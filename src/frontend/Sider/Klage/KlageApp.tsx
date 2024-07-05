@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AppProvider, useApp } from './App/context/AppContext';
+import { KlageAppProvider, useApp } from './App/context/KlageAppContext';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
 import { Toast } from './Felles/Toast/Toast';
@@ -20,9 +20,9 @@ const Innhold = styled(BodyLong)`
 
 export const KlageApp: React.FC = () => {
     return (
-        <AppProvider>
+        <KlageAppProvider>
             <AppInnhold />
-        </AppProvider>
+        </KlageAppProvider>
     );
 };
 

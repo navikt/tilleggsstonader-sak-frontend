@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/KlageAppContext';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import {
     RessursSuksess,

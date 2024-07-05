@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';
@@ -32,7 +32,7 @@ const BrevMottakereContainer: React.FC<{
     mottakere: IBrevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandlingErRedigerbar } = useKlagebehandling();
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
@@ -94,7 +94,7 @@ const BrevMottakereContainer: React.FC<{
 
 const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
-    const { personopplysningerResponse } = useBehandling();
+    const { personopplysningerResponse } = useKlagebehandling();
 
     const [mottakere, settMottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
 

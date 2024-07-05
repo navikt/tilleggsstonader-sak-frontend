@@ -10,7 +10,7 @@ import {
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
@@ -121,7 +121,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
+    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useKlagebehandling();
     const { påklagetVedtakstype } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);

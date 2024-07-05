@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
-import { useApp } from '../../App/context/AppContext';
+import { useApp } from '../../App/context/KlageAppContext';
 import { toastTilTekst } from '../../App/typer/toast';
 import { Alert } from '@navikt/ds-react';
 

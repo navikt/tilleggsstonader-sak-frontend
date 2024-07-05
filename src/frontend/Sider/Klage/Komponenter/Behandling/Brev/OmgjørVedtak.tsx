@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
-import { useApp } from '../../../App/context/AppContext';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
@@ -61,7 +61,7 @@ export const OmgjørVedtak: React.FC<{
     senderInn: boolean;
 }> = ({ behandlingId, ferdigstill, senderInn }) => {
     const { axiosRequest } = useApp();
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandlingErRedigerbar } = useKlagebehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
     const [kanOppretteRevurdering, settKanOppretteRevurdering] =

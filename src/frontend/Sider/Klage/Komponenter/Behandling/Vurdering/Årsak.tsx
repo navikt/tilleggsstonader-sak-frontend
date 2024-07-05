@@ -3,7 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { IVurdering, ÅrsakOmgjøring } from './vurderingValg';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -27,7 +27,7 @@ export const Årsak: React.FC<IÅrsak> = ({
     årsakValgmuligheter,
     endring,
 }) => {
-    const { settVurderingEndret } = useBehandling();
+    const { settVurderingEndret } = useKlagebehandling();
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">

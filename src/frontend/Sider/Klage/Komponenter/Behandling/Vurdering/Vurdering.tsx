@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 import styled from 'styled-components';
 import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
@@ -16,7 +16,7 @@ import {
 } from '../../../../../typer/ressurs';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { useNavigate } from 'react-router-dom';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
@@ -73,7 +73,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         hentBehandlingshistorikk,
         hentBehandling,
         behandlingErRedigerbar,
-    } = useBehandling();
+    } = useKlagebehandling();
 
     const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useHentVurderinger();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =

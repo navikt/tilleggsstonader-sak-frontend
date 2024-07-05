@@ -5,7 +5,7 @@ import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
@@ -43,7 +43,7 @@ interface IProps {
 }
 
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
-    const { formkravOppfylt } = useBehandling();
+    const { formkravOppfylt } = useKlagebehandling();
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <AdvarselIkon height={26} width={26} />;

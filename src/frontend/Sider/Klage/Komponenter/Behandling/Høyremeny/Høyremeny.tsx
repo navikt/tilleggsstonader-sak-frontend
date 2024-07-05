@@ -6,7 +6,7 @@ import Dokumenter from './Dokumenter';
 import styled from 'styled-components';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 
 interface IHøyremenyProps {
@@ -50,7 +50,7 @@ export enum Høyremenyvalg {
 
 const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
-    const { settÅpenHøyremeny, behandlingErRedigerbar } = useBehandling();
+    const { settÅpenHøyremeny, behandlingErRedigerbar } = useKlagebehandling();
 
     useEffect(() => {
         if (behandlingErRedigerbar) {

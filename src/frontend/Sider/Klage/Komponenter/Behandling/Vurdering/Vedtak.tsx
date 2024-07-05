@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { IVurdering, VedtakValg } from './vurderingValg';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -39,7 +39,7 @@ export const Vedtak: React.FC<IVedtak> = ({
         );
     };
 
-    const { settVurderingEndret } = useBehandling();
+    const { settVurderingEndret } = useKlagebehandling();
     return (
         <VedtakStyled>
             <Heading spacing size="medium" level="5">

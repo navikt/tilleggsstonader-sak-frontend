@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
-import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
+import { KlagebehandlingProvider, useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { Personopplysninger } from '../../App/typer/personopplysninger';
@@ -50,9 +50,9 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
 
 const BehandlingContainer: FC = () => {
     return (
-        <BehandlingProvider>
+        <KlagebehandlingProvider>
             <BehandlingOverbygg />
-        </BehandlingProvider>
+        </KlagebehandlingProvider>
     );
 };
 
@@ -65,7 +65,7 @@ const BehandlingContent: FC<{
 }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
-    const { åpenHøyremeny } = useBehandling();
+    const { åpenHøyremeny } = useKlagebehandling();
 
     return (
         <>
@@ -92,7 +92,7 @@ const BehandlingOverbygg: FC = () => {
     const {
         personopplysningerResponse,
         behandling
-    } = useBehandling();
+    } = useKlagebehandling();
 
     useEffect(() => {
         document.title = 'Klagebehandling';

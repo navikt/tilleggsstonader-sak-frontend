@@ -16,8 +16,8 @@ import {
     RadioGroup,
     Textarea,
 } from '@navikt/ds-react';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useApp } from '../../../App/context/AppContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import styled from 'styled-components';
 import { VedtakSelect } from './VedtakSelect';
@@ -101,7 +101,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     const {
         hentBehandling,
         hentBehandlingshistorikk
-    } = useBehandling();
+    } = useKlagebehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
@@ -56,7 +56,7 @@ const FormkravKomponent: React.FC<{
     feilmelding: string;
     fagsystemVedtak: FagsystemVedtak[];
 }> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding, fagsystemVedtak }) => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandlingErRedigerbar } = useKlagebehandling();
     const [oppdaterteVurderinger, settOppdaterteVurderinger] =
         useState<IFormkravVilkår>(vilkårsvurderinger);
     const [redigeringsmodus, settRedigeringsmodus] = useState(

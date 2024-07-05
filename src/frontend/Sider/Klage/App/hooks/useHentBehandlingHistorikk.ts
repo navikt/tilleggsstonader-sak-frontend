@@ -1,4 +1,4 @@
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';

@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;

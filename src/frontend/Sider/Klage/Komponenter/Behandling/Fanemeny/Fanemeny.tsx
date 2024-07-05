@@ -8,7 +8,7 @@ import {
     Klagebehandling,
 
 } from '../../../App/typer/klagebehandling/klagebehandling';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { KlagebehandlingSteg, stegrekkefølge } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    const { formkravOppfylt } = useBehandling();
+    const { formkravOppfylt } = useKlagebehandling();
     const faneErLåst = (side: ISide, steg: KlagebehandlingSteg): boolean => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;

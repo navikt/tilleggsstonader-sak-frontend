@@ -1,12 +1,12 @@
 import * as React from 'react';
 import HistorikkInnslag from './HistorikkInnslag';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 
 const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
-    const { behandling, behandlingHistorikk } = useBehandling();
+    const { behandling, behandlingHistorikk } = useKlagebehandling();
 
     if (hidden) {
         return <></>;

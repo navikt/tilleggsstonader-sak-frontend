@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/KlageAppContext';
 import { erBehandlingRedigerbar, Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { Ressurs, byggRessursSuksess, byggTomRessurs } from '../../../../typer/ressurs';

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
-import { useBehandling } from '../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import { BodyShort } from '@navikt/ds-react';
 
 interface HamburgerMenyInnholdProps {
@@ -69,7 +69,7 @@ export interface Props {
 
 export const Hamburgermeny = () => {
     const ref = useRef(null);
-    const { settVisHenleggModal } = useBehandling();
+    const { settVisHenleggModal } = useKlagebehandling();
     const [åpenHamburgerMeny, settÅpenHamburgerMeny] = useState<boolean>(false);
 
     useEffect(() => {

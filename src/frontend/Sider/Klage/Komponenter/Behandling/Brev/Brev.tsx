@@ -7,9 +7,9 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../../../typer/ressurs';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../App/context/KlageAppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
@@ -58,7 +58,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         hentBehandling,
         hentBehandlingshistorikk,
         behandlingErRedigerbar,
-    } = useBehandling();
+    } = useKlagebehandling();
     const navigate = useNavigate();
 
     const { axiosRequest } = useApp();
