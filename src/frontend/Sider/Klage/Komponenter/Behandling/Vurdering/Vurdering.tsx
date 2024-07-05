@@ -23,7 +23,6 @@ import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
-import { formkravVilkårStub } from '../../../App/api/klage-stubs';
 import { harVerdi } from '../../../../../utils/utils';
 
 const FritekstFeltWrapper = styled.div`
@@ -94,10 +93,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             url: `/api/klage/formkrav/vilkar/${behandlingId}`,
         }).then(settFormkrav);
     }, [axiosRequest, behandlingId, settFormkrav]);
-
-    useEffect(() => {
-        settFormkrav({status: RessursStatus.SUKSESS, data: formkravVilkårStub}) // ++
-    }, [settFormkrav]);
 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
