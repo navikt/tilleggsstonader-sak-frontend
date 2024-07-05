@@ -23,25 +23,27 @@ const SimuleringResultatWrapper: React.FC = () => {
     const { request } = useApp();
 
     const [simuleringsresultat, settSimuleringsresultat] =
-        useState<Ressurs<SimuleringResponse>>(byggTomRessurs());
+        useState<Ressurs<SimuleringResponse | null>>(byggTomRessurs());
 
     useEffect(() => {
-        request<SimuleringResponse, null>(`/api/sak/simulering/${behandling.id}`).then(
+        request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`).then(
             settSimuleringsresultat
         );
     }, [request, settSimuleringsresultat, behandling.id]);
 
     return (
-        <Container>
-            <DataViewer response={{ simuleringsresultat }}>
-                {({ simuleringsresultat }) => (
-                    <>
-                        <Oppsumering oppsumering={simuleringsresultat.oppsummering} />
-                        <SimuleringTabell perioder={simuleringsresultat.perioder} />
-                    </>
-                )}
-            </DataViewer>
-        </Container>
+        <DataViewer response={{ simuleringsresultat }}>
+            {({ simuleringsresultat }) => (
+                <>
+                    {simuleringsresultat ? (
+                        <>
+                            <Oppsumering oppsumering={simuleringsresultat.oppsummering} />
+                            <SimuleringTabell perioder={simuleringsresultat.perioder} />
+                        </>
+                    ) : null}
+                </>
+            )}
+        </DataViewer>
     );
 };
 
