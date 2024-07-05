@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,6 +14,7 @@ import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
+import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -64,7 +66,8 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, useFlag(Toggle.VIS_SIMULERING));
+
     return (
         <StegProvider fane={aktivFane} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
