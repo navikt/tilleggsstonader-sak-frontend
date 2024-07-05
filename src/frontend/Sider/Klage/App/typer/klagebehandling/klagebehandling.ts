@@ -1,4 +1,3 @@
-import { Stønadstype } from '../stønadstype';
 import { KlagebehandlingStatus } from './klagebehandlingStatus';
 import { PåklagetVedtak } from '../../../Komponenter/Behandling/Formkrav/typer';
 import {
@@ -8,6 +7,7 @@ import {
 } from '../../../../../typer/klage';
 import { KlagebehandlingSteg } from './klagebehandlingSteg';
 import { KlagebehandlingResultat } from './klagebehandlingResultat';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
 export interface Klagebehandling {
     id: string;

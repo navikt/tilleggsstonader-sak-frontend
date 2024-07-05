@@ -9,8 +9,7 @@ import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusEl
 import { Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
-import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
-import { stønadstypeTilTekstKort } from '../../App/typer/stønadstype';
+import { EtikettFokus } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../utils/dato';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 
@@ -35,12 +34,6 @@ export const VisittkortWrapper = styled(Sticky)`
 
 const ElementWrapper = styled.div`
     margin-left: 1rem;
-`;
-
-const TagsKnyttetTilBehandling = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 1;
 `;
 
 const StyledHamburgermeny = styled(Hamburgermeny)`
@@ -109,11 +102,6 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
 
-                <TagsKnyttetTilBehandling>
-                    <EtikettSuksess>
-                        {stønadstypeTilTekstKort[behandling.stønadstype]}
-                    </EtikettSuksess>
-                </TagsKnyttetTilBehandling>
             </Visittkort>
 
             {behandling && (

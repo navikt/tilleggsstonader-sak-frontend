@@ -4,13 +4,13 @@ import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingStatus';
 import styled from 'styled-components';
-import { stønadstypeTilTekst } from '../../../App/typer/stønadstype';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
 
 
 import { behandlingResultatTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
+import { stønadstypeTilTekst } from '../../../../../typer/behandling/behandlingTema';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;
