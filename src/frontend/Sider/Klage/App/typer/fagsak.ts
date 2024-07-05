@@ -1,6 +1,7 @@
 import { Stønadstype } from './stønadstype';
 import { BehandlingStatus } from './behandlingstatus';
 import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
+import { KlageinstansEventType, KlageinstansResultat, KlageinstansUtfall } from '../../../../typer/klage';
 
 // TODO: Bruk vår egen Fagsystem-enum
 export enum Fagsystem {
@@ -95,22 +96,6 @@ export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     HENLAGT: 'Henlagt',
 };
 
-export interface KlageinstansResultat {
-    type: KlageinstansEventType;
-    utfall?: KlageinstansUtfall;
-    mottattEllerAvsluttetTidspunkt: string;
-    journalpostReferanser: string[];
-    årsakFeilregistrert?: string;
-}
-
-export enum KlageinstansEventType {
-    KLAGEBEHANDLING_AVSLUTTET = 'KLAGEBEHANDLING_AVSLUTTET',
-    ANKEBEHANDLING_OPPRETTET = 'ANKEBEHANDLING_OPPRETTET',
-    ANKEBEHANDLING_AVSLUTTET = 'ANKEBEHANDLING_AVSLUTTET',
-    ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET = 'ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET',
-    BEHANDLING_FEILREGISTRERT = 'BEHANDLING_FEILREGISTRERT',
-}
-
 export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = {
     KLAGEBEHANDLING_AVSLUTTET: 'Klagebehandling avsluttet',
     ANKEBEHANDLING_OPPRETTET: 'Ankebehandling opprettet',
@@ -118,17 +103,6 @@ export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = 
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET: 'Anke i trygderettenbehandling opprettet',
     BEHANDLING_FEILREGISTRERT: 'Behandling feilregistrert',
 };
-
-export enum KlageinstansUtfall {
-    TRUKKET = 'TRUKKET',
-    RETUR = 'RETUR',
-    OPPHEVET = 'OPPHEVET',
-    MEDHOLD = 'MEDHOLD',
-    DELVIS_MEDHOLD = 'DELVIS_MEDHOLD',
-    STADFESTELSE = 'STADFESTELSE',
-    UGUNST = 'UGUNST',
-    AVVIST = 'AVVIST',
-}
 
 export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     TRUKKET: 'Trukket KA',
@@ -139,6 +113,8 @@ export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     STADFESTELSE: 'Stadfestelse KA',
     UGUNST: 'Ugunst (Ugyldig) KA',
     AVVIST: 'Avvist KA',
+    INNSTILLING_STADFESTELSE: 'Innstilling om stadfestelse til trygderetten fra KA',
+    INNSTILLING_AVVIST: 'Innstilling om avist til trygderetten fra KA',
 };
 
 export type FagsystemRevurdering =

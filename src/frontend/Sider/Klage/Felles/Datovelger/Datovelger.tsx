@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { useDatepicker, DatePicker } from '@navikt/ds-react';
 import { FamilieLesefelt } from '@navikt/familie-form-elements';
-import { formaterNullableIsoDato, tilLocaleDateString } from '../../App/utils/formatter';
-import { nullableTilDato } from '../../App/utils/dato';
+import { formaterNullableIsoDato, nullableTilDato, tilLocaleDateString } from '../../../../utils/dato';
 
 export const Datovelger: FC<{
     verdi: string | undefined;

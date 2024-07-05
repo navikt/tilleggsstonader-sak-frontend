@@ -1,63 +1,56 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { CheckmarkIcon } from '@navikt/aksel-icons';
-import { Alert, BodyLong, BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Detail,
+    HStack,
+    Heading,
+    Label,
+    VStack,
+} from '@navikt/ds-react';
 
 import { TotrinnskontrollUnderkjentResponse, årsakUnderkjentTilTekst } from './typer';
 import { formaterIsoDatoTid } from '../../../utils/dato';
-
-const ÅrsakerUnderkjentWrapper = styled.div`
-    margin-top: 0.5rem;
-`;
-
-const SukksessIkonMedHøyreMargin = styled(CheckmarkIcon)`
-    margin-right: 0.5rem;
-`;
-
-const ÅrsakUnderkjentRad = styled(BodyShort)`
-    display: flex;
-    margin-bottom: 1rem;
-    align-items: center;
-`;
 
 const TotrinnskontrollUnderkjent: React.FC<{
     totrinnskontroll: TotrinnskontrollUnderkjentResponse;
 }> = ({ totrinnskontroll }) => {
     return (
-        <>
-            <Heading size={'small'} level={'3'}>
-                Totrinnskontroll
-            </Heading>
-            <Alert variant={'warning'} inline={true}>
-                Vedtaket er underkjent
-            </Alert>
-            <div>
-                <BodyShort size={'small'}>{totrinnskontroll.opprettetAv}</BodyShort>
+        <VStack gap="4">
+            <VStack gap="2">
+                <Heading size={'small'} level={'3'}>
+                    Totrinnskontroll
+                </Heading>
+                <Alert variant={'warning'} inline={true} size="small">
+                    Vedtaket er underkjent
+                </Alert>
                 <BodyShort size={'small'}>
-                    {formaterIsoDatoTid(totrinnskontroll.opprettetTid)}
+                    {formaterIsoDatoTid(totrinnskontroll.opprettetTid)} av{' '}
+                    {totrinnskontroll.opprettetAv}
                 </BodyShort>
-            </div>
+            </VStack>
             {totrinnskontroll.årsakerUnderkjent.length > 0 && (
                 <div>
                     <Label>Årsak til underkjennelse</Label>
                     <Detail>Manglende eller feil opplysninger om:</Detail>
-                    <ÅrsakerUnderkjentWrapper>
-                        {totrinnskontroll.årsakerUnderkjent.map((årsakUnderkjent) => (
-                            <ÅrsakUnderkjentRad key={årsakUnderkjent}>
-                                <SukksessIkonMedHøyreMargin />
+                    {totrinnskontroll.årsakerUnderkjent.map((årsakUnderkjent) => (
+                        <HStack key={årsakUnderkjent} gap="2" wrap={false} align="center">
+                            <CheckmarkIcon />
+                            <BodyShort size="small">
                                 {årsakUnderkjentTilTekst[årsakUnderkjent]}
-                            </ÅrsakUnderkjentRad>
-                        ))}
-                    </ÅrsakerUnderkjentWrapper>
+                            </BodyShort>
+                        </HStack>
+                    ))}
                 </div>
             )}
             <div>
                 <Label>Begrunnelse</Label>
                 <BodyLong size={'small'}>{totrinnskontroll.begrunnelse}</BodyLong>
             </div>
-        </>
+        </VStack>
     );
 };
 

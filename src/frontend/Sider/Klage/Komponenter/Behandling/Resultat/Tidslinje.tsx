@@ -4,19 +4,17 @@ import {
     Behandling,
     BehandlingResultat,
     behandlingStegTilTekst,
-    revurderingIkkeOpprettetÅrsak,
     StegType,
 } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
-import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { ClockIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
-import { useApp } from '../../../App/context/AppContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
+import { formaterIsoDato, formaterIsoKlokke } from '../../../../../utils/dato';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
@@ -202,7 +200,6 @@ const Node: React.FC<{
 export const MedholdRevurdering: React.FC<{
     behandling: Behandling;
 }> = ({ behandling }) => {
-    const { appEnv } = useApp();
     const { fagsystemRevurdering } = behandling;
     if (fagsystemRevurdering?.opprettetBehandling) {
         const { eksternBehandlingId, opprettetTid } = fagsystemRevurdering.opprettet;
@@ -216,12 +213,8 @@ export const MedholdRevurdering: React.FC<{
                     as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    // href={utledEksternBehandlingLenke(
-                    //     behandling,
-                    //     eksternBehandlingId,
-                    //     appEnv.eksternlenker
-                    // )}
-                    href={"TODO"}>
+                    href={`/ekstern/behandling/${eksternBehandlingId}`}
+                >
                     Åpne revurdering
                 </Button>
             </>
@@ -237,17 +230,18 @@ export const MedholdRevurdering: React.FC<{
                 {/*        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}*/}
                 {/*    </Detail>*/}
                 {/*)}*/}
-                <Detail> {/*TODO bytt ut disse tre linjene med utkommentert kode når revurdering støttes*/}
+                <Detail>
+                    {' '}
+                    {/*TODO bytt ut disse tre linjene med utkommentert kode når revurdering støttes*/}
                     Årsak: automatisk opprettelse støttes ikke per nå
                 </Detail>
                 <Button
                     as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    // href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
-                    href={"TODO"}
+                    href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
                 >
-                    Gå til behandlingsoversikt
+                    Gå til saksoversikten
                 </Button>
             </>
         );

@@ -4,11 +4,12 @@ import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
-import { behandlingstemaTilTekst, Oppgave, oppgaveBehandlingstypeTilTekst } from './typer/oppgave';
+import { Oppgave } from './typer/oppgave';
 import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 import { Saksbehandler } from '../../utils/saksbehandler';
+import { utledTypeBehandling } from './oppgaveutils';
 
 const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => {
     if (!oppgave.tilordnetRessurs) {
@@ -27,17 +28,6 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
         settAnker(anker ? null : element.currentTarget);
     };
-    const behandlingstema =
-        oppgave.behandlingstema && behandlingstemaTilTekst[oppgave.behandlingstema];
-
-    const behandlingstype =
-        oppgave.behandlingstype && oppgaveBehandlingstypeTilTekst[oppgave.behandlingstype];
-
-    const typeBehandling = behandlingstype
-        ? behandlingstema
-            ? behandlingstype + ' - ' + behandlingstema
-            : behandlingstype
-        : behandlingstema;
 
     const folkeregistrertIdent = utledetFolkeregisterIdent(oppgave);
 
@@ -51,7 +41,9 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                       )
                     : 'Mangler oppgavetype'}
             </Table.DataCell>
-            <Table.DataCell>{typeBehandling}</Table.DataCell>
+            <Table.DataCell>
+                {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
+            </Table.DataCell>
             <Table.DataCell onMouseEnter={togglePopover} onMouseLeave={togglePopover}>
                 {formaterNullableIsoDato(oppgave.opprettetTidspunkt)}
                 <Popover

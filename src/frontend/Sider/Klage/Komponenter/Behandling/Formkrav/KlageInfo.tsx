@@ -4,13 +4,13 @@ import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { FileTextIcon } from '@navikt/aksel-icons';
-import { formaterIsoDato } from '../../../App/utils/formatter';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
+import { formaterIsoDato } from '../../../../../utils/dato';
 
 const OppfyltIkon = styled(Oppfylt)`
     margin-top: 0.25rem;

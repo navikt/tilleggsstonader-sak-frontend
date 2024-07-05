@@ -13,7 +13,6 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
     skalViseKlagefristUnntak,
@@ -32,6 +31,7 @@ import {
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { formaterIsoDatoTid } from '../../../../../utils/dato';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -119,7 +119,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
-    const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
+    const { påklagetVedtakstype } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
