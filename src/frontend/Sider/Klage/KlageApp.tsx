@@ -19,7 +19,7 @@ const Innhold = styled(BodyLong)`
     margin-bottom: 2rem;
 `;
 
-export const App: React.FC = () => {
+export const KlageApp: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
