@@ -50,8 +50,10 @@ const BehandlingTabsInnhold = () => {
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
+    const visSimulering = useFlag(Toggle.VIS_SIMULERING);
+
     useEffect(() => {
-        if (faneErLåst(behandling, aktivFane)) {
+        if (faneErLåst(behandling, aktivFane, visSimulering)) {
             navigate(FanePath.INNGANGSVILKÅR);
         }
         // skal kun sjekke om fane er låst etter at behandling er oppdatert
@@ -59,14 +61,14 @@ const BehandlingTabsInnhold = () => {
     }, [behandling]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
-        if (!faneErLåst(behandling, nyFane)) {
+        if (!faneErLåst(behandling, nyFane, visSimulering)) {
             navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
         } else {
             settToast(Toast.DISABLED_FANE);
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling, useFlag(Toggle.VIS_SIMULERING));
+    const behandlingFaner = hentBehandlingfaner(behandling, visSimulering);
 
     return (
         <StegProvider fane={aktivFane} behandling={behandling}>
