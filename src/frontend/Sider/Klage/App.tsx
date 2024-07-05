@@ -6,7 +6,6 @@ import { AppProvider, useApp } from './App/context/AppContext';
 import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
-import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
@@ -16,6 +15,7 @@ import { BodyLong } from '@navikt/ds-react';
 import { hentInnloggetBruker } from './App/api/saksbehandler';
 import { ISaksbehandler } from './App/typer/saksbehandler';
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import { AppEnv, hentEnv } from '../../utils/env';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -27,9 +27,7 @@ export const App: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
-        hentEnv().then((env: AppEnv) => {
-            settAppEnv(env);
-        });
+        hentEnv(settAppEnv)
         hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
             settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
         });

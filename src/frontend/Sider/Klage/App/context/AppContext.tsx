@@ -5,9 +5,9 @@ import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
 import { ISaksbehandler } from '../typer/saksbehandler';
 import constate from 'constate';
 import { EToast } from '../typer/toast';
-import { AppEnv } from '../api/env';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
+import { AppEnv } from '../../../../utils/env';
 
 interface IProps {
     autentisertSaksbehandler: ISaksbehandler;
