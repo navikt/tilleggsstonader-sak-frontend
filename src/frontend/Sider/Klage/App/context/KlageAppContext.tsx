@@ -7,7 +7,7 @@ import { EToast } from '../typer/toast';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 
-const [KlageAppProvider, useApp] = constate(() => {
+const [KlageAppProvider, useKlageApp] = constate(() => {
     const [autentisert, settAutentisert] = React.useState(true);
     const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
         new Set()
@@ -96,4 +96,4 @@ const [KlageAppProvider, useApp] = constate(() => {
     };
 });
 
-export { KlageAppProvider, useApp };
+export { KlageAppProvider, useKlageApp };

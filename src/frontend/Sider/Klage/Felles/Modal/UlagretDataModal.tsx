@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../App/context/KlageAppContext';
+import { useKlageApp } from '../../App/context/KlageAppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 
 const UlagretDataModal: FC = () => {
@@ -9,7 +9,7 @@ const UlagretDataModal: FC = () => {
         visUlagretDataModal,
         valgtSide,
         settVisUlagretDataModal,
-    } = useApp();
+    } = useKlageApp();
     const navigate = useNavigate();
 
     return (

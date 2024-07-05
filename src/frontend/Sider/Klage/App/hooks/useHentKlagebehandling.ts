@@ -1,4 +1,4 @@
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
 import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { AxiosRequestConfig } from 'axios';
@@ -10,7 +10,7 @@ export const useHentKlagebehandling = (
     hentBehandlingCallback: () => void;
     behandling: Ressurs<Klagebehandling>;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const [behandling, settBehandling] = useState<Ressurs<Klagebehandling>>(byggTomRessurs());
 
     const hentBehandlingCallback = useCallback(() => {

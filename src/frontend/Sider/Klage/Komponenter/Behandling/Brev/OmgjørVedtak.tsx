@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import styled from 'styled-components';
@@ -60,7 +60,7 @@ export const OmgjørVedtak: React.FC<{
     ferdigstill: () => void;
     senderInn: boolean;
 }> = ({ behandlingId, ferdigstill, senderInn }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const { behandlingErRedigerbar } = useKlagebehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');

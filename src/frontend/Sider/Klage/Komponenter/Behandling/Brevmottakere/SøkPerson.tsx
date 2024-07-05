@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
@@ -18,7 +18,7 @@ interface PersonSøk {
 }
 
 export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const [søkIdent, settSøkIdent] = useState('');
     const [søkRessurs, settSøkRessurs] = useState(byggTomRessurs<PersonSøk>());
 

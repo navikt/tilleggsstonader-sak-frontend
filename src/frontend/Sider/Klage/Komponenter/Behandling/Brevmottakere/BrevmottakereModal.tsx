@@ -3,7 +3,7 @@ import { Personopplysninger } from '../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
@@ -57,7 +57,7 @@ export const BrevmottakereModal: FC<{
     mottakere: IBrevmottakere;
     kallHentBrevmottakere: () => void;
 }> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
-    const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
+    const { visBrevmottakereModal, settVisBrevmottakereModal } = useKlageApp();
 
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
 
@@ -66,7 +66,7 @@ export const BrevmottakereModal: FC<{
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-    const { settToast, axiosRequest } = useApp();
+    const { settToast, axiosRequest } = useKlageApp();
 
     const kallSettBrevmottakere = useCallback(
         (brevmottakere: IBrevmottakere) =>

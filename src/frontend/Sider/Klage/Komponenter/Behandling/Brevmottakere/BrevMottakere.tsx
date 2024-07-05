@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
@@ -31,7 +31,7 @@ const KompaktButton = styled(Button)`
 const BrevMottakereContainer: React.FC<{
     mottakere: IBrevmottakere;
 }> = ({ mottakere }) => {
-    const { settVisBrevmottakereModal } = useApp();
+    const { settVisBrevmottakereModal } = useKlageApp();
     const { behandlingErRedigerbar } = useKlagebehandling();
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
@@ -93,7 +93,7 @@ const BrevMottakereContainer: React.FC<{
 };
 
 const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const { personopplysningerResponse } = useKlagebehandling();
 
     const [mottakere, settMottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());

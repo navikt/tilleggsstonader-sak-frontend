@@ -17,7 +17,7 @@ import {
     Textarea,
 } from '@navikt/ds-react';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import styled from 'styled-components';
 import { VedtakSelect } from './VedtakSelect';
@@ -102,7 +102,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         hentBehandling,
         hentBehandlingshistorikk
     } = useKlagebehandling();
-    const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
+    const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useKlageApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 

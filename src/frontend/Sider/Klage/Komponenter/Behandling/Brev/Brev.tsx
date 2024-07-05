@@ -9,15 +9,15 @@ import {
 } from '../../../../../typer/ressurs';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
-import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import BrevMottakere from '../Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
+import SystemetLaster from '../../../../../komponenter/SystemetLaster/SystemetLaster';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -61,7 +61,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     } = useKlagebehandling();
     const navigate = useNavigate();
 
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');

@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -12,7 +12,7 @@ const EndreFormkravVurderinger: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     unntakVurdering,
 }) => {
-    const { settIkkePersistertKomponent } = useApp();
+    const { settIkkePersistertKomponent } = useKlageApp();
 
     const håndterEndring = (val: FormkravFristUnntak) => {
         settIkkePersistertKomponent('formkravVilkår');

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { erBehandlingRedigerbar, Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { Ressurs, byggRessursSuksess, byggTomRessurs } from '../../../../typer/ressurs';
@@ -8,7 +8,7 @@ export const useHentFagsystemVedtak = (): {
     hentFagsystemVedtak: (behandling: Klagebehandling) => void;
     fagsystemVedtak: Ressurs<FagsystemVedtak[]>;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
 
     const [fagsystemVedtak, settFagsystemVedtak] =
         useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);

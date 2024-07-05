@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
@@ -18,7 +18,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
     const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
         useKlagebehandling();
 
-    const { axiosRequest, settToast } = useApp();
+    const { axiosRequest, settToast } = useKlageApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);

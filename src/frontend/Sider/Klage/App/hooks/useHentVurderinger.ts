@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import {
     RessursSuksess,
@@ -25,7 +25,7 @@ export const useHentVurderinger = (): {
     melding: IMelding | undefined;
     settMelding: (melding?: IMelding) => void;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
     const [melding, settMelding] = useState<IMelding>();

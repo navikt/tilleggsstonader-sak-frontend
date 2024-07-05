@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import styled from 'styled-components';
 import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
@@ -76,7 +76,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
     const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useHentVurderinger();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useApp();
+        useKlageApp();
 
     useEffect(() => {
         if (behandlingId !== undefined) {

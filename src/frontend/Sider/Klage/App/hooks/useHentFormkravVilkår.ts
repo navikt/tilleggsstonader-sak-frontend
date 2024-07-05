@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { IFormkravVilkår } from '../../Komponenter/Behandling/Formkrav/typer';
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { byggTomRessurs, Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 
 export const useHentFormkravVilkår = (): {
@@ -11,7 +11,7 @@ export const useHentFormkravVilkår = (): {
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     feilVedLagring: string;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
 

@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosRequestConfig } from 'axios';
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { Ressurs, RessursStatus } from '../../../../typer/ressurs';
 
 type Props<D> = AxiosRequestConfig & { data?: D };
 
 export const useDataHenter = <T, D>(config: Props<D>): Ressurs<T> => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const [response, setResponse] = useState<Ressurs<T>>({
         status: RessursStatus.IKKE_HENTET,
     });

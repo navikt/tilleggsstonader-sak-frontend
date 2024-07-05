@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Personopplysninger } from '../typer/personopplysninger';
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
 export const useHentPersonopplysninger = (
@@ -9,7 +9,7 @@ export const useHentPersonopplysninger = (
     hentPersonopplysninger: (behandlingsid: string) => void;
     personopplysningerResponse: Ressurs<Personopplysninger>;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
     const [personopplysningerResponse, settPersonopplysningerResponse] =
         useState<Ressurs<Personopplysninger>>(byggTomRessurs());
 

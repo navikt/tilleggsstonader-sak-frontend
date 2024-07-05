@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { IOrganisasjonMottaker } from './typer';
@@ -11,7 +11,7 @@ interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
 }
 export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
 
     const [organisasjonsnummer, settOrganisasjonsnummer] = useState('');
     const [navnHosOrganisasjon, settNavnHosOrganisasjon] = useState('');

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
 import { ISide } from './sider';
-import { useApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { BodyShort } from '@navikt/ds-react';
 
 const StyledNavLink = styled(NavLink)`
@@ -64,7 +64,7 @@ interface Props {
 }
 
 const Fane: React.FC<Props> = ({ side, behandlingId, index, deaktivert }) => {
-    const { gåTilUrl } = useApp();
+    const { gåTilUrl } = useKlageApp();
     const fanenavn = side.navn;
     return (
         <>

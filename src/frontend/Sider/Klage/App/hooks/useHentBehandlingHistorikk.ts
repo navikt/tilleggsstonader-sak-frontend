@@ -1,4 +1,4 @@
-import { useApp } from '../context/KlageAppContext';
+import { useKlageApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
 import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';
@@ -10,7 +10,7 @@ export const useHentBehandlingHistorikk = (
     hentBehandlingshistorikkCallback: () => void;
     behandlingHistorikk: Ressurs<IBehandlingshistorikk[]>;
 } => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest } = useKlageApp();
 
     const [behandlingHistorikk, settBehandlingHistorikk] =
         useState<Ressurs<IBehandlingshistorikk[]>>(byggTomRessurs());

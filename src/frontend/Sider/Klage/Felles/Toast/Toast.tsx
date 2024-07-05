@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
-import { useApp } from '../../App/context/KlageAppContext';
+import { useKlageApp } from '../../App/context/KlageAppContext';
 import { toastTilTekst } from '../../App/typer/toast';
 import { Alert } from '@navikt/ds-react';
 
@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 export const Toast: React.FC = () => {
-    const { toast, settToast } = useApp();
+    const { toast, settToast } = useKlageApp();
 
     useEffect(() => {
         const timer = setTimeout(() => {
