@@ -1,9 +1,8 @@
 import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IBehandlingParams } from '../typer/routing';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
-import { useHentBehandling } from '../hooks/useHentBehandling';
+import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
@@ -16,12 +15,12 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { useRerunnableEffect } from '../../../../hooks/useRerunnableEffect';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
-    const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
+    const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
     const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerResponse } =
         useHentPersonopplysninger(behandlingId);
-    const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
+    const { hentBehandlingCallback, behandling } = useHentKlagebehandling(behandlingId);
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
@@ -40,20 +39,14 @@ const [BehandlingProvider, useBehandling] = constate(() => {
             behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
         );
         hentVilkårsvurderinger(behandlingId);
-    }, [
-        behandling,
-        behandlingId,
-        hentVilkårsvurderinger
-    ]);
+    }, [behandling, behandlingId, hentVilkårsvurderinger]);
     useEffect(() => {
         settFormkravOppfylt(
             vilkårsvurderinger.status === RessursStatus.SUKSESS &&
                 påKlagetVedtakValgt(vilkårsvurderinger.data) &&
                 alleVilkårOppfylt(vilkårsvurderinger.data)
         );
-    }, [
-        vilkårsvurderinger
-    ]);
+    }, [vilkårsvurderinger]);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);

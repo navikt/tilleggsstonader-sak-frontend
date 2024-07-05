@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { AxiosRequestConfig } from 'axios';
 import { useMemo } from 'react';
+import { AxiosRequestConfig } from 'axios';
 import { useParams } from 'react-router-dom';
-import { IBehandlingParams } from '../../../App/typer/routing';
 import { useDataHenter } from '../../../App/hooks/useDataHenter';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { Heading } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Dokumentliste, DokumentProps } from '../../../familie-felles-frontend/familie-dokumentliste';
+import {
+    Dokumentliste,
+    DokumentProps,
+} from '../../../familie-felles-frontend/familie-dokumentliste';
 import { åpneFilIEgenTab } from '../../../../../utils/utils';
 import { formaterNullableIsoDatoTid } from '../../../../../utils/dato';
 
@@ -17,7 +19,7 @@ const OverSkrift = styled(Heading)`
     margin-left: 1rem;
 `;
 const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
-    const { behandlingId } = useParams<IBehandlingParams>();
+    const { behandlingId } = useParams<{ behandlingId: string }>();
 
     const dokumentConfig: AxiosRequestConfig = useMemo(
         () => ({
