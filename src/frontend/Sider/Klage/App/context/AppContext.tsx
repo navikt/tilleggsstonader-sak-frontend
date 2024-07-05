@@ -2,15 +2,15 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
-import { ISaksbehandler } from '../typer/saksbehandler';
 import constate from 'constate';
 import { EToast } from '../typer/toast';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { AppEnv } from '../../../../utils/env';
+import { Saksbehandler } from '../../../../utils/saksbehandler';
 
 interface IProps {
-    autentisertSaksbehandler: ISaksbehandler;
+    autentisertSaksbehandler: Saksbehandler;
     appEnv: AppEnv;
 }
 
@@ -73,14 +73,14 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
                 .request<Ressurs<RES>>(config)
                 .then((response: AxiosResponse<Ressurs<RES>>) => {
                     const responsRessurs: Ressurs<RES> = response.data;
-                    return håndterRessurs(responsRessurs, innloggetSaksbehandler, response.headers);
+                    return håndterRessurs(responsRessurs, response.headers);
                 })
                 .catch((error: AxiosError<Ressurs<RES>>) => {
                     console.log('Axios Error');
                     if (error.message.includes('401')) {
                         settAutentisert(false);
                     }
-                    return håndterFeil(error, innloggetSaksbehandler);
+                    return håndterFeil(error);
                 });
         },
         [innloggetSaksbehandler]

@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
 
-import { ISaksbehandler } from '../typer/saksbehandler';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 
 axios.defaults.baseURL = window.location.origin;
@@ -21,13 +20,11 @@ const lagUkjentFeilRessurs = (headers?: Headers): RessursFeilet => ({
 
 export const håndterFeil = <T>(
     error: AxiosError<Ressurs<T>>,
-    innloggetSaksbehandler?: ISaksbehandler
 ): RessursSuksess<T> | RessursFeilet => {
     const headers = error.response?.headers;
     if (!error.response?.data?.status) {
         loggFeil(
             error,
-            innloggetSaksbehandler,
             `Savner body/status i response - Url: ${window.location.href}`,
             headers
         );
@@ -35,12 +32,11 @@ export const håndterFeil = <T>(
     }
     const responsRessurs: Ressurs<T> = error.response?.data;
 
-    return håndterRessurs(responsRessurs, innloggetSaksbehandler, headers);
+    return håndterRessurs(responsRessurs, headers);
 };
 
 export const håndterRessurs = <T>(
     ressurs: Ressurs<T>,
-    innloggetSaksbehandler?: ISaksbehandler,
     headers?: Headers
 ): RessursSuksess<T> | RessursFeilet => {
     let typetRessurs: Ressurs<T>;
@@ -56,7 +52,6 @@ export const håndterRessurs = <T>(
         case RessursStatus.IKKE_TILGANG:
             loggFeil(
                 undefined,
-                innloggetSaksbehandler,
                 `Feilmelding: ${ressurs.melding} - Url: ${gjeldendeUrl}`,
                 headers,
                 true
@@ -71,7 +66,6 @@ export const håndterRessurs = <T>(
         case RessursStatus.FEILET:
             loggFeil(
                 undefined,
-                innloggetSaksbehandler,
                 `Feilmelding: ${ressurs.melding} / Feilmelding til saksbehandler: ${ressurs.frontendFeilmelding} - Url: ${gjeldendeUrl}`,
                 headers
             );
@@ -94,7 +88,6 @@ export const håndterRessurs = <T>(
         default:
             loggFeil(
                 undefined,
-                innloggetSaksbehandler,
                 `Ukjent feil status=${ressurs.status} - Url: ${gjeldendeUrl}`,
                 headers
             );
@@ -107,7 +100,6 @@ export const håndterRessurs = <T>(
 
 export const loggFeil = (
     error?: AxiosError,
-    innloggetSaksbehandler?: ISaksbehandler,
     feilmelding?: string,
     headers?: Headers,
     isWarning = false
