@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,6 +14,7 @@ import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
+import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -48,8 +50,10 @@ const BehandlingTabsInnhold = () => {
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
+    const visSimulering = useFlag(Toggle.VIS_SIMULERING);
+
     useEffect(() => {
-        if (faneErLåst(behandling, aktivFane)) {
+        if (faneErLåst(behandling, aktivFane, visSimulering)) {
             navigate(FanePath.INNGANGSVILKÅR);
         }
         // skal kun sjekke om fane er låst etter at behandling er oppdatert
@@ -57,14 +61,15 @@ const BehandlingTabsInnhold = () => {
     }, [behandling]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
-        if (!faneErLåst(behandling, nyFane)) {
+        if (!faneErLåst(behandling, nyFane, visSimulering)) {
             navigate(`/behandling/${behandling.id}/${nyFane}`, { replace: true });
         } else {
             settToast(Toast.DISABLED_FANE);
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, visSimulering);
+
     return (
         <StegProvider fane={aktivFane} behandling={behandling}>
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
