@@ -5,7 +5,7 @@ import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext'
 import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';

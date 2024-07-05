@@ -12,10 +12,10 @@ import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { Personopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
-import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import DataViewer from '../../../../komponenter/DataViewer';
 
 const Container = styled.div`
     display: flex;

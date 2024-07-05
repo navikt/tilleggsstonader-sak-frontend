@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useApp } from '../../../App/context/KlageAppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';
+import DataViewer from '../../../../../komponenter/DataViewer';
 
 const Grid = styled.div`
     display: grid;

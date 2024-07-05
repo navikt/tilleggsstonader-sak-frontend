@@ -18,7 +18,7 @@ import { IFormkravVilkår } from '../Formkrav/typer';
 import { useNavigate } from 'react-router-dom';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';

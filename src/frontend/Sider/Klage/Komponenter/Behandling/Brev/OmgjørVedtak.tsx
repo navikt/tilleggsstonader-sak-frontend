@@ -4,13 +4,13 @@ import { Alert, Button } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/KlageAppContext';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
 } from '../../../App/typer/kanOppretteRevurdering';
+import DataViewer from '../../../../../komponenter/DataViewer';
 
 const AlertContainer = styled.div`
     padding: 2rem;

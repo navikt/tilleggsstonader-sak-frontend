@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/KlageAppContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { IOrganisasjonMottaker } from './typer';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
