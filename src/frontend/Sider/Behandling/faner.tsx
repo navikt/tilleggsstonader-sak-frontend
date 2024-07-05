@@ -9,6 +9,7 @@ import {
 
 import Brev from './Brev/Brev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
+import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -68,10 +69,15 @@ export const isFanePath = (path: string): path is FanePath => {
     }
 };
 
-export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
-    if (fanePath === FanePath.SIMULERING) {
+export const faneErLåst = (
+    behandling: Behandling,
+    fanePath: FanePath,
+    toggleSimulering?: boolean
+) => {
+    if (FanePath.SIMULERING === fanePath && !toggleSimulering) {
         return true;
     }
+
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
@@ -91,7 +97,10 @@ const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
+export const hentBehandlingfaner = (
+    behandling: Behandling,
+    toggleSimulering: boolean
+): FanerMedRouter[] => {
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,
@@ -115,8 +124,8 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
         {
             navn: FaneNavn.SIMULERING,
             path: FanePath.SIMULERING,
-            komponent: () => <p>Simulering</p>,
-            erLåst: faneErLåst(behandling, FanePath.SIMULERING),
+            komponent: () => <Simulering />,
+            erLåst: faneErLåst(behandling, FanePath.SIMULERING, toggleSimulering),
         },
         ...brevfaneHvisIkkeHenlagt(behandling),
     ];
