@@ -1,4 +1,10 @@
-import { Oppgave } from './typer/oppgave';
+import {
+    Behandlingstema,
+    Oppgave,
+    OppgaveBehandlingstype,
+    behandlingstemaTilTekst,
+    oppgaveBehandlingstypeTilTekst,
+} from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
 import { Saksbehandler } from '../../utils/saksbehandler';
 
@@ -31,4 +37,18 @@ export const oppgaveErJournalføringKlage = (oppgave: Oppgave) =>
 
 export const lagJournalføringUrl = (journalpostId: string, oppgaveId: string | number): string => {
     return `/journalfor?${JOURNALPOST_QUERY_STRING}=${journalpostId}&${OPPGAVEID_QUERY_STRING}=${oppgaveId}`;
+};
+
+export const utledTypeBehandling = (
+    behandlingstype?: OppgaveBehandlingstype,
+    behandlingstema?: Behandlingstema
+) => {
+    const behandlingstypeTekst = behandlingstype && oppgaveBehandlingstypeTilTekst[behandlingstype];
+    const behandlingstemaTekst = behandlingstema && behandlingstemaTilTekst[behandlingstema];
+
+    return behandlingstype
+        ? behandlingstema
+            ? behandlingstypeTekst + ' - ' + behandlingstemaTekst
+            : behandlingstypeTekst
+        : behandlingstemaTekst;
 };
