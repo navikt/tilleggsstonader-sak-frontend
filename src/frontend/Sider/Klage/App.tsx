@@ -13,7 +13,6 @@ import { BodyLong } from '@navikt/ds-react';
 
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
 import { AppEnv, hentEnv } from '../../utils/env';
-import { hentInnloggetSaksbehandler, Saksbehandler } from '../../utils/saksbehandler';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -21,21 +20,18 @@ const Innhold = styled(BodyLong)`
 `;
 
 export const App: React.FC = () => {
-    const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
         hentEnv(settAppEnv);
-        hentInnloggetSaksbehandler(settInnloggetSaksbehandler);
     }, []);
 
-    if (!innloggetSaksbehandler || !appEnv) {
+    if (!appEnv) {
         return null;
     }
-    console.log('INNLOGGET SAKSBEHANDLER :' + JSON.stringify(innloggetSaksbehandler));
 
     return (
-        <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+        <AppProvider appEnv={appEnv}>
             <AppRoutes />
         </AppProvider>
     );

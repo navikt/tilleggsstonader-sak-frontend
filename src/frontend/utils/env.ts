@@ -1,4 +1,4 @@
-import { Roller } from '../utils/roller';
+import { Roller } from './roller';
 
 export interface AppEnv {
     roller: Roller;

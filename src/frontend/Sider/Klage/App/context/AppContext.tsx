@@ -7,17 +7,12 @@ import { EToast } from '../typer/toast';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { AppEnv } from '../../../../utils/env';
-import { Saksbehandler } from '../../../../utils/saksbehandler';
-
 interface IProps {
-    autentisertSaksbehandler: Saksbehandler;
     appEnv: AppEnv;
 }
 
-const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IProps) => {
+const [AppProvider, useApp] = constate(({ appEnv }: IProps) => {
     const [autentisert, settAutentisert] = React.useState(true);
-    const [innloggetSaksbehandler, settInnloggetSaksbehandler] =
-        React.useState(autentisertSaksbehandler);
     const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
         new Set()
     );
@@ -34,10 +29,6 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
         () => settUlagretData(ikkePersisterteKomponenter.size > 0),
         [ikkePersisterteKomponenter]
     );
-
-    useEffect(() => {
-        settInnloggetSaksbehandler(autentisertSaksbehandler);
-    }, [autentisertSaksbehandler]);
 
     const settIkkePersistertKomponent = (komponentId: string) => {
         if (ikkePersisterteKomponenter.has(komponentId)) return;
@@ -83,13 +74,12 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
                     return håndterFeil(error);
                 });
         },
-        [innloggetSaksbehandler]
+        []
     );
 
     return {
         axiosRequest,
         autentisert,
-        innloggetSaksbehandler,
         settIkkePersistertKomponent,
         nullstillIkkePersistertKomponent,
         nullstillIkkePersisterteKomponenter,
