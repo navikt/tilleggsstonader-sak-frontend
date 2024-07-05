@@ -6,11 +6,11 @@ import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandl
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
-import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
-import Info from '../../../Felles/Ikoner/Info';
 import { formaterIsoDato } from '../../../../../utils/dato';
+import Info from '../../../../../komponenter/Ikoner/Vurderingsresultat/Info';
+import IkkeOppfylt from '../../../../../komponenter/Ikoner/Vurderingsresultat/IkkeOppfylt';
+import Oppfylt from '../../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
 
 const OppfyltIkon = styled(Oppfylt)`
     margin-top: 0.25rem;

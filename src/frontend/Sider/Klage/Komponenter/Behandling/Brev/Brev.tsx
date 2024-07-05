@@ -14,10 +14,10 @@ import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import BrevMottakere from '../Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
+import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -177,7 +177,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             disabled: senderInn,
                         },
                         lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
-                        marginTop: 4,
                     }}
                     ariaLabel={'Bekreft ustending av frittstående brev'}
                 >

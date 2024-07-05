@@ -5,7 +5,7 @@ import { Table, Textarea, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';

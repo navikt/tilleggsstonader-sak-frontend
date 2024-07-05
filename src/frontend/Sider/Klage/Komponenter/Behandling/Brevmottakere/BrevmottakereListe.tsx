@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { BodyShort, Ingress } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import SlettKnapp from '../../../Felles/Knapper/SlettKnapp';
+import SlettKnapp from './SlettKnapp';
 
 interface Props {
     valgtePersonMottakere: IBrevmottaker[];

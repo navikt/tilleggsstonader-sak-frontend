@@ -9,16 +9,22 @@ import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../App/typer/toast';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 
 const GridContainer = styled.div`
     display: grid;
     grid-template-columns: 100fr 1fr 100fr;
     column-gap: 2rem;
 `;
-const Venstrekolonne = styled.div``;
-const Høyrekolonne = styled.div``;
+
+const Venstrekolonne = styled.div`
+    margin-left: 2rem;
+`;
+
+const Høyrekolonne = styled.div`
+    margin-right: 2rem
+`;
 
 const SentrerKnapper = styled.div`
     display: flex;

@@ -9,12 +9,12 @@ import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
-import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
-import Info from '../../../Felles/Ikoner/Info';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../../../utils/dato';
 import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
+import Info from '../../../../../komponenter/Ikoner/Vurderingsresultat/Info';
+import Oppfylt from '../../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;

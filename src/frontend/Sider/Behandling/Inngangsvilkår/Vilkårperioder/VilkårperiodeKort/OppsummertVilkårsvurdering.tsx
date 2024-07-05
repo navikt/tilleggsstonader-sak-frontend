@@ -8,7 +8,7 @@ import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
 import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
 import { finnDelvilkårTilOppsummering } from './utils';
-import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/aktivitet';

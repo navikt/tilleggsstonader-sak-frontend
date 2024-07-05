@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vilkårsresultat/VilkårsresultatIkon';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Vilkårsregler } from '../../../../typer/regel';

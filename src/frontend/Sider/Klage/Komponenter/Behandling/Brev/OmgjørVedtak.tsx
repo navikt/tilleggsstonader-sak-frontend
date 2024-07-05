@@ -4,13 +4,13 @@ import { Alert, Button } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/KlageAppContext';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
 } from '../../../App/typer/kanOppretteRevurdering';
 import DataViewer from '../../../../../komponenter/DataViewer';
+import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 
 const AlertContainer = styled.div`
     padding: 2rem;
@@ -110,7 +110,6 @@ export const OmgjørVedtak: React.FC<{
                         disabled: senderInn,
                     },
                     lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                    marginTop: 4,
                 }}
             >
                 {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
@@ -143,7 +142,6 @@ export const OmgjørVedtak: React.FC<{
                                 disabled: senderInn,
                             },
                             lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                            marginTop: 4,
                         }}
                     >
                         {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}

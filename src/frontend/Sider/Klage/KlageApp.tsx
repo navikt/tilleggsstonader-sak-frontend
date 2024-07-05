@@ -6,12 +6,12 @@ import { KlageAppProvider, useApp } from './App/context/KlageAppContext';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
 import { Toast } from './Felles/Toast/Toast';
-import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 
 import { BodyLong } from '@navikt/ds-react';
 
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;

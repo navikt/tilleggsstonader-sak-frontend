@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/KlageAppContext';
-import { ModalWrapper } from './ModalWrapper';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 
 const UlagretDataModal: FC = () => {
     const {
@@ -34,7 +34,6 @@ const UlagretDataModal: FC = () => {
                     },
                     tekst: 'Forlat siden',
                 },
-                marginTop: 4,
             }}
         />
     );

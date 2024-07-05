@@ -7,20 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
-import { Alert, Radio, RadioGroup } from '@navikt/ds-react';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
+import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
 `;
 
 export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
-    const {
-        visHenleggModal,
-        settVisHenleggModal,
-        hentBehandling,
-        hentBehandlingshistorikk
-    } = useKlagebehandling();
+    const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
+        useKlagebehandling();
 
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
@@ -79,11 +75,16 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
             }}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
-            <RadioGroup legend={''} onChange={(årsak: EHenlagtårsak) => settHenlagtårsak(årsak)}>
-                <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
-            </RadioGroup>
-            {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+            <Box paddingInline="2">
+                <RadioGroup
+                    legend={''}
+                    onChange={(årsak: EHenlagtårsak) => settHenlagtårsak(årsak)}
+                >
+                    <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+                    <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                </RadioGroup>
+                {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+            </Box>
         </ModalWrapper>
     );
 };
