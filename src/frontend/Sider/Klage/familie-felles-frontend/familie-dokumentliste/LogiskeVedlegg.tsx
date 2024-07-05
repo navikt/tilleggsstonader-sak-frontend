@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { Detail } from '@navikt/ds-react';
-import { ILogiskVedlegg } from '../familie-typer/journalføring';
 
 const LogiskVedleggWrapper = styled.ul`
     grid-area: vedlegg;
@@ -9,6 +8,12 @@ const LogiskVedleggWrapper = styled.ul`
     list-style-type: circle;
     text-align: left;
 `;
+
+export interface ILogiskVedlegg {
+    logiskVedleggId: string;
+    tittel: string;
+}
+
 export const LogiskeVedlegg: React.FC<{ logiskeVedlegg: ILogiskVedlegg[] | undefined }> = ({
     logiskeVedlegg,
 }) => (

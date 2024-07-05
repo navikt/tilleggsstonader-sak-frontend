@@ -1,9 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { LogiskeVedlegg } from './LogiskeVedlegg';
+import { ILogiskVedlegg, LogiskeVedlegg } from './LogiskeVedlegg';
 import { Detail, Label } from '@navikt/ds-react';
 import '@navikt/ds-css';
-import { ILogiskVedlegg, Journalposttype } from '../familie-typer/journalføring';
 import PilVenstre from '../familie-ikoner/piler/PilVenstre';
 import PilNed from '../familie-ikoner/piler/PilNed';
 import PilHøyre from '../familie-ikoner/piler/PilHøyre';
@@ -52,6 +51,12 @@ const StyledDokumentnavn = styled(Label)`
     display: flex;
     text-align: left;
 `;
+
+export enum Journalposttype {
+    I = 'I',
+    U = 'U',
+    N = 'N',
+}
 
 interface JournalpostikonProps {
     journalposttype: Journalposttype;

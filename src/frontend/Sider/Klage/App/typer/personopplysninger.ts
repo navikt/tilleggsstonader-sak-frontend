@@ -1,8 +1,6 @@
-import { kjønnType } from '../../familie-felles-frontend/familie-typer/person';
-
 export interface Personopplysninger {
     personIdent: string;
-    fagsakPersonId: string,
+    fagsakPersonId: string;
     navn: string;
     kjønn: kjønnType;
     adressebeskyttelse?: Adressebeskyttelse;
@@ -13,6 +11,12 @@ export interface Personopplysninger {
     fullmakt: Fullmakt[];
     navEnhet: string;
     vergemål: Vergemål[];
+}
+
+export enum kjønnType {
+    KVINNE = 'KVINNE',
+    MANN = 'MANN',
+    UKJENT = 'UKJENT',
 }
 
 export interface Fullmakt {

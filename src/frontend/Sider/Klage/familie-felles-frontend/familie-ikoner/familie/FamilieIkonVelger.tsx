@@ -4,7 +4,8 @@ import { JenteIkon } from './JenteIkon';
 import { KvinneIkon } from './KvinneIkon';
 import { MannIkon } from './MannIkon';
 import { NøytralPersonIkon } from './NøytralPersonIkon';
-import { kjønnType } from '../../familie-typer/person';
+
+import { kjønnType } from '../../../App/typer/personopplysninger';
 
 export interface IProps {
     alder: number;
