@@ -6,12 +6,8 @@ import constate from 'constate';
 import { EToast } from '../typer/toast';
 import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
-import { AppEnv } from '../../../../utils/env';
-interface IProps {
-    appEnv: AppEnv;
-}
 
-const [AppProvider, useApp] = constate(({ appEnv }: IProps) => {
+const [AppProvider, useApp] = constate(() => {
     const [autentisert, settAutentisert] = React.useState(true);
     const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
         new Set()
@@ -91,7 +87,6 @@ const [AppProvider, useApp] = constate(({ appEnv }: IProps) => {
         settByttUrl,
         toast,
         settToast,
-        appEnv,
         valgtFagsakId,
         settValgtFagsakId,
         visBrevmottakereModal,

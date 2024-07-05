@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AppProvider, useApp } from './App/context/AppContext';
@@ -12,7 +12,6 @@ import styled from 'styled-components';
 import { BodyLong } from '@navikt/ds-react';
 
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
-import { AppEnv, hentEnv } from '../../utils/env';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -20,36 +19,10 @@ const Innhold = styled(BodyLong)`
 `;
 
 export const KlageApp: React.FC = () => {
-    const [appEnv, settAppEnv] = useState<AppEnv>();
-
-    React.useEffect(() => {
-        hentEnv(settAppEnv);
-    }, []);
-
-    if (!appEnv) {
-        return null;
-    }
-
     return (
-        <AppProvider appEnv={appEnv}>
-            <AppRoutes />
+        <AppProvider>
+            <AppInnhold />
         </AppProvider>
-    );
-};
-
-const AppRoutes: React.FC = () => {
-    const { autentisert } = useApp();
-
-    return !autentisert ? (
-        <ModalWrapper
-            tittel={'Ugyldig sesjon'}
-            visModal={true}
-            ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
-        >
-            <Innhold>Prøv å laste siden på nytt</Innhold>
-        </ModalWrapper>
-    ) : (
-        <AppInnhold />
     );
 };
 
@@ -65,7 +38,17 @@ const AppInnhold: React.FC = () => {
         //     eslint-disable-next-line
     }, [byttUrl, valgtSide]);
 
-    return (
+    const { autentisert } = useApp();
+
+    return !autentisert ? (
+        <ModalWrapper
+            tittel={'Ugyldig sesjon'}
+            visModal={true}
+            ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+        >
+            <Innhold>Prøv å laste siden på nytt</Innhold>
+        </ModalWrapper>
+    ) : (
         <>
             <Routes>
                 <Route path="/:behandlingId/*" element={<BehandlingContainer />} />
