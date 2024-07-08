@@ -2,13 +2,14 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label } from '@navikt/ds-react';
 
 import { useApp } from '../../../../../../context/AppContext';
 import { useSteg } from '../../../../../../context/StegContext';
 import { FormErrors } from '../../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../../hooks/useUlagredeKomponenter';
+import { SøppelbøtteKnapp } from '../../../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import MonthInputMedLeservisning from '../../../../../../komponenter/Skjema/MonthInputMedLeservisning';
 import TextField from '../../../../../../komponenter/Skjema/TextField';
 import { Utgift, UtgifterProperty } from '../../../../../../typer/vedtak';
@@ -163,12 +164,9 @@ const UtgifterValg: React.FC<Props> = ({
                                             Legg til utgift
                                         </Button>
                                         {indeks !== 0 && (
-                                            <Button
+                                            <SøppelbøtteKnapp
                                                 type="button"
                                                 onClick={() => slettPeriode(barn.barnId, indeks)}
-                                                variant="tertiary"
-                                                icon={<TrashIcon />}
-                                                size="small"
                                             />
                                         )}
                                     </>

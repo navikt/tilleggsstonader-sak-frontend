@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { TrashIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
-
 import { FormErrors } from '../../../../hooks/felles/useFormState';
+import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { aktivitetTypeOptionsForStønadsperiode } from '../typer/aktivitet';
@@ -71,13 +69,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 feil={finnFeilmelding('tom')}
             />
             {!erLeservisning && (
-                <Button
-                    type="button"
-                    onClick={slettPeriode}
-                    variant="tertiary"
-                    icon={<TrashIcon />}
-                    size="xsmall"
-                />
+                <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>
     );

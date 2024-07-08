@@ -28,7 +28,7 @@ export const KlageApp: React.FC = () => {
 
 const AppInnhold: React.FC = () => {
     const navigate = useNavigate();
-    const { valgtSide, byttUrl, settByttUrl } = useKlageApp();
+    const { valgtSide, byttUrl, settByttUrl, autentisert } = useKlageApp();
 
     useEffect(() => {
         if (valgtSide && byttUrl) {
@@ -37,8 +37,6 @@ const AppInnhold: React.FC = () => {
         }
         //     eslint-disable-next-line
     }, [byttUrl, valgtSide]);
-
-    const { autentisert } = useKlageApp();
 
     return !autentisert ? (
         <ModalWrapper

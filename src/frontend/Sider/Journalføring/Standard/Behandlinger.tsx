@@ -2,11 +2,12 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-react';
 
 import { JournalføringState, Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
+import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
 import { Behandling } from '../../../typer/behandling/behandling';
 import {
     BehandlingResultat,
@@ -24,7 +25,7 @@ const StyledDataCell = styled(Table.DataCell)`
     padding: 0;
 `;
 
-const FjernBehandlingKnapp = styled(Button)`
+const FjernBehandlingKnapp = styled(SøppelbøtteKnapp)`
     margin-right: 0.5rem;
 `;
 
@@ -91,14 +92,13 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
                                         <StyledDataCell>
                                             <HStack justify={'end'}>
                                                 <FjernBehandlingKnapp
+                                                    size={'medium'}
                                                     type={'button'}
                                                     onClick={() =>
                                                         settJournalføringsaksjon(
                                                             Journalføringsaksjon.JOURNALFØR_PÅ_FAGSAK
                                                         )
                                                     }
-                                                    variant={'tertiary'}
-                                                    icon={<TrashIcon title={'fjern rad'} />}
                                                 />
                                             </HStack>
                                         </StyledDataCell>

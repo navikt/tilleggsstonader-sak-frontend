@@ -13,14 +13,19 @@ import {
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import {
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../../../typer/ressurs';
 import {
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
 } from './utils';
-import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
+import { PencilIcon } from '@navikt/aksel-icons';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
@@ -35,6 +40,7 @@ import {
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
 } from '../../../App/typer/klagebehandling/påklagetVedtakstype';
+import { SøppelbøtteKnapp } from '../../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -121,7 +127,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useKlagebehandling();
+    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } =
+        useKlagebehandling();
     const { påklagetVedtakstype } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
@@ -220,13 +227,9 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         >
                             <span>Rediger</span>
                         </Button>
-                        <Button
-                            onClick={() => nullstillVurderinger()}
-                            variant={'tertiary'}
-                            icon={<TrashIcon fontSize="1.5rem" />}
-                        >
-                            <span>Slett</span>
-                        </Button>
+                        <SøppelbøtteKnapp onClick={nullstillVurderinger} size={'medium'}>
+                            Slett
+                        </SøppelbøtteKnapp>
                     </div>
                 )}
             </Header>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { BodyShort, Ingress } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import SlettKnapp from './SlettKnapp';
+import { SøppelbøtteKnapp } from '../../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 interface Props {
     valgtePersonMottakere: IBrevmottaker[];
@@ -56,7 +56,7 @@ export const BrevmottakereListe: FC<Props> = ({
                             <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
                     </Flexboks>
-                    <SlettKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} tekst={''} />
+                    <SøppelbøtteKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} />
                 </StyledMottakerBoks>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
@@ -67,9 +67,8 @@ export const BrevmottakereListe: FC<Props> = ({
                             {`Organisasjonsnummer: ${mottaker.organisasjonsnummer}`}
                         </BodyShort>
                     </div>
-                    <SlettKnapp
+                    <SøppelbøtteKnapp
                         onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
-                        tekst={''}
                     />
                 </StyledMottakerBoks>
             ))}

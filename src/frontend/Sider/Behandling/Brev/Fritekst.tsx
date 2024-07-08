@@ -2,10 +2,11 @@ import React, { SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { ArrowDownIcon, ArrowUpIcon, PlusIcon, TrashIcon } from '@navikt/aksel-icons';
+import { ArrowDownIcon, ArrowUpIcon, PlusIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Panel, Textarea, TextField, Tooltip } from '@navikt/ds-react';
 
 import { FritekstAvsnitt } from './typer';
+import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 const FritekstAvsnittContainer = styled(Panel).attrs({ border: true })`
     display: flex;
@@ -97,12 +98,7 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
                         />
                         <KnappeWrapper>
                             <Tooltip content="Slett avsnitt">
-                                <Button
-                                    icon={<TrashIcon />}
-                                    variant={'tertiary'}
-                                    size={'small'}
-                                    onClick={() => fjernAvsnitt(indeks)}
-                                />
+                                <SøppelbøtteKnapp onClick={() => fjernAvsnitt(indeks)} />
                             </Tooltip>
                             <Tooltip content="Flytt avsnitt ned">
                                 <Button

@@ -3,7 +3,6 @@ import { Personopplysninger } from '../../App/typer/personopplysninger';
 import styled from 'styled-components';
 import { erBehandlingRedigerbar, Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
 import { Label } from '@navikt/ds-react';
@@ -12,6 +11,7 @@ import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../utils/dato';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
+import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;

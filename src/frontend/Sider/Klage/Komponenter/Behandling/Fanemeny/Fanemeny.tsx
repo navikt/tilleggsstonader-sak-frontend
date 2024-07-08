@@ -2,7 +2,6 @@ import * as React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { alleSider, ISide, SideNavn } from './sider';
-import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
 import {
     Klagebehandling,
@@ -12,6 +11,7 @@ import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext'
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { KlagebehandlingSteg, stegrekkefølge } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
+import { Sticky } from '../../../../../komponenter/Visningskomponenter/Sticky';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
