@@ -5,7 +5,7 @@ import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingStatus';
 import styled from 'styled-components';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
+import { utledTekstForBehandlingsresultat } from '../../../Steg/Resultat/utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
 
 

@@ -1,5 +1,5 @@
 import { KlagebehandlingStatus } from './klagebehandlingStatus';
-import { PåklagetVedtak } from '../../../Komponenter/Behandling/Formkrav/typer';
+import { PåklagetVedtak } from '../../../Steg/Formkrav/typer';
 import {
     KlageinstansEventType,
     KlageinstansResultat,

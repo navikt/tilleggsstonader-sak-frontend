@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { useKlageApp } from '../context/KlageAppContext';
-import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import { IVurdering } from '../../Steg/Vurdering/vurderingValg';
 import {
     RessursSuksess,
     byggTomRessurs,

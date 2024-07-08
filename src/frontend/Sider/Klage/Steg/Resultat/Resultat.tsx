@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Tidslinje } from './Tidslinje';
-import DataViewer from '../../../../../komponenter/DataViewer';
+import DataViewer from '../../../../komponenter/DataViewer';
 import { Heading } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
 

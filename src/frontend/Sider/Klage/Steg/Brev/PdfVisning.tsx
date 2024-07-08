@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Ressurs } from '../../../../../typer/ressurs';
+import { Ressurs } from '../../../../typer/ressurs';
 import styled from 'styled-components';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { Alert, Loader, Pagination } from '@navikt/ds-react';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
-import DataViewer from '../../../../../komponenter/DataViewer';
+import DataViewer from '../../../../komponenter/DataViewer';
 
 // eslint-disable-next-line
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.entry');

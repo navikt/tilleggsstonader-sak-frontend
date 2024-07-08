@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../App/context/KlageAppContext';
 import styled from 'styled-components';
 import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
@@ -13,17 +13,17 @@ import {
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
-} from '../../../../../typer/ressurs';
+} from '../../../../typer/ressurs';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { useNavigate } from 'react-router-dom';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { EnsligTextArea } from '../../Felles/Input/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
-import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
-import { harVerdi } from '../../../../../utils/utils';
+import { useHentVurderinger } from '../../App/hooks/useHentVurderinger';
+import { harVerdi } from '../../../../utils/utils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;

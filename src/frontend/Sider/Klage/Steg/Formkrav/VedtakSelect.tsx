@@ -7,11 +7,11 @@ import {
     fagsystemVedtakTilVisningstekst,
     sorterVedtakstidspunktDesc,
 } from './utils';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
 import {
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
-} from '../../../App/typer/klagebehandling/påklagetVedtakstype';
+} from '../../App/typer/klagebehandling/påklagetVedtakstype';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;

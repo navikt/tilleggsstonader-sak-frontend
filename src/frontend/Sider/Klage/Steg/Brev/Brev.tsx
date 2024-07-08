@@ -6,18 +6,18 @@ import {
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
-} from '../../../../../typer/ressurs';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+} from '../../../../typer/ressurs';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import styled from 'styled-components';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../App/context/KlageAppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
-import BrevMottakere from '../Brevmottakere/BrevMottakere';
+import BrevMottakere from './Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
-import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
-import SystemetLaster from '../../../../../komponenter/SystemetLaster/SystemetLaster';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);

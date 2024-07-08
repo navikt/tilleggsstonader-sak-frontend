@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import { IVurdering } from '../../Steg/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
     påKlagetVedtakValgt,
-} from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
+} from '../../Steg/Formkrav/validerFormkravUtils';
 import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { useRerunnableEffect } from '../../../../hooks/useRerunnableEffect';

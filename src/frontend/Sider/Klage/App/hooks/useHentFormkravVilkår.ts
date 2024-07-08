@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { IFormkravVilkår } from '../../Komponenter/Behandling/Formkrav/typer';
+import { IFormkravVilkår } from '../../Steg/Formkrav/typer';
 import { useKlageApp } from '../context/KlageAppContext';
 import { byggTomRessurs, Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 

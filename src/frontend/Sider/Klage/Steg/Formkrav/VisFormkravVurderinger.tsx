@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
-import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
+import BrukerMedBlyant from '../../Felles/Ikoner/BrukerMedBlyant';
 import {
     formkravFristUnntakTilTekst,
     IFormalkrav,
@@ -10,7 +10,7 @@ import {
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -18,7 +18,7 @@ import {
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
-} from '../../../../../typer/ressurs';
+} from '../../../../typer/ressurs';
 import {
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
@@ -34,13 +34,13 @@ import {
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { formaterIsoDatoTid } from '../../../../../utils/dato';
+import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
+import { formaterIsoDatoTid } from '../../../../utils/dato';
 import {
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
-} from '../../../App/typer/klagebehandling/påklagetVedtakstype';
-import { SøppelbøtteKnapp } from '../../../../../komponenter/Knapper/SøppelbøtteKnapp';
+} from '../../App/typer/klagebehandling/påklagetVedtakstype';
+import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;

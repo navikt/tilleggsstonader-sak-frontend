@@ -1,5 +1,5 @@
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
-import { utledTekstForEksternutfall } from './Resultat/utils';
+import { utledTekstForEksternutfall } from '../../Steg/Resultat/utils';
 import {
     behandlingResultatTilTekst,
     KlagebehandlingResultat,

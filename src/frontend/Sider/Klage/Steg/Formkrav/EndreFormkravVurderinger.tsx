@@ -16,9 +16,9 @@ import {
     RadioGroup,
     Textarea,
 } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlageApp } from '../../App/context/KlageAppContext';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import styled from 'styled-components';
 import { VedtakSelect } from './VedtakSelect';
 import {
@@ -32,9 +32,9 @@ import {
     utledRadioKnapper,
 } from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
 
-import { PåklagetVedtakstype } from '../../../App/typer/klagebehandling/påklagetVedtakstype';
+import { PåklagetVedtakstype } from '../../App/typer/klagebehandling/påklagetVedtakstype';
 
 const RadioGrupperContainer = styled.div`
     display: flex;

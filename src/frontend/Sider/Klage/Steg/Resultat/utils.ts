@@ -1,14 +1,14 @@
-import { Behandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
     utfallTilTekst,
-} from '../../../App/typer/klagebehandling/klagebehandling';
-import { KlageinstansEventType } from '../../../../../typer/klage';
-import { ensure } from '../../../../../utils/utils';
-import { KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+} from '../../App/typer/klagebehandling/klagebehandling';
+import { KlageinstansEventType } from '../../../../typer/klage';
+import { ensure } from '../../../../utils/utils';
+import { KlagebehandlingSteg } from '../../App/typer/klagebehandling/klagebehandlingSteg';
 
 
-import { behandlingResultatTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
+import { behandlingResultatTilTekst } from '../../App/typer/klagebehandling/klagebehandlingResultat';
 
 export const fjernDuplikatStegFraHistorikk = (steg: Behandlingshistorikk[]) => {
     const visning = [
