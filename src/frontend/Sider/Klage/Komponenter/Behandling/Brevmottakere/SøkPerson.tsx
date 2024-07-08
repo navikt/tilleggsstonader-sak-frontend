@@ -5,7 +5,7 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
-import { VertikalSentrering } from '../../../utils/styling';
+import { VertikalSentrering } from '../../VertikalSentrering';
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     behandlingId: string;

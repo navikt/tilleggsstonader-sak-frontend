@@ -79,6 +79,14 @@ export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
     return isEqual(datoFra, datoTil) || isBefore(datoFra, datoTil);
 };
 
+export const erEtter = (first: string | Date, second: string | Date): boolean => {
+    return isAfter(tilDato(first), tilDato(second));
+};
+
+export const erEtterDagensDato = (dato: string | Date): boolean => {
+    return erEtter(dato, new Date());
+};
+
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
 export const tilÅrMåned = (date: Date): string => {

@@ -9,9 +9,9 @@ import { Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus } from '../Varsel/Etikett';
-import { erEtterDagensDato } from '../../utils/dato';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
+import { erEtterDagensDato } from '../../../../utils/dato';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;

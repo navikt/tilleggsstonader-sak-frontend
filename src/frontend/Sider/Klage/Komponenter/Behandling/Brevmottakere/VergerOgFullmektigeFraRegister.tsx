@@ -5,7 +5,7 @@ import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottake
 import styled from 'styled-components';
 import { Ingress, Button, BodyShort } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import { VertikalSentrering } from '../../../utils/styling';
+import { VertikalSentrering } from '../../VertikalSentrering';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];
