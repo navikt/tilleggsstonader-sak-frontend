@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react';
-import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
-import { Klagebehandling } from '../../../typer/klagebehandling/klagebehandling';
-import { useKlageApp } from '../../../context/KlageAppContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import { useKlageApp } from '../../context/KlageAppContext';
 import { useNavigate } from 'react-router-dom';
-import { EToast } from '../../../typer/toast';
+import { EToast } from '../../typer/toast';
 import styled from 'styled-components';
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
-import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
-import { HenlagtÅrsak } from '../../../../../typer/behandling/behandlingÅrsak';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { HenlagtÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;

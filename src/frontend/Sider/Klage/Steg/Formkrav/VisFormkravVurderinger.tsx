@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
-import BrukerMedBlyant from '../../Felles/Ikoner/BrukerMedBlyant';
+import BrukerMedBlyant from '../../Komponenter/Ikoner/BrukerMedBlyant';
 import {
     formkravFristUnntakTilTekst,
     IFormalkrav,

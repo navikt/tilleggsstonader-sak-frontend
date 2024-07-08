@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { BodyShort, Ingress } from '@navikt/ds-react';
-import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
+import { Fødselsnummer } from './Fødselsnummer';
 import { SøppelbøtteKnapp } from '../../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 interface Props {
@@ -53,7 +53,7 @@ export const BrevmottakereListe: FC<Props> = ({
                     <Flexboks>
                         <BodyShort>
                             {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
-                            <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
+                            <Fødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
                     </Flexboks>
                     <SøppelbøtteKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} />

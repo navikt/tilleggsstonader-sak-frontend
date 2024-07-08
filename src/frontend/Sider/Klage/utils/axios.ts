@@ -1,9 +1,15 @@
-import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
 axios.defaults.baseURL = window.location.origin;
 export const preferredAxios = axios;
+
+type Headers = Record<string, unknown>;
+
+export type AxiosRequestCallback = <RES, REQ>(
+    config: AxiosRequestConfig<REQ>
+) => Promise<RessursFeilet | RessursSuksess<RES>>;
 
 // eslint-disable-next-line
 const errorMessage = (frontendFeilmelding: string, headers?: any) => {
@@ -19,15 +25,11 @@ const lagUkjentFeilRessurs = (headers?: Headers): RessursFeilet => ({
 });
 
 export const håndterFeil = <T>(
-    error: AxiosError<Ressurs<T>>,
+    error: AxiosError<Ressurs<T>>
 ): RessursSuksess<T> | RessursFeilet => {
     const headers = error.response?.headers;
     if (!error.response?.data?.status) {
-        loggFeil(
-            error,
-            `Savner body/status i response - Url: ${window.location.href}`,
-            headers
-        );
+        loggFeil(error, `Savner body/status i response - Url: ${window.location.href}`, headers);
         return lagUkjentFeilRessurs(headers);
     }
     const responsRessurs: Ressurs<T> = error.response?.data;
@@ -128,5 +130,3 @@ export const apiLoggFeil = (melding: string, headers?: Headers, isWarning = fals
         }
     );
 };
-
-type Headers = Record<string, unknown>;

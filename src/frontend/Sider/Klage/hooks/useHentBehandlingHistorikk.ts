@@ -1,6 +1,6 @@
 import { useKlageApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
-import { Behandlingshistorikk } from '../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../typer/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 

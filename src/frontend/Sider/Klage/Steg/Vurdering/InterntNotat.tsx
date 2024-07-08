@@ -1,6 +1,6 @@
 import { Button } from '@navikt/ds-react';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { EnsligTextArea } from '../../Felles/Input/EnsligTextArea';
+import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';

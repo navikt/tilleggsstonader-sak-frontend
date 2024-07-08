@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { EnsligTextArea } from '../../Felles/Input/EnsligTextArea';
+import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../hooks/useHentVurderinger';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
 import {
     Klagebehandling,
 
@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
 import { fjernDuplikatStegFraHistorikk } from './utils';
-import Advarsel from '../../Felles/Ikoner/Advarsel';
+import Advarsel from '../../Komponenter/Ikoner/Advarsel';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../../utils/dato';
 import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';

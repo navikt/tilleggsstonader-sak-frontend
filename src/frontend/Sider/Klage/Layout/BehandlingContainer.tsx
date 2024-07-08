@@ -7,15 +7,15 @@ import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
-import { KlagebehandlingProvider, useKlagebehandling } from '../../context/KlagebehandlingContext';
-import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-import { Personopplysninger } from '../../typer/personopplysninger';
-import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
-import { HenleggModal } from './HenleggModal/HenleggModal';
-import { useSetPersonIdent } from '../../hooks/useSetPersonIdent';
-import { useSetValgtFagsakId } from '../../hooks/useSetValgtFagsakId';
-import DataViewer from '../../../../komponenter/DataViewer';
+import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
+import VisittkortComponent from './Visittkort/Visittkort';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
+import { Personopplysninger } from '../typer/personopplysninger';
+import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
+import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
+import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
+import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
+import DataViewer from '../../../komponenter/DataViewer';
 
 const Container = styled.div`
     display: flex;

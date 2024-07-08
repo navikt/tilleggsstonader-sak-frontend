@@ -4,8 +4,8 @@ import { IBrevmottaker } from './typer';
 import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import styled from 'styled-components';
 import { Ingress, Button, BodyShort } from '@navikt/ds-react';
-import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import { VertikalSentrering } from '../../../Komponenter/VertikalSentrering';
+import { Fødselsnummer } from './Fødselsnummer';
+import { VertikalSentrering } from './VertikalSentrering';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];
@@ -60,7 +60,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                         <StyledMottakerBoks key={mottaker.navn + index}>
                             <Kolonner>
                                 {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
-                                <KopierbartNullableFødselsnummer
+                                <Fødselsnummer
                                     fødselsnummer={mottaker.personIdent}
                                 />
                             </Kolonner>

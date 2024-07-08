@@ -6,7 +6,7 @@ import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import Advarsel from '../../Felles/Ikoner/Advarsel';
+import Advarsel from '../../Komponenter/Ikoner/Advarsel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import IkkeOppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/IkkeOppfylt';

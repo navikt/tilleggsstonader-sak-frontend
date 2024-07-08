@@ -3,7 +3,7 @@ import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { IFormkravVilkår } from './typer';
-import ToKolonnerLayout from '../../Felles/Visningskomponenter/ToKolonnerLayout';
+import ToKolonnerLayout from './ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';

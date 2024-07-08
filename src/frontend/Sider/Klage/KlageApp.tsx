@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
 import { Route, Routes } from 'react-router-dom';
-import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
-import { Toast } from './Felles/Toast/Toast';
+import BehandlingContainer from './Layout/BehandlingContainer';
+import { Toast } from './Komponenter/Toast/Toast';
 import styled from 'styled-components';
 
 import { BodyLong } from '@navikt/ds-react';
 
-import UlagretDataModal from './Felles/UlagretDataModal/UlagretDataModal';
+import UlagretDataModal from './Komponenter/UlagretDataModal/UlagretDataModal';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 
 const Innhold = styled(BodyLong)`

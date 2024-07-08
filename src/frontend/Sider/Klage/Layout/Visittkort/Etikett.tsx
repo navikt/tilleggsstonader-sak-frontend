@@ -18,9 +18,3 @@ export const EtikettFokus: FC<EtikettProps> = ({ children }) => (
         {children}
     </Tag>
 );
-
-export const EtikettSuksess: FC<EtikettProps> = ({ children }) => (
-    <Tag variant={'success'} size={size}>
-        {children}
-    </Tag>
-);

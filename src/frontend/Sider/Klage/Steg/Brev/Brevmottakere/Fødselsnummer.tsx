@@ -9,7 +9,7 @@ const NoWrapSpan = styled.span`
     align-items: center;
 `;
 
-export const KopierbartNullableFødselsnummer: React.FC<{ fødselsnummer: string }> = ({
+export const Fødselsnummer: React.FC<{ fødselsnummer: string }> = ({
     fødselsnummer,
 }) => {
     return (

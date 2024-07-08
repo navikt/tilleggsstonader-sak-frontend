@@ -1,4 +1,4 @@
-import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
 import { ensure } from '../../../../utils/utils';
 import { KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 

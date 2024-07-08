@@ -6,12 +6,12 @@ import Fane from './Fane';
 import {
     Klagebehandling,
 
-} from '../../../typer/klagebehandling/klagebehandling';
-import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
+} from '../../typer/klagebehandling/klagebehandling';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { KlagebehandlingSteg, stegrekkefølge } from '../../../typer/klagebehandling/klagebehandlingSteg';
-import { KlagebehandlingResultat } from '../../../typer/klagebehandling/klagebehandlingResultat';
-import { Sticky } from '../../../../../komponenter/Visningskomponenter/Sticky';
+import { KlagebehandlingSteg, stegrekkefølge } from '../../typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
+import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);

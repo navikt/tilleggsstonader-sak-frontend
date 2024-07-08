@@ -1,15 +1,15 @@
 import React, { FC, useState } from 'react';
-import { Klagebehandling } from '../../../typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
-import { behandlingStatusTilTekst } from '../../../typer/klagebehandling/klagebehandlingStatus';
+import { behandlingStatusTilTekst } from '../../typer/klagebehandling/klagebehandlingStatus';
 import styled from 'styled-components';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { formaterIsoDatoTid } from '../../../../../utils/dato';
+import { formaterIsoDatoTid } from '../../../../utils/dato';
 
 
-import { stønadstypeTilTekst } from '../../../../../typer/behandling/behandlingTema';
-import { behandlingResultatTilTekst, utledTekstForBehandlingsresultat } from '../../../utils/behandlingsresultat';
+import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
+import { behandlingResultatTilTekst, utledTekstForBehandlingsresultat } from '../../utils/behandlingsresultat';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;

@@ -2,17 +2,17 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { useParams } from 'react-router-dom';
-import { useDataHenter } from '../../../hooks/useDataHenter';
-import DataViewer from '../../../../../komponenter/DataViewer';
+import { useDataHenter } from '../../hooks/useDataHenter';
+import DataViewer from '../../../../komponenter/DataViewer';
 import { compareDesc } from 'date-fns';
 import { Heading } from '@navikt/ds-react';
 import styled from 'styled-components';
 import {
     Dokumentliste,
     DokumentProps,
-} from '../../../familie-felles-frontend/familie-dokumentliste';
-import { åpneFilIEgenTab } from '../../../../../utils/utils';
-import { formaterNullableIsoDatoTid } from '../../../../../utils/dato';
+} from '../../familie-felles-frontend/familie-dokumentliste';
+import { åpneFilIEgenTab } from '../../../../utils/utils';
+import { formaterNullableIsoDatoTid } from '../../../../utils/dato';
 
 const OverSkrift = styled(Heading)`
     margin-top: 0.5rem;
