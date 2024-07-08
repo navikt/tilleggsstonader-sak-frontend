@@ -8,7 +8,6 @@ import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
-import VisittkortComponent from './Visittkort/Visittkort';
 import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { Personopplysninger } from '../typer/personopplysninger';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
@@ -16,6 +15,7 @@ import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
 import DataViewer from '../../../komponenter/DataViewer';
+import { Statusheader } from './Statusheader/Statusheader';
 
 const Container = styled.div`
     display: flex;
@@ -59,10 +59,7 @@ const BehandlingContainer: FC = () => {
 const BehandlingContent: FC<{
     behandling: Klagebehandling;
     personopplysninger: Personopplysninger;
-}> = ({
-    behandling,
-    personopplysninger,
-}) => {
+}> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useKlagebehandling();
@@ -70,10 +67,7 @@ const BehandlingContent: FC<{
     return (
         <>
             <ScrollToTop />
-            <VisittkortComponent
-                personopplysninger={personopplysninger}
-                behandling={behandling}
-            />
+            <Statusheader personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
@@ -89,10 +83,7 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    const {
-        personopplysningerResponse,
-        behandling
-    } = useKlagebehandling();
+    const { personopplysningerResponse, behandling } = useKlagebehandling();
 
     useEffect(() => {
         document.title = 'Klagebehandling';
@@ -105,10 +96,7 @@ const BehandlingOverbygg: FC = () => {
                 personopplysningerResponse,
             }}
         >
-            {({
-                behandling,
-                personopplysningerResponse,
-            }) => (
+            {({ behandling, personopplysningerResponse }) => (
                 <BehandlingContent
                     behandling={behandling}
                     personopplysninger={personopplysningerResponse}

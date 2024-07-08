@@ -19,7 +19,7 @@ const Visningsnavn = styled.div`
     white-space: nowrap;
 `;
 
-export const VisittkortWrapper = styled(Sticky)`
+export const StatusheaderWrapper = styled(Sticky)`
     display: flex;
 
     border-bottom: 1px solid ${ABorderStrong};
@@ -44,7 +44,7 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
     z-index: 9999;
 `;
 
-const VisittkortComponent: FC<{
+export const Statusheader: FC<{
     personopplysninger: Personopplysninger;
     behandling: Klagebehandling;
 }> = ({
@@ -62,7 +62,7 @@ const VisittkortComponent: FC<{
         vergemål,
     } = personopplysninger;
     return (
-        <VisittkortWrapper>
+        <StatusheaderWrapper>
             <Visittkort
                 alder={20}
                 ident={personIdent}
@@ -113,8 +113,6 @@ const VisittkortComponent: FC<{
                 </>
             )}
             {behandling && erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
-        </VisittkortWrapper>
+        </StatusheaderWrapper>
     );
 };
-
-export default VisittkortComponent;
