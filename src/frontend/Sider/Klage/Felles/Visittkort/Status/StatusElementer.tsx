@@ -5,12 +5,11 @@ import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../typer/klagebehandling/klagebehandlingStatus';
 import styled from 'styled-components';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { utledTekstForBehandlingsresultat } from '../../../Steg/Resultat/utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
 
 
-import { behandlingResultatTilTekst } from '../../../typer/klagebehandling/klagebehandlingResultat';
 import { stønadstypeTilTekst } from '../../../../../typer/behandling/behandlingTema';
+import { behandlingResultatTilTekst, utledTekstForBehandlingsresultat } from '../../../utils/behandlingsresultat';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;

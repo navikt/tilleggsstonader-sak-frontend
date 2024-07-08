@@ -7,7 +7,6 @@ import {
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
-import { utledStegutfallForFerdigstiltBehandling } from '../../Komponenter/Behandling/utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import Advarsel from '../../Felles/Ikoner/Advarsel';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../../utils/dato';
@@ -15,6 +14,7 @@ import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../typer/klagebe
 import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
+import { utledStegutfall } from '../../utils/behandlingsresultat';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
@@ -193,7 +193,7 @@ const Node: React.FC<{
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
             <Label size={'small'}>
-                {utledStegutfallForFerdigstiltBehandling(behandling, steg.steg)}
+                {utledStegutfall(behandling, steg.steg)}
             </Label>
         </NodeContainer>
     );

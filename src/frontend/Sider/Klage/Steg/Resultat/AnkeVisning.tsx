@@ -2,12 +2,13 @@ import * as React from 'react';
 import {
     Klagebehandling,
     klagehendelseTypeTilTekst,
-    utfallTilTekst,
+
 } from '../../typer/klagebehandling/klagebehandling';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { utfallTilTekst } from '../../utils/behandlingsresultat';
 
 const AlertMedMaxbredde = styled(Alert)`
     max-width: 60rem;

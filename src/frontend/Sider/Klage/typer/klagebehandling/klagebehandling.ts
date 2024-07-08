@@ -1,10 +1,6 @@
 import { KlagebehandlingStatus } from './klagebehandlingStatus';
 import { PåklagetVedtak } from '../../Steg/Formkrav/typer';
-import {
-    KlageinstansEventType,
-    KlageinstansResultat,
-    KlageinstansUtfall,
-} from '../../../../typer/klage';
+import { KlageinstansEventType, KlageinstansResultat } from '../../../../typer/klage';
 import { KlagebehandlingSteg } from './klagebehandlingSteg';
 import { KlagebehandlingResultat } from './klagebehandlingResultat';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -32,19 +28,6 @@ export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = 
     ANKEBEHANDLING_AVSLUTTET: 'Ankebehandling avsluttet',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET: 'Anke i trygderettenbehandling opprettet',
     BEHANDLING_FEILREGISTRERT: 'Behandling feilregistrert',
-};
-
-export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
-    TRUKKET: 'Trukket KA',
-    RETUR: 'Retur KA',
-    OPPHEVET: 'Opphevet KA',
-    MEDHOLD: 'Medhold KA',
-    DELVIS_MEDHOLD: 'Delvis medhold KA',
-    STADFESTELSE: 'Stadfestelse KA',
-    UGUNST: 'Ugunst (Ugyldig) KA',
-    AVVIST: 'Avvist KA',
-    INNSTILLING_STADFESTELSE: 'Innstilling om stadfestelse til trygderetten fra KA',
-    INNSTILLING_AVVIST: 'Innstilling om avist til trygderetten fra KA',
 };
 
 export type FagsystemRevurdering =
