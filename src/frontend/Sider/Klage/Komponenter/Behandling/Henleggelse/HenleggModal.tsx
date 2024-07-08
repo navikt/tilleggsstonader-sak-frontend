@@ -5,10 +5,10 @@ import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandl
 import { useKlageApp } from '../../../App/context/KlageAppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
-import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
+import { HenlagtÅrsak } from '../../../../../typer/behandling/behandlingÅrsak';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
@@ -20,7 +20,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
 
     const { axiosRequest, settToast } = useKlageApp();
     const navigate = useNavigate();
-    const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
+    const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -34,11 +34,11 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
         }
         settHenleggerBehandling(true);
 
-        axiosRequest<string, { årsak: EHenlagtårsak }>({
+        axiosRequest<string, { årsak: HenlagtÅrsak }>({
             method: 'POST',
             url: `/api/klage/behandling/${behandling.id}/henlegg`,
             data: {
-                årsak: henlagtårsak as EHenlagtårsak,
+                årsak: henlagtårsak as HenlagtÅrsak,
             },
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
@@ -78,10 +78,10 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
             <Box paddingInline="2">
                 <RadioGroup
                     legend={''}
-                    onChange={(årsak: EHenlagtårsak) => settHenlagtårsak(årsak)}
+                    onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}
                 >
-                    <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                    <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                    <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+                    <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
                 </RadioGroup>
                 {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
             </Box>
