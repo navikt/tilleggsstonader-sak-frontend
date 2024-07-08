@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Personopplysninger } from '../App/typer/personopplysninger';
+import { Personopplysninger } from '../typer/personopplysninger';
 import { useKlageApp } from '../context/KlageAppContext';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 

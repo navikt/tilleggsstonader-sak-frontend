@@ -2,14 +2,14 @@ import * as React from 'react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../../typer/klagebehandling/klagebehandling';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { formaterIsoDatoTid } from '../../../../../utils/dato';
 import {
     behandlingStegFullførtTilTekst,
     KlagebehandlingSteg,
-} from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+} from '../../../typer/klagebehandling/klagebehandlingSteg';
 
 const Innslag = styled.div`
     display: flex;

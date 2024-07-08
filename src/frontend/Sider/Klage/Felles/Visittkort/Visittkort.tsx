@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Personopplysninger } from '../../App/typer/personopplysninger';
+import { Personopplysninger } from '../../typer/personopplysninger';
 import styled from 'styled-components';
-import { erBehandlingRedigerbar, Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
+import { erBehandlingRedigerbar, Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Hamburgermeny } from './Hamburgermeny';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';

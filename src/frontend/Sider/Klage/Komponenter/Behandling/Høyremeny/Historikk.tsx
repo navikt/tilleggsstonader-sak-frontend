@@ -3,7 +3,7 @@ import HistorikkInnslag from './HistorikkInnslag';
 import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { Behandlingshistorikk } from './behandlingshistorikk';
-import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../../typer/klagebehandling/klagebehandling';
 
 const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useKlagebehandling();

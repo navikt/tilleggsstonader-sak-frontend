@@ -6,11 +6,11 @@ import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { useHentFormkravVilkår } from '../../hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../hooks/useHentFagsystemVedtak';
-import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 
 export const Formkrav: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =

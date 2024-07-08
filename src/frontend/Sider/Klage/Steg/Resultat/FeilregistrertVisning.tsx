@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { KlageinstansEventType } from '../../../../typer/klage';

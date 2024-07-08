@@ -32,9 +32,9 @@ import {
     utledRadioKnapper,
 } from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
-import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 
-import { PåklagetVedtakstype } from '../../App/typer/klagebehandling/påklagetVedtakstype';
+import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
 const RadioGrupperContainer = styled.div`
     display: flex;

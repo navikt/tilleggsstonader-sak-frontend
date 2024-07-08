@@ -1,10 +1,10 @@
-import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { utledTekstForEksternutfall } from '../../Steg/Resultat/utils';
 import {
     behandlingResultatTilTekst,
     KlagebehandlingResultat,
-} from '../../App/typer/klagebehandling/klagebehandlingResultat';
-import { KlagebehandlingSteg } from '../../App/typer/klagebehandling/klagebehandlingSteg';
+} from '../../typer/klagebehandling/klagebehandlingResultat';
+import { KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 
 /**
  * Forenklet utledning av stegutfall

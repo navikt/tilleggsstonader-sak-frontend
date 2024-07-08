@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
-} from '../../App/typer/kanOppretteRevurdering';
+} from '../../typer/kanOppretteRevurdering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 

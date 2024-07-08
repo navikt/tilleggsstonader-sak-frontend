@@ -8,10 +8,10 @@ import {
     VilkårStatus,
 } from './typer';
 import { compareDesc } from 'date-fns';
-import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../../utils/dato';
-import { PåklagetVedtakstype } from '../../App/typer/klagebehandling/påklagetVedtakstype';
+import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;

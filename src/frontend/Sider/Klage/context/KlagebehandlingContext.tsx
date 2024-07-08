@@ -10,7 +10,7 @@ import {
     alleVilkårOppfylt,
     påKlagetVedtakValgt,
 } from '../Steg/Formkrav/validerFormkravUtils';
-import { erBehandlingRedigerbar } from '../App/typer/klagebehandling/klagebehandling';
+import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 

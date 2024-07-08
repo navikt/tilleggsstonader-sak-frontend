@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
 import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
-import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../../typer/klagebehandling/klagebehandling';
 
 interface IHøyremenyProps {
     behandling: Klagebehandling;

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useKlageApp } from '../../context/KlageAppContext';
-import { toastTilTekst } from '../../App/typer/toast';
+import { toastTilTekst } from '../../typer/toast';
 import { Alert } from '@navikt/ds-react';
 
 const Container = styled.div`

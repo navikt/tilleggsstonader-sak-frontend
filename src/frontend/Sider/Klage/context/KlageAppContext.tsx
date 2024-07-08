@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { håndterFeil, håndterRessurs, preferredAxios } from '../axios';
 import constate from 'constate';
-import { EToast } from '../App/typer/toast';
-import { AxiosRequestCallback } from '../App/typer/axiosRequest';
+import { EToast } from '../typer/toast';
+import { AxiosRequestCallback } from '../typer/axiosRequest';
 import { Ressurs, RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
 
 const [KlageAppProvider, useKlageApp] = constate(() => {

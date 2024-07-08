@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useKlageApp } from '../context/KlageAppContext';
-import { erBehandlingRedigerbar, Klagebehandling } from '../App/typer/klagebehandling/klagebehandling';
-import { FagsystemVedtak } from '../App/typer/fagsystemVedtak';
+import { erBehandlingRedigerbar, Klagebehandling } from '../typer/klagebehandling/klagebehandling';
+import { FagsystemVedtak } from '../typer/fagsystemVedtak';
 import { Ressurs, byggRessursSuksess, byggTomRessurs } from '../../../typer/ressurs';
 
 export const useHentFagsystemVedtak = (): {

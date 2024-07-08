@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
-import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';

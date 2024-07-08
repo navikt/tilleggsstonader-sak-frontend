@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Personopplysninger } from '../../../App/typer/personopplysninger';
+import { Personopplysninger } from '../../../typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
@@ -8,7 +8,7 @@ import { BrevmottakereListe } from './BrevmottakereListe';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
-import { EToast } from '../../../App/typer/toast';
+import { EToast } from '../../../typer/toast';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 

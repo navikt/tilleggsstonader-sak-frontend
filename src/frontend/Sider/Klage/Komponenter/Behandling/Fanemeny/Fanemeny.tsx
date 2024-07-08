@@ -6,11 +6,11 @@ import Fane from './Fane';
 import {
     Klagebehandling,
 
-} from '../../../App/typer/klagebehandling/klagebehandling';
+} from '../../../typer/klagebehandling/klagebehandling';
 import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { KlagebehandlingSteg, stegrekkefølge } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
-import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
+import { KlagebehandlingSteg, stegrekkefølge } from '../../../typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingResultat } from '../../../typer/klagebehandling/klagebehandlingResultat';
 import { Sticky } from '../../../../../komponenter/Visningskomponenter/Sticky';
 
 const StickyMedBoxShadow = styled(Sticky)`

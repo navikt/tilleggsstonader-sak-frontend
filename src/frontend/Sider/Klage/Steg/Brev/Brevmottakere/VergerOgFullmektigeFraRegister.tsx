@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { Fullmakt, Vergemål } from '../../../App/typer/personopplysninger';
+import { Fullmakt, Vergemål } from '../../../typer/personopplysninger';
 import { IBrevmottaker } from './typer';
 import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import styled from 'styled-components';

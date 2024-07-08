@@ -1,5 +1,5 @@
 import React from 'react';
-import { Adressebeskyttelse } from '../../App/typer/personopplysninger';
+import { Adressebeskyttelse } from '../../typer/personopplysninger';
 import { EtikettAdvarsel } from './Etikett';
 
 interface IProps {

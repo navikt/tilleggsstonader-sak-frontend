@@ -34,12 +34,12 @@ import {
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
-import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import {
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
-} from '../../App/typer/klagebehandling/påklagetVedtakstype';
+} from '../../typer/klagebehandling/påklagetVedtakstype';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 export const RadSentrertVertikalt = styled.div`

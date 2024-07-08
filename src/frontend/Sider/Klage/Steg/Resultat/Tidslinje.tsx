@@ -3,7 +3,7 @@ import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/be
 import {
     Klagebehandling,
 
-} from '../../App/typer/klagebehandling/klagebehandling';
+} from '../../typer/klagebehandling/klagebehandling';
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { ClockIcon } from '@navikt/aksel-icons';
@@ -11,8 +11,8 @@ import { utledStegutfallForFerdigstiltBehandling } from '../../Komponenter/Behan
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import Advarsel from '../../Felles/Ikoner/Advarsel';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../../utils/dato';
-import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../App/typer/klagebehandling/klagebehandlingSteg';
-import { KlagebehandlingResultat } from '../../App/typer/klagebehandling/klagebehandlingResultat';
+import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
 

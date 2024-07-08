@@ -1,4 +1,4 @@
-import { KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingSteg } from '../../../typer/klagebehandling/klagebehandlingSteg';
 
 export interface Behandlingshistorikk {
     behandlingId: string;

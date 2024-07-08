@@ -1,4 +1,4 @@
-import { Fullmakt, Vergemål } from '../../../App/typer/personopplysninger';
+import { Fullmakt, Vergemål } from '../../../typer/personopplysninger';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 
 export const vergemålTilBrevmottaker = (vergemål: Vergemål): IBrevmottaker => ({

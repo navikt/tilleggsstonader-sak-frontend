@@ -1,13 +1,13 @@
 import { KlagebehandlingStatus } from './klagebehandlingStatus';
-import { PåklagetVedtak } from '../../../Steg/Formkrav/typer';
+import { PåklagetVedtak } from '../../Steg/Formkrav/typer';
 import {
     KlageinstansEventType,
     KlageinstansResultat,
     KlageinstansUtfall,
-} from '../../../../../typer/klage';
+} from '../../../../typer/klage';
 import { KlagebehandlingSteg } from './klagebehandlingSteg';
 import { KlagebehandlingResultat } from './klagebehandlingResultat';
-import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
 export interface Klagebehandling {
     id: string;

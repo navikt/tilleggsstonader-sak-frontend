@@ -2,13 +2,13 @@ import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/be
 import {
     Klagebehandling,
     utfallTilTekst,
-} from '../../App/typer/klagebehandling/klagebehandling';
+} from '../../typer/klagebehandling/klagebehandling';
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { ensure } from '../../../../utils/utils';
-import { KlagebehandlingSteg } from '../../App/typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 
 
-import { behandlingResultatTilTekst } from '../../App/typer/klagebehandling/klagebehandlingResultat';
+import { behandlingResultatTilTekst } from '../../typer/klagebehandling/klagebehandlingResultat';
 
 export const fjernDuplikatStegFraHistorikk = (steg: Behandlingshistorikk[]) => {
     const visning = [
