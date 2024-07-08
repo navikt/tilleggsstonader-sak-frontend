@@ -7,7 +7,7 @@ import {
     Klagebehandling,
 
 } from '../../../App/typer/klagebehandling/klagebehandling';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { KlagebehandlingSteg, stegrekkefølge } from '../../../App/typer/klagebehandling/klagebehandlingSteg';
 import { KlagebehandlingResultat } from '../../../App/typer/klagebehandling/klagebehandlingResultat';

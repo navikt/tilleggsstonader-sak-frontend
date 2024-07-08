@@ -3,7 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { IVurdering, ÅrsakOmgjøring } from './vurderingValg';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;

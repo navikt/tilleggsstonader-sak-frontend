@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../context/KlageAppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
 import styled from 'styled-components';

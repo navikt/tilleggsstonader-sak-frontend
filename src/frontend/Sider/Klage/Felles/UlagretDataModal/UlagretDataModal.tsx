@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useKlageApp } from '../../App/context/KlageAppContext';
+import { useKlageApp } from '../../context/KlageAppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 
 const UlagretDataModal: FC = () => {

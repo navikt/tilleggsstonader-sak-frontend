@@ -1,8 +1,8 @@
 import { useKlageApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
-import { Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';
-import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 export const useHentBehandlingHistorikk = (
     behandlingId: string

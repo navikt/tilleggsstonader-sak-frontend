@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { BodyShort } from '@navikt/ds-react';
 
 interface HamburgerMenyInnholdProps {

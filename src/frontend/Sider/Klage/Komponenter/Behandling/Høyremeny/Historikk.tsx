@@ -1,6 +1,6 @@
 import * as React from 'react';
 import HistorikkInnslag from './HistorikkInnslag';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { Behandlingshistorikk } from './behandlingshistorikk';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';

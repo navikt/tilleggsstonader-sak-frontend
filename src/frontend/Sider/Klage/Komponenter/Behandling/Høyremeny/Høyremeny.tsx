@@ -6,7 +6,7 @@ import Dokumenter from './Dokumenter';
 import styled from 'styled-components';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 
 interface IHøyremenyProps {

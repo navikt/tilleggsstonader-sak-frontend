@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
-import { useKlageApp } from '../../App/context/KlageAppContext';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlageApp } from '../../context/KlageAppContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 import styled from 'styled-components';
 import {

@@ -16,8 +16,8 @@ import {
     RadioGroup,
     Textarea,
 } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
-import { useKlageApp } from '../../App/context/KlageAppContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { useKlageApp } from '../../context/KlageAppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import styled from 'styled-components';
 import { VedtakSelect } from './VedtakSelect';

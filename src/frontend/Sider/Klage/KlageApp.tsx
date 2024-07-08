@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { KlageAppProvider, useKlageApp } from './App/context/KlageAppContext';
+import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
 import { Route, Routes } from 'react-router-dom';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
 import { Toast } from './Felles/Toast/Toast';

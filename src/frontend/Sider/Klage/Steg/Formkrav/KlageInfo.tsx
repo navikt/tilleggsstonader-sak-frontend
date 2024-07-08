@@ -5,7 +5,7 @@ import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import Advarsel from '../../Felles/Ikoner/Advarsel';
 import { formaterIsoDato } from '../../../../utils/dato';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';

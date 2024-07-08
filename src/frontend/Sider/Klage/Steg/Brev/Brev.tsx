@@ -7,9 +7,9 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../../typer/ressurs';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import styled from 'styled-components';
-import { useKlageApp } from '../../App/context/KlageAppContext';
+import { useKlageApp } from '../../context/KlageAppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';

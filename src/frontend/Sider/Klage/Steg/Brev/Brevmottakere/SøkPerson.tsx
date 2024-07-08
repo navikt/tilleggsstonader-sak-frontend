@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../context/KlageAppContext';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';

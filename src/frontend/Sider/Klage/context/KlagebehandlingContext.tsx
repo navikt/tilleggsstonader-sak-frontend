@@ -4,15 +4,15 @@ import { useParams } from 'react-router-dom';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { IVurdering } from '../../Steg/Vurdering/vurderingValg';
+import { IVurdering } from '../Steg/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
     påKlagetVedtakValgt,
-} from '../../Steg/Formkrav/validerFormkravUtils';
-import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling';
-import { RessursStatus } from '../../../../typer/ressurs';
-import { useRerunnableEffect } from '../../../../hooks/useRerunnableEffect';
+} from '../Steg/Formkrav/validerFormkravUtils';
+import { erBehandlingRedigerbar } from '../App/typer/klagebehandling/klagebehandling';
+import { RessursStatus } from '../../../typer/ressurs';
+import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 
 const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;

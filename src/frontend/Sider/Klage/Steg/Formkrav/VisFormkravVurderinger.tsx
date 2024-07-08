@@ -10,7 +10,7 @@ import {
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import {

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
-import { useHentFormkravVilkår } from '../../App/hooks/useHentFormkravVilkår';
+import { useHentFormkravVilkår } from '../../hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
-import { useHentFagsystemVedtak } from '../../App/hooks/useHentFagsystemVedtak';
+import { useHentFagsystemVedtak } from '../../hooks/useHentFagsystemVedtak';
 import { FagsystemVedtak } from '../../App/typer/fagsystemVedtak';
 
 export const Formkrav: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {

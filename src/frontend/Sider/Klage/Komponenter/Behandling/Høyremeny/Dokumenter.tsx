@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { useParams } from 'react-router-dom';
-import { useDataHenter } from '../../../App/hooks/useDataHenter';
+import { useDataHenter } from '../../../hooks/useDataHenter';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { compareDesc } from 'date-fns';
 import { Heading } from '@navikt/ds-react';

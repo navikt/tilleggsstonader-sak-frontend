@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useKlageApp } from '../../../App/context/KlageAppContext';
+import { useKlageApp } from '../../../context/KlageAppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
-import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';

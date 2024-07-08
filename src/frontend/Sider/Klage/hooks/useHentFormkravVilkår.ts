@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
-import { IFormkravVilkår } from '../../Steg/Formkrav/typer';
+import { IFormkravVilkår } from '../Steg/Formkrav/typer';
 import { useKlageApp } from '../context/KlageAppContext';
-import { byggTomRessurs, Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
 export const useHentFormkravVilkår = (): {
     vilkårsvurderinger: Ressurs<IFormkravVilkår>;

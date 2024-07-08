@@ -7,14 +7,14 @@ import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
-import { KlagebehandlingProvider, useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { KlagebehandlingProvider, useKlagebehandling } from '../../context/KlagebehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Klagebehandling } from '../../App/typer/klagebehandling/klagebehandling';
 import { Personopplysninger } from '../../App/typer/personopplysninger';
 import ScrollToTop from '../../../../komponenter/ScrollToTop/ScrollToTop';
 import { HenleggModal } from './HenleggModal/HenleggModal';
-import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
-import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import { useSetPersonIdent } from '../../hooks/useSetPersonIdent';
+import { useSetValgtFagsakId } from '../../hooks/useSetValgtFagsakId';
 import DataViewer from '../../../../komponenter/DataViewer';
 
 const Container = styled.div`

@@ -1,11 +1,11 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
+import { håndterFeil, håndterRessurs, preferredAxios } from '../axios';
 import constate from 'constate';
-import { EToast } from '../typer/toast';
-import { AxiosRequestCallback } from '../typer/axiosRequest';
-import { Ressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
+import { EToast } from '../App/typer/toast';
+import { AxiosRequestCallback } from '../App/typer/axiosRequest';
+import { Ressurs, RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
 
 const [KlageAppProvider, useKlageApp] = constate(() => {
     const [autentisert, settAutentisert] = React.useState(true);

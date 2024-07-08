@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Tidslinje } from './Tidslinje';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Heading } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../App/context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
 
