@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { BodyLong } from '@navikt/ds-react';
 
-import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import UlagretDataModal from './Felles/UlagretDataModal/UlagretDataModal';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 
 const Innhold = styled(BodyLong)`
