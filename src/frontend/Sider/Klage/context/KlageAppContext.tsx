@@ -1,7 +1,7 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { håndterFeil, håndterRessurs, preferredAxios } from '../axios';
+import { håndterFeil, håndterRessurs, preferredAxios } from '../utils/axios';
 import constate from 'constate';
 import { EToast } from '../typer/toast';
 import { AxiosRequestCallback } from '../typer/axiosRequest';

@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestHeaders } from 'axios';
 
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
 axios.defaults.baseURL = window.location.origin;
 export const preferredAxios = axios;
