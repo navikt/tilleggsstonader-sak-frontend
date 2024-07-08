@@ -19,8 +19,8 @@ import {
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
 import { useVilkår } from '../../../context/VilkårContext';
+import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import SmallButton from '../../../komponenter/SmallButton';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';

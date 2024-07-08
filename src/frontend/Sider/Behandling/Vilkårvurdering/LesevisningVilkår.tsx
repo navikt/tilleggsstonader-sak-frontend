@@ -4,8 +4,8 @@ import { styled } from 'styled-components';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
+import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
-import SmallButton from '../../../komponenter/SmallButton';
 import { Vilkår } from '../vilkår';
 
 const Grid = styled.div`
