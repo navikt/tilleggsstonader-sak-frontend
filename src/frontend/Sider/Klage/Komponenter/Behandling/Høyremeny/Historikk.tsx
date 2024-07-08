@@ -2,7 +2,7 @@ import * as React from 'react';
 import HistorikkInnslag from './HistorikkInnslag';
 import { useKlagebehandling } from '../../../App/context/KlagebehandlingContext';
 import DataViewer from '../../../../../komponenter/DataViewer';
-import { IBehandlingshistorikk } from './behandlingshistorikk';
+import { Behandlingshistorikk } from './behandlingshistorikk';
 import { Klagebehandling } from '../../../App/typer/klagebehandling/klagebehandling';
 
 const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
@@ -26,7 +26,7 @@ const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
 
 const HistorikkContainer: React.FC<{
     behandling: Klagebehandling;
-    behandlingHistorikk: IBehandlingshistorikk[];
+    behandlingHistorikk: Behandlingshistorikk[];
 }> = ({ behandling, behandlingHistorikk }) => {
     return (
         <>

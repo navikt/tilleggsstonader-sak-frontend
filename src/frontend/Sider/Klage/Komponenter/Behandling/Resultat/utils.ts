@@ -1,4 +1,4 @@
-import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
     utfallTilTekst,
@@ -10,7 +10,7 @@ import { KlagebehandlingSteg } from '../../../App/typer/klagebehandling/klagebeh
 
 import { behandlingResultatTilTekst } from '../../../App/typer/klagebehandling/klagebehandlingResultat';
 
-export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
+export const fjernDuplikatStegFraHistorikk = (steg: Behandlingshistorikk[]) => {
     const visning = [
         ...new Set(
             steg.map((historikk, _, historikkListe) =>
@@ -58,7 +58,7 @@ export const utledTekstForBehandlingsresultat = (behandling: Klagebehandling) =>
         : behandlingResultatTilTekst[behandling.resultat];
 };
 
-const lagHistorikkInnslag = (steg: KlagebehandlingSteg): IBehandlingshistorikk => ({
+const lagHistorikkInnslag = (steg: KlagebehandlingSteg): Behandlingshistorikk => ({
     behandlingId: '',
     steg: steg,
     opprettetAv: '',

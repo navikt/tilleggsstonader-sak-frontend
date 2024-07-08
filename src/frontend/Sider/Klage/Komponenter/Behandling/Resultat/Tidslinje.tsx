@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { Behandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import {
     Klagebehandling,
 
@@ -109,7 +109,7 @@ const Suksess = styled(Oppfylt)`
  * Hvis Resultat = IKKE_MEDHOLD_FORMKRAV_AVVIST, ikke vis vurdering, for å unngå at man først oppfylt krav, lagt inn vurdering, ikke oppfylt krav, ferdigstilt
  */
 const filtrerResutatSteg = (
-    behandlingHistorikk: IBehandlingshistorikk[],
+    behandlingHistorikk: Behandlingshistorikk[],
     behandling: Klagebehandling
 ) => {
     let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
@@ -128,7 +128,7 @@ const filtrerResutatSteg = (
 
 export const Tidslinje: React.FC<{
     behandling: Klagebehandling;
-    behandlingHistorikk: IBehandlingshistorikk[];
+    behandlingHistorikk: Behandlingshistorikk[];
     åpenHøyremeny: boolean;
 }> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
     const historikk = filtrerResutatSteg(behandlingHistorikk, behandling);
@@ -172,7 +172,7 @@ export const Tidslinje: React.FC<{
 
 const Node: React.FC<{
     behandling: Klagebehandling;
-    steg: IBehandlingshistorikk;
+    steg: Behandlingshistorikk;
     åpenHøyremeny: boolean;
 }> = ({ behandling, steg, åpenHøyremeny }) => {
     const tittelErToLinjer =
