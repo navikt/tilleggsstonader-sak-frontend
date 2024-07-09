@@ -15,19 +15,9 @@ interface IMelding {
     type: 'success' | 'error';
 }
 
-export const useHentVurderinger = (): {
-    vurdering: Ressurs<IVurdering>;
-    hentVurdering: (behandlingId: string) => void;
-    lagreVurdering: (
-        vurderinger: IVurdering
-    ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
-    feilVedLagring: string;
-    melding: IMelding | undefined;
-    settMelding: (melding?: IMelding) => void;
-} => {
+export const useHentVurderinger = () => {
     const { axiosRequest } = useKlageApp();
 
-    const [feilVedLagring, settFeilVedLagring] = useState<string>('');
     const [melding, settMelding] = useState<IMelding>();
 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs);
@@ -47,7 +37,6 @@ export const useHentVurderinger = (): {
     const lagreVurdering = (
         vurdering: IVurdering
     ): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
-        settFeilVedLagring('');
         return axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
             url: `/api/klage/vurdering`,
@@ -73,7 +62,6 @@ export const useHentVurderinger = (): {
         vurdering,
         hentVurdering,
         lagreVurdering,
-        feilVedLagring,
         melding,
         settMelding,
     };
