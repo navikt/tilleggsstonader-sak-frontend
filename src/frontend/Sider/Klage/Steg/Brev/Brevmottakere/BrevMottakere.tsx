@@ -8,6 +8,7 @@ import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';
 import DataViewer from '../../../../../komponenter/DataViewer';
+import { useBrevmottakere } from '../../../hooks/useBrevmottakere';
 
 const Grid = styled.div`
     display: grid;
@@ -93,34 +94,19 @@ const BrevMottakereContainer: React.FC<{
 };
 
 const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { axiosRequest } = useKlageApp();
     const { personopplysningerResponse } = useKlagebehandling();
 
-    const [mottakere, settMottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
-
-    const hentBrevmottakere = useCallback(() => {
-        const behandlingConfig: AxiosRequestConfig = {
-            method: 'GET',
-            url: `/api/klage/brev/${behandlingId}/mottakere`,
-        };
-        axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
-            settMottakere(res)
-        );
-    }, [axiosRequest, behandlingId]);
-
-    useEffect(() => {
-        hentBrevmottakere();
-    }, [hentBrevmottakere]);
-
+    const { brevmottakere, hentBrevmottakere} = useBrevmottakere(behandlingId)
+    
     return (
-        <DataViewer response={{ mottakere, personopplysningerResponse }}>
-            {({ mottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ brevmottakere, personopplysningerResponse }}>
+            {({ brevmottakere, personopplysningerResponse }) => (
                 <>
-                    <BrevMottakereContainer mottakere={mottakere} />
+                    <BrevMottakereContainer mottakere={brevmottakere} />
                     <BrevmottakereModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysningerResponse}
-                        mottakere={mottakere}
+                        mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
                     />
                 </>
