@@ -1,15 +1,15 @@
 import { IBrevmottakere } from '../Steg/Brev/Brevmottakere/typer';
-import { useKlageApp } from '../context/KlageAppContext';
+import { useApp } from '../../../context/AppContext';
 
 export const useLagreBrevmottakere = (behandlingId: string) => {
-    const { axiosRequest } = useKlageApp();
+    const { request } = useApp();
 
     const lagreBrevmottakere = (brevmottakere: IBrevmottakere) =>
-        axiosRequest<IBrevmottakere, IBrevmottakere>({
-            url: `api/klage/brev/${behandlingId}/mottakere`,
-            method: 'POST',
-            data: brevmottakere,
-        });
+        request<IBrevmottakere, IBrevmottakere>(
+            `/api/klage/brev/${behandlingId}/mottakere`,
+            'POST',
+            brevmottakere
+        );
 
     return { lagreBrevmottakere };
 };
