@@ -5,11 +5,9 @@ import { styled } from 'styled-components';
 
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
-import BehandlingTabell from './BehandlingTabell';
+import BehandlingTabell, { TabellBehandling } from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
-import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
-import { Fagsak } from '../../../typer/fagsak';
-import { KlageBehandling } from '../../../typer/klage';
+import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
@@ -25,17 +23,23 @@ const TittelLinje = styled.div`
 `;
 
 interface Props {
-    fagsak: Fagsak;
-    klagebehandlinger: KlageBehandling[];
-    hentKlagebehandlinger: () => void;
+    fagsakId: string;
+    stønadstype: Stønadstype;
+    fagsakEskternID: number;
+    fagsakErLøpende: boolean;
+    tabellbehandlinger: TabellBehandling[];
     hentBehandlinger: () => void;
+    hentKlagebehandlinger: () => void;
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
-    fagsak,
-    klagebehandlinger,
-    hentKlagebehandlinger,
+    fagsakId,
+    stønadstype,
+    fagsakEskternID,
+    fagsakErLøpende,
+    tabellbehandlinger,
     hentBehandlinger,
+    hentKlagebehandlinger,
 }) => {
     const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
 
@@ -43,22 +47,19 @@ export const FagsakOversikt: React.FC<Props> = ({
         <Container>
             <TittelLinje>
                 <Heading size="small" level="3">
-                    {stønadstypeTilTekst[fagsak.stønadstype]}
+                    {stønadstypeTilTekst[stønadstype]}
                 </Heading>
-                <BodyShort size="small">(Saksnummer: {fagsak.eksternId})</BodyShort>
-                {fagsak.erLøpende && (
+                <BodyShort size="small">(Saksnummer: {fagsakEskternID})</BodyShort>
+                {fagsakErLøpende && (
                     <Tag variant={'info'} size={'small'}>
                         Løpende
                     </Tag>
                 )}
             </TittelLinje>
-            <BehandlingTabell
-                behandlinger={fagsak.behandlinger}
-                klagebehandlinger={klagebehandlinger}
-            />
+            <BehandlingTabell tabellbehandlinger={tabellbehandlinger} />
             {kanOppretteKlage && (
                 <OpprettNyBehandlingModal
-                    fagsak={fagsak}
+                    fagsakId={fagsakId}
                     hentKlagebehandlinger={hentKlagebehandlinger}
                     hentBehandlinger={hentBehandlinger}
                 />

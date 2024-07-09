@@ -11,17 +11,16 @@ import {
     BehandlingType,
     behandlingTypeTilTekst,
 } from '../../../../typer/behandling/behandlingType';
-import { Fagsak } from '../../../../typer/fagsak';
 import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
-    fagsak: Fagsak;
+    fagsakId: string;
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
 
 const OpprettNyBehandlingModal: FC<Props> = ({
-    fagsak,
+    fagsakId,
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
@@ -61,14 +60,14 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     </Select>
                     {behandlingtype === BehandlingType.KLAGE && (
                         <OpprettKlageBehandling
-                            fagsak={fagsak}
+                            fagsakId={fagsakId}
                             lukkModal={lukkModal}
                             hentKlagebehandlinger={hentKlagebehandlinger}
                         />
                     )}
                     {behandlingtype === BehandlingType.REVURDERING && (
                         <OpprettRevurderingBehandling
-                            fagsak={fagsak}
+                            fagsakId={fagsakId}
                             lukkModal={lukkModal}
                             hentBehandlinger={hentBehandlinger}
                         />

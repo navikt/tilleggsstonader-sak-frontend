@@ -14,13 +14,7 @@ import {
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { BehandlingÅrsak } from '../../../typer/behandling/behandlingÅrsak';
 import { PartialRecord } from '../../../typer/common';
-import {
-    KlageBehandling,
-    KlagebehandlingResultat,
-    KlagebehandlingStatus,
-    KlageÅrsak,
-} from '../../../typer/klage';
-import { sorterBehandlinger } from '../../../utils/behandlingutil';
+import { KlagebehandlingResultat, KlagebehandlingStatus, KlageÅrsak } from '../../../typer/klage';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
@@ -33,7 +27,7 @@ const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     resultat: 'Resultat',
 };
 
-interface TabellBehandling {
+export interface TabellBehandling {
     id: string;
     opprettet: string;
     type: BehandlingType;
@@ -44,11 +38,10 @@ interface TabellBehandling {
 }
 
 interface Props {
-    behandlinger: Behandling[];
-    klagebehandlinger: KlageBehandling[];
+    tabellbehandlinger: TabellBehandling[];
 }
 
-const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) => {
+const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
     const { request } = useApp();
 
     const henleggBehandling = useCallback(
@@ -69,34 +62,6 @@ const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) 
     const utledUrl = (type: BehandlingType) =>
         type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
 
-    const tabellBehandlinger: TabellBehandling[] = behandlinger.map((behandling) => {
-        return {
-            id: behandling.id,
-            opprettet: behandling.opprettet,
-            type: behandling.type,
-            behandlingsårsak: behandling.behandlingsårsak,
-            status: behandling.status,
-            vedtaksdato: behandling.vedtaksdato,
-            resultat: behandling.resultat,
-        };
-    });
-
-    const tabellKlagebehandlinger: TabellBehandling[] = klagebehandlinger.map((behandling) => {
-        return {
-            id: behandling.id,
-            opprettet: behandling.opprettet,
-            type: BehandlingType.KLAGE,
-            behandlingsårsak: behandling.årsak,
-            status: behandling.status,
-            vedtaksdato: behandling.vedtaksdato,
-            resultat: behandling.resultat,
-        };
-    });
-
-    const alleBehandlinger = tabellBehandlinger
-        .concat(tabellKlagebehandlinger)
-        .sort(sorterBehandlinger);
-
     return (
         <Table size="small">
             <Table.Header>
@@ -108,7 +73,7 @@ const BehandlingTabell: React.FC<Props> = ({ behandlinger, klagebehandlinger }) 
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {alleBehandlinger.map((behandling) => (
+                {tabellbehandlinger.map((behandling) => (
                     <Table.Row key={behandling.id}>
                         <Table.DataCell>{formaterIsoDatoTid(behandling.opprettet)}</Table.DataCell>
                         <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>

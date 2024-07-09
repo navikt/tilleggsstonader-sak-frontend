@@ -37,6 +37,6 @@ export const useHentKlagebehandlinger = (): Response => {
 
     return {
         hentKlagebehandlinger,
-        klagebehandlinger,
+        klagebehandlinger: klagebehandlinger,
     };
 };

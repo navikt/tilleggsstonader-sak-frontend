@@ -4,11 +4,10 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { Fagsak } from '../../../../typer/fagsak';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 interface Props {
-    fagsak: Fagsak;
+    fagsakId: string;
     lukkModal: () => void;
     hentBehandlinger: () => void;
 }
@@ -17,14 +16,18 @@ interface OpprettBehandlingRequest {
     fagsakId: string;
 }
 
-const OpprettRevurderingBehandling: React.FC<Props> = ({ fagsak, lukkModal, hentBehandlinger }) => {
+const OpprettRevurderingBehandling: React.FC<Props> = ({
+    fagsakId,
+    lukkModal,
+    hentBehandlinger,
+}) => {
     const { request } = useApp();
 
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprett = () => {
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
-            fagsakId: fagsak.id,
+            fagsakId: fagsakId,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
                 hentBehandlinger();
