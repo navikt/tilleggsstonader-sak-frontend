@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import { useApp } from '../../../../context/AppContext';
+import { useHenleggBehandling } from '../../hooks/useHenleggBehandling';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
@@ -22,9 +22,10 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
     const { settToast } = useKlageApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
-    const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { request } = useApp();
+    const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
+
+    const { lagreHenleggelse } = useHenleggBehandling(behandling.id);
 
     const henleggBehandling = () => {
         if (henleggerBehandling) {
@@ -36,20 +37,13 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
         }
         settHenleggerBehandling(true);
 
-        request<
-            string,
-            {
-                årsak: HenlagtÅrsak;
-            }
-        >(`/api/klage/behandling/${behandling.id}/henlegg`, 'POST', {
-            årsak: henlagtårsak as HenlagtÅrsak,
-        })
+        lagreHenleggelse(henlagtårsak)
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
-                    navigate(`/klagebehandling/${behandling.id}/resultat`);
+                    navigate(`resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
