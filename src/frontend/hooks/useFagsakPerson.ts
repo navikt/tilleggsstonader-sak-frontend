@@ -25,7 +25,7 @@ export const useHentFagsakPerson = (): HentFagsakPersonResponse<FagsakPerson> =>
 
     return {
         hentFagsakPerson,
-        fagsakPerson: fagsakPerson,
+        fagsakPerson,
     };
 };
 
@@ -47,6 +47,6 @@ export const useHentFagsakPersonUtvidet =
 
         return {
             hentFagsakPerson,
-            fagsakPerson: fagsakPerson,
+            fagsakPerson,
         };
     };
