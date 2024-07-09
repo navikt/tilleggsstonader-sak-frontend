@@ -51,7 +51,7 @@ const VertikalLinje = styled.div`
     margin-bottom: 1rem;
 `;
 
-export const BrevmottakereModal: FC<{
+export const EndreBrevmottakereModal: FC<{
     behandlingId: string;
     personopplysninger: Personopplysninger;
     mottakere: IBrevmottakere;

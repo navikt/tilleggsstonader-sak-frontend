@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useKlageApp } from '../../../context/KlageAppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
-import { BrevmottakereModal } from './BrevmottakereModal';
-import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
-import { AxiosRequestConfig } from 'axios';
+import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { useBrevmottakere } from '../../../hooks/useBrevmottakere';
 
@@ -29,7 +27,7 @@ const KompaktButton = styled(Button)`
     }
 `;
 
-const BrevMottakereContainer: React.FC<{
+const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useKlageApp();
@@ -96,14 +94,14 @@ const BrevMottakereContainer: React.FC<{
 const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { personopplysningerResponse } = useKlagebehandling();
 
-    const { brevmottakere, hentBrevmottakere} = useBrevmottakere(behandlingId)
-    
+    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(behandlingId);
+
     return (
         <DataViewer response={{ brevmottakere, personopplysningerResponse }}>
             {({ brevmottakere, personopplysningerResponse }) => (
                 <>
-                    <BrevMottakereContainer mottakere={brevmottakere} />
-                    <BrevmottakereModal
+                    <Brevmottakere mottakere={brevmottakere} />
+                    <EndreBrevmottakereModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysningerResponse}
                         mottakere={brevmottakere}
