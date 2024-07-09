@@ -11,16 +11,16 @@ const Overskrift = styled(Heading)`
     margin-left: 1rem;
 `;
 
-const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
-    const dokumentResponse = useHentDokumenter();
+export const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
+    const dokumenter = useHentDokumenter();
 
     if (hidden) {
         return <></>;
     }
 
     return (
-        <DataViewer response={{ dokumentResponse }}>
-            {({ dokumentResponse: dokumenter }) => {
+        <DataViewer response={{ dokumenter }}>
+            {({ dokumenter }) => {
                 const sortertDokumentliste = sorterDokumentlisten(dokumenter);
                 return (
                     <>
@@ -35,5 +35,3 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         </DataViewer>
     );
 };
-
-export default Dokumenter;
