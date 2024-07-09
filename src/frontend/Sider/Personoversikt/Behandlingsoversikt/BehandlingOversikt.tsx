@@ -88,23 +88,26 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     );
 
     return (
-        <DataViewer response={{ fagsakPerson }}>
-            {({ fagsakPerson }) => (
-                <>
-                    {fagsakPerson.tilsynBarn && (
-                        <FagsakOversikt
-                            fagsakId={fagsakPerson.tilsynBarn.id}
-                            stønadstype={Stønadstype.BARNETILSYN}
-                            fagsakEskternID={fagsakPerson.tilsynBarn.eksternId}
-                            fagsakErLøpende={fagsakPerson.tilsynBarn.erLøpende}
-                            tabellbehandlinger={tabellBehandlinger}
-                            hentBehandlinger={rekjørHentBehandlinger}
-                            hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                        />
-                    )}
-                </>
-            )}
-        </DataViewer>
+        <>
+            <DataViewer response={{ klagebehandlinger }}>{() => <></>}</DataViewer>
+            <DataViewer response={{ fagsakPerson }}>
+                {({ fagsakPerson }) => (
+                    <>
+                        {fagsakPerson.tilsynBarn && (
+                            <FagsakOversikt
+                                fagsakId={fagsakPerson.tilsynBarn.id}
+                                stønadstype={Stønadstype.BARNETILSYN}
+                                fagsakEskternID={fagsakPerson.tilsynBarn.eksternId}
+                                fagsakErLøpende={fagsakPerson.tilsynBarn.erLøpende}
+                                tabellbehandlinger={tabellBehandlinger}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            />
+                        )}
+                    </>
+                )}
+            </DataViewer>
+        </>
     );
 };
 
