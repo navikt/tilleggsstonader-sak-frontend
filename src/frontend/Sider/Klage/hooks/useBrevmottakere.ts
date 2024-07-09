@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IBrevmottakere } from '../Steg/Brev/Brevmottakere/typer';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { AxiosRequestConfig } from 'axios';

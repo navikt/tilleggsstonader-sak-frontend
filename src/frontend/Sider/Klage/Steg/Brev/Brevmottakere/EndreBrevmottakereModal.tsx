@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Personopplysninger } from '../../../typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
@@ -11,6 +11,7 @@ import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../typer/toast';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
+import { useLagreBrevmottakere } from '../../../hooks/useLagreBrevmottakere';
 
 const GridContainer = styled.div`
     display: grid;
@@ -66,17 +67,9 @@ export const EndreBrevmottakereModal: FC<{
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-    const { settToast, axiosRequest } = useKlageApp();
+    const { settToast } = useKlageApp();
 
-    const kallSettBrevmottakere = useCallback(
-        (brevmottakere: IBrevmottakere) =>
-            axiosRequest<IBrevmottakere, IBrevmottakere>({
-                url: `api/klage/brev/${behandlingId}/mottakere`,
-                method: 'POST',
-                data: brevmottakere,
-            }),
-        [axiosRequest, behandlingId]
-    );
+    const { lagreBrevmottakere }  = useLagreBrevmottakere(behandlingId)
 
     useEffect(() => {
         settValgtePersonMottakere(mottakere.personer);
@@ -86,7 +79,7 @@ export const EndreBrevmottakereModal: FC<{
     const settBrevmottakere = () => {
         settFeilmelding('');
         settInnsendingSukksess(false);
-        kallSettBrevmottakere({
+        lagreBrevmottakere({
             personer: valgtePersonMottakere,
             organisasjoner: valgteOrganisasjonMottakere,
         }).then((response: RessursSuksess<IBrevmottakere> | RessursFeilet) => {
