@@ -18,6 +18,7 @@ import BrevMottakere from './Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
+import { useApp } from '../../../../context/AppContext';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -54,11 +55,8 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const {
-        hentBehandling,
-        hentBehandlingshistorikk,
-        behandlingErRedigerbar,
-    } = useKlagebehandling();
+    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } =
+        useKlagebehandling();
     const navigate = useNavigate();
 
     const { axiosRequest } = useKlageApp();
@@ -68,75 +66,57 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
 
-    const hentVurdering = useCallback(
-        (behandlingId: string) => {
-            axiosRequest<IVurdering | undefined, null>({
-                method: 'GET',
-                url: `/api/klage/vurdering/${behandlingId}`,
-            }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
-                if (response.status === RessursStatus.SUKSESS) {
-                    if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                        settUtfall('OMGJØR_VEDTAK');
-                    } else {
-                        settUtfall('LAG_BREV');
-                    }
-                } else {
-                    settFeilmelding(response.frontendFeilmelding);
-                }
-            });
-        },
-        [axiosRequest]
-    );
+    const { request } = useApp();
 
     useEffect(() => {
-        hentVurdering(behandlingId);
-    }, [behandlingId, hentVurdering]);
-
-    const hentBrev = useCallback(() => {
-        axiosRequest<string, null>({
+        axiosRequest<IVurdering | undefined, null>({
             method: 'GET',
-            url: `/api/klage/brev/${behandlingId}/pdf`,
-        }).then(settBrevRessurs);
-    }, [axiosRequest, behandlingId]);
-
-    const genererBrev = useCallback(() => {
-        axiosRequest<string, null>({
-            method: 'POST',
-            url: `/api/klage/brev/${behandlingId}`,
-        }).then((respons: Ressurs<string>) => {
-            settBrevRessurs(respons);
+            url: `/api/klage/vurdering/${behandlingId}`,
+        }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
+            if (response.status === RessursStatus.SUKSESS) {
+                if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                    settUtfall('OMGJØR_VEDTAK');
+                } else {
+                    settUtfall('LAG_BREV');
+                }
+            } else {
+                settFeilmelding(response.frontendFeilmelding);
+            }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [behandlingId]);
 
     useEffect(() => {
         if (utfall === 'LAG_BREV') {
             if (behandlingErRedigerbar) {
-                genererBrev();
+                request<string, null>(`/api/klage/brev/${behandlingId}`, 'POST').then(
+                    (respons: Ressurs<string>) => {
+                        settBrevRessurs(respons);
+                    }
+                );
             } else {
-                hentBrev();
+                request<string, null>(`/api/klage/brev/${behandlingId}/pdf`).then(settBrevRessurs);
             }
         }
-    }, [behandlingErRedigerbar, genererBrev, hentBrev, utfall]);
+    }, [behandlingErRedigerbar, utfall]);
 
     const ferdigstill = () => {
         if (senderInn) {
             return;
         }
         settSenderInn(true);
-        axiosRequest<null, null>({
-            method: 'POST',
-            url: `/api/klage/behandling/${behandlingId}/ferdigstill`,
-        }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInn(false);
-            if (res.status === RessursStatus.SUKSESS) {
-                lukkModal();
-                hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
-                navigate(`/klagebehandling/${behandlingId}/resultat`);
-            } else {
-                settFeilmelding(res.frontendFeilmelding);
+        request<null, null>(`/api/klage/behandling/${behandlingId}/ferdigstill`, 'POST').then(
+            (res: RessursSuksess<null> | RessursFeilet) => {
+                settSenderInn(false);
+                if (res.status === RessursStatus.SUKSESS) {
+                    lukkModal();
+                    hentBehandling.rerun();
+                    hentBehandlingshistorikk.rerun();
+                    navigate(`resultat`);
+                } else {
+                    settFeilmelding(res.frontendFeilmelding);
+                }
             }
-        });
+        );
     };
 
     const lukkModal = () => {
