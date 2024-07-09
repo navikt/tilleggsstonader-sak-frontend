@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
+import { useApp } from '../../../../context/AppContext';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
@@ -18,11 +19,12 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
     const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
         useKlagebehandling();
 
-    const { axiosRequest, settToast } = useKlageApp();
+    const { settToast } = useKlageApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+    const { request } = useApp();
 
     const henleggBehandling = () => {
         if (henleggerBehandling) {
@@ -34,12 +36,13 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
         }
         settHenleggerBehandling(true);
 
-        axiosRequest<string, { årsak: HenlagtÅrsak }>({
-            method: 'POST',
-            url: `/api/klage/behandling/${behandling.id}/henlegg`,
-            data: {
-                årsak: henlagtårsak as HenlagtÅrsak,
-            },
+        request<
+            string,
+            {
+                årsak: HenlagtÅrsak;
+            }
+        >(`/api/klage/behandling/${behandling.id}/henlegg`, 'POST', {
+            årsak: henlagtårsak as HenlagtÅrsak,
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
@@ -76,10 +79,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
             <Box paddingInline="2">
-                <RadioGroup
-                    legend={''}
-                    onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}
-                >
+                <RadioGroup legend={''} onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}>
                     <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
                     <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
                 </RadioGroup>
