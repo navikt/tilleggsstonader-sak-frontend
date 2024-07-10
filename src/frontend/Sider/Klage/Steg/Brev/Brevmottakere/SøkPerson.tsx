@@ -1,41 +1,20 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useKlageApp } from '../../../context/KlageAppContext';
-import { byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { VertikalSentrering } from './VertikalSentrering';
+import { usePersonsøk } from '../../../../../hooks/useSøkPerson';
+
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     behandlingId: string;
 }
 
-interface PersonSøk {
-    ident: string;
-    behandlingId: string;
-    navn: string;
-}
-
 export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId }) => {
-    const { axiosRequest } = useKlageApp();
     const [søkIdent, settSøkIdent] = useState('');
-    const [søkRessurs, settSøkRessurs] = useState(byggTomRessurs<PersonSøk>());
 
-    useEffect(() => {
-        if (søkIdent && søkIdent.length === 11) {
-            axiosRequest<PersonSøk, { personIdent: string; behandlingId: string }>({
-                method: 'POST',
-                url: 'api/sak/brevmottakere/person',
-                data: {
-                    personIdent: søkIdent,
-                    behandlingId: behandlingId,
-                },
-            }).then((resp: Ressurs<PersonSøk>) => {
-                settSøkRessurs(resp);
-            });
-        }
-    }, [axiosRequest, søkIdent, behandlingId]);
+    const { søkeresultat } = usePersonsøk(søkIdent, behandlingId);
 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [
@@ -53,13 +32,13 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                 value={søkIdent}
                 onChange={(e) => settSøkIdent(e.target.value)}
             />
-            <DataViewer response={{ søkRessurs }}>
-                {({ søkRessurs }) => {
+            <DataViewer response={{ søkeresultat }}>
+                {({ søkeresultat }) => {
                     return (
                         <Søkeresultat>
                             <div>
-                                <BodyShort>{søkRessurs.navn}</BodyShort>
-                                {søkRessurs.ident}
+                                <BodyShort>{søkeresultat.navn}</BodyShort>
+                                {søkeresultat.ident}
                             </div>
                             <VertikalSentrering>
                                 <div>
@@ -67,8 +46,8 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                                         variant="secondary"
                                         size="small"
                                         onClick={leggTilBrevmottaker(
-                                            søkRessurs.ident,
-                                            søkRessurs.navn
+                                            søkeresultat.ident,
+                                            søkeresultat.navn
                                         )}
                                     >
                                         Legg til
