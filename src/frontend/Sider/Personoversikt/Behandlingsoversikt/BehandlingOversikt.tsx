@@ -40,7 +40,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                 resultat: behandling.resultat,
             };
         });
-        return tabellBehandlinger ? tabellBehandlinger : [];
+        return tabellBehandlinger ?? [];
     };
 
     const mapKlagesakRessursTilTabellBehandling = (
