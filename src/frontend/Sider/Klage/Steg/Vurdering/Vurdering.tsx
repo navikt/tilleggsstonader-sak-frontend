@@ -76,8 +76,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     } = useKlagebehandling();
 
     const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useHentVurderinger();
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useKlageApp();
+    const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useKlageApp();
 
     const { request } = useApp();
 

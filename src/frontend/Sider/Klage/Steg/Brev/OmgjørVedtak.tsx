@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Alert, Button } from '@navikt/ds-react';
-import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 import styled from 'styled-components';
@@ -11,6 +10,7 @@ import {
 } from '../../typer/kanOppretteRevurdering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { useApp } from '../../../../context/AppContext';
 
 const AlertContainer = styled.div`
     padding: 2rem;
@@ -60,12 +60,13 @@ export const OmgjørVedtak: React.FC<{
     ferdigstill: () => void;
     senderInn: boolean;
 }> = ({ behandlingId, ferdigstill, senderInn }) => {
-    const { axiosRequest } = useKlageApp();
     const { behandlingErRedigerbar } = useKlagebehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
     const [kanOppretteRevurdering, settKanOppretteRevurdering] =
         useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
+
+    const { request } = useApp();
 
     const lukkModal = () => {
         settVisModal(false);
@@ -73,14 +74,12 @@ export const OmgjørVedtak: React.FC<{
     };
 
     useEffect(() => {
-        // if (behandlingErRedigerbar) {
-        //     axiosRequest<KanOppretteRevurdering, null>({
-        //         method: 'GET',
-        //         url: `/api/klage/behandling/${behandlingId}/kan-opprette-revurdering`,
-        //     }).then(settKanOppretteRevurdering);
-        //     settKanOppretteRevurdering(byggTomRessurs())
-        // }
-    }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
+        if (behandlingErRedigerbar) {
+            request<KanOppretteRevurdering, null>(
+                `/api/klage/behandling/${behandlingId}/kan-opprette-revurdering`
+            ).then(settKanOppretteRevurdering);
+        }
+    }, [request, behandlingErRedigerbar, behandlingId]);
 
     if (!behandlingErRedigerbar) {
         return (
@@ -89,33 +88,6 @@ export const OmgjørVedtak: React.FC<{
             </AlertContainer>
         );
     }
-
-    // TODO: Når revurderinger støttes, kan det første return-statementet her fjernes. Fjern utkommenteringen i useEffect over.
-    return (
-        <div>
-            {behandlingErRedigerbar && (
-                <AlertContainer>
-                    <KanOppretteRevurderingTekst kanOppretteRevurdering={{ kanOpprettes: false }} />
-                    <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
-                </AlertContainer>
-            )}
-            <ModalWrapper
-                tittel={'Bekreft ferdigstillelse av klagebehandling'}
-                visModal={visModal}
-                onClose={() => lukkModal()}
-                aksjonsknapper={{
-                    hovedKnapp: {
-                        onClick: ferdigstill,
-                        tekst: 'Ferdigstill',
-                        disabled: senderInn,
-                    },
-                    lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                }}
-            >
-                {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
-            </ModalWrapper>
-        </div>
-    );
 
     return (
         <DataViewer response={{ kanOppretteRevurdering }}>
