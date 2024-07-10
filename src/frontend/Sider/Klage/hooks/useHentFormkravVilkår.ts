@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { IFormkravVilkår } from '../Steg/Formkrav/typer';
-import { useKlageApp } from '../context/KlageAppContext';
 import {
     byggTomRessurs,
     Ressurs,
@@ -18,7 +17,6 @@ export const useHentFormkravVilkår = (): {
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     feilVedLagring: string;
 } => {
-    const { axiosRequest } = useKlageApp();
     const { request } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
@@ -26,11 +24,15 @@ export const useHentFormkravVilkår = (): {
     const [vilkårsvurderinger, settVilkårsvurderinger] =
         useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
 
-    const hentVilkårsvurderinger = (behandlingId: string) => {
-        request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
-            settVilkårsvurderinger
-        );
-    };
+
+    const hentVilkårsvurderinger = useCallback(
+        (behandlingId: string) => {
+            request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
+                settVilkårsvurderinger
+            );
+        },
+        [request]
+    );
 
     const lagreVilkårsvurderinger = (
         vurderinger: IFormkravVilkår
