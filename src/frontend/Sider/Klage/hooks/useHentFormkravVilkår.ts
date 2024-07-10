@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { IFormkravVilkår } from '../Steg/Formkrav/typer';
 import { useKlageApp } from '../context/KlageAppContext';
 import {
@@ -36,11 +36,11 @@ export const useHentFormkravVilkår = (): {
         vurderinger: IFormkravVilkår
     ): Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet> => {
         settFeilVedLagring('');
-        return axiosRequest<IFormkravVilkår, IFormkravVilkår>({
-            method: 'POST',
-            url: `/api/klage/formkrav`,
-            data: vurderinger,
-        }).then((respons: RessursSuksess<IFormkravVilkår> | RessursFeilet) => {
+        return request<IFormkravVilkår, IFormkravVilkår>(
+            `/api/klage/formkrav`,
+            'POST',
+            vurderinger
+        ).then((respons: RessursSuksess<IFormkravVilkår> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
                 settVilkårsvurderinger(respons);
             } else {
