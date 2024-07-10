@@ -5,11 +5,10 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
-import { Fagsak } from '../../../../typer/fagsak';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 interface Props {
-    fagsak: Fagsak;
+    fagsakId: string;
     hentKlagebehandlinger: () => void;
     lukkModal: () => void;
 }
@@ -18,13 +17,17 @@ interface OpprettKlageRequest {
     mottattDato: string;
 }
 
-const OpprettKlageBehandling: React.FC<Props> = ({ fagsak, hentKlagebehandlinger, lukkModal }) => {
+const OpprettKlageBehandling: React.FC<Props> = ({
+    fagsakId,
+    hentKlagebehandlinger,
+    lukkModal,
+}) => {
     const { request } = useApp();
     const [klageMottattDato, settKlageMottattDato] = useState('');
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprett = () => {
-        request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsak.id}`, 'POST', {
+        request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsakId}`, 'POST', {
             mottattDato: klageMottattDato,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
