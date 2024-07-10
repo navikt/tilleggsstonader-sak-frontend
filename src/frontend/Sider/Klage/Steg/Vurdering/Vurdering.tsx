@@ -24,6 +24,7 @@ import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFor
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../hooks/useHentVurderinger';
 import { harVerdi } from '../../../../utils/utils';
+import { useApp } from '../../../../context/AppContext';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -78,21 +79,19 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useKlageApp();
 
+    const { request } = useApp();
+
     useEffect(() => {
-        if (behandlingId !== undefined) {
-            if (vurdering.status !== RessursStatus.SUKSESS) {
-                hentVurdering(behandlingId);
-            }
+        if (behandlingId && vurdering.status !== RessursStatus.SUKSESS) {
+            hentVurdering(behandlingId);
         }
-        // eslint-disable-next-line
     }, [behandlingId, hentVurdering]);
 
     useEffect(() => {
-        axiosRequest<IFormkravVilkår, null>({
-            method: 'GET',
-            url: `/api/klage/formkrav/vilkar/${behandlingId}`,
-        }).then(settFormkrav);
-    }, [axiosRequest, behandlingId, settFormkrav]);
+        request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
+            settFormkrav
+        );
+    }, [behandlingId, settFormkrav]);
 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {

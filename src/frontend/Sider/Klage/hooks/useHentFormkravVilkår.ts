@@ -1,7 +1,14 @@
 import { useCallback, useState } from 'react';
 import { IFormkravVilkår } from '../Steg/Formkrav/typer';
 import { useKlageApp } from '../context/KlageAppContext';
-import { byggTomRessurs, Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../typer/ressurs';
+import { useApp } from '../../../context/AppContext';
 
 export const useHentFormkravVilkår = (): {
     vilkårsvurderinger: Ressurs<IFormkravVilkår>;
@@ -12,23 +19,18 @@ export const useHentFormkravVilkår = (): {
     feilVedLagring: string;
 } => {
     const { axiosRequest } = useKlageApp();
+    const { request } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
 
     const [vilkårsvurderinger, settVilkårsvurderinger] =
         useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
 
-    const hentVilkårsvurderinger = useCallback(
-        (behandlingId: string) => {
-            axiosRequest<IFormkravVilkår, null>({
-                method: 'GET',
-                url: `/api/klage/formkrav/vilkar/${behandlingId}`,
-            }).then((hentedeVurderinger: RessursSuksess<IFormkravVilkår> | RessursFeilet) => {
-                settVilkårsvurderinger(hentedeVurderinger);
-            });
-        },
-        [axiosRequest]
-    );
+    const hentVilkårsvurderinger = (behandlingId: string) => {
+        request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
+            settVilkårsvurderinger
+        );
+    };
 
     const lagreVilkårsvurderinger = (
         vurderinger: IFormkravVilkår
