@@ -111,7 +111,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     lukkModal();
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
-                    navigate(`resultat`);
+                    navigate(`/klagebehandling/${behandlingId}/resultat`)
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }

@@ -43,7 +43,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                     lukkModal();
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
-                    navigate(`resultat`);
+                    navigate(`/klagebehandling/${behandling.id}/resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
