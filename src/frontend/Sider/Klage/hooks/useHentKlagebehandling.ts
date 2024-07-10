@@ -1,8 +1,7 @@
-import { useKlageApp } from '../context/KlageAppContext';
 import { useCallback, useState } from 'react';
 import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
-import { AxiosRequestConfig } from 'axios';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { useApp } from '../../../context/AppContext';
 
 export const useHentKlagebehandling = (
     behandlingId: string
@@ -10,18 +9,12 @@ export const useHentKlagebehandling = (
     hentBehandlingCallback: () => void;
     behandling: Ressurs<Klagebehandling>;
 } => {
-    const { axiosRequest } = useKlageApp();
+    const { request } = useApp();
     const [behandling, settBehandling] = useState<Ressurs<Klagebehandling>>(byggTomRessurs());
 
     const hentBehandlingCallback = useCallback(() => {
-        const behandlingConfig: AxiosRequestConfig = {
-            method: 'GET',
-            url: `api/klage/behandling/${behandlingId}`,
-        };
-        axiosRequest<Klagebehandling, null>(behandlingConfig).then((res: Ressurs<Klagebehandling>) =>
-            settBehandling(res)
-        );
-    }, [axiosRequest, behandlingId]);
+        request<Klagebehandling, null>(`/api/klage/behandling/${behandlingId}`).then(settBehandling);
+    }, [request, behandlingId]);
 
     return {
         hentBehandlingCallback,

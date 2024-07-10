@@ -9,7 +9,6 @@ import {
 } from '../../../../typer/ressurs';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import styled from 'styled-components';
-import { useKlageApp } from '../../context/KlageAppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
@@ -59,7 +58,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         useKlagebehandling();
     const navigate = useNavigate();
 
-    const { axiosRequest } = useKlageApp();
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
@@ -69,20 +67,19 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const { request } = useApp();
 
     useEffect(() => {
-        axiosRequest<IVurdering | undefined, null>({
-            method: 'GET',
-            url: `/api/klage/vurdering/${behandlingId}`,
-        }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
-            if (response.status === RessursStatus.SUKSESS) {
-                if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                    settUtfall('OMGJØR_VEDTAK');
+        request<IVurdering | undefined, null>(`/api/klage/vurdering/${behandlingId}`).then(
+            (response) => {
+                if (response.status === RessursStatus.SUKSESS) {
+                    if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                        settUtfall('OMGJØR_VEDTAK');
+                    } else {
+                        settUtfall('LAG_BREV');
+                    }
                 } else {
-                    settUtfall('LAG_BREV');
+                    settFeilmelding(response.frontendFeilmelding);
                 }
-            } else {
-                settFeilmelding(response.frontendFeilmelding);
             }
-        });
+        );
     }, [behandlingId]);
 
     useEffect(() => {
@@ -111,7 +108,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     lukkModal();
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
-                    navigate(`/klagebehandling/${behandlingId}/resultat`)
+                    navigate(`/klagebehandling/${behandlingId}/resultat`);
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
