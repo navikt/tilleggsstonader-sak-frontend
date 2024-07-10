@@ -30,7 +30,6 @@
     "@portabletext/react": "^3.0.9",
     "@sanity/client": "^6.18.0",
     "@unleash/proxy-client-react": "^4.2.4",
-    "axios": "^1.7.2",
     "constate": "^3.3.2",
     "data-fns": "^1.1.0",
     "groq": "^3.41.1",
