@@ -12,6 +12,7 @@ import { BodyLong } from '@navikt/ds-react';
 
 import UlagretDataModal from './Komponenter/UlagretDataModal/UlagretDataModal';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
+import { useApp } from '../../context/AppContext';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -28,7 +29,8 @@ export const KlageApp: React.FC = () => {
 
 const AppInnhold: React.FC = () => {
     const navigate = useNavigate();
-    const { valgtSide, byttUrl, settByttUrl, autentisert } = useKlageApp();
+    const { valgtSide, byttUrl, settByttUrl } = useKlageApp();
+    const { autentisert } = useApp();
 
     useEffect(() => {
         if (valgtSide && byttUrl) {

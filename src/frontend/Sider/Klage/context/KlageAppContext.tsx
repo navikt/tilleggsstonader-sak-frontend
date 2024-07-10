@@ -1,13 +1,9 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { AxiosRequestCallback, håndterFeil, håndterRessurs, preferredAxios } from '../utils/axios';
 import constate from 'constate';
 import { EToast } from '../typer/toast';
-import { Ressurs, RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
 
 const [KlageAppProvider, useKlageApp] = constate(() => {
-    const [autentisert, settAutentisert] = React.useState(true);
     const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
         new Set()
     );
@@ -51,30 +47,7 @@ const [KlageAppProvider, useKlageApp] = constate(() => {
         }
     };
 
-    const axiosRequest: AxiosRequestCallback = useCallback(
-        <RES, REQ>(
-            config: AxiosRequestConfig<REQ>
-        ): Promise<RessursFeilet | RessursSuksess<RES>> => {
-            return preferredAxios
-                .request<Ressurs<RES>>(config)
-                .then((response: AxiosResponse<Ressurs<RES>>) => {
-                    const responsRessurs: Ressurs<RES> = response.data;
-                    return håndterRessurs(responsRessurs, response.headers);
-                })
-                .catch((error: AxiosError<Ressurs<RES>>) => {
-                    console.log('Axios Error');
-                    if (error.message.includes('401')) {
-                        settAutentisert(false);
-                    }
-                    return håndterFeil(error);
-                });
-        },
-        []
-    );
-
     return {
-        axiosRequest,
-        autentisert,
         settIkkePersistertKomponent,
         nullstillIkkePersistertKomponent,
         nullstillIkkePersisterteKomponenter,
