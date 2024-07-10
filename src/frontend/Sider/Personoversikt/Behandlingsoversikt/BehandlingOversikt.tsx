@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { Alert } from '@navikt/ds-react';
+
 import { TabellBehandling } from './BehandlingTabell';
 import { FagsakOversikt } from './FagsakOversikt';
 import { useHentFagsakPersonUtvidet } from '../../../hooks/useFagsakPerson';
@@ -8,9 +10,8 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
-import { FagsakPersonMedBehandlinger } from '../../../typer/fagsak';
-import { KlageBehandling, Klagebehandlinger } from '../../../typer/klage';
-import { Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { KlageBehandling } from '../../../typer/klage';
+import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
 import { sorterBehandlinger } from '../../../utils/behandlingutil';
 
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
@@ -59,37 +60,17 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
         return tabellBehandlinger ? tabellBehandlinger : [];
     };
 
-    const feilHaandteringAvTabellBehandlinger = (
-        fagsakPersonRessurs: Ressurs<FagsakPersonMedBehandlinger>,
-        klagebehandlingerRessurs: Ressurs<Klagebehandlinger>
-    ): TabellBehandling[] => {
-        let tabellBehandlingerFraFagsak: TabellBehandling[] = [];
-        if (fagsakPersonRessurs.status === RessursStatus.SUKSESS) {
-            tabellBehandlingerFraFagsak = mapFagsakPersonRessursTilTabellBehandling(
-                fagsakPersonRessurs.data.tilsynBarn?.behandlinger
-            );
-        }
-
-        let tabellBehandlingerFraKlagesaker: TabellBehandling[] = [];
-        if (klagebehandlingerRessurs.status === RessursStatus.SUKSESS) {
-            tabellBehandlingerFraKlagesaker = mapKlagesakRessursTilTabellBehandling(
-                klagebehandlingerRessurs.data.barnetilsyn
-            );
-        }
-
-        return tabellBehandlingerFraFagsak
-            .concat(tabellBehandlingerFraKlagesaker)
-            .sort(sorterBehandlinger);
-    };
-
-    const tabellBehandlinger: TabellBehandling[] = feilHaandteringAvTabellBehandlinger(
-        fagsakPerson,
-        klagebehandlinger
-    );
+    const tabellBehandlinger = [
+        ...mapFagsakPersonRessursTilTabellBehandling(
+            pakkUtHvisSuksess(fagsakPerson)?.data.tilsynBarn?.behandlinger
+        ),
+        ...mapKlagesakRessursTilTabellBehandling(
+            pakkUtHvisSuksess(klagebehandlinger)?.data.barnetilsyn
+        ),
+    ].sort(sorterBehandlinger);
 
     return (
         <>
-            <DataViewer response={{ klagebehandlinger }}>{() => <></>}</DataViewer>
             <DataViewer response={{ fagsakPerson }}>
                 {({ fagsakPerson }) => (
                     <>
@@ -107,8 +88,12 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                     </>
                 )}
             </DataViewer>
+            {erFeilressurs(klagebehandlinger) && (
+                <Alert variant="error">
+                    Kunne ikke hente klagesaker. {klagebehandlinger.frontendFeilmelding}
+                </Alert>
+            )}
         </>
     );
 };
-
 export default Behandlingsoversikt;
