@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Personopplysninger } from '../typer/personopplysninger';
-import { useKlageApp } from '../context/KlageAppContext';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { useApp } from '../../../context/AppContext';
 
 export const useHentPersonopplysninger = (
     behandlingId: string
@@ -9,19 +9,16 @@ export const useHentPersonopplysninger = (
     hentPersonopplysninger: (behandlingsid: string) => void;
     personopplysningerResponse: Ressurs<Personopplysninger>;
 } => {
-    const { axiosRequest } = useKlageApp();
+    const { request } = useApp();
     const [personopplysningerResponse, settPersonopplysningerResponse] =
         useState<Ressurs<Personopplysninger>>(byggTomRessurs());
 
     const hentPersonopplysninger = useCallback(() => {
         settPersonopplysningerResponse(byggHenterRessurs());
-        axiosRequest<Personopplysninger, { behandlingId: string }>({
-            method: 'GET',
-            url: `/api/klage/personopplysninger/${behandlingId}`,
-        }).then((res) => {
-            settPersonopplysningerResponse(res);
-        });
-    }, [axiosRequest, behandlingId]);
+        request<Personopplysninger, { behandlingId: string }>(
+            `/api/klage/personopplysninger/${behandlingId}`
+        ).then(settPersonopplysningerResponse);
+    }, [request, behandlingId]);
 
     return {
         hentPersonopplysninger,
