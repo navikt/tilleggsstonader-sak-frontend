@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { alleHjemlerTilVisningstekst } from './hjemmel';
-import { Vurderingsfelter } from './vurderingsfelter';
 import { OmgjøringDto, OpprettholdelseDto, VurderingDto } from '../../hooks/useVurdering';
 
 const Container = styled.div`
