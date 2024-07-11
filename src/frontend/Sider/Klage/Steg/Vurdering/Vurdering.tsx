@@ -27,7 +27,7 @@ import {
     lagOpprettholdelseDto,
     useVurdering,
     VurderingDto,
-} from '../../hooks/useVurdering';
+} from '../../hooks/useHentVurdering';
 import { harVerdi } from '../../../../utils/utils';
 import { useApp } from '../../../../context/AppContext';
 import { Hjemmel } from './hjemmel';
