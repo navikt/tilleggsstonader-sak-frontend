@@ -6,9 +6,9 @@ import { Alert, Button } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import { VedtakValg, vedtakValgTilTekst, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
+import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import {
-    byggTomRessurs,
+    byggTomRessurs, pakkUtHvisSuksess,
     Ressurs,
     RessursFeilet,
     RessursStatus,
@@ -22,16 +22,10 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
-import {
-    lagOmgjøringDto,
-    lagOpprettholdelseDto,
-    useVurdering,
-    VurderingDto,
-} from '../../hooks/useHentVurderinger';
-import { harVerdi } from '../../../../utils/utils';
+import { useVurdering } from '../../hooks/useVurdering';
 import { useApp } from '../../../../context/AppContext';
-import { Hjemmel } from './hjemmel';
 import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
+import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -48,15 +42,6 @@ const VurderingKnapper = styled.div`
     justify-content: space-between;
     margin: 0 4rem;
 `;
-
-export interface Vurderingsfelter {
-    vedtak?: VedtakValg;
-    årsak?: ÅrsakOmgjøring;
-    begrunnelseOmgjøring?: string;
-    hjemmel?: Hjemmel;
-    innstillingKlageinstans?: string;
-    interntNotat?: string;
-}
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
@@ -148,7 +133,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                             <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
                         )}
                         {!behandlingErRedigerbar && skalViseVurderingsvalg && (
-                            <VurderingLesemodus vurdering={oppdatertVurdering} />
+                            <VurderingLesemodus vurdering={pakkUtHvisSuksess(vurdering)} />
                         )}
                         {behandlingErRedigerbar && skalViseVurderingsvalg && (
                             <>
@@ -249,33 +234,3 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         </DataViewer>
     );
 };
-
-const erNødvendigeFelterUtfylt = (vurderinsfelter: Vurderingsfelter): boolean => {
-    const { vedtak } = vurderinsfelter;
-
-    if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-        const { årsak, begrunnelseOmgjøring } = vurderinsfelter;
-        return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
-    } else {
-        const { innstillingKlageinstans, hjemmel } = vurderinsfelter;
-        return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
-    }
-};
-
-/*
- * Denne funksjonen antar at vurderingsfeltene er i en lovlig tilstand. Kaster feilmelding dersom det ikke stemmer.
- */
-function tilVurderingDto(vurderinger: Vurderingsfelter, behandlingId: string): VurderingDto {
-    return vurderinger.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
-        ? lagOpprettholdelseDto(
-              behandlingId,
-              vurderinger.hjemmel!!,
-              vurderinger.innstillingKlageinstans!!
-          )
-        : lagOmgjøringDto(
-              behandlingId,
-              vurderinger.årsak!!,
-              vurderinger.begrunnelseOmgjøring!!,
-              vurderinger.interntNotat!!
-          );
-}

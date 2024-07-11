@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { ÅrsakOmgjøring } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { Vurderingsfelter } from './Vurdering';
+import { Vurderingsfelter } from './vurderingsfelter';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;

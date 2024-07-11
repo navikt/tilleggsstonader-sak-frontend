@@ -54,7 +54,7 @@ export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
 };
 
 export const pakkUtHvisSuksess = <T>(ressurs: Ressurs<T>) =>
-    ressurs.status === RessursStatus.SUKSESS ? ressurs : undefined;
+    ressurs.status === RessursStatus.SUKSESS ? ressurs.data : undefined;
 
 export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
     return {

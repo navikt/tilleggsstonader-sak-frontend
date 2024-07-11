@@ -20,45 +20,45 @@ interface IMelding {
 
 export type VurderingDto = OmgjøringDto | OpprettholdelseDto
 
-export interface OpprettholdelseDto {
-    behandlingId: string,
-    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK
-    hjemmel: Hjemmel,
-    innstillingKlageinstans: string
-}
-
 export interface OmgjøringDto {
     behandlingId: string,
     vedtak: VedtakValg.OMGJØR_VEDTAK
     årsak: ÅrsakOmgjøring,
     begrunnelseOmgjøring: string,
-    interntNotat: string,
 }
 
-export function lagOpprettholdelseDto(
+export interface OpprettholdelseDto {
     behandlingId: string,
+    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK
     hjemmel: Hjemmel,
     innstillingKlageinstans: string
-): OpprettholdelseDto {
-    return {
-        behandlingId,
-        vedtak: VedtakValg.OPPRETTHOLD_VEDTAK,
-        hjemmel,
-        innstillingKlageinstans,
-    };
+    interntNotat: string,
 }
 
 export function lagOmgjøringDto(
     behandlingId: string,
     årsak: ÅrsakOmgjøring,
     begrunnelseOmgjøring: string,
-    interntNotat: string,
 ): OmgjøringDto {
     return {
         behandlingId,
         vedtak: VedtakValg.OMGJØR_VEDTAK,
         årsak,
         begrunnelseOmgjøring,
+    };
+}
+
+export function lagOpprettholdelseDto(
+    behandlingId: string,
+    hjemmel: Hjemmel,
+    innstillingKlageinstans: string,
+    interntNotat: string,
+): OpprettholdelseDto {
+    return {
+        behandlingId,
+        vedtak: VedtakValg.OPPRETTHOLD_VEDTAK,
+        hjemmel,
+        innstillingKlageinstans,
         interntNotat,
     };
 }
