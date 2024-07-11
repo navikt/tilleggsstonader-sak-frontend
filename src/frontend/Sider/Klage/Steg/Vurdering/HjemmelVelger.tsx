@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
-import { Vurderingsfelter } from './Vurdering';
+import { Vurderingsfelter } from './vurderingsfelter';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;

@@ -4,7 +4,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { VedtakValg } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { Vurderingsfelter } from './Vurdering';
+import { Vurderingsfelter } from './vurderingsfelter';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;

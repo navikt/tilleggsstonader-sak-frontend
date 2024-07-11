@@ -49,15 +49,6 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
-export interface Vurderingsfelter {
-    vedtak?: VedtakValg;
-    årsak?: ÅrsakOmgjøring;
-    begrunnelseOmgjøring?: string;
-    hjemmel?: Hjemmel;
-    innstillingKlageinstans?: string;
-    interntNotat?: string;
-}
-
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
 
