@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { IVurdering, ÅrsakOmgjøring } from './vurderingValg';
+import { ÅrsakOmgjøring } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { Vurderingsfelter } from './Vurdering';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -15,7 +16,7 @@ const ÅrsakInnholdStyled = styled.div`
 `;
 
 interface IÅrsak {
-    settÅrsak: Dispatch<SetStateAction<IVurdering>>;
+    settÅrsak: Dispatch<SetStateAction<Vurderingsfelter>>;
     årsakValgt?: ÅrsakOmgjøring;
     årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
@@ -41,11 +42,11 @@ export const Årsak: React.FC<IÅrsak> = ({
                     onChange={(e) => {
                         endring(e.target.value);
                         settÅrsak(
-                            (tidligereTilstand: IVurdering) =>
+                            (tidligereTilstand: Vurderingsfelter) =>
                                 ({
                                     ...tidligereTilstand,
                                     årsak: e.target.value,
-                                }) as IVurdering
+                                }) as Vurderingsfelter
                         );
                         settVurderingEndret(true);
                     }}

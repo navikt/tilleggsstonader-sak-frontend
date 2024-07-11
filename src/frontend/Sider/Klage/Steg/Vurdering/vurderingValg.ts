@@ -1,15 +1,3 @@
-import { Hjemmel } from './hjemmel';
-
-export interface IVurdering {
-    behandlingId: string;
-    vedtak?: VedtakValg;
-    årsak?: ÅrsakOmgjøring;
-    begrunnelseOmgjøring?: string;
-    hjemmel?: Hjemmel;
-    innstillingKlageinstans?: string;
-    interntNotat?: string;
-}
-
 // VEDTAK
 export enum VedtakValg {
     OMGJØR_VEDTAK = 'OMGJØR_VEDTAK',

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { IVurdering } from './vurderingValg';
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
+import { Vurderingsfelter } from './Vurdering';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -15,7 +15,7 @@ const HjemmelInnholdStyled = styled.div`
 `;
 
 interface IHjemmel {
-    settHjemmel: Dispatch<SetStateAction<IVurdering>>;
+    settHjemmel: Dispatch<SetStateAction<Vurderingsfelter>>;
     hjemmelValgt?: Hjemmel;
     endring: (komponentId: string) => void;
 }
@@ -34,11 +34,11 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
                     onChange={(e) => {
                         endring(e.target.value);
                         settHjemmel(
-                            (tidligereTilstand: IVurdering) =>
+                            (tidligereTilstand: Vurderingsfelter) =>
                                 ({
                                     ...tidligereTilstand,
                                     hjemmel: e.target.value,
-                                }) as IVurdering
+                                }) as Vurderingsfelter
                         );
                     }}
                     hideLabel

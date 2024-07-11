@@ -11,13 +11,14 @@ import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
+import { VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import BrevMottakere from './Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import { useApp } from '../../../../context/AppContext';
+import { Vurderingsfelter } from '../Vurdering/Vurdering';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -67,7 +68,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const { request } = useApp();
 
     useEffect(() => {
-        request<IVurdering | undefined, null>(`/api/klage/vurdering/${behandlingId}`).then(
+        request<Vurderingsfelter | undefined, null>(`/api/klage/vurdering/${behandlingId}`).then(
             (response) => {
                 if (response.status === RessursStatus.SUKSESS) {
                     if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
