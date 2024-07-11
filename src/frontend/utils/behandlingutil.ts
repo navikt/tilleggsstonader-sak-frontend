@@ -23,7 +23,7 @@ export const sorterBehandlinger = <T extends { vedtaksdato?: string; opprettet: 
     return a.vedtaksdato ? 1 : -1;
 };
 
-export const mapFagsakPersonRessursTilTabellBehandling = (
+export const mapFagsakPersonTilTabellrader = (
     behandlinger: Behandling[] | undefined
 ): TabellBehandling[] => {
     const tabellBehandlinger = behandlinger?.map((behandling) => {
@@ -40,7 +40,7 @@ export const mapFagsakPersonRessursTilTabellBehandling = (
     return tabellBehandlinger ?? [];
 };
 
-export const mapKlagesakRessursTilTabellBehandling = (
+export const mapKlagesakerTilTabellrader = (
     klageBehandlinger: KlageBehandling[] | undefined
 ): TabellBehandling[] => {
     const tabellBehandlinger = klageBehandlinger?.map((klageBehandling) => {

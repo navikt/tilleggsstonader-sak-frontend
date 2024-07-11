@@ -9,8 +9,8 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
 import {
-    mapFagsakPersonRessursTilTabellBehandling,
-    mapKlagesakRessursTilTabellBehandling,
+    mapFagsakPersonTilTabellrader,
+    mapKlagesakerTilTabellrader,
     sorterBehandlinger,
 } from '../../../utils/behandlingutil';
 
@@ -27,12 +27,8 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     const rekjørHentBehandlinger = () => hentFagsakPerson(fagsakPersonId);
 
     const tabellBehandlinger = [
-        ...mapFagsakPersonRessursTilTabellBehandling(
-            pakkUtHvisSuksess(fagsakPerson)?.data.tilsynBarn?.behandlinger
-        ),
-        ...mapKlagesakRessursTilTabellBehandling(
-            pakkUtHvisSuksess(klagebehandlinger)?.data.barnetilsyn
-        ),
+        ...mapFagsakPersonTilTabellrader(pakkUtHvisSuksess(fagsakPerson)?.tilsynBarn?.behandlinger),
+        ...mapKlagesakerTilTabellrader(pakkUtHvisSuksess(klagebehandlinger)?.barnetilsyn),
     ].sort(sorterBehandlinger);
 
     return (
