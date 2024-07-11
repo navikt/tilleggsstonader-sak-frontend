@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { IVurdering } from '../Steg/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
@@ -54,9 +53,6 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
 
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
-    const initiellVurdering: IVurdering = { behandlingId: behandlingId };
-    const [oppdatertVurdering, settOppdatertVurdering] = useState<IVurdering>(initiellVurdering);
-
     return {
         behandling,
         behandlingErRedigerbar,
@@ -72,8 +68,6 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
         settÅpenHøyremeny,
         vurderingEndret,
         settVurderingEndret,
-        oppdatertVurdering,
-        settOppdatertVurdering,
         formkravOppfylt,
     };
 });

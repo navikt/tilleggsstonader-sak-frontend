@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { IVurdering, VedtakValg } from './vurderingValg';
+import { VedtakValg } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { Vurderingsfelter } from './Vurdering';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -15,7 +16,7 @@ const VedtakInnholdStyled = styled.div`
 `;
 
 interface IVedtak {
-    settVedtak: Dispatch<SetStateAction<IVurdering>>;
+    settVedtak: Dispatch<SetStateAction<Vurderingsfelter>>;
     vedtakValgt?: VedtakValg;
     vedtakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
@@ -29,13 +30,13 @@ export const Vedtak: React.FC<IVedtak> = ({
 }) => {
     const oppdaterVedtak = (nyttValg: string) => {
         settVedtak(
-            (tidligereTilstand: IVurdering) =>
+            (tidligereTilstand: Vurderingsfelter) =>
                 ({
                     ...tidligereTilstand,
                     vedtak: nyttValg,
                     årsak: undefined,
                     hjemmel: undefined,
-                }) as IVurdering
+                }) as Vurderingsfelter
         );
     };
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
-import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { alleHjemlerTilVisningstekst } from './hjemmel';
+import { Vurderingsfelter } from './Vurdering';
 
 const Container = styled.div`
     display: flex;
@@ -18,7 +19,7 @@ const FritekstfeltLesemodus = styled(BodyLong)`
     white-space: pre-wrap;
 `;
 
-export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
+export const VurderingLesemodus: React.FC<{ vurdering: Vurderingsfelter }> = ({ vurdering }) => {
     switch (vurdering.vedtak) {
         case VedtakValg.OMGJØR_VEDTAK:
             return <OmgjørVedtak vurdering={vurdering} />;
@@ -29,7 +30,7 @@ export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurder
     }
 };
 
-const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
+const OmgjørVedtak: React.FC<{ vurdering: Vurderingsfelter }> = ({ vurdering }) => {
     const { vedtak, årsak, begrunnelseOmgjøring } = vurdering;
     return (
         <Container>
@@ -61,7 +62,7 @@ const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     );
 };
 
-const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
+const OpprettholdVedtak: React.FC<{ vurdering: Vurderingsfelter }> = ({ vurdering }) => {
     const { vedtak, hjemmel, innstillingKlageinstans, interntNotat } = vurdering;
     return (
         <Container>

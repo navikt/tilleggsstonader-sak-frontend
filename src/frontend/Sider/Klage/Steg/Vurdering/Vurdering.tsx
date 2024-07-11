@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useKlageApp } from '../../context/KlageAppContext';
 import styled from 'styled-components';
-import { Alert, Button, ReadMore } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+import { VedtakValg, vedtakValgTilTekst, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
 import {
     byggTomRessurs,
     Ressurs,
@@ -22,9 +22,16 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
-import { useHentVurderinger } from '../../hooks/useHentVurderinger';
+import {
+    lagOmgjøringDto,
+    lagOpprettholdelseDto,
+    useVurdering,
+    VurderingDto,
+} from '../../hooks/useVurdering';
 import { harVerdi } from '../../../../utils/utils';
 import { useApp } from '../../../../context/AppContext';
+import { Hjemmel } from './hjemmel';
+import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -42,32 +49,23 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
-const LesMerTekst = styled(ReadMore)`
-    margin-top: 0.25rem;
-    max-width: 40rem;
-`;
-
-const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
-    const { vedtak, innstillingKlageinstans, årsak, hjemmel, begrunnelseOmgjøring } = vurderingData;
-
-    if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-        return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
-    } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
-        return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
-    } else {
-        return false;
-    }
-};
+export interface Vurderingsfelter {
+    vedtak?: VedtakValg;
+    årsak?: ÅrsakOmgjøring;
+    begrunnelseOmgjøring?: string;
+    hjemmel?: Hjemmel;
+    innstillingKlageinstans?: string;
+    interntNotat?: string;
+}
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
+
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
     const {
-        oppdatertVurdering,
-        settOppdatertVurdering,
         vurderingEndret,
         settVurderingEndret,
         hentBehandlingshistorikk,
@@ -75,7 +73,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         behandlingErRedigerbar,
     } = useKlagebehandling();
 
-    const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useHentVurderinger();
+    const [oppdatertVurdering, settOppdatertVurdering] = useState<Vurderingsfelter>({});
+
+    const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useVurdering();
+
     const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useKlageApp();
 
     const { request } = useApp();
@@ -97,31 +98,21 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             settOppdatertVurdering(vurdering.data);
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settOppdatertVurdering]);
-    //
-    const opprettVurdering = () => {
+
+    const oppdaterVurdering = () => {
         if (senderInn) {
             return;
         }
 
-        const vurderingSomSkalLagres =
-            oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
-                ? {
-                      ...oppdatertVurdering,
-                      årsak: null,
-                      begrunnelseOmgjøring: null,
-                  }
-                : {
-                      ...oppdatertVurdering,
-                      hjemmel: null,
-                      innstillingKlageinstans: null,
-                      interntNotat: null,
-                  };
+        if (!erNødvendigeFelterUtfylt(oppdatertVurdering)) {
+            return;
+        }
 
         settSenderInn(true);
         settMelding(undefined);
-        // @ts-ignore
-        lagreVurdering(vurderingSomSkalLagres).then(
-            (res: RessursSuksess<IVurdering> | RessursFeilet) => {
+
+        lagreVurdering(tilVurderingDto(oppdatertVurdering, behandlingId)).then(
+            (res: RessursSuksess<Vurderingsfelter> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     nullstillIkkePersisterteKomponenter();
                 }
@@ -133,6 +124,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         );
     };
 
+    function navigerTilBrev() {
+        navigate(`/klagebehandling/${behandlingId}/brev`);
+    }
+
     const oppdaterNotat = (tekst?: string) => {
         settOppdatertVurdering((prevState) => ({
             ...prevState,
@@ -140,10 +135,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         }));
         settIkkePersistertKomponent('internt-notat');
     };
-
-    function navigerTilBrev() {
-        navigate(`/klagebehandling/${behandlingId}/brev`);
-    }
 
     return (
         <DataViewer response={{ formkrav }}>
@@ -229,8 +220,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         <Button
                                             variant="primary"
                                             size="medium"
-                                            onClick={opprettVurdering}
-                                            disabled={!erAlleFelterUtfylt(oppdatertVurdering)}
+                                            onClick={oppdaterVurdering}
+                                            disabled={!erNødvendigeFelterUtfylt(oppdatertVurdering)}
                                         >
                                             Lagre vurdering
                                         </Button>
@@ -259,29 +250,32 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     );
 };
 
-const LesMerTekstInnstilling: React.FC = () => {
-    return (
-        <LesMerTekst size="small" header="Dette skal innstillingen inneholde">
-            <ol>
-                <li>
-                    Hva klagesaken gjelder
-                    <ol type="a">
-                        <li>
-                            Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om
-                            overgangsstønad ble avslått fordi hun har fått nytt barn med samme
-                            partner.
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    Vurdering av klagen
-                    <ol type="a">
-                        <li>Begrunn hvorfor vi opprettholder vedtaket</li>
-                        <li>Klagers argumenter skal vurderes/kommenteres</li>
-                        <li>Avslutt med konklusjon og vis til hjemmel</li>
-                    </ol>
-                </li>
-            </ol>
-        </LesMerTekst>
-    );
+const erNødvendigeFelterUtfylt = (vurderinsfelter: Vurderingsfelter): boolean => {
+    const { vedtak } = vurderinsfelter;
+
+    if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
+        const { årsak, begrunnelseOmgjøring } = vurderinsfelter;
+        return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
+    } else {
+        const { innstillingKlageinstans, hjemmel } = vurderinsfelter;
+        return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
+    }
 };
+
+/*
+ * Denne funksjonen antar at vurderingsfeltene er i en lovlig tilstand. Kaster feilmelding dersom det ikke stemmer.
+ */
+function tilVurderingDto(vurderinger: Vurderingsfelter, behandlingId: string): VurderingDto {
+    return vurderinger.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
+        ? lagOpprettholdelseDto(
+              behandlingId,
+              vurderinger.hjemmel!!,
+              vurderinger.innstillingKlageinstans!!
+          )
+        : lagOmgjøringDto(
+              behandlingId,
+              vurderinger.årsak!!,
+              vurderinger.begrunnelseOmgjøring!!,
+              vurderinger.interntNotat!!
+          );
+}
