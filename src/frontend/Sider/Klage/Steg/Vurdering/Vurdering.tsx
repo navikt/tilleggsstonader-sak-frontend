@@ -79,7 +79,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     }, [behandlingId, settFormkrav]);
 
     useEffect(() => {
-        if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
+        if (vurdering.status === RessursStatus.SUKSESS) {
             settOppdatertVurdering(vurdering.data);
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settOppdatertVurdering]);
