@@ -37,7 +37,7 @@ const byggeBrevmottakerUrlForGittKontekst = (
         return `/api/klage/brev/${behandlingId}/mottakere`;
     }
     if (applikasjonskontekst === Applikasjonskontekst.SAK) {
-        return `/api/sak/brevmottakere?behandlingId=${behandlingId}`;
+        return `/api/sak/brevmottakere/${behandlingId}`;
     }
 };
 
