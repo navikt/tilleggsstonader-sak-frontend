@@ -6,9 +6,9 @@ import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
 import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
-import { useBrevmottakere } from '../../Sider/Klage/hooks/useBrevmottakere';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`

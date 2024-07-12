@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { IBrevmottakere } from '../../../komponenter/Brevmottakere/typer';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-import { useApp } from '../../../context/AppContext';
+
+import { useApp } from '../context/AppContext';
+import { IBrevmottakere } from '../komponenter/Brevmottakere/typer';
+import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 export const useBrevmottakere = (behandlingId: string) => {
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
