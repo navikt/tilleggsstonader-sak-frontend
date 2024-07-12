@@ -11,6 +11,7 @@ import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { Applikasjonskontekst } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -80,7 +81,10 @@ const Brev: React.FC = () => {
                         {({ brevmaler, mellomlagretBrev }) => (
                             <ToKolonner>
                                 <VStack gap="8" align="start">
-                                    <BrevMottakere behandlingId={behandling.id} />
+                                    <BrevMottakere
+                                        behandlingId={behandling.id}
+                                        applikasjonskontekst={Applikasjonskontekst.SAK}
+                                    />
                                     <VelgBrevmal
                                         brevmaler={brevmaler}
                                         brevmal={brevmal}
