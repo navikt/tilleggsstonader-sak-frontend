@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IBrevmottakere } from '../Steg/Brev/Brevmottakere/typer';
+import { IBrevmottakere } from '../../../komponenter/Brevmottakere/typer';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { useApp } from '../../../context/AppContext';
 

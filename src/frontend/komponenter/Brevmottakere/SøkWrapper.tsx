@@ -1,9 +1,12 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
-import { SøkPerson } from './SøkPerson';
-import { SøkOrganisasjon } from './SøkOrganisasjon';
-import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
+
 import styled from 'styled-components';
+
 import { Ingress, Select } from '@navikt/ds-react';
+
+import { SøkOrganisasjon } from './SøkOrganisasjon';
+import { SøkPerson } from './SøkPerson';
+import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 
 interface Props {
     settValgtePersonMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;

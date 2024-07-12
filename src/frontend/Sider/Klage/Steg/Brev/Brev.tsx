@@ -13,7 +13,7 @@ import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
-import BrevMottakere from './Brevmottakere/BrevMottakere';
+import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';

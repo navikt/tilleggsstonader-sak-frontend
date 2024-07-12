@@ -1,5 +1,7 @@
 import React from 'react';
+
 import styled from 'styled-components';
+
 import { CopyButton } from '@navikt/ds-react';
 
 const NoWrapSpan = styled.span`
@@ -9,9 +11,7 @@ const NoWrapSpan = styled.span`
     align-items: center;
 `;
 
-export const Fødselsnummer: React.FC<{ fødselsnummer: string }> = ({
-    fødselsnummer,
-}) => {
+export const Fødselsnummer: React.FC<{ fødselsnummer: string }> = ({ fødselsnummer }) => {
     return (
         <NoWrapSpan>
             <span>{formaterFødselsnummer(fødselsnummer)}</span>
