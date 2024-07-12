@@ -12,6 +12,7 @@ import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVedtak } from '../../../hooks/useVedtak';
+import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
@@ -74,38 +75,41 @@ const Brev: React.FC = () => {
     return (
         <Container>
             {behandlingErRedigerbar ? (
-                <DataViewer response={{ brevmaler, mellomlagretBrev }}>
-                    {({ brevmaler, mellomlagretBrev }) => (
-                        <ToKolonner>
-                            <VStack gap="8" align="start">
-                                <VelgBrevmal
-                                    brevmaler={brevmaler}
-                                    brevmal={brevmal}
-                                    settBrevmal={settBrevmal}
-                                />
-                                <DataViewer response={{ malStruktur, vedtak }}>
-                                    {({ malStruktur, vedtak }) => (
-                                        <>
-                                            <Brevmeny
-                                                mal={malStruktur}
-                                                behandlingId={behandling.id}
-                                                mellomlagretBrev={mellomlagretBrev}
-                                                settFil={settFil}
-                                                beregningsresultat={
-                                                    erVedtakInnvilgelse(vedtak)
-                                                        ? vedtak.beregningsresultat
-                                                        : undefined
-                                                }
-                                            />
-                                            <SendTilBeslutterKnapp />
-                                        </>
-                                    )}
-                                </DataViewer>
-                            </VStack>
-                            <PdfVisning pdfFilInnhold={fil} />
-                        </ToKolonner>
-                    )}
-                </DataViewer>
+                <>
+                    <DataViewer response={{ brevmaler, mellomlagretBrev }}>
+                        {({ brevmaler, mellomlagretBrev }) => (
+                            <ToKolonner>
+                                <VStack gap="8" align="start">
+                                    <BrevMottakere behandlingId={behandling.id} />
+                                    <VelgBrevmal
+                                        brevmaler={brevmaler}
+                                        brevmal={brevmal}
+                                        settBrevmal={settBrevmal}
+                                    />
+                                    <DataViewer response={{ malStruktur, vedtak }}>
+                                        {({ malStruktur, vedtak }) => (
+                                            <>
+                                                <Brevmeny
+                                                    mal={malStruktur}
+                                                    behandlingId={behandling.id}
+                                                    mellomlagretBrev={mellomlagretBrev}
+                                                    settFil={settFil}
+                                                    beregningsresultat={
+                                                        erVedtakInnvilgelse(vedtak)
+                                                            ? vedtak.beregningsresultat
+                                                            : undefined
+                                                    }
+                                                />
+                                                <SendTilBeslutterKnapp />
+                                            </>
+                                        )}
+                                    </DataViewer>
+                                </VStack>
+                                <PdfVisning pdfFilInnhold={fil} />
+                            </ToKolonner>
+                        )}
+                    </DataViewer>
+                </>
             ) : (
                 <BrevLesevisning />
             )}
