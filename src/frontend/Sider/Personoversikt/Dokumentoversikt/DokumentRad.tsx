@@ -1,12 +1,19 @@
 import React from 'react';
 
 import { Link, Table } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
+import { AGray50, APurple500 } from '@navikt/ds-tokens/dist/tokens';
 
 import { arkivtemaerTilTekst } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterNullableIsoDatoTid } from '../../../utils/dato';
+import styled from 'styled-components';
+
+const Lenke = styled(Link)`
+    &:visited {
+        color: ${APurple500};
+    }
+`;
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
@@ -14,12 +21,12 @@ const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
             <Table.DataCell>{formaterNullableIsoDatoTid(dokument.dato)}</Table.DataCell>
             <Table.DataCell>{dokument.journalposttype}</Table.DataCell>
             <Table.DataCell>
-                <Link
+                <Lenke
                     target="_blank"
                     href={`/dokument/journalpost/${dokument.journalpostId}/dokument-pdf/${dokument.dokumentInfoId}`}
                 >
                     {dokument.tittel}
-                </Link>
+                </Lenke>
             </Table.DataCell>
             <Table.DataCell>{dokument.avsenderMottaker?.navn}</Table.DataCell>
             <Table.DataCell>{dokument.tema && arkivtemaerTilTekst[dokument.tema]}</Table.DataCell>
