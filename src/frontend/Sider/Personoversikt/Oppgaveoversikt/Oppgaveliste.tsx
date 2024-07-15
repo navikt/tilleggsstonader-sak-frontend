@@ -69,7 +69,7 @@ const Oppgaveliste: React.FC<{
                             <Table.DataCell>
                                 <Oppgaveknapp
                                     oppgave={oppgave}
-                                    oppdaterOppgaveEtterTilbakestilling={
+                                    oppdaterOppgaveEtterOppdatering={
                                         oppdaterOppgaveEtterOppdatering
                                     }
                                     laster={laster}

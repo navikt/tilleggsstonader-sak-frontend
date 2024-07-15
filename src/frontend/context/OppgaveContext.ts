@@ -43,7 +43,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         hentOppgaver(lagretFiltrering);
     }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
-    const oppdaterOppgaveEtterTilbakestilling = (oppdatertOppgave: Oppgave) => {
+    const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveRessurs((prevState) =>
             oppdaterOppgaveIOppgaveResponse(prevState, oppdatertOppgave)
         );
@@ -56,7 +56,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         hentOppgaver,
         feilmelding,
         settFeilmelding,
-        oppdaterOppgaveEtterTilbakestilling,
+        oppdaterOppgaveEtterOppdatering,
         lasterOppgaveRequestFraLocaleStorage,
         oppgaveRequest,
         settOppgaveRequest,

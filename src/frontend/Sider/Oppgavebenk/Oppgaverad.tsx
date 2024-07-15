@@ -24,8 +24,7 @@ const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => 
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
-    const { settFeilmelding, oppdaterOppgaveEtterTilbakestilling, laster, settLaster } =
-        useOppgave();
+    const { settFeilmelding, oppdaterOppgaveEtterOppdatering, laster, settLaster } = useOppgave();
 
     const [anker, settAnker] = useState<Element | null>(null);
 
@@ -76,7 +75,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             <Table.DataCell>
                 <Oppgaveknapp
                     oppgave={oppgave}
-                    oppdaterOppgaveEtterTilbakestilling={oppdaterOppgaveEtterTilbakestilling}
+                    oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                     settFeilmelding={(feilmelding: string) => settFeilmelding(feilmelding)}
                     laster={laster}
                     settLaster={settLaster}

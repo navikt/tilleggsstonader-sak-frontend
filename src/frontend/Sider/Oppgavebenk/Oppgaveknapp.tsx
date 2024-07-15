@@ -23,7 +23,7 @@ const TabellKnapp = styled(Button)`
 
 interface Props {
     oppgave: Oppgave;
-    oppdaterOppgaveEtterTilbakestilling: (oppgave: Oppgave) => void;
+    oppdaterOppgaveEtterOppdatering: (oppgave: Oppgave) => void;
     settFeilmelding: (feilmelding: string) => void;
     laster: boolean;
     settLaster: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,7 +34,7 @@ const skalViseFortsettKnapp = (oppgave: Oppgave) =>
 
 const Oppgaveknapp: React.FC<Props> = ({
     oppgave,
-    oppdaterOppgaveEtterTilbakestilling,
+    oppdaterOppgaveEtterOppdatering,
     settFeilmelding,
     laster,
     settLaster,
@@ -69,7 +69,7 @@ const Oppgaveknapp: React.FC<Props> = ({
 
     const utførHandlingOgHentOppgavePåNytt = (handling: () => Promise<Oppgave>) => () => {
         handling()
-            .then((oppdatertOppgave) => oppdaterOppgaveEtterTilbakestilling(oppdatertOppgave))
+            .then((oppdatertOppgave) => oppdaterOppgaveEtterOppdatering(oppdatertOppgave))
             .catch((error: Error) => settFeilmelding(error.message));
     };
 
