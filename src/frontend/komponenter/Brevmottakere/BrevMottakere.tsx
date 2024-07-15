@@ -9,7 +9,6 @@ import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Applikasjonskontekst, useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
-import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
@@ -35,17 +34,25 @@ const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useKlageApp();
-    const { behandlingErRedigerbar } = useKlagebehandling();
+    //TODO FIKSE DETTE behandlingErRedigerbar for SAK-frontend
+    // const { behandlingErRedigerbar } = useKlagebehandling();
+    const behandlingErRedigerbar = true;
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
-                (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
+                (person) => `${formatterBeskrivelseAvBrevmottakersRolle(person.mottakerRolle)}`
             ),
             ...brevMottakere.organisasjoner.map(
                 (org) =>
                     `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
             ),
         ];
+    };
+
+    const formatterBeskrivelseAvBrevmottakersRolle = (mottakerRolle: string): string => {
+        const rolleLowerCase = mottakerRolle.toLowerCase();
+        const firstLetterUpperCase = mottakerRolle.charAt(0).toUpperCase();
+        return firstLetterUpperCase + rolleLowerCase.slice(1);
     };
 
     const navn = utledNavnPåMottakere(mottakere);
