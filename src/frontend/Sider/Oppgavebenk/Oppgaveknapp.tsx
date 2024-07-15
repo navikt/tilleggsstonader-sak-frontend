@@ -14,7 +14,7 @@ import {
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
-import { useOppgave } from '../../context/OppgaveContext';
+import { useOppgaveFordeling } from '../../hooks/useOppgaveFordeling';
 
 const TabellKnapp = styled(Button)`
     width: fit-content;
@@ -23,17 +23,25 @@ const TabellKnapp = styled(Button)`
 
 interface Props {
     oppgave: Oppgave;
+    oppdaterOppgaveEtterTilbakestilling: (oppgave: Oppgave) => void;
+    settFeilmelding: (feilmelding: string) => void;
+    laster: boolean;
+    settLaster: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const skalViseFortsettKnapp = (oppgave: Oppgave) =>
     oppgaveErSaksbehandling(oppgave) || oppgaveErJournalføring(oppgave);
 
-const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
+const Oppgaveknapp: React.FC<Props> = ({
+    oppgave,
+    oppdaterOppgaveEtterTilbakestilling,
+    settFeilmelding,
+    laster,
+    settLaster,
+}) => {
     const { saksbehandler } = useApp();
     const navigate = useNavigate();
 
-    const { laster, settLaster, settFeilmelding, oppdaterOppgaveEtterTilbakestilling } =
-        useOppgave();
     const { settOppgaveTilSaksbehandler, tilbakestillFordeling } = useOppgaveFordeling(settLaster);
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
@@ -74,7 +82,7 @@ const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
         return null;
     } else if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (
-            <HStack justify={'space-between'}>
+            <HStack justify={skalViseFortsettKnapp(oppgave) ? 'space-between' : 'end'}>
                 {skalViseFortsettKnapp(oppgave) && (
                     <TabellKnapp
                         type={'button'}

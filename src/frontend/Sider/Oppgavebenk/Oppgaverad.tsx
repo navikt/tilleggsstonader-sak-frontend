@@ -10,6 +10,7 @@ import { useApp } from '../../context/AppContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 import { Saksbehandler } from '../../utils/saksbehandler';
 import { utledTypeBehandling } from './oppgaveutils';
+import { useOppgave } from '../../context/OppgaveContext';
 
 const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => {
     if (!oppgave.tilordnetRessurs) {
@@ -23,6 +24,9 @@ const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => 
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
+    const { settFeilmelding, oppdaterOppgaveEtterTilbakestilling, laster, settLaster } =
+        useOppgave();
+
     const [anker, settAnker] = useState<Element | null>(null);
 
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
@@ -70,7 +74,13 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             <Table.DataCell>{oppgave.navn}</Table.DataCell>
             <Table.DataCell>{utledTildeltRessurs(oppgave, saksbehandler)}</Table.DataCell>
             <Table.DataCell>
-                <Oppgaveknapp oppgave={oppgave} />
+                <Oppgaveknapp
+                    oppgave={oppgave}
+                    oppdaterOppgaveEtterTilbakestilling={oppdaterOppgaveEtterTilbakestilling}
+                    settFeilmelding={(feilmelding: string) => settFeilmelding(feilmelding)}
+                    laster={laster}
+                    settLaster={settLaster}
+                />
             </Table.DataCell>
         </Table.Row>
     );
