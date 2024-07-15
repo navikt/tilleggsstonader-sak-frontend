@@ -5,7 +5,8 @@ import { mapperTilIdRecord } from './utils';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
-import { Mappe, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
+import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
+import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -27,12 +28,19 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
         hentMapper();
     }, [fagsakPersonId, request]);
 
+    const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
+        settOppgaveResponse((prevState) =>
+            oppdaterOppgaveIOppgaveResponse(prevState, oppdatertOppgave)
+        );
+    };
+
     return (
         <DataViewer response={{ oppgaveResponse, mapper }}>
             {({ oppgaveResponse, mapper }) => (
                 <Oppgaveliste
                     oppgaver={oppgaveResponse.oppgaver}
                     mapper={mapperTilIdRecord(mapper)}
+                    oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                 />
             )}
         </DataViewer>
