@@ -1,19 +1,13 @@
 import React from 'react';
 
-import { Link, Table } from '@navikt/ds-react';
-import { AGray50, APurple500 } from '@navikt/ds-tokens/dist/tokens';
+import { Table } from '@navikt/ds-react';
+import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { arkivtemaerTilTekst } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterNullableIsoDatoTid } from '../../../utils/dato';
-import styled from 'styled-components';
-
-const Lenke = styled(Link)`
-    &:visited {
-        color: ${APurple500};
-    }
-`;
+import { Lenke } from '../../../komponenter/Lenke';
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
