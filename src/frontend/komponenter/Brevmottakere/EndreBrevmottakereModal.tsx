@@ -11,8 +11,8 @@ import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
 import { useLagreBrevmottakere } from '../../Sider/Klage/hooks/useLagreBrevmottakere';
-import { Personopplysninger } from '../../Sider/Klage/typer/personopplysninger';
 import { EToast } from '../../Sider/Klage/typer/toast';
+import { Personopplysninger } from '../../typer/personopplysninger';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { ModalWrapper } from '../Modal/ModalWrapper';
 

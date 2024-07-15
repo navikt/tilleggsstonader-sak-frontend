@@ -6,6 +6,7 @@ import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Applikasjonskontekst, useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
 import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
@@ -97,7 +98,7 @@ const BrevMottakere: React.FC<{
     behandlingId: string;
     applikasjonskontekst: Applikasjonskontekst;
 }> = ({ behandlingId, applikasjonskontekst }) => {
-    const { personopplysningerResponse } = useKlagebehandling();
+    const { personopplysninger } = usePersonopplysninger();
 
     const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
         behandlingId,
@@ -105,13 +106,13 @@ const BrevMottakere: React.FC<{
     );
 
     return (
-        <DataViewer response={{ brevmottakere, personopplysningerResponse }}>
-            {({ brevmottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ brevmottakere }}>
+            {({ brevmottakere }) => (
                 <>
                     <Brevmottakere mottakere={brevmottakere} />
                     <EndreBrevmottakereModal
                         behandlingId={behandlingId}
-                        personopplysninger={personopplysningerResponse}
+                        personopplysninger={personopplysninger}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
                     />

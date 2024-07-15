@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
-import { Personopplysninger } from '../../Sider/Klage/typer/personopplysninger';
+import { Personopplysninger } from '../../typer/personopplysninger';
 
 const StyledRadioGruppe = styled(RadioGroup)`
     display: flex;
@@ -48,7 +48,7 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                     {
                         mottakerRolle: EBrevmottakerRolle.BRUKER,
                         personIdent: personopplysninger.personIdent,
-                        navn: personopplysninger.navn,
+                        navn: personopplysninger.navn.visningsnavn,
                     },
                     ...mottakere,
                 ];
