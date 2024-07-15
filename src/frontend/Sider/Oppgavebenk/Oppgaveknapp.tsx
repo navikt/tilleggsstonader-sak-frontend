@@ -31,14 +31,10 @@ const skalViseFortsettKnapp = (oppgave: Oppgave) =>
 const Oppgaveknapp: React.FC<Props> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
     const navigate = useNavigate();
-    const {
-        settOppgaveTilSaksbehandler,
-        tilbakestillFordeling,
-        laster,
-        settFeilmelding,
-        oppdaterOppgaveEtterTilbakestilling,
-    } = useOppgave();
 
+    const { laster, settLaster, settFeilmelding, oppdaterOppgaveEtterTilbakestilling } =
+        useOppgave();
+    const { settOppgaveTilSaksbehandler, tilbakestillFordeling } = useOppgaveFordeling(settLaster);
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
 

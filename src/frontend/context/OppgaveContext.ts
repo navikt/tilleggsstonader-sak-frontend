@@ -6,14 +6,7 @@ import { useApp } from './AppContext';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
-import {
-    byggHenterRessurs,
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 import { harStrengtFortroligRolle } from '../utils/roller';
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
@@ -74,43 +67,6 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         });
     };
 
-    const fordelOppgave = useCallback(
-        (oppgave: Oppgave, tilbakestill: boolean = false) => {
-            settLaster(true);
-            return request<Oppgave, null>(
-                `/api/sak/oppgave/${oppgave.id}/fordel?versjon=${oppgave.versjon}&tilbakestill=${tilbakestill}`,
-                'POST'
-            )
-                .then((res: RessursSuksess<Oppgave> | RessursFeilet) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        return Promise.resolve(res.data);
-                    } else {
-                        return Promise.reject(
-                            new Error(
-                                `Feilet fordeling av oppgave. Feil: ${res.frontendFeilmelding}`
-                            )
-                        );
-                    }
-                })
-                .finally(() => settLaster(false));
-        },
-        [request]
-    );
-
-    const tilbakestillFordeling = useCallback(
-        (oppgave: Oppgave) => {
-            return fordelOppgave(oppgave, true);
-        },
-        [fordelOppgave]
-    );
-
-    const settOppgaveTilSaksbehandler = useCallback(
-        (oppgave: Oppgave) => {
-            return fordelOppgave(oppgave);
-        },
-        [fordelOppgave]
-    );
-
     return {
         laster,
         settLaster,
@@ -118,8 +74,6 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         hentOppgaver,
         feilmelding,
         settFeilmelding,
-        tilbakestillFordeling,
-        settOppgaveTilSaksbehandler,
         oppdaterOppgaveEtterTilbakestilling,
         lasterOppgaveRequestFraLocaleStorage,
         oppgaveRequest,
