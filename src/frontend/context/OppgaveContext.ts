@@ -6,8 +6,9 @@ import { useApp } from './AppContext';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
-import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { harStrengtFortroligRolle } from '../utils/roller';
+import { oppdaterOppgaveIOppgaveResponse } from '../Sider/Oppgavebenk/oppgaveutils';
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
     const { request, saksbehandler, appEnv } = useApp();
@@ -43,28 +44,9 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
     const oppdaterOppgaveEtterTilbakestilling = (oppdatertOppgave: Oppgave) => {
-        settOppgaveRessurs((prevState) => {
-            if (prevState.status === RessursStatus.SUKSESS) {
-                return {
-                    ...prevState,
-                    data: {
-                        ...prevState.data,
-                        oppgaver: prevState.data.oppgaver.map((oppgave) => {
-                            if (
-                                oppgave.id === oppdatertOppgave.id &&
-                                oppgave.versjon < oppdatertOppgave.versjon
-                            ) {
-                                return oppdatertOppgave;
-                            } else {
-                                return oppgave;
-                            }
-                        }),
-                    },
-                };
-            } else {
-                return prevState;
-            }
-        });
+        settOppgaveRessurs((prevState) =>
+            oppdaterOppgaveIOppgaveResponse(prevState, oppdatertOppgave)
+        );
     };
 
     return {
