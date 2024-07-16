@@ -56,8 +56,12 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } =
-        useKlagebehandling();
+    const {
+        hentBehandling,
+        hentBehandlingshistorikk,
+        behandlingErRedigerbar,
+        personopplysningerResponse,
+    } = useKlagebehandling();
     const navigate = useNavigate();
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
