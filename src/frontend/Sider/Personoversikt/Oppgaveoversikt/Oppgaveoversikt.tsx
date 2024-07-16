@@ -7,7 +7,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
-import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import { Button } from '@navikt/ds-react';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
@@ -17,20 +16,17 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
 
-    const hentOppgaver = useCallback(() => {
+    const hentOppgaverOgMapper = useCallback(() => {
         request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`).then(
             settOppgaveResponse
         );
-    }, []);
 
-    const hentMapper = useCallback(() => {
         request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
-    }, []);
+    }, [request]);
 
-    const hentOppgaverOgMapper = useRerunnableEffect(() => {
-        hentOppgaver();
-        hentMapper();
-    }, [fagsakPersonId, request]);
+    useEffect(() => {
+        hentOppgaverOgMapper();
+    }, []);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveResponse((prevState) =>
@@ -48,7 +44,7 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
                         oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                     />
                     <Button
-                        onClick={() => hentOppgaverOgMapper.rerun()}
+                        onClick={() => hentOppgaverOgMapper()}
                         size="small"
                         variant="secondary"
                         style={{ maxWidth: 'fit-content' }}
