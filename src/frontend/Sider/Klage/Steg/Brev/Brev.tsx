@@ -132,6 +132,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             <BrevMottakere
                                 behandlingId={behandlingId}
                                 applikasjonskontekst={Applikasjonskontekst.KLAGE}
+                                behandlingErRedigerbar={behandlingErRedigerbar}
                             />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (

@@ -59,9 +59,16 @@ export const EndreBrevmottakereModal: FC<{
     personopplysninger: Personopplysninger;
     mottakere: IBrevmottakere;
     kallHentBrevmottakere: () => void;
-}> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
-    const { visBrevmottakereModal, settVisBrevmottakereModal } = useKlageApp();
-
+    visBrevmottakereModal: boolean;
+    settVisBrevmottakereModal: (value: boolean) => void;
+}> = ({
+    behandlingId,
+    personopplysninger,
+    mottakere,
+    kallHentBrevmottakere,
+    visBrevmottakereModal,
+    settVisBrevmottakereModal,
+}) => {
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
 
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<

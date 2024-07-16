@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -8,7 +8,6 @@ import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Applikasjonskontekst, useBrevmottakere } from '../../hooks/useBrevmottakere';
-import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
@@ -32,11 +31,9 @@ const KompaktButton = styled(Button)`
 
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
-}> = ({ mottakere }) => {
-    const { settVisBrevmottakereModal } = useKlageApp();
-    //TODO FIKSE DETTE behandlingErRedigerbar for SAK-frontend
-    // const { behandlingErRedigerbar } = useKlagebehandling();
-    const behandlingErRedigerbar = true;
+    behandlingErRedigerbar: boolean;
+    settVisBrevmottakereModal: (value: boolean) => void;
+}> = ({ mottakere, behandlingErRedigerbar, settVisBrevmottakereModal }) => {
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
@@ -104,7 +101,8 @@ const Brevmottakere: React.FC<{
 const BrevMottakere: React.FC<{
     behandlingId: string;
     applikasjonskontekst: Applikasjonskontekst;
-}> = ({ behandlingId, applikasjonskontekst }) => {
+    behandlingErRedigerbar: boolean;
+}> = ({ behandlingId, applikasjonskontekst, behandlingErRedigerbar }) => {
     const { personopplysninger } = usePersonopplysninger();
 
     const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
@@ -112,16 +110,24 @@ const BrevMottakere: React.FC<{
         applikasjonskontekst
     );
 
+    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
+
     return (
         <DataViewer response={{ brevmottakere }}>
             {({ brevmottakere }) => (
                 <>
-                    <Brevmottakere mottakere={brevmottakere} />
+                    <Brevmottakere
+                        mottakere={brevmottakere}
+                        behandlingErRedigerbar={behandlingErRedigerbar}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                    />
                     <EndreBrevmottakereModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
+                        visBrevmottakereModal={visBrevmottakereModal}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
                     />
                 </>
             )}

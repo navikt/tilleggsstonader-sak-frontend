@@ -14,7 +14,6 @@ const [KlageAppProvider, useKlageApp] = constate(() => {
     const [toast, settToast] = useState<EToast | undefined>();
     const [valgtFagsakId, settValgtFagsakId] = useState<string>();
     const [personIdent, settPersonIdent] = useState<string>();
-    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
 
     useEffect(
         () => settUlagretData(ikkePersisterteKomponenter.size > 0),
@@ -61,8 +60,6 @@ const [KlageAppProvider, useKlageApp] = constate(() => {
         settToast,
         valgtFagsakId,
         settValgtFagsakId,
-        visBrevmottakereModal,
-        settVisBrevmottakereModal,
         personIdent,
         settPersonIdent,
     };
