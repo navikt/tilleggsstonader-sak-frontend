@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { IBrevmottakere } from '../komponenter/Brevmottakere/typer';
+import { Applikasjonskontekst, IBrevmottakere } from '../komponenter/Brevmottakere/typer';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 export const useBrevmottakere = (
@@ -40,8 +40,3 @@ const byggBrevmottakerUrlForGittKontekst = (
         return `/api/sak/brevmottakere/${behandlingId}`;
     }
 };
-
-export enum Applikasjonskontekst {
-    SAK = 'SAK',
-    KLAGE = 'KLAGE',
-}

@@ -19,7 +19,7 @@ import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import { useApp } from '../../../../context/AppContext';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
-import { Applikasjonskontekst } from '../../../../hooks/useBrevmottakere';
+import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);

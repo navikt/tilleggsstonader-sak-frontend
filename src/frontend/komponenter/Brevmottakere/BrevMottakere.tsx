@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
-import { EBrevmottakerRolle, IBrevmottakere } from './typer';
-import { Applikasjonskontekst, useBrevmottakere } from '../../hooks/useBrevmottakere';
+import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
 import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
 import DataViewer from '../DataViewer';
