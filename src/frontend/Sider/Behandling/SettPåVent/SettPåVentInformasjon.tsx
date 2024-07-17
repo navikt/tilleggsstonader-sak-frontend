@@ -14,6 +14,7 @@ import {
     formaterNullableTilTekstligDato,
     formaterTilTekstligDato,
 } from '../../../utils/dato';
+import TaAvVentModal from './TaAvVentModal';
 
 const Kommentar = styled(BodyLong)`
     white-space: pre-wrap;
@@ -28,22 +29,11 @@ const SettPåVentInformasjon: React.FC<{
     const { behandling, hentBehandling } = useBehandling();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+    const [visTaAvVentModal, settVisTaAvVentModal] = useState<boolean>(false);
 
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
 
     const datoSattPåVent = formaterTilTekstligDato(status.datoSattPåVent);
-
-    const taAvVent = () => {
-        if (laster) return;
-        settLaster(true);
-        request<null, null>(`/api/sak/sett-pa-vent/${behandling.id}`, 'DELETE').then((resp) => {
-            if (resp.status === RessursStatus.SUKSESS) {
-                hentBehandling.rerun();
-            } else {
-                settFeilmelding(resp.frontendFeilmelding);
-            }
-        });
-    };
 
     return (
         <VStack gap={'4'}>
@@ -75,11 +65,19 @@ const SettPåVentInformasjon: React.FC<{
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
                         Oppdater
                     </Button>
-                    <Button size={'small'} variant={'secondary'} onClick={taAvVent}>
+                    <Button
+                        size={'small'}
+                        variant={'secondary'}
+                        onClick={() => settVisTaAvVentModal(true)}
+                    >
                         Ta av vent
                     </Button>
                 </HStack>
             )}
+            <TaAvVentModal
+                visModal={visTaAvVentModal}
+                skjulModal={() => settVisTaAvVentModal(false)}
+            />
             <Feilmelding>{feilmelding}</Feilmelding>
         </VStack>
     );
