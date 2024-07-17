@@ -5,6 +5,13 @@ import { useApp } from '../../../context/AppContext';
 import { RessursStatus } from '../../../typer/ressurs';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { Textarea } from '@navikt/ds-react';
+
+interface TaAvVentRequest {
+    skalTilordnesRessurs: boolean;
+    kommentar?: string;
+}
 
 const TaAvVentModal: React.FC<{
     visModal: boolean;
@@ -13,13 +20,17 @@ const TaAvVentModal: React.FC<{
     const { request } = useApp();
     const { behandling, hentBehandling } = useBehandling();
 
+    const [kommentar, settKommentar] = useState('');
     const [feilmelding, settFeilmelding] = useState('');
     const [laster, settLaster] = useState(false);
 
     const taAvVent = () => {
         if (laster) return;
         settLaster(true);
-        request<null, null>(`/api/sak/sett-pa-vent/${behandling.id}`, 'DELETE').then((resp) => {
+        request<null, TaAvVentRequest>(`/api/sak/sett-pa-vent/${behandling.id}`, 'DELETE', {
+            skalTilordnesRessurs: true,
+            kommentar: kommentar,
+        }).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 hentBehandling.rerun();
             } else {
@@ -29,6 +40,7 @@ const TaAvVentModal: React.FC<{
     };
 
     const lukkModal = () => {
+        settKommentar('');
         skjulModal();
         settLaster(false);
     };
@@ -49,7 +61,15 @@ const TaAvVentModal: React.FC<{
                 },
             }}
         >
-            <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+            <FlexColumn>
+                <Textarea
+                    label="Kommentar (valgfri)"
+                    description="Forklar gjerne hvorfor saken tas av vent."
+                    value={kommentar}
+                    onChange={(e) => settKommentar(e.target.value)}
+                />
+                <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+            </FlexColumn>
         </ModalWrapper>
     );
 };
