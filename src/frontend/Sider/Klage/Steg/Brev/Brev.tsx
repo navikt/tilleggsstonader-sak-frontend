@@ -13,12 +13,13 @@ import { Alert, Button } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
-import BrevMottakere from './Brevmottakere/BrevMottakere';
+import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import { useApp } from '../../../../context/AppContext';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
+import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -128,7 +129,10 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 <BrevContainer>
                     <div>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevMottakere behandlingId={behandlingId} />
+                            <BrevMottakere
+                                behandlingId={behandlingId}
+                                applikasjonskontekst={Applikasjonskontekst.KLAGE}
+                            />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp

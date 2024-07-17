@@ -1,12 +1,15 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import { useKlageApp } from '../../../context/KlageAppContext';
+
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
-import { EBrevmottakerRolle, IBrevmottakere } from './typer';
-import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
+
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { useBrevmottakere } from '../../../hooks/useBrevmottakere';
+import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { useBrevmottakere } from '../../hooks/useBrevmottakere';
+import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
+import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
+import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
     display: grid;
@@ -90,11 +93,16 @@ const Brevmottakere: React.FC<{
         </Grid>
     );
 };
-
-const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+const BrevMottakere: React.FC<{
+    behandlingId: string;
+    applikasjonskontekst: Applikasjonskontekst;
+}> = ({ behandlingId, applikasjonskontekst }) => {
     const { personopplysningerResponse } = useKlagebehandling();
 
-    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(behandlingId);
+    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
+        behandlingId,
+        applikasjonskontekst
+    );
 
     return (
         <DataViewer response={{ brevmottakere, personopplysningerResponse }}>

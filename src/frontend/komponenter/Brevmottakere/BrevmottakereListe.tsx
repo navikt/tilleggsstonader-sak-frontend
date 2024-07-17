@@ -1,9 +1,12 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
+
 import styled from 'styled-components';
-import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
+
 import { BodyShort, Ingress } from '@navikt/ds-react';
+
 import { Fødselsnummer } from './Fødselsnummer';
-import { SøppelbøtteKnapp } from '../../../../../komponenter/Knapper/SøppelbøtteKnapp';
+import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
+import { SøppelbøtteKnapp } from '../Knapper/SøppelbøtteKnapp';
 
 interface Props {
     valgtePersonMottakere: IBrevmottaker[];
