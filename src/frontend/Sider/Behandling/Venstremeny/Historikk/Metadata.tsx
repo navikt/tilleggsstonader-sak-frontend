@@ -3,7 +3,7 @@ import React from 'react';
 import { Detail, VStack } from '@navikt/ds-react';
 
 import { HendelseMetadata } from './typer';
-import { erSettPåVentMetadata, erVedtakUnderkjentMetadata } from './utils';
+import { erSettPåVentMetadata, erTattAvVentMetadata, erVedtakUnderkjentMetadata } from './utils';
 import { årsakTilTekst } from '../../SettPåVent/typer';
 import { årsakUnderkjentTilTekst } from '../../Totrinnskontroll/typer';
 
@@ -25,6 +25,10 @@ const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
                 <Detail>Kommentar: {metadata.begrunnelse}</Detail>
             </VStack>
         );
+    }
+
+    if (erTattAvVentMetadata(metadata)) {
+        return <Detail>{metadata.kommentar}</Detail>;
     }
 
     return null;

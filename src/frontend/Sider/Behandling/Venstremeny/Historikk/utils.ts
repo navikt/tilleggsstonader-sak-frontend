@@ -11,3 +11,9 @@ export const erVedtakUnderkjentMetadata = (
 ): metadata is VedtakUnderkjentMetadata => {
     return 'årsakerUnderkjent' in metadata && !!metadata.begrunnelse;
 };
+
+export const erTattAvVentMetadata = (
+    metadata: HendelseMetadata
+): metadata is SattPåVentMetadata => {
+    return 'kommentar' in metadata;
+};
