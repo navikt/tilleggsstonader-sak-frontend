@@ -11,7 +11,7 @@ export const useBrevmottakere = (
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
     const { request } = useApp();
 
-    const urlForHentingAvBrevmottakereGittAppKontekst = byggeBrevmottakerUrlForGittKontekst(
+    const urlForHentingAvBrevmottakereGittAppKontekst = byggBrevmottakerUrlForGittKontekst(
         behandlingId,
         applikasjonskontekst
     );
@@ -29,7 +29,7 @@ export const useBrevmottakere = (
     return { brevmottakere, hentBrevmottakere };
 };
 
-const byggeBrevmottakerUrlForGittKontekst = (
+const byggBrevmottakerUrlForGittKontekst = (
     behandlingId: string,
     applikasjonskontekst: Applikasjonskontekst
 ) => {
