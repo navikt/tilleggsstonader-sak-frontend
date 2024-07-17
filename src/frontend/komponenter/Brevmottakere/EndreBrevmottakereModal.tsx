@@ -1,17 +1,20 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Personopplysninger } from '../../../typer/personopplysninger';
-import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
-import { SøkWrapper } from './SøkWrapper';
-import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
-import { useKlageApp } from '../../../context/KlageAppContext';
-import { BrevmottakereListe } from './BrevmottakereListe';
-import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
+
 import styled from 'styled-components';
+
 import { Alert, Button } from '@navikt/ds-react';
-import { EToast } from '../../../typer/toast';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
-import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
-import { useLagreBrevmottakere } from '../../../hooks/useLagreBrevmottakere';
+
+import { BrevmottakereListe } from './BrevmottakereListe';
+import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
+import { SøkWrapper } from './SøkWrapper';
+import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
+import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
+import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
+import { useLagreBrevmottakere } from '../../Sider/Klage/hooks/useLagreBrevmottakere';
+import { Personopplysninger } from '../../Sider/Klage/typer/personopplysninger';
+import { EToast } from '../../Sider/Klage/typer/toast';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
+import { ModalWrapper } from '../Modal/ModalWrapper';
 
 const GridContainer = styled.div`
     display: grid;
@@ -24,7 +27,7 @@ const Venstrekolonne = styled.div`
 `;
 
 const Høyrekolonne = styled.div`
-    margin-right: 2rem
+    margin-right: 2rem;
 `;
 
 const SentrerKnapper = styled.div`
@@ -51,7 +54,6 @@ const VertikalLinje = styled.div`
     width: 5px;
     margin-bottom: 1rem;
 `;
-
 export const EndreBrevmottakereModal: FC<{
     behandlingId: string;
     personopplysninger: Personopplysninger;
@@ -69,7 +71,7 @@ export const EndreBrevmottakereModal: FC<{
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
     const { settToast } = useKlageApp();
 
-    const { lagreBrevmottakere }  = useLagreBrevmottakere(behandlingId)
+    const { lagreBrevmottakere } = useLagreBrevmottakere(behandlingId);
 
     useEffect(() => {
         settValgtePersonMottakere(mottakere.personer);

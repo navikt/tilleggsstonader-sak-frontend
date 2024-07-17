@@ -1,4 +1,4 @@
-import { IBrevmottakere } from '../Steg/Brev/Brevmottakere/typer';
+import { IBrevmottakere } from '../../../komponenter/Brevmottakere/typer';
 import { useApp } from '../../../context/AppContext';
 
 export const useLagreBrevmottakere = (behandlingId: string) => {
