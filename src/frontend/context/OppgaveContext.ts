@@ -6,15 +6,9 @@ import { useApp } from './AppContext';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
-import {
-    byggHenterRessurs,
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { harStrengtFortroligRolle } from '../utils/roller';
+import { oppdaterOppgaveIOppgaveResponse } from '../Sider/Oppgavebenk/oppgaveutils';
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
     const { request, saksbehandler, appEnv } = useApp();
@@ -49,67 +43,11 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         hentOppgaver(lagretFiltrering);
     }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
 
-    const oppdaterOppgaveEtterTilbakestilling = (oppdatertOppgave: Oppgave) => {
-        settOppgaveRessurs((prevState) => {
-            if (prevState.status === RessursStatus.SUKSESS) {
-                return {
-                    ...prevState,
-                    data: {
-                        ...prevState.data,
-                        oppgaver: prevState.data.oppgaver.map((oppgave) => {
-                            if (
-                                oppgave.id === oppdatertOppgave.id &&
-                                oppgave.versjon < oppdatertOppgave.versjon
-                            ) {
-                                return oppdatertOppgave;
-                            } else {
-                                return oppgave;
-                            }
-                        }),
-                    },
-                };
-            } else {
-                return prevState;
-            }
-        });
+    const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
+        settOppgaveRessurs((prevState) =>
+            oppdaterOppgaveIOppgaveResponse(prevState, oppdatertOppgave)
+        );
     };
-
-    const fordelOppgave = useCallback(
-        (oppgave: Oppgave, tilbakestill: boolean = false) => {
-            settLaster(true);
-            return request<Oppgave, null>(
-                `/api/sak/oppgave/${oppgave.id}/fordel?versjon=${oppgave.versjon}&tilbakestill=${tilbakestill}`,
-                'POST'
-            )
-                .then((res: RessursSuksess<Oppgave> | RessursFeilet) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        return Promise.resolve(res.data);
-                    } else {
-                        return Promise.reject(
-                            new Error(
-                                `Feilet fordeling av oppgave. Feil: ${res.frontendFeilmelding}`
-                            )
-                        );
-                    }
-                })
-                .finally(() => settLaster(false));
-        },
-        [request]
-    );
-
-    const tilbakestillFordeling = useCallback(
-        (oppgave: Oppgave) => {
-            return fordelOppgave(oppgave, true);
-        },
-        [fordelOppgave]
-    );
-
-    const settOppgaveTilSaksbehandler = useCallback(
-        (oppgave: Oppgave) => {
-            return fordelOppgave(oppgave);
-        },
-        [fordelOppgave]
-    );
 
     return {
         laster,
@@ -118,9 +56,7 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         hentOppgaver,
         feilmelding,
         settFeilmelding,
-        tilbakestillFordeling,
-        settOppgaveTilSaksbehandler,
-        oppdaterOppgaveEtterTilbakestilling,
+        oppdaterOppgaveEtterOppdatering,
         lasterOppgaveRequestFraLocaleStorage,
         oppgaveRequest,
         settOppgaveRequest,
