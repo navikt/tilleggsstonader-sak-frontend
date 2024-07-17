@@ -1,9 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { IOrganisasjonMottaker } from './typer';
-import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
+
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
-import { useOrganisasjonssøk } from '../../../../../hooks/useSøkOrganisasjon';
+
+import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
+import { IOrganisasjonMottaker } from './typer';
+import { useOrganisasjonssøk } from '../../hooks/useSøkOrganisasjon';
+import DataViewer from '../DataViewer';
 
 interface Props {
     valgteMottakere: IOrganisasjonMottaker[];

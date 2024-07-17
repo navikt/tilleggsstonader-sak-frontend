@@ -1,5 +1,6 @@
-import { TextField } from '@navikt/ds-react';
 import styled from 'styled-components';
+
+import { TextField } from '@navikt/ds-react';
 
 export const Søkefelt = styled(TextField)`
     width: 50%;

@@ -1,10 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { EBrevmottakerRolle, IBrevmottaker } from './typer';
+
 import { BodyShort, Button } from '@navikt/ds-react';
+
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
+import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { VertikalSentrering } from './VertikalSentrering';
-import { usePersonsøk } from '../../../../../hooks/useSøkPerson';
+import { usePersonsøk } from '../../hooks/useSøkPerson';
+import DataViewer from '../DataViewer';
 
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
