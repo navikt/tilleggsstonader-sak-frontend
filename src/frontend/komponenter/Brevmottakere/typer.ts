@@ -20,3 +20,8 @@ export enum EBrevmottakerRolle {
     VERGE = 'VERGE',
     FULLMAKT = 'FULLMAKT',
 }
+
+export enum Applikasjonskontekst {
+    SAK = 'SAK',
+    KLAGE = 'KLAGE',
+}
