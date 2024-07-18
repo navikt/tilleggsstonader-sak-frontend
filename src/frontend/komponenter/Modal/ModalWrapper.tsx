@@ -13,7 +13,11 @@ interface ModalProps {
     tittel?: string;
     visModal: boolean;
     onClose?: () => void;
-    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp };
+    aksjonsknapper?: {
+        hovedKnapp: Aksjonsknapp;
+        lukkKnapp: Aksjonsknapp;
+        sekundærKnapp?: Aksjonsknapp;
+    };
     maxWidth?: number;
     ariaLabel?: string;
     children?: React.ReactNode;
@@ -54,6 +58,16 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         >
                             {aksjonsknapper.hovedKnapp.tekst}
                         </Button>
+                        {aksjonsknapper.sekundærKnapp && (
+                            <Button
+                                variant="secondary"
+                                onClick={aksjonsknapper.sekundærKnapp.onClick}
+                                disabled={aksjonsknapper.sekundærKnapp.disabled}
+                                size="small"
+                            >
+                                {aksjonsknapper.sekundærKnapp.tekst}
+                            </Button>
+                        )}
                         <Button
                             variant="tertiary"
                             onClick={aksjonsknapper.lukkKnapp.onClick}
