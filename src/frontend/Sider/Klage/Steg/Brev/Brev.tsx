@@ -20,6 +20,9 @@ import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaste
 import { useApp } from '../../../../context/AppContext';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
 import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
+import { PersonopplysningerIBrevmottakere } from '../../../Behandling/Brev/typer';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -56,8 +59,12 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } =
-        useKlagebehandling();
+    const {
+        hentBehandling,
+        hentBehandlingshistorikk,
+        behandlingErRedigerbar,
+        personopplysningerFraKlageResponse,
+    } = useKlagebehandling();
     const navigate = useNavigate();
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -123,16 +130,40 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settFeilmelding('');
     };
 
+    const mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker = (
+        personopplysninger: PersonopplysningerFraKlage
+    ): PersonopplysningerIBrevmottakere => {
+        return {
+            personIdent: personopplysninger.personIdent,
+            navn: personopplysninger.navn,
+            harVergemål: personopplysninger.vergemål.length !== 0,
+            fullmakt: personopplysninger.fullmakt,
+            vergemål: personopplysninger.vergemål,
+        };
+    };
+
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
                 <BrevContainer>
                     <div>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevMottakere
-                                behandlingId={behandlingId}
-                                applikasjonskontekst={Applikasjonskontekst.KLAGE}
-                            />
+                            <DataViewer
+                                response={{
+                                    personopplysningerFraKlageResponse,
+                                }}
+                            >
+                                {({ personopplysningerFraKlageResponse }) => (
+                                    <BrevMottakere
+                                        behandlingId={behandlingId}
+                                        applikasjonskontekst={Applikasjonskontekst.KLAGE}
+                                        behandlingErRedigerbar={behandlingErRedigerbar}
+                                        personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
+                                            personopplysningerFraKlageResponse
+                                        )}
+                                    />
+                                )}
+                            </DataViewer>
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp

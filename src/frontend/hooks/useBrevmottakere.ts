@@ -29,14 +29,16 @@ export const useBrevmottakere = (
     return { brevmottakere, hentBrevmottakere };
 };
 
-const byggBrevmottakerUrlForGittKontekst = (
+export const byggBrevmottakerUrlForGittKontekst = (
     behandlingId: string,
     applikasjonskontekst: Applikasjonskontekst
-) => {
+): string => {
     if (applikasjonskontekst === Applikasjonskontekst.KLAGE) {
         return `/api/klage/brev/${behandlingId}/mottakere`;
     }
     if (applikasjonskontekst === Applikasjonskontekst.SAK) {
         return `/api/sak/brevmottakere/${behandlingId}`;
+    } else {
+        return 'IKKE-GYDLIG-URL';
     }
 };

@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
-import { Personopplysninger } from '../../typer/personopplysninger';
+import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 import styled from 'styled-components';
-import { erBehandlingRedigerbar, Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import {
+    erBehandlingRedigerbar,
+    Klagebehandling,
+} from '../../typer/klagebehandling/klagebehandling';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Hamburgermeny } from './Hamburgermeny';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
@@ -45,12 +48,9 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
 `;
 
 export const Statusheader: FC<{
-    personopplysninger: Personopplysninger;
+    personopplysninger: PersonopplysningerFraKlage;
     behandling: Klagebehandling;
-}> = ({
-    personopplysninger,
-    behandling
-}) => {
+}> = ({ personopplysninger, behandling }) => {
     const {
         personIdent,
         kjønn,
@@ -101,14 +101,13 @@ export const Statusheader: FC<{
                         <EtikettFokus>Verge</EtikettFokus>
                     </ElementWrapper>
                 )}
-
             </Visittkort>
 
             {behandling && (
                 <>
-                    <AlleStatuser behandling={behandling}/>
+                    <AlleStatuser behandling={behandling} />
                     <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling}/>
+                        <StatusMeny behandling={behandling} />
                     </StatuserLitenSkjerm>
                 </>
             )}
