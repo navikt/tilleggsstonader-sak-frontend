@@ -8,7 +8,7 @@ import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottake
 import { Fødselsnummer } from './Fødselsnummer';
 import { IBrevmottaker } from './typer';
 import { VertikalSentrering } from './VertikalSentrering';
-import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysninger';
+import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -7,8 +7,7 @@ import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { useBrevmottakere } from '../../hooks/useBrevmottakere';
-import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
-import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
+import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
@@ -32,19 +31,25 @@ const KompaktButton = styled(Button)`
 
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
-}> = ({ mottakere }) => {
-    const { settVisBrevmottakereModal } = useKlageApp();
-    const { behandlingErRedigerbar } = useKlagebehandling();
+    behandlingErRedigerbar: boolean;
+    settVisBrevmottakereModal: (value: boolean) => void;
+}> = ({ mottakere, behandlingErRedigerbar, settVisBrevmottakereModal }) => {
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
-                (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
+                (person) => `${formatterBeskrivelseAvBrevmottakersRolle(person.mottakerRolle)}`
             ),
             ...brevMottakere.organisasjoner.map(
                 (org) =>
                     `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
             ),
         ];
+    };
+
+    const formatterBeskrivelseAvBrevmottakersRolle = (mottakerRolle: string): string => {
+        const rolleLowerCase = mottakerRolle.toLowerCase();
+        const firstLetterUpperCase = mottakerRolle.charAt(0).toUpperCase();
+        return firstLetterUpperCase + rolleLowerCase.slice(1);
     };
 
     const navn = utledNavnPåMottakere(mottakere);
@@ -96,24 +101,33 @@ const Brevmottakere: React.FC<{
 const BrevMottakere: React.FC<{
     behandlingId: string;
     applikasjonskontekst: Applikasjonskontekst;
-}> = ({ behandlingId, applikasjonskontekst }) => {
-    const { personopplysningerResponse } = useKlagebehandling();
-
+    behandlingErRedigerbar: boolean;
+    personopplysninger: PersonopplysningerIBrevmottakere;
+}> = ({ behandlingId, applikasjonskontekst, behandlingErRedigerbar, personopplysninger }) => {
     const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
         behandlingId,
         applikasjonskontekst
     );
 
+    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
+
     return (
-        <DataViewer response={{ brevmottakere, personopplysningerResponse }}>
-            {({ brevmottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ brevmottakere }}>
+            {({ brevmottakere }) => (
                 <>
-                    <Brevmottakere mottakere={brevmottakere} />
+                    <Brevmottakere
+                        mottakere={brevmottakere}
+                        behandlingErRedigerbar={behandlingErRedigerbar}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                    />
                     <EndreBrevmottakereModal
                         behandlingId={behandlingId}
-                        personopplysninger={personopplysningerResponse}
+                        personopplysninger={personopplysninger}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
+                        visBrevmottakereModal={visBrevmottakereModal}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                        applikasjonskontekst={applikasjonskontekst}
                     />
                 </>
             )}

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
-import { Personopplysninger } from '../../Sider/Klage/typer/personopplysninger';
+import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 
 const StyledRadioGruppe = styled(RadioGroup)`
     display: flex;
@@ -22,7 +22,7 @@ const Underoverskrift = styled(Ingress)`
 interface Props {
     valgteBrevmottakere: IBrevmottaker[];
     settValgtBrevMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
-    personopplysninger: Personopplysninger;
+    personopplysninger: PersonopplysningerIBrevmottakere;
 }
 export const SkalBrukerHaBrev: FC<Props> = ({
     valgteBrevmottakere,

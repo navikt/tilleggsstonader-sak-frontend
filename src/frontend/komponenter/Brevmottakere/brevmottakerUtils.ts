@@ -1,5 +1,5 @@
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
-import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysninger';
+import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
 
 export const vergemålTilBrevmottaker = (vergemål: Vergemål): IBrevmottaker => ({
     navn: vergemål.navn || '',

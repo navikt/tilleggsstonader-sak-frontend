@@ -1,4 +1,4 @@
-export interface Personopplysninger {
+export interface PersonopplysningerFraKlage {
     personIdent: string;
     fagsakPersonId: string;
     navn: string;
