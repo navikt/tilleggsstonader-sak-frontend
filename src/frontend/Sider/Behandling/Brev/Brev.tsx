@@ -14,8 +14,6 @@ import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useVedtak } from '../../../hooks/useVedtak';
-import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
-import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Personopplysninger } from '../../../typer/personopplysninger';
@@ -96,14 +94,14 @@ const Brev: React.FC = () => {
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
-                                <BrevMottakere
-                                    behandlingId={behandling.id}
-                                    applikasjonskontekst={Applikasjonskontekst.SAK}
-                                    behandlingErRedigerbar={behandlingErRedigerbar}
-                                    personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
-                                        personopplysninger
-                                    )}
-                                />
+                                {/*<BrevMottakere*/}
+                                {/*    behandlingId={behandling.id}*/}
+                                {/*    applikasjonskontekst={Applikasjonskontekst.SAK}*/}
+                                {/*    behandlingErRedigerbar={behandlingErRedigerbar}*/}
+                                {/*    personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(*/}
+                                {/*        personopplysninger*/}
+                                {/*    )}*/}
+                                {/*/>*/}
                                 <VelgBrevmal
                                     brevmaler={brevmaler}
                                     brevmal={brevmal}
