@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Box, Tabs } from '@navikt/ds-react';
@@ -9,7 +8,6 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
-import { Toggle } from '../../../utils/toggles';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
 const Container = styled.div`
