@@ -13,6 +13,7 @@ export type HendelseMetadata = SattPåVentMetadata | VedtakUnderkjentMetadata | 
 
 export interface SattPåVentMetadata {
     årsaker: ÅrsakSettPåVent[];
+    kommentarSettPåVent?: string;
 }
 
 export interface VedtakUnderkjentMetadata {
