@@ -9,20 +9,12 @@ import { RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
 interface Props {
-    visModal: boolean;
-    settVisModal: (vis: boolean) => void;
-    behandlingId: string | undefined;
+    behandlingId: string;
     settBehandlingId: (behandlingId: string | undefined) => void;
     hentBehandlinger: () => void;
 }
 
-const HenleggModal: React.FC<Props> = ({
-    visModal,
-    settVisModal,
-    behandlingId,
-    settBehandlingId,
-    hentBehandlinger,
-}) => {
+const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBehandlinger }) => {
     const { request, settToast } = useApp();
 
     const [laster, settLaster] = useState(false);
@@ -32,15 +24,14 @@ const HenleggModal: React.FC<Props> = ({
     const lukkModal = () => {
         settFeilmelding('');
         settBehandlingId(undefined);
-        settVisModal(false);
     };
 
     const henleggBehandling = () => {
-        if (!behandlingId || !henlagtårsak || laster) return;
+        if (!henlagtårsak || laster) return;
 
         settLaster(true);
 
-        request<string, { årsak: string }>(`/api/sak/behandling/${behandlingId}/henlegg`, 'POST', {
+        request<null, { årsak: string }>(`/api/sak/behandling/${behandlingId}/henlegg`, 'POST', {
             årsak: henlagtårsak,
         })
             .then((respons) => {
@@ -57,7 +48,7 @@ const HenleggModal: React.FC<Props> = ({
 
     return (
         <ModalWrapper
-            visModal={visModal}
+            visModal={true}
             onClose={() => {}}
             tittel={'Henlegg behandling'}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}

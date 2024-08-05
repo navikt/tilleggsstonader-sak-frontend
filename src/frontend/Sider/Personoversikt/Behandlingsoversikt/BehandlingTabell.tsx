@@ -50,12 +50,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
     const utledUrl = (type: BehandlingType) =>
         type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
 
-    const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [behandlingIdForHenleggelse, settBehandlingIdForHenleggelse] = useState<string>();
-    const åpneHenleggModal = (behandlingId: string) => {
-        settBehandlingIdForHenleggelse(behandlingId);
-        settVisHenleggModal(true);
-    };
 
     return (
         <>
@@ -97,7 +92,9 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                     <Button
                                         variant="secondary"
                                         size="small"
-                                        onClick={() => åpneHenleggModal(behandling.id)}
+                                        onClick={() =>
+                                            settBehandlingIdForHenleggelse(behandling.id)
+                                        }
                                     >
                                         Henlegg
                                     </Button>
@@ -107,13 +104,13 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                     ))}
                 </Table.Body>
             </Table>
-            <HenleggModal
-                visModal={visHenleggModal}
-                settVisModal={settVisHenleggModal}
-                behandlingId={behandlingIdForHenleggelse}
-                settBehandlingId={settBehandlingIdForHenleggelse}
-                hentBehandlinger={hentBehandlinger}
-            />
+            {behandlingIdForHenleggelse && (
+                <HenleggModal
+                    behandlingId={behandlingIdForHenleggelse}
+                    settBehandlingId={settBehandlingIdForHenleggelse}
+                    hentBehandlinger={hentBehandlinger}
+                />
+            )}
         </>
     );
 };
