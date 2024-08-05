@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Table } from '@navikt/ds-react';
+import { Button, HStack, Table } from '@navikt/ds-react';
 
 import HenleggModal from './HenleggModal';
 import { Behandling } from '../../../typer/behandling/behandling';
@@ -43,6 +43,8 @@ interface Props {
 }
 
 const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinger }) => {
+    const navigate = useNavigate();
+
     const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
         behandling.type !== BehandlingType.KLAGE &&
         erBehandlingRedigerbar(behandling.status as BehandlingStatus);
@@ -51,6 +53,11 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
         type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
 
     const [behandlingIdForHenleggelse, settBehandlingIdForHenleggelse] = useState<string>();
+
+    const gåTilBehandling = (behandling: TabellBehandling) => {
+        const url = `${utledUrl(behandling.type)}/${behandling.id}`;
+        navigate(url);
+    };
 
     return (
         <>
@@ -77,28 +84,40 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                             <Table.DataCell>
                                 {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
                             </Table.DataCell>
-
                             <Table.DataCell>
-                                <Link
-                                    to={{
-                                        pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
-                                    }}
-                                >
-                                    {formaterEnumVerdi(behandling.resultat)}
-                                </Link>
+                                {formaterEnumVerdi(behandling.resultat)}
                             </Table.DataCell>
                             <Table.DataCell>
-                                {skalViseHenleggKnapp(behandling) && (
-                                    <Button
-                                        variant="tertiary"
-                                        size="small"
-                                        onClick={() =>
-                                            settBehandlingIdForHenleggelse(behandling.id)
-                                        }
-                                    >
-                                        Henlegg
-                                    </Button>
-                                )}
+                                <HStack gap="2">
+                                    {behandling.status !== BehandlingStatus.FERDIGSTILT ? (
+                                        <Button
+                                            size="small"
+                                            variant="secondary"
+                                            onClick={() => gåTilBehandling(behandling)}
+                                        >
+                                            Gå til behandling
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            size="small"
+                                            variant="tertiary"
+                                            onClick={() => gåTilBehandling(behandling)}
+                                        >
+                                            Se behandling
+                                        </Button>
+                                    )}
+                                    {skalViseHenleggKnapp(behandling) && (
+                                        <Button
+                                            variant="tertiary"
+                                            size="small"
+                                            onClick={() =>
+                                                settBehandlingIdForHenleggelse(behandling.id)
+                                            }
+                                        >
+                                            Henlegg
+                                        </Button>
+                                    )}
+                                </HStack>
                             </Table.DataCell>
                         </Table.Row>
                     ))}
