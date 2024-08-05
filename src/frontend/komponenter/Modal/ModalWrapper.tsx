@@ -27,6 +27,7 @@ interface Aksjonsknapp {
     onClick: () => void;
     tekst: string;
     disabled?: boolean;
+    spinner?: boolean;
 }
 
 export const ModalWrapper: React.FC<ModalProps> = ({
@@ -54,6 +55,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                             variant="primary"
                             onClick={aksjonsknapper.hovedKnapp.onClick}
                             disabled={aksjonsknapper.hovedKnapp.disabled}
+                            loading={aksjonsknapper.hovedKnapp.spinner}
                             size="small"
                         >
                             {aksjonsknapper.hovedKnapp.tekst}
@@ -63,6 +65,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                                 variant="secondary"
                                 onClick={aksjonsknapper.sekundærKnapp.onClick}
                                 disabled={aksjonsknapper.sekundærKnapp.disabled}
+                                loading={aksjonsknapper.sekundærKnapp.spinner}
                                 size="small"
                             >
                                 {aksjonsknapper.sekundærKnapp.tekst}
@@ -72,6 +75,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                             variant="tertiary"
                             onClick={aksjonsknapper.lukkKnapp.onClick}
                             disabled={aksjonsknapper.lukkKnapp.disabled}
+                            loading={aksjonsknapper.lukkKnapp.spinner}
                             size="small"
                         >
                             {aksjonsknapper.lukkKnapp.tekst}

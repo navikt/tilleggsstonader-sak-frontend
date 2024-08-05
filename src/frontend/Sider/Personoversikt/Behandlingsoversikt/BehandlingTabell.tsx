@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { Button, Table } from '@navikt/ds-react';
 
-import { useApp } from '../../../context/AppContext';
+import HenleggModal from './HenleggModal';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import {
@@ -39,22 +39,10 @@ export interface TabellBehandling {
 
 interface Props {
     tabellbehandlinger: TabellBehandling[];
+    hentBehandlinger: () => void;
 }
 
-const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
-    const { request } = useApp();
-
-    const henleggBehandling = useCallback(
-        (behandlingId: string) => {
-            request<string, { årsak: string }>(
-                `/api/sak/behandling/${behandlingId}/henlegg`,
-                'POST',
-                { årsak: 'FEILREGISTRERT' }
-            );
-        },
-        [request]
-    );
-
+const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinger }) => {
     const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
         behandling.type !== BehandlingType.KLAGE &&
         erBehandlingRedigerbar(behandling.status as BehandlingStatus);
@@ -62,51 +50,68 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
     const utledUrl = (type: BehandlingType) =>
         type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
 
-    return (
-        <Table size="small">
-            <Table.Header>
-                <Table.Row>
-                    {Object.entries(TabellData).map(([key, value], indeks) => (
-                        <Table.HeaderCell key={`${indeks}${key}`}>{value}</Table.HeaderCell>
-                    ))}
-                    <Table.HeaderCell />
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {tabellbehandlinger.map((behandling) => (
-                    <Table.Row key={behandling.id}>
-                        <Table.DataCell>{formaterIsoDatoTid(behandling.opprettet)}</Table.DataCell>
-                        <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
-                        <Table.DataCell>
-                            {formaterEnumVerdi(behandling.behandlingsårsak)}
-                        </Table.DataCell>
-                        <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
-                        <Table.DataCell>
-                            {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
-                        </Table.DataCell>
+    const [behandlingIdForHenleggelse, settBehandlingIdForHenleggelse] = useState<string>();
 
-                        <Table.DataCell>
-                            <Link
-                                to={{ pathname: `${utledUrl(behandling.type)}/${behandling.id}` }}
-                            >
-                                {formaterEnumVerdi(behandling.resultat)}
-                            </Link>
-                        </Table.DataCell>
-                        <Table.DataCell>
-                            {skalViseHenleggKnapp(behandling) && (
-                                <Button
-                                    variant="secondary"
-                                    size="small"
-                                    onClick={() => henleggBehandling(behandling.id)}
-                                >
-                                    Henlegg
-                                </Button>
-                            )}
-                        </Table.DataCell>
+    return (
+        <>
+            <Table size="small">
+                <Table.Header>
+                    <Table.Row>
+                        {Object.entries(TabellData).map(([key, value], indeks) => (
+                            <Table.HeaderCell key={`${indeks}${key}`}>{value}</Table.HeaderCell>
+                        ))}
+                        <Table.HeaderCell />
                     </Table.Row>
-                ))}
-            </Table.Body>
-        </Table>
+                </Table.Header>
+                <Table.Body>
+                    {tabellbehandlinger.map((behandling) => (
+                        <Table.Row key={behandling.id}>
+                            <Table.DataCell>
+                                {formaterIsoDatoTid(behandling.opprettet)}
+                            </Table.DataCell>
+                            <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterEnumVerdi(behandling.behandlingsårsak)}
+                            </Table.DataCell>
+                            <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
+                            </Table.DataCell>
+
+                            <Table.DataCell>
+                                <Link
+                                    to={{
+                                        pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
+                                    }}
+                                >
+                                    {formaterEnumVerdi(behandling.resultat)}
+                                </Link>
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {skalViseHenleggKnapp(behandling) && (
+                                    <Button
+                                        variant="tertiary"
+                                        size="small"
+                                        onClick={() =>
+                                            settBehandlingIdForHenleggelse(behandling.id)
+                                        }
+                                    >
+                                        Henlegg
+                                    </Button>
+                                )}
+                            </Table.DataCell>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table>
+            {behandlingIdForHenleggelse && (
+                <HenleggModal
+                    behandlingId={behandlingIdForHenleggelse}
+                    settBehandlingId={settBehandlingIdForHenleggelse}
+                    hentBehandlinger={hentBehandlinger}
+                />
+            )}
+        </>
     );
 };
 
