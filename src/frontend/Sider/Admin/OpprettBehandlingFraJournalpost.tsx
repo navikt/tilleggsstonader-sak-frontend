@@ -23,7 +23,7 @@ const Container = styled.div`
     gap: 0.5rem;
 `;
 
-interface JournalpostStatus {
+interface JournalpostData {
     ident: string;
     barnIdenterFraSøknad: string[];
     fagsakId?: string;
@@ -34,20 +34,20 @@ const OpprettBehandlingFraJournalpost: React.FC = () => {
     const navigate = useNavigate();
     const [journalpostId, settJournalpostId] = useState<string>('');
 
-    const [journalpostStatus, settJournalpostStatus] =
-        useState<Ressurs<JournalpostStatus>>(byggTomRessurs());
+    const [journalpostData, settJournalpostData] =
+        useState<Ressurs<JournalpostData>>(byggTomRessurs());
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
-        useState<Ressurs<JournalpostStatus>>(byggTomRessurs());
+        useState<Ressurs<JournalpostData>>(byggTomRessurs());
 
     const hentJournalpostStatus = () => {
         if (!journalpostId.trim()) {
-            settJournalpostStatus(byggFeiletRessurs('Mangler journalpostId'));
+            settJournalpostData(byggFeiletRessurs('Mangler journalpostId'));
             return;
         }
-        settJournalpostStatus(byggHenterRessurs());
-        request<JournalpostStatus, null>(`/api/sak/behandling/journalpost/${journalpostId}`).then(
-            settJournalpostStatus
+        settJournalpostData(byggHenterRessurs());
+        request<JournalpostData, null>(`/api/sak/behandling/journalpost/${journalpostId}`).then(
+            settJournalpostData
         );
     };
 
@@ -57,7 +57,7 @@ const OpprettBehandlingFraJournalpost: React.FC = () => {
             return;
         }
 
-        request<JournalpostStatus, string>(
+        request<JournalpostData, string>(
             `/api/sak/behandling/journalpost/${journalpostId}`,
             'POST',
             undefined
@@ -97,13 +97,13 @@ const OpprettBehandlingFraJournalpost: React.FC = () => {
                 Hent info om journalpost
             </Button>
 
-            <DataViewer response={{ journalpostStatus }}>
-                {({ journalpostStatus }) => (
+            <DataViewer response={{ journalpostData }}>
+                {({ journalpostData }) => (
                     <>
                         <Heading size={'small'}>Informasjon fra søknad</Heading>
-                        <BodyLong>Søker: {journalpostStatus.ident}</BodyLong>
+                        <BodyLong>Søker: {journalpostData.ident}</BodyLong>
                         <List title={'Barn i søknad'}>
-                            {journalpostStatus.barnIdenterFraSøknad.map((ident, indeks) => (
+                            {journalpostData.barnIdenterFraSøknad.map((ident, indeks) => (
                                 <List.Item key={indeks}>{ident}</List.Item>
                             ))}
                         </List>
