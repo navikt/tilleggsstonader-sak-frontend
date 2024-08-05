@@ -49,7 +49,7 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
     return (
         <ModalWrapper
             visModal={true}
-            onClose={() => {}}
+            onClose={lukkModal}
             tittel={'Henlegg behandling'}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
             aksjonsknapper={{
