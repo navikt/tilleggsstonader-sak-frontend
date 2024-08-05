@@ -3,11 +3,11 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
+import { Lenke } from '../../../komponenter/Lenke';
 import { arkivtemaerTilTekst } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
 import { journalstatuserTilTekst } from '../../../typer/journalpost';
 import { formaterNullableIsoDatoTid } from '../../../utils/dato';
-import { Lenke } from '../../../komponenter/Lenke';
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
