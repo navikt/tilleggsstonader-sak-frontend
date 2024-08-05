@@ -90,7 +90,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                             <Table.DataCell>
                                 {skalViseHenleggKnapp(behandling) && (
                                     <Button
-                                        variant="secondary"
+                                        variant="tertiary"
                                         size="small"
                                         onClick={() =>
                                             settBehandlingIdForHenleggelse(behandling.id)
