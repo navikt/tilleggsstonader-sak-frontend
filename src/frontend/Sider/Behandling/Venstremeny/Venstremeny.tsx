@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Box, Tabs } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
+import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
@@ -40,7 +41,7 @@ const tabs = [
     {
         value: 'dokumenter',
         label: 'Dokumenter',
-        komponent: <div>Dokumenter</div>,
+        komponent: <Dokumentoversikt />,
     },
 ];
 
