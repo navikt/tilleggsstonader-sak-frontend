@@ -21,16 +21,26 @@ const StickyTablistContainer = styled(Sticky)`
     border-right: 1px solid ${ABorderDefault};
 `;
 
+const Tab = styled(Tabs.Tab)`
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+`;
+
 const tabs = [
     {
         value: 'søknaden',
-        label: 'Søknaden',
+        label: 'Søknad',
         komponent: <OppsummeringSøknad />,
     },
     {
         value: 'historikk',
         label: 'Historikk',
         komponent: <Historikk />,
+    },
+    {
+        value: 'dokumenter',
+        label: 'Dokumenter',
+        komponent: <div>Dokumenter</div>,
     },
 ];
 
@@ -42,7 +52,7 @@ const VenstreMeny: React.FC = () => {
                 <StickyTablistContainer>
                     <Tabs.List>
                         {tabs.map((tab) => (
-                            <Tabs.Tab label={tab.label} value={tab.value} key={tab.value} />
+                            <Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
                 </StickyTablistContainer>
