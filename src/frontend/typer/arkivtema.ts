@@ -137,6 +137,7 @@ export const relevanteArkivtemaer: Arkivtema[] = [
     Arkivtema.OPP,
     Arkivtema.UFO,
     Arkivtema.YRK,
+    Arkivtema.KON,
 ];
 
 export const utledArkivtema = (tema: Arkivtema | undefined) =>
