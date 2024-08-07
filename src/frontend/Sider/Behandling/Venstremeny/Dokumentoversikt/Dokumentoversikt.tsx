@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import Dokumentliste from './Dokumentliste';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -25,13 +26,7 @@ const Dokumentoversikt: React.FC = () => {
 
     return (
         <DataViewer response={{ dokumenter }}>
-            {({ dokumenter }) => (
-                <ul>
-                    {dokumenter.map((dokument, index) => (
-                        <li key={dokument.journalpostId + index}>{dokument.tittel}</li>
-                    ))}
-                </ul>
-            )}
+            {({ dokumenter }) => <Dokumentliste dokumenter={dokumenter} />}
         </DataViewer>
     );
 };
