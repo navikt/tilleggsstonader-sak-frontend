@@ -13,7 +13,7 @@ import {
     sorterJournalpostPåTid,
 } from '../../../Personoversikt/Dokumentoversikt/utils';
 
-const Dokumentoversikt: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter }) => {
+const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter }) => {
     const dokumenterGrupperPåJournalpost = grupperDokumenterPåJournalpost(dokumenter);
     const journalposterSortertPåTid = sorterJournalpostPåTid(dokumenterGrupperPåJournalpost);
 
@@ -45,7 +45,7 @@ const Dokumentoversikt: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter
     );
 };
 
-export default Dokumentoversikt;
+export default Dokumentliste;
 
 const StyledTag = styled(Tag).attrs({ size: 'small' })`
     width: 22px;
