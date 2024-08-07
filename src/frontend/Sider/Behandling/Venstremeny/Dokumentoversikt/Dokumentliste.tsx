@@ -1,13 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
+import { HStack, VStack } from '@navikt/ds-react';
 
-import { PaperclipIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack, Tag, VStack } from '@navikt/ds-react';
-
-import { Lenke } from '../../../../komponenter/Lenke';
+import { DokumentTypeTag, Hoveddokument, Vedlegg } from './DokumentKomponenter';
 import { DokumentInfo } from '../../../../typer/dokument';
-import { Journalposttype } from '../../../../typer/journalpost';
 import {
     grupperDokumenterPåJournalpost,
     sorterJournalpostPåTid,
@@ -28,13 +24,11 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
                         <VStack gap="2">
                             {dokumenter.map((dokument, indeks) => (
                                 <HStack wrap={false} key={dokument.dokumentInfoId} gap="2">
-                                    {indeks !== 0 && <PaperclipIcon />}
-                                    <Lenke
-                                        target="_blank"
-                                        href={`/dokument/journalpost/${dokument.journalpostId}/dokument-pdf/${dokument.dokumentInfoId}`}
-                                    >
-                                        <BodyShort size="small">{dokument.tittel}</BodyShort>
-                                    </Lenke>
+                                    {indeks === 0 ? (
+                                        <Hoveddokument dokument={dokument} />
+                                    ) : (
+                                        <Vedlegg dokument={dokument} />
+                                    )}
                                 </HStack>
                             ))}
                         </VStack>
@@ -46,19 +40,3 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
 };
 
 export default Dokumentliste;
-
-const StyledTag = styled(Tag).attrs({ size: 'small' })`
-    width: 22px;
-    height: 22px;
-`;
-
-const DokumentTypeTag: React.FC<{ journalposttype: Journalposttype }> = ({ journalposttype }) => {
-    switch (journalposttype) {
-        case 'I':
-            return <StyledTag variant="info">I</StyledTag>;
-        case 'N':
-            return <StyledTag variant="alt1">N</StyledTag>;
-        case 'U':
-            return <StyledTag variant="neutral">U</StyledTag>;
-    }
-};
