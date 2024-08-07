@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { Button } from '@navikt/ds-react';
+
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
-import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
-import { Button } from '@navikt/ds-react';
+import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();

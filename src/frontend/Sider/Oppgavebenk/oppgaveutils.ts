@@ -7,8 +7,8 @@ import {
     oppgaveBehandlingstypeTilTekst,
 } from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
-import { Saksbehandler } from '../../utils/saksbehandler';
 import { Ressurs, RessursStatus } from '../../typer/ressurs';
+import { Saksbehandler } from '../../utils/saksbehandler';
 
 export const JOURNALPOST_QUERY_STRING = 'journalpostId';
 export const OPPGAVEID_QUERY_STRING = 'oppgaveId';

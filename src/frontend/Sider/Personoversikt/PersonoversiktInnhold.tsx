@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,9 +10,8 @@ import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
-import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
-import { useFlag } from '@unleash/proxy-client-react';
+import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
 import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {

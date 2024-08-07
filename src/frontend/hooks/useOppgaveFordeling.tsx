@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 import { Oppgave } from '../Sider/Oppgavebenk/typer/oppgave';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 interface HentBehandlingerResponse {
     tilbakestillFordeling: (oppgave: Oppgave) => Promise<Oppgave>;
