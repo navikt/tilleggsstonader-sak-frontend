@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import Oppsumering from './Oppsumering';
 import SimuleringTabell from './SimuleringTabell';
 import { SimuleringResponse } from './simuleringTyper';
@@ -9,14 +7,6 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-
-const Container = styled.div`
-    margin: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: fit-content;
-`;
 
 const SimuleringResultatWrapper: React.FC = () => {
     const { behandling } = useBehandling();
