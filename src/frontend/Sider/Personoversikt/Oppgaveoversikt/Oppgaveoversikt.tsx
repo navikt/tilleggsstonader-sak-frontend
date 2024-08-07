@@ -23,10 +23,12 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
         );
 
         request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [request]);
 
     useEffect(() => {
         hentOppgaverOgMapper();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {

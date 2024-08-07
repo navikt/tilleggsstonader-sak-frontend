@@ -36,6 +36,7 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { personopplysninger } = usePersonopplysninger();
     const {
         brevmaler,
@@ -75,6 +76,7 @@ const Brev: React.FC = () => {
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
         personopplysninger: Personopplysninger
     ): PersonopplysningerIBrevmottakere => {
