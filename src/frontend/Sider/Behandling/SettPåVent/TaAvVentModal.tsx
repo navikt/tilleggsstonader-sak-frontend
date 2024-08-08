@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
+import { useNavigate } from 'react-router-dom';
+
+import { Textarea } from '@navikt/ds-react';
+
 import { useApp } from '../../../context/AppContext';
-import { RessursStatus } from '../../../typer/ressurs';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
-import { useNavigate } from 'react-router-dom';
+import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
-import { Textarea } from '@navikt/ds-react';
+import { RessursStatus } from '../../../typer/ressurs';
 
 interface TaAvVentRequest {
     skalTilordnesRessurs: boolean;

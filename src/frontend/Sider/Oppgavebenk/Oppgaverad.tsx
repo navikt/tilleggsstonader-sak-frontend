@@ -4,13 +4,13 @@ import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
+import { utledTypeBehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
+import { useOppgave } from '../../context/OppgaveContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 import { Saksbehandler } from '../../utils/saksbehandler';
-import { utledTypeBehandling } from './oppgaveutils';
-import { useOppgave } from '../../context/OppgaveContext';
 
 const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => {
     if (!oppgave.tilordnetRessurs) {

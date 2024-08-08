@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
-import { Table } from '@navikt/ds-react';
-import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from '../../Oppgavebenk/typer/oppgavetema';
-import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
-import { formaterNullableIsoDato } from '../../../utils/dato';
+
 import styled from 'styled-components';
+
+import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
+
 import { mappeIdTilMappenavn } from './utils';
-import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
-import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { formaterNullableIsoDato } from '../../../utils/dato';
+import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
+import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
+import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
+import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from '../../Oppgavebenk/typer/oppgavetema';
 
 const Tabell = styled(Table)`
     max-width: 900px;

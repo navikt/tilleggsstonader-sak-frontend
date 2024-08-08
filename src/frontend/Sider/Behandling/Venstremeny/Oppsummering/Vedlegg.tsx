@@ -4,8 +4,8 @@ import { PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
-import { FaktaDokumentasjon } from '../../../../typer/behandling/behandlingFakta/faktaDokumentasjon';
 import { Lenke } from '../../../../komponenter/Lenke';
+import { FaktaDokumentasjon } from '../../../../typer/behandling/behandlingFakta/faktaDokumentasjon';
 
 const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
     if (!fakta) return null;

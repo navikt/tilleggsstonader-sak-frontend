@@ -24,6 +24,7 @@ export const useBrevmottakere = (
 
     useEffect(() => {
         hentBrevmottakere();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId]);
 
     return { brevmottakere, hentBrevmottakere };

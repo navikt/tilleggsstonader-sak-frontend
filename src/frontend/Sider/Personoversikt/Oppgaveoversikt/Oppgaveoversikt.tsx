@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { Button } from '@navikt/ds-react';
+
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
-import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
-import { Button } from '@navikt/ds-react';
+import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -22,10 +23,12 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
         );
 
         request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [request]);
 
     useEffect(() => {
         hentOppgaverOgMapper();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {

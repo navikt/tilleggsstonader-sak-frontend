@@ -5,10 +5,10 @@ import constate from 'constate';
 import { useApp } from './AppContext';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
+import { oppdaterOppgaveIOppgaveResponse } from '../Sider/Oppgavebenk/oppgaveutils';
 import { Oppgave, OppgaveRequest, OppgaverResponse } from '../Sider/Oppgavebenk/typer/oppgave';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { harStrengtFortroligRolle } from '../utils/roller';
-import { oppdaterOppgaveIOppgaveResponse } from '../Sider/Oppgavebenk/oppgaveutils';
 
 export const [OppgaveProvider, useOppgave] = constate(() => {
     const { request, saksbehandler, appEnv } = useApp();
