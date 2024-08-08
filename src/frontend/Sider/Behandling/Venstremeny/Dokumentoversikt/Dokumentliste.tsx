@@ -10,13 +10,13 @@ import {
 } from '../../../Personoversikt/Dokumentoversikt/utils';
 
 const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter }) => {
-    const dokumenterGrupertPåJournalpost = grupperDokumenterPåJournalpost(dokumenter);
-    const journalposterSortertPåTid = sorterJournalpostPåTid(dokumenterGrupertPåJournalpost);
+    const dokumenterGruppertPåJournalpost = grupperDokumenterPåJournalpost(dokumenter);
+    const journalposterSortertPåTid = sorterJournalpostPåTid(dokumenterGruppertPåJournalpost);
 
     return (
         <VStack gap="6">
             {journalposterSortertPåTid.map((journalpost) => {
-                const dokumenter = dokumenterGrupertPåJournalpost[journalpost];
+                const dokumenter = dokumenterGruppertPåJournalpost[journalpost];
 
                 return (
                     <HStack gap="4" key={journalpost} wrap={false}>
