@@ -4,7 +4,7 @@ import Dokumentliste from './Dokumentliste';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { relevanteArkivtemaer } from '../../../../typer/arkivtema';
+import { relevanteArkivtemaerIBehandling } from '../../../../typer/arkivtema';
 import { DokumentInfo, VedleggRequest } from '../../../../typer/dokument';
 import { Ressurs, byggTomRessurs } from '../../../../typer/ressurs';
 
@@ -19,7 +19,7 @@ const Dokumentoversikt: React.FC = () => {
             `/api/sak/vedlegg/fagsak-person/${behandling.fagsakPersonId}`,
             'POST',
             {
-                tema: relevanteArkivtemaer,
+                tema: relevanteArkivtemaerIBehandling,
             }
         ).then(settDokumenter);
     }, [request, behandling]);

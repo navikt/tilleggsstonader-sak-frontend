@@ -140,5 +140,7 @@ export const relevanteArkivtemaer: Arkivtema[] = [
     Arkivtema.KON,
 ];
 
+export const relevanteArkivtemaerIBehandling: Arkivtema[] = [Arkivtema.TSO, Arkivtema.TSR];
+
 export const utledArkivtema = (tema: Arkivtema | undefined) =>
     tema ? arkivtemaerTilTekst[tema] : 'Tema ikke satt';
