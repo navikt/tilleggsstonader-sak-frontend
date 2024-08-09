@@ -15,7 +15,7 @@ export const useVilkårperioder = (behandlingId: string): Response => {
 
     useEffect(() => {
         request<VilkårperioderResponse, null>(
-            `/api/sak/vilkarperiode/behandling/${behandlingId}/v2`
+            `/api/sak/vilkarperiode/behandling/${behandlingId}`
         ).then(settVilkårperioder);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId]);
