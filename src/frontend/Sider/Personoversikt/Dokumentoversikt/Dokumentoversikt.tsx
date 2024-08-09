@@ -8,14 +8,8 @@ import { DokumentTabell } from './DokumentTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
-import { DokumentInfo } from '../../../typer/dokument';
+import { DokumentInfo, VedleggRequest } from '../../../typer/dokument';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-
-type VedleggRequest = {
-    tema: Arkivtema[];
-    journalposttype?: string;
-    journalstatus?: string;
-};
 
 const ComboBox = styled(UNSAFE_Combobox)`
     width: 35rem;
