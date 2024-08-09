@@ -2,12 +2,15 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
+import { Button } from '@navikt/ds-react';
+
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
+import { useSteg } from '../../../context/StegContext';
 import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -27,15 +30,22 @@ const Container = styled.div`
 
 const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
-    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
+    const { vilkårperioderResponse, oppdaterGrunnlag } = useVilkårperioder(behandling.id);
 
     return (
         <Container>
             <VarselVedtakIArena />
 
             {erLokalt() && <FyllUtVilkårKnapp />}
+            {erStegRedigerbart && (
+                <Button onClick={oppdaterGrunnlag} variant={'tertiary'}>
+                    Oppdater grunnlag
+                </Button>
+            )}
+
             <DataViewer
                 response={{
                     vilkårperioderResponse,

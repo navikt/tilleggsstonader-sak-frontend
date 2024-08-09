@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { VilkårperioderResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 
 interface Response {
     vilkårperioderResponse: Ressurs<VilkårperioderResponse>;
+    oppdaterGrunnlag: () => void;
 }
 
 export const useVilkårperioder = (behandlingId: string): Response => {
@@ -20,7 +21,18 @@ export const useVilkårperioder = (behandlingId: string): Response => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId]);
 
+    const oppdaterGrunnlag = () => {
+        if (vilkårperioder.status !== RessursStatus.SUKSESS) {
+            return;
+        }
+        settVilkårperioder(byggHenterRessurs());
+        request<VilkårperioderResponse, null>(
+            `/api/sak/vilkarperiode/behandling/${behandlingId}/v2/oppdatert-grunnlag`
+        ).then(settVilkårperioder);
+    };
+
     return {
         vilkårperioderResponse: vilkårperioder,
+        oppdaterGrunnlag,
     };
 };
