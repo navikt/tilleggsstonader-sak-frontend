@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
+import HentGrunnlagPåNyttKnapp from './HentGrunnlagPåNyttKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -21,7 +22,7 @@ import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
     margin: 2rem;
 `;
 
@@ -29,13 +30,14 @@ const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
-    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
+    const { vilkårperioderResponse, hentVilkårperioder } = useVilkårperioder(behandling.id);
 
     return (
         <Container>
             <VarselVedtakIArena />
 
             {erLokalt() && <FyllUtVilkårKnapp />}
+
             <DataViewer
                 response={{
                     vilkårperioderResponse,
@@ -49,6 +51,10 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioderResponse.vilkårperioder}
                                 hentedeStønadsperioder={stønadsperioder}
                             >
+                                <HentGrunnlagPåNyttKnapp
+                                    vilkårperioder={vilkårperioderResponse}
+                                    hentVilkårperioder={hentVilkårperioder}
+                                />
                                 <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                                 <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                                 <Stønadsperioder />
