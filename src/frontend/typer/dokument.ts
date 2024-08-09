@@ -47,3 +47,9 @@ type VarselSendt = {
     type: 'SMS' | 'EPOST';
     varslingstidspunkt?: string;
 };
+
+export type VedleggRequest = {
+    tema: Arkivtema[];
+    journalposttype?: string;
+    journalstatus?: string;
+};
