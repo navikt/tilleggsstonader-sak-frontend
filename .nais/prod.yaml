@@ -24,6 +24,10 @@ spec:
   prometheus:
     enabled: false
     path: "/metrics"
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   resources:
     limits:
       cpu: "200m"
