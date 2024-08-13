@@ -4,12 +4,13 @@ import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
+import { utledTypeBehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
+import { useOppgave } from '../../context/OppgaveContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
 import { Saksbehandler } from '../../utils/saksbehandler';
-import { utledTypeBehandling } from './oppgaveutils';
 
 const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => {
     if (!oppgave.tilordnetRessurs) {
@@ -23,6 +24,8 @@ const utledTildeltRessurs = (oppgave: Oppgave, saksbehandler: Saksbehandler) => 
 
 const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const { saksbehandler } = useApp();
+    const { settFeilmelding, oppdaterOppgaveEtterOppdatering, laster, settLaster } = useOppgave();
+
     const [anker, settAnker] = useState<Element | null>(null);
 
     const togglePopover = (element: React.MouseEvent<HTMLElement>) => {
@@ -70,7 +73,13 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
             <Table.DataCell>{oppgave.navn}</Table.DataCell>
             <Table.DataCell>{utledTildeltRessurs(oppgave, saksbehandler)}</Table.DataCell>
             <Table.DataCell>
-                <Oppgaveknapp oppgave={oppgave} />
+                <Oppgaveknapp
+                    oppgave={oppgave}
+                    oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
+                    settFeilmelding={(feilmelding: string) => settFeilmelding(feilmelding)}
+                    laster={laster}
+                    settLaster={settLaster}
+                />
             </Table.DataCell>
         </Table.Row>
     );

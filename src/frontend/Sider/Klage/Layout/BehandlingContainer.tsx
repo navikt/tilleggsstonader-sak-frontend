@@ -9,7 +9,7 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
 import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
-import { Personopplysninger } from '../typer/personopplysninger';
+import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
 import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
@@ -58,7 +58,7 @@ const BehandlingContainer: FC = () => {
 
 const BehandlingContent: FC<{
     behandling: Klagebehandling;
-    personopplysninger: Personopplysninger;
+    personopplysninger: PersonopplysningerFraKlage;
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
@@ -83,7 +83,7 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    const { personopplysningerResponse, behandling } = useKlagebehandling();
+    const { personopplysningerFraKlageResponse, behandling } = useKlagebehandling();
 
     useEffect(() => {
         document.title = 'Klagebehandling';
@@ -93,13 +93,13 @@ const BehandlingOverbygg: FC = () => {
         <DataViewer
             response={{
                 behandling,
-                personopplysningerResponse,
+                personopplysningerFraKlageResponse,
             }}
         >
-            {({ behandling, personopplysningerResponse }) => (
+            {({ behandling, personopplysningerFraKlageResponse }) => (
                 <BehandlingContent
                     behandling={behandling}
-                    personopplysninger={personopplysningerResponse}
+                    personopplysninger={personopplysningerFraKlageResponse}
                 />
             )}
         </DataViewer>

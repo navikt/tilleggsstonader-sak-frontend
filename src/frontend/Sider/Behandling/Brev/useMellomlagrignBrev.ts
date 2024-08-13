@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Fritekst, FritekstAvsnitt, Tekst } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 export interface MellomlagretBrevDto {
     brevverdier: string;
@@ -25,10 +25,11 @@ const useMellomlagringBrev = () => {
         useState<Ressurs<MellomlagretBrevDto>>(byggTomRessurs());
 
     const hentMellomlagretBrev = useCallback(() => {
+        settMellomlagretBrev(byggHenterRessurs());
         request<MellomlagretBrevDto, unknown>(`/api/sak/brev/mellomlager/${behandling.id}`).then(
             settMellomlagretBrev
         );
-    }, [request, behandling.id]);
+    }, [request, behandling]);
 
     useEffect(hentMellomlagretBrev, [hentMellomlagretBrev]);
 

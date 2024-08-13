@@ -7,13 +7,16 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
 import Brevmeny from './Brevmeny';
+import { PersonopplysningerIBrevmottakere } from './typer';
 import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
+import { Personopplysninger } from '../../../typer/personopplysninger';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erVedtakInnvilgelse, typeVedtakTilSanitytype } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
@@ -33,6 +36,8 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { personopplysninger } = usePersonopplysninger();
     const {
         brevmaler,
         brevmal,
@@ -71,6 +76,19 @@ const Brev: React.FC = () => {
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
+        personopplysninger: Personopplysninger
+    ): PersonopplysningerIBrevmottakere => {
+        return {
+            personIdent: personopplysninger.personIdent,
+            navn: personopplysninger.navn.visningsnavn,
+            harVergemål: personopplysninger.harVergemål,
+            fullmakt: personopplysninger.fullmakt,
+            vergemål: personopplysninger.vergemål,
+        };
+    };
+
     return (
         <Container>
             {behandlingErRedigerbar ? (
@@ -78,6 +96,14 @@ const Brev: React.FC = () => {
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
+                                {/*<BrevMottakere*/}
+                                {/*    behandlingId={behandling.id}*/}
+                                {/*    applikasjonskontekst={Applikasjonskontekst.SAK}*/}
+                                {/*    behandlingErRedigerbar={behandlingErRedigerbar}*/}
+                                {/*    personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(*/}
+                                {/*        personopplysninger*/}
+                                {/*    )}*/}
+                                {/*/>*/}
                                 <VelgBrevmal
                                     brevmaler={brevmaler}
                                     brevmal={brevmal}

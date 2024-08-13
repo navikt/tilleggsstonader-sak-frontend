@@ -12,7 +12,7 @@ export const finnNyFrist = (årsaker: ÅrsakSettPåVent[]): string => {
     const maksimalFrist = Math.max(...frister);
 
     if (maksimalFrist > 0) {
-        return plusDager(new Date(), maksimalFrist);
+        return plusDager(new Date(), maksimalFrist + 1); // Legger til en dag slik at den er dagen etter fristen andre parter har fått
     } else {
         return '';
     }

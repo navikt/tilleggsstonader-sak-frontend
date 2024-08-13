@@ -13,7 +13,11 @@ interface ModalProps {
     tittel?: string;
     visModal: boolean;
     onClose?: () => void;
-    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp };
+    aksjonsknapper?: {
+        hovedKnapp: Aksjonsknapp;
+        lukkKnapp: Aksjonsknapp;
+        sekundærKnapp?: Aksjonsknapp;
+    };
     maxWidth?: number;
     ariaLabel?: string;
     children?: React.ReactNode;
@@ -23,6 +27,7 @@ interface Aksjonsknapp {
     onClick: () => void;
     tekst: string;
     disabled?: boolean;
+    spinner?: boolean;
 }
 
 export const ModalWrapper: React.FC<ModalProps> = ({
@@ -50,14 +55,27 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                             variant="primary"
                             onClick={aksjonsknapper.hovedKnapp.onClick}
                             disabled={aksjonsknapper.hovedKnapp.disabled}
+                            loading={aksjonsknapper.hovedKnapp.spinner}
                             size="small"
                         >
                             {aksjonsknapper.hovedKnapp.tekst}
                         </Button>
+                        {aksjonsknapper.sekundærKnapp && (
+                            <Button
+                                variant="secondary"
+                                onClick={aksjonsknapper.sekundærKnapp.onClick}
+                                disabled={aksjonsknapper.sekundærKnapp.disabled}
+                                loading={aksjonsknapper.sekundærKnapp.spinner}
+                                size="small"
+                            >
+                                {aksjonsknapper.sekundærKnapp.tekst}
+                            </Button>
+                        )}
                         <Button
                             variant="tertiary"
                             onClick={aksjonsknapper.lukkKnapp.onClick}
                             disabled={aksjonsknapper.lukkKnapp.disabled}
+                            loading={aksjonsknapper.lukkKnapp.spinner}
                             size="small"
                         >
                             {aksjonsknapper.lukkKnapp.tekst}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import FlagProvider, { IConfig } from '@unleash/proxy-client-react';
+import FlagProvider, { IConfig, useFlag } from '@unleash/proxy-client-react';
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -19,6 +19,7 @@ import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
+import OpprettBehandlingFraJournalpost from './Sider/Admin/OpprettBehandlingFraJournalpost';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
@@ -27,6 +28,7 @@ import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
+import { Toggle } from './utils/toggles';
 import { mockFlags } from './utils/unleashMock';
 
 const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
@@ -47,6 +49,10 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
                     <Route path={'/ekstern/*'} element={<EksternOmruting />} />
                     <Route path={'/klagebehandling/*'} element={<KlageApp />} />
+                    <Route
+                        path={'/admin/opprett-behandling-fra-journalpost'}
+                        element={<OpprettBehandlingFraJournalpost />}
+                    />
                 </Route>
             ) : (
                 <Route
@@ -95,6 +101,9 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const { loggUt } = useApp();
+    const kanOppretteBehandlingFraJournalpost = useFlag(
+        Toggle.KAN_OPPRETTE_BEHANDLING_FRA_JOURNALPOST
+    );
     return (
         <>
             <Sticky $zIndex={100}>
@@ -120,6 +129,15 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         />
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
+                                {kanOppretteBehandlingFraJournalpost && (
+                                    <Dropdown.Menu.GroupedList.Item
+                                        as="a"
+                                        href="/admin/opprett-behandling-fra-journalpost"
+                                    >
+                                        [Admin] Opprett behandling fra journalpost
+                                    </Dropdown.Menu.GroupedList.Item>
+                                )}
+                                <Dropdown.Menu.Divider />
                                 <Dropdown.Menu.List.Item onClick={loggUt}>
                                     Logg ut <Spacer /> <LeaveIcon aria-hidden fontSize="1.5rem" />
                                 </Dropdown.Menu.List.Item>

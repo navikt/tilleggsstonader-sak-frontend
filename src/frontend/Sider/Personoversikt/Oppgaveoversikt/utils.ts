@@ -16,5 +16,5 @@ export const mappeIdTilMappenavn = (
     if (mappeId === 0 || mappeId === undefined) {
         return;
     }
-    return mapper[mappeId].navn ?? 'Ukjent mappe';
+    return mapper[mappeId]?.navn ?? 'Ukjent mappe';
 };

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import styled from 'styled-components';
-import { useKlageApp } from '../../../context/KlageAppContext';
+
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
-import { EBrevmottakerRolle, IBrevmottakere } from './typer';
-import { useKlagebehandling } from '../../../context/KlagebehandlingContext';
+
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { useBrevmottakere } from '../../../hooks/useBrevmottakere';
+import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { useBrevmottakere } from '../../hooks/useBrevmottakere';
+import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
+import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
     display: grid;
@@ -29,19 +31,25 @@ const KompaktButton = styled(Button)`
 
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
-}> = ({ mottakere }) => {
-    const { settVisBrevmottakereModal } = useKlageApp();
-    const { behandlingErRedigerbar } = useKlagebehandling();
+    behandlingErRedigerbar: boolean;
+    settVisBrevmottakereModal: (value: boolean) => void;
+}> = ({ mottakere, behandlingErRedigerbar, settVisBrevmottakereModal }) => {
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
-                (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
+                (person) => `${formatterBeskrivelseAvBrevmottakersRolle(person.mottakerRolle)}`
             ),
             ...brevMottakere.organisasjoner.map(
                 (org) =>
                     `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
             ),
         ];
+    };
+
+    const formatterBeskrivelseAvBrevmottakersRolle = (mottakerRolle: string): string => {
+        const rolleLowerCase = mottakerRolle.toLowerCase();
+        const firstLetterUpperCase = mottakerRolle.charAt(0).toUpperCase();
+        return firstLetterUpperCase + rolleLowerCase.slice(1);
     };
 
     const navn = utledNavnPåMottakere(mottakere);
@@ -90,22 +98,36 @@ const Brevmottakere: React.FC<{
         </Grid>
     );
 };
+const BrevMottakere: React.FC<{
+    behandlingId: string;
+    applikasjonskontekst: Applikasjonskontekst;
+    behandlingErRedigerbar: boolean;
+    personopplysninger: PersonopplysningerIBrevmottakere;
+}> = ({ behandlingId, applikasjonskontekst, behandlingErRedigerbar, personopplysninger }) => {
+    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
+        behandlingId,
+        applikasjonskontekst
+    );
 
-const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { personopplysningerResponse } = useKlagebehandling();
-
-    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(behandlingId);
+    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
 
     return (
-        <DataViewer response={{ brevmottakere, personopplysningerResponse }}>
-            {({ brevmottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ brevmottakere }}>
+            {({ brevmottakere }) => (
                 <>
-                    <Brevmottakere mottakere={brevmottakere} />
+                    <Brevmottakere
+                        mottakere={brevmottakere}
+                        behandlingErRedigerbar={behandlingErRedigerbar}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                    />
                     <EndreBrevmottakereModal
                         behandlingId={behandlingId}
-                        personopplysninger={personopplysningerResponse}
+                        personopplysninger={personopplysninger}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
+                        visBrevmottakereModal={visBrevmottakereModal}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                        applikasjonskontekst={applikasjonskontekst}
                     />
                 </>
             )}

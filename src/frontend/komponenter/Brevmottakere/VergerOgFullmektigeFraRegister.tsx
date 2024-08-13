@@ -1,11 +1,14 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { Fullmakt, Vergemål } from '../../../typer/personopplysninger';
-import { IBrevmottaker } from './typer';
-import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
+
 import styled from 'styled-components';
+
 import { Ingress, Button, BodyShort } from '@navikt/ds-react';
+
+import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import { Fødselsnummer } from './Fødselsnummer';
+import { IBrevmottaker } from './typer';
 import { VertikalSentrering } from './VertikalSentrering';
+import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];
@@ -60,9 +63,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                         <StyledMottakerBoks key={mottaker.navn + index}>
                             <Kolonner>
                                 {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
-                                <Fødselsnummer
-                                    fødselsnummer={mottaker.personIdent}
-                                />
+                                <Fødselsnummer fødselsnummer={mottaker.personIdent} />
                             </Kolonner>
                             {!mottakerValgt && (
                                 <VertikalSentrering>

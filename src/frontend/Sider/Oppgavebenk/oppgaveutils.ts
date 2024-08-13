@@ -2,10 +2,12 @@ import {
     Behandlingstema,
     Oppgave,
     OppgaveBehandlingstype,
+    OppgaverResponse,
     behandlingstemaTilTekst,
     oppgaveBehandlingstypeTilTekst,
 } from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
+import { Ressurs, RessursStatus } from '../../typer/ressurs';
 import { Saksbehandler } from '../../utils/saksbehandler';
 
 export const JOURNALPOST_QUERY_STRING = 'journalpostId';
@@ -51,4 +53,30 @@ export const utledTypeBehandling = (
             ? behandlingstypeTekst + ' - ' + behandlingstemaTekst
             : behandlingstypeTekst
         : behandlingstemaTekst;
+};
+
+export const oppdaterOppgaveIOppgaveResponse = (
+    eksisterendeOppgaver: Ressurs<OppgaverResponse>,
+    oppdatertOppgave: Oppgave
+) => {
+    if (eksisterendeOppgaver.status === RessursStatus.SUKSESS) {
+        return {
+            ...eksisterendeOppgaver,
+            data: {
+                ...eksisterendeOppgaver.data,
+                oppgaver: eksisterendeOppgaver.data.oppgaver.map((oppgave) => {
+                    if (
+                        oppgave.id === oppdatertOppgave.id &&
+                        oppgave.versjon < oppdatertOppgave.versjon
+                    ) {
+                        return oppdatertOppgave;
+                    } else {
+                        return oppgave;
+                    }
+                }),
+            },
+        };
+    } else {
+        return eksisterendeOppgaver;
+    }
 };

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Checkbox, Select, TextField, VStack } from '@navikt/ds-react';
+import { Button, Checkbox, Select, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
@@ -127,19 +127,6 @@ export const Oppgavefiltrering = () => {
                 <SaksbehandlerVelger
                     oppgaveRequest={oppgaveRequest}
                     settOppgaveRequest={settOppgaveRequest}
-                />
-                <TextField
-                    value={oppgaveRequest.ident || ''}
-                    label="Personident"
-                    inputMode="numeric"
-                    onChange={oppdaterOppgaveTargetValue('ident')}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            sjekkFeilOgHentOppgaver();
-                        }
-                    }}
-                    autoComplete="off"
-                    size="small"
                 />
                 <AlignetCheckbox
                     checked={oppgaveRequest['oppgaverPåVent'] || false}

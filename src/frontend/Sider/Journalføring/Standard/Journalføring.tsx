@@ -123,6 +123,10 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
     const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
+    const innsendingsfeil =
+        journalpostState.innsending.status === RessursStatus.FEILET
+            ? journalpostState.innsending.frontendFeilmelding
+            : undefined;
 
     const validerOgJournalfør = () => {
         settFeilmelding('');
@@ -197,6 +201,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                             />
                         </section>
                         <Feilmelding>{feilmelding}</Feilmelding>
+                        <Feilmelding>{innsendingsfeil}</Feilmelding>
                         <HStack gap="4" justify="end">
                             <Button
                                 size={'small'}

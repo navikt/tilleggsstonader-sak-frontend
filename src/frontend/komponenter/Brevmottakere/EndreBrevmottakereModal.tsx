@@ -1,17 +1,25 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Personopplysninger } from '../../../typer/personopplysninger';
-import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
-import { SøkWrapper } from './SøkWrapper';
-import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
-import { useKlageApp } from '../../../context/KlageAppContext';
-import { BrevmottakereListe } from './BrevmottakereListe';
-import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
+
 import styled from 'styled-components';
+
 import { Alert, Button } from '@navikt/ds-react';
-import { EToast } from '../../../typer/toast';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
-import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
-import { useLagreBrevmottakere } from '../../../hooks/useLagreBrevmottakere';
+
+import { BrevmottakereListe } from './BrevmottakereListe';
+import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
+import { SøkWrapper } from './SøkWrapper';
+import {
+    Applikasjonskontekst,
+    IBrevmottaker,
+    IBrevmottakere,
+    IOrganisasjonMottaker,
+} from './typer';
+import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
+import { useLagreBrevmottakere } from '../../hooks/useLagreBrevmottakere';
+import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
+import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
+import { EToast } from '../../Sider/Klage/typer/toast';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
+import { ModalWrapper } from '../Modal/ModalWrapper';
 
 const GridContainer = styled.div`
     display: grid;
@@ -24,7 +32,7 @@ const Venstrekolonne = styled.div`
 `;
 
 const Høyrekolonne = styled.div`
-    margin-right: 2rem
+    margin-right: 2rem;
 `;
 
 const SentrerKnapper = styled.div`
@@ -51,15 +59,23 @@ const VertikalLinje = styled.div`
     width: 5px;
     margin-bottom: 1rem;
 `;
-
 export const EndreBrevmottakereModal: FC<{
     behandlingId: string;
-    personopplysninger: Personopplysninger;
+    personopplysninger: PersonopplysningerIBrevmottakere;
     mottakere: IBrevmottakere;
     kallHentBrevmottakere: () => void;
-}> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
-    const { visBrevmottakereModal, settVisBrevmottakereModal } = useKlageApp();
-
+    visBrevmottakereModal: boolean;
+    settVisBrevmottakereModal: (value: boolean) => void;
+    applikasjonskontekst: Applikasjonskontekst;
+}> = ({
+    behandlingId,
+    personopplysninger,
+    mottakere,
+    kallHentBrevmottakere,
+    visBrevmottakereModal,
+    settVisBrevmottakereModal,
+    applikasjonskontekst,
+}) => {
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
 
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
@@ -69,7 +85,7 @@ export const EndreBrevmottakereModal: FC<{
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
     const { settToast } = useKlageApp();
 
-    const { lagreBrevmottakere }  = useLagreBrevmottakere(behandlingId)
+    const { lagreBrevmottakere } = useLagreBrevmottakere(behandlingId, applikasjonskontekst);
 
     useEffect(() => {
         settValgtePersonMottakere(mottakere.personer);
@@ -109,8 +125,8 @@ export const EndreBrevmottakereModal: FC<{
             <GridContainer>
                 <Venstrekolonne>
                     <VergerOgFullmektigeFraRegister
-                        verger={personopplysninger.vergemål}
-                        fullmakter={personopplysninger.fullmakt}
+                        verger={personopplysninger.vergemål ?? []}
+                        fullmakter={personopplysninger.fullmakt ?? []}
                         valgteMottakere={valgtePersonMottakere}
                         settValgteMottakere={settValgtePersonMottakere}
                     />

@@ -4,7 +4,7 @@ import { CopyButton, HStack, Label } from '@navikt/ds-react';
 import { ABorderStrong, ABorderSubtle, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 import { FamilieIkonVelger } from '../familie-ikoner/familie/FamilieIkonVelger';
 
-import { kjønnType } from '../../typer/personopplysninger';
+import { kjønnType } from '../../typer/personopplysningerFraKlage';
 export interface IProps extends React.PropsWithChildren {
     alder: number;
     ident: string;
@@ -17,9 +17,11 @@ export interface IProps extends React.PropsWithChildren {
 }
 
 const StyledVisittkort = styled(HStack)<{ $dempetKantlinje: boolean; $padding: boolean }>`
-    ${props => props.$borderBottom && `border-bottom: 1px solid ${props.$dempetKantlinje ? ABorderSubtle : ABorderStrong}`};
+    ${(props) =>
+        props.$borderBottom &&
+        `border-bottom: 1px solid ${props.$dempetKantlinje ? ABorderSubtle : ABorderStrong}`};
     height: 3rem;
-    padding: ${props => props.$padding && `0 ${ASpacing4}`};
+    padding: ${(props) => props.$padding && `0 ${ASpacing4}`};
 `;
 
 const GrådigChildrenContainer = styled(HStack)`
