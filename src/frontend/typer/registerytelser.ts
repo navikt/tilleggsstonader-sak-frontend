@@ -10,6 +10,7 @@ export interface PeriodeYtelseRegister {
     type: TypeRegisterYtelse;
     fom: string;
     tom?: string;
+    aapErFerdigAvklart?: boolean;
 }
 
 export interface HentetInformasjon {

@@ -25,7 +25,10 @@ const YtelserTabell: React.FC<{ perioder: PeriodeYtelseRegister[] }> = ({ period
                 {perioder.map((periode, indeks) => {
                     return (
                         <Table.Row key={indeks}>
-                            <Table.DataCell>{registerYtelseTilTekst[periode.type]}</Table.DataCell>
+                            <Table.DataCell>
+                                {registerYtelseTilTekst[periode.type]}
+                                {periode.aapErFerdigAvklart && ` (Ferdig avklart)`}
+                            </Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(periode.fom)}</Table.DataCell>
                             <Table.DataCell>
                                 {formaterNullableIsoDato(periode.tom) ?? 'Mangler tom'}
