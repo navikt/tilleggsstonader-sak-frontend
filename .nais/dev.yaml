@@ -31,6 +31,10 @@ spec:
     requests:
       cpu: "200m"
       memory: "256Mi"
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   ingresses:
     - "https://tilleggsstonader.intern.dev.nav.no"
     - "https://tilleggsstonader.ansatt.dev.nav.no"
