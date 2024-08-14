@@ -82,6 +82,7 @@ export default [{
         'jsx-a11y/click-events-have-key-events': 'off',
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
+        "react/prop-types": 'off',
 
         'react/jsx-key': ['error', {
             checkFragmentShorthand: true,
