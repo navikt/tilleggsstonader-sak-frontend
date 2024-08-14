@@ -21,7 +21,7 @@ const compat = new FlatCompat({
 });
 
 export default [{
-    ignores: ['src/frontend/Sider/Klage/*'],
+    ignores: ['src/frontend/Sider/Klage/*'], // <<< TODO Fjern denne når klageløsniningen er ferdig kopiert over fra EF
 }, ...fixupConfigRules(compat.extends(
     'eslint:recommended',
     'plugin:react/recommended',
