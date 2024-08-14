@@ -40,11 +40,16 @@ const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
     }, []);
 
     const hentMalStruktur = useCallback(() => {
-        brevmal &&
+        if (brevmal) {
             sanityClient
                 .fetch<MalStruktur>(malQuery(brevmal))
-                .then((data) => data !== null && settMalStruktur(byggRessursSuksess(data)))
+                .then((data) => {
+                    if (data !== null) {
+                        settMalStruktur(byggRessursSuksess(data));
+                    }
+                })
                 .catch((error) => settMalStruktur(byggRessursFeilet(error.message)));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brevmal]);
 

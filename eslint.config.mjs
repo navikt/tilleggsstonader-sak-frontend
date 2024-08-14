@@ -86,11 +86,6 @@ export default [{
         'react-hooks/exhaustive-deps': 'warn',
         'react/prop-types': 'off',
 
-        '@typescript-eslint/no-unused-expressions': ['error', {
-            allowShortCircuit: true,
-            allowTernary: true,
-        }],
-
         'react/jsx-key': ['error', {
             checkFragmentShorthand: true,
             checkKeyMustBeforeSpread: true,
