@@ -21,7 +21,10 @@ const compat = new FlatCompat({
 });
 
 export default [{
-    ignores: ['src/frontend/Sider/Klage/*'], // <<< TODO Fjern denne når klageløsniningen er ferdig kopiert over fra EF
+    ignores: [
+        'src/frontend/Sider/Klage/*', // <<< TODO Fjern denne når klageløsniningen er ferdig kopiert over fra EF
+        'src/backend/build/*',
+    ],
 }, ...fixupConfigRules(compat.extends(
     'eslint:recommended',
     'plugin:react/recommended',
@@ -81,11 +84,11 @@ export default [{
         'jsx-a11y/click-events-have-key-events': 'off',
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
-        "react/prop-types": 'off',
+        'react/prop-types': 'off',
 
         '@typescript-eslint/no-unused-expressions': ['error', {
             allowShortCircuit: true,
-            allowTernary: true
+            allowTernary: true,
         }],
 
         'react/jsx-key': ['error', {

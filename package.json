@@ -11,8 +11,8 @@
     "start:dev": "cd src/backend && yarn start:dev",
     "start:dev-preprod": "cd src/backend && yarn start:dev-preprod",
     "prepare": "husky",
-    "lint": "eslint 'src/frontend/**/*.{js,jsx,ts,tsx,json,css}'",
-    "lint:fix": "eslint 'src/frontend/**/*.{js,jsx,ts,tsx,json,css}' --fix"
+    "lint": "eslint 'src/**/*'",
+    "lint:fix": "eslint 'src/**/*' --fix"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css}": [
