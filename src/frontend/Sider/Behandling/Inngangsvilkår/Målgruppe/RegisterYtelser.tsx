@@ -40,8 +40,8 @@ const RegisterYtelser: React.FC<{
     return (
         <VStack>
             <ExpansionCard
-                tittel={`Relevante aktiviteter registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
-                maxWidth={650}
+                tittel={`Relevante ytelser registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
+                maxWidth={600}
             >
                 <VStack gap="4">
                     <RegisterYtelserTabell
