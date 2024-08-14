@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
+import { Alert, Detail, HelpText, HStack, Link, VStack } from '@navikt/ds-react';
 
 import RegisterYtelserTabell from './RegisterYtelserTabell';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
 import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
@@ -11,6 +12,7 @@ const RegisterYtelser: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;
     lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
 }> = ({ grunnlag, lagRadForPeriode }) => {
+    const { behandling } = useBehandling();
     if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
@@ -43,15 +45,27 @@ const RegisterYtelser: React.FC<{
                         perioderMedYtelse={perioderMedYtelse}
                         lagRadForPeriode={lagRadForPeriode}
                     />
-                    <HStack gap="2" align="center">
+                    <VStack>
+                        <HStack gap="2" align="center">
+                            <Detail>
+                                <strong>{opplysningerHentetTekst}</strong>
+                            </Detail>
+                            <HelpText>
+                                Vi henter kun perioder med arbeidsavklaringspenger, rett til
+                                overgangsstønad og omstillingsstønad.
+                            </HelpText>
+                        </HStack>
                         <Detail>
-                            <strong>{opplysningerHentetTekst}</strong>
+                            <Link
+                                href={`/person/${behandling.fagsakPersonId}/ytelser`}
+                                target="_blank"
+                                variant={'neutral'}
+                            >
+                                Se flere ytelser bruker mottar
+                            </Link>{' '}
+                            i personoversikten.
                         </Detail>
-                        <HelpText>
-                            Vi henter kun perioder med arbeidsavklaringspenger, rett til
-                            overgangsstønad og omstillingsstønad.
-                        </HelpText>
-                    </HStack>
+                    </VStack>
                 </VStack>
             </ExpansionCard>
         </VStack>
