@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
+import { Alert, Detail, HStack, HelpText, VStack, Link } from '@navikt/ds-react';
 
 import RegisterAktiviteterTabell from './RegisterAktivteterTabell';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
@@ -12,6 +13,8 @@ const RegisterAktiviteter: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;
     leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
 }> = ({ grunnlag, leggTilAktivitetFraRegister }) => {
+    const { behandling } = useBehandling();
+
     if (!grunnlag) {
         return (
             <Alert variant={'info'} inline size="small">
@@ -45,15 +48,27 @@ const RegisterAktiviteter: React.FC<{
                         aktiviteter={aktiviteter}
                         leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                     />
-                    <HStack gap="2" align="center">
+                    <VStack>
+                        <HStack gap="2" align="center">
+                            <Detail>
+                                <strong>{opplysningerHentetTekst}</strong>
+                            </Detail>
+                            <HelpText>
+                                Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner
+                                alle aktiviteter i personoversikten.
+                            </HelpText>
+                        </HStack>
                         <Detail>
-                            <strong>{opplysningerHentetTekst}</strong>
+                            <Link
+                                href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
+                                target="_blank"
+                                variant={'neutral'}
+                            >
+                                Se flere aktiviteter bruker mottar
+                            </Link>{' '}
+                            i personoversikten.
                         </Detail>
-                        <HelpText>
-                            Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
-                            aktiviteter i personoversikten.
-                        </HelpText>
-                    </HStack>
+                    </VStack>
                 </VStack>
             </ExpansionCard>
         </VStack>
