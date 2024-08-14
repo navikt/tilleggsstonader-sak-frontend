@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 import { Begrunnelse, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
