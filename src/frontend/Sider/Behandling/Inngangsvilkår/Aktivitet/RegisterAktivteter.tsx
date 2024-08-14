@@ -3,10 +3,10 @@ import React from 'react';
 import { Alert, Detail, HStack, HelpText, VStack } from '@navikt/ds-react';
 
 import RegisterAktiviteterTabell from './RegisterAktivteterTabell';
-import { VilkårperioderGrunnlag } from './typer/vilkårperiode';
-import ExpansionCard from '../../../komponenter/ExpansionCard';
-import { Registeraktivitet } from '../../../typer/registeraktivitet';
-import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../utils/dato';
+import ExpansionCard from '../../../../komponenter/ExpansionCard';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
+import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 
 const RegisterAktiviteter: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;

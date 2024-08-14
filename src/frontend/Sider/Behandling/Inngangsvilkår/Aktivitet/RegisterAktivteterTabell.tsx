@@ -5,10 +5,10 @@ import { styled } from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { useSteg } from '../../../context/StegContext';
-import { Registeraktivitet } from '../../../typer/registeraktivitet';
-import { formaterNullableIsoDato } from '../../../utils/dato';
-import { formaterEnumVerdi } from '../../../utils/tekstformatering';
+import { useSteg } from '../../../../context/StegContext';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
+import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
 
 const Tabell = styled(Table)`
     background: white;

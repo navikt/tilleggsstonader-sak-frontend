@@ -4,6 +4,7 @@ import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
 import EndreAktivitetRad from './EndreAktivitetRad';
+import RegisterAktiviteter from './RegisterAktivteter';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -17,7 +18,6 @@ import {
     lenkerParagrafAktivitet,
     lenkerRundskrivAktivitet,
 } from '../../lenker';
-import RegisterAktiviteter from '../RegisterAktivteter';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
 import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
