@@ -70,6 +70,7 @@ export default [{
         }],
 
         'unused-imports/no-unused-imports': 'error',
+        '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         'prettier/prettier': 'warn',
