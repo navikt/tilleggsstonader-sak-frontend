@@ -23,7 +23,7 @@ const RegisterAktiviteter: React.FC<{
     const aktiviteter = grunnlag.aktivitet.aktiviteter;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)} for perioden ${formaterNullableIsoDato(hentetInformasjon.fom)} - ${formaterNullableIsoDato(hentetInformasjon.tom)}`;
+    const opplysningerHentetTekst = `Hentet fra Arena: ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
 
     if (aktiviteter.length === 0) {
         return (
@@ -36,7 +36,10 @@ const RegisterAktiviteter: React.FC<{
 
     return (
         <VStack>
-            <ExpansionCard tittel="Aktiviteter registrert på bruker" maxWidth={800}>
+            <ExpansionCard
+                tittel={`Relevante aktiviteter registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
+                maxWidth={800}
+            >
                 <VStack gap="4">
                     <RegisterAktiviteterTabell
                         aktiviteter={aktiviteter}

@@ -24,7 +24,7 @@ const RegisterYtelser: React.FC<{
     const perioderMedYtelse = grunnlag.ytelse.perioder;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    const opplysningerHentetTekst = `Opplysninger hentet fra Arena ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)} for perioden ${formaterNullableIsoDato(hentetInformasjon.fom)} - ${formaterNullableIsoDato(hentetInformasjon.tom)}`;
+    const opplysningerHentetTekst = `Hentet fra Arena: ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
 
     if (perioderMedYtelse.length === 0) {
         return (
@@ -39,7 +39,10 @@ const RegisterYtelser: React.FC<{
 
     return (
         <VStack>
-            <ExpansionCard tittel="Relevante ytelser registrert på bruker" maxWidth={600}>
+            <ExpansionCard
+                tittel={`Relevante aktiviteter registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
+                maxWidth={650}
+            >
                 <VStack gap="4">
                     <RegisterYtelserTabell
                         perioderMedYtelse={perioderMedYtelse}
