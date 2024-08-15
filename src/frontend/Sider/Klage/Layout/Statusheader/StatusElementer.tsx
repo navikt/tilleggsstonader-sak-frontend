@@ -16,7 +16,7 @@ import {
 } from '../../utils/behandlingsresultat';
 
 interface StatusMenyInnholdProps {
-    åpen: boolean;
+    $åpen: boolean;
 }
 
 interface StatusProps {
@@ -28,8 +28,8 @@ export const GråTekst = styled(BodyShort)`
     color: ${ATextSubtle};
 `;
 
-const StatusMenyInnhold = styled.div<{ åpen: boolean }>`
-    display: ${(props: StatusMenyInnholdProps) => (props.åpen ? 'block' : 'none')};
+const StatusMenyInnhold = styled.div<{ $åpen: boolean }>`
+    display: ${(props: StatusMenyInnholdProps) => (props.$åpen ? 'block' : 'none')};
 
     position: absolute;
 
@@ -118,7 +118,7 @@ export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({ behandling }) 
             >
                 <ChevronDownIcon fontSize="1.5rem" />
             </VisStatuserKnapp>
-            <StatusMenyInnhold åpen={åpenStatusMeny}>
+            <StatusMenyInnhold $åpen={åpenStatusMeny}>
                 <ul>
                     <VisStønadOgBehandlingstypePåLitenSkjerm>
                         <li>

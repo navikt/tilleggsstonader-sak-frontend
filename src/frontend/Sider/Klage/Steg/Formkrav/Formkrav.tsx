@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { KlageInfo } from './KlageInfo';
-import ToKolonnerLayout from './ToKolonnerLayout';
+import { ToKolonnerLayout } from './ToKolonnerLayout';
 import { IFormkravVilkår } from './typer';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';

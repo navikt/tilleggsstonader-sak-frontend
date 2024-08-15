@@ -12,11 +12,6 @@ import Valgvisning from './Valgvisning';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 
-interface IHøyremenyProps {
-    behandling: Klagebehandling;
-    åpenHøyremeny: boolean;
-}
-
 const PilVenstreIkon = styled(ChevronLeftIcon)`
     border-radius: 0;
     margin-top: 3px;
@@ -51,7 +46,12 @@ export enum Høyremenyvalg {
     Dokumenter = 'Dokumenter',
 }
 
-const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling }) => {
+interface IHøyremenyProps {
+    behandling: Klagebehandling;
+    åpenHøyremeny: boolean;
+}
+
+export const Høyremeny: React.FC<IHøyremenyProps> = (props) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
     const { settÅpenHøyremeny, behandlingErRedigerbar } = useKlagebehandling();
 
@@ -59,16 +59,16 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
         if (behandlingErRedigerbar) {
             settAktivtvalg(Høyremenyvalg.Historikk);
         }
-    }, [behandling, behandlingErRedigerbar]);
+    }, [props.behandling, behandlingErRedigerbar]);
 
     return (
         <>
-            {åpenHøyremeny ? (
+            {props.åpenHøyremeny ? (
                 <>
                     <StyledHøyremeny>
                         <ÅpneLukkeKnapp
                             onClick={() => {
-                                settÅpenHøyremeny(!åpenHøyremeny);
+                                settÅpenHøyremeny(!props.åpenHøyremeny);
                             }}
                         >
                             <PilHøyreIkon />
@@ -81,7 +81,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
             ) : (
                 <ÅpneLukkeKnapp
                     onClick={() => {
-                        settÅpenHøyremeny(!åpenHøyremeny);
+                        settÅpenHøyremeny(!props.åpenHøyremeny);
                     }}
                 >
                     <PilVenstreIkon />
@@ -90,5 +90,3 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
         </>
     );
 };
-
-export default Høyremeny;

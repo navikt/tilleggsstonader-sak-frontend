@@ -6,8 +6,8 @@ import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 import {
     ABlue400,
-    AGray100,
     ABorderStrong,
+    AGray100,
     AIconInfo,
     ATextAction,
 } from '@navikt/ds-tokens/dist/tokens';
@@ -27,10 +27,11 @@ const StyledIkonWrapper = styled.div`
     }
 `;
 
-interface IkonProps {
+const StyledIkon = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'erAktiv',
+})<{
     erAktiv: boolean;
-}
-const StyledIkon = styled.div<IkonProps>`
+}>`
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;
