@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import Valgvisning from './Valgvisning';
-import Historikk from './Historikk';
-import { Dokumenter } from './Dokumenter';
+
 import styled from 'styled-components';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
+
+import { Dokumenter } from './Dokumenter';
+import Historikk from './Historikk';
+import Valgvisning from './Valgvisning';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 

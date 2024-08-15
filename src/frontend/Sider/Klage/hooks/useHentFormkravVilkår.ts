@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { IFormkravVilkår } from '../Steg/Formkrav/typer';
+
+import { useApp } from '../../../context/AppContext';
 import {
     byggTomRessurs,
     Ressurs,
@@ -7,7 +8,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../typer/ressurs';
-import { useApp } from '../../../context/AppContext';
+import { IFormkravVilkår } from '../Steg/Formkrav/typer';
 
 export const useHentFormkravVilkår = (): {
     vilkårsvurderinger: Ressurs<IFormkravVilkår>;
@@ -23,7 +24,6 @@ export const useHentFormkravVilkår = (): {
 
     const [vilkårsvurderinger, settVilkårsvurderinger] =
         useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
-
 
     const hentVilkårsvurderinger = useCallback(
         (behandlingId: string) => {

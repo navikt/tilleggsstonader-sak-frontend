@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+
 import { useApp } from '../../../context/AppContext';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
 
 export const useHentPersonopplysninger = (

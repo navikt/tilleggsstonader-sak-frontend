@@ -1,5 +1,6 @@
-import { useKlageApp } from '../context/KlageAppContext';
 import { useEffect } from 'react';
+
+import { useKlageApp } from '../context/KlageAppContext';
 
 export const useSetValgtFagsakId = (fagsakId: string) => {
     const { settValgtFagsakId } = useKlageApp();

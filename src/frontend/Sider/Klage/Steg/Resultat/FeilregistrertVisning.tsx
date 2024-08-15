@@ -1,15 +1,20 @@
 import * as React from 'react';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
+
 import styled from 'styled-components';
+
+import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
+
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 
 const AlerMedMaxbredde = styled(Alert)`
     max-width: 60rem;
 `;
 
-export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
+export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = ({
+    behandling,
+}) => {
     const feilregistrertResultat = behandling.klageinstansResultat.find(
         (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
     );

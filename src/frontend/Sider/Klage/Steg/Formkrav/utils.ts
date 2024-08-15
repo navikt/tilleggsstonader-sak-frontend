@@ -1,3 +1,5 @@
+import { compareDesc } from 'date-fns';
+
 import {
     EFormalKravType,
     FagsystemType,
@@ -7,10 +9,9 @@ import {
     PåklagetVedtak,
     VilkårStatus,
 } from './typer';
-import { compareDesc } from 'date-fns';
-import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../../utils/dato';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {

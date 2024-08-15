@@ -1,7 +1,8 @@
-import { DokumentProps } from '../../familie-felles-frontend/familie-dokumentliste';
 import { compareDesc } from 'date-fns';
+
 import { formaterNullableIsoDatoTid } from '../../../../utils/dato';
 import { åpneFilIEgenTab } from '../../../../utils/utils';
+import { DokumentProps } from '../../familie-felles-frontend/familie-dokumentliste';
 
 export const sorterDokumentlisten = (dokumenter: DokumentProps[]) => {
     return dokumenter

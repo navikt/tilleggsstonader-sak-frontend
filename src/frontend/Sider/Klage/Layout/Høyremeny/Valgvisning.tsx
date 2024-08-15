@@ -1,5 +1,9 @@
 import * as React from 'react';
+
 import styled from 'styled-components';
+
+import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
+import { BodyShort } from '@navikt/ds-react';
 import {
     ABlue400,
     AGray100,
@@ -7,9 +11,8 @@ import {
     AIconInfo,
     ATextAction,
 } from '@navikt/ds-tokens/dist/tokens';
+
 import { Høyremenyvalg } from './Høyremeny';
-import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
 const StyledIkonWrapper = styled.div`
     width: 100%;
@@ -24,7 +27,6 @@ const StyledIkonWrapper = styled.div`
     }
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface IkonProps {
     erAktiv: boolean;
 }

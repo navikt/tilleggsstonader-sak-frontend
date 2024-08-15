@@ -1,21 +1,22 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
 
-import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
-import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+
 import BehandlingRoutes from './BehandlingRoutes';
-import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
-import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
-import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
+import Fanemeny from './Fanemeny/Fanemeny';
+import Høyremeny from './Høyremeny/Høyremeny';
+import { Statusheader } from './Statusheader/Statusheader';
+import DataViewer from '../../../komponenter/DataViewer';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
-import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
+import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
-import DataViewer from '../../../komponenter/DataViewer';
-import { Statusheader } from './Statusheader/Statusheader';
+import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
+import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
 
 const Container = styled.div`
     display: flex;

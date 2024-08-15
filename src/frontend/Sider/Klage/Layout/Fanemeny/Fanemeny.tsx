@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { FC } from 'react';
-import styled from 'styled-components';
-import { alleSider, ISide, SideNavn } from './sider';
-import Fane from './Fane';
-import {
-    Klagebehandling,
 
-} from '../../typer/klagebehandling/klagebehandling';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import styled from 'styled-components';
+
 import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { KlagebehandlingSteg, stegrekkefølge } from '../../typer/klagebehandling/klagebehandlingSteg';
-import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
+
+import Fane from './Fane';
+import { alleSider, ISide, SideNavn } from './sider';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
+import {
+    KlagebehandlingSteg,
+    stegrekkefølge,
+} from '../../typer/klagebehandling/klagebehandlingSteg';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -37,7 +40,10 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;
         }
-        if (side.navn === SideNavn.BREV && behandling.resultat === KlagebehandlingResultat.HENLAGT) {
+        if (
+            side.navn === SideNavn.BREV &&
+            behandling.resultat === KlagebehandlingResultat.HENLAGT
+        ) {
             return true;
         }
         return side.rekkefølge > stegrekkefølge[steg];

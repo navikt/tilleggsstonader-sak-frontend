@@ -1,6 +1,6 @@
-import { KlagebehandlingResultat } from '../typer/klagebehandling/klagebehandlingResultat';
-import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { KlageinstansEventType, KlageinstansUtfall } from '../../../typer/klage';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
+import { KlagebehandlingResultat } from '../typer/klagebehandling/klagebehandlingResultat';
 import { KlagebehandlingSteg } from '../typer/klagebehandling/klagebehandlingSteg';
 
 export const behandlingResultatTilTekst: Record<KlagebehandlingResultat, string> = {
@@ -52,15 +52,11 @@ export const utledTekstForBehandlingsresultat = (behandling: Klagebehandling) =>
         : behandlingResultatTilTekst[behandling.resultat];
 };
 
-
 /**
  * Forenklet utledning av stegutfall
  * Denne skal ikke brukes for formkrav eller vurdering hvis resultat = Henlagt
  */
-export const utledStegutfall = (
-    behandling: Klagebehandling,
-    steg: KlagebehandlingSteg
-) => {
+export const utledStegutfall = (behandling: Klagebehandling, steg: KlagebehandlingSteg) => {
     switch (steg) {
         case KlagebehandlingSteg.FORMKRAV:
             return behandling.resultat === KlagebehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
@@ -77,5 +73,4 @@ export const utledStegutfall = (
         default:
             return '';
     }
-
 };

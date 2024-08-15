@@ -1,10 +1,12 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
 import * as React from 'react';
-import { Formkrav } from '../Steg/Formkrav/Formkrav';
+
+import { Navigate, Route, Routes } from 'react-router-dom';
+
 import { Brev } from '../Steg/Brev/Brev';
+import { Formkrav } from '../Steg/Formkrav/Formkrav';
 import { Resultat } from '../Steg/Resultat/Resultat';
-import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { Vurdering } from '../Steg/Vurdering/Vurdering';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
 import { KlagebehandlingSteg } from '../typer/klagebehandling/klagebehandlingSteg';
 
 interface Props {

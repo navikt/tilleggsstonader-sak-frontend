@@ -1,5 +1,5 @@
-import { VedtakValg, ÅrsakOmgjøring } from './vurderingValg';
 import { Hjemmel } from './hjemmel';
+import { VedtakValg, ÅrsakOmgjøring } from './vurderingValg';
 import { harVerdi } from '../../../../utils/utils';
 import { lagOmgjøringDto, lagOpprettholdelseDto, VurderingDto } from '../../hooks/useVurdering';
 
@@ -31,9 +31,9 @@ export function tilVurderingDto(vurderinger: Vurderingsfelter, behandlingId: str
     return vurderinger.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
         ? lagOpprettholdelseDto(
               behandlingId,
-              vurderinger.hjemmel!!,
-              vurderinger.innstillingKlageinstans!!,
-              vurderinger.interntNotat!!
+              vurderinger.hjemmel!,
+              vurderinger.innstillingKlageinstans!,
+              vurderinger.interntNotat!
           )
-        : lagOmgjøringDto(behandlingId, vurderinger.årsak!!, vurderinger.begrunnelseOmgjøring!!);
+        : lagOmgjøringDto(behandlingId, vurderinger.årsak!, vurderinger.begrunnelseOmgjøring!);
 }

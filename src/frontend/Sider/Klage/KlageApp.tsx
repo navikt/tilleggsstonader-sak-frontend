@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
+import { useNavigate } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
-import BehandlingContainer from './Layout/BehandlingContainer';
-import { Toast } from './Komponenter/Toast/Toast';
 import styled from 'styled-components';
 
 import { BodyLong } from '@navikt/ds-react';
 
+import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
+import { Toast } from './Komponenter/Toast/Toast';
 import UlagretDataModal from './Komponenter/UlagretDataModal/UlagretDataModal';
-import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
+import BehandlingContainer from './Layout/BehandlingContainer';
 import { useApp } from '../../context/AppContext';
+import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;

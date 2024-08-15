@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+
 import { Ressurs } from '../../../../typer/ressurs';
-import styled from 'styled-components';
+
 import { Document, Page, pdfjs } from 'react-pdf';
+import styled from 'styled-components';
+
 import { Alert, Loader, Pagination } from '@navikt/ds-react';
+
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import DataViewer from '../../../../komponenter/DataViewer';

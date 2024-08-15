@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
+import { Alert } from '@navikt/ds-react';
+
 import { useKlageApp } from '../../context/KlageAppContext';
 import { toastTilTekst } from '../../typer/toast';
-import { Alert } from '@navikt/ds-react';
 
 const Container = styled.div`
     z-index: 9999;

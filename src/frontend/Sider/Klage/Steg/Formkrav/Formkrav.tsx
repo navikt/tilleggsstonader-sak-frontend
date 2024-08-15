@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+
 import { KlageInfo } from './KlageInfo';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from './ToKolonnerLayout';
+import { IFormkravVilkår } from './typer';
+import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-import { useHentFormkravVilkår } from '../../hooks/useHentFormkravVilkår';
-import { utledRedigeringsmodus } from './validerFormkravUtils';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { useHentFagsystemVedtak } from '../../hooks/useHentFagsystemVedtak';
+import { useHentFormkravVilkår } from '../../hooks/useHentFormkravVilkår';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 
 export const Formkrav: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =

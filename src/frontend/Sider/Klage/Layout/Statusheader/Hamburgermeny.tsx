@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MenuHamburgerIcon } from '@navikt/aksel-icons';
+
 import styled from 'styled-components';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+
+import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
+
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 
 interface HamburgerMenyInnholdProps {
     åpen: boolean;
