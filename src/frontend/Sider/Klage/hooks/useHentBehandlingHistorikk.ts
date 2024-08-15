@@ -14,7 +14,7 @@ export const useHentBehandlingHistorikk = (behandlingId: string) => {
         request<Behandlingshistorikk[], null>(
             `/api/klage/behandlingshistorikk/${behandlingId}`
         ).then(settBehandlingHistorikk);
-    }, [behandlingId]);
+    }, [behandlingId, request]);
 
     return {
         behandlingHistorikk,

@@ -13,14 +13,10 @@ export const useHentDokumenter = (): Ressurs<DokumentProps[]> => {
 
     const [dokumenter, settDokumenter] = useState<Ressurs<DokumentProps[]>>(byggTomRessurs);
 
-    const hentDokumenter = () => {
+    useEffect(() => {
         settDokumenter({ status: RessursStatus.HENTER });
         request<DokumentProps[], null>(`/api/klage/vedlegg/${behandlingId}`).then(settDokumenter);
-    };
-
-    useEffect(() => {
-        hentDokumenter();
-    }, [behandlingId]);
+    }, [behandlingId, request]);
 
     return dokumenter;
 };

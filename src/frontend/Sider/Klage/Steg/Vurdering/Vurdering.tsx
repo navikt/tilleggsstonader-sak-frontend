@@ -26,10 +26,10 @@ import {
 } from '../../../../typer/ressurs';
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { IFormkravVilkår } from '../Formkrav/typer';
-import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { useVurdering } from '../../hooks/useVurdering';
+import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
+import { IFormkravVilkår } from '../Formkrav/typer';
+import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -74,13 +74,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         if (behandlingId && vurdering.status !== RessursStatus.SUKSESS) {
             hentVurdering(behandlingId);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId, hentVurdering]);
 
     useEffect(() => {
         request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
             settFormkrav
         );
-    }, [behandlingId, settFormkrav]);
+    }, [behandlingId, request, settFormkrav]);
 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS) {

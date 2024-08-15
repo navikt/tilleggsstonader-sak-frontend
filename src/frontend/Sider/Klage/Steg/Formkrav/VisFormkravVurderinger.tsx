@@ -254,13 +254,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 {!ikkePåklagetVedtak && (
                     <>
                         {radioKnapper.map((knapp: IFormalkrav, index) => (
-                            <>
-                                <SvarElement key={index}>
+                            <React.Fragment key={index}>
+                                <SvarElement>
                                     <Spørsmål>{knapp.spørsmål}</Spørsmål>
                                     <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                                 </SvarElement>
                                 {skalViseKlagefristUnntak(knapp) && (
-                                    <SvarElement key={'unntaksvilkår'}>
+                                    <SvarElement>
                                         <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
                                         <Svar>
                                             {
@@ -271,7 +271,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                         </Svar>
                                     </SvarElement>
                                 )}
-                            </>
+                            </React.Fragment>
                         ))}
                     </>
                 )}
@@ -314,10 +314,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             <>
                                 {ikkeUtfylteVilkår.map((vilkår) => {
                                     return (
-                                        <li>
-                                            <BodyShort key={vilkår.navn}>
-                                                {vilkår.spørsmål}
-                                            </BodyShort>
+                                        <li key={vilkår.type}>
+                                            <BodyShort>{vilkår.spørsmål}</BodyShort>
                                         </li>
                                     );
                                 })}

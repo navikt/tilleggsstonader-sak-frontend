@@ -159,8 +159,8 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         PåklagetVedtakstype.UTEN_VEDTAK && (
                         <RadioGrupperContainer>
                             {radioKnapper.map((item: IFormalkrav, index) => (
-                                <>
-                                    <FlexRow key={index}>
+                                <React.Fragment key={index}>
+                                    <FlexRow>
                                         <RadioGruppe
                                             legend={item.spørsmål}
                                             size="medium"
@@ -200,7 +200,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             unntakVurdering={vurderinger.klagefristOverholdtUnntak}
                                         />
                                     )}
-                                </>
+                                </React.Fragment>
                             ))}
                         </RadioGrupperContainer>
                     )}

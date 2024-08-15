@@ -92,7 +92,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 }
             }
         );
-    }, [behandlingId]);
+    }, [behandlingId, request]);
 
     useEffect(() => {
         if (utfall === 'LAG_BREV') {
@@ -106,7 +106,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 request<string, null>(`/api/klage/brev/${behandlingId}/pdf`).then(settBrevRessurs);
             }
         }
-    }, [behandlingErRedigerbar, utfall]);
+    }, [behandlingErRedigerbar, behandlingId, request, utfall]);
 
     const ferdigstill = () => {
         if (senderInn) {

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { Ressurs } from '../../../../typer/ressurs';
-
 import { Document, Page, pdfjs } from 'react-pdf';
 import styled from 'styled-components';
 
@@ -10,6 +8,7 @@ import { Alert, Loader, Pagination } from '@navikt/ds-react';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import DataViewer from '../../../../komponenter/DataViewer';
+import { Ressurs } from '../../../../typer/ressurs';
 
 // eslint-disable-next-line
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.entry');
@@ -73,7 +72,7 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
                         error={
                             <Alert variant={'error'}>Ukjent feil ved henting av dokument.</Alert>
                         }
-                        noData={<Alert variant={'error'}>'Dokumentet er tomt.</Alert>}
+                        noData={<Alert variant={'error'}>Dokumentet er tomt.</Alert>}
                         loading={<Loader />}
                     >
                         <Page pageNumber={pageNumber} renderTextLayer />
