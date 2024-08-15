@@ -79,7 +79,7 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
         : undefined;
 
     const logiskeVedlegg = logiskeVedleggPåDokument
-        ? logiskeVedleggPåDokument[dokument.dokumentInfoId] ?? []
+        ? (logiskeVedleggPåDokument[dokument.dokumentInfoId] ?? [])
         : [];
 
     const defaultLogiskeVedleggValue = logiskeVedlegg
