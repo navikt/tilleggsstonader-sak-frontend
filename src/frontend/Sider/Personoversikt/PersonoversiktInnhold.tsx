@@ -12,6 +12,7 @@ import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
+import { useApp } from '../../context/AppContext';
 import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {
@@ -62,12 +63,14 @@ const InnholdWrapper = styled.div`
 `;
 
 const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
+    const { erSaksbehandler } = useApp();
     const navigate = useNavigate();
 
     const paths = useLocation().pathname.split('/').slice(-1);
     const path = paths.length ? paths[paths.length - 1] : '';
 
-    const skalViseOppgaveTab = useFlag(Toggle.SKAL_VISE_OPPGAVER_PERSONOVERSIKT);
+    const toggleSkalViseOppgaveTab = useFlag(Toggle.SKAL_VISE_OPPGAVER_PERSONOVERSIKT);
+    const skalViseOppgaveTab = erSaksbehandler && toggleSkalViseOppgaveTab;
 
     const tabsSomSkalVises = [...(skalViseOppgaveTab ? [oppgaveTab] : []), ...tabs];
 
