@@ -6,6 +6,7 @@ import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
 import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
+import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import {
     BehandlingType,
@@ -24,6 +25,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
+    const { erSaksbehandler } = useApp();
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
 
@@ -33,6 +35,10 @@ const OpprettNyBehandlingModal: FC<Props> = ({
         settVisModal(false);
         settBehandlingtype(undefined);
     };
+
+    if (!erSaksbehandler) {
+        return null;
+    }
 
     return (
         <div className="py-16">
