@@ -71,7 +71,11 @@ const BehandlingTabsInnhold = () => {
     const behandlingFaner = hentBehandlingfaner(behandling, visSimulering);
 
     return (
-        <StegProvider fane={aktivFane} behandling={behandling}>
+        <StegProvider
+            fane={aktivFane}
+            behandling={behandling}
+            behandlingErRedigerbar={behandlingErRedigerbar}
+        >
             <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                 <StickyTablistContainer>
                     <TabsList>

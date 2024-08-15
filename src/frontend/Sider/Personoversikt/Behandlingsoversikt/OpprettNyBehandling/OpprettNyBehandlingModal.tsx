@@ -6,6 +6,7 @@ import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
 import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
+import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import {
     BehandlingType,
@@ -24,15 +25,24 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
+    const { erSaksbehandler } = useApp();
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
 
     const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
+    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
 
     const lukkModal = () => {
         settVisModal(false);
         settBehandlingtype(undefined);
     };
+
+    if (!erSaksbehandler) {
+        return null;
+    }
+    if (!kanOppretteKlage && !kanOppretteRevurdering) {
+        return null;
+    }
 
     return (
         <div className="py-16">
@@ -51,7 +61,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                         <option value={''}>Velg</option>
                         {[
                             ...(kanOppretteRevurdering ? [BehandlingType.REVURDERING] : []),
-                            BehandlingType.KLAGE,
+                            ...(kanOppretteKlage ? [BehandlingType.KLAGE] : []),
                         ].map((type) => (
                             <option key={type} value={type}>
                                 {behandlingTypeTilTekst[type]}
