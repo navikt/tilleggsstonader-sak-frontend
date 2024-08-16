@@ -1,6 +1,5 @@
 import {
-    differenceInHours,
-    isSameDay,
+    differenceInDays,
     addDays,
     addMonths,
     format,
@@ -137,8 +136,5 @@ export const formaterIsoÅr = (dato: string): number => {
     return parseISO(dato).getFullYear();
 };
 
-export const erSammeDag = (dato: string | Date, dato2: string | Date): boolean =>
-    isSameDay(tilDato(dato), tilDato(dato2));
-
-export const timerSiden = (dato: string | Date, dato2: string | Date): number =>
-    differenceInHours(tilDato(dato), tilDato(dato2));
+export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
+    differenceInDays(tilDato(dato), tilDato(dato2));

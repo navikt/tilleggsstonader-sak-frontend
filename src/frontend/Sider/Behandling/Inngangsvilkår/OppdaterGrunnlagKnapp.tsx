@@ -11,7 +11,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erSammeDag, timerSiden } from '../../../utils/dato';
+import { dagerSiden } from '../../../utils/dato';
 import { Toggle } from '../../../utils/toggles';
 
 const OppdaterGrunnlagKnapp: React.FC<{
@@ -71,11 +71,13 @@ const OppdaterGrunnlagKnapp: React.FC<{
         </>
     );
     const tidspunktHentet = vilkårperioder.grunnlag.hentetInformasjon.tidspunktHentet;
-    if (!erSammeDag(tidspunktHentet, new Date())) {
+    const dagerSidenGrunnlagBleHentet = dagerSiden(tidspunktHentet, new Date());
+    if (dagerSidenGrunnlagBleHentet > 0) {
         return (
             <Alert variant={'warning'}>
                 <Heading size={'xsmall'} level="3">
-                    Det har gått {timerSiden(tidspunktHentet, new Date())} timer aktivitet og ytelse
+                    Det har gått {dagerSidenGrunnlagBleHentet}{' '}
+                    {dagerSidenGrunnlagBleHentet > 1 ? 'dager' : 'dag'} siden aktivitet og ytelse
                     ble hentet.
                 </Heading>
                 Informasjonen kan være utdatert. Vi anbefaler at du henter inn på nytt.
