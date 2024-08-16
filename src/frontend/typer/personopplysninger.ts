@@ -2,6 +2,7 @@ export interface Personopplysninger {
     personIdent: string;
     navn: Navn;
     harVergemål: boolean;
+    adressebeskyttelse: Adressebeskyttelse;
     fullmakt: Fullmakt[];
     vergemål: Vergemål[];
 }
@@ -11,6 +12,13 @@ interface Navn {
     mellomnavn?: string;
     etternavn: string;
     visningsnavn: string;
+}
+
+export enum Adressebeskyttelse {
+    STRENGT_FORTROLIG = 'STRENGT_FORTROLIG',
+    STRENGT_FORTROLIG_UTLAND = 'STRENGT_FORTROLIG_UTLAND',
+    FORTROLIG = 'FORTROLIG',
+    UGRADERT = 'UGRADERT',
 }
 
 export interface Vergemål {

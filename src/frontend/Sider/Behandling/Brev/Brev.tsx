@@ -80,6 +80,7 @@ const Brev: React.FC = () => {
     const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
         personopplysninger: Personopplysninger
     ): PersonopplysningerIBrevmottakere => {
+        // Denne burde kanskje ikke bruke `Personopplysninger` ? Vi legger ikke inn fullmakt og vergemål fra sak backend
         return {
             personIdent: personopplysninger.personIdent,
             navn: personopplysninger.navn.visningsnavn,
