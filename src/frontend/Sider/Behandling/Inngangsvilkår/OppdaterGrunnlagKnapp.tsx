@@ -72,7 +72,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
         </>
     );
     const tidspunktHentet = vilkårperioder.grunnlag.hentetInformasjon.tidspunktHentet;
-    const dagerSidenGrunnlagBleHentet = dagerSiden(tidspunktHentet, new Date());
+    const dagerSidenGrunnlagBleHentet = dagerSiden(new Date(), tidspunktHentet);
     if (dagerSidenGrunnlagBleHentet > 0) {
         return (
             <Alert variant={'warning'}>
