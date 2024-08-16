@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 
@@ -10,8 +12,9 @@ import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erSammeDag, timerSiden } from '../../../utils/dato';
+import { Toggle } from '../../../utils/toggles';
 
-const HentGrunnlagPåNyttKnapp: React.FC<{
+const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;
     hentVilkårperioder: () => void;
 }> = ({ vilkårperioder, hentVilkårperioder }) => {
@@ -20,6 +23,13 @@ const HentGrunnlagPåNyttKnapp: React.FC<{
     const { erStegRedigerbart } = useSteg();
     const [laster, settLaster] = useState(false);
     const [feilmeldingOppdaterGrunnlag, settFeilmeldingOppdaterGrunnlag] = useState<string>();
+
+    const isEnabled = useFlag(Toggle.KAN_OPPDATERE_GRUNNLAG_VILKÅRPERIODE);
+
+    if (!isEnabled) {
+        return null;
+    }
+
     const oppdaterGrunnlag = () => {
         if (laster) {
             return;
@@ -76,4 +86,4 @@ const HentGrunnlagPåNyttKnapp: React.FC<{
     return <div>{button}</div>;
 };
 
-export default HentGrunnlagPåNyttKnapp;
+export default OppdaterGrunnlagKnapp;

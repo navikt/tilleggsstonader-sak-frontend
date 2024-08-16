@@ -6,8 +6,8 @@ import { VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
-import HentGrunnlagPåNyttKnapp from './HentGrunnlagPåNyttKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
+import OppdaterGrunnlagKnapp from './OppdaterGrunnlagKnapp';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
@@ -50,7 +50,7 @@ const Inngangsvilkår = () => {
                         vilkårperioder={vilkårperioderResponse.vilkårperioder}
                         hentedeStønadsperioder={stønadsperioder}
                     >
-                        <HentGrunnlagPåNyttKnapp
+                        <OppdaterGrunnlagKnapp
                             vilkårperioder={vilkårperioderResponse}
                             hentVilkårperioder={hentVilkårperioder}
                         />
