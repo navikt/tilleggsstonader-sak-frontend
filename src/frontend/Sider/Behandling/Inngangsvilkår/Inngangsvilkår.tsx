@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
-import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import Målgruppe from './Målgruppe/Målgruppe';
 import OppdaterGrunnlagKnapp from './OppdaterGrunnlagKnapp';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
@@ -16,15 +15,14 @@ import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
-import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin: 2rem;
+    gap: 0.5rem;
+    margin: 0.5rem 2rem 2rem 2rem;
 `;
 
 const Inngangsvilkår = () => {
@@ -36,8 +34,6 @@ const Inngangsvilkår = () => {
     return (
         <Container>
             <VarselVedtakIArena />
-
-            {erLokalt() && <FyllUtVilkårKnapp />}
 
             <DataViewer
                 response={{
@@ -54,7 +50,7 @@ const Inngangsvilkår = () => {
                             vilkårperioder={vilkårperioderResponse}
                             hentVilkårperioder={hentVilkårperioder}
                         />
-                        <VStack gap="12">
+                        <VStack gap="8">
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                             <Stønadsperioder />

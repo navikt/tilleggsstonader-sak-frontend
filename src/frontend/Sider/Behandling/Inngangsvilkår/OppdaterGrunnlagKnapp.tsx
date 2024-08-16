@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
 
 import { VilkårperioderResponse } from './typer/vilkårperiode';
 import { useApp } from '../../../context/AppContext';
@@ -57,7 +57,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
     if (!erStegRedigerbart || !vilkårperioder.grunnlag) {
         return null;
     }
-    const button = (
+    const button = (tekst: string) => (
         <>
             <Button
                 size={'xsmall'}
@@ -66,7 +66,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                 onClick={oppdaterGrunnlag}
                 disabled={laster}
             >
-                Hent aktiviteter og ytelser på nytt
+                {tekst}
             </Button>
             <Feilmelding size={'small'}>{feilmeldingOppdaterGrunnlag}</Feilmelding>
         </>
@@ -75,18 +75,22 @@ const OppdaterGrunnlagKnapp: React.FC<{
     const dagerSidenGrunnlagBleHentet = dagerSiden(new Date(), tidspunktHentet);
     if (dagerSidenGrunnlagBleHentet > 0) {
         return (
-            <Alert variant={'warning'}>
+            <Alert variant={'warning'} size={'small'}>
                 <Heading size={'xsmall'} level="3">
                     Det har gått {dagerSidenGrunnlagBleHentet}{' '}
                     {dagerSidenGrunnlagBleHentet > 1 ? 'dager' : 'dag'} siden aktivitet og ytelse
-                    ble hentet.
+                    ble hentet
                 </Heading>
-                Informasjonen kan være utdatert. Vi anbefaler at du henter inn på nytt.
-                {button}
+                <HStack>
+                    <span>
+                        Informasjonen kan være utdatert. Vi anbefaler at du henter inn på nytt.
+                    </span>
+                    {button('Hent på nytt')}
+                </HStack>
             </Alert>
         );
     }
-    return <div>{button}</div>;
+    return <div>{button('Hent saksopplysninger om aktiviteter og ytelser på nytt')}</div>;
 };
 
 export default OppdaterGrunnlagKnapp;
