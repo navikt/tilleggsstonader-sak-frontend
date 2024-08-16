@@ -2,6 +2,8 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
+import { VStack } from '@navikt/ds-react';
+
 import Aktivitet from './Aktivitet/Aktivitet';
 import FyllUtVilkårKnapp from './FyllUtVilkårKnapp';
 import HentGrunnlagPåNyttKnapp from './HentGrunnlagPåNyttKnapp';
@@ -22,7 +24,7 @@ import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     margin: 2rem;
 `;
 
@@ -55,9 +57,11 @@ const Inngangsvilkår = () => {
                                     vilkårperioder={vilkårperioderResponse}
                                     hentVilkårperioder={hentVilkårperioder}
                                 />
-                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
-                                <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                                <Stønadsperioder />
+                                <VStack gap="12">
+                                    <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                                    <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
+                                    <Stønadsperioder />
+                                </VStack>
                             </InngangsvilkårProvider>
                         )}
                     </>
