@@ -16,7 +16,6 @@ import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
-import { features } from '../../../utils/features';
 import { erLokalt } from '../../../utils/miljø';
 import { FanePath } from '../faner';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
@@ -47,24 +46,20 @@ const Inngangsvilkår = () => {
                 }}
             >
                 {({ vilkårperioderResponse, stønadsperioder }) => (
-                    <>
-                        {features.nyeInngangsvilkår && (
-                            <InngangsvilkårProvider
-                                vilkårperioder={vilkårperioderResponse.vilkårperioder}
-                                hentedeStønadsperioder={stønadsperioder}
-                            >
-                                <HentGrunnlagPåNyttKnapp
-                                    vilkårperioder={vilkårperioderResponse}
-                                    hentVilkårperioder={hentVilkårperioder}
-                                />
-                                <VStack gap="12">
-                                    <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
-                                    <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                                    <Stønadsperioder />
-                                </VStack>
-                            </InngangsvilkårProvider>
-                        )}
-                    </>
+                    <InngangsvilkårProvider
+                        vilkårperioder={vilkårperioderResponse.vilkårperioder}
+                        hentedeStønadsperioder={stønadsperioder}
+                    >
+                        <HentGrunnlagPåNyttKnapp
+                            vilkårperioder={vilkårperioderResponse}
+                            hentVilkårperioder={hentVilkårperioder}
+                        />
+                        <VStack gap="12">
+                            <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                            <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
+                            <Stønadsperioder />
+                        </VStack>
+                    </InngangsvilkårProvider>
                 )}
             </DataViewer>
             <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
