@@ -11,6 +11,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
+import { Toast } from '../../../typer/toast';
 import { dagerSiden } from '../../../utils/dato';
 import { Toggle } from '../../../utils/toggles';
 
@@ -18,7 +19,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;
     hentVilkårperioder: () => void;
 }> = ({ vilkårperioder, hentVilkårperioder }) => {
-    const { request } = useApp();
+    const { request, settToast } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const [laster, settLaster] = useState(false);
@@ -42,7 +43,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
         )
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    // TOAST ?
+                    settToast(Toast.OPPDATERT_GRUNNLAG_VILKÅRPERIODE);
                     hentVilkårperioder();
                 } else {
                     settFeilmeldingOppdaterGrunnlag(
