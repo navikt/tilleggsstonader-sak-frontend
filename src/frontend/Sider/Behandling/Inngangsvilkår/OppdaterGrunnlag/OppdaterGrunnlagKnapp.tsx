@@ -5,15 +5,15 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
 
-import { VilkårperioderResponse } from './typer/vilkårperiode';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { useSteg } from '../../../context/StegContext';
-import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
-import { RessursStatus } from '../../../typer/ressurs';
-import { Toast } from '../../../typer/toast';
-import { dagerSiden } from '../../../utils/dato';
-import { Toggle } from '../../../utils/toggles';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { RessursStatus } from '../../../../typer/ressurs';
+import { Toast } from '../../../../typer/toast';
+import { dagerSiden } from '../../../../utils/dato';
+import { Toggle } from '../../../../utils/toggles';
+import { VilkårperioderResponse } from '../typer/vilkårperiode';
 
 const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;

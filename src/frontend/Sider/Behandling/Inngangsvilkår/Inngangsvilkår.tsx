@@ -6,7 +6,7 @@ import { VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
-import OppdaterGrunnlagKnapp from './OppdaterGrunnlagKnapp';
+import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
 import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
