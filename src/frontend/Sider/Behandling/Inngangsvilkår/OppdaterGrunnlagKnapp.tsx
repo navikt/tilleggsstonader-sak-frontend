@@ -37,7 +37,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
         }
         settFeilmeldingOppdaterGrunnlag(undefined);
         settLaster(true);
-        request<VilkårperioderResponse, null>(
+        request<null, null>(
             `/api/sak/vilkarperiode/behandling/${behandling.id}/oppdater-grunnlag`,
             'POST'
         )
