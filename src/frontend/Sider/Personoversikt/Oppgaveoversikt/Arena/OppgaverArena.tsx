@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Button, Heading, VStack } from '@navikt/ds-react';
 
 import OppgavelisteArena from './OppgavelisteArena';
 import { OppgaveArena } from './typer';
@@ -26,21 +26,24 @@ const OppgaverArena: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId })
     }, []);
 
     return (
-        <DataViewer response={{ oppgaveResponse }}>
-            {({ oppgaveResponse }) => (
-                <>
-                    <OppgavelisteArena oppgaver={oppgaveResponse} />
-                    <Button
-                        onClick={() => hentOppgaver()}
-                        size="small"
-                        variant="secondary"
-                        style={{ maxWidth: 'fit-content' }}
-                    >
-                        Hent oppgaver på nytt
-                    </Button>
-                </>
-            )}
-        </DataViewer>
+        <VStack gap={'2'}>
+            <Heading size={'xsmall'}>Arena</Heading>
+            <DataViewer response={{ oppgaveResponse }}>
+                {({ oppgaveResponse }) => (
+                    <>
+                        <OppgavelisteArena oppgaver={oppgaveResponse} />
+                        <Button
+                            onClick={() => hentOppgaver()}
+                            size="small"
+                            variant="secondary"
+                            style={{ maxWidth: 'fit-content' }}
+                        >
+                            Hent oppgaver på nytt
+                        </Button>
+                    </>
+                )}
+            </DataViewer>
+        </VStack>
     );
 };
 
