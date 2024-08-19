@@ -1,11 +1,14 @@
 import * as React from 'react';
+
 import styled from 'styled-components';
-import { ILogiskVedlegg, LogiskeVedlegg } from './LogiskeVedlegg';
+
 import { Detail, Label } from '@navikt/ds-react';
+
+import { ILogiskVedlegg, LogiskeVedlegg } from './LogiskeVedlegg';
 import '@navikt/ds-css';
-import PilVenstre from '../familie-ikoner/piler/PilVenstre';
-import PilNed from '../familie-ikoner/piler/PilNed';
 import PilHøyre from '../familie-ikoner/piler/PilHøyre';
+import PilNed from '../familie-ikoner/piler/PilNed';
+import PilVenstre from '../familie-ikoner/piler/PilVenstre';
 
 const StyledDokumentListe = styled.ul`
     padding: 0;

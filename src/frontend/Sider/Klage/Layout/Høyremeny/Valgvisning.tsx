@@ -1,15 +1,18 @@
 import * as React from 'react';
+
 import styled from 'styled-components';
+
+import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
+import { BodyShort } from '@navikt/ds-react';
 import {
     ABlue400,
-    AGray100,
     ABorderStrong,
+    AGray100,
     AIconInfo,
     ATextAction,
 } from '@navikt/ds-tokens/dist/tokens';
+
 import { Høyremenyvalg } from './Høyremeny';
-import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
 const StyledIkonWrapper = styled.div`
     width: 100%;
@@ -24,11 +27,11 @@ const StyledIkonWrapper = styled.div`
     }
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface IkonProps {
+const StyledIkon = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== 'erAktiv',
+})<{
     erAktiv: boolean;
-}
-const StyledIkon = styled.div<IkonProps>`
+}>`
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;

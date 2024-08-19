@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { APurple500, AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 interface IBrukerMedBlyant {

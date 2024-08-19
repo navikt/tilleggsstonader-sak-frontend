@@ -1,11 +1,11 @@
 import React from 'react';
+
 import styled from 'styled-components';
 
-const Container = styled.div<{ skillelinje: boolean }>`
+const Container = styled.div`
     display: flex;
     margin: 2rem;
-    border-bottom: ${(props: { skillelinje: boolean }) =>
-        props.skillelinje ? '3px solid #e9e7e7' : 'none'};
+    border-bottom: 3px solid #e9e7e7;
 
     @media (max-width: 1600px) {
         flex-direction: column;
@@ -33,23 +33,17 @@ const HøyreKolonne = styled.div`
 `;
 
 interface Props {
-    skillelinje?: boolean;
     children: {
-        venstre: JSX.Element;
-        høyre: JSX.Element;
+        venstre: React.ReactNode;
+        høyre: React.ReactNode;
     };
 }
 
-const ToKolonnerLayout: React.FC<Props> = ({
-    skillelinje = true,
-    children: { venstre, høyre },
-}) => {
+export const ToKolonnerLayout: React.FC<Props> = ({ children: { venstre, høyre } }) => {
     return (
-        <Container skillelinje={skillelinje}>
+        <Container>
             <VenstreKolonne>{venstre}</VenstreKolonne>
             <HøyreKolonne>{høyre}</HøyreKolonne>
         </Container>
     );
 };
-
-export default ToKolonnerLayout;

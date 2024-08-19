@@ -1,18 +1,22 @@
 import React, { FC, useState } from 'react';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+
+import styled from 'styled-components';
+
 import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
-import { behandlingStatusTilTekst } from '../../typer/klagebehandling/klagebehandlingStatus';
-import styled from 'styled-components';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { formaterIsoDatoTid } from '../../../../utils/dato';
-
 
 import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
-import { behandlingResultatTilTekst, utledTekstForBehandlingsresultat } from '../../utils/behandlingsresultat';
+import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import { behandlingStatusTilTekst } from '../../typer/klagebehandling/klagebehandlingStatus';
+import {
+    behandlingResultatTilTekst,
+    utledTekstForBehandlingsresultat,
+} from '../../utils/behandlingsresultat';
 
 interface StatusMenyInnholdProps {
-    åpen: boolean;
+    $åpen: boolean;
 }
 
 interface StatusProps {
@@ -24,8 +28,8 @@ export const GråTekst = styled(BodyShort)`
     color: ${ATextSubtle};
 `;
 
-const StatusMenyInnhold = styled.div<{ åpen: boolean }>`
-    display: ${(props: StatusMenyInnholdProps) => (props.åpen ? 'block' : 'none')};
+const StatusMenyInnhold = styled.div<{ $åpen: boolean }>`
+    display: ${(props: StatusMenyInnholdProps) => (props.$åpen ? 'block' : 'none')};
 
     position: absolute;
 
@@ -101,9 +105,7 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({
-    behandling,
-}) => {
+export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
 
     return (
@@ -116,7 +118,7 @@ export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({
             >
                 <ChevronDownIcon fontSize="1.5rem" />
             </VisStatuserKnapp>
-            <StatusMenyInnhold åpen={åpenStatusMeny}>
+            <StatusMenyInnhold $åpen={åpenStatusMeny}>
                 <ul>
                     <VisStønadOgBehandlingstypePåLitenSkjerm>
                         <li>
@@ -186,9 +188,7 @@ export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Klagebehandling }> = ({
-    behandling,
-}) => {
+export const AlleStatuser: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     return (
         <Statuser>
             <Status>

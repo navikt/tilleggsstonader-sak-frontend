@@ -55,7 +55,7 @@ export interface IFormkravVilkår {
 }
 
 export interface PåklagetVedtak {
-    behandlingId?: string,
+    behandlingId?: string;
     eksternFagsystemBehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
     fagsystemVedtak?: FagsystemVedtak;

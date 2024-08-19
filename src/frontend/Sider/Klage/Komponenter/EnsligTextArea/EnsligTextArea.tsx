@@ -1,7 +1,9 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import { FamilieTextarea, IFamilieTextareaProps } from '@navikt/familie-form-elements';
+
 import { ErrorMessage } from '@navikt/ds-react';
+import { FamilieTextarea, IFamilieTextareaProps } from '@navikt/familie-form-elements';
 
 const StyledFamilieTextArea: React.FC<IFamilieTextareaProps> = styled(FamilieTextarea)`
     white-space: pre-wrap;

@@ -1,5 +1,5 @@
-import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
 import { ensure } from '../../../../utils/utils';
+import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
 import { KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 
 export const fjernDuplikatStegFraHistorikk = (steg: Behandlingshistorikk[]) => {
@@ -29,4 +29,3 @@ const lagHistorikkInnslag = (steg: KlagebehandlingSteg): Behandlingshistorikk =>
     opprettetAv: '',
     endretTid: '',
 });
-

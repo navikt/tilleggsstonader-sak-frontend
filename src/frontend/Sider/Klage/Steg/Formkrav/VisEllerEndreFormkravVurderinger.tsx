@@ -1,7 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { VisFormkravVurderinger } from './VisFormkravVurderinger';
-import { IFormkravVilkår, Redigeringsmodus } from './typer';
+
 import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
+import { IFormkravVilkår, Redigeringsmodus } from './typer';
+import { VisFormkravVurderinger } from './VisFormkravVurderinger';
 import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 

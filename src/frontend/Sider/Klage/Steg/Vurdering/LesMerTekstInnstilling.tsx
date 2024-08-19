@@ -1,6 +1,8 @@
-import styled from 'styled-components';
-import { ReadMore } from '@navikt/ds-react';
 import * as React from 'react';
+
+import styled from 'styled-components';
+
+import { ReadMore } from '@navikt/ds-react';
 
 const LesMerTekst = styled(ReadMore)`
     margin-top: 0.25rem;

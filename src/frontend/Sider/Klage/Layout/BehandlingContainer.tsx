@@ -1,50 +1,51 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
 
-import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 
-import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+
 import BehandlingRoutes from './BehandlingRoutes';
-import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
-import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
-import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
+import Fanemeny from './Fanemeny/Fanemeny';
+import { Høyremeny } from './Høyremeny/Høyremeny';
+import { Statusheader } from './Statusheader/Statusheader';
+import DataViewer from '../../../komponenter/DataViewer';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
-import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
+import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
-import DataViewer from '../../../komponenter/DataViewer';
-import { Statusheader } from './Statusheader/Statusheader';
+import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
+import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
+import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
 
 const Container = styled.div`
     display: flex;
     flex-shrink: 2;
 `;
 
-interface InnholdWrapperProps {
-    åpenHøyremeny: boolean;
-}
-
 interface HøyreMenyWrapperProps {
-    åpenHøyremeny: boolean;
+    $åpenHøyremeny: boolean;
 }
 
 const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
     border-left: 2px solid ${ABorderStrong};
     flex-shrink: 1;
     flex-grow: 0;
-    width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
-    min-width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
+    width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
+    min-width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
     transition: all 0.25s;
 `;
+
+interface InnholdWrapperProps {
+    $åpenHøyremeny: boolean;
+}
 
 const InnholdWrapper = styled.div<InnholdWrapperProps>`
     flex-shrink: 0;
     flex-grow: 1;
     flex-basis: 0;
     min-width: 0;
-    max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
+    max-width: ${(p) => (p.$åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
     z-index: 9;
 `;
 
@@ -69,12 +70,12 @@ const BehandlingContent: FC<{
             <ScrollToTop />
             <Statusheader personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
-                <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
+                <InnholdWrapper $åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
                 </InnholdWrapper>
-                <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
+                <HøyreMenyWrapper $åpenHøyremeny={åpenHøyremeny}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
                 </HøyreMenyWrapper>
             </Container>

@@ -1,20 +1,23 @@
 import React, { FC } from 'react';
-import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
+
 import styled from 'styled-components';
+
+import { Label } from '@navikt/ds-react';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+
+import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
+import { EtikettFokus } from './Etikett';
+import { Hamburgermeny } from './Hamburgermeny';
+import PersonStatusVarsel from './PersonStatusVarsel';
+import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
+import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
+import { erEtterDagensDato } from '../../../../utils/dato';
+import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import {
     erBehandlingRedigerbar,
     Klagebehandling,
 } from '../../typer/klagebehandling/klagebehandling';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { Hamburgermeny } from './Hamburgermeny';
-import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
-import { Label } from '@navikt/ds-react';
-import PersonStatusVarsel from './PersonStatusVarsel';
-import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
-import { EtikettFokus } from './Etikett';
-import Visittkort from '../../familie-felles-frontend/familie-visittkort';
-import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
-import { erEtterDagensDato } from '../../../../utils/dato';
+import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;

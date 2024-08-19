@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
+
 import { useApp } from '../../../context/AppContext';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { DokumentProps } from '../familie-felles-frontend/familie-dokumentliste';
 
 export const useHentDokumenter = (): Ressurs<DokumentProps[]> => {
@@ -11,14 +13,10 @@ export const useHentDokumenter = (): Ressurs<DokumentProps[]> => {
 
     const [dokumenter, settDokumenter] = useState<Ressurs<DokumentProps[]>>(byggTomRessurs);
 
-    const hentDokumenter = () => {
+    useEffect(() => {
         settDokumenter({ status: RessursStatus.HENTER });
         request<DokumentProps[], null>(`/api/klage/vedlegg/${behandlingId}`).then(settDokumenter);
-    };
-
-    useEffect(() => {
-        hentDokumenter();
-    }, [behandlingId]);
+    }, [behandlingId, request]);
 
     return dokumenter;
 };

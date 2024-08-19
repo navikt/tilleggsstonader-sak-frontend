@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { BodyShort, Detail, Label } from '@navikt/ds-react';
+
 import styled from 'styled-components';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+
 import { PersonCircleIcon } from '@navikt/aksel-icons';
+import { BodyShort, Detail, Label } from '@navikt/ds-react';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+
 import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import {
     behandlingStegFullførtTilTekst,
     KlagebehandlingSteg,

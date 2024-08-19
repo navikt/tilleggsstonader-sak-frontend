@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { useHentDokumenter } from '../../hooks/useHentDokumenter';
-import DataViewer from '../../../../komponenter/DataViewer';
-import { Heading } from '@navikt/ds-react';
+
 import styled from 'styled-components';
-import { Dokumentliste } from '../../familie-felles-frontend/familie-dokumentliste';
+
+import { Heading } from '@navikt/ds-react';
+
 import { lastNedDokument, sorterDokumentlisten } from './utils';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { Dokumentliste } from '../../familie-felles-frontend/familie-dokumentliste';
+import { useHentDokumenter } from '../../hooks/useHentDokumenter';
 
 const Overskrift = styled(Heading)`
     margin-top: 0.5rem;

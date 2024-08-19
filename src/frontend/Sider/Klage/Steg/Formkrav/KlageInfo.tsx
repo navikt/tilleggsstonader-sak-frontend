@@ -1,16 +1,19 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import { BodyLong, Heading } from '@navikt/ds-react';
-import { IFormkravVilkår, Redigeringsmodus } from './typer';
-import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+
 import { FileTextIcon } from '@navikt/aksel-icons';
+import { BodyLong, Heading } from '@navikt/ds-react';
+
+import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import IkkeOppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/IkkeOppfylt';
+import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
+import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
+import { formaterIsoDato } from '../../../../utils/dato';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import Advarsel from '../../Komponenter/Ikoner/Advarsel';
-import { formaterIsoDato } from '../../../../utils/dato';
-import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
-import IkkeOppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/IkkeOppfylt';
-import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 
 const OppfyltIkon = styled(Oppfylt)`
     margin-top: 0.25rem;

@@ -1,5 +1,19 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { Alert, Button } from '@navikt/ds-react';
+
+import { OmgjørVedtak } from './OmgjørVedtak';
+import PdfVisning from './PdfVisning';
+import { useApp } from '../../../../context/AppContext';
+import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
+import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import {
     byggTomRessurs,
     Ressurs,
@@ -7,22 +21,11 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../../typer/ressurs';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import styled from 'styled-components';
-import { Alert, Button } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
-import { VedtakValg } from '../Vurdering/vurderingValg';
-import PdfVisning from './PdfVisning';
-import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
-import { OmgjørVedtak } from './OmgjørVedtak';
-import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
-import { useApp } from '../../../../context/AppContext';
-import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
-import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
-import DataViewer from '../../../../komponenter/DataViewer';
-import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 import { PersonopplysningerIBrevmottakere } from '../../../Behandling/Brev/typer';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
+import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
+import { VedtakValg } from '../Vurdering/vurderingValg';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -89,7 +92,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 }
             }
         );
-    }, [behandlingId]);
+    }, [behandlingId, request]);
 
     useEffect(() => {
         if (utfall === 'LAG_BREV') {
@@ -103,7 +106,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 request<string, null>(`/api/klage/brev/${behandlingId}/pdf`).then(settBrevRessurs);
             }
         }
-    }, [behandlingErRedigerbar, utfall]);
+    }, [behandlingErRedigerbar, behandlingId, request, utfall]);
 
     const ferdigstill = () => {
         if (senderInn) {

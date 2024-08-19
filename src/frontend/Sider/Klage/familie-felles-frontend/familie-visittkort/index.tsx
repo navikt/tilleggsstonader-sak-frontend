@@ -1,10 +1,13 @@
 import * as React from 'react';
+
 import styled from 'styled-components';
+
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
 import { ABorderStrong, ABorderSubtle, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
-import { FamilieIkonVelger } from '../familie-ikoner/familie/FamilieIkonVelger';
 
 import { kjønnType } from '../../typer/personopplysningerFraKlage';
+import { FamilieIkonVelger } from '../familie-ikoner/familie/FamilieIkonVelger';
+
 export interface IProps extends React.PropsWithChildren {
     alder: number;
     ident: string;

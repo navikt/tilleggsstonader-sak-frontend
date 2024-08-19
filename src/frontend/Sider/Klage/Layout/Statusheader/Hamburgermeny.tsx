@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MenuHamburgerIcon } from '@navikt/aksel-icons';
+
 import styled from 'styled-components';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+
+import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+
 interface HamburgerMenyInnholdProps {
-    åpen: boolean;
+    $åpen: boolean;
 }
 
 const HamburgerMenyIkon = styled(MenuHamburgerIcon)`
@@ -16,8 +19,8 @@ const HamburgerMenyIkon = styled(MenuHamburgerIcon)`
     }
 `;
 
-const HamburgerMenyInnhold = styled.div<{ åpen: boolean }>`
-    display: ${(props: HamburgerMenyInnholdProps) => (props.åpen ? 'block' : 'none')};
+const HamburgerMenyInnhold = styled.div<{ $åpen: boolean }>`
+    display: ${(props: HamburgerMenyInnholdProps) => (props.$åpen ? 'block' : 'none')};
 
     position: absolute;
 
@@ -97,7 +100,7 @@ export const Hamburgermeny = () => {
                     settÅpenHamburgerMeny(!åpenHamburgerMeny);
                 }}
             />
-            <HamburgerMenyInnhold åpen={åpenHamburgerMeny}>
+            <HamburgerMenyInnhold $åpen={åpenHamburgerMeny}>
                 <ul>
                     <li>
                         <Knapp

@@ -1,10 +1,13 @@
-import { Button } from '@navikt/ds-react';
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
+
 import styled from 'styled-components';
+
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
+
 import { harVerdi } from '../../../../utils/utils';
+import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 
 const FritekstWrapper = styled.div`
     margin: 0 4rem 2rem 4rem;

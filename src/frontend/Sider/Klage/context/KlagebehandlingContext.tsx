@@ -1,14 +1,16 @@
-import constate from 'constate';
 import { useEffect, useState } from 'react';
+
+import constate from 'constate';
 import { useParams } from 'react-router-dom';
-import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
-import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
+
+import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
+import { RessursStatus } from '../../../typer/ressurs';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
+import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
+import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Steg/Formkrav/validerFormkravUtils';
 import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling';
-import { RessursStatus } from '../../../typer/ressurs';
-import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 
 const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
