@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Button, Heading, VStack } from '@navikt/ds-react';
 
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
@@ -38,25 +38,28 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     };
 
     return (
-        <DataViewer response={{ oppgaveResponse, mapper }}>
-            {({ oppgaveResponse, mapper }) => (
-                <>
-                    <Oppgaveliste
-                        oppgaver={oppgaveResponse.oppgaver}
-                        mapper={mapperTilIdRecord(mapper)}
-                        oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
-                    />
-                    <Button
-                        onClick={() => hentOppgaverOgMapper()}
-                        size="small"
-                        variant="secondary"
-                        style={{ maxWidth: 'fit-content' }}
-                    >
-                        Hent oppgaver på nytt
-                    </Button>
-                </>
-            )}
-        </DataViewer>
+        <VStack gap={'2'}>
+            <Heading size={'xsmall'}>TS-sak og GOSYS</Heading>
+            <DataViewer response={{ oppgaveResponse, mapper }}>
+                {({ oppgaveResponse, mapper }) => (
+                    <>
+                        <Oppgaveliste
+                            oppgaver={oppgaveResponse.oppgaver}
+                            mapper={mapperTilIdRecord(mapper)}
+                            oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
+                        />
+                        <Button
+                            onClick={() => hentOppgaverOgMapper()}
+                            size="small"
+                            variant="secondary"
+                            style={{ maxWidth: 'fit-content' }}
+                        >
+                            Hent oppgaver på nytt
+                        </Button>
+                    </>
+                )}
+            </DataViewer>
+        </VStack>
     );
 };
 
