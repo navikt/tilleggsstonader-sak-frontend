@@ -10,7 +10,7 @@ import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
-const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
+const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
 
     const [oppgaveResponse, settOppgaveResponse] =
@@ -60,4 +60,4 @@ const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId 
     );
 };
 
-export default Oppgaveoversikt;
+export default Oppgaver;
