@@ -1,4 +1,5 @@
 import {
+    differenceInDays,
     addDays,
     addMonths,
     format,
@@ -134,3 +135,6 @@ export const førsteDagIMånedTreMånederForut = (dato?: string): string => {
 export const formaterIsoÅr = (dato: string): number => {
     return parseISO(dato).getFullYear();
 };
+
+export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
+    differenceInDays(tilDato(dato), tilDato(dato2));
