@@ -10,7 +10,7 @@ import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
-import Oppgaver from './Oppgaveoversikt/Oppgaver';
+import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
 import { useApp } from '../../context/AppContext';
 import { Toggle } from '../../utils/toggles';
@@ -52,7 +52,7 @@ const tabs: TabWithRouter[] = [
 const oppgaveTab = {
     label: 'Oppgaver',
     path: 'oppgaver',
-    komponent: (fagsakPersonId: string) => <Oppgaver fagsakPersonId={fagsakPersonId} />,
+    komponent: (fagsakPersonId: string) => <Oppgaveoversikt fagsakPersonId={fagsakPersonId} />,
 };
 
 const InnholdWrapper = styled.div`
