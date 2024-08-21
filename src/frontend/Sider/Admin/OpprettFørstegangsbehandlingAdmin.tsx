@@ -29,7 +29,7 @@ interface JournalpostData {
     fagsakId?: string;
 }
 
-const OpprettBehandlingFraJournalpost: React.FC = () => {
+const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const [journalpostId, settJournalpostId] = useState<string>('');
@@ -118,4 +118,4 @@ const OpprettBehandlingFraJournalpost: React.FC = () => {
     );
 };
 
-export default OpprettBehandlingFraJournalpost;
+export default OpprettFørstegangsbehandlingAdmin;
