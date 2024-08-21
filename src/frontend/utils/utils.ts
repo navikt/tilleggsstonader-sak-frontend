@@ -5,6 +5,9 @@ export const harVerdi = (str: string | undefined | null): str is string =>
 
 export const fjernSpaces = (str: string) => str.replace(/ /g, '');
 
+const REGEX_FNR = /^\d{11}$/;
+export const erGyldigFnr = (ident: string | undefined): boolean => !!ident && REGEX_FNR.test(ident);
+
 export const åpneFilIEgenTab = (
     journalpostId: string,
     dokumentinfoId: string,
