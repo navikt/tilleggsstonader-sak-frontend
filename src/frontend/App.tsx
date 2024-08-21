@@ -50,7 +50,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <Route path={'/ekstern/*'} element={<EksternOmruting />} />
                     <Route path={'/klagebehandling/*'} element={<KlageApp />} />
                     <Route
-                        path={'/admin/opprett-behandling-fra-journalpost'}
+                        path={'/admin/opprett-behandling'}
                         element={<OpprettFørstegangsbehandlingAdmin />}
                     />
                 </Route>
@@ -132,7 +132,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                                 {kanOppretteBehandlingFraJournalpost && (
                                     <Dropdown.Menu.GroupedList.Item
                                         as="a"
-                                        href="/admin/opprett-behandling-fra-journalpost"
+                                        href="/admin/opprett-behandling"
                                     >
                                         [Admin] Opprett behandling fra journalpost
                                     </Dropdown.Menu.GroupedList.Item>
