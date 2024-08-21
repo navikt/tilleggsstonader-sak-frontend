@@ -101,9 +101,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const { loggUt } = useApp();
-    const kanOppretteBehandlingFraJournalpost = useFlag(
-        Toggle.KAN_OPPRETTE_BEHANDLING_FRA_JOURNALPOST
-    );
+    const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     return (
         <>
             <Sticky $zIndex={100}>
@@ -129,7 +127,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         />
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
-                                {kanOppretteBehandlingFraJournalpost && (
+                                {adminKanOppretteBehandling && (
                                     <Dropdown.Menu.GroupedList.Item
                                         as="a"
                                         href="/admin/opprett-behandling"
