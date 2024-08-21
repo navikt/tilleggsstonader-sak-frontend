@@ -32,9 +32,7 @@ const EkspanderbarRad: React.FC<{ oppgave: OppgaveArena }> = ({ oppgave }) => {
             open={open}
             expansionDisabled={true}
         >
-            <Table.DataCell>
-                {oppgave.id} - {oppgave.tittel}
-            </Table.DataCell>
+            <Table.DataCell>{oppgave.tittel}</Table.DataCell>
             <Table.DataCell>{formaterNullableIsoDato(oppgave.opprettetTidspunkt)}</Table.DataCell>
             <Table.DataCell>{oppgave.benk}</Table.DataCell>
             <Table.DataCell>{oppgave.tildelt}</Table.DataCell>
