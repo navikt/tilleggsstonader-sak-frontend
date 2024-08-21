@@ -91,7 +91,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
     return (
         <Container>
             <div>
-                <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling</Heading>
+                <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling Tilsyn barn</Heading>
                 <Detail>Opprett en førstegangsbehandling med fødelsnummer.</Detail>
                 <Detail>Man må velge hvilke barn som skal være med i behandlingen.</Detail>
             </div>
