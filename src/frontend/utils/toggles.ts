@@ -5,5 +5,4 @@ export enum Toggle {
     VIS_SIMULERING = 'sak.simulering',
     KAN_OPPRETTE_BEHANDLING_FRA_JOURNALPOST = 'sak.kan-opprette-behandling-fra-journalpost',
     KAN_OPPDATERE_GRUNNLAG_VILKÅRPERIODE = 'sak.kan-oppdatere-grunnlag-vilkarperiode',
-    ARENA_OPPGAVER = 'sak.frontend.arena-oppgaver',
 }
