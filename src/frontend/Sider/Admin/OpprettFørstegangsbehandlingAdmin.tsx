@@ -118,7 +118,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                     }}
                 />
                 <Button variant={'secondary'} size={'small'} onClick={hentPersoninfo}>
-                    Hent barn til person
+                    Hent søkers barn fra folkeregisteret
                 </Button>
             </VStack>
 
@@ -137,7 +137,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                             ))}
                         </CheckboxGroup>
                         <Button variant={'primary'} size={'small'} onClick={opprettBehandling}>
-                            Opprett behandling fra søknad
+                            Opprett førstegangsbehandling
                         </Button>
                     </>
                 )}
