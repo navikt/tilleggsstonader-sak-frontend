@@ -4,11 +4,13 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 interface Props {
     fagsakId: string;
+    stønadstype: Stønadstype;
     lukkModal: () => void;
     hentBehandlinger: () => void;
 }
