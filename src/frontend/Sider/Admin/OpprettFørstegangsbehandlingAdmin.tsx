@@ -109,7 +109,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
             </div>
             <VStack gap={'1'}>
                 <TextField
-                    label={'Søkers ident'}
+                    label={'Søkers fødselsnummer'}
                     onChange={(e) => {
                         settIdent(e.target.value);
                         settValgteBarn([]);
