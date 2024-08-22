@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
+    BodyShort,
     Button,
     Checkbox,
     CheckboxGroup,
-    Detail,
     Heading,
+    List,
     TextField,
     VStack,
 } from '@navikt/ds-react';
@@ -70,10 +71,6 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
     };
 
     const opprettBehandling = () => {
-        if (!valgteBarn.length) {
-            settOpprettBehandlingResponse(byggFeiletRessurs('Må velge minimum 1 barn.'));
-            return;
-        }
         settOpprettBehandlingResponse(byggHenterRessurs());
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
@@ -92,8 +89,23 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
         <Container>
             <div>
                 <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling Tilsyn barn</Heading>
-                <Detail>Opprett en førstegangsbehandling med fødelsnummer.</Detail>
-                <Detail>Man må velge hvilke barn som skal være med i behandlingen.</Detail>
+                <VStack gap={'2'}>
+                    <BodyShort>
+                        Enkelte ganger vil det være behov for å opprette en førstegangsbehandling
+                        manuelt. Du søker da først opp brukers fødselsnummer og velger deretter
+                        hvilke barn det er søkt stønad for slik at disse blir med i behandlingen.
+                    </BodyShort>
+                    <BodyShort size={'small'}>
+                        Det er primært for å opprette førstegangsbehandling for allerede
+                        journalførte søknader.
+                    </BodyShort>
+                    <List size={'small'}>
+                        <List.Item>Papirsøknad</List.Item>
+                        <List.Item>Søknad om barnetilsyn fra enslig forsørger</List.Item>
+                        <List.Item>Søknad som blitt sendt inn til Arena</List.Item>
+                    </List>
+                    <BodyShort>Hvis du er usikker, spør på teams.</BodyShort>
+                </VStack>
             </div>
             <VStack gap={'1'}>
                 <TextField
@@ -105,12 +117,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                         settOpprettBehandlingResponse(byggTomRessurs());
                     }}
                 />
-                <Button
-                    variant={'primary'}
-                    size={'small'}
-                    disabled={!ident.trim()}
-                    onClick={hentPersoninfo}
-                >
+                <Button variant={'secondary'} size={'small'} onClick={hentPersoninfo}>
                     Hent barn til person
                 </Button>
             </VStack>
@@ -120,7 +127,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                     <>
                         <Heading size={'small'}>Informasjon om søker</Heading>
                         <CheckboxGroup
-                            legend={'Barn til søker'}
+                            legend={'Velg barn fra søknad'}
                             onChange={(values) => settValgteBarn(values)}
                         >
                             {personinfo.barn.map(({ ident, navn }) => (
@@ -129,7 +136,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                                 </Checkbox>
                             ))}
                         </CheckboxGroup>
-                        <Button variant={'secondary'} size={'small'} onClick={opprettBehandling}>
+                        <Button variant={'primary'} size={'small'} onClick={opprettBehandling}>
                             Opprett behandling fra søknad
                         </Button>
                     </>
