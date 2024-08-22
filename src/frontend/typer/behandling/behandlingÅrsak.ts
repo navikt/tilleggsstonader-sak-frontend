@@ -1,5 +1,6 @@
 export enum BehandlingÅrsak {
     SØKNAD = 'SØKNAD',
+    NYE_OPPLYSNINGER = 'NYE_OPPLYSNINGER',
 }
 
 export enum HenlagtÅrsak {
