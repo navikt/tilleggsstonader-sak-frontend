@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { BodyShort, Button, HStack, Link, VStack } from '@navikt/ds-react';
@@ -30,7 +29,6 @@ import {
     Utgift,
 } from '../../../../../typer/vedtak';
 import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
-import { Toggle } from '../../../../../utils/toggles';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
@@ -86,7 +84,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { stønadsperioder } = useStønadsperioder(behandling.id);
-    const visSimulering = useFlag(Toggle.VIS_SIMULERING);
 
     const barnMedOppfylteVilkår = vilkårsvurderteBarn.filter((barn) => barn.oppfyllerAlleVilkår);
 
@@ -174,7 +171,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
             </Panel>
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
-                nesteFane={visSimulering ? FanePath.SIMULERING : FanePath.BREV}
+                nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >

@@ -79,7 +79,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
 
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
-                nesteFane={FanePath.BREV}
+                nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >
