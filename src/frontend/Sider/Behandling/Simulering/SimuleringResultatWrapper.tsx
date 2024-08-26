@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import Oppsumering from './Oppsumering';
 import SimuleringTabell from './SimuleringTabell';
 import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
@@ -26,10 +25,7 @@ const SimuleringResultatWrapper: React.FC = () => {
             {({ simuleringsresultat }) => (
                 <>
                     {simuleringsresultat ? (
-                        <>
-                            <Oppsumering oppsumering={simuleringsresultat.oppsummering} />
-                            <SimuleringTabell perioder={simuleringsresultat.perioder} />
-                        </>
+                        <SimuleringTabell perioder={simuleringsresultat.perioder} />
                     ) : null}
                 </>
             )}
