@@ -51,7 +51,10 @@ const BarnTilRevurdering: React.FC<{
                 return (
                     <>
                         {eksisterendeBarn.length > 0 ? (
-                            <List title={'Barn som eksisterer fra før'} size={'small'}>
+                            <List
+                                title={'Barn det er søkt om tilleggsstønad for tilsyn barn for før'}
+                                size={'small'}
+                            >
                                 {eksisterendeBarn.map(({ ident, navn }) => (
                                     <List.Item key={ident}>
                                         {ident} - {navn}
@@ -64,7 +67,7 @@ const BarnTilRevurdering: React.FC<{
 
                         {valgbareBarn.length > 0 && (
                             <CheckboxGroup
-                                legend={'Velg eventuellt nye barn fra søknad'}
+                                legend={'Velg eventuelle nye barn det søkes stønad for'}
                                 onChange={settValgteBarn}
                             >
                                 {valgbareBarn.map(({ ident, navn }) => (
