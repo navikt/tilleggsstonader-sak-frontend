@@ -4,7 +4,7 @@ import { BodyShort, Checkbox, CheckboxGroup, List } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { Ressurs } from '../../../../typer/ressurs';
+import { byggHenterRessurs, Ressurs } from '../../../../typer/ressurs';
 
 export interface BarnTilRevurderingResponse {
     barn: BarnTilRevurdering[];
@@ -33,6 +33,7 @@ const BarnTilRevurdering: React.FC<{
     const { request } = useApp();
 
     const hentBarnTilRevurdering = (fagsakId: string) => {
+        settBarnTilRevurdering(byggHenterRessurs());
         request<BarnTilRevurderingResponse, null>(
             `/api/sak/behandling/barn-til-revurdering/${fagsakId}`
         ).then(settBarnTilRevurdering);
@@ -41,7 +42,7 @@ const BarnTilRevurdering: React.FC<{
     useEffect(() => {
         hentBarnTilRevurdering(fagsakId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [fagsakId]);
 
     return (
         <DataViewer response={{ barnTilRevurdering }}>
