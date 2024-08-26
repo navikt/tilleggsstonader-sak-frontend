@@ -52,7 +52,7 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     inngangsvilkar: Steg.INNGANGSVILKÅR,
     stonadsvilkar: Steg.VILKÅR,
     'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
-    simulering: Steg.SEND_TIL_BESLUTTER,
+    simulering: Steg.SIMULERING,
     brev: Steg.SEND_TIL_BESLUTTER,
 };
 
