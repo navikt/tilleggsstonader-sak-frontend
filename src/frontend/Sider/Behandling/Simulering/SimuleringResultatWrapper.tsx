@@ -8,7 +8,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
 const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ vedtak }) => {
@@ -19,6 +19,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ ve
         useState<Ressurs<SimuleringResponse | null>>(byggTomRessurs());
 
     useEffect(() => {
+        settSimuleringsresultat(byggHenterRessurs());
         request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`).then(
             settSimuleringsresultat
         );
