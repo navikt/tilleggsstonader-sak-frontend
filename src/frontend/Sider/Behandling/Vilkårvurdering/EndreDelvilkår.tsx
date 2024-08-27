@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useId, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -18,12 +18,11 @@ import {
 } from './utils';
 import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
-import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
-import { Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
 import { Delvilkår, Vilkår, Vurdering } from '../vilkår';
 
@@ -40,28 +39,32 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-const EndreDelvilkår: FC<{
+export type EndreDelvilkårProps = {
     regler: Regler;
-    vilkår: Vilkår;
+    lagretDelvilkårsett: Delvilkår[];
     avsluttRedigering: () => void;
-}> = ({ regler, vilkår, avsluttRedigering }) => {
+    lagreVurdering: (
+        delvilkårssett: Delvilkår[]
+    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+};
+
+export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
-    const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(vilkår.delvilkårsett);
+    const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(props.lagretDelvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
-
-    const { lagreVilkår } = useVilkår();
+    const [komponentId] = useId();
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
-            settUlagretKomponent(vilkår.id);
+            settUlagretKomponent(komponentId);
         } else {
-            nullstillUlagretKomponent(vilkår.id);
+            nullstillUlagretKomponent(komponentId);
         }
         return () => {
-            nullstillUlagretKomponent(vilkår.id);
+            nullstillUlagretKomponent(komponentId);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [detFinnesUlagredeEndringer]);
@@ -86,7 +89,10 @@ const EndreDelvilkår: FC<{
         nyttSvar: Vurdering
     ) => {
         const { begrunnelse } = nyttSvar;
-        const svaralternativ: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
+        const svaralternativ: Svaralternativ | undefined = hentSvaralternativ(
+            props.regler,
+            nyttSvar
+        );
         if (!svaralternativ) {
             return;
         }
@@ -106,7 +112,10 @@ const EndreDelvilkår: FC<{
         delvilkårIndex: number,
         nyttSvar: Vurdering
     ) => {
-        const svaralternativer: Svaralternativ | undefined = hentSvaralternativ(regler, nyttSvar);
+        const svaralternativer: Svaralternativ | undefined = hentSvaralternativ(
+            props.regler,
+            nyttSvar
+        );
 
         if (!svaralternativer) {
             return;
@@ -130,7 +139,7 @@ const EndreDelvilkår: FC<{
             oppdaterteSvarMedNesteRegel,
             nyttSvar,
             svaralternativer,
-            regler
+            props.regler
         );
 
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
@@ -139,18 +148,14 @@ const EndreDelvilkår: FC<{
     const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, regler);
+        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, props.regler);
 
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            lagreVilkår({
-                id: vilkår.id,
-                behandlingId: vilkår.behandlingId,
-                delvilkårsett: delvilkårsett,
-            }).then((response: Ressurs<Vilkår>) => {
+            props.lagreVurdering(delvilkårsett).then((response: Ressurs<Vilkår>) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    avsluttRedigering();
+                    props.avsluttRedigering();
                 }
             });
         }
@@ -164,11 +169,11 @@ const EndreDelvilkår: FC<{
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <VStack gap="4">
                 {delvilkårsett.map((delvikår, delvilkårIndex) => {
-                    return delvikår.vurderinger.map((svar, indeks) => {
-                        const gjeldendeRegel = regler[svar.regelId];
-                        const erUndervilkår = indeks !== 0;
+                    return delvikår.vurderinger.map((svar) => {
+                        const gjeldendeRegel = props.regler[svar.regelId];
+                        const erUndervilkår = !gjeldendeRegel.erHovedregel;
                         return (
-                            <React.Fragment key={gjeldendeRegel.regelId + vilkår.barnId}>
+                            <React.Fragment key={gjeldendeRegel.regelId}>
                                 {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
                                 <DelvilkårContainer $erUndervilkår={erUndervilkår}>
                                     <DelvilkårRadioknapper
@@ -211,10 +216,9 @@ const EndreDelvilkår: FC<{
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
-                    <MeldingHvisLagringFeilet vilkårId={vilkår.id} />
+                    <MeldingHvisLagringFeilet id={komponentId} />
                 </VStack>
             </VStack>
         </form>
     );
 };
-export default EndreDelvilkår;

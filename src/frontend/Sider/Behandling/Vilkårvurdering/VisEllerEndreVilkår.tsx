@@ -1,29 +1,33 @@
 import React, { FC, useState } from 'react';
 
-import EndreDelvilkår from './EndreDelvilkår';
+import { EndreDelvilkår } from './EndreDelvilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
-import { Vilkår } from '../vilkår';
+import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
+import { Delvilkår, Vilkår } from '../vilkår';
 
-interface Props {
-    vilkår: Vilkår;
+export type LesEllerEndreDelvilkårProps = {
+    vilkårId: string;
     regler: Regler;
-}
+    lagretDelvilkårsett: Delvilkår[];
+    lagreVurdering: (
+        delvilkårssett: Delvilkår[]
+    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+};
 
-const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
+const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
     const { erStegRedigerbart } = useSteg();
 
     const [redigerer, settRedigerer] = useState<boolean>(true);
 
     return erStegRedigerbart && redigerer ? (
-        <EndreDelvilkår
-            vilkår={vilkår}
-            regler={regler}
-            avsluttRedigering={() => settRedigerer(false)}
-        />
+        <EndreDelvilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
+        <LesevisningVilkår
+            delvilkårsett={props.lagretDelvilkårsett}
+            startRedigering={() => settRedigerer(true)}
+        />
     );
 };
 export default VisEllerEndreVilkår;

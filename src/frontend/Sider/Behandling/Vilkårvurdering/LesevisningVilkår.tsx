@@ -6,7 +6,7 @@ import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
-import { Vilkår } from '../vilkår';
+import { Delvilkår } from '../vilkår';
 
 const Grid = styled.div`
     display: grid;
@@ -22,15 +22,15 @@ const Begrunnelse = styled(Lesefelt)`
     grid-column: 2;
 `;
 const LesevisningVilkår: FC<{
-    vilkår: Vilkår;
+    delvilkårsett: Delvilkår[];
     startRedigering?: () => void;
-}> = ({ vilkår, startRedigering }) => {
+}> = ({ delvilkårsett, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
     return (
         <>
             <Grid>
-                {vilkår.delvilkårsett.map((delvilkår) =>
+                {delvilkårsett.map((delvilkår) =>
                     delvilkår.vurderinger.map((svar) => (
                         <React.Fragment key={svar.regelId}>
                             <Svar
