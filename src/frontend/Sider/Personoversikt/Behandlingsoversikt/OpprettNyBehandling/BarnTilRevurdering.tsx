@@ -53,7 +53,7 @@ const BarnTilRevurdering: React.FC<{
                     <>
                         {eksisterendeBarn.length > 0 ? (
                             <List
-                                title={'Barn det er søkt om tilleggsstønad for tilsyn barn for før'}
+                                title={'Barn det er søkt om tilleggsstønad for tilsyn barn fra før'}
                                 size={'small'}
                             >
                                 {eksisterendeBarn.map(({ ident, navn }) => (

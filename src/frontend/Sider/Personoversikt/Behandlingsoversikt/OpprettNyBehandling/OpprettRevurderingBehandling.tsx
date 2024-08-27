@@ -26,7 +26,9 @@ interface OpprettBehandlingRequest {
 const utledSkalViseBarnTilRevurdering = (
     stønadstype: Stønadstype,
     årsak: BehandlingÅrsak | undefined
-) => stønadstype === Stønadstype.BARNETILSYN && årsak === BehandlingÅrsak.SØKNAD;
+) =>
+    stønadstype === Stønadstype.BARNETILSYN &&
+    (årsak === BehandlingÅrsak.SØKNAD || årsak === BehandlingÅrsak.PAPIRSØKNAD);
 
 const OpprettRevurderingBehandling: React.FC<Props> = ({
     fagsakId,
@@ -80,6 +82,7 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({
                 <option value="">- Velg årsak -</option>
                 <option value={BehandlingÅrsak.NYE_OPPLYSNINGER}>Nye opplysninger</option>
                 <option value={BehandlingÅrsak.SØKNAD}>Søknad</option>
+                <option value={BehandlingÅrsak.PAPIRSØKNAD}>Papirsøknad</option>
             </Select>
 
             {skalViseBarnTilRevurdering && (
