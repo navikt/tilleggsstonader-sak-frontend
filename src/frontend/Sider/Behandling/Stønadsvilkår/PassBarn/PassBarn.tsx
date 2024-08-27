@@ -25,12 +25,12 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
-        const { navn, alder } = barn.registergrunnlag || '';
+        const { navn, alder } = barn.registergrunnlag || '-';
 
         return (
             <VilkårPanel
                 tittel={`${navn} (${alder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />} // TODO: Dette ikonet skal fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />} // TODO: Dette ikonet skal på sikt fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
                 ekstraHeading={
                     <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
