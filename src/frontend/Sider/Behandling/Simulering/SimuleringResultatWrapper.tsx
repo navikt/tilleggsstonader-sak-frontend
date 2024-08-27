@@ -9,8 +9,9 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
-const SimuleringResultatWrapper: React.FC = () => {
+const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { request } = useApp();
 
@@ -25,6 +26,16 @@ const SimuleringResultatWrapper: React.FC = () => {
 
     const erFørstegangsbehandling = behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING;
 
+    const utledBeskrivelseIngenSimulering = () => {
+        if (erFørstegangsbehandling) {
+            return 'Ingen simulering for førstegangsbehandling';
+        }
+        if (vedtak.type === 'AVSLAG') {
+            return 'Ingen simulering for vedtaksresultat avslag';
+        }
+        return 'Ingen simulering lagret for behandling';
+    };
+
     return (
         <DataViewer response={{ simuleringsresultat }}>
             {({ simuleringsresultat }) => (
@@ -33,9 +44,7 @@ const SimuleringResultatWrapper: React.FC = () => {
                         <SimuleringTabell perioder={simuleringsresultat.perioder} />
                     ) : (
                         <Alert variant={'info'} inline>
-                            {erFørstegangsbehandling
-                                ? 'Ingen simulering for førstegangsbehandling'
-                                : 'Ingen simulering lagret for behandling'}
+                            {utledBeskrivelseIngenSimulering()}
                         </Alert>
                     )}
                 </>
