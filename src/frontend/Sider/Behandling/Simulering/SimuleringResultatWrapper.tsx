@@ -12,7 +12,7 @@ import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressu
 import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
 const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ vedtak }) => {
-    const { behandling } = useBehandling();
+    const { behandling, hentBehandling } = useBehandling();
     const { request } = useApp();
 
     const [simuleringsresultat, settSimuleringsresultat] =
@@ -20,10 +20,12 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ ve
 
     useEffect(() => {
         settSimuleringsresultat(byggHenterRessurs());
-        request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`).then(
-            settSimuleringsresultat
-        );
-    }, [request, settSimuleringsresultat, behandling.id]);
+        request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`)
+            .then(settSimuleringsresultat)
+            .then(() => {
+                hentBehandling.rerun(); // Må hente behandling på nytt for å oppdatere behandling med ritkig steg
+            });
+    }, [request, settSimuleringsresultat, behandling.id, hentBehandling]);
 
     const erFørstegangsbehandling = behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING;
 
