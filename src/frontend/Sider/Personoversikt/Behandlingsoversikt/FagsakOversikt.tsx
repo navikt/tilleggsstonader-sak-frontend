@@ -58,6 +58,7 @@ export const FagsakOversikt: React.FC<Props> = ({
             />
             <OpprettNyBehandlingModal
                 fagsakId={fagsakId}
+                stønadstype={stønadstype}
                 hentKlagebehandlinger={hentKlagebehandlinger}
                 hentBehandlinger={hentBehandlinger}
             />
