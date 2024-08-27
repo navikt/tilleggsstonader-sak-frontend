@@ -85,23 +85,22 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         });
     };
 
-    const lagreVilkår = (vilkår: SvarPåVilkår): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår).then(
-            (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
-                if (respons.status === RessursStatus.SUKSESS) {
-                    fjernFeilmelding(respons.data.id);
-                    settVilkårsvurdering((prevVilkårsvurdering) =>
-                        oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
-                            respons.data
-                        )
-                    );
-                } else {
-                    leggTilFeilmelding(vilkår.id, respons.frontendFeilmelding);
-                }
-                return respons;
-            }
-        );
+    const lagreVilkår = async (
+        vilkår: SvarPåVilkår
+    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
+        const respons = await request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
+        if (respons.status === RessursStatus.SUKSESS) {
+            fjernFeilmelding(respons.data.id);
+            settVilkårsvurdering((prevVilkårsvurdering) =>
+                oppdaterVilkårsvurderingMedVilkår(
+                    prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
+                    respons.data
+                )
+            );
+        } else {
+            leggTilFeilmelding(vilkår.id, respons.frontendFeilmelding);
+        }
+        return respons;
     };
 
     const nullstillVilkår = (
