@@ -30,6 +30,7 @@ type SvarMapping = Record<SvarId, Svaralternativ>;
 
 export interface Regel {
     regelId: string;
+    erHovedregel: boolean;
     svarMapping: SvarMapping;
 }
 
