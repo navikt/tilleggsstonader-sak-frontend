@@ -22,43 +22,31 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
-    if (vilkårsett.length === 0) {
-        return <div>Mangler vurderinger for pass av barn</div>;
-    }
+    return vilkårsvurdering.grunnlag.barn.map((barn) => {
+        const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
-    const finnBarnIGrunnlag = (barnId: string) =>
-        vilkårsvurdering.grunnlag.barn.find((barn) => barn.barnId === barnId);
-
-    return vilkårsett.map((vilkår) => {
-        if (!vilkår.barnId) {
-            return <div key={vilkår.id}>Vilkår er ikke knyttet til et barn</div>;
-        }
-
-        const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
-
-        if (!grunnlagBarn) {
-            return <div key={vilkår.id}>Fant ikke grunnlag for barn</div>;
-        }
-
-        const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
-        const barnetsAlder = grunnlagBarn.registergrunnlag.alder ?? '-';
+        const { navn, alder } = barn.registergrunnlag || '-';
 
         return (
             <VilkårPanel
-                tittel={`${barnetsNavn} (${barnetsAlder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                tittel={`${navn} (${alder} år)`}
+                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />} // TODO: Dette ikonet skal på sikt fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
                 ekstraHeading={
-                    <InlineKopiknapp
-                        kopitekst={grunnlagBarn.ident}
-                        tooltipTekst="Kopier fødselsnummer"
-                    />
+                    <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
                 paragraflenker={lenkerParagrafPassBarn}
                 rundskrivlenke={lenkerRundskrivPassBarn}
                 forskriftlenker={lenkerForskriftPassBarn}
-                key={grunnlagBarn.barnId}
+                key={barn.barnId}
             >
-                <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
+                {vilkårForDetteBarnet.map((vilkår) => (
+                    <VisEllerEndreVilkår
+                        key={barn.ident}
+                        vilkår={vilkår}
+                        regler={vilkårsregler.regler}
+                    />
+                ))}
+                {/* TODO: Her kommer knapp for å legge til nye vilkår*/}
             </VilkårPanel>
         );
     });
