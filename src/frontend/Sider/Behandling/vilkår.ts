@@ -83,7 +83,3 @@ export interface Vilkårsvurdering {
 export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
-
-export interface Vurderingsfeilmelding {
-    [Key: string]: string;
-}

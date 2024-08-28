@@ -19,26 +19,11 @@ interface Props {
 }
 
 const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
-    // const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = React.useState<boolean>(false);
-
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
     const { lagreVilkår } = useVilkår();
-
-    const lagreVilkårWrapper = (vilkårId: string, behandlingId: string) => {
-        return (vurderinger: Delvilkår[], komponentId: string) => {
-            return lagreVilkår(
-                {
-                    id: vilkårId,
-                    behandlingId: behandlingId,
-                    delvilkårsett: vurderinger,
-                },
-                komponentId
-            );
-        };
-    };
 
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
@@ -63,20 +48,15 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         vilkårId={vilkår.id}
                         regler={vilkårsregler}
                         lagretDelvilkårsett={vilkår.delvilkårsett}
-                        lagreVurdering={lagreVilkårWrapper(vilkår.id, vilkår.behandlingId)}
+                        lagreVurdering={(vurderinger: Delvilkår[]) =>
+                            lagreVilkår({
+                                id: vilkår.id,
+                                behandlingId: vilkår.behandlingId,
+                                delvilkårsett: vurderinger,
+                            })
+                        }
                     />
                 ))}
-                {/*{!leggerTilNyttVilkår ? (*/}
-                {/*    <SmallButton*/}
-                {/*        onClick={() => settLeggerTilNyttVilkår(true)}*/}
-                {/*        variant="secondary"*/}
-                {/*        icon={<PlusCircleIcon />}*/}
-                {/*    >*/}
-                {/*        Legg til ny periode*/}
-                {/*    </SmallButton>*/}
-                {/*) : (*/}
-                {/*    <VisEllerEndreVilkår regler={vilkårsregler} vilkårId={} behandlingId={}/>*/}
-                {/*)}*/}
             </VilkårPanel>
         );
     });

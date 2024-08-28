@@ -2,12 +2,11 @@ import React, { FC, useEffect, useId, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
-import MeldingHvisLagringFeilet from './MeldingHvisLagringFeilet';
 import {
     begrunnelseErPåkrevdOgUtfyllt,
     hentSvaralternativ,
@@ -22,7 +21,7 @@ import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
 import { Delvilkår, Vilkår, Vurdering } from '../vilkår';
 
@@ -53,6 +52,8 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(props.lagretDelvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
+
+    const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | undefined>();
 
     const [komponentId] = useId();
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
@@ -146,7 +147,7 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
         oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
     };
 
-    const validerOgLagreVilkårsvurderinger = (event: React.FormEvent<HTMLFormElement>) => {
+    const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, props.regler);
@@ -154,11 +155,13 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            props.lagreVurdering(delvilkårsett, komponentId).then((response: Ressurs<Vilkår>) => {
-                if (response.status === RessursStatus.SUKSESS) {
-                    props.avsluttRedigering();
-                }
-            });
+            const response = await props.lagreVurdering(delvilkårsett, komponentId);
+            if (response.status === RessursStatus.SUKSESS) {
+                props.avsluttRedigering();
+                settFeilmeldingVedLagring(undefined); // TODO: Null i stedet?
+            } else {
+                settFeilmeldingVedLagring(response.frontendFeilmelding);
+            }
         }
     };
 
@@ -217,7 +220,11 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
-                    <MeldingHvisLagringFeilet id={komponentId} />
+                    {feilmeldingerVedLagring && (
+                        <ErrorMessage size={'small'}>
+                            Oppdatering av vilkår feilet: {feilmeldingerVedLagring}
+                        </ErrorMessage>
+                    )}
                 </VStack>
             </VStack>
         </form>
