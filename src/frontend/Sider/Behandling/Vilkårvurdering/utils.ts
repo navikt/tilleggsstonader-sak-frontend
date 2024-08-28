@@ -7,7 +7,7 @@ import {
     Svaralternativ,
 } from '../../../typer/regel';
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
-import { Delvilkår, Vilkårsresultat, Vurdering } from '../vilkår';
+import { Vurdering } from '../vilkår';
 
 export function begrunnelseErPåkrevdOgUtfyllt(
     svarsalternativ: Svaralternativ,
@@ -117,18 +117,3 @@ export const kopierBegrunnelse = (
         return nyeVurderinger;
     }
 };
-
-export function lagTomtDelvilkårsett(regler: Regler): Delvilkår[] {
-    return Object.keys(regler).map((regelId) => {
-        return {
-            resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-            vurderinger: [
-                {
-                    regelId: regelId,
-                    svar: undefined,
-                    begrunnelse: undefined,
-                },
-            ],
-        };
-    });
-}
