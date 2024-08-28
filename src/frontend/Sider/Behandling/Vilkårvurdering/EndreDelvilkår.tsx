@@ -38,7 +38,7 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-export type EndreDelvilkårProps = {
+type EndreDelvilkårProps = {
     regler: Regler;
     lagretDelvilkårsett: Delvilkår[];
     avsluttRedigering: () => void;
