@@ -34,7 +34,7 @@ const Stønadsvilkår = () => {
             >
                 {({ regler, vilkårsvurdering }) => (
                     <PassBarn
-                        vilkårsregler={regler.vilkårsregler.PASS_BARN}
+                        vilkårsregler={regler.vilkårsregler.PASS_BARN.regler}
                         vilkårsvurdering={vilkårsvurdering}
                     />
                 )}

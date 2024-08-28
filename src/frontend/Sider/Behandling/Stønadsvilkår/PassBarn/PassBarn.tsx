@@ -1,19 +1,20 @@
 import React from 'react';
 
+import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { Vilkårsregler } from '../../../../typer/regel';
+import { Regler } from '../../../../typer/regel';
 import {
     lenkerForskriftPassBarn,
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
-import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
+import { Delvilkår, Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
-    vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
+    vilkårsregler: Regler;
     vilkårsvurdering: Vilkårsvurdering;
 }
 
@@ -21,6 +22,8 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
+
+    const { lagreVilkår } = useVilkår();
 
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
@@ -42,11 +45,17 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår
                         key={barn.ident}
-                        vilkår={vilkår}
-                        regler={vilkårsregler.regler}
+                        regler={vilkårsregler}
+                        lagretDelvilkårsett={vilkår.delvilkårsett}
+                        lagreVurdering={(vurderinger: Delvilkår[]) =>
+                            lagreVilkår({
+                                id: vilkår.id,
+                                behandlingId: vilkår.behandlingId,
+                                delvilkårsett: vurderinger,
+                            })
+                        }
                     />
                 ))}
-                {/* TODO: Her kommer knapp for å legge til nye vilkår*/}
             </VilkårPanel>
         );
     });
