@@ -49,15 +49,16 @@ export type EndreDelvilkårProps = {
 };
 
 export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
+    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
+
+    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
+    const [komponentId] = useId();
+
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(props.lagretDelvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
-
-    const [komponentId] = useId();
-    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
-    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {

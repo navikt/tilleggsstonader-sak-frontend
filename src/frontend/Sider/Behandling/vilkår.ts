@@ -28,6 +28,7 @@ export interface Vurdering {
     svar?: SvarId;
     begrunnelse?: Begrunnelse;
 }
+
 export interface Vilkår {
     id: string;
     behandlingId: string;
@@ -81,5 +82,7 @@ export interface Vilkårsvurdering {
 }
 
 export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+
+export type NyttVilkår = Pick<Vilkår, 'barnId' | 'delvilkårsett' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
