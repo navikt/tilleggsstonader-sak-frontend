@@ -43,7 +43,10 @@ export interface UseVilkår {
     vilkårsvurdering: Ressurs<Vilkårsvurdering>;
     hentVilkårsvurdering: () => void;
     oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
-    lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+    lagreVilkår: (
+        vurdering: SvarPåVilkår,
+        komponentId: string
+    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     feilmeldinger: Vurderingsfeilmelding;
     nullstillVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
@@ -85,12 +88,19 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         });
     };
 
+    /*
+     * Lagrer vilkårsvurderinger til databasen.
+     *
+     * @param komponentId brukes hvis det oppstår feil med lagringen, og vi vil vise feilmelding i
+     * nærhet til komponenten som trigget lagringen.
+     */
     const lagreVilkår = async (
-        vilkår: SvarPåVilkår
+        vilkår: SvarPåVilkår,
+        komponentId: string
     ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
         const respons = await request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
         if (respons.status === RessursStatus.SUKSESS) {
-            fjernFeilmelding(respons.data.id);
+            fjernFeilmelding(komponentId);
             settVilkårsvurdering((prevVilkårsvurdering) =>
                 oppdaterVilkårsvurderingMedVilkår(
                     prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
@@ -98,7 +108,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
                 )
             );
         } else {
-            leggTilFeilmelding(vilkår.id, respons.frontendFeilmelding);
+            leggTilFeilmelding(komponentId, respons.frontendFeilmelding);
         }
         return respons;
     };

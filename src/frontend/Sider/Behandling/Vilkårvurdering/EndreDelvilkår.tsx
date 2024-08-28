@@ -44,18 +44,19 @@ export type EndreDelvilkårProps = {
     lagretDelvilkårsett: Delvilkår[];
     avsluttRedigering: () => void;
     lagreVurdering: (
-        delvilkårssett: Delvilkår[]
+        delvilkårssett: Delvilkår[],
+        komponentId: string
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
 export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
-    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(props.lagretDelvilkårsett);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
+    const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
+    const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
@@ -153,7 +154,7 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            props.lagreVurdering(delvilkårsett).then((response: Ressurs<Vilkår>) => {
+            props.lagreVurdering(delvilkårsett, komponentId).then((response: Ressurs<Vilkår>) => {
                 if (response.status === RessursStatus.SUKSESS) {
                     props.avsluttRedigering();
                 }

@@ -12,7 +12,8 @@ export type LesEllerEndreDelvilkårProps = {
     regler: Regler;
     lagretDelvilkårsett: Delvilkår[];
     lagreVurdering: (
-        delvilkårssett: Delvilkår[]
+        delvilkårssett: Delvilkår[],
+        komponentId: string
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
