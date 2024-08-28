@@ -8,6 +8,7 @@ import OpprettKlageBehandling from './OpprettKlageBehandling';
 import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import {
     BehandlingType,
     behandlingTypeTilTekst,
@@ -16,12 +17,14 @@ import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsakId: string;
+    stønadstype: Stønadstype;
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
 
 const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
+    stønadstype,
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
@@ -78,6 +81,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     {behandlingtype === BehandlingType.REVURDERING && (
                         <OpprettRevurderingBehandling
                             fagsakId={fagsakId}
+                            stønadstype={stønadstype}
                             lukkModal={lukkModal}
                             hentBehandlinger={hentBehandlinger}
                         />

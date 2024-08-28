@@ -8,21 +8,24 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
 const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ vedtak }) => {
-    const { behandling } = useBehandling();
+    const { behandling, hentBehandling } = useBehandling();
     const { request } = useApp();
 
     const [simuleringsresultat, settSimuleringsresultat] =
         useState<Ressurs<SimuleringResponse | null>>(byggTomRessurs());
 
     useEffect(() => {
-        request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`).then(
-            settSimuleringsresultat
-        );
-    }, [request, settSimuleringsresultat, behandling.id]);
+        settSimuleringsresultat(byggHenterRessurs());
+        request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`)
+            .then(settSimuleringsresultat)
+            .then(() => {
+                hentBehandling.rerun(); // Må hente behandling på nytt for å oppdatere behandling med ritkig steg
+            });
+    }, [request, settSimuleringsresultat, behandling.id, hentBehandling]);
 
     const erFørstegangsbehandling = behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING;
 
