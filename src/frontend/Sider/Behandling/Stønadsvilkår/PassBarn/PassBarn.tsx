@@ -11,7 +11,7 @@ import {
     lenkerRundskrivPassBarn,
 } from '../../lenker';
 import { Delvilkår, Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
+import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
     vilkårsregler: Regler;
@@ -45,7 +45,6 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår
                         key={barn.ident}
-                        vilkårId={vilkår.id}
                         regler={vilkårsregler}
                         lagretDelvilkårsett={vilkår.delvilkårsett}
                         lagreVurdering={(vurderinger: Delvilkår[]) =>

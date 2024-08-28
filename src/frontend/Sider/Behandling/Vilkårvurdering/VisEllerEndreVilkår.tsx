@@ -7,8 +7,7 @@ import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
 import { Delvilkår, Vilkår } from '../vilkår';
 
-export type LesEllerEndreDelvilkårProps = {
-    vilkårId: string;
+type LesEllerEndreDelvilkårProps = {
     regler: Regler;
     lagretDelvilkårsett: Delvilkår[];
     lagreVurdering: (
@@ -17,7 +16,7 @@ export type LesEllerEndreDelvilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
+export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
     const { erStegRedigerbart } = useSteg();
 
     const [redigerer, settRedigerer] = useState<boolean>(true);
@@ -31,4 +30,3 @@ const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
         />
     );
 };
-export default VisEllerEndreVilkår;
