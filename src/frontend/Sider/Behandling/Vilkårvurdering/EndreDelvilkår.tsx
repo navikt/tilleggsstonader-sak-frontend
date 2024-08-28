@@ -53,7 +53,7 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
-    const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | undefined>();
+    const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
 
     const [komponentId] = useId();
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
@@ -158,7 +158,7 @@ export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
             const response = await props.lagreVurdering(delvilkårsett, komponentId);
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
-                settFeilmeldingVedLagring(undefined); // TODO: Null i stedet?
+                settFeilmeldingVedLagring(null);
             } else {
                 settFeilmeldingVedLagring(response.frontendFeilmelding);
             }
