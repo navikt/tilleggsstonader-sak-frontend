@@ -10,7 +10,7 @@ import {
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
-import { Delvilkår, Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
@@ -48,12 +48,12 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         key={vilkår.id}
                         regler={vilkårsregler}
                         resultat={vilkår.resultat}
-                        lagretDelvilkårsett={vilkår.delvilkårsett}
-                        lagreVurdering={(vurderinger: Delvilkår[]) =>
+                        redigerbareVilkårfelter={{ delvilkårsett: vilkår.delvilkårsett }}
+                        lagreVurdering={(vilkårfeltSomKanOppdateres) =>
                             lagreVilkår({
                                 id: vilkår.id,
                                 behandlingId: vilkår.behandlingId,
-                                delvilkårsett: vurderinger,
+                                delvilkårsett: vilkårfeltSomKanOppdateres.delvilkårsett,
                             })
                         }
                     />

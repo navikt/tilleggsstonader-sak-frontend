@@ -6,7 +6,7 @@ import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
-import { Delvilkår } from '../vilkår';
+import { RedigerbareVilkårfelter } from '../vilkår';
 
 const Grid = styled.div`
     display: grid;
@@ -22,10 +22,12 @@ const Begrunnelse = styled(Lesefelt)`
     grid-column: 2;
 `;
 const LesevisningVilkår: FC<{
-    delvilkårsett: Delvilkår[];
+    redigerbareVilkårfelter: RedigerbareVilkårfelter;
     startRedigering?: () => void;
-}> = ({ delvilkårsett, startRedigering }) => {
+}> = ({ redigerbareVilkårfelter, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
+
+    const { delvilkårsett } = redigerbareVilkårfelter;
 
     return (
         <>
