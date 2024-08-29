@@ -21,6 +21,20 @@ export const NyttVilkår: React.FC<{
 
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
 
+    const opprettVilkår = async (delvilkårssett: Delvilkår[]) => {
+        const response = await lagreNyttVilkår({
+            vilkårType: vilkårtype,
+            barnId: barnId,
+            behandlingId: behandling.id,
+            delvilkårsett: delvilkårssett,
+        });
+        if (response.status === RessursStatus.SUKSESS) {
+            settLeggerTilNyttVilkår(false);
+        }
+        // feilhåndtering gjøres i EndreDelvilkår -> validerOgLagreVilkårsvurderinger
+        return response;
+    };
+
     if (!leggerTilNyttVilkår) {
         return (
             <SmallButton
@@ -37,18 +51,7 @@ export const NyttVilkår: React.FC<{
             regler={vilkårsregler}
             lagretDelvilkårsett={lagTomtDelvilkårsett(vilkårsregler)}
             avsluttRedigering={() => {}}
-            lagreVurdering={async (vurderinger: Delvilkår[]) => {
-                const response = await lagreNyttVilkår({
-                    vilkårType: vilkårtype,
-                    barnId: barnId,
-                    behandlingId: behandling.id,
-                    delvilkårsett: vurderinger,
-                });
-                if (response.status === RessursStatus.SUKSESS) {
-                    settLeggerTilNyttVilkår(false);
-                }
-                return response;
-            }}
+            lagreVurdering={opprettVilkår}
         />
     );
 };

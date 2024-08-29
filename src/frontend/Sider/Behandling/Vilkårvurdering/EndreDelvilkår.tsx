@@ -44,7 +44,7 @@ type EndreDelvilkårProps = {
     avsluttRedigering: () => void;
     lagreVurdering: (
         delvilkårssett: Delvilkår[],
-        komponentId: string
+        komponentId: string // TODO: Brukes denne?
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
