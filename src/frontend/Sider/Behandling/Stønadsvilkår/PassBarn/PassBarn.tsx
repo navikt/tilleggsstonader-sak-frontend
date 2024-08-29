@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
-import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Regler } from '../../../../typer/regel';
-import { RessursStatus } from '../../../../typer/ressurs';
 import {
     lenkerForskriftPassBarn,
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
 import { Delvilkår, Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import { EndreDelvilkår } from '../../Vilkårvurdering/EndreDelvilkår';
-import { lagTomtDelvilkårsett } from '../../Vilkårvurdering/utils';
+import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
@@ -30,10 +24,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
-    const { behandling } = useBehandling();
-    const { lagreVilkår, lagreNyttVilkår } = useVilkår();
-
-    const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
+    const { lagreVilkår } = useVilkår();
 
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
@@ -66,33 +57,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         }
                     />
                 ))}
-                {leggerTilNyttVilkår ? (
-                    <EndreDelvilkår
-                        regler={vilkårsregler}
-                        lagretDelvilkårsett={lagTomtDelvilkårsett(vilkårsregler)}
-                        avsluttRedigering={() => {}}
-                        lagreVurdering={async (vurderinger: Delvilkår[]) => {
-                            const response = await lagreNyttVilkår({
-                                vilkårType: Inngangsvilkårtype.PASS_BARN,
-                                barnId: barn.barnId,
-                                behandlingId: behandling.id,
-                                delvilkårsett: vurderinger,
-                            });
-                            if (response.status === RessursStatus.SUKSESS) {
-                                settLeggerTilNyttVilkår(false);
-                            }
-                            return response;
-                        }}
-                    />
-                ) : (
-                    <SmallButton
-                        onClick={() => settLeggerTilNyttVilkår(true)}
-                        variant="secondary"
-                        icon={<PlusCircleIcon />}
-                    >
-                        Legg til ny periode
-                    </SmallButton>
-                )}
+                <NyttVilkår
+                    vilkårtype={Inngangsvilkårtype.PASS_BARN}
+                    vilkårsregler={vilkårsregler}
+                    barnId={barn.barnId}
+                />
             </VilkårPanel>
         );
     });
