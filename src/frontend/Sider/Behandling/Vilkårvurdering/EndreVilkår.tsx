@@ -48,7 +48,7 @@ type EndreDelvilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-export const EndreDelvilkår: FC<EndreDelvilkårProps> = (props) => {
+export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);

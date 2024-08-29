@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { EndreDelvilkår } from './EndreDelvilkår';
+import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
@@ -25,7 +25,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) =>
     );
 
     return erStegRedigerbart && redigerer ? (
-        <EndreDelvilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
+        <EndreVilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
     ) : (
         <LesevisningVilkår
             delvilkårsett={props.lagretDelvilkårsett}
