@@ -24,7 +24,7 @@ export const finnSanityMappe = (
 /**
  * Mapper fra type vedtak til typen malen er definert som i Sanity.
  */
-export const typeVedtakTilSanitytype = (type: TypeVedtak): string => {
+const typeVedtakTilSanitytype = (type: TypeVedtak): string => {
     switch (type) {
         case TypeVedtak.INNVILGELSE:
             return 'INNVILGET';
