@@ -12,6 +12,10 @@ export const validerInnvilgetVedtakForm = ({
     };
 };
 
+export const ikkeValiderInnvilgetVedtakForm = (): FormErrors<InnvilgeVedtakForm> => {
+    return { utgifter: {} };
+};
+
 export const validerPerioder = ({
     utgifter,
 }: {
