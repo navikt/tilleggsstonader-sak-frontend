@@ -5,6 +5,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { EndreDelvilkår } from './EndreDelvilkår';
 import { lagTomtDelvilkårsett } from './utils';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Regler } from '../../../typer/regel';
@@ -18,6 +19,7 @@ export const NyttVilkår: React.FC<{
 }> = ({ vilkårtype, vilkårsregler, barnId }) => {
     const { behandling } = useBehandling();
     const { lagreNyttVilkår } = useVilkår();
+    const { erStegRedigerbart } = useSteg();
 
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
 
@@ -34,6 +36,10 @@ export const NyttVilkår: React.FC<{
         // feilhåndtering gjøres i EndreDelvilkår -> validerOgLagreVilkårsvurderinger
         return response;
     };
+
+    if (!erStegRedigerbart) {
+        return null;
+    }
 
     if (!leggerTilNyttVilkår) {
         return (
