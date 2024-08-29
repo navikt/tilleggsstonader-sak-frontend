@@ -161,6 +161,9 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
             const response = await props.lagreVurdering(
                 {
                     delvilkårsett: delvilkårsett,
+                    fom: fom,
+                    tom: tom,
+                    beløp: beløp,
                 },
                 komponentId
             );

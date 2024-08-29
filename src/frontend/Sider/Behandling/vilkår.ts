@@ -39,6 +39,9 @@ export interface Vilkår {
     endretTid: string;
     delvilkårsett: Delvilkår[];
     opphavsvilkår?: Opphavsvilkår;
+    fom?: string;
+    tom?: string;
+    beløp?: number;
 }
 
 export interface Opphavsvilkår {
@@ -81,10 +84,18 @@ export interface Vilkårsvurdering {
     grunnlag: VilkårGrunnlag;
 }
 
-export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+export type SvarPåVilkår = Pick<
+    Vilkår,
+    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'beløp'
+>;
 
-export type NyttVilkår = Pick<Vilkår, 'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId'>;
+export type NyttVilkår = Pick<
+    Vilkår,
+    'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId' | 'fom' | 'tom' | 'beløp'
+>;
 
+// Brukes for nullstilling av vilkår
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
-export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett'>;
+// Internt bruk av felter som kan oppdateres i komponent
+export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'beløp'>;

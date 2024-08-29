@@ -32,6 +32,9 @@ export const NyttVilkår: React.FC<{
             barnId: barnId,
             behandlingId: behandling.id,
             delvilkårsett: redigerbareVilkårfelter.delvilkårsett,
+            fom: redigerbareVilkårfelter.fom,
+            tom: redigerbareVilkårfelter.tom,
+            beløp: redigerbareVilkårfelter.beløp,
         });
     };
 
