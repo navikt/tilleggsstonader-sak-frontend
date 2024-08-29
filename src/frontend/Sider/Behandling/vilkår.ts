@@ -86,3 +86,5 @@ export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandling
 export type NyttVilkår = Pick<Vilkår, 'barnId' | 'delvilkårsett' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
+
+export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett'>;

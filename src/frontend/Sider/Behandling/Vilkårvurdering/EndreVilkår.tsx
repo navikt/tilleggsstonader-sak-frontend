@@ -23,7 +23,7 @@ import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
-import { Delvilkår, Vilkår, Vurdering } from '../vilkår';
+import { Delvilkår, Vilkår, RedigerbareVilkårfelter, Vurdering } from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -40,10 +40,10 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 
 type EndreDelvilkårProps = {
     regler: Regler;
-    lagretDelvilkårsett: Delvilkår[];
+    redigerbareVilkårfelter: RedigerbareVilkårfelter;
     avsluttRedigering: () => void;
     lagreVurdering: (
-        delvilkårssett: Delvilkår[],
+        redigerbareVilkårfelter: RedigerbareVilkårfelter,
         komponentId: string
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
@@ -54,7 +54,9 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
 
-    const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(props.lagretDelvilkårsett);
+    const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(
+        props.redigerbareVilkårfelter.delvilkårsett
+    );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
@@ -156,7 +158,12 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            const response = await props.lagreVurdering(delvilkårsett, komponentId);
+            const response = await props.lagreVurdering(
+                {
+                    delvilkårsett: delvilkårsett,
+                },
+                komponentId
+            );
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
                 settFeilmeldingVedLagring(null);

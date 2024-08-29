@@ -5,14 +5,14 @@ import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
 import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
-import { Delvilkår, Vilkår, Vilkårsresultat } from '../vilkår';
+import { Vilkår, RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
     regler: Regler;
     resultat: Vilkårsresultat;
-    lagretDelvilkårsett: Delvilkår[];
+    redigerbareVilkårfelter: RedigerbareVilkårfelter;
     lagreVurdering: (
-        delvilkårssett: Delvilkår[],
+        redigerbareVilkårfelter: RedigerbareVilkårfelter,
         komponentId: string
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
@@ -28,7 +28,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) =>
         <EndreVilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
     ) : (
         <LesevisningVilkår
-            delvilkårsett={props.lagretDelvilkårsett}
+            redigerbareVilkårfelter={props.redigerbareVilkårfelter}
             startRedigering={() => settRedigerer(true)}
         />
     );
