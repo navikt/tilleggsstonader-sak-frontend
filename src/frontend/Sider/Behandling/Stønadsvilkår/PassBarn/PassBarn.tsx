@@ -45,8 +45,9 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
             >
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår
-                        key={barn.ident}
+                        key={vilkår.id}
                         regler={vilkårsregler}
+                        resultat={vilkår.resultat}
                         lagretDelvilkårsett={vilkår.delvilkårsett}
                         lagreVurdering={(vurderinger: Delvilkår[]) =>
                             lagreVilkår({
