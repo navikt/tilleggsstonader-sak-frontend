@@ -46,6 +46,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                     <VisEllerEndreVilkår
                         key={vilkår.id}
                         regler={vilkårsregler}
+                        resultat={vilkår.resultat}
                         lagretDelvilkårsett={vilkår.delvilkårsett}
                         lagreVurdering={(vurderinger: Delvilkår[]) =>
                             lagreVilkår({
