@@ -73,6 +73,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         avsluttRedigering={() => {}}
                         lagreVurdering={async (vurderinger: Delvilkår[]) => {
                             const response = await lagreNyttVilkår({
+                                vilkårType: Inngangsvilkårtype.PASS_BARN,
                                 barnId: barn.barnId,
                                 behandlingId: behandling.id,
                                 delvilkårsett: vurderinger,
