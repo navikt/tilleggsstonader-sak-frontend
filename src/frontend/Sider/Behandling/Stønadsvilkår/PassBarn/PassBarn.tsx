@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
@@ -29,6 +30,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
+    const { behandling } = useBehandling();
     const { lagreVilkår, lagreNyttVilkår } = useVilkår();
 
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
@@ -72,7 +74,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         lagreVurdering={async (vurderinger: Delvilkår[]) => {
                             const response = await lagreNyttVilkår({
                                 barnId: barn.barnId,
-                                behandlingId: vilkårsett[0].behandlingId, // TODO: Kan behandlingId-en trekkes ut fra vilkårssettet?
+                                behandlingId: behandling.id,
                                 delvilkårsett: vurderinger,
                             });
                             if (response.status === RessursStatus.SUKSESS) {
