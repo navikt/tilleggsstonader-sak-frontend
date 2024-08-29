@@ -9,7 +9,6 @@ import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Regler } from '../../../typer/regel';
-import { RessursStatus } from '../../../typer/ressurs';
 import { Delvilkår, Vilkårtype } from '../vilkår';
 
 export const NyttVilkår: React.FC<{
@@ -24,17 +23,12 @@ export const NyttVilkår: React.FC<{
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
 
     const opprettVilkår = async (delvilkårssett: Delvilkår[]) => {
-        const response = await lagreNyttVilkår({
+        return await lagreNyttVilkår({
             vilkårType: vilkårtype,
             barnId: barnId,
             behandlingId: behandling.id,
             delvilkårsett: delvilkårssett,
         });
-        if (response.status === RessursStatus.SUKSESS) {
-            settLeggerTilNyttVilkår(false);
-        }
-        // feilhåndtering gjøres i EndreDelvilkår -> validerOgLagreVilkårsvurderinger
-        return response;
     };
 
     if (!erStegRedigerbart) {
@@ -56,7 +50,7 @@ export const NyttVilkår: React.FC<{
         <EndreDelvilkår
             regler={vilkårsregler}
             lagretDelvilkårsett={lagTomtDelvilkårsett(vilkårsregler)}
-            avsluttRedigering={() => {}}
+            avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
             lagreVurdering={opprettVilkår}
         />
     );
