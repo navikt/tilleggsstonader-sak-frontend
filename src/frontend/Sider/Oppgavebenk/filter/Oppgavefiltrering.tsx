@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Checkbox, Select, VStack } from '@navikt/ds-react';
+import { Button, Select, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
@@ -34,11 +34,6 @@ const KnappWrapper = styled.div`
     display: flex;
     flex-direction: row;
     gap: 1rem;
-`;
-
-const AlignetCheckbox = styled(Checkbox)`
-    margin-bottom: -0.5rem;
-    align-self: flex-end;
 `;
 
 export const Oppgavefiltrering = () => {
@@ -74,6 +69,18 @@ export const Oppgavefiltrering = () => {
     return (
         <VStack gap="4">
             <FlexDiv>
+                <Select
+                    value={oppgaveRequest.oppgaverPåVent ? 'På vent' : 'Klar'}
+                    label="Benk"
+                    onChange={(event) => {
+                        nullstillFiltrering();
+                        oppdaterOppgave('oppgaverPåVent')(event.target.value === 'På vent');
+                    }}
+                    size="small"
+                >
+                    <option value="Klar">Klar</option>
+                    <option value="På vent">På vent</option>
+                </Select>
                 <Select
                     value={oppgaveRequest.oppgavetype || ''}
                     label="Type"
@@ -128,15 +135,6 @@ export const Oppgavefiltrering = () => {
                     oppgaveRequest={oppgaveRequest}
                     settOppgaveRequest={settOppgaveRequest}
                 />
-                <AlignetCheckbox
-                    checked={oppgaveRequest['oppgaverPåVent'] || false}
-                    onChange={(e) => {
-                        nullstillFiltrering();
-                        oppdaterOppgave('oppgaverPåVent')(e.target.checked);
-                    }}
-                >
-                    Oppgaver på vent
-                </AlignetCheckbox>
             </FlexDiv>
             <KnappWrapper>
                 <Button onClick={sjekkFeilOgHentOppgaver} type={'submit'} size="small">

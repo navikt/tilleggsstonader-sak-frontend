@@ -13,7 +13,11 @@ export const defaultSortering: Pick<OppgaveRequest, 'offset' | 'limit' | 'order'
 export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveRequest => ({
     ...oppgaveRequest,
     ...defaultSortering,
+    orderBy: defaultOrderBy(oppgaveRequest.oppgaverPåVent),
 });
+
+export const defaultOrderBy = (oppgaverPåVent: boolean) =>
+    oppgaverPåVent ? 'FRIST' : 'OPPRETTET_TIDSPUNKT';
 
 export const defaultOppgaveRequest: OppgaveRequest = {
     ...defaultSortering,
