@@ -28,6 +28,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) =>
         <EndreVilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
     ) : (
         <LesevisningVilkår
+            resultat={props.resultat}
             redigerbareVilkårfelter={props.redigerbareVilkårfelter}
             startRedigering={() => settRedigerer(true)}
         />

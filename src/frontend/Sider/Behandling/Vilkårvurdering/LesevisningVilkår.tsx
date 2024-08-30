@@ -7,12 +7,13 @@ import { HStack } from '@navikt/ds-react';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
+import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
-import { RedigerbareVilkårfelter } from '../vilkår';
+import { RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
 
 const Grid = styled.div`
     display: grid;
@@ -28,9 +29,10 @@ const Begrunnelse = styled(Lesefelt)`
     grid-column: 2;
 `;
 const LesevisningVilkår: FC<{
+    resultat: Vilkårsresultat;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
     startRedigering?: () => void;
-}> = ({ redigerbareVilkårfelter, startRedigering }) => {
+}> = ({ resultat, redigerbareVilkårfelter, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
     const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
@@ -38,7 +40,9 @@ const LesevisningVilkår: FC<{
     return (
         <>
             {periodiserteVilkårIsEnabled && (
-                <HStack gap="6">
+                <HStack gap="6" align={'center'}>
+                    {/* TODO Designen skal endres på til senere */}
+                    <VilkårsresultatIkon vilkårsresultat={resultat} />
                     <Lesefelt
                         label={'Periode fra og med'}
                         verdi={formaterNullableÅrMåned(fom)}
