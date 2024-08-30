@@ -26,6 +26,7 @@ import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
+import { tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
@@ -206,7 +207,9 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
                             label="Periode til og med"
                             size="small"
                             value={tom}
-                            onChange={settTom}
+                            onChange={(dato) =>
+                                settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)
+                            }
                         />
                         <TextField
                             label="Månedlig utgift"
