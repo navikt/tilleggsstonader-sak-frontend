@@ -37,7 +37,7 @@ import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 import { Toggle } from '../../../../../utils/toggles';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
-import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
+import { lagVedtakRequest, medEndretKey } from '../utils';
 
 export type InnvilgeVedtakForm = {
     utgifter: Record<string, Utgift[]>;
@@ -55,7 +55,7 @@ const initUtgifter = (
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
             ...acc,
-            [barn.barnId]: utgiftForBarn ? medEndretKey(utgiftForBarn) : [tomUtgiftRad()],
+            [barn.barnId]: utgiftForBarn ? medEndretKey(utgiftForBarn) : [],
         };
     }, {});
 
