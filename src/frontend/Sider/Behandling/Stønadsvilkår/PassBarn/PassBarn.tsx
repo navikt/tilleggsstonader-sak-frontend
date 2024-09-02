@@ -11,6 +11,7 @@ import {
     lenkerRundskrivPassBarn,
 } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
@@ -57,6 +58,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         }
                     />
                 ))}
+                <NyttVilkår
+                    vilkårtype={Inngangsvilkårtype.PASS_BARN}
+                    vilkårsregler={vilkårsregler}
+                    barnId={barn.barnId}
+                />
             </VilkårPanel>
         );
     });

@@ -83,7 +83,7 @@ export interface Vilkårsvurdering {
 
 export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
 
-export type NyttVilkår = Pick<Vilkår, 'barnId' | 'delvilkårsett' | 'behandlingId'>;
+export type NyttVilkår = Pick<Vilkår, 'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId'>;
 
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
