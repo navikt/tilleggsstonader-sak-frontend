@@ -30,13 +30,13 @@ const Begrunnelse = styled(Lesefelt)`
 `;
 const LesevisningVilkår: FC<{
     resultat: Vilkårsresultat;
-    redigerbareVilkårfelter: RedigerbareVilkårfelter;
+    vilkårsfelter: RedigerbareVilkårfelter;
     startRedigering?: () => void;
-}> = ({ resultat, redigerbareVilkårfelter, startRedigering }) => {
+}> = ({ resultat, vilkårsfelter, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
     const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
-    const { delvilkårsett, fom, tom, beløp } = redigerbareVilkårfelter;
+    const { delvilkårsett, fom, tom, utgift } = vilkårsfelter;
     return (
         <>
             {periodiserteVilkårIsEnabled && (
@@ -55,7 +55,7 @@ const LesevisningVilkår: FC<{
                     />
                     <Lesefelt
                         label={'Månedlig utgift'}
-                        verdi={harTallverdi(beløp) ? beløp : ''}
+                        verdi={harTallverdi(utgift) ? utgift : ''}
                         size={'small'}
                     />
                 </HStack>

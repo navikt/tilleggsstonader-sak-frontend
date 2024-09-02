@@ -45,17 +45,16 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-type EndreDelvilkårProps = {
+type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
     avsluttRedigering: () => void;
     lagreVurdering: (
-        redigerbareVilkårfelter: RedigerbareVilkårfelter,
-        komponentId: string // TODO: Brukes denne?
+        redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
+export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
@@ -66,7 +65,7 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
     );
     const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
     const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
-    const [beløp, settBeløp] = useState(props.redigerbareVilkårfelter.beløp);
+    const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
@@ -170,15 +169,7 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            const response = await props.lagreVurdering(
-                {
-                    delvilkårsett: delvilkårsett,
-                    fom: fom,
-                    tom: tom,
-                    beløp: beløp,
-                },
-                komponentId
-            );
+            const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
                 settFeilmeldingVedLagring(null);
@@ -215,8 +206,8 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
                             label="Månedlig utgift"
                             size="small"
                             erLesevisning={false}
-                            value={harTallverdi(beløp) ? beløp : ''}
-                            onChange={(e) => settBeløp(tilHeltall(fjernSpaces(e.target.value)))}
+                            value={harTallverdi(utgift) ? utgift : ''}
+                            onChange={(e) => settUtgift(tilHeltall(fjernSpaces(e.target.value)))}
                         />
                     </HStack>
                 )}

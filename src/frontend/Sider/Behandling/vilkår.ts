@@ -41,7 +41,7 @@ export interface Vilkår {
     opphavsvilkår?: Opphavsvilkår;
     fom?: string;
     tom?: string;
-    beløp?: number;
+    utgift?: number;
 }
 
 export interface Opphavsvilkår {
@@ -86,16 +86,16 @@ export interface Vilkårsvurdering {
 
 export type SvarPåVilkår = Pick<
     Vilkår,
-    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'beløp'
+    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
 >;
 
 export type NyttVilkår = Pick<
     Vilkår,
-    'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId' | 'fom' | 'tom' | 'beløp'
+    'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
 >;
 
 // Brukes for nullstilling av vilkår
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
 // Internt bruk av felter som kan oppdateres i komponent
-export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'beløp'>;
+export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'utgift'>;

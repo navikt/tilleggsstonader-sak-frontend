@@ -34,7 +34,7 @@ export const NyttVilkår: React.FC<{
             delvilkårsett: redigerbareVilkårfelter.delvilkårsett,
             fom: redigerbareVilkårfelter.fom,
             tom: redigerbareVilkårfelter.tom,
-            beløp: redigerbareVilkårfelter.beløp,
+            utgift: redigerbareVilkårfelter.utgift,
         });
     };
 

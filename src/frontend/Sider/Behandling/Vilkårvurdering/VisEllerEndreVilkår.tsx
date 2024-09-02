@@ -12,8 +12,7 @@ type LesEllerEndreDelvilkårProps = {
     resultat: Vilkårsresultat;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
     lagreVurdering: (
-        redigerbareVilkårfelter: RedigerbareVilkårfelter,
-        komponentId: string
+        redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
@@ -29,7 +28,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) =>
     ) : (
         <LesevisningVilkår
             resultat={props.resultat}
-            redigerbareVilkårfelter={props.redigerbareVilkårfelter}
+            vilkårsfelter={props.redigerbareVilkårfelter}
             startRedigering={() => settRedigerer(true)}
         />
     );

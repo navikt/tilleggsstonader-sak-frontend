@@ -60,7 +60,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                             delvilkårsett: vilkår.delvilkårsett,
                             fom: vilkår.fom,
                             tom: vilkår.tom,
-                            beløp: vilkår.beløp,
+                            utgift: vilkår.utgift,
                         }}
                         lagreVurdering={(redigerbareVilkårfelter) =>
                             lagreVilkår({
@@ -69,7 +69,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                                 delvilkårsett: redigerbareVilkårfelter.delvilkårsett,
                                 fom: redigerbareVilkårfelter.fom,
                                 tom: redigerbareVilkårfelter.tom,
-                                beløp: redigerbareVilkårfelter.beløp,
+                                utgift: redigerbareVilkårfelter.utgift,
                             })
                         }
                     />
