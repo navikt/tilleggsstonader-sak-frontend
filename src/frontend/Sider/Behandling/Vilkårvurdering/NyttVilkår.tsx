@@ -31,7 +31,7 @@ export const NyttVilkår: React.FC<{
             vilkårType: vilkårtype,
             barnId: barnId,
             behandlingId: behandling.id,
-            delvilkårsett: redigerbareVilkårfelter.delvilkårsett,
+            ...redigerbareVilkårfelter,
         });
     };
 

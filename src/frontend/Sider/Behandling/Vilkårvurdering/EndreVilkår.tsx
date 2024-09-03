@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
-import { ErrorMessage, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -19,10 +20,16 @@ import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
+import MonthInput from '../../../komponenter/Skjema/MonthInput';
+import TextField from '../../../komponenter/Skjema/TextField';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
+import { tilSisteDagenIMåneden } from '../../../utils/dato';
+import { harTallverdi, tilHeltall } from '../../../utils/tall';
+import { Toggle } from '../../../utils/toggles';
+import { fjernSpaces } from '../../../utils/utils';
 import { Delvilkår, Vilkår, RedigerbareVilkårfelter, Vurdering } from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
@@ -38,17 +45,16 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-type EndreDelvilkårProps = {
+type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
     avsluttRedigering: () => void;
     lagreVurdering: (
-        redigerbareVilkårfelter: RedigerbareVilkårfelter,
-        komponentId: string // TODO: Brukes denne?
+        redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
+export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
@@ -57,10 +63,15 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(
         props.redigerbareVilkårfelter.delvilkårsett
     );
+    const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
+    const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
+    const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
 
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
+
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
@@ -158,12 +169,7 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (erTomtObjekt(valideringsfeil)) {
-            const response = await props.lagreVurdering(
-                {
-                    delvilkårsett: delvilkårsett,
-                },
-                komponentId
-            );
+            const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
                 settFeilmeldingVedLagring(null);
@@ -180,6 +186,31 @@ export const EndreVilkår: FC<EndreDelvilkårProps> = (props) => {
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <VStack gap="4">
+                {periodiserteVilkårIsEnabled && (
+                    <HStack gap="6">
+                        <MonthInput
+                            label="Periode fra og med"
+                            size="small"
+                            value={fom}
+                            onChange={settFom}
+                        />
+                        <MonthInput
+                            label="Periode til og med"
+                            size="small"
+                            value={tom}
+                            onChange={(dato) =>
+                                settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)
+                            }
+                        />
+                        <TextField
+                            label="Månedlig utgift"
+                            size="small"
+                            erLesevisning={false}
+                            value={harTallverdi(utgift) ? utgift : ''}
+                            onChange={(e) => settUtgift(tilHeltall(fjernSpaces(e.target.value)))}
+                        />
+                    </HStack>
+                )}
                 {delvilkårsett.map((delvikår, delvilkårIndex) => {
                     return delvikår.vurderinger.map((svar) => {
                         const gjeldendeRegel = props.regler[svar.regelId];

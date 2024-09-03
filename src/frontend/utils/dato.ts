@@ -4,6 +4,7 @@ import {
     addMonths,
     format,
     formatISO,
+    endOfMonth,
     isAfter,
     isBefore,
     isEqual,
@@ -138,3 +139,6 @@ export const formaterIsoÅr = (dato: string): number => {
 
 export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
     differenceInDays(tilDato(dato), tilDato(dato2));
+
+export const tilSisteDagenIMåneden = (dato: string | Date): string =>
+    tilLocaleDateString(endOfMonth(tilDato(dato)));

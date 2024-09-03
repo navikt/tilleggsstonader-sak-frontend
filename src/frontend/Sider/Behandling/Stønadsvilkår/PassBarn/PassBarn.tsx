@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Regler } from '../../../../typer/regel';
+import { Toggle } from '../../../../utils/toggles';
 import {
     lenkerForskriftPassBarn,
     lenkerParagrafPassBarn,
@@ -23,6 +26,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     const { lagreVilkår } = useVilkår();
 
@@ -34,7 +38,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         return (
             <VilkårPanel
                 tittel={`${navn} (${alder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />} // TODO: Dette ikonet skal på sikt fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
+                ikon={
+                    !periodiserteVilkårIsEnabled && (
+                        <VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />
+                    )
+                } // TODO: Dette ikonet skal på sikt fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
                 ekstraHeading={
                     <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
@@ -48,12 +56,17 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                         key={vilkår.id}
                         regler={vilkårsregler}
                         resultat={vilkår.resultat}
-                        redigerbareVilkårfelter={{ delvilkårsett: vilkår.delvilkårsett }}
-                        lagreVurdering={(vilkårfeltSomKanOppdateres) =>
+                        redigerbareVilkårfelter={{
+                            delvilkårsett: vilkår.delvilkårsett,
+                            fom: vilkår.fom,
+                            tom: vilkår.tom,
+                            utgift: vilkår.utgift,
+                        }}
+                        lagreVurdering={(redigerbareVilkårfelter) =>
                             lagreVilkår({
                                 id: vilkår.id,
                                 behandlingId: vilkår.behandlingId,
-                                delvilkårsett: vilkårfeltSomKanOppdateres.delvilkårsett,
+                                ...redigerbareVilkårfelter,
                             })
                         }
                     />
