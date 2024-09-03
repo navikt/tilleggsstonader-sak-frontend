@@ -2,6 +2,7 @@ export enum BehandlingÅrsak {
     SØKNAD = 'SØKNAD',
     PAPIRSØKNAD = 'PAPIRSØKNAD',
     NYE_OPPLYSNINGER = 'NYE_OPPLYSNINGER',
+    KORRIGERING_UTEN_BREV = 'KORRIGERING_UTEN_BREV',
 }
 
 export enum HenlagtÅrsak {
