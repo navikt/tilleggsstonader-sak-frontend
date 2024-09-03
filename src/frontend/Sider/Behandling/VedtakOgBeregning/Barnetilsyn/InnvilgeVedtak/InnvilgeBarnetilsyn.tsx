@@ -37,7 +37,7 @@ import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 import { Toggle } from '../../../../../utils/toggles';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
-import { lagVedtakRequest, medEndretKey } from '../utils';
+import { lagVedtakRequest, medEndretKey, tomUtgiftRad } from '../utils';
 
 export type InnvilgeVedtakForm = {
     utgifter: Record<string, Utgift[]>;
@@ -49,21 +49,25 @@ const Knapp = styled(Button)`
 
 const initUtgifter = (
     barnMedOppfylteVilkår: BarnOppsummering[],
+    periodiserteVilkårIsEnabled: boolean,
     vedtak?: InnvilgelseBarnetilsyn
 ): Record<string, BarnOppsummering[]> =>
     barnMedOppfylteVilkår.reduce((acc, barn) => {
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
             ...acc,
-            [barn.barnId]: utgiftForBarn ? medEndretKey(utgiftForBarn) : [],
+            [barn.barnId]: utgiftForBarn
+                ? medEndretKey(utgiftForBarn)
+                : [periodiserteVilkårIsEnabled ? [] : tomUtgiftRad()],
         };
     }, {});
 
 const initFormState = (
     vedtak: InnvilgelseBarnetilsyn | undefined,
-    barnMedOppfylteVilkår: BarnOppsummering[]
+    barnMedOppfylteVilkår: BarnOppsummering[],
+    periodiserteVilkårIsEnabled: boolean
 ) => ({
-    utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
+    utgifter: initUtgifter(barnMedOppfylteVilkår, periodiserteVilkårIsEnabled, vedtak),
 });
 
 interface Props {
@@ -95,7 +99,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     const barnMedOppfylteVilkår = vilkårsvurderteBarn.filter((barn) => barn.oppfyllerAlleVilkår);
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretVedtak, barnMedOppfylteVilkår),
+        initFormState(lagretVedtak, barnMedOppfylteVilkår, periodiserteVilkårIsEnabled),
         periodiserteVilkårIsEnabled ? ikkeValiderInnvilgetVedtakForm : validerInnvilgetVedtakForm
     );
 
