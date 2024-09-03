@@ -45,6 +45,11 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
+const StyledForm = styled.form`
+    background: white;
+    padding: 2rem;
+`;
+
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
@@ -184,7 +189,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     };
 
     return (
-        <form onSubmit={validerOgLagreVilkårsvurderinger}>
+        <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <VStack gap="4">
                 {periodiserteVilkårIsEnabled && (
                     <HStack gap="6">
@@ -266,6 +271,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     )}
                 </VStack>
             </VStack>
-        </form>
+        </StyledForm>
     );
 };
