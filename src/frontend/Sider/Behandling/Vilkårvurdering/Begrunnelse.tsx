@@ -16,7 +16,7 @@ interface Props {
 }
 
 const BegrunnelseContainer = styled(VStack)`
-    width: 250px;
+    width: 400px;
 `;
 
 const Begrunnelse: FC<Props> = ({ vurdering, oppdaterBegrunnelse, regel }) => {
