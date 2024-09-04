@@ -4,6 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
+import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
@@ -26,6 +27,7 @@ const TwoColumnGrid = styled.div`
 const Container = styled(FlexColumn)`
     background: white;
     padding: 1rem;
+    box-shadow: ${AShadowXsmall};
 `;
 
 const FlexMedMargin = styled(FlexColumn)`

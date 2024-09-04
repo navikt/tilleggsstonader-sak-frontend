@@ -4,7 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
-import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
 import DelvilkårRadioknapper from './DelvilkårRadioknapper';
@@ -49,6 +49,7 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 const StyledForm = styled.form`
     background: white;
     padding: 2rem;
+    box-shadow: ${AShadowXsmall};
 `;
 
 type EndreVilkårProps = {
