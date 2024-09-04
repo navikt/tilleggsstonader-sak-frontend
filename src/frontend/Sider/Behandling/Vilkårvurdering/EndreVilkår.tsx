@@ -23,6 +23,7 @@ import { Skillelinje } from '../../../komponenter/Skillelinje';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
 import TextField from '../../../komponenter/Skjema/TextField';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { erTomtObjekt } from '../../../typer/typeUtils';
@@ -190,7 +191,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
-            <VStack gap="4">
+            <FlexColumn gap={1}>
                 {periodiserteVilkårIsEnabled && (
                     <HStack gap="6">
                         <MonthInput
@@ -216,6 +217,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                         />
                     </HStack>
                 )}
+                <Skillelinje />
                 {delvilkårsett.map((delvikår, delvilkårIndex) => {
                     return delvikår.vurderinger.map((svar) => {
                         const gjeldendeRegel = props.regler[svar.regelId];
@@ -259,7 +261,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     });
                 })}
                 <VStack gap="4">
-                    <Skillelinje />
                     <SmallButton>Lagre</SmallButton>
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
@@ -270,7 +271,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                         </ErrorMessage>
                     )}
                 </VStack>
-            </VStack>
+            </FlexColumn>
         </StyledForm>
     );
 };
