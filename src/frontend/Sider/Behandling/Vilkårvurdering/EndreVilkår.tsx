@@ -262,7 +262,12 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     });
                 })}
                 <VStack gap="4">
-                    <SmallButton>Lagre</SmallButton>
+                    <HStack gap="3">
+                        <SmallButton>Lagre</SmallButton>
+                        <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
+                            Avslutt
+                        </SmallButton>
+                    </HStack>
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
