@@ -17,7 +17,7 @@ import { harTallverdi } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
 
-const Grid = styled.div`
+const TwoColumnGrid = styled.div`
     display: grid;
     grid-template-columns: auto auto;
     gap: 2rem;
@@ -74,7 +74,7 @@ const LesevisningVilkår: FC<{
             )}
             <Skillelinje />
             <FlexMedMargin>
-                <Grid>
+                <TwoColumnGrid>
                     {delvilkårsett.map((delvilkår) =>
                         delvilkår.vurderinger.map((svar) => (
                             <React.Fragment key={svar.regelId}>
@@ -94,7 +94,7 @@ const LesevisningVilkår: FC<{
                             </React.Fragment>
                         ))
                     )}
-                </Grid>
+                </TwoColumnGrid>
                 {erStegRedigerbart && (
                     <SmallButton variant="secondary" onClick={startRedigering}>
                         Rediger
