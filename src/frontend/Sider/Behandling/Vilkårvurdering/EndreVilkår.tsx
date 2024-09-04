@@ -190,77 +190,66 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
     };
 
+    const EndrePerioder = (
+        <HStack gap="6">
+            <MonthInput label="Periode fra og med" size="small" value={fom} onChange={settFom} />
+            <MonthInput
+                label="Periode til og med"
+                size="small"
+                value={tom}
+                onChange={(dato) => settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)}
+            />
+            <TextField
+                label="Månedlig utgift"
+                size="small"
+                erLesevisning={false}
+                value={harTallverdi(utgift) ? utgift : ''}
+                onChange={(e) => settUtgift(tilHeltall(fjernSpaces(e.target.value)))}
+            />
+        </HStack>
+    );
+
+    const EndreDelvilkår = delvilkårsett.map((delvikår, delvilkårIndex) => {
+        return delvikår.vurderinger.map((svar) => {
+            const gjeldendeRegel = props.regler[svar.regelId];
+            const erUndervilkår = !gjeldendeRegel.erHovedregel;
+            return (
+                <React.Fragment key={gjeldendeRegel.regelId}>
+                    {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
+                    <DelvilkårContainer $erUndervilkår={erUndervilkår}>
+                        <DelvilkårRadioknapper
+                            vurdering={svar}
+                            regel={gjeldendeRegel}
+                            settVurdering={(nyVurdering) => {
+                                settDetFinnesUlagredeEndringer(true);
+                                oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
+                            }}
+                            feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
+                            nullstillFeilmelding={nullstillFeilmelding}
+                        />
+                        <Begrunnelse
+                            oppdaterBegrunnelse={(begrunnelse) => {
+                                settDetFinnesUlagredeEndringer(true);
+                                oppdaterBegrunnelse(delvikår.vurderinger, delvilkårIndex, {
+                                    ...svar,
+                                    begrunnelse,
+                                });
+                            }}
+                            vurdering={svar}
+                            regel={gjeldendeRegel}
+                        />
+                    </DelvilkårContainer>
+                </React.Fragment>
+            );
+        });
+    });
+
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn gap={1}>
-                {periodiserteVilkårIsEnabled && (
-                    <HStack gap="6">
-                        <MonthInput
-                            label="Periode fra og med"
-                            size="small"
-                            value={fom}
-                            onChange={settFom}
-                        />
-                        <MonthInput
-                            label="Periode til og med"
-                            size="small"
-                            value={tom}
-                            onChange={(dato) =>
-                                settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)
-                            }
-                        />
-                        <TextField
-                            label="Månedlig utgift"
-                            size="small"
-                            erLesevisning={false}
-                            value={harTallverdi(utgift) ? utgift : ''}
-                            onChange={(e) => settUtgift(tilHeltall(fjernSpaces(e.target.value)))}
-                        />
-                    </HStack>
-                )}
+                {periodiserteVilkårIsEnabled && EndrePerioder}
                 <Skillelinje />
-                {delvilkårsett.map((delvikår, delvilkårIndex) => {
-                    return delvikår.vurderinger.map((svar) => {
-                        const gjeldendeRegel = props.regler[svar.regelId];
-                        const erUndervilkår = !gjeldendeRegel.erHovedregel;
-                        return (
-                            <React.Fragment key={gjeldendeRegel.regelId}>
-                                {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                                <DelvilkårContainer $erUndervilkår={erUndervilkår}>
-                                    <DelvilkårRadioknapper
-                                        vurdering={svar}
-                                        regel={gjeldendeRegel}
-                                        settVurdering={(nyVurdering) => {
-                                            settDetFinnesUlagredeEndringer(true);
-                                            oppdaterSvar(
-                                                delvikår.vurderinger,
-                                                delvilkårIndex,
-                                                nyVurdering
-                                            );
-                                        }}
-                                        feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
-                                        nullstillFeilmelding={nullstillFeilmelding}
-                                    />
-                                    <Begrunnelse
-                                        oppdaterBegrunnelse={(begrunnelse) => {
-                                            settDetFinnesUlagredeEndringer(true);
-                                            oppdaterBegrunnelse(
-                                                delvikår.vurderinger,
-                                                delvilkårIndex,
-                                                {
-                                                    ...svar,
-                                                    begrunnelse,
-                                                }
-                                            );
-                                        }}
-                                        vurdering={svar}
-                                        regel={gjeldendeRegel}
-                                    />
-                                </DelvilkårContainer>
-                            </React.Fragment>
-                        );
-                    });
-                })}
+                {EndreDelvilkår}
                 <VStack gap="4">
                     <HStack gap="3">
                         <SmallButton>Lagre</SmallButton>
