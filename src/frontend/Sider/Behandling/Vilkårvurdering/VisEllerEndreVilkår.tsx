@@ -24,7 +24,11 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) =>
     );
 
     return erStegRedigerbart && redigerer ? (
-        <EndreVilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
+        <EndreVilkår
+            {...props}
+            visAvbrytknapp={false}
+            avsluttRedigering={() => settRedigerer(false)}
+        />
     ) : (
         <LesevisningVilkår
             resultat={props.resultat}

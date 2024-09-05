@@ -55,6 +55,7 @@ const StyledForm = styled.form`
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
+    visAvbrytknapp: boolean;
     avsluttRedigering: () => void;
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
@@ -253,9 +254,11 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <VStack gap="4">
                     <HStack gap="3">
                         <SmallButton>Lagre</SmallButton>
-                        <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
-                            Avslutt
-                        </SmallButton>
+                        {props.visAvbrytknapp && (
+                            <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
+                                Avbryt
+                            </SmallButton>
+                        )}
                     </HStack>
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>

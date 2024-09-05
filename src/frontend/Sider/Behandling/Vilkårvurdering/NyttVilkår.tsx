@@ -54,6 +54,7 @@ export const NyttVilkår: React.FC<{
         <EndreVilkår
             regler={vilkårsregler}
             redigerbareVilkårfelter={{ delvilkårsett: lagTomtDelvilkårsett(vilkårsregler) }}
+            visAvbrytknapp={true}
             avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
             lagreVurdering={opprettVilkår}
         />
