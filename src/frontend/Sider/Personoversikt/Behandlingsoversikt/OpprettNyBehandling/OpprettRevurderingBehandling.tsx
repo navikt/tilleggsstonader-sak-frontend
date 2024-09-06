@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { Button, HStack, Select, VStack } from '@navikt/ds-react';
 
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
@@ -8,6 +10,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
 
 interface Props {
@@ -26,9 +29,15 @@ interface OpprettBehandlingRequest {
 const utledSkalViseBarnTilRevurdering = (
     stønadstype: Stønadstype,
     årsak: BehandlingÅrsak | undefined
-) =>
+): boolean =>
     stønadstype === Stønadstype.BARNETILSYN &&
-    (årsak === BehandlingÅrsak.SØKNAD || årsak === BehandlingÅrsak.PAPIRSØKNAD);
+    !!årsak &&
+    [
+        BehandlingÅrsak.SØKNAD,
+        BehandlingÅrsak.PAPIRSØKNAD,
+        BehandlingÅrsak.KORRIGERING_UTEN_BREV,
+    ].indexOf(årsak) > -1;
+// TODO skal ikke kunne velge nye barn etter opprydding av de 2 sakene som trenger det
 
 const OpprettRevurderingBehandling: React.FC<Props> = ({
     fagsakId,
@@ -44,6 +53,8 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
 
     const [feilmelding, settFeilmelding] = useState<string>();
+
+    const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
 
     const opprett = () => {
         if (!årsak) {
@@ -83,6 +94,11 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({
                 <option value={BehandlingÅrsak.NYE_OPPLYSNINGER}>Nye opplysninger</option>
                 <option value={BehandlingÅrsak.SØKNAD}>Søknad</option>
                 <option value={BehandlingÅrsak.PAPIRSØKNAD}>Papirsøknad</option>
+                {kanVelgeÅrsakUtenBrev && (
+                    <option value={BehandlingÅrsak.KORRIGERING_UTEN_BREV}>
+                        Korrigering uten brev
+                    </option>
+                )}
             </Select>
 
             {skalViseBarnTilRevurdering && (
