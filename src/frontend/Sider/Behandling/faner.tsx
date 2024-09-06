@@ -8,6 +8,7 @@ import {
 } from '@navikt/aksel-icons';
 
 import Brev from './Brev/Brev';
+import { KorrigeringFane } from './Fanemeny/KorrigeringFane';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
@@ -15,6 +16,7 @@ import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/Vedtak
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
+import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
 
 export type FanerMedRouter = {
@@ -30,6 +32,7 @@ export enum FaneNavn {
     VEDTAK_OG_BEREGNING = 'Vedtak og beregning',
     SIMULERING = 'Simulering',
     BREV = 'Vedtaksbrev',
+    KORRIGERING_UTEN_BREV = 'Korrigering uten brev',
 }
 
 export enum StønadsvilkårFaneNavn {
@@ -73,13 +76,32 @@ export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
-const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
-    if (behandling.resultat !== BehandlingResultat.HENLAGT) {
+const brevfane = (behandling: Behandling): FanerMedRouter[] => {
+    if (
+        behandling.resultat !== BehandlingResultat.HENLAGT &&
+        behandling.behandlingsårsak !== BehandlingÅrsak.KORRIGERING_UTEN_BREV
+    ) {
         return [
             {
                 navn: FaneNavn.BREV,
                 path: FanePath.BREV,
                 komponent: () => <Brev />,
+                ikon: <EnvelopeClosedIcon />,
+                erLåst: faneErLåst(behandling, FanePath.BREV),
+            },
+        ];
+    } else {
+        return [];
+    }
+};
+
+const sendTilBeslutterUtenBrev = (behandling: Behandling): FanerMedRouter[] => {
+    if (behandling.behandlingsårsak === BehandlingÅrsak.KORRIGERING_UTEN_BREV) {
+        return [
+            {
+                navn: FaneNavn.KORRIGERING_UTEN_BREV,
+                path: FanePath.BREV,
+                komponent: () => <KorrigeringFane />,
                 ikon: <EnvelopeClosedIcon />,
                 erLåst: faneErLåst(behandling, FanePath.BREV),
             },
@@ -116,6 +138,7 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
             komponent: () => <Simulering />,
             erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
-        ...brevfaneHvisIkkeHenlagt(behandling),
+        ...brevfane(behandling),
+        ...sendTilBeslutterUtenBrev(behandling),
     ];
 };

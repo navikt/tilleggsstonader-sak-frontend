@@ -6,6 +6,7 @@ export enum Toggle {
 
     VILKÅR_PERIODISERING = 'sak.vilkar-periodisering',
     KAN_OPPDATERE_GRUNNLAG_VILKÅRPERIODE = 'sak.kan-oppdatere-grunnlag-vilkarperiode',
+    BEHANDLING_ÅRSAK_UTEN_BREV = 'sak.behandling-arsak-uten-brev',
 
     ADMIN_KAN_OPPRETTE_BEHANDLING = 'sak.admin-kan-opprette-behandling',
 }
