@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
@@ -15,6 +16,7 @@ import Panel from '../../../../komponenter/Panel/Panel';
 import { Ressurs, RessursStatus, byggTomRessurs } from '../../../../typer/ressurs';
 import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
 import { Vilkårsoppsummering } from '../../../../typer/vilkårsoppsummering';
+import { Toggle } from '../../../../utils/toggles';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
@@ -32,6 +34,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { vedtak } = useVedtak();
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     const [vilkårsoppsummering, settVilkårsoppsummering] =
         useState<Ressurs<Vilkårsoppsummering>>(byggTomRessurs());
@@ -60,8 +63,14 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                     <Container>
                         <Panel tittel="Vedtak">
                             <HStack gap="10">
-                                <OppsummeringVilkår vilkårsoppsummering={vilkårsoppsummering} />
-                                <Skillelinje />
+                                {!periodiserteVilkårIsEnabled && (
+                                    <>
+                                        <OppsummeringVilkår
+                                            vilkårsoppsummering={vilkårsoppsummering}
+                                        />
+                                        <Skillelinje />
+                                    </>
+                                )}
                                 <HStack gap="16">
                                     <VelgVedtakResultat
                                         typeVedtak={typeVedtak}
