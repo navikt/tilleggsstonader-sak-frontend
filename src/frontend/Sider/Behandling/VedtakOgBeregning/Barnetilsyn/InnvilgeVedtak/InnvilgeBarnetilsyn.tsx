@@ -128,15 +128,27 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     };
 
     const beregnBarnetilsyn = () => {
-        if (formState.customValidate(validerPerioder)) {
+        if (periodiserteVilkårIsEnabled) {
             const vedtaksRequest = lagVedtakRequest({
-                utgifter: periodiserteVilkårIsEnabled ? {} : utgifterState.value,
+                utgifter: {},
             });
             request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 vedtaksRequest
             ).then(settBeregningsresultat);
+        } else {
+            // TODO: Denne branchen skal fjernes etter at vi har fjernet VILKÅR_PERIODISERING feature toggle
+            if (formState.customValidate(validerPerioder)) {
+                const vedtaksRequest = lagVedtakRequest({
+                    utgifter: utgifterState.value,
+                });
+                request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
+                    `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
+                    'POST',
+                    vedtaksRequest
+                ).then(settBeregningsresultat);
+            }
         }
     };
 
