@@ -1,8 +1,11 @@
 import * as React from 'react';
+
 import styled from 'styled-components';
+
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
-import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+
 import { alleHjemlerTilVisningstekst } from './hjemmel';
+import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { OmgjøringDto, OpprettholdelseDto, VurderingDto } from '../../hooks/useVurdering';
 
 const Container = styled.div`

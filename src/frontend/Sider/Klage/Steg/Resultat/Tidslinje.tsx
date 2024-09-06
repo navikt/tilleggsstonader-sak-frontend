@@ -1,19 +1,22 @@
 import * as React from 'react';
-import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
-import {
-    Klagebehandling,
 
-} from '../../typer/klagebehandling/klagebehandling';
 import styled from 'styled-components';
-import { Button, Detail, Heading, Label } from '@navikt/ds-react';
+
 import { ClockIcon } from '@navikt/aksel-icons';
+import { Button, Detail, Heading, Label } from '@navikt/ds-react';
+
 import { fjernDuplikatStegFraHistorikk } from './utils';
-import Advarsel from '../../Komponenter/Ikoner/Advarsel';
-import { formaterIsoDato, formaterIsoKlokke } from '../../../../utils/dato';
-import { behandlingStegTilTekst, KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
-import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
+import { formaterIsoDato, formaterIsoKlokke } from '../../../../utils/dato';
+import Advarsel from '../../Komponenter/Ikoner/Advarsel';
+import { Behandlingshistorikk } from '../../typer/behandlingshistorikk';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import { KlagebehandlingResultat } from '../../typer/klagebehandling/klagebehandlingResultat';
+import {
+    behandlingStegTilTekst,
+    KlagebehandlingSteg,
+} from '../../typer/klagebehandling/klagebehandlingSteg';
 import { utledStegutfall } from '../../utils/behandlingsresultat';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
@@ -192,9 +195,7 @@ const Node: React.FC<{
             {steg.endretTid ? <Suksess width={36} height={36} /> : <ClockIcon fontSize="2.25rem" />}
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
-            <Label size={'small'}>
-                {utledStegutfall(behandling, steg.steg)}
-            </Label>
+            <Label size={'small'}>{utledStegutfall(behandling, steg.steg)}</Label>
         </NodeContainer>
     );
 };

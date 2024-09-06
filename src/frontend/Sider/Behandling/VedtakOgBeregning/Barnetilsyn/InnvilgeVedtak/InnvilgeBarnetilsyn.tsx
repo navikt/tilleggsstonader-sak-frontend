@@ -10,7 +10,11 @@ import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import Utgifter from './Utgifter/Utgifter';
 import { UtgifterLesMer } from './UtgifterLesMer';
 import { VarselBarnUnder2År } from './VarselBarnUnder2år';
-import { validerInnvilgetVedtakForm, validerPerioder } from './vedtaksvalidering';
+import {
+    ikkeValiderInnvilgetVedtakForm,
+    validerInnvilgetVedtakForm,
+    validerPerioder,
+} from './vedtaksvalidering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -45,21 +49,25 @@ const Knapp = styled(Button)`
 
 const initUtgifter = (
     barnMedOppfylteVilkår: BarnOppsummering[],
+    periodiserteVilkårIsEnabled: boolean,
     vedtak?: InnvilgelseBarnetilsyn
 ): Record<string, BarnOppsummering[]> =>
     barnMedOppfylteVilkår.reduce((acc, barn) => {
         const utgiftForBarn = vedtak?.utgifter?.[barn.barnId];
         return {
             ...acc,
-            [barn.barnId]: utgiftForBarn ? medEndretKey(utgiftForBarn) : [tomUtgiftRad()],
+            [barn.barnId]: utgiftForBarn
+                ? medEndretKey(utgiftForBarn)
+                : [periodiserteVilkårIsEnabled ? [] : tomUtgiftRad()],
         };
     }, {});
 
 const initFormState = (
     vedtak: InnvilgelseBarnetilsyn | undefined,
-    barnMedOppfylteVilkår: BarnOppsummering[]
+    barnMedOppfylteVilkår: BarnOppsummering[],
+    periodiserteVilkårIsEnabled: boolean
 ) => ({
-    utgifter: initUtgifter(barnMedOppfylteVilkår, vedtak),
+    utgifter: initUtgifter(barnMedOppfylteVilkår, periodiserteVilkårIsEnabled, vedtak),
 });
 
 interface Props {
@@ -86,13 +94,13 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { stønadsperioder } = useStønadsperioder(behandling.id);
-    const visSimulering = useFlag(Toggle.VIS_SIMULERING);
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     const barnMedOppfylteVilkår = vilkårsvurderteBarn.filter((barn) => barn.oppfyllerAlleVilkår);
 
     const formState = useFormState<InnvilgeVedtakForm>(
-        initFormState(lagretVedtak, barnMedOppfylteVilkår),
-        validerInnvilgetVedtakForm
+        initFormState(lagretVedtak, barnMedOppfylteVilkår, periodiserteVilkårIsEnabled),
+        periodiserteVilkårIsEnabled ? ikkeValiderInnvilgetVedtakForm : validerInnvilgetVedtakForm
     );
 
     const utgifterState = formState.getProps('utgifter') as RecordState<Utgift[]>;
@@ -111,7 +119,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     const validerOgLagreVedtak = (): Promise<RessursSuksess<unknown> | RessursFeilet> => {
         if (formState.validateForm()) {
             const request = lagVedtakRequest({
-                utgifter: utgifterState.value,
+                utgifter: periodiserteVilkårIsEnabled ? {} : utgifterState.value,
             });
             return lagreVedtak(request);
         } else {
@@ -122,7 +130,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     const beregnBarnetilsyn = () => {
         if (formState.customValidate(validerPerioder)) {
             const vedtaksRequest = lagVedtakRequest({
-                utgifter: utgifterState.value,
+                utgifter: periodiserteVilkårIsEnabled ? {} : utgifterState.value,
             });
             request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
@@ -141,13 +149,17 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
                             <OppsummeringStønadsperioder stønadsperioder={stønadsperioder} />
                         )}
                     </DataViewer>
-                    <UtgifterLesMer />
-                    <Utgifter
-                        barnMedOppfylteVilkår={barnMedOppfylteVilkår}
-                        utgifterState={utgifterState}
-                        errorState={formState.errors.utgifter}
-                        settValideringsFeil={formState.setErrors}
-                    />
+                    {!periodiserteVilkårIsEnabled && (
+                        <>
+                            <UtgifterLesMer />
+                            <Utgifter
+                                barnMedOppfylteVilkår={barnMedOppfylteVilkår}
+                                utgifterState={utgifterState}
+                                errorState={formState.errors.utgifter}
+                                settValideringsFeil={formState.setErrors}
+                            />
+                        </>
+                    )}
                     <Skillelinje />
                     <VarselBarnUnder2År vilkårsvurderteBarn={vilkårsvurderteBarn} />
                     {erStegRedigerbart && (
@@ -174,7 +186,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
             </Panel>
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
-                nesteFane={visSimulering ? FanePath.SIMULERING : FanePath.BREV}
+                nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >

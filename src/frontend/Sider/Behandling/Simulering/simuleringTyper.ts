@@ -1,6 +1,5 @@
 export interface SimuleringResponse {
     perioder: OppsummeringForPeriode[];
-    oppsummering: SimuleringOppsummering;
 }
 
 export interface SimuleringOppsummering {

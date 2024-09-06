@@ -4,6 +4,7 @@ export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VILKÅR = 'VILKÅR',
     BEREGNE_YTELSE = 'BEREGNE_YTELSE',
+    SIMULERING = 'SIMULERING',
     SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
     BESLUTTE_VEDTAK = 'BESLUTTE_VEDTAK',
     JOURNALFØR_OG_DISTRIBUER_VEDTAKSBREV = 'JOURNALFØR_OG_DISTRIBUER_VEDTAKSBREV',
@@ -25,5 +26,5 @@ export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
     rekkefølgeSteg[steg] > rekkefølgeSteg[annetSteg];
 
 export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
-    [Steg.BEREGNE_YTELSE, Steg.SEND_TIL_BESLUTTER].includes(faneSteg) &&
+    [Steg.BEREGNE_YTELSE, Steg.SIMULERING, Steg.SEND_TIL_BESLUTTER].includes(faneSteg) &&
     stegErEtterAnnetSteg(faneSteg, behandling.steg);

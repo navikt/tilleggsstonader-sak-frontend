@@ -19,7 +19,7 @@ import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
-import OpprettBehandlingFraJournalpost from './Sider/Admin/OpprettBehandlingFraJournalpost';
+import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegangsbehandlingAdmin';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
@@ -50,8 +50,8 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <Route path={'/ekstern/*'} element={<EksternOmruting />} />
                     <Route path={'/klagebehandling/*'} element={<KlageApp />} />
                     <Route
-                        path={'/admin/opprett-behandling-fra-journalpost'}
-                        element={<OpprettBehandlingFraJournalpost />}
+                        path={'/admin/opprett-behandling'}
+                        element={<OpprettFørstegangsbehandlingAdmin />}
                     />
                 </Route>
             ) : (
@@ -101,9 +101,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const { loggUt } = useApp();
-    const kanOppretteBehandlingFraJournalpost = useFlag(
-        Toggle.KAN_OPPRETTE_BEHANDLING_FRA_JOURNALPOST
-    );
+    const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     return (
         <>
             <Sticky $zIndex={100}>
@@ -129,10 +127,10 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         />
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
-                                {kanOppretteBehandlingFraJournalpost && (
+                                {adminKanOppretteBehandling && (
                                     <Dropdown.Menu.GroupedList.Item
                                         as="a"
-                                        href="/admin/opprett-behandling-fra-journalpost"
+                                        href="/admin/opprett-behandling"
                                     >
                                         [Admin] Opprett behandling fra journalpost
                                     </Dropdown.Menu.GroupedList.Item>

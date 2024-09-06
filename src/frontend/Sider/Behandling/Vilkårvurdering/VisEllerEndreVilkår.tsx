@@ -1,29 +1,39 @@
 import React, { FC, useState } from 'react';
 
-import EndreDelvilkår from './EndreDelvilkår';
+import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { Regler } from '../../../typer/regel';
-import { Vilkår } from '../vilkår';
+import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
+import { Vilkår, RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
 
-interface Props {
-    vilkår: Vilkår;
+type LesEllerEndreDelvilkårProps = {
     regler: Regler;
-}
+    resultat: Vilkårsresultat;
+    redigerbareVilkårfelter: RedigerbareVilkårfelter;
+    lagreVurdering: (
+        redigerbareVilkårfelter: RedigerbareVilkårfelter
+    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+};
 
-const VisEllerEndreVilkår: FC<Props> = ({ vilkår, regler }) => {
+export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
     const { erStegRedigerbart } = useSteg();
 
-    const [redigerer, settRedigerer] = useState<boolean>(true);
+    const [redigerer, settRedigerer] = useState<boolean>(
+        props.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
+    );
 
     return erStegRedigerbart && redigerer ? (
-        <EndreDelvilkår
-            vilkår={vilkår}
-            regler={regler}
+        <EndreVilkår
+            {...props}
+            visAvbrytknapp={false}
             avsluttRedigering={() => settRedigerer(false)}
         />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
+        <LesevisningVilkår
+            resultat={props.resultat}
+            vilkårsfelter={props.redigerbareVilkårfelter}
+            startRedigering={() => settRedigerer(true)}
+        />
     );
 };
-export default VisEllerEndreVilkår;

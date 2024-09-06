@@ -1,10 +1,13 @@
 import * as React from 'react';
-import styled from 'styled-components';
+
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { BodyShort } from '@navikt/ds-react';
 import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
+
 import { ISide } from './sider';
 import { useKlageApp } from '../../context/KlageAppContext';
-import { BodyShort } from '@navikt/ds-react';
 
 const StyledNavLink = styled(NavLink)`
     border-bottom: 5px solid white;

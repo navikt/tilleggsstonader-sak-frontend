@@ -24,7 +24,6 @@ const PORT = 3000;
 app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
 
 if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const compiler = webpack(developmentConfig);
 

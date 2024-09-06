@@ -1,7 +1,6 @@
-import {
-    VedtakValg,
-    ÅrsakOmgjøring,
-} from '../Steg/Vurdering/vurderingValg';
+import { useCallback, useState } from 'react';
+
+import { useApp } from '../../../context/AppContext';
 import {
     byggTomRessurs,
     Ressurs,
@@ -9,36 +8,35 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../typer/ressurs';
-import { useApp } from '../../../context/AppContext';
-import { useCallback, useState } from 'react';
 import { Hjemmel } from '../Steg/Vurdering/hjemmel';
+import { VedtakValg, ÅrsakOmgjøring } from '../Steg/Vurdering/vurderingValg';
 
 interface IMelding {
     tekst: string;
     type: 'success' | 'error';
 }
 
-export type VurderingDto = OmgjøringDto | OpprettholdelseDto
+export type VurderingDto = OmgjøringDto | OpprettholdelseDto;
 
 export interface OmgjøringDto {
-    behandlingId: string,
-    vedtak: VedtakValg.OMGJØR_VEDTAK
-    årsak: ÅrsakOmgjøring,
-    begrunnelseOmgjøring: string,
+    behandlingId: string;
+    vedtak: VedtakValg.OMGJØR_VEDTAK;
+    årsak: ÅrsakOmgjøring;
+    begrunnelseOmgjøring: string;
 }
 
 export interface OpprettholdelseDto {
-    behandlingId: string,
-    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK
-    hjemmel: Hjemmel,
-    innstillingKlageinstans: string
-    interntNotat: string,
+    behandlingId: string;
+    vedtak: VedtakValg.OPPRETTHOLD_VEDTAK;
+    hjemmel: Hjemmel;
+    innstillingKlageinstans: string;
+    interntNotat: string;
 }
 
 export function lagOmgjøringDto(
     behandlingId: string,
     årsak: ÅrsakOmgjøring,
-    begrunnelseOmgjøring: string,
+    begrunnelseOmgjøring: string
 ): OmgjøringDto {
     return {
         behandlingId,
@@ -52,7 +50,7 @@ export function lagOpprettholdelseDto(
     behandlingId: string,
     hjemmel: Hjemmel,
     innstillingKlageinstans: string,
-    interntNotat: string,
+    interntNotat: string
 ): OpprettholdelseDto {
     return {
         behandlingId,

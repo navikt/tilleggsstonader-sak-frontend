@@ -1,31 +1,35 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useKlageApp } from '../../context/KlageAppContext';
+
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { Alert, Button } from '@navikt/ds-react';
-import { Vedtak } from './Vedtak';
-import { Årsak } from './Årsak';
+
 import { HjemmelVelger } from './HjemmelVelger';
+import { InterntNotat } from './InterntNotat';
+import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
+import { Vedtak } from './Vedtak';
+import { VurderingLesemodus } from './VurderingLesemodus';
+import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+import { Årsak } from './Årsak';
+import { useApp } from '../../../../context/AppContext';
+import DataViewer from '../../../../komponenter/DataViewer';
 import {
-    byggTomRessurs, pakkUtHvisSuksess,
+    byggTomRessurs,
+    pakkUtHvisSuksess,
     Ressurs,
     RessursFeilet,
     RessursStatus,
     RessursSuksess,
 } from '../../../../typer/ressurs';
-import { IFormkravVilkår } from '../Formkrav/typer';
-import { useNavigate } from 'react-router-dom';
+import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { VurderingLesemodus } from './VurderingLesemodus';
-import DataViewer from '../../../../komponenter/DataViewer';
-import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
-import { InterntNotat } from './InterntNotat';
 import { useVurdering } from '../../hooks/useVurdering';
-import { useApp } from '../../../../context/AppContext';
-import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
-import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
+import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
+import { IFormkravVilkår } from '../Formkrav/typer';
+import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -70,13 +74,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         if (behandlingId && vurdering.status !== RessursStatus.SUKSESS) {
             hentVurdering(behandlingId);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandlingId, hentVurdering]);
 
     useEffect(() => {
         request<IFormkravVilkår, null>(`/api/klage/formkrav/vilkar/${behandlingId}`).then(
             settFormkrav
         );
-    }, [behandlingId, settFormkrav]);
+    }, [behandlingId, request, settFormkrav]);
 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS) {

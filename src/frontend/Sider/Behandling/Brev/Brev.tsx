@@ -7,6 +7,7 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
 import Brevmeny from './Brevmeny';
+import { finnSanityMappe } from './brevUtils';
 import { PersonopplysningerIBrevmottakere } from './typer';
 import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
@@ -18,7 +19,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Personopplysninger } from '../../../typer/personopplysninger';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erVedtakInnvilgelse, typeVedtakTilSanitytype } from '../../../typer/vedtak';
+import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -66,9 +67,9 @@ const Brev: React.FC = () => {
 
     useEffect(() => {
         if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
-            hentBrevmaler(typeVedtakTilSanitytype(vedtak.data.type));
+            hentBrevmaler(finnSanityMappe(behandling.type, vedtak.data.type));
         }
-    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status]);
+    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status, behandling.type]);
 
     useEffect(() => {
         if (behandlingErRedigerbar) {
@@ -80,6 +81,7 @@ const Brev: React.FC = () => {
     const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
         personopplysninger: Personopplysninger
     ): PersonopplysningerIBrevmottakere => {
+        // Denne burde kanskje ikke bruke `Personopplysninger` ? Vi legger ikke inn fullmakt og vergemål fra sak backend
         return {
             personIdent: personopplysninger.personIdent,
             navn: personopplysninger.navn.visningsnavn,

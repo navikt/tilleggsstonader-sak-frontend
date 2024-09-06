@@ -22,7 +22,7 @@ const SendtTilBeslutter: React.FC<{
     totrinnskontroll: TotrinnskontrollOpprettet;
     settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
 }> = ({ totrinnskontroll, settTotrinnskontroll }) => {
-    const { request } = useApp();
+    const { request, saksbehandler } = useApp();
     const { behandling, hentBehandling } = useBehandling();
     const [feilmelding, settFeilmelding] = useState<string>('');
     const [laster, settLaster] = useState(false);
@@ -65,17 +65,19 @@ const SendtTilBeslutter: React.FC<{
                     {formaterIsoDatoTid(totrinnskontroll.opprettetTid)}
                 </BodyShort>
             </div>
-            <AngreSendTilBeslutterContainer>
-                <Button
-                    size="small"
-                    disabled={laster}
-                    variant={'secondary'}
-                    onClick={angreSendTilBeslutter}
-                >
-                    Angre sendt til beslutter
-                </Button>
-                {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
-            </AngreSendTilBeslutterContainer>
+            {totrinnskontroll.opprettetAv === saksbehandler.navIdent && (
+                <AngreSendTilBeslutterContainer>
+                    <Button
+                        size="small"
+                        disabled={laster}
+                        variant={'secondary'}
+                        onClick={angreSendTilBeslutter}
+                    >
+                        Angre sendt til beslutter
+                    </Button>
+                    {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
+                </AngreSendTilBeslutterContainer>
+            )}
         </>
     );
 };

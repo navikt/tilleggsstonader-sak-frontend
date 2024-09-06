@@ -1,11 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import {
-    EFormalKravType,
-    IFormalkrav,
-    IFormkravVilkår,
-    Redigeringsmodus,
-    VilkårStatus,
-} from './typer';
+
+import styled from 'styled-components';
+
 import {
     Alert,
     BodyLong,
@@ -16,24 +12,30 @@ import {
     RadioGroup,
     Textarea,
 } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { useKlageApp } from '../../context/KlageAppContext';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
-import styled from 'styled-components';
-import { VedtakSelect } from './VedtakSelect';
+
+import KlagefristUnntak from './KlagefristUnntak';
 import {
-    alleVilkårOppfylt,
-    alleVilkårTattStillingTil,
-    påKlagetVedtakValgt,
-} from './validerFormkravUtils';
+    EFormalKravType,
+    IFormalkrav,
+    IFormkravVilkår,
+    Redigeringsmodus,
+    VilkårStatus,
+} from './typer';
 import {
     evaluerOmFelterSkalTilbakestilles,
     skalViseKlagefristUnntak,
     utledRadioKnapper,
 } from './utils';
-import KlagefristUnntak from './KlagefristUnntak';
+import {
+    alleVilkårOppfylt,
+    alleVilkårTattStillingTil,
+    påKlagetVedtakValgt,
+} from './validerFormkravUtils';
+import { VedtakSelect } from './VedtakSelect';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { useKlageApp } from '../../context/KlageAppContext';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
-
 import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
 const RadioGrupperContainer = styled.div`
@@ -98,10 +100,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const {
-        hentBehandling,
-        hentBehandlingshistorikk
-    } = useKlagebehandling();
+    const { hentBehandling, hentBehandlingshistorikk } = useKlagebehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useKlageApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
@@ -160,8 +159,8 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         PåklagetVedtakstype.UTEN_VEDTAK && (
                         <RadioGrupperContainer>
                             {radioKnapper.map((item: IFormalkrav, index) => (
-                                <>
-                                    <FlexRow key={index}>
+                                <React.Fragment key={index}>
+                                    <FlexRow>
                                         <RadioGruppe
                                             legend={item.spørsmål}
                                             size="medium"
@@ -201,7 +200,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             unntakVurdering={vurderinger.klagefristOverholdtUnntak}
                                         />
                                     )}
-                                </>
+                                </React.Fragment>
                             ))}
                         </RadioGrupperContainer>
                     )}

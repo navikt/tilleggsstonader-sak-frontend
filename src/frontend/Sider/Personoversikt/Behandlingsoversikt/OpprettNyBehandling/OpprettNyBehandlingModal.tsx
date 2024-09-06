@@ -6,7 +6,9 @@ import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
 import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
+import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import {
     BehandlingType,
     behandlingTypeTilTekst,
@@ -15,24 +17,35 @@ import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsakId: string;
+    stønadstype: Stønadstype;
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
 
 const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
+    stønadstype,
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
+    const { erSaksbehandler } = useApp();
     const [visModal, settVisModal] = useState(false);
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
 
     const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
+    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
 
     const lukkModal = () => {
         settVisModal(false);
         settBehandlingtype(undefined);
     };
+
+    if (!erSaksbehandler) {
+        return null;
+    }
+    if (!kanOppretteKlage && !kanOppretteRevurdering) {
+        return null;
+    }
 
     return (
         <div className="py-16">
@@ -51,7 +64,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                         <option value={''}>Velg</option>
                         {[
                             ...(kanOppretteRevurdering ? [BehandlingType.REVURDERING] : []),
-                            BehandlingType.KLAGE,
+                            ...(kanOppretteKlage ? [BehandlingType.KLAGE] : []),
                         ].map((type) => (
                             <option key={type} value={type}>
                                 {behandlingTypeTilTekst[type]}
@@ -68,6 +81,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     {behandlingtype === BehandlingType.REVURDERING && (
                         <OpprettRevurderingBehandling
                             fagsakId={fagsakId}
+                            stønadstype={stønadstype}
                             lukkModal={lukkModal}
                             hentBehandlinger={hentBehandlinger}
                         />

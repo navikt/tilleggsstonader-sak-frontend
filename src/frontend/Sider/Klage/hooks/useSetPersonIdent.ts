@@ -1,5 +1,6 @@
-import { useKlageApp } from '../context/KlageAppContext';
 import { useEffect } from 'react';
+
+import { useKlageApp } from '../context/KlageAppContext';
 
 export const useSetPersonIdent = (personIdent: string) => {
     const { settPersonIdent } = useKlageApp();

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Table } from '@navikt/ds-react';
 
 import HenleggModal from './HenleggModal';
+import { useApp } from '../../../context/AppContext';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import {
@@ -43,7 +44,9 @@ interface Props {
 }
 
 const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinger }) => {
+    const { erSaksbehandler } = useApp();
     const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
+        erSaksbehandler &&
         behandling.type !== BehandlingType.KLAGE &&
         erBehandlingRedigerbar(behandling.status as BehandlingStatus);
 

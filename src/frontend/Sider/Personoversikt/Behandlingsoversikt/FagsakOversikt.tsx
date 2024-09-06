@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
@@ -8,7 +7,6 @@ import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 import BehandlingTabell, { TabellBehandling } from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
-import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
     display: flex;
@@ -41,8 +39,6 @@ export const FagsakOversikt: React.FC<Props> = ({
     hentBehandlinger,
     hentKlagebehandlinger,
 }) => {
-    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
-
     return (
         <Container>
             <TittelLinje>
@@ -60,13 +56,12 @@ export const FagsakOversikt: React.FC<Props> = ({
                 tabellbehandlinger={tabellbehandlinger}
                 hentBehandlinger={hentBehandlinger}
             />
-            {kanOppretteKlage && (
-                <OpprettNyBehandlingModal
-                    fagsakId={fagsakId}
-                    hentKlagebehandlinger={hentKlagebehandlinger}
-                    hentBehandlinger={hentBehandlinger}
-                />
-            )}
+            <OpprettNyBehandlingModal
+                fagsakId={fagsakId}
+                stønadstype={stønadstype}
+                hentKlagebehandlinger={hentKlagebehandlinger}
+                hentBehandlinger={hentBehandlinger}
+            />
         </Container>
     );
 };

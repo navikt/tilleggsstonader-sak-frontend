@@ -35,9 +35,10 @@ const OppsummeringSøknad: React.FC = () => {
 
             <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
 
-            {behandlingFakta.barn.map((barn) => (
-                <BarnDetaljer barn={barn} key={barn.barnId} />
-            ))}
+            {behandlingFakta.barn.map((barn) => {
+                const harSøktForBarnet = barn.søknadgrunnlag !== null;
+                return harSøktForBarnet && <BarnDetaljer barn={barn} key={barn.barnId} />;
+            })}
 
             <Vedlegg fakta={behandlingFakta.dokumentasjon} />
         </VStack>

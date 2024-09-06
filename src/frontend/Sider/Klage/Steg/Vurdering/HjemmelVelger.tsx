@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
-import { Heading, Select } from '@navikt/ds-react';
+
 import styled from 'styled-components';
+
+import { Heading, Select } from '@navikt/ds-react';
+
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
 import { Vurderingsfelter } from './vurderingsfelter';
 
@@ -44,13 +47,11 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
                     hideLabel
                 >
                     <option value={''}>Velg</option>
-                    {Object.keys(alleHjemlerTilVisningstekst).map(
-                        (hjemmel: string) => (
-                            <option value={hjemmel as Hjemmel} key={hjemmel}>
-                                {alleHjemlerTilVisningstekst[hjemmel as Hjemmel]}
-                            </option>
-                        )
-                    )}
+                    {Object.keys(alleHjemlerTilVisningstekst).map((hjemmel: string) => (
+                        <option value={hjemmel as Hjemmel} key={hjemmel}>
+                            {alleHjemlerTilVisningstekst[hjemmel as Hjemmel]}
+                        </option>
+                    ))}
                 </Select>
             </HjemmelInnholdStyled>
         </HjemmelStyled>

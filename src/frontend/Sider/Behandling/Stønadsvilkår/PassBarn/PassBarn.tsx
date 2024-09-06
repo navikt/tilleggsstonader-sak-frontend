@@ -1,19 +1,24 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { Vilkårsregler } from '../../../../typer/regel';
+import { Regler } from '../../../../typer/regel';
+import { Toggle } from '../../../../utils/toggles';
 import {
     lenkerForskriftPassBarn,
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
-import VisEllerEndreVilkår from '../../Vilkårvurdering/VisEllerEndreVilkår';
+import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
+import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
-    vilkårsregler: Vilkårsregler<Inngangsvilkårtype.PASS_BARN>;
+    vilkårsregler: Regler;
     vilkårsvurdering: Vilkårsvurdering;
 }
 
@@ -21,44 +26,56 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
-    if (vilkårsett.length === 0) {
-        return <div>Mangler vurderinger for pass av barn</div>;
-    }
+    const { lagreVilkår } = useVilkår();
 
-    const finnBarnIGrunnlag = (barnId: string) =>
-        vilkårsvurdering.grunnlag.barn.find((barn) => barn.barnId === barnId);
+    return vilkårsvurdering.grunnlag.barn.map((barn) => {
+        const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
-    return vilkårsett.map((vilkår) => {
-        if (!vilkår.barnId) {
-            return <div key={vilkår.id}>Vilkår er ikke knyttet til et barn</div>;
-        }
-
-        const grunnlagBarn = finnBarnIGrunnlag(vilkår.barnId);
-
-        if (!grunnlagBarn) {
-            return <div key={vilkår.id}>Fant ikke grunnlag for barn</div>;
-        }
-
-        const barnetsNavn = grunnlagBarn.registergrunnlag.navn;
-        const barnetsAlder = grunnlagBarn.registergrunnlag.alder ?? '-';
+        const { navn, alder } = barn.registergrunnlag || '-';
 
         return (
             <VilkårPanel
-                tittel={`${barnetsNavn} (${barnetsAlder} år)`}
-                ikon={<VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />}
+                tittel={`${navn} (${alder} år)`}
+                ikon={
+                    !periodiserteVilkårIsEnabled && (
+                        <VilkårsresultatIkon vilkårsresultat={vilkårForDetteBarnet[0].resultat} />
+                    )
+                } // TODO: Dette ikonet skal på sikt fjernes, vi skal i stedet vise ett resultat per vilkår, ikke et per barn.
                 ekstraHeading={
-                    <InlineKopiknapp
-                        kopitekst={grunnlagBarn.ident}
-                        tooltipTekst="Kopier fødselsnummer"
-                    />
+                    <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
                 paragraflenker={lenkerParagrafPassBarn}
                 rundskrivlenke={lenkerRundskrivPassBarn}
                 forskriftlenker={lenkerForskriftPassBarn}
-                key={grunnlagBarn.barnId}
+                key={barn.barnId}
             >
-                <VisEllerEndreVilkår vilkår={vilkår} regler={vilkårsregler.regler} />
+                {vilkårForDetteBarnet.map((vilkår) => (
+                    <VisEllerEndreVilkår
+                        key={vilkår.id}
+                        regler={vilkårsregler}
+                        resultat={vilkår.resultat}
+                        redigerbareVilkårfelter={{
+                            delvilkårsett: vilkår.delvilkårsett,
+                            fom: vilkår.fom,
+                            tom: vilkår.tom,
+                            utgift: vilkår.utgift,
+                        }}
+                        lagreVurdering={(redigerbareVilkårfelter) =>
+                            lagreVilkår({
+                                id: vilkår.id,
+                                behandlingId: vilkår.behandlingId,
+                                ...redigerbareVilkårfelter,
+                            })
+                        }
+                    />
+                ))}
+                <NyttVilkår
+                    vilkårtype={Inngangsvilkårtype.PASS_BARN}
+                    vilkårsregler={vilkårsregler}
+                    barnId={barn.barnId}
+                />
             </VilkårPanel>
         );
     });

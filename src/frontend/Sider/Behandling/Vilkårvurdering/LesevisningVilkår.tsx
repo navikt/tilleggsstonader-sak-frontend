@@ -1,17 +1,37 @@
 import React, { FC } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
+
+import { HStack } from '@navikt/ds-react';
+import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
+import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
+import { Skillelinje } from '../../../komponenter/Skillelinje';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
-import { Vilkår } from '../vilkår';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { formaterNullableÅrMåned } from '../../../utils/dato';
+import { harTallverdi } from '../../../utils/tall';
+import { Toggle } from '../../../utils/toggles';
+import { RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
 
-const Grid = styled.div`
+const TwoColumnGrid = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: auto auto;
+    gap: 2rem;
+`;
+
+const Container = styled(FlexColumn)`
+    background: white;
+    padding: 1rem;
+    box-shadow: ${AShadowXsmall};
+`;
+
+const FlexMedMargin = styled(FlexColumn)`
+    margin: 0 45px;
 `;
 
 const Svar = styled(Lesefelt)`
@@ -21,36 +41,69 @@ const Svar = styled(Lesefelt)`
 const Begrunnelse = styled(Lesefelt)`
     grid-column: 2;
 `;
+
 const LesevisningVilkår: FC<{
-    vilkår: Vilkår;
+    resultat: Vilkårsresultat;
+    vilkårsfelter: RedigerbareVilkårfelter;
     startRedigering?: () => void;
-}> = ({ vilkår, startRedigering }) => {
+}> = ({ resultat, vilkårsfelter, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
+    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
+
+    const { delvilkårsett, fom, tom, utgift } = vilkårsfelter;
 
     return (
-        <>
-            <Grid>
-                {vilkår.delvilkårsett.map((delvilkår) =>
-                    delvilkår.vurderinger.map((svar) => (
-                        <React.Fragment key={svar.regelId}>
-                            <Svar
-                                key={svar.regelId}
-                                label={regelIdTilSpørsmål[svar.regelId]}
-                                verdi={(svar.svar && svarIdTilTekst[svar.svar]) || '-'}
-                            />
-                            {svar.begrunnelse && (
-                                <Begrunnelse label={'Begrunnelse'} verdi={svar.begrunnelse} />
-                            )}
-                        </React.Fragment>
-                    ))
-                )}
-            </Grid>
-            {erStegRedigerbart && (
-                <SmallButton variant="secondary" onClick={startRedigering}>
-                    Rediger
-                </SmallButton>
+        <Container gap={1}>
+            {periodiserteVilkårIsEnabled && (
+                <HStack gap="6" align={'center'}>
+                    <VilkårsresultatIkon vilkårsresultat={resultat} />
+                    <Lesefelt
+                        label={'Periode fra og med'}
+                        verdi={formaterNullableÅrMåned(fom)}
+                        size={'small'}
+                    />
+                    <Lesefelt
+                        label={'Periode til og med'}
+                        verdi={formaterNullableÅrMåned(tom)}
+                        size={'small'}
+                    />
+                    <Lesefelt
+                        label={'Månedlig utgift'}
+                        verdi={harTallverdi(utgift) ? utgift : ''}
+                        size={'small'}
+                    />
+                </HStack>
             )}
-        </>
+            <Skillelinje />
+            <FlexMedMargin>
+                <TwoColumnGrid>
+                    {delvilkårsett.map((delvilkår) =>
+                        delvilkår.vurderinger.map((svar) => (
+                            <React.Fragment key={svar.regelId}>
+                                <Svar
+                                    size="small"
+                                    key={svar.regelId}
+                                    label={regelIdTilSpørsmål[svar.regelId]}
+                                    verdi={(svar.svar && svarIdTilTekst[svar.svar]) || '-'}
+                                />
+                                {svar.begrunnelse && (
+                                    <Begrunnelse
+                                        size="small"
+                                        label={'Begrunnelse'}
+                                        verdi={svar.begrunnelse}
+                                    />
+                                )}
+                            </React.Fragment>
+                        ))
+                    )}
+                </TwoColumnGrid>
+                {erStegRedigerbart && (
+                    <SmallButton variant="secondary" onClick={startRedigering}>
+                        Rediger
+                    </SmallButton>
+                )}
+            </FlexMedMargin>
+        </Container>
     );
 };
 

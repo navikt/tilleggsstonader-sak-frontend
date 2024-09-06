@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
-import { Heading, Select } from '@navikt/ds-react';
+
 import styled from 'styled-components';
+
+import { Heading, Select } from '@navikt/ds-react';
+
+import { Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { Vurderingsfelter } from './vurderingsfelter';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;

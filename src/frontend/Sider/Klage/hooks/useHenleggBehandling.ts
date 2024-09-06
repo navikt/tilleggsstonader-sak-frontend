@@ -1,5 +1,5 @@
-import { HenlagtÅrsak } from '../../../typer/behandling/behandlingÅrsak';
 import { useApp } from '../../../context/AppContext';
+import { HenlagtÅrsak } from '../../../typer/behandling/behandlingÅrsak';
 
 export const useHenleggBehandling = (behandlingId: string) => {
     const { request } = useApp();

@@ -11,4 +11,3 @@ export const behandlingStatusTilTekst: Record<KlagebehandlingStatus, string> = {
     VENTER: 'Venter',
     FERDIGSTILT: 'Ferdigstilt',
 };
-

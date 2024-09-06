@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+
 import styled from 'styled-components';
-import { Tidslinje } from './Tidslinje';
-import DataViewer from '../../../../komponenter/DataViewer';
+
 import { Heading } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+
 import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
+import { Tidslinje } from './Tidslinje';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 
 const HeadingContainer = styled.div`
     margin: 2rem 5rem 0rem 5rem;

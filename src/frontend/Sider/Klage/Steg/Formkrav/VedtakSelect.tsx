@@ -1,7 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
+
 import styled from 'styled-components';
-import { IFormkravVilkår } from './typer';
+
 import { FamilieSelect } from '@navikt/familie-form-elements';
+
+import { IFormkravVilkår } from './typer';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,

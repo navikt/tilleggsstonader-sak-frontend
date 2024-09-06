@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
+
 import { Radio, RadioGroup } from '@navikt/ds-react';
+
 import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
 import { useKlageApp } from '../../context/KlageAppContext';
 

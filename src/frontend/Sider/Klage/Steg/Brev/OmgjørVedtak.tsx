@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Alert, Button } from '@navikt/ds-react';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
+
 import styled from 'styled-components';
+
+import { Alert, Button } from '@navikt/ds-react';
+
+import { useApp } from '../../../../context/AppContext';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
 } from '../../typer/kanOppretteRevurdering';
-import DataViewer from '../../../../komponenter/DataViewer';
-import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { useApp } from '../../../../context/AppContext';
 
 const AlertContainer = styled.div`
     padding: 2rem;

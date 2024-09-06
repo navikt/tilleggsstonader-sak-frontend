@@ -1,6 +1,7 @@
 import React from 'react';
-import { Folkeregisterpersonstatus } from '../../typer/personopplysningerFraKlage';
+
 import { EtikettAdvarsel } from './Etikett';
+import { Folkeregisterpersonstatus } from '../../typer/personopplysningerFraKlage';
 
 interface IProps {
     folkeregisterpersonstatus: Folkeregisterpersonstatus;

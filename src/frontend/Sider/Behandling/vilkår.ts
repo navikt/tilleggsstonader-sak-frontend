@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 import { Begrunnelse, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
@@ -26,6 +28,7 @@ export interface Vurdering {
     svar?: SvarId;
     begrunnelse?: Begrunnelse;
 }
+
 export interface Vilkår {
     id: string;
     behandlingId: string;
@@ -36,6 +39,9 @@ export interface Vilkår {
     endretTid: string;
     delvilkårsett: Delvilkår[];
     opphavsvilkår?: Opphavsvilkår;
+    fom?: string;
+    tom?: string;
+    utgift?: number;
 }
 
 export interface Opphavsvilkår {
@@ -78,10 +84,18 @@ export interface Vilkårsvurdering {
     grunnlag: VilkårGrunnlag;
 }
 
-export type SvarPåVilkår = Pick<Vilkår, 'id' | 'delvilkårsett' | 'behandlingId'>;
+export type SvarPåVilkår = Pick<
+    Vilkår,
+    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
+>;
 
+export type NyttVilkår = Pick<
+    Vilkår,
+    'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
+>;
+
+// Brukes for nullstilling av vilkår
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
-export interface Vurderingsfeilmelding {
-    [Key: string]: string;
-}
+// Internt bruk av felter som kan oppdateres i komponent
+export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'utgift'>;

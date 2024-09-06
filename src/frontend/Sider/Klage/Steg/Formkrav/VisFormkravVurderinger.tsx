@@ -1,7 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { PencilIcon } from '@navikt/aksel-icons';
+import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
-import BrukerMedBlyant from '../../Komponenter/Ikoner/BrukerMedBlyant';
+
 import {
     formkravFristUnntakTilTekst,
     IFormalkrav,
@@ -10,22 +15,12 @@ import {
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
-import {
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../../../../typer/ressurs';
 import {
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
 } from './utils';
-import { PencilIcon } from '@navikt/aksel-icons';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
@@ -34,13 +29,16 @@ import {
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
-import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
+import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import BrukerMedBlyant from '../../Komponenter/Ikoner/BrukerMedBlyant';
+import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import {
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
 } from '../../typer/klagebehandling/påklagetVedtakstype';
-import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -256,13 +254,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 {!ikkePåklagetVedtak && (
                     <>
                         {radioKnapper.map((knapp: IFormalkrav, index) => (
-                            <>
-                                <SvarElement key={index}>
+                            <React.Fragment key={index}>
+                                <SvarElement>
                                     <Spørsmål>{knapp.spørsmål}</Spørsmål>
                                     <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                                 </SvarElement>
                                 {skalViseKlagefristUnntak(knapp) && (
-                                    <SvarElement key={'unntaksvilkår'}>
+                                    <SvarElement>
                                         <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
                                         <Svar>
                                             {
@@ -273,7 +271,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                         </Svar>
                                     </SvarElement>
                                 )}
-                            </>
+                            </React.Fragment>
                         ))}
                     </>
                 )}
@@ -316,10 +314,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             <>
                                 {ikkeUtfylteVilkår.map((vilkår) => {
                                     return (
-                                        <li>
-                                            <BodyShort key={vilkår.navn}>
-                                                {vilkår.spørsmål}
-                                            </BodyShort>
+                                        <li key={vilkår.type}>
+                                            <BodyShort>{vilkår.spørsmål}</BodyShort>
                                         </li>
                                     );
                                 })}

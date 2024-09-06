@@ -1,6 +1,7 @@
 import React from 'react';
-import { Adressebeskyttelse } from '../../typer/personopplysningerFraKlage';
+
 import { EtikettAdvarsel } from './Etikett';
+import { Adressebeskyttelse } from '../../typer/personopplysningerFraKlage';
 
 interface IProps {
     adressebeskyttelse: Adressebeskyttelse;

@@ -52,7 +52,7 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     inngangsvilkar: Steg.INNGANGSVILKÅR,
     stonadsvilkar: Steg.VILKÅR,
     'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
-    simulering: Steg.SEND_TIL_BESLUTTER,
+    simulering: Steg.SIMULERING,
     brev: Steg.SEND_TIL_BESLUTTER,
 };
 
@@ -69,15 +69,7 @@ export const isFanePath = (path: string): path is FanePath => {
     }
 };
 
-export const faneErLåst = (
-    behandling: Behandling,
-    fanePath: FanePath,
-    toggleSimulering?: boolean
-) => {
-    if (FanePath.SIMULERING === fanePath && !toggleSimulering) {
-        return true;
-    }
-
+export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
@@ -97,10 +89,7 @@ const brevfaneHvisIkkeHenlagt = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (
-    behandling: Behandling,
-    toggleSimulering: boolean
-): FanerMedRouter[] => {
+export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,
@@ -125,7 +114,7 @@ export const hentBehandlingfaner = (
             navn: FaneNavn.SIMULERING,
             path: FanePath.SIMULERING,
             komponent: () => <Simulering />,
-            erLåst: faneErLåst(behandling, FanePath.SIMULERING, toggleSimulering),
+            erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
         ...brevfaneHvisIkkeHenlagt(behandling),
     ];

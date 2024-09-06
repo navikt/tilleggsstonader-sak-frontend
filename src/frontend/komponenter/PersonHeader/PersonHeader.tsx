@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BodyShort, CopyButton, Heading, HStack, Link, Tag } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
+import TagAdressebeskyttelse from './TagAdressebeskyttelse';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Sticky } from '../Visningskomponenter/Sticky';
 
@@ -30,13 +31,13 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
                 <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
+            <BodyShort>|</BodyShort>
+
+            <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
             {personopplysninger.harVergemål && (
-                <>
-                    <BodyShort>|</BodyShort>
-                    <Tag variant={'warning'} size={'small'}>
-                        Verge
-                    </Tag>
-                </>
+                <Tag variant={'warning'} size={'small'}>
+                    Verge
+                </Tag>
             )}
         </Container>
     );

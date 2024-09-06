@@ -1,8 +1,10 @@
 import {
+    differenceInDays,
     addDays,
     addMonths,
     format,
     formatISO,
+    endOfMonth,
     isAfter,
     isBefore,
     isEqual,
@@ -134,3 +136,9 @@ export const førsteDagIMånedTreMånederForut = (dato?: string): string => {
 export const formaterIsoÅr = (dato: string): number => {
     return parseISO(dato).getFullYear();
 };
+
+export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
+    differenceInDays(tilDato(dato), tilDato(dato2));
+
+export const tilSisteDagenIMåneden = (dato: string | Date): string =>
+    tilLocaleDateString(endOfMonth(tilDato(dato)));

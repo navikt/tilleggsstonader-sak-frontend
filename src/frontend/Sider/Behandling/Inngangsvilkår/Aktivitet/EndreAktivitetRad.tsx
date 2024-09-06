@@ -92,9 +92,11 @@ const EndreAktivitetRad: React.FC<{
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        erNyPeriode
-                            ? leggTilAktivitet(res.data.periode)
-                            : oppdaterAktivitet(res.data.periode);
+                        if (erNyPeriode) {
+                            leggTilAktivitet(res.data.periode);
+                        } else {
+                            oppdaterAktivitet(res.data.periode);
+                        }
 
                         if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
                             settStønadsperiodeFeil(undefined);
