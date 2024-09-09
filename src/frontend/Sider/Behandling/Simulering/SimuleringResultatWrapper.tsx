@@ -7,7 +7,6 @@ import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
@@ -27,12 +26,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ ve
             });
     }, [request, settSimuleringsresultat, behandling.id, hentBehandling]);
 
-    const erFørstegangsbehandling = behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING;
-
     const utledBeskrivelseIngenSimulering = () => {
-        if (erFørstegangsbehandling) {
-            return 'Ingen simulering for førstegangsbehandling';
-        }
         if (vedtak.type === 'AVSLAG') {
             return 'Ingen simulering for vedtaksresultat avslag';
         }
