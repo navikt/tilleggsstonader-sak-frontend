@@ -193,19 +193,33 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
     const EndrePerioder = (
         <HStack gap="6">
-            <MonthInput label="Periode fra og med" size="small" value={fom} onChange={settFom} />
+            <MonthInput
+                label="Periode fra og med"
+                size="small"
+                value={fom}
+                onChange={(dato) => {
+                    settDetFinnesUlagredeEndringer(true);
+                    settFom(dato);
+                }}
+            />
             <MonthInput
                 label="Periode til og med"
                 size="small"
                 value={tom}
-                onChange={(dato) => settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)}
+                onChange={(dato) => {
+                    settDetFinnesUlagredeEndringer(true);
+                    settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
+                }}
             />
             <TextField
                 label="Månedlig utgift"
                 size="small"
                 erLesevisning={false}
                 value={harTallverdi(utgift) ? utgift : ''}
-                onChange={(e) => settUtgift(tilHeltall(fjernSpaces(e.target.value)))}
+                onChange={(e) => {
+                    settDetFinnesUlagredeEndringer(true);
+                    settUtgift(tilHeltall(fjernSpaces(e.target.value)));
+                }}
             />
         </HStack>
     );
