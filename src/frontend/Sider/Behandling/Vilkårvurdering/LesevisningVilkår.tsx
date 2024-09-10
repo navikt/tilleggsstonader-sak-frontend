@@ -16,7 +16,7 @@ import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
-import { RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
+import { Vilkår } from '../vilkår';
 
 const TwoColumnGrid = styled.div`
     display: grid;
@@ -43,14 +43,13 @@ const Begrunnelse = styled(Lesefelt)`
 `;
 
 const LesevisningVilkår: FC<{
-    resultat: Vilkårsresultat;
-    vilkårsfelter: RedigerbareVilkårfelter;
+    vilkår: Vilkår;
     startRedigering?: () => void;
-}> = ({ resultat, vilkårsfelter, startRedigering }) => {
+}> = ({ vilkår, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
     const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
-    const { delvilkårsett, fom, tom, utgift } = vilkårsfelter;
+    const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
     return (
         <Container gap={1}>

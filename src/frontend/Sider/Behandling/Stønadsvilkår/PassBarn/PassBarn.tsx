@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -28,8 +27,6 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
     );
     const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
-    const { lagreVilkår } = useVilkår();
-
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
@@ -52,24 +49,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 key={barn.barnId}
             >
                 {vilkårForDetteBarnet.map((vilkår) => (
-                    <VisEllerEndreVilkår
-                        key={vilkår.id}
-                        regler={vilkårsregler}
-                        resultat={vilkår.resultat}
-                        redigerbareVilkårfelter={{
-                            delvilkårsett: vilkår.delvilkårsett,
-                            fom: vilkår.fom,
-                            tom: vilkår.tom,
-                            utgift: vilkår.utgift,
-                        }}
-                        lagreVurdering={(redigerbareVilkårfelter) =>
-                            lagreVilkår({
-                                id: vilkår.id,
-                                behandlingId: vilkår.behandlingId,
-                                ...redigerbareVilkårfelter,
-                            })
-                        }
-                    />
+                    <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
                 ))}
                 <NyttVilkår
                     vilkårtype={Inngangsvilkårtype.PASS_BARN}
