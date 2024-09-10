@@ -7,7 +7,13 @@ import { Vilkårtype } from '../Sider/Behandling/vilkår';
  *
  * regelId = SLUTT_NODE brukes for å definere at svaret  *ikke* krever oppfølgingssørsmål
  */
-export type RegelId = SluttNode | string;
+export type RegelId = SluttNode | ReglerPassBarn | string;
+
+export type ReglerPassBarn =
+    | 'ANNEN_FORELDER_MOTTAR_STØTTE'
+    | 'UTGIFTER_DOKUMENTERT'
+    | 'HAR_FULLFØRT_FJERDEKLASSE'
+    | 'UNNTAK_ALDER';
 
 export type SluttNode = 'SLUTT_NODE';
 

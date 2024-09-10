@@ -118,17 +118,21 @@ export const kopierBegrunnelse = (
     }
 };
 
-export function lagTomtDelvilkårsett(regler: Regler): Delvilkår[] {
-    return Object.values(regler)
+export const tomVurdering = (regel: Regel) => ({
+    regelId: regel.regelId,
+    svar: undefined,
+    begrunnelse: undefined,
+});
+
+export const lagTomtDelvilkårsett = (
+    regler: Regler,
+    utledVurdering: (regel: Regel) => Vurdering
+): Delvilkår[] =>
+    Object.values(regler)
         .filter((regel) => regel.erHovedregel)
-        .map((regel) => ({
-            resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-            vurderinger: [
-                {
-                    regelId: regel.regelId,
-                    svar: undefined,
-                    begrunnelse: undefined,
-                },
-            ],
-        }));
-}
+        .map((regel) => {
+            return {
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vurderinger: [utledVurdering(regel)],
+            };
+        });

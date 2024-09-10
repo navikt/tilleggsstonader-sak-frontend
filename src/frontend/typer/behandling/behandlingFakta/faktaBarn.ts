@@ -20,7 +20,7 @@ interface SøknadsgrunnlagBarn {
     årsak?: ÅrsakBarnepass;
 }
 
-interface VilkårFaktaBarn {
+export interface VilkårFaktaBarn {
     harFullførtFjerdetrinn?: JaNei;
 }
 

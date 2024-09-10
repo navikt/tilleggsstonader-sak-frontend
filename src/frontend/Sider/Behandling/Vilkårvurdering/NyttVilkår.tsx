@@ -5,20 +5,20 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
 import { EndreVilkår } from './EndreVilkår';
-import { lagTomtDelvilkårsett } from './utils';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Regler } from '../../../typer/regel';
 import { Toggle } from '../../../utils/toggles';
-import { RedigerbareVilkårfelter, Vilkårtype } from '../vilkår';
+import { Delvilkår, RedigerbareVilkårfelter, Vilkårtype } from '../vilkår';
 
 export const NyttVilkår: React.FC<{
     vilkårtype: Vilkårtype;
     vilkårsregler: Regler;
     barnId: string | undefined;
-}> = ({ vilkårtype, vilkårsregler, barnId }) => {
+    lagTomtDelvilkårsett: () => Delvilkår[];
+}> = ({ vilkårtype, vilkårsregler, barnId, lagTomtDelvilkårsett }) => {
     const { behandling } = useBehandling();
     const { lagreNyttVilkår } = useVilkår();
     const { erStegRedigerbart } = useSteg();
@@ -53,7 +53,7 @@ export const NyttVilkår: React.FC<{
     return (
         <EndreVilkår
             regler={vilkårsregler}
-            redigerbareVilkårfelter={{ delvilkårsett: lagTomtDelvilkårsett(vilkårsregler) }}
+            redigerbareVilkårfelter={{ delvilkårsett: lagTomtDelvilkårsett() }}
             avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
             lagreVurdering={opprettVilkår}
             slettVilkår={undefined}

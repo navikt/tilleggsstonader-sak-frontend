@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
+import { automatiskVurdert } from './automatiskVurdert';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -14,6 +15,7 @@ import {
 } from '../../lenker';
 import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
 import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
+import { lagTomtDelvilkårsett } from '../../Vilkårvurdering/utils';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
@@ -55,6 +57,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                     vilkårtype={Inngangsvilkårtype.PASS_BARN}
                     vilkårsregler={vilkårsregler}
                     barnId={barn.barnId}
+                    lagTomtDelvilkårsett={() =>
+                        lagTomtDelvilkårsett(vilkårsregler, (regelId) =>
+                            automatiskVurdert(regelId, barn.vilkårFakta)
+                        )
+                    }
                 />
             </VilkårPanel>
         );

@@ -1,5 +1,5 @@
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
-import { Begrunnelse, SvarId } from '../../typer/regel';
+import { Begrunnelse, RegelId, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
     OPPFYLT = 'OPPFYLT',
@@ -23,7 +23,7 @@ export enum Inngangsvilkårtype {
 }
 
 export interface Vurdering {
-    regelId: string;
+    regelId: RegelId;
     svar?: SvarId;
     begrunnelse?: Begrunnelse;
 }
