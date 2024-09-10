@@ -52,13 +52,28 @@ const leggTilNyVilkårsvurdering = (
     };
 };
 
+const fjernVilkårFraVilkårsvurdering = (
+    vilkårsvurdering: RessursSuksess<Vilkårsvurdering>,
+    vilkår: OppdaterVilkår
+): RessursSuksess<Vilkårsvurdering> => {
+    return {
+        ...vilkårsvurdering,
+        data: {
+            ...vilkårsvurdering.data,
+            vilkårsett: vilkårsvurdering.data.vilkårsett.filter(
+                (tidligereVilkår) => tidligereVilkår.id !== vilkår.id
+            ),
+        },
+    };
+};
+
 export interface UseVilkår {
     vilkårsvurdering: Ressurs<Vilkårsvurdering>;
     hentVilkårsvurdering: () => void;
     oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
     lagreNyttVilkår: (vurdering: NyttVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    nullstillVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+    slettVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<null> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
 
@@ -113,16 +128,14 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         return respons;
     };
 
-    const nullstillVilkår = (
-        vilkår: OppdaterVilkår
-    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, OppdaterVilkår>(`/api/sak/vilkar/nullstill`, 'POST', vilkår).then(
-            (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
+    const slettVilkår = (vilkår: OppdaterVilkår): Promise<RessursSuksess<null> | RessursFeilet> => {
+        return request<null, OppdaterVilkår>(`/api/sak/vilkar`, 'DELETE', vilkår).then(
+            (respons: RessursSuksess<null> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     settVilkårsvurdering((prevVilkårsvurdering) =>
-                        oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
-                            respons.data
+                        fjernVilkårFraVilkårsvurdering(
+                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>,
+                            vilkår
                         )
                     );
                 }
@@ -161,7 +174,7 @@ export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): U
         hentVilkårsvurdering,
         lagreVilkår,
         lagreNyttVilkår,
-        nullstillVilkår,
+        slettVilkår,
         ikkeVurderVilkår,
         oppdaterGrunnlagsdataOgHentVilkårsvurdering,
     };

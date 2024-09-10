@@ -3,6 +3,7 @@ import React, { FC, useEffect, useId, useState } from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
+import { TrashIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
@@ -51,6 +52,16 @@ const StyledForm = styled.form`
     box-shadow: ${AShadowXsmall};
 `;
 
+const Knapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    .right {
+        margin-left: auto;
+    }
+`;
+
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
@@ -58,6 +69,7 @@ type EndreVilkårProps = {
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+    slettVilkår: undefined | (() => void);
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
@@ -272,6 +284,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     });
 
+    const slettVilkår = props.slettVilkår;
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn gap={1}>
@@ -279,12 +292,27 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <Skillelinje />
                 {EndreDelvilkår}
                 <VStack gap="4">
-                    <HStack gap="3">
+                    <Knapper>
                         <SmallButton>Lagre</SmallButton>
                         <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
                             Avbryt
                         </SmallButton>
-                    </HStack>
+                        <div className={'right'}>
+                            {periodiserteVilkårIsEnabled && slettVilkår && (
+                                <SmallButton
+                                    variant={'tertiary'}
+                                    icon={<TrashIcon />}
+                                    iconPosition={'right'}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        slettVilkår();
+                                    }}
+                                >
+                                    Slett vilkår
+                                </SmallButton>
+                            )}
+                        </div>
+                    </Knapper>
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                     )}
