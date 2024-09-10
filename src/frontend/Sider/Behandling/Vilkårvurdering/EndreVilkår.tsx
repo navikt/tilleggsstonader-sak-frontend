@@ -16,7 +16,7 @@ import {
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
-import { Feilmeldinger, validerVilkårsvurderinger } from './validering';
+import { Feilmeldinger, ingenFeil, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -26,7 +26,6 @@ import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { erTomtObjekt } from '../../../typer/typeUtils';
 import { tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
@@ -75,7 +74,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
     const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
 
-    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>({});
+    const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
 
@@ -172,11 +171,17 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, props.regler);
+        const valideringsfeil = validerVilkårsvurderinger(
+            periodiserteVilkårIsEnabled,
+            delvilkårsett,
+            props.regler,
+            fom,
+            tom
+        );
 
         settFeilmeldinger(valideringsfeil);
 
-        if (erTomtObjekt(valideringsfeil)) {
+        if (JSON.stringify(valideringsfeil) === JSON.stringify(ingenFeil)) {
             const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
@@ -187,18 +192,34 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         }
     };
 
-    const nullstillFeilmelding = (regelId: string) => {
-        settFeilmeldinger({ ...feilmeldinger, [regelId]: undefined });
+    const nullstillFeilmeldingForRegel = (regelId: string) => {
+        settFeilmeldinger({
+            ...feilmeldinger,
+            vilkårsvurdering: { ...feilmeldinger.vilkårsvurdering, [regelId]: undefined },
+        });
     };
 
     const EndrePerioder = (
         <HStack gap="6">
-            <MonthInput label="Periode fra og med" size="small" value={fom} onChange={settFom} />
+            <MonthInput
+                label="Periode fra og med"
+                size="small"
+                value={fom}
+                feil={feilmeldinger.fom}
+                onChange={(dato) => {
+                    settFom(dato);
+                    settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                }}
+            />
             <MonthInput
                 label="Periode til og med"
                 size="small"
                 value={tom}
-                onChange={(dato) => settTom(dato ? tilSisteDagenIMåneden(dato) : undefined)}
+                feil={feilmeldinger.tom}
+                onChange={(dato) => {
+                    settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
+                    settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                }}
             />
             <TextField
                 label="Månedlig utgift"
@@ -225,8 +246,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                                 settDetFinnesUlagredeEndringer(true);
                                 oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
                             }}
-                            feilmelding={feilmeldinger[gjeldendeRegel.regelId]}
-                            nullstillFeilmelding={nullstillFeilmelding}
+                            feilmelding={feilmeldinger.vilkårsvurdering[gjeldendeRegel.regelId]}
+                            nullstillFeilmelding={nullstillFeilmeldingForRegel}
                         />
                         <Begrunnelse
                             oppdaterBegrunnelse={(begrunnelse) => {
