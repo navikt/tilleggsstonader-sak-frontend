@@ -5,6 +5,7 @@ export interface FaktaBarn {
     barnId: string;
     registergrunnlag: RegistergrunnlagBarn;
     søknadgrunnlag?: SøknadsgrunnlagBarn;
+    vilkårFakta: VilkårFaktaBarn;
 }
 
 interface RegistergrunnlagBarn {
@@ -17,6 +18,10 @@ interface SøknadsgrunnlagBarn {
     type: TypeBarnepass;
     startetIFemte?: JaNei;
     årsak?: ÅrsakBarnepass;
+}
+
+interface VilkårFaktaBarn {
+    harFullførtFjerdetrinn?: JaNei;
 }
 
 enum TypeBarnepass {

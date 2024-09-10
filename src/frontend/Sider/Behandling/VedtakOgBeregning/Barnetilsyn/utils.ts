@@ -3,12 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { InnvilgeVedtakForm } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { FormState } from '../../../../hooks/felles/useFormState';
 import { InnvilgeBarnetilsynRequest, Utgift } from '../../../../typer/vedtak';
-import { GrunnlagBarn } from '../../vilkår';
-
-export const tomUtgiftPerBarn = (barnIBehandling: GrunnlagBarn[]): Record<string, Utgift[]> =>
-    barnIBehandling.reduce((acc, barn) => {
-        return { ...acc, [barn.barnId]: [tomUtgiftRad()] };
-    }, {});
 
 export const tomUtgiftRad = (): Utgift => ({
     fom: '',

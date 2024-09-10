@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
+import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Begrunnelse, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
@@ -54,34 +53,9 @@ export interface Delvilkår {
     vurderinger: Vurdering[];
 }
 
-interface GrunnlagHovedytelse {}
-
-interface GrunnlagAktivitet {}
-
-export interface GrunnlagBarn {
-    ident: string;
-    barnId: string;
-    registergrunnlag: RegistergrunnlagBarn;
-    søknadgrunnlag?: SøknadsgrunnlagBarn;
-}
-
-interface RegistergrunnlagBarn {
-    navn: string;
-    alder?: string;
-    dødsdato?: string;
-}
-
-interface SøknadsgrunnlagBarn {}
-
-interface VilkårGrunnlag {
-    hovedytelse: GrunnlagHovedytelse;
-    aktivitet: GrunnlagAktivitet;
-    barn: GrunnlagBarn[];
-}
-
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
-    grunnlag: VilkårGrunnlag;
+    grunnlag: BehandlingFakta;
 }
 
 export type SvarPåVilkår = Pick<
