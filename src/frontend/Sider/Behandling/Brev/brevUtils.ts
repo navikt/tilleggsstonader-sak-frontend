@@ -30,7 +30,7 @@ export const finnSanityMappe = (
     }
 
     if (behandlingstype === BehandlingType.REVURDERING) {
-        return SanityMappe.AVSLAG;
+        return SanityMappe.REVURDERING;
     }
 
     if (vedtakType === TypeVedtak.INNVILGELSE) {

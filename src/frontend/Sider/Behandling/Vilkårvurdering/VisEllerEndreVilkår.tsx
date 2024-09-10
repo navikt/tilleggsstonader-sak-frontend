@@ -3,37 +3,42 @@ import React, { FC, useState } from 'react';
 import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
+import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
-import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
-import { Vilkår, RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
+import { Vilkår, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
     regler: Regler;
-    resultat: Vilkårsresultat;
-    redigerbareVilkårfelter: RedigerbareVilkårfelter;
-    lagreVurdering: (
-        redigerbareVilkårfelter: RedigerbareVilkårfelter
-    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
+    vilkår: Vilkår;
 };
 
-export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
+export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
+    const { lagreVilkår } = useVilkår();
 
     const [redigerer, settRedigerer] = useState<boolean>(
-        props.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
+        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
     return erStegRedigerbart && redigerer ? (
         <EndreVilkår
-            {...props}
-            visAvbrytknapp={false}
+            regler={regler}
+            redigerbareVilkårfelter={{
+                delvilkårsett: vilkår.delvilkårsett,
+                fom: vilkår.fom,
+                tom: vilkår.tom,
+                utgift: vilkår.utgift,
+            }}
+            lagreVurdering={(redigerbareVilkårfelter) =>
+                lagreVilkår({
+                    id: vilkår.id,
+                    behandlingId: vilkår.behandlingId,
+                    ...redigerbareVilkårfelter,
+                })
+            }
             avsluttRedigering={() => settRedigerer(false)}
         />
     ) : (
-        <LesevisningVilkår
-            resultat={props.resultat}
-            vilkårsfelter={props.redigerbareVilkårfelter}
-            startRedigering={() => settRedigerer(true)}
-        />
+        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
     );
 };

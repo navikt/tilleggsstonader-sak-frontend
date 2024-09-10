@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
@@ -26,7 +26,12 @@ import Panel from '../../../../../komponenter/Panel/Panel';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggTomRessurs, RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
+import {
+    byggHenterRessurs,
+    byggTomRessurs,
+    RessursFeilet,
+    RessursSuksess,
+} from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequest,
@@ -129,6 +134,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
 
     const beregnBarnetilsyn = () => {
         if (periodiserteVilkårIsEnabled) {
+            settBeregningsresultat(byggHenterRessurs());
             const vedtaksRequest = lagVedtakRequest({
                 utgifter: {},
             });
@@ -151,6 +157,13 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
             }
         }
     };
+
+    useEffect(() => {
+        if (periodiserteVilkårIsEnabled) {
+            beregnBarnetilsyn();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
@@ -176,14 +189,16 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
                     <VarselBarnUnder2År vilkårsvurderteBarn={vilkårsvurderteBarn} />
                     {erStegRedigerbart && (
                         <>
-                            <Knapp
-                                type="button"
-                                variant="primary"
-                                size="small"
-                                onClick={beregnBarnetilsyn}
-                            >
-                                Beregn
-                            </Knapp>
+                            {!periodiserteVilkårIsEnabled && (
+                                <Knapp
+                                    type="button"
+                                    variant="primary"
+                                    size="small"
+                                    onClick={beregnBarnetilsyn}
+                                >
+                                    Beregn
+                                </Knapp>
+                            )}
                             <DataViewer response={{ beregningsresultat }}>
                                 {({ beregningsresultat }) => (
                                     <Beregningsresultat beregningsresultat={beregningsresultat} />

@@ -7,7 +7,6 @@ import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakBarnetilsyn } from '../../../typer/vedtak';
 
@@ -27,31 +26,32 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ ve
             });
     }, [request, settSimuleringsresultat, behandling.id, hentBehandling]);
 
-    const erFørstegangsbehandling = behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING;
-
-    const utledBeskrivelseIngenSimulering = () => {
-        if (erFørstegangsbehandling) {
-            return 'Ingen simulering for førstegangsbehandling';
-        }
+    const utledBeskrivelseIngenSimulering = (simuleringsresultat: SimuleringResponse | null) => {
         if (vedtak.type === 'AVSLAG') {
             return 'Ingen simulering for vedtaksresultat avslag';
+        }
+        if (simuleringsresultat?.ingenEndringIUtbetaling) {
+            return 'Ingen endring i tidligere utbetalinger';
         }
         return 'Ingen simulering lagret for behandling';
     };
 
     return (
         <DataViewer response={{ simuleringsresultat }}>
-            {({ simuleringsresultat }) => (
-                <>
-                    {simuleringsresultat ? (
-                        <SimuleringTabell perioder={simuleringsresultat.perioder} />
-                    ) : (
-                        <Alert variant={'info'} inline>
-                            {utledBeskrivelseIngenSimulering()}
-                        </Alert>
-                    )}
-                </>
-            )}
+            {({ simuleringsresultat }) => {
+                const perioder = simuleringsresultat?.perioder;
+                return (
+                    <>
+                        {perioder ? (
+                            <SimuleringTabell perioder={perioder} />
+                        ) : (
+                            <Alert variant={'info'} inline>
+                                {utledBeskrivelseIngenSimulering(simuleringsresultat)}
+                            </Alert>
+                        )}
+                    </>
+                );
+            }}
         </DataViewer>
     );
 };

@@ -1,6 +1,7 @@
 import { InnvilgeVedtakForm } from './InnvilgeBarnetilsyn';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Utgift } from '../../../../../typer/vedtak';
+import { harTallverdi } from '../../../../../utils/tall';
 
 export const validerInnvilgetVedtakForm = ({
     utgifter,
@@ -60,14 +61,14 @@ const validerUtgifter = (
                 //     };
                 // }
 
-                if (!utgift.utgift) {
+                if (!harTallverdi(utgift.utgift)) {
                     return {
                         ...utgiftFeil,
                         utgift: 'Du må legge inn en månedlig utgift',
                     };
                 }
 
-                if (utgift.utgift <= 0) {
+                if (utgift.utgift < 0) {
                     return {
                         ...utgiftFeil,
                         utgift: 'Månedlig utgift må være større enn 0kr',
