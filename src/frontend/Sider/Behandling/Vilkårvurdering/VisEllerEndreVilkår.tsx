@@ -14,7 +14,7 @@ type LesEllerEndreDelvilkårProps = {
 
 export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
-    const { lagreVilkår } = useVilkår();
+    const { lagreVilkår, slettVilkår } = useVilkår();
 
     const [redigerer, settRedigerer] = useState<boolean>(
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
@@ -37,6 +37,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
+            slettVilkår={
+                vilkår.opphavsvilkår
+                    ? undefined
+                    : () => {
+                          slettVilkår(vilkår);
+                      }
+            }
         />
     ) : (
         <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
