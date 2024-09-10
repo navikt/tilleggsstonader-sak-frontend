@@ -3,24 +3,18 @@ import React, { FC, useState } from 'react';
 import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
+import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
-import { RessursFeilet, RessursSuksess } from '../../../typer/ressurs';
-import { Vilkår, RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår';
+import { Vilkår, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
     regler: Regler;
     vilkår: Vilkår;
-    lagreVurdering: (
-        redigerbareVilkårfelter: RedigerbareVilkårfelter
-    ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({
-    regler,
-    vilkår,
-    lagreVurdering,
-}) => {
+export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
+    const { lagreVilkår } = useVilkår();
 
     const [redigerer, settRedigerer] = useState<boolean>(
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
@@ -35,7 +29,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({
                 tom: vilkår.tom,
                 utgift: vilkår.utgift,
             }}
-            lagreVurdering={lagreVurdering}
+            lagreVurdering={(redigerbareVilkårfelter) =>
+                lagreVilkår({
+                    id: vilkår.id,
+                    behandlingId: vilkår.behandlingId,
+                    ...redigerbareVilkårfelter,
+                })
+            }
             avsluttRedigering={() => settRedigerer(false)}
         />
     ) : (
