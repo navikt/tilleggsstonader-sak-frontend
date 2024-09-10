@@ -4,12 +4,16 @@ import { harIkkeVerdi } from '../../../utils/utils';
 import { Delvilkår } from '../vilkår';
 
 export type Feilmeldinger = {
-    vilkårsvurdering: Record<RegelId, string | undefined>;
+    delvilkårsvurderinger: Record<RegelId, string | undefined>;
     fom?: string;
     tom?: string;
 };
 
-export const ingenFeil = { vilkårsvurdering: {} };
+export const ingenFeil = { delvilkårsvurderinger: {} };
+
+export function ingen(valideringsfeil: Feilmeldinger) {
+    return JSON.stringify(valideringsfeil) === JSON.stringify(ingenFeil);
+}
 
 export const validerVilkårsvurderinger = (
     periodiserteVilkårIsEnabled: boolean,
@@ -18,7 +22,7 @@ export const validerVilkårsvurderinger = (
     fom?: string,
     tom?: string
 ): Feilmeldinger => {
-    const valideringsfeil: Feilmeldinger = { vilkårsvurdering: {} };
+    const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
     if (periodiserteVilkårIsEnabled) {
         if (harIkkeVerdi(fom)) {
@@ -38,7 +42,7 @@ export const validerVilkårsvurderinger = (
             const gjeldendeRegel = vurdering.regelId;
 
             if (!vurdering.svar) {
-                valideringsfeil.vilkårsvurdering[gjeldendeRegel] = 'Du må ta et valg';
+                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] = 'Du må ta et valg';
                 return;
             }
 
@@ -46,7 +50,7 @@ export const validerVilkårsvurderinger = (
                 begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
                 harIkkeVerdi(vurdering.begrunnelse)
             ) {
-                valideringsfeil.vilkårsvurdering[gjeldendeRegel] =
+                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
                     'Begrunnelse er obligatorisk for dette valget';
                 return;
             }

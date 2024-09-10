@@ -16,7 +16,7 @@ import {
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
-import { Feilmeldinger, ingenFeil, validerVilkårsvurderinger } from './validering';
+import { Feilmeldinger, ingenFeil, ingen, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -181,7 +181,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
         settFeilmeldinger(valideringsfeil);
 
-        if (JSON.stringify(valideringsfeil) === JSON.stringify(ingenFeil)) {
+        if (ingen(valideringsfeil)) {
             const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
@@ -195,7 +195,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const nullstillFeilmeldingForRegel = (regelId: string) => {
         settFeilmeldinger({
             ...feilmeldinger,
-            vilkårsvurdering: { ...feilmeldinger.vilkårsvurdering, [regelId]: undefined },
+            delvilkårsvurderinger: { ...feilmeldinger.delvilkårsvurderinger, [regelId]: undefined },
         });
     };
 
@@ -246,7 +246,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                                 settDetFinnesUlagredeEndringer(true);
                                 oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
                             }}
-                            feilmelding={feilmeldinger.vilkårsvurdering[gjeldendeRegel.regelId]}
+                            feilmelding={
+                                feilmeldinger.delvilkårsvurderinger[gjeldendeRegel.regelId]
+                            }
                             nullstillFeilmelding={nullstillFeilmeldingForRegel}
                         />
                         <Begrunnelse
