@@ -9,27 +9,36 @@ import { Vilkår, RedigerbareVilkårfelter, Vilkårsresultat } from '../vilkår'
 
 type LesEllerEndreDelvilkårProps = {
     regler: Regler;
-    resultat: Vilkårsresultat;
-    redigerbareVilkårfelter: RedigerbareVilkårfelter;
+    vilkår: Vilkår;
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 };
 
-export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = (props) => {
+export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({
+    regler,
+    vilkår,
+    lagreVurdering,
+}) => {
     const { erStegRedigerbart } = useSteg();
 
     const [redigerer, settRedigerer] = useState<boolean>(
-        props.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
+        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
     return erStegRedigerbart && redigerer ? (
-        <EndreVilkår {...props} avsluttRedigering={() => settRedigerer(false)} />
-    ) : (
-        <LesevisningVilkår
-            resultat={props.resultat}
-            vilkårsfelter={props.redigerbareVilkårfelter}
-            startRedigering={() => settRedigerer(true)}
+        <EndreVilkår
+            regler={regler}
+            redigerbareVilkårfelter={{
+                delvilkårsett: vilkår.delvilkårsett,
+                fom: vilkår.fom,
+                tom: vilkår.tom,
+                utgift: vilkår.utgift,
+            }}
+            lagreVurdering={lagreVurdering}
+            avsluttRedigering={() => settRedigerer(false)}
         />
+    ) : (
+        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
     );
 };
