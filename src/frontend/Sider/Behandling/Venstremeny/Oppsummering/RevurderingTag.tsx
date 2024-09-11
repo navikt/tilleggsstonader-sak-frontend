@@ -5,7 +5,7 @@ import { Tag } from '@navikt/ds-react';
 
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
 
-export function RevurderingTag({ type }: { type: BehandlingType }) {
+export const RevurderingTag = ({ type }: { type: BehandlingType }) => {
     if (type == BehandlingType.REVURDERING) {
         return (
             <Tag
@@ -19,4 +19,4 @@ export function RevurderingTag({ type }: { type: BehandlingType }) {
         );
     }
     return null;
-}
+};
