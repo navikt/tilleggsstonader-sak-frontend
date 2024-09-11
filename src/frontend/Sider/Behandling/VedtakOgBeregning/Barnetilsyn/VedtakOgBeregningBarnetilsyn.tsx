@@ -84,10 +84,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgeBarnetilsyn
-                                lagretVedtak={vedtak as InnvilgelseBarnetilsyn}
-                                vilkårsvurderteBarn={vilkårsoppsummering.passBarn}
-                            />
+                            <InnvilgeBarnetilsyn lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
                         )}
                     </Container>
                 )}

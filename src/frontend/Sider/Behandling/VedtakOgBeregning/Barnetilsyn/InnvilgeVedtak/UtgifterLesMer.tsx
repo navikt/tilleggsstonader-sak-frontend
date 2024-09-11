@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BodyLong, ReadMore } from '@navikt/ds-react';
 
+// TODO skal denne til vilkår?
 export const UtgifterLesMer = () => {
     return (
         <ReadMore header={'Slik legger du inn utgifter'} size={'small'}>

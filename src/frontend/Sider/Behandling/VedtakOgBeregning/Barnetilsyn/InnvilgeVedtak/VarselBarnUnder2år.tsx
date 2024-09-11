@@ -9,6 +9,7 @@ const minsteAlder = (vilkårsvurderteBarn: BarnOppsummering[]) => {
     return Math.min(...alderArray);
 };
 
+// TODO burde flyttes til vilkår?
 export const VarselBarnUnder2År = (props: { vilkårsvurderteBarn: BarnOppsummering[] }) => {
     if (minsteAlder(props.vilkårsvurderteBarn) > 2) {
         return null;
