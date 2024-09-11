@@ -3,6 +3,7 @@ import React from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 
 import { automatiskVurdert } from './automatiskVurdert';
+import { PassBarnLesMer } from './PassBarnLesMer';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -50,6 +51,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
                 forskriftlenker={lenkerForskriftPassBarn}
                 key={barn.barnId}
             >
+                {periodiserteVilkårIsEnabled && <PassBarnLesMer />}
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
                 ))}

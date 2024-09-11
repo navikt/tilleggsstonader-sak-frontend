@@ -18,7 +18,7 @@ const Header = styled.div`
 `;
 
 const Innhold = styled.div`
-    padding: 2rem;
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
