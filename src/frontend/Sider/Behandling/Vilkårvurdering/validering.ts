@@ -16,7 +16,6 @@ export function ingen(valideringsfeil: Feilmeldinger) {
 }
 
 export const validerVilkårsvurderinger = (
-    periodiserteVilkårIsEnabled: boolean,
     delvilkårsett: Delvilkår[],
     regler: Regler,
     fom?: string,
@@ -24,16 +23,14 @@ export const validerVilkårsvurderinger = (
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
-    if (periodiserteVilkårIsEnabled) {
-        if (harIkkeVerdi(fom)) {
-            valideringsfeil.fom = 'Må angis';
-        }
-        if (harIkkeVerdi(tom)) {
-            valideringsfeil.tom = 'Må angis';
-        }
-        if (fomErEtterTom(fom, tom)) {
-            valideringsfeil.tom = 'Må være etter fra-datoen';
-        }
+    if (harIkkeVerdi(fom)) {
+        valideringsfeil.fom = 'Må angis';
+    }
+    if (harIkkeVerdi(tom)) {
+        valideringsfeil.tom = 'Må angis';
+    }
+    if (fomErEtterTom(fom, tom)) {
+        valideringsfeil.tom = 'Må være etter fra-datoen';
     }
 
     delvilkårsett
