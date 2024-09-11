@@ -115,7 +115,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
 
     const lagreVedtak = (vedtaksRequest: InnvilgeBarnetilsynRequest) => {
         return request<null, InnvilgeBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}`,
+            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
             'POST',
             vedtaksRequest
         );
