@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
@@ -15,7 +14,6 @@ import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
-import { Toggle } from '../../../utils/toggles';
 import { Vilkår } from '../vilkår';
 
 const TwoColumnGrid = styled.div`
@@ -47,32 +45,29 @@ const LesevisningVilkår: FC<{
     startRedigering?: () => void;
 }> = ({ vilkår, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
-    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
     return (
         <Container gap={1}>
-            {periodiserteVilkårIsEnabled && (
-                <HStack gap="6" align={'center'}>
-                    <VilkårsresultatIkon vilkårsresultat={resultat} />
-                    <Lesefelt
-                        label={'Periode fra og med'}
-                        verdi={formaterNullableÅrMåned(fom)}
-                        size={'small'}
-                    />
-                    <Lesefelt
-                        label={'Periode til og med'}
-                        verdi={formaterNullableÅrMåned(tom)}
-                        size={'small'}
-                    />
-                    <Lesefelt
-                        label={'Månedlig utgift'}
-                        verdi={harTallverdi(utgift) ? utgift : ''}
-                        size={'small'}
-                    />
-                </HStack>
-            )}
+            <HStack gap="6" align={'center'}>
+                <VilkårsresultatIkon vilkårsresultat={resultat} />
+                <Lesefelt
+                    label={'Periode fra og med'}
+                    verdi={formaterNullableÅrMåned(fom)}
+                    size={'small'}
+                />
+                <Lesefelt
+                    label={'Periode til og med'}
+                    verdi={formaterNullableÅrMåned(tom)}
+                    size={'small'}
+                />
+                <Lesefelt
+                    label={'Månedlig utgift'}
+                    verdi={harTallverdi(utgift) ? utgift : ''}
+                    size={'small'}
+                />
+            </HStack>
             <Skillelinje />
             <FlexMedMargin>
                 <TwoColumnGrid>
