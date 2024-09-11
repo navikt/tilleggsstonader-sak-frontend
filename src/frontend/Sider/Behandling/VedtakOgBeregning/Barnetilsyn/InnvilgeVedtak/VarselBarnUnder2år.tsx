@@ -1,7 +1,7 @@
+/*
 import React from 'react';
 
 import { Alert, Heading } from '@navikt/ds-react';
-
 import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 
 const minsteAlder = (vilkårsvurderteBarn: BarnOppsummering[]) => {
@@ -25,3 +25,4 @@ export const VarselBarnUnder2År = (props: { vilkårsvurderteBarn: BarnOppsummer
         </Alert>
     );
 };
+*/
