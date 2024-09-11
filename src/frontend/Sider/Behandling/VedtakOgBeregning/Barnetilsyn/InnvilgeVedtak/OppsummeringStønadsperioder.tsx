@@ -14,12 +14,9 @@ const OppsummeringStønadsperioder: React.FC<{ stønadsperioder: Stønadsperiode
         return `${formaterTilTekstligDato(stønadsperiode.fom)} - ${formaterTilTekstligDato(stønadsperiode.tom)} (${målgruppeTypeTilTekst(stønadsperiode.målgruppe)}, ${aktivitetTypeTilTekst(stønadsperiode.aktivitet)})`;
     };
 
-    if (stønadsperioder.length === 0) {
-        return null;
-    }
-
     return (
         <List as="ul" title="Stønadsperioder" size="small">
+            {!stønadsperioder.length && <>Ingen stønadsperioder</>}
             {stønadsperioder.map((stønadsperiode, index) => (
                 <List.Item key={index}>{oppsummerStønadsperiode(stønadsperiode)}</List.Item>
             ))}
