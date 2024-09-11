@@ -13,6 +13,7 @@ import {
     byggTomRessurs,
     Ressurs,
 } from '../../../typer/ressurs';
+import { erProd } from '../../../utils/miljø';
 
 const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
     const sanityClient = useSanityClient();
@@ -26,7 +27,7 @@ const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
 
     const hentBrevmaler = useCallback((resultat: string) => {
         sanityClient
-            .fetch<Brevmal[]>(hentMalerQuery, {
+            .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
                 resultat: resultat,
                 ytelse: ytelse,
             })

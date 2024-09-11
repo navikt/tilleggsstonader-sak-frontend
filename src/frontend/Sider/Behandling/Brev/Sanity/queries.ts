@@ -1,6 +1,9 @@
 import groq from 'groq';
 
-export const hentMalerQuery = groq`*[ytelse == $ytelse && resultat == $resultat]`;
+export const hentMalerQuery = (hentUPubliserte: boolean = false) =>
+    hentUPubliserte
+        ? groq`*[ytelse == $ytelse && resultat == $resultat]`
+        : groq`*[ytelse == $ytelse && resultat == $resultat && publisert == true]`;
 
 export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[_id == "${id}"][0]{
 ...,
