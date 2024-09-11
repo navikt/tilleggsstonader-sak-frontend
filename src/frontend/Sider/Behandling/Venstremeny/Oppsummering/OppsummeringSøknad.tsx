@@ -25,7 +25,7 @@ const OppsummeringSøknad: React.FC = () => {
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            <RevurderingTag forrigeBehandlingId={behandling.forrigeBehandlingId} />
+            <RevurderingTag type={behandling.type} />
 
             <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
 
@@ -34,7 +34,6 @@ const OppsummeringSøknad: React.FC = () => {
                     fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
                 />
             )}
-
             <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
 
             {behandlingFakta.barn.map((barn) => {
