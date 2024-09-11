@@ -159,7 +159,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak, vilkårsvur
     };
 
     useEffect(() => {
-        if (periodiserteVilkårIsEnabled) {
+        if (periodiserteVilkårIsEnabled && erStegRedigerbart) {
             beregnBarnetilsyn();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
