@@ -25,7 +25,7 @@ const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const hentBrevmaler = useCallback((resultat: string) => {
+    const hentBrevmaler = useCallback((resultat: string[]) => {
         sanityClient
             .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
                 resultat: resultat,
