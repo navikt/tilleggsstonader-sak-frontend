@@ -7,13 +7,14 @@ import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import BarnDetaljer from './BarnDetaljer';
 import Hovedytelse from './Hovedytelse';
+import { RevurderingTag } from './RevurderingTag';
 import Vedlegg from './Vedlegg';
 import { InfoSeksjon } from './Visningskomponenter';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { formaterDato } from '../../../../utils/dato';
 
 const OppsummeringSøknad: React.FC = () => {
-    const { behandlingFakta } = useBehandling();
+    const { behandlingFakta, behandling } = useBehandling();
 
     return (
         <VStack gap="8">
@@ -24,6 +25,7 @@ const OppsummeringSøknad: React.FC = () => {
                     </BodyShort>
                 </InfoSeksjon>
             )}
+            <RevurderingTag type={behandling.type} />
 
             <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
 
@@ -32,7 +34,6 @@ const OppsummeringSøknad: React.FC = () => {
                     fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
                 />
             )}
-
             <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
 
             {behandlingFakta.barn.map((barn) => {
