@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
+import { Alert } from '@navikt/ds-react';
 import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
 
 import SettPåVentForm from './SettPåVentForm';
@@ -24,14 +25,14 @@ const SettPåVentContainer: React.FC<{
     statusPåVentRedigering: boolean;
     settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ statusPåVentRedigering, settStatusPåVentRedigering }) => {
-    const { request } = useApp();
+    const { request, erSaksbehandler } = useApp();
     const { behandling } = useBehandling();
 
     const [statusResponse, settStatusResponse] =
         useState<Ressurs<StatusSettPåVent>>(byggTomRessurs());
 
     useEffect(() => {
-        if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
+        if (erSaksbehandler && behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
             request<StatusSettPåVent, null>(`/api/sak/sett-pa-vent/${behandling.id}`).then(
                 settStatusResponse
             );
@@ -43,6 +44,9 @@ const SettPåVentContainer: React.FC<{
     useVisFeilmeldingVedUnload(statusPåVentRedigering);
 
     if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
+        if (!erSaksbehandler) {
+            return <Alert variant={'warning'}>Behandlingen er satt på vent.</Alert>;
+        }
         return (
             <Container>
                 <DataViewer response={{ statusResponse }}>
