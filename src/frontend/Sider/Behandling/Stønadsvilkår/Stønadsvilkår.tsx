@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
-import { Box, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
+import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -14,9 +14,7 @@ import { useVilkårsoppsummering } from '../../../hooks/useVilkårsoppsummering'
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
-import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
-import OppsummeringStønadsperioder from '../VedtakOgBeregning/Barnetilsyn/InnvilgeVedtak/OppsummeringStønadsperioder';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -28,8 +26,6 @@ const Stønadsvilkår = () => {
     const { vilkårsvurdering } = useVilkår();
 
     const { vilkårsoppsummering } = useVilkårsoppsummering(behandling.id);
-
-    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     useEffect(() => {
         hentRegler();
@@ -46,22 +42,10 @@ const Stønadsvilkår = () => {
             >
                 {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
                     <>
-                        {periodiserteVilkårIsEnabled && (
-                            /*
-                            TODO flytt box inn i OppsummeringStønadsperioder når FT fjernes
-                            TODO flytt OppsummeringStønadsperioder inn under Stønadsvilkår
-                            */
-                            <>
-                                {vilkårsoppsummering.visVarselKontantstøtte && (
-                                    <VarselBarnUnder2År />
-                                )}
-                                <Box padding="4" background="surface-selected">
-                                    <OppsummeringStønadsperioder
-                                        stønadsperioder={vilkårsoppsummering.stønadsperioder}
-                                    />
-                                </Box>
-                            </>
-                        )}
+                        {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
+                        <OppsummeringStønadsperioder
+                            stønadsperioder={vilkårsoppsummering.stønadsperioder}
+                        />
                         <PassBarn
                             vilkårsregler={regler.vilkårsregler.PASS_BARN.regler}
                             vilkårsvurdering={vilkårsvurdering}

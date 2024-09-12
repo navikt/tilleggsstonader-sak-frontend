@@ -3,14 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { BodyShort, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
-import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
-import { useStønadsperioder } from '../../../../../hooks/useStønadsperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
@@ -45,7 +42,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { stønadsperioder } = useStønadsperioder(behandling.id);
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
@@ -79,12 +75,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap="8">
-                    <DataViewer response={{ stønadsperioder }}>
-                        {({ stønadsperioder }) => (
-                            <OppsummeringStønadsperioder stønadsperioder={stønadsperioder} />
-                        )}
-                    </DataViewer>
-                    <Skillelinje />
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
