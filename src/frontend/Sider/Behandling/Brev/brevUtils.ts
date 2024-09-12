@@ -23,18 +23,18 @@ enum SanityMappe {
 export const finnSanityMappe = (
     behandlingstype: BehandlingType,
     vedtakType: TypeVedtak
-): string => {
+): string[] => {
     // Avslagsbrev er like for revurdering og førstegangsbehandling
     if (vedtakType === TypeVedtak.AVSLAG) {
-        return SanityMappe.AVSLAG;
+        return [SanityMappe.AVSLAG];
     }
 
     if (behandlingstype === BehandlingType.REVURDERING) {
-        return SanityMappe.REVURDERING;
+        return [SanityMappe.REVURDERING, SanityMappe.INNVILGET];
     }
 
     if (vedtakType === TypeVedtak.INNVILGELSE) {
-        return SanityMappe.INNVILGET;
+        return [SanityMappe.INNVILGET];
     }
 
     return vedtakType;
