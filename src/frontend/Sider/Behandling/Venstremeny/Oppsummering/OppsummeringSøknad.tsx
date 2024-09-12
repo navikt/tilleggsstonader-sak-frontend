@@ -18,6 +18,7 @@ const OppsummeringSøknad: React.FC = () => {
 
     return (
         <VStack gap="8">
+            <RevurderingTag type={behandling.type} />
             {behandlingFakta.søknadMottattTidspunkt && (
                 <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                     <BodyShort size="small">
@@ -25,7 +26,6 @@ const OppsummeringSøknad: React.FC = () => {
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            <RevurderingTag type={behandling.type} />
 
             <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
 
