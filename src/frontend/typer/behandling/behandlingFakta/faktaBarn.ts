@@ -10,6 +10,7 @@ export interface FaktaBarn {
 
 interface RegistergrunnlagBarn {
     navn: string;
+    fødselsdato?: string;
     dødsdato?: string;
     alder?: number;
 }
