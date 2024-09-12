@@ -7,7 +7,7 @@ import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Registerytelser, registerYtelseTilTekst } from '../../../typer/registerytelser';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
-import { formaterIsoDatoTid, formaterTilTekstligDato } from '../../../utils/dato';
+import { formaterTilTekstligDato } from '../../../utils/dato';
 
 const formaterYtelsesHeader = (ytelser: Registerytelser) => {
     const infotyper = ytelser.hentetInformasjon.map((info) => registerYtelseTilTekst[info.type]);
@@ -32,9 +32,6 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
             {({ ytelser }) => (
                 <>
                     <Heading size={'xsmall'}>{formaterYtelsesHeader(ytelser)}</Heading>
-                    <Alert variant={'info'} size={'small'} inline>
-                        Informasjon hentet: {formaterIsoDatoTid(ytelser.tidspunktHentet)}.
-                    </Alert>
                     {ytelser.hentetInformasjon
                         .filter((info) => info.status === 'FEILET')
                         .map((hentetInformasjon) => (
@@ -42,7 +39,7 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
                                 key={hentetInformasjon.type}
                                 variant={'warning'}
                                 size={'small'}
-                                inline
+                                style={{ maxWidth: 'fit-content' }}
                             >
                                 Feilet ved henting av informasjon fra{' '}
                                 {registerYtelseTilTekst[hentetInformasjon.type]}
