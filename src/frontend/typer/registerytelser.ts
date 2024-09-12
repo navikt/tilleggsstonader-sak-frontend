@@ -31,7 +31,7 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 };
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
-    AAP: 'Arbeidsavklaringspenger',
-    ENSLIG_FORSØRGER: 'Overgangsstønad',
-    OMSTILLINGSSTØNAD: 'Omstillingsstønad',
+    AAP: 'arbeidsavklaringspenger',
+    ENSLIG_FORSØRGER: 'overgangsstønad',
+    OMSTILLINGSSTØNAD: 'omstillingsstønad',
 };
