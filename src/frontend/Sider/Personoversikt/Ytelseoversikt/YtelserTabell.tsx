@@ -4,7 +4,10 @@ import { styled } from 'styled-components';
 
 import { Table } from '@navikt/ds-react';
 
-import { PeriodeYtelseRegister, registerYtelseTilTekst } from '../../../typer/registerytelser';
+import {
+    PeriodeYtelseRegister,
+    registerYtelseTilTekstStorForbokstav,
+} from '../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../utils/dato';
 
 const Tabell = styled(Table)`
@@ -26,7 +29,7 @@ const YtelserTabell: React.FC<{ perioder: PeriodeYtelseRegister[] }> = ({ period
                     return (
                         <Table.Row key={indeks}>
                             <Table.DataCell>
-                                {registerYtelseTilTekst[periode.type]}
+                                {registerYtelseTilTekstStorForbokstav[periode.type]}
                                 {periode.aapErFerdigAvklart && ` (Ferdig avklart)`}
                             </Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(periode.fom)}</Table.DataCell>

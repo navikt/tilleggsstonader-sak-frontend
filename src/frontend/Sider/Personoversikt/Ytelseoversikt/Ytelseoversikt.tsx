@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Heading } from '@navikt/ds-react';
 
 import YtelserTabell from './YtelserTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Registerytelser, registerYtelseTilTekst } from '../../../typer/registerytelser';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
-import { formaterIsoDatoTid } from '../../../utils/dato';
+import { formaterTilTekstligDato } from '../../../utils/dato';
+
+const formaterYtelsesHeader = (ytelser: Registerytelser) => {
+    const infotyper = ytelser.hentetInformasjon.map((info) => registerYtelseTilTekst[info.type]);
+    const sisteType = infotyper.pop();
+    const dato = formaterTilTekstligDato(ytelser.tidspunktHentet);
+    return 'Perioder med ' + infotyper.join(', ') + ' eller ' + sisteType + ' fra og med ' + dato;
+};
 
 const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -24,13 +31,7 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
         <DataViewer response={{ ytelser }}>
             {({ ytelser }) => (
                 <>
-                    <Alert variant={'info'} size={'small'} inline>
-                        Informasjon hentet: {formaterIsoDatoTid(ytelser.tidspunktHentet)}. Perioder
-                        hentet fra{' '}
-                        {ytelser.hentetInformasjon
-                            .map((info) => registerYtelseTilTekst[info.type])
-                            .join(', ')}
-                    </Alert>
+                    <Heading size={'xsmall'}>{formaterYtelsesHeader(ytelser)}</Heading>
                     {ytelser.hentetInformasjon
                         .filter((info) => info.status === 'FEILET')
                         .map((hentetInformasjon) => (
@@ -38,7 +39,7 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
                                 key={hentetInformasjon.type}
                                 variant={'warning'}
                                 size={'small'}
-                                inline
+                                style={{ maxWidth: 'fit-content' }}
                             >
                                 Feilet ved henting av informasjon fra{' '}
                                 {registerYtelseTilTekst[hentetInformasjon.type]}
