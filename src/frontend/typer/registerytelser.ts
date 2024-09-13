@@ -35,3 +35,9 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
 };
+
+export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
+    AAP: 'Arbeidsavklaringspenger',
+    ENSLIG_FORSØRGER: 'Overgangsstønad',
+    OMSTILLINGSSTØNAD: 'Omstillingsstønad',
+};
