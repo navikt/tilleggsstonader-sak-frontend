@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { BodyShort, Button } from '@navikt/ds-react';
 
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
@@ -21,7 +23,12 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [
             ...prevState,
-            { navn, personIdent, mottakerRolle: EBrevmottakerRolle.VERGE },
+            {
+                id: uuidv4(),
+                personIdent: personIdent,
+                navn: navn,
+                mottakerRolle: EBrevmottakerRolle.VERGE,
+            },
         ]);
     };
 

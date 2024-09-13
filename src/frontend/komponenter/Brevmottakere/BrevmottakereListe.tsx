@@ -48,6 +48,7 @@ export const BrevmottakereListe: FC<Props> = ({
             prevState.filter((mottaker) => mottaker.organisasjonsnummer !== organisasjonsnummer)
         );
     };
+
     return (
         <>
             <Undertittel>Brevmottakere</Undertittel>
@@ -55,7 +56,7 @@ export const BrevmottakereListe: FC<Props> = ({
                 <StyledMottakerBoks key={mottaker.navn + index}>
                     <Flexboks>
                         <BodyShort>
-                            {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
+                            {`${mottaker?.navn || ''} (${mottaker.mottakerRolle.toLowerCase()})`}
                             <Fødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
                     </Flexboks>
