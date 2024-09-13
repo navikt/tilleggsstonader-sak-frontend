@@ -11,4 +11,6 @@ export enum Toggle {
     ADMIN_KAN_OPPRETTE_BEHANDLING = 'sak.admin-kan-opprette-behandling',
 
     KAN_SAKSBEHANDLE = 'sak.frontend.kan-saksbehandle',
+
+    KAN_ENDRE_BREVMOTTAKERE = 'sak.kan-endre-brevmottakere',
 }

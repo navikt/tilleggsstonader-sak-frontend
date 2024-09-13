@@ -8,6 +8,7 @@ import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
+import { tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
@@ -37,19 +38,14 @@ const Brevmottakere: React.FC<{
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
-                (person) => `${formatterBeskrivelseAvBrevmottakersRolle(person.mottakerRolle)}`
+                (person) =>
+                    `${person?.navn + ': ' || ''}${tilLitenSkriftMedStorForbokstav(person.mottakerRolle)}`
             ),
             ...brevMottakere.organisasjoner.map(
                 (org) =>
-                    `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
+                    `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer}): Fullmakt`
             ),
         ];
-    };
-
-    const formatterBeskrivelseAvBrevmottakersRolle = (mottakerRolle: string): string => {
-        const rolleLowerCase = mottakerRolle.toLowerCase();
-        const firstLetterUpperCase = mottakerRolle.charAt(0).toUpperCase();
-        return firstLetterUpperCase + rolleLowerCase.slice(1);
     };
 
     const navn = utledNavnPåMottakere(mottakere);

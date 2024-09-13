@@ -1,6 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
 
@@ -38,7 +39,6 @@ export const SkalBrukerHaBrev: FC<Props> = ({
             const brukerErIListe = mottakere.some(
                 (mottaker) => mottaker.mottakerRolle === EBrevmottakerRolle.BRUKER
             );
-
             if (brukerErIListe) {
                 return mottakere.filter(
                     (mottaker) => mottaker.mottakerRolle !== EBrevmottakerRolle.BRUKER
@@ -46,6 +46,7 @@ export const SkalBrukerHaBrev: FC<Props> = ({
             } else {
                 return [
                     {
+                        id: uuidv4(),
                         mottakerRolle: EBrevmottakerRolle.BRUKER,
                         personIdent: personopplysninger.personIdent,
                         navn: personopplysninger.navn,
