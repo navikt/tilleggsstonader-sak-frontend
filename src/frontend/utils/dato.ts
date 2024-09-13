@@ -140,5 +140,8 @@ export const formaterIsoÅr = (dato: string): number => {
 export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
     differenceInDays(tilDato(dato), tilDato(dato2));
 
+export const tilFørsteDagenIMåneden = (dato: string | Date): string =>
+    tilLocaleDateString(startOfMonth(tilDato(dato)));
+
 export const tilSisteDagenIMåneden = (dato: string | Date): string =>
     tilLocaleDateString(endOfMonth(tilDato(dato)));

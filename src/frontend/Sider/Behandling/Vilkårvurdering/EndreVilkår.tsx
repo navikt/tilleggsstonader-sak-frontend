@@ -27,7 +27,7 @@ import SmallWarningTag from '../../../komponenter/SmallWarningTag';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { tilSisteDagenIMåneden } from '../../../utils/dato';
+import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
@@ -218,7 +218,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 value={fom}
                 feil={feilmeldinger.fom}
                 onChange={(dato) => {
-                    settFom(dato);
+                    settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
                     settDetFinnesUlagredeEndringer(true);
                     settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
                 }}
