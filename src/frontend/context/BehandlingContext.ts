@@ -20,13 +20,15 @@ export const [BehandlingProvider, useBehandling] = constate(
 
         const kanSaksbehandle = useFlag(Toggle.KAN_SAKSBEHANDLE);
 
+        const kanBehandleRevurdering = !behandling.forrigeBehandlingId || kanSaksbehandle;
         const behandlingErRedigerbar =
-            kanSaksbehandle && erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
+            kanBehandleRevurdering && erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
         return {
             behandling,
             behandlingErRedigerbar,
             hentBehandling,
             behandlingFakta,
+            kanBehandleRevurdering,
         };
     }
 );
