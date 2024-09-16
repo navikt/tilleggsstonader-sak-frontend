@@ -8,7 +8,7 @@ import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
 import { useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
-import { tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
+import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
@@ -39,7 +39,7 @@ const Brevmottakere: React.FC<{
         return [
             ...brevMottakere.personer.map(
                 (person) =>
-                    `${person?.navn + ': ' || ''}${tilLitenSkriftMedStorForbokstav(person.mottakerRolle)}`
+                    `${leggTilKolonOgMellomrom(person?.navn)}${tilLitenSkriftMedStorForbokstav(person.mottakerRolle)}`
             ),
             ...brevMottakere.organisasjoner.map(
                 (org) =>

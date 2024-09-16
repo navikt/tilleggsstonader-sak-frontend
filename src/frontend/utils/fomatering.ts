@@ -13,3 +13,7 @@ export const tilLitenSkriftMedStorForbokstav = (mottakerRolle: string): string =
     const firstLetterUpperCase = mottakerRolle.charAt(0).toUpperCase();
     return firstLetterUpperCase + rolleLowerCase.slice(1);
 };
+
+export const leggTilKolonOgMellomrom = (str?: string) => {
+    return str ? `${str}: ` : '';
+};
