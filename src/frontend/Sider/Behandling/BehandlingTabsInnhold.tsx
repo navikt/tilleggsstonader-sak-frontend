@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, Tabs } from '@navikt/ds-react';
+import { Alert, Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
@@ -41,7 +41,7 @@ const DisabledTab = styled(Tabs.Tab)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { behandling, behandlingErRedigerbar, kanBehandleRevurdering } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
@@ -106,6 +106,9 @@ const BehandlingTabsInnhold = () => {
                     </TabsList>
                 </StickyTablistContainer>
 
+                {!kanBehandleRevurdering && (
+                    <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
+                )}
                 <SettPåVentContainer
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}

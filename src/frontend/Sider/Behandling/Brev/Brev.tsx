@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -15,11 +16,14 @@ import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useVedtak } from '../../../hooks/useVedtak';
+import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
+import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Personopplysninger } from '../../../typer/personopplysninger';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erVedtakInnvilgelse } from '../../../typer/vedtak';
+import { Toggle } from '../../../utils/toggles';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -37,7 +41,7 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { personopplysninger } = usePersonopplysninger();
     const {
         brevmaler,
@@ -77,7 +81,6 @@ const Brev: React.FC = () => {
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
         personopplysninger: Personopplysninger
     ): PersonopplysningerIBrevmottakere => {
@@ -91,6 +94,8 @@ const Brev: React.FC = () => {
         };
     };
 
+    const isEnabled = useFlag(Toggle.KAN_ENDRE_BREVMOTTAKERE);
+
     return (
         <Container>
             {behandlingErRedigerbar ? (
@@ -98,14 +103,16 @@ const Brev: React.FC = () => {
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
-                                {/*<BrevMottakere*/}
-                                {/*    behandlingId={behandling.id}*/}
-                                {/*    applikasjonskontekst={Applikasjonskontekst.SAK}*/}
-                                {/*    behandlingErRedigerbar={behandlingErRedigerbar}*/}
-                                {/*    personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(*/}
-                                {/*        personopplysninger*/}
-                                {/*    )}*/}
-                                {/*/>*/}
+                                {isEnabled && (
+                                    <BrevMottakere
+                                        behandlingId={behandling.id}
+                                        applikasjonskontekst={Applikasjonskontekst.SAK}
+                                        behandlingErRedigerbar={behandlingErRedigerbar}
+                                        personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
+                                            personopplysninger
+                                        )}
+                                    />
+                                )}
                                 <VelgBrevmal
                                     brevmaler={brevmaler}
                                     brevmal={brevmal}

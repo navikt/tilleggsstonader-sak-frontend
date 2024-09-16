@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
@@ -28,6 +30,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
         settFeil('');
         settValgteMottakere([
             {
+                id: uuidv4(),
                 organisasjonsnummer,
                 organisasjonsnavn,
                 navnHosOrganisasjon,

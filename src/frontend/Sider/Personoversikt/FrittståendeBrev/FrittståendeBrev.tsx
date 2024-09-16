@@ -53,7 +53,7 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
     }, [mellomlagretBrev, settBrevmal]);
 
     useEffect(() => {
-        hentBrevmaler('FRITTSTAENDE');
+        hentBrevmaler(['FRITTSTAENDE']);
     }, [hentBrevmaler]);
 
     useEffect(() => {

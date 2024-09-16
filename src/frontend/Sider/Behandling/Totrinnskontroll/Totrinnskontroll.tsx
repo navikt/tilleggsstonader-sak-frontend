@@ -78,7 +78,7 @@ const skalHenteTotrinnskontroll = (
 };
 const Totrinnskontroll: FC = () => {
     const navigate = useNavigate();
-    const { behandling } = useBehandling();
+    const { behandling, kanBehandleRevurdering } = useBehandling();
     const prevBehandling = usePrevious(behandling);
 
     const [visGodkjentModal, settVisGodkjentModal] = useState(false);
@@ -95,6 +95,11 @@ const Totrinnskontroll: FC = () => {
     const skalViseTotrinnskontrollSwitch =
         totrinnskontroll.status === RessursStatus.SUKSESS &&
         totrinnskontroll.data.status !== TotrinnskontrollStatus.UAKTUELT;
+
+    if (!kanBehandleRevurdering) {
+        return null;
+    }
+
     return (
         <>
             {skalViseTotrinnskontrollSwitch && (
