@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -18,7 +17,6 @@ import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 
 const BorderBox = styled.div`
     border: 1px solid ${ABorderSubtle};
@@ -80,12 +78,10 @@ const skalHenteTotrinnskontroll = (
 };
 const Totrinnskontroll: FC = () => {
     const navigate = useNavigate();
-    const { behandling } = useBehandling();
+    const { behandling, kanBehandleRevurdering } = useBehandling();
     const prevBehandling = usePrevious(behandling);
 
     const [visGodkjentModal, settVisGodkjentModal] = useState(false);
-
-    const kanSaksbehandle = useFlag(Toggle.KAN_SAKSBEHANDLE);
 
     const { totrinnskontroll, hentTotrinnskontroll, settTotrinnskontroll } =
         useHentTotrinnskontroll();
@@ -100,7 +96,7 @@ const Totrinnskontroll: FC = () => {
         totrinnskontroll.status === RessursStatus.SUKSESS &&
         totrinnskontroll.data.status !== TotrinnskontrollStatus.UAKTUELT;
 
-    if (!kanSaksbehandle) {
+    if (!kanBehandleRevurdering) {
         return null;
     }
 

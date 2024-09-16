@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,7 +13,6 @@ import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
-import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -43,9 +41,7 @@ const DisabledTab = styled(Tabs.Tab)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar } = useBehandling();
-
-    const kanSaksbehandle = useFlag(Toggle.KAN_SAKSBEHANDLE);
+    const { behandling, behandlingErRedigerbar, kanBehandleRevurdering } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
@@ -110,7 +106,7 @@ const BehandlingTabsInnhold = () => {
                     </TabsList>
                 </StickyTablistContainer>
 
-                {!kanSaksbehandle && (
+                {!kanBehandleRevurdering && (
                     <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
                 )}
                 <SettPåVentContainer
