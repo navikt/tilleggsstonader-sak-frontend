@@ -16,7 +16,6 @@ export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is Innvil
     vedtak.type === TypeVedtak.INNVILGELSE;
 
 export type InnvilgeBarnetilsynRequest = {
-    utgifter: Record<string, Utgift[]>;
     beregningsresultat?: BeregningsresultatTilsynBarn;
 };
 

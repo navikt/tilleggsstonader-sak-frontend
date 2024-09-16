@@ -8,7 +8,6 @@ import { Toggle } from './toggles';
  */
 const featureFlags: Partial<Record<Toggle, boolean>> = {
     [Toggle.KAN_OPPRETTE_REVURDERING]: true,
-    [Toggle.VILKÅR_PERIODISERING]: true,
     [Toggle.KAN_SAKSBEHANDLE]: true,
 };
 

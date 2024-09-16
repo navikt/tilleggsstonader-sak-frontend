@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
 import { EndreVilkår } from './EndreVilkår';
@@ -10,7 +8,6 @@ import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Regler } from '../../../typer/regel';
-import { Toggle } from '../../../utils/toggles';
 import { Delvilkår, RedigerbareVilkårfelter, Vilkårtype } from '../vilkår';
 
 export const NyttVilkår: React.FC<{
@@ -22,7 +19,6 @@ export const NyttVilkår: React.FC<{
     const { behandling } = useBehandling();
     const { lagreNyttVilkår } = useVilkår();
     const { erStegRedigerbart } = useSteg();
-    const isEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
 
@@ -35,7 +31,7 @@ export const NyttVilkår: React.FC<{
         });
     };
 
-    if (!erStegRedigerbart || !isEnabled) {
+    if (!erStegRedigerbart) {
         return null;
     }
 

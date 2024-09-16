@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
@@ -29,7 +28,6 @@ import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
-import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
 import { Delvilkår, Vilkår, RedigerbareVilkårfelter, Vurdering } from '../vilkår';
 
@@ -88,8 +86,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
-
-    const periodiserteVilkårIsEnabled = useFlag(Toggle.VILKÅR_PERIODISERING);
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
@@ -182,13 +178,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(
-            periodiserteVilkårIsEnabled,
-            delvilkårsett,
-            props.regler,
-            fom,
-            tom
-        );
+        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, props.regler, fom, tom);
 
         settFeilmeldinger(valideringsfeil);
 
@@ -288,7 +278,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn gap={1}>
-                {periodiserteVilkårIsEnabled && EndrePerioder}
+                {EndrePerioder}
                 <Skillelinje />
                 {EndreDelvilkår}
                 <VStack gap="4">
@@ -298,7 +288,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                             Avbryt
                         </SmallButton>
                         <div className={'right'}>
-                            {periodiserteVilkårIsEnabled && slettVilkår && (
+                            {slettVilkår && (
                                 <SmallButton
                                     variant={'tertiary'}
                                     icon={<TrashIcon />}

@@ -1,7 +1,7 @@
+/*
 import React from 'react';
 
 import { Alert, Heading } from '@navikt/ds-react';
-
 import { BarnOppsummering } from '../../../../../typer/vilkårsoppsummering';
 
 const minsteAlder = (vilkårsvurderteBarn: BarnOppsummering[]) => {
@@ -9,6 +9,7 @@ const minsteAlder = (vilkårsvurderteBarn: BarnOppsummering[]) => {
     return Math.min(...alderArray);
 };
 
+// TODO burde flyttes til vilkår?
 export const VarselBarnUnder2År = (props: { vilkårsvurderteBarn: BarnOppsummering[] }) => {
     if (minsteAlder(props.vilkårsvurderteBarn) > 2) {
         return null;
@@ -24,3 +25,4 @@ export const VarselBarnUnder2År = (props: { vilkårsvurderteBarn: BarnOppsummer
         </Alert>
     );
 };
+*/
