@@ -1227,15 +1227,15 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/3.4.2/fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7#fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7"
   integrity sha512-9fj+Jb4UrX3SDDzqJpKP3fvizdxtACIFNXgDiPaP/N/61pbeY4tZz/zrtWGtExLpDeg7dAyaiFH/hfo7nBg6nw==
 
-"@navikt/aksel-icons@^6.17.0", "@navikt/aksel-icons@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/6.17.0/92f12f06c26db3c2221908da599a113654942044#92f12f06c26db3c2221908da599a113654942044"
-  integrity sha512-n+1AsE9kRFh3C7BcD0fAJhIA6/65PsLGrpNKnLQUjW8hwESzo1LYHfZgZXi2Shaw2hCzQ1wx/hBBdwtQfUiBNg==
+"@navikt/aksel-icons@^7.0.0":
+  version "7.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/7.0.0/b696ad78e601b1088d346cea4cd29940e8991bcb#b696ad78e601b1088d346cea4cd29940e8991bcb"
+  integrity sha512-d47MNHMkXNTBvL/LACssmFHQBR9vl+DzkLAo1Rb+B2XPnZmTWFlsIOINVFWD7OzjJ/qj8Q0DFq+/N2ghl9c1jQ==
 
-"@navikt/ds-css@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/6.17.0/ce84459723d9a8e88df82eb67dc77b05af5dd0de#ce84459723d9a8e88df82eb67dc77b05af5dd0de"
-  integrity sha512-YwjmUWVTElu6fOUyyCetDRJURvF3HLBTcctUq9UNGTH+8flceKWkyRQVJuXRZDWNIRn1IAXWwWAyZB2xJrhDPQ==
+"@navikt/ds-css@^7.0.0":
+  version "7.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/7.0.0/24c8994367516a16e383a49d6940e34472ec9413#24c8994367516a16e383a49d6940e34472ec9413"
+  integrity sha512-r14w4f5IZdsWvw9r+DnKMi1//fO8f1M1ORZ9NlKginG+bT3GfbLsA6Cv7BCgjSW8ORyROk2BunBqIQNNar5EyA==
 
 "@navikt/ds-react-internal@^3.4.3":
   version "3.4.3"
@@ -1262,37 +1262,37 @@
     react-day-picker "8.3.4"
     react-modal "3.15.1"
 
-"@navikt/ds-react@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/6.17.0/5353e0239dc0387ba796a67a0e764bfb88f30a48#5353e0239dc0387ba796a67a0e764bfb88f30a48"
-  integrity sha512-ZIJ3Ge7sllAN8QryIrpLfR/G3HsDzqCBskzGeOaZTv/x4Naci7PDMhbeDhYyeQPk2OoVIODCLJXVx8qfMdTGmA==
+"@navikt/ds-react@^7.0.0":
+  version "7.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/7.0.0/6bea7efb224bee86c8695f0e576365dd84af6d5d#6bea7efb224bee86c8695f0e576365dd84af6d5d"
+  integrity sha512-njeyF6J4aC/mrZ5bypfvIIY1pSWOCaQSsBluxDhmTNOewKnqSI3+D4S3S3To/sMccjC8MVBGBjotXVlMPrIQxg==
   dependencies:
     "@floating-ui/react" "0.25.4"
     "@floating-ui/react-dom" "^2.0.9"
-    "@navikt/aksel-icons" "^6.17.0"
-    "@navikt/ds-tokens" "^6.17.0"
+    "@navikt/aksel-icons" "^7.0.0"
+    "@navikt/ds-tokens" "^7.0.0"
     clsx "^2.1.0"
     date-fns "^3.0.0"
     react-day-picker "8.10.0"
 
-"@navikt/ds-tokens@^6.1.0", "@navikt/ds-tokens@^6.17.0":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/6.17.0/e80eeb7c7d6f469d6704125b5835ea95995be327#e80eeb7c7d6f469d6704125b5835ea95995be327"
-  integrity sha512-DAibs9kIcpAf/4sRTdB0VPDK6t4seeJfqTm6qvDSUkOt/UCmvgKRUeikJqETCiGgXWv/Y/FpQ69uv1stZXBrEQ==
+"@navikt/ds-tokens@^7.0.0":
+  version "7.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.0.0/5364615e29a7dc9b687713e89056737a6897f504#5364615e29a7dc9b687713e89056737a6897f504"
+  integrity sha512-cwORx5aP3LNcH7NpkGrSzDmwmF8CieTxB8EPPp6e2hwSIINBgxG9f00OTKBWgncRO+6TAE/q2XFtSAGQhdqJSQ==
 
-"@navikt/familie-endringslogg@^12.0.1":
-  version "12.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/12.0.2/4036173993d27265340ae9febbc0a4205b992b73#4036173993d27265340ae9febbc0a4205b992b73"
-  integrity sha512-MvBl6MlFwfGmzmEaE3fOF/14nonsAJYakwofG1ahYt7obj/5WUtdf1DKNYd60DoBMSwIFUkwXedAOzXhnqvgcw==
+"@navikt/familie-endringslogg@^13.1.2":
+  version "13.1.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/13.1.2/e6ee3efc1c310cf9c51dd2e22d17fe58d31ebcad#e6ee3efc1c310cf9c51dd2e22d17fe58d31ebcad"
+  integrity sha512-u+M4Wv/QbjJIP0gmzZOdFWRDUVErg0OzDwQxYTUkK/iw61sga45hJq/6rzAxifcCHfgna0xh7ZRREEhXJbRgaA==
   dependencies:
     "@portabletext/react" "^3.1.0"
     classnames "^2.5.1"
     react-transition-group "^4.4.5"
 
-"@navikt/familie-form-elements@^15.0.0":
-  version "15.2.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/15.2.0/30faf72b8c39a251bdce8f32872da95a2de0e153#30faf72b8c39a251bdce8f32872da95a2de0e153"
-  integrity sha512-p0W8+6AvI6zmxbxtq1Q3gb+mlsM8THyoeBArakkfGmB4xMIbbgCa4O9z6Vd0qVxnbuHzj2YJVDIg3++0A+8OBQ==
+"@navikt/familie-form-elements@^21.0.1":
+  version "21.0.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/21.0.1/9206ad541a2e78bd2ca76df6753360ee0e03c70e#9206ad541a2e78bd2ca76df6753360ee0e03c70e"
+  integrity sha512-9XqGUmm5263AXOS4CQ2c8YHaJ2P+w5ScXLgpA3+xpPqVMvXQ2Vb1/9FzKQgrYqcV7E+I50qIbSDbnmY1cqrtnA==
   dependencies:
     classnames "^2.5.1"
     react-select "^5.8.0"
@@ -1616,10 +1616,10 @@
   resolved "https://registry.yarnpkg.com/@types/stylis/-/stylis-4.2.5.tgz#1daa6456f40959d06157698a653a9ab0a70281df"
   integrity sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw==
 
-"@types/uuid@^9.0.4":
-  version "9.0.8"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.8.tgz#7545ba4fc3c003d6c756f651f3bf163d8f0f29ba"
-  integrity sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==
+"@types/uuid@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-10.0.0.tgz#e9c07fe50da0f53dc24970cca94d619ff03f6f6d"
+  integrity sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==
 
 "@types/webpack-hot-middleware@^2.25.6":
   version "2.25.9"
@@ -4545,25 +4545,18 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-path2d-polyfill@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/path2d-polyfill/-/path2d-polyfill-2.1.1.tgz#6098b7bf2fc24c306c6377bcd558b17ba437ea27"
-  integrity sha512-4Rka5lN+rY/p0CdD8+E+BFv51lFaFvJOrlOhyQ+zjzyQrzyh3ozmxd1vVGGDdIbUFSBtIZLSnspxTgPT0iJhvA==
-  dependencies:
-    path2d "0.1.1"
+path2d@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/path2d/-/path2d-0.2.1.tgz#faf98e5e2222541805a6ac232adc026332330765"
+  integrity sha512-Fl2z/BHvkTNvkuBzYTpTuirHZg6wW9z8+4SND/3mDTEcYbbNKWAy21dz9D3ePNNwrrK8pqZO5vLPZ1hLF6T7XA==
 
-path2d@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/path2d/-/path2d-0.1.1.tgz#d3c3886cd2252fb2a7830c27ea7bb9a862d937ea"
-  integrity sha512-/+S03c8AGsDYKKBtRDqieTJv2GlkMb0bWjnqOgtF6MkjdUQ9a8ARAtxWf9NgKLGm2+WQr6+/tqJdU8HNGsIDoA==
-
-pdfjs-dist@3.11.174:
-  version "3.11.174"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-3.11.174.tgz#5ff47b80f2d58c8dd0d74f615e7c6a7e7e704c4b"
-  integrity sha512-TdTZPf1trZ8/UFu5Cx/GXB7GZM30LT+wWUNfsi6Bq8ePLnb+woNKtDymI2mxZYBpMbonNFqKmiz684DIfnd8dA==
+pdfjs-dist@4.4.168:
+  version "4.4.168"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-4.4.168.tgz#4487716376a33c68753ed37f782ae91d1c9ef8fa"
+  integrity sha512-MbkAjpwka/dMHaCfQ75RY1FXX3IewBVu6NGZOcxerRFlaBiIkZmUoR0jotX5VUzYZEXAGzSFtknWs5xRKliXPA==
   optionalDependencies:
     canvas "^2.11.2"
-    path2d-polyfill "^2.0.1"
+    path2d "^0.2.0"
 
 picocolors@^1.0.0, picocolors@^1.0.1, picocolors@^1.1.0:
   version "1.1.0"
@@ -4760,17 +4753,17 @@ react-modal@3.15.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pdf@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-8.0.2.tgz#ff4a0e9260c47f1a261b878a2cc0408080eecc06"
-  integrity sha512-C0PFC+j9vmEIZ82Iq0c85xUWkgsZTUS05syqOk8NC+7PAanyWlVi/ImYkGQe27zYAlBA6IidRYEt1DAAXKq1Ow==
+react-pdf@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-9.1.0.tgz#2a1456646d2eb4e4a246e83121d195775bbfa5dc"
+  integrity sha512-KhPDQE3QshkLdS3b48S5Bldv0N5flob6qwvsiADWdZOS5TMDaIrkRtEs+Dyl6ubRf2jTf9jWmFb6RjWu46lSSg==
   dependencies:
     clsx "^2.0.0"
     dequal "^2.0.3"
     make-cancellable-promise "^1.3.1"
     make-event-props "^1.6.0"
     merge-refs "^1.3.0"
-    pdfjs-dist "3.11.174"
+    pdfjs-dist "4.4.168"
     tiny-invariant "^1.0.0"
     warning "^4.0.0"
 
@@ -5698,6 +5691,11 @@ utila@~0.4:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
   integrity sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==
+
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 uuid@^9.0.1:
   version "9.0.1"
