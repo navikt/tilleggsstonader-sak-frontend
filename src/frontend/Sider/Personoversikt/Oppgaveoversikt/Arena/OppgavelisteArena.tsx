@@ -10,7 +10,7 @@ import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const Tabell = styled(Table)`
-    max-width: 900px;
+    max-width: 1000px;
     border: 1px solid ${ABorderDivider};
     --ac-table-row-border: ${ABorderDivider};
     --ac-table-row-hover: none;

@@ -15,7 +15,7 @@ import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
 import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from '../../Oppgavebenk/typer/oppgavetema';
 
 const Tabell = styled(Table)`
-    max-width: 900px;
+    max-width: 1300px;
     border: 1px solid ${ABorderDivider};
     --ac-table-row-border: ${ABorderDivider};
     --ac-table-row-hover: none;
