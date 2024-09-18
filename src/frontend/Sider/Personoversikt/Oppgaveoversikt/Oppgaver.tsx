@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
+import { Button, Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
 
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { formaterDatoMedTidspunkt } from '../../../utils/dato';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
@@ -15,21 +16,23 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
 
     const [oppgaveResponse, settOppgaveResponse] =
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
+
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
 
-    const hentOppgaverOgMapper = useCallback(() => {
-        request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`).then(
-            settOppgaveResponse
-        );
+    const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
-        request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [request]);
+    const hentOppgaverOgMapper = useCallback(async () => {
+        settOppgaveResponse(
+            await request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`)
+        );
+        settMapper(await request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET'));
+
+        settOppdatertTidspunkt(new Date());
+    }, [fagsakPersonId, request]);
 
     useEffect(() => {
-        hentOppgaverOgMapper();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        void hentOppgaverOgMapper();
+    }, [hentOppgaverOgMapper]);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveResponse((prevState) =>
@@ -57,14 +60,19 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
                             mapper={mapperTilIdRecord(mapper)}
                             oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                         />
-                        <Button
-                            onClick={() => hentOppgaverOgMapper()}
-                            size="small"
-                            variant="secondary"
-                            style={{ maxWidth: 'fit-content' }}
-                        >
-                            Hent oppgaver på nytt
-                        </Button>
+                        <HStack gap="2" align="baseline">
+                            <Detail>
+                                Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}
+                            </Detail>
+                            <Button
+                                onClick={hentOppgaverOgMapper}
+                                size="xsmall"
+                                variant="tertiary"
+                                style={{ maxWidth: 'fit-content' }}
+                            >
+                                Hent på nytt
+                            </Button>
+                        </HStack>
                     </>
                 )}
             </DataViewer>

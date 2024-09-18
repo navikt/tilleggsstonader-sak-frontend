@@ -28,6 +28,10 @@ export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'. HH:mm");
 };
 
+// Eksempel: formaterDatoMedTidspunkt(new Date()) -> '18.09.2023 kl.10:30'
+export const formaterDatoMedTidspunkt = (dato?: Date) =>
+    dato && formaterIsoDatoTid(formatISO(dato));
+
 // Eksempel: formaterIsoDatoTidKort('2023-09-18T10:30:00') -> '18.09.2023 10:30'
 export const formaterIsoDatoTidKort = (dato: string): string => {
     return format(parseISO(dato), 'dd.MM.yyyy HH:mm');
