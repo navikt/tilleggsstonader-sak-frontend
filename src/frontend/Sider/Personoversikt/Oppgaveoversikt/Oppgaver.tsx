@@ -39,7 +39,10 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
 
     return (
         <VStack gap={'2'}>
-            <Heading size={'xsmall'}>TS-sak og GOSYS</Heading>
+            <Heading size="small" spacing>
+                Ubehandlede oppgaver på bruker
+            </Heading>
+            <Heading size="xsmall">TS-sak og GOSYS</Heading>
             <DataViewer response={{ oppgaveResponse, mapper }}>
                 {({ oppgaveResponse, mapper }) => (
                     <>
