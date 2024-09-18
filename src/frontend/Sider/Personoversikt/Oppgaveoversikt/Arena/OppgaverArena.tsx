@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Button, Heading, VStack } from '@navikt/ds-react';
+import { Button, Detail, Heading, VStack, HStack } from '@navikt/ds-react';
 
 import OppgavelisteArena from './OppgavelisteArena';
 import { OppgaveArena } from './typer';
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Ressurs, byggTomRessurs } from '../../../../typer/ressurs';
+import { formaterDatoMedTidspunkt } from '../../../../utils/dato';
 
 const OppgaverArena: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -14,16 +15,18 @@ const OppgaverArena: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId })
     const [oppgaveResponse, settOppgaveResponse] =
         useState<Ressurs<OppgaveArena[]>>(byggTomRessurs());
 
-    const hentOppgaver = useCallback(() => {
-        request<OppgaveArena[], null>(`/api/sak/oppgave/arena/${fagsakPersonId}`).then(
-            settOppgaveResponse
+    const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
+
+    const hentOppgaver = useCallback(async () => {
+        settOppgaveResponse(
+            await request<OppgaveArena[], null>(`/api/sak/oppgave/arena/${fagsakPersonId}`)
         );
+        settOppdatertTidspunkt(new Date());
     }, [request, fagsakPersonId]);
 
     useEffect(() => {
-        hentOppgaver();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        void hentOppgaver();
+    }, [hentOppgaver]);
 
     return (
         <VStack gap={'2'}>
@@ -32,14 +35,19 @@ const OppgaverArena: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId })
                 {({ oppgaveResponse }) => (
                     <>
                         <OppgavelisteArena oppgaver={oppgaveResponse} />
-                        <Button
-                            onClick={() => hentOppgaver()}
-                            size="small"
-                            variant="secondary"
-                            style={{ maxWidth: 'fit-content' }}
-                        >
-                            Hent oppgaver på nytt
-                        </Button>
+                        <HStack gap="2" align="baseline">
+                            <Detail>
+                                Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}
+                            </Detail>
+                            <Button
+                                onClick={() => hentOppgaver()}
+                                size="xsmall"
+                                variant="tertiary"
+                                style={{ maxWidth: 'fit-content' }}
+                            >
+                                Hent på nytt
+                            </Button>
+                        </HStack>
                     </>
                 )}
             </DataViewer>
