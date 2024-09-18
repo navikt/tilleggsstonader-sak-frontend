@@ -22,10 +22,13 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
     const hentOppgaverOgMapper = useCallback(async () => {
-        settOppgaveResponse(
-            await request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`)
-        );
-        settMapper(await request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET'));
+        const [oppgaveResponse, mapperResponse] = await Promise.all([
+            request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`),
+            request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET'),
+        ]);
+
+        settOppgaveResponse(oppgaveResponse);
+        settMapper(mapperResponse);
 
         settOppdatertTidspunkt(new Date());
     }, [fagsakPersonId, request]);
