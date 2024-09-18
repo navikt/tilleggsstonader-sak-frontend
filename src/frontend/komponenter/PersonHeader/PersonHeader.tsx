@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, CopyButton, Heading, HStack, Link, Tag } from '@navikt/ds-react';
+import { BodyShort, CopyButton, HStack, Link, Tag } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
 import TagAdressebeskyttelse from './TagAdressebeskyttelse';
@@ -25,14 +25,15 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
 
     return (
         <Container>
-            <Heading size="xsmall">{personopplysninger.navn.visningsnavn}</Heading>
+            <Link href={`/person/${fagsakPersonId}`}>
+                <BodyShort>{personopplysninger.navn.visningsnavn}</BodyShort>
+            </Link>
             <BodyShort>|</BodyShort>
             <HStack gap="2" align="center">
-                <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
+                <BodyShort>{personopplysninger.personIdent}</BodyShort>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
             <BodyShort>|</BodyShort>
-
             <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
             {personopplysninger.harVergemål && (
                 <Tag variant={'warning'} size={'small'}>
