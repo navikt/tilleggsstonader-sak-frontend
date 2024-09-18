@@ -20,12 +20,12 @@ type TabWithRouter = {
 
 const tabs: TabWithRouter[] = [
     {
-        label: 'Oppgaver',
+        label: 'Åpne oppgaver',
         path: 'oppgaver',
         komponent: (fagsakPersonId: string) => <Oppgaveoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Behandlinger',
+        label: 'Saker',
         path: 'behandlinger',
         komponent: (fagsakPersonId) => <Behandlingsoversikt fagsakPersonId={fagsakPersonId} />,
     },
@@ -40,12 +40,12 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <Ytelseoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Dokumenter',
+        label: 'Dokumentoversikt',
         path: 'dokumentoversikt',
         komponent: (fagsakPersonId) => <Dokumentoversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Brev',
+        label: 'Frittstående brev',
         path: 'brev',
         komponent: (fagsakPersonId) => <FrittståendeBrevFane fagsakPersonId={fagsakPersonId} />,
     },
