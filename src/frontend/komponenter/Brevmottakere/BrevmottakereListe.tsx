@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Ingress } from '@navikt/ds-react';
+import { BodyLong, BodyShort } from '@navikt/ds-react';
 
 import { Fødselsnummer } from './Fødselsnummer';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
@@ -14,10 +14,6 @@ interface Props {
     valgteOrganisasjonMottakere: IOrganisasjonMottaker[];
     settValgteOrganisasjonMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
 }
-
-const Undertittel = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
 
 const StyledMottakerBoks = styled.div`
     padding: 10px;
@@ -51,7 +47,9 @@ export const BrevmottakereListe: FC<Props> = ({
 
     return (
         <>
-            <Undertittel>Brevmottakere</Undertittel>
+            <BodyLong size="large" spacing>
+                Brevmottakere
+            </BodyLong>
             {valgtePersonMottakere.map((mottaker, index) => (
                 <StyledMottakerBoks key={mottaker.navn + index}>
                     <Flexboks>

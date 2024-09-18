@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Ingress, Button, BodyShort } from '@navikt/ds-react';
+import { Button, BodyShort, BodyLong } from '@navikt/ds-react';
 
 import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import { Fødselsnummer } from './Fødselsnummer';
@@ -16,10 +16,6 @@ interface Props {
     verger: Vergemål[];
     fullmakter: Fullmakt[];
 }
-
-const Undertittel = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
 
 const StyledMottakerBoks = styled.div`
     padding: 10px;
@@ -53,7 +49,9 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
 
     return (
         <>
-            <Undertittel>Verge/Fullmektig fra register</Undertittel>
+            <BodyLong size="large" spacing>
+                Verge/Fullmektig fra register
+            </BodyLong>
             {muligeMottakere.length ? (
                 muligeMottakere.map((mottaker, index) => {
                     const mottakerValgt = !!valgteMottakere.find(

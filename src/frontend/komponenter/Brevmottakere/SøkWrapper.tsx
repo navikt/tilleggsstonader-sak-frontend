@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Ingress, Select } from '@navikt/ds-react';
+import { BodyLong, Select } from '@navikt/ds-react';
 
 import { SøkOrganisasjon } from './SøkOrganisasjon';
 import { SøkPerson } from './SøkPerson';
@@ -20,10 +20,6 @@ enum ESøktype {
     PERSON = 'PERSON',
 }
 
-const Underoverskrift = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
-
 const SøkTypeSelect = styled(Select)`
     width: 200px;
     margin-bottom: 1rem;
@@ -39,7 +35,9 @@ export const SøkWrapper: FC<Props> = ({
 
     return (
         <>
-            <Underoverskrift>Manuelt søk</Underoverskrift>
+            <BodyLong size="large" spacing>
+                Manuelt søk
+            </BodyLong>
             <SøkTypeSelect
                 label={'Manuelt søk'}
                 hideLabel

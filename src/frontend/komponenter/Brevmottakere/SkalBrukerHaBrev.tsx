@@ -3,7 +3,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
+import { BodyLong, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
@@ -16,15 +16,12 @@ const StyledRadioGruppe = styled(RadioGroup)`
     }
 `;
 
-const Underoverskrift = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
-
 interface Props {
     valgteBrevmottakere: IBrevmottaker[];
     settValgtBrevMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     personopplysninger: PersonopplysningerIBrevmottakere;
 }
+
 export const SkalBrukerHaBrev: FC<Props> = ({
     valgteBrevmottakere,
     settValgtBrevMottakere,
@@ -59,7 +56,9 @@ export const SkalBrukerHaBrev: FC<Props> = ({
 
     return (
         <>
-            <Underoverskrift>Skal bruker motta brevet?</Underoverskrift>
+            <BodyLong size="large" spacing>
+                Skal bruker motta brevet?
+            </BodyLong>
             <StyledRadioGruppe
                 legend={'Skal bruker motta brevet?'}
                 hideLegend
