@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Button, Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
+import { Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
 
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
@@ -21,21 +21,16 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
 
     const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
-    const hentOppgaverOgMapper = useCallback(async () => {
-        const [oppgaveResponse, mapperResponse] = await Promise.all([
+    useEffect(() => {
+        Promise.all([
             request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`),
             request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET'),
-        ]);
-
-        settOppgaveResponse(oppgaveResponse);
-        settMapper(mapperResponse);
-
-        settOppdatertTidspunkt(new Date());
+        ]).then(([oppgaverRespons, mappeRespons]) => {
+            settOppgaveResponse(oppgaverRespons);
+            settMapper(mappeRespons);
+            settOppdatertTidspunkt(new Date());
+        });
     }, [fagsakPersonId, request]);
-
-    useEffect(() => {
-        void hentOppgaverOgMapper();
-    }, [hentOppgaverOgMapper]);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveResponse((prevState) =>
@@ -46,7 +41,7 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     return (
         <VStack gap={'2'}>
             <Heading size="small" spacing>
-                Ubehandlede oppgaver på bruker{' '}
+                Ubehandlede oppgaver på bruker
             </Heading>
             <HStack gap="2">
                 <Heading size="xsmall">TS-sak og GOSYS </Heading>
@@ -63,19 +58,9 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
                             mapper={mapperTilIdRecord(mapper)}
                             oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                         />
-                        <HStack gap="2" align="baseline">
-                            <Detail>
-                                Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}
-                            </Detail>
-                            <Button
-                                onClick={hentOppgaverOgMapper}
-                                size="xsmall"
-                                variant="tertiary"
-                                style={{ maxWidth: 'fit-content' }}
-                            >
-                                Hent på nytt
-                            </Button>
-                        </HStack>
+                        <Detail>
+                            Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}
+                        </Detail>
                     </>
                 )}
             </DataViewer>
