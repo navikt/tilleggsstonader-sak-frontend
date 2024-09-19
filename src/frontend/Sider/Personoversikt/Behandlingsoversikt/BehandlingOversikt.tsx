@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, Heading } from '@navikt/ds-react';
 
 import { FagsakOversikt } from './FagsakOversikt';
 import { useHentFagsakPersonUtvidet } from '../../../hooks/useFagsakPerson';
@@ -33,6 +33,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
 
     return (
         <>
+            <Heading size="small">Behandlinger i TS-sak</Heading>
             <DataViewer response={{ fagsakPerson }}>
                 {({ fagsakPerson }) => (
                     <>
