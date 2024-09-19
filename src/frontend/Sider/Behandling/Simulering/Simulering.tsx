@@ -12,6 +12,7 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     width: fit-content;
+    align-items: flex-start;
 `;
 
 const Simulering: React.FC = () => {

@@ -2,19 +2,15 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Table } from '@navikt/ds-react';
-import { AGreen500, ARed500 } from '@navikt/ds-tokens/dist/tokens';
+import { Table } from '@navikt/ds-react';
 
+import { ResultatVerdi } from './ResultatVerdi';
 import { OppsummeringForPeriode } from './simuleringTyper';
 import useSimuleringÅrvelger from './useSimuleringÅrvelger';
 import ÅrVelger from './ÅrVelger';
 import { formaterÅrMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 import { toTitleCase } from '../../../utils/tekstformatering';
-
-const ResultatVerdi = styled(BodyShort)<{ $verdi: number }>`
-    color: ${(props) => props.$verdi && (props.$verdi > 0 ? AGreen500 : ARed500)};
-`;
 
 const Tabell = styled(Table)`
     margin-top: 1rem;
