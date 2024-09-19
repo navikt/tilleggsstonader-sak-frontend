@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
-import Aktiviteter from './Aktiviteter';
+import { Heading } from '@navikt/ds-react';
+
+import AktiviteterTabell from './Aktiviteter';
+import { AktiviteterDto } from './AktiviteterDto';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Registeraktivitet } from '../../../typer/registeraktivitet';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
+import { formaterTilTekstligDato } from '../../../utils/dato';
 
 const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
 
-    const [aktiviteter, settAktiviteter] =
-        useState<Ressurs<Registeraktivitet[]>>(byggHenterRessurs());
+    const [aktiviteter, settAktiviteter] = useState<Ressurs<AktiviteterDto>>(byggHenterRessurs());
 
     useEffect(() => {
-        request<Registeraktivitet[], null>(`/api/sak/aktivitet/${fagsakPersonId}`, 'GET').then(
+        request<AktiviteterDto, null>(`/api/sak/aktivitet/temp/${fagsakPersonId}`, 'GET').then(
             settAktiviteter
         );
     }, [request, fagsakPersonId]);
 
     return (
         <DataViewer response={{ aktiviteter }}>
-            {({ aktiviteter }) => <Aktiviteter aktiviteter={aktiviteter} />}
+            {({ aktiviteter }) => (
+                <>
+                    <Heading size="small" spacing>
+                        Arbeidsrettede aktiviteter fra og med{' '}
+                        {formaterTilTekstligDato(aktiviteter.periodeHentetFra)}
+                    </Heading>
+                    <AktiviteterTabell aktiviteter={aktiviteter.aktiviteter} />
+                </>
+            )}
         </DataViewer>
     );
 };
