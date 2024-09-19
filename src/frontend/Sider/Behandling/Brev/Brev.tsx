@@ -102,7 +102,7 @@ const Brev: React.FC = () => {
                 <DataViewer response={{ brevmaler, mellomlagretBrev }}>
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
-                            <VStack gap="8" align="start">
+                            <VStack gap="8">
                                 {isEnabled && (
                                     <BrevMottakere
                                         behandlingId={behandling.id}

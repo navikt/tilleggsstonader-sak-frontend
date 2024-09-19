@@ -12,22 +12,18 @@ import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../
 import DataViewer from '../DataViewer';
 
 const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 9rem 23rem 16rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 `;
 
 const InfoHeader = styled.div`
-    display: grid;
-    grid-template-columns: 26rem 12rem;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const KompaktButton = styled(Button)`
     padding: 0;
-    justify-content: right;
-
-    .navds-button__inner {
-        margin: 0;
-    }
 `;
 
 const Brevmottakere: React.FC<{
@@ -79,8 +75,10 @@ const Brevmottakere: React.FC<{
         </Alert>
     ) : (
         <Grid>
-            <Label>Brevmottaker:</Label>
-            <BodyShort>{navn.map((navn) => navn)}</BodyShort>
+            <span>
+                <Label>Brevmottaker:</Label>
+                <BodyShort>{navn.map((navn) => navn)}</BodyShort>
+            </span>
             {behandlingErRedigerbar && (
                 <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
                     <KompaktButton
