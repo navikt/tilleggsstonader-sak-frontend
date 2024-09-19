@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Button, Heading, VStack } from '@navikt/ds-react';
+import { Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
 
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Ressurs, byggTomRessurs } from '../../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { formaterDatoMedTidspunkt } from '../../../utils/dato';
 import { oppdaterOppgaveIOppgaveResponse } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave, OppgaverResponse } from '../../Oppgavebenk/typer/oppgave';
 
@@ -15,21 +16,21 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
 
     const [oppgaveResponse, settOppgaveResponse] =
         useState<Ressurs<OppgaverResponse>>(byggTomRessurs());
+
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
 
-    const hentOppgaverOgMapper = useCallback(() => {
-        request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`).then(
-            settOppgaveResponse
-        );
-
-        request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET').then(settMapper);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [request]);
+    const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
     useEffect(() => {
-        hentOppgaverOgMapper();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        Promise.all([
+            request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`),
+            request<Mappe[], null>(`/api/sak/oppgave/mapper`, 'GET'),
+        ]).then(([oppgaverRespons, mappeRespons]) => {
+            settOppgaveResponse(oppgaverRespons);
+            settMapper(mappeRespons);
+            settOppdatertTidspunkt(new Date());
+        });
+    }, [fagsakPersonId, request]);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveResponse((prevState) =>
@@ -39,7 +40,16 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
 
     return (
         <VStack gap={'2'}>
-            <Heading size={'xsmall'}>TS-sak og GOSYS</Heading>
+            <Heading size="small" spacing>
+                Ubehandlede oppgaver på bruker
+            </Heading>
+            <HStack gap="2">
+                <Heading size="xsmall">TS-sak og GOSYS </Heading>
+                <HelpText>
+                    TS-sak og Gosys bruker samme oppgavesystem, men det er bare støtte for å
+                    behandle noen typer oppgaver for tilsyn barn i TS-sak.
+                </HelpText>
+            </HStack>
             <DataViewer response={{ oppgaveResponse, mapper }}>
                 {({ oppgaveResponse, mapper }) => (
                     <>
@@ -48,14 +58,9 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
                             mapper={mapperTilIdRecord(mapper)}
                             oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
                         />
-                        <Button
-                            onClick={() => hentOppgaverOgMapper()}
-                            size="small"
-                            variant="secondary"
-                            style={{ maxWidth: 'fit-content' }}
-                        >
-                            Hent oppgaver på nytt
-                        </Button>
+                        <Detail>
+                            Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}
+                        </Detail>
                     </>
                 )}
             </DataViewer>
