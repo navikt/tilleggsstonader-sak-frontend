@@ -50,6 +50,17 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ ve
                         </Heading>
                         <Oppsumering oppsummering={oppsummering} />
                         <SimuleringTabell perioder={perioder} />
+                        {oppsummering.feilutbetaling > 0 && (
+                            <Alert variant={'info'}>
+                                <Heading spacing size="small" level="3">
+                                    Feilutbetaling
+                                </Heading>
+                                Behandlingen har resultert i en feilutbetaling. Det er foreløpig
+                                ikke systemstøtte for å opprette en tilbakekrevingsbehandling. Du
+                                kan behandle ferdig denne revurderingen. Det vil komme nærmere
+                                informasjon om hvordan feilutbetalinger skal behandles.
+                            </Alert>
+                        )}
                     </>
                 ) : (
                     <Alert variant={'info'} inline>
