@@ -1,6 +1,7 @@
 export interface SimuleringResponse {
     perioder: OppsummeringForPeriode[] | null;
     ingenEndringIUtbetaling: boolean;
+    oppsummering: SimuleringOppsummering | null;
 }
 
 export interface SimuleringOppsummering {
@@ -8,7 +9,6 @@ export interface SimuleringOppsummering {
     tom: string;
     etterbetaling: number;
     feilutbetaling: number;
-    nesteUtbetaling: null;
 }
 
 export interface OppsummeringForPeriode {
