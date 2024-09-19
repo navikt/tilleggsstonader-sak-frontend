@@ -126,6 +126,7 @@ const EndreAktivitetRad: React.FC<{
 
     return (
         <EndreVilkårperiodeRad
+            type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
             lagre={lagre}

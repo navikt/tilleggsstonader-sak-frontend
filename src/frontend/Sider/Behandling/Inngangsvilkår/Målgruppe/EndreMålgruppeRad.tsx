@@ -121,6 +121,7 @@ const EndreMålgruppeRad: React.FC<{
 
     return (
         <EndreVilkårperiodeRad
+            type={'Målgruppe'}
             vilkårperiode={målgruppe}
             form={målgruppeForm}
             lagre={lagre}

@@ -17,6 +17,7 @@ import { Målgruppe } from '../../typer/målgruppe';
 import { KildeVilkårsperiode, VilkårPeriode } from '../../typer/vilkårperiode';
 import SlettVilkårperiodeModal from '../SlettVilkårperiodeModal';
 import { EndreVilkårsperiode } from '../validering';
+import { tittelSelectTypeVilkårperiode, TypeVilkårperiode } from '../VilkårperiodeKort/utils';
 import VilkårperiodeKortBase from '../VilkårperiodeKort/VilkårperiodeKortBase';
 
 const FeltContainer = styled.div`
@@ -31,6 +32,7 @@ const FeltContainer = styled.div`
 `;
 
 interface Props {
+    type: TypeVilkårperiode;
     vilkårperiode?: Målgruppe | Aktivitet;
     form: EndreMålgruppeForm | EndreAktivitetForm;
     avbrytRedigering: () => void;
@@ -48,6 +50,7 @@ interface Props {
 
 // TODO: Endre navn til EndreVilkårperiodeKort eller EndreVilkårperiode
 const EndreVilkårperiodeRad: React.FC<Props> = ({
+    type,
     vilkårperiode,
     form,
     avbrytRedigering,
@@ -70,7 +73,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
                 <SelectMedOptions
-                    label="Ytelse/situasjon"
+                    label={tittelSelectTypeVilkårperiode(type)}
                     readOnly={vilkårperiode !== undefined}
                     value={form.type}
                     valg={typeOptions}
@@ -128,6 +131,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                             Slett
                         </Button>
                         <SlettVilkårperiodeModal
+                            type={type}
                             avbrytRedigering={avbrytRedigering}
                             visModal={visSlettModal}
                             settVisModal={settVisSlettModal}

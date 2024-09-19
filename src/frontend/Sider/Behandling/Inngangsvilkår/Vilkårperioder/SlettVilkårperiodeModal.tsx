@@ -19,15 +19,17 @@ import {
     SlettVilkårperiode,
     StønadsperiodeStatus,
 } from '../typer/vilkårperiode';
+import { tittelSelectTypeVilkårperiode, TypeVilkårperiode } from './VilkårperiodeKort/utils';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe | null>;
 
 const SlettVilkårperiodeModal: React.FC<{
+    type: TypeVilkårperiode;
     visModal: boolean;
     settVisModal: React.Dispatch<SetStateAction<boolean>>;
     vilkårperiode: Målgruppe | Aktivitet;
     avbrytRedigering: () => void;
-}> = ({ vilkårperiode, visModal, settVisModal, avbrytRedigering }) => {
+}> = ({ type, vilkårperiode, visModal, settVisModal, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil, slettVilkårperiode } =
@@ -124,7 +126,9 @@ const SlettVilkårperiodeModal: React.FC<{
                         <Table.Header>
                             <Table.Row shadeOnHover={false}>
                                 <Table.HeaderCell style={{ width: '20px' }} />
-                                <Table.HeaderCell>Ytelse/situasjon</Table.HeaderCell>
+                                <Table.HeaderCell>
+                                    {tittelSelectTypeVilkårperiode(type)}
+                                </Table.HeaderCell>
                                 <Table.HeaderCell>Fra</Table.HeaderCell>
                                 <Table.HeaderCell>Til</Table.HeaderCell>
                                 <Table.HeaderCell>Kilde</Table.HeaderCell>
