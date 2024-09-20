@@ -9,11 +9,11 @@ import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
-import { Bånd } from '../../../komponenter/Bånd';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
+import { Statusbånd } from '../../../komponenter/Statusbånd';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
@@ -60,7 +60,7 @@ const LesevisningVilkår: FC<{
     return (
         <Container gap={1}>
             {skalViseStatus && behandling.type == BehandlingType.REVURDERING && (
-                <Bånd status={vilkår.status} />
+                <Statusbånd status={vilkår.status} />
             )}
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />

@@ -7,7 +7,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import OppsummertVilkårsvurdering from './OppsummertVilkårsvurdering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
-import { Bånd } from '../../../../../komponenter/Bånd';
+import { Statusbånd } from '../../../../../komponenter/Statusbånd';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { Toggle } from '../../../../../utils/toggles';
 import { Aktivitet } from '../../typer/aktivitet';
@@ -54,7 +54,7 @@ const VilkårperiodeKortBase: React.FC<{
 
     return (
         <Container>
-            {skalViseStatus && <Bånd status={vilkårperiode.status} />}
+            {skalViseStatus && <Statusbånd status={vilkårperiode.status} />}
             <VenstreKolonne>{children}</VenstreKolonne>
             <KnappOgOppsummeringContainer>
                 {redigeringKnapp}
