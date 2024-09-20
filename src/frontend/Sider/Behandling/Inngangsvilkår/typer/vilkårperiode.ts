@@ -53,7 +53,7 @@ export enum StønadsperiodeStatus {
 export interface VilkårPeriode extends Periode {
     id: string;
     resultat: VilkårPeriodeResultat;
-    status?: PeriodeStatus;
+    status: PeriodeStatus;
     begrunnelse?: string;
     kilde: KildeVilkårsperiode;
     slettetKommentar?: string;

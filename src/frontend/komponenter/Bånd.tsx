@@ -80,7 +80,7 @@ const utledFarge = (status: PeriodeStatus): BannerFarge | undefined => {
     }
 };
 
-export const Bånd: React.FC<{ status?: PeriodeStatus }> = ({ status }) => {
+export const Bånd: React.FC<{ status: PeriodeStatus }> = ({ status }) => {
     if (!status) return null;
 
     const farger = utledFarge(status);

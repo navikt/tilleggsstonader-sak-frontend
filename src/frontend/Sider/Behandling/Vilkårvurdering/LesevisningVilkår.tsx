@@ -7,6 +7,7 @@ import { HStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { Bånd } from '../../../komponenter/Bånd';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
@@ -14,6 +15,7 @@ import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
@@ -49,6 +51,7 @@ const LesevisningVilkår: FC<{
     startRedigering?: () => void;
 }> = ({ vilkår, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
+    const { behandling } = useBehandling();
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
@@ -56,7 +59,9 @@ const LesevisningVilkår: FC<{
 
     return (
         <Container gap={1}>
-            {skalViseStatus && vilkår.status && <Bånd status={vilkår.status} />}
+            {skalViseStatus && behandling.type == BehandlingType.REVURDERING && (
+                <Bånd status={vilkår.status} />
+            )}
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />
                 <Lesefelt

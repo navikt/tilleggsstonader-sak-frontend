@@ -33,7 +33,7 @@ export interface Vilkår {
     id: string;
     behandlingId: string;
     resultat: Vilkårsresultat;
-    status?: PeriodeStatus;
+    status: PeriodeStatus;
     vilkårType: Vilkårtype;
     barnId?: string;
     endretAv: string;

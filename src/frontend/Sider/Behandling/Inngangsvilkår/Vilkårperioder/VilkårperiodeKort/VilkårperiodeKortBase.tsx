@@ -6,7 +6,9 @@ import { styled } from 'styled-components';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import OppsummertVilkårsvurdering from './OppsummertVilkårsvurdering';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Bånd } from '../../../../../komponenter/Bånd';
+import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { Toggle } from '../../../../../utils/toggles';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
@@ -44,11 +46,15 @@ const VilkårperiodeKortBase: React.FC<{
     children: React.ReactNode;
     redigeres?: boolean;
 }> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false }) => {
-    const skalViseStatus = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
+    const { behandling } = useBehandling();
+    const toggleErPå = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
+
+    const skalViseStatus =
+        toggleErPå && behandling.type === BehandlingType.REVURDERING && vilkårperiode !== undefined;
 
     return (
         <Container>
-            {skalViseStatus && vilkårperiode?.status && <Bånd status={vilkårperiode.status} />}
+            {skalViseStatus && <Bånd status={vilkårperiode.status} />}
             <VenstreKolonne>{children}</VenstreKolonne>
             <KnappOgOppsummeringContainer>
                 {redigeringKnapp}
