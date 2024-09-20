@@ -53,6 +53,7 @@ export enum StønadsperiodeStatus {
 export interface VilkårPeriode extends Periode {
     id: string;
     resultat: VilkårPeriodeResultat;
+    status?: PeriodeStatus;
     begrunnelse?: string;
     kilde: KildeVilkårsperiode;
     slettetKommentar?: string;
@@ -112,3 +113,10 @@ export const vilkårperiodeTypeTilTekst: Record<MålgruppeType | AktivitetType, 
     ...MålgruppeTypeTilTekst,
     ...AktivitetTypeTilTekst,
 };
+
+export enum PeriodeStatus {
+    NY = 'NY',
+    ENDRET = 'ENDRET',
+    UENDRET = 'UENDRET',
+    SLETTET = 'SLETTET',
+}

@@ -5,10 +5,12 @@ import { styled } from 'styled-components';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import OppsummertVilkårsvurdering from './OppsummertVilkårsvurdering';
+import { Bånd } from '../../../../../komponenter/Bånd';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
 
 const Container = styled.div`
+    position: relative;
     background-color: ${AWhite};
     padding: 1rem;
 
@@ -42,6 +44,7 @@ const VilkårperiodeKortBase: React.FC<{
 }> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false }) => {
     return (
         <Container>
+            <Bånd status={vilkårperiode?.status} />
             <VenstreKolonne>{children}</VenstreKolonne>
             <KnappOgOppsummeringContainer>
                 {redigeringKnapp}
