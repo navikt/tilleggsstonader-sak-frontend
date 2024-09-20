@@ -16,11 +16,11 @@ import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkår
 import { formaterEnumVerdi } from '../utils/tekstformatering';
 
 const Ribbon = styled.div<{ hovedfarge: string; skygge: string }>`
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
     position: absolute;
-    z-index: 100;
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    z-index: 1;
 
     top: -5px;
     right: -5px;
@@ -38,26 +38,26 @@ const Ribbon = styled.div<{ hovedfarge: string; skygge: string }>`
 
     &::before {
         top: 0;
-        left: 9px;
+        left: 0;
     }
 
     &::after {
-        bottom: 9px;
+        bottom: 0;
         right: 0;
     }
 
     p {
         position: absolute;
         display: block;
-        width: 130px;
+        width: 113px;
         padding: 5px 0;
         background-color: ${(props) => props.hovedfarge};
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         font-weight: 600;
         text-align: center;
 
-        left: 0px;
-        top: 20px;
+        left: -6px;
+        top: 15px;
         transform: rotate(45deg);
     }
 `;
