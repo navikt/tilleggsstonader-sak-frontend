@@ -1,34 +1,14 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
-import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
+import { PencilIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
-import { Applikasjonskontekst, EBrevmottakerRolle, IBrevmottakere } from './typer';
+import { Applikasjonskontekst, IBrevmottakere } from './typer';
 import { useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
 import DataViewer from '../DataViewer';
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 9rem 23rem 16rem;
-`;
-
-const InfoHeader = styled.div`
-    display: grid;
-    grid-template-columns: 26rem 12rem;
-`;
-
-const KompaktButton = styled(Button)`
-    padding: 0;
-    justify-content: right;
-
-    .navds-button__inner {
-        margin: 0;
-    }
-`;
 
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
@@ -49,51 +29,33 @@ const Brevmottakere: React.FC<{
     };
 
     const navn = utledNavnPåMottakere(mottakere);
-    const flereBrevmottakereErValgt = navn.length > 1;
-    const brukerErBrevmottaker = mottakere.personer.find(
-        (person) => person.mottakerRolle === EBrevmottakerRolle.BRUKER
-    );
 
-    return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
-        <Alert variant={'info'}>
-            <InfoHeader>
-                <Label>Brevmottakere:</Label>
+    return (
+        <VStack gap="2">
+            <HStack align="center">
+                <Label size="small">Brevmottakere</Label>
                 {behandlingErRedigerbar && (
                     <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                        <KompaktButton
-                            variant={'tertiary'}
+                        <Button
+                            variant="tertiary"
                             onClick={() => settVisBrevmottakereModal(true)}
+                            size="xsmall"
+                            icon={<PencilIcon />}
                         >
-                            Legg til/endre brevmottakere
-                        </KompaktButton>
+                            Endre
+                        </Button>
                     </Tooltip>
                 )}
-            </InfoHeader>
-            <ul>
-                {navn.map((navn, index) => (
-                    <li key={navn + index}>
-                        <BodyShort key={navn + index}>{navn}</BodyShort>
-                    </li>
-                ))}
-            </ul>
-        </Alert>
-    ) : (
-        <Grid>
-            <Label>Brevmottaker:</Label>
-            <BodyShort>{navn.map((navn) => navn)}</BodyShort>
-            {behandlingErRedigerbar && (
-                <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                    <KompaktButton
-                        variant={'tertiary'}
-                        onClick={() => settVisBrevmottakereModal(true)}
-                    >
-                        Legg til/endre brevmottakere
-                    </KompaktButton>
-                </Tooltip>
-            )}
-        </Grid>
+            </HStack>
+            {navn.map((navn, index) => (
+                <BodyShort size="small" key={navn + index}>
+                    {navn}
+                </BodyShort>
+            ))}
+        </VStack>
     );
 };
+
 const BrevMottakere: React.FC<{
     behandlingId: string;
     applikasjonskontekst: Applikasjonskontekst;
