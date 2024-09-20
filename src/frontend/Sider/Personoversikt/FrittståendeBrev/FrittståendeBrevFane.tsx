@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Select } from '@navikt/ds-react';
+import { Alert, Select } from '@navikt/ds-react';
 
 import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
@@ -20,6 +20,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const { fagsakPerson, hentFagsakPerson } = useHentFagsakPerson();
 
     const [valgtStønadstype, settValgtStønadstype] = useState<Stønadstype>();
+    const [brevErSendt, settBrevErSendt] = useState<boolean>(false);
 
     useEffect(() => {
         hentFagsakPerson(fagsakPersonId);
@@ -32,8 +33,11 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                     <>
                         <Select
                             label="Velg stønadstype"
-                            onChange={(e) => settValgtStønadstype(e.target.value as Stønadstype)}
-                            value={valgtStønadstype}
+                            onChange={(e) => {
+                                settValgtStønadstype(e.target.value as Stønadstype);
+                                settBrevErSendt(false);
+                            }}
+                            value={valgtStønadstype || ''}
                             size="small"
                             style={{ maxWidth: 'fit-content' }}
                         >
@@ -51,7 +55,16 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             <FrittståendeBrev
                                 valgtStønadstype={valgtStønadstype}
                                 fagsakId={utledFagsakId(valgtStønadstype, fagsakPerson)}
+                                settBrevErSendt={() => {
+                                    settValgtStønadstype(undefined);
+                                    settBrevErSendt(true);
+                                }}
                             />
+                        )}
+                        {brevErSendt && (
+                            <Alert variant={'info'} style={{ maxWidth: 'fit-content' }}>
+                                Brevet er nå sendt
+                            </Alert>
                         )}
                     </>
                 )}

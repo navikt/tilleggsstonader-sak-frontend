@@ -10,8 +10,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
-import { byggTomRessurs, RessursStatus } from '../../../typer/ressurs';
-import { Toast } from '../../../typer/toast';
+import { RessursStatus } from '../../../typer/ressurs';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
 import useBrev from '../../Behandling/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
@@ -26,25 +25,25 @@ const ToKolonner = styled.div`
     }
 `;
 
-const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: string }> = ({
-    valgtStønadstype,
-    fagsakId,
-}) => {
-    const { request, settToast } = useApp();
+const FrittståendeBrev: React.FC<{
+    valgtStønadstype: Stønadstype;
+    fagsakId: string;
+    settBrevErSendt: () => void;
+}> = ({ valgtStønadstype, fagsakId, settBrevErSendt }) => {
+    const { request } = useApp();
 
     const {
         brevmaler,
         brevmal,
         settBrevmal,
         malStruktur,
-        settMalStruktur,
         fil,
         settFil,
         hentMalStruktur,
         hentBrevmaler,
     } = useBrev(valgtStønadstype);
 
-    const { mellomlagretBrev, settMellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+    const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -82,19 +81,12 @@ const FrittståendeBrev: React.FC<{ valgtStønadstype: Stønadstype; fagsakId: s
                 }
             ).then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    nullstillBrev();
-                    settToast(Toast.BREV_SENDT);
+                    settBrevErSendt();
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
             });
         }
-    };
-
-    const nullstillBrev = () => {
-        settBrevmal(undefined);
-        settMalStruktur(byggTomRessurs());
-        settMellomlagretBrev(byggTomRessurs());
     };
 
     return (
