@@ -36,7 +36,9 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
         <DataViewer response={{ ytelser }}>
             {({ ytelser }) => (
                 <>
-                    <Heading size={'xsmall'}>{formaterYtelsesHeader(ytelser)}</Heading>
+                    <Heading size={'small'} spacing>
+                        {formaterYtelsesHeader(ytelser)}
+                    </Heading>
                     {ytelser.hentetInformasjon
                         .filter((info) => info.status === 'FEILET')
                         .map((hentetInformasjon) => (
