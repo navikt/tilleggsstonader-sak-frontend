@@ -7,7 +7,7 @@ import { Alert, Select } from '@navikt/ds-react';
 import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { utledFagsakId } from '../../../typer/fagsak';
 
 const Container = styled.div`
@@ -47,7 +47,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                                     value={Stønadstype.BARNETILSYN}
                                     key={fagsakPerson.tilsynBarn}
                                 >
-                                    {Stønadstype.BARNETILSYN}
+                                    {stønadstypeTilTekst[Stønadstype.BARNETILSYN]}
                                 </option>
                             )}
                         </Select>
