@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { BodyShort } from '@navikt/ds-react';
 import {
-    AGray200,
     AGray300,
+    AGray400,
     AGreen300,
     AGreen400,
+    AOrange300,
     AOrange400,
-    AOrange500,
 } from '@navikt/ds-tokens/dist/tokens';
 
 import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
@@ -70,11 +70,11 @@ interface BannerFarge {
 const utledFarge = (status: PeriodeStatus): BannerFarge | undefined => {
     switch (status) {
         case PeriodeStatus.NY:
-            return { hoved: AGreen300, skygge: AGreen400 };
+            return { hoved: AGreen300, skygge: AGreen400 }; //kan gå til 200
         case PeriodeStatus.ENDRET:
-            return { hoved: AOrange400, skygge: AOrange500 };
+            return { hoved: AOrange300, skygge: AOrange400 };
         case PeriodeStatus.SLETTET:
-            return { hoved: AGray200, skygge: AGray300 };
+            return { hoved: AGray300, skygge: AGray400 };
         default:
             return;
     }
