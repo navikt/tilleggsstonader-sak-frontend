@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
@@ -15,6 +16,7 @@ import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
+import { Toggle } from '../../../utils/toggles';
 import { Vilkår } from '../vilkår';
 
 const TwoColumnGrid = styled.div`
@@ -50,9 +52,11 @@ const LesevisningVilkår: FC<{
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
+    const skalViseStatus = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
+
     return (
         <Container gap={1}>
-            {vilkår.status && <Bånd status={vilkår.status} />}
+            {skalViseStatus && vilkår.status && <Bånd status={vilkår.status} />}
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />
                 <Lesefelt
