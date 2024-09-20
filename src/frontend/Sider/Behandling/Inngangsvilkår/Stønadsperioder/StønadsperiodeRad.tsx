@@ -4,8 +4,8 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
-import { aktivitetTypeOptionsForStønadsperiode } from '../typer/aktivitet';
-import { målgruppeTypeOptionsForStønadsperiode } from '../typer/målgruppe';
+import { aktivitetTypeOptionsForStønadsperiode, aktivitetTypeTilTekst } from '../typer/aktivitet';
+import { målgruppeTypeOptionsForStønadsperiode, målgruppeTypeTilTekst } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
@@ -34,7 +34,11 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={aktivitetTypeOptionsForStønadsperiode}
                 label={'Aktivitet'}
                 hideLabel
-                value={stønadsperide.aktivitet}
+                value={
+                    erLeservisning
+                        ? aktivitetTypeTilTekst(stønadsperide.aktivitet)
+                        : stønadsperide.aktivitet
+                }
                 onChange={(e) => oppdaterStønadsperiode('aktivitet', e.target.value)}
                 size="small"
                 error={finnFeilmelding('aktivitet')}
@@ -44,7 +48,11 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
-                value={stønadsperide.målgruppe}
+                value={
+                    erLeservisning
+                        ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
+                        : stønadsperide.målgruppe
+                }
                 onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}
                 size="small"
                 error={finnFeilmelding('målgruppe')}
