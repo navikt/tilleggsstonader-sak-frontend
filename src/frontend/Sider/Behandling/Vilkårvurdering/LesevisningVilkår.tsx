@@ -7,6 +7,7 @@ import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useSteg } from '../../../context/StegContext';
+import { Bånd } from '../../../komponenter/Bånd';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -23,6 +24,7 @@ const TwoColumnGrid = styled.div`
 `;
 
 const Container = styled(FlexColumn)`
+    position: relative;
     background: white;
     padding: 1rem;
     box-shadow: ${AShadowXsmall};
@@ -50,6 +52,7 @@ const LesevisningVilkår: FC<{
 
     return (
         <Container gap={1}>
+            {vilkår.status && <Bånd status={vilkår.status} />}
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />
                 <Lesefelt

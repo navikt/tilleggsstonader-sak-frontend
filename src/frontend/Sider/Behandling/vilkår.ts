@@ -1,3 +1,4 @@
+import { PeriodeStatus } from './Inngangsvilkår/typer/vilkårperiode';
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Begrunnelse, RegelId, SvarId } from '../../typer/regel';
 
@@ -32,6 +33,7 @@ export interface Vilkår {
     id: string;
     behandlingId: string;
     resultat: Vilkårsresultat;
+    status?: PeriodeStatus;
     vilkårType: Vilkårtype;
     barnId?: string;
     endretAv: string;
