@@ -46,7 +46,7 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
+    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR; // TODO: Skal route til revurder-fra-fanen hvis vi er i en revurdering
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
