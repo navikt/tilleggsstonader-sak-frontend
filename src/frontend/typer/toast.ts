@@ -3,6 +3,7 @@ export enum Toast {
     DISABLED_FANE = 'DISABLED_FANE',
     BEHANDLING_HENLAGT = 'BEHANDLING_HENLAGT',
     OPPDATERT_GRUNNLAG_VILKÅRPERIODE = 'OPPDATERT_GRUNNLAG_VILKÅRPERIODE',
+    BREVMOTTAKERE_SATT = 'BREVMOTTAKERE_SATT',
 }
 
 export const toastTilTekst: Record<Toast, string> = {
@@ -10,4 +11,5 @@ export const toastTilTekst: Record<Toast, string> = {
     DISABLED_FANE: 'Du kan ikke navigere til dette steget enda',
     BEHANDLING_HENLAGT: 'Behandlingen er henlagt',
     OPPDATERT_GRUNNLAG_VILKÅRPERIODE: 'Har oppdatert grunnlag til vilkårperioder',
+    BREVMOTTAKERE_SATT: 'Brevmottakere er satt',
 };

@@ -14,11 +14,11 @@ import {
     IOrganisasjonMottaker,
 } from './typer';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
+import { useApp } from '../../context/AppContext';
 import { useLagreBrevmottakere } from '../../hooks/useLagreBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
-import { useKlageApp } from '../../Sider/Klage/context/KlageAppContext';
-import { EToast } from '../../Sider/Klage/typer/toast';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
+import { Toast } from '../../typer/toast';
 import { ModalWrapper } from '../Modal/ModalWrapper';
 
 const GridContainer = styled.div`
@@ -76,6 +76,7 @@ export const EndreBrevmottakereModal: FC<{
     settVisBrevmottakereModal,
     applikasjonskontekst,
 }) => {
+    const { settToast } = useApp();
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
 
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
@@ -83,7 +84,6 @@ export const EndreBrevmottakereModal: FC<{
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-    const { settToast } = useKlageApp();
 
     const { lagreBrevmottakere } = useLagreBrevmottakere(behandlingId, applikasjonskontekst);
 
@@ -102,7 +102,7 @@ export const EndreBrevmottakereModal: FC<{
             if (response.status === RessursStatus.SUKSESS) {
                 kallHentBrevmottakere();
                 settVisBrevmottakereModal(false);
-                settToast(EToast.BREVMOTTAKERE_SATT);
+                settToast(Toast.BREVMOTTAKERE_SATT);
             } else {
                 settFeilmelding(response.frontendFeilmelding);
             }
