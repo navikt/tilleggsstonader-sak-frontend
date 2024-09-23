@@ -49,7 +49,7 @@ const LesevisningVilkår: FC<{
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
     return (
-        <Container gap={1}>
+        <Container $gap={1}>
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />
                 <Lesefelt
