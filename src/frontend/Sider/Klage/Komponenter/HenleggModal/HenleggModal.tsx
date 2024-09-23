@@ -5,24 +5,25 @@ import styled from 'styled-components';
 
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
 
+import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
-import { useKlageApp } from '../../context/KlageAppContext';
+import { Toast } from '../../../../typer/toast';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { useHenleggBehandling } from '../../hooks/useHenleggBehandling';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-import { EToast } from '../../typer/toast';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
 `;
 
 export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
+    const { settToast } = useApp();
+
     const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
         useKlagebehandling();
 
-    const { settToast } = useKlageApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -47,7 +48,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
                     navigate(`/klagebehandling/${behandling.id}/resultat`);
-                    settToast(EToast.BEHANDLING_HENLAGT);
+                    settToast(Toast.BEHANDLING_HENLAGT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
