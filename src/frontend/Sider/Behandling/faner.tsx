@@ -83,8 +83,11 @@ export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
 };
 
-const revurderingFraFane = (behandling: Behandling): FanerMedRouter[] => {
-    if (behandling.type === BehandlingType.REVURDERING) {
+const revurderingFraFane = (
+    behandling: Behandling,
+    revurderingFraDatoEnabled: boolean
+): FanerMedRouter[] => {
+    if (behandling.type === BehandlingType.REVURDERING && revurderingFraDatoEnabled) {
         return [
             {
                 navn: FaneNavn.REVURDER_FRA,
@@ -134,9 +137,12 @@ const sendTilBeslutterUtenBrev = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
+export const hentBehandlingfaner = (
+    behandling: Behandling,
+    revurderingFraDatoEnabled: boolean
+): FanerMedRouter[] => {
     return [
-        ...revurderingFraFane(behandling),
+        ...revurderingFraFane(behandling, revurderingFraDatoEnabled),
         {
             navn: FaneNavn.INNGANGSVILKÅR,
             path: FanePath.INNGANGSVILKÅR,
