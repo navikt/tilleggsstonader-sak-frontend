@@ -83,7 +83,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
             rundskrivlenke={lenkerRundskrivMålgruppe}
             forskriftlenker={lenkerForskriftMålgruppe}
         >
-            <FlexColumn gap={2}>
+            <FlexColumn $gap={2}>
                 <RegisterYtelser
                     grunnlag={grunnlag}
                     lagRadForPeriode={(valgtPeriode: YtelseGrunnlagPeriode) =>

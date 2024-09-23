@@ -16,7 +16,7 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     return (
         <RadioGroup
             legend="Vedtaksresultat"
-            value={typeVedtak}
+            value={typeVedtak || ''}
             onChange={(e) => {
                 settTypeVedtak(e as TypeVedtak);
             }}

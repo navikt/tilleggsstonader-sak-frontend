@@ -277,7 +277,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const slettVilkår = props.slettVilkår;
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
-            <FlexColumn gap={1}>
+            <FlexColumn $gap={1}>
                 {EndrePerioder}
                 <Skillelinje />
                 {EndreDelvilkår}

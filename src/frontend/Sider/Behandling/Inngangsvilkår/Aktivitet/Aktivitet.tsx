@@ -81,7 +81,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             rundskrivlenke={lenkerRundskrivAktivitet}
             forskriftlenker={lenkerForskriftAktivitet}
         >
-            <FlexColumn gap={2}>
+            <FlexColumn $gap={2}>
                 <RegisterAktiviteter
                     grunnlag={grunnlag}
                     leggTilAktivitetFraRegister={(valgtAktivitet: Registeraktivitet) =>

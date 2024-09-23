@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Alert, Select } from '@navikt/ds-react';
+import { Alert, Heading, Select } from '@navikt/ds-react';
 
 import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
@@ -28,6 +28,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
 
     return (
         <Container>
+            <Heading size="small">Frittstående brev til bruker</Heading>
             <DataViewer response={{ fagsakPerson }}>
                 {({ fagsakPerson }) => (
                     <>

@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { BodyLong } from '@navikt/ds-react';
 
 import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
-import { Toast } from './Komponenter/Toast/Toast';
 import UlagretDataModal from './Komponenter/UlagretDataModal/UlagretDataModal';
 import BehandlingContainer from './Layout/BehandlingContainer';
 import { useApp } from '../../context/AppContext';
@@ -54,7 +53,6 @@ const AppInnhold: React.FC = () => {
                 <Route path="/:behandlingId/*" element={<BehandlingContainer />} />
             </Routes>
             <UlagretDataModal />
-            <Toast />
         </>
     );
 };

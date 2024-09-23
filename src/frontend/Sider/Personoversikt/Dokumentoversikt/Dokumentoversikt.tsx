@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { UNSAFE_Combobox } from '@navikt/ds-react';
+import { Detail, Heading, UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { DokumentTabell } from './DokumentTabell';
 import { useApp } from '../../../context/AppContext';
@@ -13,6 +13,7 @@ import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressu
 
 const ComboBox = styled(UNSAFE_Combobox)`
     width: 35rem;
+    margin-bottom: 2rem;
 `;
 
 const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
@@ -58,6 +59,12 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
 
     return (
         <>
+            <Heading size="small">Relevante dokumenter for behandling av tilleggsstønader</Heading>
+            <Detail weight="semibold" spacing>
+                Bruk filtrering for å se dokumenter av tema arbeidsavklaringspenger, enslig
+                forsørger, omstillingsstønad, oppfølging, uføretrygd, yrkesskade eller
+                kontantstøtte.
+            </Detail>
             <ComboBox
                 label={'Filtrer tema(er)'}
                 options={relevanteArkivtemaer.map(arkivtemaTilOption)}

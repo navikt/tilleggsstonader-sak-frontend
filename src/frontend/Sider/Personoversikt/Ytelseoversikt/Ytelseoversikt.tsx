@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Alert, Heading } from '@navikt/ds-react';
+import { Alert, Detail, Heading } from '@navikt/ds-react';
 
 import YtelserTabell from './YtelserTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Registerytelser, registerYtelseTilTekst } from '../../../typer/registerytelser';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
-import { formaterTilTekstligDato } from '../../../utils/dato';
+import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../utils/dato';
 
 const formaterYtelsesHeader = (ytelser: Registerytelser) => {
     const infotyper = ytelser.hentetInformasjon.map((info) => registerYtelseTilTekst[info.type]);
@@ -21,17 +21,24 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
 
     const [ytelser, settYtelser] = useState<Ressurs<Registerytelser>>(byggHenterRessurs());
 
+    const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
+
+    const hentYtelser = useCallback(async () => {
+        const response = request<Registerytelser, null>(`/api/sak/ytelse/${fagsakPersonId}`, 'GET');
+        settYtelser(await response);
+    }, [fagsakPersonId, request]);
+
     useEffect(() => {
-        request<Registerytelser, null>(`/api/sak/ytelse/${fagsakPersonId}`, 'GET').then(
-            settYtelser
-        );
-    }, [request, fagsakPersonId]);
+        hentYtelser().then(() => settOppdatertTidspunkt(new Date()));
+    }, [fagsakPersonId, hentYtelser]);
 
     return (
         <DataViewer response={{ ytelser }}>
             {({ ytelser }) => (
                 <>
-                    <Heading size={'xsmall'}>{formaterYtelsesHeader(ytelser)}</Heading>
+                    <Heading size={'small'} spacing>
+                        {formaterYtelsesHeader(ytelser)}
+                    </Heading>
                     {ytelser.hentetInformasjon
                         .filter((info) => info.status === 'FEILET')
                         .map((hentetInformasjon) => (
@@ -46,6 +53,7 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
                             </Alert>
                         ))}
                     <YtelserTabell perioder={ytelser.perioder} />
+                    <Detail>Oppdatert: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}</Detail>
                 </>
             )}
         </DataViewer>

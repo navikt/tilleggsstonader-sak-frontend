@@ -58,7 +58,7 @@ const LesevisningVilkår: FC<{
     const skalViseStatus = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
 
     return (
-        <Container gap={1}>
+        <Container $gap={1}>
             {skalViseStatus && behandling.type == BehandlingType.REVURDERING && (
                 <Statusbånd status={vilkår.status} />
             )}
