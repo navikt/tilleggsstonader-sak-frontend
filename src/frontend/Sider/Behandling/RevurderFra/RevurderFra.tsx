@@ -23,6 +23,8 @@ export function RevurderFra() {
     const { request } = useApp();
     const navigate = useNavigate();
 
+    const [valideringsfeil, settValideringsfeil] = useState<string | undefined>();
+
     const [feilVedLagring, settFeilVedLagring] = useState<string>();
 
     const [revurderFraDato, settRevurderFraDato] = useState<string | undefined>(
@@ -30,6 +32,11 @@ export function RevurderFra() {
     );
 
     async function endreRevurderFraDato() {
+        if (!revurderFraDato) {
+            settValideringsfeil('Du må velge en dato');
+            return;
+        }
+
         const response = await request<Behandling, null>(
             `/api/sak/behandling/${behandling.id}/revurder-fra/${revurderFraDato}`,
             'POST'
@@ -51,6 +58,7 @@ export function RevurderFra() {
                     value={revurderFraDato}
                     onChange={settRevurderFraDato}
                     erLesevisning={!behandlingErRedigerbar}
+                    feil={valideringsfeil}
                     size="small"
                 />
                 <SmallButton onClick={endreRevurderFraDato}>Lagre og gå videre</SmallButton>
