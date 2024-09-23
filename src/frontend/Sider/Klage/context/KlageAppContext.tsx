@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
-import { Toast } from '../../../typer/toast';
-
 const [KlageAppProvider, useKlageApp] = constate(() => {
     const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
         new Set()
@@ -12,7 +10,6 @@ const [KlageAppProvider, useKlageApp] = constate(() => {
     const [valgtSide, settValgtSide] = useState<string | undefined>();
     const [visUlagretDataModal, settVisUlagretDataModal] = useState(false);
     const [byttUrl, settByttUrl] = useState(false);
-    const [toast, settToast] = useState<Toast | undefined>();
     const [valgtFagsakId, settValgtFagsakId] = useState<string>();
     const [personIdent, settPersonIdent] = useState<string>();
 
@@ -57,8 +54,6 @@ const [KlageAppProvider, useKlageApp] = constate(() => {
         settVisUlagretDataModal,
         byttUrl,
         settByttUrl,
-        toast,
-        settToast,
         valgtFagsakId,
         settValgtFagsakId,
         personIdent,
