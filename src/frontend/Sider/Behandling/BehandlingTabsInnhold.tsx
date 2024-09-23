@@ -12,6 +12,7 @@ import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -46,7 +47,11 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR; // TODO: Skal route til revurder-fra-fanen hvis vi er i en revurdering
+    const førsteFanePath =
+        behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING
+            ? FanePath.INNGANGSVILKÅR
+            : FanePath.REVURDER_FRA;
+    const aktivFane = isFanePath(path) ? path : førsteFanePath;
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
