@@ -1,19 +1,24 @@
 import React, { FC } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import Lesefelt from '../../../komponenter/Skjema/Lesefelt';
+import { Statusbånd } from '../../../komponenter/Statusbånd';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { formaterNullableÅrMåned } from '../../../utils/dato';
 import { harTallverdi } from '../../../utils/tall';
+import { Toggle } from '../../../utils/toggles';
 import { Vilkår } from '../vilkår';
 
 const TwoColumnGrid = styled.div`
@@ -23,6 +28,7 @@ const TwoColumnGrid = styled.div`
 `;
 
 const Container = styled(FlexColumn)`
+    position: relative;
     background: white;
     padding: 1rem;
     box-shadow: ${AShadowXsmall};
@@ -45,11 +51,17 @@ const LesevisningVilkår: FC<{
     startRedigering?: () => void;
 }> = ({ vilkår, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
+    const { behandling } = useBehandling();
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
+    const skalViseStatus = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
+
     return (
         <Container $gap={1}>
+            {skalViseStatus && behandling.type == BehandlingType.REVURDERING && (
+                <Statusbånd status={vilkår.status} />
+            )}
             <HStack gap="6" align={'center'}>
                 <VilkårsresultatIkon vilkårsresultat={resultat} />
                 <Lesefelt

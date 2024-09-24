@@ -1,14 +1,20 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import OppsummertVilkårsvurdering from './OppsummertVilkårsvurdering';
+import { useBehandling } from '../../../../../context/BehandlingContext';
+import { Statusbånd } from '../../../../../komponenter/Statusbånd';
+import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
+import { Toggle } from '../../../../../utils/toggles';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
 
 const Container = styled.div`
+    position: relative;
     background-color: ${AWhite};
     padding: 1rem;
 
@@ -40,8 +46,15 @@ const VilkårperiodeKortBase: React.FC<{
     children: React.ReactNode;
     redigeres?: boolean;
 }> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false }) => {
+    const { behandling } = useBehandling();
+    const toggleErPå = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
+
+    const skalViseStatus =
+        toggleErPå && behandling.type === BehandlingType.REVURDERING && vilkårperiode !== undefined;
+
     return (
         <Container>
+            {skalViseStatus && <Statusbånd status={vilkårperiode.status} />}
             <VenstreKolonne>{children}</VenstreKolonne>
             <KnappOgOppsummeringContainer>
                 {redigeringKnapp}
