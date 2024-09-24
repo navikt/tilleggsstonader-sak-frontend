@@ -52,9 +52,9 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const førsteFanePath =
-        behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING
-            ? FanePath.INNGANGSVILKÅR
-            : FanePath.REVURDER_FRA;
+        behandling.type === BehandlingType.REVURDERING && revurderingFraDatoEnabled
+            ? FanePath.REVURDER_FRA
+            : FanePath.INNGANGSVILKÅR;
     const aktivFane = isFanePath(path) ? path : førsteFanePath;
 
     useEffect(() => {
