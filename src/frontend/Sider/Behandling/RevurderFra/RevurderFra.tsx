@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -12,6 +12,7 @@ import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
+import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
 
 const Container = styled.div`
@@ -24,14 +25,23 @@ export function RevurderFra() {
     const navigate = useNavigate();
 
     const [valideringsfeil, settValideringsfeil] = useState<string | undefined>();
-
     const [feilVedLagring, settFeilVedLagring] = useState<string>();
-
     const [revurderFraDato, settRevurderFraDato] = useState<string | undefined>(
         behandling.revurderFra
     );
+    const [visAdvarselOmNullstilling, settVisAdvarselOmNullstilling] = useState<boolean>(false);
 
-    async function endreRevurderFraDato() {
+    function håndterEndretDato(nyDato?: string) {
+        settRevurderFraDato(nyDato);
+
+        if (nyDato && behandling.revurderFra) {
+            settVisAdvarselOmNullstilling(erEtter(nyDato, behandling.revurderFra));
+        } else {
+            settVisAdvarselOmNullstilling(false);
+        }
+    }
+
+    async function lagreRevurderFraDato() {
         if (!revurderFraDato) {
             settValideringsfeil('Du må velge en dato');
             return;
@@ -56,12 +66,19 @@ export function RevurderFra() {
                 <DateInputMedLeservisning
                     label="Revurderes fra"
                     value={revurderFraDato}
-                    onChange={settRevurderFraDato}
+                    onChange={håndterEndretDato}
                     erLesevisning={!behandlingErRedigerbar}
                     feil={valideringsfeil}
                     size="small"
                 />
-                <SmallButton onClick={endreRevurderFraDato}>Lagre og gå videre</SmallButton>
+                {visAdvarselOmNullstilling && (
+                    <Alert variant="warning" size="small" style={{ maxWidth: 'fit-content' }}>
+                        Du ønsker nå å revurdere fra en senere tid enn det som tidligere er valgt (
+                        {formaterNullableTilTekstligDato(behandling.revurderFra)}). Hvis du lagrer
+                        denne datoen, blir alle endringene i revurderingen nullstilt.
+                    </Alert>
+                )}
+                <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
                 {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
             </VStack>
         </Container>
