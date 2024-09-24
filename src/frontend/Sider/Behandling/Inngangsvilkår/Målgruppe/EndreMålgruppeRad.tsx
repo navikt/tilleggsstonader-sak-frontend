@@ -48,7 +48,7 @@ const EndreMålgruppeRad: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { request } = useApp();
-    const { behandling, behandlingFakta } = useBehandling();
+    const { behandling, behandlingFakta, kanKunEndreTomForPeriode } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -119,6 +119,8 @@ const EndreMålgruppeRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
+    const kanKunEndreTom = kanKunEndreTomForPeriode(målgruppeForm.fom, målgruppeForm.tom);
+
     return (
         <EndreVilkårperiodeRad
             type={'Målgruppe'}
@@ -133,6 +135,7 @@ const EndreMålgruppeRad: React.FC<{
             feilmelding={feilmelding}
             fomKeyDato={fomKeyDato}
             tomKeyDato={tomKeyDato}
+            kanKunEndreTom={kanKunEndreTom}
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}

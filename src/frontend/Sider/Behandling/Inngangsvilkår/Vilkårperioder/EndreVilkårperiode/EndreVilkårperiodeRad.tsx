@@ -25,7 +25,6 @@ const FeltContainer = styled.div`
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    heigth: max-content;
 
     align-self: start;
     align-items: start;
@@ -35,6 +34,7 @@ interface Props {
     type: TypeVilkårperiode;
     vilkårperiode?: Målgruppe | Aktivitet;
     form: EndreMålgruppeForm | EndreAktivitetForm;
+    kanKunEndreTom: boolean;
     avbrytRedigering: () => void;
     lagre: () => void;
     oppdaterForm: (key: keyof VilkårPeriode, nyVerdi: string) => void;
@@ -53,6 +53,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     type,
     vilkårperiode,
     form,
+    kanKunEndreTom,
     avbrytRedigering,
     lagre,
     oppdaterForm,
@@ -85,6 +86,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <DateInputMedLeservisning
                     key={fomKeyDato}
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
+                    readOnly={kanKunEndreTom}
                     label={'Fra'}
                     value={form?.fom}
                     onChange={(dato) => oppdaterForm('fom', dato || '')}

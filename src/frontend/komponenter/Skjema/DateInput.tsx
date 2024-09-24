@@ -11,9 +11,18 @@ export interface DateInputProps {
     onChange: (dato?: string) => void;
     size?: 'small' | 'medium';
     value?: string;
+    readOnly?: boolean;
 }
 
-const DateInput: React.FC<DateInputProps> = ({ feil, hideLabel, label, onChange, size, value }) => {
+const DateInput: React.FC<DateInputProps> = ({
+    feil,
+    hideLabel,
+    label,
+    onChange,
+    size,
+    value,
+    readOnly = false,
+}) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(value),
         onDateChange: (val) => onChange(val ? tilLocaleDateString(val) : val),
@@ -27,6 +36,7 @@ const DateInput: React.FC<DateInputProps> = ({ feil, hideLabel, label, onChange,
                 hideLabel={hideLabel}
                 error={feil}
                 size={size}
+                readOnly={readOnly}
             />
         </DatePicker>
     );

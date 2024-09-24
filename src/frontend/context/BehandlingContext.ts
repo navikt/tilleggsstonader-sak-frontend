@@ -6,6 +6,7 @@ import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { Behandling } from '../typer/behandling/behandling';
 import { BehandlingFakta } from '../typer/behandling/behandlingFakta/behandlingFakta';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
+import { datoErIPeriodeInklusivSlutt } from '../utils/dato';
 import { Toggle } from '../utils/toggles';
 
 interface Props {
@@ -23,12 +24,21 @@ export const [BehandlingProvider, useBehandling] = constate(
         const kanBehandleRevurdering = !behandling.forrigeBehandlingId || kanSaksbehandle;
         const behandlingErRedigerbar =
             kanBehandleRevurdering && erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
+
+        const kanKunEndreTomForPeriode = (periodeFom: string, periodeTom: string) => {
+            if (!behandling.revurderFra) {
+                return false;
+            }
+            return datoErIPeriodeInklusivSlutt(behandling.revurderFra, periodeFom, periodeTom);
+        };
+
         return {
             behandling,
             behandlingErRedigerbar,
             hentBehandling,
             behandlingFakta,
             kanBehandleRevurdering,
+            kanKunEndreTomForPeriode,
         };
     }
 );

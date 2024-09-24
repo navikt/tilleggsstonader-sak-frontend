@@ -17,6 +17,7 @@ const JaNeiVurdering: React.FC<{
     svarJa?: string;
     svarNei?: string;
     hjelpetekst?: string;
+    readOnly?: boolean;
 }> = ({
     vurdering,
     oppdaterVurdering,
@@ -24,11 +25,13 @@ const JaNeiVurdering: React.FC<{
     svarJa = svarJaNeiMapping[SvarJaNei.JA],
     svarNei = svarJaNeiMapping[SvarJaNei.NEI],
     hjelpetekst,
+    readOnly = false,
 }) => {
     return (
         <RadioGroup
             value={vurdering?.svar || ''}
             legend={label}
+            readOnly={readOnly}
             onChange={(e) => oppdaterVurdering({ ...vurdering, svar: e })}
             size="small"
         >

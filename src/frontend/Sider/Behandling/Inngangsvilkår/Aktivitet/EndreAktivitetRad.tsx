@@ -52,7 +52,7 @@ const EndreAktivitetRad: React.FC<{
     aktivitetFraRegister?: Registeraktivitet;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { request } = useApp();
-    const { behandling, behandlingFakta } = useBehandling();
+    const { behandling, behandlingFakta, kanKunEndreTomForPeriode } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -124,11 +124,16 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
+    const erNyNyNy = aktivitet === undefined;
+    const kanKunEndreTom =
+        !erNyNyNy && kanKunEndreTomForPeriode(aktivitetForm.fom, aktivitetForm.tom);
+
     return (
         <EndreVilkårperiodeRad
             type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
+            kanKunEndreTom={kanKunEndreTom}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
@@ -157,12 +162,14 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                         error={vilkårsperiodeFeil?.aktivitetsdager}
                         autoComplete="off"
+                        readOnly={kanKunEndreTom}
                     />
                 )
             }
         >
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
+                kanKunEndreTom={kanKunEndreTom}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,
