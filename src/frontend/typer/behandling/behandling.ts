@@ -21,6 +21,7 @@ export interface Behandling {
     henlagtÅrsak?: HenlagtÅrsak;
     stønadstype: Stønadstype;
     vedtaksdato?: string;
+    revurderFra?: string;
 }
 
 export interface HentBehandlingerRequest {

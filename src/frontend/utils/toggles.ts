@@ -12,4 +12,6 @@ export enum Toggle {
     KAN_SAKSBEHANDLE = 'sak.frontend.kan-saksbehandle',
 
     KAN_ENDRE_BREVMOTTAKERE = 'sak.kan-endre-brevmottakere',
+
+    REVURDERING_FRA_DATO = 'sak.revurdering-fra-dato',
 }

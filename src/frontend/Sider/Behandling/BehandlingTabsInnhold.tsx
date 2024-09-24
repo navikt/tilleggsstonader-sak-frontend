@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,7 +13,9 @@ import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
+import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -43,10 +46,16 @@ const BehandlingTabsInnhold = () => {
     const { settToast } = useApp();
     const { behandling, behandlingErRedigerbar, kanBehandleRevurdering } = useBehandling();
 
+    const revurderingFraDatoEnabled = useFlag(Toggle.REVURDERING_FRA_DATO);
+
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
+    const førsteFanePath =
+        behandling.type === BehandlingType.REVURDERING && revurderingFraDatoEnabled
+            ? FanePath.REVURDER_FRA
+            : FanePath.INNGANGSVILKÅR;
+    const aktivFane = isFanePath(path) ? path : førsteFanePath;
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
@@ -64,7 +73,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, revurderingFraDatoEnabled);
 
     return (
         <StegProvider
