@@ -74,6 +74,8 @@ const EndreAktivitetRad: React.FC<{
         return isValid(vilkårsperiodeFeil);
     };
 
+    const nyRadLeggesTil = aktivitet === undefined;
+
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
@@ -83,16 +85,16 @@ const EndreAktivitetRad: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            const erNyPeriode = aktivitet === undefined;
-
             return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetForm>(
-                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                nyRadLeggesTil
+                    ? `/api/sak/vilkarperiode`
+                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
                 'POST',
                 aktivitetForm
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        if (erNyPeriode) {
+                        if (nyRadLeggesTil) {
                             leggTilAktivitet(res.data.periode);
                         } else {
                             oppdaterAktivitet(res.data.periode);
@@ -124,9 +126,8 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const erNyNyNy = aktivitet === undefined;
     const kanKunEndreTom =
-        !erNyNyNy && kanKunEndreTomForPeriode(aktivitetForm.fom, aktivitetForm.tom);
+        !nyRadLeggesTil && kanKunEndreTomForPeriode(aktivitetForm.fom, aktivitetForm.tom);
 
     return (
         <EndreVilkårperiodeRad
