@@ -7,6 +7,7 @@ import { Button, HStack } from '@navikt/ds-react';
 import Begrunnelse from './Begrunnelse';
 import { finnBegrunnelseGrunner } from './utils';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { FelterSomKanEndresIPerioden } from '../../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
@@ -34,7 +35,7 @@ interface Props {
     type: TypeVilkårperiode;
     vilkårperiode?: Målgruppe | Aktivitet;
     form: EndreMålgruppeForm | EndreAktivitetForm;
-    kanKunEndreTom: boolean;
+    felterSomKanEndres: FelterSomKanEndresIPerioden;
     avbrytRedigering: () => void;
     lagre: () => void;
     oppdaterForm: (key: keyof VilkårPeriode, nyVerdi: string) => void;
@@ -53,7 +54,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     type,
     vilkårperiode,
     form,
-    kanKunEndreTom,
+    felterSomKanEndres,
     avbrytRedigering,
     lagre,
     oppdaterForm,
@@ -75,7 +76,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             <FeltContainer>
                 <SelectMedOptions
                     label={tittelSelectTypeVilkårperiode(type)}
-                    readOnly={vilkårperiode !== undefined}
+                    readOnly={felterSomKanEndres != 'ALLE'}
                     value={form.type}
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
@@ -86,7 +87,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <DateInputMedLeservisning
                     key={fomKeyDato}
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
-                    readOnly={kanKunEndreTom}
+                    readOnly={felterSomKanEndres != 'ALLE'}
                     label={'Fra'}
                     value={form?.fom}
                     onChange={(dato) => oppdaterForm('fom', dato || '')}

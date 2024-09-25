@@ -2,11 +2,10 @@ import React, { FC, useState } from 'react';
 
 import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
-import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
+import { useRevurderingAvPerioder } from '../../../hooks/useRevurderingAvPerioder';
 import { Regler } from '../../../typer/regel';
-import { erFør } from '../../../utils/dato';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
@@ -17,17 +16,18 @@ type LesEllerEndreDelvilkårProps = {
 export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
     const { lagreVilkår, slettVilkår } = useVilkår();
-    const { behandling, kanKunEndreTomForPeriode } = useBehandling();
 
     const [redigerer, settRedigerer] = useState<boolean>(
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
-    const kanKunEndreTom = kanKunEndreTomForPeriode(vilkår.fom, vilkår.tom);
-    const helePeriodenErFørDatoenDetRevurderesFra =
-        behandling.revurderFra && vilkår.tom && erFør(vilkår.tom, behandling.revurderFra);
+    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+        periodeFom: vilkår.fom,
+        periodeTom: vilkår.tom,
+        nyRadLeggesTil: false,
+    });
 
-    return erStegRedigerbart && !helePeriodenErFørDatoenDetRevurderesFra && redigerer ? (
+    return erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN' && redigerer ? (
         <EndreVilkår
             regler={regler}
             redigerbareVilkårfelter={{
@@ -44,7 +44,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
-            kanKunEndreTom={kanKunEndreTom}
+            felterSomKanRedigeres={felterSomKanEndresIPerioden}
             slettVilkår={
                 vilkår.opphavsvilkår
                     ? undefined
@@ -56,7 +56,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
     ) : (
         <LesevisningVilkår
             vilkår={vilkår}
-            skalViseRedigeringsknapp={!helePeriodenErFørDatoenDetRevurderesFra}
+            skalViseRedigeringsknapp={felterSomKanEndresIPerioden != 'INGEN'}
             startRedigering={() => settRedigerer(true)}
         />
     );

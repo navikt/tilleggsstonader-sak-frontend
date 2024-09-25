@@ -6,6 +6,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
@@ -52,7 +53,7 @@ const EndreAktivitetRad: React.FC<{
     aktivitetFraRegister?: Registeraktivitet;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { request } = useApp();
-    const { behandling, behandlingFakta, kanKunEndreTomForPeriode } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -126,15 +127,18 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const kanKunEndreTom =
-        !nyRadLeggesTil && kanKunEndreTomForPeriode(aktivitetForm.fom, aktivitetForm.tom);
+    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+        periodeFom: aktivitetForm.fom,
+        periodeTom: aktivitetForm.tom,
+        nyRadLeggesTil: nyRadLeggesTil,
+    });
 
     return (
         <EndreVilkårperiodeRad
             type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
-            kanKunEndreTom={kanKunEndreTom}
+            felterSomKanEndres={felterSomKanEndresIPerioden}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
@@ -163,14 +167,14 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                         error={vilkårsperiodeFeil?.aktivitetsdager}
                         autoComplete="off"
-                        readOnly={kanKunEndreTom}
+                        readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                     />
                 )
             }
         >
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
-                kanKunEndreTom={kanKunEndreTom}
+                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,

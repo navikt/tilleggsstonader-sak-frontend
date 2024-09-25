@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
@@ -24,16 +24,14 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
-    const { kanKunEndreTomForPeriode, periodenErLåstForEndring } = useBehandling();
+    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+        periodeFom: stønadsperide.fom,
+        periodeTom: stønadsperide.tom,
+        nyRadLeggesTil: !stønadsperide.id,
+    });
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
-
-    const kanKunEndreTom = kanKunEndreTomForPeriode(stønadsperide.fom, stønadsperide.tom);
-    const helePeriodenErLåst = periodenErLåstForEndring(stønadsperide.tom);
-    const nyRadLeggesTil = !stønadsperide.id;
-
-    const readOnly = !nyRadLeggesTil && (kanKunEndreTom || helePeriodenErLåst);
 
     return (
         <>
@@ -43,7 +41,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={aktivitetTypeOptionsForStønadsperiode}
                 label={'Aktivitet'}
                 hideLabel
-                readOnly={readOnly}
+                readOnly={felterSomKanEndresIPerioden !== 'ALLE'}
                 value={
                     erLeservisning
                         ? aktivitetTypeTilTekst(stønadsperide.aktivitet)
@@ -58,7 +56,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
-                readOnly={readOnly}
+                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                 value={
                     erLeservisning
                         ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
@@ -74,7 +72,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Fra'}
                 hideLabel
                 value={stønadsperide.fom}
-                readOnly={readOnly}
+                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                 onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('fom')}
@@ -84,12 +82,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
-                readOnly={!nyRadLeggesTil && helePeriodenErLåst}
+                readOnly={felterSomKanEndresIPerioden == 'INGEN'}
                 onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
             />
-            {!erLeservisning && !helePeriodenErLåst && (
+            {!erLeservisning && felterSomKanEndresIPerioden == 'ALLE' && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>

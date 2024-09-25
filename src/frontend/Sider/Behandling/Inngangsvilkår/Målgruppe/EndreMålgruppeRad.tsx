@@ -6,6 +6,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -48,7 +49,7 @@ const EndreMålgruppeRad: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { request } = useApp();
-    const { behandling, behandlingFakta, kanKunEndreTomForPeriode } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -119,13 +120,18 @@ const EndreMålgruppeRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const kanKunEndreTom = kanKunEndreTomForPeriode(målgruppeForm.fom, målgruppeForm.tom);
+    const felterSomKanEndres = useRevurderingAvPerioder({
+        periodeFom: målgruppeForm.fom,
+        periodeTom: målgruppeForm.tom,
+        nyRadLeggesTil: !målgruppe,
+    });
 
     return (
         <EndreVilkårperiodeRad
             type={'Målgruppe'}
             vilkårperiode={målgruppe}
             form={målgruppeForm}
+            felterSomKanEndres={felterSomKanEndres}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterForm}
@@ -135,11 +141,10 @@ const EndreMålgruppeRad: React.FC<{
             feilmelding={feilmelding}
             fomKeyDato={fomKeyDato}
             tomKeyDato={tomKeyDato}
-            kanKunEndreTom={kanKunEndreTom}
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
-                kanKunEndreTom={kanKunEndreTom}
+                felterSomKanEndres={felterSomKanEndres}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,
