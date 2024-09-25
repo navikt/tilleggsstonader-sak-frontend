@@ -139,6 +139,7 @@ const EndreMålgruppeRad: React.FC<{
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
+                kanKunEndreTom={kanKunEndreTom}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,

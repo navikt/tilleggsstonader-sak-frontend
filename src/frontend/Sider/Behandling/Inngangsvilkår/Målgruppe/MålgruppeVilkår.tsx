@@ -20,7 +20,8 @@ const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
     feilmelding?: string;
-}> = ({ målgruppeForm, oppdaterDelvilkår }) => {
+    kanKunEndreTom: boolean;
+}> = ({ målgruppeForm, oppdaterDelvilkår, kanKunEndreTom }) => {
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
@@ -35,6 +36,7 @@ const MålgruppeVilkår: React.FC<{
             {skalVurdereMedlemskap && (
                 <JaNeiVurdering
                     label="Medlemskap i folketrygden?"
+                    readOnly={kanKunEndreTom}
                     vurdering={målgruppeForm.delvilkår.medlemskap}
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('medlemskap', vurdering)
@@ -45,6 +47,7 @@ const MålgruppeVilkår: React.FC<{
             {skalVurdereDekketAvAnnetRegelverk && (
                 <JaNeiVurdering
                     label="Dekkes utgiftene av annet regelverk?"
+                    readOnly={kanKunEndreTom}
                     vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('dekketAvAnnetRegelverk', vurdering)

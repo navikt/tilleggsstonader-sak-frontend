@@ -33,13 +33,13 @@ const VilkårperiodeRad: React.FC<{
     const { erStegRedigerbart } = useSteg();
     const { behandling } = useBehandling();
 
-    const helePeriodenErFørRevurderFra =
+    const helePeriodenErFørDatoenDetRevurderesFra =
         behandling.revurderFra && erFør(vilkårperiode.tom, behandling.revurderFra);
 
     const visRedigerKnapp =
         vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET &&
         erStegRedigerbart &&
-        !helePeriodenErFørRevurderFra;
+        !helePeriodenErFørDatoenDetRevurderesFra;
 
     return (
         <VilkårperiodeKortBase
