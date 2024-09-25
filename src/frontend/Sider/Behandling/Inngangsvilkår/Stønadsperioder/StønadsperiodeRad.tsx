@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -23,8 +24,16 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
+    const { kanKunEndreTomForPeriode, periodenErLåstForEndring } = useBehandling();
+
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
+
+    const kanKunEndreTom = kanKunEndreTomForPeriode(stønadsperide.fom, stønadsperide.tom);
+    const helePeriodenErLåst = periodenErLåstForEndring(stønadsperide.tom);
+    const nyRadLeggesTil = !stønadsperide.id;
+
+    const readOnly = !nyRadLeggesTil && (kanKunEndreTom || helePeriodenErLåst);
 
     return (
         <>
@@ -34,6 +43,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={aktivitetTypeOptionsForStønadsperiode}
                 label={'Aktivitet'}
                 hideLabel
+                readOnly={readOnly}
                 value={
                     erLeservisning
                         ? aktivitetTypeTilTekst(stønadsperide.aktivitet)
@@ -48,6 +58,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
+                readOnly={readOnly}
                 value={
                     erLeservisning
                         ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
@@ -63,6 +74,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Fra'}
                 hideLabel
                 value={stønadsperide.fom}
+                readOnly={readOnly}
                 onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('fom')}
@@ -72,11 +84,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
+                readOnly={!nyRadLeggesTil && helePeriodenErLåst}
                 onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
             />
-            {!erLeservisning && (
+            {!erLeservisning && !helePeriodenErLåst && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>
