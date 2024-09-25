@@ -2,9 +2,11 @@ import React, { FC, useState } from 'react';
 
 import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { Regler } from '../../../typer/regel';
+import { erFør } from '../../../utils/dato';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
@@ -15,12 +17,17 @@ type LesEllerEndreDelvilkårProps = {
 export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
     const { lagreVilkår, slettVilkår } = useVilkår();
+    const { behandling, kanKunEndreTomForPeriode } = useBehandling();
 
     const [redigerer, settRedigerer] = useState<boolean>(
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
-    return erStegRedigerbart && redigerer ? (
+    const kanKunEndreTom = kanKunEndreTomForPeriode(vilkår.fom, vilkår.tom);
+    const helePeriodenErFørDatoenDetRevurderesFra =
+        behandling.revurderFra && vilkår.tom && erFør(vilkår.tom, behandling.revurderFra);
+
+    return erStegRedigerbart && !helePeriodenErFørDatoenDetRevurderesFra && redigerer ? (
         <EndreVilkår
             regler={regler}
             redigerbareVilkårfelter={{
@@ -37,6 +44,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
+            kanKunEndreTom={kanKunEndreTom}
             slettVilkår={
                 vilkår.opphavsvilkår
                     ? undefined
@@ -46,6 +54,10 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             }
         />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
+        <LesevisningVilkår
+            vilkår={vilkår}
+            skalViseRedigeringsknapp={!helePeriodenErFørDatoenDetRevurderesFra}
+            startRedigering={() => settRedigerer(true)}
+        />
     );
 };

@@ -11,6 +11,7 @@ export interface MonthInputProps {
     onChange: (dato?: string) => void;
     size?: 'small' | 'medium';
     value?: string;
+    readOnly?: boolean;
 }
 
 const MonthInput: React.FC<MonthInputProps> = ({
@@ -20,6 +21,7 @@ const MonthInput: React.FC<MonthInputProps> = ({
     onChange,
     size,
     value,
+    readOnly = false,
 }) => {
     const { monthpickerProps, inputProps } = useMonthpicker({
         defaultSelected: nullableTilDato(value),
@@ -34,6 +36,7 @@ const MonthInput: React.FC<MonthInputProps> = ({
                 hideLabel={hideLabel}
                 error={feil}
                 size={size}
+                readOnly={readOnly}
             />
         </MonthPicker>
     );

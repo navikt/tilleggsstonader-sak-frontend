@@ -8,7 +8,6 @@ import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useSteg } from '../../../context/StegContext';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -48,9 +47,9 @@ const Begrunnelse = styled(Lesefelt)`
 
 const LesevisningVilkår: FC<{
     vilkår: Vilkår;
+    skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
-}> = ({ vilkår, startRedigering }) => {
-    const { erStegRedigerbart } = useSteg();
+}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
     const { behandling } = useBehandling();
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
@@ -103,7 +102,7 @@ const LesevisningVilkår: FC<{
                         ))
                     )}
                 </TwoColumnGrid>
-                {erStegRedigerbart && (
+                {skalViseRedigeringsknapp && (
                     <SmallButton variant="secondary" onClick={startRedigering}>
                         Rediger
                     </SmallButton>

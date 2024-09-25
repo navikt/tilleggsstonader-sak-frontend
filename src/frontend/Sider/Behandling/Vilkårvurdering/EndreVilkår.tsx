@@ -16,7 +16,7 @@ import {
     leggTilNesteIdHvis,
     oppdaterSvarIListe,
 } from './utils';
-import { Feilmeldinger, ingenFeil, ingen, validerVilkårsvurderinger } from './validering';
+import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -29,7 +29,7 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/res
 import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { fjernSpaces } from '../../../utils/utils';
-import { Delvilkår, Vilkår, RedigerbareVilkårfelter, Vurdering } from '../vilkår';
+import { Delvilkår, RedigerbareVilkårfelter, Vilkår, Vurdering } from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -68,6 +68,7 @@ type EndreVilkårProps = {
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: undefined | (() => void);
+    kanKunEndreTom: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
@@ -207,6 +208,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 size="small"
                 value={fom}
                 feil={feilmeldinger.fom}
+                readOnly={props.kanKunEndreTom}
                 onChange={(dato) => {
                     settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
                     settDetFinnesUlagredeEndringer(true);
@@ -229,6 +231,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 size="small"
                 erLesevisning={false}
                 value={harTallverdi(utgift) ? utgift : ''}
+                readOnly={props.kanKunEndreTom}
                 onChange={(e) => {
                     settDetFinnesUlagredeEndringer(true);
                     settUtgift(tilHeltall(fjernSpaces(e.target.value)));
@@ -248,6 +251,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                         <DelvilkårRadioknapper
                             vurdering={svar}
                             regel={gjeldendeRegel}
+                            readOnly={props.kanKunEndreTom}
                             settVurdering={(nyVurdering) => {
                                 settDetFinnesUlagredeEndringer(true);
                                 oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
