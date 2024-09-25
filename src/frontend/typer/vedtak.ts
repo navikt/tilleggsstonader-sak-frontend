@@ -41,18 +41,10 @@ export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
     type: TypeVedtak.AVSLAG;
 }
 
-export type StønadsperiodeGrunnlag = {
-    stønadsperiode: Stønadsperiode;
-};
-
-export type Stønadsperiode = {
-    fom: string;
-    tom: string;
-    endretKey?: string; // intern for re-rendring
-};
-
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
+    gjelderFraOgMed?: string;
+    gjelderTilOgMed?: string;
 };
 
 type Beregningsresultat = {
@@ -63,7 +55,6 @@ type Beregningsresultat = {
 
 type Beregningsgrunnlag = {
     måned: string;
-    stønadsperioderGrunnlag: StønadsperiodeGrunnlag[];
     utgifterTotal: number;
     antallBarn: number;
 };
