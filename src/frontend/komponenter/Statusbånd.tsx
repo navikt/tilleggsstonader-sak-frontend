@@ -15,7 +15,7 @@ import {
 import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
 import { formaterEnumVerdi } from '../utils/tekstformatering';
 
-const Ribbon = styled.div<{ hovedfarge: string; skygge: string }>`
+const Ribbon = styled.div<{ $hovedfarge: string; $skygge: string }>`
     position: absolute;
     overflow: hidden;
     width: 80px;
@@ -31,7 +31,7 @@ const Ribbon = styled.div<{ hovedfarge: string; skygge: string }>`
         z-index: -1;
         content: '';
         display: block;
-        border: 2.5px solid ${(props) => props.skygge};
+        border: 2.5px solid ${(props) => props.$skygge};
         border-top-color: transparent;
         border-right-color: transparent;
     }
@@ -51,7 +51,7 @@ const Ribbon = styled.div<{ hovedfarge: string; skygge: string }>`
         display: block;
         width: 113px;
         padding: 5px 0;
-        background-color: ${(props) => props.hovedfarge};
+        background-color: ${(props) => props.$hovedfarge};
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         font-weight: 600;
         text-align: center;
@@ -90,7 +90,7 @@ export const Statusbånd: React.FC<{ status: PeriodeStatus }> = ({ status }) => 
     }
 
     return (
-        <Ribbon hovedfarge={farger.hoved} skygge={farger.skygge}>
+        <Ribbon $hovedfarge={farger.hoved} $skygge={farger.skygge}>
             <BodyShort size="small">{formaterEnumVerdi(status)}</BodyShort>
         </Ribbon>
     );
