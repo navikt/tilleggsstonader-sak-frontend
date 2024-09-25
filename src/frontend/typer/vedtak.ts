@@ -3,11 +3,6 @@ export enum TypeVedtak {
     AVSLAG = 'AVSLAG',
 }
 
-export const typeVedtakTilTekst: Record<TypeVedtak, string> = {
-    INNVILGELSE: 'Innvilgelse',
-    AVSLAG: 'Avslag',
-};
-
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
 
 export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
@@ -55,24 +50,6 @@ export type Stønadsperiode = {
     tom: string;
     endretKey?: string; // intern for re-rendring
 };
-
-export enum StønadsperiodeProperty {
-    FOM = 'fom',
-    TOM = 'tom',
-}
-
-export type Utgift = {
-    fom: string;
-    tom: string;
-    utgift?: number;
-    endretKey?: string; // intern for re-rendring
-};
-
-export enum UtgifterProperty {
-    FOM = 'fom',
-    TOM = 'tom',
-    UTGIFT = 'utgift',
-}
 
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
