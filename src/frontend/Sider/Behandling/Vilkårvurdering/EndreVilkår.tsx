@@ -209,7 +209,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 size="small"
                 value={fom}
                 feil={feilmeldinger.fom}
-                readOnly={props.felterSomKanRedigeres == 'ALLE'}
+                readOnly={props.felterSomKanRedigeres != 'ALLE'}
                 onChange={(dato) => {
                     settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
                     settDetFinnesUlagredeEndringer(true);
@@ -232,7 +232,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 size="small"
                 erLesevisning={false}
                 value={harTallverdi(utgift) ? utgift : ''}
-                readOnly={props.felterSomKanRedigeres == 'ALLE'}
+                readOnly={props.felterSomKanRedigeres != 'ALLE'}
                 onChange={(e) => {
                     settDetFinnesUlagredeEndringer(true);
                     settUtgift(tilHeltall(fjernSpaces(e.target.value)));
@@ -252,7 +252,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                         <DelvilkårRadioknapper
                             vurdering={svar}
                             regel={gjeldendeRegel}
-                            readOnly={props.felterSomKanRedigeres == 'ALLE'}
+                            readOnly={props.felterSomKanRedigeres != 'ALLE'}
                             settVurdering={(nyVurdering) => {
                                 settDetFinnesUlagredeEndringer(true);
                                 oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
