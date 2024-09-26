@@ -32,7 +32,7 @@ const VilkårperiodeRad: React.FC<{
 }> = ({ vilkårperiode, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
-    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
         periodeFom: vilkårperiode.fom,
         periodeTom: vilkårperiode.tom,
         nyRadLeggesTil: false,

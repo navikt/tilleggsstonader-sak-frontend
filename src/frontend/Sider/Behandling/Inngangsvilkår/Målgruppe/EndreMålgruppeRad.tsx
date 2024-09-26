@@ -120,7 +120,7 @@ const EndreMålgruppeRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const felterSomKanEndres = useRevurderingAvPerioder({
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
         periodeFom: målgruppeForm.fom,
         periodeTom: målgruppeForm.tom,
         nyRadLeggesTil: !målgruppe,
@@ -131,7 +131,7 @@ const EndreMålgruppeRad: React.FC<{
             type={'Målgruppe'}
             vilkårperiode={målgruppe}
             form={målgruppeForm}
-            felterSomKanEndres={felterSomKanEndres}
+            felterSomKanEndres={felterSomKanEndresIPerioden}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterForm}
@@ -144,7 +144,7 @@ const EndreMålgruppeRad: React.FC<{
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
-                felterSomKanEndres={felterSomKanEndres}
+                felterSomKanEndres={felterSomKanEndresIPerioden}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,

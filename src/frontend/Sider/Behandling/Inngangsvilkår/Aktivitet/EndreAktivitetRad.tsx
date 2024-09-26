@@ -127,7 +127,7 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
         periodeFom: aktivitetForm.fom,
         periodeTom: aktivitetForm.tom,
         nyRadLeggesTil: nyRadLeggesTil,

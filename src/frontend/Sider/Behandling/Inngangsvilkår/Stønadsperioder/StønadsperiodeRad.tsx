@@ -24,7 +24,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
-    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
         periodeFom: stønadsperide.fom,
         periodeTom: stønadsperide.tom,
         nyRadLeggesTil: !stønadsperide.id,

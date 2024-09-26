@@ -21,7 +21,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
-    const felterSomKanEndresIPerioden = useRevurderingAvPerioder({
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
         periodeFom: vilkår.fom,
         periodeTom: vilkår.tom,
         nyRadLeggesTil: false,

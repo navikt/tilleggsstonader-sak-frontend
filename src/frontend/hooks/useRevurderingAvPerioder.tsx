@@ -11,20 +11,23 @@ export const useRevurderingAvPerioder = ({
     periodeFom: string | undefined;
     periodeTom: string | undefined;
     nyRadLeggesTil: boolean;
-}): FelterSomKanEndresIPerioden => {
+}): { felterSomKanEndresIPerioden: FelterSomKanEndresIPerioden } => {
     const { behandling } = useBehandling();
     const datoDetRevurderesFra = behandling.revurderFra;
 
-    const alleDatoerErDefinert = datoDetRevurderesFra && periodeTom && periodeFom;
+    const noenAvDatoeneErUdefinert = !(datoDetRevurderesFra && periodeTom && periodeFom);
 
-    if (nyRadLeggesTil || !alleDatoerErDefinert) {
-        return 'ALLE';
-    } else if (datoErIPeriodeInklusivSlutt(datoDetRevurderesFra, periodeFom, periodeTom)) {
-        return 'BARE_TOM';
-    } else if (erFør(periodeTom, datoDetRevurderesFra)) {
-        return 'INGEN';
-    } else {
-        // perioden er etter revurder fra-datoen
-        return 'ALLE';
-    }
+    const bestemFelterSomKanEndres = (): FelterSomKanEndresIPerioden => {
+        if (nyRadLeggesTil || noenAvDatoeneErUdefinert) {
+            return 'ALLE';
+        } else if (datoErIPeriodeInklusivSlutt(datoDetRevurderesFra, periodeFom, periodeTom)) {
+            return 'BARE_TOM';
+        } else if (erFør(periodeTom, datoDetRevurderesFra)) {
+            return 'INGEN';
+        } else {
+            return 'ALLE';
+        }
+    };
+
+    return { felterSomKanEndresIPerioden: bestemFelterSomKanEndres() };
 };
