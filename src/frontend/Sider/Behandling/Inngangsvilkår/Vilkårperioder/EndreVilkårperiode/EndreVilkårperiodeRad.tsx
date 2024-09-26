@@ -124,7 +124,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {vilkårperiode !== undefined && (
+                {vilkårperiode !== undefined && felterSomKanEndres === 'ALLE' && (
                     <>
                         <Button
                             size="small"
