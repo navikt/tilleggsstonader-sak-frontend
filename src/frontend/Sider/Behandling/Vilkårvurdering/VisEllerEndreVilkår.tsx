@@ -56,7 +56,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
     ) : (
         <LesevisningVilkår
             vilkår={vilkår}
-            skalViseRedigeringsknapp={felterSomKanEndresIPerioden != 'INGEN'}
+            skalViseRedigeringsknapp={erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN'}
             startRedigering={() => settRedigerer(true)}
         />
     );
