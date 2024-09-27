@@ -61,7 +61,11 @@ const Stønadsperioder: React.FC = () => {
 
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
-            stønadsperioder: validerStønadsperioder(formState.stønadsperioder),
+            stønadsperioder: validerStønadsperioder(
+                formState.stønadsperioder,
+                stønadsperioder,
+                behandling.revurderFra
+            ),
         };
     };
 

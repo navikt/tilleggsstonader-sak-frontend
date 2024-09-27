@@ -1,9 +1,12 @@
+import { finnStønadsperiodeIListe } from './utils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { validerPeriode } from '../../../../utils/periode';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 
 export const validerStønadsperioder = (
-    stønadsperioder: Stønadsperiode[]
+    stønadsperioder: Stønadsperiode[],
+    lagredeStønadsperioder: Stønadsperiode[] | [],
+    revurderesFraDato?: string
 ): FormErrors<Stønadsperiode[]> => {
     const feilIStønadsperioder = stønadsperioder.map((periode) => {
         const stønadsperiodeFeil: FormErrors<Stønadsperiode> = {
@@ -21,7 +24,9 @@ export const validerStønadsperioder = (
             return { ...stønadsperiodeFeil, aktivitet: 'Mangler aktivitet for periode' };
         }
 
-        const periodeValidering = validerPeriode(periode);
+        const lagretPeriode = finnStønadsperiodeIListe(periode, lagredeStønadsperioder);
+
+        const periodeValidering = validerPeriode(periode, lagretPeriode, revurderesFraDato);
         if (periodeValidering) {
             return {
                 ...stønadsperiodeFeil,

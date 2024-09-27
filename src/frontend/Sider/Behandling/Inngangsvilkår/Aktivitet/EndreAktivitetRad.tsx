@@ -69,7 +69,11 @@ const EndreAktivitetRad: React.FC<{
         useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
+        const vilkårsperiodeFeil = validerVilkårsperiode(
+            aktivitetForm,
+            aktivitet,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
