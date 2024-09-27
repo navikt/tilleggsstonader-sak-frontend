@@ -24,12 +24,11 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
-    const { alleFelterKanEndres, helePeriodenErLåstForEndring: ingenFelterKanEndres } =
-        useRevurderingAvPerioder({
-            periodeFom: stønadsperide.fom,
-            periodeTom: stønadsperide.tom,
-            nyRadLeggesTil: !stønadsperide.id,
-        });
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
+        periodeFom: stønadsperide.fom,
+        periodeTom: stønadsperide.tom,
+        nyRadLeggesTil: !stønadsperide.id,
+    });
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
@@ -83,7 +82,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
-                readOnly={ingenFelterKanEndres}
+                readOnly={helePeriodenErLåstForEndring}
                 onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
