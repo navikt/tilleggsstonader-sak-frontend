@@ -1,7 +1,7 @@
 import { useBehandling } from '../context/BehandlingContext';
 import { datoErIPeriodeInklusivSlutt, erFør } from '../utils/dato';
 
-export type FelterSomKanEndresIPerioden = 'INGEN' | 'BARE_TOM' | 'ALLE';
+type FelterSomKanEndresIPerioden = 'INGEN' | 'BARE_TOM' | 'ALLE';
 
 export const useRevurderingAvPerioder = ({
     periodeFom,
@@ -11,7 +11,10 @@ export const useRevurderingAvPerioder = ({
     periodeFom: string | undefined;
     periodeTom: string | undefined;
     nyRadLeggesTil: boolean;
-}): { felterSomKanEndresIPerioden: FelterSomKanEndresIPerioden } => {
+}): {
+    alleFelterKanEndres: boolean;
+    helePeriodenErLåstForEndring: boolean;
+} => {
     const { behandling } = useBehandling();
     const datoDetRevurderesFra = behandling.revurderFra;
 
@@ -29,5 +32,11 @@ export const useRevurderingAvPerioder = ({
         }
     };
 
-    return { felterSomKanEndresIPerioden: bestemFelterSomKanEndres() };
+    const alleFelterKanEndres = bestemFelterSomKanEndres() === 'ALLE';
+    const helePeriodenErLåstForEndring = bestemFelterSomKanEndres() === 'INGEN';
+
+    return {
+        alleFelterKanEndres,
+        helePeriodenErLåstForEndring,
+    };
 };

@@ -24,11 +24,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
-        periodeFom: stønadsperide.fom,
-        periodeTom: stønadsperide.tom,
-        nyRadLeggesTil: !stønadsperide.id,
-    });
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring: ingenFelterKanEndres } =
+        useRevurderingAvPerioder({
+            periodeFom: stønadsperide.fom,
+            periodeTom: stønadsperide.tom,
+            nyRadLeggesTil: !stønadsperide.id,
+        });
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
@@ -41,7 +42,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={aktivitetTypeOptionsForStønadsperiode}
                 label={'Aktivitet'}
                 hideLabel
-                readOnly={felterSomKanEndresIPerioden !== 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 value={
                     erLeservisning
                         ? aktivitetTypeTilTekst(stønadsperide.aktivitet)
@@ -56,7 +57,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 value={
                     erLeservisning
                         ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
@@ -72,7 +73,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Fra'}
                 hideLabel
                 value={stønadsperide.fom}
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('fom')}
@@ -82,12 +83,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
-                readOnly={felterSomKanEndresIPerioden == 'INGEN'}
+                readOnly={ingenFelterKanEndres}
                 onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
             />
-            {!erLeservisning && felterSomKanEndresIPerioden == 'ALLE' && (
+            {!erLeservisning && alleFelterKanEndres && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>

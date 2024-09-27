@@ -127,7 +127,7 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+    const { alleFelterKanEndres } = useRevurderingAvPerioder({
         periodeFom: aktivitetForm.fom,
         periodeTom: aktivitetForm.tom,
         nyRadLeggesTil: nyRadLeggesTil,
@@ -138,7 +138,7 @@ const EndreAktivitetRad: React.FC<{
             type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
-            felterSomKanEndres={felterSomKanEndresIPerioden}
+            alleFelterKanEndres={alleFelterKanEndres}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
@@ -167,14 +167,14 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                         error={vilkårsperiodeFeil?.aktivitetsdager}
                         autoComplete="off"
-                        readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                        readOnly={!alleFelterKanEndres}
                     />
                 )
             }
         >
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,

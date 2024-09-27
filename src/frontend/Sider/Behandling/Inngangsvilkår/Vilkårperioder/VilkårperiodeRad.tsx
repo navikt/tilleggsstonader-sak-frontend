@@ -32,7 +32,7 @@ const VilkårperiodeRad: React.FC<{
 }> = ({ vilkårperiode, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+    const { helePeriodenErLåstForEndring: ingenFelterKanEndres } = useRevurderingAvPerioder({
         periodeFom: vilkårperiode.fom,
         periodeTom: vilkårperiode.tom,
         nyRadLeggesTil: false,
@@ -41,7 +41,7 @@ const VilkårperiodeRad: React.FC<{
     const visRedigerKnapp =
         vilkårperiode.resultat != VilkårPeriodeResultat.SLETTET &&
         erStegRedigerbart &&
-        felterSomKanEndresIPerioden !== 'INGEN';
+        !ingenFelterKanEndres;
 
     return (
         <VilkårperiodeKortBase
