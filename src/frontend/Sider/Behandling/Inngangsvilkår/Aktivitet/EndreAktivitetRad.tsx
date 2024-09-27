@@ -128,8 +128,8 @@ const EndreAktivitetRad: React.FC<{
     };
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
-        periodeFom: aktivitetForm.fom,
-        periodeTom: aktivitetForm.tom,
+        periodeFom: aktivitet?.fom,
+        periodeTom: aktivitet?.tom,
         nyRadLeggesTil: nyRadLeggesTil,
     });
 

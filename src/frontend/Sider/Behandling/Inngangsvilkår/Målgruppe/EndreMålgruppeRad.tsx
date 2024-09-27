@@ -121,8 +121,8 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
-        periodeFom: målgruppeForm.fom,
-        periodeTom: målgruppeForm.tom,
+        periodeFom: målgruppe?.fom,
+        periodeTom: målgruppe?.tom,
         nyRadLeggesTil: !målgruppe,
     });
 
