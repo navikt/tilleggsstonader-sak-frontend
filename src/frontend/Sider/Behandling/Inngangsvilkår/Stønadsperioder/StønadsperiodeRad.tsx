@@ -11,6 +11,7 @@ import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
     stønadsperide: Stønadsperiode;
+    lagrerStønadsperiode: Stønadsperiode | undefined;
     feilmeldinger: FormErrors<Stønadsperiode>;
     oppdaterStønadsperiode: (property: keyof Stønadsperiode, value: string | undefined) => void;
     slettPeriode: () => void;
@@ -19,14 +20,15 @@ interface Props {
 
 const StønadsperiodeRad: React.FC<Props> = ({
     stønadsperide,
+    lagrerStønadsperiode,
     feilmeldinger,
     oppdaterStønadsperiode,
     slettPeriode,
     erLeservisning,
 }) => {
     const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: stønadsperide.fom,
-        periodeTom: stønadsperide.tom,
+        periodeFom: lagrerStønadsperiode?.fom,
+        periodeTom: lagrerStønadsperiode?.tom,
         nyRadLeggesTil: !stønadsperide.id,
     });
 

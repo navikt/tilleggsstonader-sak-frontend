@@ -135,6 +135,10 @@ const Stønadsperioder: React.FC = () => {
         stønadsperioderState.setValue(stønadsperioder);
     };
 
+    const finnLagretPeriode = (id?: string) => {
+        return stønadsperioder.find((periode) => periode.id === id);
+    };
+
     return (
         <Panel tittel="Stønadsperioder" ikon={<SealCheckmarkIcon />}>
             {stønadsperioderState.value.length === 0 && !erStegRedigerbart && (
@@ -156,6 +160,7 @@ const Stønadsperioder: React.FC = () => {
                                 <StønadsperiodeRad
                                     key={periode.id || indeks}
                                     stønadsperide={periode}
+                                    lagrerStønadsperiode={finnLagretPeriode(periode.id)}
                                     oppdaterStønadsperiode={(
                                         property: keyof Stønadsperiode,
                                         value: string | undefined
