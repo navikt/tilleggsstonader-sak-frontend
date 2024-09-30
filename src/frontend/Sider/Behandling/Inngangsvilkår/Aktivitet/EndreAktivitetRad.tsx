@@ -69,7 +69,11 @@ const EndreAktivitetRad: React.FC<{
         useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(aktivitetForm);
+        const vilkårsperiodeFeil = validerVilkårsperiode(
+            aktivitetForm,
+            aktivitet,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -127,9 +131,9 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
-        periodeFom: aktivitetForm.fom,
-        periodeTom: aktivitetForm.tom,
+    const { alleFelterKanEndres } = useRevurderingAvPerioder({
+        periodeFom: aktivitet?.fom,
+        periodeTom: aktivitet?.tom,
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
@@ -138,7 +142,7 @@ const EndreAktivitetRad: React.FC<{
             type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
-            felterSomKanEndres={felterSomKanEndresIPerioden}
+            alleFelterKanEndres={alleFelterKanEndres}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
@@ -167,14 +171,14 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                         error={vilkårsperiodeFeil?.aktivitetsdager}
                         autoComplete="off"
-                        readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                        readOnly={!alleFelterKanEndres}
                     />
                 )
             }
         >
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,

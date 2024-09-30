@@ -21,13 +21,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
         periodeFom: vilkår.fom,
         periodeTom: vilkår.tom,
         nyRadLeggesTil: false,
     });
 
-    return erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN' && redigerer ? (
+    return erStegRedigerbart && !helePeriodenErLåstForEndring && redigerer ? (
         <EndreVilkår
             regler={regler}
             redigerbareVilkårfelter={{
@@ -44,7 +44,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
-            felterSomKanRedigeres={felterSomKanEndresIPerioden}
+            alleFelterKanRedigeres={alleFelterKanEndres}
             slettVilkår={
                 vilkår.opphavsvilkår
                     ? undefined
@@ -56,7 +56,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
     ) : (
         <LesevisningVilkår
             vilkår={vilkår}
-            skalViseRedigeringsknapp={erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN'}
+            skalViseRedigeringsknapp={erStegRedigerbart && !helePeriodenErLåstForEndring}
             startRedigering={() => settRedigerer(true)}
         />
     );

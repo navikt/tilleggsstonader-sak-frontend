@@ -11,6 +11,7 @@ import { Stønadsperiode } from '../typer/stønadsperiode';
 
 interface Props {
     stønadsperide: Stønadsperiode;
+    lagrerStønadsperiode: Stønadsperiode | undefined;
     feilmeldinger: FormErrors<Stønadsperiode>;
     oppdaterStønadsperiode: (property: keyof Stønadsperiode, value: string | undefined) => void;
     slettPeriode: () => void;
@@ -19,14 +20,15 @@ interface Props {
 
 const StønadsperiodeRad: React.FC<Props> = ({
     stønadsperide,
+    lagrerStønadsperiode,
     feilmeldinger,
     oppdaterStønadsperiode,
     slettPeriode,
     erLeservisning,
 }) => {
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
-        periodeFom: stønadsperide.fom,
-        periodeTom: stønadsperide.tom,
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
+        periodeFom: lagrerStønadsperiode?.fom,
+        periodeTom: lagrerStønadsperiode?.tom,
         nyRadLeggesTil: !stønadsperide.id,
     });
 
@@ -41,7 +43,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={aktivitetTypeOptionsForStønadsperiode}
                 label={'Aktivitet'}
                 hideLabel
-                readOnly={felterSomKanEndresIPerioden !== 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 value={
                     erLeservisning
                         ? aktivitetTypeTilTekst(stønadsperide.aktivitet)
@@ -56,7 +58,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 label={'Målgruppe'}
                 hideLabel
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 value={
                     erLeservisning
                         ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
@@ -72,7 +74,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Fra'}
                 hideLabel
                 value={stønadsperide.fom}
-                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
+                readOnly={!alleFelterKanEndres}
                 onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('fom')}
@@ -82,12 +84,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 label={'Til'}
                 hideLabel
                 value={stønadsperide.tom}
-                readOnly={felterSomKanEndresIPerioden == 'INGEN'}
+                readOnly={helePeriodenErLåstForEndring}
                 onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
                 size="small"
                 feil={finnFeilmelding('tom')}
             />
-            {!erLeservisning && felterSomKanEndresIPerioden == 'ALLE' && (
+            {!erLeservisning && alleFelterKanEndres && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>

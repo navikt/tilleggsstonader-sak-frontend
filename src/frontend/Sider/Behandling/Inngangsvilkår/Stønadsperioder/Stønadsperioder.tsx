@@ -8,6 +8,7 @@ import { BodyShort, Label, VStack } from '@navikt/ds-react';
 import Aksjonsknapper from './Aksjonsknapper';
 import { LesMerStønadsperioder } from './LesMerStønadsperioder';
 import StønadsperiodeRad from './StønadsperiodeRad';
+import { finnStønadsperiodeIListe } from './utils';
 import { validerStønadsperioder } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -61,7 +62,11 @@ const Stønadsperioder: React.FC = () => {
 
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
-            stønadsperioder: validerStønadsperioder(formState.stønadsperioder),
+            stønadsperioder: validerStønadsperioder(
+                formState.stønadsperioder,
+                stønadsperioder,
+                behandling.revurderFra
+            ),
         };
     };
 
@@ -133,6 +138,7 @@ const Stønadsperioder: React.FC = () => {
     const avbrytRedigering = () => {
         settRedigerer(false);
         stønadsperioderState.setValue(stønadsperioder);
+        formState.nullstillErrors();
     };
 
     return (
@@ -156,6 +162,10 @@ const Stønadsperioder: React.FC = () => {
                                 <StønadsperiodeRad
                                     key={periode.id || indeks}
                                     stønadsperide={periode}
+                                    lagrerStønadsperiode={finnStønadsperiodeIListe(
+                                        periode,
+                                        stønadsperioder
+                                    )}
                                     oppdaterStønadsperiode={(
                                         property: keyof Stønadsperiode,
                                         value: string | undefined

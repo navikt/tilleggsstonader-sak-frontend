@@ -65,7 +65,11 @@ const EndreMålgruppeRad: React.FC<{
         useState<FormErrors<EndreVilkårsperiode>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(målgruppeForm);
+        const vilkårsperiodeFeil = validerVilkårsperiode(
+            målgruppeForm,
+            målgruppe,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -120,9 +124,9 @@ const EndreMålgruppeRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
-    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
-        periodeFom: målgruppeForm.fom,
-        periodeTom: målgruppeForm.tom,
+    const { alleFelterKanEndres } = useRevurderingAvPerioder({
+        periodeFom: målgruppe?.fom,
+        periodeTom: målgruppe?.tom,
         nyRadLeggesTil: !målgruppe,
     });
 
@@ -131,7 +135,7 @@ const EndreMålgruppeRad: React.FC<{
             type={'Målgruppe'}
             vilkårperiode={målgruppe}
             form={målgruppeForm}
-            felterSomKanEndres={felterSomKanEndresIPerioden}
+            alleFelterKanEndres={alleFelterKanEndres}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterForm}
@@ -144,7 +148,7 @@ const EndreMålgruppeRad: React.FC<{
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
-                felterSomKanEndres={felterSomKanEndresIPerioden}
+                readOnly={!alleFelterKanEndres}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,
