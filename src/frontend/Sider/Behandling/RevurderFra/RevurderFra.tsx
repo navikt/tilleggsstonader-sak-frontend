@@ -78,7 +78,9 @@ export function RevurderFra() {
                         denne datoen, blir alle endringene i revurderingen nullstilt.
                     </Alert>
                 )}
-                <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
+                {behandlingErRedigerbar && (
+                    <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
+                )}
                 {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
             </VStack>
         </Container>
