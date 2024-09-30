@@ -1,14 +1,7 @@
-import { AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
-
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
     AVSLAG = 'AVSLAG',
 }
-
-export const typeVedtakTilTekst: Record<TypeVedtak, string> = {
-    INNVILGELSE: 'Innvilgelse',
-    AVSLAG: 'Avslag',
-};
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
 
@@ -48,45 +41,10 @@ export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
     type: TypeVedtak.AVSLAG;
 }
 
-export type StønadsperiodeGrunnlag = {
-    stønadsperiode: Stønadsperiode;
-    aktiviteter: Aktivitet[];
-    antallDager: number;
-};
-
-type Aktivitet = {
-    type: AktivitetType;
-    fom: string;
-    tom: string;
-    aktivitetsdager: number;
-};
-
-export type Stønadsperiode = {
-    fom: string;
-    tom: string;
-    endretKey?: string; // intern for re-rendring
-};
-
-export enum StønadsperiodeProperty {
-    FOM = 'fom',
-    TOM = 'tom',
-}
-
-export type Utgift = {
-    fom: string;
-    tom: string;
-    utgift?: number;
-    endretKey?: string; // intern for re-rendring
-};
-
-export enum UtgifterProperty {
-    FOM = 'fom',
-    TOM = 'tom',
-    UTGIFT = 'utgift',
-}
-
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
+    gjelderFraOgMed?: string;
+    gjelderTilOgMed?: string;
 };
 
 type Beregningsresultat = {
@@ -97,15 +55,6 @@ type Beregningsresultat = {
 
 type Beregningsgrunnlag = {
     måned: string;
-    makssats: number;
-    stønadsperioderGrunnlag: StønadsperiodeGrunnlag[];
-    utgifter: UtgiftBarn[];
-    antallDagerTotal: number;
     utgifterTotal: number;
     antallBarn: number;
-};
-
-type UtgiftBarn = {
-    barnId: string;
-    utgift: number;
 };
