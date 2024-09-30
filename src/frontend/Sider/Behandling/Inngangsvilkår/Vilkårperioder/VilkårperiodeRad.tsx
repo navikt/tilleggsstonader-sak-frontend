@@ -9,6 +9,7 @@ import DelvilkårDetaljer from './VilkårperiodeKort/DelvilkårDetaljer';
 import VilkårperiodeKortBase from './VilkårperiodeKort/VilkårperiodeKortBase';
 import { useSteg } from '../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
+import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Aktivitet } from '../typer/aktivitet';
 import { Målgruppe } from '../typer/målgruppe';
@@ -19,10 +20,6 @@ const CelleContainer = styled.div`
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-`;
-
-export const Celle = styled.div<{ $width?: number }>`
-    width: ${({ $width = 180 }) => $width}px;
 `;
 
 // TODO: Endre navn til VilkårperiodeKort

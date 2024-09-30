@@ -10,6 +10,7 @@ import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
+import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
 import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
@@ -19,7 +20,6 @@ import SlettVilkårperiodeModal from '../SlettVilkårperiodeModal';
 import { EndreVilkårsperiode } from '../validering';
 import { tittelSelectTypeVilkårperiode, TypeVilkårperiode } from '../VilkårperiodeKort/utils';
 import VilkårperiodeKortBase from '../VilkårperiodeKort/VilkårperiodeKortBase';
-import { Celle } from '../VilkårperiodeRad';
 
 const FeltContainer = styled.div`
     flex-grow: 1;

@@ -9,6 +9,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
+import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -27,7 +28,6 @@ import {
 } from '../typer/vilkårperiode';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
-import { Celle } from '../Vilkårperioder/VilkårperiodeRad';
 
 export interface EndreAktivitetForm extends Periode {
     aktivitetsdager?: number;
