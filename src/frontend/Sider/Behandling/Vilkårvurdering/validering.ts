@@ -1,7 +1,7 @@
 import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
-import { erDatoEtterEllerLik } from '../../../utils/dato';
+import { validerPeriode } from '../../../utils/periode';
 import { harIkkeVerdi } from '../../../utils/utils';
-import { Delvilkår } from '../vilkår';
+import { Delvilkår, RedigerbareVilkårfelter } from '../vilkår';
 
 export type Feilmeldinger = {
     delvilkårsvurderinger: Record<RegelId, string | undefined>;
@@ -17,20 +17,24 @@ export function ingen(valideringsfeil: Feilmeldinger) {
 
 export const validerVilkårsvurderinger = (
     delvilkårsett: Delvilkår[],
+    lagredeFelter: RedigerbareVilkårfelter,
     regler: Regler,
     fom?: string,
-    tom?: string
+    tom?: string,
+    revurderesFraDato?: string
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
-    if (harIkkeVerdi(fom)) {
-        valideringsfeil.fom = 'Må angis';
-    }
-    if (harIkkeVerdi(tom)) {
-        valideringsfeil.tom = 'Må angis';
-    }
-    if (fomErEtterTom(fom, tom)) {
-        valideringsfeil.tom = 'Må være etter fra-datoen';
+    const periodeValidering = validerPeriode(
+        { fom: fom || '', tom: tom || '' },
+        { fom: lagredeFelter.fom || '', tom: lagredeFelter.tom || '' },
+        revurderesFraDato
+    );
+    if (periodeValidering) {
+        return {
+            ...valideringsfeil,
+            ...periodeValidering,
+        };
     }
 
     delvilkårsett
@@ -55,8 +59,6 @@ export const validerVilkårsvurderinger = (
 
     return valideringsfeil;
 };
-
-const fomErEtterTom = (fom?: string, tom?: string) => fom && tom && !erDatoEtterEllerLik(fom, tom);
 
 const begrunnelseKreves = (svar: string, regel: Regel): boolean => {
     const valgtSvaralternativ = regel?.svarMapping[svar];
