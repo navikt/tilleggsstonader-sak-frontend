@@ -1,5 +1,5 @@
 import { useBehandling } from '../context/BehandlingContext';
-import { datoErIPeriodeInklusivSlutt, erFør } from '../utils/dato';
+import { dagenFør, datoErIPeriodeInklusivSlutt, erFør } from '../utils/dato';
 
 type FelterSomKanEndresIPerioden = 'INGEN' | 'BARE_TOM' | 'ALLE';
 
@@ -20,10 +20,15 @@ export const useRevurderingAvPerioder = ({
 
     const noenAvDatoeneErUdefinert = !(datoDetRevurderesFra && periodeTom && periodeFom);
 
+    // TODO: Gi status bare tom hvis dato er en dag før revurder fra også!
     const bestemFelterSomKanEndres = (): FelterSomKanEndresIPerioden => {
         if (nyRadLeggesTil || noenAvDatoeneErUdefinert) {
             return 'ALLE';
-        } else if (datoErIPeriodeInklusivSlutt(datoDetRevurderesFra, periodeFom, periodeTom)) {
+        }
+
+        const dagenFørDetRevurderesFra = dagenFør(datoDetRevurderesFra);
+
+        if (datoErIPeriodeInklusivSlutt(dagenFørDetRevurderesFra, periodeFom, periodeTom)) {
             return 'BARE_TOM';
         } else if (erFør(periodeTom, datoDetRevurderesFra)) {
             return 'INGEN';
