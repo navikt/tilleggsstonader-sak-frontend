@@ -18,6 +18,7 @@ import {
 } from './utils';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from './validering';
 import { useApp } from '../../../context/AppContext';
+import { useBehandling } from '../../../context/BehandlingContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
@@ -73,6 +74,7 @@ type EndreVilkårProps = {
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -179,7 +181,14 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valideringsfeil = validerVilkårsvurderinger(delvilkårsett, props.regler, fom, tom);
+        const valideringsfeil = validerVilkårsvurderinger(
+            delvilkårsett,
+            props.redigerbareVilkårfelter,
+            props.regler,
+            fom,
+            tom,
+            behandling.revurderFra
+        );
 
         settFeilmeldinger(valideringsfeil);
 
