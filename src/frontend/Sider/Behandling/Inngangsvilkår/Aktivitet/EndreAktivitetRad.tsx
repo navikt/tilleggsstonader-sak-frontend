@@ -27,6 +27,7 @@ import {
 } from '../typer/vilkårperiode';
 import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
+import { Celle } from '../Vilkårperioder/VilkårperiodeRad';
 
 export interface EndreAktivitetForm extends Periode {
     aktivitetsdager?: number;
@@ -154,25 +155,27 @@ const EndreAktivitetRad: React.FC<{
             tomKeyDato={tomKeyDato}
             ekstraCeller={
                 aktivitetForm.type !== AktivitetType.INGEN_AKTIVITET && (
-                    <TextField
-                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label="Aktivitetsdager"
-                        value={
-                            harTallverdi(aktivitetForm.aktivitetsdager)
-                                ? aktivitetForm.aktivitetsdager
-                                : ''
-                        }
-                        onChange={(event) =>
-                            settAktivitetForm((prevState) => ({
-                                ...prevState,
-                                aktivitetsdager: tilHeltall(event.target.value),
-                            }))
-                        }
-                        size="small"
-                        error={vilkårsperiodeFeil?.aktivitetsdager}
-                        autoComplete="off"
-                        readOnly={!alleFelterKanEndres}
-                    />
+                    <Celle $width={140}>
+                        <TextField
+                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                            label="Aktivitetsdager"
+                            value={
+                                harTallverdi(aktivitetForm.aktivitetsdager)
+                                    ? aktivitetForm.aktivitetsdager
+                                    : ''
+                            }
+                            onChange={(event) =>
+                                settAktivitetForm((prevState) => ({
+                                    ...prevState,
+                                    aktivitetsdager: tilHeltall(event.target.value),
+                                }))
+                            }
+                            size="small"
+                            error={vilkårsperiodeFeil?.aktivitetsdager}
+                            autoComplete="off"
+                            readOnly={!alleFelterKanEndres}
+                        />
+                    </Celle>
                 )
             }
         >
