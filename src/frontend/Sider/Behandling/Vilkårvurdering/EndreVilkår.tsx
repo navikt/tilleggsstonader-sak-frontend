@@ -211,7 +211,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const EndrePerioder = (
         <PeriodeGrid>
             <MonthInput
-                label="Periode fra og med"
+                label="Fra"
                 size="small"
                 value={fom}
                 feil={feilmeldinger.fom}
@@ -223,7 +223,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 }}
             />
             <MonthInput
-                label="Periode til og med"
+                label="Til"
                 size="small"
                 value={tom}
                 feil={feilmeldinger.tom}
