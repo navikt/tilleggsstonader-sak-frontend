@@ -41,11 +41,12 @@ const validerPeriodeRevurdering = (
     if (!revurderFra) return undefined;
 
     // Validering av perioder hvor kun tom kan endres
+    const tidligsteMuligeTom = dagenFør(revurderFra);
     if (
         lagretPeriode &&
-        datoErIPeriodeInklusivSlutt(revurderFra, lagretPeriode.fom, lagretPeriode.tom)
+        datoErIPeriodeInklusivSlutt(tidligsteMuligeTom, lagretPeriode.fom, lagretPeriode.tom)
     ) {
-        return validerTomEtterEllerLikRevurderingsdato(oppdatertPeriode.tom, revurderFra);
+        return validerTomEtterEllerLikRevurderingsdato(oppdatertPeriode.tom, tidligsteMuligeTom);
     }
 
     return validerFomEtterEllerLikRevurderingsdato(
@@ -69,8 +70,7 @@ const validerFomEtterEllerLikRevurderingsdato = (
     }
 };
 
-const validerTomEtterEllerLikRevurderingsdato = (tom: string, revurderFra: string) => {
-    const tidligsteMuligeTom = dagenFør(revurderFra);
+const validerTomEtterEllerLikRevurderingsdato = (tom: string, tidligsteMuligeTom: string) => {
     if (!erDatoEtterEllerLik(tidligsteMuligeTom, tom)) {
         return {
             tom: 'Til-dato kan tidligst settes til dagen før revurderingen gjelder fra',
