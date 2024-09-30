@@ -48,11 +48,21 @@ const validerPeriodeRevurdering = (
         return validerTomEtterEllerLikRevurderingsdato(oppdatertPeriode.tom, revurderFra);
     }
 
-    return validerFomEtterEllerLikRevurderingsdato(oppdatertPeriode.fom, revurderFra);
+    return validerFomEtterEllerLikRevurderingsdato(
+        revurderFra,
+        oppdatertPeriode.fom,
+        lagretPeriode?.fom
+    );
 };
 
-const validerFomEtterEllerLikRevurderingsdato = (fom: string, revurderFra: string) => {
-    if (!erDatoEtterEllerLik(revurderFra, fom)) {
+const validerFomEtterEllerLikRevurderingsdato = (
+    revurderFra: string,
+    nyFom: string,
+    lagretFom?: string
+) => {
+    if (nyFom === lagretFom) return undefined;
+
+    if (!erDatoEtterEllerLik(revurderFra, nyFom)) {
         return {
             fom: 'Fra-dato må være etter eller lik datoen revurderingen gjelder fra',
         };
