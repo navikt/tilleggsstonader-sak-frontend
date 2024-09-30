@@ -17,7 +17,8 @@ const Container = styled.div`
 const AktivitetVilkår: React.FC<{
     aktivitetForm: EndreAktivitetForm;
     oppdaterDelvilkår: (key: keyof DelvilkårAktivitet, vurdering: Vurdering) => void;
-}> = ({ aktivitetForm, oppdaterDelvilkår }) => {
+    readOnly: boolean;
+}> = ({ aktivitetForm, oppdaterDelvilkår, readOnly }) => {
     if (aktivitetForm.type === '') return null;
 
     const visVurderingLønnet = skalVurdereLønnet(aktivitetForm.type);
@@ -29,6 +30,7 @@ const AktivitetVilkår: React.FC<{
             {visVurderingLønnet && (
                 <JaNeiVurdering
                     label="Mottar bruker ordinær lønn i tiltaket?"
+                    readOnly={readOnly}
                     vurdering={aktivitetForm.delvilkår.lønnet}
                     oppdaterVurdering={(vurdering: Vurdering) =>
                         oppdaterDelvilkår('lønnet', vurdering)

@@ -23,6 +23,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         const kanBehandleRevurdering = !behandling.forrigeBehandlingId || kanSaksbehandle;
         const behandlingErRedigerbar =
             kanBehandleRevurdering && erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
+
         return {
             behandling,
             behandlingErRedigerbar,

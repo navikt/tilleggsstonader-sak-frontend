@@ -6,6 +6,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -119,11 +120,18 @@ const EndreMålgruppeRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+        periodeFom: målgruppeForm.fom,
+        periodeTom: målgruppeForm.tom,
+        nyRadLeggesTil: !målgruppe,
+    });
+
     return (
         <EndreVilkårperiodeRad
             type={'Målgruppe'}
             vilkårperiode={målgruppe}
             form={målgruppeForm}
+            felterSomKanEndres={felterSomKanEndresIPerioden}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterForm}
@@ -136,6 +144,7 @@ const EndreMålgruppeRad: React.FC<{
         >
             <MålgruppeVilkår
                 målgruppeForm={målgruppeForm}
+                felterSomKanEndres={felterSomKanEndresIPerioden}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
                     settMålgruppeForm((prevState) => ({
                         ...prevState,

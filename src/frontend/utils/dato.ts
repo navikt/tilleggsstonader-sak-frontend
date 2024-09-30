@@ -1,10 +1,10 @@
 import {
-    differenceInDays,
     addDays,
     addMonths,
+    differenceInDays,
+    endOfMonth,
     format,
     formatISO,
-    endOfMonth,
     isAfter,
     isBefore,
     isEqual,
@@ -79,13 +79,16 @@ export const dagensDatoFormatert = (): string => {
 export const tilDato = (dato: string | Date): Date =>
     typeof dato === 'string' ? parseISO(dato) : dato;
 
-// Eksempel: erDatoEtterEllerLik('2023-09-18', '2023-09-17') -> true
+// Eksempel: erDatoEtterEllerLik('2023-09-17', '2023-09-18') -> true
 export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);
 
     return isEqual(datoFra, datoTil) || isAfter(datoTil, datoFra);
 };
+
+// Eksempel: erFør('2024-10-01', '2024-11-24') -> true
+export const erFør = (fra: string, til: string): boolean => isBefore(tilDato(fra), tilDato(til));
 
 // Eksempel: erDatoFørEllerLik('2023-09-18', '2023-09-19') -> true
 export const erDatoFørEllerLik = (fra: string, til: string): boolean => {
@@ -178,3 +181,11 @@ export const tilFørsteDagenIMåneden = (dato: string | Date): string =>
 // Eksempel: tilSisteDagenIMåneden('2023-09-18') -> '2023-09-30'
 export const tilSisteDagenIMåneden = (dato: string | Date): string =>
     tilLocaleDateString(endOfMonth(tilDato(dato)));
+
+export const datoErIPeriodeInklusivSlutt = (
+    dato: string,
+    periodeFom: string,
+    periodeTom: string
+) => {
+    return erFør(periodeFom, dato) && erDatoEtterEllerLik(dato, periodeTom);
+};

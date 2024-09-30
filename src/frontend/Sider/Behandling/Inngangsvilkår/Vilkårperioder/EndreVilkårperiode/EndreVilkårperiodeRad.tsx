@@ -7,6 +7,7 @@ import { Button, HStack } from '@navikt/ds-react';
 import Begrunnelse from './Begrunnelse';
 import { finnBegrunnelseGrunner } from './utils';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { FelterSomKanEndresIPerioden } from '../../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
@@ -25,7 +26,6 @@ const FeltContainer = styled.div`
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    heigth: max-content;
 
     align-self: start;
     align-items: start;
@@ -35,6 +35,7 @@ interface Props {
     type: TypeVilkårperiode;
     vilkårperiode?: Målgruppe | Aktivitet;
     form: EndreMålgruppeForm | EndreAktivitetForm;
+    felterSomKanEndres: FelterSomKanEndresIPerioden;
     avbrytRedigering: () => void;
     lagre: () => void;
     oppdaterForm: (key: keyof VilkårPeriode, nyVerdi: string) => void;
@@ -53,6 +54,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     type,
     vilkårperiode,
     form,
+    felterSomKanEndres,
     avbrytRedigering,
     lagre,
     oppdaterForm,
@@ -74,7 +76,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
             <FeltContainer>
                 <SelectMedOptions
                     label={tittelSelectTypeVilkårperiode(type)}
-                    readOnly={vilkårperiode !== undefined}
+                    readOnly={felterSomKanEndres != 'ALLE'}
                     value={form.type}
                     valg={typeOptions}
                     onChange={(e) => oppdaterType(e.target.value)}
@@ -85,6 +87,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <DateInputMedLeservisning
                     key={fomKeyDato}
                     erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
+                    readOnly={felterSomKanEndres != 'ALLE'}
                     label={'Fra'}
                     value={form?.fom}
                     onChange={(dato) => oppdaterForm('fom', dato || '')}
@@ -121,7 +124,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {vilkårperiode !== undefined && (
+                {vilkårperiode !== undefined && felterSomKanEndres === 'ALLE' && (
                     <>
                         <Button
                             size="small"

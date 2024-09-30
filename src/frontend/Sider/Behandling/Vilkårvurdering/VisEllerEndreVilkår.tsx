@@ -4,6 +4,7 @@ import { EndreVilkår } from './EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
+import { useRevurderingAvPerioder } from '../../../hooks/useRevurderingAvPerioder';
 import { Regler } from '../../../typer/regel';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
 
@@ -20,7 +21,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
     );
 
-    return erStegRedigerbart && redigerer ? (
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+        periodeFom: vilkår.fom,
+        periodeTom: vilkår.tom,
+        nyRadLeggesTil: false,
+    });
+
+    return erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN' && redigerer ? (
         <EndreVilkår
             regler={regler}
             redigerbareVilkårfelter={{
@@ -37,6 +44,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
+            felterSomKanRedigeres={felterSomKanEndresIPerioden}
             slettVilkår={
                 vilkår.opphavsvilkår
                     ? undefined
@@ -46,6 +54,10 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             }
         />
     ) : (
-        <LesevisningVilkår vilkår={vilkår} startRedigering={() => settRedigerer(true)} />
+        <LesevisningVilkår
+            vilkår={vilkår}
+            skalViseRedigeringsknapp={erStegRedigerbart && felterSomKanEndresIPerioden != 'INGEN'}
+            startRedigering={() => settRedigerer(true)}
+        />
     );
 };

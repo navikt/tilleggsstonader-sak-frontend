@@ -6,6 +6,7 @@ import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
@@ -74,6 +75,8 @@ const EndreAktivitetRad: React.FC<{
         return isValid(vilkårsperiodeFeil);
     };
 
+    const nyRadLeggesTil = aktivitet === undefined;
+
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
@@ -83,16 +86,16 @@ const EndreAktivitetRad: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            const erNyPeriode = aktivitet === undefined;
-
             return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetForm>(
-                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                nyRadLeggesTil
+                    ? `/api/sak/vilkarperiode`
+                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
                 'POST',
                 aktivitetForm
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
-                        if (erNyPeriode) {
+                        if (nyRadLeggesTil) {
                             leggTilAktivitet(res.data.periode);
                         } else {
                             oppdaterAktivitet(res.data.periode);
@@ -124,11 +127,18 @@ const EndreAktivitetRad: React.FC<{
         oppdaterTomDatoKey();
     };
 
+    const { felterSomKanEndresIPerioden } = useRevurderingAvPerioder({
+        periodeFom: aktivitetForm.fom,
+        periodeTom: aktivitetForm.tom,
+        nyRadLeggesTil: nyRadLeggesTil,
+    });
+
     return (
         <EndreVilkårperiodeRad
             type={'Aktivitet'}
             vilkårperiode={aktivitet}
             form={aktivitetForm}
+            felterSomKanEndres={felterSomKanEndresIPerioden}
             lagre={lagre}
             avbrytRedigering={avbrytRedigering}
             oppdaterForm={oppdaterVilkårperiode}
@@ -157,12 +167,14 @@ const EndreAktivitetRad: React.FC<{
                         size="small"
                         error={vilkårsperiodeFeil?.aktivitetsdager}
                         autoComplete="off"
+                        readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                     />
                 )
             }
         >
             <AktivitetVilkår
                 aktivitetForm={aktivitetForm}
+                readOnly={felterSomKanEndresIPerioden != 'ALLE'}
                 oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,
