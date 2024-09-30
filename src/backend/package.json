@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "ci": "yarn --prefer-offline --frozen-lockfile",
     "build": "tsc --build",
     "start": "NODE_ENV=production node build/server.js",
     "start:dev": "NODE_ENV=development ENV=localhost node  --experimental-modules --es-module-specifier-resolution=node build/server.js",

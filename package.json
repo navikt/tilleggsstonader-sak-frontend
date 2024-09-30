@@ -6,7 +6,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "webpack --config ./webpack/webpack.production.js",
+    "ci": "yarn --prefer-offline --frozen-lockfile && yarn --cwd src/backend ci",
+    "build": "webpack --config ./webpack/webpack.production.js && yarn --cwd src/backend build",
     "build:dev": "cd src/backend && yarn build",
     "start:dev": "cd src/backend && yarn start:dev",
     "start:dev-preprod": "cd src/backend && yarn start:dev-preprod",
@@ -17,7 +18,7 @@
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css}": [
       "prettier --write",
-      "eslint --fix --max-warnings=0"
+      "eslint --fix --max-warnings=0 --no-warn-ignored"
     ]
   },
   "dependencies": {
