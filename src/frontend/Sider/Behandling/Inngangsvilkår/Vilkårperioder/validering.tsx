@@ -6,8 +6,8 @@ import { harIkkeVerdi } from '../../../../utils/utils';
 import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
 import { erFormForAktivitet } from '../Aktivitet/utils';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
-import { AktivitetType } from '../typer/aktivitet';
-import { MålgruppeType } from '../typer/målgruppe';
+import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
 
 export interface EndreVilkårsperiode extends Periode {
     type: AktivitetType | MålgruppeType | '';
@@ -16,7 +16,9 @@ export interface EndreVilkårsperiode extends Periode {
 }
 
 export const validerVilkårsperiode = (
-    endretVilkårsperiode: EndreMålgruppeForm | EndreAktivitetForm
+    endretVilkårsperiode: EndreMålgruppeForm | EndreAktivitetForm,
+    lagretVilkårsperiode?: Målgruppe | Aktivitet | undefined,
+    revurderesFraDato?: string
 ): FormErrors<EndreVilkårsperiode> => {
     const feil: FormErrors<EndreVilkårsperiode> = {
         fom: undefined,
@@ -30,7 +32,11 @@ export const validerVilkårsperiode = (
         return { ...feil, type: 'Må velges' };
     }
 
-    const periodeValidering = validerPeriode(endretVilkårsperiode);
+    const periodeValidering = validerPeriode(
+        endretVilkårsperiode,
+        lagretVilkårsperiode,
+        revurderesFraDato
+    );
 
     if (periodeValidering) {
         return {

@@ -11,6 +11,7 @@ import {
     isValid,
     parseISO,
     startOfMonth,
+    subDays,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
@@ -181,6 +182,10 @@ export const tilFørsteDagenIMåneden = (dato: string | Date): string =>
 // Eksempel: tilSisteDagenIMåneden('2023-09-18') -> '2023-09-30'
 export const tilSisteDagenIMåneden = (dato: string | Date): string =>
     tilLocaleDateString(endOfMonth(tilDato(dato)));
+
+// Eksempel: dagenFør('2023-09-18') -> '2023-09-17'
+export const dagenFør = (dato: string | Date): string =>
+    tilLocaleDateString(subDays(tilDato(dato), 1));
 
 export const datoErIPeriodeInklusivSlutt = (
     dato: string,
