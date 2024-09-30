@@ -19,6 +19,7 @@ import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
+import BehandlingerForOppfølging from './Sider/Admin/BehandlingerForOppfølging';
 import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegangsbehandlingAdmin';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
@@ -53,6 +54,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         path={'/admin/opprett-behandling'}
                         element={<OpprettFørstegangsbehandlingAdmin />}
                     />
+                    <Route path={'/oppfølging'} element={<BehandlingerForOppfølging />} />
                 </Route>
             ) : (
                 <Route
