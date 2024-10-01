@@ -1,22 +1,11 @@
-name: Build app
+name: Bygg app
 
-on: [pull_request, workflow_dispatch]
+on:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Bygg app
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: yarn
-          registry-url: "https://npm.pkg.github.com"
-      - name: Yarn install
-        run: yarn --prefer-offline --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - name: Yarn build
-        run: yarn build
+    name: "Bygger appen"
+    uses: navikt/tilleggsstonader/.github/workflows/ts-build.yml@main
+    secrets: inherit

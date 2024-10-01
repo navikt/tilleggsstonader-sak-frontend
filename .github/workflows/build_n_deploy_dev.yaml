@@ -1,62 +1,16 @@
 name: Build and deploy to dev
 
-on: [workflow_dispatch]
-env:
-  IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}
-  cancel-in-progress: true
-
-permissions:
-  contents: "read"
-  id-token: "write"
-  packages: "write"
+on:
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build and push Docker container
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: yarn
-          registry-url: "https://npm.pkg.github.com"
-      - name: Yarn install
-        run: yarn --prefer-offline --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - name: Yarn build
-        run: yarn build
-      - name: Yarn install server
-        working-directory: ./src/backend
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-        run: yarn --prefer-offline --frozen-lockfile
-      - name: Yarn build server
-        working-directory: ./src/backend
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-        run: yarn build
-      - name: Build and publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.READER_TOKEN }}
-        run: |
-          docker build . -t ${IMAGE}
-          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
-          docker push ${IMAGE}
-  deploy:
-    name: Deploy to NAIS
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: dev-gcp
-          RESOURCE: .nais/dev.yaml
+    name: "Bygger app og deployer til dev-gcp"
+    uses: navikt/tilleggsstonader/.github/workflows/ts-build-and-deploy.yml@main
+    with:
+      cluster: "dev-gcp"
+      manifest: ".nais/dev.yaml"
+    secrets: inherit
+    permissions:
+      id-token: write
+      packages: write
