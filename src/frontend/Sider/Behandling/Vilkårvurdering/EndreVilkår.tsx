@@ -3,7 +3,7 @@ import React, { FC, useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -59,6 +59,13 @@ const Knapper = styled.div`
     .right {
         margin-left: auto;
     }
+`;
+
+const PeriodeGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    align-items: start;
+    gap: 1rem;
 `;
 
 type EndreVilkårProps = {
@@ -211,9 +218,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     };
 
     const EndrePerioder = (
-        <HStack gap="6">
+        <PeriodeGrid>
             <MonthInput
-                label="Periode fra og med"
+                label="Fra"
                 size="small"
                 value={fom}
                 feil={feilmeldinger.fom}
@@ -225,7 +232,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 }}
             />
             <MonthInput
-                label="Periode til og med"
+                label="Til"
                 size="small"
                 value={tom}
                 feil={feilmeldinger.tom}
@@ -246,7 +253,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     settUtgift(tilHeltall(fjernSpaces(e.target.value)));
                 }}
             />
-        </HStack>
+        </PeriodeGrid>
     );
 
     const EndreDelvilkår = delvilkårsett.map((delvikår, delvilkårIndex) => {
@@ -288,6 +295,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     });
 
     const slettVilkår = props.slettVilkår;
+
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>

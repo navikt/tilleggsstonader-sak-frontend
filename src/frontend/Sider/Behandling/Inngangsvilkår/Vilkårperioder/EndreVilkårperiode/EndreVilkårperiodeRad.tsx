@@ -10,6 +10,7 @@ import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
+import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
 import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
@@ -73,37 +74,42 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
-                <SelectMedOptions
-                    label={tittelSelectTypeVilkårperiode(type)}
-                    readOnly={!alleFelterKanEndres}
-                    value={form.type}
-                    valg={typeOptions}
-                    onChange={(e) => oppdaterType(e.target.value)}
-                    size="small"
-                    error={vilkårsperiodeFeil?.type}
-                />
+                <Celle>
+                    <SelectMedOptions
+                        label={tittelSelectTypeVilkårperiode(type)}
+                        readOnly={!alleFelterKanEndres}
+                        value={form.type}
+                        valg={typeOptions}
+                        onChange={(e) => oppdaterType(e.target.value)}
+                        size="small"
+                        error={vilkårsperiodeFeil?.type}
+                    />
+                </Celle>
 
-                <DateInputMedLeservisning
-                    key={fomKeyDato}
-                    erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
-                    readOnly={!alleFelterKanEndres}
-                    label={'Fra'}
-                    value={form?.fom}
-                    onChange={(dato) => oppdaterForm('fom', dato || '')}
-                    size="small"
-                    feil={vilkårsperiodeFeil?.fom}
-                />
+                <Celle $width={130}>
+                    <DateInputMedLeservisning
+                        key={fomKeyDato}
+                        erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
+                        readOnly={!alleFelterKanEndres}
+                        label={'Fra'}
+                        value={form?.fom}
+                        onChange={(dato) => oppdaterForm('fom', dato || '')}
+                        size="small"
+                        feil={vilkårsperiodeFeil?.fom}
+                    />
+                </Celle>
 
-                <DateInputMedLeservisning
-                    key={tomKeyDato}
-                    erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
-                    label={'Til'}
-                    value={form?.tom}
-                    onChange={(dato) => oppdaterForm('tom', dato || '')}
-                    size="small"
-                    feil={vilkårsperiodeFeil?.tom}
-                />
-
+                <Celle $width={130}>
+                    <DateInputMedLeservisning
+                        key={tomKeyDato}
+                        erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
+                        label={'Til'}
+                        value={form?.tom}
+                        onChange={(dato) => oppdaterForm('tom', dato || '')}
+                        size="small"
+                        feil={vilkårsperiodeFeil?.tom}
+                    />
+                </Celle>
                 {ekstraCeller}
             </FeltContainer>
 
