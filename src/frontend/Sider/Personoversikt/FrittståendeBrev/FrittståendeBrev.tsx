@@ -31,6 +31,7 @@ const FrittståendeBrev: React.FC<{
     settBrevErSendt: () => void;
 }> = ({ valgtStønadstype, fagsakId, settBrevErSendt }) => {
     const { request } = useApp();
+    const [senderBrev, settSenderBrev] = useState<boolean>(false);
 
     const {
         brevmaler,
@@ -64,11 +65,15 @@ const FrittståendeBrev: React.FC<{
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const sendBrev = () => {
+        if (senderBrev) {
+            return;
+        }
         if (
             fil.status === RessursStatus.SUKSESS &&
             brevmaler.status === RessursStatus.SUKSESS &&
             brevmal
         ) {
+            settSenderBrev(true);
             const brevTittel = brevmaler.data.find((bm) => bm._id === brevmal)
                 ?.visningsnavn as string;
 
@@ -79,13 +84,15 @@ const FrittståendeBrev: React.FC<{
                     pdf: fil.data,
                     tittel: brevTittel,
                 }
-            ).then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    settBrevErSendt();
-                } else {
-                    settFeilmelding(res.frontendFeilmelding);
-                }
-            });
+            )
+                .then((res) => {
+                    if (res.status === RessursStatus.SUKSESS) {
+                        settBrevErSendt();
+                    } else {
+                        settFeilmelding(res.frontendFeilmelding);
+                    }
+                })
+                .finally(() => settSenderBrev(false));
         }
     };
 
@@ -111,7 +118,7 @@ const FrittståendeBrev: React.FC<{
                             )}
                         </DataViewer>
                         {fil.status === RessursStatus.SUKSESS && (
-                            <Button onClick={sendBrev} size="small">
+                            <Button onClick={sendBrev} size="small" disabled={senderBrev}>
                                 Send brev
                             </Button>
                         )}
