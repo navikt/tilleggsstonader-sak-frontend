@@ -52,7 +52,7 @@ const Brev: React.FC = () => {
         malStruktur,
         fil,
         settFil,
-    } = useBrev(behandling.stønadstype, behandling);
+    } = useBrev(behandling.stønadstype);
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
 

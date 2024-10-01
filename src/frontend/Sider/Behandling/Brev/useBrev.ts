@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { Brevmottakere } from './Brevmottakere/brevmottakereTyper';
 import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
 import { Brevmal, MalStruktur } from './typer';
-import { useApp } from '../../../context/AppContext';
-import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import {
     byggRessursFeilet,
@@ -15,14 +12,12 @@ import {
 } from '../../../typer/ressurs';
 import { erProd } from '../../../utils/miljø';
 
-const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
+const useBrev = (ytelse: Stønadstype) => {
     const sanityClient = useSanityClient();
-    const { request } = useApp();
 
     const [brevmal, settBrevmal] = useState<string>();
     const [brevmaler, settBrevmaler] = useState<Ressurs<Brevmal[]>>(byggTomRessurs());
     const [malStruktur, settMalStruktur] = useState<Ressurs<MalStruktur>>(byggTomRessurs());
-    const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
     const hentBrevmaler = useCallback((resultat: string[]) => {
@@ -54,16 +49,6 @@ const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brevmal]);
 
-    const hentBrevmottakere = useCallback(() => {
-        if (behandling) {
-            request<Brevmottakere, unknown>(`/api/sak/brevmottakere/${behandling.id}`).then(
-                settBrevmottakere
-            );
-        }
-    }, [request, behandling]);
-
-    useEffect(hentBrevmottakere, [hentBrevmottakere]);
-
     return {
         hentBrevmaler,
         hentMalStruktur,
@@ -72,7 +57,6 @@ const useBrev = (ytelse: Stønadstype, behandling?: Behandling) => {
         settBrevmal,
         malStruktur,
         settMalStruktur,
-        brevmottakere,
         fil,
         settFil,
     };
