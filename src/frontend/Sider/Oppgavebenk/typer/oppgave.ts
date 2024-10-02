@@ -86,10 +86,11 @@ export enum IdentGruppe {
     SAMHANDLERNR = 'SAMHANDLERNR',
 }
 
-export type Behandlingstema = 'ab0300';
+export type Behandlingstema = 'ab0300' | 'ab0292';
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
+    ab0292: 'Læremidler',
 };
 
 export const behandlingstemaTilStønadstype = (
