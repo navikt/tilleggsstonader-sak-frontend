@@ -107,7 +107,7 @@ const Brev: React.FC = () => {
                                     <BrevMottakere
                                         behandlingId={behandling.id}
                                         applikasjonskontekst={Applikasjonskontekst.SAK}
-                                        behandlingErRedigerbar={behandlingErRedigerbar}
+                                        kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                             personopplysninger
                                         )}
