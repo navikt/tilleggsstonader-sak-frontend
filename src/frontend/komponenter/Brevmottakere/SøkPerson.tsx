@@ -12,13 +12,12 @@ import DataViewer from '../DataViewer';
 
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
-    behandlingId: string;
 }
 
-export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId }) => {
+export const SøkPerson: React.FC<Props> = ({ settValgteMottakere }) => {
     const [søkIdent, settSøkIdent] = useState('');
 
-    const { søkeresultat } = usePersonsøk(søkIdent, behandlingId);
+    const { søkeresultat } = usePersonsøk(søkIdent);
 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [

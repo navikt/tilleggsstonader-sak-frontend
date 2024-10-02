@@ -5,7 +5,6 @@ import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface PersonSøk {
     personIdent: string;
-    behandlingId: string;
 }
 
 interface FunnetPerson {
@@ -14,7 +13,7 @@ interface FunnetPerson {
     navn: string;
 }
 
-export const usePersonsøk = (søkeident: string, behandlingId: string) => {
+export const usePersonsøk = (søkeident: string) => {
     const { request } = useApp();
 
     const [søkeresultat, settSøkeresultat] = useState(byggTomRessurs<FunnetPerson>());
@@ -23,12 +22,11 @@ export const usePersonsøk = (søkeident: string, behandlingId: string) => {
         if (søkeident.replaceAll(' ', '')?.length === 11) {
             request<FunnetPerson, PersonSøk>('/api/sak/brevmottakere/person', 'POST', {
                 personIdent: søkeident,
-                behandlingId: behandlingId,
             }).then((resp: Ressurs<FunnetPerson>) => {
                 settSøkeresultat(resp);
             });
         }
-    }, [søkeident, behandlingId, request]);
+    }, [søkeident, request]);
 
     return { søkeresultat };
 };

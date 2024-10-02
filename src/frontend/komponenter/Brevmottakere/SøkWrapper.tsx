@@ -12,7 +12,6 @@ interface Props {
     settValgtePersonMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     valgteOrganisasjonMottakere: IOrganisasjonMottaker[];
     settValgteOrganisasjonMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
-    behandlingId: string;
 }
 
 enum ESøktype {
@@ -29,7 +28,6 @@ export const SøkWrapper: FC<Props> = ({
     settValgtePersonMottakere,
     valgteOrganisasjonMottakere,
     settValgteOrganisasjonMottakere,
-    behandlingId,
 }) => {
     const [søktype, settSøktype] = useState<ESøktype>();
 
@@ -55,10 +53,7 @@ export const SøkWrapper: FC<Props> = ({
                 />
             )}
             {søktype === ESøktype.PERSON && (
-                <SøkPerson
-                    settValgteMottakere={settValgtePersonMottakere}
-                    behandlingId={behandlingId}
-                />
+                <SøkPerson settValgteMottakere={settValgtePersonMottakere} />
             )}
         </>
     );
