@@ -10,7 +10,7 @@ import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
-import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
+import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
@@ -74,7 +74,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
-                <Celle>
+                <FeilmeldingMaksBredde>
                     <SelectMedOptions
                         label={tittelSelectTypeVilkårperiode(type)}
                         readOnly={!alleFelterKanEndres}
@@ -84,9 +84,9 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                         size="small"
                         error={vilkårsperiodeFeil?.type}
                     />
-                </Celle>
+                </FeilmeldingMaksBredde>
 
-                <Celle $width={130}>
+                <FeilmeldingMaksBredde>
                     <DateInputMedLeservisning
                         key={fomKeyDato}
                         erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
@@ -97,9 +97,9 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                         size="small"
                         feil={vilkårsperiodeFeil?.fom}
                     />
-                </Celle>
+                </FeilmeldingMaksBredde>
 
-                <Celle $width={130}>
+                <FeilmeldingMaksBredde>
                     <DateInputMedLeservisning
                         key={tomKeyDato}
                         erLesevisning={vilkårperiode?.kilde === KildeVilkårsperiode.SYSTEM}
@@ -109,7 +109,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                         size="small"
                         feil={vilkårsperiodeFeil?.tom}
                     />
-                </Celle>
+                </FeilmeldingMaksBredde>
                 {ekstraCeller}
             </FeltContainer>
 
