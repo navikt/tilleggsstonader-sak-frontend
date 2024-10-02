@@ -4,8 +4,8 @@ import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
-import { Applikasjonskontekst, IBrevmottakere } from './typer';
-import { useBrevmottakere } from '../../hooks/useBrevmottakere';
+import { IBrevmottakere } from './typer';
+import { ContextBrevmottakere, useBrevmottakere } from '../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
 import DataViewer from '../DataViewer';
@@ -57,15 +57,11 @@ const Brevmottakere: React.FC<{
 };
 
 const BrevMottakere: React.FC<{
-    behandlingId: string;
-    applikasjonskontekst: Applikasjonskontekst;
+    context: ContextBrevmottakere;
     kanEndreBrevmottakere: boolean;
     personopplysninger: PersonopplysningerIBrevmottakere;
-}> = ({ behandlingId, applikasjonskontekst, kanEndreBrevmottakere, personopplysninger }) => {
-    const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
-        behandlingId,
-        applikasjonskontekst
-    );
+}> = ({ context, kanEndreBrevmottakere, personopplysninger }) => {
+    const { brevmottakere, hentBrevmottakere, lagreBrevmottakere } = useBrevmottakere(context);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
 
@@ -79,13 +75,12 @@ const BrevMottakere: React.FC<{
                         settVisBrevmottakereModal={settVisBrevmottakereModal}
                     />
                     <EndreBrevmottakereModal
-                        behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
+                        lagreBrevmottakere={lagreBrevmottakere}
                         visBrevmottakereModal={visBrevmottakereModal}
                         settVisBrevmottakereModal={settVisBrevmottakereModal}
-                        applikasjonskontekst={applikasjonskontekst}
                     />
                 </>
             )}
