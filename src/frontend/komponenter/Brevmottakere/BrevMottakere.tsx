@@ -12,9 +12,9 @@ import DataViewer from '../DataViewer';
 
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
-    behandlingErRedigerbar: boolean;
+    kanEndreBrevmottakere: boolean;
     settVisBrevmottakereModal: (value: boolean) => void;
-}> = ({ mottakere, behandlingErRedigerbar, settVisBrevmottakereModal }) => {
+}> = ({ mottakere, kanEndreBrevmottakere, settVisBrevmottakereModal }) => {
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
@@ -34,7 +34,7 @@ const Brevmottakere: React.FC<{
         <VStack gap="2">
             <HStack align="center">
                 <Label size="small">Brevmottakere</Label>
-                {behandlingErRedigerbar && (
+                {kanEndreBrevmottakere && (
                     <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
                         <Button
                             variant="tertiary"
@@ -59,9 +59,9 @@ const Brevmottakere: React.FC<{
 const BrevMottakere: React.FC<{
     behandlingId: string;
     applikasjonskontekst: Applikasjonskontekst;
-    behandlingErRedigerbar: boolean;
+    kanEndreBrevmottakere: boolean;
     personopplysninger: PersonopplysningerIBrevmottakere;
-}> = ({ behandlingId, applikasjonskontekst, behandlingErRedigerbar, personopplysninger }) => {
+}> = ({ behandlingId, applikasjonskontekst, kanEndreBrevmottakere, personopplysninger }) => {
     const { brevmottakere, hentBrevmottakere } = useBrevmottakere(
         behandlingId,
         applikasjonskontekst
@@ -75,7 +75,7 @@ const BrevMottakere: React.FC<{
                 <>
                     <Brevmottakere
                         mottakere={brevmottakere}
-                        behandlingErRedigerbar={behandlingErRedigerbar}
+                        kanEndreBrevmottakere={kanEndreBrevmottakere}
                         settVisBrevmottakereModal={settVisBrevmottakereModal}
                     />
                     <EndreBrevmottakereModal
