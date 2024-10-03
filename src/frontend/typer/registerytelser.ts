@@ -11,7 +11,15 @@ export interface PeriodeYtelseRegister {
     fom: string;
     tom?: string;
     aapErFerdigAvklart?: boolean;
+    ensligForsørgerStønadstype?: EnsligForsørgerStønadstype;
 }
+
+type EnsligForsørgerStønadstype = 'OVERGANGSSTØNAD' | 'SKOLEPENGER';
+
+export const ensligForsørgerStønadstypeTekst: Record<EnsligForsørgerStønadstype, string> = {
+    OVERGANGSSTØNAD: 'Overgangsstønad',
+    SKOLEPENGER: 'Skolepenger',
+};
 
 export interface HentetInformasjon {
     type: TypeRegisterYtelse;
@@ -38,6 +46,6 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
-    ENSLIG_FORSØRGER: 'Overgangsstønad',
+    ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
 };
