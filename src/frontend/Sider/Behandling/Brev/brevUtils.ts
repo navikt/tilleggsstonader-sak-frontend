@@ -1,5 +1,6 @@
-import { Valg } from './typer';
+import { PersonopplysningerIBrevmottakere, Valg } from './typer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
+import { Personopplysninger } from '../../../typer/personopplysninger';
 import { TypeVedtak } from '../../../typer/vedtak';
 
 export const idEllerFritekst = (valg?: Valg): string | undefined => {
@@ -38,4 +39,16 @@ export const finnSanityMappe = (
     }
 
     return vedtakType;
+};
+
+export const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
+    personopplysninger: Personopplysninger
+): PersonopplysningerIBrevmottakere => {
+    return {
+        personIdent: personopplysninger.personIdent,
+        navn: personopplysninger.navn.visningsnavn,
+        harVergemål: personopplysninger.harVergemål,
+        fullmakt: personopplysninger.fullmakt,
+        vergemål: personopplysninger.vergemål,
+    };
 };
