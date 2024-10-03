@@ -5,8 +5,9 @@ import { BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-re
 
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { IBrevmottakere } from './typer';
+import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { ContextBrevmottakere, useBrevmottakere } from '../../hooks/useBrevmottakere';
-import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
+import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/brevUtils';
 import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
 import DataViewer from '../DataViewer';
 
@@ -59,11 +60,12 @@ const Brevmottakere: React.FC<{
 const BrevMottakere: React.FC<{
     context: ContextBrevmottakere;
     kanEndreBrevmottakere: boolean;
-    personopplysninger: PersonopplysningerIBrevmottakere;
-}> = ({ context, kanEndreBrevmottakere, personopplysninger }) => {
+}> = ({ context, kanEndreBrevmottakere }) => {
     const { brevmottakere, hentBrevmottakere, lagreBrevmottakere } = useBrevmottakere(context);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
+
+    const { personopplysninger } = usePersonopplysninger();
 
     return (
         <DataViewer response={{ brevmottakere }}>
@@ -75,7 +77,9 @@ const BrevMottakere: React.FC<{
                         settVisBrevmottakereModal={settVisBrevmottakereModal}
                     />
                     <EndreBrevmottakereModal
-                        personopplysninger={personopplysninger}
+                        personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
+                            personopplysninger
+                        )}
                         mottakere={brevmottakere}
                         kallHentBrevmottakere={hentBrevmottakere}
                         lagreBrevmottakere={lagreBrevmottakere}
