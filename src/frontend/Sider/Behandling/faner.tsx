@@ -41,10 +41,12 @@ export enum FaneNavn {
 
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
+    LÆREMIDLER = 'Læremidler',
 }
 
 const faneNavnStønadsvilkår: Record<Stønadstype, StønadsvilkårFaneNavn> = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
+    LÆREMIDLER: StønadsvilkårFaneNavn.LÆREMIDLER,
 };
 
 export enum FanePath {
