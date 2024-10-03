@@ -6,12 +6,15 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
+import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
 import Brevmeny from '../../Behandling/Brev/Brevmeny';
+import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../Behandling/Brev/brevUtils';
 import useBrev from '../../Behandling/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
@@ -33,6 +36,7 @@ const FrittståendeBrev: React.FC<{
     const { request } = useApp();
     const [senderBrev, settSenderBrev] = useState<boolean>(false);
 
+    const { personopplysninger } = usePersonopplysninger();
     const {
         brevmaler,
         brevmal,
@@ -101,6 +105,16 @@ const FrittståendeBrev: React.FC<{
             {({ brevmaler }) => (
                 <ToKolonner>
                     <VStack gap="8" align="start">
+                        <BrevMottakere
+                            context={{
+                                type: 'frittstående-brev',
+                                fagsakId: fagsakId,
+                            }}
+                            kanEndreBrevmottakere={true}
+                            personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
+                                personopplysninger
+                            )}
+                        />
                         <VelgBrevmal
                             brevmaler={brevmaler}
                             brevmal={brevmal}
