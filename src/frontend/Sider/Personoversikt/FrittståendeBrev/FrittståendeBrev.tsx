@@ -6,6 +6,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
+import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
@@ -105,6 +106,14 @@ const FrittståendeBrev: React.FC<{
                             brevmaler={brevmaler}
                             brevmal={brevmal}
                             settBrevmal={settBrevmal}
+                        />
+
+                        <BrevMottakere
+                            context={{
+                                type: 'frittstående-brev',
+                                fagsakId: fagsakId,
+                            }}
+                            kanEndreBrevmottakere={true}
                         />
 
                         <DataViewer response={{ malStruktur, mellomlagretBrev }}>
