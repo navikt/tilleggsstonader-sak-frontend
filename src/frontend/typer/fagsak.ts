@@ -5,6 +5,7 @@ import { valuerOrThrow } from './typeUtils';
 export interface FagsakPerson {
     id: string;
     tilsynBarn?: string;
+    læremidler?: string;
 }
 
 export interface FagsakPersonMedBehandlinger {
@@ -26,5 +27,7 @@ export function utledFagsakId(stønadstype: Stønadstype, fagsakPerson: FagsakPe
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return valuerOrThrow(fagsakPerson.tilsynBarn);
+        case Stønadstype.LÆREMIDLER:
+            return valuerOrThrow(fagsakPerson.læremidler);
     }
 }
