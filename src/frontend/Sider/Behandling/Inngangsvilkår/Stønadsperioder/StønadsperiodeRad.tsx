@@ -5,6 +5,7 @@ import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPeri
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
+import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { aktivitetTypeOptionsForStønadsperiode, aktivitetTypeTilTekst } from '../typer/aktivitet';
 import { målgruppeTypeOptionsForStønadsperiode, målgruppeTypeTilTekst } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
@@ -68,27 +69,30 @@ const StønadsperiodeRad: React.FC<Props> = ({
                 size="small"
                 error={finnFeilmelding('målgruppe')}
             />
-
-            <DateInputMedLeservisning
-                erLesevisning={erLeservisning}
-                label={'Fra'}
-                hideLabel
-                value={stønadsperide.fom}
-                readOnly={!alleFelterKanEndres}
-                onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
-                size="small"
-                feil={finnFeilmelding('fom')}
-            />
-            <DateInputMedLeservisning
-                erLesevisning={erLeservisning}
-                label={'Til'}
-                hideLabel
-                value={stønadsperide.tom}
-                readOnly={helePeriodenErLåstForEndring}
-                onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
-                size="small"
-                feil={finnFeilmelding('tom')}
-            />
+            <FeilmeldingMaksBredde>
+                <DateInputMedLeservisning
+                    erLesevisning={erLeservisning}
+                    label={'Fra'}
+                    hideLabel
+                    value={stønadsperide.fom}
+                    readOnly={!alleFelterKanEndres}
+                    onChange={(dato) => oppdaterStønadsperiode('fom', dato || '')}
+                    size="small"
+                    feil={finnFeilmelding('fom')}
+                />
+            </FeilmeldingMaksBredde>
+            <FeilmeldingMaksBredde>
+                <DateInputMedLeservisning
+                    erLesevisning={erLeservisning}
+                    label={'Til'}
+                    hideLabel
+                    value={stønadsperide.tom}
+                    readOnly={helePeriodenErLåstForEndring}
+                    onChange={(dato) => oppdaterStønadsperiode('tom', dato || '')}
+                    size="small"
+                    feil={finnFeilmelding('tom')}
+                />
+            </FeilmeldingMaksBredde>
             {!erLeservisning && alleFelterKanEndres && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}

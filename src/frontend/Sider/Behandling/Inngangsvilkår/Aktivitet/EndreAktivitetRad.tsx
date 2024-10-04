@@ -9,7 +9,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import TextField from '../../../../komponenter/Skjema/TextField';
-import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
+import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -155,7 +155,7 @@ const EndreAktivitetRad: React.FC<{
             tomKeyDato={tomKeyDato}
             ekstraCeller={
                 aktivitetForm.type !== AktivitetType.INGEN_AKTIVITET && (
-                    <Celle $width={140}>
+                    <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Aktivitetsdager"
@@ -175,7 +175,7 @@ const EndreAktivitetRad: React.FC<{
                             autoComplete="off"
                             readOnly={!alleFelterKanEndres}
                         />
-                    </Celle>
+                    </FeilmeldingMaksBredde>
                 )
             }
         >
