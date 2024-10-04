@@ -8,8 +8,10 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
 import Brevmeny from './Brevmeny';
-import { finnSanityMappe } from './brevUtils';
-import { PersonopplysningerIBrevmottakere } from './typer';
+import {
+    finnSanityMappe,
+    mapPersonopplysningerTilPersonopplysningerIBrevmottakere,
+} from './brevUtils';
 import useBrev from './useBrev';
 import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
@@ -20,7 +22,6 @@ import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
-import { Personopplysninger } from '../../../typer/personopplysninger';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import { Toggle } from '../../../utils/toggles';
@@ -81,19 +82,6 @@ const Brev: React.FC = () => {
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
 
-    const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
-        personopplysninger: Personopplysninger
-    ): PersonopplysningerIBrevmottakere => {
-        // Denne burde kanskje ikke bruke `Personopplysninger` ? Vi legger ikke inn fullmakt og vergemål fra sak backend
-        return {
-            personIdent: personopplysninger.personIdent,
-            navn: personopplysninger.navn.visningsnavn,
-            harVergemål: personopplysninger.harVergemål,
-            fullmakt: personopplysninger.fullmakt,
-            vergemål: personopplysninger.vergemål,
-        };
-    };
-
     const isEnabled = useFlag(Toggle.KAN_ENDRE_BREVMOTTAKERE);
 
     return (
@@ -107,7 +95,7 @@ const Brev: React.FC = () => {
                                     <BrevMottakere
                                         behandlingId={behandling.id}
                                         applikasjonskontekst={Applikasjonskontekst.SAK}
-                                        behandlingErRedigerbar={behandlingErRedigerbar}
+                                        kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                             personopplysninger
                                         )}

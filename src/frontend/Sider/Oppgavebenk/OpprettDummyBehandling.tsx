@@ -71,6 +71,7 @@ export const OpprettDummyBehandling: React.FC = () => {
                     }}
                 >
                     <option value="BARNETILSYN">Barnetilsyn</option>
+                    <option value="LÆREMIDLER">Læremidler</option>
                 </Select>
 
                 <Button type={'button'} disabled={!harSattPersonIdent} onClick={opprettBehandling}>

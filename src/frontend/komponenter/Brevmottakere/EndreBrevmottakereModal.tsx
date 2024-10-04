@@ -135,7 +135,6 @@ export const EndreBrevmottakereModal: FC<{
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
-                        behandlingId={behandlingId}
                     />
                     <HorisontalLinje />
                     <SkalBrukerHaBrev
