@@ -158,8 +158,10 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             >
                                 {({ personopplysningerFraKlageResponse }) => (
                                     <BrevMottakere
-                                        behandlingId={behandlingId}
-                                        applikasjonskontekst={Applikasjonskontekst.KLAGE}
+                                        context={{
+                                            type: Applikasjonskontekst.KLAGE,
+                                            behandlingId: behandlingId,
+                                        }}
                                         kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
                                             personopplysningerFraKlageResponse

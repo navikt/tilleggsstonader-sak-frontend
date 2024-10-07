@@ -93,8 +93,10 @@ const Brev: React.FC = () => {
                             <VStack gap="8" align="start">
                                 {isEnabled && (
                                     <BrevMottakere
-                                        behandlingId={behandling.id}
-                                        applikasjonskontekst={Applikasjonskontekst.SAK}
+                                        context={{
+                                            type: Applikasjonskontekst.SAK,
+                                            behandlingId: behandling.id,
+                                        }}
                                         kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                             personopplysninger

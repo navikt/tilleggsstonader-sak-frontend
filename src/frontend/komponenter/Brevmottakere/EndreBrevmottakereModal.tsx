@@ -7,15 +7,9 @@ import { Alert, Button } from '@navikt/ds-react';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { SøkWrapper } from './SøkWrapper';
-import {
-    Applikasjonskontekst,
-    IBrevmottaker,
-    IBrevmottakere,
-    IOrganisasjonMottaker,
-} from './typer';
+import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { useApp } from '../../context/AppContext';
-import { useLagreBrevmottakere } from '../../hooks/useLagreBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
@@ -59,22 +53,23 @@ const VertikalLinje = styled.div`
     width: 5px;
     margin-bottom: 1rem;
 `;
+
 export const EndreBrevmottakereModal: FC<{
-    behandlingId: string;
     personopplysninger: PersonopplysningerIBrevmottakere;
     mottakere: IBrevmottakere;
     kallHentBrevmottakere: () => void;
+    lagreBrevmottakere: (
+        brevmottakere: IBrevmottakere
+    ) => Promise<RessursSuksess<IBrevmottakere> | RessursFeilet>;
     visBrevmottakereModal: boolean;
     settVisBrevmottakereModal: (value: boolean) => void;
-    applikasjonskontekst: Applikasjonskontekst;
 }> = ({
-    behandlingId,
     personopplysninger,
     mottakere,
     kallHentBrevmottakere,
+    lagreBrevmottakere,
     visBrevmottakereModal,
     settVisBrevmottakereModal,
-    applikasjonskontekst,
 }) => {
     const { settToast } = useApp();
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
@@ -84,8 +79,6 @@ export const EndreBrevmottakereModal: FC<{
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-
-    const { lagreBrevmottakere } = useLagreBrevmottakere(behandlingId, applikasjonskontekst);
 
     useEffect(() => {
         settValgtePersonMottakere(mottakere.personer);

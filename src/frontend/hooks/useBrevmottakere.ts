@@ -1,45 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Applikasjonskontekst, IBrevmottakere } from '../komponenter/Brevmottakere/typer';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
-export const useBrevmottakere = (
-    behandlingId: string,
-    applikasjonskontekst: Applikasjonskontekst
-) => {
+export type ContextBrevmottakere =
+    | { type: Applikasjonskontekst.SAK; behandlingId: string }
+    | { type: Applikasjonskontekst.KLAGE; behandlingId: string }
+    | { type: 'frittstående-brev'; fagsakId: string };
+
+export const useBrevmottakere = (context: ContextBrevmottakere) => {
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
     const { request } = useApp();
 
-    const urlForHentingAvBrevmottakereGittAppKontekst = byggBrevmottakerUrlForGittKontekst(
-        behandlingId,
-        applikasjonskontekst
-    );
-
-    const hentBrevmottakere = () => {
-        request<IBrevmottakere, null>(`${urlForHentingAvBrevmottakereGittAppKontekst}`).then(
+    const hentBrevmottakere = useCallback(() => {
+        request<IBrevmottakere, null>(byggBrevmottakerUrlForGittKontekst(context)).then(
             settBrevmottakere
         );
-    };
+    }, [context, request]);
+
+    const lagreBrevmottakere = useCallback(
+        (brevmottakere: IBrevmottakere) =>
+            request<IBrevmottakere, IBrevmottakere>(
+                byggBrevmottakerUrlForGittKontekst(context),
+                'POST',
+                brevmottakere
+            ),
+        [request, context]
+    );
 
     useEffect(() => {
         hentBrevmottakere();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandlingId]);
+    }, [hentBrevmottakere]);
 
-    return { brevmottakere, hentBrevmottakere };
+    return { brevmottakere, hentBrevmottakere, lagreBrevmottakere };
 };
 
-export const byggBrevmottakerUrlForGittKontekst = (
-    behandlingId: string,
-    applikasjonskontekst: Applikasjonskontekst
-): string => {
-    if (applikasjonskontekst === Applikasjonskontekst.KLAGE) {
-        return `/api/klage/brev/${behandlingId}/mottakere`;
+const byggBrevmottakerUrlForGittKontekst = (context: ContextBrevmottakere): string => {
+    if (context.type === Applikasjonskontekst.KLAGE) {
+        return `/api/klage/brev/${context.behandlingId}/mottakere`;
     }
-    if (applikasjonskontekst === Applikasjonskontekst.SAK) {
-        return `/api/sak/brevmottakere/${behandlingId}`;
-    } else {
-        return 'IKKE-GYDLIG-URL';
+    if (context.type === Applikasjonskontekst.SAK) {
+        return `/api/sak/brevmottakere/${context.behandlingId}`;
     }
+
+    if (context.type === 'frittstående-brev') {
+        return `/api/sak/brevmottakere/fagsak/${context.fagsakId}`;
+    }
+
+    return 'IKKE-GYDLIG-URL';
 };
