@@ -34,7 +34,7 @@ export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppe, string>
     INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
 };
 
-const OppsummertVilkårsvurdering: React.FC<{
+export const OppsummertVilkårsvurdering: React.FC<{
     vilkårperiode?: Målgruppe | Aktivitet;
     redigeres: boolean;
     className?: string;
@@ -43,34 +43,17 @@ const OppsummertVilkårsvurdering: React.FC<{
         return <OppsummeringKommer className={className} />;
     }
 
-    const delvilkårSomMåOppsummeres = finnDelvilkårTilOppsummering(
-        vilkårperiode.delvilkår,
-        vilkårperiode.resultat
-    );
-
     return (
         <Container className={className}>
             <HStack align="center" gap="4">
                 <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
                 <Label size="small">{VilkårperiodeResultatTilTekst[vilkårperiode.resultat]}</Label>
             </HStack>
-            <VStack gap="2">
-                {erMålgruppe(vilkårperiode) && (
-                    <Detail>
-                        <strong>Målgruppe: </strong>
-                        {
-                            informasjonForFaktisktMålgruppe[
-                                MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type]
-                            ]
-                        }
-                    </Detail>
-                )}
-                {delvilkårSomMåOppsummeres.length > 0 && (
-                    <Detail>
-                        {`${formaterEnumVerdi(vilkårperiode.resultat)}: ${formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}`}
-                    </Detail>
-                )}
-            </VStack>
+            {vilkårperiode.resultat === 'SLETTET' ? (
+                <SlettetPeriodeOppsummering slettetKommentar={vilkårperiode.slettetKommentar} />
+            ) : (
+                <OppsummeringAvDelvilkår vilkårperiode={vilkårperiode} />
+            )}
         </Container>
     );
 };
@@ -88,4 +71,37 @@ const OppsummeringKommer: React.FC<{ className?: string }> = ({ className }) => 
     );
 };
 
-export default OppsummertVilkårsvurdering;
+const SlettetPeriodeOppsummering: React.FC<{ slettetKommentar?: string }> = ({
+    slettetKommentar,
+}) => {
+    return <Detail>{slettetKommentar}</Detail>;
+};
+
+const OppsummeringAvDelvilkår: React.FC<{ vilkårperiode: Målgruppe | Aktivitet }> = ({
+    vilkårperiode,
+}) => {
+    const delvilkårSomMåOppsummeres = finnDelvilkårTilOppsummering(
+        vilkårperiode.delvilkår,
+        vilkårperiode.resultat
+    );
+
+    return (
+        <VStack gap="2">
+            {erMålgruppe(vilkårperiode) && (
+                <Detail>
+                    <strong>Målgruppe: </strong>
+                    {
+                        informasjonForFaktisktMålgruppe[
+                            MålgruppeTypeTilFaktiskMålgruppe[vilkårperiode.type]
+                        ]
+                    }
+                </Detail>
+            )}
+            {delvilkårSomMåOppsummeres.length > 0 && (
+                <Detail>
+                    {`${formaterEnumVerdi(vilkårperiode.resultat)}: ${formaterDelvilkårKeys(delvilkårSomMåOppsummeres)}`}
+                </Detail>
+            )}
+        </VStack>
+    );
+};

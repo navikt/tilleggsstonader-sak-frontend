@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import OppsummertVilkårsvurdering from './OppsummertVilkårsvurdering';
+import { OppsummertVilkårsvurdering } from './OppsummertVilkårsvurdering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Statusbånd } from '../../../../../komponenter/Statusbånd';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
