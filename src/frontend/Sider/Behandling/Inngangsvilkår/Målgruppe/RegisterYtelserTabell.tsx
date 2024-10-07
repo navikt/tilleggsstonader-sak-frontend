@@ -6,8 +6,8 @@ import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { useSteg } from '../../../../context/StegContext';
-import { registerYtelseTilTekstStorForbokstav } from '../../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
+import { utledYtelseTekst } from '../../../Personoversikt/Ytelseoversikt/YtelserTabell';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 
 const HvitTabell = styled(Table)`
@@ -37,9 +37,7 @@ const RegisterYtelserTabell: React.FC<{
                 {perioderMedYtelse.map((ytelse, indeks) => {
                     return (
                         <Table.Row key={indeks}>
-                            <Table.DataCell>
-                                {registerYtelseTilTekstStorForbokstav[ytelse.type]}
-                            </Table.DataCell>
+                            <Table.DataCell>{utledYtelseTekst(ytelse)}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                             <Table.DataCell>

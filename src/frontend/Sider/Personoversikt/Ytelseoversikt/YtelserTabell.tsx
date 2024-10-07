@@ -16,7 +16,7 @@ const Tabell = styled(Table)`
     width: 40%;
 `;
 
-const utledYtelseTekst = (periode: PeriodeYtelseRegister): string => {
+export const utledYtelseTekst = (periode: PeriodeYtelseRegister): string => {
     if (periode.type === TypeRegisterYtelse.ENSLIG_FORSØRGER) {
         return periode.ensligForsørgerStønadstype
             ? ensligForsørgerStønadstypeTekst[periode.ensligForsørgerStønadstype]
