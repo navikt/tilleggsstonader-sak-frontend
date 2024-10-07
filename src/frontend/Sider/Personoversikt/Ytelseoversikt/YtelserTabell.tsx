@@ -4,26 +4,13 @@ import { styled } from 'styled-components';
 
 import { Table } from '@navikt/ds-react';
 
-import {
-    ensligForsørgerStønadstypeTekst,
-    PeriodeYtelseRegister,
-    registerYtelseTilTekstStorForbokstav,
-    TypeRegisterYtelse,
-} from '../../../typer/registerytelser';
+import { PeriodeYtelseRegister } from '../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../utils/dato';
+import { utledYtelseTekst } from '../../../utils/registerYtelse';
 
 const Tabell = styled(Table)`
     width: 40%;
 `;
-
-export const utledYtelseTekst = (periode: PeriodeYtelseRegister): string => {
-    if (periode.type === TypeRegisterYtelse.ENSLIG_FORSØRGER) {
-        return periode.ensligForsørgerStønadstype
-            ? ensligForsørgerStønadstypeTekst[periode.ensligForsørgerStønadstype]
-            : 'Enslig forsørger';
-    }
-    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.aapErFerdigAvklart ? ' (Ferdig avklart)' : ''}`;
-};
 
 const YtelserTabell: React.FC<{ perioder: PeriodeYtelseRegister[] }> = ({ perioder }) => {
     return (

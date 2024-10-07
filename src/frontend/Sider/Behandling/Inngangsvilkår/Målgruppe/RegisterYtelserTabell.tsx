@@ -7,7 +7,7 @@ import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { useSteg } from '../../../../context/StegContext';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
-import { utledYtelseTekst } from '../../../Personoversikt/Ytelseoversikt/YtelserTabell';
+import { utledYtelseTekst } from '../../../../utils/registerYtelse';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 
 const HvitTabell = styled(Table)`
