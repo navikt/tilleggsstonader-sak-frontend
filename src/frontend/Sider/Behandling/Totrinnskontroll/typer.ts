@@ -31,11 +31,13 @@ export type TotrinnskontrollUnderkjentResponse = TotrinnskontrollOpprettet & {
 export enum ÅrsakUnderkjent {
     VEDTAK_OG_BEREGNING = 'VEDTAK_OG_BEREGNING',
     VEDTAKSBREV = 'VEDTAKSBREV',
+    FEIL_I_UTGIFTER = 'FEIL_I_UTGIFTER',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER = 'RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER',
 }
 
 export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
     VEDTAK_OG_BEREGNING: 'Vedtak og beregning',
     VEDTAKSBREV: 'Vedtaksbrev',
+    FEIL_I_UTGIFTER: 'Feil i utgifter',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER: 'Retur etter ønske fra saksbehandler',
 };
