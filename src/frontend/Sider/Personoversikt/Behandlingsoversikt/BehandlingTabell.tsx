@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import HenleggModal from './HenleggModal';
 import { useApp } from '../../../context/AppContext';
@@ -13,9 +15,17 @@ import {
 } from '../../../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { PartialRecord } from '../../../typer/common';
-import { TabellBehandling, utledBehandlingResultatTilTekst } from '../../../utils/behandlingutil';
+import {
+    erKlageOgFeilregistrertAvKA,
+    TabellBehandling,
+    utledBehandlingResultatTilTekst,
+} from '../../../utils/behandlingutil';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
+
+const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
+    margin-left: 1rem;
+`;
 
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     opprettet: 'Behandling opprettetdato',
@@ -77,6 +87,13 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                 >
                                     {utledBehandlingResultatTilTekst(behandling)}
                                 </Link>
+                                {erKlageOgFeilregistrertAvKA(behandling) && (
+                                    <Tooltip content="Klagen er feilregistrert av NAV klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
+                                        <AdvarselIkon
+                                            title={'Behandling feilregistrert av NAV klageinstans'}
+                                        />
+                                    </Tooltip>
+                                )}
                             </Table.DataCell>
                             <Table.DataCell>
                                 {skalViseHenleggKnapp(behandling) && (
