@@ -6,7 +6,6 @@ import { Alert, Button } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useVilkår } from '../../../context/VilkårContext';
 import { RessursStatus } from '../../../typer/ressurs';
 
 const Knapp = styled(Button)`
@@ -16,7 +15,6 @@ const Knapp = styled(Button)`
 const FyllUtVilkårKnapp: React.FC = () => {
     const { request } = useApp();
     const { hentBehandling, behandling } = useBehandling();
-    const { hentVilkårsvurdering } = useVilkår();
 
     const [feilmelding, settFeilmelding] = useState<string>('');
 
@@ -25,14 +23,13 @@ const FyllUtVilkårKnapp: React.FC = () => {
             (res) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     settFeilmelding('');
-                    hentVilkårsvurdering();
                     hentBehandling.rerun();
                 } else {
                     settFeilmelding(res.frontendFeilmelding);
                 }
             }
         );
-    }, [behandling, hentBehandling, hentVilkårsvurdering, request]);
+    }, [behandling, hentBehandling, request]);
 
     return (
         <>
