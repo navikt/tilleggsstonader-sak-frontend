@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import constate from 'constate';
 
@@ -10,172 +10,128 @@ import {
     Vilkår,
     Vilkårsvurdering,
 } from '../Sider/Behandling/vilkår';
-import { Behandling } from '../typer/behandling/behandling';
-import {
-    byggHenterRessurs,
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 interface Props {
-    behandling: Behandling;
+    hentetVilkårsvurdering: Vilkårsvurdering;
 }
 
 const oppdaterVilkårsvurderingMedVilkår = (
-    vilkårsvurdering: RessursSuksess<Vilkårsvurdering>,
+    vilkårsvurdering: Vilkårsvurdering,
     vilkår: Vilkår
-): RessursSuksess<Vilkårsvurdering> => {
+): Vilkårsvurdering => {
     return {
         ...vilkårsvurdering,
-        data: {
-            ...vilkårsvurdering.data,
-            vilkårsett: vilkårsvurdering.data.vilkårsett.map((tidligereVilkår) =>
-                tidligereVilkår.id === vilkår.id ? vilkår : tidligereVilkår
-            ),
-        },
+
+        vilkårsett: vilkårsvurdering.vilkårsett.map((tidligereVilkår) =>
+            tidligereVilkår.id === vilkår.id ? vilkår : tidligereVilkår
+        ),
     };
 };
 
 const leggTilNyVilkårsvurdering = (
-    eksisterendeVurderinger: RessursSuksess<Vilkårsvurdering>,
+    eksisterendeVurderinger: Vilkårsvurdering,
     nyttVilkår: Vilkår
-): RessursSuksess<Vilkårsvurdering> => {
+): Vilkårsvurdering => {
     return {
         ...eksisterendeVurderinger,
-        data: {
-            ...eksisterendeVurderinger.data,
-            vilkårsett: [...eksisterendeVurderinger.data.vilkårsett, nyttVilkår],
-        },
+        vilkårsett: [...eksisterendeVurderinger.vilkårsett, nyttVilkår],
     };
 };
 
 const fjernVilkårFraVilkårsvurdering = (
-    vilkårsvurdering: RessursSuksess<Vilkårsvurdering>,
+    vilkårsvurdering: Vilkårsvurdering,
     vilkår: OppdaterVilkår
-): RessursSuksess<Vilkårsvurdering> => {
+): Vilkårsvurdering => {
     return {
         ...vilkårsvurdering,
-        data: {
-            ...vilkårsvurdering.data,
-            vilkårsett: vilkårsvurdering.data.vilkårsett.filter(
-                (tidligereVilkår) => tidligereVilkår.id !== vilkår.id
-            ),
-        },
+
+        vilkårsett: vilkårsvurdering.vilkårsett.filter(
+            (tidligereVilkår) => tidligereVilkår.id !== vilkår.id
+        ),
     };
 };
 
 export interface UseVilkår {
-    vilkårsvurdering: Ressurs<Vilkårsvurdering>;
-    hentVilkårsvurdering: () => void;
-    oppdaterGrunnlagsdataOgHentVilkårsvurdering: (behandlingId: string) => Promise<void>;
+    vilkårsvurdering: Vilkårsvurdering;
     lagreNyttVilkår: (vurdering: NyttVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<null> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
 
-export const [VilkårProvider, useVilkår] = constate(({ behandling }: Props): UseVilkår => {
-    const { request } = useApp();
+export const [VilkårProvider, useVilkår] = constate(
+    ({ hentetVilkårsvurdering }: Props): UseVilkår => {
+        const { request } = useApp();
 
-    const [vilkårsvurdering, settVilkårsvurdering] =
-        useState<Ressurs<Vilkårsvurdering>>(byggTomRessurs());
+        const [vilkårsvurdering, settVilkårsvurdering] =
+            useState<Vilkårsvurdering>(hentetVilkårsvurdering);
 
-    const hentVilkårsvurdering = useCallback(() => {
-        settVilkårsvurdering(byggHenterRessurs());
-        return request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandling.id}`).then(
-            settVilkårsvurdering
-        );
-    }, [request, behandling.id]);
+        const lagreVilkår = async (
+            vilkår: SvarPåVilkår
+        ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
+            const respons = await request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
+            if (respons.status === RessursStatus.SUKSESS) {
+                settVilkårsvurdering((prevVilkårsvurdering) =>
+                    oppdaterVilkårsvurderingMedVilkår(prevVilkårsvurdering, respons.data)
+                );
+            }
+            return respons;
+        };
 
-    useEffect(() => {
-        hentVilkårsvurdering();
-    }, [hentVilkårsvurdering]);
-
-    const lagreVilkår = async (
-        vilkår: SvarPåVilkår
-    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        const respons = await request<Vilkår, SvarPåVilkår>(`/api/sak/vilkar`, 'POST', vilkår);
-        if (respons.status === RessursStatus.SUKSESS) {
-            settVilkårsvurdering((prevVilkårsvurdering) =>
-                oppdaterVilkårsvurderingMedVilkår(
-                    prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
-                    respons.data
-                )
+        const lagreNyttVilkår = async (
+            vilkår: NyttVilkår
+        ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
+            const respons = await request<Vilkår, NyttVilkår>(
+                `/api/sak/vilkar/opprett`,
+                'POST',
+                vilkår
             );
-        }
-        return respons;
-    };
+            if (respons.status === RessursStatus.SUKSESS) {
+                settVilkårsvurdering((prevVilkårsvurdering) =>
+                    leggTilNyVilkårsvurdering(prevVilkårsvurdering, respons.data)
+                );
+            }
+            return respons;
+        };
 
-    const lagreNyttVilkår = async (
-        vilkår: NyttVilkår
-    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        const respons = await request<Vilkår, NyttVilkår>(
-            `/api/sak/vilkar/opprett`,
-            'POST',
-            vilkår
-        );
-        if (respons.status === RessursStatus.SUKSESS) {
-            settVilkårsvurdering((prevVilkårsvurdering) =>
-                leggTilNyVilkårsvurdering(
-                    prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
-                    respons.data
-                )
+        const slettVilkår = (
+            vilkår: OppdaterVilkår
+        ): Promise<RessursSuksess<null> | RessursFeilet> => {
+            return request<null, OppdaterVilkår>(`/api/sak/vilkar`, 'DELETE', vilkår).then(
+                (respons: RessursSuksess<null> | RessursFeilet) => {
+                    if (respons.status === RessursStatus.SUKSESS) {
+                        settVilkårsvurdering((prevVilkårsvurdering) =>
+                            fjernVilkårFraVilkårsvurdering(prevVilkårsvurdering, vilkår)
+                        );
+                    }
+                    return respons;
+                }
             );
-        }
-        return respons;
-    };
-
-    const slettVilkår = (vilkår: OppdaterVilkår): Promise<RessursSuksess<null> | RessursFeilet> => {
-        return request<null, OppdaterVilkår>(`/api/sak/vilkar`, 'DELETE', vilkår).then(
-            (respons: RessursSuksess<null> | RessursFeilet) => {
+        };
+        const ikkeVurderVilkår = (
+            vilkår: OppdaterVilkår
+        ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
+            return request<Vilkår, OppdaterVilkår>(
+                `/api/sak/vilkar/ikkevurder`,
+                'POST',
+                vilkår
+            ).then((respons: RessursSuksess<Vilkår> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     settVilkårsvurdering((prevVilkårsvurdering) =>
-                        fjernVilkårFraVilkårsvurdering(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>,
-                            vilkår
-                        )
+                        oppdaterVilkårsvurderingMedVilkår(prevVilkårsvurdering, respons.data)
                     );
                 }
                 return respons;
-            }
-        );
-    };
-    const ikkeVurderVilkår = (
-        vilkår: OppdaterVilkår
-    ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {
-        return request<Vilkår, OppdaterVilkår>(`/api/sak/vilkar/ikkevurder`, 'POST', vilkår).then(
-            (respons: RessursSuksess<Vilkår> | RessursFeilet) => {
-                if (respons.status === RessursStatus.SUKSESS) {
-                    settVilkårsvurdering((prevVilkårsvurdering) =>
-                        oppdaterVilkårsvurderingMedVilkår(
-                            prevVilkårsvurdering as RessursSuksess<Vilkårsvurdering>, // prevVilkårsvurdering kan ikke være != SUKESS her
-                            respons.data
-                        )
-                    );
-                }
-                return respons;
-            }
-        );
-    };
+            });
+        };
 
-    const oppdaterGrunnlagsdataOgHentVilkårsvurdering = useCallback(
-        (behandlingId: string) =>
-            request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandlingId}/oppdater`).then(
-                settVilkårsvurdering
-            ),
-        [request]
-    );
-
-    return {
-        vilkårsvurdering,
-        hentVilkårsvurdering,
-        lagreVilkår,
-        lagreNyttVilkår,
-        slettVilkår,
-        ikkeVurderVilkår,
-        oppdaterGrunnlagsdataOgHentVilkårsvurdering,
-    };
-});
+        return {
+            vilkårsvurdering,
+            lagreVilkår,
+            lagreNyttVilkår,
+            slettVilkår,
+            ikkeVurderVilkår,
+        };
+    }
+);
