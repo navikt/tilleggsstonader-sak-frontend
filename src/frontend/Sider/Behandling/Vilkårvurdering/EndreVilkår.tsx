@@ -3,7 +3,7 @@ import React, { FC, useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -24,6 +24,7 @@ import { Skillelinje } from '../../../komponenter/Skillelinje';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
 import TextField from '../../../komponenter/Skjema/TextField';
 import SmallWarningTag from '../../../komponenter/SmallWarningTag';
+import { FeilmeldingMaksBredde } from '../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
@@ -59,13 +60,6 @@ const Knapper = styled.div`
     .right {
         margin-left: auto;
     }
-`;
-
-const PeriodeGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 150px);
-    align-items: start;
-    gap: 1rem;
 `;
 
 type EndreVilkårProps = {
@@ -218,42 +212,48 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     };
 
     const EndrePerioder = (
-        <PeriodeGrid>
-            <MonthInput
-                label="Fra"
-                size="small"
-                value={fom}
-                feil={feilmeldinger.fom}
-                readOnly={!props.alleFelterKanRedigeres}
-                onChange={(dato) => {
-                    settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
-                    settDetFinnesUlagredeEndringer(true);
-                    settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
-                }}
-            />
-            <MonthInput
-                label="Til"
-                size="small"
-                value={tom}
-                feil={feilmeldinger.tom}
-                onChange={(dato) => {
-                    settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
-                    settDetFinnesUlagredeEndringer(true);
-                    settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
-                }}
-            />
-            <TextField
-                label="Månedlig utgift"
-                size="small"
-                erLesevisning={false}
-                value={harTallverdi(utgift) ? utgift : ''}
-                readOnly={!props.alleFelterKanRedigeres}
-                onChange={(e) => {
-                    settDetFinnesUlagredeEndringer(true);
-                    settUtgift(tilHeltall(fjernSpaces(e.target.value)));
-                }}
-            />
-        </PeriodeGrid>
+        <HStack gap="4" align="start">
+            <FeilmeldingMaksBredde $maxWidth={152}>
+                <MonthInput
+                    label="Fra"
+                    size="small"
+                    value={fom}
+                    feil={feilmeldinger.fom}
+                    readOnly={!props.alleFelterKanRedigeres}
+                    onChange={(dato) => {
+                        settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
+                        settDetFinnesUlagredeEndringer(true);
+                        settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                    }}
+                />
+            </FeilmeldingMaksBredde>
+            <FeilmeldingMaksBredde $maxWidth={152}>
+                <MonthInput
+                    label="Til"
+                    size="small"
+                    value={tom}
+                    feil={feilmeldinger.tom}
+                    onChange={(dato) => {
+                        settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
+                        settDetFinnesUlagredeEndringer(true);
+                        settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                    }}
+                />
+            </FeilmeldingMaksBredde>
+            <FeilmeldingMaksBredde $maxWidth={180}>
+                <TextField
+                    label="Månedlig utgift"
+                    size="small"
+                    erLesevisning={false}
+                    value={harTallverdi(utgift) ? utgift : ''}
+                    readOnly={!props.alleFelterKanRedigeres}
+                    onChange={(e) => {
+                        settDetFinnesUlagredeEndringer(true);
+                        settUtgift(tilHeltall(fjernSpaces(e.target.value)));
+                    }}
+                />
+            </FeilmeldingMaksBredde>
+        </HStack>
     );
 
     const EndreDelvilkår = delvilkårsett.map((delvikår, delvilkårIndex) => {
