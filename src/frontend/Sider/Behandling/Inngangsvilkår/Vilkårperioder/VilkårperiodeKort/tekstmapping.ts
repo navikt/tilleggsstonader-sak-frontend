@@ -1,5 +1,6 @@
 import { DelvilkårKey } from './utils';
-import { SvarJaNei, VilkårPeriodeResultat } from '../../typer/vilkårperiode';
+import { SvarJaNei } from '../../../../../utils/tekstformatering';
+import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
 export const medlemskapSvarTilTekst: Record<SvarJaNei, string> = {
     [SvarJaNei.JA]: 'Medlemskap i folketrygden',

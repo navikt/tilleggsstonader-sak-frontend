@@ -3,9 +3,9 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
+import { SvarJaNei } from '../../../../utils/tekstformatering';
 import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
-import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
 
 export const nyAktivitet = (

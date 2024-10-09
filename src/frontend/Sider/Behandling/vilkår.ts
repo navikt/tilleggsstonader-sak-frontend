@@ -1,5 +1,8 @@
 import { PeriodeStatus } from './Inngangsvilkår/typer/vilkårperiode';
-import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
+import {
+    BehandlingFaktaLæremidler,
+    BehandlingFaktaTilsynBarn,
+} from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Begrunnelse, RegelId, SvarId } from '../../typer/regel';
 
 export enum Vilkårsresultat {
@@ -57,7 +60,7 @@ export interface Delvilkår {
 
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
-    grunnlag: BehandlingFakta;
+    grunnlag: BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler;
 }
 
 export type SvarPåVilkår = Pick<

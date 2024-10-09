@@ -4,14 +4,17 @@ import constate from 'constate';
 import { useApp } from './AppContext';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { Behandling } from '../typer/behandling/behandling';
-import { BehandlingFakta } from '../typer/behandling/behandlingFakta/behandlingFakta';
+import {
+    BehandlingFaktaLæremidler,
+    BehandlingFaktaTilsynBarn,
+} from '../typer/behandling/behandlingFakta/behandlingFakta';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 import { Toggle } from '../utils/toggles';
 
 interface Props {
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
-    behandlingFakta: BehandlingFakta;
+    behandlingFakta: BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler;
 }
 
 export const [BehandlingProvider, useBehandling] = constate(

@@ -38,3 +38,15 @@ export const tekstEllerKode = <T extends string>(
     mapping: Record<T, string>,
     kode?: T
 ): string | undefined => (kode && mapping[kode]) || kode;
+
+export enum SvarJaNei {
+    JA = 'JA',
+    JA_IMPLISITT = 'JA_IMPLISITT',
+    NEI = 'NEI',
+}
+
+export const svarJaNeiMapping: Record<SvarJaNei, string> = {
+    JA: 'Ja',
+    JA_IMPLISITT: 'Ja',
+    NEI: 'Nei',
+};

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { HStack, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { SvarJaNei, svarJaNeiMapping, Vurdering } from '../Inngangsvilkår/typer/vilkårperiode';
+import { SvarJaNei, svarJaNeiMapping } from '../../../utils/tekstformatering';
+import { Vurdering } from '../Inngangsvilkår/typer/vilkårperiode';
 
 const LesMerTekst = styled(ReadMore)`
     max-width: 30rem;

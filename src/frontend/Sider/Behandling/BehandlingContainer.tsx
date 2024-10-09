@@ -7,7 +7,10 @@ import { useApp } from '../../context/AppContext';
 import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
 import { Behandling } from '../../typer/behandling/behandling';
-import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
+import {
+    BehandlingFaktaLæremidler,
+    BehandlingFaktaTilsynBarn,
+} from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
@@ -17,14 +20,14 @@ const BehandlingContainer = () => {
     const [personopplysninger, settPersonopplysninger] =
         useState<Ressurs<Personopplysninger>>(byggTomRessurs());
     const [behandlingFakta, settBehandlingFakta] =
-        useState<Ressurs<BehandlingFakta>>(byggTomRessurs());
+        useState<Ressurs<BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler>>(byggTomRessurs());
 
     const behandlingId = useParams<{
         behandlingId: string;
     }>().behandlingId as string;
 
     const hentBehandlingFaktaCallback = useCallback(() => {
-        request<BehandlingFakta, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
+        request<BehandlingFaktaTilsynBarn, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
             settBehandlingFakta
         );
     }, [request, behandlingId]);
