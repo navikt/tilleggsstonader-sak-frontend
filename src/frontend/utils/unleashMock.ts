@@ -8,7 +8,7 @@ import { Toggle } from './toggles';
  */
 const featureFlags: Partial<Record<Toggle, boolean>> = {
     [Toggle.KAN_OPPRETTE_REVURDERING]: true,
-    [Toggle.KAN_SAKSBEHANDLE]: true,
+    [Toggle.KAN_SAKSBEHANDLE]: false,
     [Toggle.REVURDERING_FRA_DATO]: true,
 };
 

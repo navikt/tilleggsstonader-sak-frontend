@@ -44,7 +44,8 @@ const DisabledTab = styled(Tabs.Tab)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar, kanBehandleRevurdering } = useBehandling();
+    const { behandling, behandlingErRedigerbar, kanBehandleRevurdering, kanSetteBehandlingPåVent } =
+        useBehandling();
 
     const revurderingFraDatoEnabled = useFlag(Toggle.REVURDERING_FRA_DATO);
 
@@ -101,7 +102,7 @@ const BehandlingTabsInnhold = () => {
                                 />
                             )
                         )}
-                        {behandlingErRedigerbar && !statusPåVentRedigering && (
+                        {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
                             <Tabsknapp>
                                 <Button
                                     size={'small'}

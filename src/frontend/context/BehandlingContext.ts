@@ -20,16 +20,17 @@ export const [BehandlingProvider, useBehandling] = constate(
 
         const kanSaksbehandle = useFlag(Toggle.KAN_SAKSBEHANDLE);
 
+        // kanSetteBehandlingPåVent er temporær kan fjernes og erstattes med behandlingErRedigerbar når KAN_SAKSBEHANDLE fjernes
         const kanBehandleRevurdering = !behandling.forrigeBehandlingId || kanSaksbehandle;
-        const behandlingErRedigerbar =
-            kanBehandleRevurdering && erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
+        const behandlingErRedigerbar = erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
 
         return {
             behandling,
-            behandlingErRedigerbar,
+            behandlingErRedigerbar: kanBehandleRevurdering && behandlingErRedigerbar,
             hentBehandling,
             behandlingFakta,
             kanBehandleRevurdering,
+            kanSetteBehandlingPåVent: behandlingErRedigerbar,
         };
     }
 );
