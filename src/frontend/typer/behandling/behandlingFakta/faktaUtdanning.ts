@@ -5,8 +5,8 @@ export interface FaktaUtdanning {
 }
 interface SøknadsgrunnlagUtdanning {
     aktiviteter?: ValgtAktivitet[];
-    annenUtdanning: AnnenUtdanningType;
-    mottarUtstyrsstipend: JaNei;
+    annenUtdanning?: AnnenUtdanningType;
+    mottarUtstyrsstipend?: JaNei;
     harFunksjonsnedsettelse: JaNei;
 }
 interface ValgtAktivitet {
