@@ -14,13 +14,15 @@ import { tekstEllerKode } from '../../../../utils/tekstformatering';
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     return (
         <>
-            <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-                <BodyShort size="small">
-                    {faktaUtdanning.søknadsgrunnlag?.aktiviteter
-                        ?.map((valgtAktivitet) => valgtAktivitet.label)
-                        ?.join(', ')}
-                </BodyShort>
-            </InfoSeksjon>
+            {faktaUtdanning.søknadsgrunnlag?.aktiviteter && (
+                <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
+                    <BodyShort size="small">
+                        {faktaUtdanning.søknadsgrunnlag?.aktiviteter
+                            ?.map((valgtAktivitet) => valgtAktivitet.label)
+                            ?.join(', ')}
+                    </BodyShort>
+                </InfoSeksjon>
+            )}
             {faktaUtdanning.søknadsgrunnlag?.annenUtdanning && (
                 <InfoSeksjon label="Type utdanning" ikon={<HatSchoolIcon />}>
                     <BodyShort size="small">
