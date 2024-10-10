@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
  * Hvis man har behov for å nullstille eller endre den utenfor komponenten så må man då endre key for å ikke ha en skummel useEffect inne i DateInput
  */
 export const useTriggRerendringAvDateInput = () => {
-    const [keyDato, settKeyDato] = useState<string>();
+    const [keyDato, settKeyDato] = useState<string>(uuid());
 
     return {
         keyDato,

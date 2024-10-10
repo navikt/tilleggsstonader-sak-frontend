@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
 import { SealCheckmarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
@@ -39,6 +40,7 @@ export type StønadsperiodeForm = {
 };
 
 const tomStønadsperiodeRad = (): Stønadsperiode => ({
+    _ulagretId: uuid(),
     målgruppe: '',
     aktivitet: '',
     fom: '',
@@ -161,7 +163,7 @@ const Stønadsperioder: React.FC = () => {
 
                             {stønadsperioderState.value.map((periode, indeks) => (
                                 <StønadsperiodeRad
-                                    key={periode.id || indeks}
+                                    key={periode.id || periode._ulagretId}
                                     stønadsperide={periode}
                                     lagrerStønadsperiode={finnStønadsperiodeIListe(
                                         periode,
