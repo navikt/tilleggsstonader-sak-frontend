@@ -10,10 +10,7 @@ import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
-import {
-    BehandlingFaktaLæremidler,
-    BehandlingFaktaTilsynBarn,
-} from '../../typer/behandling/behandlingFakta/behandlingFakta';
+import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 
 const BehandlingContainer = styled.div`
@@ -30,7 +27,7 @@ const BehandlingInnhold: React.FC<{
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
-    behandlingFakta: BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler;
+    behandlingFakta: BehandlingFakta;
 }> = ({ behandling, hentBehandling, personopplysninger, behandlingFakta }) => {
     return (
         <BehandlingProvider

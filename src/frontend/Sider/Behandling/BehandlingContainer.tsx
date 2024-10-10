@@ -8,7 +8,7 @@ import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
 import { Behandling } from '../../typer/behandling/behandling';
 import {
-    BehandlingFaktaLæremidler,
+    BehandlingFakta,
     BehandlingFaktaTilsynBarn,
 } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
@@ -20,7 +20,7 @@ const BehandlingContainer = () => {
     const [personopplysninger, settPersonopplysninger] =
         useState<Ressurs<Personopplysninger>>(byggTomRessurs());
     const [behandlingFakta, settBehandlingFakta] =
-        useState<Ressurs<BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler>>(byggTomRessurs());
+        useState<Ressurs<BehandlingFakta>>(byggTomRessurs());
 
     const behandlingId = useParams<{
         behandlingId: string;
