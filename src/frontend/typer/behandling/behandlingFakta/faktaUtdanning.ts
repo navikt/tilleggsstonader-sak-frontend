@@ -3,16 +3,14 @@ import { JaNei } from '../../common';
 export interface FaktaUtdanning {
     søknadsgrunnlag?: SøknadsgrunnlagUtdanning;
 }
+
 interface SøknadsgrunnlagUtdanning {
-    aktiviteter?: ValgtAktivitet[];
+    aktiviteter?: string[];
     annenUtdanning?: AnnenUtdanningType;
     mottarUtstyrsstipend?: JaNei;
     harFunksjonsnedsettelse: JaNei;
 }
-interface ValgtAktivitet {
-    id: string;
-    label: string;
-}
+
 enum AnnenUtdanningType {
     VIDEREGÅENDE_FORKURS = 'VIDEREGÅENDE_FORKURS',
 

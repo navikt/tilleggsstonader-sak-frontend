@@ -21,7 +21,7 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
             {aktiviteter && (
                 <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
                     <BodyShort size="small">
-                        {aktiviteter?.map((valgtAktivitet) => valgtAktivitet.label)?.join(', ')}
+                        {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}
                     </BodyShort>
                 </InfoSeksjon>
             )}
