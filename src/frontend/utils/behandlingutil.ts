@@ -1,9 +1,23 @@
 import { compareDesc } from 'date-fns';
 
-import { TabellBehandling } from '../Sider/Personoversikt/Behandlingsoversikt/BehandlingTabell';
+import { behandlingResultatTilTekst as klagebehandlingResultatTilTekst } from '../Sider/Klage/utils/behandlingsresultat';
 import { Behandling } from '../typer/behandling/behandling';
+import {
+    BehandlingResultat,
+    behandlingResultatTilTekst,
+} from '../typer/behandling/behandlingResultat';
+import { BehandlingStatus } from '../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../typer/behandling/behandlingType';
-import { KlageBehandling } from '../typer/klage';
+import { BehandlingÅrsak } from '../typer/behandling/behandlingÅrsak';
+import {
+    KlageBehandling,
+    KlagebehandlingResultat,
+    KlagebehandlingStatus,
+    KlageinstansEventType,
+    KlageinstansResultat,
+    klageinstansUtfallTilTekst,
+    KlageÅrsak,
+} from '../typer/klage';
 
 /**
  * Sorterer behandlinger etter vedtaksdato
@@ -42,17 +56,61 @@ export const mapFagsakPersonTilTabellrader = (
 
 export const mapKlagesakerTilTabellrader = (
     klageBehandlinger: KlageBehandling[] | undefined
-): TabellBehandling[] => {
-    const tabellBehandlinger = klageBehandlinger?.map((klageBehandling) => {
-        return {
-            id: klageBehandling.id,
-            opprettet: klageBehandling.opprettet,
-            type: BehandlingType.KLAGE,
-            behandlingsårsak: klageBehandling.årsak,
-            status: klageBehandling.status,
-            vedtaksdato: klageBehandling.vedtaksdato,
-            resultat: klageBehandling.resultat,
-        };
-    });
-    return tabellBehandlinger ?? [];
+): TabelllBehandlingKlage[] =>
+    klageBehandlinger?.map((klageBehandling) => ({
+        id: klageBehandling.id,
+        opprettet: klageBehandling.opprettet,
+        type: BehandlingType.KLAGE,
+        behandlingsårsak: klageBehandling.årsak,
+        status: klageBehandling.status,
+        vedtaksdato: klageBehandling.vedtaksdato,
+        resultat: klageBehandling.resultat,
+        klageinstansResultat: klageBehandling.klageinstansResultat,
+    })) ?? [];
+
+export interface TabellBehandling {
+    id: string;
+    opprettet: string;
+    type: BehandlingType;
+    behandlingsårsak: BehandlingÅrsak | KlageÅrsak | undefined;
+    status: BehandlingStatus | KlagebehandlingStatus;
+    vedtaksdato?: string | undefined;
+    resultat: BehandlingResultat | KlagebehandlingResultat | undefined;
+}
+
+export interface TabelllBehandlingKlage extends TabellBehandling {
+    type: BehandlingType.KLAGE;
+    klageinstansResultat?: KlageinstansResultat[];
+}
+
+const erTabellBehandlingKlage = (
+    behandling: TabellBehandling
+): behandling is TabelllBehandlingKlage => behandling.type === BehandlingType.KLAGE;
+
+export const erKlageOgFeilregistrertAvKA = (behandling: TabellBehandling) =>
+    erTabellBehandlingKlage(behandling) &&
+    behandling.klageinstansResultat?.some(
+        (resultat) => resultat.type == KlageinstansEventType.BEHANDLING_FEILREGISTRERT
+    );
+
+export const utledBehandlingResultatTilTekst = (behandling: TabellBehandling) => {
+    if (erTabellBehandlingKlage(behandling)) {
+        const klageBehandlingAvsluttetUtfall = behandling.klageinstansResultat?.find(
+            (resultat) =>
+                resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
+        )?.utfall;
+
+        if (klageBehandlingAvsluttetUtfall) {
+            return klageinstansUtfallTilTekst[klageBehandlingAvsluttetUtfall];
+        }
+        if (erKlageOgFeilregistrertAvKA(behandling)) {
+            return 'Feilregistrert (KA)';
+        }
+    }
+    return behandling.resultat ? behaandlingResultatTilTekst[behandling.resultat] : 'Ikke satt';
+};
+
+const behaandlingResultatTilTekst: Record<BehandlingResultat | KlagebehandlingResultat, string> = {
+    ...behandlingResultatTilTekst,
+    ...klagebehandlingResultatTilTekst,
 };

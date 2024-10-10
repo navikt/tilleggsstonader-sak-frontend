@@ -4,9 +4,10 @@ import { styled } from 'styled-components';
 
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
-import BehandlingTabell, { TabellBehandling } from './BehandlingTabell';
+import BehandlingTabell from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
+import { TabellBehandling } from '../../../utils/behandlingutil';
 
 const Container = styled.div`
     display: flex;
