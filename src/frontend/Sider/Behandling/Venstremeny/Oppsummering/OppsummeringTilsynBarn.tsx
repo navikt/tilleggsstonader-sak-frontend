@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort, VStack } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
@@ -16,7 +16,7 @@ const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
     return (
-        <VStack gap="8">
+        <>
             {behandlingFakta.søknadMottattTidspunkt && (
                 <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                     <BodyShort size="small">
@@ -44,7 +44,7 @@ const OppsummeringTilsynBarn: React.FC<{
                 })}
 
             <Vedlegg fakta={behandlingFakta.dokumentasjon} />
-        </VStack>
+        </>
     );
 };
 
