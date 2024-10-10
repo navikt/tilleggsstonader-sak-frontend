@@ -100,7 +100,6 @@ const App: React.FC = () => {
 const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
-    const { loggUt } = useApp();
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     return (
         <>
@@ -136,9 +135,12 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                                     </Dropdown.Menu.GroupedList.Item>
                                 )}
                                 <Dropdown.Menu.Divider />
-                                <Dropdown.Menu.List.Item onClick={loggUt}>
-                                    Logg ut <Spacer /> <LeaveIcon aria-hidden fontSize="1.5rem" />
-                                </Dropdown.Menu.List.Item>
+                                <a href={'/oauth2/logout'}>
+                                    <Dropdown.Menu.List.Item>
+                                        Logg ut <Spacer />
+                                        <LeaveIcon aria-hidden fontSize="1.5rem" />
+                                    </Dropdown.Menu.List.Item>
+                                </a>
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>
