@@ -7,10 +7,7 @@ import { useApp } from '../../context/AppContext';
 import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
 import { Behandling } from '../../typer/behandling/behandling';
-import {
-    BehandlingFakta,
-    BehandlingFaktaTilsynBarn,
-} from '../../typer/behandling/behandlingFakta/behandlingFakta';
+import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
@@ -27,7 +24,7 @@ const BehandlingContainer = () => {
     }>().behandlingId as string;
 
     const hentBehandlingFaktaCallback = useCallback(() => {
-        request<BehandlingFaktaTilsynBarn, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
+        request<BehandlingFakta, null>(`/api/sak/behandling/${behandlingId}/fakta`).then(
             settBehandlingFakta
         );
     }, [request, behandlingId]);
