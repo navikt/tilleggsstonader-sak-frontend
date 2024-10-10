@@ -4,6 +4,7 @@ import { automatiskVurdert } from './automatiskVurdert';
 import { PassBarnLesMer } from './PassBarnLesMer';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Regler } from '../../../../typer/regel';
 import {
     lenkerForskriftPassBarn,
@@ -25,6 +26,9 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
+    if (vilkårsvurdering.grunnlag['@type'] !== Stønadstype.BARNETILSYN) {
+        return <>Feil faktatype for pass av barn</>;
+    }
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
