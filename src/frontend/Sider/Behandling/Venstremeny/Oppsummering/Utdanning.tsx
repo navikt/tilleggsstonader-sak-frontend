@@ -12,39 +12,34 @@ import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
+    const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
+    const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
+    const mottarUtstyrsstipend = faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend;
+    const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
     return (
         <>
-            {faktaUtdanning.søknadsgrunnlag?.aktiviteter && (
+            {aktiviteter && (
                 <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
                     <BodyShort size="small">
-                        {faktaUtdanning.søknadsgrunnlag?.aktiviteter
-                            ?.map((valgtAktivitet) => valgtAktivitet.label)
-                            ?.join(', ')}
+                        {aktiviteter?.map((valgtAktivitet) => valgtAktivitet.label)?.join(', ')}
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            {faktaUtdanning.søknadsgrunnlag?.annenUtdanning && (
+            {annenUtdanning && (
                 <InfoSeksjon label="Type utdanning" ikon={<HatSchoolIcon />}>
                     <BodyShort size="small">
-                        {tekstEllerKode(
-                            annenUtdanningTypeTilTekst,
-                            faktaUtdanning.søknadsgrunnlag?.annenUtdanning
-                        )}
+                        {tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            {faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend && (
+            {mottarUtstyrsstipend && (
                 <InfoSeksjon label="Utstyrstipend" ikon={<BankNoteIcon />}>
-                    <BodyShort size="small">
-                        {jaNeiTilTekst[faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend]}
-                    </BodyShort>
+                    <BodyShort size="small">{jaNeiTilTekst[mottarUtstyrsstipend]}</BodyShort>
                 </InfoSeksjon>
             )}
-            {faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse && (
+            {harFunksjonsnedsettelse && (
                 <InfoSeksjon label="Funksjonsnedsettelse" ikon={<WheelchairIcon />}>
-                    <BodyShort size="small">
-                        {jaNeiTilTekst[faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse]}
-                    </BodyShort>
+                    <BodyShort size="small">{jaNeiTilTekst[harFunksjonsnedsettelse]}</BodyShort>
                 </InfoSeksjon>
             )}
         </>
