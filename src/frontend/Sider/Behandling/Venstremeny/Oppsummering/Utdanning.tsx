@@ -21,14 +21,16 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
                         ?.join(', ')}
                 </BodyShort>
             </InfoSeksjon>
-            <InfoSeksjon label="Type utdanning" ikon={<HatSchoolIcon />}>
-                <BodyShort size="small">
-                    {tekstEllerKode(
-                        annenUtdanningTypeTilTekst,
-                        faktaUtdanning.søknadsgrunnlag?.annenUtdanning
-                    )}
-                </BodyShort>
-            </InfoSeksjon>
+            {faktaUtdanning.søknadsgrunnlag?.annenUtdanning && (
+                <InfoSeksjon label="Type utdanning" ikon={<HatSchoolIcon />}>
+                    <BodyShort size="small">
+                        {tekstEllerKode(
+                            annenUtdanningTypeTilTekst,
+                            faktaUtdanning.søknadsgrunnlag?.annenUtdanning
+                        )}
+                    </BodyShort>
+                </InfoSeksjon>
+            )}
             {faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend && (
                 <InfoSeksjon label="Utstyrstipend" ikon={<BankNoteIcon />}>
                     <BodyShort size="small">
