@@ -3,7 +3,6 @@ import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { TypeRegisterYtelse } from '../../../../typer/registerytelser';
 import { Periode } from '../../../../utils/periode';
-import { SvarJaNei } from '../../../../utils/tekstformatering';
 
 export interface VilkårperioderResponse {
     vilkårperioder: Vilkårperioder;
@@ -74,12 +73,24 @@ export enum KildeVilkårsperiode {
     SYSTEM = 'SYSTEM',
 }
 
+export enum SvarJaNei {
+    JA = 'JA',
+    JA_IMPLISITT = 'JA_IMPLISITT',
+    NEI = 'NEI',
+}
+
 export enum BegrunnelseObligatorisk {
     OBLIGATORISK = 'OBLIGATORISK',
     VALGFRI = 'VALGFRI',
     OBLIGATORISK_HVIS_SVAR_NEI = 'OBLIGATORISK_HVIS_SVAR_NEI',
     OBLIGATORISK_HVIS_SVAR_JA = 'OBLIGATORISK_HVIS_SVAR_JA',
 }
+
+export const svarJaNeiMapping: Record<SvarJaNei, string> = {
+    JA: 'Ja',
+    JA_IMPLISITT: 'Ja',
+    NEI: 'Nei',
+};
 
 export interface Vurdering {
     svar?: SvarJaNei;

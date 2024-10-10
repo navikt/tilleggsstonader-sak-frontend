@@ -8,7 +8,8 @@ import {
     annenUtdanningTypeTilTekst,
     FaktaUtdanning,
 } from '../../../../typer/behandling/behandlingFakta/faktaUtdanning';
-import { svarJaNeiMapping, tekstEllerKode } from '../../../../utils/tekstformatering';
+import { jaNeiTilTekst } from '../../../../typer/common';
+import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     return (
@@ -31,14 +32,14 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
             {faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend && (
                 <InfoSeksjon label="Utstyrstipend" ikon={<BankNoteIcon />}>
                     <BodyShort size="small">
-                        {svarJaNeiMapping[faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend]}
+                        {jaNeiTilTekst[faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend]}
                     </BodyShort>
                 </InfoSeksjon>
             )}
             {faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse && (
                 <InfoSeksjon label="Funksjonsnedsettelse" ikon={<WheelchairIcon />}>
                     <BodyShort size="small">
-                        {svarJaNeiMapping[faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse]}
+                        {jaNeiTilTekst[faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse]}
                     </BodyShort>
                 </InfoSeksjon>
             )}
