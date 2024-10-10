@@ -4,10 +4,6 @@ import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
-import {
-    BehandlingFaktaLæremidler,
-    BehandlingFaktaTilsynBarn,
-} from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
 const OppsummeringSøknad: React.FC = () => {
@@ -16,14 +12,10 @@ const OppsummeringSøknad: React.FC = () => {
         <>
             <RevurderingTag behandling={behandling} />
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
-                <OppsummeringTilsynBarn
-                    behandlingFakta={behandlingFakta as BehandlingFaktaTilsynBarn}
-                />
+                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
             )}
             {behandlingFakta['@type'] === Stønadstype.LÆREMIDLER && (
-                <OppsummeringLæremidler
-                    behandlingFakta={behandlingFakta as BehandlingFaktaLæremidler}
-                />
+                <OppsummeringLæremidler behandlingFakta={behandlingFakta} />
             )}
         </>
     );
