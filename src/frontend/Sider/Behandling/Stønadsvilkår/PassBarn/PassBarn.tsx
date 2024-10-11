@@ -2,6 +2,7 @@ import React from 'react';
 
 import { automatiskVurdert } from './automatiskVurdert';
 import { PassBarnLesMer } from './PassBarnLesMer';
+import { useVilkår } from '../../../../context/VilkårContext';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -11,17 +12,17 @@ import {
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
-import { Inngangsvilkårtype, Vilkårsvurdering } from '../../vilkår';
+import { Inngangsvilkårtype } from '../../vilkår';
 import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { lagTomtDelvilkårsett } from '../../Vilkårvurdering/utils';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
 
 interface Props {
     vilkårsregler: Regler;
-    vilkårsvurdering: Vilkårsvurdering;
 }
 
-const PassBarn: React.FC<Props> = ({ vilkårsregler, vilkårsvurdering }) => {
+const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
+    const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );

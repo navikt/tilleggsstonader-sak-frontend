@@ -62,10 +62,7 @@ const Stønadsvilkår = () => {
                         <OppsummeringStønadsperioder
                             stønadsperioder={vilkårsoppsummering.stønadsperioder}
                         />
-                        <PassBarn
-                            vilkårsregler={regler.vilkårsregler.PASS_BARN.regler}
-                            vilkårsvurdering={vilkårsvurdering}
-                        />
+                        <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
                     </VilkårProvider>
                 )}
             </DataViewer>
