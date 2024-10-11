@@ -22,7 +22,7 @@ const Aksjonsknapper: React.FC<{
         return (
             <HStack gap="2" align="center">
                 <Button size="small" type="submit" disabled={laster}>
-                    Lagre stønadsperioder
+                    Lagre perioder
                 </Button>
                 <Button
                     type="button"
@@ -61,7 +61,7 @@ const Aksjonsknapper: React.FC<{
                 }}
                 style={{ maxWidth: 'fit-content' }}
             >
-                Legg til stønadsperiode
+                Legg til periode
             </Button>
         );
     } else {
@@ -76,7 +76,7 @@ const Aksjonsknapper: React.FC<{
                 }}
                 style={{ maxWidth: 'fit-content' }}
             >
-                Endre stønadsperioder
+                Endre perioder
             </Button>
         );
     }
