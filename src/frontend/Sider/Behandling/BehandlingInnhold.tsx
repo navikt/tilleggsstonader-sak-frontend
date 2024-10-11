@@ -6,7 +6,6 @@ import BehandlingTabsInnhold from './BehandlingTabsInnhold';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
-import { VilkårProvider } from '../../context/VilkårContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -38,12 +37,10 @@ const BehandlingInnhold: React.FC<{
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
                 <BehandlingContainer>
-                    <VilkårProvider behandling={behandling}>
-                        <VenstreMeny />
-                        <InnholdWrapper>
-                            <BehandlingTabsInnhold />
-                        </InnholdWrapper>
-                    </VilkårProvider>
+                    <VenstreMeny />
+                    <InnholdWrapper>
+                        <BehandlingTabsInnhold />
+                    </InnholdWrapper>
                 </BehandlingContainer>
             </PersonopplysningerProvider>
         </BehandlingProvider>
