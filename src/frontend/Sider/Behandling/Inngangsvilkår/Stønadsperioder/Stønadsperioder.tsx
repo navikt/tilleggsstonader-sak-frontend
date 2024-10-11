@@ -145,10 +145,13 @@ const Stønadsperioder: React.FC = () => {
     };
 
     return (
-        <Panel tittel="Stønadsperioder" ikon={<SealCheckmarkIcon />}>
+        <Panel
+            tittel="Perioder med overlapp mellom aktivitet og målgruppe"
+            ikon={<SealCheckmarkIcon />}
+        >
             {stønadsperioderState.value.length === 0 && !erStegRedigerbart && (
                 <BodyShort>
-                    Det ble ikke registrert noen stønadsperioder i denne behandlingen
+                    Det ble ikke registrert noen overlappende perioder i denne behandlingen
                 </BodyShort>
             )}
             <LesMerStønadsperioder />
