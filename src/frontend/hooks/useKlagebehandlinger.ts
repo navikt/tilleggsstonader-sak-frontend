@@ -24,7 +24,7 @@ export const useHentKlagebehandlinger = (): Response => {
         (fagsakPersonId: string) => {
             // TODO: Fjern prodsjekk når klage-backend er oppe å gå i prod
             if (!kanOppretteKlage) {
-                const midlertidigMocketKlagebehandling: Klagebehandlinger = { barnetilsyn: [] };
+                const midlertidigMocketKlagebehandling: Klagebehandlinger = { tilsynBarn: [] };
                 settKlagebehandlinger(byggRessursSuksess(midlertidigMocketKlagebehandling));
             } else {
                 request<Klagebehandlinger, null>(

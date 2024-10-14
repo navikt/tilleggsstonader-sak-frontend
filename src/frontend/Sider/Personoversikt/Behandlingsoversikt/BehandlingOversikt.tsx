@@ -30,7 +30,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
         ...mapFagsakPersonTilTabellrader(
             pakkUtHvisSuksess(behandlingsoversikt)?.tilsynBarn?.behandlinger
         ),
-        ...mapKlagesakerTilTabellrader(pakkUtHvisSuksess(klagebehandlinger)?.barnetilsyn),
+        ...mapKlagesakerTilTabellrader(pakkUtHvisSuksess(klagebehandlinger)?.tilsynBarn),
     ].sort(sorterBehandlinger);
 
     return (

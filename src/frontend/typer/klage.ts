@@ -1,7 +1,7 @@
 import { BehandlingStatus } from './behandling/behandlingStatus';
 
 export interface Klagebehandlinger {
-    barnetilsyn: KlageBehandling[];
+    tilsynBarn: KlageBehandling[];
 }
 
 export interface KlageBehandling {
