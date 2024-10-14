@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Link, Table } from '@navikt/ds-react';
 
+import LogiskeVedlegg from './LogiskeVedlegg';
 import { DokumentInfo } from '../../../typer/dokument';
 
 export const Underrad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
@@ -16,6 +17,7 @@ export const Underrad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => 
                 >
                     {dokument.tittel}
                 </Link>
+                <LogiskeVedlegg logiskeVedlegg={dokument.logiskeVedlegg}></LogiskeVedlegg>
             </Table.DataCell>
             <Table.DataCell></Table.DataCell>
             <Table.DataCell></Table.DataCell>
