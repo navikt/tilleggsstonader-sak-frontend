@@ -9,7 +9,6 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import HenleggModal from './HenleggModal';
 import { useApp } from '../../../context/AppContext';
-import { Behandling } from '../../../typer/behandling/behandling';
 import {
     BehandlingStatus,
     erBehandlingRedigerbar,
@@ -21,7 +20,11 @@ import {
     TabellBehandling,
     utledBehandlingResultatTilTekst,
 } from '../../../utils/behandlingutil';
-import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
+import {
+    formaterIsoDatoTid,
+    formaterNullableIsoDato,
+    formaterNullableIsoDatoTid,
+} from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
 const Tabell = styled(Table)`
@@ -33,10 +36,11 @@ const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
     margin-left: 1rem;
 `;
 
-const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
+const TabellData: PartialRecord<keyof TabellBehandling, string> = {
     opprettet: 'Opprettet',
     type: 'Type',
     resultat: 'Resultat',
+    vedtaksperiode: 'Vedtaksperiode',
     behandlingsårsak: 'Årsak',
     status: 'Status',
     vedtaksdato: 'Vedtaksdato',
@@ -92,6 +96,10 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                         />
                                     </Tooltip>
                                 )}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {behandling.vedtaksperiode &&
+                                    `${formaterNullableIsoDato(behandling.vedtaksperiode.fom)} - ${formaterNullableIsoDato(behandling.vedtaksperiode.tom)}`}
                             </Table.DataCell>
                             <Table.DataCell>
                                 {formaterEnumVerdi(behandling.behandlingsårsak)}

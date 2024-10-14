@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 
 import { FagsakOversikt } from './FagsakOversikt';
-import { useHentFagsakPersonUtvidet } from '../../../hooks/useFagsakPerson';
+import { useHentBehandlingsoversikt } from '../../../hooks/useHentBehandlingsoversikt';
 import { useHentKlagebehandlinger } from '../../../hooks/useKlagebehandlinger';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -15,34 +15,36 @@ import {
 } from '../../../utils/behandlingutil';
 
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
-    const { hentFagsakPerson, fagsakPerson } = useHentFagsakPersonUtvidet();
+    const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
     const { hentKlagebehandlinger, klagebehandlinger } = useHentKlagebehandlinger();
 
     useEffect(() => {
-        hentFagsakPerson(fagsakPersonId);
+        hentBehandlingsoversikt(fagsakPersonId);
         hentKlagebehandlinger(fagsakPersonId);
-    }, [fagsakPersonId, hentFagsakPerson, hentKlagebehandlinger]);
+    }, [fagsakPersonId, hentBehandlingsoversikt, hentKlagebehandlinger]);
 
     const rekjørHentKlagebehandlinger = () => hentKlagebehandlinger(fagsakPersonId);
-    const rekjørHentBehandlinger = () => hentFagsakPerson(fagsakPersonId);
+    const rekjørHentBehandlinger = () => hentBehandlingsoversikt(fagsakPersonId);
 
     const tabellBehandlinger = [
-        ...mapFagsakPersonTilTabellrader(pakkUtHvisSuksess(fagsakPerson)?.tilsynBarn?.behandlinger),
+        ...mapFagsakPersonTilTabellrader(
+            pakkUtHvisSuksess(behandlingsoversikt)?.tilsynBarn?.behandlinger
+        ),
         ...mapKlagesakerTilTabellrader(pakkUtHvisSuksess(klagebehandlinger)?.barnetilsyn),
     ].sort(sorterBehandlinger);
 
     return (
         <>
             <Heading size="small">Behandlinger i TS-sak</Heading>
-            <DataViewer response={{ fagsakPerson }}>
-                {({ fagsakPerson }) => (
+            <DataViewer response={{ behandlingsoversikt }}>
+                {({ behandlingsoversikt }) => (
                     <>
-                        {fagsakPerson.tilsynBarn && (
+                        {behandlingsoversikt.tilsynBarn && (
                             <FagsakOversikt
-                                fagsakId={fagsakPerson.tilsynBarn.id}
+                                fagsakId={behandlingsoversikt.tilsynBarn.fagsakId}
                                 stønadstype={Stønadstype.BARNETILSYN}
-                                fagsakEskternID={fagsakPerson.tilsynBarn.eksternId}
-                                fagsakErLøpende={fagsakPerson.tilsynBarn.erLøpende}
+                                fagsakEskternID={behandlingsoversikt.tilsynBarn.eksternFagsakId}
+                                fagsakErLøpende={behandlingsoversikt.tilsynBarn.erLøpende}
                                 tabellbehandlinger={tabellBehandlinger}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
