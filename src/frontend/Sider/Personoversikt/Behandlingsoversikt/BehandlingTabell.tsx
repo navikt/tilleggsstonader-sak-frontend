@@ -28,7 +28,7 @@ const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
 `;
 
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
-    opprettet: 'Behandling opprettetdato',
+    opprettet: 'Opprettet',
     type: 'Type',
     behandlingsårsak: 'Årsak',
     status: 'Status',
