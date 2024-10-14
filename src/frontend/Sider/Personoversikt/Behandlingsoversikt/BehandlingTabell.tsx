@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
+import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import HenleggModal from './HenleggModal';
 import { useApp } from '../../../context/AppContext';
@@ -23,17 +24,22 @@ import {
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
+const Tabell = styled(Table)`
+    max-width: fit-content;
+    border: 1px solid ${ABorderDefault};
+`;
+
 const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
     margin-left: 1rem;
 `;
 
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
-    opprettet: 'Behandling opprettetdato',
+    opprettet: 'Opprettet',
     type: 'Type',
+    resultat: 'Resultat',
     behandlingsårsak: 'Årsak',
     status: 'Status',
     vedtaksdato: 'Vedtaksdato',
-    resultat: 'Resultat',
 };
 
 interface Props {
@@ -55,7 +61,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
 
     return (
         <>
-            <Table size="small">
+            <Tabell size="small">
                 <Table.Header>
                     <Table.Row>
                         {Object.entries(TabellData).map(([key, value], indeks) => (
@@ -71,14 +77,6 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                 {formaterIsoDatoTid(behandling.opprettet)}
                             </Table.DataCell>
                             <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterEnumVerdi(behandling.behandlingsårsak)}
-                            </Table.DataCell>
-                            <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
-                            </Table.DataCell>
-
                             <Table.DataCell>
                                 <Link
                                     to={{
@@ -96,6 +94,13 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                 )}
                             </Table.DataCell>
                             <Table.DataCell>
+                                {formaterEnumVerdi(behandling.behandlingsårsak)}
+                            </Table.DataCell>
+                            <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
+                            </Table.DataCell>
+                            <Table.DataCell>
                                 {skalViseHenleggKnapp(behandling) && (
                                     <Button
                                         variant="tertiary"
@@ -111,7 +116,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                         </Table.Row>
                     ))}
                 </Table.Body>
-            </Table>
+            </Tabell>
             {behandlingIdForHenleggelse && (
                 <HenleggModal
                     behandlingId={behandlingIdForHenleggelse}
