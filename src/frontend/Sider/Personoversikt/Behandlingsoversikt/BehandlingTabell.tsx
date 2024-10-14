@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
+import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import HenleggModal from './HenleggModal';
 import { useApp } from '../../../context/AppContext';
@@ -22,6 +23,11 @@ import {
 } from '../../../utils/behandlingutil';
 import { formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
+
+const Tabell = styled(Table)`
+    max-width: fit-content;
+    border: 1px solid ${ABorderDefault};
+`;
 
 const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
     margin-left: 1rem;
@@ -55,7 +61,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
 
     return (
         <>
-            <Table size="small">
+            <Tabell size="small">
                 <Table.Header>
                     <Table.Row>
                         {Object.entries(TabellData).map(([key, value], indeks) => (
@@ -110,7 +116,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                         </Table.Row>
                     ))}
                 </Table.Body>
-            </Table>
+            </Tabell>
             {behandlingIdForHenleggelse && (
                 <HenleggModal
                     behandlingId={behandlingIdForHenleggelse}
