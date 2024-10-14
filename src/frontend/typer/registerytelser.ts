@@ -14,11 +14,12 @@ export interface PeriodeYtelseRegister {
     ensligForsørgerStønadstype?: EnsligForsørgerStønadstype;
 }
 
-type EnsligForsørgerStønadstype = 'OVERGANGSSTØNAD' | 'SKOLEPENGER';
+type EnsligForsørgerStønadstype = 'OVERGANGSSTØNAD' | 'SKOLEPENGER' | 'BARNETILSYN';
 
 export const ensligForsørgerStønadstypeTekst: Record<EnsligForsørgerStønadstype, string> = {
     OVERGANGSSTØNAD: 'Overgangsstønad',
     SKOLEPENGER: 'Skolepenger',
+    BARNETILSYN: 'Barnetilsyn (Enslig forsørger)',
 };
 
 export interface HentetInformasjon {
