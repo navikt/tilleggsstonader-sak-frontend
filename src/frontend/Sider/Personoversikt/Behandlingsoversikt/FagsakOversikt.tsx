@@ -6,7 +6,8 @@ import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
 import BehandlingTabell from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
-import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
+import { FagsakMedBehandlinger } from '../../../typer/behandling/behandlingoversikt';
+import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { TabellBehandling } from '../../../utils/behandlingutil';
 
 const Container = styled.div`
@@ -22,32 +23,27 @@ const TittelLinje = styled.div`
 `;
 
 interface Props {
-    fagsakId: string;
-    stønadstype: Stønadstype;
-    fagsakEskternID: number;
-    fagsakErLøpende: boolean;
+    fagsakMedBehandlinger: FagsakMedBehandlinger;
     tabellbehandlinger: TabellBehandling[];
     hentBehandlinger: () => void;
     hentKlagebehandlinger: () => void;
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
-    fagsakId,
-    stønadstype,
-    fagsakEskternID,
-    fagsakErLøpende,
+    fagsakMedBehandlinger,
     tabellbehandlinger,
     hentBehandlinger,
     hentKlagebehandlinger,
 }) => {
+    const { fagsakId, stønadstype, eksternFagsakId, erLøpende } = fagsakMedBehandlinger;
     return (
         <Container>
             <TittelLinje>
                 <Heading size="small" level="3">
                     {stønadstypeTilTekst[stønadstype]}
                 </Heading>
-                <BodyShort size="small">(Saksnummer: {fagsakEskternID})</BodyShort>
-                {fagsakErLøpende && (
+                <BodyShort size="small">(Saksnummer: {eksternFagsakId})</BodyShort>
+                {erLøpende && (
                     <Tag variant={'info'} size={'small'}>
                         Løpende
                     </Tag>

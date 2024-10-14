@@ -8,9 +8,10 @@ import { Steg } from './steg';
 export interface Behandlingsoversikt {
     fagsakPersonId: string;
     tilsynBarn?: FagsakMedBehandlinger;
+    læremidler?: FagsakMedBehandlinger;
 }
 
-interface FagsakMedBehandlinger {
+export interface FagsakMedBehandlinger {
     fagsakId: string;
     eksternFagsakId: number;
     stønadstype: Stønadstype;
