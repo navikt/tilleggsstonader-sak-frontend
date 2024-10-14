@@ -1,7 +1,7 @@
 import { compareDesc } from 'date-fns';
 
 import { behandlingResultatTilTekst as klagebehandlingResultatTilTekst } from '../Sider/Klage/utils/behandlingsresultat';
-import { BehandlingDetaljer } from '../typer/behandling/behandlingoversikt';
+import { BehandlingDetaljer, Vedtaksperiode } from '../typer/behandling/behandlingoversikt';
 import {
     BehandlingResultat,
     behandlingResultatTilTekst,
@@ -49,6 +49,7 @@ export const mapFagsakPersonTilTabellrader = (
             status: behandling.status,
             vedtaksdato: behandling.vedtaksdato,
             resultat: behandling.resultat,
+            vedtaksperiode: behandling.vedtaksperiode,
         };
     });
     return tabellBehandlinger ?? [];
@@ -76,6 +77,7 @@ export interface TabellBehandling {
     status: BehandlingStatus | KlagebehandlingStatus;
     vedtaksdato?: string | undefined;
     resultat: BehandlingResultat | KlagebehandlingResultat | undefined;
+    vedtaksperiode?: Vedtaksperiode;
 }
 
 export interface TabelllBehandlingKlage extends TabellBehandling {
