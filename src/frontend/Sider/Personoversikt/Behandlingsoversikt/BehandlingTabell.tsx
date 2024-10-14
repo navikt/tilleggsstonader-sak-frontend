@@ -30,10 +30,10 @@ const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
 const TabellData: PartialRecord<keyof Behandling | 'vedtaksdato', string> = {
     opprettet: 'Opprettet',
     type: 'Type',
+    resultat: 'Resultat',
     behandlingsårsak: 'Årsak',
     status: 'Status',
     vedtaksdato: 'Vedtaksdato',
-    resultat: 'Resultat',
 };
 
 interface Props {
@@ -72,14 +72,6 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                             </Table.DataCell>
                             <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
                             <Table.DataCell>
-                                {formaterEnumVerdi(behandling.behandlingsårsak)}
-                            </Table.DataCell>
-                            <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
-                            <Table.DataCell>
-                                {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
-                            </Table.DataCell>
-
-                            <Table.DataCell>
                                 <Link
                                     to={{
                                         pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
@@ -94,6 +86,13 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                         />
                                     </Tooltip>
                                 )}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {formaterEnumVerdi(behandling.behandlingsårsak)}
+                            </Table.DataCell>
+                            <Table.DataCell>{formaterEnumVerdi(behandling.status)}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
                             </Table.DataCell>
                             <Table.DataCell>
                                 {skalViseHenleggKnapp(behandling) && (
