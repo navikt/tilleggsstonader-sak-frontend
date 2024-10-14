@@ -7,11 +7,6 @@ import { useHentBehandlingsoversikt } from '../../../hooks/useHentBehandlingsove
 import { useHentKlagebehandlinger } from '../../../hooks/useKlagebehandlinger';
 import DataViewer from '../../../komponenter/DataViewer';
 import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
-import {
-    mapFagsakPersonTilTabellrader,
-    mapKlagesakerTilTabellrader,
-    sorterBehandlinger,
-} from '../../../utils/behandlingutil';
 
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
@@ -25,12 +20,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     const rekjørHentKlagebehandlinger = () => hentKlagebehandlinger(fagsakPersonId);
     const rekjørHentBehandlinger = () => hentBehandlingsoversikt(fagsakPersonId);
 
-    const tabellBehandlinger = [
-        ...mapFagsakPersonTilTabellrader(
-            pakkUtHvisSuksess(behandlingsoversikt)?.tilsynBarn?.behandlinger
-        ),
-        ...mapKlagesakerTilTabellrader(pakkUtHvisSuksess(klagebehandlinger)?.tilsynBarn),
-    ].sort(sorterBehandlinger);
+    const utpakkedeKlagebehandlinger = pakkUtHvisSuksess(klagebehandlinger);
 
     return (
         <>
@@ -41,7 +31,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                         {behandlingsoversikt.tilsynBarn && (
                             <FagsakOversikt
                                 fagsakMedBehandlinger={behandlingsoversikt.tilsynBarn}
-                                tabellbehandlinger={tabellBehandlinger}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.tilsynBarn ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />

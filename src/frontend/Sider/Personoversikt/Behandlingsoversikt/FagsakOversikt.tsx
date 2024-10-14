@@ -8,7 +8,12 @@ import BehandlingTabell from './BehandlingTabell';
 import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { FagsakMedBehandlinger } from '../../../typer/behandling/behandlingoversikt';
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
-import { TabellBehandling } from '../../../utils/behandlingutil';
+import { KlageBehandling } from '../../../typer/klage';
+import {
+    mapFagsakPersonTilTabellrader,
+    mapKlagesakerTilTabellrader,
+    sorterBehandlinger,
+} from '../../../utils/behandlingutil';
 
 const Container = styled.div`
     display: flex;
@@ -24,18 +29,25 @@ const TittelLinje = styled.div`
 
 interface Props {
     fagsakMedBehandlinger: FagsakMedBehandlinger;
-    tabellbehandlinger: TabellBehandling[];
+    klagebehandlinger: KlageBehandling[];
     hentBehandlinger: () => void;
     hentKlagebehandlinger: () => void;
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
     fagsakMedBehandlinger,
-    tabellbehandlinger,
+    klagebehandlinger,
     hentBehandlinger,
     hentKlagebehandlinger,
 }) => {
-    const { fagsakId, stønadstype, eksternFagsakId, erLøpende } = fagsakMedBehandlinger;
+    const { fagsakId, stønadstype, eksternFagsakId, erLøpende, behandlinger } =
+        fagsakMedBehandlinger;
+
+    const tabellbehandlinger = [
+        ...mapFagsakPersonTilTabellrader(behandlinger),
+        ...mapKlagesakerTilTabellrader(klagebehandlinger),
+    ].sort(sorterBehandlinger);
+
     return (
         <Container>
             <TittelLinje>
