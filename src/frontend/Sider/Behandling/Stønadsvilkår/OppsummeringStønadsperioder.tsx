@@ -16,7 +16,7 @@ const OppsummeringStønadsperioder: React.FC<{ stønadsperioder: Stønadsperiode
 
     return (
         <Box padding="4" background="surface-selected">
-            <List as="ul" title="Stønadsperioder" size="small">
+            <List as="ul" title="Perioder med overlapp mellom aktivitet og målgruppe" size="small">
                 {!stønadsperioder.length && <>Ingen stønadsperioder</>}
                 {stønadsperioder.map((stønadsperiode, index) => (
                     <List.Item key={index}>{oppsummerStønadsperiode(stønadsperiode)}</List.Item>
