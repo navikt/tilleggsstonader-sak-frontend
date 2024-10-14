@@ -1,7 +1,7 @@
 import { compareDesc } from 'date-fns';
 
 import { behandlingResultatTilTekst as klagebehandlingResultatTilTekst } from '../Sider/Klage/utils/behandlingsresultat';
-import { Behandling } from '../typer/behandling/behandling';
+import { BehandlingDetaljer } from '../typer/behandling/behandlingoversikt';
 import {
     BehandlingResultat,
     behandlingResultatTilTekst,
@@ -38,7 +38,7 @@ export const sorterBehandlinger = <T extends { vedtaksdato?: string; opprettet: 
 };
 
 export const mapFagsakPersonTilTabellrader = (
-    behandlinger: Behandling[] | undefined
+    behandlinger: BehandlingDetaljer[] | undefined
 ): TabellBehandling[] => {
     const tabellBehandlinger = behandlinger?.map((behandling) => {
         return {
