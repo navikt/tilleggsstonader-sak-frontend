@@ -11,4 +11,11 @@ export interface Stønadsperiode extends Periode {
     id?: string;
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
+    status?: StønadsperiodeStatus;
+}
+
+export enum StønadsperiodeStatus {
+    UENDRET = 'UENDRET',
+    ENDRET = 'ENDRET',
+    NY = 'NY',
 }
