@@ -3,6 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
+import LogiskeVedlegg from './LogiskeVedlegg';
 import { Lenke } from '../../../komponenter/Lenke';
 import { arkivtemaerTilTekst } from '../../../typer/arkivtema';
 import { DokumentInfo } from '../../../typer/dokument';
@@ -21,6 +22,7 @@ const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
                 >
                     {dokument.tittel}
                 </Lenke>
+                <LogiskeVedlegg logiskeVedlegg={dokument.logiskeVedlegg}></LogiskeVedlegg>
             </Table.DataCell>
             <Table.DataCell>{dokument.avsenderMottaker?.navn}</Table.DataCell>
             <Table.DataCell>{dokument.tema && arkivtemaerTilTekst[dokument.tema]}</Table.DataCell>
