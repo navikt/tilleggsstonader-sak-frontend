@@ -6,24 +6,25 @@ import { Tag } from '@navikt/ds-react';
 
 import { StønadsperiodeStatus } from '../typer/stønadsperiode';
 
-const TagMaksBredde = styled(Tag)`
+const StyledTag = styled(Tag)`
     max-width: fit-content;
+    min-height: 20px;
 `;
 
 export const StatusTag: React.FC<{ status?: StønadsperiodeStatus }> = ({ status }) => {
     if (status === StønadsperiodeStatus.ENDRET) {
         return (
-            <TagMaksBredde size="small" variant="warning">
+            <StyledTag size="small" variant="warning">
                 Endret
-            </TagMaksBredde>
+            </StyledTag>
         );
     }
 
     if (status === StønadsperiodeStatus.NY) {
         return (
-            <TagMaksBredde size="small" variant="success">
+            <StyledTag size="small" variant="success">
                 Ny
-            </TagMaksBredde>
+            </StyledTag>
         );
     }
 
