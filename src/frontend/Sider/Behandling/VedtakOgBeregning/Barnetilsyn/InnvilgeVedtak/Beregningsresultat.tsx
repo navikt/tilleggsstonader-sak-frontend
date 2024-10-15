@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak';
@@ -18,7 +18,7 @@ const Container = styled.div`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(5, max-content);
-    gap: 1rem 2rem;
+    gap: 0.4rem 2rem;
 `;
 
 interface Props {
@@ -27,7 +27,6 @@ interface Props {
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
     <Container>
-        <Heading size="xsmall">Beregning</Heading>
         <Grid>
             <Label>Periode</Label>
             <Label>Barn</Label>
