@@ -10,3 +10,13 @@ export const harVedtaksresultatMedTilkjentYtelse = (
             return false;
     }
 };
+
+export const finnDefaultÅrForSimuleringsvisning = (muligeÅr: number[]) => {
+    const inneværendeÅr = new Date().getFullYear();
+    if (muligeÅr.includes(inneværendeÅr)) {
+        return inneværendeÅr;
+    } else if (Math.max(...muligeÅr) < inneværendeÅr) {
+        return Math.max(...muligeÅr);
+    }
+    return Math.min(...muligeÅr);
+};
