@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import { Alert, Heading } from '@navikt/ds-react';
 
-import { VedtaksoversiktArena } from './Arena/VedtaksoversiktArena';
 import { FagsakOversikt } from './FagsakOversikt';
 import { useHentBehandlingsoversikt } from '../../../hooks/useHentBehandlingsoversikt';
 import { useHentKlagebehandlinger } from '../../../hooks/useKlagebehandlinger';
@@ -53,7 +52,6 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                     Kunne ikke hente klagesaker. {klagebehandlinger.frontendFeilmelding}
                 </Alert>
             )}
-            <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />
         </>
     );
 };
