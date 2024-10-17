@@ -1,16 +1,19 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
 
 import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
+import { VedtaksoversiktArena } from './Behandlingsoversikt/Arena/VedtaksoversiktArena';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
+import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {
     label: string;
@@ -33,6 +36,11 @@ const tabs: TabWithRouter[] = [
         label: 'Aktiviteter',
         path: 'aktiviteter',
         komponent: (fagsakPersonId) => <Aktivitetsoversikt fagsakPersonId={fagsakPersonId} />,
+    },
+    {
+        label: 'TS-Arena',
+        path: 'arena',
+        komponent: (fagsakPersonId) => <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />,
     },
     {
         label: 'Ytelser',
@@ -64,6 +72,10 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const paths = useLocation().pathname.split('/').slice(-1);
     const path = paths.length ? paths[paths.length - 1] : '';
 
+    const skalViseVedtakArena = useFlag(Toggle.SKAL_VISE_VEDTAK_ARENA);
+
+    const tabsSomSkalVises = tabs.filter((tab) => tab.path !== 'arena' || skalViseVedtakArena);
+
     return (
         <>
             <Tabs
@@ -73,14 +85,14 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                 }}
             >
                 <Tabs.List>
-                    {tabs.map((tab) => {
+                    {tabsSomSkalVises.map((tab) => {
                         return <Tabs.Tab key={tab.path} value={tab.path} label={tab.label} />;
                     })}
                 </Tabs.List>
             </Tabs>
             <InnholdWrapper>
                 <Routes>
-                    {tabs.map((tab) => (
+                    {tabsSomSkalVises.map((tab) => (
                         <Route
                             key={tab.path}
                             path={`/${tab.path}`}
