@@ -16,7 +16,7 @@ import {
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
 import { enhetTilTekst } from '../typer/enhet';
-import { behandlingstemaTilTekst, OppgaveRequest } from '../typer/oppgave';
+import { behandlingstemaTilTekst, OppgaveBehandlingstype, OppgaveRequest } from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
     oppgaveTypeTilTekst,
@@ -66,6 +66,17 @@ export const Oppgavefiltrering = () => {
         settOppgaveRequest(tomOppgaveRequest);
     };
 
+    // Type brukes både for oppgavetype og behandlingstypen "klage"
+    const håndterOppdaterType = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        if (e.target.value === OppgaveBehandlingstype.Klage) {
+            oppdaterOppgave('oppgavetype')(undefined);
+            oppdaterOppgaveTargetValue('behandlingstype')(e);
+        } else {
+            oppdaterOppgave('behandlingstype')(undefined);
+            oppdaterOppgaveTargetValue('oppgavetype')(e);
+        }
+    };
+
     return (
         <VStack gap="4">
             <FlexDiv>
@@ -82,9 +93,9 @@ export const Oppgavefiltrering = () => {
                     <option value="På vent">På vent</option>
                 </Select>
                 <Select
-                    value={oppgaveRequest.oppgavetype || ''}
+                    value={oppgaveRequest.oppgavetype || oppgaveRequest.behandlingstype || ''}
                     label="Type"
-                    onChange={oppdaterOppgaveTargetValue('oppgavetype')}
+                    onChange={håndterOppdaterType}
                     size="small"
                 >
                     <option value="">Alle</option>
@@ -93,6 +104,7 @@ export const Oppgavefiltrering = () => {
                             {oppgaveTypeTilTekst[type]}
                         </option>
                     ))}
+                    <option value={OppgaveBehandlingstype.Klage}>Klage</option>
                     <optgroup label={'Øvrige'}>
                         {øvrigeOppgaveTyper.map((type) => (
                             <option key={type} value={type}>

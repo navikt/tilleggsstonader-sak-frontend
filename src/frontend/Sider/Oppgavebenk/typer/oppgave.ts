@@ -4,6 +4,7 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
 export interface OppgaveRequest {
     behandlingstema?: Behandlingstema;
+    behandlingstype?: OppgaveBehandlingstype;
     oppgavetype?: Oppgavetype;
     enhet?: FortroligEnhet | IkkeFortroligEnhet;
     oppgaverPåVent: boolean;
