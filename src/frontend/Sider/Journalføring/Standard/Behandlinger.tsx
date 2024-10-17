@@ -70,7 +70,9 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
         <DataViewer response={{ behandlinger }}>
             {({ behandlinger }) => {
                 const behandlingstypePåNyBehandling =
-                    behandlingTypeTilTekst[utledBehandlingstype(behandlinger)];
+                    behandlingTypeTilTekst[
+                        utledBehandlingstype(behandlinger, journalpostState.journalføringsårsak)
+                    ];
 
                 return (
                     <VStack gap="4">

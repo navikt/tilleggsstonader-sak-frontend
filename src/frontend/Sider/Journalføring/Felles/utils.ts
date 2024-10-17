@@ -104,7 +104,17 @@ export const alleBehandlingerErFerdigstiltEllerSattPåVent = (behandlinger: Beha
                 behandling.type === BehandlingType.REVURDERING)
     );
 
-export const utledBehandlingstype = (tidligereBehandlinger: Behandling[]): BehandlingType => {
+export const utledBehandlingstype = (
+    tidligereBehandlinger: Behandling[],
+    journalføringsårsak: Journalføringsårsak
+): BehandlingType => {
+    if (
+        [Journalføringsårsak.KLAGE, Journalføringsårsak.KLAGE_TILBAKEKREVING].includes(
+            journalføringsårsak
+        )
+    ) {
+        return BehandlingType.KLAGE;
+    }
     const harIverksattTidligereBehandlinger = tidligereBehandlinger.some(
         (tidligereBehandling) => tidligereBehandling.resultat !== BehandlingResultat.HENLAGT
     );
