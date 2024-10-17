@@ -1,6 +1,6 @@
 export interface ArenaSakOgVedtak {
     vedtak: ArenaVedtak[];
-    saker: Record<number, ArenaSak>; // Using Record for mapping Int to SakDto
+    saker: Record<number, ArenaSak>;
 }
 
 export interface ArenaSak {
@@ -12,9 +12,10 @@ interface ArenaAktivitet {
     aktivitetId: number;
     type: string;
     status: string;
+    fom?: string;
+    tom?: string;
     beskrivelse?: string;
     gjelderUtdanning: boolean;
-
     typekode: string;
     statuskode: string;
 }
@@ -31,9 +32,19 @@ export interface ArenaVedtak {
     datoInnstillt?: string;
     utfall?: string;
     vedtakfakta: Vedtakfakta[];
+    vilkårsvurderinger: Vilkårsvurdering[];
+    datoMottatt?: string;
+    saksbehandler?: string;
+    beslutter?: string;
 }
 
 interface Vedtakfakta {
     type: string;
     verdi?: string;
+}
+
+interface Vilkårsvurdering {
+    vilkår: string;
+    vurdering: string;
+    vurdertAv?: string;
 }
