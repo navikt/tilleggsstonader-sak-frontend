@@ -6,9 +6,7 @@ import { formaterIsoÅr } from '../../../utils/dato';
 const useSimuleringÅrvelger = (perioder: OppsummeringForPeriode[]) => {
     const muligeÅr = [...new Set(perioder.map((periode) => formaterIsoÅr(periode.fom)))];
 
-    const [valgtÅr, settValgtÅr] = useState(
-        muligeÅr.length ? Math.max(...muligeÅr) : new Date().getFullYear()
-    );
+    const [valgtÅr, settValgtÅr] = useState(new Date().getFullYear());
 
     const kanVelgeForrigeÅr = muligeÅr.some((muligÅr) => muligÅr < valgtÅr);
     const kanVelgeNesteÅr = muligeÅr.some((muligÅr) => muligÅr > valgtÅr);
