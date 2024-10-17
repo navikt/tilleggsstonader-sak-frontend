@@ -108,13 +108,11 @@ export const utledBehandlingstype = (
     tidligereBehandlinger: Behandling[],
     journalføringsårsak: Journalføringsårsak
 ): BehandlingType => {
-    const journalføringsårsakErEnKlagesak = (journalføringsårsak: Journalføringsårsak): boolean => {
-        return (
-            journalføringsårsak === Journalføringsårsak.KLAGE ||
-            journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING
-        );
-    };
-    if (journalføringsårsakErEnKlagesak(journalføringsårsak)) {
+    if (
+        [Journalføringsårsak.KLAGE, Journalføringsårsak.KLAGE_TILBAKEKREVING].includes(
+            journalføringsårsak
+        )
+    ) {
         return BehandlingType.KLAGE;
     }
     const harIverksattTidligereBehandlinger = tidligereBehandlinger.some(
