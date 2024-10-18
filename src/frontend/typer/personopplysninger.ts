@@ -2,6 +2,7 @@ export interface Personopplysninger {
     personIdent: string;
     navn: Navn;
     harVergemål: boolean;
+    harFullmektig: boolean;
     adressebeskyttelse: Adressebeskyttelse;
     fullmakt: Fullmakt[];
     vergemål: Vergemål[];
