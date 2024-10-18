@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Table, VStack } from '@navikt/ds-react';
 
 import { ArenaSak, ArenaVedtak } from './vedtakArena';
 import { formaterNullableIsoDato, formaterNullablePeriode } from '../../../../utils/dato';
@@ -27,16 +27,23 @@ export function Vedtaksdetaljer({
     );
 }
 
-const formaterAktivitet = (sak: ArenaSak | undefined) =>
-    sak?.aktivitet &&
-    ` (${sak?.aktivitet.status} ${formaterNullablePeriode(sak?.aktivitet.fom, sak?.aktivitet.tom)})`;
+const formaterAktivitet = function (sak: ArenaSak | undefined) {
+    const aktivitet = sak?.aktivitet;
+    if (!aktivitet) return undefined;
+    return (
+        <>
+            <BodyShort>{aktivitet.type}</BodyShort>
+            <BodyShort>Status: {aktivitet.status}</BodyShort>
+            <BodyShort>Periode: {formaterNullablePeriode(aktivitet.fom, aktivitet.tom)}</BodyShort>
+            {aktivitet.gjelderUtdanning && <BodyShort>Utdanning</BodyShort>}
+            {aktivitet.beskrivelse && <BodyShort>Beskrivelse: {aktivitet.beskrivelse}</BodyShort>}
+        </>
+    );
+};
 
 function Vedtaksinfo({ vedtak, sak }: { vedtak: ArenaVedtak; sak: ArenaSak | undefined }) {
-    type Vedtakinfo = [string, string | number | undefined];
+    type Vedtakinfo = [string, React.ReactNode | string | number | undefined];
 
-    const beskrivelseAktivitet: Vedtakinfo[] = sak?.aktivitet?.beskrivelse
-        ? [['Beskrivelse', sak.aktivitet.beskrivelse]]
-        : [];
     const vedtakinfo: Vedtakinfo[] = [
         ['Sak', vedtak.sakId],
         ['Saksbehandler', vedtak.saksbehandler],
@@ -44,7 +51,6 @@ function Vedtaksinfo({ vedtak, sak }: { vedtak: ArenaVedtak; sak: ArenaSak | und
         ['Dato mottatt', formaterNullableIsoDato(vedtak.datoMottatt)],
         ['Målgruppe', sak?.målgruppe],
         ['Aktivitet', formaterAktivitet(sak)],
-        ...beskrivelseAktivitet,
     ];
     return (
         <Vedtakinfotabell size={'small'}>
