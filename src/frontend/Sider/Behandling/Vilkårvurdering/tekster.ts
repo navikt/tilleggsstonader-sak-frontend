@@ -17,8 +17,6 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
-
-    HAR_ALDER_LAVERE_ENN_GRENSEVERDI: 'Er barnet ferdig med 4. skoleår?', // TODO: Fjern meg etter at https://github.com/navikt/tilleggsstonader-sak/pull/284 er merget
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
