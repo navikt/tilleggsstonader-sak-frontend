@@ -58,6 +58,7 @@ const EkspanderbarRad: React.FC<{
                 {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
             </Table.DataCell>
             <Table.DataCell>{formaterNullableIsoDato(oppgave.opprettetTidspunkt)}</Table.DataCell>
+            <Table.DataCell>{oppgave.tildeltEnhetsnr}</Table.DataCell>
             <Table.DataCell>{mappeIdTilMappenavn(oppgave.mappeId, mapper)}</Table.DataCell>
             <Table.DataCell>{formaterNullableIsoDato(oppgave.fristFerdigstillelse)}</Table.DataCell>
             <Table.DataCell>{oppgave.tilordnetRessurs}</Table.DataCell>
@@ -95,6 +96,7 @@ const Oppgaveliste: React.FC<{
                         <Table.ColumnHeader>Oppgavetype</Table.ColumnHeader>
                         <Table.ColumnHeader>Stønad</Table.ColumnHeader>
                         <Table.ColumnHeader>Opprettet</Table.ColumnHeader>
+                        <Table.ColumnHeader>Enhet</Table.ColumnHeader>
                         <Table.ColumnHeader>Mappe</Table.ColumnHeader>
                         <Table.ColumnHeader>Frist</Table.ColumnHeader>
                         <Table.ColumnHeader>Tildelt</Table.ColumnHeader>
