@@ -6,6 +6,7 @@ export interface Aktivitet extends VilkårPeriode {
     type: AktivitetType;
     aktivitetsdager: number;
     delvilkår: DelvilkårAktivitet;
+    kildeId?: string;
 }
 
 export interface DelvilkårAktivitet {
