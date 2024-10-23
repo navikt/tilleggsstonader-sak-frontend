@@ -1243,15 +1243,15 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/3.4.2/fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7#fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7"
   integrity sha512-9fj+Jb4UrX3SDDzqJpKP3fvizdxtACIFNXgDiPaP/N/61pbeY4tZz/zrtWGtExLpDeg7dAyaiFH/hfo7nBg6nw==
 
-"@navikt/aksel-icons@^6.17.0", "@navikt/aksel-icons@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/6.17.0/92f12f06c26db3c2221908da599a113654942044#92f12f06c26db3c2221908da599a113654942044"
-  integrity sha512-n+1AsE9kRFh3C7BcD0fAJhIA6/65PsLGrpNKnLQUjW8hwESzo1LYHfZgZXi2Shaw2hCzQ1wx/hBBdwtQfUiBNg==
+"@navikt/aksel-icons@^7.3.1":
+  version "7.3.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/7.3.1/579d009ffc9063af4afd5000a9e73dfba39a1f1c#579d009ffc9063af4afd5000a9e73dfba39a1f1c"
+  integrity sha512-FqARFTIvjOVyyYQ2BFS8ba3GEu/M53d7MUle5/NP838ZG4CY3O+Ea453dxPGuGCu2EIG8CX8sQ3VFmVqCYu9mQ==
 
-"@navikt/ds-css@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/6.17.0/ce84459723d9a8e88df82eb67dc77b05af5dd0de#ce84459723d9a8e88df82eb67dc77b05af5dd0de"
-  integrity sha512-YwjmUWVTElu6fOUyyCetDRJURvF3HLBTcctUq9UNGTH+8flceKWkyRQVJuXRZDWNIRn1IAXWwWAyZB2xJrhDPQ==
+"@navikt/ds-css@^7.3.1":
+  version "7.3.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/7.3.1/ed21257bbfa4a5615ce55bfe7f5175b20bf42d8f#ed21257bbfa4a5615ce55bfe7f5175b20bf42d8f"
+  integrity sha512-Q/vzLpPvtzUEmrK2s6dH/gtPTcj11AlEBFxG6tMzLUcynB7R0olXgYBfdD7kTPy3F2Y6PWr5ihQvV4tXPIgpww==
 
 "@navikt/ds-react-internal@^3.4.3":
   version "3.4.3"
@@ -1278,37 +1278,37 @@
     react-day-picker "8.3.4"
     react-modal "3.15.1"
 
-"@navikt/ds-react@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/6.17.0/5353e0239dc0387ba796a67a0e764bfb88f30a48#5353e0239dc0387ba796a67a0e764bfb88f30a48"
-  integrity sha512-ZIJ3Ge7sllAN8QryIrpLfR/G3HsDzqCBskzGeOaZTv/x4Naci7PDMhbeDhYyeQPk2OoVIODCLJXVx8qfMdTGmA==
+"@navikt/ds-react@^7.3.1":
+  version "7.3.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/7.3.1/0aa76367ae5294f4ed2f598218240efa7a51e136#0aa76367ae5294f4ed2f598218240efa7a51e136"
+  integrity sha512-5HetHrvZHwjTr/CfOy9fES018vYgU5Jgb+VE+P+U0SuLU2k+86+mJ5fhsXQn6ipSqBDPGOB0IMw0LY8n/eVkFw==
   dependencies:
     "@floating-ui/react" "0.25.4"
     "@floating-ui/react-dom" "^2.0.9"
-    "@navikt/aksel-icons" "^6.17.0"
-    "@navikt/ds-tokens" "^6.17.0"
+    "@navikt/aksel-icons" "^7.3.1"
+    "@navikt/ds-tokens" "^7.3.1"
     clsx "^2.1.0"
     date-fns "^3.0.0"
     react-day-picker "8.10.0"
 
-"@navikt/ds-tokens@^6.1.0", "@navikt/ds-tokens@^6.17.0":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/6.17.0/e80eeb7c7d6f469d6704125b5835ea95995be327#e80eeb7c7d6f469d6704125b5835ea95995be327"
-  integrity sha512-DAibs9kIcpAf/4sRTdB0VPDK6t4seeJfqTm6qvDSUkOt/UCmvgKRUeikJqETCiGgXWv/Y/FpQ69uv1stZXBrEQ==
+"@navikt/ds-tokens@^7.3.1":
+  version "7.3.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.3.1/806b85e70ee44c469422bf5b415a4e9c026d981d#806b85e70ee44c469422bf5b415a4e9c026d981d"
+  integrity sha512-zYoEz4YMfKiyi2CwYFWRjPTkzmeNZqE5XRb8CL0xkZMj3ESkn0M7XSEk2AKfe7BIN7q3kItD4bMsmCruTmr1pQ==
 
-"@navikt/familie-endringslogg@^12.0.1":
-  version "12.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/12.0.2/4036173993d27265340ae9febbc0a4205b992b73#4036173993d27265340ae9febbc0a4205b992b73"
-  integrity sha512-MvBl6MlFwfGmzmEaE3fOF/14nonsAJYakwofG1ahYt7obj/5WUtdf1DKNYd60DoBMSwIFUkwXedAOzXhnqvgcw==
+"@navikt/familie-endringslogg@^13.1.4":
+  version "13.1.4"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/13.1.4/bc8b9e3304b44c6b7d8a4ab15dfafd14e7b29617#bc8b9e3304b44c6b7d8a4ab15dfafd14e7b29617"
+  integrity sha512-fA9lPZRcWFNdeFGEWlrdQ0lIZHl8A07AAGia8M/bMeRxz2wKL7crqJG5cpn9gAhgTpJWAgi7FYAoR9n2NdAjZw==
   dependencies:
     "@portabletext/react" "^3.1.0"
     classnames "^2.5.1"
     react-transition-group "^4.4.5"
 
-"@navikt/familie-form-elements@^15.0.0":
-  version "15.2.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/15.2.0/30faf72b8c39a251bdce8f32872da95a2de0e153#30faf72b8c39a251bdce8f32872da95a2de0e153"
-  integrity sha512-p0W8+6AvI6zmxbxtq1Q3gb+mlsM8THyoeBArakkfGmB4xMIbbgCa4O9z6Vd0qVxnbuHzj2YJVDIg3++0A+8OBQ==
+"@navikt/familie-form-elements@^21.0.2":
+  version "21.0.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/21.0.2/cced03d955351e6e76fb58a219c1f3cb94f698d9#cced03d955351e6e76fb58a219c1f3cb94f698d9"
+  integrity sha512-YaLBwwCgbdRRhDKo5i+hHIRZR21EU3kyOJm7X5w0xEgRctzz8RyJtHhfcZZhoUw24K7bAerukdnVcAs9234sIg==
   dependencies:
     classnames "^2.5.1"
     react-select "^5.8.0"
@@ -3012,10 +3012,10 @@ eslint-plugin-promise@^7.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-7.1.0.tgz#06b3ad6d36b3c3ef3ec201c8a8d97049cf5dbb20"
   integrity sha512-8trNmPxdAy3W620WKDpaS65NlM5yAumod6XeC4LOb+jxlkG4IVcp68c6dXY2ev+uT4U1PtG57YDV6EGAXN0GbQ==
 
-eslint-plugin-react-hooks@^4.6.0:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.2.tgz#c829eb06c0e6f484b3fbb85a97e57784f328c596"
-  integrity sha512-QzliNJq4GinDBcD8gPB5v0wh6g8q3SUi6EFF0x8N/BL9PoVs0atuGc47ozMRyOWAKdwaZ5OnbOEa3WR+dSGKuQ==
+eslint-plugin-react-hooks@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-5.0.0.tgz#72e2eefbac4b694f5324154619fee44f5f60f101"
+  integrity sha512-hIOwI+5hYGpJEc4uPRmz2ulCjAGD/N13Lukkh8cLV0i2IRk/bdZDYjgLVHj+U9Z704kLIdIO6iueGvxNur0sgw==
 
 eslint-plugin-react@^7.37.2:
   version "7.37.2"
@@ -4558,25 +4558,18 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-path2d-polyfill@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/path2d-polyfill/-/path2d-polyfill-2.1.1.tgz#6098b7bf2fc24c306c6377bcd558b17ba437ea27"
-  integrity sha512-4Rka5lN+rY/p0CdD8+E+BFv51lFaFvJOrlOhyQ+zjzyQrzyh3ozmxd1vVGGDdIbUFSBtIZLSnspxTgPT0iJhvA==
-  dependencies:
-    path2d "0.1.1"
+path2d@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/path2d/-/path2d-0.2.1.tgz#faf98e5e2222541805a6ac232adc026332330765"
+  integrity sha512-Fl2z/BHvkTNvkuBzYTpTuirHZg6wW9z8+4SND/3mDTEcYbbNKWAy21dz9D3ePNNwrrK8pqZO5vLPZ1hLF6T7XA==
 
-path2d@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/path2d/-/path2d-0.1.1.tgz#d3c3886cd2252fb2a7830c27ea7bb9a862d937ea"
-  integrity sha512-/+S03c8AGsDYKKBtRDqieTJv2GlkMb0bWjnqOgtF6MkjdUQ9a8ARAtxWf9NgKLGm2+WQr6+/tqJdU8HNGsIDoA==
-
-pdfjs-dist@3.11.174:
-  version "3.11.174"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-3.11.174.tgz#5ff47b80f2d58c8dd0d74f615e7c6a7e7e704c4b"
-  integrity sha512-TdTZPf1trZ8/UFu5Cx/GXB7GZM30LT+wWUNfsi6Bq8ePLnb+woNKtDymI2mxZYBpMbonNFqKmiz684DIfnd8dA==
+pdfjs-dist@4.4.168:
+  version "4.4.168"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-4.4.168.tgz#4487716376a33c68753ed37f782ae91d1c9ef8fa"
+  integrity sha512-MbkAjpwka/dMHaCfQ75RY1FXX3IewBVu6NGZOcxerRFlaBiIkZmUoR0jotX5VUzYZEXAGzSFtknWs5xRKliXPA==
   optionalDependencies:
     canvas "^2.11.2"
-    path2d-polyfill "^2.0.1"
+    path2d "^0.2.0"
 
 picocolors@^1.0.0, picocolors@^1.0.1, picocolors@^1.1.0:
   version "1.1.0"
@@ -4773,17 +4766,17 @@ react-modal@3.15.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-pdf@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-8.0.2.tgz#ff4a0e9260c47f1a261b878a2cc0408080eecc06"
-  integrity sha512-C0PFC+j9vmEIZ82Iq0c85xUWkgsZTUS05syqOk8NC+7PAanyWlVi/ImYkGQe27zYAlBA6IidRYEt1DAAXKq1Ow==
+react-pdf@^9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-9.1.1.tgz#10b1d1012e1ad15a12b7d16fbaec5a3dc81068d7"
+  integrity sha512-Cn3RTJZMqVOOCgLMRXDamLk4LPGfyB2Np3OwQAUjmHIh47EpuGW1OpAA1Z1GVDLoHx4d5duEDo/YbUkDbr4QFQ==
   dependencies:
     clsx "^2.0.0"
     dequal "^2.0.3"
     make-cancellable-promise "^1.3.1"
     make-event-props "^1.6.0"
     merge-refs "^1.3.0"
-    pdfjs-dist "3.11.174"
+    pdfjs-dist "4.4.168"
     tiny-invariant "^1.0.0"
     warning "^4.0.0"
 
