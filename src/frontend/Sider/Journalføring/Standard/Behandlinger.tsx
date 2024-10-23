@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-react';
 
-import { JournalføringState, Journalføringsaksjon } from '../../../hooks/useJournalføringState';
+import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
 import { Behandling } from '../../../typer/behandling/behandling';
@@ -18,6 +18,7 @@ import { behandlingTypeTilTekst } from '../../../typer/behandling/behandlingType
 import { formaterIsoDatoTid } from '../../../utils/dato';
 import {
     alleBehandlingerErFerdigstiltEllerSattPåVent,
+    journalføringsÅrsakErKlage,
     utledBehandlingstype,
 } from '../Felles/utils';
 
@@ -48,11 +49,13 @@ interface Props {
 }
 
 const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) => {
-    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalpostState;
-
+    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon, journalføringsårsak } =
+        journalpostState;
     const leggTilNyBehandlingForOpprettelse = (behandlinger: Behandling[]) => {
         settFeilmelding('');
-        const kanOppretteNyBehandling = alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger);
+        const kanOppretteNyBehandling =
+            alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger) ||
+            journalføringsÅrsakErKlage(journalføringsårsak);
 
         if (kanOppretteNyBehandling) {
             settJournalføringsaksjon(Journalføringsaksjon.OPPRETT_BEHANDLING);
@@ -70,7 +73,9 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
         <DataViewer response={{ behandlinger }}>
             {({ behandlinger }) => {
                 const behandlingstypePåNyBehandling =
-                    behandlingTypeTilTekst[utledBehandlingstype(behandlinger)];
+                    behandlingTypeTilTekst[
+                        utledBehandlingstype(behandlinger, journalpostState.journalføringsårsak)
+                    ];
 
                 return (
                     <VStack gap="4">

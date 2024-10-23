@@ -33,7 +33,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
 
     const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
-    const kanOppretteKlage = useFlag(Toggle.KAN_OPPRETTE_KLAGE);
 
     const lukkModal = () => {
         settVisModal(false);
@@ -43,7 +42,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     if (!erSaksbehandler) {
         return null;
     }
-    if (!kanOppretteKlage && !kanOppretteRevurdering) {
+    if (!kanOppretteRevurdering) {
         return null;
     }
 
@@ -64,7 +63,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                         <option value={''}>Velg</option>
                         {[
                             ...(kanOppretteRevurdering ? [BehandlingType.REVURDERING] : []),
-                            ...(kanOppretteKlage ? [BehandlingType.KLAGE] : []),
+                            ...[BehandlingType.KLAGE],
                         ].map((type) => (
                             <option key={type} value={type}>
                                 {behandlingTypeTilTekst[type]}
