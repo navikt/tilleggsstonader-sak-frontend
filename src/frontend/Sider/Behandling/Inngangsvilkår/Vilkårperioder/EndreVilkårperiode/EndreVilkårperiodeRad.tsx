@@ -77,7 +77,7 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
                         label={tittelSelectTypeVilkårperiode(type)}
-                        readOnly={!alleFelterKanEndres}
+                        readOnly={vilkårperiode !== undefined}
                         value={form.type}
                         valg={typeOptions}
                         onChange={(e) => oppdaterType(e.target.value)}

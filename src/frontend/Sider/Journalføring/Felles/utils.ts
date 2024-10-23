@@ -133,3 +133,7 @@ export const skalViseBekreftelsesmodal = (
     journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING
         ? false
         : journalResponse.harStrukturertSøknad || erPapirSøknad || erKlage;
+
+export const journalføringsÅrsakErKlage = (journalføringsårsak: Journalføringsårsak): boolean =>
+    journalføringsårsak === Journalføringsårsak.KLAGE ||
+    journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
