@@ -35,6 +35,7 @@ export interface EndreAktivitetForm extends Periode {
     type: AktivitetType | '';
     delvilkår: DelvilkårAktivitet;
     begrunnelse?: string;
+    kildeId?: string;
 }
 
 const initaliserForm = (
