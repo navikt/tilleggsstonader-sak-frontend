@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { SealCheckmarkIcon } from '@navikt/aksel-icons';
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import Aksjonsknapper from './Aksjonsknapper';
 import { LesMerStønadsperioder } from './LesMerStønadsperioder';
@@ -35,6 +35,10 @@ const Grid = styled.div`
     }
 `;
 
+const AlertMedMaksbredde = styled(Alert)`
+    max-width: 50rem;
+`;
+
 export type StønadsperiodeForm = {
     stønadsperioder: Stønadsperiode[];
 };
@@ -62,6 +66,8 @@ const Stønadsperioder: React.FC = () => {
 
     const [laster, settLaster] = useState<boolean>(false);
     const [redigerer, settRedigerer] = useState<boolean>(false);
+
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string | undefined>();
 
     const validerForm = (formState: StønadsperiodeForm): FormErrors<StønadsperiodeForm> => {
         return {
@@ -113,6 +119,29 @@ const Stønadsperioder: React.FC = () => {
 
     const leggTilNyPeriode = () => {
         stønadsperioderState.setValue((prevState) => [...prevState, tomStønadsperiodeRad()]);
+    };
+
+    const leggTilForeslåttPeriode = async (): Promise<void> => {
+        const res = await request<Stønadsperiode[], undefined>(
+            `/api/sak/stonadsperiode/${behandling.id}/foresla`,
+            'POST'
+        );
+        if (res.status === RessursStatus.SUKSESS) {
+            const perioder = res.data.map((periode) => ({
+                ...periode,
+                _ulagretId: uuid(),
+            }));
+            stønadsperioderState.setValue(perioder);
+            resetForeslåPeriodeFeilmelding();
+            return Promise.resolve();
+        } else {
+            settForeslåPeriodeFeil(res.frontendFeilmelding);
+            return Promise.reject();
+        }
+    };
+
+    const resetForeslåPeriodeFeilmelding = () => {
+        settForeslåPeriodeFeil(undefined);
     };
 
     const slettPeriode = (indeks: number) => {
@@ -197,7 +226,17 @@ const Stønadsperioder: React.FC = () => {
                             avbrytRedigering={avbrytRedigering}
                             initierFormMedTomRad={leggTilNyPeriode}
                             startRedigering={() => settRedigerer(true)}
+                            foreslåPerioder={leggTilForeslåttPeriode}
+                            resetForeslåPeriodeFeilmelding={resetForeslåPeriodeFeilmelding}
                         />
+                    )}
+                    {foreslåPeriodeFeil && (
+                        <AlertMedMaksbredde
+                            variant="error"
+                            title="Klarte ikke å preutfylle periode"
+                        >
+                            {foreslåPeriodeFeil}
+                        </AlertMedMaksbredde>
                     )}
                 </VStack>
             </form>
