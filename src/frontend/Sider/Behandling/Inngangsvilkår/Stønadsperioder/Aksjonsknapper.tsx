@@ -15,7 +15,7 @@ const Aksjonsknapper: React.FC<{
     avbrytRedigering: () => void;
     initierFormMedTomRad: () => void;
     startRedigering: () => void;
-    foreslåPerioder: () => Promise<void>;
+    foreslåPerioder: () => void;
     resetForeslåPeriodeFeilmelding: () => void;
 }> = ({
     redigerer,
@@ -79,9 +79,7 @@ const Aksjonsknapper: React.FC<{
                         variant={'secondary'}
                         onClick={(e) => {
                             e.preventDefault();
-                            foreslåPerioder().then(() => {
-                                startRedigering();
-                            });
+                            foreslåPerioder();
                         }}
                     >
                         Foreslå perioder

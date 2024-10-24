@@ -121,23 +121,23 @@ const Stønadsperioder: React.FC = () => {
         stønadsperioderState.setValue((prevState) => [...prevState, tomStønadsperiodeRad()]);
     };
 
-    const leggTilForeslåttPeriode = async (): Promise<void> => {
-        const res = await request<Stønadsperiode[], undefined>(
+    const leggTilForeslåttPeriode = () => {
+        request<Stønadsperiode[], undefined>(
             `/api/sak/stonadsperiode/${behandling.id}/foresla`,
             'POST'
-        );
-        if (res.status === RessursStatus.SUKSESS) {
-            const perioder = res.data.map((periode) => ({
-                ...periode,
-                _ulagretId: uuid(),
-            }));
-            stønadsperioderState.setValue(perioder);
-            resetForeslåPeriodeFeilmelding();
-            return Promise.resolve();
-        } else {
-            settForeslåPeriodeFeil(res.frontendFeilmelding);
-            return Promise.reject();
-        }
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                const perioder = res.data.map((periode) => ({
+                    ...periode,
+                    _ulagretId: uuid(),
+                }));
+                stønadsperioderState.setValue(perioder);
+                resetForeslåPeriodeFeilmelding();
+                settRedigerer(true);
+            } else {
+                settForeslåPeriodeFeil(res.frontendFeilmelding);
+            }
+        });
     };
 
     const resetForeslåPeriodeFeilmelding = () => {
