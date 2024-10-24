@@ -9,4 +9,4 @@ WORKDIR /app/server
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["--experimental-modules", "--es-module-specifier-resolution=node", "build/server.js"]
+CMD ["--experimental-modules", "--experimental-global-webcrypto", "--es-module-specifier-resolution=node", "build/server.js"]

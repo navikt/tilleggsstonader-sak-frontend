@@ -3,7 +3,7 @@ import { Express, NextFunction, Request, Response } from 'express';
 import session from 'express-session';
 import * as oauth from 'oauth4webapi';
 import * as client from 'openid-client';
-import { TokenEndpointResponseHelpers } from 'openid-client';
+import { Configuration, TokenEndpointResponseHelpers } from 'openid-client';
 
 import { getConfig } from './client';
 import logger from '../logger';
@@ -11,6 +11,38 @@ import { redirectResponseToLogin } from './util';
 import { miljø } from '../miljø';
 
 type TokenSet = oauth.TokenEndpointResponse & TokenEndpointResponseHelpers;
+
+/**
+ * Gjenbrukt fra https://github.com/panva/openid-client?tab=readme-ov-file#authorization-code-flow
+ */
+const generateParams = async (config: Configuration) => {
+    /**
+     * PKCE: The following MUST be generated for every redirect to the
+     * authorization_endpoint. You must store the code_verifier and state in the
+     * end-user session such that it can be recovered as the user gets redirected
+     * from the authorization server back to your application.
+     */
+    const code_verifier: string = client.randomPKCECodeVerifier();
+    const code_challenge: string = await client.calculatePKCECodeChallenge(code_verifier);
+
+    const parameters: Record<string, string> = {
+        redirect_uri: 'http://localhost:3000/oauth2/callback',
+        scope: `openid offline_access profile ${miljø.azure.client_id}/.default`,
+        code_challenge,
+        code_challenge_method: 'S256',
+    };
+
+    if (!config.serverMetadata().supportsPKCE()) {
+        /**
+         * We cannot be sure the server supports PKCE so we're going to use state too.
+         * Use of PKCE is backwards compatible even if the AS doesn't support it which
+         * is why we're using it regardless. Like PKCE, random state must be generated
+         * for every redirect to the authorization_endpoint.
+         */
+        parameters.state = client.randomState();
+    }
+    return { code_verifier, parameters };
+};
 
 export const setupLocal = async (app: Express) => {
     app.use(cookieParser());
@@ -30,14 +62,16 @@ export const setupLocal = async (app: Express) => {
         const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
         const redirectUrl = regex ? regex[1] : 'invalid';
 
-        const redirectTo = client
-            .buildAuthorizationUrl(config, {
-                scope: `openid offline_access profile ${miljø.azure.client_id}/.default`,
-            })
-            .toString();
+        const { code_verifier, parameters } = await generateParams(config);
+
+        const redirectTo = client.buildAuthorizationUrl(config, parameters).toString();
 
         // @ts-ignore
         req.session.redirectUrl = regex ? redirectUrl : '/';
+        // @ts-ignore
+        req.session.login_code_verifier = code_verifier;
+        // @ts-ignore
+        req.session.login_state = parameters.state;
         res.redirect(redirectTo);
     });
 
@@ -46,7 +80,12 @@ export const setupLocal = async (app: Express) => {
             const codeGrant = await client.authorizationCodeGrant(
                 config,
                 new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`),
-                {}
+                {
+                    // @ts-ignore
+                    pkceCodeVerifier: req.session.login_code_verifier,
+                    // @ts-ignore
+                    expectedState: req.session.login_state,
+                }
             );
 
             const accessToken = codeGrant.access_token;
