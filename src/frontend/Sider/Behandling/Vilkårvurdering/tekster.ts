@@ -11,12 +11,28 @@ export const svarIdTilTekst: Record<string, string> = {
         'Ja, tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
 };
 
+export const svarIdTilTekstKortversjon: Record<string, string> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+
+    // PASS_BARN
+    TRENGER_MER_TILSYN_ENN_JEVNALDRENDE: 'Ja',
+    FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID: 'Ja',
+};
+
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredsstillende dokumentert?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
+};
+
+export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
+    UTGIFTER_DOKUMENTERT: 'Dokumentert utgifter?',
+    ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
+    HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
+    UNNTAK_ALDER: 'Unntak fra aldersregelen?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
