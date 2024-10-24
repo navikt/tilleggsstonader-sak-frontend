@@ -35,6 +35,7 @@ function nyAktivitetFraRegister(
         aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
         delvilkår: { '@type': 'AKTIVITET' },
+        kildeId: aktivitetFraRegister.id,
     };
 }
 
