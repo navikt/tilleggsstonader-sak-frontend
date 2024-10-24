@@ -1,93 +1,41 @@
 import { createRemoteJWKSet, jwtVerify, JWTVerifyResult } from 'jose';
 import { JWTVerifyGetKey } from 'jose/dist/types/jwt/verify';
-import { BaseClient, Client, errors, GrantBody, GrantExtras, Issuer } from 'openid-client';
+import * as client from 'openid-client';
+import { TokenEndpointResponse, TokenEndpointResponseHelpers } from 'openid-client';
 
 import logger from '../logger';
 import { miljø } from '../miljø';
 
-import OPError = errors.OPError;
+let cachedConfig: client.Configuration;
 
-export interface ClientConfig {
-    issuer: string;
-    token_endpoint: string;
-    client_id: string;
-    client_secret?: string;
-}
-
-let cachedClientConfig: ClientConfig;
-
-export const getClientConfig = (): ClientConfig => {
-    if (!cachedClientConfig) {
-        cachedClientConfig = {
-            issuer: miljø.azure.issuer,
-            token_endpoint: miljø.azure.token_endpoint,
-            client_id: miljø.azure.client_id,
-            client_secret: miljø.azure.client_secret,
-        };
+export const getConfig = async (): Promise<client.Configuration> => {
+    if (!cachedConfig) {
+        cachedConfig = await client.discovery(
+            new URL(miljø.azure.issuer),
+            miljø.azure.client_id,
+            miljø.azure.client_secret
+        );
     }
-    return cachedClientConfig;
+    return cachedConfig;
 };
 
-const getIssuer = (): Issuer => {
-    const { issuer, token_endpoint } = getClientConfig();
-    return new Issuer({
-        issuer,
-        token_endpoint,
-        token_endpoint_auth_signing_alg_values_supported: ['RS256'],
-    });
-};
-
-const getGrantBody = (subject_token: string, audience: string): GrantBody => ({
-    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-    assertion: subject_token,
-    scope: audience,
-    requested_token_use: 'on_behalf_of',
-});
-
-const getAdditionalClaims = (): GrantExtras => {
-    const { token_endpoint } = getClientConfig();
-    const now = Math.floor(Date.now() / 1000);
-    return {
-        clientAssertionPayload: {
-            nbf: now,
-            aud: token_endpoint,
-        },
-    };
-};
-
-const createClient = (): Client => {
-    const { client_id, client_secret } = getClientConfig();
-    const issuer = getIssuer();
-    return new issuer.Client({
-        client_id,
-        client_secret,
-        token_endpoint_auth_method: 'client_secret_basic',
-    });
-};
-
-const tokenExchange = async (
-    client: Client,
-    grantBody: GrantBody,
-    additionalClaims: GrantExtras
-): Promise<string | null> => {
+const utstedOnBehalfOfToken = async (
+    subject_token: string,
+    audience: string
+): Promise<TokenEndpointResponse & TokenEndpointResponseHelpers> => {
     try {
-        const tokenset = await client.grant(grantBody, additionalClaims);
-        return tokenset.access_token ?? null;
+        return await client.genericGrantRequest(
+            await getConfig(),
+            'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            { scope: audience, assertion: subject_token, requested_token_use: 'on_behalf_of' }
+        );
     } catch (e) {
-        if (e instanceof OPError) logger.warn(e.message, e.response?.body || '');
-        throw e;
+        logger.error('Feilet utstedelse av token', e);
+        return Promise.reject('Feilet utstedelse av token');
     }
 };
 
 export type OboProvider = (token: string, audience: string) => Promise<string | null>;
-
-let cachedClient: BaseClient;
-const client = () => {
-    if (!cachedClient) {
-        cachedClient = createClient();
-    }
-    return cachedClient;
-};
 
 let cachedRemoteJWKSet: JWTVerifyGetKey;
 const remoteJWKSet = (): JWTVerifyGetKey => {
@@ -97,10 +45,13 @@ const remoteJWKSet = (): JWTVerifyGetKey => {
     return cachedRemoteJWKSet;
 };
 
-export const azureOBO: OboProvider = (token: string, audience: string) =>
-    tokenExchange(client(), getGrantBody(token, audience), getAdditionalClaims());
+export const azureOBO: OboProvider = async (token: string, audience: string): Promise<string> => {
+    const tokenresponse = await utstedOnBehalfOfToken(token, audience);
+    return tokenresponse.access_token ?? null;
+};
 
-export const verify = async (token: string): Promise<JWTVerifyResult> =>
-    await jwtVerify(token, remoteJWKSet(), {
+export async function verify(token: string): Promise<JWTVerifyResult> {
+    return await jwtVerify(token, remoteJWKSet(), {
         issuer: miljø.azure.issuer,
     });
+}
