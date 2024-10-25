@@ -26,6 +26,7 @@ interface AzureSettings {
     issuer: string;
     token_endpoint: string;
     openid_config_jwks_uri: string;
+    jwk: string | undefined;
 }
 
 type ClientConfig = {
@@ -56,6 +57,7 @@ const lokalAzure = (): AzureSettings => ({
         'https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/oauth2/v2.0/token',
     openid_config_jwks_uri:
         'https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/discovery/v2.0/keys',
+    jwk: undefined,
 });
 
 const devProdAzure = (): AzureSettings => ({
@@ -64,6 +66,7 @@ const devProdAzure = (): AzureSettings => ({
     issuer: envVar('AZURE_OPENID_CONFIG_ISSUER'),
     token_endpoint: envVar('AZURE_OPENID_CONFIG_TOKEN_ENDPOINT'),
     openid_config_jwks_uri: envVar('AZURE_OPENID_CONFIG_JWKS_URI'),
+    jwk: envVar('AZURE_APP_JWK'),
 });
 
 /**
