@@ -1,3 +1,6 @@
+import { AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
     AVSLAG = 'AVSLAG',
@@ -43,6 +46,7 @@ export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
 
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
+    vedtaksperioder: Vedtaksperiode[];
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
 };
@@ -52,6 +56,14 @@ type Beregningsresultat = {
     månedsbeløp: number;
     grunnlag: Beregningsgrunnlag;
 };
+
+export interface Vedtaksperiode {
+    fom: string;
+    tom: string;
+    målgruppe: MålgruppeType;
+    aktivitet: AktivitetType;
+    antallBarn: number;
+}
 
 type Beregningsgrunnlag = {
     måned: string;
