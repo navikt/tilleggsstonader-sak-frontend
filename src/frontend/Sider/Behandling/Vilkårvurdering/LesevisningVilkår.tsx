@@ -29,11 +29,8 @@ const Container = styled(FlexColumn)`
 `;
 
 const Redigeringsknapp = styled(SmallButton)`
-    position: relative;
-    top: 10px;
-    right: 10px;
-    height: 24px;
-    z-index: 2;
+    max-height: 24px;
+    align-self: end;
 `;
 
 const LesevisningVilkår: FC<{
@@ -52,12 +49,12 @@ const LesevisningVilkår: FC<{
     return (
         <Container>
             {visStatusbånd && <Statusbånd status={vilkår.status} />}
-            <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 175px) auto minmax(auto, 50px)">
+            <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 175px) auto minmax(auto, 32px)">
                 <VStack gap="3">
                     <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                     <HStack gap="3" align="center">
                         <VilkårsresultatIkon vilkårsresultat={resultat} height={14} width={14} />
-                        <Label size="small">{VilkårsresultatTilTekst[resultat]}</Label>
+                        <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                     </HStack>
                     <BodyShort size="small">
                         kr {formaterTallMedTusenSkilleEllerStrek(utgift)}
@@ -74,7 +71,6 @@ const LesevisningVilkår: FC<{
                 {skalViseRedigeringsknapp && (
                     <Redigeringsknapp
                         variant="tertiary"
-                        size="small"
                         onClick={startRedigering}
                         icon={<PencilIcon />}
                     />
