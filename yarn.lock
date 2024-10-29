@@ -1243,15 +1243,20 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/3.4.2/fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7#fa858e1a5fb0557d61b62ad7cdf0d75e26fc89d7"
   integrity sha512-9fj+Jb4UrX3SDDzqJpKP3fvizdxtACIFNXgDiPaP/N/61pbeY4tZz/zrtWGtExLpDeg7dAyaiFH/hfo7nBg6nw==
 
-"@navikt/aksel-icons@^6.17.0", "@navikt/aksel-icons@^6.7.1":
+"@navikt/aksel-icons@^6.7.1":
   version "6.17.0"
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/6.17.0/92f12f06c26db3c2221908da599a113654942044#92f12f06c26db3c2221908da599a113654942044"
   integrity sha512-n+1AsE9kRFh3C7BcD0fAJhIA6/65PsLGrpNKnLQUjW8hwESzo1LYHfZgZXi2Shaw2hCzQ1wx/hBBdwtQfUiBNg==
 
-"@navikt/ds-css@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/6.17.0/ce84459723d9a8e88df82eb67dc77b05af5dd0de#ce84459723d9a8e88df82eb67dc77b05af5dd0de"
-  integrity sha512-YwjmUWVTElu6fOUyyCetDRJURvF3HLBTcctUq9UNGTH+8flceKWkyRQVJuXRZDWNIRn1IAXWwWAyZB2xJrhDPQ==
+"@navikt/aksel-icons@^7.4.0":
+  version "7.4.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/7.4.0/980a3663268cfaf8c3cc76b178337411f64ea25e#980a3663268cfaf8c3cc76b178337411f64ea25e"
+  integrity sha512-iUwxnr3WeUH/95gHuO+51OtOkAjXwqu3qZMAngUakRPvq2WXjgDt6mXAx8G+kHe2jW38SqieSJrhXmaC+w2B4A==
+
+"@navikt/ds-css@^7.4.0":
+  version "7.4.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/7.4.0/6deeedbd9c6e72968cfd94a9462a2f814a99684d#6deeedbd9c6e72968cfd94a9462a2f814a99684d"
+  integrity sha512-7UfmcG8YSQW+NDSMUrRX9yDT72GFbl/bslQH5l+c6vdRckQsh7yvMP3kywGpW24YdoIUb3PCgSF2QBlEaXYMug==
 
 "@navikt/ds-react-internal@^3.4.3":
   version "3.4.3"
@@ -1278,23 +1283,23 @@
     react-day-picker "8.3.4"
     react-modal "3.15.1"
 
-"@navikt/ds-react@^6.7.1":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/6.17.0/5353e0239dc0387ba796a67a0e764bfb88f30a48#5353e0239dc0387ba796a67a0e764bfb88f30a48"
-  integrity sha512-ZIJ3Ge7sllAN8QryIrpLfR/G3HsDzqCBskzGeOaZTv/x4Naci7PDMhbeDhYyeQPk2OoVIODCLJXVx8qfMdTGmA==
+"@navikt/ds-react@^7.4.0":
+  version "7.4.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/7.4.0/001a7e59cb2bb331a0f571b020e43792a7f082b0#001a7e59cb2bb331a0f571b020e43792a7f082b0"
+  integrity sha512-ooZlbI5kCLtDcApQYo7FlX/QDNDBV00havaYGt1yKpW3KJooABe0R3J0gWREwg6Y5WnOHYeauZlUYfR6Y4eB+w==
   dependencies:
     "@floating-ui/react" "0.25.4"
     "@floating-ui/react-dom" "^2.0.9"
-    "@navikt/aksel-icons" "^6.17.0"
-    "@navikt/ds-tokens" "^6.17.0"
+    "@navikt/aksel-icons" "^7.4.0"
+    "@navikt/ds-tokens" "^7.4.0"
     clsx "^2.1.0"
     date-fns "^3.0.0"
-    react-day-picker "8.10.0"
+    react-day-picker "8.10.1"
 
-"@navikt/ds-tokens@^6.1.0", "@navikt/ds-tokens@^6.17.0":
-  version "6.17.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/6.17.0/e80eeb7c7d6f469d6704125b5835ea95995be327#e80eeb7c7d6f469d6704125b5835ea95995be327"
-  integrity sha512-DAibs9kIcpAf/4sRTdB0VPDK6t4seeJfqTm6qvDSUkOt/UCmvgKRUeikJqETCiGgXWv/Y/FpQ69uv1stZXBrEQ==
+"@navikt/ds-tokens@^7.4.0":
+  version "7.4.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.4.0/485112bc65a76a2fc2b273c396fb0188439ad6bc#485112bc65a76a2fc2b273c396fb0188439ad6bc"
+  integrity sha512-xR3vkCgP+T1WFGIzvQ12iIbTUCtbtlrPsX7g+In6QDCOnQKxnnr67EzfipDuL5P1ZTB5i2ystGyuwl/OTVlS1Q==
 
 "@navikt/familie-endringslogg@^12.0.1":
   version "12.0.2"
@@ -4728,10 +4733,10 @@ randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
-react-day-picker@8.10.0:
-  version "8.10.0"
-  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-8.10.0.tgz#729c5b9564967a924213978fb9c0751884a60595"
-  integrity sha512-mz+qeyrOM7++1NCb1ARXmkjMkzWVh2GL9YiPbRjKe0zHccvekk4HE+0MPOZOrosn8r8zTHIIeOUXTmXRqmkRmg==
+react-day-picker@8.10.1:
+  version "8.10.1"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-8.10.1.tgz#4762ec298865919b93ec09ba69621580835b8e80"
+  integrity sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==
 
 react-day-picker@8.3.4:
   version "8.3.4"
