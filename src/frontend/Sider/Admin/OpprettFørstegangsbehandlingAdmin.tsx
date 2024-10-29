@@ -9,7 +9,11 @@ import {
     Checkbox,
     CheckboxGroup,
     Heading,
+    HelpText,
+    HStack,
     List,
+    Radio,
+    RadioGroup,
     TextField,
     VStack,
 } from '@navikt/ds-react';
@@ -44,12 +48,14 @@ interface Personinfo {
 interface OpprettFørstegansbehandlingRequest {
     ident: string;
     valgteBarn: string[];
+    medBrev: boolean;
 }
 
 const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const [ident, settIdent] = useState<string>('');
+    const [medBrev, settMedBrev] = useState<boolean>(true);
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
 
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
@@ -75,7 +81,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { ident, valgteBarn }
+            { ident, valgteBarn, medBrev }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -116,6 +122,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
                     }}
+                    autoComplete="off"
                 />
                 <Button variant={'secondary'} size={'small'} onClick={hentPersoninfo}>
                     Hent søkers barn fra folkeregisteret
@@ -126,6 +133,26 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                 {({ personinfo }) => (
                     <>
                         <Heading size={'small'}>Informasjon om søker</Heading>
+                        <RadioGroup
+                            legend={
+                                <HStack gap={'2'}>
+                                    Skal det sendes brev?
+                                    <HelpText>
+                                        <BodyShort>
+                                            I tilfelle det er ønskelig å ikke sende et brev så skal
+                                            verdiet settes til &quot;Nei&quot;. Det kan eksempelvis
+                                            være når noe skal flyttes over til ny løsning fra Arena
+                                            og då stansen i Arena. Husk å stanse stønaden i Arena.
+                                        </BodyShort>
+                                    </HelpText>
+                                </HStack>
+                            }
+                            value={medBrev}
+                            onChange={(value) => settMedBrev(value as boolean)}
+                        >
+                            <Radio value={true}>Ja</Radio>
+                            <Radio value={false}>Nei</Radio>
+                        </RadioGroup>
                         <CheckboxGroup
                             legend={'Velg barn fra søknad'}
                             onChange={(values) => settValgteBarn(values)}
