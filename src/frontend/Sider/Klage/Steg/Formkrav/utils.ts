@@ -73,7 +73,9 @@ export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
 export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
-        valgtElement === PåklagetVedtakstype.IKKE_VALGT
+        valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
+        valgtElement === PåklagetVedtakstype.ARENA_ORDINÆRT_VEDTAK ||
+        valgtElement === PåklagetVedtakstype.ARENA_TILBAKEKREVING
     );
 };
 
@@ -121,3 +123,8 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
           }
         : tilbakestillFritekstfelter;
 };
+
+export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
+    [PåklagetVedtakstype.ARENA_ORDINÆRT_VEDTAK, PåklagetVedtakstype.ARENA_TILBAKEKREVING].includes(
+        påklagetVedtakstype
+    );

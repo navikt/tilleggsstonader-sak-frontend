@@ -16,6 +16,7 @@ import {
     vilkårStatusTilTekst,
 } from './typer';
 import {
+    harManuellVedtaksdato,
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
@@ -31,7 +32,7 @@ import {
 } from './validerFormkravUtils';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
-import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../../utils/dato';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import BrukerMedBlyant from '../../Komponenter/Ikoner/BrukerMedBlyant';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
@@ -127,7 +128,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } =
         useKlagebehandling();
-    const { påklagetVedtakstype } = vurderinger.påklagetVedtak;
+    const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
@@ -247,6 +248,11 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         ) : (
                             <div>
                                 <div>{påklagetVedtakstypeTilTekst[påklagetVedtakstype]}</div>
+                                <div>
+                                    {harManuellVedtaksdato(påklagetVedtakstype)
+                                        ? formaterNullableIsoDato(manuellVedtaksdato)
+                                        : ''}
+                                </div>
                             </div>
                         )}
                     </Svar>
