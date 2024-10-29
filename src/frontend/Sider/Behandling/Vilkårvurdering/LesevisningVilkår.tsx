@@ -15,11 +15,11 @@ import { Statusbånd } from '../../../komponenter/Statusbånd';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { formaterNullablePeriode } from '../../../utils/dato';
-import { harTallverdi } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { VilkårsresultatTilTekst } from '../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { Vilkår } from '../vilkår';
 import { Vurderingsrad } from './Vurderingsrad';
+import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 
 const Container = styled(FlexColumn)`
     position: relative;
@@ -28,7 +28,7 @@ const Container = styled(FlexColumn)`
     box-shadow: ${AShadowXsmall};
 `;
 
-const StyledButton = styled(SmallButton)`
+const Redigeringsknapp = styled(SmallButton)`
     position: relative;
     top: 10px;
     right: 10px;
@@ -60,7 +60,7 @@ const LesevisningVilkår: FC<{
                         <Label size="small">{VilkårsresultatTilTekst[resultat]}</Label>
                     </HStack>
                     <BodyShort size="small">
-                        kr {harTallverdi(utgift) ? `${utgift},-` : '-'}
+                        kr {formaterTallMedTusenSkilleEllerStrek(utgift)}
                     </BodyShort>
                 </VStack>
                 <VStack>
@@ -72,7 +72,7 @@ const LesevisningVilkår: FC<{
                     ))}
                 </VStack>
                 {skalViseRedigeringsknapp && (
-                    <StyledButton
+                    <Redigeringsknapp
                         variant="tertiary"
                         size="small"
                         onClick={startRedigering}
