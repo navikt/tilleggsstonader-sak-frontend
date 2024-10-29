@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort, HGrid, HStack, VStack } from '@navikt/ds-react';
 
 import { Delvilkår } from '../vilkår';
-import { regelIdTilSpørsmålKortversjon, svarIdTilTekst } from './tekster';
+import { regelIdTilSpørsmålKortversjon, svarIdTilTekstKorversjon } from './tekster';
 
 export function Vurderingsrad(props: { delvilkår: Delvilkår }) {
     // Kun siste vurdering i et delvikår har begrunnelse
@@ -20,7 +20,9 @@ export function Vurderingsrad(props: { delvilkår: Delvilkår }) {
                                 </BodyShort>
                             )}
                             {vurdering.svar && (
-                                <BodyShort size="small">{svarIdTilTekst[vurdering.svar]}</BodyShort>
+                                <BodyShort size="small">
+                                    {svarIdTilTekstKorversjon[vurdering.svar]}
+                                </BodyShort>
                             )}
                         </HStack>
                     ))}

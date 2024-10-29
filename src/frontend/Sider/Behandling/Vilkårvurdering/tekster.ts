@@ -11,6 +11,17 @@ export const svarIdTilTekst: Record<string, string> = {
         'Ja, tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
 };
 
+export const svarIdTilTekstKorversjon: Record<string, string> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+
+    // PASS_BARN
+    TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
+        'Legeerklæring viser at barnet har behov for vesentlig mer pleie/tilsyn',
+    FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
+        'Tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
+};
+
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredsstillende dokumentert?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
