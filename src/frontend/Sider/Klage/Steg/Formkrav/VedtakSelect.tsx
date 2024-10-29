@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
+import { VStack } from '@navikt/ds-react';
 import { FamilieSelect } from '@navikt/familie-form-elements';
 
 import { IFormkravVilkår } from './typer';
@@ -25,12 +26,8 @@ interface IProps {
     vurderinger: IFormkravVilkår;
 }
 
-const SelectWrapper = styled.div`
+const SelectWrapper = styled(VStack)`
     width: 80%;
-`;
-
-const DatoWrapper = styled.div`
-    margin-top: 1rem;
 `;
 
 export const VedtakSelect: React.FC<IProps> = ({
@@ -60,7 +57,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
 
     return (
-        <SelectWrapper>
+        <SelectWrapper gap={'4'}>
             <FamilieSelect
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {
@@ -90,27 +87,25 @@ export const VedtakSelect: React.FC<IProps> = ({
                 </option>
             </FamilieSelect>
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
-                <DatoWrapper>
-                    <DateInput
-                        label={'Vedtaksdato'}
-                        value={manuellVedtaksdato}
-                        onChange={(dato) => {
-                            settOppdaterteVurderinger((prevState) => ({
-                                ...prevState,
-                                påklagetVedtak: {
-                                    ...prevState.påklagetVedtak,
-                                    manuellVedtaksdato: dato,
-                                },
-                            }));
-                        }}
-                        feil={
-                            manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato)
-                                ? 'Ugyldig dato'
-                                : undefined
-                        }
-                        toDate={new Date()}
-                    />
-                </DatoWrapper>
+                <DateInput
+                    label={'Vedtaksdato'}
+                    value={manuellVedtaksdato}
+                    onChange={(dato) => {
+                        settOppdaterteVurderinger((prevState) => ({
+                            ...prevState,
+                            påklagetVedtak: {
+                                ...prevState.påklagetVedtak,
+                                manuellVedtaksdato: dato,
+                            },
+                        }));
+                    }}
+                    feil={
+                        manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato)
+                            ? 'Ugyldig dato'
+                            : undefined
+                    }
+                    toDate={new Date()}
+                />
             )}
         </SelectWrapper>
     );
