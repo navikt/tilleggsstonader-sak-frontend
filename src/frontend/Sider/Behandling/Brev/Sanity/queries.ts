@@ -2,8 +2,8 @@ import groq from 'groq';
 
 export const hentMalerQuery = (hentUPubliserte: boolean = false) =>
     hentUPubliserte
-        ? groq`*[ytelse == $ytelse && resultat in $resultat]`
-        : groq`*[ytelse == $ytelse && resultat in $resultat && publisert == true]`;
+        ? groq`*[ytelse == $ytelse && resultat in $resultat] | order(visningsnavn asc)`
+        : groq`*[ytelse == $ytelse && resultat in $resultat && publisert == true] | order(visningsnavn asc)`;
 
 export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[_id == "${id}"][0]{
 ...,

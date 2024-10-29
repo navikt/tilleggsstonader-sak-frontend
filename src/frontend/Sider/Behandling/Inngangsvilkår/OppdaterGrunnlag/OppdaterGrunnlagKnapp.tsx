@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
 
@@ -9,7 +7,6 @@ import { useOppdaterGrunnlag } from './useOppdaterGrunnlag';
 import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { dagerSiden } from '../../../../utils/dato';
-import { Toggle } from '../../../../utils/toggles';
 import { VilkårperioderResponse } from '../typer/vilkårperiode';
 
 const OppdaterGrunnlagKnapp: React.FC<{
@@ -19,11 +16,6 @@ const OppdaterGrunnlagKnapp: React.FC<{
     const { erStegRedigerbart } = useSteg();
     const { oppdaterGrunnlag, laster, feilmelding } = useOppdaterGrunnlag(hentVilkårperioder);
 
-    const isEnabled = useFlag(Toggle.KAN_OPPDATERE_GRUNNLAG_VILKÅRPERIODE);
-
-    if (!isEnabled) {
-        return null;
-    }
     if (!erStegRedigerbart || !vilkårperioder.grunnlag) {
         return null;
     }

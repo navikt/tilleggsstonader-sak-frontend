@@ -104,7 +104,17 @@ export const alleBehandlingerErFerdigstiltEllerSattPåVent = (behandlinger: Beha
                 behandling.type === BehandlingType.REVURDERING)
     );
 
-export const utledBehandlingstype = (tidligereBehandlinger: Behandling[]): BehandlingType => {
+export const utledBehandlingstype = (
+    tidligereBehandlinger: Behandling[],
+    journalføringsårsak: Journalføringsårsak
+): BehandlingType => {
+    if (
+        [Journalføringsårsak.KLAGE, Journalføringsårsak.KLAGE_TILBAKEKREVING].includes(
+            journalføringsårsak
+        )
+    ) {
+        return BehandlingType.KLAGE;
+    }
     const harIverksattTidligereBehandlinger = tidligereBehandlinger.some(
         (tidligereBehandling) => tidligereBehandling.resultat !== BehandlingResultat.HENLAGT
     );
@@ -123,3 +133,7 @@ export const skalViseBekreftelsesmodal = (
     journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING
         ? false
         : journalResponse.harStrukturertSøknad || erPapirSøknad || erKlage;
+
+export const journalføringsÅrsakErKlage = (journalføringsårsak: Journalføringsårsak): boolean =>
+    journalføringsårsak === Journalføringsårsak.KLAGE ||
+    journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;

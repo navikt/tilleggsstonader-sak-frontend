@@ -25,6 +25,16 @@ export const oppgaveErSaksbehandling = (oppgave: Oppgave): boolean => {
     );
 };
 
+export const oppgaveErSaksbehandlingKlage = (oppgave: Oppgave): boolean => {
+    const { behandlesAvApplikasjon, oppgavetype } = oppgave;
+    return !!(
+        behandlesAvApplikasjon === 'tilleggsstonader-klage' &&
+        oppgavetype &&
+        oppgavetype === 'BEH_SAK' &&
+        oppgave.behandlingId
+    );
+};
+
 export const saksbehandlerHarSendtTilGodkjenneVedtak = (
     oppgave: Oppgave,
     saksbehandler: Saksbehandler

@@ -1,7 +1,12 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack } from '@navikt/ds-react';
+
+import SmallButton from '../../../../komponenter/Knapper/SmallButton';
+import { Toggle } from '../../../../utils/toggles';
 
 const Aksjonsknapper: React.FC<{
     redigerer: boolean;
@@ -10,6 +15,8 @@ const Aksjonsknapper: React.FC<{
     avbrytRedigering: () => void;
     initierFormMedTomRad: () => void;
     startRedigering: () => void;
+    foreslåPerioder: () => void;
+    resetForeslåPeriodeFeilmelding: () => void;
 }> = ({
     redigerer,
     finnesStønadsperioder,
@@ -17,7 +24,11 @@ const Aksjonsknapper: React.FC<{
     avbrytRedigering,
     initierFormMedTomRad,
     startRedigering,
+    foreslåPerioder,
+    resetForeslåPeriodeFeilmelding,
 }) => {
+    const foreslåKnappIsEnabled = useFlag(Toggle.FORESLÅ_STØNADSPERIODER);
+
     if (redigerer) {
         return (
             <HStack gap="2" align="center">
@@ -51,18 +62,30 @@ const Aksjonsknapper: React.FC<{
 
     if (!finnesStønadsperioder) {
         return (
-            <Button
-                icon={<PlusCircleIcon />}
-                size="small"
-                onClick={(e) => {
-                    e.preventDefault();
-                    initierFormMedTomRad();
-                    startRedigering();
-                }}
-                style={{ maxWidth: 'fit-content' }}
-            >
-                Legg til periode
-            </Button>
+            <HStack gap="2">
+                <SmallButton
+                    icon={<PlusCircleIcon />}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        initierFormMedTomRad();
+                        resetForeslåPeriodeFeilmelding();
+                        startRedigering();
+                    }}
+                >
+                    Legg til periode
+                </SmallButton>
+                {foreslåKnappIsEnabled && (
+                    <SmallButton
+                        variant={'secondary'}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            foreslåPerioder();
+                        }}
+                    >
+                        Foreslå perioder
+                    </SmallButton>
+                )}
+            </HStack>
         );
     } else {
         return (

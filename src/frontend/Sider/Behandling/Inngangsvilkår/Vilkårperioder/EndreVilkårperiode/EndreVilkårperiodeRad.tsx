@@ -12,6 +12,7 @@ import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInpu
 import SelectMedOptions, { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
+import { erFormForAktivitet } from '../../Aktivitet/utils';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
@@ -71,13 +72,16 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunner(form);
 
+    const aktivitetErBruktFraSystem = erFormForAktivitet(form) ? form.kildeId !== undefined : false;
+    const kanEndreType = vilkårperiode === undefined && !aktivitetErBruktFraSystem;
+
     return (
         <VilkårperiodeKortBase vilkårperiode={vilkårperiode} redigeres>
             <FeltContainer>
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
                         label={tittelSelectTypeVilkårperiode(type)}
-                        readOnly={!alleFelterKanEndres}
+                        readOnly={!kanEndreType}
                         value={form.type}
                         valg={typeOptions}
                         onChange={(e) => oppdaterType(e.target.value)}

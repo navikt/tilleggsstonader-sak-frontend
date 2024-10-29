@@ -2,11 +2,12 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, CopyButton, Heading, HStack, Link, Tag } from '@navikt/ds-react';
+import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
 import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
 import TagAdressebeskyttelse from './TagAdressebeskyttelse';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
+import SmallWarningTag from '../SmallWarningTag';
 import { Sticky } from '../Visningskomponenter/Sticky';
 
 const Container = styled(Sticky)`
@@ -34,11 +35,8 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
             <BodyShort>|</BodyShort>
 
             <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
-            {personopplysninger.harVergemål && (
-                <Tag variant={'warning'} size={'small'}>
-                    Verge
-                </Tag>
-            )}
+            {personopplysninger.harVergemål && <SmallWarningTag>Verge</SmallWarningTag>}
+            {personopplysninger.harFullmektig && <SmallWarningTag>Fullmakt</SmallWarningTag>}
         </Container>
     );
 };

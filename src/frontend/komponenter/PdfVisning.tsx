@@ -10,9 +10,10 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import DataViewer from './DataViewer';
 import { Ressurs } from '../typer/ressurs';
 
-// eslint-disable-next-line
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.entry.js');
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url
+).toString();
 
 interface PdfVisningProps {
     pdfFilInnhold: Ressurs<string>;

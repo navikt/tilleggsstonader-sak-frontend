@@ -1,13 +1,18 @@
-/* eslint-disable */
 import cookieParser from 'cookie-parser';
 import { Express, NextFunction, Request, Response } from 'express';
 import session from 'express-session';
-import { BaseClient, custom, Issuer, TokenSet } from 'openid-client';
-import { getClientConfig } from './client';
+import * as oauth from 'oauth4webapi';
+import * as client from 'openid-client';
+import { TokenEndpointResponseHelpers } from 'openid-client';
+
+import { getConfig } from './client';
 import logger from '../logger';
 import { redirectResponseToLogin } from './util';
+import { miljø } from '../miljø';
 
-export const setupLocal = (app: Express) => {
+type TokenSet = oauth.TokenEndpointResponse & TokenEndpointResponseHelpers;
+
+export const setupLocal = async (app: Express) => {
     app.use(cookieParser());
     app.use(
         session({
@@ -19,84 +24,60 @@ export const setupLocal = (app: Express) => {
         })
     );
 
-    const clientConfig = getClientConfig();
-    const oidcIssuerUrl = clientConfig.issuer;
-    const loginClientConfig = {
-        client_id: clientConfig.client_id,
-        client_secret: clientConfig.client_secret,
-        redirect_uri: 'http://localhost:3000/oauth2/callback',
-    };
+    const config = await getConfig();
 
-    custom.setHttpOptionsDefaults({
-        timeout: 7500,
+    app.get('/oauth2/login', async (req, res) => {
+        const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
+        const redirectUrl = regex ? regex[1] : 'invalid';
+
+        const authorizationUrl = client
+            .buildAuthorizationUrl(config, {
+                scope: `openid offline_access profile ${miljø.azure.client_id}/.default`,
+            })
+            .toString();
+
+        // @ts-ignore
+        req.session.redirectUrl = regex ? redirectUrl : '/';
+        res.redirect(authorizationUrl);
     });
-    let client: BaseClient | undefined = undefined;
 
-    Issuer.discover(oidcIssuerUrl).then((issuer) => {
-        const issuerClient = new issuer.Client(loginClientConfig);
-        client = issuerClient;
-        app.get('/oauth2/login', (req, res) => {
-            const authorizationUrl = issuerClient.authorizationUrl({
-                scope: `openid offline_access profile ${loginClientConfig.client_id}/.default`,
-            });
-            const regex: RegExpExecArray | null = /redirect=(.*)/.exec(req.url);
-            const redirectUrl = regex ? regex[1] : 'invalid';
+    app.get('/oauth2/callback', async (req, res) => {
+        try {
+            const codeGrant = await client.authorizationCodeGrant(
+                config,
+                new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`),
+                {}
+            );
 
-            // @ts-ignore
-            req.session.redirectUrl = regex ? redirectUrl : '/';
-            res.redirect(authorizationUrl);
-        });
-
-        app.get('/oauth2/callback', async (req, res) => {
-            const params = issuerClient.callbackParams(req);
-
-            try {
-                const tokenSet = await issuerClient.callback(
-                    loginClientConfig.redirect_uri,
-                    params,
-                    {
-                        //nonce: 'your-nonce-value', // Generate and validate nonce to prevent CSRF
-                    }
-                );
-                const accessToken = tokenSet.access_token;
-                if (!accessToken) {
-                    res.status(500).send('Callback failed');
-                } else {
-                    // @ts-ignore
-                    req.session.tokenSet = tokenSet;
-                    // @ts-ignore
-                    res.redirect(req.session.redirectUrl);
-                }
-            } catch (error) {
-                console.error('Authentication error:', error);
-                res.status(500).send('Authentication failed');
+            const accessToken = codeGrant.access_token;
+            if (!accessToken) {
+                res.status(500).send('Callback failed');
+            } else {
+                // @ts-ignore
+                req.session.tokenSet = codeGrant;
+                // @ts-ignore
+                res.redirect(req.session.redirectUrl);
             }
-        });
-        app.get('/oauth2/logout', (req, res) => {
-            // @ts-ignore
-            req.session.destroy(() => {
-                res.status(200).send('Logget ut');
-            });
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Authentication error:', error);
+            res.status(500).send('Authentication failed');
+        }
+    });
+    app.get('/oauth2/logout', (req, res) => {
+        // @ts-ignore
+        req.session.destroy(() => {
+            res.status(200).send('Logget ut');
         });
     });
 
     // esnure authenticated
     app.use('/api/sak', (req, res, next) => {
-        if (!client) {
-            logger.error('Refresh av token. Har ikke initiert client');
-            res.status(500).send('Har ikke initiert client');
-            return;
-        }
-        ensureAuthenticated(client, req, res, next);
+        ensureAuthenticated(req, res, next);
     });
 };
 
-const ensureAuthenticated = (
-    client: BaseClient,
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
+const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
     // @ts-ignore
     if (!req.session.tokenSet) {
         logger.error('ensureAuthenticated - Mangler sesjon med token');
@@ -104,11 +85,11 @@ const ensureAuthenticated = (
         return;
     }
     // @ts-ignore
-    const tokenSet: TokenSet = new TokenSet(req.session.tokenSet);
+    const tokenSet = req.session.tokenSet as TokenSet;
     if (erUtgått(tokenSet)) {
         logger.info('ensureAuthenticated - Token har utgått. Refresher token.');
         client
-            .refresh(tokenSet)
+            .refreshTokenGrant(await getConfig(), tokenSet.refresh_token!)
             .then((newTokenSet) => {
                 // @ts-ignore
                 req.session.tokenSet = newTokenSet;
@@ -116,6 +97,7 @@ const ensureAuthenticated = (
                 next();
             })
             .catch((e) => {
+                // eslint-disable-next-line no-console
                 console.log('ensureAuthenticated - Feilet refresh av token', e);
                 redirectResponseToLogin(req, res);
             });
@@ -126,5 +108,4 @@ const ensureAuthenticated = (
 
 // kallkjedene kan ta litt tid, og tokenet kan i corner-case gå ut i løpet av kjeden. Så innfører et buffer
 // på 2 minutter.
-const erUtgått = (tokenSet: TokenSet): boolean =>
-    tokenSet.expired() || (tokenSet.expires_in !== undefined && tokenSet.expires_in < 120);
+const erUtgått = (tokenSet: TokenSet): boolean => !tokenSet.expires_in || tokenSet.expires_in < 120;

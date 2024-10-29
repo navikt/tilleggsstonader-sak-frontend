@@ -11,6 +11,7 @@ import {
     saksbehandlerHarSendtTilGodkjenneVedtak,
     oppgaveErJournalføring,
     oppgaveErSaksbehandling,
+    oppgaveErSaksbehandlingKlage,
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
@@ -30,7 +31,9 @@ interface Props {
 }
 
 const skalViseFortsettKnapp = (oppgave: Oppgave) =>
-    oppgaveErSaksbehandling(oppgave) || oppgaveErJournalføring(oppgave);
+    oppgaveErSaksbehandling(oppgave) ||
+    oppgaveErSaksbehandlingKlage(oppgave) ||
+    oppgaveErJournalføring(oppgave);
 
 const Oppgaveknapp: React.FC<Props> = ({
     oppgave,
@@ -50,6 +53,10 @@ const Oppgaveknapp: React.FC<Props> = ({
         navigate(`/behandling/${behandlingId}`);
     };
 
+    const gåTilBehandleKlageSakOppgave = (behandlingId: string) => {
+        navigate(`/klagebehandling/${behandlingId}`);
+    };
+
     const gåTilJournalføring = () => {
         const journalpostId = oppgave.journalpostId || '';
         const oppgaveId = oppgave.id;
@@ -59,6 +66,8 @@ const Oppgaveknapp: React.FC<Props> = ({
     const gåTilOppgaveUtførelse = () => {
         if (oppgaveErSaksbehandling(oppgave) && oppgave.behandlingId) {
             gåTilBehandleSakOppgave(oppgave.behandlingId);
+        } else if (oppgaveErSaksbehandlingKlage(oppgave) && oppgave.behandlingId) {
+            gåTilBehandleKlageSakOppgave(oppgave.behandlingId);
         } else if (oppgaveErJournalføring(oppgave)) {
             gåTilJournalføring();
         } else {
@@ -131,7 +140,9 @@ const Oppgaveknapp: React.FC<Props> = ({
                 onClick={tildelOgGåTilOppgaveutførelse}
                 disabled={laster}
             >
-                {oppgaveErSaksbehandling(oppgave) ? 'Behandle' : 'Tildel meg'}
+                {oppgaveErSaksbehandling(oppgave) || oppgaveErSaksbehandlingKlage(oppgave)
+                    ? 'Behandle'
+                    : 'Tildel meg'}
             </TabellKnapp>
         );
 };

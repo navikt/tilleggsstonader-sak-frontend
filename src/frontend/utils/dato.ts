@@ -43,6 +43,11 @@ export const formaterIsoPeriode = (fom: string, tom: string): string => {
     return formaterIsoDato(fom) + ' - ' + formaterIsoDato(tom);
 };
 
+// Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18.09.2023 - 18.10.2023'
+export const formaterNullablePeriode = (fom?: string, tom?: string): string => {
+    return `${formaterNullableIsoDato(fom) ?? ''} - ${formaterNullableIsoDato(tom) ?? ''} `;
+};
+
 // Eksempel: formaterNullableIsoDatoTid('2023-09-18T10:30:00') -> '18.09.2023 kl.10:30'
 export const formaterNullableIsoDatoTid = (dato?: string): string | undefined => {
     return dato && formaterIsoDatoTid(dato);
