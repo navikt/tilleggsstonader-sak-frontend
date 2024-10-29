@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { StatusTag } from './StatusTag';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { BehandlingType } from '../../../../typer/behandling/behandlingType';
 import { aktivitetTypeOptionsForStønadsperiode, aktivitetTypeTilTekst } from '../typer/aktivitet';
 import { målgruppeTypeOptionsForStønadsperiode, målgruppeTypeTilTekst } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
@@ -32,6 +35,8 @@ const StønadsperiodeRad: React.FC<Props> = ({
         periodeTom: lagrerStønadsperiode?.tom,
         nyRadLeggesTil: !stønadsperide.id,
     });
+
+    const { behandling } = useBehandling();
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
@@ -93,6 +98,9 @@ const StønadsperiodeRad: React.FC<Props> = ({
                     feil={finnFeilmelding('tom')}
                 />
             </FeilmeldingMaksBredde>
+            {erLeservisning && behandling.type === BehandlingType.REVURDERING && (
+                <StatusTag status={stønadsperide.status} />
+            )}
             {!erLeservisning && alleFelterKanEndres && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
