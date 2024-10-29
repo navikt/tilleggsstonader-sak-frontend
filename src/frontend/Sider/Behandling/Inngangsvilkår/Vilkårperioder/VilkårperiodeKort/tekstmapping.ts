@@ -1,4 +1,5 @@
 import { DelvilkårKey } from './utils';
+import { Vilkårsresultat } from '../../../vilkår';
 import { SvarJaNei, VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
 export const medlemskapSvarTilTekst: Record<SvarJaNei, string> = {
@@ -24,6 +25,15 @@ export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, stri
     [VilkårPeriodeResultat.IKKE_OPPFYLT]: 'Vilkår ikke oppfylt',
     [VilkårPeriodeResultat.IKKE_VURDERT]: 'Mangelfull vurdering',
     [VilkårPeriodeResultat.SLETTET]: 'Slettet',
+};
+
+export const VilkårsresultatTilTekst: Record<Vilkårsresultat, string> = {
+    [Vilkårsresultat.OPPFYLT]: 'Vilkår oppfylt',
+    [Vilkårsresultat.IKKE_OPPFYLT]: 'Vilkår ikke oppfylt',
+    [Vilkårsresultat.AUTOMATISK_OPPFYLT]: 'Vilkår automatisk oppfylt',
+    [Vilkårsresultat.IKKE_AKTUELL]: 'Ikke aktuelt',
+    [Vilkårsresultat.IKKE_TATT_STILLING_TIL]: 'Ikke vurdert',
+    [Vilkårsresultat.SKAL_IKKE_VURDERES]: 'Skal ikke vurderes',
 };
 
 export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
