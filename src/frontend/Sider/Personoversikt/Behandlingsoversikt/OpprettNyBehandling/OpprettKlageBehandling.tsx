@@ -45,6 +45,7 @@ const OpprettKlageBehandling: React.FC<Props> = ({
                 label={'Klage mottatt'}
                 onChange={(dato: string | undefined) => settKlageMottattDato(dato || '')}
                 value={klageMottattDato}
+                toDate={new Date()}
             />
             <HStack gap="4" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">
