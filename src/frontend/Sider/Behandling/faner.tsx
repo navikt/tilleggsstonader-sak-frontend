@@ -9,7 +9,7 @@ import {
 } from '@navikt/aksel-icons';
 
 import Brev from './Brev/Brev';
-import { KorrigeringFane } from './Fanemeny/KorrigeringFane';
+import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
@@ -35,7 +35,7 @@ export enum FaneNavn {
     VEDTAK_OG_BEREGNING = 'Vedtak og beregning',
     SIMULERING = 'Simulering',
     BREV = 'Vedtaksbrev',
-    KORRIGERING_UTEN_BREV = 'Korrigering uten brev',
+    UTEN_BREV = 'Uten brev',
     REVURDER_FRA = 'Revurder fra',
 }
 
@@ -101,11 +101,12 @@ const revurderingFraFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
+const årsakUtenBrev = (behandling: Behandling) =>
+    behandling.behandlingsårsak === BehandlingÅrsak.KORRIGERING_UTEN_BREV ||
+    behandling.behandlingsårsak === BehandlingÅrsak.MANUELT_OPPRETTET_UTEN_BREV;
+
 const brevfane = (behandling: Behandling): FanerMedRouter[] => {
-    if (
-        behandling.resultat !== BehandlingResultat.HENLAGT &&
-        behandling.behandlingsårsak !== BehandlingÅrsak.KORRIGERING_UTEN_BREV
-    ) {
+    if (behandling.resultat !== BehandlingResultat.HENLAGT && !årsakUtenBrev(behandling)) {
         return [
             {
                 navn: FaneNavn.BREV,
@@ -121,12 +122,12 @@ const brevfane = (behandling: Behandling): FanerMedRouter[] => {
 };
 
 const sendTilBeslutterUtenBrev = (behandling: Behandling): FanerMedRouter[] => {
-    if (behandling.behandlingsårsak === BehandlingÅrsak.KORRIGERING_UTEN_BREV) {
+    if (årsakUtenBrev(behandling)) {
         return [
             {
-                navn: FaneNavn.KORRIGERING_UTEN_BREV,
+                navn: FaneNavn.UTEN_BREV,
                 path: FanePath.BREV,
-                komponent: () => <KorrigeringFane />,
+                komponent: () => <UtenBrev />,
                 ikon: <EnvelopeClosedIcon />,
                 erLåst: faneErLåst(behandling, FanePath.BREV),
             },
