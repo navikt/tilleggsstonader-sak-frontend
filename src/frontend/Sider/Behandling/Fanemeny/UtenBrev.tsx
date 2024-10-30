@@ -11,12 +11,12 @@ const Container = styled(VStack)`
     margin: 2rem;
 `;
 
-export const KorrigeringFane: React.FC = () => {
+export const UtenBrev: React.FC = () => {
     const { erStegRedigerbart } = useSteg();
 
     return (
         <Container gap="2" align="start">
-            <Alert variant={'warning'}>Korrigering av vedtak uten brevutsendelse</Alert>
+            <Alert variant={'warning'}>Årsak til behandling er uten brev</Alert>
             {erStegRedigerbart && <SendTilBeslutterKnapp />}
         </Container>
     );
