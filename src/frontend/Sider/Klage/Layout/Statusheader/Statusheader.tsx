@@ -56,7 +56,6 @@ export const Statusheader: FC<{
 }> = ({ personopplysninger, behandling }) => {
     const {
         personIdent,
-        kjønn,
         navn,
         folkeregisterpersonstatus,
         adressebeskyttelse,
@@ -69,7 +68,6 @@ export const Statusheader: FC<{
             <Visittkort
                 alder={20}
                 ident={personIdent}
-                kjønn={kjønn}
                 navn={
                     <Visningsnavn>
                         <Label size={'small'} as={'p'}>

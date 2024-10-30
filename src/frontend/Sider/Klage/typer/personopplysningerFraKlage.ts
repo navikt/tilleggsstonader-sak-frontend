@@ -2,7 +2,6 @@ export interface PersonopplysningerFraKlage {
     personIdent: string;
     fagsakPersonId: string;
     navn: string;
-    kjønn: kjønnType;
     adressebeskyttelse?: Adressebeskyttelse;
     folkeregisterpersonstatus?: Folkeregisterpersonstatus;
     dødsdato?: string;

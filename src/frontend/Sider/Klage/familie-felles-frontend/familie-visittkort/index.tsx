@@ -5,26 +5,21 @@ import styled from 'styled-components';
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
 import { ABorderStrong, ABorderSubtle, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
 
-import { kjønnType } from '../../typer/personopplysningerFraKlage';
-import { FamilieIkonVelger } from '../familie-ikoner/familie/FamilieIkonVelger';
-
 export interface IProps extends React.PropsWithChildren {
     alder: number;
     ident: string;
-    kjønn: kjønnType;
     navn: string | React.ReactNode;
     ikon?: React.ReactElement;
     dempetKantlinje?: boolean;
-    padding?: boolean;
     borderBottom?: boolean;
 }
 
-const StyledVisittkort = styled(HStack)<{ $dempetKantlinje: boolean; $padding: boolean }>`
+const StyledVisittkort = styled(HStack)<{ $dempetKantlinje: boolean }>`
     ${(props) =>
         props.$borderBottom &&
         `border-bottom: 1px solid ${props.$dempetKantlinje ? ABorderSubtle : ABorderStrong}`};
     height: 3rem;
-    padding: ${(props) => props.$padding && `0 ${ASpacing4}`};
+    padding: 0 ${ASpacing4};
 `;
 
 const GrådigChildrenContainer = styled(HStack)`
@@ -35,11 +30,8 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
     alder,
     children,
     ident,
-    kjønn,
     navn,
-    ikon,
     dempetKantlinje = false,
-    padding = false,
     borderBottom = true,
 }) => {
     return (
@@ -48,15 +40,9 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
             justify="space-between"
             gap="4"
             $dempetKantlinje={dempetKantlinje}
-            $padding={padding}
             $borderBottom={borderBottom}
         >
             <HStack align="center" gap="4">
-                {ikon ? (
-                    ikon
-                ) : (
-                    <FamilieIkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
-                )}
                 {typeof navn === 'string' ? (
                     <Label size={'small'}>
                         {navn} ({alder} år)
