@@ -23,7 +23,7 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
 };
 
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
-    UTGIFTER_DOKUMENTERT: 'Er utgifter til pass tilfredsstillende dokumentert?',
+    UTGIFTER_DOKUMENTERT: 'Har bruker dokumenterte utgifter til pass?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar den andre forelderen støtte til pass av barnet?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
