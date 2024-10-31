@@ -77,7 +77,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
             </Avsnitt>
             <Avsnitt>
                 <Heading level="1" size="medium">
-                    Innstilling til NAV Klageinstans
+                    Innstilling til Nav Klageinstans
                 </Heading>
                 <FritekstfeltLesemodus>{innstillingKlageinstans}</FritekstfeltLesemodus>
             </Avsnitt>

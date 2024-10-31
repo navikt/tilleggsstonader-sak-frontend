@@ -90,9 +90,9 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                                     {utledBehandlingResultatTilTekst(behandling)}
                                 </Link>
                                 {erKlageOgFeilregistrertAvKA(behandling) && (
-                                    <Tooltip content="Klagen er feilregistrert av NAV klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
+                                    <Tooltip content="Klagen er feilregistrert av Nav klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
                                         <AdvarselIkon
-                                            title={'Behandling feilregistrert av NAV klageinstans'}
+                                            title={'Behandling feilregistrert av Nav klageinstans'}
                                         />
                                     </Tooltip>
                                 )}

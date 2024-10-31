@@ -23,8 +23,8 @@ export const behandlingStegTilTekst: Record<KlagebehandlingSteg, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
-    OVERFØRING_TIL_KABAL: 'Overført til NAV klageinstans',
-    KABAL_VENTER_SVAR: 'Venter på svar fra NAV klageinstans',
+    OVERFØRING_TIL_KABAL: 'Overført til Nav klageinstans',
+    KABAL_VENTER_SVAR: 'Venter på svar fra Nav klageinstans',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
 
@@ -33,7 +33,7 @@ export const behandlingStegFullførtTilTekst: Record<KlagebehandlingSteg, string
     FORMKRAV: 'Formkrav er oppdatert',
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',
-    OVERFØRING_TIL_KABAL: 'Overført til NAV klageinstans',
-    KABAL_VENTER_SVAR: 'Mottatt svar fra NAV klageinstans',
+    OVERFØRING_TIL_KABAL: 'Overført til Nav klageinstans',
+    KABAL_VENTER_SVAR: 'Mottatt svar fra Nav klageinstans',
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
