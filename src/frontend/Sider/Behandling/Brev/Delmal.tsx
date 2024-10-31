@@ -75,7 +75,11 @@ const Delmal: React.FC<Props> = ({
 }) => {
     return (
         <Background>
-            <ExpansionCard aria-label={'Delmal'} size="small">
+            <ExpansionCard
+                aria-label={'Delmal'}
+                size="small"
+                defaultOpen={delmal.visningsdetaljer.skalAlltidMed}
+            >
                 <ExpansionCard.Header>
                     <ExpansionCard.Title size="small">{delmal.visningsnavn}</ExpansionCard.Title>
                 </ExpansionCard.Header>

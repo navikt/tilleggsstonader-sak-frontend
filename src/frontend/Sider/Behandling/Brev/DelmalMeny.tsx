@@ -2,7 +2,7 @@ import React, { SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Switch } from '@navikt/ds-react';
+import { Checkbox } from '@navikt/ds-react';
 
 import { idEllerFritekst } from './brevUtils';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
@@ -41,13 +41,13 @@ export const DelmalMeny: React.FC<Props> = ({
 }) => {
     return (
         <FlexColumn>
-            <Switch
+            <Checkbox
                 disabled={delmal.visningsdetaljer.skalAlltidMed}
                 checked={inkluderIBrev}
                 onChange={(e) => settInkluderIBrev(e.target.checked)}
             >
                 Inkluder seksjon i brev
-            </Switch>
+            </Checkbox>
             {delmal.blocks.map((val, index) => {
                 switch (val._type) {
                     case 'valgfelt':
