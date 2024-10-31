@@ -6,7 +6,7 @@ import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
 import { utledTypeBehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
-import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from './typer/oppgavetema';
+import { oppgaveTypeTilTekst } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
 import { useOppgave } from '../../context/OppgaveContext';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../utils/dato';
@@ -38,10 +38,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
                 {oppgave.oppgavetype
-                    ? oppgaveTypeTilVisningstekstSomTarHensynTilKlage(
-                          oppgave.oppgavetype,
-                          oppgave.behandlingstype
-                      )
+                    ? oppgaveTypeTilTekst[oppgave.oppgavetype]
                     : 'Mangler oppgavetype'}
             </Table.DataCell>
             <Table.DataCell>

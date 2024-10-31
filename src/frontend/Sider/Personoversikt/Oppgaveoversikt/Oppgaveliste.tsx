@@ -12,7 +12,7 @@ import { formaterNullableIsoDato } from '../../../utils/dato';
 import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
 import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
-import { oppgaveTypeTilVisningstekstSomTarHensynTilKlage } from '../../Oppgavebenk/typer/oppgavetema';
+import { oppgaveTypeTilTekst } from '../../Oppgavebenk/typer/oppgavetema';
 
 const Tabell = styled(Table)`
     max-width: 1300px;
@@ -51,8 +51,7 @@ const EkspanderbarRad: React.FC<{
             open={open}
         >
             <Table.DataCell>
-                {oppgave.oppgavetype &&
-                    oppgaveTypeTilVisningstekstSomTarHensynTilKlage(oppgave.oppgavetype)}
+                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
             </Table.DataCell>
             <Table.DataCell>
                 {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
