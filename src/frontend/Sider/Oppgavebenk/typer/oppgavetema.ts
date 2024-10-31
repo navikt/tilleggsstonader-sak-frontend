@@ -1,5 +1,3 @@
-import { OppgaveBehandlingstype } from './oppgave';
-
 export type Oppgavetype =
     | 'BEH_SAK'
     | 'JFR'
@@ -43,16 +41,6 @@ export const oppgaveTypeTilTekst: Record<Oppgavetype, string> = {
     VUR_KONS_YTE: 'Vurder konsekvens for ytelse',
     VURD_LIVS: 'Vurder livshendelse',
     VUR_SVAR: 'Vurder svar',
-};
-
-export const oppgaveTypeTilVisningstekstSomTarHensynTilKlage = (
-    oppgavetype: Oppgavetype,
-    oppgaveBehandlingstype?: OppgaveBehandlingstype
-): string => {
-    if (oppgavetype === 'BEH_SAK' && oppgaveBehandlingstype === OppgaveBehandlingstype.Klage) {
-        return 'Behandle sak (klage)';
-    }
-    return oppgaveTypeTilTekst[oppgavetype];
 };
 
 export const oppgaverTyperSomSkalVisesFørst: Oppgavetype[] = [
