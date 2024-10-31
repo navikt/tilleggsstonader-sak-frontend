@@ -136,13 +136,14 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                         <RadioGroup
                             legend={
                                 <HStack gap={'2'}>
-                                    Skal det sendes brev?
+                                    Skal det sendes vedtaksbrev?
                                     <HelpText>
                                         <BodyShort>
-                                            I tilfelle det er ønskelig å ikke sende et brev så skal
-                                            verdiet settes til &quot;Nei&quot;. Det kan eksempelvis
-                                            være når noe skal flyttes over til ny løsning fra Arena
-                                            og då stansen i Arena. Husk å stanse stønaden i Arena.
+                                            I tilfelle det er ønskelig å ikke sende vedtaksbrev så
+                                            skal verdiet settes til &quot;Nei&quot;. Det kan
+                                            eksempelvis være når noe skal flyttes over til ny
+                                            løsning fra Arena og då stanses i Arena. Husk å stanse
+                                            stønaden i Arena.
                                         </BodyShort>
                                     </HelpText>
                                 </HStack>
