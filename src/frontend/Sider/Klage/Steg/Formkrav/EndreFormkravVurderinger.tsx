@@ -272,7 +272,7 @@ const HelpTextInnhold: React.FC<{ formkrav: EFormalKravType }> = ({ formkrav }) 
                     </BodyLong>
                     <BodyLong>
                         Klager som er sendt inn via tjenester som krever personlig innlogging, for
-                        eksempel gjennom digitalt klageskjema eller Ditt NAV, har godkjent digital
+                        eksempel gjennom digitalt klageskjema eller Ditt Nav, har godkjent digital
                         signatur. Hvis klagen er sendt inn per post, må den være signert av klager
                         eller dens fullmektig. Hvis klagen mangler signatur, må vi innhente dette
                         før klagen kan behandles.

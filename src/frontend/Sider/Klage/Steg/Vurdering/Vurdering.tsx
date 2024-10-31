@@ -183,7 +183,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         />
                                         <FritekstFeltWrapper>
                                             <EnsligTextArea
-                                                label="Innstilling til NAV Klageinstans (kommer med i brev til bruker)"
+                                                label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
                                                 value={oppdatertVurdering.innstillingKlageinstans}
                                                 onChange={(e) => {
                                                     settIkkePersistertKomponent(e.target.value);
