@@ -117,6 +117,11 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                 ...lagredeOppgaveFiltreringer,
                 ident: journalResponse.personIdent,
             });
+            delete lagredeOppgaveFiltreringer.ident;
+            lagreTilLocalStorage(
+                oppgaveRequestKey(saksbehandler.navIdent),
+                lagredeOppgaveFiltreringer
+            );
             navigate('/');
         }
     }, [saksbehandler, journalResponse, journalpostState, navigate]);
