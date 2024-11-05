@@ -15,5 +15,5 @@ export const fullmektigDtoTilBrevMottaker = (fullmektig: FullmektigDto): IBrevmo
     id: uuidv4(),
     navn: fullmektig.fullmektigNavn || '',
     personIdent: fullmektig.fullmektigIdent,
-    mottakerRolle: EBrevmottakerRolle.FULLMAKT,
+    mottakerRolle: EBrevmottakerRolle.FULLMEKTIG,
 });
