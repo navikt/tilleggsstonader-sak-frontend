@@ -10,6 +10,7 @@ export interface PersonopplysningerFraKlage {
     fullmakt: Fullmakt[];
     navEnhet: string;
     vergemål: Vergemål[];
+    harFullmektig: boolean;
 }
 
 export enum kjønnType {

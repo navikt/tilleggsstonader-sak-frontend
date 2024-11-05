@@ -11,7 +11,6 @@ import { Hamburgermeny } from './Hamburgermeny';
 import PersonStatusVarsel from './PersonStatusVarsel';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
-import { erEtterDagensDato } from '../../../../utils/dato';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import {
     erBehandlingRedigerbar,
@@ -60,7 +59,7 @@ export const Statusheader: FC<{
         folkeregisterpersonstatus,
         adressebeskyttelse,
         egenAnsatt,
-        fullmakt,
+        harFullmektig,
         vergemål,
     } = personopplysninger;
     return (
@@ -91,12 +90,11 @@ export const Statusheader: FC<{
                         <EtikettFokus>Egen ansatt</EtikettFokus>
                     </ElementWrapper>
                 )}
-                {fullmakt.some((f) => erEtterDagensDato(f.gyldigTilOgMed)) && (
+                {harFullmektig && (
                     <ElementWrapper>
                         <EtikettFokus>Fullmakt</EtikettFokus>
                     </ElementWrapper>
                 )}
-
                 {vergemål.length > 0 && (
                     <ElementWrapper>
                         <EtikettFokus>Verge</EtikettFokus>

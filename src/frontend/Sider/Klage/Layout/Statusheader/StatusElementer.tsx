@@ -75,7 +75,7 @@ export const Statuser = styled.div`
 
     white-space: nowrap;
 
-    @media screen and (max-width: 1540px) {
+    @media screen and (max-width: 1700px) {
         display: none;
     }
 `;
@@ -87,7 +87,7 @@ export const StatuserLitenSkjerm = styled.div`
 
     white-space: nowrap;
 
-    @media screen and (min-width: 1540px) {
+    @media screen and (min-width: 1700px) {
         display: none;
     }
 `;
