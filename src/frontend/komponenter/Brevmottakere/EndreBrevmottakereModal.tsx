@@ -119,7 +119,7 @@ export const EndreBrevmottakereModal: FC<{
                 <Venstrekolonne>
                     <VergerOgFullmektigeFraRegister
                         verger={personopplysninger.vergemål ?? []}
-                        fullmakter={personopplysninger.fullmakt ?? []}
+                        personIdent={personopplysninger.personIdent}
                         valgteMottakere={valgtePersonMottakere}
                         settValgteMottakere={settValgtePersonMottakere}
                     />
