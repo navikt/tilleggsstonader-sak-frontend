@@ -6,11 +6,11 @@ import { IdentRequest } from '../typer/identrequest';
 import { byggTomRessurs, erFeilressurs, pakkUtHvisSuksess, Ressurs } from '../typer/ressurs';
 
 interface Response {
-    fullmektige: FullmektigDto[];
+    fullmektige?: FullmektigDto[];
     hentFullmektigeFeilet?: string;
 }
 
-export const useHentFullmektige = (fullmaktigiverIdent: string): Response => {
+export function useHentFullmektige(fullmaktigiverIdent: string): Response {
     const { request } = useApp();
 
     const [fullmektigeResponse, settFullmektigeResponse] =
@@ -27,9 +27,9 @@ export const useHentFullmektige = (fullmaktigiverIdent: string): Response => {
     }, [hentFullmektige]);
 
     return {
-        fullmektige: pakkUtHvisSuksess(fullmektigeResponse) || [],
+        fullmektige: pakkUtHvisSuksess(fullmektigeResponse),
         hentFullmektigeFeilet: erFeilressurs(fullmektigeResponse)
             ? fullmektigeResponse.frontendFeilmelding
             : undefined,
     };
-};
+}

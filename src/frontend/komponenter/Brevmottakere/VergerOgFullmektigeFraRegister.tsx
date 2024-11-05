@@ -40,7 +40,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     const { fullmektige, hentFullmektigeFeilet } = useHentFullmektige(personIdent);
 
     const muligeMottakere = [
-        ...fullmektige.map(fullmektigDtoTilBrevMottaker),
+        ...(fullmektige?.map(fullmektigDtoTilBrevMottaker) ?? []),
         ...verger.map(vergemålTilBrevmottaker),
     ];
 
