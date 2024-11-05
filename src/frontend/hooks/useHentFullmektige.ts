@@ -7,7 +7,7 @@ import { byggTomRessurs, erFeilressurs, pakkUtHvisSuksess, Ressurs } from '../ty
 
 interface Response {
     fullmektige: FullmektigDto[];
-    uthentingAvFullmektigeFeilet?: string;
+    hentFullmektigeFeilet?: string;
 }
 
 export const useHentFullmektige = (fullmaktigiverIdent: string): Response => {
@@ -28,7 +28,7 @@ export const useHentFullmektige = (fullmaktigiverIdent: string): Response => {
 
     return {
         fullmektige: pakkUtHvisSuksess(fullmektigeResponse) || [],
-        uthentingAvFullmektigeFeilet: erFeilressurs(fullmektigeResponse)
+        hentFullmektigeFeilet: erFeilressurs(fullmektigeResponse)
             ? fullmektigeResponse.frontendFeilmelding
             : undefined,
     };
