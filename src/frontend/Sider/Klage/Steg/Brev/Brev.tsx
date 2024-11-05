@@ -140,7 +140,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             personIdent: personopplysninger.personIdent,
             navn: personopplysninger.navn,
             harVergemål: personopplysninger.vergemål.length !== 0,
-            fullmakt: personopplysninger.fullmakt,
             vergemål: personopplysninger.vergemål,
         };
     };

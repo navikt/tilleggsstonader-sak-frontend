@@ -4,7 +4,6 @@ export interface Personopplysninger {
     harVergemål: boolean;
     harFullmektig: boolean;
     adressebeskyttelse: Adressebeskyttelse;
-    fullmakt: Fullmakt[];
     vergemål: Vergemål[];
 }
 
@@ -28,12 +27,4 @@ export interface Vergemål {
     motpartsPersonident?: string;
     navn?: string;
     omfang?: string;
-}
-
-export interface Fullmakt {
-    gyldigFraOgMed: string;
-    gyldigTilOgMed: string;
-    motpartsPersonident: string;
-    navn?: string;
-    områder: string[];
 }
