@@ -20,11 +20,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { RessursStatus } from '../../../typer/ressurs';
-import {
-    hentFraLocalStorage,
-    lagreTilLocalStorage,
-    oppgaveRequestKey,
-} from '../../Oppgavebenk/filter/oppgavefilterStorage';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
@@ -108,15 +103,6 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     useEffect(() => {
         if (journalpostState.innsending.status === RessursStatus.SUKSESS) {
-            const lagredeOppgaveFiltreringer = hentFraLocalStorage(
-                oppgaveRequestKey(saksbehandler.navIdent),
-                {}
-            );
-
-            lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), {
-                ...lagredeOppgaveFiltreringer,
-                ident: journalResponse.personIdent,
-            });
             navigate('/');
         }
     }, [saksbehandler, journalResponse, journalpostState, navigate]);
