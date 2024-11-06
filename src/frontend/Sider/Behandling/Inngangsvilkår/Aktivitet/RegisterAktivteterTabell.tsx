@@ -27,11 +27,14 @@ const RegisterAktiviteterTabell: React.FC<{
         <Tabell size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Type</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Variant</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Arrangør</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Startdato</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Sluttdato</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Aktivitetsdager</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Prosent</Table.HeaderCell>
                     <Table.HeaderCell scope="col"></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -39,7 +42,9 @@ const RegisterAktiviteterTabell: React.FC<{
                 {aktiviteterFraArena.map((aktivitet) => {
                     return (
                         <Table.Row key={aktivitet.id}>
+                            <Table.DataCell>{aktivitet.type}</Table.DataCell>
                             <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>
+                            <Table.DataCell>{aktivitet.arrangør ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {aktivitet.status && formaterEnumVerdi(aktivitet.status)}
                             </Table.DataCell>
@@ -50,6 +55,7 @@ const RegisterAktiviteterTabell: React.FC<{
                                 {formaterNullableIsoDato(aktivitet.tom)}
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
+                            <Table.DataCell>{aktivitet.prosentDeltakelse ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {erStegRedigerbart && (
                                     <BrukAktivitetKnapp
