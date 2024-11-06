@@ -3,14 +3,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { FullmektigDto } from '../typer/fullmakt';
 import { IdentRequest } from '../typer/identrequest';
-import { byggTomRessurs, erFeilressurs, pakkUtHvisSuksess, Ressurs } from '../typer/ressurs';
+import { byggTomRessurs, feilmeldingVedFeil, pakkUtHvisSuksess, Ressurs } from '../typer/ressurs';
 
-interface Response {
+interface FullmektigeEllerFeilmelding {
     fullmektige?: FullmektigDto[];
-    hentFullmektigeFeilet?: string;
+    hentFullmektigeFeil?: string;
 }
 
-export function useHentFullmektige(fullmaktigiverIdent: string): Response {
+export function useHentFullmektige(fullmaktigiverIdent: string): FullmektigeEllerFeilmelding {
     const { request } = useApp();
 
     const [fullmektigeResponse, settFullmektigeResponse] =
@@ -28,8 +28,6 @@ export function useHentFullmektige(fullmaktigiverIdent: string): Response {
 
     return {
         fullmektige: pakkUtHvisSuksess(fullmektigeResponse),
-        hentFullmektigeFeilet: erFeilressurs(fullmektigeResponse)
-            ? fullmektigeResponse.frontendFeilmelding
-            : undefined,
+        hentFullmektigeFeil: feilmeldingVedFeil(fullmektigeResponse),
     };
 }
