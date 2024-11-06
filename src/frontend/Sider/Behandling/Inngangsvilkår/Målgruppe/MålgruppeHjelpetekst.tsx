@@ -25,10 +25,8 @@ export const MålgruppeHjelpetekst = () => (
             A-3 er oppfylt.
         </BodyLong>
         <BodyLong size={'small'}>
-            <strong>100% sykepenger</strong> hvis søker mottar 100 % sykepenger fra en
-            fulltidsstilling eller fra fast deltidsstilling hvor søker ikke har annen inntekt eller
-            ytelse fra Nav. F.eks. hvis søker er i 70% stilling og mottar 100% sykepenger for denne
-            stillingen.
+            Velg <strong>100% sykepenger</strong> hvis søker mottar sykepenger fra en
+            fulltidsstilling.
         </BodyLong>
     </ReadMore>
 );
