@@ -32,6 +32,22 @@ const Valgfelt: React.FC<Props> = ({
                 (valg._type === 'fritekst' && id === 'fritekst')
         );
 
+    const oppdaterValgfelt = (id: string) => {
+        const valgtBlock = finnValgtBlock(id);
+
+        settValgfelt((prevState) => {
+            const oppdatertState = { ...prevState };
+
+            if (valgtBlock) {
+                oppdatertState[valgfelt._id] = valgtBlock;
+            } else {
+                delete oppdatertState[valgfelt._id];
+            }
+
+            return oppdatertState;
+        });
+    };
+
     const valgtBlock = finnValgtBlock(valgtVerdi);
 
     return (
@@ -39,15 +55,7 @@ const Valgfelt: React.FC<Props> = ({
             <Select
                 label={valgfelt.visningsnavn}
                 value={valgtVerdi || ''}
-                onChange={(e) => {
-                    settValgfelt((prevState) => {
-                        const valgtBlock = finnValgtBlock(e.target.value);
-
-                        return valgtBlock
-                            ? { ...prevState, [valgfelt._id]: valgtBlock }
-                            : prevState;
-                    });
-                }}
+                onChange={(e) => oppdaterValgfelt(e.target.value)}
                 size="small"
             >
                 <option value={''}>Velg</option>
