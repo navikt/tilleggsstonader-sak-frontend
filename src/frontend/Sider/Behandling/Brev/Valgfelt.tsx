@@ -36,15 +36,15 @@ const Valgfelt: React.FC<Props> = ({
         const valgtBlock = finnValgtBlock(id);
 
         settValgfelt((prevState) => {
-            const updatedState = { ...prevState };
+            const oppdatertState = { ...prevState };
 
             if (valgtBlock) {
-                updatedState[valgfelt._id] = valgtBlock;
+                oppdatertState[valgfelt._id] = valgtBlock;
             } else {
-                delete updatedState[valgfelt._id];
+                delete oppdatertState[valgfelt._id];
             }
 
-            return updatedState;
+            return oppdatertState;
         });
     };
 
