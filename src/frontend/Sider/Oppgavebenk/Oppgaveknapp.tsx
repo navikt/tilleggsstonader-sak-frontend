@@ -91,7 +91,7 @@ const Oppgaveknapp: React.FC<Props> = ({
         return null;
     } else if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (
-            <HStack justify={skalViseFortsettKnapp(oppgave) ? 'space-between' : 'end'}>
+            <HStack justify={skalViseFortsettKnapp(oppgave) ? 'space-between' : 'end'} wrap={false}>
                 {skalViseFortsettKnapp(oppgave) && (
                     <TabellKnapp
                         type={'button'}
@@ -118,7 +118,7 @@ const Oppgaveknapp: React.FC<Props> = ({
         );
     } else if (oppgave.tilordnetRessurs) {
         return (
-            <HStack justify={'end'}>
+            <HStack justify={'end'} wrap={false}>
                 <OppgaveValgMeny
                     valg={[
                         {
