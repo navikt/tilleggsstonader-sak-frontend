@@ -2,15 +2,14 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { BrukCell } from './BrukCell';
 import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
-import { Aktivitet } from '../typer/aktivitet';
 
 const Tabell = styled(Table)`
     background: white;
@@ -24,21 +23,6 @@ const RegisterAktiviteterTabell: React.FC<{
     leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
 }> = ({ aktiviteterFraArena, leggTilAktivitetFraRegister }) => {
     const { erStegRedigerbart } = useSteg();
-    const { aktiviteter } = useInngangsvilkår();
-
-    function erAktivitetAlleredeLagtTil(
-        aktiviteter: Aktivitet[],
-        aktiviteterFraArena: Registeraktivitet[]
-    ) {
-        return aktiviteter
-            .filter((aktivitet) => aktivitet.kildeId !== undefined)
-            .some((aktivitet) =>
-                aktiviteterFraArena
-                    .map((aktivitet) => aktivitet.id)
-                    .includes(aktivitet.kildeId as string)
-            );
-    }
-
     return (
         <Tabell size={'small'}>
             <Table.Header>
@@ -68,17 +52,10 @@ const RegisterAktiviteterTabell: React.FC<{
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {erStegRedigerbart && (
-                                    <Button
-                                        size="xsmall"
-                                        onClick={() => leggTilAktivitetFraRegister(aktivitet)}
-                                    >
-                                        {erAktivitetAlleredeLagtTil(
-                                            aktiviteter,
-                                            aktiviteterFraArena
-                                        )
-                                            ? 'Brukt'
-                                            : 'Bruk'}
-                                    </Button>
+                                    <BrukCell
+                                        aktivitetFraArena={aktivitet}
+                                        leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                                    />
                                 )}
                             </Table.DataCell>
                         </Table.Row>
