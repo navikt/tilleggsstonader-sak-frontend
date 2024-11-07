@@ -20,7 +20,7 @@ export interface IOrganisasjonMottaker {
 export enum EBrevmottakerRolle {
     BRUKER = 'BRUKER',
     VERGE = 'VERGE',
-    FULLMAKT = 'FULLMAKT',
+    FULLMEKTIG = 'FULLMEKTIG',
 }
 
 export enum Applikasjonskontekst {

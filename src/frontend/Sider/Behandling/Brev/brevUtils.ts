@@ -48,7 +48,6 @@ export const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
         personIdent: personopplysninger.personIdent,
         navn: personopplysninger.navn.visningsnavn,
         harVergemål: personopplysninger.harVergemål,
-        fullmakt: personopplysninger.fullmakt,
         vergemål: personopplysninger.vergemål,
     };
 };

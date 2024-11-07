@@ -7,7 +7,6 @@ export interface PersonopplysningerFraKlage {
     dødsdato?: string;
     fødselsdato?: string;
     egenAnsatt: boolean;
-    fullmakt: Fullmakt[];
     navEnhet: string;
     vergemål: Vergemål[];
     harFullmektig: boolean;
@@ -17,14 +16,6 @@ export enum kjønnType {
     KVINNE = 'KVINNE',
     MANN = 'MANN',
     UKJENT = 'UKJENT',
-}
-
-export interface Fullmakt {
-    gyldigFraOgMed: string;
-    gyldigTilOgMed: string;
-    motpartsPersonident: string;
-    navn?: string;
-    områder: string[];
 }
 
 export interface Vergemål {

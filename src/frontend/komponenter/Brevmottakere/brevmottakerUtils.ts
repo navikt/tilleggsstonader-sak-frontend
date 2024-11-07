@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
-import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
+import { Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
+import { FullmektigDto } from '../../typer/fullmakt';
 
 export const vergemålTilBrevmottaker = (vergemål: Vergemål): IBrevmottaker => ({
     id: uuidv4(),
@@ -9,9 +10,10 @@ export const vergemålTilBrevmottaker = (vergemål: Vergemål): IBrevmottaker =>
     personIdent: vergemål.motpartsPersonident || '',
     mottakerRolle: EBrevmottakerRolle.VERGE,
 });
-export const fullmaktTilBrevMottaker = (fullmakt: Fullmakt): IBrevmottaker => ({
+
+export const fullmektigDtoTilBrevMottaker = (fullmektig: FullmektigDto): IBrevmottaker => ({
     id: uuidv4(),
-    navn: fullmakt.navn || '',
-    personIdent: fullmakt.motpartsPersonident,
-    mottakerRolle: EBrevmottakerRolle.FULLMAKT,
+    navn: fullmektig.fullmektigNavn || '',
+    personIdent: fullmektig.fullmektigIdent,
+    mottakerRolle: EBrevmottakerRolle.FULLMEKTIG,
 });
