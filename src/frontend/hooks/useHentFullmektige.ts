@@ -7,7 +7,7 @@ import { byggTomRessurs, feilmeldingVedFeil, pakkUtHvisSuksess, Ressurs } from '
 
 interface FullmektigeEllerFeilmelding {
     fullmektige?: FullmektigDto[];
-    hentFullmektigeFeil?: string;
+    feilmeldingFraHentFullmektige?: string;
 }
 
 export function useHentFullmektige(fullmaktigiverIdent: string): FullmektigeEllerFeilmelding {
@@ -28,6 +28,6 @@ export function useHentFullmektige(fullmaktigiverIdent: string): FullmektigeElle
 
     return {
         fullmektige: pakkUtHvisSuksess(fullmektigeResponse),
-        hentFullmektigeFeil: feilmeldingVedFeil(fullmektigeResponse),
+        feilmeldingFraHentFullmektige: feilmeldingVedFeil(fullmektigeResponse),
     };
 }

@@ -37,7 +37,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     settValgteMottakere,
     verger,
 }) => {
-    const { fullmektige, hentFullmektigeFeil } = useHentFullmektige(personIdent);
+    const { fullmektige, feilmeldingFraHentFullmektige } = useHentFullmektige(personIdent);
 
     const muligeMottakere = [
         ...(fullmektige?.map(fullmektigDtoTilBrevMottaker) ?? []),
@@ -85,8 +85,10 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
             ) : (
                 <BodyShort>Ingen verge/fullmektig i register</BodyShort>
             )}
-            {hentFullmektigeFeil && (
-                <ErrorMessage>Henting av fullmakter feilet: {hentFullmektigeFeil}</ErrorMessage>
+            {feilmeldingFraHentFullmektige && (
+                <ErrorMessage>
+                    Henting av fullmakter feilet: {feilmeldingFraHentFullmektige}
+                </ErrorMessage>
             )}
         </>
     );
