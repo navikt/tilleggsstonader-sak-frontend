@@ -40,7 +40,7 @@ const RegisterAktiviteter: React.FC<{
     return (
         <VStack>
             <ExpansionCard
-                tittel={`Relevante aktiviteter registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
+                tittel={`Aktiviteter hentet fra Arena fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
                 maxWidth={800}
             >
                 <VStack gap="4">
@@ -55,19 +55,16 @@ const RegisterAktiviteter: React.FC<{
                             </Detail>
                             <HelpText>
                                 Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner
-                                alle aktiviteter i personoversikten.
+                                alle aktiviteter i{' '}
+                                <Link
+                                    href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
+                                    target="_blank"
+                                    variant={'neutral'}
+                                >
+                                    personoversikten.
+                                </Link>{' '}
                             </HelpText>
                         </HStack>
-                        <Detail>
-                            <Link
-                                href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
-                                target="_blank"
-                                variant={'neutral'}
-                            >
-                                Se flere aktiviteter bruker mottar
-                            </Link>{' '}
-                            i personoversikten.
-                        </Detail>
                     </VStack>
                 </VStack>
             </ExpansionCard>
