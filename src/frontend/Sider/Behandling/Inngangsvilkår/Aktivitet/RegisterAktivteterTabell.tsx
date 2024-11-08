@@ -10,6 +10,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
+import { AktivitetType, AktivitetTypeTilTekst } from '../typer/aktivitet';
 
 const Tabell = styled(Table)`
     background: white;
@@ -23,6 +24,12 @@ const RegisterAktiviteterTabell: React.FC<{
     leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
 }> = ({ aktiviteterFraArena, leggTilAktivitetFraRegister }) => {
     const { erStegRedigerbart } = useSteg();
+
+    const utledVisningstekstForAktivitetType = (aktivtet: Registeraktivitet) => {
+        const aktivtetType = aktivtet.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK;
+        return AktivitetTypeTilTekst[aktivtetType];
+    };
+
     return (
         <Tabell size={'small'}>
             <Table.Header>
@@ -42,7 +49,9 @@ const RegisterAktiviteterTabell: React.FC<{
                 {aktiviteterFraArena.map((aktivitet) => {
                     return (
                         <Table.Row key={aktivitet.id}>
-                            <Table.DataCell>{aktivitet.type}</Table.DataCell>
+                            <Table.DataCell>
+                                {utledVisningstekstForAktivitetType(aktivitet)}
+                            </Table.DataCell>
                             <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>
                             <Table.DataCell>{aktivitet.arrangør ?? '-'}</Table.DataCell>
                             <Table.DataCell>
