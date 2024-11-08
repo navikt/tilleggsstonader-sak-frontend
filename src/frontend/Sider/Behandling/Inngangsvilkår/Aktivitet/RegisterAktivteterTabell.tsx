@@ -19,9 +19,9 @@ const Tabell = styled(Table)`
 `;
 
 const RegisterAktiviteterTabell: React.FC<{
-    aktiviteterFraArena: Registeraktivitet[];
+    registerAktivitet: Registeraktivitet[];
     leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
-}> = ({ aktiviteterFraArena, leggTilAktivitetFraRegister }) => {
+}> = ({ registerAktivitet, leggTilAktivitetFraRegister }) => {
     const { erStegRedigerbart } = useSteg();
     return (
         <Tabell size={'small'}>
@@ -36,7 +36,7 @@ const RegisterAktiviteterTabell: React.FC<{
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {aktiviteterFraArena.map((aktivitet) => {
+                {registerAktivitet.map((aktivitet) => {
                     return (
                         <Table.Row key={aktivitet.id}>
                             <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>
@@ -53,7 +53,7 @@ const RegisterAktiviteterTabell: React.FC<{
                             <Table.DataCell>
                                 {erStegRedigerbart && (
                                     <BrukAktivitetKnapp
-                                        aktivitetFraArena={aktivitet}
+                                        registerAktivitet={aktivitet}
                                         leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                                     />
                                 )}
