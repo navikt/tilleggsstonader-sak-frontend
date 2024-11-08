@@ -2,19 +2,20 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, BodyShort, BodyLong } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
-import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
+import { fullmektigDtoTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import { Fødselsnummer } from './Fødselsnummer';
 import { IBrevmottaker } from './typer';
 import { VertikalSentrering } from './VertikalSentrering';
-import { Fullmakt, Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
+import { useHentFullmektige } from '../../hooks/useHentFullmektige';
+import { Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];
+    personIdent: string;
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     verger: Vergemål[];
-    fullmakter: Fullmakt[];
 }
 
 const StyledMottakerBoks = styled.div`
@@ -32,13 +33,15 @@ const Kolonner = styled.div`
 
 export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     valgteMottakere,
+    personIdent,
     settValgteMottakere,
     verger,
-    fullmakter,
 }) => {
+    const { fullmektige, feilmeldingFraHentFullmektige } = useHentFullmektige(personIdent);
+
     const muligeMottakere = [
+        ...(fullmektige?.map(fullmektigDtoTilBrevMottaker) ?? []),
         ...verger.map(vergemålTilBrevmottaker),
-        ...fullmakter.map(fullmaktTilBrevMottaker),
     ];
 
     const settMottaker = (mottaker: IBrevmottaker) => () => {
@@ -50,7 +53,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     return (
         <>
             <BodyLong size="large" spacing>
-                Verge/Fullmektig fra register
+                Verge/fullmektig fra register
             </BodyLong>
             {muligeMottakere.length ? (
                 muligeMottakere.map((mottaker, index) => {
@@ -81,6 +84,11 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                 })
             ) : (
                 <BodyShort>Ingen verge/fullmektig i register</BodyShort>
+            )}
+            {feilmeldingFraHentFullmektige && (
+                <ErrorMessage>
+                    Henting av fullmakter feilet: {feilmeldingFraHentFullmektige}
+                </ErrorMessage>
             )}
         </>
     );

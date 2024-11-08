@@ -65,6 +65,9 @@ export const byggFeiletRessurs = <T>(melding: string, error?: Error): Ressurs<T>
 export const pakkUtHvisSuksess = <T>(ressurs: Ressurs<T>) =>
     ressurs.status === RessursStatus.SUKSESS ? ressurs.data : undefined;
 
+export const feilmeldingVedFeil = <T>(response: Ressurs<T>) =>
+    erFeilressurs(response) ? response.frontendFeilmelding : undefined;
+
 export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
     return {
         status: RessursStatus.FEILET,
