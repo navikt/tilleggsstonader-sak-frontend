@@ -7,11 +7,10 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/aktivitet';
 
-function erAktivitetLagtTil(aktiviteter: Aktivitet[], aktivitetFraArena: Registeraktivitet) {
-    return aktiviteter.some((aktivitet) => aktivitetFraArena.id === (aktivitet.kildeId as string));
-}
+const erAktivitetLagtTil = (aktiviteter: Aktivitet[], aktivitetFraArena: Registeraktivitet) =>
+    aktiviteter.some((aktivitet) => aktivitetFraArena.id === (aktivitet.kildeId as string));
 
-export function BrukCell({
+export function BrukAktivitetKnapp({
     aktivitetFraArena,
     leggTilAktivitetFraRegister,
 }: {

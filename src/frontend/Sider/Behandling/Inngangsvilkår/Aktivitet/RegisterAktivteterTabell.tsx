@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { BrukCell } from './BrukCell';
+import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
 import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
@@ -52,7 +52,7 @@ const RegisterAktiviteterTabell: React.FC<{
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>
                                 {erStegRedigerbart && (
-                                    <BrukCell
+                                    <BrukAktivitetKnapp
                                         aktivitetFraArena={aktivitet}
                                         leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                                     />
