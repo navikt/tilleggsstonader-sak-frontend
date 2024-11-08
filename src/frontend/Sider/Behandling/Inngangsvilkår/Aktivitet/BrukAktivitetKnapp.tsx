@@ -7,20 +7,20 @@ import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/aktivitet';
 
-const erAktivitetLagtTil = (aktiviteter: Aktivitet[], aktivitetFraArena: Registeraktivitet) =>
-    aktiviteter.some((aktivitet) => aktivitetFraArena.id === (aktivitet.kildeId as string));
+const erAktivitetLagtTil = (aktiviteter: Aktivitet[], registerAktivitet: Registeraktivitet) =>
+    aktiviteter.some((aktivitet) => registerAktivitet.id === aktivitet.kildeId);
 
 export function BrukAktivitetKnapp({
-    aktivitetFraArena,
+    registerAktivitet,
     leggTilAktivitetFraRegister,
 }: {
-    aktivitetFraArena: Registeraktivitet;
-    leggTilAktivitetFraRegister: (aktivitetFraArena: Registeraktivitet) => void;
+    registerAktivitet: Registeraktivitet;
+    leggTilAktivitetFraRegister: (registerAktivitet: Registeraktivitet) => void;
 }) {
     const { aktiviteter } = useInngangsvilkår();
     return (
         <>
-            {erAktivitetLagtTil(aktiviteter, aktivitetFraArena) ? (
+            {erAktivitetLagtTil(aktiviteter, registerAktivitet) ? (
                 <Tag
                     size="small"
                     variant="neutral"
@@ -32,7 +32,7 @@ export function BrukAktivitetKnapp({
             ) : (
                 <Button
                     size="xsmall"
-                    onClick={() => leggTilAktivitetFraRegister(aktivitetFraArena)}
+                    onClick={() => leggTilAktivitetFraRegister(registerAktivitet)}
                 >
                     Bruk
                 </Button>

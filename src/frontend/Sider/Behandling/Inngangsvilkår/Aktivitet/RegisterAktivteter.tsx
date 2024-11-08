@@ -45,7 +45,7 @@ const RegisterAktiviteter: React.FC<{
             >
                 <VStack gap="4">
                     <RegisterAktiviteterTabell
-                        aktiviteterFraArena={aktiviteter}
+                        registerAktivitet={aktiviteter}
                         leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                     />
                     <VStack>
