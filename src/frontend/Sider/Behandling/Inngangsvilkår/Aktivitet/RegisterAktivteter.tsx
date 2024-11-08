@@ -41,7 +41,7 @@ const RegisterAktiviteter: React.FC<{
         <VStack>
             <ExpansionCard
                 tittel={`Aktiviteter hentet fra Arena fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
-                maxWidth={1600}
+                maxWidth={1200}
             >
                 <VStack gap="4">
                     <RegisterAktiviteterTabell
