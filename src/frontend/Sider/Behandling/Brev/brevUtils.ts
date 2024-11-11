@@ -38,6 +38,10 @@ export const finnSanityMappe = (
         return [SanityMappe.INNVILGET];
     }
 
+    if (vedtakType === TypeVedtak.OPPHØR) {
+        return [SanityMappe.INNVILGET]; //TODO DENNE STEMMER IKKE
+    }
+
     return vedtakType;
 };
 

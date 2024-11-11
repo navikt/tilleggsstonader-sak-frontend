@@ -4,6 +4,7 @@ import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgr
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
     AVSLAG = 'AVSLAG',
+    OPPHØR = 'OPPHØR',
 }
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
@@ -37,6 +38,20 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     IKKE_I_MÅLGRUPPE: 'Ingen målgruppe',
     INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: 'Ingen overlapp aktivitet/målgruppe',
     MANGELFULL_DOKUMENTASJON: 'Mangelfull dokumentasjon',
+    ANNET: 'Annet',
+};
+
+export enum ÅrsakOpphør {
+    ENDRING_AKTIVITET = 'ENDRING_AKTIVITET',
+    ENDRING_MÅLGRUPPE = 'ENDRING_MÅLGRUPPE',
+    ENDRING_UTGIFTER = 'ENDRING_UTGIFTER',
+    ANNET = 'ANNET',
+}
+
+export const årsakOpphørTilTekst: Record<ÅrsakOpphør, string> = {
+    ENDRING_AKTIVITET: 'Endring i aktivitet',
+    ENDRING_MÅLGRUPPE: 'Endring i målgruppe',
+    ENDRING_UTGIFTER: 'Endring i utgifter',
     ANNET: 'Annet',
 };
 

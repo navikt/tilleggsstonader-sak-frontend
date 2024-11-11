@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 import { HStack } from '@navikt/ds-react';
 
-import AvslåVedtak from './AvslåVedtak/AvslåVedtak';
+import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
+import OpphørVedtak from './OpphørVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -44,6 +45,9 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                 />
                                 {typeVedtak === TypeVedtak.AVSLAG && (
                                     <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
+                                )}
+                                {typeVedtak === TypeVedtak.OPPHØR && (
+                                    <OpphørVedtak vedtak={vedtak as AvslagBarnetilsyn} />
                                 )}
                             </HStack>
                         </Panel>

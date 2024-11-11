@@ -25,6 +25,7 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
         >
             <Radio value={TypeVedtak.INNVILGELSE}>Innvilgelse</Radio>
             <Radio value={TypeVedtak.AVSLAG}>Avslag</Radio>
+            <Radio value={TypeVedtak.OPPHØR}>Opphør</Radio>
         </RadioGroup>
     );
 };

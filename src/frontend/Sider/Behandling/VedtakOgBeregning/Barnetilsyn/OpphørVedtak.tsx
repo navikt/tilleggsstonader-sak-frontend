@@ -3,22 +3,23 @@ import React, { useState } from 'react';
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingAvslag, valider } from './validering';
-import { useApp } from '../../../../../context/AppContext';
-import { useBehandling } from '../../../../../context/BehandlingContext';
-import { useSteg } from '../../../../../context/StegContext';
-import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
-import { Steg } from '../../../../../typer/behandling/steg';
-import { erTomtObjekt } from '../../../../../typer/typeUtils';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
+import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
+import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
+import { Steg } from '../../../../typer/behandling/steg';
+import { erTomtObjekt } from '../../../../typer/typeUtils';
 import {
     AvslagBarnetilsyn,
     AvslåBarnetilsynRequest,
     ÅrsakAvslag,
-    årsakAvslagTilTekst,
-} from '../../../../../typer/vedtak';
-import { FanePath } from '../../../faner';
+    ÅrsakOpphør,
+    årsakOpphørTilTekst,
+} from '../../../../typer/vedtak';
+import { FanePath } from '../../faner';
 
-const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
+const OpphørVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
@@ -29,7 +30,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
 
     const lagreVedtak = () => {
         return request<null, AvslåBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`,
+            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`, //TODO: Endre til opphør
             'POST',
             { årsakerAvslag: årsaker, begrunnelse: begrunnelse }
         );
@@ -49,28 +50,28 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     return (
         <VStack gap="4">
             <CheckboxGroup
-                legend="Årsak til avslag"
+                legend="Årsak til opphør"
                 value={årsaker}
                 onChange={(e) => {
                     settÅrsaker(e);
-                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_OPPHØR);
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {Object.keys(ÅrsakAvslag).map((årsak) => (
+                {Object.keys(ÅrsakOpphør).map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
-                        {årsakAvslagTilTekst[årsak as ÅrsakAvslag]}
+                        {årsakOpphørTilTekst[årsak as ÅrsakOpphør]}
                     </Checkbox>
                 ))}
             </CheckboxGroup>
             <Textarea
-                label="Begrunnelse for avslag (obligatorisk)"
+                label="Begrunnelse til internt bruk (obligatorisk)"
                 value={begrunnelse}
                 onChange={(e) => {
                     settBegrunnelse(e.target.value);
-                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_OPPHØR);
                 }}
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
@@ -89,4 +90,4 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
     );
 };
 
-export default AvslåVedtak;
+export default OpphørVedtak;
