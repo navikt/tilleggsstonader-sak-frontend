@@ -66,7 +66,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 ))}
             </CheckboxGroup>
             <Textarea
-                label="Begrunnelse for avslag"
+                label="Begrunnelse for avslag (obligatorisk)"
                 value={begrunnelse}
                 onChange={(e) => {
                     settBegrunnelse(e.target.value);
