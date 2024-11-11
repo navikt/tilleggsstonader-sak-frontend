@@ -25,6 +25,11 @@ export type AvslåBarnetilsynRequest = {
     begrunnelse: string;
 };
 
+export type OpphørBarnetilsynRequest = {
+    årsakerOpphør: ÅrsakOpphør[];
+    begrunnelse: string;
+};
+
 export enum ÅrsakAvslag {
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
     IKKE_I_MÅLGRUPPE = 'IKKE_I_MÅLGRUPPE',
@@ -57,6 +62,10 @@ export const årsakOpphørTilTekst: Record<ÅrsakOpphør, string> = {
 
 export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
     type: TypeVedtak.AVSLAG;
+}
+
+export interface OpphørBarnetilsyn extends OpphørBarnetilsynRequest {
+    type: TypeVedtak.OPPHØR;
 }
 
 export type BeregningsresultatTilsynBarn = {

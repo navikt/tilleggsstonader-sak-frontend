@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingAvslag, valider } from './validering';
+import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -25,7 +25,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
 
     const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
-    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingAvslag>({});
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const lagreVedtak = () => {
         return request<null, AvslåBarnetilsynRequest>(

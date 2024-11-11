@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingAvslag, valider } from './validering';
+import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -11,28 +11,27 @@ import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import {
-    AvslagBarnetilsyn,
-    AvslåBarnetilsynRequest,
-    ÅrsakAvslag,
+    OpphørBarnetilsyn,
+    OpphørBarnetilsynRequest,
     ÅrsakOpphør,
     årsakOpphørTilTekst,
 } from '../../../../typer/vedtak';
 import { FanePath } from '../../faner';
 
-const OpphørVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
+const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
 
-    const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
+    const [årsaker, settÅrsaker] = useState<ÅrsakOpphør[]>(vedtak?.årsakerOpphør || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
-    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingAvslag>({});
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const lagreVedtak = () => {
-        return request<null, AvslåBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`, //TODO: Endre til opphør
+        return request<null, OpphørBarnetilsynRequest>(
+            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/opphor`,
             'POST',
-            { årsakerAvslag: årsaker, begrunnelse: begrunnelse }
+            { årsakerOpphør: årsaker, begrunnelse: begrunnelse }
         );
     };
 

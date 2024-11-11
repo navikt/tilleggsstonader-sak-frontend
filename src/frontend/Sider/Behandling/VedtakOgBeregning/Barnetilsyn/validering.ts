@@ -1,7 +1,7 @@
 import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak';
 import { harIkkeVerdi } from '../../../../utils/utils';
 
-export interface FeilmeldingAvslag {
+export interface FeilmeldingVedtak {
     årsaker?: string;
     begrunnelse?: string;
 }
@@ -9,8 +9,8 @@ export interface FeilmeldingAvslag {
 export const valider = (
     årsaker: ÅrsakAvslag[] | ÅrsakOpphør[],
     begrunnelse?: string
-): FeilmeldingAvslag => {
-    const feilmeldinger: FeilmeldingAvslag = {};
+): FeilmeldingVedtak => {
+    const feilmeldinger: FeilmeldingVedtak = {};
 
     if (årsaker.length === 0) {
         feilmeldinger.årsaker = 'Minst en årsak må velges';
