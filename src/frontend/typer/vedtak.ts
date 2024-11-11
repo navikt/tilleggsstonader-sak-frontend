@@ -7,7 +7,7 @@ export enum TypeVedtak {
     OPPHØR = 'OPPHØR',
 }
 
-export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn;
+export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
 export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
     vedtak.type === TypeVedtak.INNVILGELSE;

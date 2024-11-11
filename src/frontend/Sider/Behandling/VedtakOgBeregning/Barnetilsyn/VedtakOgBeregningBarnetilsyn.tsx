@@ -11,7 +11,12 @@ import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { AvslagBarnetilsyn, InnvilgelseBarnetilsyn, TypeVedtak } from '../../../../typer/vedtak';
+import {
+    AvslagBarnetilsyn,
+    InnvilgelseBarnetilsyn,
+    OpphørBarnetilsyn,
+    TypeVedtak,
+} from '../../../../typer/vedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
@@ -47,7 +52,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                     <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak vedtak={vedtak as AvslagBarnetilsyn} />
+                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
                                 )}
                             </HStack>
                         </Panel>
