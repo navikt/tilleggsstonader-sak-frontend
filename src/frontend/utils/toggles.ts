@@ -13,4 +13,5 @@ export enum Toggle {
     SKAL_VISE_VEDTAK_ARENA = 'sak.frontend.skal-vise-vedtak-arena',
 
     FORESLÅ_STØNADSPERIODER = 'sak.foresla-stonadsperioder',
+    OPPHØR = 'sak.opphor',
 }

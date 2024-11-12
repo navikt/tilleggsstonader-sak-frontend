@@ -38,6 +38,10 @@ export const finnSanityMappe = (
         return [SanityMappe.INNVILGET];
     }
 
+    if (vedtakType === TypeVedtak.OPPHØR) {
+        return [SanityMappe.REVURDERING]; //TODO Legg til egen mappe for opphør
+    }
+
     return vedtakType;
 };
 

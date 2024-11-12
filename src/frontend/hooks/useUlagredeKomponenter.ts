@@ -39,6 +39,7 @@ export enum UlagretKomponent {
     MÅLGRUPPE = 'målgruppe',
     STØNADSPERIODER = 'stønadsperioder',
     BEREGNING_AVSLÅ = 'beregning - avslå',
+    BEREGNING_OPPHØR = 'beregning - opphør',
     BEREGNING_INNVILGE = 'beregning - innvilge',
     FATTE_VEDTAK = 'fatte vedtak',
 }
