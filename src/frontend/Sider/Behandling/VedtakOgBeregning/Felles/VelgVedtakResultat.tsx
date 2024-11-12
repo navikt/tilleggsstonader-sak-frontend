@@ -4,6 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { TypeVedtak } from '../../../../typer/vedtak';
 import { Toggle } from '../../../../utils/toggles';
@@ -17,6 +18,8 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     const { erStegRedigerbart } = useSteg();
     const opphør = useFlag(Toggle.OPPHØR);
 
+    const { behandling } = useBehandling();
+
     return (
         <RadioGroup
             legend="Vedtaksresultat"
@@ -29,7 +32,9 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
         >
             <Radio value={TypeVedtak.INNVILGELSE}>Innvilgelse</Radio>
             <Radio value={TypeVedtak.AVSLAG}>Avslag</Radio>
-            {opphør && <Radio value={TypeVedtak.OPPHØR}>Opphør</Radio>}
+            {behandling.forrigeBehandlingId && opphør && (
+                <Radio value={TypeVedtak.OPPHØR}>Opphør</Radio>
+            )}
         </RadioGroup>
     );
 };
