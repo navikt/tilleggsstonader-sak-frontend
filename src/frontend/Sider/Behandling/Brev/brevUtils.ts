@@ -39,7 +39,7 @@ export const finnSanityMappe = (
     }
 
     if (vedtakType === TypeVedtak.OPPHØR) {
-        return [SanityMappe.INNVILGET]; //TODO DENNE STEMMER IKKE
+        return [SanityMappe.REVURDERING]; //TODO Legg til egen mappe for opphør
     }
 
     return vedtakType;
