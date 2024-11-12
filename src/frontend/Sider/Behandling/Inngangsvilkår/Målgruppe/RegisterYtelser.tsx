@@ -55,19 +55,18 @@ const RegisterYtelser: React.FC<{
                             </Detail>
                             <HelpText>
                                 Vi henter kun perioder med arbeidsavklaringspenger, rett til
-                                overgangsstønad og omstillingsstønad.
+                                overgangsstønad og omstillingsstønad.{' '}
+                                <Link
+                                    href={`/person/${behandling.fagsakPersonId}/ytelser`}
+                                    target="_blank"
+                                    variant="neutral"
+                                    style={{ display: 'inline' }}
+                                >
+                                    Se flere ytelser bruker mottar
+                                </Link>{' '}
+                                i personoversikten.
                             </HelpText>
                         </HStack>
-                        <Detail>
-                            <Link
-                                href={`/person/${behandling.fagsakPersonId}/ytelser`}
-                                target="_blank"
-                                variant={'neutral'}
-                            >
-                                Se flere ytelser bruker mottar
-                            </Link>{' '}
-                            i personoversikten.
-                        </Detail>
                     </VStack>
                 </VStack>
             </ExpansionCard>
