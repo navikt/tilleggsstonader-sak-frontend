@@ -5,6 +5,7 @@ import { Button, Label } from '@navikt/ds-react';
 
 import EndreMålgruppeRad from './EndreMålgruppeRad';
 import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
+import { MålgruppeKort } from './MålgruppeKort';
 import RegisterYtelser from './RegisterYtelser';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -19,7 +20,6 @@ import {
     lenkerRundskrivMålgruppe,
 } from '../../lenker';
 import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
-import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
@@ -104,8 +104,8 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
                                 />
                             ) : (
-                                <VilkårperiodeRad
-                                    vilkårperiode={målgruppe}
+                                <MålgruppeKort
+                                    målgruppe={målgruppe}
                                     startRedigering={() => settRadIRedigeringsmodus(målgruppe.id)}
                                 />
                             )}

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
+import { AktivitetKort } from './AktivitetKort';
 import EndreAktivitetRad from './EndreAktivitetRad';
 import RegisterAktiviteter from './RegisterAktivteter';
 import { useApp } from '../../../../context/AppContext';
@@ -19,7 +20,6 @@ import {
     lenkerRundskrivAktivitet,
 } from '../../lenker';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
-import VilkårperiodeRad from '../Vilkårperioder/VilkårperiodeRad';
 
 const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
@@ -100,8 +100,8 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
                                 />
                             ) : (
-                                <VilkårperiodeRad
-                                    vilkårperiode={aktivitet}
+                                <AktivitetKort
+                                    aktivitet={aktivitet}
                                     startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
                                 />
                             )}
