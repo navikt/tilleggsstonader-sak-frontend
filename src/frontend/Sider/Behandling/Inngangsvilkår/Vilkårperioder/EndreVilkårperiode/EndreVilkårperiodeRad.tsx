@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { Aktivitet } from '../../typer/aktivitet';
 import { Målgruppe } from '../../typer/målgruppe';
 import { KildeVilkårsperiode, VilkårPeriode } from '../../typer/vilkårperiode';
-import SlettVilkårperiodeModal from '../SlettVilkårperiodeModal';
+import SlettVilkårperiode from '../SlettVilkårperiodeModal';
 import { EndreVilkårsperiode } from '../validering';
 import { tittelSelectTypeVilkårperiode, TypeVilkårperiode } from '../VilkårperiodeKort/utils';
 import VilkårperiodeKortBase from '../VilkårperiodeKort/VilkårperiodeKortBase';
@@ -68,8 +68,6 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
     fomKeyDato,
     tomKeyDato,
 }) => {
-    const [visSlettModal, settVisSlettModal] = useState(false);
-
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunner(form);
 
     const aktivitetErBruktFraSystem = erFormForAktivitet(form) ? form.kildeId !== undefined : false;
@@ -134,22 +132,11 @@ const EndreVilkårperiodeRad: React.FC<Props> = ({
                     Avbryt
                 </Button>
                 {vilkårperiode !== undefined && alleFelterKanEndres && (
-                    <>
-                        <Button
-                            size="small"
-                            variant={'tertiary'}
-                            onClick={() => settVisSlettModal(true)}
-                        >
-                            Slett
-                        </Button>
-                        <SlettVilkårperiodeModal
-                            type={type}
-                            avbrytRedigering={avbrytRedigering}
-                            visModal={visSlettModal}
-                            settVisModal={settVisSlettModal}
-                            vilkårperiode={vilkårperiode}
-                        />
-                    </>
+                    <SlettVilkårperiode
+                        type={type}
+                        avbrytRedigering={avbrytRedigering}
+                        vilkårperiode={vilkårperiode}
+                    />
                 )}
             </HStack>
 
