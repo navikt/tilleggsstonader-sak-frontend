@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 
+import styled from 'styled-components';
+
+import { Button, HStack } from '@navikt/ds-react';
+
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { nyMålgruppe, resettMålgruppe } from './utils';
+import { finnBegrunnelseGrunnerMålgruppe, nyMålgruppe, resettMålgruppe } from './utils';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
+import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
+import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -18,12 +26,15 @@ import {
     målgruppeTypeOptions,
 } from '../typer/målgruppe';
 import {
+    KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import EndreVilkårperiodeRad from '../Vilkårperioder/EndreVilkårperiode/EndreVilkårperiodeRad';
+import Begrunnelse from '../Vilkårperioder/EndreVilkårperiode/Begrunnelse';
+import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
+import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 export interface EndreMålgruppeForm extends Periode {
     behandlingId: string;
@@ -31,6 +42,16 @@ export interface EndreMålgruppeForm extends Periode {
     delvilkår: DelvilkårMålgruppe;
     begrunnelse?: string;
 }
+
+const FeltContainer = styled.div`
+    flex-grow: 1;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    align-self: start;
+    align-items: start;
+`;
 
 const initaliserForm = (
     behandlingId: string,
@@ -56,7 +77,7 @@ const EndreMålgruppeRad: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [målgruppeForm, settMålgruppeForm] = useState<EndreMålgruppeForm>(
+    const [form, settForm] = useState<EndreMålgruppeForm>(
         initaliserForm(behandling.id, målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
@@ -64,12 +85,14 @@ const EndreMålgruppeRad: React.FC<{
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<EndreVilkårsperiode>>();
 
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerMålgruppe(
+        form.type,
+        form.delvilkår
+    );
+    const kanEndreType = målgruppe === undefined;
+
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(
-            målgruppeForm,
-            målgruppe,
-            behandling.revurderFra
-        );
+        const vilkårsperiodeFeil = validerVilkårsperiode(form, målgruppe, behandling.revurderFra);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -89,7 +112,7 @@ const EndreMålgruppeRad: React.FC<{
             return request<LagreVilkårperiodeResponse<Målgruppe>, EndreMålgruppeForm>(
                 erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${målgruppe.id}`,
                 'POST',
-                målgruppeForm
+                form
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
@@ -113,11 +136,11 @@ const EndreMålgruppeRad: React.FC<{
     };
 
     const oppdaterForm = (key: keyof Målgruppe, nyVerdi: string) => {
-        settMålgruppeForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
+        settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
     const oppdaterType = (type: MålgruppeType) => {
-        settMålgruppeForm((prevState) =>
+        settForm((prevState) =>
             resettMålgruppe(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
         oppdaterFomDatoKey();
@@ -131,32 +154,82 @@ const EndreMålgruppeRad: React.FC<{
     });
 
     return (
-        <EndreVilkårperiodeRad
-            type={'Målgruppe'}
-            vilkårperiode={målgruppe}
-            form={målgruppeForm}
-            alleFelterKanEndres={alleFelterKanEndres}
-            lagre={lagre}
-            avbrytRedigering={avbrytRedigering}
-            oppdaterForm={oppdaterForm}
-            vilkårsperiodeFeil={vilkårsperiodeFeil}
-            typeOptions={målgruppeTypeOptions}
-            oppdaterType={(type) => oppdaterType(type as MålgruppeType)}
-            feilmelding={feilmelding}
-            fomKeyDato={fomKeyDato}
-            tomKeyDato={tomKeyDato}
-        >
+        <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
+            <FeltContainer>
+                <FeilmeldingMaksBredde>
+                    <SelectMedOptions
+                        label="Ytelse/situasjon"
+                        readOnly={!kanEndreType}
+                        value={form.type}
+                        valg={målgruppeTypeOptions}
+                        onChange={(e) => oppdaterType(e.target.value as MålgruppeType)}
+                        size="small"
+                        error={vilkårsperiodeFeil?.type}
+                    />
+                </FeilmeldingMaksBredde>
+
+                <FeilmeldingMaksBredde>
+                    <DateInputMedLeservisning
+                        key={fomKeyDato}
+                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
+                        readOnly={!alleFelterKanEndres}
+                        label={'Fra'}
+                        value={form?.fom}
+                        onChange={(dato) => oppdaterForm('fom', dato || '')}
+                        size="small"
+                        feil={vilkårsperiodeFeil?.fom}
+                    />
+                </FeilmeldingMaksBredde>
+
+                <FeilmeldingMaksBredde>
+                    <DateInputMedLeservisning
+                        key={tomKeyDato}
+                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
+                        label={'Til'}
+                        value={form?.tom}
+                        onChange={(dato) => oppdaterForm('tom', dato || '')}
+                        size="small"
+                        feil={vilkårsperiodeFeil?.tom}
+                    />
+                </FeilmeldingMaksBredde>
+            </FeltContainer>
+
             <MålgruppeVilkår
-                målgruppeForm={målgruppeForm}
+                målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
-                    settMålgruppeForm((prevState) => ({
+                    settForm((prevState) => ({
                         ...prevState,
                         delvilkår: { ...prevState.delvilkår, [key]: vurdering },
                     }))
                 }
             />
-        </EndreVilkårperiodeRad>
+
+            <Begrunnelse
+                begrunnelse={form?.begrunnelse || ''}
+                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
+                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                feil={vilkårsperiodeFeil?.begrunnelse}
+            />
+            <HStack gap="4">
+                <Button size="xsmall" onClick={lagre}>
+                    Lagre
+                </Button>
+
+                <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
+                    Avbryt
+                </Button>
+                {målgruppe !== undefined && alleFelterKanEndres && (
+                    <SlettVilkårperiode
+                        type="Målgruppe"
+                        avbrytRedigering={avbrytRedigering}
+                        vilkårperiode={målgruppe}
+                    />
+                )}
+            </HStack>
+
+            <Feilmelding>{feilmelding}</Feilmelding>
+        </VilkårperiodeKortBase>
     );
 };
 
