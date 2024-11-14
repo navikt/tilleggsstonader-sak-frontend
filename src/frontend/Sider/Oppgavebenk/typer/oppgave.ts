@@ -100,6 +100,8 @@ export const behandlingstemaTilStønadstype = (
     switch (behandlingstema) {
         case 'ab0300':
             return Stønadstype.BARNETILSYN;
+        case 'ab0292':
+            return Stønadstype.LÆREMIDLER;
         default:
             return undefined;
     }
