@@ -21,13 +21,15 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
-    AktivitetBarnetilsyn,
+    AktivitetBarnetilsynNy,
     AktivitetType,
     aktivitetTypeOptions,
     DelvilkårAktivitetBarnetilsyn,
+    FaktaBarnetilsyn,
+    mapAktivitetBarnetilsynNyToBarnetilsyn,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
@@ -50,17 +52,20 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
-    aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetBarnetilsyn;
+    faktaOgVurderinger: {
+        '@type': 'AKTIVITET';
+        fakta: { aktivitetsdager?: number };
+        vurderinger: { lønnet?: Vurdering };
+    };
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: Aktivitet,
+    eksisterendeAktivitet?: AktivitetBarnetilsynNy,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
@@ -69,7 +74,7 @@ const initaliserForm = (
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
-    aktivitet?: AktivitetBarnetilsyn;
+    aktivitet: AktivitetBarnetilsynNy;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -157,14 +162,46 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.delvilkår
+        form.faktaOgVurderinger.vurderinger
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
     const kanEndreType = aktivitet === undefined && !aktivitetErBruktFraSystem;
 
+    const oppdaterVurdering = (
+        nyVurdering: Vurdering,
+        key: keyof DelvilkårAktivitetBarnetilsyn
+    ) => {
+        settForm((prevState) => ({
+            ...prevState,
+            faktaOgVurderinger: {
+                ...prevState.faktaOgVurderinger,
+                vurderinger: {
+                    ...prevState.faktaOgVurderinger.vurderinger,
+                    [key]: nyVurdering,
+                },
+            },
+        }));
+    };
+
+    const oppdaterFakta = (key: keyof FaktaBarnetilsyn, nyFakta?: number) => {
+        settForm((prevState) => ({
+            ...prevState,
+            faktaOgVurderinger: {
+                ...prevState.faktaOgVurderinger,
+                fakta: {
+                    ...prevState.faktaOgVurderinger.fakta,
+                    [key]: nyFakta,
+                },
+            },
+        }));
+    };
+
     return (
-        <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
+        <VilkårperiodeKortBase
+            vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)}
+            redigeres
+        >
             <FeltContainer>
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
@@ -205,12 +242,9 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                         <TextField
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Aktivitetsdager"
-                            value={harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''}
+                            value={tilHeltall(form.faktaOgVurderinger.fakta.aktivitetsdager) ?? ''}
                             onChange={(event) =>
-                                settForm((prevState) => ({
-                                    ...prevState,
-                                    aktivitetsdager: tilHeltall(event.target.value),
-                                }))
+                                oppdaterFakta('aktivitetsdager', tilHeltall(event.target.value))
                             }
                             size="small"
                             error={vilkårsperiodeFeil?.aktivitetsdager}
@@ -227,12 +261,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 oppdaterDelvilkår={(
                     key: keyof DelvilkårAktivitetBarnetilsyn,
                     vurdering: Vurdering
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
-                }
+                ) => oppdaterVurdering(vurdering, key)}
             />
 
             <Begrunnelse
@@ -251,7 +280,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={aktivitet}
+                        vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)}
                     />
                 )}
             </HStack>

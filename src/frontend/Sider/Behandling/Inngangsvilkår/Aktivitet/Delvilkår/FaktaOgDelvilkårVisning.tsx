@@ -4,7 +4,15 @@ import { Detail } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
-import { Aktivitet, AktivitetBarnetilsyn, AktivitetLæremidler } from '../../typer/aktivitet';
+import {
+    Aktivitet,
+    AktivitetBarnetilsyn,
+    AktivitetLæremidler,
+    FaktaOgVurderingerBarnetilsyn,
+    FaktaOgvurderingerLæremidler,
+    mapTilAktivitetBarnetilsynNy,
+    mapTilAktivitetLæremidlerNy,
+} from '../../typer/aktivitet';
 import { lønnetSvarTilTekst } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 
 export const FaktaOgDelvilkårVisning: React.FC<{
@@ -14,33 +22,47 @@ export const FaktaOgDelvilkårVisning: React.FC<{
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return <FaktaOgDelvilkårTilsynBarn aktivitet={aktivitet as AktivitetBarnetilsyn} />;
+            return (
+                <FaktaOgDelvilkårTilsynBarn
+                    faktaOgVurderinger={
+                        mapTilAktivitetBarnetilsynNy(aktivitet as AktivitetBarnetilsyn)
+                            .faktaOgVurderinger
+                    }
+                />
+            );
         case Stønadstype.LÆREMIDLER:
-            return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet as AktivitetLæremidler} />;
+            return (
+                <FaktaOgDelvilkårLæremidler
+                    faktaOgVurderinger={
+                        mapTilAktivitetLæremidlerNy(aktivitet as AktivitetLæremidler)
+                            .faktaOgVurderinger
+                    }
+                />
+            );
     }
 };
 
 const FaktaOgDelvilkårTilsynBarn: React.FC<{
-    aktivitet: AktivitetBarnetilsyn;
-}> = ({ aktivitet }) => {
-    const svarPåDelvilkår = aktivitet.delvilkår.lønnet?.svar;
+    faktaOgVurderinger: FaktaOgVurderingerBarnetilsyn;
+}> = ({ faktaOgVurderinger }) => {
+    const svarPåDelvilkår = faktaOgVurderinger.vurderinger.lønnet?.svar;
 
     return (
         <>
-            <Detail>{aktivitet.aktivitetsdager} aktivitetsdager</Detail>
+            <Detail>{faktaOgVurderinger.fakta.aktivitetsdager} aktivitetsdager</Detail>
             {svarPåDelvilkår && <Detail>{lønnetSvarTilTekst[svarPåDelvilkår]}</Detail>}
         </>
     );
 };
 
 const FaktaOgDelvilkårLæremidler: React.FC<{
-    aktivitet: AktivitetLæremidler;
-}> = ({ aktivitet }) => {
-    const svarPåDelvilkår = aktivitet.delvilkår.harUtgifter?.svar;
+    faktaOgVurderinger: FaktaOgvurderingerLæremidler;
+}> = ({ faktaOgVurderinger }) => {
+    const svarPåDelvilkår = faktaOgVurderinger.vurderinger.harUtgifter?.svar;
 
     return (
         <>
-            <Detail>{aktivitet.prosent} %</Detail>
+            <Detail>{faktaOgVurderinger.fakta.prosent} %</Detail>
             {svarPåDelvilkår && <Detail>{lønnetSvarTilTekst[svarPåDelvilkår]}</Detail>}
         </>
     );

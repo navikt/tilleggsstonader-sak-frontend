@@ -31,9 +31,12 @@ function nyAktivitetFraRegister(
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: { aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister) },
+            vurderinger: {},
+        },
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        delvilkår: { '@type': 'AKTIVITET' },
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -44,8 +47,11 @@ function nyTomAktivitet(behandlingId: string): EndreAktivitetFormBarnetilsyn {
         type: '',
         fom: '',
         tom: '',
-        aktivitetsdager: undefined,
-        delvilkår: { '@type': 'AKTIVITET' },
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: { aktivitetsdager: undefined },
+            vurderinger: {},
+        },
     };
 }
 
@@ -66,8 +72,14 @@ export const resettAktivitet = (
         type: nyType,
         fom: fom,
         tom: tom,
-        aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
-        delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: { aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm) },
+            vurderinger: resetDelvilkår(
+                nyType,
+                eksisterendeAktivitetForm.faktaOgVurderinger.vurderinger
+            ),
+        },
     };
 };
 
@@ -94,11 +106,11 @@ const resetAktivitetsdager = (
 ) => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return undefined;
-    } else if (!harTallverdi(eksisterendeForm.aktivitetsdager)) {
+    } else if (!harTallverdi(eksisterendeForm.faktaOgVurderinger.fakta.aktivitetsdager)) {
         return 5;
     }
 
-    return eksisterendeForm.aktivitetsdager;
+    return eksisterendeForm.faktaOgVurderinger.fakta.aktivitetsdager;
 };
 
 const resetDelvilkår = (

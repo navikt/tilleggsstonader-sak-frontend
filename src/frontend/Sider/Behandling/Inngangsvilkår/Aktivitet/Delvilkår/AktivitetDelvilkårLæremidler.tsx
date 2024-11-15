@@ -27,7 +27,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
             <JaNeiVurdering
                 label="Har bruker utgifter til læremidler?"
                 readOnly={readOnly}
-                vurdering={aktivitetForm.delvilkår.harUtgifter}
+                vurdering={aktivitetForm.faktaOgVurderinger.vurderinger.harUtgifter}
                 oppdaterVurdering={(vurdering: Vurdering) =>
                     oppdaterDelvilkår('harUtgifter', vurdering)
                 }

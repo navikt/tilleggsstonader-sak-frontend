@@ -2,6 +2,7 @@ import { VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
+export type AktivitetNy = AktivitetBarnetilsynNy | AktivitetLæremidlerNyttFormat;
 
 export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
@@ -11,11 +12,33 @@ export interface AktivitetBarnetilsyn extends VilkårPeriode {
     kildeId?: string;
 }
 
+export interface AktivitetBarnetilsynNy extends VilkårPeriode {
+    id: string;
+    type: AktivitetType;
+    faktaOgVurderinger: FaktaOgVurderingerBarnetilsyn;
+    kildeId?: string;
+}
+
 export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn | DelvilkårAktivitetLæremidler;
 
 export interface DelvilkårAktivitetBarnetilsyn {
-    '@type': 'AKTIVITET';
     lønnet?: Vurdering;
+}
+
+export interface FaktaAktivitetLæremidler {
+    fakta: { prosent: number };
+}
+
+export type FaktaOgDelvilkår = FaktaOgVurderingerBarnetilsyn | FaktaOgvurderingerLæremidler;
+
+export interface FaktaBarnetilsyn {
+    aktivitetsdager?: number;
+}
+
+export interface FaktaOgVurderingerBarnetilsyn {
+    '@type': 'AKTIVITET'; // TODO: Flytt til useLagre-hook (som ikke fins enda)
+    fakta: FaktaBarnetilsyn;
+    vurderinger: DelvilkårAktivitetBarnetilsyn;
 }
 
 export interface AktivitetLæremidler extends VilkårPeriode {
@@ -26,9 +49,25 @@ export interface AktivitetLæremidler extends VilkårPeriode {
     kildeId?: string;
 }
 
+export interface AktivitetLæremidlerNyttFormat extends VilkårPeriode {
+    id: string;
+    type: AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
+    faktaOgVurderinger: FaktaOgvurderingerLæremidler;
+    kildeId?: string;
+}
+
 export interface DelvilkårAktivitetLæremidler {
-    '@type': 'AKTIVITET';
     harUtgifter?: Vurdering;
+}
+
+export interface FaktaOgvurderingerLæremidler {
+    '@type': 'AKTIVITET'; // TODO: Flytt til useLagre-hook (som ikke fins enda)
+    fakta: FaktaLæremidler;
+    vurderinger: DelvilkårAktivitetLæremidler;
+}
+
+export interface FaktaLæremidler {
+    prosent?: number;
 }
 
 export enum AktivitetType {
@@ -61,3 +100,55 @@ export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetType
 export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filter(
     (option) => option.value !== AktivitetType.INGEN_AKTIVITET
 );
+
+export const mapTilAktivitetBarnetilsynNy = (
+    aktivitet: AktivitetBarnetilsyn
+): AktivitetBarnetilsynNy => {
+    return {
+        ...aktivitet,
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: {
+                aktivitetsdager: aktivitet.aktivitetsdager,
+            },
+            vurderinger: aktivitet.delvilkår,
+        },
+    };
+};
+
+export const mapTilAktivitetLæremidlerNy = (
+    aktivitet: AktivitetLæremidler
+): AktivitetLæremidlerNyttFormat => {
+    return {
+        ...aktivitet,
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: {
+                prosent: aktivitet.prosent,
+            },
+            vurderinger: aktivitet.delvilkår,
+        },
+    };
+};
+
+// Function to map AktivitetLæremidlerNy to AktivitetLæremidler
+export const mapAktivitetLæremidlerNyToLæremidler = (
+    aktivitetNy: AktivitetLæremidlerNyttFormat
+): AktivitetLæremidler => {
+    return {
+        ...aktivitetNy,
+        prosent: aktivitetNy.faktaOgVurderinger.fakta.prosent || 0,
+        delvilkår: aktivitetNy.faktaOgVurderinger.vurderinger,
+    };
+};
+
+// Function to map AktivitetBarnetilsynNy to AktivitetBarnetilsyn
+export const mapAktivitetBarnetilsynNyToBarnetilsyn = (
+    aktivitetNy: AktivitetBarnetilsynNy
+): AktivitetBarnetilsyn => {
+    return {
+        ...aktivitetNy,
+        aktivitetsdager: aktivitetNy.faktaOgVurderinger.fakta.aktivitetsdager || 0,
+        delvilkår: aktivitetNy.faktaOgVurderinger.vurderinger,
+    };
+};

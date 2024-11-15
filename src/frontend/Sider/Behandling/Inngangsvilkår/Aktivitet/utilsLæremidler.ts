@@ -1,4 +1,3 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
@@ -10,9 +9,9 @@ import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 export const nyAktivitet = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetFormBarnetilsyn =>
+): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
-        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister) // TODO: Fiks senere
+        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
         : nyTomAktivitet(behandlingId);
 
 function nyAktivitetFraRegister(
@@ -24,9 +23,12 @@ function nyAktivitetFraRegister(
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        prosent: aktivitetFraRegister.prosentDeltakelse,
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: { prosent: aktivitetFraRegister.prosentDeltakelse },
+            vurderinger: {},
+        },
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        delvilkår: { '@type': 'AKTIVITET' },
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -37,8 +39,11 @@ function nyTomAktivitet(behandlingId: string): EndreAktivitetFormLæremidler {
         type: '',
         fom: '',
         tom: '',
-        delvilkår: { '@type': 'AKTIVITET' },
-        prosent: undefined,
+        faktaOgVurderinger: {
+            '@type': 'AKTIVITET',
+            fakta: { prosent: undefined },
+            vurderinger: {},
+        },
     };
 }
 
@@ -59,20 +64,16 @@ export const resettAktivitet = (
         type: nyType,
         fom: fom,
         tom: tom,
-        prosent: undefined, //todo: finn ut om den skal resettes
-        delvilkår: {
-            ...eksisterendeAktivitetForm.delvilkår,
-            harUtgifter:
-                nyType === AktivitetType.TILTAK
-                    ? eksisterendeAktivitetForm.delvilkår.harUtgifter
-                    : undefined, // TODO: Er denne resettingen nødvendig? Eller kan man alltid returnere undefined
+        faktaOgVurderinger: {
+            ...eksisterendeAktivitetForm.faktaOgVurderinger,
+            vurderinger: { harUtgifter: undefined },
         },
     };
 };
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetFormBarnetilsyn,
+    eksisterendeForm: EndreAktivitetFormLæremidler,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {

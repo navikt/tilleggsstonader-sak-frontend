@@ -4,7 +4,7 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { AktivitetBarnetilsynNy, AktivitetType } from '../typer/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
@@ -12,10 +12,9 @@ export interface AktivitetValidering extends Periode {
     begrunnelse?: string;
 }
 
-// TODO: Håndter læremidler
 export const validerAktivitet = (
     endretAktivitet: EndreAktivitetFormBarnetilsyn,
-    lagretAktivitet?: Aktivitet | undefined,
+    lagretAktivitet?: AktivitetBarnetilsynNy | undefined,
     revurderesFraDato?: string
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
@@ -39,13 +38,13 @@ export const validerAktivitet = (
         };
     }
 
-    if (!aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)) {
+    if (!aktivitetsdagerErGyldigTall(endretAktivitet.faktaOgVurderinger.fakta.aktivitetsdager)) {
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
         endretAktivitet.type,
-        endretAktivitet.delvilkår
+        endretAktivitet.faktaOgVurderinger.vurderinger
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))

@@ -21,13 +21,14 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { tilHeltall, tilTallverdi } from '../../../../utils/tall';
 import {
     Aktivitet,
-    AktivitetLæremidler,
+    AktivitetLæremidlerNyttFormat,
     AktivitetType,
     aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
+    mapAktivitetLæremidlerNyToLæremidler,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
@@ -50,17 +51,20 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormLæremidler extends Periode {
-    prosent?: number;
     behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetLæremidler;
+    faktaOgVurderinger: {
+        '@type': 'AKTIVITET';
+        fakta: { prosent?: number };
+        vurderinger: { harUtgifter?: Vurdering };
+    };
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: Aktivitet,
+    eksisterendeAktivitet?: AktivitetLæremidlerNyttFormat,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormLæremidler => {
     return eksisterendeAktivitet === undefined
@@ -69,7 +73,7 @@ const initaliserForm = (
 };
 
 export const EndreAktivitetLæremidler: React.FC<{
-    aktivitet?: AktivitetLæremidler;
+    aktivitet: AktivitetLæremidlerNyttFormat;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -157,14 +161,30 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.delvilkår
+        form.faktaOgVurderinger.vurderinger
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
     const kanEndreType = aktivitet === undefined && !aktivitetErBruktFraSystem;
 
+    const oppdaterVurdering = (nyVurdering: Vurdering, key: keyof DelvilkårAktivitetLæremidler) => {
+        settForm((prevState) => ({
+            ...prevState,
+            faktaOgVurderinger: {
+                ...prevState.faktaOgVurderinger,
+                vurderinger: {
+                    ...prevState.faktaOgVurderinger.vurderinger,
+                    [key]: nyVurdering,
+                },
+            },
+        }));
+    };
+
     return (
-        <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
+        <VilkårperiodeKortBase
+            vilkårperiode={mapAktivitetLæremidlerNyToLæremidler(aktivitet)}
+            redigeres
+        >
             <FeltContainer>
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
@@ -205,7 +225,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                         <TextField
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Prosent"
-                            value={harTallverdi(form.prosent) ? form.prosent : ''}
+                            value={tilTallverdi(form.faktaOgVurderinger.fakta.prosent) ?? ''}
                             onChange={(event) =>
                                 settForm((prevState) => ({
                                     ...prevState,
@@ -227,12 +247,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 oppdaterDelvilkår={(
                     key: keyof DelvilkårAktivitetLæremidler,
                     vurdering: Vurdering
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
-                }
+                ) => oppdaterVurdering(vurdering, key)}
             />
 
             <Begrunnelse
@@ -251,7 +266,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={aktivitet}
+                        vilkårperiode={mapAktivitetLæremidlerNyToLæremidler(aktivitet)}
                     />
                 )}
             </HStack>

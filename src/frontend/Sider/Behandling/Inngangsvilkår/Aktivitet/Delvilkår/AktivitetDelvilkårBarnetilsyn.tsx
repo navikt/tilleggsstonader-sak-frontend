@@ -27,7 +27,7 @@ export const AktivitetDelvilkårBarnetilsyn: React.FC<{
             <JaNeiVurdering
                 label="Mottar bruker ordinær lønn i tiltaket?"
                 readOnly={readOnly}
-                vurdering={aktivitetForm.delvilkår.lønnet}
+                vurdering={aktivitetForm.faktaOgVurderinger.vurderinger.lønnet}
                 oppdaterVurdering={(vurdering: Vurdering) => oppdaterDelvilkår('lønnet', vurdering)}
             />
         </Container>

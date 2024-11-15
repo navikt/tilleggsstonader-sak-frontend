@@ -1,10 +1,10 @@
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { finnBegrunnelseGrunnerAktivitet } from './utilsLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { AktivitetLæremidlerNyttFormat, AktivitetType } from '../typer/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
@@ -14,7 +14,7 @@ export interface AktivitetValidering extends Periode {
 
 export const validerAktivitet = (
     endretAktivitet: EndreAktivitetFormLæremidler,
-    lagretAktivitet?: Aktivitet | undefined,
+    lagretAktivitet?: AktivitetLæremidlerNyttFormat | undefined,
     revurderesFraDato?: string
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
@@ -38,13 +38,13 @@ export const validerAktivitet = (
         };
     }
 
-    if (!prosentErGyldigTall(endretAktivitet.prosent)) {
+    if (!prosentErGyldigTall(endretAktivitet.faktaOgVurderinger.fakta.prosent)) {
         return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
     }
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
         endretAktivitet.type,
-        endretAktivitet.delvilkår
+        endretAktivitet.faktaOgVurderinger.vurderinger
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))
