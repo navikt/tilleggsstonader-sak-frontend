@@ -3,7 +3,6 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
 import { AktivitetType, DelvilkårAktivitetBarnetilsyn } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -125,13 +124,4 @@ export const finnBegrunnelseGrunnerAktivitet = (
     }
 
     return delvilkårSomMåBegrunnes;
-};
-
-export const erFormForAktivitet = (
-    vilkårperiode: EndreMålgruppeForm | EndreAktivitetFormBarnetilsyn
-): vilkårperiode is EndreAktivitetFormBarnetilsyn => {
-    return (
-        (Object.keys(AktivitetType).includes(vilkårperiode.type) || vilkårperiode.type === '') &&
-        vilkårperiode.delvilkår['@type'] === 'AKTIVITET'
-    );
 };
