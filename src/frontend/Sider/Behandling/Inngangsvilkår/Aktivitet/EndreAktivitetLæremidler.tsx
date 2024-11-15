@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { EndreFellesFelter } from './EndreFellesFelter';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
@@ -12,10 +13,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
-import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
@@ -26,7 +24,6 @@ import {
     Aktivitet,
     AktivitetLæremidler,
     AktivitetType,
-    aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -76,10 +73,6 @@ export const EndreAktivitetLæremidler: React.FC<{
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
-    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
-        useTriggRerendringAvDateInput();
-    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
-        useTriggRerendringAvDateInput();
 
     const [form, settForm] = useState<EndreAktivitetFormLæremidler>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
@@ -145,8 +138,6 @@ export const EndreAktivitetLæremidler: React.FC<{
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
-        oppdaterFomDatoKey();
-        oppdaterTomDatoKey();
     };
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
@@ -161,45 +152,18 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-    const kanEndreType = aktivitet === undefined && !aktivitetErBruktFraSystem;
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <FeilmeldingMaksBredde>
-                    <SelectMedOptions
-                        label="Type"
-                        readOnly={!kanEndreType}
-                        value={form.type}
-                        valg={aktivitetTypeOptions}
-                        onChange={(e) => oppdaterType(e.target.value as AktivitetType)}
-                        size="small"
-                        error={vilkårsperiodeFeil?.type}
-                    />
-                </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={fomKeyDato}
-                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                        readOnly={!alleFelterKanEndres}
-                        label={'Fra'}
-                        value={form?.fom}
-                        onChange={(dato) => oppdaterForm('fom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.fom}
-                    />
-                </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={tomKeyDato}
-                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label={'Til'}
-                        value={form?.tom}
-                        onChange={(dato) => oppdaterForm('tom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.tom}
-                    />
-                </FeilmeldingMaksBredde>
+                <EndreFellesFelter
+                    form={form}
+                    oppdaterTypeIForm={oppdaterType}
+                    oppdaterPeriode={oppdaterForm}
+                    formFeil={vilkårsperiodeFeil}
+                    alleFelterKanEndres={alleFelterKanEndres}
+                    kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
+                />
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
