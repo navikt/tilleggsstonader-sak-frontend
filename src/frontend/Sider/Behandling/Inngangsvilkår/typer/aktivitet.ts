@@ -1,15 +1,20 @@
 import { VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
-export interface Aktivitet extends VilkårPeriode {
+export type Aktivitet = AktivitetBarnetilsyn;
+
+export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
     type: AktivitetType;
-    aktivitetsdager: number;
-    delvilkår: DelvilkårAktivitet;
+    aktivitetsdager?: number;
+    prosent: number;
+    delvilkår: DelvilkårAktivitetBarnetilsyn;
     kildeId?: string;
 }
 
-export interface DelvilkårAktivitet {
+export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn;
+
+export interface DelvilkårAktivitetBarnetilsyn {
     '@type': 'AKTIVITET';
     lønnet?: Vurdering;
 }
