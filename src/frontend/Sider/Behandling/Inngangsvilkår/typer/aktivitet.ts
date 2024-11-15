@@ -6,8 +6,7 @@ export type Aktivitet = AktivitetBarnetilsyn;
 export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
     type: AktivitetType;
-    aktivitetsdager?: number;
-    prosent: number;
+    aktivitetsdager: number;
     delvilkår: DelvilkårAktivitetBarnetilsyn;
     kildeId?: string;
 }
