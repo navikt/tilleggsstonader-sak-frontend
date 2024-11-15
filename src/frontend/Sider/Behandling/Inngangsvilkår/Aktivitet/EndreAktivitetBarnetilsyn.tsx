@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { HStack, Button } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
 import AktivitetVilkår from './AktivitetVilkår';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utils';
+import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
+import { AktivitetValidering, validerAktivitet } from './valideringAktivitet';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -25,7 +26,7 @@ import {
     Aktivitet,
     AktivitetType,
     aktivitetTypeOptions,
-    DelvilkårAktivitet,
+    DelvilkårAktivitetBarnetilsyn,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
@@ -33,9 +34,8 @@ import {
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import Begrunnelse from '../Vilkårperioder/EndreVilkårperiode/Begrunnelse';
+import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 const FeltContainer = styled.div`
@@ -47,11 +47,12 @@ const FeltContainer = styled.div`
     align-self: start;
     align-items: start;
 `;
-export interface EndreAktivitetForm extends Periode {
+
+export interface EndreAktivitetFormBarnetilsyn extends Periode {
     aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitet;
+    delvilkår: DelvilkårAktivitetBarnetilsyn;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -60,14 +61,13 @@ const initaliserForm = (
     behandlingId: string,
     eksisterendeAktivitet?: Aktivitet,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetForm => {
+): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
-// TODO: Rename til EndreAktivitet
-const EndreAktivitetRad: React.FC<{
+const EndreAktivitetBarnetilsyn: React.FC<{
     aktivitet?: Aktivitet;
     avbrytRedigering: () => void;
     aktivitetFraRegister?: Registeraktivitet;
@@ -80,16 +80,16 @@ const EndreAktivitetRad: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [form, settAktivitetForm] = useState<EndreAktivitetForm>(
+    const [form, settAktivitetForm] = useState<EndreAktivitetFormBarnetilsyn>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
-        useState<FormErrors<EndreVilkårsperiode>>();
+        useState<FormErrors<AktivitetValidering>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(form, aktivitet, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -106,7 +106,7 @@ const EndreAktivitetRad: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetForm>(
+            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode`
                     : `/api/sak/vilkarperiode/${aktivitet.id}`,
@@ -223,7 +223,10 @@ const EndreAktivitetRad: React.FC<{
             <AktivitetVilkår
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(key: keyof DelvilkårAktivitet, vurdering: Vurdering) =>
+                oppdaterDelvilkår={(
+                    key: keyof DelvilkårAktivitetBarnetilsyn,
+                    vurdering: Vurdering
+                ) =>
                     settAktivitetForm((prevState) => ({
                         ...prevState,
                         delvilkår: { ...prevState.delvilkår, [key]: vurdering },
@@ -246,7 +249,6 @@ const EndreAktivitetRad: React.FC<{
                 </Button>
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
-                        type="Aktivitet"
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={aktivitet}
                     />
@@ -258,4 +260,4 @@ const EndreAktivitetRad: React.FC<{
     );
 };
 
-export default EndreAktivitetRad;
+export default EndreAktivitetBarnetilsyn;

@@ -2,10 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { EndreAktivitetForm } from './EndreAktivitetRad';
-import { skalVurdereLønnet } from './utils';
+import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { skalVurdereLønnet } from './utilsBarnetilsyn';
 import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
-import { DelvilkårAktivitet } from '../typer/aktivitet';
+import { DelvilkårAktivitetBarnetilsyn } from '../typer/aktivitet';
 import { Vurdering } from '../typer/vilkårperiode';
 
 const Container = styled.div`
@@ -15,8 +15,8 @@ const Container = styled.div`
 
 // TODO: Rename til AktivitetDelvilkår
 const AktivitetVilkår: React.FC<{
-    aktivitetForm: EndreAktivitetForm;
-    oppdaterDelvilkår: (key: keyof DelvilkårAktivitet, vurdering: Vurdering) => void;
+    aktivitetForm: EndreAktivitetFormBarnetilsyn;
+    oppdaterDelvilkår: (key: keyof DelvilkårAktivitetBarnetilsyn, vurdering: Vurdering) => void;
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterDelvilkår, readOnly }) => {
     if (aktivitetForm.type === '') return null;
