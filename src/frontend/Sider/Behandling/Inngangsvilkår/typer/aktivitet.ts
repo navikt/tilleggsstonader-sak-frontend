@@ -1,7 +1,7 @@
 import { VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
-export type Aktivitet = AktivitetBarnetilsyn;
+export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
 
 export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
@@ -11,11 +11,24 @@ export interface AktivitetBarnetilsyn extends VilkårPeriode {
     kildeId?: string;
 }
 
-export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn;
+export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn | DelvilkårAktivitetLæremidler;
 
 export interface DelvilkårAktivitetBarnetilsyn {
     '@type': 'AKTIVITET';
     lønnet?: Vurdering;
+}
+
+export interface AktivitetLæremidler extends VilkårPeriode {
+    id: string;
+    type: AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
+    prosent: number;
+    delvilkår: DelvilkårAktivitetLæremidler;
+    kildeId?: string;
+}
+
+export interface DelvilkårAktivitetLæremidler {
+    '@type': 'AKTIVITET';
+    harUtgifter?: Vurdering;
 }
 
 export enum AktivitetType {
