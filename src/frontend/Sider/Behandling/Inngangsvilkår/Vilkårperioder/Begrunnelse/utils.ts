@@ -1,11 +1,3 @@
-import { EndreAktivitetFormBarnetilsyn } from '../../Aktivitet/EndreAktivitetBarnetilsyn';
-import {
-    erFormForAktivitet,
-    finnBegrunnelseGrunnerAktivitet,
-} from '../../Aktivitet/utilsBarnetilsyn';
-import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
-import { erFormForMålgruppe, finnBegrunnelseGrunnerMålgruppe } from '../../Målgruppe/utils';
-
 export enum BegrunnelseGrunner {
     MEDLEMSKAP = 'MEDLEMSKAP',
     DEKKET_AV_ANNET_REGELVERK = 'DEKKET_AV_ANNET_REGELVERK',
@@ -24,14 +16,4 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     INGEN_AKTIVITET: 'Ingen aktivitet',
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
-};
-
-export const finnBegrunnelseGrunner = (
-    vilkårperiodeForm: EndreMålgruppeForm | EndreAktivitetFormBarnetilsyn
-): BegrunnelseGrunner[] => {
-    if (erFormForAktivitet(vilkårperiodeForm)) {
-        return finnBegrunnelseGrunnerAktivitet(vilkårperiodeForm.type, vilkårperiodeForm.delvilkår);
-    } else if (erFormForMålgruppe(vilkårperiodeForm)) {
-        return finnBegrunnelseGrunnerMålgruppe(vilkårperiodeForm.type, vilkårperiodeForm.delvilkår);
-    } else return [];
 };

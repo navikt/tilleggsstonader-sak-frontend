@@ -2,7 +2,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { EndreAktivitetForm } from '../Aktivitet/EndreAktivitetRad';
+import { EndreAktivitetFormBarnetilsyn } from '../Aktivitet/EndreAktivitetBarnetilsyn';
 import { Aktivitet } from '../typer/aktivitet';
 import {
     DelvilkårMålgruppe,
@@ -12,7 +12,7 @@ import {
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../typer/målgruppe';
 import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
-import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
+import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -142,7 +142,7 @@ export const finnBegrunnelseGrunnerMålgruppe = (
 };
 
 export const erFormForMålgruppe = (
-    vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
+    vilkårperiode: EndreMålgruppeForm | EndreAktivitetFormBarnetilsyn
 ): vilkårperiode is EndreMålgruppeForm => {
     return (
         (vilkårperiode.type in MålgruppeType || vilkårperiode.type === '') &&
