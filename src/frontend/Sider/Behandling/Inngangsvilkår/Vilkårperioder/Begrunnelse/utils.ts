@@ -1,5 +1,8 @@
-import { EndreAktivitetForm } from '../../Aktivitet/EndreAktivitetRad';
-import { erFormForAktivitet, finnBegrunnelseGrunnerAktivitet } from '../../Aktivitet/utils';
+import { EndreAktivitetFormBarnetilsyn } from '../../Aktivitet/EndreAktivitetBarnetilsyn';
+import {
+    erFormForAktivitet,
+    finnBegrunnelseGrunnerAktivitet,
+} from '../../Aktivitet/utilsBarnetilsyn';
 import { EndreMålgruppeForm } from '../../Målgruppe/EndreMålgruppeRad';
 import { erFormForMålgruppe, finnBegrunnelseGrunnerMålgruppe } from '../../Målgruppe/utils';
 
@@ -24,7 +27,7 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
 };
 
 export const finnBegrunnelseGrunner = (
-    vilkårperiodeForm: EndreMålgruppeForm | EndreAktivitetForm
+    vilkårperiodeForm: EndreMålgruppeForm | EndreAktivitetFormBarnetilsyn
 ): BegrunnelseGrunner[] => {
     if (erFormForAktivitet(vilkårperiodeForm)) {
         return finnBegrunnelseGrunnerAktivitet(vilkårperiodeForm.type, vilkårperiodeForm.delvilkår);
