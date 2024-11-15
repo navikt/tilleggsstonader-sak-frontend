@@ -6,6 +6,7 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
 import { finnBegrunnelseGrunnerMålgruppe, nyMålgruppe, resettMålgruppe } from './utils';
+import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -31,9 +32,8 @@ import {
     StønadsperiodeStatus,
     Vurdering,
 } from '../typer/vilkårperiode';
-import Begrunnelse from '../Vilkårperioder/EndreVilkårperiode/Begrunnelse';
+import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-import { EndreVilkårsperiode, validerVilkårsperiode } from '../Vilkårperioder/validering';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 export interface EndreMålgruppeForm extends Periode {
@@ -83,7 +83,7 @@ const EndreMålgruppeRad: React.FC<{
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
-        useState<FormErrors<EndreVilkårsperiode>>();
+        useState<FormErrors<MålgruppeValidering>>();
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerMålgruppe(
         form.type,
@@ -92,7 +92,7 @@ const EndreMålgruppeRad: React.FC<{
     const kanEndreType = målgruppe === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerVilkårsperiode(form, målgruppe, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, behandling.revurderFra);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -221,7 +221,6 @@ const EndreMålgruppeRad: React.FC<{
                 </Button>
                 {målgruppe !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
-                        type="Målgruppe"
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={målgruppe}
                     />

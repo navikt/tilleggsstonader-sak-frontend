@@ -1,19 +1,11 @@
-import { DelvilkårAktivitet } from '../../typer/aktivitet';
+import { DelvilkårAktivitet, DelvilkårAktivitetBarnetilsyn } from '../../typer/aktivitet';
 import { DelvilkårMålgruppe } from '../../typer/målgruppe';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
-export type TypeVilkårperiode = 'Målgruppe' | 'Aktivitet';
-
-export type DelvilkårKey = Exclude<keyof DelvilkårMålgruppe | keyof DelvilkårAktivitet, '@type'>;
-
-export const tittelSelectTypeVilkårperiode = (type: TypeVilkårperiode) => {
-    switch (type) {
-        case 'Målgruppe':
-            return 'Ytelse/situasjon';
-        case 'Aktivitet':
-            return 'Type';
-    }
-};
+export type DelvilkårKey = Exclude<
+    keyof DelvilkårMålgruppe | keyof DelvilkårAktivitetBarnetilsyn,
+    '@type'
+>;
 
 export const finnDelvilkårTilOppsummering = (
     delvilkår: DelvilkårMålgruppe | DelvilkårAktivitet,

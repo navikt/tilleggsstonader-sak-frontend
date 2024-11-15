@@ -1,17 +1,16 @@
-import { EndreAktivitetForm } from './EndreAktivitetRad';
+import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import { EndreMålgruppeForm } from '../Målgruppe/EndreMålgruppeRad';
-import { AktivitetType, DelvilkårAktivitet } from '../typer/aktivitet';
+import { AktivitetType, DelvilkårAktivitetBarnetilsyn } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
-import { BegrunnelseGrunner } from '../Vilkårperioder/EndreVilkårperiode/utils';
+import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetForm =>
+): EndreAktivitetFormBarnetilsyn =>
     aktivitetFraRegister
         ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
         : nyTomAktivitet(behandlingId);
@@ -26,7 +25,7 @@ const aktivitetsdagerFraRegister = (aktivitetFraRegister: Registeraktivitet) =>
 function nyAktivitetFraRegister(
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet
-): EndreAktivitetForm {
+): EndreAktivitetFormBarnetilsyn {
     return {
         behandlingId: behandlingId,
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
@@ -39,7 +38,7 @@ function nyAktivitetFraRegister(
     };
 }
 
-function nyTomAktivitet(behandlingId: string): EndreAktivitetForm {
+function nyTomAktivitet(behandlingId: string): EndreAktivitetFormBarnetilsyn {
     return {
         behandlingId: behandlingId,
         type: '',
@@ -57,9 +56,9 @@ export const skalVurdereLønnet = (type: AktivitetType | '') => type === Aktivit
 
 export const resettAktivitet = (
     nyType: AktivitetType,
-    eksisterendeAktivitetForm: EndreAktivitetForm,
+    eksisterendeAktivitetForm: EndreAktivitetFormBarnetilsyn,
     søknadMottattTidspunkt?: string
-): EndreAktivitetForm => {
+): EndreAktivitetFormBarnetilsyn => {
     const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
     return {
@@ -74,7 +73,7 @@ export const resettAktivitet = (
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetForm,
+    eksisterendeForm: EndreAktivitetFormBarnetilsyn,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
@@ -89,7 +88,10 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-const resetAktivitetsdager = (nyType: AktivitetType, eksisterendeForm: EndreAktivitetForm) => {
+const resetAktivitetsdager = (
+    nyType: AktivitetType,
+    eksisterendeForm: EndreAktivitetFormBarnetilsyn
+) => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return undefined;
     } else if (!harTallverdi(eksisterendeForm.aktivitetsdager)) {
@@ -101,15 +103,15 @@ const resetAktivitetsdager = (nyType: AktivitetType, eksisterendeForm: EndreAkti
 
 const resetDelvilkår = (
     type: AktivitetType,
-    delvilkår: DelvilkårAktivitet
-): DelvilkårAktivitet => ({
+    delvilkår: DelvilkårAktivitetBarnetilsyn
+): DelvilkårAktivitetBarnetilsyn => ({
     ...delvilkår,
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
 });
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    delvilkår: DelvilkårAktivitet
+    delvilkår: DelvilkårAktivitetBarnetilsyn
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
@@ -122,13 +124,4 @@ export const finnBegrunnelseGrunnerAktivitet = (
     }
 
     return delvilkårSomMåBegrunnes;
-};
-
-export const erFormForAktivitet = (
-    vilkårperiode: EndreMålgruppeForm | EndreAktivitetForm
-): vilkårperiode is EndreAktivitetForm => {
-    return (
-        (Object.keys(AktivitetType).includes(vilkårperiode.type) || vilkårperiode.type === '') &&
-        vilkårperiode.delvilkår['@type'] === 'AKTIVITET'
-    );
 };

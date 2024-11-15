@@ -4,7 +4,7 @@ import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
 import { AktivitetKort } from './AktivitetKort';
-import EndreAktivitetRad from './EndreAktivitetRad';
+import EndreAktivitetBarnetilsyn from './EndreAktivitetBarnetilsyn';
 import RegisterAktiviteter from './RegisterAktivteter';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -95,7 +95,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                     {aktiviteter.map((aktivitet) => (
                         <React.Fragment key={aktivitet.id}>
                             {aktivitet.id === radIRedigeringsmodus ? (
-                                <EndreAktivitetRad
+                                <EndreAktivitetBarnetilsyn
                                     aktivitet={aktivitet}
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
                                 />
@@ -109,7 +109,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                     ))}
                     {radIRedigeringsmodus === 'nyPeriode' && (
                         <div ref={nyPeriodeRef}>
-                            <EndreAktivitetRad
+                            <EndreAktivitetBarnetilsyn
                                 avbrytRedigering={fjernRadIRedigeringsmodus}
                                 aktivitetFraRegister={aktivitetFraRegister}
                             />
