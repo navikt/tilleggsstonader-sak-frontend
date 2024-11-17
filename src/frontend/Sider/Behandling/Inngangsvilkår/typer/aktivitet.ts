@@ -11,7 +11,6 @@ export interface AktivitetBarnetilsyn extends VilkårPeriode {
     delvilkår: DelvilkårAktivitetBarnetilsyn;
     kildeId?: string;
 }
-
 export interface AktivitetBarnetilsynNyttFormat extends VilkårPeriode {
     id: string;
     type: AktivitetType;
@@ -25,11 +24,9 @@ export interface DelvilkårAktivitetBarnetilsyn {
     lønnet?: Vurdering;
 }
 
-export interface FaktaAktivitetLæremidler {
-    fakta: { prosent: number };
-}
+export type FaktaAktivitet = FaktaBarnetilsyn | FaktaLæremidler;
 
-export type FaktaOgDelvilkår = FaktaOgVurderingerBarnetilsyn | FaktaOgvurderingerLæremidler;
+export type FaktaOgDelvilkår = FaktaOgVurderingerBarnetilsyn | FaktaOgVurderingerLæremidler;
 
 export interface FaktaBarnetilsyn {
     aktivitetsdager?: number;
@@ -48,11 +45,10 @@ export interface AktivitetLæremidler extends VilkårPeriode {
     delvilkår: DelvilkårAktivitetLæremidler;
     kildeId?: string;
 }
-
 export interface AktivitetLæremidlerNyttFormat extends VilkårPeriode {
     id: string;
     type: AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
-    faktaOgVurderinger: FaktaOgvurderingerLæremidler;
+    faktaOgVurderinger: FaktaOgVurderingerLæremidler;
     kildeId?: string;
 }
 
@@ -60,7 +56,7 @@ export interface DelvilkårAktivitetLæremidler {
     harUtgifter?: Vurdering;
 }
 
-export interface FaktaOgvurderingerLæremidler {
+export interface FaktaOgVurderingerLæremidler {
     '@type': 'AKTIVITET'; // TODO: Flytt til useLagre-hook (som ikke fins enda)
     fakta: FaktaLæremidler;
     vurderinger: DelvilkårAktivitetLæremidler;

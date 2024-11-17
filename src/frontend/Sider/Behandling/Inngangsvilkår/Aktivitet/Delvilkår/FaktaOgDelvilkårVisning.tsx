@@ -9,7 +9,7 @@ import {
     AktivitetBarnetilsyn,
     AktivitetLæremidler,
     FaktaOgVurderingerBarnetilsyn,
-    FaktaOgvurderingerLæremidler,
+    FaktaOgVurderingerLæremidler,
     mapTilAktivitetBarnetilsynNy,
     mapTilAktivitetLæremidlerNy,
 } from '../../typer/aktivitet';
@@ -25,7 +25,7 @@ export const FaktaOgDelvilkårVisning: React.FC<{
             return (
                 <FaktaOgDelvilkårTilsynBarn
                     faktaOgVurderinger={
-                        mapTilAktivitetBarnetilsynNy(aktivitet as AktivitetBarnetilsyn)
+                        mapTilAktivitetBarnetilsynNy(aktivitet as AktivitetBarnetilsyn)!
                             .faktaOgVurderinger
                     }
                 />
@@ -34,7 +34,7 @@ export const FaktaOgDelvilkårVisning: React.FC<{
             return (
                 <FaktaOgDelvilkårLæremidler
                     faktaOgVurderinger={
-                        mapTilAktivitetLæremidlerNy(aktivitet as AktivitetLæremidler)
+                        mapTilAktivitetLæremidlerNy(aktivitet as AktivitetLæremidler)!
                             .faktaOgVurderinger
                     }
                 />
@@ -56,7 +56,7 @@ const FaktaOgDelvilkårTilsynBarn: React.FC<{
 };
 
 const FaktaOgDelvilkårLæremidler: React.FC<{
-    faktaOgVurderinger: FaktaOgvurderingerLæremidler;
+    faktaOgVurderinger: FaktaOgVurderingerLæremidler;
 }> = ({ faktaOgVurderinger }) => {
     const svarPåDelvilkår = faktaOgVurderinger.vurderinger.harUtgifter?.svar;
 
