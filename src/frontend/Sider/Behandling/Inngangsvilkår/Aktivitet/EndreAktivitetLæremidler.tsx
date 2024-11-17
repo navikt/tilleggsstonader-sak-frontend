@@ -28,6 +28,7 @@ import {
     AktivitetType,
     aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
+    FaktaLæremidler,
     mapAktivitetLæremidlerNyToLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -73,7 +74,7 @@ const initaliserForm = (
 };
 
 export const EndreAktivitetLæremidler: React.FC<{
-    aktivitet: AktivitetLæremidlerNyttFormat;
+    aktivitet?: AktivitetLæremidlerNyttFormat;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -180,6 +181,19 @@ export const EndreAktivitetLæremidler: React.FC<{
         }));
     };
 
+    const oppdaterFakta = (key: keyof FaktaLæremidler, nyFakta?: number) => {
+        settForm((prevState) => ({
+            ...prevState,
+            faktaOgVurderinger: {
+                ...prevState.faktaOgVurderinger,
+                fakta: {
+                    ...prevState.faktaOgVurderinger.fakta,
+                    [key]: nyFakta,
+                },
+            },
+        }));
+    };
+
     return (
         <VilkårperiodeKortBase
             vilkårperiode={mapAktivitetLæremidlerNyToLæremidler(aktivitet)}
@@ -227,10 +241,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                             label="Prosent"
                             value={tilTallverdi(form.faktaOgVurderinger.fakta.prosent) ?? ''}
                             onChange={(event) =>
-                                settForm((prevState) => ({
-                                    ...prevState,
-                                    prosent: tilHeltall(event.target.value),
-                                }))
+                                oppdaterFakta('prosent', tilHeltall(event.target.value))
                             }
                             size="small"
                             error={vilkårsperiodeFeil?.prosent}
@@ -266,7 +277,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={mapAktivitetLæremidlerNyToLæremidler(aktivitet)}
+                        vilkårperiode={mapAktivitetLæremidlerNyToLæremidler(aktivitet)!}
                     />
                 )}
             </HStack>

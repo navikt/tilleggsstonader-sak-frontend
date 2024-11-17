@@ -112,6 +112,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                             <EndreAktivitet
                                 avbrytRedigering={fjernRadIRedigeringsmodus}
                                 aktivitetFraRegister={aktivitetFraRegister}
+                                // Her kan aktivitet være null, hvis det er ny aktivitet! Det skaper trøbbel :(
                             />
                         </div>
                     )}

@@ -52,6 +52,7 @@ const VilkårperiodeKortBase: React.FC<{
     const skalViseStatus =
         toggleErPå && behandling.type === BehandlingType.REVURDERING && vilkårperiode !== undefined;
 
+    // TODO: Må deale med at aktivitet og målgruppe er ulike nå. Bedre å splitte opp denne komponenten i aktivitet og målgruppe kanskje ?
     return (
         <Container>
             {skalViseStatus && <Statusbånd status={vilkårperiode.status} />}

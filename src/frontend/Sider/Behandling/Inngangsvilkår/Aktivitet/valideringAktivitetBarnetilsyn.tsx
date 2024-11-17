@@ -4,7 +4,7 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { AktivitetBarnetilsynNy, AktivitetType } from '../typer/aktivitet';
+import { AktivitetBarnetilsynNyttFormat, AktivitetType } from '../typer/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
@@ -14,7 +14,7 @@ export interface AktivitetValidering extends Periode {
 
 export const validerAktivitet = (
     endretAktivitet: EndreAktivitetFormBarnetilsyn,
-    lagretAktivitet?: AktivitetBarnetilsynNy | undefined,
+    lagretAktivitet?: AktivitetBarnetilsynNyttFormat | undefined,
     revurderesFraDato?: string
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {

@@ -24,7 +24,7 @@ import { Periode } from '../../../../utils/periode';
 import { tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
-    AktivitetBarnetilsynNy,
+    AktivitetBarnetilsynNyttFormat,
     AktivitetType,
     aktivitetTypeOptions,
     DelvilkårAktivitetBarnetilsyn,
@@ -65,7 +65,7 @@ export interface EndreAktivitetFormBarnetilsyn extends Periode {
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: AktivitetBarnetilsynNy,
+    eksisterendeAktivitet?: AktivitetBarnetilsynNyttFormat,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
@@ -74,7 +74,7 @@ const initaliserForm = (
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
-    aktivitet: AktivitetBarnetilsynNy;
+    aktivitet?: AktivitetBarnetilsynNyttFormat;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -280,7 +280,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)}
+                        vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)!}
                     />
                 )}
             </HStack>

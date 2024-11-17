@@ -2,7 +2,7 @@ import { VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
-export type AktivitetNy = AktivitetBarnetilsynNy | AktivitetLæremidlerNyttFormat;
+export type AktivitetNyttFormat = AktivitetBarnetilsynNyttFormat | AktivitetLæremidlerNyttFormat;
 
 export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
@@ -12,7 +12,7 @@ export interface AktivitetBarnetilsyn extends VilkårPeriode {
     kildeId?: string;
 }
 
-export interface AktivitetBarnetilsynNy extends VilkårPeriode {
+export interface AktivitetBarnetilsynNyttFormat extends VilkårPeriode {
     id: string;
     type: AktivitetType;
     faktaOgVurderinger: FaktaOgVurderingerBarnetilsyn;
@@ -102,8 +102,11 @@ export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filte
 );
 
 export const mapTilAktivitetBarnetilsynNy = (
-    aktivitet: AktivitetBarnetilsyn
-): AktivitetBarnetilsynNy => {
+    aktivitet?: AktivitetBarnetilsyn
+): AktivitetBarnetilsynNyttFormat | undefined => {
+    if (!aktivitet) {
+        return undefined;
+    }
     return {
         ...aktivitet,
         faktaOgVurderinger: {
@@ -117,8 +120,12 @@ export const mapTilAktivitetBarnetilsynNy = (
 };
 
 export const mapTilAktivitetLæremidlerNy = (
-    aktivitet: AktivitetLæremidler
-): AktivitetLæremidlerNyttFormat => {
+    aktivitet?: AktivitetLæremidler
+): AktivitetLæremidlerNyttFormat | undefined => {
+    if (!aktivitet) {
+        return undefined;
+    }
+
     return {
         ...aktivitet,
         faktaOgVurderinger: {
@@ -133,8 +140,12 @@ export const mapTilAktivitetLæremidlerNy = (
 
 // Function to map AktivitetLæremidlerNy to AktivitetLæremidler
 export const mapAktivitetLæremidlerNyToLæremidler = (
-    aktivitetNy: AktivitetLæremidlerNyttFormat
-): AktivitetLæremidler => {
+    aktivitetNy?: AktivitetLæremidlerNyttFormat
+): AktivitetLæremidler | undefined => {
+    if (!aktivitetNy) {
+        return undefined;
+    }
+
     return {
         ...aktivitetNy,
         prosent: aktivitetNy.faktaOgVurderinger.fakta.prosent || 0,
@@ -144,8 +155,11 @@ export const mapAktivitetLæremidlerNyToLæremidler = (
 
 // Function to map AktivitetBarnetilsynNy to AktivitetBarnetilsyn
 export const mapAktivitetBarnetilsynNyToBarnetilsyn = (
-    aktivitetNy: AktivitetBarnetilsynNy
-): AktivitetBarnetilsyn => {
+    aktivitetNy?: AktivitetBarnetilsynNyttFormat
+): AktivitetBarnetilsyn | undefined => {
+    if (!aktivitetNy) {
+        return undefined;
+    }
     return {
         ...aktivitetNy,
         aktivitetsdager: aktivitetNy.faktaOgVurderinger.fakta.aktivitetsdager || 0,
