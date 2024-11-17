@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
+import { Faktafelter } from './Fakta';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
@@ -16,12 +17,10 @@ import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendr
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
-import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { tilHeltall } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetBarnetilsynNyttFormat,
@@ -29,6 +28,8 @@ import {
     aktivitetTypeOptions,
     DelvilkårAktivitetBarnetilsyn,
     FaktaBarnetilsyn,
+    FaktaOgDelvilkår,
+    FaktaOgVurderingerBarnetilsyn,
     mapAktivitetBarnetilsynNyToBarnetilsyn,
 } from '../typer/aktivitet';
 import {
@@ -51,14 +52,10 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
-export interface EndreAktivitetFormBarnetilsyn extends Periode {
+export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode {
     behandlingId: string;
     type: AktivitetType | '';
-    faktaOgVurderinger: {
-        '@type': 'AKTIVITET';
-        fakta: { aktivitetsdager?: number };
-        vurderinger: { lønnet?: Vurdering };
-    };
+    faktaOgVurderinger: T;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -67,7 +64,7 @@ const initaliserForm = (
     behandlingId: string,
     eksisterendeAktivitet?: AktivitetBarnetilsynNyttFormat,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetFormBarnetilsyn => {
+): EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn> => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
@@ -86,7 +83,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
+    const [form, settForm] = useState<EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
@@ -112,7 +109,10 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
+            return request<
+                LagreVilkårperiodeResponse<Aktivitet>,
+                EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>
+            >(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode`
                     : `/api/sak/vilkarperiode/${aktivitet.id}`,
@@ -238,20 +238,13 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                    <FeilmeldingMaksBredde $maxWidth={140}>
-                        <TextField
-                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                            label="Aktivitetsdager"
-                            value={tilHeltall(form.faktaOgVurderinger.fakta.aktivitetsdager) ?? ''}
-                            onChange={(event) =>
-                                oppdaterFakta('aktivitetsdager', tilHeltall(event.target.value))
-                            }
-                            size="small"
-                            error={vilkårsperiodeFeil?.aktivitetsdager}
-                            autoComplete="off"
-                            readOnly={!alleFelterKanEndres}
-                        />
-                    </FeilmeldingMaksBredde>
+                    <Faktafelter
+                        fakta={form.faktaOgVurderinger.fakta}
+                        errors={vilkårsperiodeFeil || {}}
+                        oppdaterFakta={oppdaterFakta}
+                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                        alleFelterKanEndres={alleFelterKanEndres}
+                    />
                 )}
             </FeltContainer>
 

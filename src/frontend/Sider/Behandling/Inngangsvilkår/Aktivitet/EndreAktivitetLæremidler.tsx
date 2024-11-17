@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { Faktafelter } from './Fakta';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
@@ -16,12 +17,10 @@ import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendr
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
-import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { tilHeltall, tilTallverdi } from '../../../../utils/tall';
 import {
     Aktivitet,
     AktivitetLæremidlerNyttFormat,
@@ -29,6 +28,8 @@ import {
     aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
     FaktaLæremidler,
+    FaktaOgDelvilkår,
+    FaktaOgVurderingerLæremidler,
     mapAktivitetLæremidlerNyToLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -51,14 +52,10 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
-export interface EndreAktivitetFormLæremidler extends Periode {
+export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode {
     behandlingId: string;
     type: AktivitetType | '';
-    faktaOgVurderinger: {
-        '@type': 'AKTIVITET';
-        fakta: { prosent?: number };
-        vurderinger: { harUtgifter?: Vurdering };
-    };
+    faktaOgVurderinger: T;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -67,7 +64,7 @@ const initaliserForm = (
     behandlingId: string,
     eksisterendeAktivitet?: AktivitetLæremidlerNyttFormat,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetFormLæremidler => {
+): EndreAktivitetForm<FaktaOgVurderingerLæremidler> => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
@@ -86,7 +83,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [form, settForm] = useState<EndreAktivitetFormLæremidler>(
+    const [form, settForm] = useState<EndreAktivitetForm<FaktaOgVurderingerLæremidler>>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
@@ -112,7 +109,10 @@ export const EndreAktivitetLæremidler: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormLæremidler>(
+            return request<
+                LagreVilkårperiodeResponse<Aktivitet>,
+                EndreAktivitetForm<FaktaOgVurderingerLæremidler>
+            >(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode`
                     : `/api/sak/vilkarperiode/${aktivitet.id}`,
@@ -235,20 +235,13 @@ export const EndreAktivitetLæremidler: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                    <FeilmeldingMaksBredde $maxWidth={140}>
-                        <TextField
-                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                            label="Prosent"
-                            value={tilTallverdi(form.faktaOgVurderinger.fakta.prosent) ?? ''}
-                            onChange={(event) =>
-                                oppdaterFakta('prosent', tilHeltall(event.target.value))
-                            }
-                            size="small"
-                            error={vilkårsperiodeFeil?.prosent}
-                            autoComplete="off"
-                            readOnly={!alleFelterKanEndres}
-                        />
-                    </FeilmeldingMaksBredde>
+                    <Faktafelter
+                        fakta={form.faktaOgVurderinger.fakta}
+                        errors={vilkårsperiodeFeil || {}}
+                        oppdaterFakta={oppdaterFakta}
+                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                        alleFelterKanEndres={alleFelterKanEndres}
+                    />
                 )}
             </FeltContainer>
 
