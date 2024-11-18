@@ -1,23 +1,22 @@
-import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
+import { EndreAktivitetForm } from './EndreAktivitetFelles';
 import { finnBegrunnelseGrunnerAktivitet } from './utilsLæremidler';
+import { AktivitetValidering } from './valideringAktivitet';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { Periode, validerPeriode } from '../../../../utils/periode';
+import { validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { AktivitetLæremidlerNyttFormat, AktivitetType } from '../typer/aktivitet';
+import { AktivitetLæremidlerNyttFormat, FaktaOgVurderingerLæremidler } from '../typer/aktivitet';
 
-export interface AktivitetValidering extends Periode {
-    type: AktivitetType | '';
+export interface AktivitetValideringLæremidler extends AktivitetValidering {
     prosent?: number;
-    begrunnelse?: string;
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormLæremidler,
+    endretAktivitet: EndreAktivitetForm<FaktaOgVurderingerLæremidler>,
     lagretAktivitet?: AktivitetLæremidlerNyttFormat | undefined,
     revurderesFraDato?: string
-): FormErrors<AktivitetValidering> => {
-    const feil: FormErrors<AktivitetValidering> = {
+): FormErrors<AktivitetValideringLæremidler> => {
+    const feil: FormErrors<AktivitetValideringLæremidler> = {
         fom: undefined,
         tom: undefined,
         type: undefined,

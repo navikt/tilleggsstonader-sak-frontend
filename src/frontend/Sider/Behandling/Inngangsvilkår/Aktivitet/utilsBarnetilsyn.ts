@@ -121,7 +121,10 @@ const resetDelvilkår = (
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
 });
 
-export const finnBegrunnelseGrunnerAktivitet = (
+export const finnBegrunnelseGrunnerAktivitet: (
+    type: AktivitetType | '',
+    delvilkår: DelvilkårAktivitetBarnetilsyn
+) => BegrunnelseGrunner[] = (
     type: AktivitetType | '',
     delvilkår: DelvilkårAktivitetBarnetilsyn
 ) => {

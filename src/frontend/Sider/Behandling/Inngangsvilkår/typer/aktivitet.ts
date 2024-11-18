@@ -18,7 +18,7 @@ export interface AktivitetBarnetilsynNyttFormat extends VilkårPeriode {
     kildeId?: string;
 }
 
-export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn | DelvilkårAktivitetLæremidler;
+export type VurderingAktivitet = DelvilkårAktivitetBarnetilsyn | DelvilkårAktivitetLæremidler;
 
 export interface DelvilkårAktivitetBarnetilsyn {
     lønnet?: Vurdering;
@@ -51,6 +51,8 @@ export interface AktivitetLæremidlerNyttFormat extends VilkårPeriode {
     faktaOgVurderinger: FaktaOgVurderingerLæremidler;
     kildeId?: string;
 }
+
+export type FaktaOgVurderinger = FaktaOgVurderingerBarnetilsyn | FaktaOgVurderingerLæremidler;
 
 export interface DelvilkårAktivitetLæremidler {
     harUtgifter?: Vurdering;

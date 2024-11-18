@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
+import { AktivitetDelvilkårFelles } from './Delvilkår/AktivitetDelvilkårFelles';
 import { Faktafelter } from './Fakta';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
-import { AktivitetValideringBarnetilsyn, validerAktivitet } from './valideringAktivitetBarnetilsyn';
+import { AktivitetValidering } from './valideringAktivitet';
+import { AktivitetValideringLæremidler } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -23,14 +23,11 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
     Aktivitet,
-    AktivitetBarnetilsynNyttFormat,
+    AktivitetNyttFormat,
     AktivitetType,
     aktivitetTypeOptions,
-    DelvilkårAktivitetBarnetilsyn,
-    FaktaBarnetilsyn,
-    FaktaOgDelvilkår,
-    FaktaOgVurderingerBarnetilsyn,
-    mapAktivitetBarnetilsynNyToBarnetilsyn,
+    FaktaOgVurderinger,
+    VurderingAktivitet,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
@@ -39,6 +36,7 @@ import {
     Vurdering,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
+import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
@@ -52,7 +50,7 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
-export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode {
+export interface EndreAktivitetForm<T extends FaktaOgVurderinger> extends Periode {
     behandlingId: string;
     type: AktivitetType | '';
     faktaOgVurderinger: T;
@@ -60,21 +58,39 @@ export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode
     kildeId?: string;
 }
 
-const initaliserForm = (
-    behandlingId: string,
-    eksisterendeAktivitet?: AktivitetBarnetilsynNyttFormat,
-    aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn> => {
-    return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
-};
-
-export const EndreAktivitetBarnetilsyn: React.FC<{
-    aktivitet?: AktivitetBarnetilsynNyttFormat;
+export const EndreAktivitetFelles: React.FC<{
+    aktivitet?: AktivitetNyttFormat;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
-}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
+    nyAktivitet: (
+        behandlingId: string,
+        aktivitetFraRegister: Registeraktivitet | undefined
+    ) => EndreAktivitetForm<FaktaOgVurderinger>;
+    validerAktivitet: (
+        endretAktitivitet: EndreAktivitetForm<FaktaOgVurderinger>,
+        lagretAkvitet?: AktivitetNyttFormat | undefined,
+        revurderesFraDato?: string
+    ) => FormErrors<AktivitetValideringLæremidler>;
+    resettAktivitet: (
+        nyType: AktivitetType,
+        eksisterendeAktivitetForm: EndreAktivitetForm<FaktaOgVurderinger>,
+        søknadMottattTidspunkt?: string
+    ) => EndreAktivitetForm<FaktaOgVurderinger>;
+    finnBegrunnelsesGrunner: (
+        type: AktivitetType | '',
+        delvilkår: VurderingAktivitet
+    ) => BegrunnelseGrunner[];
+    mapNyTilGamme: (aktivitetGammeltFormat?: AktivitetNyttFormat) => Aktivitet;
+}> = ({
+    aktivitet,
+    avbrytRedigering,
+    aktivitetFraRegister,
+    nyAktivitet,
+    validerAktivitet,
+    resettAktivitet,
+    finnBegrunnelsesGrunner,
+    mapNyTilGamme,
+}) => {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
@@ -83,13 +99,15 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [form, settForm] = useState<EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>>(
-        initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
+    const [form, settForm] = useState<EndreAktivitetForm<FaktaOgVurderinger>>(
+        aktivitet === undefined
+            ? nyAktivitet(behandling.id, aktivitetFraRegister)
+            : { ...aktivitet, behandlingId: behandling.id }
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
-        useState<FormErrors<AktivitetValideringBarnetilsyn>>();
+        useState<FormErrors<AktivitetValidering>>();
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
@@ -111,7 +129,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
             return request<
                 LagreVilkårperiodeResponse<Aktivitet>,
-                EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>
+                EndreAktivitetForm<FaktaOgVurderinger>
             >(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode`
@@ -160,7 +178,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelsesGrunner(
         form.type,
         form.faktaOgVurderinger.vurderinger
     );
@@ -168,10 +186,11 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
     const kanEndreType = aktivitet === undefined && !aktivitetErBruktFraSystem;
 
-    const oppdaterVurdering = (
-        nyVurdering: Vurdering,
-        key: keyof DelvilkårAktivitetBarnetilsyn
+    const oppdaterVurdering = <T extends VurderingAktivitet, K extends keyof T>(
+        key: K,
+        nyVurdering: Vurdering
     ) => {
+        // @ts-ignore
         settForm((prevState) => ({
             ...prevState,
             faktaOgVurderinger: {
@@ -184,7 +203,11 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         }));
     };
 
-    const oppdaterFakta = (key: keyof FaktaBarnetilsyn, nyFakta?: number) => {
+    const oppdaterFakta = <T extends VurderingAktivitet, K extends keyof T>(
+        key: K,
+        nyFakta?: number
+    ) => {
+        // @ts-ignore
         settForm((prevState) => ({
             ...prevState,
             faktaOgVurderinger: {
@@ -198,10 +221,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     };
 
     return (
-        <VilkårperiodeKortBase
-            vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)}
-            redigeres
-        >
+        <VilkårperiodeKortBase vilkårperiode={mapNyTilGamme(aktivitet)} redigeres>
             <FeltContainer>
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
@@ -248,15 +268,19 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 )}
             </FeltContainer>
 
-            <AktivitetDelvilkårBarnetilsyn
-                aktivitetForm={form}
-                readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(
-                    key: keyof DelvilkårAktivitetBarnetilsyn,
-                    vurdering: Vurdering
-                ) => oppdaterVurdering(vurdering, key)}
-            />
-
+            {Object.entries(form.faktaOgVurderinger.vurderinger).map(([key, vurdering]) => (
+                <AktivitetDelvilkårFelles
+                    key={key}
+                    label={'Hei og hå'}
+                    type={form.type}
+                    vurdering={vurdering}
+                    vurderingKey={key as keyof VurderingAktivitet}
+                    readOnly={!alleFelterKanEndres}
+                    oppdaterDelvilkår={(key: keyof VurderingAktivitet, vurdering: Vurdering) =>
+                        oppdaterVurdering(key, vurdering)
+                    }
+                />
+            ))}
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
@@ -273,7 +297,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={mapAktivitetBarnetilsynNyToBarnetilsyn(aktivitet)!}
+                        vilkårperiode={mapNyTilGamme(aktivitet)!}
                     />
                 )}
             </HStack>

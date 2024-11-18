@@ -7,7 +7,7 @@ import { Button, HStack } from '@navikt/ds-react';
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import { Faktafelter } from './Fakta';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
-import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
+import { AktivitetValideringLæremidler, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -28,8 +28,7 @@ import {
     aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
     FaktaLæremidler,
-    FaktaOgDelvilkår,
-    FaktaOgVurderingerLæremidler,
+    FaktaOgVurderinger,
     mapAktivitetLæremidlerNyToLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -52,10 +51,10 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
-export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode {
+export interface EndreAktivitetForm extends Periode {
     behandlingId: string;
     type: AktivitetType | '';
-    faktaOgVurderinger: T;
+    faktaOgVurderinger: FaktaOgVurderinger;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -64,7 +63,7 @@ const initaliserForm = (
     behandlingId: string,
     eksisterendeAktivitet?: AktivitetLæremidlerNyttFormat,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetForm<FaktaOgVurderingerLæremidler> => {
+): EndreAktivitetForm => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
@@ -83,13 +82,13 @@ export const EndreAktivitetLæremidler: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const [form, settForm] = useState<EndreAktivitetForm<FaktaOgVurderingerLæremidler>>(
+    const [form, settForm] = useState<EndreAktivitetForm>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
-        useState<FormErrors<AktivitetValidering>>();
+        useState<FormErrors<AktivitetValideringLæremidler>>();
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
@@ -109,10 +108,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<
-                LagreVilkårperiodeResponse<Aktivitet>,
-                EndreAktivitetForm<FaktaOgVurderingerLæremidler>
-            >(
+            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetForm>(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode`
                     : `/api/sak/vilkarperiode/${aktivitet.id}`,

@@ -1,23 +1,22 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { EndreAktivitetForm } from './EndreAktivitetFelles';
 import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { AktivitetValidering } from './valideringAktivitet';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { Periode, validerPeriode } from '../../../../utils/periode';
+import { validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { AktivitetBarnetilsynNyttFormat, AktivitetType } from '../typer/aktivitet';
+import { AktivitetBarnetilsynNyttFormat, FaktaOgVurderingerBarnetilsyn } from '../typer/aktivitet';
 
-export interface AktivitetValidering extends Periode {
-    type: AktivitetType | '';
+export interface AktivitetValideringBarnetilsyn extends AktivitetValidering {
     aktivitetsdager?: number;
-    begrunnelse?: string;
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormBarnetilsyn,
+    endretAktivitet: EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>,
     lagretAktivitet?: AktivitetBarnetilsynNyttFormat | undefined,
     revurderesFraDato?: string
-): FormErrors<AktivitetValidering> => {
-    const feil: FormErrors<AktivitetValidering> = {
+): FormErrors<AktivitetValideringBarnetilsyn> => {
+    const feil: FormErrors<AktivitetValideringBarnetilsyn> = {
         fom: undefined,
         tom: undefined,
         type: undefined,

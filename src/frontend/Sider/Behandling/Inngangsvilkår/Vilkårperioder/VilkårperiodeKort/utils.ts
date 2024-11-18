@@ -1,4 +1,4 @@
-import { DelvilkårAktivitet, DelvilkårAktivitetBarnetilsyn } from '../../typer/aktivitet';
+import { DelvilkårAktivitetBarnetilsyn, VurderingAktivitet } from '../../typer/aktivitet';
 import { DelvilkårMålgruppe } from '../../typer/målgruppe';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
@@ -8,7 +8,7 @@ export type DelvilkårKey = Exclude<
 >;
 
 export const finnDelvilkårTilOppsummering = (
-    delvilkår: DelvilkårMålgruppe | DelvilkårAktivitet,
+    delvilkår: DelvilkårMålgruppe | VurderingAktivitet,
     resultat: VilkårPeriodeResultat
 ): DelvilkårKey[] => {
     if (resultat === VilkårPeriodeResultat.OPPFYLT || resultat === VilkårPeriodeResultat.SLETTET)
