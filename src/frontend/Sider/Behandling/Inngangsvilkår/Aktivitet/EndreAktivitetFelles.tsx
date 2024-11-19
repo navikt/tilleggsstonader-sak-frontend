@@ -7,7 +7,6 @@ import { Button, HStack } from '@navikt/ds-react';
 import { AktivitetDelvilkårFelles } from './Delvilkår/AktivitetDelvilkårFelles';
 import { Faktafelter } from './Fakta';
 import { AktivitetValidering } from './valideringAktivitet';
-import { AktivitetValideringLæremidler } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -58,7 +57,16 @@ export interface EndreAktivitetForm<T extends FaktaOgVurderinger> extends Period
     kildeId?: string;
 }
 
-export const EndreAktivitetFelles: React.FC<{
+export function EndreAktivitetFelles({
+    aktivitet,
+    aktivitetFraRegister,
+    avbrytRedigering,
+    nyAktivitet,
+    validerAktivitet,
+    resettAktivitet,
+    finnBegrunnelsesGrunner,
+    mapNyTilGammel,
+}: {
     aktivitet?: AktivitetNyttFormat;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
@@ -67,10 +75,10 @@ export const EndreAktivitetFelles: React.FC<{
         aktivitetFraRegister: Registeraktivitet | undefined
     ) => EndreAktivitetForm<FaktaOgVurderinger>;
     validerAktivitet: (
-        endretAktitivitet: EndreAktivitetForm<FaktaOgVurderinger>,
-        lagretAkvitet?: AktivitetNyttFormat | undefined,
+        endretAktivitet: EndreAktivitetForm<FaktaOgVurderinger>,
+        lagretAktivitet?: AktivitetNyttFormat | undefined,
         revurderesFraDato?: string
-    ) => FormErrors<AktivitetValideringLæremidler>;
+    ) => FormErrors<AktivitetValidering>;
     resettAktivitet: (
         nyType: AktivitetType,
         eksisterendeAktivitetForm: EndreAktivitetForm<FaktaOgVurderinger>,
@@ -80,17 +88,8 @@ export const EndreAktivitetFelles: React.FC<{
         type: AktivitetType | '',
         delvilkår: VurderingAktivitet
     ) => BegrunnelseGrunner[];
-    mapNyTilGamme: (aktivitetGammeltFormat?: AktivitetNyttFormat) => Aktivitet;
-}> = ({
-    aktivitet,
-    avbrytRedigering,
-    aktivitetFraRegister,
-    nyAktivitet,
-    validerAktivitet,
-    resettAktivitet,
-    finnBegrunnelsesGrunner,
-    mapNyTilGamme,
-}) => {
+    mapNyTilGammel: (aktivitetGammeltFormat?: AktivitetNyttFormat) => Aktivitet;
+}) {
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
@@ -221,7 +220,7 @@ export const EndreAktivitetFelles: React.FC<{
     };
 
     return (
-        <VilkårperiodeKortBase vilkårperiode={mapNyTilGamme(aktivitet)} redigeres>
+        <VilkårperiodeKortBase vilkårperiode={mapNyTilGammel(aktivitet)} redigeres>
             <FeltContainer>
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
@@ -297,7 +296,7 @@ export const EndreAktivitetFelles: React.FC<{
                 {aktivitet !== undefined && alleFelterKanEndres && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
-                        vilkårperiode={mapNyTilGamme(aktivitet)!}
+                        vilkårperiode={mapNyTilGammel(aktivitet)!}
                     />
                 )}
             </HStack>
@@ -305,4 +304,4 @@ export const EndreAktivitetFelles: React.FC<{
             <Feilmelding>{feilmelding}</Feilmelding>
         </VilkårperiodeKortBase>
     );
-};
+}

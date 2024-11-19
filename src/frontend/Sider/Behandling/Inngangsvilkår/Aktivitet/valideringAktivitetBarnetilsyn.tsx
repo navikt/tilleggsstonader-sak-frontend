@@ -1,5 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetFelles';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { finnBegrunnelseGrunnerAktivitetBarnetilsyn } from './utilsBarnetilsyn';
 import { AktivitetValidering } from './valideringAktivitet';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { validerPeriode } from '../../../../utils/periode';
@@ -11,7 +11,7 @@ export interface AktivitetValideringBarnetilsyn extends AktivitetValidering {
     aktivitetsdager?: number;
 }
 
-export const validerAktivitet = (
+export const validerAktivitetBarnetilsyn = (
     endretAktivitet: EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn>,
     lagretAktivitet?: AktivitetBarnetilsynNyttFormat | undefined,
     revurderesFraDato?: string
@@ -41,7 +41,7 @@ export const validerAktivitet = (
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
+    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitetBarnetilsyn(
         endretAktivitet.type,
         endretAktivitet.faktaOgVurderinger.vurderinger
     );

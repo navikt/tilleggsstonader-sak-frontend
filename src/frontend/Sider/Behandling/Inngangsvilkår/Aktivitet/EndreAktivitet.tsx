@@ -1,15 +1,30 @@
 import React from 'react';
 
-import { EndreAktivitetBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { EndreAktivitetFelles } from './EndreAktivitetFelles';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
+import {
+    finnBegrunnelseGrunnerAktivitetBarnetilsyn,
+    nyAktivitetBarnetilsyn,
+    resettAktivitetBarnetilsyn,
+} from './utilsBarnetilsyn';
+import {
+    finnBegrunnelseGrunnerAktivitetLæremidler,
+    nyAktivitetLæremidler,
+    resettAktivitetLæremidler,
+} from './utilsLæremidler';
+import { validerAktivitetBarnetilsyn } from './valideringAktivitetBarnetilsyn';
+import { validerAktivitetLæremidler } from './valideringAktivitetLæremidler';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import {
     Aktivitet,
-    AktivitetBarnetilsyn,
     AktivitetLæremidler,
-    mapTilAktivitetBarnetilsynNy,
+    AktivitetLæremidlerNyttFormat,
+    DelvilkårAktivitetLæremidler,
+    FaktaOgVurderingerLæremidler,
+    mapAktivitetBarnetilsynNyToBarnetilsyn,
+    mapAktivitetLæremidlerNyToLæremidler,
     mapTilAktivitetLæremidlerNy,
 } from '../typer/aktivitet';
 
@@ -22,13 +37,31 @@ export const EndreAktivitet: React.FC<{
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
             return (
-                <EndreAktivitetBarnetilsyn
-                    aktivitet={mapTilAktivitetBarnetilsynNy(aktivitet as AktivitetBarnetilsyn)}
-                    aktivitetFraRegister={aktivitetFraRegister}
+                <EndreAktivitetFelles
                     avbrytRedigering={avbrytRedigering}
+                    nyAktivitet={nyAktivitetBarnetilsyn}
+                    validerAktivitet={validerAktivitetBarnetilsyn}
+                    resettAktivitet={resettAktivitetBarnetilsyn}
+                    finnBegrunnelsesGrunner={finnBegrunnelseGrunnerAktivitetBarnetilsyn}
+                    mapNyTilGammel={mapAktivitetBarnetilsynNyToBarnetilsyn}
                 />
             );
         case Stønadstype.LÆREMIDLER:
+            return (
+                <EndreAktivitetFelles<
+                    FaktaOgVurderingerLæremidler,
+                    AktivitetLæremidlerNyttFormat,
+                    DelvilkårAktivitetLæremidler
+                >
+                    avbrytRedigering={avbrytRedigering}
+                    nyAktivitet={nyAktivitetLæremidler}
+                    validerAktivitet={validerAktivitetLæremidler}
+                    resettAktivitet={resettAktivitetLæremidler}
+                    finnBegrunnelsesGrunner={finnBegrunnelseGrunnerAktivitetLæremidler}
+                    mapNyTilGammel={mapAktivitetLæremidlerNyToLæremidler}
+                />
+            );
+
             return (
                 <EndreAktivitetLæremidler
                     aktivitet={mapTilAktivitetLæremidlerNy(aktivitet as AktivitetLæremidler)}

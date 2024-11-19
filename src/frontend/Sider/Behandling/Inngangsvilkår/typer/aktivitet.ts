@@ -26,8 +26,6 @@ export interface DelvilkårAktivitetBarnetilsyn {
 
 export type FaktaAktivitet = FaktaBarnetilsyn | FaktaLæremidler;
 
-export type FaktaOgDelvilkår = FaktaOgVurderingerBarnetilsyn | FaktaOgVurderingerLæremidler;
-
 export interface FaktaBarnetilsyn {
     aktivitetsdager?: number;
 }

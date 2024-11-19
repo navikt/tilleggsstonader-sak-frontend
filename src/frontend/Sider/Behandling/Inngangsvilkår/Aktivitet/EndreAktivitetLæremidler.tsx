@@ -6,8 +6,15 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import { Faktafelter } from './Fakta';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
-import { AktivitetValideringLæremidler, validerAktivitet } from './valideringAktivitetLæremidler';
+import {
+    finnBegrunnelseGrunnerAktivitetLæremidler,
+    nyAktivitetLæremidler,
+    resettAktivitetLæremidler,
+} from './utilsLæremidler';
+import {
+    AktivitetValideringLæremidler,
+    validerAktivitetLæremidler,
+} from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -65,7 +72,7 @@ const initaliserForm = (
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetForm => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
+        ? nyAktivitetLæremidler(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
@@ -91,7 +98,11 @@ export const EndreAktivitetLæremidler: React.FC<{
         useState<FormErrors<AktivitetValideringLæremidler>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerAktivitetLæremidler(
+            form,
+            aktivitet,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -144,7 +155,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const oppdaterType = (type: AktivitetType) => {
         settForm((prevState) =>
-            resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+            resettAktivitetLæremidler(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
         oppdaterFomDatoKey();
         oppdaterTomDatoKey();
@@ -156,7 +167,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitetLæremidler(
         form.type,
         form.faktaOgVurderinger.vurderinger
     );

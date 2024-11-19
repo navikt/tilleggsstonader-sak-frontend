@@ -6,8 +6,15 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { Faktafelter } from './Fakta';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
-import { AktivitetValideringBarnetilsyn, validerAktivitet } from './valideringAktivitetBarnetilsyn';
+import {
+    finnBegrunnelseGrunnerAktivitetBarnetilsyn,
+    nyAktivitetBarnetilsyn,
+    resettAktivitetBarnetilsyn,
+} from './utilsBarnetilsyn';
+import {
+    AktivitetValideringBarnetilsyn,
+    validerAktivitetBarnetilsyn,
+} from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -28,7 +35,7 @@ import {
     aktivitetTypeOptions,
     DelvilkårAktivitetBarnetilsyn,
     FaktaBarnetilsyn,
-    FaktaOgDelvilkår,
+    FaktaOgVurderinger,
     FaktaOgVurderingerBarnetilsyn,
     mapAktivitetBarnetilsynNyToBarnetilsyn,
 } from '../typer/aktivitet';
@@ -52,7 +59,7 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
-export interface EndreAktivitetForm<T extends FaktaOgDelvilkår> extends Periode {
+export interface EndreAktivitetForm<T extends FaktaOgVurderinger> extends Periode {
     behandlingId: string;
     type: AktivitetType | '';
     faktaOgVurderinger: T;
@@ -66,7 +73,7 @@ const initaliserForm = (
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetForm<FaktaOgVurderingerBarnetilsyn> => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
+        ? nyAktivitetBarnetilsyn(behandlingId, aktivitetFraRegister)
         : { ...eksisterendeAktivitet, behandlingId: behandlingId };
 };
 
@@ -92,7 +99,11 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         useState<FormErrors<AktivitetValideringBarnetilsyn>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerAktivitetBarnetilsyn(
+            form,
+            aktivitet,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -148,7 +159,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     const oppdaterType = (type: AktivitetType) => {
         settForm((prevState) =>
-            resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+            resettAktivitetBarnetilsyn(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
         oppdaterFomDatoKey();
         oppdaterTomDatoKey();
@@ -160,7 +171,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitetBarnetilsyn(
         form.type,
         form.faktaOgVurderinger.vurderinger
     );

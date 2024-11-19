@@ -1,5 +1,5 @@
 import { EndreAktivitetForm } from './EndreAktivitetFelles';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsLæremidler';
+import { finnBegrunnelseGrunnerAktivitetLæremidler } from './utilsLæremidler';
 import { AktivitetValidering } from './valideringAktivitet';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { validerPeriode } from '../../../../utils/periode';
@@ -11,7 +11,7 @@ export interface AktivitetValideringLæremidler extends AktivitetValidering {
     prosent?: number;
 }
 
-export const validerAktivitet = (
+export const validerAktivitetLæremidler = (
     endretAktivitet: EndreAktivitetForm<FaktaOgVurderingerLæremidler>,
     lagretAktivitet?: AktivitetLæremidlerNyttFormat | undefined,
     revurderesFraDato?: string
@@ -41,7 +41,7 @@ export const validerAktivitet = (
         return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
+    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitetLæremidler(
         endretAktivitet.type,
         endretAktivitet.faktaOgVurderinger.vurderinger
     );

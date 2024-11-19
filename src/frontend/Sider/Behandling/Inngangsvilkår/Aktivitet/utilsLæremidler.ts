@@ -6,7 +6,7 @@ import { AktivitetType, DelvilkårAktivitetLæremidler } from '../typer/aktivite
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
-export const nyAktivitet = (
+export const nyAktivitetLæremidler = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormLæremidler =>
@@ -52,7 +52,7 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 
 export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
-export const resettAktivitet = (
+export const resettAktivitetLæremidler = (
     nyType: AktivitetType,
     eksisterendeAktivitetForm: EndreAktivitetFormLæremidler,
     søknadMottattTidspunkt?: string
@@ -88,7 +88,7 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (
+export const finnBegrunnelseGrunnerAktivitetLæremidler = (
     type: AktivitetType | '',
     delvilkår: DelvilkårAktivitetLæremidler
 ) => {

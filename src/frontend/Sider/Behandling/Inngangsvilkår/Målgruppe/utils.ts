@@ -2,7 +2,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { Aktivitet, FaktaOgDelvilkår } from '../typer/aktivitet';
+import { Aktivitet, FaktaOgVurderinger } from '../typer/aktivitet';
 import {
     DelvilkårMålgruppe,
     FaktiskMålgruppe,
@@ -145,7 +145,7 @@ export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårper
 };
 
 export const erMålgruppeDelvilkår = (
-    delvilkår: DelvilkårMålgruppe | FaktaOgDelvilkår
+    delvilkår: DelvilkårMålgruppe | FaktaOgVurderinger
 ): delvilkår is DelvilkårMålgruppe => {
     return delvilkår['@type'] in MålgruppeType;
 };

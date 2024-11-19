@@ -7,7 +7,7 @@ import { AktivitetType, DelvilkårAktivitetBarnetilsyn } from '../typer/aktivite
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
-export const nyAktivitet = (
+export const nyAktivitetBarnetilsyn = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormBarnetilsyn =>
@@ -60,7 +60,7 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
-export const resettAktivitet = (
+export const resettAktivitetBarnetilsyn = (
     nyType: AktivitetType,
     eksisterendeAktivitetForm: EndreAktivitetFormBarnetilsyn,
     søknadMottattTidspunkt?: string
@@ -121,7 +121,7 @@ const resetDelvilkår = (
     lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
 });
 
-export const finnBegrunnelseGrunnerAktivitet: (
+export const finnBegrunnelseGrunnerAktivitetBarnetilsyn: (
     type: AktivitetType | '',
     delvilkår: DelvilkårAktivitetBarnetilsyn
 ) => BegrunnelseGrunner[] = (
