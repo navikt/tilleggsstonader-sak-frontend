@@ -54,9 +54,9 @@ export enum ÅrsakOpphør {
 }
 
 export const årsakOpphørTilTekst: Record<ÅrsakOpphør, string> = {
-    ENDRING_AKTIVITET: 'Endring i aktivitet',
-    ENDRING_MÅLGRUPPE: 'Endring i målgruppe',
-    ENDRING_UTGIFTER: 'Endring i utgifter',
+    ENDRING_AKTIVITET: 'Avbrudd/stans av aktivitet',
+    ENDRING_MÅLGRUPPE: 'Opphør/ikke lenger i målgruppe',
+    ENDRING_UTGIFTER: 'Ikke lenger utgifter til pass av barn',
     ANNET: 'Annet',
 };
 

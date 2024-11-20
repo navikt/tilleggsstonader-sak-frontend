@@ -38,7 +38,10 @@ export const validerAktivitet = (
         };
     }
 
-    if (!aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)) {
+    if (
+        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
+        !aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)
+    ) {
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
 
