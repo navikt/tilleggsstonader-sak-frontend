@@ -7,7 +7,7 @@ import { Button, HStack } from '@navikt/ds-react';
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { EndreFellesFelter } from './EndreFellesFelter';
 import {
-    finnBegrunnelseGrunnerAktivitet,
+    finnTingSomMåBegrunnes,
     mapEksisterendeAktivitet,
     nyAktivitet,
     resettAktivitet,
@@ -146,10 +146,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
-        form.type,
-        form.svarLønnet
-    );
+    const delvilkårSomKreverBegrunnelse = finnTingSomMåBegrunnes(form.type, form.svarLønnet);
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 

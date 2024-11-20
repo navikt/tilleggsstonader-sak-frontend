@@ -115,7 +115,7 @@ const resetSvarLønnet = (
     eksisterendeSvarLønnet: SvarJaNei | undefined
 ): SvarJaNei | undefined => (skalVurdereLønnet(type) ? eksisterendeSvarLønnet : undefined);
 
-export const finnBegrunnelseGrunnerAktivitet = (
+export const finnTingSomMåBegrunnes = (
     type: AktivitetType | '',
     svarLønnet: SvarJaNei | undefined
 ) => {

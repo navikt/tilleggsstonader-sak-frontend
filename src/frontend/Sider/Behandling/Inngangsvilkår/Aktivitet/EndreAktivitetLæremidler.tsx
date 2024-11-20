@@ -6,7 +6,7 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import { EndreFellesFelter } from './EndreFellesFelter';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
+import { finnTingSomMåBegrunnes, nyAktivitet, resettAktivitet } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -146,10 +146,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
-        form.type,
-        form.delvilkår
-    );
+    const delvilkårSomKreverBegrunnelse = finnTingSomMåBegrunnes(form.type, form.delvilkår);
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 

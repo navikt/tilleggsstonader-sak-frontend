@@ -86,7 +86,7 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (
+export const finnTingSomMåBegrunnes = (
     type: AktivitetType | '',
     delvilkår: DelvilkårAktivitetLæremidler
 ) => {
