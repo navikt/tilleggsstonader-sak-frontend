@@ -130,7 +130,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     };
 
     //TODO: fiks
-    const oppdaterForm = (key: keyof Aktivitet, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof AktivitetLæremidler, nyVerdi: string) => {
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 

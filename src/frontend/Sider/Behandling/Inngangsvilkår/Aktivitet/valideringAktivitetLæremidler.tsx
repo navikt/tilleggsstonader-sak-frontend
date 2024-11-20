@@ -38,7 +38,10 @@ export const validerAktivitet = (
         };
     }
 
-    if (!prosentErGyldigTall(endretAktivitet.prosent)) {
+    if (
+        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
+        !prosentErGyldigTall(endretAktivitet.prosent)
+    ) {
         return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
     }
 
