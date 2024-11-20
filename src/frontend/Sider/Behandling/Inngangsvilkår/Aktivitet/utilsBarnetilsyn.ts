@@ -3,7 +3,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import { AktivitetType, DelvilkårAktivitetBarnetilsyn } from '../typer/aktivitet';
+import { AktivitetBarnetilsyn, AktivitetType } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
@@ -14,6 +14,15 @@ export const nyAktivitet = (
     aktivitetFraRegister
         ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
         : nyTomAktivitet(behandlingId);
+
+export const mapEksisterendeAktivitet = (
+    eksisterendeAktivitet: AktivitetBarnetilsyn,
+    behandlingId: string
+): EndreAktivitetFormBarnetilsyn => ({
+    ...eksisterendeAktivitet,
+    behandlingId: behandlingId,
+    svarLønnet: eksisterendeAktivitet.delvilkår.lønnet?.svar,
+});
 
 /**
  * Prefyller aktivtetsdager med 5 dager hvis det gjelder utdanning då feltet mangler fra arena
@@ -33,7 +42,7 @@ function nyAktivitetFraRegister(
         tom: aktivitetFraRegister.tom || '',
         aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarLønnet: undefined,
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -45,7 +54,7 @@ function nyTomAktivitet(behandlingId: string): EndreAktivitetFormBarnetilsyn {
         fom: '',
         tom: '',
         aktivitetsdager: undefined,
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarLønnet: undefined,
     };
 }
 
@@ -67,7 +76,7 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
-        delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
+        svarLønnet: resetSvarLønnet(nyType, eksisterendeAktivitetForm.svarLønnet),
     };
 };
 
@@ -101,27 +110,24 @@ const resetAktivitetsdager = (
     return eksisterendeForm.aktivitetsdager;
 };
 
-const resetDelvilkår = (
+const resetSvarLønnet = (
     type: AktivitetType,
-    delvilkår: DelvilkårAktivitetBarnetilsyn
-): DelvilkårAktivitetBarnetilsyn => ({
-    ...delvilkår,
-    lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
-});
+    eksisterendeSvarLønnet: SvarJaNei | undefined
+): SvarJaNei | undefined => (skalVurdereLønnet(type) ? eksisterendeSvarLønnet : undefined);
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    delvilkår: DelvilkårAktivitetBarnetilsyn
+    svarLønnet: SvarJaNei | undefined
 ) => {
-    const delvilkårSomMåBegrunnes = [];
+    const tingSomMåBegrunnes = [];
 
-    if (delvilkår.lønnet?.svar === SvarJaNei.JA) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
+    if (svarLønnet === SvarJaNei.JA) {
+        tingSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
+        tingSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
     }
 
-    return delvilkårSomMåBegrunnes;
+    return tingSomMåBegrunnes;
 };

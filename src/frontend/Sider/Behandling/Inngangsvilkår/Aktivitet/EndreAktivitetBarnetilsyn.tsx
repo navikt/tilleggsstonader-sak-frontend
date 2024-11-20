@@ -6,7 +6,12 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { EndreFellesFelter } from './EndreFellesFelter';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
+import {
+    finnBegrunnelseGrunnerAktivitet,
+    mapEksisterendeAktivitet,
+    nyAktivitet,
+    resettAktivitet,
+} from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -20,18 +25,12 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import {
-    Aktivitet,
-    AktivitetBarnetilsyn,
-    AktivitetType,
-    aktivitetTypeOptions,
-    DelvilkårAktivitetBarnetilsyn,
-} from '../typer/aktivitet';
+import { Aktivitet, AktivitetBarnetilsyn, AktivitetType } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
-    Vurdering,
+    SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -48,10 +47,10 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
-    aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetBarnetilsyn;
+    aktivitetsdager?: number;
+    svarLønnet: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -63,7 +62,7 @@ const initaliserForm = (
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
+        : mapEksisterendeAktivitet(eksisterendeAktivitet, behandlingId);
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
@@ -103,8 +102,8 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
             return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
                 nyRadLeggesTil
-                    ? `/api/sak/vilkarperiode`
-                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                    ? `/api/sak/vilkarperiode2/aktivitet`
+                    : `/api/sak/vilkarperiode2/aktivitet/${aktivitet.id}`,
                 'POST',
                 form
             )
@@ -149,7 +148,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.delvilkår
+        form.svarLønnet
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -164,7 +163,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                    />
+                />
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
@@ -189,14 +188,8 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             <AktivitetDelvilkårBarnetilsyn
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(
-                    key: keyof DelvilkårAktivitetBarnetilsyn,
-                    vurdering: Vurdering
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
+                oppdaterLønnet={(svar) =>
+                    settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
             />
 
