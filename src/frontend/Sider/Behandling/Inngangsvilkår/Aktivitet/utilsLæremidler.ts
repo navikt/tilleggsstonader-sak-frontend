@@ -1,4 +1,3 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
@@ -10,7 +9,7 @@ import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 export const nyAktivitet = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetFormBarnetilsyn =>
+): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
         ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister) // TODO: Fiks senere
         : nyTomAktivitet(behandlingId);
@@ -72,7 +71,7 @@ export const resettAktivitet = (
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetFormBarnetilsyn,
+    eksisterendeForm: EndreAktivitetFormLæremidler,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {

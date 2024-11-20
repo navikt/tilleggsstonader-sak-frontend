@@ -6,6 +6,7 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import { EndreFellesFelter } from './EndreFellesFelter';
+import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -129,7 +130,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     };
 
     //TODO: fiks
-    const oppdaterForm = (key: keyof Aktivitet, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof AktivitetLæremidler, nyVerdi: string) => {
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
@@ -162,7 +163,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                    />
+                />
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField

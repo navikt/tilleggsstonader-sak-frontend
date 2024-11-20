@@ -12,7 +12,6 @@ export interface AktivitetValidering extends Periode {
     begrunnelse?: string;
 }
 
-// TODO: Håndter læremidler
 export const validerAktivitet = (
     endretAktivitet: EndreAktivitetFormBarnetilsyn,
     lagretAktivitet?: Aktivitet | undefined,
