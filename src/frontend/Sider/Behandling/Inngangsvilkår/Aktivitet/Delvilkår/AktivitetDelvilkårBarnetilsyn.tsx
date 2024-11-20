@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering2';
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode';
 import { EndreAktivitetFormBarnetilsyn } from '../EndreAktivitetBarnetilsyn';
 import { skalVurdereLønnet } from '../utilsBarnetilsyn';

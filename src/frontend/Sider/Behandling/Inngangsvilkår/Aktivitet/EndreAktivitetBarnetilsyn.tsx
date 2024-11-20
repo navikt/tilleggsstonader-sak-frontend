@@ -103,7 +103,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode2/aktivitet`
-                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                    : `/api/sak/vilkarperiode2/aktivitet/${aktivitet.id}`,
                 'POST',
                 form
             )
