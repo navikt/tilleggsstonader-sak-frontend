@@ -93,7 +93,7 @@ export const finnBegrunnelseGrunnerAktivitet = (
     const delvilkårSomMåBegrunnes = [];
 
     if (delvilkår.harUtgifter?.svar === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET); // TODO: fiks at den ikke bruker lønnet
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
