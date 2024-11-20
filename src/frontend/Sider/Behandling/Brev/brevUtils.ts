@@ -16,6 +16,7 @@ enum SanityMappe {
     INNVILGET = 'INNVILGET',
     AVSLAG = 'AVSLAG',
     REVURDERING = 'REVURDERING',
+    OPPHØR = 'OPPHOR',
 }
 
 /**
@@ -29,6 +30,9 @@ export const finnSanityMappe = (
     if (vedtakType === TypeVedtak.AVSLAG) {
         return [SanityMappe.AVSLAG];
     }
+    if (vedtakType === TypeVedtak.OPPHØR) {
+        return [SanityMappe.OPPHØR];
+    }
 
     if (behandlingstype === BehandlingType.REVURDERING) {
         return [SanityMappe.REVURDERING, SanityMappe.INNVILGET];
@@ -36,10 +40,6 @@ export const finnSanityMappe = (
 
     if (vedtakType === TypeVedtak.INNVILGELSE) {
         return [SanityMappe.INNVILGET];
-    }
-
-    if (vedtakType === TypeVedtak.OPPHØR) {
-        return [SanityMappe.REVURDERING]; //TODO Legg til egen mappe for opphør
     }
 
     return vedtakType;
