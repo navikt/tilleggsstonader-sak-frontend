@@ -1,5 +1,5 @@
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { finnBegrunnelseGrunnerAktivitet } from './utilsLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
