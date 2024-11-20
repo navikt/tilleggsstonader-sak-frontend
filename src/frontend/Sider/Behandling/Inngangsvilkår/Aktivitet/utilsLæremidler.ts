@@ -1,16 +1,14 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { AktivitetType, DelvilkårAktivitetLæremidler } from '../typer/aktivitet';
-import { SvarJaNei } from '../typer/vilkårperiode';
+import { AktivitetType } from '../typer/aktivitet';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
     behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetFormBarnetilsyn =>
+): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
         ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister) // TODO: Fiks senere
         : nyTomAktivitet(behandlingId);
@@ -72,7 +70,7 @@ export const resettAktivitet = (
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetFormBarnetilsyn,
+    eksisterendeForm: EndreAktivitetFormLæremidler,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
@@ -87,19 +85,14 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (
-    type: AktivitetType | '',
-    delvilkår: DelvilkårAktivitetLæremidler
-) => {
-    const delvilkårSomMåBegrunnes = [];
+export const finnTingSomMåBegrunnes = (type: AktivitetType | '') => {
+    const tingSomMåBegrunnes = [];
 
-    if (delvilkår.harUtgifter?.svar === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
-    }
+    // TODO: Valider delvilkår (har utgifter)
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
+        tingSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
     }
 
-    return delvilkårSomMåBegrunnes;
+    return tingSomMåBegrunnes;
 };

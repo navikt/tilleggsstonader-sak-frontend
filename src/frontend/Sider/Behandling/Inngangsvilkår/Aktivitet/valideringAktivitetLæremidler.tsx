@@ -1,5 +1,5 @@
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { finnTingSomMåBegrunnes } from './utilsLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -45,10 +45,7 @@ export const validerAktivitet = (
         return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
-        endretAktivitet.type,
-        endretAktivitet.delvilkår
-    );
+    const obligatoriskeBegrunnelser = finnTingSomMåBegrunnes(endretAktivitet.type);
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))
         return { ...feil, begrunnelse: 'Begrunnelse er obligatorisk' };

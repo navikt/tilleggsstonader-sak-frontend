@@ -1,5 +1,5 @@
 import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { finnTingSomMåBegrunnes } from './utilsBarnetilsyn';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -43,9 +43,9 @@ export const validerAktivitet = (
         return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
+    const obligatoriskeBegrunnelser = finnTingSomMåBegrunnes(
         endretAktivitet.type,
-        endretAktivitet.delvilkår
+        endretAktivitet.svarLønnet
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))

@@ -6,7 +6,12 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { EndreFellesFelter } from './EndreFellesFelter';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
+import {
+    finnTingSomMåBegrunnes,
+    mapEksisterendeAktivitet,
+    nyAktivitet,
+    resettAktivitet,
+} from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -20,17 +25,12 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import {
-    Aktivitet,
-    AktivitetBarnetilsyn,
-    AktivitetType,
-    DelvilkårAktivitetBarnetilsyn,
-} from '../typer/aktivitet';
+import { Aktivitet, AktivitetBarnetilsyn, AktivitetType } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
-    Vurdering,
+    SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -47,22 +47,22 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
-    aktivitetsdager?: number;
     behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetBarnetilsyn;
+    aktivitetsdager?: number;
+    svarLønnet: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: Aktivitet,
+    eksisterendeAktivitet?: AktivitetBarnetilsyn,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
+        : mapEksisterendeAktivitet(eksisterendeAktivitet, behandlingId);
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
@@ -102,7 +102,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
             return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
                 nyRadLeggesTil
-                    ? `/api/sak/vilkarperiode`
+                    ? `/api/sak/vilkarperiode2/aktivitet`
                     : `/api/sak/vilkarperiode/${aktivitet.id}`,
                 'POST',
                 form
@@ -146,10 +146,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         nyRadLeggesTil: nyRadLeggesTil,
     });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
-        form.type,
-        form.delvilkår
-    );
+    const delvilkårSomKreverBegrunnelse = finnTingSomMåBegrunnes(form.type, form.svarLønnet);
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
@@ -188,14 +185,8 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             <AktivitetDelvilkårBarnetilsyn
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(
-                    key: keyof DelvilkårAktivitetBarnetilsyn,
-                    vurdering: Vurdering
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
+                oppdaterLønnet={(svar) =>
+                    settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
             />
 
