@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
+import { EndreFellesFelter } from './EndreFellesFelter';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
@@ -12,10 +13,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
-import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
@@ -60,7 +58,7 @@ export interface EndreAktivitetFormBarnetilsyn extends Periode {
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: Aktivitet,
+    eksisterendeAktivitet?: AktivitetBarnetilsyn,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
@@ -76,10 +74,6 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
-    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
-        useTriggRerendringAvDateInput();
-    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
-        useTriggRerendringAvDateInput();
 
     const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
@@ -137,7 +131,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     };
 
     //TODO: fiks
-    const oppdaterForm = (key: keyof Aktivitet, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof AktivitetBarnetilsyn, nyVerdi: string) => {
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
@@ -145,8 +139,6 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
-        oppdaterFomDatoKey();
-        oppdaterTomDatoKey();
     };
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
@@ -161,45 +153,18 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-    const kanEndreType = aktivitet === undefined && !aktivitetErBruktFraSystem;
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <FeilmeldingMaksBredde>
-                    <SelectMedOptions
-                        label="Type"
-                        readOnly={!kanEndreType}
-                        value={form.type}
-                        valg={aktivitetTypeOptions}
-                        onChange={(e) => oppdaterType(e.target.value as AktivitetType)}
-                        size="small"
-                        error={vilkårsperiodeFeil?.type}
+                <EndreFellesFelter
+                    form={form}
+                    oppdaterTypeIForm={oppdaterType}
+                    oppdaterPeriode={oppdaterForm}
+                    formFeil={vilkårsperiodeFeil}
+                    alleFelterKanEndres={alleFelterKanEndres}
+                    kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={fomKeyDato}
-                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                        readOnly={!alleFelterKanEndres}
-                        label={'Fra'}
-                        value={form?.fom}
-                        onChange={(dato) => oppdaterForm('fom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.fom}
-                    />
-                </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={tomKeyDato}
-                        erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label={'Til'}
-                        value={form?.tom}
-                        onChange={(dato) => oppdaterForm('tom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.tom}
-                    />
-                </FeilmeldingMaksBredde>
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
