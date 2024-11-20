@@ -2,9 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import JaNeiVurdering from '../../../Vilkårvurdering/JaNeiVurdering';
-import { DelvilkårAktivitetBarnetilsyn } from '../../typer/aktivitet';
-import { Vurdering } from '../../typer/vilkårperiode';
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { SvarJaNei } from '../../typer/vilkårperiode';
 import { EndreAktivitetFormBarnetilsyn } from '../EndreAktivitetBarnetilsyn';
 import { skalVurdereLønnet } from '../utilsBarnetilsyn';
 
@@ -15,9 +14,9 @@ const Container = styled.div`
 
 export const AktivitetDelvilkårBarnetilsyn: React.FC<{
     aktivitetForm: EndreAktivitetFormBarnetilsyn;
-    oppdaterDelvilkår: (key: keyof DelvilkårAktivitetBarnetilsyn, vurdering: Vurdering) => void;
+    oppdaterLønnet: (svar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterDelvilkår, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterLønnet, readOnly }) => {
     if (aktivitetForm.type === '') return null;
 
     if (!skalVurdereLønnet(aktivitetForm.type)) return null;
@@ -27,8 +26,8 @@ export const AktivitetDelvilkårBarnetilsyn: React.FC<{
             <JaNeiVurdering
                 label="Mottar bruker ordinær lønn i tiltaket?"
                 readOnly={readOnly}
-                vurdering={aktivitetForm.delvilkår.lønnet}
-                oppdaterVurdering={(vurdering: Vurdering) => oppdaterDelvilkår('lønnet', vurdering)}
+                svar={aktivitetForm.svarLønnet}
+                oppdaterSvar={oppdaterLønnet}
             />
         </Container>
     );

@@ -4,23 +4,23 @@ import styled from 'styled-components';
 
 import { HStack, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårperiode';
+import { SvarJaNei, svarJaNeiMapping, Vurdering } from '../Inngangsvilkår/typer/vilkårperiode';
 
 const LesMerTekst = styled(ReadMore)`
     max-width: 30rem;
 `;
 
-export const JaNeiVurdering: React.FC<{
+export const JaNeiDelvilkårVurdering: React.FC<{
     label: string;
-    svar: SvarJaNei | undefined;
-    oppdaterSvar: (svar: SvarJaNei) => void;
+    vurdering?: Vurdering;
+    oppdaterVurdering: (vurdering: Vurdering) => void;
     svarJa?: string;
     svarNei?: string;
     hjelpetekst?: string;
     readOnly?: boolean;
 }> = ({
-    svar,
-    oppdaterSvar,
+    vurdering,
+    oppdaterVurdering,
     label,
     svarJa = svarJaNeiMapping[SvarJaNei.JA],
     svarNei = svarJaNeiMapping[SvarJaNei.NEI],
@@ -29,10 +29,10 @@ export const JaNeiVurdering: React.FC<{
 }) => {
     return (
         <RadioGroup
-            value={svar || ''}
+            value={vurdering?.svar || ''}
             legend={label}
             readOnly={readOnly}
-            onChange={oppdaterSvar}
+            onChange={(e) => oppdaterVurdering({ ...vurdering, svar: e })}
             size="small"
         >
             {hjelpetekst && (

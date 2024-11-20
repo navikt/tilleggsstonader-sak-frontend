@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import JaNeiVurdering from '../../../Vilkårvurdering/JaNeiVurdering';
+import { JaNeiDelvilkårVurdering } from '../../../Vilkårvurdering/JaNeiDelvilkårVurdering';
 import { DelvilkårAktivitetLæremidler } from '../../typer/aktivitet';
 import { Vurdering } from '../../typer/vilkårperiode';
 import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
@@ -24,7 +24,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
 
     return (
         <Container>
-            <JaNeiVurdering
+            <JaNeiDelvilkårVurdering
                 label="Har bruker utgifter til læremidler?"
                 readOnly={readOnly}
                 vurdering={aktivitetForm.delvilkår.harUtgifter}

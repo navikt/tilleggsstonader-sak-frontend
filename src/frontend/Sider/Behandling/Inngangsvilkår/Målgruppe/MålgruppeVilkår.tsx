@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
-import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
+import { JaNeiDelvilkårVurdering } from '../../Vilkårvurdering/JaNeiDelvilkårVurdering';
 import { DelvilkårMålgruppe } from '../typer/målgruppe';
 import { Vurdering } from '../typer/vilkårperiode';
 
@@ -33,7 +33,7 @@ const MålgruppeVilkår: React.FC<{
     return (
         <Container>
             {skalVurdereMedlemskap && (
-                <JaNeiVurdering
+                <JaNeiDelvilkårVurdering
                     label="Medlemskap i folketrygden?"
                     readOnly={readOnly}
                     vurdering={målgruppeForm.delvilkår.medlemskap}
@@ -44,7 +44,7 @@ const MålgruppeVilkår: React.FC<{
                 />
             )}
             {skalVurdereDekketAvAnnetRegelverk && (
-                <JaNeiVurdering
+                <JaNeiDelvilkårVurdering
                     label="Dekkes utgiftene av annet regelverk?"
                     readOnly={readOnly}
                     vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
