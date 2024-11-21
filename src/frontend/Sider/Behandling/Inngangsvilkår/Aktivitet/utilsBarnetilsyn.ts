@@ -68,7 +68,7 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
-        svarLønnet: resetSvarLønnet(nyType, eksisterendeAktivitetForm.svarLønnet),
+        svarLønnet: undefined,
     };
 };
 
@@ -101,11 +101,6 @@ const resetAktivitetsdager = (
 
     return eksisterendeForm.aktivitetsdager;
 };
-
-const resetSvarLønnet = (
-    type: AktivitetType,
-    eksisterendeSvarLønnet: SvarJaNei | undefined
-): SvarJaNei | undefined => (skalVurdereLønnet(type) ? eksisterendeSvarLønnet : undefined);
 
 export const finnTingSomMåBegrunnes = (
     type: AktivitetType | '',
