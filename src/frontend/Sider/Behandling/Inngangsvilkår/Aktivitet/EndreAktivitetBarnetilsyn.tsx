@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
-import { EndreFellesFelter } from './EndreFellesFelter';
 import {
     finnTingSomMåBegrunnes,
     mapEksisterendeAktivitet,
@@ -38,6 +37,7 @@ import {
     SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
+import { EndreFellesFelter } from '../Vilkårperioder/EndreFellesFelter';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 

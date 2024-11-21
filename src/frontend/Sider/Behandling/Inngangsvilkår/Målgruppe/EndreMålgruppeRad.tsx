@@ -16,7 +16,6 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { EndreFellesFelter } from '../Aktivitet/EndreFellesFelter';
 import {
     DelvilkårMålgruppe,
     Målgruppe,
@@ -29,6 +28,7 @@ import {
     Vurdering,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
+import { EndreFellesFelter } from '../Vilkårperioder/EndreFellesFelter';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
