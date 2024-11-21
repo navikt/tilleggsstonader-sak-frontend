@@ -70,7 +70,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             beregnBarnetilsyn();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [erStegRedigerbart]);
 
     return (
         <>
