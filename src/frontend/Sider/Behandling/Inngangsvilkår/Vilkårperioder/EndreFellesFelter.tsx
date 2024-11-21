@@ -13,9 +13,11 @@ export interface FellesFormFelter extends Periode {
     type: AktivitetType | MålgruppeType | '';
 }
 
-interface Props {
+type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
+
+interface Props<T extends MålgruppeEllerAktivitet> {
     form: FellesFormFelter;
-    oppdaterTypeIForm: (type: string) => void;
+    oppdaterTypeIForm: (type: T) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
     typeOptions: SelectOption[];
     formFeil?: FormErrors<FellesFormFelter>;
@@ -23,7 +25,7 @@ interface Props {
     kanEndreType: boolean;
 }
 
-export const EndreFellesFelter: React.FC<Props> = ({
+export const EndreFellesFelter = <T extends MålgruppeEllerAktivitet>({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
@@ -31,13 +33,13 @@ export const EndreFellesFelter: React.FC<Props> = ({
     formFeil,
     alleFelterKanEndres,
     kanEndreType,
-}) => {
+}: Props<T>) => {
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const oppdaterType = (type: string) => {
+    const oppdaterType = (type: T) => {
         oppdaterTypeIForm(type);
 
         oppdaterFomDatoKey();
@@ -52,7 +54,7 @@ export const EndreFellesFelter: React.FC<Props> = ({
                     readOnly={!kanEndreType}
                     value={form.type}
                     valg={typeOptions}
-                    onChange={(e) => oppdaterType(e.target.value)}
+                    onChange={(e) => oppdaterType(e.target.value as T)}
                     size="small"
                     error={formFeil?.type}
                 />

@@ -158,9 +158,9 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <EndreFellesFelter
+                <EndreFellesFelter<AktivitetType>
                     form={form}
-                    oppdaterTypeIForm={(type) => oppdaterType(type as AktivitetType)}
+                    oppdaterTypeIForm={(type) => oppdaterType(type)}
                     oppdaterPeriode={oppdaterForm}
                     typeOptions={aktivitetTypeOptions}
                     formFeil={vilkårsperiodeFeil}
