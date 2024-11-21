@@ -13,6 +13,7 @@ import { erTomtObjekt } from '../../../../typer/typeUtils';
 import {
     AvslagBarnetilsyn,
     AvslåBarnetilsynRequest,
+    TypeVedtak,
     ÅrsakAvslag,
     årsakAvslagTilTekst,
 } from '../../../../typer/vedtak';
@@ -31,7 +32,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
         return request<null, AvslåBarnetilsynRequest>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`,
             'POST',
-            { årsakerAvslag: årsaker, begrunnelse: begrunnelse }
+            { type: TypeVedtak.AVSLAG, årsakerAvslag: årsaker, begrunnelse: begrunnelse }
         );
     };
 
