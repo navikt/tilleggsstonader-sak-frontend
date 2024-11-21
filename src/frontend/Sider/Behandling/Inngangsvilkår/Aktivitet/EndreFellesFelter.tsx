@@ -3,26 +3,31 @@ import React from 'react';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
+import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Periode } from '../../../../utils/periode';
-import { AktivitetType, aktivitetTypeOptions } from '../typer/aktivitet';
+import { AktivitetType } from '../typer/aktivitet';
+import { MålgruppeType } from '../typer/målgruppe';
 
 export interface FellesFormFelter extends Periode {
-    type: AktivitetType | '';
+    type: AktivitetType | MålgruppeType | '';
 }
 
-export const EndreFellesFelter: React.FC<{
+interface Props {
     form: FellesFormFelter;
-    oppdaterTypeIForm: (type: AktivitetType) => void;
+    oppdaterTypeIForm: (type: string) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
+    typeOptions: SelectOption[];
     formFeil?: FormErrors<FellesFormFelter>;
     alleFelterKanEndres: boolean;
     kanEndreType: boolean;
-}> = ({
+}
+
+export const EndreFellesFelter: React.FC<Props> = ({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
+    typeOptions,
     formFeil,
     alleFelterKanEndres,
     kanEndreType,
@@ -32,7 +37,7 @@ export const EndreFellesFelter: React.FC<{
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const oppdaterType = (type: AktivitetType) => {
+    const oppdaterType = (type: string) => {
         oppdaterTypeIForm(type);
 
         oppdaterFomDatoKey();
@@ -46,8 +51,8 @@ export const EndreFellesFelter: React.FC<{
                     label="Type"
                     readOnly={!kanEndreType}
                     value={form.type}
-                    valg={aktivitetTypeOptions}
-                    onChange={(e) => oppdaterType(e.target.value as AktivitetType)}
+                    valg={typeOptions}
+                    onChange={(e) => oppdaterType(e.target.value)}
                     size="small"
                     error={formFeil?.type}
                 />

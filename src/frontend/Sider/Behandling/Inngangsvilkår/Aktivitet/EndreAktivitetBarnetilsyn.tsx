@@ -25,7 +25,12 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import { Aktivitet, AktivitetBarnetilsyn, AktivitetType } from '../typer/aktivitet';
+import {
+    Aktivitet,
+    AktivitetBarnetilsyn,
+    AktivitetType,
+    aktivitetTypeOptions,
+} from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
@@ -155,8 +160,9 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             <FeltContainer>
                 <EndreFellesFelter
                     form={form}
-                    oppdaterTypeIForm={oppdaterType}
+                    oppdaterTypeIForm={(type) => oppdaterType(type as AktivitetType)}
                     oppdaterPeriode={oppdaterForm}
+                    typeOptions={aktivitetTypeOptions}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
