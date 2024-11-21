@@ -8,7 +8,9 @@ import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkår
 import { EndreFellesFelter } from './EndreFellesFelter';
 import {
     finnTingSomMåBegrunnes,
+    LagreAktivitetBarnetilsyn,
     mapEksisterendeAktivitet,
+    mapTilDto,
     nyAktivitet,
     resettAktivitet,
 } from './utilsBarnetilsyn';
@@ -46,23 +48,27 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
+export interface FaktaOgVurderingerAktivitetBarnetilsyn {
+    '@type': 'AKTIVITET_BARNETILSYN';
+    aktivitetsdager: number | undefined;
+    svarLønnet: SvarJaNei | undefined;
+}
+
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
-    behandlingId: string;
     type: AktivitetType | '';
-    aktivitetsdager?: number;
+    aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
-    behandlingId: string,
     eksisterendeAktivitet?: AktivitetBarnetilsyn,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : mapEksisterendeAktivitet(eksisterendeAktivitet, behandlingId);
+        ? nyAktivitet(aktivitetFraRegister)
+        : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
@@ -75,7 +81,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
 
     const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
-        initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
+        initaliserForm(aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -100,12 +106,12 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
+            return request<LagreVilkårperiodeResponse<Aktivitet>, LagreAktivitetBarnetilsyn>(
                 nyRadLeggesTil
                     ? `/api/sak/vilkarperiode2/aktivitet`
                     : `/api/sak/vilkarperiode2/aktivitet/${aktivitet.id}`,
                 'POST',
-                form
+                mapTilDto(form, behandling.id)
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
