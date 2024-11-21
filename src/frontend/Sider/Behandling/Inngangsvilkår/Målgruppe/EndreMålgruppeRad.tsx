@@ -12,14 +12,11 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
-import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
-import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { EndreFellesFelter } from '../Aktivitet/EndreFellesFelter';
 import {
     DelvilkårMålgruppe,
     Målgruppe,
@@ -27,7 +24,6 @@ import {
     målgruppeTypeOptions,
 } from '../typer/målgruppe';
 import {
-    KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
     Vurdering,
@@ -72,10 +68,6 @@ const EndreMålgruppeRad: React.FC<{
     const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
-    const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
-        useTriggRerendringAvDateInput();
-    const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
-        useTriggRerendringAvDateInput();
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
         initaliserForm(behandling.id, målgruppe, registerYtelsePeriode)
@@ -89,7 +81,6 @@ const EndreMålgruppeRad: React.FC<{
         form.type,
         form.delvilkår
     );
-    const kanEndreType = målgruppe === undefined;
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, behandling.revurderFra);
@@ -143,8 +134,6 @@ const EndreMålgruppeRad: React.FC<{
         settForm((prevState) =>
             resettMålgruppe(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
-        oppdaterFomDatoKey();
-        oppdaterTomDatoKey();
     };
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
@@ -156,42 +145,15 @@ const EndreMålgruppeRad: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
             <FeltContainer>
-                <FeilmeldingMaksBredde>
-                    <SelectMedOptions
-                        label="Ytelse/situasjon"
-                        readOnly={!kanEndreType}
-                        value={form.type}
-                        valg={målgruppeTypeOptions}
-                        onChange={(e) => oppdaterType(e.target.value as MålgruppeType)}
-                        size="small"
-                        error={vilkårsperiodeFeil?.type}
-                    />
-                </FeilmeldingMaksBredde>
-
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={fomKeyDato}
-                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
-                        readOnly={!alleFelterKanEndres}
-                        label={'Fra'}
-                        value={form?.fom}
-                        onChange={(dato) => oppdaterForm('fom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.fom}
-                    />
-                </FeilmeldingMaksBredde>
-
-                <FeilmeldingMaksBredde>
-                    <DateInputMedLeservisning
-                        key={tomKeyDato}
-                        erLesevisning={målgruppe?.kilde === KildeVilkårsperiode.SYSTEM}
-                        label={'Til'}
-                        value={form?.tom}
-                        onChange={(dato) => oppdaterForm('tom', dato || '')}
-                        size="small"
-                        feil={vilkårsperiodeFeil?.tom}
-                    />
-                </FeilmeldingMaksBredde>
+                <EndreFellesFelter
+                    form={form}
+                    oppdaterTypeIForm={(type) => oppdaterType(type as MålgruppeType)}
+                    oppdaterPeriode={oppdaterForm}
+                    typeOptions={målgruppeTypeOptions}
+                    formFeil={vilkårsperiodeFeil}
+                    alleFelterKanEndres={alleFelterKanEndres}
+                    kanEndreType={målgruppe === undefined}
+                />
             </FeltContainer>
 
             <MålgruppeVilkår
