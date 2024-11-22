@@ -161,10 +161,11 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
+                    typeOptions={aktivitetTypeOptions}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                    />
+                />
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField

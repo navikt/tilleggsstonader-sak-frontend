@@ -24,6 +24,7 @@ import {
     Aktivitet,
     AktivitetLæremidler,
     AktivitetType,
+    aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -160,6 +161,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
+                    typeOptions={aktivitetTypeOptions}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
