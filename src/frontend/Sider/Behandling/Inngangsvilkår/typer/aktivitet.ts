@@ -67,3 +67,9 @@ export interface FaktaOgVurderingerAktivitetBarnetilsyn {
     aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
 }
+
+export interface FaktaOgVurderingerAktivitetLæremidler {
+    '@type': 'AKTIVITET_LÆREMIDLER';
+    prosent: number | undefined;
+    svarHarUtgifter: SvarJaNei | undefined;
+}

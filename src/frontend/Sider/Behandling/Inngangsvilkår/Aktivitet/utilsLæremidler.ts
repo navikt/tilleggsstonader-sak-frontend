@@ -2,7 +2,11 @@ import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { AktivitetType, DelvilkårAktivitetLæremidler } from '../typer/aktivitet';
+import {
+    AktivitetLæremidler,
+    AktivitetType,
+    FaktaOgVurderingerAktivitetLæremidler,
+} from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
@@ -11,32 +15,36 @@ export const nyAktivitet = (
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
-        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister) // TODO: Fiks senere
-        : nyTomAktivitet(behandlingId);
+        ? nyAktivitetFraRegister(aktivitetFraRegister) // TODO: Fiks senere
+        : nyTomAktivitet();
+
+export const mapEksisterendeAktivitet = (
+    eksisterendeAktivitet: AktivitetLæremidler
+): EndreAktivitetFormLæremidler => ({
+    ...eksisterendeAktivitet,
+    svarHarUtgifter: eksisterendeAktivitet.delvilkår.harUtgifter?.svar,
+});
 
 function nyAktivitetFraRegister(
-    behandlingId: string,
     aktivitetFraRegister: Registeraktivitet
 ): EndreAktivitetFormLæremidler {
     return {
-        behandlingId: behandlingId,
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         prosent: aktivitetFraRegister.prosentDeltakelse,
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarHarUtgifter: undefined,
         kildeId: aktivitetFraRegister.id,
     };
 }
 
-function nyTomAktivitet(behandlingId: string): EndreAktivitetFormLæremidler {
+function nyTomAktivitet(): EndreAktivitetFormLæremidler {
     return {
-        behandlingId: behandlingId,
         type: '',
         fom: '',
         tom: '',
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarHarUtgifter: undefined,
         prosent: undefined,
     };
 }
@@ -59,13 +67,7 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         prosent: undefined, //todo: finn ut om den skal resettes
-        delvilkår: {
-            ...eksisterendeAktivitetForm.delvilkår,
-            harUtgifter:
-                nyType === AktivitetType.TILTAK
-                    ? eksisterendeAktivitetForm.delvilkår.harUtgifter
-                    : undefined, // TODO: Er denne resettingen nødvendig? Eller kan man alltid returnere undefined
-        },
+        svarHarUtgifter: undefined,
     };
 };
 
@@ -88,11 +90,11 @@ const resetPeriode = (
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    delvilkår: DelvilkårAktivitetLæremidler
+    svarHarUtgifter: SvarJaNei | undefined
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
-    if (delvilkår.harUtgifter?.svar === SvarJaNei.NEI) {
+    if (svarHarUtgifter === SvarJaNei.NEI) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
     }
 
@@ -102,3 +104,28 @@ export const finnBegrunnelseGrunnerAktivitet = (
 
     return delvilkårSomMåBegrunnes;
 };
+
+export interface LagreAktivitetLæremidler extends Periode {
+    behandlingId: string;
+    type: AktivitetType | '';
+    faktaOgVurderinger: FaktaOgVurderingerAktivitetLæremidler;
+    begrunnelse?: string;
+    kildeId?: string;
+}
+
+export const mapTilRequest = (
+    behandlingId: string,
+    aktivitetForm: EndreAktivitetFormLæremidler
+): LagreAktivitetLæremidler => ({
+    fom: aktivitetForm.fom,
+    tom: aktivitetForm.tom,
+    behandlingId: behandlingId,
+    type: aktivitetForm.type,
+    faktaOgVurderinger: {
+        '@type': 'AKTIVITET_LÆREMIDLER',
+        prosent: aktivitetForm.prosent,
+        svarHarUtgifter: aktivitetForm.svarHarUtgifter,
+    },
+    begrunnelse: aktivitetForm.begrunnelse,
+    kildeId: aktivitetForm.kildeId,
+});
