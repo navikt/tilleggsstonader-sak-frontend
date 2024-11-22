@@ -53,9 +53,9 @@ export const hentLagretOppgaveRequest = (
         ...fraLocalStorage,
         limit: fraLocalStorage.limit ?? defaultSortering.limit,
         offset: fraLocalStorage.offset ?? defaultSortering.offset,
+        oppgaverPåVent: fraLocalStorage.oppgaverPåVent ?? defaultOppgaveRequest.oppgaverPåVent,
         order: defaultSortering.order,
         orderBy: defaultSortering.orderBy,
-        oppgaverPåVent: defaultOppgaveRequest.oppgaverPåVent,
     };
 
     return oppgaveRequestMedDefaultEnhet(
