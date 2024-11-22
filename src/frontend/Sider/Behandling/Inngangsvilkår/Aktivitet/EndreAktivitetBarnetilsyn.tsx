@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
-import { EndreFellesFelter } from './EndreFellesFelter';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
@@ -34,6 +33,7 @@ import {
     Vurdering,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
+import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
@@ -157,7 +157,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <EndreFellesFelter
+                <EndreTypeOgDatoer
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}

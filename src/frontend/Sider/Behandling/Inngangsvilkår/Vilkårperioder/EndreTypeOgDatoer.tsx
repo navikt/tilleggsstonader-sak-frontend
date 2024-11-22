@@ -25,7 +25,7 @@ interface Props<T extends MålgruppeEllerAktivitet> {
     kanEndreType: boolean;
 }
 
-export const EndreFellesFelter = <T extends MålgruppeEllerAktivitet>({
+export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
