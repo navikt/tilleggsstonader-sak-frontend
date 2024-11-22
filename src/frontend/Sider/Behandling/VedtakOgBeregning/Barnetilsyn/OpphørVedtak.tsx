@@ -76,6 +76,7 @@ const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) =>
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
                 size="small"
+                style={{ maxWidth: '20em' }}
             />
 
             <StegKnapp
