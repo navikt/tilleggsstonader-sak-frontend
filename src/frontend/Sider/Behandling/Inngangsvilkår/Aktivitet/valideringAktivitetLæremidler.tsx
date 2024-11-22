@@ -1,5 +1,5 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
+import { finnBegrunnelseGrunnerAktivitet } from './utilsLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -8,13 +8,12 @@ import { Aktivitet, AktivitetType } from '../typer/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
-    aktivitetsdager?: number;
+    prosent?: number;
     begrunnelse?: string;
 }
 
-// TODO: Håndter læremidler
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormBarnetilsyn,
+    endretAktivitet: EndreAktivitetFormLæremidler,
     lagretAktivitet?: Aktivitet | undefined,
     revurderesFraDato?: string
 ): FormErrors<AktivitetValidering> => {
@@ -22,7 +21,7 @@ export const validerAktivitet = (
         fom: undefined,
         tom: undefined,
         type: undefined,
-        aktivitetsdager: undefined,
+        prosent: undefined,
         begrunnelse: undefined,
     };
 
@@ -41,9 +40,9 @@ export const validerAktivitet = (
 
     if (
         endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
-        !aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)
+        !prosentErGyldigTall(endretAktivitet.prosent)
     ) {
-        return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
+        return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
     }
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
@@ -57,5 +56,5 @@ export const validerAktivitet = (
     return feil;
 };
 
-const aktivitetsdagerErGyldigTall = (aktivitetsdager: number | undefined): boolean =>
-    harTallverdi(aktivitetsdager) && aktivitetsdager >= 1 && aktivitetsdager <= 5;
+const prosentErGyldigTall = (prosent: number | undefined): boolean =>
+    harTallverdi(prosent) && prosent > 0 && prosent <= 100;

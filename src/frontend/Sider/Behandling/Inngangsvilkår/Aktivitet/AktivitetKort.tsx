@@ -64,10 +64,7 @@ export const AktivitetKort: React.FC<{
                     </BodyShort>
                 </Celle>
                 <Celle>
-                    <FaktaOgDelvilkårVisning
-                        aktivitetsdager={aktivitet.aktivitetsdager}
-                        delvilkår={aktivitet.delvilkår}
-                    />
+                    <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
                 <Celle $width={300}>
                     <VStack>
