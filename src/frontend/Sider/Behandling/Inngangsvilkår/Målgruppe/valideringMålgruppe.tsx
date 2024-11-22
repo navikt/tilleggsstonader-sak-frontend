@@ -37,7 +37,7 @@ export const validerMålgruppe = (
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerMålgruppe(
         endretMålgruppe.type,
-        endretMålgruppe.delvilkår
+        endretMålgruppe.vurderinger
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretMålgruppe.begrunnelse))

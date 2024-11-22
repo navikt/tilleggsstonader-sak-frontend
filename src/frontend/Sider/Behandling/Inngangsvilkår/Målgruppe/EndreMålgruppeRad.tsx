@@ -5,7 +5,14 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import MålgruppeVilkår from './MålgruppeVilkår';
-import { finnBegrunnelseGrunnerMålgruppe, nyMålgruppe, resettMålgruppe } from './utils';
+import {
+    finnBegrunnelseGrunnerMålgruppe,
+    LagreMålgruppe,
+    mapEksisterendeMålgruppe,
+    mapTilRequest,
+    nyMålgruppe,
+    resettMålgruppe,
+} from './utils';
 import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -17,15 +24,15 @@ import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
-    DelvilkårMålgruppe,
     Målgruppe,
     MålgruppeType,
     målgruppeTypeOptions,
+    VurderingerMålgruppe,
 } from '../typer/målgruppe';
 import {
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
-    Vurdering,
+    SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
@@ -33,10 +40,9 @@ import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 export interface EndreMålgruppeForm extends Periode {
-    behandlingId: string;
     type: MålgruppeType | '';
-    delvilkår: DelvilkårMålgruppe;
     begrunnelse?: string;
+    vurderinger: VurderingerMålgruppe;
 }
 
 const FeltContainer = styled.div`
@@ -50,13 +56,12 @@ const FeltContainer = styled.div`
 `;
 
 const initaliserForm = (
-    behandlingId: string,
     eksisterendeMålgruppe?: Målgruppe,
     registrertYtelsePeriode?: PeriodeYtelseRegister
-) => {
+): EndreMålgruppeForm => {
     return eksisterendeMålgruppe === undefined
-        ? nyMålgruppe(behandlingId, registrertYtelsePeriode)
-        : { ...eksisterendeMålgruppe, behandlingId: behandlingId };
+        ? nyMålgruppe(registrertYtelsePeriode)
+        : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
 };
 
 // TODO: Endre navn til EndreMålgruppe
@@ -70,7 +75,7 @@ const EndreMålgruppeRad: React.FC<{
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(behandling.id, målgruppe, registerYtelsePeriode)
+        initaliserForm(målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -79,7 +84,7 @@ const EndreMålgruppeRad: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerMålgruppe(
         form.type,
-        form.delvilkår
+        form.vurderinger
     );
     const kanEndreType = målgruppe === undefined;
 
@@ -101,10 +106,12 @@ const EndreMålgruppeRad: React.FC<{
 
             const erNyPeriode = målgruppe === undefined;
 
-            return request<LagreVilkårperiodeResponse<Målgruppe>, EndreMålgruppeForm>(
-                erNyPeriode ? `/api/sak/vilkarperiode` : `/api/sak/vilkarperiode/${målgruppe.id}`,
+            return request<LagreVilkårperiodeResponse<Målgruppe>, LagreMålgruppe>(
+                erNyPeriode
+                    ? `/api/sak/vilkarperiode/v2`
+                    : `/api/sak/vilkarperiode/v2${målgruppe.id}`,
                 'POST',
-                form
+                mapTilRequest(behandling.id, form)
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
@@ -160,10 +167,10 @@ const EndreMålgruppeRad: React.FC<{
             <MålgruppeVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(key: keyof DelvilkårMålgruppe, vurdering: Vurdering) =>
+                oppdaterVurderinger={(key: keyof VurderingerMålgruppe, nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
             />
