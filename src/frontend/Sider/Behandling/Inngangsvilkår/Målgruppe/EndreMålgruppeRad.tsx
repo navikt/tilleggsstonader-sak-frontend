@@ -7,17 +7,16 @@ import { Button, HStack } from '@navikt/ds-react';
 import MålgruppeVilkår from './MålgruppeVilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
-    LagreMålgruppe,
     mapEksisterendeMålgruppe,
-    mapTilRequest,
+    mapFaktaOgVurderingerTilRequest,
     nyMålgruppe,
     resettMålgruppe,
 } from './utils';
 import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
-import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
@@ -29,11 +28,7 @@ import {
     målgruppeTypeOptions,
     VurderingerMålgruppe,
 } from '../typer/målgruppe';
-import {
-    LagreVilkårperiodeResponse,
-    StønadsperiodeStatus,
-    SvarJaNei,
-} from '../typer/vilkårperiode';
+import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -70,9 +65,10 @@ const EndreMålgruppeRad: React.FC<{
     registerYtelsePeriode?: PeriodeYtelseRegister;
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
-    const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { mapFormTilRequest, opprettVilkårperiode, oppdaterVilkårperiode } =
+        useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
         initaliserForm(målgruppe, registerYtelsePeriode)
@@ -106,13 +102,17 @@ const EndreMålgruppeRad: React.FC<{
 
             const erNyPeriode = målgruppe === undefined;
 
-            return request<LagreVilkårperiodeResponse<Målgruppe>, LagreMålgruppe>(
-                erNyPeriode
-                    ? `/api/sak/vilkarperiode/v2`
-                    : `/api/sak/vilkarperiode/v2${målgruppe.id}`,
-                'POST',
-                mapTilRequest(behandling.id, form)
-            )
+            const lagreVilkårperiodeRequest = mapFormTilRequest(
+                behandling.id,
+                form,
+                mapFaktaOgVurderingerTilRequest(form)
+            );
+
+            const response = erNyPeriode
+                ? opprettVilkårperiode<Målgruppe>(lagreVilkårperiodeRequest)
+                : oppdaterVilkårperiode<Målgruppe>(lagreVilkårperiodeRequest, målgruppe.id);
+
+            return response
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
                         if (erNyPeriode) {

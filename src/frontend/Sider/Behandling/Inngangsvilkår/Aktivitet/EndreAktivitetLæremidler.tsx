@@ -7,17 +7,16 @@ import { Button, HStack } from '@navikt/ds-react';
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import {
     finnBegrunnelseGrunnerAktivitet,
-    LagreAktivitetLæremidler,
     mapEksisterendeAktivitet,
-    mapTilRequest,
+    mapFaktaOgVurderingerTilRequest,
     nyAktivitet,
     resettAktivitet,
 } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
-import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
+import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import TextField from '../../../../komponenter/Skjema/TextField';
@@ -32,12 +31,7 @@ import {
     AktivitetType,
     aktivitetTypeOptions,
 } from '../typer/aktivitet';
-import {
-    KildeVilkårsperiode,
-    LagreVilkårperiodeResponse,
-    StønadsperiodeStatus,
-    SvarJaNei,
-} from '../typer/vilkårperiode';
+import { KildeVilkårsperiode, StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -76,9 +70,10 @@ export const EndreAktivitetLæremidler: React.FC<{
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
-    const { request } = useApp();
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { mapFormTilRequest, opprettVilkårperiode, oppdaterVilkårperiode } =
+        useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormLæremidler>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
@@ -106,13 +101,17 @@ export const EndreAktivitetLæremidler: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, LagreAktivitetLæremidler>(
-                nyRadLeggesTil
-                    ? `/api/sak/vilkarperiode/v2`
-                    : `/api/sak/vilkarperiode/v2/${aktivitet.id}`,
-                'POST',
-                mapTilRequest(behandling.id, form)
-            )
+            const lagreVilkårperiodeRequest = mapFormTilRequest(
+                behandling.id,
+                form,
+                mapFaktaOgVurderingerTilRequest(form)
+            );
+
+            const response = nyRadLeggesTil
+                ? opprettVilkårperiode<Aktivitet>(lagreVilkårperiodeRequest)
+                : oppdaterVilkårperiode<Aktivitet>(lagreVilkårperiodeRequest, aktivitet.id);
+
+            return response
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
                         if (nyRadLeggesTil) {
