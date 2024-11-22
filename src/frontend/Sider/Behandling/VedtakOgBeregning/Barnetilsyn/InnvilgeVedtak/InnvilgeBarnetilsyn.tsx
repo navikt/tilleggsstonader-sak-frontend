@@ -15,6 +15,7 @@ import {
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
+    TypeVedtak,
 } from '../../../../../typer/vedtak';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
@@ -50,7 +51,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
         return request<null, InnvilgeBarnetilsynRequest>(
             `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
             'POST',
-            {}
+            { type: TypeVedtak.INNVILGELSE }
         );
     };
 
@@ -69,7 +70,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             beregnBarnetilsyn();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [erStegRedigerbart]);
 
     return (
         <>
@@ -83,7 +84,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
                         </DataViewer>
                     )}
                     {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
-                        <Beregningsresultat beregningsresultat={lagretVedtak?.beregningsresultat} />
+                        <Beregningsresultat beregningsresultat={lagretVedtak.beregningsresultat} />
                     )}
                 </VStack>
             </Panel>

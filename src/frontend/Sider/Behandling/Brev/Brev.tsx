@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -24,7 +23,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erVedtakInnvilgelse } from '../../../typer/vedtak';
-import { Toggle } from '../../../utils/toggles';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -82,8 +80,6 @@ const Brev: React.FC = () => {
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
 
-    const isEnabled = useFlag(Toggle.KAN_ENDRE_BREVMOTTAKERE);
-
     return (
         <Container>
             {behandlingErRedigerbar ? (
@@ -91,18 +87,16 @@ const Brev: React.FC = () => {
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
-                                {isEnabled && (
-                                    <BrevMottakere
-                                        context={{
-                                            type: Applikasjonskontekst.SAK,
-                                            behandlingId: behandling.id,
-                                        }}
-                                        kanEndreBrevmottakere={behandlingErRedigerbar}
-                                        personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
-                                            personopplysninger
-                                        )}
-                                    />
-                                )}
+                                <BrevMottakere
+                                    context={{
+                                        type: Applikasjonskontekst.SAK,
+                                        behandlingId: behandling.id,
+                                    }}
+                                    kanEndreBrevmottakere={behandlingErRedigerbar}
+                                    personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
+                                        personopplysninger
+                                    )}
+                                />
                                 <VelgBrevmal
                                     brevmaler={brevmaler}
                                     brevmal={brevmal}

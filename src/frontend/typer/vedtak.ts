@@ -13,19 +13,22 @@ export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is Innvil
     vedtak.type === TypeVedtak.INNVILGELSE;
 
 export type InnvilgeBarnetilsynRequest = {
-    beregningsresultat?: BeregningsresultatTilsynBarn;
+    type: TypeVedtak.INNVILGELSE;
 };
 
-export interface InnvilgelseBarnetilsyn extends InnvilgeBarnetilsynRequest {
+export interface InnvilgelseBarnetilsyn {
     type: TypeVedtak.INNVILGELSE;
+    beregningsresultat: BeregningsresultatTilsynBarn;
 }
 
 export type AvslåBarnetilsynRequest = {
+    type: TypeVedtak.AVSLAG;
     årsakerAvslag: ÅrsakAvslag[];
     begrunnelse: string;
 };
 
 export type OpphørBarnetilsynRequest = {
+    type: TypeVedtak.OPPHØR;
     årsakerOpphør: ÅrsakOpphør[];
     begrunnelse: string;
 };
@@ -60,13 +63,9 @@ export const årsakOpphørTilTekst: Record<ÅrsakOpphør, string> = {
     ANNET: 'Annet',
 };
 
-export interface AvslagBarnetilsyn extends AvslåBarnetilsynRequest {
-    type: TypeVedtak.AVSLAG;
-}
+export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
-export interface OpphørBarnetilsyn extends OpphørBarnetilsynRequest {
-    type: TypeVedtak.OPPHØR;
-}
+export type OpphørBarnetilsyn = OpphørBarnetilsynRequest;
 
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];

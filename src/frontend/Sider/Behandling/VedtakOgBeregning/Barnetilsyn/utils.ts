@@ -1,5 +1,5 @@
-import { InnvilgeBarnetilsynRequest } from '../../../../typer/vedtak';
+import { InnvilgeBarnetilsynRequest, TypeVedtak } from '../../../../typer/vedtak';
 
 export const lagVedtakRequest = (): InnvilgeBarnetilsynRequest => {
-    return {};
+    return { type: TypeVedtak.INNVILGELSE };
 };

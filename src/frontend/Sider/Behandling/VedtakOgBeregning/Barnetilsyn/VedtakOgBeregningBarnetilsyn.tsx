@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { HStack } from '@navikt/ds-react';
+import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
@@ -43,7 +43,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                 {({ vedtak }) => (
                     <Container>
                         <Panel tittel="Vedtak">
-                            <HStack gap="16">
+                            <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
                                     typeVedtak={typeVedtak}
                                     settTypeVedtak={settTypeVedtak}
@@ -54,7 +54,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                 {typeVedtak === TypeVedtak.OPPHØR && (
                                     <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
                                 )}
-                            </HStack>
+                            </HGrid>
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (

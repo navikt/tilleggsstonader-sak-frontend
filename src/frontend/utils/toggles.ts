@@ -7,10 +7,7 @@ export enum Toggle {
 
     KAN_SAKSBEHANDLE = 'sak.frontend.kan-saksbehandle',
 
-    KAN_ENDRE_BREVMOTTAKERE = 'sak.kan-endre-brevmottakere',
-
     SKAL_VISE_STATUS_PERIODER = 'sak.frontend.skal-vise-status-perioder',
-    SKAL_VISE_VEDTAK_ARENA = 'sak.frontend.skal-vise-vedtak-arena',
 
     FORESLÅ_STØNADSPERIODER = 'sak.foresla-stonadsperioder',
     OPPHØR = 'sak.opphor',

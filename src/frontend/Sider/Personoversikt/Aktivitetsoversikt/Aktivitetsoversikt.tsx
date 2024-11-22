@@ -18,7 +18,7 @@ const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerson
 
     const hentAktiviter = useCallback(async () => {
         const response = request<AktiviteterDto, null>(
-            `/api/sak/aktivitet/temp/${fagsakPersonId}`,
+            `/api/sak/register-aktivitet/temp/${fagsakPersonId}`,
             'GET'
         );
         settAktiviteter(await response);
