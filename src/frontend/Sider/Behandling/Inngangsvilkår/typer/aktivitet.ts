@@ -1,4 +1,4 @@
-import { VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
@@ -61,3 +61,15 @@ export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetType
 export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filter(
     (option) => option.value !== AktivitetType.INGEN_AKTIVITET
 );
+
+export interface FaktaOgVurderingerAktivitetBarnetilsyn {
+    '@type': 'AKTIVITET_BARNETILSYN';
+    aktivitetsdager: number | undefined;
+    svarLønnet: SvarJaNei | undefined;
+}
+
+export interface FaktaOgVurderingerAktivitetLæremidler {
+    '@type': 'AKTIVITET_LÆREMIDLER';
+    prosent: number | undefined;
+    svarHarUtgifter: SvarJaNei | undefined;
+}

@@ -4,11 +4,12 @@ import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils
 import { Periode } from '../../../../utils/periode';
 import { Aktivitet } from '../typer/aktivitet';
 import {
-    DelvilkårMålgruppe,
+    FaktaOgVurderingerMålgruppe,
     FaktiskMålgruppe,
     Målgruppe,
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
+    VurderingerMålgruppe,
 } from '../typer/målgruppe';
 import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -18,36 +19,46 @@ export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.OMSTILLINGSSTØNAD;
 
 export const nyMålgruppe = (
-    behandlingId: string,
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     return registrertYtelsePeriode
-        ? nyMålgruppeFraRegister(behandlingId, registrertYtelsePeriode)
-        : tomMålgruppeForm(behandlingId);
+        ? nyMålgruppeFraRegister(registrertYtelsePeriode)
+        : tomMålgruppeForm();
 };
 
+export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): EndreMålgruppeForm => ({
+    ...eksisterendeMålgruppe,
+    vurderinger: {
+        svarMedlemskap: eksisterendeMålgruppe.delvilkår.medlemskap?.svar,
+        svarUtgifterDekketAvAnnetRegelverk:
+            eksisterendeMålgruppe.delvilkår.dekketAvAnnetRegelverk?.svar,
+    },
+});
+
 const nyMålgruppeFraRegister = (
-    behandlingId: string,
     registrertYtelsePeriode: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
     return {
-        behandlingId: behandlingId,
         type: type,
         fom: registrertYtelsePeriode.fom,
         tom: registrertYtelsePeriode.tom || '',
-        delvilkår: resetDelvilkår(type, { '@type': 'MÅLGRUPPE' }),
+        vurderinger: resetVurderinger(type, tomVurderingerMålgruppe),
     };
 };
 
-const tomMålgruppeForm = (behandlingId: string): EndreMålgruppeForm => {
+const tomMålgruppeForm = (): EndreMålgruppeForm => {
     return {
-        behandlingId: behandlingId,
         type: '',
         fom: '',
         tom: '',
-        delvilkår: { '@type': 'MÅLGRUPPE' },
+        vurderinger: tomVurderingerMålgruppe,
     };
+};
+
+const tomVurderingerMålgruppe = {
+    svarMedlemskap: undefined,
+    svarUtgifterDekketAvAnnetRegelverk: undefined,
 };
 
 export const målgrupperHvorMedlemskapMåVurderes = [
@@ -74,7 +85,7 @@ export const resettMålgruppe = (
         type: nyType,
         fom: fom,
         tom: tom,
-        delvilkår: resetDelvilkår(nyType, eksisterendeForm.delvilkår),
+        vurderinger: resetVurderinger(nyType, eksisterendeForm.vurderinger),
     };
 };
 
@@ -95,25 +106,26 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-const resetDelvilkår = (
+const resetVurderinger = (
     type: MålgruppeType,
-    delvilkår: DelvilkårMålgruppe
-): DelvilkårMålgruppe => ({
-    ...delvilkår,
-    medlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
-        ? delvilkår.medlemskap
+    eksisterendeVurderinger: VurderingerMålgruppe
+): VurderingerMålgruppe => ({
+    ...eksisterendeVurderinger,
+    svarMedlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
+        ? eksisterendeVurderinger.svarMedlemskap
         : undefined,
-    dekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
-        ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(delvilkår)
+    svarUtgifterDekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
+        ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(eksisterendeVurderinger)
         : undefined,
 });
 
-const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (delvilkår: DelvilkårMålgruppe) =>
-    delvilkår.dekketAvAnnetRegelverk || { svar: SvarJaNei.NEI };
+const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (
+    eksisterendeVurderinger: VurderingerMålgruppe
+) => eksisterendeVurderinger.svarUtgifterDekketAvAnnetRegelverk || SvarJaNei.NEI;
 
 export const finnBegrunnelseGrunnerMålgruppe = (
     type: MålgruppeType | '',
-    delvilkår: DelvilkårMålgruppe
+    vurderinger: VurderingerMålgruppe
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
@@ -133,7 +145,7 @@ export const finnBegrunnelseGrunnerMålgruppe = (
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
     }
 
-    if (delvilkår.dekketAvAnnetRegelverk?.svar === SvarJaNei.JA) {
+    if (vurderinger.svarUtgifterDekketAvAnnetRegelverk === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
     }
 
@@ -143,3 +155,28 @@ export const finnBegrunnelseGrunnerMålgruppe = (
 export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårperiode is Målgruppe => {
     return vilkårperiode.type in MålgruppeType;
 };
+
+export interface LagreMålgruppe extends Periode {
+    behandlingId: string;
+    type: MålgruppeType | '';
+    faktaOgVurderinger: FaktaOgVurderingerMålgruppe;
+    begrunnelse?: string;
+    kildeId?: string;
+}
+
+export const mapTilRequest = (
+    behandlingId: string,
+    målgruppeForm: EndreMålgruppeForm
+): LagreMålgruppe => ({
+    behandlingId: behandlingId,
+    fom: målgruppeForm.fom,
+    tom: målgruppeForm.tom,
+    type: målgruppeForm.type,
+    faktaOgVurderinger: {
+        '@type': 'MÅLGRUPPE',
+        svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
+        svarUtgifterDekketAvAnnetRegelverk:
+            målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
+    },
+    begrunnelse: målgruppeForm.begrunnelse,
+});

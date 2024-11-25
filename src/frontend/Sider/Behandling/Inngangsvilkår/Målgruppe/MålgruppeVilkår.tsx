@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
-import JaNeiVurdering from '../../Vilkårvurdering/JaNeiVurdering';
-import { DelvilkårMålgruppe } from '../typer/målgruppe';
-import { Vurdering } from '../typer/vilkårperiode';
+import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
+import { VurderingerMålgruppe } from '../typer/målgruppe';
+import { SvarJaNei } from '../typer/vilkårperiode';
 
 const Container = styled.div`
     display: flex;
@@ -18,9 +18,9 @@ const Container = styled.div`
 // TODO: Rename til MålgruppeDelvilkår
 const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
-    oppdaterDelvilkår: (key: keyof DelvilkårMålgruppe, vurdering: Vurdering) => void;
+    oppdaterVurderinger: (key: keyof VurderingerMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ målgruppeForm, oppdaterDelvilkår, readOnly }) => {
+}> = ({ målgruppeForm, oppdaterVurderinger, readOnly }) => {
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
@@ -36,9 +36,9 @@ const MålgruppeVilkår: React.FC<{
                 <JaNeiVurdering
                     label="Medlemskap i folketrygden?"
                     readOnly={readOnly}
-                    vurdering={målgruppeForm.delvilkår.medlemskap}
-                    oppdaterVurdering={(vurdering: Vurdering) =>
-                        oppdaterDelvilkår('medlemskap', vurdering)
+                    svar={målgruppeForm.vurderinger.svarMedlemskap}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarMedlemskap', nyttSvar)
                     }
                     hjelpetekst={målgruppeTilMedlemskapHjelpetekst(målgruppeForm.type)}
                 />
@@ -47,9 +47,9 @@ const MålgruppeVilkår: React.FC<{
                 <JaNeiVurdering
                     label="Dekkes utgiftene av annet regelverk?"
                     readOnly={readOnly}
-                    vurdering={målgruppeForm.delvilkår.dekketAvAnnetRegelverk}
-                    oppdaterVurdering={(vurdering: Vurdering) =>
-                        oppdaterDelvilkår('dekketAvAnnetRegelverk', vurdering)
+                    svar={målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarUtgifterDekketAvAnnetRegelverk', nyttSvar)
                     }
                 />
             )}

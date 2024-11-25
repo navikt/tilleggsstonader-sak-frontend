@@ -3,17 +3,25 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import { AktivitetType, DelvilkårAktivitetBarnetilsyn } from '../typer/aktivitet';
+import {
+    AktivitetBarnetilsyn,
+    AktivitetType,
+    FaktaOgVurderingerAktivitetBarnetilsyn,
+} from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormBarnetilsyn =>
-    aktivitetFraRegister
-        ? nyAktivitetFraRegister(behandlingId, aktivitetFraRegister)
-        : nyTomAktivitet(behandlingId);
+    aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
+
+export const mapEksisterendeAktivitet = (
+    eksisterendeAktivitet: AktivitetBarnetilsyn
+): EndreAktivitetFormBarnetilsyn => ({
+    ...eksisterendeAktivitet,
+    svarLønnet: eksisterendeAktivitet.delvilkår.lønnet?.svar,
+});
 
 /**
  * Prefyller aktivtetsdager med 5 dager hvis det gjelder utdanning då feltet mangler fra arena
@@ -23,29 +31,26 @@ const aktivitetsdagerFraRegister = (aktivitetFraRegister: Registeraktivitet) =>
     aktivitetFraRegister.erUtdanning ? 5 : aktivitetFraRegister.antallDagerPerUke;
 
 function nyAktivitetFraRegister(
-    behandlingId: string,
     aktivitetFraRegister: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn {
     return {
-        behandlingId: behandlingId,
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarLønnet: undefined,
         kildeId: aktivitetFraRegister.id,
     };
 }
 
-function nyTomAktivitet(behandlingId: string): EndreAktivitetFormBarnetilsyn {
+function nyTomAktivitet(): EndreAktivitetFormBarnetilsyn {
     return {
-        behandlingId: behandlingId,
         type: '',
         fom: '',
         tom: '',
         aktivitetsdager: undefined,
-        delvilkår: { '@type': 'AKTIVITET' },
+        svarLønnet: undefined,
     };
 }
 
@@ -67,7 +72,7 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
-        delvilkår: resetDelvilkår(nyType, eksisterendeAktivitetForm.delvilkår),
+        svarLønnet: undefined,
     };
 };
 
@@ -101,21 +106,13 @@ const resetAktivitetsdager = (
     return eksisterendeForm.aktivitetsdager;
 };
 
-const resetDelvilkår = (
-    type: AktivitetType,
-    delvilkår: DelvilkårAktivitetBarnetilsyn
-): DelvilkårAktivitetBarnetilsyn => ({
-    ...delvilkår,
-    lønnet: skalVurdereLønnet(type) ? delvilkår.lønnet : undefined,
-});
-
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    delvilkår: DelvilkårAktivitetBarnetilsyn
+    svarLønnet: SvarJaNei | undefined
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
-    if (delvilkår.lønnet?.svar === SvarJaNei.JA) {
+    if (svarLønnet === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
     }
 
@@ -125,3 +122,28 @@ export const finnBegrunnelseGrunnerAktivitet = (
 
     return delvilkårSomMåBegrunnes;
 };
+
+export interface LagreAktivitetBarnetilsyn extends Periode {
+    behandlingId: string;
+    type: AktivitetType | '';
+    faktaOgVurderinger: FaktaOgVurderingerAktivitetBarnetilsyn;
+    begrunnelse?: string;
+    kildeId?: string;
+}
+
+export const mapTilRequest = (
+    behandlingId: string,
+    aktivitetForm: EndreAktivitetFormBarnetilsyn
+): LagreAktivitetBarnetilsyn => ({
+    fom: aktivitetForm.fom,
+    tom: aktivitetForm.tom,
+    behandlingId: behandlingId,
+    type: aktivitetForm.type,
+    faktaOgVurderinger: {
+        '@type': 'AKTIVITET_BARNETILSYN',
+        aktivitetsdager: aktivitetForm.aktivitetsdager,
+        svarLønnet: aktivitetForm.svarLønnet,
+    },
+    begrunnelse: aktivitetForm.begrunnelse,
+    kildeId: aktivitetForm.kildeId,
+});

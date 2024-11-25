@@ -2,9 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import JaNeiVurdering from '../../../Vilkårvurdering/JaNeiVurdering';
-import { DelvilkårAktivitetLæremidler } from '../../typer/aktivitet';
-import { Vurdering } from '../../typer/vilkårperiode';
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { SvarJaNei } from '../../typer/vilkårperiode';
 import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
 import { skalVurdereHarUtgifter } from '../utilsLæremidler';
 
@@ -15,9 +14,9 @@ const Container = styled.div`
 
 export const AktivitetDelvilkårLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
-    oppdaterDelvilkår: (key: keyof DelvilkårAktivitetLæremidler, vurdering: Vurdering) => void;
+    oppdaterHarUtgifter: (svar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterDelvilkår, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterHarUtgifter, readOnly }) => {
     if (aktivitetForm.type === '') return null;
 
     if (!skalVurdereHarUtgifter(aktivitetForm.type)) return null;
@@ -27,10 +26,8 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
             <JaNeiVurdering
                 label="Har bruker utgifter til læremidler?"
                 readOnly={readOnly}
-                vurdering={aktivitetForm.delvilkår.harUtgifter}
-                oppdaterVurdering={(vurdering: Vurdering) =>
-                    oppdaterDelvilkår('harUtgifter', vurdering)
-                }
+                svar={aktivitetForm.svarHarUtgifter}
+                oppdaterSvar={oppdaterHarUtgifter}
             />
         </Container>
     );

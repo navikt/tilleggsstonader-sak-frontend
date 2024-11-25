@@ -47,7 +47,7 @@ export const validerAktivitet = (
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
         endretAktivitet.type,
-        endretAktivitet.delvilkår
+        endretAktivitet.svarHarUtgifter
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))

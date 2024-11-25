@@ -5,7 +5,14 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
+import {
+    finnBegrunnelseGrunnerAktivitet,
+    LagreAktivitetLæremidler,
+    mapEksisterendeAktivitet,
+    mapTilRequest,
+    nyAktivitet,
+    resettAktivitet,
+} from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -24,13 +31,12 @@ import {
     AktivitetLæremidler,
     AktivitetType,
     aktivitetTypeOptions,
-    DelvilkårAktivitetLæremidler,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
-    Vurdering,
+    SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
@@ -48,22 +54,21 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormLæremidler extends Periode {
-    prosent?: number;
-    behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetLæremidler;
+    prosent: number | undefined;
+    svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
     behandlingId: string,
-    eksisterendeAktivitet?: Aktivitet,
+    eksisterendeAktivitet?: AktivitetLæremidler,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormLæremidler => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
+        : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
 export const EndreAktivitetLæremidler: React.FC<{
@@ -101,12 +106,12 @@ export const EndreAktivitetLæremidler: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormLæremidler>(
+            return request<LagreVilkårperiodeResponse<Aktivitet>, LagreAktivitetLæremidler>(
                 nyRadLeggesTil
-                    ? `/api/sak/vilkarperiode`
-                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                    ? `/api/sak/vilkarperiode/v2`
+                    : `/api/sak/vilkarperiode/v2/${aktivitet.id}`,
                 'POST',
-                form
+                mapTilRequest(behandling.id, form)
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
@@ -149,7 +154,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.delvilkår
+        form.svarHarUtgifter
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -190,13 +195,10 @@ export const EndreAktivitetLæremidler: React.FC<{
             <AktivitetDelvilkårLæremidler
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(
-                    key: keyof DelvilkårAktivitetLæremidler,
-                    vurdering: Vurdering
-                ) =>
+                oppdaterHarUtgifter={(nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
+                        svarHarUtgifter: nyttSvar,
                     }))
                 }
             />

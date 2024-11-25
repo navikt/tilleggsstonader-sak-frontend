@@ -5,7 +5,14 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
-import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsBarnetilsyn';
+import {
+    finnBegrunnelseGrunnerAktivitet,
+    LagreAktivitetBarnetilsyn,
+    mapEksisterendeAktivitet,
+    mapTilRequest,
+    nyAktivitet,
+    resettAktivitet,
+} from './utilsBarnetilsyn';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -24,13 +31,12 @@ import {
     AktivitetBarnetilsyn,
     AktivitetType,
     aktivitetTypeOptions,
-    DelvilkårAktivitetBarnetilsyn,
 } from '../typer/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     StønadsperiodeStatus,
-    Vurdering,
+    SvarJaNei,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
@@ -48,22 +54,20 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
-    aktivitetsdager?: number;
-    behandlingId: string;
     type: AktivitetType | '';
-    delvilkår: DelvilkårAktivitetBarnetilsyn;
+    aktivitetsdager: number | undefined;
+    svarLønnet: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
 
 const initaliserForm = (
-    behandlingId: string,
     eksisterendeAktivitet?: AktivitetBarnetilsyn,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormBarnetilsyn => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
-        : { ...eksisterendeAktivitet, behandlingId: behandlingId };
+        ? nyAktivitet(aktivitetFraRegister)
+        : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
 export const EndreAktivitetBarnetilsyn: React.FC<{
@@ -76,7 +80,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
 
     const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
-        initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
+        initaliserForm(aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -101,12 +105,12 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            return request<LagreVilkårperiodeResponse<Aktivitet>, EndreAktivitetFormBarnetilsyn>(
+            return request<LagreVilkårperiodeResponse<Aktivitet>, LagreAktivitetBarnetilsyn>(
                 nyRadLeggesTil
-                    ? `/api/sak/vilkarperiode`
-                    : `/api/sak/vilkarperiode/${aktivitet.id}`,
+                    ? `/api/sak/vilkarperiode/v2`
+                    : `/api/sak/vilkarperiode/v2/${aktivitet.id}`,
                 'POST',
-                form
+                mapTilRequest(behandling.id, form)
             )
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {
@@ -149,7 +153,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.delvilkår
+        form.svarLønnet
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -190,14 +194,8 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             <AktivitetDelvilkårBarnetilsyn
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterDelvilkår={(
-                    key: keyof DelvilkårAktivitetBarnetilsyn,
-                    vurdering: Vurdering
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        delvilkår: { ...prevState.delvilkår, [key]: vurdering },
-                    }))
+                oppdaterLønnet={(svar) =>
+                    settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
             />
 

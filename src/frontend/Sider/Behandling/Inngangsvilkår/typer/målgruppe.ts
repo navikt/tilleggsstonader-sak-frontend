@@ -1,4 +1,4 @@
-import { VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export interface Målgruppe extends VilkårPeriode {
@@ -72,3 +72,12 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     SYKEPENGER_100_PROSENT: FaktiskMålgruppe.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
 };
+
+export interface VurderingerMålgruppe {
+    svarMedlemskap: SvarJaNei | undefined;
+    svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
+}
+
+export interface FaktaOgVurderingerMålgruppe extends VurderingerMålgruppe {
+    '@type': 'MÅLGRUPPE';
+}
