@@ -67,8 +67,7 @@ const EndreMålgruppeRad: React.FC<{
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
-    const { mapFormTilRequest, opprettVilkårperiode, oppdaterVilkårperiode } =
-        useLagreVilkårperiode();
+    const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
         initaliserForm(målgruppe, registerYtelsePeriode)
@@ -102,16 +101,12 @@ const EndreMålgruppeRad: React.FC<{
 
             const erNyPeriode = målgruppe === undefined;
 
-            const lagreVilkårperiodeRequest = mapFormTilRequest(
+            const response = lagreVilkårperiode<Målgruppe>(
                 behandling.id,
                 form,
-                mapFaktaOgVurderingerTilRequest(form)
+                mapFaktaOgVurderingerTilRequest(form),
+                målgruppe?.id
             );
-
-            const response = erNyPeriode
-                ? opprettVilkårperiode<Målgruppe>(lagreVilkårperiodeRequest)
-                : oppdaterVilkårperiode<Målgruppe>(lagreVilkårperiodeRequest, målgruppe.id);
-
             return response
                 .then((res) => {
                     if (res.status === RessursStatus.SUKSESS) {

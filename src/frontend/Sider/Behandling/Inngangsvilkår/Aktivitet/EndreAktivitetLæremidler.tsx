@@ -72,8 +72,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
-    const { mapFormTilRequest, opprettVilkårperiode, oppdaterVilkårperiode } =
-        useLagreVilkårperiode();
+    const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormLæremidler>(
         initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
@@ -101,15 +100,12 @@ export const EndreAktivitetLæremidler: React.FC<{
         if (kanSendeInn) {
             settLaster(true);
 
-            const lagreVilkårperiodeRequest = mapFormTilRequest(
+            const response = lagreVilkårperiode<Aktivitet>(
                 behandling.id,
                 form,
-                mapFaktaOgVurderingerTilRequest(form)
+                mapFaktaOgVurderingerTilRequest(form),
+                aktivitet?.id
             );
-
-            const response = nyRadLeggesTil
-                ? opprettVilkårperiode<Aktivitet>(lagreVilkårperiodeRequest)
-                : oppdaterVilkårperiode<Aktivitet>(lagreVilkårperiodeRequest, aktivitet.id);
 
             return response
                 .then((res) => {

@@ -33,6 +33,22 @@ type VilkårperiodeForm =
 
 export const useLagreVilkårperiode = () => {
     const { request } = useApp();
+
+    const lagreVilkårperiode = <T extends Målgruppe | Aktivitet>(
+        behandlingId: string,
+        form: VilkårperiodeForm,
+        faktaOgVurderinger: FaktaOgVurderinger,
+        vilkårperiodeId?: string
+    ) => {
+        const vilkårperiode = mapFormTilRequest(behandlingId, form, faktaOgVurderinger);
+
+        if (vilkårperiodeId) {
+            return oppdaterVilkårperiode<T>(vilkårperiode, vilkårperiodeId);
+        } else {
+            return opprettVilkårperiode<T>(vilkårperiode);
+        }
+    };
+
     const oppdaterVilkårperiode = async <T extends Målgruppe | Aktivitet>(
         vilkårperiode: LagreVilkårperiode,
         lagretPeriodeId: string
@@ -69,8 +85,6 @@ export const useLagreVilkårperiode = () => {
     });
 
     return {
-        oppdaterVilkårperiode,
-        opprettVilkårperiode,
-        mapFormTilRequest,
+        lagreVilkårperiode,
     };
 };

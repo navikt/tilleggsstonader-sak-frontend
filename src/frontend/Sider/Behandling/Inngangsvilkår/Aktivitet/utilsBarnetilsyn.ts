@@ -123,14 +123,6 @@ export const finnBegrunnelseGrunnerAktivitet = (
     return delvilkårSomMåBegrunnes;
 };
 
-export interface LagreAktivitetBarnetilsyn extends Periode {
-    behandlingId: string;
-    type: AktivitetType | '';
-    faktaOgVurderinger: FaktaOgVurderingerAktivitetBarnetilsyn;
-    begrunnelse?: string;
-    kildeId?: string;
-}
-
 export const mapFaktaOgVurderingerTilRequest = (
     aktivitetForm: EndreAktivitetFormBarnetilsyn
 ): FaktaOgVurderingerAktivitetBarnetilsyn => ({
