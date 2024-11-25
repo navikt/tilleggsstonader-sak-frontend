@@ -21,7 +21,7 @@ const BASE_PATH = '';
 const buildPath = path.resolve(process.cwd(), miljø.buildPath);
 const PORT = 3000;
 
-app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => {
+app.get([`${BASE_PATH}/internal/isAlive`, `${BASE_PATH}/internal/isReady`], (req, res) => {
     res.sendStatus(200);
     return;
 });
