@@ -50,7 +50,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
         <>
             <FeilmeldingMaksBredde>
                 <SelectMedOptions
-                    label="Type"
+                    label={form.type in MålgruppeType ? 'Ytelse/situasjon' : 'Type'}
                     readOnly={!kanEndreType}
                     value={form.type}
                     valg={typeOptions}
