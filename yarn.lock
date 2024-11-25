@@ -1160,10 +1160,10 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.5.3/ffe7aaadb5c9d0993842cdb6c1c6acd862a31014#ffe7aaadb5c9d0993842cdb6c1c6acd862a31014"
   integrity sha512-iuwpmXM/cBCc9W4898nLnRV7qOuPN3f7pl3tkeirEyjBS8elIV/WEqKhQjaCkT+aVC7lEHzZ5nkC5MDQcjWicg==
 
-"@navikt/familie-endringslogg@^12.0.1":
-  version "12.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/12.0.2/4036173993d27265340ae9febbc0a4205b992b73#4036173993d27265340ae9febbc0a4205b992b73"
-  integrity sha512-MvBl6MlFwfGmzmEaE3fOF/14nonsAJYakwofG1ahYt7obj/5WUtdf1DKNYd60DoBMSwIFUkwXedAOzXhnqvgcw==
+"@navikt/familie-endringslogg@^13.1.4":
+  version "13.1.4"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/13.1.4/bc8b9e3304b44c6b7d8a4ab15dfafd14e7b29617#bc8b9e3304b44c6b7d8a4ab15dfafd14e7b29617"
+  integrity sha512-fA9lPZRcWFNdeFGEWlrdQ0lIZHl8A07AAGia8M/bMeRxz2wKL7crqJG5cpn9gAhgTpJWAgi7FYAoR9n2NdAjZw==
   dependencies:
     "@portabletext/react" "^3.1.0"
     classnames "^2.5.1"

@@ -26,7 +26,7 @@
     "@navikt/ds-css": "^7.5.3",
     "@navikt/ds-react": "^7.5.3",
     "@navikt/ds-tokens": "^7.4.0",
-    "@navikt/familie-endringslogg": "^12.0.1",
+    "@navikt/familie-endringslogg": "^13.1.4",
     "@navikt/familie-form-elements": "^15.0.0",
     "@portabletext/react": "^3.0.9",
     "@sanity/client": "^6.22.5",
