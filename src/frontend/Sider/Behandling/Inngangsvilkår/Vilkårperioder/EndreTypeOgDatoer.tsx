@@ -11,16 +11,16 @@ import { MålgruppeType } from '../typer/målgruppe';
 
 type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 
-export interface FellesFormFelter extends Periode {
-    type: MålgruppeEllerAktivitet | '';
+interface TypeOgDatoFelter extends Periode {
+    type: MålgruppeType | AktivitetType | '';
 }
 
 interface Props<T extends MålgruppeEllerAktivitet> {
-    form: FellesFormFelter;
+    form: TypeOgDatoFelter;
     oppdaterTypeIForm: (type: T) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
     typeOptions: SelectOption[];
-    formFeil?: FormErrors<FellesFormFelter>;
+    formFeil?: FormErrors<TypeOgDatoFelter>;
     alleFelterKanEndres: boolean;
     kanEndreType: boolean;
 }
@@ -50,7 +50,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
         <>
             <FeilmeldingMaksBredde>
                 <SelectMedOptions
-                    label="Type"
+                    label={form.type in MålgruppeType ? 'Ytelse/situasjon' : 'Type'}
                     readOnly={!kanEndreType}
                     value={form.type}
                     valg={typeOptions}
