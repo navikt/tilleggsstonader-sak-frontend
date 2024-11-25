@@ -3,36 +3,43 @@ import React from 'react';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
+import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Periode } from '../../../../utils/periode';
-import { AktivitetType, aktivitetTypeOptions } from '../typer/aktivitet';
+import { AktivitetType } from '../typer/aktivitet';
+import { MålgruppeType } from '../typer/målgruppe';
 
-export interface FellesFormFelter extends Periode {
-    type: AktivitetType | '';
+type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
+
+interface TypeOgDatoFelter extends Periode {
+    type: MålgruppeType | AktivitetType | '';
 }
 
-export const EndreFellesFelter: React.FC<{
-    form: FellesFormFelter;
-    oppdaterTypeIForm: (type: AktivitetType) => void;
+interface Props<T extends MålgruppeEllerAktivitet> {
+    form: TypeOgDatoFelter;
+    oppdaterTypeIForm: (type: T) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
-    formFeil?: FormErrors<FellesFormFelter>;
+    typeOptions: SelectOption[];
+    formFeil?: FormErrors<TypeOgDatoFelter>;
     alleFelterKanEndres: boolean;
     kanEndreType: boolean;
-}> = ({
+}
+
+export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
+    typeOptions,
     formFeil,
     alleFelterKanEndres,
     kanEndreType,
-}) => {
+}: Props<T>) => {
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
     const { keyDato: tomKeyDato, oppdaterDatoKey: oppdaterTomDatoKey } =
         useTriggRerendringAvDateInput();
 
-    const oppdaterType = (type: AktivitetType) => {
+    const oppdaterType = (type: T) => {
         oppdaterTypeIForm(type);
 
         oppdaterFomDatoKey();
@@ -43,11 +50,11 @@ export const EndreFellesFelter: React.FC<{
         <>
             <FeilmeldingMaksBredde>
                 <SelectMedOptions
-                    label="Type"
+                    label={form.type in MålgruppeType ? 'Ytelse/situasjon' : 'Type'}
                     readOnly={!kanEndreType}
                     value={form.type}
-                    valg={aktivitetTypeOptions}
-                    onChange={(e) => oppdaterType(e.target.value as AktivitetType)}
+                    valg={typeOptions}
+                    onChange={(e) => oppdaterType(e.target.value as T)}
                     size="small"
                     error={formFeil?.type}
                 />

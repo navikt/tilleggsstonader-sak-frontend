@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
-import { EndreFellesFelter } from './EndreFellesFelter';
 import { finnBegrunnelseGrunnerAktivitet, nyAktivitet, resettAktivitet } from './utilsLæremidler';
 import { AktivitetValidering, validerAktivitet } from './valideringAktivitetLæremidler';
 import { useApp } from '../../../../context/AppContext';
@@ -24,6 +23,7 @@ import {
     Aktivitet,
     AktivitetLæremidler,
     AktivitetType,
+    aktivitetTypeOptions,
     DelvilkårAktivitetLæremidler,
 } from '../typer/aktivitet';
 import {
@@ -33,6 +33,7 @@ import {
     Vurdering,
 } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
+import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
@@ -156,10 +157,11 @@ export const EndreAktivitetLæremidler: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <EndreFellesFelter
+                <EndreTypeOgDatoer
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
+                    typeOptions={aktivitetTypeOptions}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
