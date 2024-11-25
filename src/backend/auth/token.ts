@@ -18,9 +18,11 @@ export const validateToken = (redirectToLogin: boolean = false): RequestHandler 
             if (!token) {
                 logWarn('Fant ikke gyldig token', req);
                 if (redirectToLogin) {
-                    return redirectResponseToLogin(req, res);
+                    redirectResponseToLogin(req, res);
+                    return;
                 } else {
-                    return res.status(401).send('Fant ikke gyldig token');
+                    res.status(401).send('Fant ikke gyldig token');
+                    return;
                 }
             }
             next();
@@ -31,9 +33,11 @@ export const validateToken = (redirectToLogin: boolean = false): RequestHandler 
                 error as Error
             );
             if (redirectToLogin) {
-                return redirectResponseToLogin(req, res);
+                redirectResponseToLogin(req, res);
+                return;
             } else {
-                return res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+                res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+                return;
             }
         }
     };
@@ -48,7 +52,8 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
             const authenticationHeader = await prepareSecuredRequest(req, applicationName);
             if (!authenticationHeader) {
                 logWarn('Fant ikke gyldig token', req);
-                return res.status(401).send('Fant ikke gyldig token');
+                res.status(401).send('Fant ikke gyldig token');
+                return;
             }
             req.headers[AUTHORIZATION_HEADER] = authenticationHeader.authorization;
             delete req.headers[WONDERWALL_ID_TOKEN_HEADER];
@@ -59,7 +64,8 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
                 req,
                 error as Error
             );
-            return res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+            res.status(401).send('En uventet feil oppstod. Ingen gyldig token');
+            return;
         }
     };
 };
