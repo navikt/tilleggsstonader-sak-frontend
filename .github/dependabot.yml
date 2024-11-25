@@ -19,6 +19,14 @@ updates:
     frontend:
       patterns:
         - "*"
+      update-types:
+        - "minor"
+        - "patch"
+    frontend-major:
+      patterns:
+        - "*"
+      update-types:
+        - "major"
   ignore:
    - dependency-name: "*"
      update-types: ["version-update:semver-patch"]
@@ -36,6 +44,14 @@ updates:
     backend:
       patterns:
         - "*"
+      update-types:
+        - "minor"
+        - "patch"
+    backend-major:
+      patterns:
+        - "*"
+      update-types:
+        - "major"
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-patch"]
