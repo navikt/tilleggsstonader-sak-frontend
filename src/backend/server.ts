@@ -21,7 +21,10 @@ const BASE_PATH = '';
 const buildPath = path.resolve(process.cwd(), miljø.buildPath);
 const PORT = 3000;
 
-app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => res.sendStatus(200));
+app.get(`${BASE_PATH}/internal/isAlive|isReady`, (req, res) => {
+    res.sendStatus(200);
+    return;
+});
 
 if (process.env.NODE_ENV === 'development') {
     // @ts-ignore
