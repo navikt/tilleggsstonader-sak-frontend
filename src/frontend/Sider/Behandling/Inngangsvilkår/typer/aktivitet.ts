@@ -6,9 +6,8 @@ export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
 export interface AktivitetBarnetilsyn extends VilkårPeriode {
     id: string;
     type: AktivitetType;
-    aktivitetsdager: number;
-    delvilkår: DelvilkårAktivitetBarnetilsyn;
     kildeId?: string;
+    faktaOgVurderinger: AktivitetBarnetilsynFaktaOgVurderinger;
 }
 
 export type DelvilkårAktivitet = DelvilkårAktivitetBarnetilsyn | DelvilkårAktivitetLæremidler;
@@ -21,9 +20,8 @@ export interface DelvilkårAktivitetBarnetilsyn {
 export interface AktivitetLæremidler extends VilkårPeriode {
     id: string;
     type: AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
-    prosent: number;
-    delvilkår: DelvilkårAktivitetLæremidler;
     kildeId?: string;
+    faktaOgVurderinger: AktivitetLæremidlerFaktaOgVurderinger;
 }
 
 export interface DelvilkårAktivitetLæremidler {
@@ -61,6 +59,22 @@ export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetType
 export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filter(
     (option) => option.value !== AktivitetType.INGEN_AKTIVITET
 );
+
+export type AktivitetFaktaOgVurderinger =
+    | AktivitetBarnetilsynFaktaOgVurderinger
+    | AktivitetLæremidlerFaktaOgVurderinger;
+
+export interface AktivitetBarnetilsynFaktaOgVurderinger {
+    '@type': 'AKTIVITET_BARNETILSYN';
+    aktivitetsdager: number | undefined;
+    lønnet: Vurdering | undefined;
+}
+
+export interface AktivitetLæremidlerFaktaOgVurderinger {
+    '@type': 'AKTIVITET_LÆREMIDLER';
+    prosent: number | undefined;
+    harUtgifter: Vurdering | undefined;
+}
 
 export type AktivitetFaktaOgSvar = AktivitetBarnetilsynFaktaOgSvar | AktivitetLæremidlerFaktaOgSvar;
 

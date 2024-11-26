@@ -11,7 +11,6 @@ import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
@@ -22,7 +21,8 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetLæremidler
 ): EndreAktivitetFormLæremidler => ({
     ...eksisterendeAktivitet,
-    svarHarUtgifter: eksisterendeAktivitet.delvilkår.harUtgifter?.svar,
+    prosent: eksisterendeAktivitet.faktaOgVurderinger.prosent,
+    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
 });
 
 function nyAktivitetFraRegister(
