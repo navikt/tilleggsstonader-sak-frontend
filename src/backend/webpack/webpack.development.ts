@@ -1,3 +1,4 @@
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
@@ -41,23 +42,14 @@ const developmentConfig = {
                 use: [`file-loader`],
             },
             {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
+                // Match `.js`, `.jsx`, `.ts` or `.tsx` files
+                test: /\.[jt]sx?$/,
+                loader: 'esbuild-loader',
                 options: {
-                    compilerOptions: {
-                        noEmit: false,
-                    },
-                    onlyCompileBundledFiles: true,
+                    target: 'ES2022',
+                    tsconfig: '../../tsconfig.json',
                 },
                 exclude: /node_modules/,
-            },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    presets: [['@babel/preset-env'], ['@babel/preset-react']],
-                },
             },
             {
                 test: /\.css$/i,
@@ -72,6 +64,20 @@ const developmentConfig = {
         ],
     },
     plugins: [
+        new ForkTsCheckerWebpackPlugin({
+            async: true,
+            typescript: {
+                configFile: '../../tsconfig.json',
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+            },
+            formatter: {
+                type: 'codeframe',
+                pathType: 'absolute',
+            },
+        }),
         new HtmlWebpackPlugin({
             title: 'Tilleggsstønader',
             template: path.join(process.cwd(), '../../src/frontend/index.html'),
