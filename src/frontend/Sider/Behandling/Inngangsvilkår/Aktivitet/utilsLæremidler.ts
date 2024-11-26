@@ -113,19 +113,10 @@ export interface LagreAktivitetLæremidler extends Periode {
     kildeId?: string;
 }
 
-export const mapTilRequest = (
-    behandlingId: string,
+export const mapFaktaOgVurderingerTilRequest = (
     aktivitetForm: EndreAktivitetFormLæremidler
-): LagreAktivitetLæremidler => ({
-    fom: aktivitetForm.fom,
-    tom: aktivitetForm.tom,
-    behandlingId: behandlingId,
-    type: aktivitetForm.type,
-    faktaOgVurderinger: {
-        '@type': 'AKTIVITET_LÆREMIDLER',
-        prosent: aktivitetForm.prosent,
-        svarHarUtgifter: aktivitetForm.svarHarUtgifter,
-    },
-    begrunnelse: aktivitetForm.begrunnelse,
-    kildeId: aktivitetForm.kildeId,
+): FaktaOgVurderingerAktivitetLæremidler => ({
+    '@type': 'AKTIVITET_LÆREMIDLER',
+    prosent: aktivitetForm.prosent,
+    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
 });

@@ -164,19 +164,11 @@ export interface LagreMålgruppe extends Periode {
     kildeId?: string;
 }
 
-export const mapTilRequest = (
-    behandlingId: string,
+export const mapFaktaOgVurderingerTilRequest = (
     målgruppeForm: EndreMålgruppeForm
-): LagreMålgruppe => ({
-    behandlingId: behandlingId,
-    fom: målgruppeForm.fom,
-    tom: målgruppeForm.tom,
-    type: målgruppeForm.type,
-    faktaOgVurderinger: {
-        '@type': 'MÅLGRUPPE',
-        svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
-        svarUtgifterDekketAvAnnetRegelverk:
-            målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
-    },
-    begrunnelse: målgruppeForm.begrunnelse,
+): FaktaOgVurderingerMålgruppe => ({
+    '@type': 'MÅLGRUPPE',
+    svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
+    svarUtgifterDekketAvAnnetRegelverk:
+        målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
 });
