@@ -100,8 +100,10 @@ const Oppgaveliste: React.FC<{
                         <Table.ColumnHeader>Frist</Table.ColumnHeader>
                         <Table.ColumnHeader>Tildelt</Table.ColumnHeader>
                         <Table.ColumnHeader>Kommentar</Table.ColumnHeader>
-                        <Table.ColumnHeader /> {/*Knapper*/}
-                        <Table.ColumnHeader /> {/*ExpandableRow*/}
+                        {/*Knapper*/}
+                        <Table.ColumnHeader />
+                        {/*ExpandableRow*/}
+                        <Table.ColumnHeader />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
