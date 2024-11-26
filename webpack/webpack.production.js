@@ -1,4 +1,5 @@
 import child from 'child_process';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
@@ -59,6 +60,7 @@ const productionConfig = {
         ],
     },
     plugins: [
+        new ForkTsCheckerWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Tilleggsstønader',
             template: path.join(process.cwd(), 'src/frontend/index.html'),
