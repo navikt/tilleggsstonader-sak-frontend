@@ -60,7 +60,16 @@ const productionConfig = {
         ],
     },
     plugins: [
-        new ForkTsCheckerWebpackPlugin(),
+        new ForkTsCheckerWebpackPlugin({
+            async: false,
+            typescript: {
+                configFile: './tsconfig.json',
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+            },
+        }),
         new HtmlWebpackPlugin({
             title: 'Tilleggsstønader',
             template: path.join(process.cwd(), 'src/frontend/index.html'),

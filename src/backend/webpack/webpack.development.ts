@@ -64,7 +64,20 @@ const developmentConfig = {
         ],
     },
     plugins: [
-        new ForkTsCheckerWebpackPlugin(),
+        new ForkTsCheckerWebpackPlugin({
+            async: true,
+            typescript: {
+                configFile: '../../tsconfig.json',
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+            },
+            formatter: {
+                type: 'codeframe',
+                pathType: 'absolute',
+            },
+        }),
         new HtmlWebpackPlugin({
             title: 'Tilleggsstønader',
             template: path.join(process.cwd(), '../../src/frontend/index.html'),
