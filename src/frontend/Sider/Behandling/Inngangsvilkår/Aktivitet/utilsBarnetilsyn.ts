@@ -20,7 +20,8 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetBarnetilsyn
 ): EndreAktivitetFormBarnetilsyn => ({
     ...eksisterendeAktivitet,
-    svarLønnet: eksisterendeAktivitet.delvilkår.lønnet?.svar,
+    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
+    svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
 });
 
 /**

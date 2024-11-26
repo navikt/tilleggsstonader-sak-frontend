@@ -20,6 +20,12 @@ export const lønnetSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA_IMPLISITT]: undefined,
 };
 
+export const harUtgifterSvarTilTekst: Record<SvarJaNei, string | undefined> = {
+    [SvarJaNei.JA]: 'Har utgifter',
+    [SvarJaNei.NEI]: 'Har ikke utgifter',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+};
+
 export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, string> = {
     [VilkårPeriodeResultat.OPPFYLT]: 'Vilkår oppfylt',
     [VilkårPeriodeResultat.IKKE_OPPFYLT]: 'Vilkår ikke oppfylt',
@@ -39,7 +45,8 @@ export const VilkårsresultatTilTekst: Record<Vilkårsresultat, string> = {
 export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     lønnet: 'ordinær lønn i tiltak',
     medlemskap: 'medlemskap',
-    dekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
+    utgifterDekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
+    harUtgifter: 'har utgifter til læremidler',
 };
 
 export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>

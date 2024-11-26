@@ -22,7 +22,8 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetLæremidler
 ): EndreAktivitetFormLæremidler => ({
     ...eksisterendeAktivitet,
-    svarHarUtgifter: eksisterendeAktivitet.delvilkår.harUtgifter?.svar,
+    prosent: eksisterendeAktivitet.faktaOgVurderinger.prosent,
+    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
 });
 
 function nyAktivitetFraRegister(
