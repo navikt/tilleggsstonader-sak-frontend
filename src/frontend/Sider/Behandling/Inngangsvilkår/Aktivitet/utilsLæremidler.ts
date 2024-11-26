@@ -5,7 +5,7 @@ import { Periode } from '../../../../utils/periode';
 import {
     AktivitetLæremidler,
     AktivitetType,
-    FaktaOgVurderingerAktivitetLæremidler,
+    AktivitetLæremidlerFaktaOgSvar,
 } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -105,17 +105,9 @@ export const finnBegrunnelseGrunnerAktivitet = (
     return delvilkårSomMåBegrunnes;
 };
 
-export interface LagreAktivitetLæremidler extends Periode {
-    behandlingId: string;
-    type: AktivitetType | '';
-    faktaOgVurderinger: FaktaOgVurderingerAktivitetLæremidler;
-    begrunnelse?: string;
-    kildeId?: string;
-}
-
-export const mapFaktaOgVurderingerTilRequest = (
+export const mapFaktaOgSvarTilRequest = (
     aktivitetForm: EndreAktivitetFormLæremidler
-): FaktaOgVurderingerAktivitetLæremidler => ({
+): AktivitetLæremidlerFaktaOgSvar => ({
     '@type': 'AKTIVITET_LÆREMIDLER',
     prosent: aktivitetForm.prosent,
     svarHarUtgifter: aktivitetForm.svarHarUtgifter,

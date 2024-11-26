@@ -6,7 +6,7 @@ import { harTallverdi } from '../../../../utils/tall';
 import {
     AktivitetBarnetilsyn,
     AktivitetType,
-    FaktaOgVurderingerAktivitetBarnetilsyn,
+    AktivitetBarnetilsynFaktaOgSvar,
 } from '../typer/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -123,9 +123,9 @@ export const finnBegrunnelseGrunnerAktivitet = (
     return delvilkårSomMåBegrunnes;
 };
 
-export const mapFaktaOgVurderingerTilRequest = (
+export const mapFaktaOgSvarTilRequest = (
     aktivitetForm: EndreAktivitetFormBarnetilsyn
-): FaktaOgVurderingerAktivitetBarnetilsyn => ({
+): AktivitetBarnetilsynFaktaOgSvar => ({
     '@type': 'AKTIVITET_BARNETILSYN',
     aktivitetsdager: aktivitetForm.aktivitetsdager,
     svarLønnet: aktivitetForm.svarLønnet,

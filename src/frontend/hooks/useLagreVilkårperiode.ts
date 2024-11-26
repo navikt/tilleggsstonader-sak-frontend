@@ -5,10 +5,10 @@ import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgru
 import {
     Aktivitet,
     AktivitetType,
-    FaktaOgVurderingerAktivitet,
+    AktivitetFaktaOgSvar,
 } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import {
-    FaktaOgVurderingerMålgruppe,
+    MålgruppeFaktaOgSvar,
     Målgruppe,
     MålgruppeType,
 } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
@@ -19,12 +19,13 @@ import { Periode } from '../utils/periode';
 export interface LagreVilkårperiode extends Periode {
     behandlingId: string;
     type: AktivitetType | MålgruppeType | '';
-    faktaOgVurderinger: FaktaOgVurderinger;
+    faktaOgVurderinger: FaktaOgSvar;
+    faktaOgSvar: FaktaOgSvar;
     begrunnelse?: string;
     kildeId?: string;
 }
 
-type FaktaOgVurderinger = FaktaOgVurderingerMålgruppe | FaktaOgVurderingerAktivitet;
+type FaktaOgSvar = MålgruppeFaktaOgSvar | AktivitetFaktaOgSvar;
 
 type VilkårperiodeForm =
     | EndreMålgruppeForm
@@ -37,10 +38,10 @@ export const useLagreVilkårperiode = () => {
     const lagreVilkårperiode = <T extends Målgruppe | Aktivitet>(
         behandlingId: string,
         form: VilkårperiodeForm,
-        faktaOgVurderinger: FaktaOgVurderinger,
+        faktaOgSvar: FaktaOgSvar,
         vilkårperiodeId?: string
     ) => {
-        const vilkårperiode = mapFormTilRequest(behandlingId, form, faktaOgVurderinger);
+        const vilkårperiode = mapFormTilRequest(behandlingId, form, faktaOgSvar);
 
         if (vilkårperiodeId) {
             return oppdaterVilkårperiode<T>(vilkårperiode, vilkårperiodeId);
@@ -73,13 +74,14 @@ export const useLagreVilkårperiode = () => {
     const mapFormTilRequest = (
         behandlingId: string,
         form: VilkårperiodeForm,
-        faktaOgVurderinger: FaktaOgVurderinger
+        faktaOgSvar: FaktaOgSvar
     ): LagreVilkårperiode => ({
         fom: form.fom,
         tom: form.tom,
         behandlingId: behandlingId,
         type: form.type,
-        faktaOgVurderinger: faktaOgVurderinger,
+        faktaOgVurderinger: faktaOgSvar,
+        faktaOgSvar: faktaOgSvar,
         begrunnelse: form.begrunnelse,
         kildeId: 'kildeId' in form ? form.kildeId : undefined,
     });

@@ -8,7 +8,7 @@ import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkår
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
-    mapFaktaOgVurderingerTilRequest,
+    mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
 } from './utilsLæremidler';
@@ -103,7 +103,7 @@ export const EndreAktivitetLæremidler: React.FC<{
             const response = lagreVilkårperiode<Aktivitet>(
                 behandling.id,
                 form,
-                mapFaktaOgVurderingerTilRequest(form),
+                mapFaktaOgSvarTilRequest(form),
                 aktivitet?.id
             );
 

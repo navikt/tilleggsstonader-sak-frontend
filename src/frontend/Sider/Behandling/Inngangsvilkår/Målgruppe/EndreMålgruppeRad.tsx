@@ -8,7 +8,7 @@ import MålgruppeVilkår from './MålgruppeVilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
     mapEksisterendeMålgruppe,
-    mapFaktaOgVurderingerTilRequest,
+    mapFaktaOgSvarTilRequest,
     nyMålgruppe,
     resettMålgruppe,
 } from './utils';
@@ -22,12 +22,7 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import {
-    Målgruppe,
-    MålgruppeType,
-    målgruppeTypeOptions,
-    VurderingerMålgruppe,
-} from '../typer/målgruppe';
+import { Målgruppe, MålgruppeType, målgruppeTypeOptions, SvarMålgruppe } from '../typer/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
@@ -37,7 +32,7 @@ import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/Vilkå
 export interface EndreMålgruppeForm extends Periode {
     type: MålgruppeType | '';
     begrunnelse?: string;
-    vurderinger: VurderingerMålgruppe;
+    vurderinger: SvarMålgruppe;
 }
 
 const FeltContainer = styled.div`
@@ -104,7 +99,7 @@ const EndreMålgruppeRad: React.FC<{
             const response = lagreVilkårperiode<Målgruppe>(
                 behandling.id,
                 form,
-                mapFaktaOgVurderingerTilRequest(form),
+                mapFaktaOgSvarTilRequest(form),
                 målgruppe?.id
             );
             return response
@@ -162,7 +157,7 @@ const EndreMålgruppeRad: React.FC<{
             <MålgruppeVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(key: keyof VurderingerMålgruppe, nyttSvar: SvarJaNei) =>
+                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },

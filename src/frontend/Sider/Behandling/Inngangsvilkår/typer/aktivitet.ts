@@ -62,17 +62,15 @@ export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filte
     (option) => option.value !== AktivitetType.INGEN_AKTIVITET
 );
 
-export type FaktaOgVurderingerAktivitet =
-    | FaktaOgVurderingerAktivitetBarnetilsyn
-    | FaktaOgVurderingerAktivitetLæremidler;
+export type AktivitetFaktaOgSvar = AktivitetBarnetilsynFaktaOgSvar | AktivitetLæremidlerFaktaOgSvar;
 
-export interface FaktaOgVurderingerAktivitetBarnetilsyn {
+export interface AktivitetBarnetilsynFaktaOgSvar {
     '@type': 'AKTIVITET_BARNETILSYN';
     aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
 }
 
-export interface FaktaOgVurderingerAktivitetLæremidler {
+export interface AktivitetLæremidlerFaktaOgSvar {
     '@type': 'AKTIVITET_LÆREMIDLER';
     prosent: number | undefined;
     svarHarUtgifter: SvarJaNei | undefined;

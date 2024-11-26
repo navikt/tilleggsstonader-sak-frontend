@@ -8,7 +8,7 @@ import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkår
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
-    mapFaktaOgVurderingerTilRequest,
+    mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
 } from './utilsBarnetilsyn';
@@ -102,7 +102,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
             const response = lagreVilkårperiode<Aktivitet>(
                 behandling.id,
                 form,
-                mapFaktaOgVurderingerTilRequest(form),
+                mapFaktaOgSvarTilRequest(form),
                 aktivitet?.id
             );
 

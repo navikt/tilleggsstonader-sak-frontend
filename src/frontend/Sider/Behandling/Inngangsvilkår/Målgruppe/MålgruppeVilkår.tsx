@@ -6,7 +6,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
-import { VurderingerMålgruppe } from '../typer/målgruppe';
+import { SvarMålgruppe } from '../typer/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode';
 
 const Container = styled.div`
@@ -18,7 +18,7 @@ const Container = styled.div`
 // TODO: Rename til MålgruppeDelvilkår
 const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
-    oppdaterVurderinger: (key: keyof VurderingerMålgruppe, nyttSvar: SvarJaNei) => void;
+    oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
 }> = ({ målgruppeForm, oppdaterVurderinger, readOnly }) => {
     if (målgruppeForm.type === '') return null;

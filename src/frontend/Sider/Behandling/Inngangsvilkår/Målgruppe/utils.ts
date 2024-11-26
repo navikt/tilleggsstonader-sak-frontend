@@ -4,12 +4,12 @@ import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils
 import { Periode } from '../../../../utils/periode';
 import { Aktivitet } from '../typer/aktivitet';
 import {
-    FaktaOgVurderingerMålgruppe,
+    MålgruppeFaktaOgSvar,
     FaktiskMålgruppe,
     Målgruppe,
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
-    VurderingerMålgruppe,
+    SvarMålgruppe,
 } from '../typer/målgruppe';
 import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -108,8 +108,8 @@ const resetPeriode = (
 
 const resetVurderinger = (
     type: MålgruppeType,
-    eksisterendeVurderinger: VurderingerMålgruppe
-): VurderingerMålgruppe => ({
+    eksisterendeVurderinger: SvarMålgruppe
+): SvarMålgruppe => ({
     ...eksisterendeVurderinger,
     svarMedlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
         ? eksisterendeVurderinger.svarMedlemskap
@@ -119,13 +119,12 @@ const resetVurderinger = (
         : undefined,
 });
 
-const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (
-    eksisterendeVurderinger: VurderingerMålgruppe
-) => eksisterendeVurderinger.svarUtgifterDekketAvAnnetRegelverk || SvarJaNei.NEI;
+const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (eksisterendeVurderinger: SvarMålgruppe) =>
+    eksisterendeVurderinger.svarUtgifterDekketAvAnnetRegelverk || SvarJaNei.NEI;
 
 export const finnBegrunnelseGrunnerMålgruppe = (
     type: MålgruppeType | '',
-    vurderinger: VurderingerMålgruppe
+    vurderinger: SvarMålgruppe
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
@@ -156,17 +155,9 @@ export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårper
     return vilkårperiode.type in MålgruppeType;
 };
 
-export interface LagreMålgruppe extends Periode {
-    behandlingId: string;
-    type: MålgruppeType | '';
-    faktaOgVurderinger: FaktaOgVurderingerMålgruppe;
-    begrunnelse?: string;
-    kildeId?: string;
-}
-
-export const mapFaktaOgVurderingerTilRequest = (
+export const mapFaktaOgSvarTilRequest = (
     målgruppeForm: EndreMålgruppeForm
-): FaktaOgVurderingerMålgruppe => ({
+): MålgruppeFaktaOgSvar => ({
     '@type': 'MÅLGRUPPE',
     svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
     svarUtgifterDekketAvAnnetRegelverk:

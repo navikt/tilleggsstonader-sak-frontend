@@ -73,11 +73,11 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
 };
 
-export interface VurderingerMålgruppe {
+export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
     svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
 }
 
-export interface FaktaOgVurderingerMålgruppe extends VurderingerMålgruppe {
+export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {
     '@type': 'MÅLGRUPPE';
 }
