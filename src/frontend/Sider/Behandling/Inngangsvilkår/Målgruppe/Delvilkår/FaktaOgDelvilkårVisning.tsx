@@ -2,23 +2,27 @@ import React from 'react';
 
 import { Detail, VStack } from '@navikt/ds-react';
 
-import { DelvilkårMålgruppe } from '../../typer/målgruppe';
+import { MålgruppeVurderinger } from '../../typer/målgruppe';
 import {
     dekketAvAnnetRegelverkSvarTilTekst,
     medlemskapSvarTilTekst,
 } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 
 const FaktaOgDelvilkårVisning: React.FC<{
-    delvilkår: DelvilkårMålgruppe;
-}> = ({ delvilkår }) => {
+    vurderinger: MålgruppeVurderinger;
+}> = ({ vurderinger }) => {
     return (
         <VStack gap="2">
-            {delvilkår.medlemskap?.svar && (
-                <Detail>{medlemskapSvarTilTekst[delvilkår.medlemskap.svar]}</Detail>
+            {vurderinger.medlemskap?.svar && (
+                <Detail>{medlemskapSvarTilTekst[vurderinger.medlemskap.svar]}</Detail>
             )}
-            {delvilkår.dekketAvAnnetRegelverk?.svar && (
+            {vurderinger.utgifterDekketAvAnnetRegelverk?.svar && (
                 <Detail>
-                    {dekketAvAnnetRegelverkSvarTilTekst[delvilkår.dekketAvAnnetRegelverk.svar]}
+                    {
+                        dekketAvAnnetRegelverkSvarTilTekst[
+                            vurderinger.utgifterDekketAvAnnetRegelverk.svar
+                        ]
+                    }
                 </Detail>
             )}
         </VStack>
