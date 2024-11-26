@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { Button, Modal } from '@navikt/ds-react';
 
-const ModalContainer = styled(Modal)<{ maxWidth?: number }>`
+const ModalContainer = styled(Modal)<{ $maxWidth?: number }>`
     min-width: 30rem;
-    max-width: ${(props) => (props.maxWidth ? `${props.maxWidth}rem` : '40rem')};
+    max-width: ${(props) => (props.$maxWidth ? `${props.$maxWidth}rem` : '40rem')};
 `;
 
 interface ModalProps {
@@ -44,7 +44,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
             <ModalContainer
                 open={visModal}
                 onClose={onClose ? () => onClose() : () => null}
-                maxWidth={maxWidth}
+                $maxWidth={maxWidth}
                 aria-label={ariaLabel ? ariaLabel : tittel || ''}
                 header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
             >
