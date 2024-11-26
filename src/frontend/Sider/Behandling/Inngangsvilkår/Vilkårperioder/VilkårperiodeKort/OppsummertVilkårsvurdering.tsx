@@ -81,7 +81,7 @@ const OppsummeringAvDelvilkår: React.FC<{ vilkårperiode: Målgruppe | Aktivite
     vilkårperiode,
 }) => {
     const delvilkårSomMåOppsummeres = finnDelvilkårTilOppsummering(
-        vilkårperiode.delvilkår,
+        vilkårperiode.faktaOgVurderinger,
         vilkårperiode.resultat
     );
 
