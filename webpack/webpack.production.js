@@ -17,6 +17,19 @@ const productionConfig = {
         clean: true,
     },
     devtool: 'source-map',
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+        runtimeChunk: true,
+        emitOnErrors: false,
+    },
     module: {
         rules: [
             {

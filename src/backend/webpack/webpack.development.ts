@@ -22,7 +22,17 @@ const developmentConfig = {
         clean: true,
     },
     optimization: {
-        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+        runtimeChunk: true,
+        emitOnErrors: false,
     },
     module: {
         rules: [
