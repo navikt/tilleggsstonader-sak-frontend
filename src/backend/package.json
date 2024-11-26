@@ -18,6 +18,7 @@
     "express": "^5.0.1",
     "express-rate-limit": "^7.4.1",
     "express-session": "^1.18.1",
+    "express-static-gzip": "^2.2.0",
     "http-proxy-middleware": "^3.0.3",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",

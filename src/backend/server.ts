@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
+import expressStaticGzip from 'express-static-gzip';
 import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -39,7 +40,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(webpackHotMiddleware(compiler));
     setupLocal(app);
 } else {
-    app.use('/assets', express.static(buildPath, { index: false }));
+    app.use('/assets', expressStaticGzip(buildPath, { index: false }));
 }
 
 // Sett opp bodyParser og router etter proxy. Spesielt viktig med tanke på større payloads som blir parset av bodyParser
