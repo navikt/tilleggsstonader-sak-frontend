@@ -11,12 +11,25 @@ const productionConfig = {
     mode: 'production',
     entry: './src/frontend/index.tsx',
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[contenthash].js',
         path: path.join(process.cwd(), 'dist_production'),
         publicPath: '/assets/',
         clean: true,
     },
     devtool: 'source-map',
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+        runtimeChunk: true,
+        emitOnErrors: false,
+    },
     module: {
         rules: [
             {

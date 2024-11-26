@@ -9,20 +9,30 @@ const publicPath = process.env.PUBLIC_URL || '/';
 const developmentConfig = {
     mode: 'development',
     entry: {
-        tilleggsstønaderSakFrontend: [
+        sakFrontend: [
             'webpack-hot-middleware/client?reload=true&overlay=false',
             '../../src/frontend/index.tsx',
         ],
     },
     devtool: 'inline-source-map',
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[contenthash].js',
         path: path.join(process.cwd(), miljø.buildPath),
         publicPath: '/assets/',
         clean: true,
     },
     optimization: {
-        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+        runtimeChunk: true,
+        emitOnErrors: false,
     },
     module: {
         rules: [
