@@ -9,7 +9,7 @@ const publicPath = process.env.PUBLIC_URL || '/';
 const developmentConfig = {
     mode: 'development',
     entry: {
-        tilleggsstønaderSakFrontend: [
+        sakFrontend: [
             'webpack-hot-middleware/client?reload=true&overlay=false',
             '../../src/frontend/index.tsx',
         ],
