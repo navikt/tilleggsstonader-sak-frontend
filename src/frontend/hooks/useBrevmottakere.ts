@@ -17,7 +17,7 @@ export const useBrevmottakere = (context: ContextBrevmottakere) => {
         request<IBrevmottakere, null>(byggBrevmottakerUrlForGittKontekst(context)).then(
             settBrevmottakere
         );
-    }, [context, request]);
+    }, [request]);
 
     const lagreBrevmottakere = useCallback(
         (brevmottakere: IBrevmottakere) =>
