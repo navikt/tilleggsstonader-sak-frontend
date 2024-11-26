@@ -29,6 +29,7 @@ const productionConfig = {
                 loader: 'esbuild-loader',
                 options: {
                     target: 'ES2022',
+                    tsconfig: './tsconfig.json',
                 },
                 exclude: /node_modules/,
             },
