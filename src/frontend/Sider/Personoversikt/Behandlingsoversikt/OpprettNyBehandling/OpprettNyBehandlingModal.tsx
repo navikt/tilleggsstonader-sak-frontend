@@ -9,7 +9,7 @@ import {
     OpprettNyBehandlingType,
     opprettNyBehandlingTypeTilTekst,
 } from './OpprettNyBehandlingUtils';
-import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
+import OpprettOrdinærBehandling from './OpprettOrdinærBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -83,7 +83,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                         />
                     )}
                     {opprettNyBehandlingType === OpprettNyBehandlingType.ORDINAER_BEHANDLING && (
-                        <OpprettRevurderingBehandling
+                        <OpprettOrdinærBehandling
                             fagsakId={fagsakId}
                             stønadstype={stønadstype}
                             lukkModal={lukkModal}
