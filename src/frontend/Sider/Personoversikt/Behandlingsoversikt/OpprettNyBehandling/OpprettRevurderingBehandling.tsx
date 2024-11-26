@@ -52,11 +52,16 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({
         useState<Ressurs<BarnTilRevurderingResponse>>(byggTomRessurs());
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
 
+    const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
 
     const opprett = () => {
+        if (laster) {
+            return;
+        }
+        settLaster(true);
         if (!årsak) {
             settFeilmelding('Mangler årsak');
             return;
@@ -71,6 +76,7 @@ const OpprettRevurderingBehandling: React.FC<Props> = ({
                 lukkModal();
             } else {
                 settFeilmelding(response.frontendFeilmelding || response.melding);
+                settLaster(false);
             }
         });
     };

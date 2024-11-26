@@ -24,9 +24,14 @@ const OpprettKlageBehandling: React.FC<Props> = ({
 }) => {
     const { request } = useApp();
     const [klageMottattDato, settKlageMottattDato] = useState('');
+    const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const opprett = () => {
+        if (laster) {
+            return;
+        }
+        settLaster(true);
         request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsakId}`, 'POST', {
             mottattDato: klageMottattDato,
         }).then((response) => {
@@ -35,6 +40,7 @@ const OpprettKlageBehandling: React.FC<Props> = ({
                 lukkModal();
             } else {
                 settFeilmelding(response.frontendFeilmelding || response.melding);
+                settLaster(false);
             }
         });
     };
