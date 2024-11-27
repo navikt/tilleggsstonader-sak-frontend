@@ -56,12 +56,11 @@ export interface EndreAktivitetFormLæremidler extends Periode {
 }
 
 const initaliserForm = (
-    behandlingId: string,
     eksisterendeAktivitet?: AktivitetLæremidler,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormLæremidler => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(behandlingId, aktivitetFraRegister)
+        ? nyAktivitet(aktivitetFraRegister)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
@@ -75,7 +74,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormLæremidler>(
-        initaliserForm(behandling.id, aktivitet, aktivitetFraRegister)
+        initaliserForm(aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();

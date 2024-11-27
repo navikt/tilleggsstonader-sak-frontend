@@ -11,7 +11,6 @@ import { SvarJaNei } from '../typer/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    behandlingId: string,
     aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormLæremidler =>
     aktivitetFraRegister
