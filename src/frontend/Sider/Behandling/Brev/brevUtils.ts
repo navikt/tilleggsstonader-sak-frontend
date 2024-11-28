@@ -1,7 +1,7 @@
 import { PersonopplysningerIBrevmottakere, Valg } from './typer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Personopplysninger } from '../../../typer/personopplysninger';
-import { TypeVedtak } from '../../../typer/vedtak';
+import { TypeVedtak } from '../../../typer/vedtak/vedtak';
 
 export const idEllerFritekst = (valg?: Valg): string | undefined => {
     switch (valg?._type) {

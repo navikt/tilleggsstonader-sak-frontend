@@ -9,7 +9,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-import { VedtakBarnetilsyn } from '../../../typer/vedtak';
+import { VedtakBarnetilsyn } from '../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterDato } from '../../../utils/dato';
 
 const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakBarnetilsyn }> = ({ vedtak }) => {
