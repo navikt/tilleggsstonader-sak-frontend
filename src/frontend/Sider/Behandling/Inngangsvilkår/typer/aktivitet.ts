@@ -1,4 +1,4 @@
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode/vilkårperiode';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;

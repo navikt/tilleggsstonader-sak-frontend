@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
-import { SvarJaNei } from '../../typer/vilkårperiode';
+import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormBarnetilsyn } from '../EndreAktivitetBarnetilsyn';
 import { skalVurdereLønnet } from '../utilsBarnetilsyn';
 

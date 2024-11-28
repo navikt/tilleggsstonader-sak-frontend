@@ -11,7 +11,7 @@ import {
     MålgruppeTypeTilFaktiskMålgruppe,
     SvarMålgruppe,
 } from '../typer/målgruppe';
-import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
+import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =

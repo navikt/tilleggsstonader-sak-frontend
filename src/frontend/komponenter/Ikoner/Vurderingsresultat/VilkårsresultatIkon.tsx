@@ -6,7 +6,7 @@ import IkkeOppfylt from './IkkeOppfylt';
 import IkkeVurdert from './IkkeVurdert';
 import Info from './Info';
 import Oppfylt from './Oppfylt';
-import { VilkårPeriodeResultat } from '../../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { VilkårPeriodeResultat } from '../../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../../Sider/Behandling/vilkår';
 
 export const VilkårsresultatIkon: FC<{

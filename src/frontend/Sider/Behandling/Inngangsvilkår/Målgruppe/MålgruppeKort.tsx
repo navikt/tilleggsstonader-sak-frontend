@@ -11,7 +11,10 @@ import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPeri
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Målgruppe } from '../typer/målgruppe';
-import { VilkårPeriodeResultat, vilkårperiodeTypeTilTekst } from '../typer/vilkårperiode';
+import {
+    VilkårPeriodeResultat,
+    vilkårperiodeTypeTilTekst,
+} from '../typer/vilkårperiode/vilkårperiode';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 const CelleContainer = styled.div`

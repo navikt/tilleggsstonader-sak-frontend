@@ -7,7 +7,7 @@ import { useOppdaterGrunnlag } from './useOppdaterGrunnlag';
 import { useSteg } from '../../../../context/StegContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { dagerSiden } from '../../../../utils/dato';
-import { VilkårperioderResponse } from '../typer/vilkårperiode';
+import { VilkårperioderResponse } from '../typer/vilkårperiode/vilkårperiode';
 
 const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;

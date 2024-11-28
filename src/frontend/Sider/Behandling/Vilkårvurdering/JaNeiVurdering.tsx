@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { HStack, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
-import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårperiode';
+import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 const LesMerTekst = styled(ReadMore)`
     max-width: 30rem;

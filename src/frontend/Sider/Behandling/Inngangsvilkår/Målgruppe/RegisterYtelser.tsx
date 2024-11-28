@@ -6,7 +6,10 @@ import RegisterYtelserTabell from './RegisterYtelserTabell';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
+import {
+    VilkårperioderGrunnlag,
+    YtelseGrunnlagPeriode,
+} from '../typer/vilkårperiode/vilkårperiode';
 
 const RegisterYtelser: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;

@@ -1,8 +1,8 @@
-import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
-import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
-import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { TypeRegisterYtelse } from '../../../../typer/registerytelser';
-import { Periode } from '../../../../utils/periode';
+import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
+import { TypeRegisterYtelse } from '../../../../../typer/registerytelser';
+import { Periode } from '../../../../../utils/periode';
+import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from '../aktivitet';
+import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from '../målgruppe';
 
 export interface VilkårperioderResponse {
     vilkårperioder: Vilkårperioder;

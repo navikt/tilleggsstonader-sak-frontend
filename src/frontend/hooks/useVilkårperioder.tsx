@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { VilkårperioderResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { VilkårperioderResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {

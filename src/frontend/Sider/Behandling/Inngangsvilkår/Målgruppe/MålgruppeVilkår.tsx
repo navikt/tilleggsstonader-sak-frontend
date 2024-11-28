@@ -7,7 +7,7 @@ import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgrup
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { SvarMålgruppe } from '../typer/målgruppe';
-import { SvarJaNei } from '../typer/vilkårperiode';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 const Container = styled.div`
     display: flex;

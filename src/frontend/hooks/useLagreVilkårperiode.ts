@@ -12,7 +12,7 @@ import {
     Målgruppe,
     MålgruppeType,
 } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
-import { LagreVilkårperiodeResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { LagreVilkårperiodeResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { RessursFeilet, RessursSuksess } from '../typer/ressurs';
 import { Periode } from '../utils/periode';
 

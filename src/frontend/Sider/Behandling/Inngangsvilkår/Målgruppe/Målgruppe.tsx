@@ -19,7 +19,10 @@ import {
     lenkerParagrafMålgruppe,
     lenkerRundskrivMålgruppe,
 } from '../../lenker';
-import { VilkårperioderGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
+import {
+    VilkårperioderGrunnlag,
+    YtelseGrunnlagPeriode,
+} from '../typer/vilkårperiode/vilkårperiode';
 
 const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();

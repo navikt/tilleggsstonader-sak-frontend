@@ -18,7 +18,7 @@ import {
     LagreVilkårperiodeResponse,
     SlettVilkårperiode,
     StønadsperiodeStatus,
-} from '../typer/vilkårperiode';
+} from '../typer/vilkårperiode/vilkårperiode';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe | null>;
 

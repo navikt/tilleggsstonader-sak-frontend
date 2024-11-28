@@ -8,7 +8,7 @@ import {
     AktivitetType,
     AktivitetBarnetilsynFaktaOgSvar,
 } from '../typer/aktivitet';
-import { SvarJaNei } from '../typer/vilkårperiode';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (

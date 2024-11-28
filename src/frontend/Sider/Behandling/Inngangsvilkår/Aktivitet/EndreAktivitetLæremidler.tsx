@@ -31,7 +31,11 @@ import {
     AktivitetType,
     aktivitetTypeOptions,
 } from '../typer/aktivitet';
-import { KildeVilkårsperiode, StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode';
+import {
+    KildeVilkårsperiode,
+    StønadsperiodeStatus,
+    SvarJaNei,
+} from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
