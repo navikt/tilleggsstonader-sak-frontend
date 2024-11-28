@@ -5,10 +5,10 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
-import { lagHtmlFelt } from './lagHtmlFelt';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
 import { useVerdierForBrev } from './useVerdierForBrev';
+import { lagVedtakstabellTilsynBarn } from './vedtakstabell/lagVedtakstabellTilsynBarn';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Ressurs } from '../../../typer/ressurs';
@@ -136,7 +136,7 @@ const Brevmeny: React.FC<Props> = ({
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
-                htmlVariabler: lagHtmlFelt(beregningsresultat),
+                htmlVariabler: lagVedtakstabellTilsynBarn(beregningsresultat),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);
