@@ -16,6 +16,7 @@ import {
     AvslagBarnetilsyn,
     InnvilgelseBarnetilsyn,
     OpphørBarnetilsyn,
+    VedtakBarnetilsyn,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
@@ -27,7 +28,7 @@ const Container = styled.div`
 `;
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const { vedtak } = useVedtak();
+    const { vedtak } = useVedtak<VedtakBarnetilsyn>();
 
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 

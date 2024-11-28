@@ -1,3 +1,8 @@
+import { VedtakLæremidler } from './vedtakLæremidler';
+import { VedtakBarnetilsyn } from './vedtakTilsynBarn';
+
+export type VedtakResponse = VedtakBarnetilsyn | VedtakLæremidler;
+
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
     AVSLAG = 'AVSLAG',
