@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
-import { VedtakBarnetilsyn } from '../typer/vedtak';
+import { VedtakBarnetilsyn } from '../typer/vedtak/vedtakTilsynBarn';
 
 interface Response {
     hentVedtak: (behandlingId: string) => void;

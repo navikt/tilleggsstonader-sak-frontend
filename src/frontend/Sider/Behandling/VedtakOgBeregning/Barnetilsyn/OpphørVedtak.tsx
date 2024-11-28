@@ -16,7 +16,7 @@ import {
     TypeVedtak,
     ÅrsakOpphør,
     årsakOpphørTilTekst,
-} from '../../../../typer/vedtak';
+} from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
 
 const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) => {

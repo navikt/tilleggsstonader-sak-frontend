@@ -16,7 +16,7 @@ import {
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
     TypeVedtak,
-} from '../../../../../typer/vedtak';
+} from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { lagVedtakRequest } from '../utils';

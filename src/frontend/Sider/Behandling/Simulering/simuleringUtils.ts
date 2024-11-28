@@ -1,4 +1,4 @@
-import { TypeVedtak } from '../../../typer/vedtak';
+import { TypeVedtak } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 export const harVedtaksresultatMedTilkjentYtelse = (
     vedtaksresultat: TypeVedtak | undefined

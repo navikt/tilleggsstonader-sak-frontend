@@ -1,4 +1,4 @@
-import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak';
+import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { harIkkeVerdi } from '../../../../utils/utils';
 
 export interface FeilmeldingVedtak {

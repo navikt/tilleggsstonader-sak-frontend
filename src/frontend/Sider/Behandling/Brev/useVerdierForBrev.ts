@@ -1,4 +1,4 @@
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableTilTekstligDato } from '../../../utils/dato';
 
 export type VariabelStore = { [variabelId: string]: string };

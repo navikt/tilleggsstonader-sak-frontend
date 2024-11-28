@@ -16,7 +16,7 @@ import {
     InnvilgelseBarnetilsyn,
     OpphørBarnetilsyn,
     TypeVedtak,
-} from '../../../../typer/vedtak';
+} from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`

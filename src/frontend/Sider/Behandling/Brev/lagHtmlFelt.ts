@@ -1,4 +1,4 @@
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterÅrMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { toTitleCase } from '../../../utils/tekstformatering';

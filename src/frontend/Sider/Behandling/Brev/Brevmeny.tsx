@@ -12,7 +12,7 @@ import { useVerdierForBrev } from './useVerdierForBrev';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Ressurs } from '../../../typer/ressurs';
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 type Props = {
     mal: MalStruktur;
