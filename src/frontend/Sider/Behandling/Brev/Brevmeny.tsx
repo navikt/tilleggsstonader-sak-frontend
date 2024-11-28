@@ -5,9 +5,9 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
+import { lagVerdierTilsynBarn } from './stønadsverdier/lagVerdierTilsynBarn';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
-import { useVerdierForBrev } from './useVerdierForBrev';
 import { lagVedtakstabellTilsynBarn } from './vedtakstabell/lagVedtakstabellTilsynBarn';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
@@ -64,7 +64,7 @@ const Brevmeny: React.FC<Props> = ({
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(mellomlagredeValgfelt || {});
 
-    const { variabelStore } = useVerdierForBrev(beregningsresultat);
+    const { variabelStore } = lagVerdierTilsynBarn(beregningsresultat);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
         return { ...mellomlagredeVariabler, ...variabelStore };
     });

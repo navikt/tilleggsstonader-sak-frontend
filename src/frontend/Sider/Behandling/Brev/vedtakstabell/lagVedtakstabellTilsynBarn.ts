@@ -15,6 +15,7 @@ export const lagVedtakstabellTilsynBarn = (
         [variabelBeregningstabellId]: lagBeregningstabell(beregningsresultat),
     };
 };
+
 const lagBeregningstabell = (beregningsresultat?: BeregningsresultatTilsynBarn): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
