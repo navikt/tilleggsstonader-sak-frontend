@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { lagAktivitetTypeOptions } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
@@ -26,11 +27,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import {
-    Aktivitet,
-    AktivitetType,
-    lagAktivitetTypeOptions,
-} from '../typer/vilkårperiode/aktivitet';
+import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,

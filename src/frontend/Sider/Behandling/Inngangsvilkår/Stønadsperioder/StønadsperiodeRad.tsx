@@ -9,11 +9,11 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
-import { Stønadsperiode } from '../typer/stønadsperiode';
 import {
     aktivitetTypeTilTekst,
     lagAktivitetTypeOptionsForStønadsperiode,
-} from '../typer/vilkårperiode/aktivitet';
+} from '../Aktivitet/utilsAktivitet';
+import { Stønadsperiode } from '../typer/stønadsperiode';
 import {
     målgruppeTypeOptionsForStønadsperiode,
     målgruppeTypeTilTekst,
