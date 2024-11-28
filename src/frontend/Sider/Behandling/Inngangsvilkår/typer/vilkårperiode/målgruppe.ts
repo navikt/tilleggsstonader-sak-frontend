@@ -1,16 +1,10 @@
 import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
-import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
+import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;
     type: MålgruppeType;
     faktaOgVurderinger: MålgruppeVurderinger;
-}
-
-export interface DelvilkårMålgruppe {
-    '@type': 'MÅLGRUPPE';
-    medlemskap?: Vurdering;
-    dekketAvAnnetRegelverk?: Vurdering;
 }
 
 export enum MålgruppeType {

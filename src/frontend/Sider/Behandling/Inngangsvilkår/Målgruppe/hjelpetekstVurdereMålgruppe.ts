@@ -1,4 +1,4 @@
-import { MålgruppeType } from '../typer/målgruppe';
+import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 
 const nedsattArbeidsevne =
     'Se rundskriv til folketrygdloven kapittel 2. ' +

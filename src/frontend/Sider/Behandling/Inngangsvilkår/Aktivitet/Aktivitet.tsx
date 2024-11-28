@@ -19,7 +19,7 @@ import {
     lenkerParagrafAktivitet,
     lenkerRundskrivAktivitet,
 } from '../../lenker';
-import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode/vilkårperiode';
 
 const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = ({ grunnlag }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();

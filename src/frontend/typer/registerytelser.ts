@@ -1,4 +1,4 @@
-import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export interface Registerytelser {
     perioder: PeriodeYtelseRegister[];

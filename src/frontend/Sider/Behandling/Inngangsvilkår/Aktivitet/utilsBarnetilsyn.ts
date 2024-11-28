@@ -3,12 +3,10 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import {
-    AktivitetBarnetilsyn,
-    AktivitetType,
-    AktivitetBarnetilsynFaktaOgSvar,
-} from '../typer/aktivitet';
-import { SvarJaNei } from '../typer/vilkårperiode';
+import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetBarnetilsynFaktaOgSvar } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (

@@ -4,7 +4,9 @@ import { Detail } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
-import { Aktivitet, AktivitetBarnetilsyn, AktivitetLæremidler } from '../../typer/aktivitet';
+import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
+import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetLæremidler } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import {
     harUtgifterSvarTilTekst,
     lønnetSvarTilTekst,

@@ -2,12 +2,12 @@ import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
+import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
-    AktivitetType,
     AktivitetLæremidlerFaktaOgSvar,
-} from '../typer/aktivitet';
-import { SvarJaNei } from '../typer/vilkårperiode';
+} from '../typer/vilkårperiode/aktivitetLæremidler';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (

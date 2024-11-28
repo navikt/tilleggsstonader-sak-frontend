@@ -5,7 +5,9 @@ import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { Aktivitet, AktivitetBarnetilsyn, AktivitetLæremidler } from '../typer/aktivitet';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
 
 export const EndreAktivitet: React.FC<{
     aktivitet?: Aktivitet;

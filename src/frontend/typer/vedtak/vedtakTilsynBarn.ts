@@ -1,6 +1,6 @@
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
-import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
-import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 

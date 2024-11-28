@@ -10,8 +10,11 @@ import { useSteg } from '../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { Aktivitet } from '../typer/aktivitet';
-import { VilkårPeriodeResultat, vilkårperiodeTypeTilTekst } from '../typer/vilkårperiode';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
+import {
+    VilkårPeriodeResultat,
+    vilkårperiodeTypeTilTekst,
+} from '../typer/vilkårperiode/vilkårperiode';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 const CelleContainer = styled.div`

@@ -10,8 +10,8 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Statusbånd } from '../../../../../komponenter/Statusbånd';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { Toggle } from '../../../../../utils/toggles';
-import { Aktivitet } from '../../typer/aktivitet';
-import { Målgruppe } from '../../typer/målgruppe';
+import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
+import { Målgruppe } from '../../typer/vilkårperiode/målgruppe';
 
 const Container = styled.div`
     position: relative;

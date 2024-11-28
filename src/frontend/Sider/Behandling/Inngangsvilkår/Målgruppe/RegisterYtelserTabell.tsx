@@ -8,7 +8,7 @@ import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 import { useSteg } from '../../../../context/StegContext';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { utledYtelseTekst } from '../../../../utils/registerYtelse';
-import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
+import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
 const HvitTabell = styled(Table)`
     background: white;

@@ -1,8 +1,8 @@
 import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
 import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
-import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { TypeRegisterYtelse } from '../../../../typer/registerytelser';
-import { Periode } from '../../../../utils/periode';
+import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
+import { TypeRegisterYtelse } from '../../../../../typer/registerytelser';
+import { Periode } from '../../../../../utils/periode';
 
 export interface VilkårperioderResponse {
     vilkårperioder: Vilkårperioder;
@@ -79,13 +79,6 @@ export enum SvarJaNei {
     NEI = 'NEI',
 }
 
-export enum BegrunnelseObligatorisk {
-    OBLIGATORISK = 'OBLIGATORISK',
-    VALGFRI = 'VALGFRI',
-    OBLIGATORISK_HVIS_SVAR_NEI = 'OBLIGATORISK_HVIS_SVAR_NEI',
-    OBLIGATORISK_HVIS_SVAR_JA = 'OBLIGATORISK_HVIS_SVAR_JA',
-}
-
 export const svarJaNeiMapping: Record<SvarJaNei, string> = {
     JA: 'Ja',
     JA_IMPLISITT: 'Ja',
@@ -95,13 +88,6 @@ export const svarJaNeiMapping: Record<SvarJaNei, string> = {
 export interface Vurdering {
     svar?: SvarJaNei;
     resultat?: VilkårPeriodeResultat;
-}
-
-export enum ResultatDelvilkårperiode {
-    OPPFYLT = 'OPPFYLT',
-    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
-    IKKE_VURDERT = 'IKKE_VURDERT',
-    IKKE_AKTUELT = 'IKKE_AKTUELT',
 }
 
 export interface SlettVilkårperiode {

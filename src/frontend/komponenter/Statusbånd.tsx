@@ -12,7 +12,7 @@ import {
     AOrange400,
 } from '@navikt/ds-tokens/dist/tokens';
 
-import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { formaterEnumVerdi } from '../utils/tekstformatering';
 
 const Ribbon = styled.div<{ $hovedfarge: string; $skygge: string }>`

@@ -25,13 +25,13 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { Aktivitet, AktivitetType, aktivitetTypeOptions } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
-    Aktivitet,
-    AktivitetLæremidler,
-    AktivitetType,
-    aktivitetTypeOptions,
-} from '../typer/aktivitet';
-import { KildeVilkårsperiode, StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode';
+    KildeVilkårsperiode,
+    StønadsperiodeStatus,
+    SvarJaNei,
+} from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';

@@ -10,7 +10,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
-import { AktivitetType, AktivitetTypeTilTekst } from '../typer/aktivitet';
+import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
 
 const Tabell = styled(Table)`
     background: white;

@@ -1,5 +1,5 @@
-import { AktivitetType } from './aktivitet';
-import { MålgruppeType } from './målgruppe';
+import { AktivitetType } from './vilkårperiode/aktivitet';
+import { MålgruppeType } from './vilkårperiode/målgruppe';
 import { Periode } from '../../../../utils/periode';
 
 /**

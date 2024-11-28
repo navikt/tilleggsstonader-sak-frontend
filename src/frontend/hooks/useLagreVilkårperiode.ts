@@ -6,13 +6,13 @@ import {
     Aktivitet,
     AktivitetType,
     AktivitetFaktaOgSvar,
-} from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
+} from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
     Målgruppe,
     MålgruppeType,
-} from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
-import { LagreVilkårperiodeResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode';
+} from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { LagreVilkårperiodeResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { RessursFeilet, RessursSuksess } from '../typer/ressurs';
 import { Periode } from '../utils/periode';
 

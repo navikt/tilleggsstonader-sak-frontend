@@ -7,7 +7,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { VilkårperioderGrunnlag } from '../typer/vilkårperiode';
+import { VilkårperioderGrunnlag } from '../typer/vilkårperiode/vilkårperiode';
 
 const RegisterAktiviteter: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;

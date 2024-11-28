@@ -4,7 +4,7 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Aktivitet, AktivitetType } from '../typer/aktivitet';
+import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';

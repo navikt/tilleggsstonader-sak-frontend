@@ -2,7 +2,7 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { Aktivitet } from '../typer/aktivitet';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
     FaktiskMålgruppe,
@@ -10,8 +10,8 @@ import {
     MålgruppeType,
     MålgruppeTypeTilFaktiskMålgruppe,
     SvarMålgruppe,
-} from '../typer/målgruppe';
-import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode';
+} from '../typer/vilkårperiode/målgruppe';
+import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =
