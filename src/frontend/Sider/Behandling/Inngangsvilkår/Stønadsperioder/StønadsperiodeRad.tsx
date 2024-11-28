@@ -11,8 +11,8 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
 import { Stønadsperiode } from '../typer/stønadsperiode';
 import {
-    aktivitetTypeOptionsForStønadsperiode,
     aktivitetTypeTilTekst,
+    lagAktivitetTypeOptionsForStønadsperiode,
 } from '../typer/vilkårperiode/aktivitet';
 import {
     målgruppeTypeOptionsForStønadsperiode,
@@ -46,6 +46,10 @@ const StønadsperiodeRad: React.FC<Props> = ({
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
+
+    const aktivitetTypeOptionsForStønadsperiode = lagAktivitetTypeOptionsForStønadsperiode(
+        behandling.stønadstype
+    );
 
     return (
         <>

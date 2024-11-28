@@ -21,11 +21,16 @@ import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPeri
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import { Aktivitet, AktivitetType, aktivitetTypeOptions } from '../typer/vilkårperiode/aktivitet';
+import {
+    Aktivitet,
+    AktivitetType,
+    lagAktivitetTypeOptions,
+} from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import {
     KildeVilkårsperiode,
@@ -160,7 +165,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={aktivitetTypeOptions}
+                    typeOptions={lagAktivitetTypeOptions(Stønadstype.BARNETILSYN)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}

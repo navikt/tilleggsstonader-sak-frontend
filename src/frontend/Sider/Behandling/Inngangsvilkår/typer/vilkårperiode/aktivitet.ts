@@ -9,6 +9,7 @@ import {
     AktivitetLæremidlerFaktaOgVurderinger,
 } from './aktivitetLæremidler';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
 
@@ -32,16 +33,34 @@ export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
     return AktivitetTypeTilTekst[type];
 };
 
-export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
-    ([value, label]) => ({
-        value: value,
-        label: label,
-    })
-);
+export const lagAktivitetTypeOptions = (stønadstype: Stønadstype): SelectOption[] => {
+    const relevanteTyper = finnRelevanteAktivitetTyperForStønad(stønadstype);
 
-export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filter(
-    (option) => option.value !== AktivitetType.INGEN_AKTIVITET
-);
+    return relevanteTyper.map((type) => ({
+        value: type,
+        label: AktivitetTypeTilTekst[type],
+    }));
+};
+
+export const lagAktivitetTypeOptionsForStønadsperiode = (stønadstype: Stønadstype) =>
+    lagAktivitetTypeOptions(stønadstype).filter(
+        (option) => option.value !== AktivitetType.INGEN_AKTIVITET
+    );
+
+export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype): AktivitetType[] => {
+    switch (stønadstype) {
+        case Stønadstype.BARNETILSYN:
+            return [
+                AktivitetType.TILTAK,
+                AktivitetType.UTDANNING,
+                AktivitetType.REELL_ARBEIDSSØKER,
+                AktivitetType.INGEN_AKTIVITET,
+            ];
+
+        case Stønadstype.LÆREMIDLER:
+            return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
+    }
+};
 
 export type AktivitetFaktaOgVurderinger =
     | AktivitetBarnetilsynFaktaOgVurderinger
