@@ -6,7 +6,7 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
-import { TypeVedtak } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import { Toggle } from '../../../../utils/toggles';
 
 interface Props {

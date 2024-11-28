@@ -11,11 +11,11 @@ import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
+import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
-    TypeVedtak,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';

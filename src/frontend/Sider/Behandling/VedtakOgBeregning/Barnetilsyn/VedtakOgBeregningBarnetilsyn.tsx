@@ -11,11 +11,11 @@ import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagBarnetilsyn,
     InnvilgelseBarnetilsyn,
     OpphørBarnetilsyn,
-    TypeVedtak,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 

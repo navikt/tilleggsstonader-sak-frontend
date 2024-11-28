@@ -10,12 +10,10 @@ import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
+import { TypeVedtak, ÅrsakAvslag, årsakAvslagTilTekst } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagBarnetilsyn,
     AvslåBarnetilsynRequest,
-    TypeVedtak,
-    ÅrsakAvslag,
-    årsakAvslagTilTekst,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
 
