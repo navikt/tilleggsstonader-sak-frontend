@@ -64,7 +64,7 @@ export const MålgruppeKort: React.FC<{
                     </BodyShort>
                 </Celle>
                 <Celle>
-                    <FaktaOgDelvilkårVisning delvilkår={målgruppe.delvilkår} />
+                    <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
                 </Celle>
                 <Celle $width={300}>
                     <VStack>

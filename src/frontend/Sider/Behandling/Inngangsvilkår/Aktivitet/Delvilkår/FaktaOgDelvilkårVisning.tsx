@@ -5,7 +5,10 @@ import { Detail } from '@navikt/ds-react';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Aktivitet, AktivitetBarnetilsyn, AktivitetLæremidler } from '../../typer/aktivitet';
-import { lønnetSvarTilTekst } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
+import {
+    harUtgifterSvarTilTekst,
+    lønnetSvarTilTekst,
+} from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 
 export const FaktaOgDelvilkårVisning: React.FC<{
     aktivitet: Aktivitet;
@@ -23,12 +26,12 @@ export const FaktaOgDelvilkårVisning: React.FC<{
 const FaktaOgDelvilkårTilsynBarn: React.FC<{
     aktivitet: AktivitetBarnetilsyn;
 }> = ({ aktivitet }) => {
-    const svarPåDelvilkår = aktivitet.delvilkår.lønnet?.svar;
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
 
     return (
         <>
-            <Detail>{aktivitet.aktivitetsdager} aktivitetsdager</Detail>
-            {svarPåDelvilkår && <Detail>{lønnetSvarTilTekst[svarPåDelvilkår]}</Detail>}
+            <Detail>{aktivitet.faktaOgVurderinger.aktivitetsdager} aktivitetsdager</Detail>
+            {svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}
         </>
     );
 };
@@ -36,12 +39,12 @@ const FaktaOgDelvilkårTilsynBarn: React.FC<{
 const FaktaOgDelvilkårLæremidler: React.FC<{
     aktivitet: AktivitetLæremidler;
 }> = ({ aktivitet }) => {
-    const svarPåDelvilkår = aktivitet.delvilkår.harUtgifter?.svar;
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
 
     return (
         <>
-            <Detail>{aktivitet.prosent} %</Detail>
-            {svarPåDelvilkår && <Detail>{lønnetSvarTilTekst[svarPåDelvilkår]}</Detail>}
+            <Detail>{aktivitet.faktaOgVurderinger.prosent}%</Detail>
+            {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
         </>
     );
 };

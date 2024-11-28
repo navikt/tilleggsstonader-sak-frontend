@@ -29,9 +29,9 @@ export const nyMålgruppe = (
 export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): EndreMålgruppeForm => ({
     ...eksisterendeMålgruppe,
     vurderinger: {
-        svarMedlemskap: eksisterendeMålgruppe.delvilkår.medlemskap?.svar,
+        svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
         svarUtgifterDekketAvAnnetRegelverk:
-            eksisterendeMålgruppe.delvilkår.dekketAvAnnetRegelverk?.svar,
+            eksisterendeMålgruppe.faktaOgVurderinger.utgifterDekketAvAnnetRegelverk?.svar,
     },
 });
 

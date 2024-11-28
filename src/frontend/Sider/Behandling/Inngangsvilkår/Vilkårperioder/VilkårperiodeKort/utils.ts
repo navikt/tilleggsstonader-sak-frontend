@@ -1,14 +1,15 @@
-import { DelvilkårAktivitet, DelvilkårAktivitetBarnetilsyn } from '../../typer/aktivitet';
-import { DelvilkårMålgruppe } from '../../typer/målgruppe';
+import { AktivitetFaktaOgVurderinger } from '../../typer/aktivitet';
+import { MålgruppeVurderinger } from '../../typer/målgruppe';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode';
 
-export type DelvilkårKey = Exclude<
-    keyof DelvilkårMålgruppe | keyof DelvilkårAktivitetBarnetilsyn,
-    '@type'
->;
+export type DelvilkårKey =
+    | 'medlemskap'
+    | 'utgifterDekketAvAnnetRegelverk'
+    | 'lønnet'
+    | 'harUtgifter';
 
 export const finnDelvilkårTilOppsummering = (
-    delvilkår: DelvilkårMålgruppe | DelvilkårAktivitet,
+    faktaOgVurderinger: MålgruppeVurderinger | AktivitetFaktaOgVurderinger,
     resultat: VilkårPeriodeResultat
 ): DelvilkårKey[] => {
     if (resultat === VilkårPeriodeResultat.OPPFYLT || resultat === VilkårPeriodeResultat.SLETTET)
@@ -16,7 +17,7 @@ export const finnDelvilkårTilOppsummering = (
 
     const delvilkårMedResultat: DelvilkårKey[] = [];
 
-    Object.entries(delvilkår).forEach(([key, value]) => {
+    Object.entries(faktaOgVurderinger).forEach(([key, value]) => {
         if (key !== '@type' && value?.resultat === resultat) {
             delvilkårMedResultat.push(key as DelvilkårKey);
         }

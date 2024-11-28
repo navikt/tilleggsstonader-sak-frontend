@@ -4,7 +4,7 @@ import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 export interface Målgruppe extends VilkårPeriode {
     id: string;
     type: MålgruppeType;
-    delvilkår: DelvilkårMålgruppe;
+    faktaOgVurderinger: MålgruppeVurderinger;
 }
 
 export interface DelvilkårMålgruppe {
@@ -72,6 +72,11 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     SYKEPENGER_100_PROSENT: FaktiskMålgruppe.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
 };
+
+export interface MålgruppeVurderinger {
+    medlemskap: Vurdering | undefined;
+    utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
+}
 
 export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
