@@ -1,14 +1,12 @@
+import {
+    AktivitetBarnetilsyn,
+    AktivitetBarnetilsynFaktaOgSvar,
+    AktivitetBarnetilsynFaktaOgVurderinger,
+} from './aktivitetBarnetilsyn';
 import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
-
-export interface AktivitetBarnetilsyn extends VilkårPeriode {
-    id: string;
-    type: AktivitetType;
-    kildeId?: string;
-    faktaOgVurderinger: AktivitetBarnetilsynFaktaOgVurderinger;
-}
 
 export interface AktivitetLæremidler extends VilkårPeriode {
     id: string;
@@ -52,12 +50,6 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetBarnetilsynFaktaOgVurderinger
     | AktivitetLæremidlerFaktaOgVurderinger;
 
-export interface AktivitetBarnetilsynFaktaOgVurderinger {
-    '@type': 'AKTIVITET_BARNETILSYN';
-    aktivitetsdager: number | undefined;
-    lønnet: Vurdering | undefined;
-}
-
 export interface AktivitetLæremidlerFaktaOgVurderinger {
     '@type': 'AKTIVITET_LÆREMIDLER';
     prosent: number | undefined;
@@ -65,12 +57,6 @@ export interface AktivitetLæremidlerFaktaOgVurderinger {
 }
 
 export type AktivitetFaktaOgSvar = AktivitetBarnetilsynFaktaOgSvar | AktivitetLæremidlerFaktaOgSvar;
-
-export interface AktivitetBarnetilsynFaktaOgSvar {
-    '@type': 'AKTIVITET_BARNETILSYN';
-    aktivitetsdager: number | undefined;
-    svarLønnet: SvarJaNei | undefined;
-}
 
 export interface AktivitetLæremidlerFaktaOgSvar {
     '@type': 'AKTIVITET_LÆREMIDLER';

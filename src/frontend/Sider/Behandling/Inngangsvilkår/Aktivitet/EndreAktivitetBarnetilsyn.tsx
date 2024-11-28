@@ -25,12 +25,8 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import {
-    Aktivitet,
-    AktivitetBarnetilsyn,
-    AktivitetType,
-    aktivitetTypeOptions,
-} from '../typer/vilkårperiode/aktivitet';
+import { Aktivitet, AktivitetType, aktivitetTypeOptions } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,
