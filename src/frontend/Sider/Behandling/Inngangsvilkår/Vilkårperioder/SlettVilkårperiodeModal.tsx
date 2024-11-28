@@ -11,8 +11,8 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/
 import { formaterIsoDato } from '../../../../utils/dato';
 import { harIkkeVerdi } from '../../../../utils/utils';
 import { erMålgruppe } from '../Målgruppe/utils';
-import { Aktivitet } from '../typer/aktivitet';
 import { Målgruppe } from '../typer/målgruppe';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,

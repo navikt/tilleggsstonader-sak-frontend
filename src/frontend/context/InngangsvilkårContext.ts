@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
-import { Aktivitet, AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { Målgruppe, MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
 import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
+import {
+    Aktivitet,
+    AktivitetType,
+} from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 interface UseInngangsvilkår {

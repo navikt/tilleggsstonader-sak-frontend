@@ -30,7 +30,7 @@ import {
     AktivitetBarnetilsyn,
     AktivitetType,
     aktivitetTypeOptions,
-} from '../typer/aktivitet';
+} from '../typer/vilkårperiode/aktivitet';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,

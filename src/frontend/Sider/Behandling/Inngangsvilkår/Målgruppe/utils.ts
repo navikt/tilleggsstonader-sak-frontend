@@ -2,7 +2,6 @@ import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { Aktivitet } from '../typer/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
     FaktiskMålgruppe,
@@ -11,6 +10,7 @@ import {
     MålgruppeTypeTilFaktiskMålgruppe,
     SvarMålgruppe,
 } from '../typer/målgruppe';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 

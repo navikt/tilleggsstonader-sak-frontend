@@ -9,9 +9,12 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
-import { aktivitetTypeOptionsForStønadsperiode, aktivitetTypeTilTekst } from '../typer/aktivitet';
 import { målgruppeTypeOptionsForStønadsperiode, målgruppeTypeTilTekst } from '../typer/målgruppe';
 import { Stønadsperiode } from '../typer/stønadsperiode';
+import {
+    aktivitetTypeOptionsForStønadsperiode,
+    aktivitetTypeTilTekst,
+} from '../typer/vilkårperiode/aktivitet';
 
 interface Props {
     stønadsperide: Stønadsperiode;

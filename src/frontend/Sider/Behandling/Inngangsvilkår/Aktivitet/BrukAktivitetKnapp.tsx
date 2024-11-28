@@ -5,7 +5,7 @@ import { Button, Tag } from '@navikt/ds-react';
 
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { Aktivitet } from '../typer/aktivitet';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 
 const erAktivitetLagtTil = (aktiviteter: Aktivitet[], registerAktivitet: Registeraktivitet) =>
     aktiviteter.some((aktivitet) => registerAktivitet.id === aktivitet.kildeId);

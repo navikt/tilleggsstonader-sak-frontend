@@ -1,9 +1,9 @@
+import { MålgruppeVurderinger } from '../../typer/målgruppe';
 import {
     AktivitetBarnetilsynFaktaOgVurderinger,
     AktivitetFaktaOgVurderinger,
     AktivitetLæremidlerFaktaOgVurderinger,
-} from '../../typer/aktivitet';
-import { MålgruppeVurderinger } from '../../typer/målgruppe';
+} from '../../typer/vilkårperiode/aktivitet';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode/vilkårperiode';
 
 export type DelvilkårKey = Exclude<

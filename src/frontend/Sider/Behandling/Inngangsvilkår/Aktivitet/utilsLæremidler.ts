@@ -6,7 +6,7 @@ import {
     AktivitetLæremidler,
     AktivitetType,
     AktivitetLæremidlerFaktaOgSvar,
-} from '../typer/aktivitet';
+} from '../typer/vilkårperiode/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 

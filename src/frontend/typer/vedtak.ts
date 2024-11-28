@@ -1,5 +1,5 @@
-import { AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/aktivitet';
 import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/målgruppe';
+import { AktivitetType } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',

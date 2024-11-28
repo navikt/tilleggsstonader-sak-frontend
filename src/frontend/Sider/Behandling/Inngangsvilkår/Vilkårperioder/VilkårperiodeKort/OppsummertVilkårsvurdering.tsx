@@ -11,12 +11,12 @@ import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { erMålgruppe } from '../../Målgruppe/utils';
-import { Aktivitet } from '../../typer/aktivitet';
 import {
     FaktiskMålgruppe,
     Målgruppe,
     MålgruppeTypeTilFaktiskMålgruppe,
 } from '../../typer/målgruppe';
+import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 
 const Container = styled.div`
     display: flex;

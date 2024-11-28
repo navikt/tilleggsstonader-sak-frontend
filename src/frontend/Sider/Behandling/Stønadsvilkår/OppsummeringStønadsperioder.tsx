@@ -3,9 +3,9 @@ import React from 'react';
 import { Box, List } from '@navikt/ds-react';
 
 import { formaterTilTekstligDato } from '../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../Inngangsvilkår/typer/aktivitet';
 import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/målgruppe';
 import { Stønadsperiode } from '../Inngangsvilkår/typer/stønadsperiode';
+import { aktivitetTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 
 const OppsummeringStønadsperioder: React.FC<{ stønadsperioder: Stønadsperiode[] }> = ({
     stønadsperioder,
