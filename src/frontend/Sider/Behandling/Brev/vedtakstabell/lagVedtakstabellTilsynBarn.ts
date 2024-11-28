@@ -1,3 +1,4 @@
+import { LagVedtakstabell } from './lagVedtakstabell';
 import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterÅrMåned } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
@@ -8,7 +9,7 @@ const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 
 export const lagVedtakstabellTilsynBarn = (
     beregningsresultat: BeregningsresultatTilsynBarn | undefined
-) => {
+): LagVedtakstabell => {
     const variabelBeregningstabellId = '02408de1-5ad8-44e9-a004-51f677d6ebab';
 
     return {
