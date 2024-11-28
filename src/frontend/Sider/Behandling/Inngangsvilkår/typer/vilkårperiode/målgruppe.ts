@@ -1,5 +1,5 @@
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode/vilkårperiode';
-import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
+import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;

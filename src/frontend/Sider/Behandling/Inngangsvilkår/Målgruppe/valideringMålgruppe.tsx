@@ -3,7 +3,7 @@ import { finnBegrunnelseGrunnerMålgruppe } from './utils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Målgruppe, MålgruppeType } from '../typer/målgruppe';
+import { Målgruppe, MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 
 export interface MålgruppeValidering extends Periode {
     type: MålgruppeType | '';

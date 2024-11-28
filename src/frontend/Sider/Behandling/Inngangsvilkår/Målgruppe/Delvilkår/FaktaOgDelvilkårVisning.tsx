@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Detail, VStack } from '@navikt/ds-react';
 
-import { MålgruppeVurderinger } from '../../typer/målgruppe';
+import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import {
     dekketAvAnnetRegelverkSvarTilTekst,
     medlemskapSvarTilTekst,

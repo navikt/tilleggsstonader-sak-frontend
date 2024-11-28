@@ -6,8 +6,8 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Periode } from '../../../../utils/periode';
-import { MålgruppeType } from '../typer/målgruppe';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 
 type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 

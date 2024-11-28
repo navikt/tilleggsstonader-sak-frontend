@@ -10,7 +10,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { Målgruppe } from '../typer/målgruppe';
+import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
 import {
     VilkårPeriodeResultat,
     vilkårperiodeTypeTilTekst,

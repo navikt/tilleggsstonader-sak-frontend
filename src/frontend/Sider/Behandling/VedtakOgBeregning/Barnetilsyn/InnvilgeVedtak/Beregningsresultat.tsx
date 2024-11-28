@@ -8,8 +8,8 @@ import '@navikt/ds-css';
 
 import { BeregningsresultatTilsynBarn, Vedtaksperiode } from '../../../../../typer/vedtak';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/målgruppe';
 import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Container = styled.div`
     background-color: ${AWhite};

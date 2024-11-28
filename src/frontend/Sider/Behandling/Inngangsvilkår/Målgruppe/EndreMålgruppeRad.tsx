@@ -22,7 +22,12 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { Målgruppe, MålgruppeType, målgruppeTypeOptions, SvarMålgruppe } from '../typer/målgruppe';
+import {
+    Målgruppe,
+    MålgruppeType,
+    målgruppeTypeOptions,
+    SvarMålgruppe,
+} from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
