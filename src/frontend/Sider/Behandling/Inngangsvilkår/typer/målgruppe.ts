@@ -7,12 +7,6 @@ export interface Målgruppe extends VilkårPeriode {
     faktaOgVurderinger: MålgruppeVurderinger;
 }
 
-export interface DelvilkårMålgruppe {
-    '@type': 'MÅLGRUPPE';
-    medlemskap?: Vurdering;
-    dekketAvAnnetRegelverk?: Vurdering;
-}
-
 export enum MålgruppeType {
     AAP = 'AAP',
     UFØRETRYGD = 'UFØRETRYGD',
