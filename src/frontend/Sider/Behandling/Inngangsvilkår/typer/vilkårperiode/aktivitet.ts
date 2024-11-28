@@ -3,17 +3,14 @@ import {
     AktivitetBarnetilsynFaktaOgSvar,
     AktivitetBarnetilsynFaktaOgVurderinger,
 } from './aktivitetBarnetilsyn';
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import {
+    AktivitetLæremidler,
+    AktivitetLæremidlerFaktaOgSvar,
+    AktivitetLæremidlerFaktaOgVurderinger,
+} from './aktivitetLæremidler';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
-
-export interface AktivitetLæremidler extends VilkårPeriode {
-    id: string;
-    type: AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
-    kildeId?: string;
-    faktaOgVurderinger: AktivitetLæremidlerFaktaOgVurderinger;
-}
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -50,16 +47,4 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetBarnetilsynFaktaOgVurderinger
     | AktivitetLæremidlerFaktaOgVurderinger;
 
-export interface AktivitetLæremidlerFaktaOgVurderinger {
-    '@type': 'AKTIVITET_LÆREMIDLER';
-    prosent: number | undefined;
-    harUtgifter: Vurdering | undefined;
-}
-
 export type AktivitetFaktaOgSvar = AktivitetBarnetilsynFaktaOgSvar | AktivitetLæremidlerFaktaOgSvar;
-
-export interface AktivitetLæremidlerFaktaOgSvar {
-    '@type': 'AKTIVITET_LÆREMIDLER';
-    prosent: number | undefined;
-    svarHarUtgifter: SvarJaNei | undefined;
-}

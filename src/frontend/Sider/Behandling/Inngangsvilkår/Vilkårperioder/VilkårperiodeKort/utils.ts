@@ -1,8 +1,6 @@
-import {
-    AktivitetFaktaOgVurderinger,
-    AktivitetLæremidlerFaktaOgVurderinger,
-} from '../../typer/vilkårperiode/aktivitet';
+import { AktivitetFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsynFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetLæremidlerFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode/vilkårperiode';
 
