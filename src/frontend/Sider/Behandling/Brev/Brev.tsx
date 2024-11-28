@@ -22,7 +22,6 @@ import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -72,7 +71,7 @@ const Brev: React.FC = () => {
         if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
             hentBrevmaler(finnSanityMappe(behandling.type, vedtak.data.type));
         }
-    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status, behandling.type]);
+    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, behandling.type]);
 
     useEffect(() => {
         if (behandlingErRedigerbar) {
@@ -107,14 +106,10 @@ const Brev: React.FC = () => {
                                         <>
                                             <Brevmeny
                                                 mal={malStruktur}
-                                                behandlingId={behandling.id}
+                                                behandling={behandling}
                                                 mellomlagretBrev={mellomlagretBrev}
                                                 settFil={settFil}
-                                                beregningsresultat={
-                                                    erVedtakInnvilgelse(vedtak)
-                                                        ? vedtak.beregningsresultat
-                                                        : undefined
-                                                }
+                                                vedtak={vedtak}
                                             />
                                             <SendTilBeslutterKnapp />
                                         </>

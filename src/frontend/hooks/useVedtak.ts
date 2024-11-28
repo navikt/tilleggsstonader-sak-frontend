@@ -2,24 +2,30 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
+import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
-import { VedtakBarnetilsyn } from '../typer/vedtak';
+import { VedtakResponse } from '../typer/vedtak/vedtak';
 
-interface Response {
+interface Response<T extends VedtakResponse> {
     hentVedtak: (behandlingId: string) => void;
-    vedtak: Ressurs<VedtakBarnetilsyn>;
+    vedtak: Ressurs<T>;
 }
 
-export const useVedtak = (): Response => {
+const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
+    [Stønadstype.BARNETILSYN]: 'tilsyn-barn',
+    [Stønadstype.LÆREMIDLER]: 'laremidler',
+};
+
+export const useVedtak = <T extends VedtakResponse>(): Response<T> => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [vedtak, settVedtak] = useState<Ressurs<VedtakBarnetilsyn>>(byggTomRessurs());
+    const [vedtak, settVedtak] = useState<Ressurs<T>>(byggTomRessurs());
 
     const hentVedtak = useCallback(() => {
-        request<VedtakBarnetilsyn, null>(`/api/sak/vedtak/tilsyn-barn/${behandling.id}`).then(
-            settVedtak
-        );
+        request<T, null>(
+            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[behandling.stønadstype]}/${behandling.id}`
+        ).then(settVedtak);
     }, [behandling, request]);
 
     useEffect(() => {
