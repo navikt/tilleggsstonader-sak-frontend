@@ -6,6 +6,7 @@ import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
+    AktivitetTypeLæremidler,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -55,7 +56,7 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
 export const resettAktivitet = (
-    nyType: AktivitetType,
+    nyType: AktivitetTypeLæremidler,
     eksisterendeAktivitetForm: EndreAktivitetFormLæremidler,
     søknadMottattTidspunkt?: string
 ): EndreAktivitetFormLæremidler => {

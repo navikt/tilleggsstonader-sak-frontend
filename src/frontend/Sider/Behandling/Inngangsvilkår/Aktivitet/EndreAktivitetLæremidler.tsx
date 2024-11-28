@@ -25,8 +25,10 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import { Aktivitet, AktivitetType, aktivitetTypeOptions } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
+import {
+    AktivitetLæremidler,
+    AktivitetTypeLæremidler,
+} from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,
@@ -48,7 +50,7 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormLæremidler extends Periode {
-    type: AktivitetType | '';
+    type: AktivitetTypeLæremidler | '';
     prosent: number | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
@@ -134,7 +136,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
-    const oppdaterType = (type: AktivitetType) => {
+    const oppdaterType = (type: AktivitetTypeLæremidler) => {
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
