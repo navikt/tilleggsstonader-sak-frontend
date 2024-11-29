@@ -32,6 +32,7 @@ import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,
     Studienivå,
+    studienivåTilTekst,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
@@ -202,8 +203,12 @@ export const EndreAktivitetLæremidler: React.FC<{
                     size="small"
                 >
                     <HStack gap="4">
-                        <Radio value={Studienivå.HØYERE_UTDANNING}>Høyere utdanning</Radio>
-                        <Radio value={Studienivå.VIDEREGÅENDE}>Videregående skole</Radio>
+                        <Radio value={Studienivå.HØYERE_UTDANNING}>
+                            {studienivåTilTekst[Studienivå.HØYERE_UTDANNING]}
+                        </Radio>
+                        <Radio value={Studienivå.VIDEREGÅENDE}>
+                            {studienivåTilTekst[Studienivå.VIDEREGÅENDE]}
+                        </Radio>
                     </HStack>
                 </RadioGroup>
             )}
