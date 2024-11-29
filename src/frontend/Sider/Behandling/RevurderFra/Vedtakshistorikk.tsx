@@ -1,38 +1,46 @@
 import React from 'react';
 
-import { Heading, Table } from '@navikt/ds-react';
+import styled from 'styled-components';
+
+import { Heading, Table, VStack } from '@navikt/ds-react';
+
+const InnholdWrapper = styled.div`
+    max-width: 40rem;
+`;
 
 export const Vedtakshistorikk = () => {
     return (
-        <>
-            <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
-            <Table>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Til.</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Ant. barn</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Utgift</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn, utgift }) => {
-                        return (
-                            <Table.Row key={fom}>
-                                <Table.DataCell>{format(new Date(fom))}</Table.DataCell>
-                                <Table.DataCell>{format(new Date(tom))}</Table.DataCell>
-                                <Table.DataCell>{aktivitet}</Table.DataCell>
-                                <Table.DataCell>{målgruppe}</Table.DataCell>
-                                <Table.DataCell>{antallBarn}</Table.DataCell>
-                                <Table.DataCell>{utgift}</Table.DataCell>
-                            </Table.Row>
-                        );
-                    })}
-                </Table.Body>
-            </Table>
-        </>
+        <InnholdWrapper>
+            <VStack gap="4">
+                <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
+                <Table size={'small'}>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Til.</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Ant. barn</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Utgift</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn, utgift }) => {
+                            return (
+                                <Table.Row key={fom}>
+                                    <Table.DataCell>{format(new Date(fom))}</Table.DataCell>
+                                    <Table.DataCell>{format(new Date(tom))}</Table.DataCell>
+                                    <Table.DataCell>{aktivitet}</Table.DataCell>
+                                    <Table.DataCell>{målgruppe}</Table.DataCell>
+                                    <Table.DataCell>{antallBarn}</Table.DataCell>
+                                    <Table.DataCell>{utgift}</Table.DataCell>
+                                </Table.Row>
+                            );
+                        })}
+                    </Table.Body>
+                </Table>
+            </VStack>
+        </InnholdWrapper>
     );
 };
 
