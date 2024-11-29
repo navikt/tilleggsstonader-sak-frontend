@@ -16,9 +16,9 @@ import useMellomlagrignBrev from './useMellomlagrignBrev';
 import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
-import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
@@ -39,6 +39,7 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
+    const contextBrevmottakere = useContextBrevmottakereSak(behandling.id);
 
     const { personopplysninger } = usePersonopplysninger();
     const {
@@ -87,10 +88,7 @@ const Brev: React.FC = () => {
                         <ToKolonner>
                             <VStack gap="8" align="start">
                                 <BrevMottakere
-                                    context={{
-                                        type: Applikasjonskontekst.SAK,
-                                        behandlingId: behandling.id,
-                                    }}
+                                    context={contextBrevmottakere}
                                     kanEndreBrevmottakere={behandlingErRedigerbar}
                                     personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                         personopplysninger

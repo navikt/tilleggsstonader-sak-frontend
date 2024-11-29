@@ -9,8 +9,8 @@ import { Alert, Button } from '@navikt/ds-react';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import PdfVisning from './PdfVisning';
 import { useApp } from '../../../../context/AppContext';
+import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
 import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
-import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
@@ -61,7 +61,7 @@ interface IBrev {
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
-
+    const contextBrevmottakere = useContextBrevmottakereKlage(behandlingId);
     const {
         hentBehandling,
         hentBehandlingshistorikk,
@@ -157,10 +157,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             >
                                 {({ personopplysningerFraKlageResponse }) => (
                                     <BrevMottakere
-                                        context={{
-                                            type: Applikasjonskontekst.KLAGE,
-                                            behandlingId: behandlingId,
-                                        }}
+                                        context={contextBrevmottakere}
                                         kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
                                             personopplysningerFraKlageResponse
