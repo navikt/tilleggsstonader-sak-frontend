@@ -14,6 +14,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
+import { Vedtakshistorikk } from './Vedtakshistorikk';
 
 const Container = styled.div`
     margin: 2rem;
@@ -82,6 +83,7 @@ export function RevurderFra() {
                     <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
                 )}
                 {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
+                <Vedtakshistorikk />
             </VStack>
         </Container>
     );
