@@ -12,6 +12,17 @@ import {
 } from '../../typer/ressurs';
 import { erProd } from '../../utils/miljø';
 
+const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
+    switch (ytelse) {
+        case Stønadstype.BARNETILSYN:
+            return 'BARNETILSYN';
+        case Stønadstype.LÆREMIDLER:
+            return 'LAREMIDLER';
+        default:
+            return 'ikke-definiert';
+    }
+};
+
 const useBrev = (ytelse: Stønadstype) => {
     const sanityClient = useSanityClient();
 
@@ -24,7 +35,7 @@ const useBrev = (ytelse: Stønadstype) => {
         sanityClient
             .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
                 resultat: resultat,
-                ytelse: ytelse,
+                ytelse: stønadstypeTilSanityYtelse(ytelse),
             })
             .then((data) => {
                 settBrevmaler(byggRessursSuksess(data));
