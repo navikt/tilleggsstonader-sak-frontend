@@ -1,15 +1,5 @@
-import { Valg } from '../../../komponenter/Brev/typer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { TypeVedtak } from '../../../typer/vedtak/vedtak';
-
-export const idEllerFritekst = (valg?: Valg): string | undefined => {
-    switch (valg?._type) {
-        case 'tekst':
-            return valg?._id;
-        case 'fritekst':
-            return 'fritekst';
-    }
-};
 
 enum SanityMappe {
     INNVILGET = 'INNVILGET',
