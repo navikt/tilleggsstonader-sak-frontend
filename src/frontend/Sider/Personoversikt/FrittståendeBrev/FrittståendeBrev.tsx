@@ -9,6 +9,7 @@ import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
 import useBrev from '../../../komponenter/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
@@ -18,7 +19,6 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
-import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../Behandling/Brev/brevUtils';
 
 const ToKolonner = styled.div`
     display: flex;
