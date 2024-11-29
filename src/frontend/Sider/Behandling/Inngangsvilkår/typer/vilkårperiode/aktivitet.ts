@@ -8,7 +8,6 @@ import {
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetLæremidlerFaktaOgVurderinger,
 } from './aktivitetLæremidler';
-import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
 
@@ -25,23 +24,6 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     REELL_ARBEIDSSØKER: 'Reell arbeidssøker',
     INGEN_AKTIVITET: 'Ingen aktivitet',
 };
-
-export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
-    if (type === '') return type;
-
-    return AktivitetTypeTilTekst[type];
-};
-
-export const aktivitetTypeOptions: SelectOption[] = Object.entries(AktivitetTypeTilTekst).map(
-    ([value, label]) => ({
-        value: value,
-        label: label,
-    })
-);
-
-export const aktivitetTypeOptionsForStønadsperiode = aktivitetTypeOptions.filter(
-    (option) => option.value !== AktivitetType.INGEN_AKTIVITET
-);
 
 export type AktivitetFaktaOgVurderinger =
     | AktivitetBarnetilsynFaktaOgVurderinger

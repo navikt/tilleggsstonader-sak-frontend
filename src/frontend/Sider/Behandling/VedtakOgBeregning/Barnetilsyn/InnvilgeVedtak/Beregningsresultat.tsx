@@ -11,7 +11,7 @@ import {
     Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Container = styled.div`

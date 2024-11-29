@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
@@ -21,12 +22,16 @@ import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPeri
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import { Aktivitet, AktivitetType, aktivitetTypeOptions } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
+import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import {
+    AktivitetLæremidler,
+    AktivitetTypeLæremidler,
+} from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,
@@ -48,7 +53,7 @@ const FeltContainer = styled.div`
 `;
 
 export interface EndreAktivitetFormLæremidler extends Periode {
-    type: AktivitetType | '';
+    type: AktivitetTypeLæremidler | '';
     prosent: number | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
@@ -134,7 +139,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
-    const oppdaterType = (type: AktivitetType) => {
+    const oppdaterType = (type: AktivitetTypeLæremidler) => {
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
@@ -160,7 +165,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={aktivitetTypeOptions}
+                    typeOptions={valgbareAktivitetTyper(Stønadstype.LÆREMIDLER)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}

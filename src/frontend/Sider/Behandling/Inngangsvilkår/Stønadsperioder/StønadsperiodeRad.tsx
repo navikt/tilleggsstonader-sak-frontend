@@ -9,11 +9,11 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
-import { Stønadsperiode } from '../typer/stønadsperiode';
 import {
-    aktivitetTypeOptionsForStønadsperiode,
     aktivitetTypeTilTekst,
-} from '../typer/vilkårperiode/aktivitet';
+    valgbareAktivitetTyperForStønadsperiode,
+} from '../Aktivitet/utilsAktivitet';
+import { Stønadsperiode } from '../typer/stønadsperiode';
 import {
     målgruppeTypeOptionsForStønadsperiode,
     målgruppeTypeTilTekst,
@@ -46,6 +46,10 @@ const StønadsperiodeRad: React.FC<Props> = ({
 
     const finnFeilmelding = (property: keyof Stønadsperiode) =>
         feilmeldinger && feilmeldinger[property];
+
+    const aktivitetTypeOptionsForStønadsperiode = valgbareAktivitetTyperForStønadsperiode(
+        behandling.stønadstype
+    );
 
     return (
         <>
