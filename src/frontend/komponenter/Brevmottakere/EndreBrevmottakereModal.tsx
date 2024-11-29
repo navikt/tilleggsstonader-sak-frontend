@@ -10,9 +10,9 @@ import { SøkWrapper } from './SøkWrapper';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { useApp } from '../../context/AppContext';
-import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
+import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
 import { ModalWrapper } from '../Modal/ModalWrapper';
 
 const GridContainer = styled.div`

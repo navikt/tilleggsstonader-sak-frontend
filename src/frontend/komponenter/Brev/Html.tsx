@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import { CustomComponets } from './Delmal';
 import { FritekstAvsnitt, MalStruktur, Valg } from './typer';
-import { NavIkon } from '../../../komponenter/Ikoner/Brev/NavIkon';
+import { NavIkon } from '../Ikoner/Brev/NavIkon';
 
 export const lagHtmlStringAvBrev = (props: Props): string =>
     renderToStaticMarkup(<HtmlBrev {...props} />);

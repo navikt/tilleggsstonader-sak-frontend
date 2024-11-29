@@ -1,8 +1,8 @@
 import { LagVedtakstabell } from './lagVedtakstabell';
-import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
-import { formaterÅrMåned } from '../../../../utils/dato';
-import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
-import { toTitleCase } from '../../../../utils/tekstformatering';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import { formaterÅrMåned } from '../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
+import { toTitleCase } from '../../../utils/tekstformatering';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';

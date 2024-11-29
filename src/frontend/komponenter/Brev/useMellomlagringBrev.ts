@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Fritekst, FritekstAvsnitt, Tekst } from './typer';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { useApp } from '../../context/AppContext';
+import { useBehandling } from '../../context/BehandlingContext';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
 export interface MellomlagretBrevDto {
     brevverdier: string;

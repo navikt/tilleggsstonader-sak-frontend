@@ -7,13 +7,13 @@ import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
-import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
+import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagringBrev';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
-import { useApp } from '../../../context/AppContext';
-import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
-import { Behandling } from '../../../typer/behandling/behandling';
-import { Ressurs } from '../../../typer/ressurs';
-import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { useApp } from '../../context/AppContext';
+import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
+import { Behandling } from '../../typer/behandling/behandling';
+import { Ressurs } from '../../typer/ressurs';
+import { VedtakResponse } from '../../typer/vedtak/vedtak';
 
 type Props = {
     mal: MalStruktur;

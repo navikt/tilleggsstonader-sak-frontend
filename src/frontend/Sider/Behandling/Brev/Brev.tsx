@@ -6,18 +6,18 @@ import { VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
-import Brevmeny from './Brevmeny';
 import {
     finnSanityMappe,
     mapPersonopplysningerTilPersonopplysningerIBrevmottakere,
 } from './brevUtils';
-import useBrev from './useBrev';
-import useMellomlagrignBrev from './useMellomlagrignBrev';
-import VelgBrevmal from './VelgBrevmal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
+import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import useBrev from '../../../komponenter/Brev/useBrev';
+import useMellomlagrignBrev from '../../../komponenter/Brev/useMellomlagringBrev';
+import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';

@@ -1,7 +1,7 @@
 import { lagVedtakstabellTilsynBarn } from './lagVedtakstabellTilsynBarn';
-import { Behandling } from '../../../../typer/behandling/behandling';
-import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { VedtakResponse } from '../../../../typer/vedtak/vedtak';
+import { Behandling } from '../../../typer/behandling/behandling';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 
 export type LagVedtakstabell = Record<string, string>;
 

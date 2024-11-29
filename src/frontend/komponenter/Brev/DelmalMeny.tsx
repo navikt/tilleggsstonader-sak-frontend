@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { idEllerFritekst } from './brevUtils';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
 import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
 import Variabler from './Variabler';
+import { idEllerFritekst } from '../../Sider/Behandling/Brev/brevUtils';
 
 interface Props {
     delmal: DelmalType;

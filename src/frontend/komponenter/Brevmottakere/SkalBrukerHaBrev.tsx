@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { BodyLong, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
-import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
+import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
 
 const StyledRadioGruppe = styled(RadioGroup)`
     display: flex;

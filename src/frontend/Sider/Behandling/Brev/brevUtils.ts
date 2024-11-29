@@ -1,4 +1,4 @@
-import { PersonopplysningerIBrevmottakere, Valg } from './typer';
+import { PersonopplysningerIBrevmottakere, Valg } from '../../../komponenter/Brev/typer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Personopplysninger } from '../../../typer/personopplysninger';
 import { TypeVedtak } from '../../../typer/vedtak/vedtak';

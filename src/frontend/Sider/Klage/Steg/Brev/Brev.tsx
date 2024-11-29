@@ -9,6 +9,7 @@ import { Alert, Button } from '@navikt/ds-react';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { useApp } from '../../../../context/AppContext';
 import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
+import { PersonopplysningerIBrevmottakere } from '../../../../komponenter/Brev/typer';
 import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
@@ -21,7 +22,6 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../../typer/ressurs';
-import { PersonopplysningerIBrevmottakere } from '../../../Behandling/Brev/typer';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';

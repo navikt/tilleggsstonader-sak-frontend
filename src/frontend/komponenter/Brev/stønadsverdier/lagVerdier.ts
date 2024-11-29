@@ -1,8 +1,8 @@
 import { lagVerdierTilsynBarn } from './lagVerdierTilsynBarn';
 import { Brevverdier } from './verdier';
-import { Behandling } from '../../../../typer/behandling/behandling';
-import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { VedtakResponse } from '../../../../typer/vedtak/vedtak';
+import { Behandling } from '../../../typer/behandling/behandling';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 

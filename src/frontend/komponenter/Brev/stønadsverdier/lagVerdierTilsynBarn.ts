@@ -1,6 +1,6 @@
 import { Brevverdier } from './verdier';
-import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
-import { formaterNullableTilTekstligDato } from '../../../../utils/dato';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import { formaterNullableTilTekstligDato } from '../../../utils/dato';
 
 export const lagVerdierTilsynBarn = (
     beregningsresultat?: BeregningsresultatTilsynBarn
