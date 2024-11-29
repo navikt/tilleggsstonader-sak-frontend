@@ -201,6 +201,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     readOnly={!alleFelterKanEndres}
                     onChange={(e) => settForm((prevState) => ({ ...prevState, studienivå: e }))}
                     size="small"
+                    error={vilkårsperiodeFeil?.studienivå}
                 >
                     <HStack gap="4">
                         <Radio value={Studienivå.HØYERE_UTDANNING}>
