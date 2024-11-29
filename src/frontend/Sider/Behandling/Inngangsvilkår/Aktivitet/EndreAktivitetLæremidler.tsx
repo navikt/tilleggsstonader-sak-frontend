@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
@@ -31,6 +31,7 @@ import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,
+    Studienivå,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
@@ -55,6 +56,7 @@ const FeltContainer = styled.div`
 export interface EndreAktivitetFormLæremidler extends Periode {
     type: AktivitetTypeLæremidler | '';
     prosent: number | undefined;
+    studienivå: Studienivå | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
@@ -190,6 +192,21 @@ export const EndreAktivitetLæremidler: React.FC<{
                     </FeilmeldingMaksBredde>
                 )}
             </FeltContainer>
+
+            {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                <RadioGroup
+                    value={form.studienivå}
+                    legend="Studienivå"
+                    readOnly={!alleFelterKanEndres}
+                    onChange={(e) => settForm((prevState) => ({ ...prevState, studienivå: e }))}
+                    size="small"
+                >
+                    <HStack gap="4">
+                        <Radio value={Studienivå.HØYERE_UTDANNING}>Høyere utdanning</Radio>
+                        <Radio value={Studienivå.VIDEREGÅENDE}>Videregående skole</Radio>
+                    </HStack>
+                </RadioGroup>
+            )}
 
             <AktivitetDelvilkårLæremidler
                 aktivitetForm={form}

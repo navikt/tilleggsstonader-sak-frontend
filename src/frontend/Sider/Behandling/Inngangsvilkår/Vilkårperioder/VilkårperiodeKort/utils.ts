@@ -8,7 +8,7 @@ export type DelvilkårKey = Exclude<
     | keyof MålgruppeVurderinger
     | keyof AktivitetBarnetilsynFaktaOgVurderinger
     | keyof AktivitetLæremidlerFaktaOgVurderinger,
-    '@type' | 'aktivitetsdager' | 'prosent'
+    '@type' | 'aktivitetsdager' | 'prosent' | 'studienivå'
 >;
 
 export const finnDelvilkårTilOppsummering = (

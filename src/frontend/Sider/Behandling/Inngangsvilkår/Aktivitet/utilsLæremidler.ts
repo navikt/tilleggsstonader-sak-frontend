@@ -23,6 +23,7 @@ export const mapEksisterendeAktivitet = (
 ): EndreAktivitetFormLæremidler => ({
     ...eksisterendeAktivitet,
     prosent: eksisterendeAktivitet.faktaOgVurderinger.prosent,
+    studienivå: eksisterendeAktivitet.faktaOgVurderinger.studienivå,
     svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
 });
 
@@ -34,6 +35,7 @@ function nyAktivitetFraRegister(
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         prosent: aktivitetFraRegister.prosentDeltakelse,
+        studienivå: undefined,
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
         svarHarUtgifter: undefined,
         kildeId: aktivitetFraRegister.id,
@@ -47,6 +49,7 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
         tom: '',
         svarHarUtgifter: undefined,
         prosent: undefined,
+        studienivå: undefined,
     };
 }
 
@@ -111,5 +114,6 @@ export const mapFaktaOgSvarTilRequest = (
 ): AktivitetLæremidlerFaktaOgSvar => ({
     '@type': 'AKTIVITET_LÆREMIDLER',
     prosent: aktivitetForm.prosent,
+    studienivå: aktivitetForm.studienivå,
     svarHarUtgifter: aktivitetForm.svarHarUtgifter,
 });
