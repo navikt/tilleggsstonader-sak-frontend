@@ -8,7 +8,7 @@ export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
     return AktivitetTypeTilTekst[type];
 };
 
-export const lagAktivitetTypeOptions = (stønadstype: Stønadstype): SelectOption[] => {
+export const valgbareAktivitetTyper = (stønadstype: Stønadstype): SelectOption[] => {
     const relevanteTyper = finnRelevanteAktivitetTyperForStønad(stønadstype);
 
     return relevanteTyper.map((type) => ({
@@ -17,8 +17,8 @@ export const lagAktivitetTypeOptions = (stønadstype: Stønadstype): SelectOptio
     }));
 };
 
-export const lagAktivitetTypeOptionsForStønadsperiode = (stønadstype: Stønadstype) =>
-    lagAktivitetTypeOptions(stønadstype).filter(
+export const valgbareAktivitetTyperForStønadsperiode = (stønadstype: Stønadstype) =>
+    valgbareAktivitetTyper(stønadstype).filter(
         (option) => option.value !== AktivitetType.INGEN_AKTIVITET
     );
 

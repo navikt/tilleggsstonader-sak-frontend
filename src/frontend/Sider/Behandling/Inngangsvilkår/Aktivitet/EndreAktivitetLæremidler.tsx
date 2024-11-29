@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
-import { lagAktivitetTypeOptions } from './utilsAktivitet';
+import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
@@ -165,7 +165,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={lagAktivitetTypeOptions(Stønadstype.LÆREMIDLER)}
+                    typeOptions={valgbareAktivitetTyper(Stønadstype.LÆREMIDLER)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}

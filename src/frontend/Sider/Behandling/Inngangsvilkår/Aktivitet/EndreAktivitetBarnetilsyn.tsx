@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
-import { lagAktivitetTypeOptions } from './utilsAktivitet';
+import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
@@ -162,7 +162,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={lagAktivitetTypeOptions(Stønadstype.BARNETILSYN)}
+                    typeOptions={valgbareAktivitetTyper(Stønadstype.BARNETILSYN)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
