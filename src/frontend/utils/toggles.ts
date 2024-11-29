@@ -7,6 +7,7 @@ export enum Toggle {
 
     FORESLÅ_STØNADSPERIODER = 'sak.foresla-stonadsperioder',
     OPPHØR = 'sak.opphor',
+    VISE_VEDTAKSHISTORIKK = 'sak.vise-vedtakshistorikk',
 
     /**
      * Permission-toggles

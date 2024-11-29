@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
@@ -15,6 +16,7 @@ import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
 import { Vedtakshistorikk } from './Vedtakshistorikk';
+import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
     margin: 2rem;
@@ -31,6 +33,8 @@ export function RevurderFra() {
         behandling.revurderFra
     );
     const [visAdvarselOmNullstilling, settVisAdvarselOmNullstilling] = useState<boolean>(false);
+
+    const viseVedtakshistorikk = useFlag(Toggle.VISE_VEDTAKSHISTORIKK);
 
     function håndterEndretDato(nyDato?: string) {
         settRevurderFraDato(nyDato);
@@ -83,7 +87,7 @@ export function RevurderFra() {
                     <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
                 )}
                 {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
-                <Vedtakshistorikk />
+                {viseVedtakshistorikk && <Vedtakshistorikk />}
             </VStack>
         </Container>
     );
