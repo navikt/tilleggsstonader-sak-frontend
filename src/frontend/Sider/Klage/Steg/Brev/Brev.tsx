@@ -7,12 +7,12 @@ import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 
 import { OmgjørVedtak } from './OmgjørVedtak';
-import PdfVisning from './PdfVisning';
 import { useApp } from '../../../../context/AppContext';
 import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
 import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import PdfVisning from '../../../../komponenter/PdfVisning';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import {
     byggTomRessurs,
