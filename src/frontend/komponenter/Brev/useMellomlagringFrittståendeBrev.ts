@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { MellomlagretBrevDto } from './useMellomlagringBrev';
+import { MellomlagretBrevDto } from './mellomlagring';
 import { useApp } from '../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 

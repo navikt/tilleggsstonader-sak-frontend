@@ -1,21 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { Fritekst, FritekstAvsnitt, Tekst } from './typer';
+import { MellomlagretBrevDto } from './mellomlagring';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../typer/ressurs';
-
-export interface MellomlagretBrevDto {
-    brevverdier: string;
-    brevmal: string;
-}
-
-export interface IBrevverdier {
-    inkluderteDelmaler?: Record<string, boolean>;
-    fritekst?: Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>;
-    valgfelt?: Partial<Record<string, Record<string, Fritekst | Tekst>>>;
-    variabler?: Partial<Record<string, string>>;
-}
 
 const useMellomlagringBrev = () => {
     const { request } = useApp();
@@ -37,18 +25,3 @@ const useMellomlagringBrev = () => {
 };
 
 export default useMellomlagringBrev;
-
-export function parseMellomlagretBrev(mellomlagretBrev: MellomlagretBrevDto | undefined) {
-    const {
-        inkluderteDelmaler: mellomlagredeInkluderteDelmaler = undefined,
-        fritekst: mellomlagredeFritekstfelt = undefined,
-        valgfelt: mellomlagredeValgfelt = undefined,
-        variabler: mellomlagredeVariabler = undefined,
-    } = mellomlagretBrev ? (JSON.parse(mellomlagretBrev?.brevverdier) as IBrevverdier) : {};
-    return {
-        mellomlagredeInkluderteDelmaler,
-        mellomlagredeFritekstfelt,
-        mellomlagredeValgfelt,
-        mellomlagredeVariabler,
-    };
-}
