@@ -7,12 +7,13 @@ import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 
 import { OmgjørVedtak } from './OmgjørVedtak';
-import PdfVisning from './PdfVisning';
 import { useApp } from '../../../../context/AppContext';
+import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
+import { PersonopplysningerIBrevmottakere } from '../../../../komponenter/Brev/typer';
 import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
-import { Applikasjonskontekst } from '../../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import PdfVisning from '../../../../komponenter/PdfVisning';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import {
     byggTomRessurs,
@@ -21,7 +22,6 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../../typer/ressurs';
-import { PersonopplysningerIBrevmottakere } from '../../../Behandling/Brev/typer';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
@@ -61,7 +61,7 @@ interface IBrev {
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
-
+    const contextBrevmottakere = useContextBrevmottakereKlage(behandlingId);
     const {
         hentBehandling,
         hentBehandlingshistorikk,
@@ -157,10 +157,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             >
                                 {({ personopplysningerFraKlageResponse }) => (
                                     <BrevMottakere
-                                        context={{
-                                            type: Applikasjonskontekst.KLAGE,
-                                            behandlingId: behandlingId,
-                                        }}
+                                        context={contextBrevmottakere}
                                         kanEndreBrevmottakere={behandlingErRedigerbar}
                                         personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
                                             personopplysningerFraKlageResponse

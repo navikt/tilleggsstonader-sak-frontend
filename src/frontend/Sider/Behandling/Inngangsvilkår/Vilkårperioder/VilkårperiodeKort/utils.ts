@@ -1,15 +1,12 @@
 import { AktivitetFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitet';
-import { AktivitetBarnetilsynFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
-import { AktivitetLæremidlerFaktaOgVurderinger } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../typer/vilkårperiode/vilkårperiode';
 
-export type DelvilkårKey = Exclude<
-    | keyof MålgruppeVurderinger
-    | keyof AktivitetBarnetilsynFaktaOgVurderinger
-    | keyof AktivitetLæremidlerFaktaOgVurderinger,
-    '@type' | 'aktivitetsdager' | 'prosent' | 'studienivå'
->;
+export type DelvilkårKey =
+    | 'medlemskap'
+    | 'utgifterDekketAvAnnetRegelverk'
+    | 'lønnet'
+    | 'harUtgifter';
 
 export const finnDelvilkårTilOppsummering = (
     faktaOgVurderinger: MålgruppeVurderinger | AktivitetFaktaOgVurderinger,

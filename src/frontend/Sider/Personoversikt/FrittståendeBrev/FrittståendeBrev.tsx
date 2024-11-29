@@ -7,17 +7,18 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
+import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
+import useBrev from '../../../komponenter/Brev/useBrev';
+import useMellomlagringFrittståendeBrev from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
+import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
-import Brevmeny from '../../Behandling/Brev/Brevmeny';
-import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../Behandling/Brev/brevUtils';
-import useBrev from '../../Behandling/Brev/useBrev';
-import useMellomlagringFrittståendeBrev from '../../Behandling/Brev/useMellomlagringFrittståendeBrev';
-import VelgBrevmal from '../../Behandling/Brev/VelgBrevmal';
 
 const ToKolonner = styled.div`
     display: flex;
@@ -34,6 +35,7 @@ const FrittståendeBrev: React.FC<{
     settBrevErSendt: () => void;
 }> = ({ valgtStønadstype, fagsakId, settBrevErSendt }) => {
     const { request } = useApp();
+    const contextBrevmottakere = useContextBrevmottakereFrittståendeBrev(fagsakId);
     const [senderBrev, settSenderBrev] = useState<boolean>(false);
 
     const { personopplysninger } = usePersonopplysninger();
@@ -106,10 +108,7 @@ const FrittståendeBrev: React.FC<{
                 <ToKolonner>
                     <VStack gap="8" align="start">
                         <BrevMottakere
-                            context={{
-                                type: 'frittstående-brev',
-                                fagsakId: fagsakId,
-                            }}
+                            context={contextBrevmottakere}
                             kanEndreBrevmottakere={true}
                             personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                 personopplysninger

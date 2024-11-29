@@ -6,8 +6,8 @@ import { BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-re
 import { EndreBrevmottakereModal } from './EndreBrevmottakereModal';
 import { IBrevmottakere } from './typer';
 import { ContextBrevmottakere, useBrevmottakere } from '../../hooks/useBrevmottakere';
-import { PersonopplysningerIBrevmottakere } from '../../Sider/Behandling/Brev/typer';
 import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../utils/fomatering';
+import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
 import DataViewer from '../DataViewer';
 
 const Brevmottakere: React.FC<{

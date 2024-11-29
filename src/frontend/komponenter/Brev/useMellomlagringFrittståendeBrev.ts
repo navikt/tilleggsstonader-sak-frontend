@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { MellomlagretBrevDto } from './useMellomlagrignBrev';
-import { useApp } from '../../../context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { MellomlagretBrevDto } from './mellomlagring';
+import { useApp } from '../../context/AppContext';
+import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
 const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
     const { request } = useApp();

@@ -6,7 +6,10 @@ import { BodyShort, Label, List, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
-import { BeregningsresultatTilsynBarn, Vedtaksperiode } from '../../../../../typer/vedtak';
+import {
+    BeregningsresultatTilsynBarn,
+    Vedtaksperiode,
+} from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';

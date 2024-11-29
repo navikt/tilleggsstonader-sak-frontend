@@ -10,27 +10,27 @@ import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
-import { TypeVedtak, ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
+import { TypeVedtak, ÅrsakAvslag, årsakAvslagTilTekst } from '../../../../typer/vedtak/vedtak';
 import {
-    OpphørBarnetilsyn,
-    OpphørBarnetilsynRequest,
-} from '../../../../typer/vedtak/vedtakTilsynBarn';
+    AvslagLæremidler,
+    AvslåLæremidlerRequest,
+} from '../../../../typer/vedtak/vedtakLæremidler';
 import { FanePath } from '../../faner';
 
-const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) => {
+const AvslåVedtak: React.FC<{ vedtak?: AvslagLæremidler }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
 
-    const [årsaker, settÅrsaker] = useState<ÅrsakOpphør[]>(vedtak?.årsakerOpphør || []);
+    const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const lagreVedtak = () => {
-        return request<null, OpphørBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/opphor`,
+        return request<null, AvslåLæremidlerRequest>(
+            `/api/sak/vedtak/laremidler/${behandling.id}/avslag`,
             'POST',
-            { type: TypeVedtak.OPPHØR, årsakerOpphør: årsaker, begrunnelse: begrunnelse }
+            { type: TypeVedtak.AVSLAG, årsakerAvslag: årsaker, begrunnelse: begrunnelse }
         );
     };
 
@@ -48,33 +48,32 @@ const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) =>
     return (
         <VStack gap="4">
             <CheckboxGroup
-                legend="Årsak til opphør"
+                legend="Årsak til avslag"
                 value={årsaker}
                 onChange={(e) => {
                     settÅrsaker(e);
-                    settUlagretKomponent(UlagretKomponent.BEREGNING_OPPHØR);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
                 }}
                 readOnly={!erStegRedigerbart}
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {Object.keys(ÅrsakOpphør).map((årsak) => (
+                {Object.keys(ÅrsakAvslag).map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
-                        {årsakOpphørTilTekst[årsak as ÅrsakOpphør]}
+                        {årsakAvslagTilTekst[årsak as ÅrsakAvslag]}
                     </Checkbox>
                 ))}
             </CheckboxGroup>
             <Textarea
-                label="Begrunnelse til internt bruk (obligatorisk)"
+                label="Begrunnelse for avslag (obligatorisk)"
                 value={begrunnelse}
                 onChange={(e) => {
                     settBegrunnelse(e.target.value);
-                    settUlagretKomponent(UlagretKomponent.BEREGNING_OPPHØR);
+                    settUlagretKomponent(UlagretKomponent.BEREGNING_AVSLÅ);
                 }}
                 error={feilmeldinger.begrunnelse}
                 readOnly={!erStegRedigerbart}
                 size="small"
-                style={{ maxWidth: '20em' }}
             />
 
             <StegKnapp
@@ -89,4 +88,4 @@ const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) =>
     );
 };
 
-export default OpphørVedtak;
+export default AvslåVedtak;

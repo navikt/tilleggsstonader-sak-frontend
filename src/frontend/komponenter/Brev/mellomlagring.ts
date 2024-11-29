@@ -1,9 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-
 import { Fritekst, FritekstAvsnitt, Tekst } from './typer';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
 export interface MellomlagretBrevDto {
     brevverdier: string;
@@ -16,27 +11,6 @@ export interface IBrevverdier {
     valgfelt?: Partial<Record<string, Record<string, Fritekst | Tekst>>>;
     variabler?: Partial<Record<string, string>>;
 }
-
-const useMellomlagringBrev = () => {
-    const { request } = useApp();
-    const { behandling } = useBehandling();
-
-    const [mellomlagretBrev, settMellomlagretBrev] =
-        useState<Ressurs<MellomlagretBrevDto>>(byggTomRessurs());
-
-    const hentMellomlagretBrev = useCallback(() => {
-        settMellomlagretBrev(byggHenterRessurs());
-        request<MellomlagretBrevDto, unknown>(`/api/sak/brev/mellomlager/${behandling.id}`).then(
-            settMellomlagretBrev
-        );
-    }, [request, behandling]);
-
-    useEffect(hentMellomlagretBrev, [hentMellomlagretBrev]);
-
-    return { mellomlagretBrev };
-};
-
-export default useMellomlagringBrev;
 
 export function parseMellomlagretBrev(mellomlagretBrev: MellomlagretBrevDto | undefined) {
     const {

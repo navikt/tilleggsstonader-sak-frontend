@@ -1,16 +1,5 @@
-import { PersonopplysningerIBrevmottakere, Valg } from './typer';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
-import { Personopplysninger } from '../../../typer/personopplysninger';
-import { TypeVedtak } from '../../../typer/vedtak';
-
-export const idEllerFritekst = (valg?: Valg): string | undefined => {
-    switch (valg?._type) {
-        case 'tekst':
-            return valg?._id;
-        case 'fritekst':
-            return 'fritekst';
-    }
-};
+import { TypeVedtak } from '../../../typer/vedtak/vedtak';
 
 enum SanityMappe {
     INNVILGET = 'INNVILGET',
@@ -43,15 +32,4 @@ export const finnSanityMappe = (
     }
 
     return vedtakType;
-};
-
-export const mapPersonopplysningerTilPersonopplysningerIBrevmottakere = (
-    personopplysninger: Personopplysninger
-): PersonopplysningerIBrevmottakere => {
-    return {
-        personIdent: personopplysninger.personIdent,
-        navn: personopplysninger.navn.visningsnavn,
-        harVergemål: personopplysninger.harVergemål,
-        vergemål: personopplysninger.vergemål,
-    };
 };

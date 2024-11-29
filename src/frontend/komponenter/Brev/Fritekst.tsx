@@ -6,7 +6,7 @@ import { ArrowDownIcon, ArrowUpIcon, PlusIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Panel, Textarea, TextField, Tooltip } from '@navikt/ds-react';
 
 import { FritekstAvsnitt } from './typer';
-import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
+import { SøppelbøtteKnapp } from '../Knapper/SøppelbøtteKnapp';
 
 const FritekstAvsnittContainer = styled(Panel).attrs({ border: true })`
     display: flex;

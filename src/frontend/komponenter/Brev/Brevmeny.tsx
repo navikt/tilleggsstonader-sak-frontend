@@ -5,21 +5,24 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
-import { lagHtmlFelt } from './lagHtmlFelt';
+import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
+import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
-import { MellomlagretBrevDto, parseMellomlagretBrev } from './useMellomlagrignBrev';
-import { useVerdierForBrev } from './useVerdierForBrev';
-import { useApp } from '../../../context/AppContext';
-import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
-import { Ressurs } from '../../../typer/ressurs';
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak';
+import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
+import { useApp } from '../../context/AppContext';
+import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
+import { Behandling } from '../../typer/behandling/behandling';
+import { Ressurs } from '../../typer/ressurs';
+import { VedtakResponse } from '../../typer/vedtak/vedtak';
 
 type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
-    beregningsresultat?: BeregningsresultatTilsynBarn;
-} & ({ behandlingId: string; fagsakId?: never } | { fagsakId: string; behandlingId?: never });
+} & (
+    | { behandling: Behandling; vedtak?: VedtakResponse; fagsakId?: never }
+    | { behandling?: never; vedtak?: never; fagsakId: string }
+);
 
 const oppdaterStateForId =
     <T,>(
@@ -46,12 +49,13 @@ const FlexColumn = styled.div`
 
 const Brevmeny: React.FC<Props> = ({
     mal,
-    behandlingId,
+    behandling,
     mellomlagretBrev,
     fagsakId,
     settFil,
-    beregningsresultat,
+    vedtak,
 }) => {
+    const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
     const {
         mellomlagredeInkluderteDelmaler,
@@ -64,7 +68,7 @@ const Brevmeny: React.FC<Props> = ({
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(mellomlagredeValgfelt || {});
 
-    const { variabelStore } = useVerdierForBrev(beregningsresultat);
+    const { variabelStore } = lagVerdier(behandling, vedtak);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
         return { ...mellomlagredeVariabler, ...variabelStore };
     });
@@ -106,7 +110,7 @@ const Brevmeny: React.FC<Props> = ({
         variabler: Partial<Record<string, string>>
     ) => {
         const mellomlagerUrl = behandlingId
-            ? `/api/sak/brev/mellomlager/${behandlingId}`
+            ? `/api/sak/brev/mellomlager/${behandling?.id}`
             : `/api/sak/brev/mellomlager/fagsak/${fagsakId}`;
 
         const data: MellomlagretBrevDto = {
@@ -136,7 +140,7 @@ const Brevmeny: React.FC<Props> = ({
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
-                htmlVariabler: lagHtmlFelt(beregningsresultat),
+                htmlVariabler: lagVedtakstabell(behandling, vedtak),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);

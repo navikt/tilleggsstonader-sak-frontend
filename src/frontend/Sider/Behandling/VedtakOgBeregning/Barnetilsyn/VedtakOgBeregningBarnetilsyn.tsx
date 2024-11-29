@@ -11,12 +11,13 @@ import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagBarnetilsyn,
     InnvilgelseBarnetilsyn,
     OpphørBarnetilsyn,
-    TypeVedtak,
-} from '../../../../typer/vedtak';
+    VedtakBarnetilsyn,
+} from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
@@ -27,7 +28,7 @@ const Container = styled.div`
 `;
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const { vedtak } = useVedtak();
+    const { vedtak } = useVedtak<VedtakBarnetilsyn>();
 
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 

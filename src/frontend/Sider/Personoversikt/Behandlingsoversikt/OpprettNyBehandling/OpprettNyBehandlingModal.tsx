@@ -5,14 +5,14 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
-import OpprettRevurderingBehandling from './OpprettRevurderingBehandling';
+import {
+    OpprettNyBehandlingType,
+    opprettNyBehandlingTypeTilTekst,
+} from './OpprettNyBehandlingUtils';
+import OpprettOrdinærBehandling from './OpprettOrdinærBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import {
-    BehandlingType,
-    behandlingTypeTilTekst,
-} from '../../../../typer/behandling/behandlingType';
 import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
@@ -30,13 +30,14 @@ const OpprettNyBehandlingModal: FC<Props> = ({
 }) => {
     const { erSaksbehandler } = useApp();
     const [visModal, settVisModal] = useState(false);
-    const [behandlingtype, settBehandlingtype] = useState<BehandlingType>();
+    const [opprettNyBehandlingType, settOpprettNyBehandlingType] =
+        useState<OpprettNyBehandlingType>();
 
     const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
 
     const lukkModal = () => {
         settVisModal(false);
-        settBehandlingtype(undefined);
+        settOpprettNyBehandlingType(undefined);
     };
 
     if (!erSaksbehandler) {
@@ -54,31 +55,35 @@ const OpprettNyBehandlingModal: FC<Props> = ({
             <ModalWrapper visModal={visModal} onClose={lukkModal} tittel={'Opprett ny behandling'}>
                 <VStack gap="4">
                     <Select
-                        value={behandlingtype}
+                        value={opprettNyBehandlingType}
                         label="Behandlingstype"
                         onChange={(event) => {
-                            settBehandlingtype(event.target.value as BehandlingType);
+                            settOpprettNyBehandlingType(
+                                event.target.value as OpprettNyBehandlingType
+                            );
                         }}
                     >
                         <option value={''}>Velg</option>
                         {[
-                            ...(kanOppretteRevurdering ? [BehandlingType.REVURDERING] : []),
-                            ...[BehandlingType.KLAGE],
+                            ...(kanOppretteRevurdering
+                                ? [OpprettNyBehandlingType.ORDINAER_BEHANDLING]
+                                : []),
+                            ...[OpprettNyBehandlingType.KLAGE],
                         ].map((type) => (
                             <option key={type} value={type}>
-                                {behandlingTypeTilTekst[type]}
+                                {opprettNyBehandlingTypeTilTekst[type]}
                             </option>
                         ))}
                     </Select>
-                    {behandlingtype === BehandlingType.KLAGE && (
+                    {opprettNyBehandlingType === OpprettNyBehandlingType.KLAGE && (
                         <OpprettKlageBehandling
                             fagsakId={fagsakId}
                             lukkModal={lukkModal}
                             hentKlagebehandlinger={hentKlagebehandlinger}
                         />
                     )}
-                    {behandlingtype === BehandlingType.REVURDERING && (
-                        <OpprettRevurderingBehandling
+                    {opprettNyBehandlingType === OpprettNyBehandlingType.ORDINAER_BEHANDLING && (
+                        <OpprettOrdinærBehandling
                             fagsakId={fagsakId}
                             stønadstype={stønadstype}
                             lukkModal={lukkModal}

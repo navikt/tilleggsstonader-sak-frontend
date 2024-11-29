@@ -6,23 +6,20 @@ import { VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
-import Brevmeny from './Brevmeny';
-import {
-    finnSanityMappe,
-    mapPersonopplysningerTilPersonopplysningerIBrevmottakere,
-} from './brevUtils';
-import useBrev from './useBrev';
-import useMellomlagrignBrev from './useMellomlagrignBrev';
-import VelgBrevmal from './VelgBrevmal';
+import { finnSanityMappe } from './brevUtils';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
+import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
+import useBrev from '../../../komponenter/Brev/useBrev';
+import useMellomlagrignBrev from '../../../komponenter/Brev/useMellomlagringBrev';
+import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
-import { Applikasjonskontekst } from '../../../komponenter/Brevmottakere/typer';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
-import { erVedtakInnvilgelse } from '../../../typer/vedtak';
 import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
@@ -40,6 +37,7 @@ const ToKolonner = styled.div`
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
+    const contextBrevmottakere = useContextBrevmottakereSak(behandling.id);
 
     const { personopplysninger } = usePersonopplysninger();
     const {
@@ -72,7 +70,7 @@ const Brev: React.FC = () => {
         if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
             hentBrevmaler(finnSanityMappe(behandling.type, vedtak.data.type));
         }
-    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, vedtak.status, behandling.type]);
+    }, [behandlingErRedigerbar, hentBrevmaler, vedtak, behandling.type]);
 
     useEffect(() => {
         if (behandlingErRedigerbar) {
@@ -88,10 +86,7 @@ const Brev: React.FC = () => {
                         <ToKolonner>
                             <VStack gap="8" align="start">
                                 <BrevMottakere
-                                    context={{
-                                        type: Applikasjonskontekst.SAK,
-                                        behandlingId: behandling.id,
-                                    }}
+                                    context={contextBrevmottakere}
                                     kanEndreBrevmottakere={behandlingErRedigerbar}
                                     personopplysninger={mapPersonopplysningerTilPersonopplysningerIBrevmottakere(
                                         personopplysninger
@@ -107,14 +102,10 @@ const Brev: React.FC = () => {
                                         <>
                                             <Brevmeny
                                                 mal={malStruktur}
-                                                behandlingId={behandling.id}
+                                                behandling={behandling}
                                                 mellomlagretBrev={mellomlagretBrev}
                                                 settFil={settFil}
-                                                beregningsresultat={
-                                                    erVedtakInnvilgelse(vedtak)
-                                                        ? vedtak.beregningsresultat
-                                                        : undefined
-                                                }
+                                                vedtak={vedtak}
                                             />
                                             <SendTilBeslutterKnapp />
                                         </>
