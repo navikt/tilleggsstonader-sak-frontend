@@ -30,7 +30,7 @@
     "@types/cookie-parser": "^1.4.4",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
-    "@types/node": "^22.9.3",
+    "@types/node": "^22.10.1",
     "@types/uuid": "^10.0.0",
     "@types/webpack-hot-middleware": "^2.25.9",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
