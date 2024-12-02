@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { BriefcaseIcon, HatSchoolIcon, WheelchairIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BriefcaseIcon, WheelchairIcon } from '@navikt/aksel-icons';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
 import {
@@ -15,26 +15,37 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
     const erLærlingEllerLiknende = faktaUtdanning.søknadsgrunnlag?.erLærlingEllerLiknende;
+    const harTidligereFullførtVgs = faktaUtdanning.søknadsgrunnlag?.harTidligereFullførtVgs;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
     return (
         <>
-            {aktiviteter && (
+            {(aktiviteter || annenUtdanning) && (
                 <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-                    <BodyShort size="small">
-                        {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
-            {annenUtdanning && (
-                <InfoSeksjon label="Type utdanning" ikon={<HatSchoolIcon />}>
-                    <BodyShort size="small">
-                        {tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
-            {erLærlingEllerLiknende && (
-                <InfoSeksjon label="Er lærling eller liknende" ikon={<HatSchoolIcon />}>
-                    <BodyShort size="small">{jaNeiTilTekst[erLærlingEllerLiknende]}</BodyShort>
+                    <VStack gap={'4'}>
+                        {aktiviteter && (
+                            <BodyShort size="small">
+                                {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}
+                            </BodyShort>
+                        )}
+                        {annenUtdanning && (
+                            <>
+                                <BodyShort size="small">
+                                    {`Annet: ${tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}`}
+                                </BodyShort>
+                                {erLærlingEllerLiknende && (
+                                    <BodyShort size="small">
+                                        {`Lærling, lærekandidat, praksisbrevkandidat, kandidat for fagbrev på jobb?: 
+                            ${jaNeiTilTekst[erLærlingEllerLiknende]}`}
+                                    </BodyShort>
+                                )}
+                                {harTidligereFullførtVgs && (
+                                    <BodyShort size="small">
+                                        {`Fullført VGS: ${jaNeiTilTekst[harTidligereFullførtVgs]}`}
+                                    </BodyShort>
+                                )}
+                            </>
+                        )}
+                    </VStack>
                 </InfoSeksjon>
             )}
             {harFunksjonsnedsettelse && (
