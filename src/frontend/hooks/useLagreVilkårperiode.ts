@@ -4,12 +4,12 @@ import { EndreAktivitetFormLæremidler } from '../Sider/Behandling/Inngangsvilk�
 import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppeRad';
 import {
     Aktivitet,
-    AktivitetType,
     AktivitetFaktaOgSvar,
+    AktivitetType,
 } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
-    MålgruppeFaktaOgSvar,
     Målgruppe,
+    MålgruppeFaktaOgSvar,
     MålgruppeType,
 } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { LagreVilkårperiodeResponse } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
@@ -19,7 +19,6 @@ import { Periode } from '../utils/periode';
 export interface LagreVilkårperiode extends Periode {
     behandlingId: string;
     type: AktivitetType | MålgruppeType | '';
-    faktaOgVurderinger: FaktaOgSvar;
     faktaOgSvar: FaktaOgSvar;
     begrunnelse?: string;
     kildeId?: string;
@@ -80,7 +79,6 @@ export const useLagreVilkårperiode = () => {
         tom: form.tom,
         behandlingId: behandlingId,
         type: form.type,
-        faktaOgVurderinger: faktaOgSvar,
         faktaOgSvar: faktaOgSvar,
         begrunnelse: form.begrunnelse,
         kildeId: 'kildeId' in form ? form.kildeId : undefined,
