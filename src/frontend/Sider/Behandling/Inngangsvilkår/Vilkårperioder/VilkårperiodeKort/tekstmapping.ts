@@ -26,6 +26,12 @@ export const harUtgifterSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA_IMPLISITT]: undefined,
 };
 
+export const harRettTilUtstyrsstipendSvarTilTekst: Record<SvarJaNei, string | undefined> = {
+    [SvarJaNei.JA]: 'Har rett til utstyrsstipend',
+    [SvarJaNei.NEI]: 'Har ikke rett til utsstyrsstipend',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+};
+
 export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, string> = {
     [VilkårPeriodeResultat.OPPFYLT]: 'Vilkår oppfylt',
     [VilkårPeriodeResultat.IKKE_OPPFYLT]: 'Vilkår ikke oppfylt',

@@ -11,6 +11,7 @@ import {
     studienivåTilTekst,
 } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import {
+    harRettTilUtstyrsstipendSvarTilTekst,
     harUtgifterSvarTilTekst,
     lønnetSvarTilTekst,
 } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
@@ -44,14 +45,21 @@ const FaktaOgDelvilkårTilsynBarn: React.FC<{
 const FaktaOgDelvilkårLæremidler: React.FC<{
     aktivitet: AktivitetLæremidler;
 }> = ({ aktivitet }) => {
-    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
     const studienivå = aktivitet.faktaOgVurderinger.studienivå;
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const svarHarRettTilUtstyrsstipend =
+        aktivitet.faktaOgVurderinger.harRettTilUtstyrsstipend?.svar;
 
     return (
         <>
             <Detail>{aktivitet.faktaOgVurderinger.prosent}%</Detail>
             {studienivå && <Detail>{studienivåTilTekst[studienivå]}</Detail>}
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {svarHarRettTilUtstyrsstipend && (
+                <Detail>
+                    {harRettTilUtstyrsstipendSvarTilTekst[svarHarRettTilUtstyrsstipend]}
+                </Detail>
+            )}
         </>
     );
 };
