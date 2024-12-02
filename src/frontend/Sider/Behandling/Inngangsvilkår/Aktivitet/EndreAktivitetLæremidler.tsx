@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -32,7 +33,6 @@ import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,
     Studienivå,
-    studienivåTilTekst,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
@@ -195,23 +195,14 @@ export const EndreAktivitetLæremidler: React.FC<{
             </FeltContainer>
 
             {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                <RadioGroup
-                    value={form.studienivå || ''}
-                    legend="Studienivå"
-                    readOnly={!alleFelterKanEndres}
-                    onChange={(e) => settForm((prevState) => ({ ...prevState, studienivå: e }))}
-                    size="small"
-                    error={vilkårsperiodeFeil?.studienivå}
-                >
-                    <HStack gap="4">
-                        <Radio value={Studienivå.HØYERE_UTDANNING}>
-                            {studienivåTilTekst[Studienivå.HØYERE_UTDANNING]}
-                        </Radio>
-                        <Radio value={Studienivå.VIDEREGÅENDE}>
-                            {studienivåTilTekst[Studienivå.VIDEREGÅENDE]}
-                        </Radio>
-                    </HStack>
-                </RadioGroup>
+                <EndreStudienivå
+                    form={form}
+                    settStudienivå={(studienivå: Studienivå) =>
+                        settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
+                    }
+                    alleFelterKanEndres={alleFelterKanEndres}
+                    feil={vilkårsperiodeFeil}
+                />
             )}
 
             <AktivitetDelvilkårLæremidler
