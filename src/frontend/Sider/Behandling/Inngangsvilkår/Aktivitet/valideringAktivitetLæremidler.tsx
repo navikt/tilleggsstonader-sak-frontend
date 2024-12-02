@@ -9,6 +9,7 @@ import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
     prosent?: number;
+    studienivå?: string;
     begrunnelse?: string;
 }
 
@@ -22,6 +23,7 @@ export const validerAktivitet = (
         tom: undefined,
         type: undefined,
         prosent: undefined,
+        studienivå: undefined,
         begrunnelse: undefined,
     };
 
@@ -38,11 +40,13 @@ export const validerAktivitet = (
         };
     }
 
-    if (
-        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
-        !prosentErGyldigTall(endretAktivitet.prosent)
-    ) {
-        return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
+    if (endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET) {
+        if (!prosentErGyldigTall(endretAktivitet.prosent)) {
+            return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
+        }
+        if (!endretAktivitet.studienivå) {
+            return { ...feil, studienivå: 'Studienivå må velges' };
+        }
     }
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(

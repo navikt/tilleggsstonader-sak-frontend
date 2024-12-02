@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -31,6 +32,7 @@ import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,
+    Studienivå,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
@@ -55,6 +57,7 @@ const FeltContainer = styled.div`
 export interface EndreAktivitetFormLæremidler extends Periode {
     type: AktivitetTypeLæremidler | '';
     prosent: number | undefined;
+    studienivå: Studienivå | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
@@ -190,6 +193,17 @@ export const EndreAktivitetLæremidler: React.FC<{
                     </FeilmeldingMaksBredde>
                 )}
             </FeltContainer>
+
+            {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                <EndreStudienivå
+                    form={form}
+                    settStudienivå={(studienivå: Studienivå) =>
+                        settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
+                    }
+                    alleFelterKanEndres={alleFelterKanEndres}
+                    feil={vilkårsperiodeFeil}
+                />
+            )}
 
             <AktivitetDelvilkårLæremidler
                 aktivitetForm={form}

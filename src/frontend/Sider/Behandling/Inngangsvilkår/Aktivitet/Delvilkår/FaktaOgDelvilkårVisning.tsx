@@ -6,7 +6,10 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
-import { AktivitetLæremidler } from '../../typer/vilkårperiode/aktivitetLæremidler';
+import {
+    AktivitetLæremidler,
+    studienivåTilTekst,
+} from '../../typer/vilkårperiode/aktivitetLæremidler';
 import {
     harUtgifterSvarTilTekst,
     lønnetSvarTilTekst,
@@ -42,10 +45,12 @@ const FaktaOgDelvilkårLæremidler: React.FC<{
     aktivitet: AktivitetLæremidler;
 }> = ({ aktivitet }) => {
     const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const studienivå = aktivitet.faktaOgVurderinger.studienivå;
 
     return (
         <>
             <Detail>{aktivitet.faktaOgVurderinger.prosent}%</Detail>
+            {studienivå && <Detail>{studienivåTilTekst[studienivå]}</Detail>}
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
         </>
     );
