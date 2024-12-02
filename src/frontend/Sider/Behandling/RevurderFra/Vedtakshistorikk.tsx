@@ -25,6 +25,22 @@ const dummyDataVedtakshistorikkRessurs: RessursSuksess<historiskeDataForEnkeltVe
             antallBarn: '2',
             utgift: '6000',
         },
+        {
+            fom: '2021-04-28T19:12:14.358Z',
+            tom: '2021-06-28T19:12:14.358Z',
+            aktivitet: 'Arbeidstrening',
+            målgruppe: 'AAP',
+            antallBarn: '2',
+            utgift: '6000',
+        },
+        {
+            fom: '2021-04-28T19:12:14.358Z',
+            tom: '2021-06-28T19:12:14.358Z',
+            aktivitet: 'Arbeidstrening',
+            målgruppe: 'AAP',
+            antallBarn: '2',
+            utgift: '6000',
+        },
     ],
 };
 
