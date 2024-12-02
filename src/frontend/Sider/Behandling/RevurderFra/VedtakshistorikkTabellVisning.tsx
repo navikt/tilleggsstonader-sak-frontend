@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-export const VedtakshistorikkTabellVisning = () => {
+const VedtakshistorikkTabellVisning: React.FC<{
+    data: historiskeDataForEnkeltVedtak[];
+}> = ({ data }) => {
     return (
         <Table size={'small'}>
             <Table.Header>
@@ -40,13 +42,13 @@ const format = (date: Date) => {
     return `${d}.${m}.${y}`;
 };
 
-const data = [
-    {
-        fom: '2021-04-28T19:12:14.358Z',
-        tom: '2021-06-28T19:12:14.358Z',
-        aktivitet: 'Arbeidstrening',
-        målgruppe: 'AAP',
-        antallBarn: '2',
-        utgift: '6000',
-    },
-];
+export interface historiskeDataForEnkeltVedtak {
+    fom: string;
+    tom: string;
+    aktivitet: string;
+    målgruppe: string;
+    antallBarn: string;
+    utgift: string;
+}
+
+export default VedtakshistorikkTabellVisning;

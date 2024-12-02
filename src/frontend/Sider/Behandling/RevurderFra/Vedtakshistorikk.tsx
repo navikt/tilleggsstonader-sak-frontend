@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Heading, VStack } from '@navikt/ds-react';
 
-import { VedtakshistorikkTabellVisning } from './VedtakshistorikkTabellVisning';
+import VedtakshistorikkTabellVisning from './VedtakshistorikkTabellVisning';
 
 const InnholdWrapper = styled.div`
     max-width: 40rem;
