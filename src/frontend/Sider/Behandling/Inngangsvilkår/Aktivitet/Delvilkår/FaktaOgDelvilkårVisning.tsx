@@ -9,7 +9,7 @@ import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnet
 import {
     AktivitetLæremidler,
     studienivåTilTekst,
-} from '../../typer/vilkårperiode/læremidlerAktivitet';
+} from '../../typer/vilkårperiode/aktivitetLæremidler';
 import {
     harUtgifterSvarTilTekst,
     lønnetSvarTilTekst,

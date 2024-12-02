@@ -33,7 +33,7 @@ import {
     AktivitetTypeLæremidler,
     Studienivå,
     studienivåTilTekst,
-} from '../typer/vilkårperiode/læremidlerAktivitet';
+} from '../typer/vilkårperiode/aktivitetLæremidler';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,

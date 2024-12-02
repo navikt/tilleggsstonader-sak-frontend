@@ -7,7 +7,7 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
-import { AktivitetLæremidler } from '../typer/vilkårperiode/læremidlerAktivitet';
+import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
 
 export const EndreAktivitet: React.FC<{
     aktivitet?: Aktivitet;
