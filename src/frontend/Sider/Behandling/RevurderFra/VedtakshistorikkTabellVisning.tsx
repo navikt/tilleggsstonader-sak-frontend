@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { formaterNullableIsoDato } from '../../../utils/dato';
+
 const VedtakshistorikkTabellVisning: React.FC<{
     data: historiskeDataForEnkeltVedtak[];
 }> = ({ data }) => {
@@ -21,8 +23,8 @@ const VedtakshistorikkTabellVisning: React.FC<{
                 {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn, utgift }) => {
                     return (
                         <Table.Row key={fom}>
-                            <Table.DataCell>{format(new Date(fom))}</Table.DataCell>
-                            <Table.DataCell>{format(new Date(tom))}</Table.DataCell>
+                            <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
+                            <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
                             <Table.DataCell>{aktivitet}</Table.DataCell>
                             <Table.DataCell>{målgruppe}</Table.DataCell>
                             <Table.DataCell>{antallBarn}</Table.DataCell>
@@ -33,13 +35,6 @@ const VedtakshistorikkTabellVisning: React.FC<{
             </Table.Body>
         </Table>
     );
-};
-
-const format = (date: Date) => {
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
-    return `${d}.${m}.${y}`;
 };
 
 export interface historiskeDataForEnkeltVedtak {
