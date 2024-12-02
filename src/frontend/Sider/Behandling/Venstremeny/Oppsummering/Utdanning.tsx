@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BankNoteIcon, BriefcaseIcon, HatSchoolIcon, WheelchairIcon } from '@navikt/aksel-icons';
+import { BriefcaseIcon, HatSchoolIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
@@ -14,7 +14,7 @@ import { tekstEllerKode } from '../../../../utils/tekstformatering';
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
-    const mottarUtstyrsstipend = faktaUtdanning.søknadsgrunnlag?.mottarUtstyrsstipend;
+    const erLærlingEllerLiknende = faktaUtdanning.søknadsgrunnlag?.erLærlingEllerLiknende;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
     return (
         <>
@@ -32,9 +32,9 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            {mottarUtstyrsstipend && (
-                <InfoSeksjon label="Utstyrstipend" ikon={<BankNoteIcon />}>
-                    <BodyShort size="small">{jaNeiTilTekst[mottarUtstyrsstipend]}</BodyShort>
+            {erLærlingEllerLiknende && (
+                <InfoSeksjon label="Er lærling eller liknende" ikon={<HatSchoolIcon />}>
+                    <BodyShort size="small">{jaNeiTilTekst[erLærlingEllerLiknende]}</BodyShort>
                 </InfoSeksjon>
             )}
             {harFunksjonsnedsettelse && (
