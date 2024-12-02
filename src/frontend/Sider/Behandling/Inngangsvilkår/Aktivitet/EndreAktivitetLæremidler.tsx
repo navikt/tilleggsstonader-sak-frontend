@@ -54,11 +54,16 @@ const FeltContainer = styled.div`
     align-items: start;
 `;
 
+export interface VurderingerAktivitetLæremidler {
+    svarHarUtgifter: SvarJaNei | undefined;
+    svarHarRettTilUtstyrsstipend: SvarJaNei | undefined;
+}
+
 export interface EndreAktivitetFormLæremidler extends Periode {
     type: AktivitetTypeLæremidler | '';
     prosent: number | undefined;
     studienivå: Studienivå | undefined;
-    svarHarUtgifter: SvarJaNei | undefined;
+    vurderinger: VurderingerAktivitetLæremidler;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -156,7 +161,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.svarHarUtgifter
+        form.vurderinger.svarHarUtgifter
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -217,10 +222,13 @@ export const EndreAktivitetLæremidler: React.FC<{
             <AktivitetDelvilkårLæremidler
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterHarUtgifter={(nyttSvar: SvarJaNei) =>
+                oppdaterVurderinger={(
+                    key: keyof VurderingerAktivitetLæremidler,
+                    nyttSvar: SvarJaNei
+                ) =>
                     settForm((prevState) => ({
                         ...prevState,
-                        svarHarUtgifter: nyttSvar,
+                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
             />
