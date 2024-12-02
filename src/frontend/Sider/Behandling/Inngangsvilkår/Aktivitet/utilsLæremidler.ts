@@ -24,7 +24,11 @@ export const mapEksisterendeAktivitet = (
     ...eksisterendeAktivitet,
     prosent: eksisterendeAktivitet.faktaOgVurderinger.prosent,
     studienivå: eksisterendeAktivitet.faktaOgVurderinger.studienivå,
-    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
+    vurderinger: {
+        svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
+        svarHarRettTilUtstyrsstipend:
+            eksisterendeAktivitet.faktaOgVurderinger.harRettTilUtstyrsstipend?.svar,
+    },
 });
 
 function nyAktivitetFraRegister(
@@ -37,7 +41,10 @@ function nyAktivitetFraRegister(
         prosent: aktivitetFraRegister.prosentDeltakelse,
         studienivå: undefined,
         begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
-        svarHarUtgifter: undefined,
+        vurderinger: {
+            svarHarUtgifter: undefined,
+            svarHarRettTilUtstyrsstipend: undefined,
+        },
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -47,9 +54,12 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
         type: '',
         fom: '',
         tom: '',
-        svarHarUtgifter: undefined,
         prosent: undefined,
         studienivå: undefined,
+        vurderinger: {
+            svarHarUtgifter: undefined,
+            svarHarRettTilUtstyrsstipend: undefined,
+        },
     };
 }
 
@@ -71,7 +81,10 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         prosent: undefined, //todo: finn ut om den skal resettes
-        svarHarUtgifter: undefined,
+        vurderinger: {
+            svarHarUtgifter: undefined,
+            svarHarRettTilUtstyrsstipend: undefined,
+        },
     };
 };
 
@@ -115,5 +128,6 @@ export const mapFaktaOgSvarTilRequest = (
     '@type': 'AKTIVITET_LÆREMIDLER',
     prosent: aktivitetForm.prosent,
     studienivå: aktivitetForm.studienivå,
-    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
+    svarHarUtgifter: aktivitetForm.vurderinger.svarHarUtgifter,
+    svarHarRettTilUtstyrsstipend: aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend,
 });

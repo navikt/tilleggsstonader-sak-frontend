@@ -4,7 +4,10 @@ import styled from 'styled-components';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
+import {
+    EndreAktivitetFormLæremidler,
+    VurderingerAktivitetLæremidler,
+} from '../EndreAktivitetLæremidler';
 import { skalVurdereHarUtgifter } from '../utilsLæremidler';
 
 const Container = styled.div`
@@ -14,20 +17,30 @@ const Container = styled.div`
 
 export const AktivitetDelvilkårLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
-    oppdaterHarUtgifter: (svar: SvarJaNei) => void;
+    oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterHarUtgifter, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
     if (aktivitetForm.type === '') return null;
-
-    if (!skalVurdereHarUtgifter(aktivitetForm.type)) return null;
 
     return (
         <Container>
+            {skalVurdereHarUtgifter(aktivitetForm.type) && (
+                <JaNeiVurdering
+                    label="Har bruker utgifter til læremidler?"
+                    readOnly={readOnly}
+                    svar={aktivitetForm.vurderinger.svarHarUtgifter}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarHarUtgifter', nyttSvar)
+                    }
+                />
+            )}
             <JaNeiVurdering
-                label="Har bruker utgifter til læremidler?"
+                label="Har bruker rett til utsstyrsstipend?"
                 readOnly={readOnly}
-                svar={aktivitetForm.svarHarUtgifter}
-                oppdaterSvar={oppdaterHarUtgifter}
+                svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
+                oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                    oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
+                }
             />
         </Container>
     );

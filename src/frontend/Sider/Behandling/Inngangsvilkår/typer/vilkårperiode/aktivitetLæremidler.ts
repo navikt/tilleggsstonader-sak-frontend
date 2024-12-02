@@ -18,6 +18,7 @@ export interface AktivitetLæremidlerFaktaOgVurderinger {
     prosent: number | undefined;
     studienivå: Studienivå | undefined;
     harUtgifter: Vurdering | undefined;
+    harRettTilUtstyrsstipend: Vurdering | undefined;
 }
 
 export interface AktivitetLæremidlerFaktaOgSvar {
@@ -25,6 +26,7 @@ export interface AktivitetLæremidlerFaktaOgSvar {
     prosent: number | undefined;
     studienivå: Studienivå | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
+    svarHarRettTilUtstyrsstipend: SvarJaNei | undefined;
 }
 
 export enum Studienivå {
