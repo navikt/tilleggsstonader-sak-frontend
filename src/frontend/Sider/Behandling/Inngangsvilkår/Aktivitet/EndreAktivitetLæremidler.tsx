@@ -33,7 +33,7 @@ import {
     AktivitetTypeLæremidler,
     Studienivå,
     studienivåTilTekst,
-} from '../typer/vilkårperiode/aktivitetLæremidler';
+} from '../typer/vilkårperiode/læremidlerAktivitet';
 import {
     KildeVilkårsperiode,
     StønadsperiodeStatus,
@@ -156,7 +156,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.vurderinger.svarHarUtgifter
+        form.svarHarUtgifter
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;

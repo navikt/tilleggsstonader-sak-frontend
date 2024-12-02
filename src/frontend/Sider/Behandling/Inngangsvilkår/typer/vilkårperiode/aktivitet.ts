@@ -7,7 +7,7 @@ import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetLæremidlerFaktaOgVurderinger,
-} from './aktivitetLæremidler';
+} from './læremidlerAktivitet';
 
 export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler;
 
