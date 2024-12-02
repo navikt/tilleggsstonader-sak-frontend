@@ -156,7 +156,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.svarHarUtgifter
+        form.vurderinger.svarHarUtgifter
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
