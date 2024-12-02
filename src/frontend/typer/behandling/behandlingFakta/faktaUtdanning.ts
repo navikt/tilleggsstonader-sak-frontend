@@ -13,7 +13,9 @@ interface SøknadsgrunnlagUtdanning {
 }
 
 enum AnnenUtdanningType {
-    VIDEREGÅENDE_FORKURS = 'VIDEREGÅENDE_FORKURS',
+    VIDEREGÅENDE = 'VIDEREGÅENDE',
+
+    FORKURS = 'FORKURS',
 
     FAGSKOLE_HØGSKOLE_UNIVERSITET = 'FAGSKOLE_HØGSKOLE_UNIVERSITET',
 
@@ -23,7 +25,8 @@ enum AnnenUtdanningType {
 }
 
 export const annenUtdanningTypeTilTekst: Record<AnnenUtdanningType, string> = {
-    VIDEREGÅENDE_FORKURS: 'Videregående forkurs',
+    VIDEREGÅENDE: 'Videregående',
+    FORKURS: 'Forkurs',
     FAGSKOLE_HØGSKOLE_UNIVERSITET: 'Fagskole, Høyskole eller Universitet',
     KURS_LIKNENDE: 'Kurs eller lignende',
     INGEN_UTDANNING: 'Ingen utdanning',
