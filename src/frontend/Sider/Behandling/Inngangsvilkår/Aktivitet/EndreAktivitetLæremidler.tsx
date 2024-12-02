@@ -196,7 +196,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
             {form.type !== AktivitetType.INGEN_AKTIVITET && (
                 <RadioGroup
-                    value={form.studienivå}
+                    value={form.studienivå || ''}
                     legend="Studienivå"
                     readOnly={!alleFelterKanEndres}
                     onChange={(e) => settForm((prevState) => ({ ...prevState, studienivå: e }))}
