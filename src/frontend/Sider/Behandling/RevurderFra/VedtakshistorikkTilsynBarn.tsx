@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 import { Heading, VStack } from '@navikt/ds-react';
 
-import VedtakshistorikkTabellVisning, { Vedtaksperiode } from './VedtakshistorikkTabellVisning';
+import VedtakshistorikkTilsynBarnTabellVisning, {
+    Vedtaksperiode,
+} from './VedtakshistorikkTilsynBarnTabellVisning';
 import DataViewer from '../../../komponenter/DataViewer';
 import { RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
@@ -12,7 +14,7 @@ const StyledVStack = styled(VStack)`
     max-width: 40rem;
 `;
 
-const dummyDataVedtakshistorikkRessurs: RessursSuksess<Vedtaksperiode[]> = {
+const dummyDataVedtakshistorikkTilsynBarnRessurs: RessursSuksess<Vedtaksperiode[]> = {
     status: RessursStatus.SUKSESS,
     data: [
         {
@@ -42,13 +44,15 @@ const dummyDataVedtakshistorikkRessurs: RessursSuksess<Vedtaksperiode[]> = {
     ],
 };
 
-export const Vedtakshistorikk = () => {
+export const VedtakshistorikkTilsynBarn = () => {
     return (
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
-            <DataViewer response={{ dataVedtakshistorikk: dummyDataVedtakshistorikkRessurs }}>
+            <DataViewer
+                response={{ dataVedtakshistorikk: dummyDataVedtakshistorikkTilsynBarnRessurs }}
+            >
                 {({ dataVedtakshistorikk }) => (
-                    <VedtakshistorikkTabellVisning data={dataVedtakshistorikk} />
+                    <VedtakshistorikkTilsynBarnTabellVisning data={dataVedtakshistorikk} />
                 )}
             </DataViewer>
         </StyledVStack>

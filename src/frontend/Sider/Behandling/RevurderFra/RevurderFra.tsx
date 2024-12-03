@@ -15,7 +15,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
-import { Vedtakshistorikk } from './Vedtakshistorikk';
+import { VedtakshistorikkTilsynBarn } from './VedtakshistorikkTilsynBarn';
 import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
@@ -89,7 +89,7 @@ export function RevurderFra() {
                     )}
                     {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
                 </VStack>
-                {viseVedtakshistorikk && <Vedtakshistorikk />}
+                {viseVedtakshistorikk && <VedtakshistorikkTilsynBarn />}
             </VStack>
         </Container>
     );

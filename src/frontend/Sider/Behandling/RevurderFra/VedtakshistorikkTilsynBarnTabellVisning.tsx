@@ -4,7 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { formaterNullableIsoDato } from '../../../utils/dato';
 
-const VedtakshistorikkTabellVisning: React.FC<{
+const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
     data: Vedtaksperiode[];
 }> = ({ data }) => {
     return (
@@ -46,4 +46,4 @@ export interface Vedtaksperiode {
     utgift: string;
 }
 
-export default VedtakshistorikkTabellVisning;
+export default VedtakshistorikkTilsynBarnTabellVisning;
