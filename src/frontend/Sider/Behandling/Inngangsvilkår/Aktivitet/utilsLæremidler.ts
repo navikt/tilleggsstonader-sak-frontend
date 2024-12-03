@@ -1,4 +1,7 @@
-import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
+import {
+    EndreAktivitetFormLæremidler,
+    VurderingerAktivitetLæremidler,
+} from './EndreAktivitetLæremidler';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
@@ -107,12 +110,16 @@ const resetPeriode = (
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    svarHarUtgifter: SvarJaNei | undefined
+    vurderinger: VurderingerAktivitetLæremidler
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
-    if (svarHarUtgifter === SvarJaNei.NEI) {
+    if (vurderinger.svarHarUtgifter === SvarJaNei.NEI) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
+    }
+
+    if (vurderinger.svarHarRettTilUtstyrsstipend === SvarJaNei.JA) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_RETT_TIL_UTSTYRSSTIPEND);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
