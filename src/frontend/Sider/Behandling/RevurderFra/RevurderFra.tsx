@@ -95,7 +95,7 @@ export function RevurderFra() {
                     {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
                 </VStack>
                 {viseVedtakshistorikk && stønadstypeErTilsynBarn(behandling.stønadstype) && (
-                    <VedtakshistorikkTilsynBarn />
+                    <VedtakshistorikkTilsynBarn behandlingId={behandling.id} />
                 )}
             </VStack>
         </Container>
