@@ -5,7 +5,7 @@ import { Table } from '@navikt/ds-react';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 
 const VedtakshistorikkTabellVisning: React.FC<{
-    data: historiskeDataForEnkeltVedtak[];
+    data: Vedtaksperiode[];
 }> = ({ data }) => {
     return (
         <Table size={'small'}>
@@ -37,7 +37,7 @@ const VedtakshistorikkTabellVisning: React.FC<{
     );
 };
 
-export interface historiskeDataForEnkeltVedtak {
+export interface Vedtaksperiode {
     fom: string;
     tom: string;
     aktivitet: string;

@@ -4,9 +4,7 @@ import styled from 'styled-components';
 
 import { Heading, VStack } from '@navikt/ds-react';
 
-import VedtakshistorikkTabellVisning, {
-    historiskeDataForEnkeltVedtak,
-} from './VedtakshistorikkTabellVisning';
+import VedtakshistorikkTabellVisning, { Vedtaksperiode } from './VedtakshistorikkTabellVisning';
 import DataViewer from '../../../komponenter/DataViewer';
 import { RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
@@ -14,7 +12,7 @@ const InnholdWrapper = styled.div`
     max-width: 40rem;
 `;
 
-const dummyDataVedtakshistorikkRessurs: RessursSuksess<historiskeDataForEnkeltVedtak[]> = {
+const dummyDataVedtakshistorikkRessurs: RessursSuksess<Vedtaksperiode[]> = {
     status: RessursStatus.SUKSESS,
     data: [
         {
