@@ -14,6 +14,7 @@ export enum BegrunnelseGrunner {
 
     // Læremidler
     HAR_UTGIFTER = 'HAR_UTGIFTER',
+    HAR_RETT_TIL_UTSTYRSSTIPEND = 'HAR_RETT_TIL_UTSTYRSSTIPEND',
 }
 
 export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
@@ -25,4 +26,5 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     HAR_UTGIFTER: 'Hvorfor bruker ikke har utgifter',
+    HAR_RETT_TIL_UTSTYRSSTIPEND: 'Hvorfor bruker har rett til utstyrsstipend',
 };
