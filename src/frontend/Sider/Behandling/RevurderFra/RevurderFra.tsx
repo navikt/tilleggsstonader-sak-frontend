@@ -12,10 +12,11 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Behandling } from '../../../typer/behandling/behandling';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
-import { VedtakshistorikkTilsynBarn } from './VedtakshistorikkTilsynBarn';
+import { VedtakshistorikkTilsynBarn } from './TilsynBarn/VedtakshistorikkTilsynBarn';
 import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
@@ -65,6 +66,10 @@ export function RevurderFra() {
         }
     }
 
+    const stønadstypeErTilsynBarn = (stønadstype: Stønadstype): boolean => {
+        return stønadstype === Stønadstype.BARNETILSYN;
+    };
+
     return (
         <Container>
             <VStack gap="16">
@@ -89,7 +94,9 @@ export function RevurderFra() {
                     )}
                     {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
                 </VStack>
-                {viseVedtakshistorikk && <VedtakshistorikkTilsynBarn />}
+                {viseVedtakshistorikk && stønadstypeErTilsynBarn(behandling.stønadstype) && (
+                    <VedtakshistorikkTilsynBarn />
+                )}
             </VStack>
         </Container>
     );

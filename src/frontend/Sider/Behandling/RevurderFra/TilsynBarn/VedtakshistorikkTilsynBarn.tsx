@@ -7,8 +7,8 @@ import { Heading, VStack } from '@navikt/ds-react';
 import VedtakshistorikkTilsynBarnTabellVisning, {
     Vedtaksperiode,
 } from './VedtakshistorikkTilsynBarnTabellVisning';
-import DataViewer from '../../../komponenter/DataViewer';
-import { RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 
 const StyledVStack = styled(VStack)`
     max-width: 40rem;

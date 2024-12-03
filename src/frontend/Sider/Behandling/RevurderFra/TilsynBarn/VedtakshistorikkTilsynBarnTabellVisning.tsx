@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { formaterNullableIsoDato } from '../../../utils/dato';
+import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
     data: Vedtaksperiode[];
