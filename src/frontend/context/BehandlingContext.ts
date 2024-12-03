@@ -29,7 +29,7 @@ export const [BehandlingProvider, useBehandling] = constate(
             behandlingErRedigerbar: kanBehandleRevurdering && behandlingErRedigerbar,
             hentBehandling,
             behandlingFakta,
-            kanBehandleRevurdering,
+            toggleKanSaksbehandle: kanSaksbehandle,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
         };
     }

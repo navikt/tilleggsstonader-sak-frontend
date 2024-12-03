@@ -42,7 +42,7 @@ const DisabledTab = styled(Tabs.Tab)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar, kanBehandleRevurdering, kanSetteBehandlingPåVent } =
+    const { behandling, behandlingErRedigerbar, toggleKanSaksbehandle, kanSetteBehandlingPåVent } =
         useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
@@ -112,7 +112,7 @@ const BehandlingTabsInnhold = () => {
                     </TabsList>
                 </StickyTablistContainer>
 
-                {!kanBehandleRevurdering && (
+                {!toggleKanSaksbehandle && (
                     <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
                 )}
                 <SettPåVentContainer
