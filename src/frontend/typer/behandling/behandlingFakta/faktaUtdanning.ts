@@ -7,8 +7,10 @@ export interface FaktaUtdanning {
 interface SøknadsgrunnlagUtdanning {
     aktiviteter?: string[];
     annenUtdanning?: AnnenUtdanningType;
-    erLærlingEllerLiknende?: JaNei;
-    harTidligereFullførtVgs?: JaNei;
+    harRettTilUtstyrsstipend?: {
+        erLærlingEllerLiknende?: JaNei;
+        harTidligereFullførtVgs?: JaNei;
+    };
     harFunksjonsnedsettelse: JaNei;
 }
 
