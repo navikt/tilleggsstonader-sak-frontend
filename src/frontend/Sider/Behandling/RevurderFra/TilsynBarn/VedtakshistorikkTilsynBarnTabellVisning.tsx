@@ -16,11 +16,10 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
                     <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Ant. barn</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Utgift</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn, utgift }) => {
+                {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn }) => {
                     return (
                         <Table.Row key={fom}>
                             <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
@@ -28,7 +27,6 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
                             <Table.DataCell>{aktivitet}</Table.DataCell>
                             <Table.DataCell>{målgruppe}</Table.DataCell>
                             <Table.DataCell>{antallBarn}</Table.DataCell>
-                            <Table.DataCell>{utgift}</Table.DataCell>
                         </Table.Row>
                     );
                 })}
@@ -43,7 +41,6 @@ export interface Vedtaksperiode {
     aktivitet: string;
     målgruppe: string;
     antallBarn: string;
-    utgift: string;
 }
 
 export default VedtakshistorikkTilsynBarnTabellVisning;

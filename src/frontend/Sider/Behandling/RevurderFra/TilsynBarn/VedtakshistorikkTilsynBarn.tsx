@@ -23,7 +23,6 @@ const dummyDataVedtakshistorikkTilsynBarnRessurs: RessursSuksess<Vedtaksperiode[
             aktivitet: 'Arbeidstrening',
             målgruppe: 'AAP',
             antallBarn: '2',
-            utgift: '6000',
         },
         {
             fom: '2021-04-28T19:12:14.358Z',
@@ -31,7 +30,6 @@ const dummyDataVedtakshistorikkTilsynBarnRessurs: RessursSuksess<Vedtaksperiode[
             aktivitet: 'Arbeidstrening',
             målgruppe: 'AAP',
             antallBarn: '2',
-            utgift: '6000',
         },
         {
             fom: '2021-04-28T19:12:14.358Z',
@@ -39,7 +37,6 @@ const dummyDataVedtakshistorikkTilsynBarnRessurs: RessursSuksess<Vedtaksperiode[
             aktivitet: 'Arbeidstrening',
             målgruppe: 'AAP',
             antallBarn: '2',
-            utgift: '6000',
         },
     ],
 };
