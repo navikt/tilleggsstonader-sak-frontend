@@ -14,8 +14,10 @@ import { tekstEllerKode } from '../../../../utils/tekstformatering';
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
-    const erLærlingEllerLiknende = faktaUtdanning.søknadsgrunnlag?.erLærlingEllerLiknende;
-    const harTidligereFullførtVgs = faktaUtdanning.søknadsgrunnlag?.harTidligereFullførtVgs;
+    const erLærlingEllerLiknende =
+        faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.erLærlingEllerLiknende;
+    const harTidligereFullførtVgs =
+        faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.harTidligereFullførtVgs;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
     return (
         <>
