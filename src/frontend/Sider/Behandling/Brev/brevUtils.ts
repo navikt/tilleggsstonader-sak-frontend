@@ -1,3 +1,4 @@
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { TypeVedtak } from '../../../typer/vedtak/vedtak';
 
@@ -13,8 +14,14 @@ enum SanityMappe {
  */
 export const finnSanityMappe = (
     behandlingstype: BehandlingType,
-    vedtakType: TypeVedtak
+    vedtakType: TypeVedtak,
+    stønadstype?: Stønadstype
 ): string[] => {
+    // Midlertidig løsning for å kunne se alle brev for læremidler i test frem til flere resultater er på plass.
+    if (stønadstype === Stønadstype.LÆREMIDLER) {
+        return [SanityMappe.AVSLAG, SanityMappe.INNVILGET];
+    }
+
     // Avslagsbrev er like for revurdering og førstegangsbehandling
     if (vedtakType === TypeVedtak.AVSLAG) {
         return [SanityMappe.AVSLAG];
