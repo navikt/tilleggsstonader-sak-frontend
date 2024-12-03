@@ -8,7 +8,7 @@ import VedtakshistorikkTabellVisning, { Vedtaksperiode } from './Vedtakshistorik
 import DataViewer from '../../../komponenter/DataViewer';
 import { RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
-const InnholdWrapper = styled.div`
+const StyledVStack = styled(VStack)`
     max-width: 40rem;
 `;
 
@@ -44,15 +44,13 @@ const dummyDataVedtakshistorikkRessurs: RessursSuksess<Vedtaksperiode[]> = {
 
 export const Vedtakshistorikk = () => {
     return (
-        <InnholdWrapper>
-            <VStack gap="4">
-                <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
-                <DataViewer response={{ dataVedtakshistorikk: dummyDataVedtakshistorikkRessurs }}>
-                    {({ dataVedtakshistorikk }) => (
-                        <VedtakshistorikkTabellVisning data={dataVedtakshistorikk} />
-                    )}
-                </DataViewer>
-            </VStack>
-        </InnholdWrapper>
+        <StyledVStack gap="4">
+            <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
+            <DataViewer response={{ dataVedtakshistorikk: dummyDataVedtakshistorikkRessurs }}>
+                {({ dataVedtakshistorikk }) => (
+                    <VedtakshistorikkTabellVisning data={dataVedtakshistorikk} />
+                )}
+            </DataViewer>
+        </StyledVStack>
     );
 };
