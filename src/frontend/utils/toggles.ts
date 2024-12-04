@@ -5,7 +5,8 @@ export enum Toggle {
 
     ADMIN_KAN_OPPRETTE_BEHANDLING = 'sak.admin-kan-opprette-behandling',
 
-    KAN_SAKSBEHANDLE = 'sak.frontend.kan-saksbehandle',
+    KAN_SAKSBEHANDLE_LÆREMIDLER = 'sak.frontend.kan-saksbehandle.laremidler',
+    KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
 
     SKAL_VISE_STATUS_PERIODER = 'sak.frontend.skal-vise-status-perioder',
 
