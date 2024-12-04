@@ -5,10 +5,9 @@ import { Table } from '@navikt/ds-react';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
-    data?: Vedtaksperiode[];
+    data: Vedtaksperiode[];
 }> = ({ data }) => {
-    if (data === undefined) return 'Ingen vedtakshistorikk';
-    return (
+    return data ? (
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
@@ -33,6 +32,8 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
                 })}
             </Table.Body>
         </Table>
+    ) : (
+        'Ingen vedtakshistorikk'
     );
 };
 
