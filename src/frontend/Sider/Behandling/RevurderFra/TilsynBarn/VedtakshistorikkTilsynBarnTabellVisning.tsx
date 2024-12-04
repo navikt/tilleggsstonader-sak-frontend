@@ -2,15 +2,15 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { InnvilgelseBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 type Props = {
-    beregningsresultat: BeregningsresultatTilsynBarn;
+    innvilgelseBarnetilsyn: InnvilgelseBarnetilsyn;
 };
 
-const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsresultat }) => {
-    if (beregningsresultat === undefined) return 'Ingen vedtakshistorikk';
+const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ innvilgelseBarnetilsyn }) => {
+    if (innvilgelseBarnetilsyn === undefined) return 'Ingen vedtakshistorikk';
     return (
         <Table size={'small'}>
             <Table.Header>
@@ -23,7 +23,7 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsre
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {beregningsresultat.beregningsresultat.vedtaksperioder?.map(
+                {innvilgelseBarnetilsyn.beregningsresultat.vedtaksperioder?.map(
                     ({ fom, tom, målgruppe, aktivitet, antallBarn }) => {
                         return (
                             <Table.Row key={fom}>

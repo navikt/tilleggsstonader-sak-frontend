@@ -2,28 +2,28 @@ import { useCallback, useState } from 'react';
 
 import { useApp } from '../../../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
-import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { InnvilgelseBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const useHentFullstendigOversikt = (): {
     hentBeregningsresultat: (forrigeBehandlingId: string) => void;
-    beregningsresultatRessurs: Ressurs<BeregningsresultatTilsynBarn>;
+    innvilgelseBarnetilsyn: Ressurs<InnvilgelseBarnetilsyn>;
 } => {
     const { request } = useApp();
 
-    const [beregningsresultatRessurs, settBeregningsresultatRessurs] =
-        useState<Ressurs<BeregningsresultatTilsynBarn>>(byggTomRessurs());
+    const [innvilgelseBarnetilsyn, setInnvilgelseBarnetilsyn] =
+        useState<Ressurs<InnvilgelseBarnetilsyn>>(byggTomRessurs());
 
     const hentBeregningsresultat = useCallback(
         (forrigeBehandlingId: string) => {
-            request<BeregningsresultatTilsynBarn, null>(
+            request<InnvilgelseBarnetilsyn, null>(
                 `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
-            ).then(settBeregningsresultatRessurs);
+            ).then(setInnvilgelseBarnetilsyn);
         },
         [request]
     );
 
     return {
         hentBeregningsresultat: hentBeregningsresultat,
-        beregningsresultatRessurs: beregningsresultatRessurs,
+        innvilgelseBarnetilsyn: innvilgelseBarnetilsyn,
     };
 };
