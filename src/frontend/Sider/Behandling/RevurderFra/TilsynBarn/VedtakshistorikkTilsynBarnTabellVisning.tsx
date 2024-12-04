@@ -10,7 +10,8 @@ type Props = {
 };
 
 const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ innvilgelseBarnetilsyn }) => {
-    if (innvilgelseBarnetilsyn === undefined) return 'Ingen vedtakshistorikk';
+    if (innvilgelseBarnetilsyn?.beregningsresultat?.vedtaksperioder === undefined)
+        return 'Ingen vedtakshistorikk';
     return (
         <Table size={'small'}>
             <Table.Header>
