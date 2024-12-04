@@ -2,12 +2,15 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
-const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
-    data: Vedtaksperiode[];
-}> = ({ data }) => {
-    return data ? (
+type Props = {
+    beregningsresultat: BeregningsresultatTilsynBarn;
+};
+
+const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsresultat }) => {
+    return beregningsresultat.vedtaksperioder ? (
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
@@ -19,30 +22,24 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<{
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {data.map(({ fom, tom, aktivitet, målgruppe, antallBarn }) => {
-                    return (
-                        <Table.Row key={fom}>
-                            <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
-                            <Table.DataCell>{aktivitet}</Table.DataCell>
-                            <Table.DataCell>{målgruppe}</Table.DataCell>
-                            <Table.DataCell>{antallBarn}</Table.DataCell>
-                        </Table.Row>
-                    );
-                })}
+                {beregningsresultat.vedtaksperioder.map(
+                    ({ fom, tom, målgruppe, aktivitet, antallBarn }) => {
+                        return (
+                            <Table.Row key={fom}>
+                                <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
+                                <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
+                                <Table.DataCell>{aktivitet}</Table.DataCell>
+                                <Table.DataCell>{målgruppe}</Table.DataCell>
+                                <Table.DataCell>{antallBarn}</Table.DataCell>
+                            </Table.Row>
+                        );
+                    }
+                )}
             </Table.Body>
         </Table>
     ) : (
         'Ingen vedtakshistorikk'
     );
 };
-
-export interface Vedtaksperiode {
-    fom: string;
-    tom: string;
-    aktivitet: string;
-    målgruppe: string;
-    antallBarn: string;
-}
 
 export default VedtakshistorikkTilsynBarnTabellVisning;

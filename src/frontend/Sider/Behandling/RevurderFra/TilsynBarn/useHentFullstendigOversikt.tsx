@@ -1,29 +1,29 @@
 import { useCallback, useState } from 'react';
 
-import { Vedtaksperiode } from './VedtakshistorikkTilsynBarnTabellVisning';
 import { useApp } from '../../../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
+import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const useHentFullstendigOversikt = (): {
-    hentFullstendigOversikt: (forrigeBehandlingId: string) => void;
-    fullstendigOversikt: Ressurs<Vedtaksperiode[]>;
+    hentBeregningsresultat: (forrigeBehandlingId: string) => void;
+    beregningsresultat: Ressurs<BeregningsresultatTilsynBarn>;
 } => {
     const { request } = useApp();
 
-    const [fullstendigOversikt, settFullstendigOversikt] =
-        useState<Ressurs<Vedtaksperiode[]>>(byggTomRessurs());
+    const [beregningsresultat, settBeregningsresultat] =
+        useState<Ressurs<BeregningsresultatTilsynBarn>>(byggTomRessurs());
 
-    const hentFullstendigOversikt = useCallback(
+    const hentBeregningsresultat = useCallback(
         (forrigeBehandlingId: string) => {
-            request<Vedtaksperiode[], null>(
+            request<BeregningsresultatTilsynBarn, null>(
                 `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
-            ).then(settFullstendigOversikt);
+            ).then(settBeregningsresultat);
         },
         [request]
     );
 
     return {
-        hentFullstendigOversikt,
-        fullstendigOversikt,
+        hentBeregningsresultat: hentBeregningsresultat,
+        beregningsresultat,
     };
 };
