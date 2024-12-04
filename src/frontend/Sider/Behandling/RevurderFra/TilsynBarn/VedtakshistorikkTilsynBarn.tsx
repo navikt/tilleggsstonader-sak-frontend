@@ -6,18 +6,20 @@ import { Heading, VStack } from '@navikt/ds-react';
 
 import { useHentFullstendigOversikt } from './useHentFullstendigOversikt';
 import VedtakshistorikkTilsynBarnTabellVisning from './VedtakshistorikkTilsynBarnTabellVisning';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 
 const StyledVStack = styled(VStack)`
     max-width: 40rem;
 `;
 
-export const VedtakshistorikkTilsynBarn = (behandlingId: string) => {
+export const VedtakshistorikkTilsynBarn = () => {
+    const { behandling } = useBehandling();
     const { hentFullstendigOversikt, fullstendigOversikt } = useHentFullstendigOversikt();
 
     useEffect(() => {
-        hentFullstendigOversikt(behandlingId);
-    }, [behandlingId, hentFullstendigOversikt]);
+        hentFullstendigOversikt(behandling.id);
+    }, [behandling.id, hentFullstendigOversikt]);
 
     return (
         <StyledVStack gap="4">
