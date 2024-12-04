@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import styled from 'styled-components';
 
@@ -6,20 +6,22 @@ import { Heading, VStack } from '@navikt/ds-react';
 
 import { useHentFullstendigOversikt } from './useHentFullstendigOversikt';
 import VedtakshistorikkTilsynBarnTabellVisning from './VedtakshistorikkTilsynBarnTabellVisning';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 
 const StyledVStack = styled(VStack)`
     max-width: 40rem;
 `;
 
-export const VedtakshistorikkTilsynBarn = () => {
-    const { behandling } = useBehandling();
+type Props = {
+    behandlingId: string;
+};
+
+export const VedtakshistorikkTilsynBarn: FC<Props> = ({ behandlingId }) => {
     const { hentFullstendigOversikt, fullstendigOversikt } = useHentFullstendigOversikt();
 
     useEffect(() => {
-        hentFullstendigOversikt(behandling.id);
-    }, [behandling.id, hentFullstendigOversikt]);
+        hentFullstendigOversikt(behandlingId);
+    }, [behandlingId, hentFullstendigOversikt]);
 
     return (
         <StyledVStack gap="4">
