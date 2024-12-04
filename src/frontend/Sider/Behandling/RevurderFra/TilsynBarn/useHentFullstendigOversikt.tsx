@@ -5,7 +5,7 @@ import { useApp } from '../../../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 
 export const useHentFullstendigOversikt = (): {
-    hentFullstendigOversikt: (behandlingId: string) => void;
+    hentFullstendigOversikt: (forrigeBehandlingId: string) => void;
     fullstendigOversikt: Ressurs<Vedtaksperiode[]>;
 } => {
     const { request } = useApp();
@@ -14,9 +14,9 @@ export const useHentFullstendigOversikt = (): {
         useState<Ressurs<Vedtaksperiode[]>>(byggTomRessurs());
 
     const hentFullstendigOversikt = useCallback(
-        (behandlingId: string) => {
+        (forrigeBehandlingId: string) => {
             request<Vedtaksperiode[], null>(
-                `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${behandlingId}`
+                `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
             ).then(settFullstendigOversikt);
         },
         [request]
