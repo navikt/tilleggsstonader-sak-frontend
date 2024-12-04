@@ -10,7 +10,8 @@ type Props = {
 };
 
 const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsresultat }) => {
-    return beregningsresultat.vedtaksperioder ? (
+    if (beregningsresultat === undefined) return 'Ingen vedtakshistorikk';
+    return (
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
@@ -37,8 +38,6 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsre
                 )}
             </Table.Body>
         </Table>
-    ) : (
-        'Ingen vedtakshistorikk'
     );
 };
 

@@ -6,24 +6,24 @@ import { BeregningsresultatTilsynBarn } from '../../../../typer/vedtak/vedtakTil
 
 export const useHentFullstendigOversikt = (): {
     hentBeregningsresultat: (forrigeBehandlingId: string) => void;
-    beregningsresultat: Ressurs<BeregningsresultatTilsynBarn>;
+    beregningsresultatRessurs: Ressurs<BeregningsresultatTilsynBarn>;
 } => {
     const { request } = useApp();
 
-    const [beregningsresultat, settBeregningsresultat] =
+    const [beregningsresultatRessurs, settBeregningsresultatRessurs] =
         useState<Ressurs<BeregningsresultatTilsynBarn>>(byggTomRessurs());
 
     const hentBeregningsresultat = useCallback(
         (forrigeBehandlingId: string) => {
             request<BeregningsresultatTilsynBarn, null>(
                 `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
-            ).then(settBeregningsresultat);
+            ).then(settBeregningsresultatRessurs);
         },
         [request]
     );
 
     return {
         hentBeregningsresultat: hentBeregningsresultat,
-        beregningsresultat,
+        beregningsresultatRessurs: beregningsresultatRessurs,
     };
 };
