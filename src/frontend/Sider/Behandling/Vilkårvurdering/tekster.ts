@@ -16,10 +16,29 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
     NEI: 'Nei',
 
     // PASS_BARN
-    TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
-        'Legeerklæring viser at barnet har behov for vesentlig mer pleie/tilsyn',
-    FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
-        'Tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
+    TRENGER_MER_TILSYN_ENN_JEVNALDRENDE: 'Behov for vesentlig mer pleie/tilsyn',
+    FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID: 'Borte utover vanlig arbeidstid',
+};
+
+export const regelIdTilSpørsmål2: Record<RegelId, Record<string, string>> = {
+    UTGIFTER_DOKUMENTERT: {
+        JA: 'Utgifter er dokumentert',
+        NEI: 'Utgifter er ikke dokumentert',
+    },
+    ANNEN_FORELDER_MOTTAR_STØTTE: {
+        JA: 'Annen forelder mottar støtte',
+        NEI: 'Annen forelder mottar ikke støtte',
+    },
+    HAR_FULLFØRT_FJERDEKLASSE: {
+        JA: '4. skoleår er fullført',
+        NEI: '4. skoleår er ikke fullført',
+    },
+    UNNTAK_ALDER: {
+        NEI: 'Unntak ikke oppfylt',
+        TRENGER_MER_TILSYN_ENN_JEVNALDRENDE: 'Unntak oppfylt: Behov for vesentlig mer pleie/tilsyn',
+        FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
+            'Unntak oppfylt: Borte utover vanlig arbeidstid',
+    },
 };
 
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
@@ -34,7 +53,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Dokumentert utgifter?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
-    UNNTAK_ALDER: 'Unntak fra aldersregelen?',
+    UNNTAK_ALDER: 'Unntak:',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

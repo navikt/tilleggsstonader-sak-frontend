@@ -7,6 +7,7 @@ import { useVilkår } from '../../../context/VilkårContext';
 import { useRevurderingAvPerioder } from '../../../hooks/useRevurderingAvPerioder';
 import { Regler } from '../../../typer/regel';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
+import LesevisningVilkårTest from './LesevisningVilkårTest';
 
 type LesEllerEndreDelvilkårProps = {
     regler: Regler;
@@ -54,10 +55,17 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             }
         />
     ) : (
-        <LesevisningVilkår
-            vilkår={vilkår}
-            skalViseRedigeringsknapp={erStegRedigerbart && !helePeriodenErLåstForEndring}
-            startRedigering={() => settRedigerer(true)}
-        />
+        <>
+            <LesevisningVilkår
+                vilkår={vilkår}
+                skalViseRedigeringsknapp={erStegRedigerbart && !helePeriodenErLåstForEndring}
+                startRedigering={() => settRedigerer(true)}
+            />
+            <LesevisningVilkårTest
+                vilkår={vilkår}
+                skalViseRedigeringsknapp={erStegRedigerbart && !helePeriodenErLåstForEndring}
+                startRedigering={() => settRedigerer(true)}
+            />
+        </>
     );
 };

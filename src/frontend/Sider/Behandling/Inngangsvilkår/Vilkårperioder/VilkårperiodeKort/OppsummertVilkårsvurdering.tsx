@@ -2,7 +2,6 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { CircleBrokenIcon } from '@navikt/aksel-icons';
 import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
 import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
@@ -40,7 +39,7 @@ export const OppsummertVilkårsvurdering: React.FC<{
     className?: string;
 }> = ({ vilkårperiode, redigeres, className }) => {
     if (!vilkårperiode || redigeres) {
-        return <OppsummeringKommer className={className} />;
+        return null;
     }
 
     return (
@@ -54,19 +53,6 @@ export const OppsummertVilkårsvurdering: React.FC<{
             ) : (
                 <OppsummeringAvDelvilkår vilkårperiode={vilkårperiode} />
             )}
-        </Container>
-    );
-};
-
-const OppsummeringKommer: React.FC<{ className?: string }> = ({ className }) => {
-    return (
-        <Container className={className}>
-            <HStack wrap={false} gap="4">
-                <span>
-                    <CircleBrokenIcon />
-                </span>
-                <Label size="small">Oppsummert vilkårsvurdering vises når du lagrer</Label>
-            </HStack>
         </Container>
     );
 };
