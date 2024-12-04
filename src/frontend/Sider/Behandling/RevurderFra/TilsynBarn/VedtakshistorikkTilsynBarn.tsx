@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeBehandlingId }) => {
-    const { hentBeregningsresultat, innvilgelseBarnetilsyn } = useHentFullstendigOversikt();
+    const { hentBeregningsresultat, vedtakBarnetilsyn } = useHentFullstendigOversikt();
 
     useEffect(() => {
         hentBeregningsresultat(forrigeBehandlingId);
@@ -26,10 +26,10 @@ export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeBehandlingId }) =
     return (
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
-            <DataViewer response={{ innvilgelseBarnetilsyn }}>
-                {({ innvilgelseBarnetilsyn }) => (
+            <DataViewer response={{ vedtakBarnetilsyn }}>
+                {({ vedtakBarnetilsyn }) => (
                     <VedtakshistorikkTilsynBarnTabellVisning
-                        innvilgelseBarnetilsyn={innvilgelseBarnetilsyn}
+                        vedtakBarnetilsyn={vedtakBarnetilsyn}
                     />
                 )}
             </DataViewer>

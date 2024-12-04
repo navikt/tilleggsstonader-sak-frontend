@@ -2,28 +2,31 @@ import { useCallback, useState } from 'react';
 
 import { useApp } from '../../../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
-import { InnvilgelseBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import {
+    InnvilgelseBarnetilsyn,
+    VedtakBarnetilsyn,
+} from '../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const useHentFullstendigOversikt = (): {
     hentBeregningsresultat: (forrigeBehandlingId: string) => void;
-    innvilgelseBarnetilsyn: Ressurs<InnvilgelseBarnetilsyn>;
+    vedtakBarnetilsyn: Ressurs<VedtakBarnetilsyn>;
 } => {
     const { request } = useApp();
 
-    const [innvilgelseBarnetilsyn, setInnvilgelseBarnetilsyn] =
-        useState<Ressurs<InnvilgelseBarnetilsyn>>(byggTomRessurs());
+    const [vedtakBarnetilsyn, setVedtakBarnetilsyn] =
+        useState<Ressurs<VedtakBarnetilsyn>>(byggTomRessurs());
 
-    const hentBeregningsresultat = useCallback(
+    const hentForrigeVedtakMedFullHistorikk = useCallback(
         (forrigeBehandlingId: string) => {
             request<InnvilgelseBarnetilsyn, null>(
                 `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
-            ).then(setInnvilgelseBarnetilsyn);
+            ).then(setVedtakBarnetilsyn);
         },
         [request]
     );
 
     return {
-        hentBeregningsresultat: hentBeregningsresultat,
-        innvilgelseBarnetilsyn: innvilgelseBarnetilsyn,
+        hentBeregningsresultat: hentForrigeVedtakMedFullHistorikk,
+        vedtakBarnetilsyn: vedtakBarnetilsyn,
     };
 };

@@ -2,15 +2,16 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { InnvilgelseBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { erVedtakInnvilgelse, VedtakBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 type Props = {
-    innvilgelseBarnetilsyn: InnvilgelseBarnetilsyn;
+    vedtakBarnetilsyn: VedtakBarnetilsyn;
 };
 
-const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ innvilgelseBarnetilsyn }) => {
-    if (innvilgelseBarnetilsyn?.beregningsresultat?.vedtaksperioder === undefined)
+const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ vedtakBarnetilsyn }) => {
+    if (!erVedtakInnvilgelse(vedtakBarnetilsyn)) return 'Ingen vedtakshistorikk';
+    if (vedtakBarnetilsyn?.beregningsresultat?.vedtaksperioder === undefined)
         return 'Ingen vedtakshistorikk';
     return (
         <Table size={'small'}>
@@ -24,7 +25,7 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ innvilgelseB
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {innvilgelseBarnetilsyn.beregningsresultat.vedtaksperioder?.map(
+                {vedtakBarnetilsyn.beregningsresultat.vedtaksperioder?.map(
                     ({ fom, tom, målgruppe, aktivitet, antallBarn }) => {
                         return (
                             <Table.Row key={fom}>
