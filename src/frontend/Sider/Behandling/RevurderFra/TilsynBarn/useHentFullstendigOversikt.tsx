@@ -16,7 +16,7 @@ export const useHentFullstendigOversikt = (): {
     const hentFullstendigOversikt = useCallback(
         (behandlingId: string) => {
             request<Vedtaksperiode[], null>(
-                `/api/vedtak/tilsyn-barn/fullstendig-oversikt/${behandlingId}`
+                `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${behandlingId}`
             ).then(settFullstendigOversikt);
         },
         [request]
