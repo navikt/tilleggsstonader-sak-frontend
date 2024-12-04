@@ -23,15 +23,15 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ beregningsre
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {beregningsresultat.vedtaksperioder.map(
+                {beregningsresultat.beregningsresultat.vedtaksperioder?.map(
                     ({ fom, tom, målgruppe, aktivitet, antallBarn }) => {
                         return (
                             <Table.Row key={fom}>
                                 <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
                                 <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
-                                <Table.DataCell>{aktivitet}</Table.DataCell>
-                                <Table.DataCell>{målgruppe}</Table.DataCell>
-                                <Table.DataCell>{antallBarn}</Table.DataCell>
+                                <Table.DataCell>{aktivitet.toString()}</Table.DataCell>
+                                <Table.DataCell>{målgruppe.toString()}</Table.DataCell>
+                                <Table.DataCell>{antallBarn.toString()}</Table.DataCell>
                             </Table.Row>
                         );
                     }
