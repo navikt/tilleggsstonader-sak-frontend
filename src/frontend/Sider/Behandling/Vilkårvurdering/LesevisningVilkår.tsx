@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
@@ -15,7 +14,6 @@ import { Statusbånd } from '../../../komponenter/Statusbånd';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { formaterNullablePeriode } from '../../../utils/dato';
-import { Toggle } from '../../../utils/toggles';
 import { VilkårsresultatTilTekst } from '../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { Vilkår } from '../vilkår';
 import { Vurderingsrad } from './Vurderingsrad';
@@ -42,9 +40,7 @@ const LesevisningVilkår: FC<{
 
     const { resultat, delvilkårsett, fom, tom, utgift } = vilkår;
 
-    const skalViseStatus = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
-
-    const visStatusbånd = skalViseStatus && behandling.type == BehandlingType.REVURDERING;
+    const visStatusbånd = behandling.type == BehandlingType.REVURDERING;
 
     return (
         <Container>

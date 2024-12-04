@@ -8,8 +8,6 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_LÆREMIDLER = 'sak.frontend.kan-saksbehandle.laremidler',
     KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
 
-    SKAL_VISE_STATUS_PERIODER = 'sak.frontend.skal-vise-status-perioder',
-
     FORESLÅ_STØNADSPERIODER = 'sak.foresla-stonadsperioder',
     OPPHØR = 'sak.opphor',
 }

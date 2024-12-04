@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
@@ -9,7 +8,6 @@ import { OppsummertVilkårsvurdering } from './OppsummertVilkårsvurdering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Statusbånd } from '../../../../../komponenter/Statusbånd';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { Toggle } from '../../../../../utils/toggles';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { Målgruppe } from '../../typer/vilkårperiode/målgruppe';
 
@@ -47,10 +45,9 @@ const VilkårperiodeKortBase: React.FC<{
     redigeres?: boolean;
 }> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false }) => {
     const { behandling } = useBehandling();
-    const toggleErPå = useFlag(Toggle.SKAL_VISE_STATUS_PERIODER);
 
     const skalViseStatus =
-        toggleErPå && behandling.type === BehandlingType.REVURDERING && vilkårperiode !== undefined;
+        behandling.type === BehandlingType.REVURDERING && vilkårperiode !== undefined;
 
     return (
         <Container>
