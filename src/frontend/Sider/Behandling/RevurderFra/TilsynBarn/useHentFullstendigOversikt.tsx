@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../../../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
@@ -7,8 +7,9 @@ import {
     VedtakBarnetilsyn,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 
-export const useHentFullstendigOversikt = (): {
-    hentBeregningsresultat: (forrigeBehandlingId: string) => void;
+export const useHentFullstendigOversikt = (
+    forrigeBehandlingId: string
+): {
     vedtakBarnetilsyn: Ressurs<VedtakBarnetilsyn>;
 } => {
     const { request } = useApp();
@@ -24,9 +25,11 @@ export const useHentFullstendigOversikt = (): {
         },
         [request]
     );
+    useEffect(() => {
+        hentForrigeVedtakMedFullHistorikk(forrigeBehandlingId);
+    }, [forrigeBehandlingId, hentForrigeVedtakMedFullHistorikk]);
 
     return {
-        hentBeregningsresultat: hentForrigeVedtakMedFullHistorikk,
         vedtakBarnetilsyn: vedtakBarnetilsyn,
     };
 };

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
@@ -17,11 +17,7 @@ type Props = {
 };
 
 export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeBehandlingId }) => {
-    const { hentBeregningsresultat, vedtakBarnetilsyn } = useHentFullstendigOversikt();
-
-    useEffect(() => {
-        hentBeregningsresultat(forrigeBehandlingId);
-    }, [forrigeBehandlingId, hentBeregningsresultat]);
+    const { vedtakBarnetilsyn } = useHentFullstendigOversikt(forrigeBehandlingId);
 
     return (
         <StyledVStack gap="4">
