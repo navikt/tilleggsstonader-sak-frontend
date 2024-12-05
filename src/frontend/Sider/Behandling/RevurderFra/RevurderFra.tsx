@@ -6,18 +6,17 @@ import { styled } from 'styled-components';
 
 import { Alert, VStack } from '@navikt/ds-react';
 
+import { VedtaksperioderRevurderFra } from './VedtaksperioderRevurderFra';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Behandling } from '../../../typer/behandling/behandling';
-import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
-import { FanePath } from '../faner';
-import { VedtakshistorikkTilsynBarn } from './TilsynBarn/VedtakshistorikkTilsynBarn';
 import { Toggle } from '../../../utils/toggles';
+import { FanePath } from '../faner';
 
 const Container = styled.div`
     margin: 2rem;
@@ -66,10 +65,6 @@ export function RevurderFra() {
         }
     }
 
-    const stønadstypeErTilsynBarn = (stønadstype: Stønadstype): boolean => {
-        return stønadstype === Stønadstype.BARNETILSYN;
-    };
-
     return (
         <Container>
             <VStack gap="16">
@@ -94,13 +89,9 @@ export function RevurderFra() {
                     )}
                     {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
                 </VStack>
-                {viseVedtakshistorikk &&
-                    stønadstypeErTilsynBarn(behandling.stønadstype) &&
-                    behandling.forrigeBehandlingId && (
-                        <VedtakshistorikkTilsynBarn
-                            forrigeBehandlingId={behandling.forrigeBehandlingId}
-                        />
-                    )}
+                {viseVedtakshistorikk && behandling.forrigeBehandlingId && (
+                    <VedtaksperioderRevurderFra />
+                )}
             </VStack>
         </Container>
     );
