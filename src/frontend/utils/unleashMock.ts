@@ -7,7 +7,6 @@ import { Toggle } from './toggles';
  * [Toggle.KAN_OPPRETTE_REVURDERING]: false,
  */
 const featureFlags: Partial<Record<Toggle, boolean>> = {
-    [Toggle.KAN_OPPRETTE_REVURDERING]: true,
     [Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER]: true,
 };
 

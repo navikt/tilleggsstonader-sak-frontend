@@ -1,6 +1,7 @@
 export enum Toggle {
-    KAN_OPPRETTE_REVURDERING = 'sak.kan-opprette-revurdering',
-
+    /**
+     * Kan opprette saksbehandling og revurdering
+     */
     KAN_SAKSBEHANDLE_LÆREMIDLER = 'sak.frontend.kan-saksbehandle.laremidler',
     KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
 

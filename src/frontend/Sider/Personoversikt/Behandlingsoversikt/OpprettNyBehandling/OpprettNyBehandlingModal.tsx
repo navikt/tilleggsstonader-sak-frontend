@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
@@ -13,7 +11,6 @@ import OpprettOrdinærBehandling from './OpprettOrdinærBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsakId: string;
@@ -33,17 +30,12 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     const [opprettNyBehandlingType, settOpprettNyBehandlingType] =
         useState<OpprettNyBehandlingType>();
 
-    const kanOppretteRevurdering = useFlag(Toggle.KAN_OPPRETTE_REVURDERING);
-
     const lukkModal = () => {
         settVisModal(false);
         settOpprettNyBehandlingType(undefined);
     };
 
     if (!erSaksbehandler) {
-        return null;
-    }
-    if (!kanOppretteRevurdering) {
         return null;
     }
 
@@ -65,10 +57,8 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     >
                         <option value={''}>Velg</option>
                         {[
-                            ...(kanOppretteRevurdering
-                                ? [OpprettNyBehandlingType.ORDINAER_BEHANDLING]
-                                : []),
-                            ...[OpprettNyBehandlingType.KLAGE],
+                            OpprettNyBehandlingType.ORDINAER_BEHANDLING,
+                            OpprettNyBehandlingType.KLAGE,
                         ].map((type) => (
                             <option key={type} value={type}>
                                 {opprettNyBehandlingTypeTilTekst[type]}
