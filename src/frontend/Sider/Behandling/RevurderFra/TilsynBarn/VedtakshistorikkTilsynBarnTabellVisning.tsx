@@ -4,6 +4,8 @@ import { Table } from '@navikt/ds-react';
 
 import { erVedtakInnvilgelse, VedtakBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
+import { målgruppeTypeTilTekst } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 type Props = {
     vedtakBarnetilsyn: VedtakBarnetilsyn;
@@ -32,9 +34,9 @@ const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ vedtakBarnet
                             <Table.Row key={fom}>
                                 <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
                                 <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
-                                <Table.DataCell>{aktivitet.toString()}</Table.DataCell>
-                                <Table.DataCell>{målgruppe.toString()}</Table.DataCell>
-                                <Table.DataCell>{antallBarn.toString()}</Table.DataCell>
+                                <Table.DataCell>{aktivitetTypeTilTekst(aktivitet)}</Table.DataCell>
+                                <Table.DataCell>{målgruppeTypeTilTekst(målgruppe)}</Table.DataCell>
+                                <Table.DataCell>{antallBarn}</Table.DataCell>
                             </Table.Row>
                         );
                     }
