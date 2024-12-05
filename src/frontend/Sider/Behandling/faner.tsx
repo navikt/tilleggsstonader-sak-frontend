@@ -42,12 +42,10 @@ export enum FaneNavn {
 
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
-    LÆREMIDLER = 'Læremidler',
 }
 
-const faneNavnStønadsvilkår: Record<Stønadstype, StønadsvilkårFaneNavn> = {
+const faneNavnStønadsvilkår: Record<Exclude<Stønadstype, 'LÆREMIDLER'>, StønadsvilkårFaneNavn> = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
-    LÆREMIDLER: StønadsvilkårFaneNavn.LÆREMIDLER,
 };
 
 export enum FanePath {
@@ -149,6 +147,22 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
     }
 };
 
+const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
+    switch (behandling.stønadstype) {
+        case Stønadstype.BARNETILSYN:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <Stønadsvilkår />,
+                    ikon: <HouseHeartIcon />,
+                },
+            ];
+        case Stønadstype.LÆREMIDLER:
+            return [];
+    }
+};
+
 export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
         ...revurderingFraFane(behandling),
@@ -158,12 +172,7 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
             komponent: () => <Inngangsvilkår />,
             ikon: <PersonRectangleIcon />,
         },
-        {
-            navn: faneNavnStønadsvilkår[behandling.stønadstype],
-            path: FanePath.STØNADSVILKÅR,
-            komponent: () => <Stønadsvilkår />,
-            ikon: <HouseHeartIcon />,
-        },
+        ...stønadsvilkårFane(behandling),
         {
             navn: FaneNavn.VEDTAK_OG_BEREGNING,
             path: FanePath.VEDTAK_OG_BEREGNING,
