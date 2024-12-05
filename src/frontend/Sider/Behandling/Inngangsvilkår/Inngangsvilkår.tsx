@@ -14,6 +14,7 @@ import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
@@ -24,6 +25,15 @@ const Container = styled.div`
     gap: 0.5rem;
     margin: 0.5rem 2rem 2rem 2rem;
 `;
+
+const nesteFane = (stønadstype: Stønadstype): FanePath => {
+    switch (stønadstype) {
+        case Stønadstype.LÆREMIDLER:
+            return FanePath.VEDTAK_OG_BEREGNING;
+        case Stønadstype.BARNETILSYN:
+            return FanePath.STØNADSVILKÅR;
+    }
+};
 
 const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
@@ -58,7 +68,7 @@ const Inngangsvilkår = () => {
                     </InngangsvilkårProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={FanePath.STØNADSVILKÅR}>
+            <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={nesteFane(behandling.stønadstype)}>
                 Ferdigstill inngangsvilkår og gå videre
             </StegKnapp>
         </Container>
