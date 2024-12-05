@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
@@ -15,7 +14,6 @@ import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLe
 import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
-import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 
 const Container = styled.div`
@@ -33,8 +31,6 @@ export function RevurderFra() {
         behandling.revurderFra
     );
     const [visAdvarselOmNullstilling, settVisAdvarselOmNullstilling] = useState<boolean>(false);
-
-    const viseVedtakshistorikk = useFlag(Toggle.VISE_VEDTAKSHISTORIKK);
 
     function håndterEndretDato(nyDato?: string) {
         settRevurderFraDato(nyDato);
@@ -89,9 +85,7 @@ export function RevurderFra() {
                     )}
                     {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
                 </VStack>
-                {viseVedtakshistorikk && behandling.forrigeBehandlingId && (
-                    <VedtaksperioderRevurderFra />
-                )}
+                <VedtaksperioderRevurderFra />
             </VStack>
         </Container>
     );
