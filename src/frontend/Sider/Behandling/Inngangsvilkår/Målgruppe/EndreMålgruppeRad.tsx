@@ -19,6 +19,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -26,6 +27,7 @@ import {
     Målgruppe,
     MålgruppeType,
     målgruppeTypeOptions,
+    målgruppeTypeOptionsForLæremidler,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -152,7 +154,11 @@ const EndreMålgruppeRad: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={målgruppeTypeOptions}
+                    typeOptions={
+                        behandling.stønadstype === Stønadstype.LÆREMIDLER
+                            ? målgruppeTypeOptionsForLæremidler
+                            : målgruppeTypeOptions
+                    }
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}

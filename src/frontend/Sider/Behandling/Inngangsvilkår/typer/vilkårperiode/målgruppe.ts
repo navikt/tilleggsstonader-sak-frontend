@@ -46,6 +46,10 @@ export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.fil
         option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
 );
 
+export const målgruppeTypeOptionsForLæremidler = målgruppeTypeOptions.filter(
+    (option) => option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
+);
+
 // TODO: Endre navn på enum
 // FaktiskMålgruppe brukes som navn foreløpig
 // Disse verdiene er faktiske målgrupper, mens målgruppetype burde hete noe ala hovedytelse eller liknende
