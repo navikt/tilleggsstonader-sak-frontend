@@ -23,11 +23,21 @@ export interface Fagsak {
     behandlinger: Behandling[];
 }
 
-export function utledFagsakId(stønadstype: Stønadstype, fagsakPerson: FagsakPerson): string {
+export function utledFagsakId(
+    stønadstype: Stønadstype,
+    fagsakPerson: FagsakPerson
+): string | undefined {
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return valuerOrThrow(fagsakPerson.tilsynBarn);
+            return fagsakPerson.tilsynBarn;
         case Stønadstype.LÆREMIDLER:
-            return valuerOrThrow(fagsakPerson.læremidler);
+            return fagsakPerson.læremidler;
     }
+}
+
+export function utledFagsakIdEllerKastFeil(
+    stønadstype: Stønadstype,
+    fagsakPerson: FagsakPerson
+): string {
+    return valuerOrThrow(utledFagsakId(stønadstype, fagsakPerson));
 }

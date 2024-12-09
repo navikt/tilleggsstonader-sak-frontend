@@ -8,7 +8,7 @@ import FrittståendeBrev from './FrittståendeBrev';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
-import { utledFagsakId } from '../../../typer/fagsak';
+import { utledFagsakId, utledFagsakIdEllerKastFeil } from '../../../typer/fagsak';
 
 const Container = styled.div`
     display: flex;
@@ -43,19 +43,25 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             style={{ maxWidth: 'fit-content' }}
                         >
                             <option value={''}>Velg</option>
-                            {fagsakPerson.tilsynBarn && (
-                                <option
-                                    value={Stønadstype.BARNETILSYN}
-                                    key={fagsakPerson.tilsynBarn}
-                                >
-                                    {stønadstypeTilTekst[Stønadstype.BARNETILSYN]}
-                                </option>
-                            )}
+                            {Object.keys(Stønadstype).map((key) => {
+                                const stønadstype = key as Stønadstype;
+                                const fagsakId = utledFagsakId(stønadstype, fagsakPerson);
+                                return (
+                                    fagsakId && (
+                                        <option value={stønadstype} key={fagsakId}>
+                                            {stønadstypeTilTekst[stønadstype]}
+                                        </option>
+                                    )
+                                );
+                            })}
                         </Select>
                         {valgtStønadstype && (
                             <FrittståendeBrev
                                 valgtStønadstype={valgtStønadstype}
-                                fagsakId={utledFagsakId(valgtStønadstype, fagsakPerson)}
+                                fagsakId={utledFagsakIdEllerKastFeil(
+                                    valgtStønadstype,
+                                    fagsakPerson
+                                )}
                                 settBrevErSendt={() => {
                                     settValgtStønadstype(undefined);
                                     settBrevErSendt(true);
