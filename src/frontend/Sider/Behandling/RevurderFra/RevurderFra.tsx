@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 
 import { Alert, VStack } from '@navikt/ds-react';
 
+import { VedtaksperioderRevurderFra } from './VedtaksperioderRevurderFra';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
@@ -62,26 +63,29 @@ export function RevurderFra() {
 
     return (
         <Container>
-            <VStack gap="2">
-                <DateInputMedLeservisning
-                    label="Revurderes fra"
-                    value={revurderFraDato}
-                    onChange={håndterEndretDato}
-                    erLesevisning={!behandlingErRedigerbar}
-                    feil={valideringsfeil}
-                    size="small"
-                />
-                {visAdvarselOmNullstilling && (
-                    <Alert variant="warning" size="small" style={{ maxWidth: 'fit-content' }}>
-                        Du ønsker nå å revurdere fra en senere tid enn det som tidligere er valgt (
-                        {formaterNullableTilTekstligDato(behandling.revurderFra)}). Hvis du lagrer
-                        denne datoen, blir alle endringene i revurderingen nullstilt.
-                    </Alert>
-                )}
-                {behandlingErRedigerbar && (
-                    <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
-                )}
-                {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
+            <VStack gap="16">
+                <VStack gap="2">
+                    <DateInputMedLeservisning
+                        label="Revurderes fra"
+                        value={revurderFraDato}
+                        onChange={håndterEndretDato}
+                        erLesevisning={!behandlingErRedigerbar}
+                        feil={valideringsfeil}
+                        size="small"
+                    />
+                    {visAdvarselOmNullstilling && (
+                        <Alert variant="warning" size="small" style={{ maxWidth: 'fit-content' }}>
+                            Du ønsker nå å revurdere fra en senere tid enn det som tidligere er
+                            valgt ({formaterNullableTilTekstligDato(behandling.revurderFra)}). Hvis
+                            du lagrer denne datoen, blir alle endringene i revurderingen nullstilt.
+                        </Alert>
+                    )}
+                    {behandlingErRedigerbar && (
+                        <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
+                    )}
+                    {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
+                </VStack>
+                <VedtaksperioderRevurderFra />
             </VStack>
         </Container>
     );
