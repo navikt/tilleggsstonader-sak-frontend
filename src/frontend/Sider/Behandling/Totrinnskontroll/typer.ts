@@ -29,6 +29,7 @@ export type TotrinnskontrollUnderkjentResponse = TotrinnskontrollOpprettet & {
 };
 
 export enum ÅrsakUnderkjent {
+    INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VEDTAK_OG_BEREGNING = 'VEDTAK_OG_BEREGNING',
     VEDTAKSBREV = 'VEDTAKSBREV',
     FEIL_I_UTGIFTER = 'FEIL_I_UTGIFTER',
@@ -36,6 +37,7 @@ export enum ÅrsakUnderkjent {
 }
 
 export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
+    INNGANGSVILKÅR: 'Inngangsvilkår',
     VEDTAK_OG_BEREGNING: 'Vedtak og beregning',
     VEDTAKSBREV: 'Vedtaksbrev',
     FEIL_I_UTGIFTER: 'Feil i utgifter',
