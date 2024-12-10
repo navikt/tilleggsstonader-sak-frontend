@@ -7,7 +7,7 @@ import { HStack, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 const LesMerTekst = styled(ReadMore)`
-    max-width: 30rem;
+    max-width: 28rem;
 `;
 
 export const JaNeiVurdering: React.FC<{
@@ -16,7 +16,8 @@ export const JaNeiVurdering: React.FC<{
     oppdaterSvar: (svar: SvarJaNei) => void;
     svarJa?: string;
     svarNei?: string;
-    hjelpetekst?: string;
+    hjelpetekst?: React.ReactNode;
+    hjelpetekstHeader?: React.ReactNode;
     readOnly?: boolean;
 }> = ({
     svar,
@@ -25,6 +26,7 @@ export const JaNeiVurdering: React.FC<{
     svarJa = svarJaNeiMapping[SvarJaNei.JA],
     svarNei = svarJaNeiMapping[SvarJaNei.NEI],
     hjelpetekst,
+    hjelpetekstHeader,
     readOnly = false,
 }) => {
     return (
@@ -36,7 +38,10 @@ export const JaNeiVurdering: React.FC<{
             size="small"
         >
             {hjelpetekst && (
-                <LesMerTekst header={'Slik gjør du vurderingen'} size={'small'}>
+                <LesMerTekst
+                    header={hjelpetekstHeader ?? 'Slik gjør du vurderingen'}
+                    size={'small'}
+                >
                     {hjelpetekst}
                 </LesMerTekst>
             )}
