@@ -8,9 +8,15 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
-import { TypeVedtak, ÅrsakAvslag, årsakAvslagTilTekst } from '../../../../typer/vedtak/vedtak';
+import {
+    TypeVedtak,
+    ÅrsakAvslag,
+    årsakAvslagTilTekst,
+    årsakerForStønad,
+} from '../../../../typer/vedtak/vedtak';
 import {
     AvslagLæremidler,
     AvslåLæremidlerRequest,
@@ -58,7 +64,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagLæremidler }> = ({ vedtak }) => {
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {Object.keys(ÅrsakAvslag).map((årsak) => (
+                {årsakerForStønad[Stønadstype.LÆREMIDLER].map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
                         {årsakAvslagTilTekst[årsak as ÅrsakAvslag]}
                     </Checkbox>
