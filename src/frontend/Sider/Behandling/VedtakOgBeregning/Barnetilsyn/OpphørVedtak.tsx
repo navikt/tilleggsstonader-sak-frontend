@@ -11,13 +11,10 @@ import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { TypeVedtak, ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
-import {
-    OpphørBarnetilsyn,
-    OpphørBarnetilsynRequest,
-} from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { OpphørBarnetilsynRequest } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
 
-const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) => {
+const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsynRequest }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();

@@ -2,7 +2,10 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { erVedtakInnvilgelse, VedtakBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import {
+    erVedtakInnvilgelseEllerOpphør,
+    VedtakBarnetilsyn,
+} from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { målgruppeTypeTilTekst } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
@@ -12,7 +15,7 @@ type Props = {
 };
 
 const VedtakshistorikkTilsynBarnTabellVisning: React.FC<Props> = ({ vedtakBarnetilsyn }) => {
-    if (!erVedtakInnvilgelse(vedtakBarnetilsyn)) return 'Ingen vedtakshistorikk';
+    if (!erVedtakInnvilgelseEllerOpphør(vedtakBarnetilsyn)) return 'Ingen vedtakshistorikk';
     if (vedtakBarnetilsyn?.beregningsresultat?.vedtaksperioder === undefined) {
         return 'Ingen vedtakshistorikk';
     }

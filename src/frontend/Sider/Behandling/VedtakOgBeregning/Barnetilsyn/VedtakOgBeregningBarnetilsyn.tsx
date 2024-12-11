@@ -15,7 +15,7 @@ import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagBarnetilsyn,
     InnvilgelseBarnetilsyn,
-    OpphørBarnetilsyn,
+    OpphørBarnetilsynRequest,
     VedtakBarnetilsyn,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
@@ -53,7 +53,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                     <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
+                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsynRequest} />
                                 )}
                             </HGrid>
                         </Panel>
