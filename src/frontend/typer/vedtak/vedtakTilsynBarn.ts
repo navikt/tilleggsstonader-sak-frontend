@@ -32,10 +32,7 @@ export type OpphørBarnetilsynRequest = {
 
 export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
-export type OpphørBarnetilsyn = {
-    type: TypeVedtak.OPPHØR;
-    årsakerOpphør: ÅrsakOpphør[];
-    begrunnelse: string;
+export type OpphørBarnetilsyn = OpphørBarnetilsynRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;
 };
 
