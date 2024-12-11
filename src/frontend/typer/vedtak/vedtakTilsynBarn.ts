@@ -7,10 +7,7 @@ export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | Opp
 export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
     vedtak.type === TypeVedtak.INNVILGELSE;
 
-export const erVedtakInnvilgelseEllerOpphør = (
-    vedtak: VedtakBarnetilsyn
-): vedtak is InnvilgelseBarnetilsyn | OpphørBarnetilsyn =>
-    vedtak.type === TypeVedtak.INNVILGELSE || vedtak.type === TypeVedtak.OPPHØR;
+export const vedtakErAvslag = (vedtak: VedtakBarnetilsyn) => vedtak.type === TypeVedtak.AVSLAG;
 
 export type InnvilgeBarnetilsynRequest = {
     type: TypeVedtak.INNVILGELSE;
