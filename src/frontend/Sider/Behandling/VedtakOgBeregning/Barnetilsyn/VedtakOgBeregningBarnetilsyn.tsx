@@ -15,7 +15,7 @@ import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagBarnetilsyn,
     InnvilgelseBarnetilsyn,
-    OpphørBarnetilsynRequest,
+    OpphørBarnetilsyn,
     VedtakBarnetilsyn,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
