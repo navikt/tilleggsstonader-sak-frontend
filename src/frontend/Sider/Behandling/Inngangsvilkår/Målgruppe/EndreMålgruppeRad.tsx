@@ -25,9 +25,8 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
     Målgruppe,
+    målgrupperForStønad,
     MålgruppeType,
-    målgruppeTypeOptions,
-    målgruppeTypeOptionsForLæremidler,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -147,6 +146,17 @@ const EndreMålgruppeRad: React.FC<{
         nyRadLeggesTil: !målgruppe,
     });
 
+    const målgruppeSwitch = (stønadstype: Stønadstype) => {
+        switch (stønadstype) {
+            case Stønadstype.BARNETILSYN: {
+                return målgrupperForStønad[Stønadstype.BARNETILSYN];
+            }
+            case Stønadstype.LÆREMIDLER: {
+                return målgrupperForStønad[Stønadstype.LÆREMIDLER];
+            }
+        }
+    };
+
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
             <FeltContainer>
@@ -154,11 +164,7 @@ const EndreMålgruppeRad: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={
-                        behandling.stønadstype === Stønadstype.LÆREMIDLER
-                            ? målgruppeTypeOptionsForLæremidler
-                            : målgruppeTypeOptions
-                    }
+                    typeOptions={målgruppeSwitch(behandling.stønadstype)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}

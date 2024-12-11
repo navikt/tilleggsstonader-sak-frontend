@@ -1,5 +1,6 @@
 import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
 export interface Målgruppe extends VilkårPeriode {
     id: string;
@@ -27,6 +28,39 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
 };
 
+const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
+    [Stønadstype.BARNETILSYN]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        SYKEPENGER_100_PROSENT: true,
+        INGEN_MÅLGRUPPE: true,
+    },
+    [Stønadstype.LÆREMIDLER]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        SYKEPENGER_100_PROSENT: false,
+        INGEN_MÅLGRUPPE: true,
+    },
+};
+
+export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(
+    målgrupper
+).reduce(
+    (prev, [stønadstype, årsaker]) => {
+        prev[stønadstype as Stønadstype] = Object.entries(årsaker)
+            .filter(([, skalMed]) => skalMed)
+            .map(([målgruppe]) => målgruppe) as MålgruppeType[];
+        return prev;
+    },
+    {} as Record<Stønadstype, MålgruppeType[]>
+);
+
 export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
     if (type === '') return type;
 
@@ -44,10 +78,6 @@ export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.fil
     (option) =>
         option.value !== MålgruppeType.INGEN_MÅLGRUPPE &&
         option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
-);
-
-export const målgruppeTypeOptionsForLæremidler = målgruppeTypeOptions.filter(
-    (option) => option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
 );
 
 // TODO: Endre navn på enum
