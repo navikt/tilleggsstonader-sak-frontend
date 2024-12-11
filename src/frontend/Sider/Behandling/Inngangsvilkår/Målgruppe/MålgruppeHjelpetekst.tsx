@@ -57,7 +57,7 @@ const LæremidlerHjelpetekst = () => (
             A-3 er oppfylt.
         </BodyLong>
         <BodyLong size={'small'}>
-            Hvis søker mottar <strong>sykepenger</strong> , men ikke har AAP eller uføretrygd, skal
+            Hvis søker mottar <strong>sykepenger</strong>, men ikke har AAP eller uføretrygd, skal
             du sjekke om søker har nedsatt arbeidsevne etter §11 A-3.
         </BodyLong>
     </ReadMore>
