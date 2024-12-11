@@ -53,7 +53,7 @@ const LæremidlerHjelpetekst = () => (
         </BodyLong>
         <BodyLong size={'small'} spacing>
             Dersom søker oppgir <strong>nedsatt arbeidsevne</strong>, men ikke mottar AAP eller
-            uføretrygd, må du be Nav- kontoret vurdere om vilkårene for nedsatt arbeidsevne i § 11
+            uføretrygd, må du be Nav-kontoret vurdere om vilkårene for nedsatt arbeidsevne i § 11
             A-3 er oppfylt.
         </BodyLong>
         <BodyLong size={'small'}>
