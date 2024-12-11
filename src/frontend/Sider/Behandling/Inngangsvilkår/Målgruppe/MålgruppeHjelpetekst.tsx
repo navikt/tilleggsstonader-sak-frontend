@@ -45,7 +45,7 @@ const LæremidlerHjelpetekst = () => (
             Dersom søker oppgir å ha <strong>omstillingsstønad</strong>, men ikke mottar stønaden,
             må du be Nav Familie- og Pensjonsytelser vurdere om søker har rett til
             omstillingsstønad. Dersom søker har rett, settes målgruppe omstillingsstønad til
-            oppfylt. Dersom søker ikke har eller har rett til omstillingsstønad, må du kontrollere
+            oppfylt. Dersom søker ikke mottar eller har rett til omstillingsstønad, må du kontrollere
             om det utbetales gjenlevendepensjon. Dersom søker har gjenlevendepensjon, settes
             målgruppe omstillingsstønad til oppfylt. Dersom søker heller ikke har
             gjenlevendepensjon, må du be Nav Familie- og Pensjonsytelser vurdere om inngangsvilkår
