@@ -13,13 +13,13 @@ export function RevurderingTag({ behandling }: { behandling: Behandling }) {
     }
 
     return (
-        <Tag
-            size="small"
-            variant="warning"
-            icon={<ArrowsSquarepathIcon />}
-            style={{ maxWidth: 'fit-content' }}
-        >
-            Revurdering - {formaterEnumVerdi(behandling.behandlingsårsak)}
-        </Tag>
+        <div style={{ display: 'flex', gap: '4px' }}>
+            <Tag size="small" variant="neutral">
+                {formaterEnumVerdi(behandling.stønadstype)}
+            </Tag>
+            <Tag size="small" variant="warning" icon={<ArrowsSquarepathIcon />}>
+                Revurdering - {formaterEnumVerdi(behandling.behandlingsårsak)}
+            </Tag>
+        </div>
     );
 }
