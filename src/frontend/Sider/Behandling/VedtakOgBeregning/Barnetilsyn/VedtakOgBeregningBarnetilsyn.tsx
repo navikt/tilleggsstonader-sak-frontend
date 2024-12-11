@@ -53,7 +53,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                     <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsynRequest} />
+                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
                                 )}
                             </HGrid>
                         </Panel>
