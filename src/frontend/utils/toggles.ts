@@ -5,7 +5,6 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_LÆREMIDLER = 'sak.frontend.kan-saksbehandle.laremidler',
     KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
 
-    FORESLÅ_STØNADSPERIODER = 'sak.foresla-stonadsperioder',
     VISE_VEDTAKSHISTORIKK = 'sak.vise-vedtakshistorikk',
 
     /**

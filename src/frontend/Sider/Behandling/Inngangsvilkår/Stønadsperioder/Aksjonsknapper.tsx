@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, HStack } from '@navikt/ds-react';
 
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
-import { Toggle } from '../../../../utils/toggles';
 
 const Aksjonsknapper: React.FC<{
     redigerer: boolean;
@@ -27,8 +24,6 @@ const Aksjonsknapper: React.FC<{
     foreslåPerioder,
     resetForeslåPeriodeFeilmelding,
 }) => {
-    const foreslåKnappIsEnabled = useFlag(Toggle.FORESLÅ_STØNADSPERIODER);
-
     if (redigerer) {
         return (
             <HStack gap="2" align="center">
@@ -74,17 +69,15 @@ const Aksjonsknapper: React.FC<{
                 >
                     Legg til periode
                 </SmallButton>
-                {foreslåKnappIsEnabled && (
-                    <SmallButton
-                        variant={'secondary'}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            foreslåPerioder();
-                        }}
-                    >
-                        Foreslå perioder
-                    </SmallButton>
-                )}
+                <SmallButton
+                    variant={'secondary'}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        foreslåPerioder();
+                    }}
+                >
+                    Foreslå perioder
+                </SmallButton>
             </HStack>
         );
     } else {
