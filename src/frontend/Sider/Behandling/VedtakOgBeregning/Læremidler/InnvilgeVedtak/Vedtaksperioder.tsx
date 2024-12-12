@@ -11,7 +11,8 @@ import {
     useUlagredeKomponenter,
 } from '../../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
-import { Periode } from '../../../../../utils/periode';
+import { PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 
 const Grid = styled.div`
     display: grid;
@@ -24,8 +25,8 @@ const Grid = styled.div`
 `;
 
 interface Props {
-    vedtaksperioder: Periode[];
-    settVedtaksperioder: React.Dispatch<React.SetStateAction<Periode[]>>;
+    vedtaksperioder: PeriodeMedEndretKey[];
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<PeriodeMedEndretKey[]>>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksperioder }) => {
@@ -47,7 +48,7 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
     };
 
     const leggTilPeriode = () => {
-        settVedtaksperioder([...vedtaksperioder, { fom: '', tom: '' }]);
+        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
@@ -77,8 +78,7 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
-                        // key={vedtaksperiode.endretKey}>
-                        <React.Fragment key={indeks}>
+                        <React.Fragment key={vedtaksperiode.endretKey}>
                             <DateInputMedLeservisning
                                 label="Fra"
                                 hideLabel

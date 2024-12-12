@@ -20,7 +20,7 @@ import {
     InnvilgelseLæremidler,
     InnvilgelseLæremidlerRequest,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode } from '../../../../../utils/periode';
+import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
@@ -34,7 +34,7 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<Periode[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<PeriodeMedEndretKey[]>(
         initialiserVedtaksperioder(lagretVedtak)
     );
 
