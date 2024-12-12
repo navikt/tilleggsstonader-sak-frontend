@@ -5,12 +5,10 @@ import { Tag } from '@navikt/ds-react';
 import { Behandling } from '../../../../typer/behandling/behandling';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
 
-export function StonadstypeTag({ behandling }: { behandling: Behandling }) {
+export function StønadstypeTag({ behandling }: { behandling: Behandling }) {
     return (
-        <div>
-            <Tag size="small" variant="neutral">
-                {formaterEnumVerdi(behandling.stønadstype)}
-            </Tag>
-        </div>
+        <Tag size="small" variant="neutral">
+            {formaterEnumVerdi(behandling.stønadstype)}
+        </Tag>
     );
 }

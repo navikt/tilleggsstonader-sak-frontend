@@ -5,7 +5,7 @@ import { HStack, VStack } from '@navikt/ds-react';
 import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
-import { StonadstypeTag } from './StønadstypeTag';
+import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
@@ -14,7 +14,7 @@ const OppsummeringSøknad: React.FC = () => {
     return (
         <VStack gap="8">
             <HStack gap="4">
-                <StonadstypeTag behandling={behandling} />
+                <StønadstypeTag behandling={behandling} />
                 <RevurderingTag behandling={behandling} />
             </HStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
