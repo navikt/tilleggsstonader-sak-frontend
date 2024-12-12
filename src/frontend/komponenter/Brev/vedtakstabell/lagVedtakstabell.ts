@@ -2,6 +2,7 @@ import { lagVedtakstabellTilsynBarn } from './lagVedtakstabellTilsynBarn';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 export type LagVedtakstabell = Record<string, string>;
 
@@ -24,7 +25,9 @@ export const lagVedtakstabell = (
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return lagVedtakstabellTilsynBarn(vedtak.beregningsresultat);
+            return lagVedtakstabellTilsynBarn(
+                vedtak.beregningsresultat as BeregningsresultatTilsynBarn
+            );
         default:
             return TOM_VEDTAKSTABELL;
     }

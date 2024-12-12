@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import Beregningsresultat from './Beregningsresultat';
+import { Beregningsresultat } from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -13,23 +13,41 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
-import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { byggTomRessurs, byggHenterRessurs } from '../../../../../typer/ressurs';
+import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
+import {
+    BeregningsresultatLæremidler,
+    InnvilgelseLæremidler,
+    InnvilgelseLæremidlerRequest,
+} from '../../../../../typer/vedtak/vedtakLæremidler';
 import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
+import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 
-export const InnvilgeLæremidler: React.FC = () => {
+export const InnvilgeLæremidler: React.FC<{
+    lagretVedtak: InnvilgelseLæremidler | undefined;
+}> = ({ lagretVedtak }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<Periode[]>([]);
+    const [vedtaksperioder, settVedtaksperioder] = useState<Periode[]>(
+        initialiserVedtaksperioder(lagretVedtak)
+    );
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
+
+    const lagreVedtak = () => {
+        return request<null, InnvilgelseLæremidlerRequest>(
+            `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
+            'POST',
+            { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperioder }
+        );
+    };
 
     const beregnLæremidler = () => {
         settBeregningsresultat(byggHenterRessurs());
@@ -65,12 +83,15 @@ export const InnvilgeLæremidler: React.FC = () => {
                             )}
                         </DataViewer>
                     )}
+                    {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
+                        <Beregningsresultat beregningsresultat={lagretVedtak.beregningsresultat} />
+                    )}
                 </VStack>
             </Panel>
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.SIMULERING}
-                // onNesteSteg={lagreVedtak}
+                onNesteSteg={lagreVedtak}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>

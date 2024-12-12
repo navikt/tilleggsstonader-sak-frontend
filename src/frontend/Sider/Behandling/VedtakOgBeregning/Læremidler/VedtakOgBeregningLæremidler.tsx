@@ -10,7 +10,11 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
-import { AvslagLæremidler, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
+import {
+    AvslagLæremidler,
+    InnvilgelseLæremidler,
+    VedtakLæremidler,
+} from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
 
@@ -54,7 +58,9 @@ const VedtakOgBeregningLæremidler: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE && <InnvilgeLæremidler />}
+                    {typeVedtak === TypeVedtak.INNVILGELSE && (
+                        <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                    )}
                 </Container>
             )}
         </DataViewer>
