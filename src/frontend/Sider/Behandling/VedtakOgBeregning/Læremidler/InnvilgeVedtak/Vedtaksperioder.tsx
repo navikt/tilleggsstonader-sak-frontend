@@ -1,0 +1,135 @@
+import React from 'react';
+
+import styled from 'styled-components';
+
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
+
+import { useSteg } from '../../../../../context/StegContext';
+import {
+    UlagretKomponent,
+    useUlagredeKomponenter,
+} from '../../../../../hooks/useUlagredeKomponenter';
+import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
+import { Periode } from '../../../../../utils/periode';
+
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    grid-gap: 0.5rem 1rem;
+    align-items: center;
+    > :nth-child(3n) {
+        grid-column: 1;
+    }
+`;
+
+interface Props {
+    vedtaksperioder: Periode[];
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<Periode[]>>;
+}
+
+export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksperioder }) => {
+    const { erStegRedigerbart } = useSteg();
+    const { settUlagretKomponent } = useUlagredeKomponenter();
+
+    const oppdaterPeriodeFelt = (
+        indeks: number,
+        property: 'fom' | 'tom',
+        value: string | number | undefined
+    ) => {
+        settVedtaksperioder((prevState) => {
+            const oppdatertPeriode = { ...prevState[indeks], [property]: value };
+
+            return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
+        });
+
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+    };
+
+    const leggTilPeriode = () => {
+        settVedtaksperioder([...vedtaksperioder, { fom: '', tom: '' }]);
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+    };
+
+    const slettPeriode = (indeks: number) => {
+        const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
+        settVedtaksperioder(oppdatertePerioder);
+        // settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
+        //     const utgiftsperioder = (
+        //         (prevState.utgifter && prevState.utgifter[barnId]) ??
+        //         []
+        //     ).splice(utgiftIndex, 1);
+        //     return { ...prevState, utgiftsperioder };
+        // });
+        settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+    };
+
+    return (
+        <VStack gap="4">
+            <div>
+                <Heading spacing size="xsmall" level="5">
+                    Vedtaksperiode
+                </Heading>
+                <VedtaksperiodeReadMore />
+            </div>
+            {vedtaksperioder && vedtaksperioder.length > 0 && (
+                <Grid>
+                    <Label size="small">Fra og med</Label>
+                    <Label size="small">Til og med</Label>
+                    {vedtaksperioder.map((vedtaksperiode, indeks) => (
+                        // key={vedtaksperiode.endretKey}>
+                        <React.Fragment key={indeks}>
+                            <DateInputMedLeservisning
+                                label="Fra"
+                                hideLabel
+                                erLesevisning={!erStegRedigerbart}
+                                value={vedtaksperiode.fom}
+                                onChange={(dato?: string) =>
+                                    oppdaterPeriodeFelt(indeks, 'fom', dato)
+                                }
+                                // feil={errorState && errorState[indeks]?.fom}
+                                size="small"
+                            />
+                            <DateInputMedLeservisning
+                                label="Til"
+                                hideLabel
+                                erLesevisning={!erStegRedigerbart}
+                                value={vedtaksperiode.tom}
+                                onChange={(dato?: string) =>
+                                    oppdaterPeriodeFelt(indeks, 'tom', dato)
+                                }
+                                // feil={errorState && errorState[indeks]?.tom}
+                                size="small"
+                            />
+                            {erStegRedigerbart && (
+                                <Button
+                                    variant="tertiary"
+                                    onClick={() => slettPeriode(indeks)}
+                                    icon={<TrashIcon />}
+                                    size="xsmall"
+                                />
+                            )}
+                        </React.Fragment>
+                    ))}
+                </Grid>
+            )}
+            {erStegRedigerbart && (
+                <Button
+                    size="small"
+                    onClick={leggTilPeriode}
+                    style={{ maxWidth: 'fit-content' }}
+                    variant="secondary"
+                    icon={<PlusCircleIcon />}
+                >
+                    Legg til vedtaksperiode
+                </Button>
+            )}
+        </VStack>
+    );
+};
+
+const VedtaksperiodeReadMore = () => (
+    <ReadMore header="Slik setter du vedtaksperioden" size="small">
+        Fyll ut...
+    </ReadMore>
+);
