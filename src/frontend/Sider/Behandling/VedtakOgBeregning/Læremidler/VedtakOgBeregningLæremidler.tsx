@@ -12,6 +12,7 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import { AvslagLæremidler, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -53,10 +54,7 @@ const VedtakOgBeregningLæremidler: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE && (
-                        <span>Har ikke støtte for innvilgelse ennå</span>
-                        /*<InnvilgeBarnetilsyn lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />*/
-                    )}
+                    {typeVedtak === TypeVedtak.INNVILGELSE && <InnvilgeLæremidler />}
                 </Container>
             )}
         </DataViewer>
