@@ -4,26 +4,22 @@ import { Detail, VStack } from '@navikt/ds-react';
 
 import { HendelseMetadata } from './typer';
 import { erSettPåVentMetadata, erTattAvVentMetadata, erVedtakUnderkjentMetadata } from './utils';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { årsakTilTekst } from '../../SettPåVent/typer';
 import { årsakUnderkjentTilTekst } from '../../Totrinnskontroll/typer';
 
 const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
-    const { behandlingErRedigerbar } = useBehandling();
-
     if (erSettPåVentMetadata(metadata)) {
         const venterPå = metadata.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ');
 
         return (
             <>
                 <Detail>{venterPå}</Detail>
-                {behandlingErRedigerbar && (
-                    <Detail>
-                        <i>{metadata.kommentarSettPåVent}</i>
-                    </Detail>
-                )}
+                {metadata.kommentarSettPåVent && <Detail>{metadata.kommentarSettPåVent}</Detail>}
             </>
         );
+    }
+    if (erTattAvVentMetadata(metadata)) {
+        return metadata.kommentar && <Detail>{metadata.kommentar}</Detail>;
     }
 
     if (erVedtakUnderkjentMetadata(metadata)) {
@@ -37,10 +33,6 @@ const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
                 <Detail>Kommentar: {metadata.begrunnelse}</Detail>
             </VStack>
         );
-    }
-
-    if (erTattAvVentMetadata(metadata)) {
-        return <Detail>{metadata.kommentar}</Detail>;
     }
 
     return null;
