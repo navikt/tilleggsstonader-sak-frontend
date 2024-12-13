@@ -62,11 +62,12 @@ const VedtakOgBeregningLæremidler: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE && kanInnvilgeLæremidler ? (
-                        <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
-                    ) : (
-                        <Alert variant="error">Støtte for innvilgelse er ikke laget enda</Alert>
-                    )}
+                    {typeVedtak === TypeVedtak.INNVILGELSE &&
+                        (kanInnvilgeLæremidler ? (
+                            <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                        ) : (
+                            <Alert variant="error">Støtte for innvilgelse er ikke laget enda</Alert>
+                        ))}
                 </Container>
             )}
         </DataViewer>
