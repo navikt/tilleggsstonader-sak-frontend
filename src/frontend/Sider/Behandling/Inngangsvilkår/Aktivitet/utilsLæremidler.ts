@@ -81,21 +81,20 @@ export const resettAktivitet = (
 ): EndreAktivitetFormLæremidler => {
     const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
-    const erUtdanningEllerTiltak =
-        nyType === AktivitetType.TILTAK || nyType === AktivitetType.UTDANNING;
+    const utdanningEllerTiltak = erUtdanningEllerTiltak(nyType);
 
     return {
         ...eksisterendeAktivitetForm,
         type: nyType,
         fom: fom,
         tom: tom,
-        studienivå: erUtdanningEllerTiltak ? eksisterendeAktivitetForm.studienivå : undefined,
-        prosent: erUtdanningEllerTiltak ? eksisterendeAktivitetForm.prosent : undefined,
+        studienivå: utdanningEllerTiltak ? eksisterendeAktivitetForm.studienivå : undefined,
+        prosent: utdanningEllerTiltak ? eksisterendeAktivitetForm.prosent : undefined,
         vurderinger: {
             svarHarUtgifter: skalVurdereHarUtgifter(nyType)
                 ? eksisterendeAktivitetForm.vurderinger.svarHarUtgifter
                 : undefined,
-            svarHarRettTilUtstyrsstipend: erUtdanningEllerTiltak
+            svarHarRettTilUtstyrsstipend: utdanningEllerTiltak
                 ? eksisterendeAktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend
                 : undefined,
         },

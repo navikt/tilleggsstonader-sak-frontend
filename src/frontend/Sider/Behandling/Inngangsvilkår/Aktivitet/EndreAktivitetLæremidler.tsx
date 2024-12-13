@@ -8,6 +8,7 @@ import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkår
 import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
+    erUtdanningEllerTiltak,
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
     mapFaktaOgSvarTilRequest,
@@ -28,7 +29,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
     AktivitetTypeLæremidler,
@@ -166,9 +167,6 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
-    const erUtdanningEllerTiltak =
-        form.type === AktivitetType.TILTAK || form.type === AktivitetType.UTDANNING;
-
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
@@ -181,7 +179,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                 />
-                {erUtdanningEllerTiltak && (
+                {erUtdanningEllerTiltak(form.type) && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
@@ -202,16 +200,14 @@ export const EndreAktivitetLæremidler: React.FC<{
                 )}
             </FeltContainer>
 
-            {erUtdanningEllerTiltak && (
-                <EndreStudienivå
-                    form={form}
-                    settStudienivå={(studienivå: Studienivå) =>
-                        settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
-                    }
-                    alleFelterKanEndres={alleFelterKanEndres}
-                    feil={vilkårsperiodeFeil}
-                />
-            )}
+            <EndreStudienivå
+                form={form}
+                settStudienivå={(studienivå: Studienivå) =>
+                    settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
+                }
+                alleFelterKanEndres={alleFelterKanEndres}
+                feil={vilkårsperiodeFeil}
+            />
 
             <AktivitetDelvilkårLæremidler
                 aktivitetForm={form}
