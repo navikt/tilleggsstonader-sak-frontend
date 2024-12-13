@@ -8,6 +8,7 @@ import '@navikt/ds-css';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoPeriode, formaterÅrMåned } from '../../../../../utils/dato';
+import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -38,8 +39,8 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                         {formaterIsoPeriode(periode.fom, periode.tom)}
                     </BodyShort>
                     <BodyShort size="small">{periode.antallMåneder}</BodyShort>
-                    <BodyShort size="small">{periode.studienivå}</BodyShort>
-                    <BodyShort size="small">{periode.studieprosent}</BodyShort>
+                    <BodyShort size="small">{studienivåTilTekst[periode.studienivå]}</BodyShort>
+                    <BodyShort size="small">{periode.studieprosent}%</BodyShort>
                     <BodyShort size="small">{periode.sats}</BodyShort>
                     <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
                     <BodyShort size="small">{formaterÅrMåned(periode.utbetalingsmåned)}</BodyShort>
