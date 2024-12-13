@@ -10,7 +10,7 @@ import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from '../EndreAktivitetLæremidler';
-import { skalVurdereHarUtgifter } from '../utilsLæremidler';
+import { erUtdanningEllerTiltak, skalVurdereHarUtgifter } from '../utilsLæremidler';
 
 const Container = styled.div`
     display: flex;
@@ -43,7 +43,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
-    if (aktivitetForm.type === '') return null;
+    if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     return (
         <Container>

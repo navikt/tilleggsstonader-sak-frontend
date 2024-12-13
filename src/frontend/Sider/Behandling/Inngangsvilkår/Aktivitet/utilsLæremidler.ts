@@ -69,6 +69,9 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
 const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
     `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
 
+export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
+    type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
+
 export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
 export const resettAktivitet = (
@@ -78,15 +81,22 @@ export const resettAktivitet = (
 ): EndreAktivitetFormLæremidler => {
     const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
+    const utdanningEllerTiltak = erUtdanningEllerTiltak(nyType);
+
     return {
         ...eksisterendeAktivitetForm,
         type: nyType,
         fom: fom,
         tom: tom,
-        prosent: undefined, //todo: finn ut om den skal resettes
+        studienivå: utdanningEllerTiltak ? eksisterendeAktivitetForm.studienivå : undefined,
+        prosent: utdanningEllerTiltak ? eksisterendeAktivitetForm.prosent : undefined,
         vurderinger: {
-            svarHarUtgifter: undefined,
-            svarHarRettTilUtstyrsstipend: undefined,
+            svarHarUtgifter: skalVurdereHarUtgifter(nyType)
+                ? eksisterendeAktivitetForm.vurderinger.svarHarUtgifter
+                : undefined,
+            svarHarRettTilUtstyrsstipend: utdanningEllerTiltak
+                ? eksisterendeAktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend
+                : undefined,
         },
     };
 };
