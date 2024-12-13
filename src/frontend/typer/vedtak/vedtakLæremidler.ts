@@ -25,7 +25,7 @@ interface BeregningsresultatForPeriode {
     antallMåneder: number;
     studienivå: Studienivå;
     studieprosent: number;
-    sats: number;
+    beløp: number;
     stønadsbeløp: number;
     utbetalingsmåned: string;
 }

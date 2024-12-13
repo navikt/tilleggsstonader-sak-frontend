@@ -41,8 +41,8 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                     <BodyShort size="small">{studienivåTilTekst[periode.studienivå]}</BodyShort>
                     <BodyShort size="small">{periode.studieprosent}%</BodyShort>
-                    <BodyShort size="small">{periode.sats}</BodyShort>
-                    <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
+                    <BodyShort size="small">{periode.beløp} kr</BodyShort>
+                    <BodyShort size="small">{periode.stønadsbeløp} kr</BodyShort>
                     <BodyShort size="small">{formaterÅrMåned(periode.utbetalingsmåned)}</BodyShort>
                 </React.Fragment>
             ))}
