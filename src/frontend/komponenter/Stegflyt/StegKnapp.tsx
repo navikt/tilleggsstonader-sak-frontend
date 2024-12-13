@@ -4,6 +4,7 @@ import { Button, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
+import { useSteg } from '../../context/StegContext';
 import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { FanePath } from '../../Sider/Behandling/faner';
 import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
@@ -26,7 +27,8 @@ export const StegKnapp: FC<{
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { request, harUlagradeKomponenter } = useApp();
 
-    const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
+    const { behandling, hentBehandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
     const [feilmelding, settFeilmelding] = useState<string>();
 
     useEffect(() => {
@@ -74,7 +76,7 @@ export const StegKnapp: FC<{
         });
     };
 
-    if (!behandlingErRedigerbar) {
+    if (!erStegRedigerbart) {
         return null;
     }
 
