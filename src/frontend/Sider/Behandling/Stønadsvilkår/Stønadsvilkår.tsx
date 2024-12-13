@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
 
-import OppsummeringStønadsperioder from './OppsummeringStønadsperioder';
+import { OppsummeringStønadsperioder } from './OppsummeringStønadsperioder';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useApp } from '../../../context/AppContext';

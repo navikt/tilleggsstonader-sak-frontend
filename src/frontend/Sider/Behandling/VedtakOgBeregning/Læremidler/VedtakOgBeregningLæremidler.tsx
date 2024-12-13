@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
-import { HGrid } from '@navikt/ds-react';
+import { Alert, HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
@@ -10,8 +11,14 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
-import { AvslagLæremidler, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
+import {
+    AvslagLæremidler,
+    InnvilgelseLæremidler,
+    VedtakLæremidler,
+} from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
+import { Toggle } from '../../../../utils/toggles';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -30,6 +37,8 @@ const VedtakOgBeregningLæremidler: FC = () => {
             settTypeVedtak(vedtak.data.type);
         }
     }, [vedtak]);
+
+    const kanInnvilgeLæremidler = useFlag(Toggle.KAN_INNVILGE_LÆREMIDLER);
 
     return (
         <DataViewer response={{ vedtak }}>
@@ -53,10 +62,12 @@ const VedtakOgBeregningLæremidler: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE && (
-                        <span>Har ikke støtte for innvilgelse ennå</span>
-                        /*<InnvilgeBarnetilsyn lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />*/
-                    )}
+                    {typeVedtak === TypeVedtak.INNVILGELSE &&
+                        (kanInnvilgeLæremidler ? (
+                            <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                        ) : (
+                            <Alert variant="error">Støtte for innvilgelse er ikke laget enda</Alert>
+                        ))}
                 </Container>
             )}
         </DataViewer>

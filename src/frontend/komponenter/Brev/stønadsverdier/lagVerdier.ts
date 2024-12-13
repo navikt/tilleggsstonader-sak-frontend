@@ -3,6 +3,7 @@ import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 
@@ -19,7 +20,7 @@ export const lagVerdier = (
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return lagVerdierTilsynBarn(vedtak.beregningsresultat);
+            return lagVerdierTilsynBarn(vedtak.beregningsresultat as BeregningsresultatTilsynBarn);
         default:
             return TOMME_VERDIER;
     }
