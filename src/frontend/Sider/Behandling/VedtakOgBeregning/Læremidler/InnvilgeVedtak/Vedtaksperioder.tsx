@@ -5,11 +5,9 @@ import styled from 'styled-components';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
+import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
-import {
-    UlagretKomponent,
-    useUlagredeKomponenter,
-} from '../../../../../hooks/useUlagredeKomponenter';
+import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
@@ -31,7 +29,7 @@ interface Props {
 
 export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksperioder }) => {
     const { erStegRedigerbart } = useSteg();
-    const { settUlagretKomponent } = useUlagredeKomponenter();
+    const { settUlagretKomponent } = useApp();
 
     const oppdaterPeriodeFelt = (
         indeks: number,
