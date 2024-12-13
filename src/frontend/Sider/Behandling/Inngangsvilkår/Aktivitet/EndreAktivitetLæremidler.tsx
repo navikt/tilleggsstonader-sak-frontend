@@ -166,6 +166,9 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
+    const erUtdanningEllerTiltak =
+        form.type === AktivitetType.TILTAK || form.type === AktivitetType.UTDANNING;
+
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
@@ -178,7 +181,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                 />
-                {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                {erUtdanningEllerTiltak && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
                         <TextField
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
@@ -199,7 +202,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 )}
             </FeltContainer>
 
-            {form.type !== AktivitetType.INGEN_AKTIVITET && (
+            {erUtdanningEllerTiltak && (
                 <EndreStudienivå
                     form={form}
                     settStudienivå={(studienivå: Studienivå) =>
