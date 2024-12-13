@@ -9,11 +9,11 @@ export const initialiserVedtaksperioder = (
     const perioderMedEndretKey =
         vedtak?.vedtaksperioder && tilPeriodeMedEndretKey(vedtak?.vedtaksperioder);
 
-    return perioderMedEndretKey ?? [tomVedtaksperiode];
+    return perioderMedEndretKey ?? [tomVedtaksperiode()];
 };
 
-export const tomVedtaksperiode: PeriodeMedEndretKey = {
+export const tomVedtaksperiode = (): PeriodeMedEndretKey => ({
     fom: '',
     tom: '',
     endretKey: uuidv4(),
-};
+});

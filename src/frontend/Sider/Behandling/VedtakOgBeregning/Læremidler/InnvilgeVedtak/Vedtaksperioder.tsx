@@ -46,7 +46,7 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
     };
 
     const leggTilPeriode = () => {
-        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode]);
+        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode()]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
