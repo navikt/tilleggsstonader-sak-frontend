@@ -61,25 +61,25 @@ export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Obj
     {} as Record<Stønadstype, MålgruppeType[]>
 );
 
+export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
+    if (type === '') return type;
+
+    return MålgruppeTypeTilTekst[type];
+};
+
 export const målgruppeTypeOptionsForStønadBarnestilsyn: SelectOption[] = Object.entries(
     målgrupperForStønad[Stønadstype.BARNETILSYN]
 ).map(([value, label]) => ({
     value: value,
-    label: label,
+    label: målgruppeTypeTilTekst(label),
 }));
 
 export const målgruppeTypeOptionsForStønadLæremidler: SelectOption[] = Object.entries(
     målgrupperForStønad[Stønadstype.LÆREMIDLER]
 ).map(([value, label]) => ({
     value: value,
-    label: label,
+    label: målgruppeTypeTilTekst(label),
 }));
-
-export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
-    if (type === '') return type;
-
-    return MålgruppeTypeTilTekst[type];
-};
 
 export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
     ([value, label]) => ({
