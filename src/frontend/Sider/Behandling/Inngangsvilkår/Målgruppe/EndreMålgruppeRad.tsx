@@ -19,14 +19,16 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
     Målgruppe,
-    målgrupperForStønad,
     MålgruppeType,
+    målgruppeTypeOptionsForStønadBarnestilsyn,
+    målgruppeTypeOptionsForStønadLæremidler,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -146,13 +148,13 @@ const EndreMålgruppeRad: React.FC<{
         nyRadLeggesTil: !målgruppe,
     });
 
-    const målgruppeSwitch = (stønadstype: Stønadstype) => {
+    const målgruppeSwitch = (stønadstype: Stønadstype): SelectOption[] => {
         switch (stønadstype) {
             case Stønadstype.BARNETILSYN: {
-                return målgrupperForStønad[Stønadstype.BARNETILSYN];
+                return målgruppeTypeOptionsForStønadBarnestilsyn;
             }
             case Stønadstype.LÆREMIDLER: {
-                return målgrupperForStønad[Stønadstype.LÆREMIDLER];
+                return målgruppeTypeOptionsForStønadLæremidler;
             }
         }
     };

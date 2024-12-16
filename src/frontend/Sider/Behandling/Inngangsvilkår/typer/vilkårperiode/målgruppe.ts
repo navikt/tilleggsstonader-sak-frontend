@@ -52,14 +52,28 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
 export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(
     målgrupper
 ).reduce(
-    (prev, [stønadstype, årsaker]) => {
-        prev[stønadstype as Stønadstype] = Object.entries(årsaker)
+    (prev, [stønadstype, målgruppe]) => {
+        prev[stønadstype as Stønadstype] = Object.entries(målgruppe)
             .filter(([, skalMed]) => skalMed)
             .map(([målgruppe]) => målgruppe) as MålgruppeType[];
         return prev;
     },
     {} as Record<Stønadstype, MålgruppeType[]>
 );
+
+export const målgruppeTypeOptionsForStønadBarnestilsyn: SelectOption[] = Object.entries(
+    målgrupperForStønad[Stønadstype.BARNETILSYN]
+).map(([value, label]) => ({
+    value: value,
+    label: label,
+}));
+
+export const målgruppeTypeOptionsForStønadLæremidler: SelectOption[] = Object.entries(
+    målgrupperForStønad[Stønadstype.LÆREMIDLER]
+).map(([value, label]) => ({
+    value: value,
+    label: label,
+}));
 
 export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
     if (type === '') return type;
