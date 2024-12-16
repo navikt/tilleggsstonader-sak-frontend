@@ -5,12 +5,17 @@ import styled from 'styled-components';
 import { BodyShort } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from '../EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak, skalVurdereHarUtgifter } from '../utilsLæremidler';
+import {
+    erUtdanningEllerTiltak,
+    skalVurdereHarUtgifter,
+    skalVurdereHarUtgifterforstudienivå,
+} from '../utilsLæremidler';
 
 const Container = styled.div`
     display: flex;
@@ -42,6 +47,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
+    studienivå: Studienivå | undefined;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
@@ -59,16 +65,18 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
                     hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
                 />
             )}
-            <JaNeiVurdering
-                label="Har bruker rett til utsstyrsstipend?"
-                readOnly={readOnly}
-                svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
-                oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                    oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
-                }
-                hjelpetekst={hjelpetekstUtstyrsstipend}
-                hjelpetekstHeader={'Slik vurderer du om søker har rett'}
-            />
+            {skalVurdereHarUtgifterforstudienivå(aktivitetForm.studienivå) && (
+                <JaNeiVurdering
+                    label="Har bruker rett til utsstyrsstipend?"
+                    readOnly={readOnly}
+                    svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
+                    }
+                    hjelpetekst={hjelpetekstUtstyrsstipend}
+                    hjelpetekstHeader={'Slik vurderer du om søker har rett'}
+                />
+            )}
         </Container>
     );
 };

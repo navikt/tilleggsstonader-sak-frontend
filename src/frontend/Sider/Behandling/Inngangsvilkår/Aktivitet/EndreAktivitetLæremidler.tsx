@@ -221,6 +221,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
+                studienivå={form.studienivå}
             />
 
             <Begrunnelse
