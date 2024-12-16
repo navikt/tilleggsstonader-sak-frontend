@@ -27,8 +27,7 @@ import { Periode } from '../../../../utils/periode';
 import {
     Målgruppe,
     MålgruppeType,
-    målgruppeTypeOptionsForStønadBarnestilsyn,
-    målgruppeTypeOptionsForStønadLæremidler,
+    målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -151,10 +150,10 @@ const EndreMålgruppeRad: React.FC<{
     const målgruppeSwitch = (stønadstype: Stønadstype): SelectOption[] => {
         switch (stønadstype) {
             case Stønadstype.BARNETILSYN: {
-                return målgruppeTypeOptionsForStønadBarnestilsyn;
+                return målgruppeTypeOptionsForStønad(stønadstype);
             }
             case Stønadstype.LÆREMIDLER: {
-                return målgruppeTypeOptionsForStønadLæremidler;
+                return målgruppeTypeOptionsForStønad(stønadstype);
             }
         }
     };

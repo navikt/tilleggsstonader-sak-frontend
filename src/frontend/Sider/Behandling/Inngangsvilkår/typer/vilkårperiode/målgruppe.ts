@@ -67,20 +67,12 @@ export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
     return MålgruppeTypeTilTekst[type];
 };
 
-export const målgruppeTypeOptionsForStønadBarnestilsyn: SelectOption[] = Object.entries(
-    målgrupperForStønad[Stønadstype.BARNETILSYN]
-).map(([value, label]) => ({
-    value: value,
-    label: målgruppeTypeTilTekst(label),
-}));
-
-export const målgruppeTypeOptionsForStønadLæremidler: SelectOption[] = Object.entries(
-    målgrupperForStønad[Stønadstype.LÆREMIDLER]
-).map(([value, label]) => ({
-    value: value,
-    label: målgruppeTypeTilTekst(label),
-}));
-
+export const målgruppeTypeOptionsForStønad = (stønadstype: Stønadstype): SelectOption[] => {
+    return Object.entries(målgrupperForStønad[stønadstype]).map(([value, label]) => ({
+        value: value,
+        label: målgruppeTypeTilTekst(label),
+    }));
+};
 export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
     ([value, label]) => ({
         value: value,
