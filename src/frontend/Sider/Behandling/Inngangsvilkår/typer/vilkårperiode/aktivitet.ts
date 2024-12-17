@@ -16,6 +16,7 @@ export enum AktivitetType {
     UTDANNING = 'UTDANNING',
     REELL_ARBEIDSSØKER = 'REELL_ARBEIDSSØKER',
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
+    INGEN_UTDANNING = 'INGEN_UTDANNING',
 }
 
 export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
@@ -23,6 +24,7 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
     UTDANNING: 'Utdanning',
     REELL_ARBEIDSSØKER: 'Reell arbeidssøker',
     INGEN_AKTIVITET: 'Ingen aktivitet',
+    INGEN_UTDANNING: 'Ingen utdanning/opplæringstiltak',
 };
 
 export type AktivitetFaktaOgVurderinger =

@@ -110,7 +110,7 @@ const resetPeriode = (
         return { fom: førsteDagIMånedTreMånederForut(søknadMottattTidspunkt), tom: dagensDato() };
     }
 
-    if (eksisterendeForm.type === AktivitetType.INGEN_AKTIVITET) {
+    if (eksisterendeForm.type === AktivitetType.INGEN_UTDANNING) {
         // Resetter datoer om de forrige var satt automatisk
         return { fom: '', tom: '' };
     }
@@ -134,6 +134,10 @@ export const finnBegrunnelseGrunnerAktivitet = (
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
+    }
+
+    if (type === AktivitetType.INGEN_UTDANNING) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_UTDANNING);
     }
 
     return delvilkårSomMåBegrunnes;

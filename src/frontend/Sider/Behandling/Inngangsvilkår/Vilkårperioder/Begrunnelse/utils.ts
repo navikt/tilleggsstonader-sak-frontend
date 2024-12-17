@@ -6,15 +6,14 @@ export enum BegrunnelseGrunner {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
 
-    // Aktivitet felles
-    INGEN_AKTIVITET = 'INGEN_AKTIVITET',
-
     // Barnetilsyn
     LØNNET = 'LØNNET',
+    INGEN_AKTIVITET = 'INGEN_AKTIVITET',
 
     // Læremidler
     HAR_UTGIFTER = 'HAR_UTGIFTER',
     HAR_RETT_TIL_UTSTYRSSTIPEND = 'HAR_RETT_TIL_UTSTYRSSTIPEND',
+    INGEN_UTDANNING = 'INGEN_UTDANNING',
 }
 
 export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
@@ -27,4 +26,5 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     HAR_UTGIFTER: 'Hvorfor bruker ikke har utgifter',
     HAR_RETT_TIL_UTSTYRSSTIPEND: 'Hvorfor bruker har rett til utstyrsstipend',
+    INGEN_UTDANNING: 'Ingen utdanning eller opplæringstiltak',
 };
