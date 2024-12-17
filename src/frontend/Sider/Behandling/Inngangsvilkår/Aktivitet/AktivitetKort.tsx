@@ -9,6 +9,7 @@ import { FaktaOgDelvilkårVisning } from './Delvilkår/FaktaOgDelvilkårVisning'
 import { useSteg } from '../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
@@ -26,8 +27,9 @@ const CelleContainer = styled.div`
 
 export const AktivitetKort: React.FC<{
     aktivitet: Aktivitet;
+    aktivitetFraRegister: Registeraktivitet | undefined;
     startRedigering: () => void;
-}> = ({ aktivitet, startRedigering }) => {
+}> = ({ aktivitet, aktivitetFraRegister, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
     const { helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
@@ -61,6 +63,12 @@ export const AktivitetKort: React.FC<{
                         {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
                     </Label>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
+                    {aktivitetFraRegister?.typeNavn && (
+                        <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
+                    )}
+                    {aktivitetFraRegister?.arrangør && (
+                        <BodyShort size="small">{aktivitetFraRegister?.arrangør}</BodyShort>
+                    )}
                 </Celle>
                 <Celle>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />

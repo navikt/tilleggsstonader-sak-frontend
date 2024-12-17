@@ -92,21 +92,31 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                 <FlexColumn>
                     <Label>Aktiviteter knyttet til behandling</Label>
 
-                    {aktiviteter.map((aktivitet) => (
-                        <React.Fragment key={aktivitet.id}>
-                            {aktivitet.id === radIRedigeringsmodus ? (
-                                <EndreAktivitet
-                                    aktivitet={aktivitet}
-                                    avbrytRedigering={fjernRadIRedigeringsmodus}
-                                />
-                            ) : (
-                                <AktivitetKort
-                                    aktivitet={aktivitet}
-                                    startRedigering={() => settNyRadIRedigeringsmodus(aktivitet.id)}
-                                />
-                            )}
-                        </React.Fragment>
-                    ))}
+                    {aktiviteter.map((aktivitet) => {
+                        const registeraktivitet = grunnlag?.aktivitet?.aktiviteter?.find(
+                            (registeraktivitet) => registeraktivitet.id === aktivitet.kildeId
+                        );
+
+                        return (
+                            <React.Fragment key={aktivitet.id}>
+                                {aktivitet.id === radIRedigeringsmodus ? (
+                                    <EndreAktivitet
+                                        aktivitet={aktivitet}
+                                        aktivitetFraRegister={registeraktivitet}
+                                        avbrytRedigering={fjernRadIRedigeringsmodus}
+                                    />
+                                ) : (
+                                    <AktivitetKort
+                                        aktivitet={aktivitet}
+                                        aktivitetFraRegister={registeraktivitet}
+                                        startRedigering={() =>
+                                            settNyRadIRedigeringsmodus(aktivitet.id)
+                                        }
+                                    />
+                                )}
+                            </React.Fragment>
+                        );
+                    })}
                     {radIRedigeringsmodus === 'nyPeriode' && (
                         <div ref={nyPeriodeRef}>
                             <EndreAktivitet
