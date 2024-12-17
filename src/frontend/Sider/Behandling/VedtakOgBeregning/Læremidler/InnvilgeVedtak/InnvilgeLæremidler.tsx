@@ -92,6 +92,7 @@ export const InnvilgeLæremidler: React.FC<{
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.SIMULERING}
                 onNesteSteg={lagreVedtak}
+                validerUlagedeKomponenter={false}
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
