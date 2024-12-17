@@ -6,7 +6,7 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { HarBrukerRettTilUtstyrsstipend } from './Delvilkår/HarBrukerRettTilUtstyrsstipend';
 import { HarBrukerUtgifterTilLæremidler } from './Delvilkår/HarBrukerUtgifterTilLæremidler';
-import { EndreStudienivå } from './EndreStudinivå';
+import { EndreStudienivå } from './EndreStudienivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     erUtdanningEllerTiltak,

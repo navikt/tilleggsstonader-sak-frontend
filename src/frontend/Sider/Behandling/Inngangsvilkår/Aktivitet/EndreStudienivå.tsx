@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { RadioGroup, HStack, Radio } from '@navikt/ds-react';
+import { HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
 import { erUtdanningEllerTiltak } from './utilsLæremidler';
 import { AktivitetValidering } from './valideringAktivitetLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Studienivå, studienivåTilTekst } from '../typer/vilkårperiode/aktivitetLæremidler';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 export const EndreStudienivå: React.FC<{
     form: EndreAktivitetFormLæremidler;
@@ -15,6 +16,11 @@ export const EndreStudienivå: React.FC<{
     feil?: FormErrors<AktivitetValidering>;
 }> = ({ form, settStudienivå, alleFelterKanEndres, feil }) => {
     if (!erUtdanningEllerTiltak(form.type)) {
+        return null;
+    }
+
+    const brukerHarUtgifter = form.vurderinger.svarHarUtgifter === SvarJaNei.JA;
+    if (!brukerHarUtgifter) {
         return null;
     }
 
