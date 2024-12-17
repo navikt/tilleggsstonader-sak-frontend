@@ -8,7 +8,7 @@ import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from '../EndreAktivitetLæremidler';
-import { skalVurdereHarUtgifter } from '../utilsLæremidler';
+import { erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 const hjelpetekstUtgifter = (
     <BodyShort>
@@ -25,22 +25,16 @@ export const HarBrukerUtgifterTilLæremidler: React.FC<{
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
-    if (!skalVurdereHarUtgifter(aktivitetForm.type)) return null;
+    if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     return (
-        <>
-            {skalVurdereHarUtgifter(aktivitetForm.type) && (
-                <JaNeiVurdering
-                    label="Har bruker utgifter til læremidler?"
-                    readOnly={readOnly}
-                    svar={aktivitetForm.vurderinger.svarHarUtgifter}
-                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                        oppdaterVurderinger('svarHarUtgifter', nyttSvar)
-                    }
-                    hjelpetekst={hjelpetekstUtgifter}
-                    hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
-                />
-            )}
-        </>
+        <JaNeiVurdering
+            label="Har bruker utgifter til læremidler?"
+            readOnly={readOnly}
+            svar={aktivitetForm.vurderinger.svarHarUtgifter}
+            oppdaterSvar={(nyttSvar: SvarJaNei) => oppdaterVurderinger('svarHarUtgifter', nyttSvar)}
+            hjelpetekst={hjelpetekstUtgifter}
+            hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
+        />
     );
 };
