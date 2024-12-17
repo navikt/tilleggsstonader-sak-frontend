@@ -58,13 +58,9 @@ export const MålgruppeKort: React.FC<{
             <CelleContainer>
                 <Celle>
                     <Label size="small" className="ytelse">
-                        {vilkårperiodeTypeTilTekst[målgruppe.type]}
-                    </Label>
-                </Celle>
-                <Celle>
-                    <BodyShort size="small">
                         {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
-                    </BodyShort>
+                    </Label>
+                    <BodyShort size="small">{vilkårperiodeTypeTilTekst[målgruppe.type]}</BodyShort>
                 </Celle>
                 <Celle>
                     <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
