@@ -3,6 +3,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import {
     EndreAktivitetFormLæremidler,
@@ -27,6 +28,10 @@ export const HarBrukerRettTilUtstyrsstipend: React.FC<{
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
+
+    if (aktivitetForm.studienivå !== Studienivå.VIDEREGÅENDE) {
+        return null;
+    }
 
     return (
         <JaNeiVurdering
