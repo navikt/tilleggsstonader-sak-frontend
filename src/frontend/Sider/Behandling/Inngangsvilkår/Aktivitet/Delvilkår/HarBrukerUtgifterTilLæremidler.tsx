@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { BodyShort } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
@@ -10,12 +8,7 @@ import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from '../EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak, skalVurdereHarUtgifter } from '../utilsLæremidler';
-
-const Container = styled.div`
-    display: flex;
-    gap: 2rem;
-`;
+import { skalVurdereHarUtgifter } from '../utilsLæremidler';
 
 const hjelpetekstUtgifter = (
     <BodyShort>
@@ -27,26 +20,15 @@ const hjelpetekstUtgifter = (
     </BodyShort>
 );
 
-const hjelpetekstUtstyrsstipend = (
-    <BodyShort>
-        Søkere under 21 år som går på videregående har som regel rett til utstyrsstipend.
-        <br />
-        <br />
-        Lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på jobb og de
-        som har studiekompetanse, men går på vgs for å forbedre karakterer eller liknende, har ikke
-        rett til utstyrsstipend.
-    </BodyShort>
-);
-
-export const AktivitetDelvilkårLæremidler: React.FC<{
+export const HarBrukerUtgifterTilLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
-    if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
+    if (!skalVurdereHarUtgifter(aktivitetForm.type)) return null;
 
     return (
-        <Container>
+        <>
             {skalVurdereHarUtgifter(aktivitetForm.type) && (
                 <JaNeiVurdering
                     label="Har bruker utgifter til læremidler?"
@@ -59,16 +41,6 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
                     hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
                 />
             )}
-            <JaNeiVurdering
-                label="Har bruker rett til utsstyrsstipend?"
-                readOnly={readOnly}
-                svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
-                oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                    oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
-                }
-                hjelpetekst={hjelpetekstUtstyrsstipend}
-                hjelpetekstHeader={'Slik vurderer du om søker har rett'}
-            />
-        </Container>
+        </>
     );
 };

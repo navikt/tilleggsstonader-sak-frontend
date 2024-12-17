@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { HarBrukerRettTilUtstyrsstipend } from './Delvilkår/HarBrukerRettTilUtstyrsstipend';
+import { HarBrukerUtgifterTilLæremidler } from './Delvilkår/HarBrukerUtgifterTilLæremidler';
 import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
@@ -199,7 +200,21 @@ export const EndreAktivitetLæremidler: React.FC<{
                     </FeilmeldingMaksBredde>
                 )}
             </FeltContainer>
-
+            {/* skal bare vises for tiltak og utdanning */}
+            <HarBrukerUtgifterTilLæremidler
+                aktivitetForm={form}
+                readOnly={!alleFelterKanEndres}
+                oppdaterVurderinger={(
+                    key: keyof VurderingerAktivitetLæremidler,
+                    nyttSvar: SvarJaNei
+                ) =>
+                    settForm((prevState) => ({
+                        ...prevState,
+                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
+                    }))
+                }
+            />
+            {/*TODO Vis bare hvis bruker har utgifter */}
             <EndreStudienivå
                 form={form}
                 settStudienivå={(studienivå: Studienivå) =>
@@ -208,8 +223,8 @@ export const EndreAktivitetLæremidler: React.FC<{
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
             />
-
-            <AktivitetDelvilkårLæremidler
+            {/*TODO Vis bare hvis nivå er vgs (og bruker er under 22) */}
+            <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterVurderinger={(
