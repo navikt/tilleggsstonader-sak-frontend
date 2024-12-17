@@ -43,6 +43,11 @@ export const formaterIsoPeriode = (fom: string, tom: string): string => {
     return formaterIsoDato(fom) + ' - ' + formaterIsoDato(tom);
 };
 
+// Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18. september 2023 - 18. oktober 2023'
+export const formaterTektligIsoPeriode = (fom: string, tom: string): string => {
+    return formaterTilTekstligDato(fom) + ' - ' + formaterTilTekstligDato(tom);
+};
+
 // Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18.09.2023 - 18.10.2023'
 export const formaterNullablePeriode = (fom?: string, tom?: string): string => {
     return `${formaterNullableIsoDato(fom) ?? ''} - ${formaterNullableIsoDato(tom) ?? ''} `;
