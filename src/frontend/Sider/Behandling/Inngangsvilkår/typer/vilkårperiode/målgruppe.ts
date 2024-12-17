@@ -68,9 +68,9 @@ export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
 };
 
 export const målgruppeTypeOptionsForStønad = (stønadstype: Stønadstype): SelectOption[] => {
-    return Object.entries(målgrupperForStønad[stønadstype]).map(([value, label]) => ({
-        value: value,
-        label: målgruppeTypeTilTekst(label),
+    return målgrupperForStønad[stønadstype].map((type) => ({
+        value: type,
+        label: målgruppeTypeTilTekst(type),
     }));
 };
 export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
