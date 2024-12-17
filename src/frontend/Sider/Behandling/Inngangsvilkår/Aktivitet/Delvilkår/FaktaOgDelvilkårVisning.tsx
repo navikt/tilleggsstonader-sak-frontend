@@ -52,7 +52,11 @@ const FaktaOgDelvilkårLæremidler: React.FC<{
 
     return (
         <>
-            <Detail>{aktivitet.faktaOgVurderinger.prosent}%</Detail>
+            <Detail>
+                {aktivitet.faktaOgVurderinger.prosent
+                    ? `${aktivitet.faktaOgVurderinger.prosent}%`
+                    : ''}
+            </Detail>
             {studienivå && <Detail>{studienivåTilTekst[studienivå]}</Detail>}
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
             {svarHarRettTilUtstyrsstipend && (
