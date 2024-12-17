@@ -32,7 +32,8 @@ import {
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
-import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
+import { EndreDatoer } from '../Vilkårperioder/EndreDatoer';
+import { EndreType } from '../Vilkårperioder/EndreType';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
@@ -155,14 +156,18 @@ const EndreMålgruppeRad: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
             <FeltContainer>
-                <EndreTypeOgDatoer
+                <EndreType
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
-                    oppdaterPeriode={oppdaterForm}
                     typeOptions={målgruppeTyperForStønadstype(behandling.stønadstype)}
                     formFeil={vilkårsperiodeFeil}
-                    alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}
+                />
+                <EndreDatoer
+                    form={form}
+                    oppdaterPeriode={oppdaterForm}
+                    formFeil={vilkårsperiodeFeil}
+                    alleFelterKanEndres={alleFelterKanEndres}
                 />
             </FeltContainer>
 

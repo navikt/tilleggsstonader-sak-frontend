@@ -35,7 +35,8 @@ import {
     SvarJaNei,
 } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
-import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
+import { EndreDatoer } from '../Vilkårperioder/EndreDatoer';
+import { EndreType } from '../Vilkårperioder/EndreType';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
@@ -158,14 +159,18 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
-                <EndreTypeOgDatoer
+                <EndreType
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
-                    oppdaterPeriode={oppdaterForm}
                     typeOptions={valgbareAktivitetTyper(Stønadstype.BARNETILSYN)}
                     formFeil={vilkårsperiodeFeil}
-                    alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
+                />
+                <EndreDatoer
+                    form={form}
+                    oppdaterPeriode={oppdaterForm}
+                    formFeil={vilkårsperiodeFeil}
+                    alleFelterKanEndres={alleFelterKanEndres}
                 />
                 {form.type !== AktivitetType.INGEN_AKTIVITET && (
                     <FeilmeldingMaksBredde $maxWidth={140}>
