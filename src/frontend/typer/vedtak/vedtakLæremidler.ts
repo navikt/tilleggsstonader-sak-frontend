@@ -13,6 +13,8 @@ export interface InnvilgelseLæremidler {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Periode[];
     beregningsresultat: BeregningsresultatLæremidler;
+    gjelderFraOgMed: string;
+    gjelderTilOgMed: string;
 }
 
 export interface BeregningsresultatLæremidler {
