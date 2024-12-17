@@ -43,7 +43,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatLæremidler): 
 
             return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
-                        <td style="${borderStyling}">${satsPerMåned}</td>
+                        <td style="${borderStyling}">${satsPerMåned} kr</td>
                         <td style="${borderStyling}">${stønadsbeløp} kr</td>
                     </tr>`;
         })
