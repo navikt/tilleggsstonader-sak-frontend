@@ -147,16 +147,10 @@ const EndreMålgruppeRad: React.FC<{
         nyRadLeggesTil: !målgruppe,
     });
 
-    const målgruppeSwitch = (stønadstype: Stønadstype): SelectOption[] => {
-        switch (stønadstype) {
-            case Stønadstype.BARNETILSYN: {
-                return målgruppeTypeOptionsForStønad(stønadstype);
-            }
-            case Stønadstype.LÆREMIDLER: {
-                return målgruppeTypeOptionsForStønad(stønadstype);
-            }
-        }
-    };
+    const målgruppeTyperForStønadstype = (stønadstype: Stønadstype): SelectOption[] =>
+        [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER].includes(stønadstype)
+            ? målgruppeTypeOptionsForStønad(stønadstype)
+            : [];
 
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
@@ -165,7 +159,7 @@ const EndreMålgruppeRad: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={målgruppeSwitch(behandling.stønadstype)}
+                    typeOptions={målgruppeTyperForStønadstype(behandling.stønadstype)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}
