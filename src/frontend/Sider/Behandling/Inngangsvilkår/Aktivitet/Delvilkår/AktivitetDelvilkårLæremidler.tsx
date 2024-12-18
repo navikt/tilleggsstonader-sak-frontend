@@ -55,7 +55,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
         <Container>
             {skalVurdereHarUtgifter(aktivitetForm.type) && (
                 <JaNeiVurdering
-                    label="Har bruker utgifter til læremidler?"
+                    label="Har søker utgifter til læremidler?"
                     readOnly={readOnly}
                     svar={aktivitetForm.vurderinger.svarHarUtgifter}
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
@@ -67,7 +67,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
             )}
             {skalVurdereHarUtstyrsstipend(aktivitetForm.studienivå) && (
                 <JaNeiVurdering
-                    label="Har bruker rett til utsstyrsstipend?"
+                    label="Har søker rett til utsstyrsstipend?"
                     readOnly={readOnly}
                     svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
                     oppdaterSvar={(nyttSvar: SvarJaNei) => {
