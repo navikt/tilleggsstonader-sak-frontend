@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
+import { AktivitetHjelpetekst } from './AktivitetHjelpetekst';
 import { AktivitetKort } from './AktivitetKort';
 import { EndreAktivitet } from './EndreAktivitet';
 import RegisterAktiviteter from './RegisterAktivteter';
@@ -90,8 +91,10 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                 />
 
                 <FlexColumn>
-                    <Label>Aktiviteter knyttet til behandling</Label>
-
+                    <div>
+                        <Label>Aktiviteter knyttet til behandling</Label>
+                        <AktivitetHjelpetekst />
+                    </div>
                     {aktiviteter.map((aktivitet) => {
                         const registeraktivitet = grunnlag?.aktivitet?.aktiviteter?.find(
                             (registeraktivitet) => registeraktivitet.id === aktivitet.kildeId
