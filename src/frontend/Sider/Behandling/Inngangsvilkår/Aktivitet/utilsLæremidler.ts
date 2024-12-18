@@ -67,7 +67,7 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
 }
 
 const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
-    `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
+    `Status: ${aktivitetFraRegister.status}`;
 
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
