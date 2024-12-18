@@ -64,10 +64,6 @@ export const AktivitetKort: React.FC<{
                     </BodyShort>
 
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
-                    <BodyShort size="small">
-                        Digitaliserings-direktor-atetDigitaliser-ingsdirek toratetlocaling
-                        sdirektoratetlocaltoratetlocalingsdirektoratetlocal
-                    </BodyShort>
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
                     )}
