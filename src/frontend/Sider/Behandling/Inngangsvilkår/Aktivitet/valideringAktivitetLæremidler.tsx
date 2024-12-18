@@ -5,6 +5,7 @@ import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
@@ -31,12 +32,12 @@ export const validerAktivitet = (
         return { ...feil, type: 'Må velges' };
     }
 
-    const periodeValidering = validerPeriode(endretAktivitet, lagretAktivitet, revurderesFraDato);
+    const periodefeil = validerPeriode(endretAktivitet, lagretAktivitet, revurderesFraDato);
 
-    if (periodeValidering) {
+    if (periodefeil) {
         return {
             ...feil,
-            ...periodeValidering,
+            ...periodefeil,
         };
     }
 
@@ -44,7 +45,10 @@ export const validerAktivitet = (
         if (!prosentErGyldigTall(endretAktivitet.prosent)) {
             return { ...feil, prosent: 'Prosent må være et tall mellom 1 og 100' };
         }
-        if (!endretAktivitet.studienivå) {
+
+        const brukerHarUtgifter = endretAktivitet.vurderinger.svarHarUtgifter === SvarJaNei.JA;
+        const studienivåErIkkeVurdert = !endretAktivitet.studienivå;
+        if (brukerHarUtgifter && studienivåErIkkeVurdert) {
             return { ...feil, studienivå: 'Studienivå må velges' };
         }
     }
