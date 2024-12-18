@@ -54,7 +54,7 @@ function nyTomAktivitet(): EndreAktivitetFormBarnetilsyn {
 }
 
 const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
-    `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
+    `Status: ${aktivitetFraRegister.status}`;
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
