@@ -14,7 +14,7 @@ import {
 import {
     erUtdanningEllerTiltak,
     skalVurdereHarUtgifter,
-    skalVurdereHarUtgifterforstudienivå,
+    skalVurdereHarUtstyrsstipend,
 } from '../utilsLæremidler';
 
 const Container = styled.div`
@@ -65,14 +65,14 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
                     hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
                 />
             )}
-            {skalVurdereHarUtgifterforstudienivå(aktivitetForm.studienivå) && (
+            {skalVurdereHarUtstyrsstipend(aktivitetForm.studienivå) && (
                 <JaNeiVurdering
                     label="Har bruker rett til utsstyrsstipend?"
                     readOnly={readOnly}
                     svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
-                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                        oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
-                    }
+                    oppdaterSvar={(nyttSvar: SvarJaNei) => {
+                        oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar);
+                    }}
                     hjelpetekst={hjelpetekstUtstyrsstipend}
                     hjelpetekstHeader={'Slik vurderer du om søker har rett'}
                 />

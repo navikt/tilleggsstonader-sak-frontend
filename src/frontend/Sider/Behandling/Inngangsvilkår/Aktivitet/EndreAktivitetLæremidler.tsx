@@ -29,6 +29,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import OppsummeringTilsynBarn from '../../Venstremeny/Oppsummering/OppsummeringTilsynBarn';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -166,7 +167,8 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-
+    const alder =
+        behandlingFakta['@type'] === Stønadstype.LÆREMIDLER ? behandlingFakta.alder : undefined;
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
@@ -207,6 +209,16 @@ export const EndreAktivitetLæremidler: React.FC<{
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
+                settHarRettTilUtstyrsstipend={(svar: SvarJaNei) =>
+                    settForm((prevState) => ({
+                        ...prevState,
+                        vurderinger: {
+                            ...prevState.vurderinger,
+                            svarHarRettTilUtstyrsstipend: svar || undefined,
+                        },
+                    }))
+                }
+                alder={alder}
             />
 
             <AktivitetDelvilkårLæremidler
@@ -223,6 +235,9 @@ export const EndreAktivitetLæremidler: React.FC<{
                 }
                 studienivå={form.studienivå}
             />
+            {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
+                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
+            )}
 
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
