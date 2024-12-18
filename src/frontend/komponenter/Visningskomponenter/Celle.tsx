@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
 export const Celle = styled.div<{ $width?: number }>`
-    width: ${({ $width = 180 }) => $width}px;
+    max-width: ${({ $width = 250 }) => $width}px;
 `;

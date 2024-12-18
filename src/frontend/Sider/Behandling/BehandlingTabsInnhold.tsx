@@ -39,6 +39,10 @@ const DisabledTab = styled(Tabs.Tab)`
     }
 `;
 
+const BehandlingContent = styled(Tabs.Panel)`
+    max-width: 1400px;
+`;
+
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
@@ -123,9 +127,9 @@ const BehandlingTabsInnhold = () => {
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (
-                        <Tabs.Panel key={tab.path} value={tab.path}>
+                        <BehandlingContent key={tab.path} value={tab.path}>
                             {tab.komponent(behandling.id)}
-                        </Tabs.Panel>
+                        </BehandlingContent>
                     ))}
             </Tabs>
         </StegProvider>

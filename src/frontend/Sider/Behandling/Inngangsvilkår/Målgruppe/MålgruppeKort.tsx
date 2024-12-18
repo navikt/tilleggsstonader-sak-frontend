@@ -20,7 +20,7 @@ import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/Vilkå
 const CelleContainer = styled.div`
     flex-grow: 1;
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
 `;
 
@@ -57,15 +57,15 @@ export const MålgruppeKort: React.FC<{
         >
             <CelleContainer>
                 <Celle>
-                    <Label size="small" className="ytelse">
+                    <BodyShort size="small">
                         {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
-                    </Label>
+                    </BodyShort>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[målgruppe.type]}</BodyShort>
                 </Celle>
                 <Celle>
                     <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
                 </Celle>
-                <Celle $width={300}>
+                <Celle $width={400}>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{målgruppe.begrunnelse || '-'}</BodyShort>

@@ -21,7 +21,7 @@ import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/Vilkå
 const CelleContainer = styled.div`
     flex-grow: 1;
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
 `;
 
@@ -59,9 +59,10 @@ export const AktivitetKort: React.FC<{
         >
             <CelleContainer>
                 <Celle>
-                    <Label size="small" className="ytelse">
-                        {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
-                    </Label>
+                    <BodyShort size="small">
+                        <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
+                    </BodyShort>
+
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
@@ -73,7 +74,7 @@ export const AktivitetKort: React.FC<{
                 <Celle>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
-                <Celle $width={300}>
+                <Celle $width={400}>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>
