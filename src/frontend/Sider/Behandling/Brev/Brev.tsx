@@ -68,9 +68,7 @@ const Brev: React.FC = () => {
 
     useEffect(() => {
         if (behandlingErRedigerbar && vedtak.status === RessursStatus.SUKSESS) {
-            hentBrevmaler(
-                finnSanityMappe(behandling.type, vedtak.data.type, behandling.stønadstype)
-            );
+            hentBrevmaler(finnSanityMappe(behandling.type, vedtak.data.type));
         }
     }, [behandlingErRedigerbar, hentBrevmaler, vedtak, behandling.type, behandling.stønadstype]);
 
