@@ -213,12 +213,33 @@ export const EndreAktivitetLæremidler: React.FC<{
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
+                resettStudienivå={() =>
+                    settForm((prevState) => ({ ...prevState, studienivå: undefined }))
+                }
+                resettHarRettTilUtstyrsstipendSvar={() =>
+                    settForm((prevState) => ({
+                        ...prevState,
+                        vurderinger: {
+                            ...prevState.vurderinger,
+                            harRettTilUtstyrsstipend: undefined,
+                        },
+                    }))
+                }
             />
             {/*TODO Vis bare hvis bruker har utgifter */}
             <EndreStudienivå
                 form={form}
                 settStudienivå={(studienivå: Studienivå) =>
                     settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
+                }
+                resettHarRettTilUtstyrsstipendSvar={() =>
+                    settForm((prevState) => ({
+                        ...prevState,
+                        vurderinger: {
+                            ...prevState.vurderinger,
+                            svarHarRettTilUtstyrsstipend: undefined,
+                        },
+                    }))
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}

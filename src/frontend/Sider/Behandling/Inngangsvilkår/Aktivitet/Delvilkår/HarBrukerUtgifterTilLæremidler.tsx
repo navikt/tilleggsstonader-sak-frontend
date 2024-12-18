@@ -23,8 +23,16 @@ const hjelpetekstUtgifter = (
 export const HarBrukerUtgifterTilLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
+    resettStudienivå: () => void;
+    resettHarRettTilUtstyrsstipendSvar: () => void;
     readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
+}> = ({
+    aktivitetForm,
+    oppdaterVurderinger,
+    resettStudienivå,
+    resettHarRettTilUtstyrsstipendSvar,
+    readOnly,
+}) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     return (
@@ -32,7 +40,13 @@ export const HarBrukerUtgifterTilLæremidler: React.FC<{
             label="Har bruker utgifter til læremidler?"
             readOnly={readOnly}
             svar={aktivitetForm.vurderinger.svarHarUtgifter}
-            oppdaterSvar={(nyttSvar: SvarJaNei) => oppdaterVurderinger('svarHarUtgifter', nyttSvar)}
+            oppdaterSvar={(nyttSvar: SvarJaNei) => {
+                oppdaterVurderinger('svarHarUtgifter', nyttSvar);
+                if (nyttSvar === SvarJaNei.NEI) {
+                    resettStudienivå();
+                    resettHarRettTilUtstyrsstipendSvar();
+                }
+            }}
             hjelpetekst={hjelpetekstUtgifter}
             hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
         />
