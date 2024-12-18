@@ -4,10 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import {
-    EndreAktivitetFormLæremidler,
-    VurderingerAktivitetLæremidler,
-} from '../EndreAktivitetLæremidler';
+import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
 import { erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 const hjelpetekstUtgifter = (
@@ -22,13 +19,13 @@ const hjelpetekstUtgifter = (
 
 export const HarBrukerUtgifterTilLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
-    oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
+    oppdaterSvar: (nyttSvar: SvarJaNei) => void;
     resettStudienivå: () => void;
     resettHarRettTilUtstyrsstipendSvar: () => void;
     readOnly: boolean;
 }> = ({
     aktivitetForm,
-    oppdaterVurderinger,
+    oppdaterSvar,
     resettStudienivå,
     resettHarRettTilUtstyrsstipendSvar,
     readOnly,
@@ -41,7 +38,7 @@ export const HarBrukerUtgifterTilLæremidler: React.FC<{
             readOnly={readOnly}
             svar={aktivitetForm.vurderinger.svarHarUtgifter}
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
-                oppdaterVurderinger('svarHarUtgifter', nyttSvar);
+                oppdaterSvar(nyttSvar);
                 if (nyttSvar === SvarJaNei.NEI) {
                     resettStudienivå();
                     resettHarRettTilUtstyrsstipendSvar();

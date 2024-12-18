@@ -29,7 +29,7 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { harTallverdi } from '../../../../utils/tall';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -144,16 +144,21 @@ export const EndreAktivitetLæremidler: React.FC<{
         }
     };
 
-    //TODO: fiks
-    const oppdaterForm = (key: keyof AktivitetLæremidler, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof EndreAktivitetFormLæremidler, nyVerdi: string) =>
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
-    };
 
     const oppdaterType = (type: AktivitetTypeLæremidler) => {
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
     };
+
+    const oppdaterVurdering =
+        (key: keyof VurderingerAktivitetLæremidler) => (nyttSvar?: SvarJaNei) =>
+            settForm((prevState) => ({
+                ...prevState,
+                vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
+            }));
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
         periodeFom: aktivitet?.fom,
@@ -186,12 +191,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Prosent"
                             value={harTallverdi(form.prosent) ? form.prosent : ''}
-                            onChange={(event) =>
-                                settForm((prevState) => ({
-                                    ...prevState,
-                                    prosent: tilHeltall(event.target.value),
-                                }))
-                            }
+                            onChange={(event) => oppdaterForm('prosent', event.target.value)}
                             size="small"
                             error={vilkårsperiodeFeil?.prosent}
                             autoComplete="off"
@@ -200,46 +200,21 @@ export const EndreAktivitetLæremidler: React.FC<{
                     </FeilmeldingMaksBredde>
                 )}
             </FeltContainer>
-            {/* skal bare vises for tiltak og utdanning */}
             <HarBrukerUtgifterTilLæremidler
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(
-                    key: keyof VurderingerAktivitetLæremidler,
-                    nyttSvar: SvarJaNei
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
-                    }))
-                }
-                resettStudienivå={() =>
-                    settForm((prevState) => ({ ...prevState, studienivå: undefined }))
-                }
+                oppdaterSvar={oppdaterVurdering('svarHarUtgifter')}
+                resettStudienivå={() => oppdaterForm('studienivå', '')}
                 resettHarRettTilUtstyrsstipendSvar={() =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: {
-                            ...prevState.vurderinger,
-                            harRettTilUtstyrsstipend: undefined,
-                        },
-                    }))
+                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
                 }
             />
             {/*TODO Vis bare hvis bruker har utgifter */}
             <EndreStudienivå
                 form={form}
-                settStudienivå={(studienivå: Studienivå) =>
-                    settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
-                }
+                settStudienivå={(studienivå) => oppdaterForm('studienivå', studienivå)}
                 resettHarRettTilUtstyrsstipendSvar={() =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: {
-                            ...prevState.vurderinger,
-                            svarHarRettTilUtstyrsstipend: undefined,
-                        },
-                    }))
+                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
@@ -248,15 +223,7 @@ export const EndreAktivitetLæremidler: React.FC<{
             <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(
-                    key: keyof VurderingerAktivitetLæremidler,
-                    nyttSvar: SvarJaNei
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
-                    }))
-                }
+                oppdaterSvar={oppdaterVurdering('svarHarRettTilUtstyrsstipend')}
             />
 
             <Begrunnelse

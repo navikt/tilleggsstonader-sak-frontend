@@ -5,10 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import {
-    EndreAktivitetFormLæremidler,
-    VurderingerAktivitetLæremidler,
-} from '../EndreAktivitetLæremidler';
+import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
 import { erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 const hjelpetekstUtstyrsstipend = (
@@ -24,9 +21,9 @@ const hjelpetekstUtstyrsstipend = (
 
 export const HarBrukerRettTilUtstyrsstipend: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
-    oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
+    oppdaterSvar: (nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterSvar, readOnly }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     if (aktivitetForm.studienivå !== Studienivå.VIDEREGÅENDE) {
@@ -38,9 +35,7 @@ export const HarBrukerRettTilUtstyrsstipend: React.FC<{
             label="Har bruker rett til utsstyrsstipend?"
             readOnly={readOnly}
             svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
-            oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
-            }
+            oppdaterSvar={oppdaterSvar}
             hjelpetekst={hjelpetekstUtstyrsstipend}
             hjelpetekstHeader={'Slik vurderer du om søker har rett'}
         />
