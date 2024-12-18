@@ -57,9 +57,9 @@ export const MålgruppeKort: React.FC<{
         >
             <CelleContainer>
                 <Celle>
-                    <Label size="small" className="ytelse">
+                    <BodyShort size="small">
                         {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
-                    </Label>
+                    </BodyShort>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[målgruppe.type]}</BodyShort>
                 </Celle>
                 <Celle>

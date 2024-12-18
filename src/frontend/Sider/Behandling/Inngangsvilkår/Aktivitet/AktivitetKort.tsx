@@ -59,9 +59,10 @@ export const AktivitetKort: React.FC<{
         >
             <CelleContainer>
                 <Celle>
-                    <Label size="small" className="ytelse">
-                        {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
-                    </Label>
+                    <BodyShort size="small">
+                        <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
+                    </BodyShort>
+
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
