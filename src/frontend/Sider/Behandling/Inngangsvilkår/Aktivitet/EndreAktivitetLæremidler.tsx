@@ -166,7 +166,8 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-
+    const alder =
+        behandlingFakta['@type'] === Stønadstype.LÆREMIDLER ? behandlingFakta.alder : undefined;
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <FeltContainer>
@@ -207,6 +208,16 @@ export const EndreAktivitetLæremidler: React.FC<{
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
+                settHarRettTilUtstyrsstipend={(svar: SvarJaNei) =>
+                    settForm((prevState) => ({
+                        ...prevState,
+                        vurderinger: {
+                            ...prevState.vurderinger,
+                            svarHarRettTilUtstyrsstipend: svar || undefined,
+                        },
+                    }))
+                }
+                alder={alder}
             />
 
             <AktivitetDelvilkårLæremidler
@@ -222,7 +233,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                     }))
                 }
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}

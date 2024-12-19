@@ -3,17 +3,20 @@ import React from 'react';
 import { RadioGroup, HStack, Radio } from '@navikt/ds-react';
 
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak } from './utilsLæremidler';
+import { beregnHarRettTilUtstyrsstipend, erUtdanningEllerTiltak } from './utilsLæremidler';
 import { AktivitetValidering } from './valideringAktivitetLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Studienivå, studienivåTilTekst } from '../typer/vilkårperiode/aktivitetLæremidler';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 export const EndreStudienivå: React.FC<{
     form: EndreAktivitetFormLæremidler;
     settStudienivå: (studienivå: Studienivå) => void;
     alleFelterKanEndres: boolean;
+    alder?: number;
+    settHarRettTilUtstyrsstipend: (svar: SvarJaNei) => void;
     feil?: FormErrors<AktivitetValidering>;
-}> = ({ form, settStudienivå, alleFelterKanEndres, feil }) => {
+}> = ({ form, settStudienivå, alder, settHarRettTilUtstyrsstipend, alleFelterKanEndres, feil }) => {
     if (!erUtdanningEllerTiltak(form.type)) {
         return null;
     }
@@ -23,7 +26,14 @@ export const EndreStudienivå: React.FC<{
             value={form.studienivå || ''}
             legend="Studienivå"
             readOnly={!alleFelterKanEndres}
-            onChange={(e) => settStudienivå(e)}
+            onChange={(e) => {
+                settStudienivå(e);
+                const svar = beregnHarRettTilUtstyrsstipend(alder);
+
+                if (svar !== undefined) {
+                    settHarRettTilUtstyrsstipend(svar);
+                }
+            }}
             size="small"
             error={feil?.studienivå}
         >

@@ -10,6 +10,7 @@ import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetTypeLæremidler,
+    Studienivå,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -72,7 +73,16 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
 
+export const beregnHarRettTilUtstyrsstipend = (alder?: number): SvarJaNei | undefined => {
+    if (alder !== undefined && alder >= 21) {
+        return SvarJaNei.NEI;
+    }
+    return undefined;
+};
+
 export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
+export const skalVurdereHarUtstyrsstipend = (studienivå: Studienivå | undefined) =>
+    studienivå === Studienivå.VIDEREGÅENDE || studienivå === undefined;
 
 export const resettAktivitet = (
     nyType: AktivitetTypeLæremidler,

@@ -10,7 +10,11 @@ import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from '../EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak, skalVurdereHarUtgifter } from '../utilsLæremidler';
+import {
+    erUtdanningEllerTiltak,
+    skalVurdereHarUtgifter,
+    skalVurdereHarUtstyrsstipend,
+} from '../utilsLæremidler';
 
 const Container = styled.div`
     display: flex;
@@ -49,7 +53,7 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
         <Container>
             {skalVurdereHarUtgifter(aktivitetForm.type) && (
                 <JaNeiVurdering
-                    label="Har bruker utgifter til læremidler?"
+                    label="Har søker utgifter til læremidler?"
                     readOnly={readOnly}
                     svar={aktivitetForm.vurderinger.svarHarUtgifter}
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
@@ -59,16 +63,18 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
                     hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
                 />
             )}
-            <JaNeiVurdering
-                label="Har bruker rett til utsstyrsstipend?"
-                readOnly={readOnly}
-                svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
-                oppdaterSvar={(nyttSvar: SvarJaNei) =>
-                    oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar)
-                }
-                hjelpetekst={hjelpetekstUtstyrsstipend}
-                hjelpetekstHeader={'Slik vurderer du om søker har rett'}
-            />
+            {skalVurdereHarUtstyrsstipend(aktivitetForm.studienivå) && (
+                <JaNeiVurdering
+                    label="Har søker rett til utsstyrsstipend?"
+                    readOnly={readOnly}
+                    svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) => {
+                        oppdaterVurderinger('svarHarRettTilUtstyrsstipend', nyttSvar);
+                    }}
+                    hjelpetekst={hjelpetekstUtstyrsstipend}
+                    hjelpetekstHeader={'Slik vurderer du om søker har rett'}
+                />
+            )}
         </Container>
     );
 };
