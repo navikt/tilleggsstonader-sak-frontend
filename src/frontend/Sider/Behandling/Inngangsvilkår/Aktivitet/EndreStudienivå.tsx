@@ -27,7 +27,7 @@ export const EndreStudienivå: React.FC<{
 
     return (
         <RadioGroup
-            value={form.studienivå || ''}
+            value={form.studienivå || null}
             legend="Studienivå"
             readOnly={!alleFelterKanEndres}
             onChange={(e) => {
