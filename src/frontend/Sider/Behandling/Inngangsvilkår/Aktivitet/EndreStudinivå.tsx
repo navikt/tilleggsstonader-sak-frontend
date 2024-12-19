@@ -7,16 +7,13 @@ import { erUtdanningEllerTiltak } from './utilsLæremidler';
 import { AktivitetValidering } from './valideringAktivitetLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Studienivå, studienivåTilTekst } from '../typer/vilkårperiode/aktivitetLæremidler';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 export const EndreStudienivå: React.FC<{
     form: EndreAktivitetFormLæremidler;
     settStudienivå: (studienivå: Studienivå) => void;
     alleFelterKanEndres: boolean;
-    alder?: number;
-    settHarRettTilUtstyrsstipend: (svar: SvarJaNei) => void;
     feil?: FormErrors<AktivitetValidering>;
-}> = ({ form, settStudienivå, alder, settHarRettTilUtstyrsstipend, alleFelterKanEndres, feil }) => {
+}> = ({ form, settStudienivå, alleFelterKanEndres, feil }) => {
     if (!erUtdanningEllerTiltak(form.type)) {
         return null;
     }
@@ -26,12 +23,7 @@ export const EndreStudienivå: React.FC<{
             value={form.studienivå || ''}
             legend="Studienivå"
             readOnly={!alleFelterKanEndres}
-            onChange={(e) => {
-                settStudienivå(e);
-                if (alder !== undefined && alder >= 22) {
-                    settHarRettTilUtstyrsstipend(SvarJaNei.NEI);
-                }
-            }}
+            onChange={(e) => settStudienivå(e)}
             size="small"
             error={feil?.studienivå}
         >

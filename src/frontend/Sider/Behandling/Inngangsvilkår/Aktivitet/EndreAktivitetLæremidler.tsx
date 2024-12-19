@@ -79,6 +79,14 @@ const initaliserForm = (
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
+const defaultSvarHarRettPåUtstyrsstipend = (studienivå: Studienivå, alder: number | undefined) => {
+    if (studienivå === Studienivå.VIDEREGÅENDE && alder !== undefined && alder >= 22) {
+        return SvarJaNei.NEI;
+    } else {
+        return undefined;
+    }
+};
+
 export const EndreAktivitetLæremidler: React.FC<{
     aktivitet?: AktivitetLæremidler;
     aktivitetFraRegister?: Registeraktivitet;
@@ -104,6 +112,16 @@ export const EndreAktivitetLæremidler: React.FC<{
     };
 
     const nyRadLeggesTil = aktivitet === undefined;
+
+    const oppdaterStudieNivå = (studienivå: Studienivå) =>
+        settForm((prevState) => ({
+            ...prevState,
+            studienivå: studienivå,
+            vurderinger: {
+                ...prevState.vurderinger,
+                svarHarRettTilUtstyrsstipend: defaultSvarHarRettPåUtstyrsstipend(studienivå, alder),
+            },
+        }));
 
     const lagre = () => {
         if (laster) return;
@@ -204,21 +222,9 @@ export const EndreAktivitetLæremidler: React.FC<{
 
             <EndreStudienivå
                 form={form}
-                settStudienivå={(studienivå: Studienivå) =>
-                    settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
-                }
+                settStudienivå={oppdaterStudieNivå}
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
-                settHarRettTilUtstyrsstipend={(svar: SvarJaNei) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: {
-                            ...prevState.vurderinger,
-                            svarHarRettTilUtstyrsstipend: svar || undefined,
-                        },
-                    }))
-                }
-                alder={alder}
             />
 
             <AktivitetDelvilkårLæremidler
