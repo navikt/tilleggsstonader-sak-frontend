@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
+import { EndreAktivitetRegisterDetaljer } from './EndreAktivitetRegisterDetaljer';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -157,36 +158,41 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
-            <FeltContainer>
-                <EndreTypeOgDatoer
-                    form={form}
-                    oppdaterTypeIForm={oppdaterType}
-                    oppdaterPeriode={oppdaterForm}
-                    typeOptions={valgbareAktivitetTyper(Stønadstype.BARNETILSYN)}
-                    formFeil={vilkårsperiodeFeil}
-                    alleFelterKanEndres={alleFelterKanEndres}
-                    kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                />
-                {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                    <FeilmeldingMaksBredde $maxWidth={140}>
-                        <TextField
-                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                            label="Aktivitetsdager"
-                            value={harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''}
-                            onChange={(event) =>
-                                settForm((prevState) => ({
-                                    ...prevState,
-                                    aktivitetsdager: tilHeltall(event.target.value),
-                                }))
-                            }
-                            size="small"
-                            error={vilkårsperiodeFeil?.aktivitetsdager}
-                            autoComplete="off"
-                            readOnly={!alleFelterKanEndres}
-                        />
-                    </FeilmeldingMaksBredde>
-                )}
-            </FeltContainer>
+            <VStack gap={'2'}>
+                <FeltContainer>
+                    <EndreTypeOgDatoer
+                        form={form}
+                        oppdaterTypeIForm={oppdaterType}
+                        oppdaterPeriode={oppdaterForm}
+                        typeOptions={valgbareAktivitetTyper(Stønadstype.BARNETILSYN)}
+                        formFeil={vilkårsperiodeFeil}
+                        alleFelterKanEndres={alleFelterKanEndres}
+                        kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
+                    />
+                    {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                        <FeilmeldingMaksBredde $maxWidth={140}>
+                            <TextField
+                                erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                                label="Aktivitetsdager"
+                                value={
+                                    harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
+                                }
+                                onChange={(event) =>
+                                    settForm((prevState) => ({
+                                        ...prevState,
+                                        aktivitetsdager: tilHeltall(event.target.value),
+                                    }))
+                                }
+                                size="small"
+                                error={vilkårsperiodeFeil?.aktivitetsdager}
+                                autoComplete="off"
+                                readOnly={!alleFelterKanEndres}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
+                </FeltContainer>
+                <EndreAktivitetRegisterDetaljer aktivitetFraRegister={aktivitetFraRegister} />
+            </VStack>
 
             <AktivitetDelvilkårBarnetilsyn
                 aktivitetForm={form}
