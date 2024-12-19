@@ -209,7 +209,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                     oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
                 }
             />
-            {/*TODO Vis bare hvis bruker har utgifter */}
             <EndreStudienivå
                 form={form}
                 settStudienivå={(studienivå) => oppdaterForm('studienivå', studienivå)}
@@ -219,13 +218,11 @@ export const EndreAktivitetLæremidler: React.FC<{
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
             />
-            {/*TODO Vis bare hvis nivå er vgs (og bruker er under 22) */}
             <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterSvar={oppdaterVurdering('svarHarRettTilUtstyrsstipend')}
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
