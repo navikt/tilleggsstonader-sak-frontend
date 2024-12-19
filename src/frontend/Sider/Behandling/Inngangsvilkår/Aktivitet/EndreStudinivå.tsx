@@ -3,7 +3,7 @@ import React from 'react';
 import { RadioGroup, HStack, Radio } from '@navikt/ds-react';
 
 import { EndreAktivitetFormLæremidler } from './EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak } from './utilsLæremidler';
+import { beregnHarRettTilUtstyrsstipend, erUtdanningEllerTiltak } from './utilsLæremidler';
 import { AktivitetValidering } from './valideringAktivitetLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Studienivå, studienivåTilTekst } from '../typer/vilkårperiode/aktivitetLæremidler';
@@ -28,8 +28,10 @@ export const EndreStudienivå: React.FC<{
             readOnly={!alleFelterKanEndres}
             onChange={(e) => {
                 settStudienivå(e);
-                if (alder !== undefined && alder >= 22) {
-                    settHarRettTilUtstyrsstipend(SvarJaNei.NEI);
+                const svar = beregnHarRettTilUtstyrsstipend(alder);
+
+                if (svar !== undefined) {
+                    settHarRettTilUtstyrsstipend(svar);
                 }
             }}
             size="small"
