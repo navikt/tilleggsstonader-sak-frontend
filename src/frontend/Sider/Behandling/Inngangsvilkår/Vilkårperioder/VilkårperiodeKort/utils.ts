@@ -6,7 +6,8 @@ export type DelvilkårKey =
     | 'medlemskap'
     | 'utgifterDekketAvAnnetRegelverk'
     | 'lønnet'
-    | 'harUtgifter';
+    | 'harUtgifter'
+    | 'harRettTilUtstyrsstipend';
 
 export const finnDelvilkårTilOppsummering = (
     faktaOgVurderinger: MålgruppeVurderinger | AktivitetFaktaOgVurderinger,
