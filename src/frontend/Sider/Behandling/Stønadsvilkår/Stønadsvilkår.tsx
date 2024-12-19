@@ -17,6 +17,7 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { FanePath } from '../faner';
+import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { Vilkårsvurdering } from '../vilkår';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -48,28 +49,31 @@ const Stønadsvilkår = () => {
     }, [hentRegler]);
 
     return (
-        <Container>
-            <DataViewer
-                response={{
-                    regler,
-                    vilkårsvurdering,
-                    vilkårsoppsummering,
-                }}
-            >
-                {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
-                    <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
-                        {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
-                        <OppsummeringStønadsperioder
-                            stønadsperioder={vilkårsoppsummering.stønadsperioder}
-                        />
-                        <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
-                    </VilkårProvider>
-                )}
-            </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                Fullfør vilkårsvurdering og gå videre
-            </StegKnapp>
-        </Container>
+        <>
+            <Container>
+                <VarselRevurderFraDatoMangler />
+                <DataViewer
+                    response={{
+                        regler,
+                        vilkårsvurdering,
+                        vilkårsoppsummering,
+                    }}
+                >
+                    {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
+                        <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
+                            {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
+                            <OppsummeringStønadsperioder
+                                stønadsperioder={vilkårsoppsummering.stønadsperioder}
+                            />
+                            <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
+                        </VilkårProvider>
+                    )}
+                </DataViewer>
+                <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                    Fullfør vilkårsvurdering og gå videre
+                </StegKnapp>
+            </Container>
+        </>
     );
 };
 
