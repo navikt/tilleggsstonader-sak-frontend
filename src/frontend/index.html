@@ -5,6 +5,53 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="favicon.ico" type="image/png/ico" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const snowflakes = [];
+            const numFlakes = 100;
+
+            for (let i = 0; i < numFlakes; i++) {
+                setTimeout(() => {
+                    let snowflake = document.createElement('div');
+                    let xPos = Math.random() * window.innerWidth;
+                    let yPos = Math.random() * window.innerHeight;
+                    let speed = Math.random() * 3 + 3;
+                    let opacity = Math.random() * 0.7 + 0.3;
+
+                    snowflake.style.left = `${xPos}px`;
+                    snowflake.style.top = `${yPos}px`;
+                    snowflake.style.opacity = opacity;
+
+                    snowflake.style.animation = `fall ${speed}s linear infinite`;
+                    snowflake.classList.add('snowflake');
+                    snowflakes.push(snowflake);
+                    document.body.appendChild(snowflake);
+                }, (Math.random() * 5) * 500)
+            }
+        });
+    </script>
+    <style>
+        .snowflake {
+            position: absolute;
+            font-size: 24px;
+            background: #c7c7c7;
+            animation: fall 5s linear infinite;
+            height: 7px;
+            width: 7px;
+            border-radius: 25px;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
 <div id="app"></div>
