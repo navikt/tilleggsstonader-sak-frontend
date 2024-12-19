@@ -21,5 +21,5 @@ export const typeAnnenAktivitetTilTekst: Record<TypeAnnenAktivitet, string> = {
     TILTAK: 'Tiltak',
     UTDANNING: 'Utdanning',
     ARBEIDSSØKER: 'Arbeidssøker',
-    INGEN_AKTIVITET: 'Ingen aktivitet',
+    INGEN_AKTIVITET: 'Ingen relevant aktivitet',
 };
