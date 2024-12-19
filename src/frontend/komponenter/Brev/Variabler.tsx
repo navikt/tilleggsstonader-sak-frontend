@@ -3,6 +3,7 @@ import React, { SetStateAction } from 'react';
 import { TextField } from '@navikt/ds-react';
 
 import { Variabel } from './typer';
+import { useBehandling } from '../../context/BehandlingContext';
 
 interface Props {
     variabler: Variabel[];
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }) => {
+    const behandlingContext = useBehandling();
     return (
         <>
             {variabler.map((variabel) => {
@@ -21,6 +23,24 @@ const Variabler: React.FC<Props> = ({ variabler, variablerState, settVariabler }
                     }));
 
                 if (!variabel.erHtml) {
+                    if (variabel.visningsnavn === 'Opphørsdato') {
+                        return (
+                            <div key={variabel._id}>
+                                <TextField
+                                    label={variabel.visningsnavn}
+                                    key={variabel._id}
+                                    value={
+                                        variablerState[variabel._id] ||
+                                        behandlingContext.behandling?.revurderFra ||
+                                        ''
+                                    }
+                                    onChange={håndterInput}
+                                    autoComplete="off"
+                                    size="small"
+                                />
+                            </div>
+                        );
+                    }
                     return (
                         <div key={variabel._id}>
                             <TextField
