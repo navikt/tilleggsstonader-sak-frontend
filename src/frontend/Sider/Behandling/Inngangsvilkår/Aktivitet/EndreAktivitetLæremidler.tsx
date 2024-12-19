@@ -29,7 +29,6 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
-import OppsummeringTilsynBarn from '../../Venstremeny/Oppsummering/OppsummeringTilsynBarn';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -233,12 +232,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
-                studienivå={form.studienivå}
             />
-            {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
-                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
-            )}
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}

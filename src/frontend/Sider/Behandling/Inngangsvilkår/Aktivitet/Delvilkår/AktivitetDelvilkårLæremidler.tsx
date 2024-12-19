@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { BodyShort } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
-import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import {
     EndreAktivitetFormLæremidler,
@@ -47,7 +46,6 @@ export const AktivitetDelvilkårLæremidler: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
     oppdaterVurderinger: (key: keyof VurderingerAktivitetLæremidler, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-    studienivå: Studienivå | undefined;
 }> = ({ aktivitetForm, oppdaterVurderinger, readOnly }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
