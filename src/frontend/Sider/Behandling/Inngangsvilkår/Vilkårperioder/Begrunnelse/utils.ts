@@ -22,7 +22,7 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     DEKKET_AV_ANNET_REGELVERK: 'Utgifter dekket av annet regelverk',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     LØNNET: 'Ordinær lønn i tiltaket',
-    INGEN_AKTIVITET: 'Ingen aktivitet',
+    INGEN_AKTIVITET: 'Ingen relevant aktivitet',
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     HAR_UTGIFTER: 'Hvorfor bruker ikke har utgifter',

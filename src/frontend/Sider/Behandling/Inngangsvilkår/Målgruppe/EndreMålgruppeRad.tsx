@@ -19,13 +19,15 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
     Målgruppe,
     MålgruppeType,
-    målgruppeTypeOptions,
+    målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -145,6 +147,11 @@ const EndreMålgruppeRad: React.FC<{
         nyRadLeggesTil: !målgruppe,
     });
 
+    const målgruppeTyperForStønadstype = (stønadstype: Stønadstype): SelectOption[] =>
+        [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER].includes(stønadstype)
+            ? målgruppeTypeOptionsForStønad(stønadstype)
+            : [];
+
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
             <FeltContainer>
@@ -152,7 +159,7 @@ const EndreMålgruppeRad: React.FC<{
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
                     oppdaterPeriode={oppdaterForm}
-                    typeOptions={målgruppeTypeOptions}
+                    typeOptions={målgruppeTyperForStønadstype(behandling.stønadstype)}
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}

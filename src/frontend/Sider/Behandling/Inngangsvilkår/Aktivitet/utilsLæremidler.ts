@@ -10,7 +10,6 @@ import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetTypeLæremidler,
-    Studienivå,
 } from '../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
@@ -68,7 +67,7 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
 }
 
 const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
-    `Aktivitet: ${aktivitetFraRegister.typeNavn}\nStatus: ${aktivitetFraRegister.status}`;
+    `Status: ${aktivitetFraRegister.status}`;
 
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
@@ -79,11 +78,6 @@ export const beregnHarRettTilUtstyrsstipend = (alder?: number): SvarJaNei | unde
     }
     return undefined;
 };
-
-export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
-export const skalVurdereHarUtstyrsstipend = (studienivå: Studienivå | undefined) =>
-    studienivå === Studienivå.VIDEREGÅENDE || studienivå === undefined;
-
 export const resettAktivitet = (
     nyType: AktivitetTypeLæremidler,
     eksisterendeAktivitetForm: EndreAktivitetFormLæremidler,
@@ -101,7 +95,7 @@ export const resettAktivitet = (
         studienivå: utdanningEllerTiltak ? eksisterendeAktivitetForm.studienivå : undefined,
         prosent: utdanningEllerTiltak ? eksisterendeAktivitetForm.prosent : undefined,
         vurderinger: {
-            svarHarUtgifter: skalVurdereHarUtgifter(nyType)
+            svarHarUtgifter: erUtdanningEllerTiltak(nyType)
                 ? eksisterendeAktivitetForm.vurderinger.svarHarUtgifter
                 : undefined,
             svarHarRettTilUtstyrsstipend: utdanningEllerTiltak

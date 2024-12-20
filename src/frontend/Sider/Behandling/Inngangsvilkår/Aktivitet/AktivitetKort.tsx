@@ -9,6 +9,7 @@ import { FaktaOgDelvilkårVisning } from './Delvilkår/FaktaOgDelvilkårVisning'
 import { useSteg } from '../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
@@ -20,14 +21,15 @@ import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/Vilkå
 const CelleContainer = styled.div`
     flex-grow: 1;
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     flex-wrap: wrap;
 `;
 
 export const AktivitetKort: React.FC<{
     aktivitet: Aktivitet;
+    aktivitetFraRegister: Registeraktivitet | undefined;
     startRedigering: () => void;
-}> = ({ aktivitet, startRedigering }) => {
+}> = ({ aktivitet, aktivitetFraRegister, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
     const { helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
@@ -57,19 +59,22 @@ export const AktivitetKort: React.FC<{
         >
             <CelleContainer>
                 <Celle>
-                    <Label size="small" className="ytelse">
-                        {vilkårperiodeTypeTilTekst[aktivitet.type]}
-                    </Label>
-                </Celle>
-                <Celle>
                     <BodyShort size="small">
-                        {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}
+                        <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
                     </BodyShort>
+
+                    <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
+                    {aktivitetFraRegister?.typeNavn && (
+                        <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
+                    )}
+                    {aktivitetFraRegister?.arrangør && (
+                        <BodyShort size="small">{aktivitetFraRegister?.arrangør}</BodyShort>
+                    )}
                 </Celle>
                 <Celle>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
-                <Celle $width={300}>
+                <Celle $width={400}>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>

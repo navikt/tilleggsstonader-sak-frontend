@@ -13,6 +13,8 @@ export interface InnvilgelseLæremidler {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Periode[];
     beregningsresultat: BeregningsresultatLæremidler;
+    gjelderFraOgMed: string;
+    gjelderTilOgMed: string;
 }
 
 export interface BeregningsresultatLæremidler {
@@ -25,6 +27,7 @@ interface BeregningsresultatForPeriode {
     antallMåneder: number;
     studienivå: Studienivå;
     studieprosent: number;
+    // beløp er sats TODO rename?
     beløp: number;
     stønadsbeløp: number;
     utbetalingsmåned: string;
