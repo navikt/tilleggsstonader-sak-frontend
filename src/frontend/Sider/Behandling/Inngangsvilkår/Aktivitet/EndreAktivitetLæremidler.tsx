@@ -29,7 +29,7 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi } from '../../../../utils/tall';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -144,8 +144,10 @@ export const EndreAktivitetLæremidler: React.FC<{
         }
     };
 
-    const oppdaterForm = (key: keyof EndreAktivitetFormLæremidler, nyVerdi: string | undefined) =>
-        settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
+    const oppdaterForm = (
+        key: keyof EndreAktivitetFormLæremidler,
+        nyVerdi: string | number | undefined
+    ) => settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
 
     const oppdaterType = (type: AktivitetTypeLæremidler) => {
         settForm((prevState) =>
@@ -191,7 +193,9 @@ export const EndreAktivitetLæremidler: React.FC<{
                             erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                             label="Prosent"
                             value={harTallverdi(form.prosent) ? form.prosent : ''}
-                            onChange={(event) => oppdaterForm('prosent', event.target.value)}
+                            onChange={(event) =>
+                                oppdaterForm('prosent', tilHeltall(event.target.value))
+                            }
                             size="small"
                             error={vilkårsperiodeFeil?.prosent}
                             autoComplete="off"
