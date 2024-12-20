@@ -7,10 +7,14 @@ if (process.env.NODE_ENV === 'development') {
     dotenv.config();
 }
 
+/**
+ * modiacontext brukes for å genere lenke til modiapersonoversikt
+ */
 export enum ApplicationName {
     sak = 'sak',
     klage = 'klage',
     endringslogg = 'endringslogg',
+    modiacontext = 'modiacontext',
     unleash = 'unleash',
 }
 
@@ -109,6 +113,10 @@ const clientsLocal = (): ClientConfig => ({
         url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
         audience: '',
     },
+    [ApplicationName.modiacontext]: {
+        url: 'https://modiacontextholder.intern.dev.nav.no/fnr-code/generate',
+        audience: '',
+    },
 });
 
 const clientsLocalPreprod = (): ClientConfig => ({
@@ -126,6 +134,10 @@ const clientsLocalPreprod = (): ClientConfig => ({
     },
     [ApplicationName.unleash]: {
         url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+        audience: '',
+    },
+    [ApplicationName.modiacontext]: {
+        url: 'https://modiacontextholder.intern.dev.nav.no/fnr-code/generate',
         audience: '',
     },
 });
@@ -163,6 +175,10 @@ const devMiljø = (): Miljø => ({
             url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
             audience: '',
         },
+        [ApplicationName.modiacontext]: {
+            url: 'https://modiacontextholder.intern.dev.nav.no/fnr-code/generate',
+            audience: '',
+        },
     },
     azure: devProdAzure(),
     unleash: unleash('development'),
@@ -186,6 +202,10 @@ const prodMiljø = (): Miljø => ({
         },
         [ApplicationName.unleash]: {
             url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
+            audience: '',
+        },
+        [ApplicationName.modiacontext]: {
+            url: 'https://modiacontextholder.intern.nav.no/fnr-code/generate',
             audience: '',
         },
     },

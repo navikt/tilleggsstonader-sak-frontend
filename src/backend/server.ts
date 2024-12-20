@@ -97,6 +97,8 @@ app.use(
 
 app.use('/endringslogg', addRequestInfo(), doProxy(ApplicationName.endringslogg));
 
+app.use('/api/generer-lenke-modia', addRequestInfo(), doProxy(ApplicationName.modiacontext));
+
 app.listen(PORT, () => {
     logger.info(`Server startet på PORT=${PORT}`);
 }).on('error', (err: Error) => {

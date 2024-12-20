@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
 
 import SettPåVentForm from './SettPåVentForm';
@@ -12,10 +12,11 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useVisFeilmeldingVedUnload } from '../../../hooks/useVisFeilmeldingVedUnload';
 import DataViewer from '../../../komponenter/DataViewer';
+import { ModiaLenke } from '../../../komponenter/Lenker/Modia/ModiaLenke';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 
-const Container = styled.div`
+const Container = styled(VStack)`
     margin: 2rem;
     padding: 2rem;
     background: ${AGray100};
@@ -48,7 +49,7 @@ const SettPåVentContainer: React.FC<{
             return <Alert variant={'warning'}>Behandlingen er satt på vent.</Alert>;
         }
         return (
-            <Container>
+            <Container gap={'4'}>
                 <DataViewer response={{ statusResponse }}>
                     {({ statusResponse }) => (
                         <>
@@ -67,16 +68,18 @@ const SettPåVentContainer: React.FC<{
                         </>
                     )}
                 </DataViewer>
+                <ModiaLenke />
             </Container>
         );
     } else if (statusPåVentRedigering) {
         return (
-            <Container>
+            <Container gap={'4'}>
                 <SettPåVentForm
                     status={undefined}
                     settStatusPåVent={settStatusResponse}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
+                <ModiaLenke />
             </Container>
         );
     } else {
