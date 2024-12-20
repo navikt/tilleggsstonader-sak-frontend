@@ -31,6 +31,10 @@ const OpprettKlageBehandling: React.FC<Props> = ({
         if (laster) {
             return;
         }
+        if (!klageMottattDato) {
+            settFeilmelding('Må sette dato for klage mottatt');
+            return;
+        }
         settLaster(true);
         request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsakId}`, 'POST', {
             mottattDato: klageMottattDato,
