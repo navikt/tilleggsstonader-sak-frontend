@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
@@ -13,7 +13,7 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggTomRessurs, byggHenterRessurs } from '../../../../../typer/ressurs';
+import { byggTomRessurs, byggHenterRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     BeregningsresultatLæremidler,
@@ -37,16 +37,22 @@ export const InnvilgeLæremidler: React.FC<{
     const [vedtaksperioder, settVedtaksperioder] = useState<PeriodeMedEndretKey[]>(
         initialiserVedtaksperioder(lagretVedtak)
     );
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
 
     const lagreVedtak = () => {
-        return request<null, InnvilgelseLæremidlerRequest>(
-            `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
-            'POST',
-            { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperioder }
-        );
+        if (beregningsresultat.status === RessursStatus.SUKSESS) {
+            return request<null, InnvilgelseLæremidlerRequest>(
+                `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
+                'POST',
+                { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperioder }
+            );
+        } else {
+            settVisHarIkkeBeregnetFeilmelding(true);
+            return Promise.reject();
+        }
     };
 
     const beregnLæremidler = () => {
@@ -96,6 +102,9 @@ export const InnvilgeLæremidler: React.FC<{
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
+            {visHarIkkeBeregnetFeilmelding && (
+                <ErrorMessage>{'Har uberenget data, vennligst ferdigstill'}</ErrorMessage>
+            )}
         </>
     );
 };
