@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
@@ -169,36 +170,39 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
-            <FeltContainer>
-                <EndreTypeOgDatoer
-                    form={form}
-                    oppdaterTypeIForm={oppdaterType}
-                    oppdaterPeriode={oppdaterForm}
-                    typeOptions={valgbareAktivitetTyper(Stønadstype.LÆREMIDLER)}
-                    formFeil={vilkårsperiodeFeil}
-                    alleFelterKanEndres={alleFelterKanEndres}
-                    kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                />
-                {erUtdanningEllerTiltak(form.type) && (
-                    <FeilmeldingMaksBredde $maxWidth={140}>
-                        <TextField
-                            erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                            label="Prosent"
-                            value={harTallverdi(form.prosent) ? form.prosent : ''}
-                            onChange={(event) =>
-                                settForm((prevState) => ({
-                                    ...prevState,
-                                    prosent: tilHeltall(event.target.value),
-                                }))
-                            }
-                            size="small"
-                            error={vilkårsperiodeFeil?.prosent}
-                            autoComplete="off"
-                            readOnly={!alleFelterKanEndres}
-                        />
-                    </FeilmeldingMaksBredde>
-                )}
-            </FeltContainer>
+            <VStack gap={'4'}>
+                <FeltContainer>
+                    <EndreTypeOgDatoer
+                        form={form}
+                        oppdaterTypeIForm={oppdaterType}
+                        oppdaterPeriode={oppdaterForm}
+                        typeOptions={valgbareAktivitetTyper(Stønadstype.LÆREMIDLER)}
+                        formFeil={vilkårsperiodeFeil}
+                        alleFelterKanEndres={alleFelterKanEndres}
+                        kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
+                    />
+                    {erUtdanningEllerTiltak(form.type) && (
+                        <FeilmeldingMaksBredde $maxWidth={140}>
+                            <TextField
+                                erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
+                                label="Prosent"
+                                value={harTallverdi(form.prosent) ? form.prosent : ''}
+                                onChange={(event) =>
+                                    settForm((prevState) => ({
+                                        ...prevState,
+                                        prosent: tilHeltall(event.target.value),
+                                    }))
+                                }
+                                size="small"
+                                error={vilkårsperiodeFeil?.prosent}
+                                autoComplete="off"
+                                readOnly={!alleFelterKanEndres}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
+                </FeltContainer>
+                <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
+            </VStack>
 
             <EndreStudienivå
                 form={form}
