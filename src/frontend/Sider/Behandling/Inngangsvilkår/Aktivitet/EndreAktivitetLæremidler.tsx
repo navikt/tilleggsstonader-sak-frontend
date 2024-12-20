@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
+import { HarBrukerRettTilUtstyrsstipend } from './Delvilkår/HarBrukerRettTilUtstyrsstipend';
+import { HarBrukerUtgifterTilLæremidler } from './Delvilkår/HarBrukerUtgifterTilLæremidler';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
-import { EndreStudienivå } from './EndreStudinivå';
+import { EndreStudienivå } from './EndreStudienivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     erUtdanningEllerTiltak,
@@ -144,16 +145,23 @@ export const EndreAktivitetLæremidler: React.FC<{
         }
     };
 
-    //TODO: fiks
-    const oppdaterForm = (key: keyof AktivitetLæremidler, nyVerdi: string) => {
-        settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
-    };
+    const oppdaterForm = (
+        key: keyof EndreAktivitetFormLæremidler,
+        nyVerdi: string | number | undefined
+    ) => settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
 
     const oppdaterType = (type: AktivitetTypeLæremidler) => {
         settForm((prevState) =>
             resettAktivitet(type, prevState, behandlingFakta.søknadMottattTidspunkt)
         );
     };
+
+    const oppdaterVurdering =
+        (key: keyof VurderingerAktivitetLæremidler) => (nyttSvar?: SvarJaNei) =>
+            settForm((prevState) => ({
+                ...prevState,
+                vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
+            }));
 
     const { alleFelterKanEndres } = useRevurderingAvPerioder({
         periodeFom: aktivitet?.fom,
@@ -188,10 +196,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                                 label="Prosent"
                                 value={harTallverdi(form.prosent) ? form.prosent : ''}
                                 onChange={(event) =>
-                                    settForm((prevState) => ({
-                                        ...prevState,
-                                        prosent: tilHeltall(event.target.value),
-                                    }))
+                                    oppdaterForm('prosent', tilHeltall(event.target.value))
                                 }
                                 size="small"
                                 error={vilkårsperiodeFeil?.prosent}
@@ -203,30 +208,29 @@ export const EndreAktivitetLæremidler: React.FC<{
                 </FeltContainer>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-
+            <HarBrukerUtgifterTilLæremidler
+                aktivitetForm={form}
+                readOnly={!alleFelterKanEndres}
+                oppdaterSvar={oppdaterVurdering('svarHarUtgifter')}
+                resettStudienivå={() => oppdaterForm('studienivå', undefined)}
+                resettHarRettTilUtstyrsstipendSvar={() =>
+                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
+                }
+            />
             <EndreStudienivå
                 form={form}
-                settStudienivå={(studienivå: Studienivå) =>
-                    settForm((prevState) => ({ ...prevState, studienivå: studienivå }))
+                settStudienivå={(studienivå) => oppdaterForm('studienivå', studienivå)}
+                resettHarRettTilUtstyrsstipendSvar={() =>
+                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
             />
-
-            <AktivitetDelvilkårLæremidler
+            <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(
-                    key: keyof VurderingerAktivitetLæremidler,
-                    nyttSvar: SvarJaNei
-                ) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
-                    }))
-                }
+                oppdaterSvar={oppdaterVurdering('svarHarRettTilUtstyrsstipend')}
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}

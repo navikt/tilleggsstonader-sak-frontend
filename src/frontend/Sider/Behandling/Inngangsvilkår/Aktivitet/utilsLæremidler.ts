@@ -72,8 +72,6 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
 
-export const skalVurdereHarUtgifter = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
-
 export const resettAktivitet = (
     nyType: AktivitetTypeLæremidler,
     eksisterendeAktivitetForm: EndreAktivitetFormLæremidler,
@@ -91,7 +89,7 @@ export const resettAktivitet = (
         studienivå: utdanningEllerTiltak ? eksisterendeAktivitetForm.studienivå : undefined,
         prosent: utdanningEllerTiltak ? eksisterendeAktivitetForm.prosent : undefined,
         vurderinger: {
-            svarHarUtgifter: skalVurdereHarUtgifter(nyType)
+            svarHarUtgifter: erUtdanningEllerTiltak(nyType)
                 ? eksisterendeAktivitetForm.vurderinger.svarHarUtgifter
                 : undefined,
             svarHarRettTilUtstyrsstipend: utdanningEllerTiltak

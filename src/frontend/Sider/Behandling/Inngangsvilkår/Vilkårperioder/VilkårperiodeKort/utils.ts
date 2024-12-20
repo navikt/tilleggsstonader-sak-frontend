@@ -6,7 +6,8 @@ export type DelvilkårKey =
     | 'medlemskap'
     | 'utgifterDekketAvAnnetRegelverk'
     | 'lønnet'
-    | 'harUtgifter';
+    | 'harUtgifter'
+    | 'harRettTilUtstyrsstipend';
 
 export const finnDelvilkårTilOppsummering = (
     faktaOgVurderinger: MålgruppeVurderinger | AktivitetFaktaOgVurderinger,
@@ -18,8 +19,16 @@ export const finnDelvilkårTilOppsummering = (
     const delvilkårMedResultat: DelvilkårKey[] = [];
 
     Object.entries(faktaOgVurderinger).forEach(([key, value]) => {
-        if (key !== '@type' && value?.resultat === resultat) {
-            delvilkårMedResultat.push(key as DelvilkårKey);
+        const utgifterErIkkeVurdert =
+            'harUtgifter' in faktaOgVurderinger &&
+            faktaOgVurderinger['harUtgifter']?.resultat === VilkårPeriodeResultat.IKKE_VURDERT;
+        if (key === 'harRettTilUtstyrsstipend' && utgifterErIkkeVurdert) {
+            // TODO Dette er en hack for ikke å vise "har rett på studiestipend" når vi har vurdert harUtgifter=JA og studienivå=VGS for læremidler.
+            //  Vi bør definitivt skrive om dette 🥴.
+        } else {
+            if (key !== '@type' && value?.resultat === resultat) {
+                delvilkårMedResultat.push(key as DelvilkårKey);
+            }
         }
     });
 
