@@ -6,7 +6,7 @@ import Lesefelt from '../../../../komponenter/Skjema/Lesefelt';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 
-export const EndreAktivitetRegisterDetaljer = ({
+export const DetaljerRegisterAktivitet = ({
     aktivitetFraRegister,
 }: {
     aktivitetFraRegister: Registeraktivitet | undefined;

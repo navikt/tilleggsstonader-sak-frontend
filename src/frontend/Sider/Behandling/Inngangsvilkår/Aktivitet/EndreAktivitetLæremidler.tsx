@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårLæremidler } from './Delvilkår/AktivitetDelvilkårLæremidler';
-import { EndreAktivitetRegisterDetaljer } from './EndreAktivitetRegisterDetaljer';
+import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import { EndreStudienivå } from './EndreStudinivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
@@ -170,7 +170,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
-            <VStack gap={'2'}>
+            <VStack gap={'4'}>
                 <FeltContainer>
                     <EndreTypeOgDatoer
                         form={form}
@@ -201,7 +201,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                         </FeilmeldingMaksBredde>
                     )}
                 </FeltContainer>
-                <EndreAktivitetRegisterDetaljer aktivitetFraRegister={aktivitetFraRegister} />
+                <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
 
             <EndreStudienivå

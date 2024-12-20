@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
-import { EndreAktivitetRegisterDetaljer } from './EndreAktivitetRegisterDetaljer';
+import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -158,7 +158,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
-            <VStack gap={'2'}>
+            <VStack gap={'4'}>
                 <FeltContainer>
                     <EndreTypeOgDatoer
                         form={form}
@@ -191,7 +191,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                         </FeilmeldingMaksBredde>
                     )}
                 </FeltContainer>
-                <EndreAktivitetRegisterDetaljer aktivitetFraRegister={aktivitetFraRegister} />
+                <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
 
             <AktivitetDelvilkårBarnetilsyn
