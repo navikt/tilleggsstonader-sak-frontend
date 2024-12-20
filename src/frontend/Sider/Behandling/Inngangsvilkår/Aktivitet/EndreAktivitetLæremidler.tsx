@@ -175,8 +175,6 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-    const alder =
-        behandlingFakta['@type'] === Stønadstype.LÆREMIDLER ? behandlingFakta.alder : undefined;
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <VStack gap={'4'}>
@@ -235,7 +233,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                         },
                     }))
                 }
-                alder={alder}
             />
             <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
