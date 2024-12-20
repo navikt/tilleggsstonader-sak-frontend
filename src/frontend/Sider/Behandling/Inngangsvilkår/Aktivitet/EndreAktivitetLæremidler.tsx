@@ -144,7 +144,7 @@ export const EndreAktivitetLæremidler: React.FC<{
         }
     };
 
-    const oppdaterForm = (key: keyof EndreAktivitetFormLæremidler, nyVerdi: string | null) =>
+    const oppdaterForm = (key: keyof EndreAktivitetFormLæremidler, nyVerdi: string | undefined) =>
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
 
     const oppdaterType = (type: AktivitetTypeLæremidler) => {
@@ -204,7 +204,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 aktivitetForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterSvar={oppdaterVurdering('svarHarUtgifter')}
-                resettStudienivå={() => oppdaterForm('studienivå', null)}
+                resettStudienivå={() => oppdaterForm('studienivå', undefined)}
                 resettHarRettTilUtstyrsstipendSvar={() =>
                     oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
                 }
