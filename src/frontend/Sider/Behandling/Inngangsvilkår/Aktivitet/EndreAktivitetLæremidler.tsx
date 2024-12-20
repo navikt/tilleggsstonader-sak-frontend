@@ -224,15 +224,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
-                settHarRettTilUtstyrsstipend={(svar: SvarJaNei) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        vurderinger: {
-                            ...prevState.vurderinger,
-                            svarHarRettTilUtstyrsstipend: svar || undefined,
-                        },
-                    }))
-                }
             />
             <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}

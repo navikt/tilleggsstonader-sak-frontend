@@ -14,7 +14,6 @@ export const EndreStudienivå: React.FC<{
     settStudienivå: (studienivå: Studienivå) => void;
     resettHarRettTilUtstyrsstipendSvar: () => void;
     alleFelterKanEndres: boolean;
-    settHarRettTilUtstyrsstipend: (svar: SvarJaNei) => void;
     feil?: FormErrors<AktivitetValidering>;
 }> = ({ form, settStudienivå, resettHarRettTilUtstyrsstipendSvar, alleFelterKanEndres, feil }) => {
     if (!erUtdanningEllerTiltak(form.type)) {
