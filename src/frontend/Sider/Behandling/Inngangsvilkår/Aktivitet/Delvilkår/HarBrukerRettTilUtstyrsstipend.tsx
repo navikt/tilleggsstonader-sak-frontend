@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { useBehandling } from '../../../../../context/BehandlingContext';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
-import { erUtdanningEllerTiltak } from '../utilsLæremidler';
+import { beregnHarRettTilUtstyrsstipend, erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 const hjelpetekstUtstyrsstipend = (
     <BodyShort>
@@ -24,6 +26,26 @@ export const HarBrukerRettTilUtstyrsstipend: React.FC<{
     oppdaterSvar: (nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
 }> = ({ aktivitetForm, oppdaterSvar, readOnly }) => {
+    const { behandlingFakta } = useBehandling();
+
+    const alder =
+        behandlingFakta['@type'] === Stønadstype.LÆREMIDLER ? behandlingFakta.alder : undefined;
+    const harRettTilUtstyrsstipend = beregnHarRettTilUtstyrsstipend(alder);
+
+    useEffect(() => {
+        if (
+            aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend === undefined &&
+            harRettTilUtstyrsstipend !== undefined
+        ) {
+            oppdaterSvar(harRettTilUtstyrsstipend);
+        }
+    }, [
+        alder,
+        aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend,
+        oppdaterSvar,
+        harRettTilUtstyrsstipend,
+    ]);
+
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     if (aktivitetForm.studienivå !== Studienivå.VIDEREGÅENDE) {
