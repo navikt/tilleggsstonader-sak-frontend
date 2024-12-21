@@ -27,7 +27,7 @@ export const StegKnapp: FC<{
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { request, harUlagradeKomponenter } = useApp();
 
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -76,13 +76,13 @@ export const StegKnapp: FC<{
         });
     };
 
-    if (!erStegRedigerbart) {
+    if (!behandlingErRedigerbar) {
         return null;
     }
 
     return (
         <VStack align={'start'}>
-            {behandling.steg === steg && (
+            {behandling.steg === steg && erStegRedigerbart && (
                 <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
                     {children}
                 </Button>
