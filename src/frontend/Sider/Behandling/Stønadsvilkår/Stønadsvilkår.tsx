@@ -17,6 +17,7 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { FanePath } from '../faner';
+import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { Vilkårsvurdering } from '../vilkår';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -49,6 +50,7 @@ const Stønadsvilkår = () => {
 
     return (
         <Container>
+            <VarselRevurderFraDatoMangler />
             <DataViewer
                 response={{
                     regler,
