@@ -49,31 +49,29 @@ const Stønadsvilkår = () => {
     }, [hentRegler]);
 
     return (
-        <>
-            <Container>
-                <VarselRevurderFraDatoMangler />
-                <DataViewer
-                    response={{
-                        regler,
-                        vilkårsvurdering,
-                        vilkårsoppsummering,
-                    }}
-                >
-                    {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
-                        <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
-                            {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
-                            <OppsummeringStønadsperioder
-                                stønadsperioder={vilkårsoppsummering.stønadsperioder}
-                            />
-                            <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
-                        </VilkårProvider>
-                    )}
-                </DataViewer>
-                <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                    Fullfør vilkårsvurdering og gå videre
-                </StegKnapp>
-            </Container>
-        </>
+        <Container>
+            <VarselRevurderFraDatoMangler />
+            <DataViewer
+                response={{
+                    regler,
+                    vilkårsvurdering,
+                    vilkårsoppsummering,
+                }}
+            >
+                {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
+                    <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
+                        {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
+                        <OppsummeringStønadsperioder
+                            stønadsperioder={vilkårsoppsummering.stønadsperioder}
+                        />
+                        <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
+                    </VilkårProvider>
+                )}
+            </DataViewer>
+            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                Fullfør vilkårsvurdering og gå videre
+            </StegKnapp>
+        </Container>
     );
 };
 
