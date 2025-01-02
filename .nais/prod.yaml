@@ -25,6 +25,10 @@ spec:
     enabled: false
     path: "/metrics"
   observability:
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
     autoInstrumentation:
       enabled: true
       runtime: nodejs
