@@ -175,7 +175,6 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
-
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <VStack gap={'4'}>
