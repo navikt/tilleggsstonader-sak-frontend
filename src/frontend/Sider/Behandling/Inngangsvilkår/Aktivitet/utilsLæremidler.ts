@@ -72,12 +72,6 @@ const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
 
-export const beregnHarRettTilUtstyrsstipend = (alder?: number): SvarJaNei | undefined => {
-    if (alder !== undefined && alder >= 21) {
-        return SvarJaNei.NEI;
-    }
-    return undefined;
-};
 export const resettAktivitet = (
     nyType: AktivitetTypeLæremidler,
     eksisterendeAktivitetForm: EndreAktivitetFormLæremidler,
