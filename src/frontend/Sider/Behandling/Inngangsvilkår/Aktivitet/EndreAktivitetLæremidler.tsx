@@ -175,6 +175,17 @@ export const EndreAktivitetLæremidler: React.FC<{
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
+
+    function defaultHarRettTilUtstyrsstipendSvar(studienivåSvar: Studienivå) {
+        const alder =
+            behandlingFakta['@type'] === Stønadstype.LÆREMIDLER ? behandlingFakta.alder : undefined;
+        const søkerErOver21År = alder !== undefined && alder >= 21;
+        if (studienivåSvar === Studienivå.VIDEREGÅENDE && søkerErOver21År) {
+            return SvarJaNei.NEI;
+        }
+        return undefined;
+    }
+
     return (
         <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
             <VStack gap={'4'}>
@@ -219,8 +230,10 @@ export const EndreAktivitetLæremidler: React.FC<{
             <EndreStudienivå
                 form={form}
                 settStudienivå={(studienivå) => oppdaterForm('studienivå', studienivå)}
-                resettHarRettTilUtstyrsstipendSvar={() =>
-                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(undefined)
+                resettHarRettTilUtstyrsstipendSvar={(studienivåSvar: Studienivå) =>
+                    oppdaterVurdering('svarHarRettTilUtstyrsstipend')(
+                        defaultHarRettTilUtstyrsstipendSvar(studienivåSvar)
+                    )
                 }
                 alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
