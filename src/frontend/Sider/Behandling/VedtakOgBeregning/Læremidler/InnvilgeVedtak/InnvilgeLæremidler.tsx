@@ -56,6 +56,7 @@ export const InnvilgeLæremidler: React.FC<{
     };
 
     const beregnLæremidler = () => {
+        settVisHarIkkeBeregnetFeilmelding(false);
         settBeregningsresultat(byggHenterRessurs());
 
         request<BeregningsresultatLæremidler, Periode[]>(
