@@ -12,7 +12,7 @@ import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 export const EndreStudienivå: React.FC<{
     form: EndreAktivitetFormLæremidler;
     settStudienivå: (studienivå: Studienivå) => void;
-    resettHarRettTilUtstyrsstipendSvar: () => void;
+    resettHarRettTilUtstyrsstipendSvar: (studienivå: Studienivå) => void;
     alleFelterKanEndres: boolean;
     feil?: FormErrors<AktivitetValidering>;
 }> = ({ form, settStudienivå, resettHarRettTilUtstyrsstipendSvar, alleFelterKanEndres, feil }) => {
@@ -30,11 +30,9 @@ export const EndreStudienivå: React.FC<{
             value={form.studienivå || ''}
             legend="Studienivå"
             readOnly={!alleFelterKanEndres}
-            onChange={(e) => {
-                settStudienivå(e);
-                if (e === Studienivå.HØYERE_UTDANNING) {
-                    resettHarRettTilUtstyrsstipendSvar();
-                }
+            onChange={(valgtStudienivå) => {
+                settStudienivå(valgtStudienivå);
+                resettHarRettTilUtstyrsstipendSvar(valgtStudienivå);
             }}
             size="small"
             error={feil?.studienivå}
