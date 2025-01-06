@@ -104,7 +104,7 @@ export const InnvilgeLæremidler: React.FC<{
                 Lagre vedtak og gå videre
             </StegKnapp>
             {visHarIkkeBeregnetFeilmelding && (
-                <ErrorMessage>{'Har uberenget data, vennligst ferdigstill'}</ErrorMessage>
+                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
         </>
     );
