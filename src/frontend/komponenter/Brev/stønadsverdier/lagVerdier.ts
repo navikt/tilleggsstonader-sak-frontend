@@ -36,11 +36,17 @@ export const lagVerdier = (
             }
         }
         case Stønadstype.LÆREMIDLER: {
-            const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
-            return lagVerdierVedtakFraOgTil(
-                innvilgelseLæremidler.gjelderFraOgMed,
-                innvilgelseLæremidler.gjelderTilOgMed
-            );
+            if (vedtak.type === TypeVedtak.INNVILGELSE) {
+                const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
+                return lagVerdierVedtakFraOgTil(
+                    innvilgelseLæremidler.gjelderFraOgMed,
+                    innvilgelseLæremidler.gjelderTilOgMed
+                );
+            } else if (vedtak.type === TypeVedtak.OPPHØR) {
+                return lagVerdierOpphørsDato(behandling.revurderFra);
+            } else {
+                return TOMME_VERDIER;
+            }
         }
         default:
             return TOMME_VERDIER;
