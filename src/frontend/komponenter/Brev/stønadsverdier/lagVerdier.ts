@@ -1,5 +1,5 @@
-import { lagVerdierOpphørsDato } from './lagVerdierOpphørFraDato';
 import { lagVerdierVedtakFraOgTil } from './lagVerdierVedtakFraOgTil';
+import { lagVerdierOpphørsDato } from './lagVerdiOpphørFraDato';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
