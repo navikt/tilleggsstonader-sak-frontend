@@ -3,6 +3,8 @@ import React, { SetStateAction, useCallback, useEffect, useMemo, useState } from
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { List } from '@navikt/ds-react';
+
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
@@ -14,6 +16,7 @@ import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
 import { VedtakResponse } from '../../typer/vedtak/vedtak';
+import { harIkkeVerdi } from '../../utils/utils';
 
 type Props = {
     mal: MalStruktur;
@@ -157,8 +160,50 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler,
     ]);
 
+    /**
+     * Et problem er at selve knappen for å sende er en nivå opp. Burde referansen være i denne filen?
+     */
+
     return (
         <FlexColumn>
+            <List title={'Variabler som mangler'}>
+                {mal.delmaler
+                    .filter((delmal) => inkluderteDelmaler[delmal._id])
+                    .flatMap((delmal) => Object.values(valgfelt[delmal._id] ?? {}))
+                    .filter((valg) => valg._type === 'tekst')
+                    .flatMap((valg) => valg.variabler)
+                    .map((variabel) => variabel._id)
+                    .filter((variabelId) => harIkkeVerdi(variabler[variabelId]))
+                    .map((v) => (
+                        <List.Item key={v}>{v}</List.Item>
+                    ))}
+            </List>
+            <List title={'Valgfelt som mangler'}>
+                {mal.delmaler
+                    .filter((delmal) => inkluderteDelmaler[delmal._id])
+                    .flatMap((delmal) => {
+                        const valgfeltForDelmal = Object.keys(valgfelt[delmal._id] ?? {});
+                        const påkrevdeFeltSomMangles = delmal.visningsdetaljer.pakrevdeValgfelt
+                            .map((v) => v.valgfelt._ref)
+                            .filter(
+                                (påkrevdValgfelt) => !valgfeltForDelmal.includes(påkrevdValgfelt)
+                            )
+                            .map((påkrevdValgfelt) => {
+                                const block = delmal.blocks.find(
+                                    (block) =>
+                                        block._type === 'valgfelt' && block._id === påkrevdValgfelt
+                                ) as Valgfelt | undefined;
+                                if (!block) {
+                                    return 'Finner ikke valgfelt blant blocks';
+                                } else {
+                                    return block.visningsnavn;
+                                }
+                            });
+                        return påkrevdeFeltSomMangles.map((feltSomMangler) => (
+                            <List.Item key={feltSomMangler}>{feltSomMangler}</List.Item>
+                        ));
+                    })}
+            </List>
             {mal.delmaler.map(
                 (delmal) =>
                     delmal.visningsdetaljer.skalVisesIBrevmeny && (

@@ -52,6 +52,7 @@ export interface Delmal {
     visningsdetaljer: {
         skalAlltidMed: boolean;
         skalVisesIBrevmeny: boolean;
+        pakrevdeValgfelt: { valgfelt: { _ref: string } }[];
     };
 }
 export interface FritekstAvsnitt {
