@@ -14,13 +14,14 @@ import {
     List,
     Radio,
     RadioGroup,
+    Select,
     TextField,
     VStack,
 } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
-import { Stønadstype } from '../../typer/behandling/behandlingTema';
+import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import {
     byggFeiletRessurs,
     byggHenterRessurs,
@@ -28,7 +29,7 @@ import {
     Ressurs,
     RessursStatus,
 } from '../../typer/ressurs';
-import { erGyldigFnr } from '../../utils/utils';
+import { erGyldigFnr, harVerdi } from '../../utils/utils';
 
 const Container = styled.div`
     margin: 2rem;
@@ -39,6 +40,7 @@ const Container = styled.div`
 `;
 
 interface Personinfo {
+    navn: string;
     barn: {
         ident: string;
         navn: string;
@@ -57,55 +59,21 @@ interface OpprettFørstegansbehandlingRequest {
     medBrev: boolean;
 }
 
-const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
-    const { request } = useApp();
-    const navigate = useNavigate();
-    const [ident, settIdent] = useState<string>('');
-    const [medBrev, settMedBrev] = useState<boolean>(true);
-    const [valgteBarn, settValgteBarn] = useState<string[]>([]);
+const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
+    !!stønadstype && [Stønadstype.BARNETILSYN].indexOf(stønadstype) > -1;
 
-    const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
+function OpprettFørstegangsbehandlingAdmin() {
+    const [stønadstype, settStønadstype] = useState<Stønadstype>();
 
-    const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
-        useState<Ressurs<null>>(byggTomRessurs());
-
-    const hentPersoninfo = () => {
-        settOpprettBehandlingResponse(byggTomRessurs());
-        settValgteBarn([]);
-        if (!erGyldigFnr(ident)) {
-            settPersoninfo(byggFeiletRessurs('Ikke gyldig ident.'));
-            return;
-        }
-        settPersoninfo(byggHenterRessurs());
-        request<Personinfo, OpprettFørstegansbehandlingHentPersonRequest>(
-            `/api/sak/behandling/admin/hent-person`,
-            'POST',
-            {
-                stønadstype: Stønadstype.BARNETILSYN,
-                ident,
-            }
-        ).then(settPersoninfo);
-    };
-
-    const opprettBehandling = () => {
-        settOpprettBehandlingResponse(byggHenterRessurs());
-        request<Personinfo, OpprettFørstegansbehandlingRequest>(
-            `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
-            'POST',
-            { stønadstype: Stønadstype.BARNETILSYN, ident, valgteBarn, medBrev }
-        ).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                navigate(`/behandling/${res.data}`);
-            } else {
-                settOpprettBehandlingResponse(res);
-            }
-        });
+    const endreStønadstype = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const nyStønadstype = event.target.value;
+        settStønadstype(harVerdi(nyStønadstype) ? (nyStønadstype as Stønadstype) : undefined);
     };
 
     return (
         <Container>
             <div>
-                <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling Tilsyn barn</Heading>
+                <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling</Heading>
                 <VStack gap={'2'}>
                     <BodyShort>
                         Enkelte ganger vil det være behov for å opprette en førstegangsbehandling
@@ -124,6 +92,71 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                     <BodyShort>Hvis du er usikker, spør på teams.</BodyShort>
                 </VStack>
             </div>
+            <Select label="Stønadstype" onChange={endreStønadstype}>
+                <option value="">- Velg stønadstype -</option>
+                {[Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER].map((stønadstype) => (
+                    <option key={stønadstype} value={stønadstype}>
+                        {stønadstypeTilTekst[stønadstype]}
+                    </option>
+                ))}
+            </Select>
+
+            {stønadstype && (
+                <OpprettFørstegangsbehandling
+                    key={stønadstype} // nullstiller komponent hvis man endrer stønadstype
+                    stønadstype={stønadstype}
+                />
+            )}
+        </Container>
+    );
+}
+
+function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønadstype }) {
+    const { request } = useApp();
+    const navigate = useNavigate();
+    const [ident, settIdent] = useState<string>('');
+    const [medBrev, settMedBrev] = useState<boolean>(true);
+    const [valgteBarn, settValgteBarn] = useState<string[]>([]);
+    const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
+
+    const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
+        useState<Ressurs<null>>(byggTomRessurs());
+
+    const hentPersoninfo = () => {
+        settOpprettBehandlingResponse(byggTomRessurs());
+        settValgteBarn([]);
+        if (!erGyldigFnr(ident)) {
+            settPersoninfo(byggFeiletRessurs('Ikke gyldig ident.'));
+            return;
+        }
+        settPersoninfo(byggHenterRessurs());
+        request<Personinfo, OpprettFørstegansbehandlingHentPersonRequest>(
+            `/api/sak/behandling/admin/hent-person`,
+            'POST',
+            {
+                stønadstype,
+                ident,
+            }
+        ).then(settPersoninfo);
+    };
+
+    const opprettBehandling = () => {
+        settOpprettBehandlingResponse(byggHenterRessurs());
+        request<Personinfo, OpprettFørstegansbehandlingRequest>(
+            `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
+            'POST',
+            { stønadstype, ident, valgteBarn, medBrev }
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                navigate(`/behandling/${res.data}`);
+            } else {
+                settOpprettBehandlingResponse(res);
+            }
+        });
+    };
+
+    return (
+        <>
             <VStack gap={'1'}>
                 <TextField
                     label={'Søkers fødselsnummer'}
@@ -135,8 +168,9 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                     }}
                     autoComplete="off"
                 />
+
                 <Button variant={'secondary'} size={'small'} onClick={hentPersoninfo}>
-                    Hent søkers barn fra folkeregisteret
+                    Hent personinfo fra folkeregisteret
                 </Button>
             </VStack>
 
@@ -144,6 +178,9 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                 {({ personinfo }) => (
                     <>
                         <Heading size={'small'}>Informasjon om søker</Heading>
+                        <BodyShort>
+                            <b>Navn: </b> {personinfo.navn}
+                        </BodyShort>
                         <RadioGroup
                             legend={
                                 <HStack gap={'2'}>
@@ -165,16 +202,18 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                             <Radio value={true}>Ja</Radio>
                             <Radio value={false}>Nei</Radio>
                         </RadioGroup>
-                        <CheckboxGroup
-                            legend={'Velg barn fra søknad'}
-                            onChange={(values) => settValgteBarn(values)}
-                        >
-                            {personinfo.barn.map(({ ident, navn }) => (
-                                <Checkbox key={ident} value={ident}>
-                                    {ident} - {navn}
-                                </Checkbox>
-                            ))}
-                        </CheckboxGroup>
+                        {skalVelgeBarn(stønadstype) && (
+                            <CheckboxGroup
+                                legend={'Velg barn fra søknad'}
+                                onChange={(values) => settValgteBarn(values)}
+                            >
+                                {personinfo.barn.map(({ ident, navn }) => (
+                                    <Checkbox key={ident} value={ident}>
+                                        {ident} - {navn}
+                                    </Checkbox>
+                                ))}
+                            </CheckboxGroup>
+                        )}
                         <Button variant={'primary'} size={'small'} onClick={opprettBehandling}>
                             Opprett førstegangsbehandling
                         </Button>
@@ -182,8 +221,8 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
                 )}
             </DataViewer>
             <DataViewer response={{ opprettBehandlingResponse }}>{() => <>Ok</>}</DataViewer>
-        </Container>
+        </>
     );
-};
+}
 
 export default OpprettFørstegangsbehandlingAdmin;
