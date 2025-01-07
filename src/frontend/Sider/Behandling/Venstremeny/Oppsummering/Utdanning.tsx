@@ -51,7 +51,7 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
                 </InfoSeksjon>
             )}
             {harFunksjonsnedsettelse && (
-                <InfoSeksjon label="Funksjonsnedsettelse" ikon={<WheelchairIcon />}>
+                <InfoSeksjon label="Særlig store utgifter" ikon={<WheelchairIcon />}>
                     <BodyShort size="small">{jaNeiTilTekst[harFunksjonsnedsettelse]}</BodyShort>
                 </InfoSeksjon>
             )}
