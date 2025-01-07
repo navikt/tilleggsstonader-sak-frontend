@@ -21,7 +21,6 @@ import {
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
-import { IdentRequest } from '../../typer/identrequest';
 import {
     byggFeiletRessurs,
     byggHenterRessurs,
@@ -44,6 +43,11 @@ interface Personinfo {
         ident: string;
         navn: string;
     }[];
+}
+
+interface OpprettFørstegansbehandlingHentPersonRequest {
+    stønadstype: Stønadstype;
+    ident: string;
 }
 
 interface OpprettFørstegansbehandlingRequest {
@@ -73,9 +77,14 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
             return;
         }
         settPersoninfo(byggHenterRessurs());
-        request<Personinfo, IdentRequest>(`/api/sak/behandling/admin/hent-person`, 'POST', {
-            ident,
-        }).then(settPersoninfo);
+        request<Personinfo, OpprettFørstegansbehandlingHentPersonRequest>(
+            `/api/sak/behandling/admin/hent-person`,
+            'POST',
+            {
+                stønadstype: Stønadstype.BARNETILSYN,
+                ident,
+            }
+        ).then(settPersoninfo);
     };
 
     const opprettBehandling = () => {
