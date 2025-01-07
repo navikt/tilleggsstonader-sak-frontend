@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
+import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -128,6 +128,12 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
 
 const VedtaksperiodeReadMore = () => (
     <ReadMore header="Slik setter du vedtaksperioden" size="small">
-        Fyll ut...
+        <BodyLong size={'small'}>
+            Vedtaksperioden kan maks være 11 måneder per år. Hvis søker har utdanning som feks går
+            fra januar - desember og skal ha vedtaksperiode på 10 måneder, må det settes to
+            vedtaksperioder, en fra 1. januar - 30. juni og en fra 1. august - 31. desember som
+            tilsammen blir 10 måneder. Hvis vedtaksperioden går over årsskiftet, f.eks. fra 1.
+            august - 31. mai, trenger du ikke dele dette opp i to perioder.
+        </BodyLong>
     </ReadMore>
 );
