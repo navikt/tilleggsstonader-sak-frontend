@@ -9,7 +9,11 @@ import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage'
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
-import { harEgenAnsattRolle, harStrengtFortroligRolle } from '../../../utils/roller';
+import {
+    harEgenAnsattRolle,
+    harNayUtlandRolle,
+    harStrengtFortroligRolle,
+} from '../../../utils/roller';
 import {
     defaultOppgaveRequest,
     nullstillSortering,
@@ -42,6 +46,7 @@ export const Oppgavefiltrering = () => {
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
+    const harSaksbehandlerNayUtlandRolle = harNayUtlandRolle(appEnv, saksbehandler);
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number | boolean) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -135,7 +140,8 @@ export const Oppgavefiltrering = () => {
                     {Object.entries(
                         enhetTilTekst(
                             harSaksbehandlerStrengtFortroligRolle,
-                            harSaksbehandlerEgenAnsattRolle
+                            harSaksbehandlerEgenAnsattRolle,
+                            harSaksbehandlerNayUtlandRolle
                         )
                     ).map(([type, val]) => (
                         <option key={type} value={type}>

@@ -2,7 +2,8 @@ import { AppEnv } from './env';
 import { Saksbehandler } from './saksbehandler';
 
 export type SaksbehadlerRolle = 'veileder' | 'saksbehandler' | 'beslutter';
-export type Rolle = SaksbehadlerRolle | 'kode6' | 'kode7' | 'egenAnsatt';
+type NayUtland = 'NayUtland'; // NayRomerike håndterer utlandssaker
+export type Rolle = SaksbehadlerRolle | 'kode6' | 'kode7' | 'egenAnsatt' | NayUtland;
 
 /**
  * Mapper rolle til gruppe
@@ -41,6 +42,10 @@ export const harStrengtFortroligRolle = (env: AppEnv, saksbehandler: Saksbehandl
 
 export const harEgenAnsattRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
     return harRolle(env, saksbehandler, 'egenAnsatt');
+};
+
+export const harNayUtlandRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
+    return harRolle(env, saksbehandler, 'NayUtland');
 };
 
 const harRolle = (env: AppEnv, saksbehandler: Saksbehandler, rolle: Rolle) => {
