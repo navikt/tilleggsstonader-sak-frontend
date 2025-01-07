@@ -20,6 +20,7 @@ import {
 
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
+import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { IdentRequest } from '../../typer/identrequest';
 import {
     byggFeiletRessurs,
@@ -46,6 +47,7 @@ interface Personinfo {
 }
 
 interface OpprettFørstegansbehandlingRequest {
+    stønadstype: Stønadstype;
     ident: string;
     valgteBarn: string[];
     medBrev: boolean;
@@ -81,7 +83,7 @@ const OpprettFørstegangsbehandlingAdmin: React.FC = () => {
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { ident, valgteBarn, medBrev }
+            { stønadstype: Stønadstype.BARNETILSYN, ident, valgteBarn, medBrev }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
