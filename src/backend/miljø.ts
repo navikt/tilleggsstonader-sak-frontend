@@ -14,7 +14,14 @@ export enum ApplicationName {
     unleash = 'unleash',
 }
 
-type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
+type Rolle =
+    | 'veileder'
+    | 'saksbehandler'
+    | 'beslutter'
+    | 'kode6'
+    | 'kode7'
+    | 'egenAnsatt'
+    | 'NayUtland';
 
 type Roller = {
     [key in Rolle]: string;
@@ -81,6 +88,7 @@ const devRoller: Roller = {
     kode6: '5ef775f2-61f8-4283-bf3d-8d03f428aa14',
     kode7: 'ea930b6b-9397-44d9-b9e6-f4cf527a632a',
     egenAnsatt: 'dbe4ad45-320b-4e9a-aaa1-73cca4ee124d',
+    NayUtland: 'd5f850f4-90b7-41c1-a460-7ccca4bb171d',
 };
 
 const prodRoller: Roller = {
@@ -90,6 +98,7 @@ const prodRoller: Roller = {
     kode6: 'ad7b87a6-9180-467c-affc-20a566b0fec0',
     kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b',
     egenAnsatt: 'e750ceb5-b70b-4d94-b4fa-9d22467b786b',
+    NayUtland: '71f94b2e-5c60-4f55-9db8-ce0235f4d5b8',
 };
 
 const clientsLocal = (): ClientConfig => ({
