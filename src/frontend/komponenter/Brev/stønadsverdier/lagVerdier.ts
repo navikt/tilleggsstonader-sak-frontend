@@ -1,5 +1,5 @@
+import { lagVerdierOpphørFraDato } from './lagVerdierOpphørFraDato';
 import { lagVerdierVedtakFraOgTil } from './lagVerdierVedtakFraOgTil';
-import { lagVerdierOpphørsDato } from './lagVerdiOpphørFraDato';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -30,7 +30,7 @@ export const lagVerdier = (
                     beregningsresultat.gjelderTilOgMed
                 );
             } else if (vedtak.type === TypeVedtak.OPPHØR) {
-                return lagVerdierOpphørsDato(behandling.revurderFra);
+                return lagVerdierOpphørFraDato(behandling.revurderFra);
             } else {
                 return TOMME_VERDIER;
             }
@@ -43,7 +43,7 @@ export const lagVerdier = (
                     innvilgelseLæremidler.gjelderTilOgMed
                 );
             } else if (vedtak.type === TypeVedtak.OPPHØR) {
-                return lagVerdierOpphørsDato(behandling.revurderFra);
+                return lagVerdierOpphørFraDato(behandling.revurderFra);
             } else {
                 return TOMME_VERDIER;
             }
