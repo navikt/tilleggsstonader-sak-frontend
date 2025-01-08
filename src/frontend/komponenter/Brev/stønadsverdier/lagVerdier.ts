@@ -16,9 +16,6 @@ export const lagVerdier = (
     if (!behandling || !vedtak) {
         return TOMME_VERDIER;
     }
-    if (vedtak.type === 'AVSLAG') {
-        return TOMME_VERDIER;
-    }
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN: {
