@@ -1,11 +1,11 @@
-import { lagVerdierOpphørFraDato } from './lagVerdierOpphørFraDato';
 import { lagVerdierVedtakFraOgTil } from './lagVerdierVedtakFraOgTil';
+import { preutfylleOpphørsDato } from './preutfylleOpphørsDato';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import { InnvilgelseBarnetilsyn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 
@@ -17,17 +17,20 @@ export const lagVerdier = (
         return TOMME_VERDIER;
     }
 
+    function preutfylleVedtaksDatoer(vedtak: InnvilgelseBarnetilsyn) {
+        const beregningsresultat = vedtak.beregningsresultat;
+        return lagVerdierVedtakFraOgTil(
+            beregningsresultat.gjelderFraOgMed,
+            beregningsresultat.gjelderTilOgMed
+        );
+    }
+
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN: {
             if (vedtak.type === TypeVedtak.INNVILGELSE) {
-                const beregningsresultat =
-                    vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
-                return lagVerdierVedtakFraOgTil(
-                    beregningsresultat.gjelderFraOgMed,
-                    beregningsresultat.gjelderTilOgMed
-                );
+                return preutfylleVedtaksDatoer(vedtak as InnvilgelseBarnetilsyn);
             } else if (vedtak.type === TypeVedtak.OPPHØR) {
-                return lagVerdierOpphørFraDato(behandling.revurderFra);
+                return preutfylleOpphørsDato(behandling.revurderFra);
             } else {
                 return TOMME_VERDIER;
             }
@@ -40,7 +43,7 @@ export const lagVerdier = (
                     innvilgelseLæremidler.gjelderTilOgMed
                 );
             } else if (vedtak.type === TypeVedtak.OPPHØR) {
-                return lagVerdierOpphørFraDato(behandling.revurderFra);
+                return preutfylleOpphørsDato(behandling.revurderFra);
             } else {
                 return TOMME_VERDIER;
             }
