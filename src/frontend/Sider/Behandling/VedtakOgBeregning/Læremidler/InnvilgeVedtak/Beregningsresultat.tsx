@@ -7,7 +7,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { formaterIsoPeriode, formaterÅrMåned } from '../../../../../utils/dato';
+import { formaterIsoPeriode, formaterTilTekstligDato } from '../../../../../utils/dato';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 
 const Container = styled.div`
@@ -32,7 +32,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
             <Label>Prosent</Label>
             <Label>Månedsbeløp</Label>
             <Label>Stønadsbeløp</Label>
-            <Label>Utbetalingsmåned</Label>
+            <Label>Utbetalingsdato</Label>
             {beregningsresultat.perioder.map((periode, indeks) => (
                 <React.Fragment key={indeks}>
                     <BodyShort size="small">
@@ -43,7 +43,9 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     <BodyShort size="small">{periode.studieprosent}%</BodyShort>
                     <BodyShort size="small">{periode.beløp} kr</BodyShort>
                     <BodyShort size="small">{periode.stønadsbeløp} kr</BodyShort>
-                    <BodyShort size="small">{formaterÅrMåned(periode.utbetalingsmåned)}</BodyShort>
+                    <BodyShort size="small">
+                        {formaterTilTekstligDato(periode.utbetalingsdato)}
+                    </BodyShort>
                 </React.Fragment>
             ))}
         </Grid>

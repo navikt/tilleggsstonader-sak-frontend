@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
-import { Alert, HGrid } from '@navikt/ds-react';
+import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
@@ -18,7 +17,6 @@ import {
 } from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
-import { Toggle } from '../../../../utils/toggles';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -37,8 +35,6 @@ const VedtakOgBeregningLæremidler: FC = () => {
             settTypeVedtak(vedtak.data.type);
         }
     }, [vedtak]);
-
-    const kanInnvilgeLæremidler = useFlag(Toggle.KAN_INNVILGE_LÆREMIDLER);
 
     return (
         <DataViewer response={{ vedtak }}>
@@ -62,12 +58,9 @@ const VedtakOgBeregningLæremidler: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE &&
-                        (kanInnvilgeLæremidler ? (
-                            <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
-                        ) : (
-                            <Alert variant="error">Støtte for innvilgelse er ikke laget enda</Alert>
-                        ))}
+                    {typeVedtak === TypeVedtak.INNVILGELSE && (
+                        <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                    )}
                 </Container>
             )}
         </DataViewer>

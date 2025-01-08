@@ -131,7 +131,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                                         as="a"
                                         href="/admin/opprett-behandling"
                                     >
-                                        [Admin] Opprett behandling fra journalpost
+                                        [Admin] Opprett førstegangsbehandling
                                     </Dropdown.Menu.GroupedList.Item>
                                 )}
                                 <Dropdown.Menu.Divider />
