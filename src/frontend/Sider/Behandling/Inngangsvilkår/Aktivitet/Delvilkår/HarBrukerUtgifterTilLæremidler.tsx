@@ -52,11 +52,11 @@ function lagHjelpetekst(aktivitetType: AktivitetType) {
 const hjelpetekst: Record<AktivitetType.TILTAK | AktivitetType.UTDANNING, ReactNode> = {
     [AktivitetType.UTDANNING]: (
         <>
-            <BodyShort spacing>
+            <BodyShort size={'small'} spacing>
                 Vi vurderer det slik at søker har utgifter til læremidler hvis de deltar på en
                 utdanning godkjent av Nav.
             </BodyShort>
-            <BodyShort spacing>
+            <BodyShort size={'small'} spacing>
                 Unntaket er hvis utdanningen er på grunnskolenivå da skolen skal dekke alle
                 utgifter.
             </BodyShort>
@@ -64,11 +64,11 @@ const hjelpetekst: Record<AktivitetType.TILTAK | AktivitetType.UTDANNING, ReactN
     ),
     [AktivitetType.TILTAK]: (
         <>
-            <BodyShort spacing>
+            <BodyShort size={'small'} spacing>
                 Vi vurderer det slik at søker har utgifter til læremidler hvis de deltar på et
                 opplæringstiltak eller en utdanning godkjent av Nav.
             </BodyShort>
-            <BodyShort spacing>
+            <BodyShort size={'small'} spacing>
                 Unntakene er AMO-kurs hvor det må undersøkes om læremidler er dekket gjenom
                 kursavgiften.
             </BodyShort>

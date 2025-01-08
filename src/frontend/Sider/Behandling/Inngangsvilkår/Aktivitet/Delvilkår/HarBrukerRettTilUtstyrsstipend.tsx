@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, List } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
@@ -9,14 +9,27 @@ import { EndreAktivitetFormLæremidler } from '../EndreAktivitetLæremidler';
 import { erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 const hjelpetekstUtstyrsstipend = (
-    <BodyShort>
-        Søkere under 21 år som går på videregående har som regel rett til utstyrsstipend.
-        <br />
-        <br />
-        Lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på jobb og de
-        som har studiekompetanse, men går på vgs for å forbedre karakterer eller liknende, har ikke
-        rett til utstyrsstipend.
-    </BodyShort>
+    <>
+        <BodyShort size={'small'} spacing>
+            Søkere under 21 år som går på videregående har som regel rett til utstyrsstipend.
+        </BodyShort>
+        <BodyShort size={'small'} spacing>
+            Disse har ikke rett til utstyrsstipend:
+        </BodyShort>
+        <List size="small">
+            <List.Item>
+                lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på
+                jobb
+            </List.Item>
+            <List.Item>
+                de som har studiekompetanse, men går på vgs for å forbedre karakterer eller
+                liknende.
+            </List.Item>
+        </List>
+        <BodyShort size={'small'} spacing>
+            Hvis søker har rett til utstyrsstipend, så har de ikke rett på tilleggsstønad.
+        </BodyShort>
+    </>
 );
 
 export const HarBrukerRettTilUtstyrsstipend: React.FC<{
@@ -37,7 +50,7 @@ export const HarBrukerRettTilUtstyrsstipend: React.FC<{
             svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
             oppdaterSvar={oppdaterSvar}
             hjelpetekst={hjelpetekstUtstyrsstipend}
-            hjelpetekstHeader={'Slik vurderer du om søker har rett'}
+            hjelpetekstHeader={'Slik vurderer du om søker har rett på utstyrsstipend'}
         />
     );
 };
