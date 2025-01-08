@@ -1,12 +1,37 @@
-import { lagVerdierVedtakFraOgTil } from './lagVerdierVedtakFraOgTil';
+import { mapRevurderFraDatoForPreutfyllingIBrevfanen } from './mapRevurderFraDatoForPreutfyllingIBrevfanen';
+import { mapVedtaksDatoerForPreutfyllingIBrevfanen } from './mapVedtaksDatoerForPreutfyllingIBrevfanen';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
-import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import {
+    BeregningsresultatTilsynBarn,
+    InnvilgelseBarnetilsyn,
+} from '../../../typer/vedtak/vedtakTilsynBarn';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
+
+function behandleInnvilgelse(
+    behandling: Behandling,
+    vedtak: InnvilgelseBarnetilsyn | InnvilgelseLæremidler
+) {
+    if (behandling.stønadstype === Stønadstype.LÆREMIDLER) {
+        const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
+        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+            innvilgelseLæremidler.gjelderFraOgMed,
+            innvilgelseLæremidler.gjelderTilOgMed
+        );
+    } else if (behandling.stønadstype === Stønadstype.BARNETILSYN) {
+        const beregningsresultat = vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
+        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+            beregningsresultat.gjelderFraOgMed,
+            beregningsresultat.gjelderTilOgMed
+        );
+    } else {
+        return TOMME_VERDIER;
+    }
+}
 
 export const lagVerdier = (
     behandling: Behandling | undefined,
@@ -15,24 +40,13 @@ export const lagVerdier = (
     if (!behandling || !vedtak) {
         return TOMME_VERDIER;
     }
-    if (vedtak.type !== 'INNVILGELSE') {
-        return TOMME_VERDIER;
-    }
 
-    switch (behandling.stønadstype) {
-        case Stønadstype.BARNETILSYN: {
-            const beregningsresultat = vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
-            return lagVerdierVedtakFraOgTil(
-                beregningsresultat.gjelderFraOgMed,
-                beregningsresultat.gjelderTilOgMed
-            );
+    switch (vedtak.type) {
+        case TypeVedtak.OPPHØR: {
+            return mapRevurderFraDatoForPreutfyllingIBrevfanen(behandling.revurderFra);
         }
-        case Stønadstype.LÆREMIDLER: {
-            const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
-            return lagVerdierVedtakFraOgTil(
-                innvilgelseLæremidler.gjelderFraOgMed,
-                innvilgelseLæremidler.gjelderTilOgMed
-            );
+        case TypeVedtak.INNVILGELSE: {
+            return behandleInnvilgelse(behandling, vedtak);
         }
         default:
             return TOMME_VERDIER;
