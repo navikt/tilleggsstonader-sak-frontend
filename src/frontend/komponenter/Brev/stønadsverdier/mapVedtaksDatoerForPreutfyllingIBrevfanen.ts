@@ -1,7 +1,7 @@
 import { Brevverdier } from './verdier';
 import { formaterNullableTilTekstligDato } from '../../../utils/dato';
 
-export const preutfylleVedtaksDatoer = (
+export const mapVedtaksDatoerForPreutfyllingIBrevfanen = (
     fom: string | undefined,
     tom: string | undefined
 ): Brevverdier => {

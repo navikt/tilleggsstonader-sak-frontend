@@ -1,5 +1,5 @@
-import { preutfylleOpphørsDato } from './preutfylleOpphørsDato';
-import { preutfylleVedtaksDatoer } from './preutfylleVedtaksDatoer';
+import { mapRevurderFraDatoForPreutfyllingIBrevfanen } from './mapRevurderFraDatoForPreutfyllingIBrevfanen';
+import { mapVedtaksDatoerForPreutfyllingIBrevfanen } from './mapVedtaksDatoerForPreutfyllingIBrevfanen';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -18,13 +18,13 @@ function behandleInnvilgelse(
 ) {
     if (behandling.stønadstype === Stønadstype.LÆREMIDLER) {
         const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
-        return preutfylleVedtaksDatoer(
+        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
             innvilgelseLæremidler.gjelderFraOgMed,
             innvilgelseLæremidler.gjelderTilOgMed
         );
     } else if (behandling.stønadstype === Stønadstype.BARNETILSYN) {
         const beregningsresultat = vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
-        return preutfylleVedtaksDatoer(
+        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
             beregningsresultat.gjelderFraOgMed,
             beregningsresultat.gjelderTilOgMed
         );
@@ -43,7 +43,7 @@ export const lagVerdier = (
 
     switch (vedtak.type) {
         case TypeVedtak.OPPHØR: {
-            return preutfylleOpphørsDato(behandling.revurderFra);
+            return mapRevurderFraDatoForPreutfyllingIBrevfanen(behandling.revurderFra);
         }
         case TypeVedtak.INNVILGELSE: {
             return behandleInnvilgelse(behandling, vedtak);
