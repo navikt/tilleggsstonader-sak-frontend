@@ -61,7 +61,7 @@ export const InnvilgeLæremidler: React.FC<{
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
-            return Promise.reject(new Error('Beregningsresultat er ikke suksess'));
+            return Promise.reject();
         }
     };
 
@@ -86,7 +86,9 @@ export const InnvilgeLæremidler: React.FC<{
                 vedtaksperioder
             ).then((result) => {
             settBeregningsresultat(result);
-            if (result.status === 'SUKSESS') settErVedtaksperioderBeregnet(true);
+            if (result.status === 'SUKSESS') {
+                settErVedtaksperioderBeregnet(true);
+            }
         });
         }
     };
