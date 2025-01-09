@@ -30,22 +30,20 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
                             </BodyShort>
                         )}
                         {annenUtdanning && (
-                            <>
-                                <BodyShort size="small">
-                                    {`Annet: ${tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}`}
-                                </BodyShort>
-                                {erLærlingEllerLiknende && (
-                                    <BodyShort size="small">
-                                        {`Lærling, lærekandidat, praksisbrevkandidat, kandidat for fagbrev på jobb?: 
-                            ${jaNeiTilTekst[erLærlingEllerLiknende]}`}
-                                    </BodyShort>
-                                )}
-                                {harTidligereFullførtVgs && (
-                                    <BodyShort size="small">
-                                        {`Fullført VGS: ${jaNeiTilTekst[harTidligereFullførtVgs]}`}
-                                    </BodyShort>
-                                )}
-                            </>
+                            <BodyShort size="small">
+                                Annet: {tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}
+                            </BodyShort>
+                        )}
+                        {erLærlingEllerLiknende && (
+                            <BodyShort size="small">
+                                Lærling, lærekandidat, praksisbrevkandidat, kandidat for fagbrev på
+                                jobb: {jaNeiTilTekst[erLærlingEllerLiknende]}
+                            </BodyShort>
+                        )}
+                        {harTidligereFullførtVgs && (
+                            <BodyShort size="small">
+                                Fullført VGS: {jaNeiTilTekst[harTidligereFullførtVgs]}
+                            </BodyShort>
                         )}
                     </VStack>
                 </InfoSeksjon>
