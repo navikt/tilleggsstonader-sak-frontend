@@ -58,8 +58,7 @@ const Brevmeny: React.FC<Props> = ({
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
-    const { oppdaterManglendeBrevKomponenterState, manglendeBrevKomponenter } =
-        useManglendeBrevKomponenter();
+    const { oppdaterManglendeBrevKomponenterState } = useManglendeBrevKomponenter();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -162,14 +161,7 @@ const Brevmeny: React.FC<Props> = ({
 
     useEffect(() => {
         oppdaterManglendeBrevKomponenterState(mal, inkluderteDelmaler, valgfelt, variabler);
-    }, [
-        manglendeBrevKomponenter,
-        mal,
-        inkluderteDelmaler,
-        valgfelt,
-        variabler,
-        oppdaterManglendeBrevKomponenterState,
-    ]);
+    }, [inkluderteDelmaler, mal, oppdaterManglendeBrevKomponenterState, valgfelt, variabler]);
     return (
         <FlexColumn>
             {mal.delmaler.map(

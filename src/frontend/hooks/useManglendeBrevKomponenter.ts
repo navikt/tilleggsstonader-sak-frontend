@@ -66,8 +66,6 @@ function useManglendeBrevKomponenter() {
     return {
         manglendeBrevKomponenter,
         settManglendeBrevKomponenter,
-        finnManglendeBrevVariabler,
-        finnManglendeBrevValgfelt,
         oppdaterManglendeBrevKomponenterState,
     };
 }
