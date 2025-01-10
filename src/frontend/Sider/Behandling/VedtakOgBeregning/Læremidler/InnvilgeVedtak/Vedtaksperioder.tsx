@@ -99,13 +99,15 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
                                 // feil={errorState && errorState[indeks]?.tom}
                                 size="small"
                             />
-                            {erStegRedigerbart && (
+                            {erStegRedigerbart ? (
                                 <Button
                                     variant="tertiary"
                                     onClick={() => slettPeriode(indeks)}
                                     icon={<TrashIcon />}
                                     size="xsmall"
                                 />
+                            ) : (
+                                <div />
                             )}
                         </React.Fragment>
                     ))}
