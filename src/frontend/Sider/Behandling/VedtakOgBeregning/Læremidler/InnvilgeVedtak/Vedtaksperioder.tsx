@@ -7,16 +7,17 @@ import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-r
 
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
+import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
-import { PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, max-content);
     grid-gap: 0.5rem 1rem;
-    align-items: center;
+    align-items: start;
     > :nth-child(3n) {
         grid-column: 1;
     }
@@ -25,9 +26,18 @@ const Grid = styled.div`
 interface Props {
     vedtaksperioder: PeriodeMedEndretKey[];
     settVedtaksperioder: React.Dispatch<React.SetStateAction<PeriodeMedEndretKey[]>>;
+    vedtaksperioderFeil?: FormErrors<Periode>[];
+    settVedtaksperioderFeil: React.Dispatch<
+        React.SetStateAction<FormErrors<Periode>[] | undefined>
+    >;
 }
 
-export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksperioder }) => {
+export const Vedtaksperioder: React.FC<Props> = ({
+    vedtaksperioder,
+    settVedtaksperioder,
+    vedtaksperioderFeil,
+    settVedtaksperioderFeil,
+}) => {
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
 
@@ -42,6 +52,10 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
             return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
         });
 
+        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+            prevState?.filter((_, i) => i !== indeks)
+        );
+
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
@@ -53,13 +67,11 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
     const slettPeriode = (indeks: number) => {
         const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
         settVedtaksperioder(oppdatertePerioder);
-        // settValideringsFeil((prevState: FormErrors<InnvilgeVedtakForm>) => {
-        //     const utgiftsperioder = (
-        //         (prevState.utgifter && prevState.utgifter[barnId]) ??
-        //         []
-        //     ).splice(utgiftIndex, 1);
-        //     return { ...prevState, utgiftsperioder };
-        // });
+
+        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+            prevState?.filter((_, i) => i !== indeks)
+        );
+
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
@@ -85,7 +97,7 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
                                 onChange={(dato?: string) =>
                                     oppdaterPeriodeFelt(indeks, 'fom', dato)
                                 }
-                                // feil={errorState && errorState[indeks]?.fom}
+                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.fom}
                                 size="small"
                             />
                             <DateInputMedLeservisning
@@ -96,7 +108,7 @@ export const Vedtaksperioder: React.FC<Props> = ({ vedtaksperioder, settVedtaksp
                                 onChange={(dato?: string) =>
                                     oppdaterPeriodeFelt(indeks, 'tom', dato)
                                 }
-                                // feil={errorState && errorState[indeks]?.tom}
+                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.tom}
                                 size="small"
                             />
                             {erStegRedigerbart ? (
