@@ -5,6 +5,7 @@ import { Select } from '@navikt/ds-react';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
 import { FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import Variabler from './Variabler';
+import { useBrevFeil } from '../../context/BrevFeilContext';
 
 interface Props {
     valgtVerdi: string | undefined;
@@ -25,6 +26,7 @@ const Valgfelt: React.FC<Props> = ({
     settFritekst,
     settVariabler,
 }) => {
+    const { harFeilForBrevKomponent } = useBrevFeil();
     const finnValgtBlock = (id: string | undefined) =>
         valgfelt.valg.find(
             (valg) =>
@@ -57,6 +59,7 @@ const Valgfelt: React.FC<Props> = ({
                 value={valgtVerdi || ''}
                 onChange={(e) => oppdaterValgfelt(e.target.value)}
                 size="small"
+                error={harFeilForBrevKomponent(valgfelt._id) ? 'Mangler verdi' : undefined}
             >
                 <option value={''}>Velg</option>
                 {valgfelt.valg.map((valg, index) =>

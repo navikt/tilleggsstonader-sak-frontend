@@ -11,6 +11,7 @@ import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
 import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import { VariabelSerializer } from './VariabelSerializer';
+import { useBrevFeil } from '../../context/BrevFeilContext';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
@@ -73,6 +74,7 @@ const Delmal: React.FC<Props> = ({
     inkluderIBrev,
     settInkluderIBrev,
 }) => {
+    const { harFeilForBrevKomponent } = useBrevFeil();
     return (
         <Background>
             <ExpansionCard
@@ -80,7 +82,9 @@ const Delmal: React.FC<Props> = ({
                 size="small"
                 defaultOpen={delmal.visningsdetaljer.skalAlltidMed}
             >
-                <ExpansionCard.Header>
+                <ExpansionCard.Header
+                    style={harFeilForBrevKomponent(delmal._id) ? { borderColor: 'red' } : undefined}
+                >
                     <ExpansionCard.Title size="small">{delmal.visningsnavn}</ExpansionCard.Title>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>

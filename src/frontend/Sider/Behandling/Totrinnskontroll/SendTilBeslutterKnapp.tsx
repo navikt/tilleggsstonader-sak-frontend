@@ -9,6 +9,8 @@ import { Button, HStack } from '@navikt/ds-react';
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useBrevFeil } from '../../../context/BrevFeilContext';
+import { harMangel } from '../../../komponenter/Brev/mangelIBrev';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
@@ -23,10 +25,18 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
     const behandlingId = behandling.id;
+
+    const { mangelIBrev, settVisMangelIBrev, feilmelding, settFeilmelding } = useBrevFeil();
+
     const sendTilBeslutter = () => {
+        if (harMangel(mangelIBrev)) {
+            settVisMangelIBrev(true);
+            settFeilmelding('Mangler verdi i påkrevde felt');
+            return;
+        }
+
         settLaster(true);
         settFeilmelding(undefined);
         request<TotrinnskontrollResponse, null>(

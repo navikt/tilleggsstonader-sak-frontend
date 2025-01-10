@@ -6,9 +6,11 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
+import { BrevFeilProvider, useBrevFeil } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { harMangel } from '../../../komponenter/Brev/mangelIBrev';
 import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
 import useBrev from '../../../komponenter/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
@@ -35,6 +37,7 @@ const FrittståendeBrev: React.FC<{
     settBrevErSendt: () => void;
 }> = ({ valgtStønadstype, fagsakId, settBrevErSendt }) => {
     const { request } = useApp();
+    const { mangelIBrev, feilmelding, settFeilmelding, settVisMangelIBrev } = useBrevFeil();
     const contextBrevmottakere = useContextBrevmottakereFrittståendeBrev(fagsakId);
     const [senderBrev, settSenderBrev] = useState<boolean>(false);
 
@@ -68,9 +71,13 @@ const FrittståendeBrev: React.FC<{
         }
     }, [brevmal, hentMalStruktur]);
 
-    const [feilmelding, settFeilmelding] = useState<string>();
-
     const sendBrev = () => {
+        if (harMangel(mangelIBrev)) {
+            settVisMangelIBrev(true);
+            settFeilmelding('Mangler verdi i påkrevde felt');
+            return;
+        }
+
         if (senderBrev) {
             return;
         }
@@ -120,22 +127,24 @@ const FrittståendeBrev: React.FC<{
                             settBrevmal={settBrevmal}
                         />
 
-                        <DataViewer response={{ malStruktur, mellomlagretBrev }}>
-                            {({ malStruktur, mellomlagretBrev }) => (
-                                <Brevmeny
-                                    mal={malStruktur}
-                                    mellomlagretBrev={mellomlagretBrev}
-                                    fagsakId={fagsakId}
-                                    settFil={settFil}
-                                />
+                        <BrevFeilProvider>
+                            <DataViewer response={{ malStruktur, mellomlagretBrev }}>
+                                {({ malStruktur, mellomlagretBrev }) => (
+                                    <Brevmeny
+                                        mal={malStruktur}
+                                        mellomlagretBrev={mellomlagretBrev}
+                                        fagsakId={fagsakId}
+                                        settFil={settFil}
+                                    />
+                                )}
+                            </DataViewer>
+                            {fil.status === RessursStatus.SUKSESS && (
+                                <Button onClick={sendBrev} size="small" disabled={senderBrev}>
+                                    Send brev
+                                </Button>
                             )}
-                        </DataViewer>
-                        {fil.status === RessursStatus.SUKSESS && (
-                            <Button onClick={sendBrev} size="small" disabled={senderBrev}>
-                                Send brev
-                            </Button>
-                        )}
-                        <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                            <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                        </BrevFeilProvider>
                     </VStack>
                     <PdfVisning pdfFilInnhold={fil} />
                 </ToKolonner>

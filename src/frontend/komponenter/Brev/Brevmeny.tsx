@@ -5,11 +5,13 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
+import { finnMangelIBrev } from './mangelIBrev';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
 import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
+import { useBrevFeil } from '../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
@@ -57,6 +59,7 @@ const Brevmeny: React.FC<Props> = ({
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
+    const { settMangelIBrev } = useBrevFeil();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -156,6 +159,10 @@ const Brevmeny: React.FC<Props> = ({
         fritekst,
         inkluderteDelmaler,
     ]);
+
+    useEffect(() => {
+        settMangelIBrev(finnMangelIBrev(mal, inkluderteDelmaler, valgfelt, variabler));
+    }, [settMangelIBrev, mal, inkluderteDelmaler, valgfelt, variabler]);
 
     return (
         <FlexColumn>
