@@ -9,6 +9,7 @@ import { Button, HStack } from '@navikt/ds-react';
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import useManglendeBrevKomponenter from '../../../hooks/useManglendeBrevKomponenter';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
@@ -22,6 +23,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
+    const { manglendeBrevKomponenter } = useManglendeBrevKomponenter();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
@@ -55,6 +57,16 @@ const SendTilBeslutterKnapp: React.FC = () => {
         <HStack align="start">
             {behandlingErRedigerbar && (
                 <>
+                    {manglendeBrevKomponenter.length !== 0 && (
+                        <Feilmelding variant="alert">
+                            <>
+                                <p>Mangler følgende brevkomponenter:</p>
+                                {manglendeBrevKomponenter.map((manglendeKomponent) => (
+                                    <p key={manglendeKomponent}>manglendeKomponent</p>
+                                ))}
+                            </>
+                        </Feilmelding>
+                    )}
                     <Knapp
                         onClick={sendTilBeslutter}
                         disabled={laster}
