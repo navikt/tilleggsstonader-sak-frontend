@@ -18,7 +18,11 @@ const Knapp = styled(Button)`
     display: block;
 `;
 
-const SendTilBeslutterKnapp: React.FC = () => {
+type Props = {
+    feilmeldinger: string[] | undefined;
+};
+
+const SendTilBeslutterKnapp: React.FC<Props> = ({ feilmeldinger }) => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
@@ -53,6 +57,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
 
     return (
         <HStack align="start">
+            <Feilmelding variant="alert">{feilmeldinger}</Feilmelding>
             {behandlingErRedigerbar && (
                 <>
                     <Knapp
