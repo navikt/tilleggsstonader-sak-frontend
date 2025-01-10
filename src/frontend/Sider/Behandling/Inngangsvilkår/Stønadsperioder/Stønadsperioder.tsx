@@ -183,7 +183,7 @@ const Stønadsperioder: React.FC = () => {
                     Det ble ikke registrert noen overlappende perioder i denne behandlingen
                 </BodyShort>
             )}
-            <LesMerStønadsperioder />
+            <LesMerStønadsperioder stønadstype={behandling.stønadstype} />
             <form onSubmit={formState.onSubmit(handleSubmit)}>
                 <VStack gap="4">
                     {stønadsperioderState.value.length !== 0 && (
