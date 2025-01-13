@@ -7,9 +7,9 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
 import { EtikettFokus } from './Etikett';
-import { Hamburgermeny } from './Hamburgermeny';
 import PersonStatusVarsel from './PersonStatusVarsel';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
+import { Hamburgermeny } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import {

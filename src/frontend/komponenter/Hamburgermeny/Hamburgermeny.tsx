@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
 
 interface HamburgerMenyInnholdProps {
     $åpen: boolean;
