@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack } from '@navikt/ds-react';
 
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -56,18 +56,17 @@ const SendTilBeslutterKnapp: React.FC = () => {
     return (
         <HStack align="start">
             {behandlingErRedigerbar && (
-                <VStack gap={'2'}>
-                    <>
-                        <Knapp
-                            onClick={sendTilBeslutter}
-                            disabled={laster || manglendeBrevVariabler.length !== 0}
-                            type={'button'}
-                            size="small"
-                        >
-                            Send til beslutter
-                        </Knapp>
-                        <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                    </>
+                <>
+                    <Knapp
+                        onClick={sendTilBeslutter}
+                        disabled={laster || manglendeBrevVariabler.length !== 0}
+                        type={'button'}
+                        size="small"
+                    >
+                        Send til beslutter
+                    </Knapp>
+                    <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+
                     {manglendeBrevVariabler.length !== 0 && (
                         <Feilmelding variant="alert">
                             <>
@@ -78,7 +77,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
                             </>
                         </Feilmelding>
                     )}
-                </VStack>
+                </>
             )}
             <ModalWrapper
                 tittel={'Vedtaket er ferdigstilt'}
