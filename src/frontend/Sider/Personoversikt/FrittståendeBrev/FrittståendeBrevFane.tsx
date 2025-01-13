@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Alert, Heading, Select } from '@navikt/ds-react';
 
 import FrittståendeBrev from './FrittståendeBrev';
+import { ManglendeBrevVariablerProvider } from '../../../context/ManglendeBrevVariablerContext';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
@@ -56,17 +57,19 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             })}
                         </Select>
                         {valgtStønadstype && (
-                            <FrittståendeBrev
-                                valgtStønadstype={valgtStønadstype}
-                                fagsakId={utledFagsakIdEllerKastFeil(
-                                    valgtStønadstype,
-                                    fagsakPerson
-                                )}
-                                settBrevErSendt={() => {
-                                    settValgtStønadstype(undefined);
-                                    settBrevErSendt(true);
-                                }}
-                            />
+                            <ManglendeBrevVariablerProvider>
+                                <FrittståendeBrev
+                                    valgtStønadstype={valgtStønadstype}
+                                    fagsakId={utledFagsakIdEllerKastFeil(
+                                        valgtStønadstype,
+                                        fagsakPerson
+                                    )}
+                                    settBrevErSendt={() => {
+                                        settValgtStønadstype(undefined);
+                                        settBrevErSendt(true);
+                                    }}
+                                />
+                            </ManglendeBrevVariablerProvider>
                         )}
                         {brevErSendt && (
                             <Alert variant={'info'} style={{ maxWidth: 'fit-content' }}>

@@ -66,7 +66,6 @@ const SendTilBeslutterKnapp: React.FC = () => {
                         Send til beslutter
                     </Knapp>
                     <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-
                     {manglendeBrevVariabler.length !== 0 && (
                         <Feilmelding variant="alert">
                             <>

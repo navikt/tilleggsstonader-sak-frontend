@@ -6,6 +6,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
+import { useManglendeBrevVariabler } from '../../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
@@ -51,6 +52,7 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+    const { manglendeBrevVariabler } = useManglendeBrevVariabler();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -119,7 +121,6 @@ const FrittståendeBrev: React.FC<{
                             brevmal={brevmal}
                             settBrevmal={settBrevmal}
                         />
-
                         <DataViewer response={{ malStruktur, mellomlagretBrev }}>
                             {({ malStruktur, mellomlagretBrev }) => (
                                 <Brevmeny
@@ -136,6 +137,16 @@ const FrittståendeBrev: React.FC<{
                             </Button>
                         )}
                         <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                        {manglendeBrevVariabler.length !== 0 && (
+                            <Feilmelding variant="alert">
+                                <>
+                                    <p>Mangler følgende brevkomponenter:</p>
+                                    {manglendeBrevVariabler.map((manglendeKomponent) => (
+                                        <p key={manglendeKomponent}>{manglendeKomponent}]</p>
+                                    ))}
+                                </>
+                            </Feilmelding>
+                        )}
                     </VStack>
                     <PdfVisning pdfFilInnhold={fil} />
                 </ToKolonner>
