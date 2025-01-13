@@ -10,8 +10,8 @@ import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
+import { useManglendeBrevVariabler } from '../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
-import useManglendeBrevKomponenter from '../../hooks/useManglendeBrevKomponenter';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
 import { VedtakResponse } from '../../typer/vedtak/vedtak';
@@ -58,7 +58,7 @@ const Brevmeny: React.FC<Props> = ({
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
-    const { oppdaterManglendeBrevKomponenterState } = useManglendeBrevKomponenter();
+    const { oppdaterManglendeBrevVariabler } = useManglendeBrevVariabler();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -160,8 +160,9 @@ const Brevmeny: React.FC<Props> = ({
     ]);
 
     useEffect(() => {
-        oppdaterManglendeBrevKomponenterState(mal, inkluderteDelmaler, valgfelt, variabler);
-    }, [inkluderteDelmaler, mal, oppdaterManglendeBrevKomponenterState, valgfelt, variabler]);
+        oppdaterManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
+        // eslint-disable-next-line
+    }, [inkluderteDelmaler, variabler]);
     return (
         <FlexColumn>
             {mal.delmaler.map(
