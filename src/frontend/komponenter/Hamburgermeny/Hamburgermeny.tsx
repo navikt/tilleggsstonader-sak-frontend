@@ -1,11 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
 
 import { MenuHamburgerIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
-import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
 
 interface HamburgerMenyInnholdProps {
     $åpen: boolean;
@@ -19,8 +16,12 @@ const HamburgerMenyIkon = styled(MenuHamburgerIcon)`
     }
 `;
 
-const HamburgerMenyInnhold = styled.div<{ $åpen: boolean }>`
-    display: ${(props: HamburgerMenyInnholdProps) => (props.$åpen ? 'block' : 'none')};
+const HamburgerWrapper = styled.div`
+    position: relative;
+`;
+
+const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
+    display: ${(props) => (props.$åpen ? 'block' : 'none')};
 
     position: absolute;
 
@@ -33,6 +34,8 @@ const HamburgerMenyInnhold = styled.div<{ $åpen: boolean }>`
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+
+    white-space: nowrap;
 
     ul,
     li {
@@ -66,34 +69,33 @@ export interface MenyItem {
 }
 
 export interface Props {
-    type?: 'hamburger' | 'ellipsisV';
     items: MenyItem[];
+    className?: string;
 }
 
-export const Hamburgermeny = () => {
+export const Hamburgermeny: FC<Props> = ({ className, items }) => {
     const ref = useRef(null);
-    const { settVisHenleggModal } = useKlagebehandling();
     const [åpenHamburgerMeny, settÅpenHamburgerMeny] = useState<boolean>(false);
 
     useEffect(() => {
         const håndterKlikkUtenforKomponent = (event: { target: never }) => {
-            // @ts-ignore
+            // @ts-expect-error ref mangler type
             if (åpenHamburgerMeny && ref.current && !ref.current.contains(event.target)) {
                 settÅpenHamburgerMeny(false);
             }
         };
 
-        // @ts-ignore
+        // @ts-expect-error Mangler type
         document.addEventListener('click', håndterKlikkUtenforKomponent, true);
 
         return () => {
-            // @ts-ignore
+            // @ts-expect-error Mangler type
             document.removeEventListener('click', håndterKlikkUtenforKomponent, true);
         };
     }, [åpenHamburgerMeny]);
 
     return (
-        <div ref={ref}>
+        <HamburgerWrapper className={className} ref={ref}>
             <HamburgerMenyIkon
                 fontSize="1.5rem"
                 onClick={() => {
@@ -102,17 +104,20 @@ export const Hamburgermeny = () => {
             />
             <HamburgerMenyInnhold $åpen={åpenHamburgerMeny}>
                 <ul>
-                    <li>
-                        <Knapp
-                            onClick={() => {
-                                settVisHenleggModal(true);
-                            }}
-                        >
-                            <BodyShort size={'small'}>Henlegg</BodyShort>
-                        </Knapp>
-                    </li>
+                    {items.map((p) => (
+                        <li key={p.tekst}>
+                            <Knapp
+                                onClick={() => {
+                                    settÅpenHamburgerMeny(false);
+                                    p.onClick();
+                                }}
+                            >
+                                {p.tekst}
+                            </Knapp>
+                        </li>
+                    ))}
                 </ul>
             </HamburgerMenyInnhold>
-        </div>
+        </HamburgerWrapper>
     );
 };

@@ -7,9 +7,9 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
 import { EtikettFokus } from './Etikett';
+import { HamburgermenyKlage } from './HamburgermenyKlage';
 import PersonStatusVarsel from './PersonStatusVarsel';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
-import { Hamburgermeny } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import {
@@ -39,14 +39,6 @@ export const StatusheaderWrapper = styled(Sticky)`
 
 const ElementWrapper = styled.div`
     margin-left: 1rem;
-`;
-
-const StyledHamburgermeny = styled(Hamburgermeny)`
-    margin-left: auto;
-    display: block;
-    position: sticky;
-
-    z-index: 9999;
 `;
 
 export const Statusheader: FC<{
@@ -110,7 +102,7 @@ export const Statusheader: FC<{
                     </StatuserLitenSkjerm>
                 </>
             )}
-            {behandling && erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
+            {behandling && erBehandlingRedigerbar(behandling) && <HamburgermenyKlage />}
         </StatusheaderWrapper>
     );
 };
