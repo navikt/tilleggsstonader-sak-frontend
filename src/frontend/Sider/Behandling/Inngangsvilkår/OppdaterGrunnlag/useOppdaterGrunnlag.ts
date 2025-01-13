@@ -6,7 +6,7 @@ import { RessursStatus } from '../../../../typer/ressurs';
 import { Toast } from '../../../../typer/toast';
 
 interface OppdaterGrunnlag {
-    oppdaterGrunnlag: () => void;
+    oppdaterGrunnlag: (henteFom?: string) => void;
     laster: boolean;
     feilmelding: string | undefined;
 }
@@ -17,15 +17,18 @@ export const useOppdaterGrunnlag = (hentVilkårperioder: () => void): OppdaterGr
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    const oppdaterGrunnlag = () => {
+    const oppdaterGrunnlag = (henteFom?: string) => {
         if (laster) {
             return;
         }
         settFeilmelding(undefined);
         settLaster(true);
-        request<null, null>(
+        request<null, { henteFom: string | undefined }>(
             `/api/sak/vilkarperiode/behandling/${behandling.id}/oppdater-grunnlag`,
-            'POST'
+            'POST',
+            {
+                henteFom,
+            }
         )
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {

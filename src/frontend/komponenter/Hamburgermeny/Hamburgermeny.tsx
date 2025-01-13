@@ -23,7 +23,7 @@ const HamburgerWrapper = styled.div`
 const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
     display: ${(props) => (props.$åpen ? 'block' : 'none')};
 
-    position: absolute;
+    position: fixed;
 
     background-color: white;
 
