@@ -7,13 +7,14 @@ import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
+import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
 import { useStønadsperioder } from '../../../../../hooks/useStønadsperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggTomRessurs, byggHenterRessurs, RessursStatus } from '../../../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     BeregningsresultatLæremidler,
@@ -23,6 +24,7 @@ import {
 import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
+import { validerVedtaksperioder } from '../validering';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 
 export const InnvilgeLæremidler: React.FC<{
@@ -42,6 +44,8 @@ export const InnvilgeLæremidler: React.FC<{
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
 
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Periode>[]>();
+
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS) {
             return request<null, InnvilgelseLæremidlerRequest>(
@@ -55,15 +59,27 @@ export const InnvilgeLæremidler: React.FC<{
         }
     };
 
+    const validerForm = (): boolean => {
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        settVedtaksperiodeFeil(vedtaksperiodeFeil);
+
+        return isValid(vedtaksperiodeFeil);
+    };
+
     const beregnLæremidler = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
-        settBeregningsresultat(byggHenterRessurs());
 
-        request<BeregningsresultatLæremidler, Periode[]>(
-            `/api/sak/vedtak/laremidler/${behandling.id}/beregn`,
-            'POST',
-            vedtaksperioder
-        ).then(settBeregningsresultat);
+        const kanSendeInn = validerForm();
+
+        if (kanSendeInn) {
+            settBeregningsresultat(byggHenterRessurs());
+
+            request<BeregningsresultatLæremidler, Periode[]>(
+                `/api/sak/vedtak/laremidler/${behandling.id}/beregn`,
+                'POST',
+                vedtaksperioder
+            ).then(settBeregningsresultat);
+        }
     };
 
     return (
@@ -80,6 +96,8 @@ export const InnvilgeLæremidler: React.FC<{
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
+                    vedtaksperioderFeil={vedtaksperiodeFeil}
+                    settVedtaksperioderFeil={settVedtaksperiodeFeil}
                 />
                 {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}
                 <VStack gap="8">
