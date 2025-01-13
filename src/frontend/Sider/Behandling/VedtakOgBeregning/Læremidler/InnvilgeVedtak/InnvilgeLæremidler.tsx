@@ -63,9 +63,7 @@ export const InnvilgeLæremidler: React.FC<{
         const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
-        return vedtaksperiodeFeil.every(
-            (vedtaksperiode) => vedtaksperiode === undefined || isValid(vedtaksperiode)
-        );
+        return isValid(vedtaksperiodeFeil);
     };
 
     const beregnLæremidler = () => {
