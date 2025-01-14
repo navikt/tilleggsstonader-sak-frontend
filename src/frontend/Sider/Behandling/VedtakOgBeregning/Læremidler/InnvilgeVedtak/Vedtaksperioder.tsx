@@ -26,9 +26,9 @@ const Grid = styled.div`
 interface Props {
     vedtaksperioder: PeriodeMedEndretKey[];
     settVedtaksperioder: React.Dispatch<React.SetStateAction<PeriodeMedEndretKey[]>>;
-    vedtaksperioderFeil?: FormErrors<Periode>[];
+    vedtaksperioderFeil?: { [k: string]: FormErrors<Periode> };
     settVedtaksperioderFeil: React.Dispatch<
-        React.SetStateAction<FormErrors<Periode>[] | undefined>
+        React.SetStateAction<{ [k: string]: FormErrors<Periode> } | undefined>
     >;
 }
 
@@ -44,7 +44,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const oppdaterPeriodeFelt = (
         indeks: number,
         property: 'fom' | 'tom',
-        value: string | number | undefined
+        value: string | number | undefined,
+        key: string
     ) => {
         settVedtaksperioder((prevState) => {
             const oppdatertPeriode = { ...prevState[indeks], [property]: value };
@@ -52,9 +53,10 @@ export const Vedtaksperioder: React.FC<Props> = ({
             return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
         });
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
-            prevState?.filter((_, i) => i !== indeks)
-        );
+        settVedtaksperioderFeil((prevState: { [k: string]: FormErrors<Periode> } = {}) => {
+            const { [key]: _, ...remainingErrors } = prevState;
+            return remainingErrors;
+        });
 
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
@@ -64,13 +66,14 @@ export const Vedtaksperioder: React.FC<Props> = ({
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
-    const slettPeriode = (indeks: number) => {
+    const slettPeriode = (indeks: number, key: string) => {
         const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
         settVedtaksperioder(oppdatertePerioder);
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
-            prevState?.filter((_, i) => i !== indeks)
-        );
+        settVedtaksperioderFeil((prevState: { [k: string]: FormErrors<Periode> } = {}) => {
+            const { [key]: _, ...remainingErrors } = prevState;
+            return remainingErrors;
+        });
 
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
@@ -95,9 +98,17 @@ export const Vedtaksperioder: React.FC<Props> = ({
                                 erLesevisning={!erStegRedigerbart}
                                 value={vedtaksperiode.fom}
                                 onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(indeks, 'fom', dato)
+                                    oppdaterPeriodeFelt(
+                                        indeks,
+                                        'fom',
+                                        dato,
+                                        vedtaksperiode.endretKey
+                                    )
                                 }
-                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.fom}
+                                feil={
+                                    vedtaksperioderFeil &&
+                                    vedtaksperioderFeil[vedtaksperiode.endretKey]?.fom
+                                }
                                 size="small"
                             />
                             <DateInputMedLeservisning
@@ -106,15 +117,23 @@ export const Vedtaksperioder: React.FC<Props> = ({
                                 erLesevisning={!erStegRedigerbart}
                                 value={vedtaksperiode.tom}
                                 onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(indeks, 'tom', dato)
+                                    oppdaterPeriodeFelt(
+                                        indeks,
+                                        'tom',
+                                        dato,
+                                        vedtaksperiode.endretKey
+                                    )
                                 }
-                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.tom}
+                                feil={
+                                    vedtaksperioderFeil &&
+                                    vedtaksperioderFeil[vedtaksperiode.endretKey]?.tom
+                                }
                                 size="small"
                             />
                             {erStegRedigerbart ? (
                                 <Button
                                     variant="tertiary"
-                                    onClick={() => slettPeriode(indeks)}
+                                    onClick={() => slettPeriode(indeks, vedtaksperiode.endretKey)}
                                     icon={<TrashIcon />}
                                     size="xsmall"
                                 />

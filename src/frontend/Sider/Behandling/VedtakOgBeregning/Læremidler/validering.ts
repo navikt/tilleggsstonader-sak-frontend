@@ -26,4 +26,10 @@ export const valider = (
 };
 
 export const validerVedtaksperioder = (vedtaksperioder: PeriodeMedEndretKey[]) =>
-    vedtaksperioder.map((periode) => validerPeriode(periode) as FormErrors<Periode>);
+    vedtaksperioder.reduce<{ [k: string]: FormErrors<Periode> }>((acc, periode) => {
+        const feil = validerPeriode(periode);
+        if (feil) {
+            acc[periode.endretKey] = validerPeriode(periode) as FormErrors<Periode>;
+        }
+        return acc;
+    }, {});
