@@ -8,7 +8,6 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 import BrevLesevisning from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { ManglendeBrevVariablerProvider } from '../../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
@@ -100,7 +99,7 @@ const Brev: React.FC = () => {
                                 />
                                 <DataViewer response={{ malStruktur, vedtak }}>
                                     {({ malStruktur, vedtak }) => (
-                                        <ManglendeBrevVariablerProvider>
+                                        <>
                                             <Brevmeny
                                                 mal={malStruktur}
                                                 behandling={behandling}
@@ -109,7 +108,7 @@ const Brev: React.FC = () => {
                                                 vedtak={vedtak}
                                             />
                                             <SendTilBeslutterKnapp />
-                                        </ManglendeBrevVariablerProvider>
+                                        </>
                                     )}
                                 </DataViewer>
                             </VStack>
