@@ -2,25 +2,24 @@ import { useState } from 'react';
 
 import constate from 'constate';
 
-import { MalStruktur, Valg, Valgfelt } from '../komponenter/Brev/typer';
+import { MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import { harIkkeVerdi } from '../utils/utils';
 
 export const [ManglendeBrevVariablerProvider, useManglendeBrevVariabler] = constate(() => {
-    const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<string[]>([]);
+    const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
 
     const finnManglendeBrevVariabler = (
         mal: MalStruktur,
         inkluderteDelmaler: Record<string, boolean>,
         valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>,
         variabler: Partial<Record<string, string>>
-    ): string[] => {
+    ): Variabel[] => {
         return mal.delmaler
             .filter((delmal) => inkluderteDelmaler[delmal._id])
             .flatMap((delmal) => Object.values(valgfelt[delmal._id] ?? {}))
             .filter((valg) => valg._type === 'tekst')
             .flatMap((valg) => valg.variabler)
-            .map((variabel) => variabel._id)
-            .filter((variabelId) => harIkkeVerdi(variabler[variabelId]));
+            .filter((variabel) => harIkkeVerdi(variabler[variabel._id]));
     };
 
     const oppdaterManglendeBrevVariabler = (
