@@ -51,7 +51,6 @@ const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
 
     li:hover {
         background-color: #0166c5;
-        color: white;
         cursor: pointer;
     }
 `;
