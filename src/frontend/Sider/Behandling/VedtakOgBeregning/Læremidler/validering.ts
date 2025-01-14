@@ -2,6 +2,7 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak/vedtak';
 import { Periode, PeriodeMedEndretKey, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
+import { vedtaksperiodeRecordTilListe } from './vedtakLæremidlerUtils';
 
 export interface FeilmeldingVedtak {
     årsaker?: string;
@@ -25,11 +26,14 @@ export const valider = (
     return feilmeldinger;
 };
 
-export const validerVedtaksperioder = (vedtaksperioder: PeriodeMedEndretKey[]) =>
-    vedtaksperioder.reduce<{ [k: string]: FormErrors<Periode> }>((acc, periode) => {
-        const feil = validerPeriode(periode);
-        if (feil) {
-            acc[periode.endretKey] = validerPeriode(periode) as FormErrors<Periode>;
-        }
-        return acc;
-    }, {});
+export const validerVedtaksperioder = (vedtaksperioder: { [k: string]: PeriodeMedEndretKey }) =>
+    vedtaksperiodeRecordTilListe(vedtaksperioder).reduce<{ [k: string]: FormErrors<Periode> }>(
+        (acc, periode) => {
+            const feil = validerPeriode(periode);
+            if (feil) {
+                acc[periode.endretKey] = feil as FormErrors<Periode>;
+            }
+            return acc;
+        },
+        {}
+    );

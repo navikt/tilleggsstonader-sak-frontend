@@ -11,7 +11,7 @@ import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
-import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
+import { lagTomVedtaksperiode, vedtaksperiodeRecordTilListe } from '../vedtakLæremidlerUtils';
 
 const Grid = styled.div`
     display: grid;
@@ -24,8 +24,8 @@ const Grid = styled.div`
 `;
 
 interface Props {
-    vedtaksperioder: PeriodeMedEndretKey[];
-    settVedtaksperioder: React.Dispatch<React.SetStateAction<PeriodeMedEndretKey[]>>;
+    vedtaksperioder: { [k: string]: PeriodeMedEndretKey };
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<{ [k: string]: PeriodeMedEndretKey }>>;
     vedtaksperioderFeil?: { [k: string]: FormErrors<Periode> };
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<{ [k: string]: FormErrors<Periode> } | undefined>
@@ -42,15 +42,13 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { settUlagretKomponent } = useApp();
 
     const oppdaterPeriodeFelt = (
-        indeks: number,
+        key: string,
         property: 'fom' | 'tom',
-        value: string | number | undefined,
-        key: string
+        value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {
-            const oppdatertPeriode = { ...prevState[indeks], [property]: value };
-
-            return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
+            const oppdatertPeriode = { ...prevState[key], [property]: value };
+            return { ...prevState, [key]: oppdatertPeriode };
         });
 
         settVedtaksperioderFeil((prevState: { [k: string]: FormErrors<Periode> } = {}) => {
@@ -62,13 +60,18 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     const leggTilPeriode = () => {
-        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode()]);
+        const tomVedtaksperiode = lagTomVedtaksperiode();
+        settVedtaksperioder((prevState) => {
+            return { ...prevState, [tomVedtaksperiode.endretKey]: tomVedtaksperiode };
+        });
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
-    const slettPeriode = (indeks: number, key: string) => {
-        const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
-        settVedtaksperioder(oppdatertePerioder);
+    const slettPeriode = (key: string) => {
+        settVedtaksperioder((prevState) => {
+            const { [key]: _, ...gjennværendePerioder } = prevState;
+            return gjennværendePerioder;
+        });
 
         settVedtaksperioderFeil((prevState: { [k: string]: FormErrors<Periode> } = {}) => {
             const { [key]: _, ...remainingErrors } = prevState;
@@ -78,6 +81,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
+    const vedtaksperiodeListe = vedtaksperiodeRecordTilListe(vedtaksperioder);
     return (
         <VStack gap="4">
             <div>
@@ -86,11 +90,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 </Heading>
                 <VedtaksperiodeReadMore />
             </div>
-            {vedtaksperioder && vedtaksperioder.length > 0 && (
+            {vedtaksperioder && vedtaksperiodeListe.length > 0 && (
                 <Grid>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {vedtaksperioder.map((vedtaksperiode, indeks) => (
+                    {vedtaksperiodeListe.map((vedtaksperiode) => (
                         <React.Fragment key={vedtaksperiode.endretKey}>
                             <DateInputMedLeservisning
                                 label="Fra"
@@ -98,12 +102,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                                 erLesevisning={!erStegRedigerbart}
                                 value={vedtaksperiode.fom}
                                 onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(
-                                        indeks,
-                                        'fom',
-                                        dato,
-                                        vedtaksperiode.endretKey
-                                    )
+                                    oppdaterPeriodeFelt(vedtaksperiode.endretKey, 'fom', dato)
                                 }
                                 feil={
                                     vedtaksperioderFeil &&
@@ -117,12 +116,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                                 erLesevisning={!erStegRedigerbart}
                                 value={vedtaksperiode.tom}
                                 onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(
-                                        indeks,
-                                        'tom',
-                                        dato,
-                                        vedtaksperiode.endretKey
-                                    )
+                                    oppdaterPeriodeFelt(vedtaksperiode.endretKey, 'tom', dato)
                                 }
                                 feil={
                                     vedtaksperioderFeil &&
@@ -133,7 +127,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             {erStegRedigerbart ? (
                                 <Button
                                     variant="tertiary"
-                                    onClick={() => slettPeriode(indeks, vedtaksperiode.endretKey)}
+                                    onClick={() => slettPeriode(vedtaksperiode.endretKey)}
                                     icon={<TrashIcon />}
                                     size="xsmall"
                                 />
