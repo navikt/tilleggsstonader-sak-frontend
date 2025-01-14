@@ -22,7 +22,6 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
-    const { manglendeBrevVariabler } = useManglendeBrevVariabler();
     const { brevMalManglerVariabler } = useManglendeBrevVariabler();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -47,6 +46,14 @@ const SendTilBeslutterKnapp: React.FC = () => {
             .finally(() => settLaster(false));
     };
 
+    const trykkPaaKnapp = () => {
+        if (brevMalManglerVariabler()) {
+            settFeilmelding('Kan ikke sende til beslutter, mangler felter i brev');
+            return;
+        }
+        sendTilBeslutter();
+    };
+
     const lukkModal = () => {
         settVisModal(false);
         hentBehandling.rerun();
@@ -57,25 +64,10 @@ const SendTilBeslutterKnapp: React.FC = () => {
         <>
             {behandlingErRedigerbar && (
                 <>
-                    <Knapp
-                        onClick={sendTilBeslutter}
-                        disabled={laster || brevMalManglerVariabler()}
-                        type={'button'}
-                        size="small"
-                    >
+                    <Knapp onClick={trykkPaaKnapp} disabled={laster} type={'button'} size="small">
                         Send til beslutter
                     </Knapp>
                     <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                    {brevMalManglerVariabler() && (
-                        <Feilmelding variant="alert">
-                            <>
-                                <p>Mangler følgende brevkomponenter:</p>
-                                {manglendeBrevVariabler.map((manglendeKomponent) => (
-                                    <p key={manglendeKomponent}>{manglendeKomponent}]</p>
-                                ))}
-                            </>
-                        </Feilmelding>
-                    )}
                 </>
             )}
             <ModalWrapper
