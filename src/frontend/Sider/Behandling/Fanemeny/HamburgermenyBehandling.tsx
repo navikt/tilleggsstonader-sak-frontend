@@ -12,18 +12,17 @@ export const HamburgermenyBehandling = () => {
     const { behandling, settVisRedigerGrunnlagFomAdmin, behandlingErRedigerbar } = useBehandling();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
 
-    const items: MenyItem[] = [
-        ...(behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
+    const items: MenyItem[] = [];
+    if (
+        behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
         behandling.steg === Steg.INNGANGSVILKÅR &&
         kanRedigereGrunnlagFom
-            ? [
-                  {
-                      tekst: 'Rediger dato saksopplysninger hentes fra',
-                      onClick: () => settVisRedigerGrunnlagFomAdmin(true),
-                  },
-              ]
-            : []),
-    ];
+    ) {
+        items.push({
+            tekst: 'Rediger dato saksopplysninger hentes fra',
+            onClick: () => settVisRedigerGrunnlagFomAdmin(true),
+        });
+    }
 
     if (!behandlingErRedigerbar) {
         return null;
