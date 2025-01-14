@@ -117,8 +117,9 @@ const BehandlingTabsInnhold = () => {
                                     </Button>
 
                             )}
-                         <HamburgermenyBehandling />
-                        </HøyrejustertInnhold></TabsList>
+                             <HamburgermenyBehandling />
+                        </HøyrejustertInnhold>
+                        </TabsList>
                     </StickyTablistContainer>
 
                     {!toggleKanSaksbehandle && (
