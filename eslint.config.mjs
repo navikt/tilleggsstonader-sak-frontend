@@ -77,7 +77,7 @@ export default [{
         'prettier/prettier': 'warn',
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/no-var-requires': 'warn',
-        '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
+        '@typescript-eslint/no-unused-vars': 'warn',
         '@typescript-eslint/explicit-function-return-type': 'off',
         'jsx-a11y/interactive-supports-focus': 'off',
         'jsx-a11y/click-events-have-key-events': 'off',
