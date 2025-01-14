@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading, HStack } from '@navikt/ds-react';
+import { Alert, Button, Detail, Heading, HStack } from '@navikt/ds-react';
 import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useOppdaterGrunnlag } from './useOppdaterGrunnlag';
@@ -57,6 +57,9 @@ const OppdaterGrunnlagKnapp: React.FC<{
                         value={vilkårperioder.grunnlag?.hentetInformasjon?.fom}
                         onChange={settGrunnlagHenteFom}
                     />
+                    <Detail>
+                        Trykk på Hent-knappen for å hente grunnlag fra og med valgt dato
+                    </Detail>
                 </AdminEndreHenteGrunnlagFra>
             )}
         </>
