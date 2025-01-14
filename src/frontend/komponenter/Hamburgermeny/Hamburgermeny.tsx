@@ -104,6 +104,7 @@ export const Hamburgermeny: FC<Props> = ({ className, items }) => {
             />
             <HamburgerMenyInnhold $åpen={åpenHamburgerMeny}>
                 <ul>
+                    {items.length === 0 && <li>Ingen valg</li>}
                     {items.map((p) => (
                         <li key={p.tekst}>
                             <Knapp
