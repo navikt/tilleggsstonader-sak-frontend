@@ -23,7 +23,7 @@ const HamburgerWrapper = styled.div`
 const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
     display: ${(props) => (props.$åpen ? 'block' : 'none')};
 
-    position: absolute;
+    position: fixed;
 
     background-color: white;
 
@@ -51,7 +51,6 @@ const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
 
     li:hover {
         background-color: #0166c5;
-        color: white;
         cursor: pointer;
     }
 `;
@@ -104,6 +103,7 @@ export const Hamburgermeny: FC<Props> = ({ className, items }) => {
             />
             <HamburgerMenyInnhold $åpen={åpenHamburgerMeny}>
                 <ul>
+                    {items.length === 0 && <li>Ingen valg</li>}
                     {items.map((p) => (
                         <li key={p.tekst}>
                             <Knapp

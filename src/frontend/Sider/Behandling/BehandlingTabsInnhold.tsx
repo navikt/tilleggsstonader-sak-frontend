@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Alert, Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
+import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
@@ -113,6 +114,7 @@ const BehandlingTabsInnhold = () => {
                                 </Button>
                             </Tabsknapp>
                         )}
+                        {behandlingErRedigerbar && <HamburgermenyBehandling />}
                     </TabsList>
                 </StickyTablistContainer>
 

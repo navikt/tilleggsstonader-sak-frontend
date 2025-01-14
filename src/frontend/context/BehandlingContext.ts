@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import { useFlag } from '@unleash/proxy-client-react';
 import constate from 'constate';
 
@@ -28,6 +30,9 @@ interface BehandlingContext {
     behandlingFakta: BehandlingFakta;
     toggleKanSaksbehandle: boolean;
     kanSetteBehandlingPåVent: boolean;
+
+    visRedigerGrunnlagFomAdmin: boolean;
+    settVisRedigerGrunnlagFomAdmin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
@@ -58,6 +63,9 @@ export const [BehandlingProvider, useBehandling] = constate(
     ({ behandling, hentBehandling, behandlingFakta }: Props): BehandlingContext => {
         const { erSaksbehandler } = useApp();
 
+        const [visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin] =
+            useState<boolean>(false);
+
         const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
         const kanRevurdere = useKanRevurdere(behandling.stønadstype);
 
@@ -74,6 +82,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             behandlingFakta,
             toggleKanSaksbehandle: toggleKanSaksbehandleEllerRevurdere,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
+            visRedigerGrunnlagFomAdmin,
+            settVisRedigerGrunnlagFomAdmin,
         };
     }
 );
