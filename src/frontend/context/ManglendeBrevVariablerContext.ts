@@ -34,8 +34,12 @@ export const [ManglendeBrevVariablerProvider, useManglendeBrevVariabler] = const
         );
     };
 
+    const brevMalManglerVariabler = (): boolean => {
+        return manglendeBrevVariabler.length !== 0;
+    };
     return {
         manglendeBrevVariabler,
         oppdaterManglendeBrevVariabler,
+        brevMalManglerVariabler,
     };
 });
