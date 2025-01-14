@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Alert, Detail, HelpText, HStack, Link, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Detail, HelpText, HStack, Link, VStack } from '@navikt/ds-react';
 
 import RegisterYtelserTabell from './RegisterYtelserTabell';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
+import { Behandling } from '../../../../typer/behandling/behandling';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
 import {
     VilkårperioderGrunnlag,
@@ -27,15 +28,16 @@ const RegisterYtelser: React.FC<{
     const perioderMedYtelse = grunnlag.ytelse.perioder;
     const hentetInformasjon = grunnlag.hentetInformasjon;
 
-    const opplysningerHentetTekst = `Hentet fra Arena: ${formaterNullableIsoDatoTid(hentetInformasjon.tidspunktHentet)}`;
-
     if (perioderMedYtelse.length === 0) {
         return (
             <Alert variant={'info'} inline size="small">
                 Vi finner ingen relevante ytelser registrert på bruker fra og med{' '}
                 {formaterNullableIsoDato(hentetInformasjon.fom)} til og med{' '}
                 {formaterNullableIsoDato(hentetInformasjon.tom)}
-                <Detail>{opplysningerHentetTekst}</Detail>
+                <Hjelpetekst
+                    behandling={behandling}
+                    tidspunktHentet={hentetInformasjon.tidspunktHentet}
+                />
             </Alert>
         );
     }
@@ -51,30 +53,53 @@ const RegisterYtelser: React.FC<{
                         perioderMedYtelse={perioderMedYtelse}
                         lagRadForPeriode={lagRadForPeriode}
                     />
-                    <VStack>
-                        <HStack gap="2" align="center">
-                            <Detail>
-                                <strong>{opplysningerHentetTekst}</strong>
-                            </Detail>
-                            <HelpText>
-                                Vi henter kun perioder med arbeidsavklaringspenger, rett til
-                                overgangsstønad og omstillingsstønad.{' '}
-                                <Link
-                                    href={`/person/${behandling.fagsakPersonId}/ytelser`}
-                                    target="_blank"
-                                    variant="neutral"
-                                    style={{ display: 'inline' }}
-                                >
-                                    Se flere ytelser bruker mottar
-                                </Link>{' '}
-                                i personoversikten.
-                            </HelpText>
-                        </HStack>
-                    </VStack>
+                    <Hjelpetekst
+                        behandling={behandling}
+                        tidspunktHentet={hentetInformasjon.tidspunktHentet}
+                    />
                 </VStack>
             </ExpansionCard>
         </VStack>
     );
 };
+
+function Hjelpetekst({
+    behandling,
+    tidspunktHentet,
+}: {
+    behandling: Behandling;
+    tidspunktHentet: string;
+}) {
+    return (
+        <HStack gap="2" align="center">
+            <Detail>
+                <strong>Hentet fra Arena: {formaterNullableIsoDatoTid(tidspunktHentet)}</strong>
+            </Detail>
+            <HelpText>
+                <BodyShort spacing>
+                    Vi henter kun perioder med arbeidsavklaringspenger, rett til overgangsstønad og
+                    omstillingsstønad.
+                    <Link
+                        href={`/person/${behandling.fagsakPersonId}/ytelser`}
+                        target="_blank"
+                        variant="neutral"
+                        style={{ display: 'inline' }}
+                    >
+                        Se flere ytelser bruker mottar
+                    </Link>{' '}
+                    i personoversikten.
+                </BodyShort>
+                <BodyShort spacing>
+                    Datoet som brukes i en førstegangsbehandling er mottatt tidspunkt minus X
+                    måneder (3 for tilsyn barn, 6 for læremidler). I en revurdering hentes grunnlag
+                    fra og med revurder-fra datoet.
+                </BodyShort>
+                <BodyShort spacing>
+                    I en førstegangsbehandling kan man overstyre datoet man henter grunnlaget fra.
+                </BodyShort>
+            </HelpText>
+        </HStack>
+    );
+}
 
 export default RegisterYtelser;
