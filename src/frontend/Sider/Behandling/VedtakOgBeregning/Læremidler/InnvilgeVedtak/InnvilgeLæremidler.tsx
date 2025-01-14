@@ -25,7 +25,7 @@ import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { validerVedtaksperioder } from '../validering';
-import {initialiserVedtaksperioder, vedtaksperiodeRecordTilListe} from '../vedtakLæremidlerUtils';
+import { initialiserVedtaksperioder, vedtaksperiodeRecordTilListe } from '../vedtakLæremidlerUtils';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
@@ -36,7 +36,7 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<{[k: string]: PeriodeMedEndretKey}>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<{ [k: string]: PeriodeMedEndretKey }>(
         initialiserVedtaksperioder(lagretVedtak)
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
@@ -53,7 +53,10 @@ export const InnvilgeLæremidler: React.FC<{
             return request<null, InnvilgelseLæremidlerRequest>(
                 `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
                 'POST',
-                { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperiodeRecordTilListe(vedtaksperioder) }
+                {
+                    type: TypeVedtak.INNVILGELSE,
+                    vedtaksperioder: vedtaksperiodeRecordTilListe(vedtaksperioder),
+                }
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);

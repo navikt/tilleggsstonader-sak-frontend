@@ -1,8 +1,8 @@
+import { vedtaksperiodeRecordTilListe } from './vedtakLæremidlerUtils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak/vedtak';
 import { Periode, PeriodeMedEndretKey, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { vedtaksperiodeRecordTilListe } from './vedtakLæremidlerUtils';
 
 export interface FeilmeldingVedtak {
     årsaker?: string;
