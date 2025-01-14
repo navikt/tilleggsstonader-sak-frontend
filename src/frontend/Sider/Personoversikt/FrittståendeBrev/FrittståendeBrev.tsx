@@ -53,6 +53,7 @@ const FrittståendeBrev: React.FC<{
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
     const { manglendeBrevVariabler } = useManglendeBrevVariabler();
+    const { brevMalManglerVariabler } = useManglendeBrevVariabler();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -137,14 +138,13 @@ const FrittståendeBrev: React.FC<{
                             </Button>
                         )}
                         <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                        {manglendeBrevVariabler.length !== 0 && (
+                        {brevMalManglerVariabler() && (
                             <Feilmelding variant="alert">
-                                <>
-                                    <p>Mangler følgende brevkomponenter:</p>
-                                    {manglendeBrevVariabler.map((manglendeKomponent) => (
-                                        <p key={manglendeKomponent}>{manglendeKomponent}]</p>
-                                    ))}
-                                </>
+                                `Kan ikke sende til beslutter, følgende felter mangler fra brev:$
+                                {manglendeBrevVariabler.map(
+                                    (variabel) => ` ` + variabel.visningsnavn
+                                )}
+                                `
                             </Feilmelding>
                         )}
                     </VStack>
