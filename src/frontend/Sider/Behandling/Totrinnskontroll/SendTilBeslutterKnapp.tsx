@@ -50,7 +50,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const trykkPaaKnapp = () => {
         if (brevMalManglerVariabler()) {
             settFeilmelding(
-                `Kan ikke sende til beslutter, mangler felter i brev: ${manglendeBrevVariabler.map((variabel) => variabel.visningsnavn + ` `)}`
+                `Kan ikke sende til beslutter, mangler felter i brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );
             return;
         }
