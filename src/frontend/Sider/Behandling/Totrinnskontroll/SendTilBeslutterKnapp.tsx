@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -15,7 +15,6 @@ import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
 const Knapp = styled(Button)`
-    margin: 0 auto;
     display: block;
 `;
 
@@ -24,6 +23,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
     const { manglendeBrevVariabler } = useManglendeBrevVariabler();
+    const { brevMalManglerVariabler } = useManglendeBrevVariabler();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
@@ -54,19 +54,19 @@ const SendTilBeslutterKnapp: React.FC = () => {
     };
 
     return (
-        <HStack align="start">
+        <>
             {behandlingErRedigerbar && (
                 <>
                     <Knapp
                         onClick={sendTilBeslutter}
-                        disabled={laster || manglendeBrevVariabler.length !== 0}
+                        disabled={laster || brevMalManglerVariabler()}
                         type={'button'}
                         size="small"
                     >
                         Send til beslutter
                     </Knapp>
                     <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                    {manglendeBrevVariabler.length !== 0 && (
+                    {brevMalManglerVariabler() && (
                         <Feilmelding variant="alert">
                             <>
                                 <p>Mangler følgende brevkomponenter:</p>
@@ -93,7 +93,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
                     },
                 }}
             />
-        </HStack>
+        </>
     );
 };
 
