@@ -17,17 +17,17 @@ export const useOppdaterGrunnlag = (hentVilkårperioder: () => void): OppdaterGr
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    const oppdaterGrunnlag = (henteFom?: string) => {
+    const oppdaterGrunnlag = (hentFom?: string) => {
         if (laster) {
             return;
         }
         settFeilmelding(undefined);
         settLaster(true);
-        request<null, { henteFom: string | undefined }>(
+        request<null, { hentFom: string | undefined }>(
             `/api/sak/vilkarperiode/behandling/${behandling.id}/oppdater-grunnlag`,
             'POST',
             {
-                henteFom,
+                hentFom,
             }
         )
             .then((response) => {

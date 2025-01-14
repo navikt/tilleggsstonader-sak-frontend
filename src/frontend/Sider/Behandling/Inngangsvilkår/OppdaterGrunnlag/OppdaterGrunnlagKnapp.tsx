@@ -26,7 +26,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
     const { visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { oppdaterGrunnlag, laster, feilmelding } = useOppdaterGrunnlag(hentVilkårperioder);
-    const [grunnlagHenteFom, settGrunnlagHenteFom] = useState<string | undefined>(
+    const [grunnlagHentFom, settGrunnlagHentFom] = useState<string | undefined>(
         vilkårperioder.grunnlag?.hentetInformasjon?.fom
     );
 
@@ -41,7 +41,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                 icon={<ArrowsCirclepathIcon />}
                 variant={'tertiary'}
                 onClick={() => {
-                    oppdaterGrunnlag(grunnlagHenteFom);
+                    oppdaterGrunnlag(grunnlagHentFom);
                     settVisRedigerGrunnlagFomAdmin(false);
                 }}
                 disabled={laster}
@@ -55,7 +55,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                         label={'Dato saksopplysninger hentes fra og med'}
                         size={'small'}
                         value={vilkårperioder.grunnlag?.hentetInformasjon?.fom}
-                        onChange={settGrunnlagHenteFom}
+                        onChange={settGrunnlagHentFom}
                     />
                     <Detail>
                         Trykk på Hent-knappen for å hente grunnlag fra og med valgt dato
