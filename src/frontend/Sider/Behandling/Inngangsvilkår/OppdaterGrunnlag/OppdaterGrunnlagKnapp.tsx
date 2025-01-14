@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -26,6 +26,9 @@ const OppdaterGrunnlagKnapp: React.FC<{
     const { visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { oppdaterGrunnlag, laster, feilmelding } = useOppdaterGrunnlag(hentVilkårperioder);
+    const [grunnlagHenteFom, settGrunnlagHenteFom] = useState<string | undefined>(
+        vilkårperioder.grunnlag?.hentetInformasjon?.fom
+    );
 
     if (!erStegRedigerbart || !vilkårperioder.grunnlag) {
         return null;
@@ -38,7 +41,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                 icon={<ArrowsCirclepathIcon />}
                 variant={'tertiary'}
                 onClick={() => {
-                    oppdaterGrunnlag();
+                    oppdaterGrunnlag(grunnlagHenteFom);
                     settVisRedigerGrunnlagFomAdmin(false);
                 }}
                 disabled={laster}
@@ -52,10 +55,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                         label={'Dato saksopplysninger hentes fra og med'}
                         size={'small'}
                         value={vilkårperioder.grunnlag?.hentetInformasjon?.fom}
-                        onChange={(dato) => {
-                            oppdaterGrunnlag(dato);
-                            settVisRedigerGrunnlagFomAdmin(false);
-                        }}
+                        onChange={settGrunnlagHenteFom}
                     />
                 </AdminEndreHenteGrunnlagFra>
             )}
