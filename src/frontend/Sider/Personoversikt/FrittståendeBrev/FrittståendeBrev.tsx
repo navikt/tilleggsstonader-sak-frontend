@@ -105,6 +105,16 @@ const FrittståendeBrev: React.FC<{
         }
     };
 
+    const trykkPaaKnapp = () => {
+        if (brevMalManglerVariabler()) {
+            settFeilmelding(
+                `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
+            );
+            return;
+        }
+        sendBrev();
+    };
+
     return (
         <DataViewer response={{ brevmaler }}>
             {({ brevmaler }) => (
@@ -133,20 +143,11 @@ const FrittståendeBrev: React.FC<{
                             )}
                         </DataViewer>
                         {fil.status === RessursStatus.SUKSESS && (
-                            <Button onClick={sendBrev} size="small" disabled={senderBrev}>
+                            <Button onClick={trykkPaaKnapp} size="small" disabled={senderBrev}>
                                 Send brev
                             </Button>
                         )}
                         <Feilmelding variant="alert">{feilmelding}</Feilmelding>
-                        {brevMalManglerVariabler() && (
-                            <Feilmelding variant="alert">
-                                `Kan ikke sende til beslutter, følgende felter mangler fra brev:$
-                                {manglendeBrevVariabler.map(
-                                    (variabel) => ` ` + variabel.visningsnavn
-                                )}
-                                `
-                            </Feilmelding>
-                        )}
                     </VStack>
                     <PdfVisning pdfFilInnhold={fil} />
                 </ToKolonner>
