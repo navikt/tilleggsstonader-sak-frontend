@@ -162,7 +162,7 @@ const Brevmeny: React.FC<Props> = ({
     useEffect(() => {
         oppdaterManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
         // eslint-disable-next-line
-    }, [inkluderteDelmaler, variabler]);
+    }, [inkluderteDelmaler, variabler, mal, valgfelt]);
     return (
         <FlexColumn>
             {mal.delmaler.map(
