@@ -11,7 +11,6 @@ import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner'
 import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
-import { ManglendeBrevVariablerProvider } from '../../context/ManglendeBrevVariablerContext';
 import { StegProvider } from '../../context/StegContext';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
@@ -85,60 +84,58 @@ const BehandlingTabsInnhold = () => {
             behandling={behandling}
             behandlingErRedigerbar={behandlingErRedigerbar}
         >
-            <ManglendeBrevVariablerProvider>
-                <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
-                    <StickyTablistContainer>
-                        <TabsList>
-                            {behandlingFaner.map((tab) =>
-                                tab.erLåst ? (
-                                    <DisabledTab
-                                        key={tab.path}
-                                        value={tab.path}
-                                        label={tab.navn}
-                                        icon={tab.ikon}
-                                    />
-                                ) : (
-                                    <Tabs.Tab
-                                        key={tab.path}
-                                        value={tab.path}
-                                        label={tab.navn}
-                                        icon={tab.ikon}
-                                    />
-                                )
-                            )}
-                            <HøyrejustertInnhold>{kanSetteBehandlingPåVent && !statusPåVentRedigering && (
+            <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
+                <StickyTablistContainer>
+                    <TabsList>
+                        {behandlingFaner.map((tab) =>
+                            tab.erLåst ? (
+                                <DisabledTab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            ) : (
+                                <Tabs.Tab
+                                    key={tab.path}
+                                    value={tab.path}
+                                    label={tab.navn}
+                                    icon={tab.ikon}
+                                />
+                            )
+                        )}
+                        <HøyrejustertInnhold>{kanSetteBehandlingPåVent && !statusPåVentRedigering && (
 
-                                    <Button
-                                        size={'small'}
-                                        onClick={() => settStatusPåVentRedigering(true)}
-                                        variant="secondary"
-                                    >
-                                        Sett på vent
-                                    </Button>
+                                <Button
+                                    size={'small'}
+                                    onClick={() => settStatusPåVentRedigering(true)}
+                                    variant="secondary"
+                                >
+                                    Sett på vent
+                                </Button>
 
-                            )}
-                             <HamburgermenyBehandling />
+                        )}
+                         <HamburgermenyBehandling />
                         </HøyrejustertInnhold>
-                        </TabsList>
-                    </StickyTablistContainer>
+                    </TabsList>
+                </StickyTablistContainer>
 
-                    {!toggleKanSaksbehandle && (
-                        <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
-                    )}
-                    <SettPåVentContainer
-                        statusPåVentRedigering={statusPåVentRedigering}
-                        settStatusPåVentRedigering={settStatusPåVentRedigering}
-                    />
+                {!toggleKanSaksbehandle && (
+                    <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
+                )}
+                <SettPåVentContainer
+                    statusPåVentRedigering={statusPåVentRedigering}
+                    settStatusPåVentRedigering={settStatusPåVentRedigering}
+                />
 
-                    {behandlingFaner
-                        .filter((fane) => !fane.erLåst)
-                        .map((tab) => (
-                            <BehandlingContent key={tab.path} value={tab.path}>
-                                {tab.komponent(behandling.id)}
-                            </BehandlingContent>
-                        ))}
-                </Tabs>
-            </ManglendeBrevVariablerProvider>
+                {behandlingFaner
+                    .filter((fane) => !fane.erLåst)
+                    .map((tab) => (
+                        <BehandlingContent key={tab.path} value={tab.path}>
+                            {tab.komponent(behandling.id)}
+                        </BehandlingContent>
+                    ))}
+            </Tabs>
         </StegProvider>
     );
 };
