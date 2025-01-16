@@ -52,8 +52,7 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
-    const { manglendeBrevVariabler } = useManglendeBrevVariabler();
-    const { brevMalManglerVariabler } = useManglendeBrevVariabler();
+    const { manglendeBrevVariabler, brevMalManglerVariabler } = useManglendeBrevVariabler();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
