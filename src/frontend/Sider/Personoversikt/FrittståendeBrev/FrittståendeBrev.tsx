@@ -6,7 +6,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
-import { useManglendeBrevVariabler } from '../../../context/ManglendeBrevVariablerContext';
+import { useBrevFeilContext } from '../../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
@@ -52,7 +52,7 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
-    const { manglendeBrevVariabler, brevMalManglerVariabler } = useManglendeBrevVariabler();
+    const { manglendeBrevVariabler, brevMalManglerVariabler } = useBrevFeilContext();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {

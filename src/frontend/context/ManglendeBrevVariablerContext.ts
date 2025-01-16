@@ -5,7 +5,7 @@ import constate from 'constate';
 import { MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import { harIkkeVerdi } from '../utils/utils';
 
-export const [ManglendeBrevVariablerProvider, useManglendeBrevVariabler] = constate(() => {
+export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
 
     const finnManglendeBrevVariabler = (
