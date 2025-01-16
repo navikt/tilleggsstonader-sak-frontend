@@ -33,9 +33,8 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         );
     };
 
-    const brevMalManglerVariabler = (): boolean => {
-        return manglendeBrevVariabler.length !== 0;
-    };
+    const brevMalManglerVariabler = manglendeBrevVariabler.length !== 0;
+
     return {
         manglendeBrevVariabler,
         oppdaterManglendeBrevVariabler,
