@@ -12,10 +12,7 @@ import PersonStatusVarsel from './PersonStatusVarsel';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
-import {
-    erBehandlingRedigerbar,
-    Klagebehandling,
-} from '../../typer/klagebehandling/klagebehandling';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 
 const Visningsnavn = styled.div`
@@ -25,6 +22,7 @@ const Visningsnavn = styled.div`
 `;
 
 export const StatusheaderWrapper = styled(Sticky)`
+    width: 100%;
     display: flex;
 
     border-bottom: 1px solid ${ABorderStrong};
@@ -39,6 +37,14 @@ export const StatusheaderWrapper = styled(Sticky)`
 
 const ElementWrapper = styled.div`
     margin-left: 1rem;
+`;
+
+const HøyrejustertInnhold = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 1rem;
 `;
 
 export const Statusheader: FC<{
@@ -94,15 +100,17 @@ export const Statusheader: FC<{
                 )}
             </Visittkort>
 
-            {behandling && (
-                <>
-                    <AlleStatuser behandling={behandling} />
-                    <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling} />
-                    </StatuserLitenSkjerm>
-                </>
-            )}
-            {behandling && erBehandlingRedigerbar(behandling) && <HamburgermenyKlage />}
+            <HøyrejustertInnhold>
+                {behandling && (
+                    <>
+                        <AlleStatuser behandling={behandling} />
+                        <StatuserLitenSkjerm>
+                            <StatusMeny behandling={behandling} />
+                        </StatuserLitenSkjerm>
+                    </>
+                )}
+                {<HamburgermenyKlage behandling={behandling} />}
+            </HøyrejustertInnhold>
         </StatusheaderWrapper>
     );
 };

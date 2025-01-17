@@ -24,8 +24,9 @@ const TabsList = styled(Tabs.List)`
     width: 100%;
 `;
 
-const Tabsknapp = styled.div`
+const HøyrejustertInnhold = styled.div`
     display: flex;
+    gap: 0.5rem;
     align-items: center;
     margin-left: auto;
     margin-right: 1rem;
@@ -103,8 +104,8 @@ const BehandlingTabsInnhold = () => {
                                 />
                             )
                         )}
-                        {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
-                            <Tabsknapp>
+                        <HøyrejustertInnhold>
+                            {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
                                 <Button
                                     size={'small'}
                                     onClick={() => settStatusPåVentRedigering(true)}
@@ -112,9 +113,9 @@ const BehandlingTabsInnhold = () => {
                                 >
                                     Sett på vent
                                 </Button>
-                            </Tabsknapp>
-                        )}
-                        {behandlingErRedigerbar && <HamburgermenyBehandling />}
+                            )}
+                            <HamburgermenyBehandling />
+                        </HøyrejustertInnhold>
                     </TabsList>
                 </StickyTablistContainer>
 
