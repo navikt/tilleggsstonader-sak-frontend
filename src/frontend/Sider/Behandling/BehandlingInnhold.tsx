@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
+import HenleggModal from './Modal/HenleggModal';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
@@ -43,6 +44,7 @@ const BehandlingInnhold: React.FC<{
                     </InnholdWrapper>
                 </BehandlingContainer>
             </PersonopplysningerProvider>
+            <HenleggModal />
         </BehandlingProvider>
     );
 };

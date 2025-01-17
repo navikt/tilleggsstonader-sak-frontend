@@ -33,6 +33,9 @@ interface BehandlingContext {
 
     visRedigerGrunnlagFomAdmin: boolean;
     settVisRedigerGrunnlagFomAdmin: React.Dispatch<React.SetStateAction<boolean>>;
+
+    visHenleggModal: boolean;
+    settVisHenleggModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
@@ -65,6 +68,7 @@ export const [BehandlingProvider, useBehandling] = constate(
 
         const [visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin] =
             useState<boolean>(false);
+        const [visHenleggModal, settVisHenleggModal] = useState<boolean>(false);
 
         const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
         const kanRevurdere = useKanRevurdere(behandling.stønadstype);
@@ -84,6 +88,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
             visRedigerGrunnlagFomAdmin,
             settVisRedigerGrunnlagFomAdmin,
+            visHenleggModal,
+            settVisHenleggModal,
         };
     }
 );

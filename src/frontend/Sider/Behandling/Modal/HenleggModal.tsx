@@ -3,19 +3,16 @@ import React, { useState } from 'react';
 import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak } from '../../../typer/behandling/behandlingÅrsak';
 import { RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
-interface Props {
-    behandlingId: string;
-    settBehandlingId: (behandlingId: string | undefined) => void;
-    hentBehandlinger: () => void;
-}
-
-const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBehandlinger }) => {
+const HenleggModal: React.FC = () => {
     const { request, settToast } = useApp();
+
+    const { behandling, hentBehandling, visHenleggModal, settVisHenleggModal } = useBehandling();
 
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -23,7 +20,7 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
 
     const lukkModal = () => {
         settFeilmelding('');
-        settBehandlingId(undefined);
+        settVisHenleggModal(false);
     };
 
     const henleggBehandling = () => {
@@ -31,12 +28,12 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
 
         settLaster(true);
 
-        request<null, { årsak: string }>(`/api/sak/behandling/${behandlingId}/henlegg`, 'POST', {
+        request<null, { årsak: string }>(`/api/sak/behandling/${behandling.id}/henlegg`, 'POST', {
             årsak: henlagtårsak,
         })
             .then((respons) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    hentBehandlinger();
+                    hentBehandling.rerun();
                     lukkModal();
                     settToast(Toast.BEHANDLING_HENLAGT);
                 } else {
@@ -48,7 +45,7 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
 
     return (
         <ModalWrapper
-            visModal={true}
+            visModal={visHenleggModal}
             onClose={lukkModal}
             tittel={'Henlegg behandling'}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
@@ -63,10 +60,6 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
             }}
         >
             <Box paddingInline="2">
-                <Alert variant={'info'}>
-                    Det er nå mulig å henlegge en behandling inne på en behandling. Til høyre om
-                    Sett på vent-knappen.
-                </Alert>
                 <RadioGroup legend={''} onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}>
                     <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
                     <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>

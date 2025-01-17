@@ -6,13 +6,22 @@ import { ActionMenu } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
-import { Hamburgermeny, LenkerGroup } from '../../../komponenter/Hamburgermeny/Hamburgermeny';
+import {
+    Hamburgermeny,
+    HenleggMenuItem,
+    LenkerGroup,
+} from '../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Steg } from '../../../typer/behandling/steg';
 import { Toggle } from '../../../utils/toggles';
 
 export const HamburgermenyBehandling = () => {
-    const { behandling, settVisRedigerGrunnlagFomAdmin, behandlingErRedigerbar } = useBehandling();
+    const {
+        behandling,
+        settVisRedigerGrunnlagFomAdmin,
+        behandlingErRedigerbar,
+        settVisHenleggModal,
+    } = useBehandling();
     const { personopplysninger } = usePersonopplysninger();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
 
@@ -30,6 +39,10 @@ export const HamburgermenyBehandling = () => {
                         <ActionMenu.Item onSelect={() => settVisRedigerGrunnlagFomAdmin(true)}>
                             Endre dato for henting av saksopplysning
                         </ActionMenu.Item>
+                    )}
+                    <ActionMenu.Divider />
+                    {behandlingErRedigerbar && (
+                        <HenleggMenuItem onSelect={() => settVisHenleggModal(true)} />
                     )}
                 </ActionMenu.Group>
             )}
