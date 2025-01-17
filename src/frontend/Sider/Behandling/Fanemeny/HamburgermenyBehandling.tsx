@@ -31,7 +31,7 @@ export const HamburgermenyBehandling = () => {
                 <ActionMenu.Group label={'Behandling'}>
                     {skalViseRedigerSaksopplysninger && (
                         <ActionMenu.Item onSelect={() => settVisRedigerGrunnlagFomAdmin(true)}>
-                            Rediger dato saksopplysninger hentes fra
+                            Endre dato for henting av saksopplysning
                         </ActionMenu.Item>
                     )}
                 </ActionMenu.Group>
