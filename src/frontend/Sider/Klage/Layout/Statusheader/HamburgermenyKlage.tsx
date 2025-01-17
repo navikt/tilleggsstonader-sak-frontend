@@ -1,17 +1,26 @@
 import React from 'react';
 
-import { Hamburgermeny, MenyItem } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
+import {
+    Hamburgermeny,
+    henleggMenuItem,
+    MenuGroup,
+} from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import {
+    erBehandlingRedigerbar,
+    Klagebehandling,
+} from '../../typer/klagebehandling/klagebehandling';
 
-export const HamburgermenyKlage = () => {
+export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling }) => {
     const { settVisHenleggModal } = useKlagebehandling();
 
-    const menyItems: MenyItem[] = [
-        {
-            tekst: 'Henlegg',
-            onClick: () => settVisHenleggModal((prevState) => !prevState),
-        },
-    ];
+    const groups: MenuGroup[] = [];
+    if (erBehandlingRedigerbar(behandling)) {
+        groups.push({
+            tekst: 'Behandling',
+            items: [henleggMenuItem(() => settVisHenleggModal((prevState) => !prevState))],
+        });
+    }
 
-    return <Hamburgermeny items={menyItems} />;
+    return <Hamburgermeny groups={groups} />;
 };

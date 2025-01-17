@@ -1,123 +1,57 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC } from 'react';
 
-import styled from 'styled-components';
+import { MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
+import { ActionMenu, Button } from '@navikt/ds-react';
 
-import { MenuHamburgerIcon } from '@navikt/aksel-icons';
-
-interface HamburgerMenyInnholdProps {
-    $åpen: boolean;
+export interface MenuGroup {
+    tekst: string;
+    items: MenuItem[];
 }
 
-const HamburgerMenyIkon = styled(MenuHamburgerIcon)`
-    margin: 1rem 1rem 0 1rem;
-
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-const HamburgerWrapper = styled.div`
-    position: relative;
-`;
-
-const HamburgerMenyInnhold = styled.div<HamburgerMenyInnholdProps>`
-    display: ${(props) => (props.$åpen ? 'block' : 'none')};
-
-    position: fixed;
-
-    background-color: white;
-
-    right: 1rem;
-
-    border: 1px solid grey;
-
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-
-    white-space: nowrap;
-
-    ul,
-    li {
-        margin: 0;
-        padding: 0;
-    }
-
-    li {
-        padding: 0.5rem;
-
-        list-style-type: none;
-    }
-
-    li:hover {
-        background-color: #0166c5;
-        cursor: pointer;
-    }
-`;
-
-const Knapp = styled.button`
-    height: 100%;
-    width: 100%;
-
-    text-align: left;
-`;
-
-export interface MenyItem {
+// Deler av ActionMenuItemProps
+export interface MenuItem {
     tekst: string;
-    onClick: () => void;
+    onSelect: () => void;
+    icon?: React.ReactNode;
+    variant?: 'danger';
 }
 
 export interface Props {
-    items: MenyItem[];
+    groups: MenuGroup[];
     className?: string;
 }
 
-export const Hamburgermeny: FC<Props> = ({ className, items }) => {
-    const ref = useRef(null);
-    const [åpenHamburgerMeny, settÅpenHamburgerMeny] = useState<boolean>(false);
+export const henleggMenuItem = (onSelect: () => void): MenuItem => {
+    return {
+        tekst: 'Henlegg',
+        onSelect: onSelect,
+        variant: 'danger',
+        icon: <TrashIcon />,
+    };
+};
 
-    useEffect(() => {
-        const håndterKlikkUtenforKomponent = (event: { target: never }) => {
-            // @ts-expect-error ref mangler type
-            if (åpenHamburgerMeny && ref.current && !ref.current.contains(event.target)) {
-                settÅpenHamburgerMeny(false);
-            }
-        };
-
-        // @ts-expect-error Mangler type
-        document.addEventListener('click', håndterKlikkUtenforKomponent, true);
-
-        return () => {
-            // @ts-expect-error Mangler type
-            document.removeEventListener('click', håndterKlikkUtenforKomponent, true);
-        };
-    }, [åpenHamburgerMeny]);
-
+export const Hamburgermeny: FC<Props> = ({ groups }) => {
     return (
-        <HamburgerWrapper className={className} ref={ref}>
-            <HamburgerMenyIkon
-                fontSize="1.5rem"
-                onClick={() => {
-                    settÅpenHamburgerMeny(!åpenHamburgerMeny);
-                }}
-            />
-            <HamburgerMenyInnhold $åpen={åpenHamburgerMeny}>
-                <ul>
-                    {items.length === 0 && <li>Ingen valg</li>}
-                    {items.map((p) => (
-                        <li key={p.tekst}>
-                            <Knapp
-                                onClick={() => {
-                                    settÅpenHamburgerMeny(false);
-                                    p.onClick();
-                                }}
+        <ActionMenu>
+            <ActionMenu.Trigger>
+                <Button variant={'tertiary-neutral'} size={'small'} icon={<MenuHamburgerIcon />} />
+            </ActionMenu.Trigger>
+            <ActionMenu.Content>
+                {groups.length === 0 && <ActionMenu.Item>Ingen valg</ActionMenu.Item>}
+                {groups.map((group) => (
+                    <ActionMenu.Group key={group.tekst} label={group.tekst}>
+                        {group.items.map((item) => (
+                            <ActionMenu.Item
+                                key={item.tekst}
+                                onSelect={item.onSelect}
+                                variant={item.variant}
                             >
-                                {p.tekst}
-                            </Knapp>
-                        </li>
-                    ))}
-                </ul>
-            </HamburgerMenyInnhold>
-        </HamburgerWrapper>
+                                {item.tekst}
+                            </ActionMenu.Item>
+                        ))}
+                    </ActionMenu.Group>
+                ))}
+            </ActionMenu.Content>
+        </ActionMenu>
     );
 };
