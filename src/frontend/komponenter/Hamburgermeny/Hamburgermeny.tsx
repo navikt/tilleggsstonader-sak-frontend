@@ -11,7 +11,7 @@ export const Hamburgermeny: FC<Props> = ({ children }) => {
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
-                <Button variant={'tertiary-neutral'} size={'small'} icon={<MenuHamburgerIcon />} />
+                <Button variant={'secondary'} size={'small'} icon={<MenuHamburgerIcon />} />
             </ActionMenu.Trigger>
             <ActionMenu.Content>
                 {children ?? <ActionMenu.Item>Ingen valg</ActionMenu.Item>}
