@@ -104,8 +104,8 @@ const BehandlingTabsInnhold = () => {
                                 />
                             )
                         )}
-                        <HøyrejustertInnhold>{kanSetteBehandlingPåVent && !statusPåVentRedigering && (
-
+                        <HøyrejustertInnhold>
+                            {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
                                 <Button
                                     size={'small'}
                                     onClick={() => settStatusPåVentRedigering(true)}
@@ -113,9 +113,8 @@ const BehandlingTabsInnhold = () => {
                                 >
                                     Sett på vent
                                 </Button>
-
-                        )}
-                         <HamburgermenyBehandling />
+                            )}
+                            <HamburgermenyBehandling />
                         </HøyrejustertInnhold>
                     </TabsList>
                 </StickyTablistContainer>
