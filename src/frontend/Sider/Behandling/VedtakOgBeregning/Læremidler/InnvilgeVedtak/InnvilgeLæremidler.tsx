@@ -85,11 +85,11 @@ export const InnvilgeLæremidler: React.FC<{
                 'POST',
                 vedtaksperioder
             ).then((result) => {
-            settBeregningsresultat(result);
-            if (result.status === 'SUKSESS') {
-                settErVedtaksperioderBeregnet(true);
-            }
-        });
+                settBeregningsresultat(result);
+                if (result.status === 'SUKSESS') {
+                    settErVedtaksperioderBeregnet(true);
+                }
+            });
         }
     };
 
