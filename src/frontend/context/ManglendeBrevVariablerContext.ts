@@ -8,7 +8,7 @@ import { harIkkeVerdi } from '../utils/utils';
 export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
 
-    const finnManglendeBrevVariabler = (
+    const finnManglendeBrevVariablerIValgfelt = (
         mal: MalStruktur,
         inkluderteDelmaler: Record<string, boolean>,
         valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>,
@@ -29,7 +29,7 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         variabler: Partial<Record<string, string>>
     ) => {
         return settManglendeBrevVariabler(
-            finnManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler)
+            finnManglendeBrevVariablerIValgfelt(mal, inkluderteDelmaler, valgfelt, variabler)
         );
     };
 
