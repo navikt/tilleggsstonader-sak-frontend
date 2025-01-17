@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
@@ -46,8 +46,14 @@ export const InnvilgeLæremidler: React.FC<{
 
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Periode>[]>();
 
+    const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
+
+    useEffect(() => {
+        settErVedtaksperioderBeregnet(false);
+    }, [vedtaksperioder]);
+
     const lagreVedtak = () => {
-        if (beregningsresultat.status === RessursStatus.SUKSESS) {
+        if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
             return request<null, InnvilgelseLæremidlerRequest>(
                 `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
                 'POST',
@@ -78,7 +84,12 @@ export const InnvilgeLæremidler: React.FC<{
                 `/api/sak/vedtak/laremidler/${behandling.id}/beregn`,
                 'POST',
                 vedtaksperioder
-            ).then(settBeregningsresultat);
+            ).then((result) => {
+                settBeregningsresultat(result);
+                if (result.status === 'SUKSESS') {
+                    settErVedtaksperioderBeregnet(true);
+                }
+            });
         }
     };
 
@@ -121,7 +132,7 @@ export const InnvilgeLæremidler: React.FC<{
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
-            {visHarIkkeBeregnetFeilmelding && (
+            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
         </>
