@@ -40,7 +40,6 @@ export const HamburgermenyBehandling = () => {
                             Endre dato for henting av saksopplysning
                         </ActionMenu.Item>
                     )}
-                    <ActionMenu.Divider />
                     {behandlingErRedigerbar && (
                         <HenleggMenuItem onSelect={() => settVisHenleggModal(true)} />
                     )}
