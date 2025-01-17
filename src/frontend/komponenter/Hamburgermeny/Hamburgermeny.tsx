@@ -3,6 +3,9 @@ import React, { FC } from 'react';
 import { MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
 
+import { GosysLenke } from './Lenker/GosysLenke';
+import { ModiaPersonoversiktLenke } from './Lenker/ModiaPersonoversiktLenke';
+
 export interface Props {
     children?: React.ReactNode;
 }
@@ -28,6 +31,11 @@ export const HenleggMenuItem = ({ onSelect }: { onSelect: () => void }) => {
     );
 };
 
-export const LenkerGroup = ({ children }: { children: React.ReactNode }) => {
-    return <ActionMenu.Group label={'Lenker'}>{children}</ActionMenu.Group>;
+export const LenkerGroup = ({ ident }: { ident: string }) => {
+    return (
+        <ActionMenu.Group label={'Lenker'}>
+            <ModiaPersonoversiktLenke ident={ident} />
+            <GosysLenke />
+        </ActionMenu.Group>
+    );
 };

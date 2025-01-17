@@ -7,7 +7,6 @@ import { ActionMenu } from '@navikt/ds-react';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { Hamburgermeny, LenkerGroup } from '../../../komponenter/Hamburgermeny/Hamburgermeny';
-import { ModiaPersonoversiktLenke } from '../../../komponenter/Hamburgermeny/Lenker/ModiaPersonoversiktLenke';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Steg } from '../../../typer/behandling/steg';
 import { Toggle } from '../../../utils/toggles';
@@ -24,9 +23,7 @@ export const HamburgermenyBehandling = () => {
 
     return (
         <Hamburgermeny>
-            <LenkerGroup>
-                <ModiaPersonoversiktLenke ident={personopplysninger.personIdent} />
-            </LenkerGroup>
+            <LenkerGroup ident={personopplysninger.personIdent} />
             {behandlingErRedigerbar && skalViseRedigerSaksopplysninger && (
                 <ActionMenu.Group label={'Behandling'}>
                     {skalViseRedigerSaksopplysninger && (

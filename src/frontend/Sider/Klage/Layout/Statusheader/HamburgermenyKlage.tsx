@@ -7,7 +7,6 @@ import {
     HenleggMenuItem,
     LenkerGroup,
 } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
-import { ModiaPersonoversiktLenke } from '../../../../komponenter/Hamburgermeny/Lenker/ModiaPersonoversiktLenke';
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import {
@@ -21,9 +20,7 @@ export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling
 
     return (
         <Hamburgermeny>
-            <LenkerGroup>
-                {personIdent && <ModiaPersonoversiktLenke ident={personIdent} />}
-            </LenkerGroup>
+            {personIdent && <LenkerGroup ident={personIdent} />}
             {erBehandlingRedigerbar(behandling) && (
                 <ActionMenu.Group label={'Behandling'}>
                     <HenleggMenuItem
