@@ -2,9 +2,11 @@ import {
     EndreAktivitetFormLæremidler,
     VurderingerAktivitetLæremidler,
 } from './EndreAktivitetLæremidler';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
+import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
+import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -105,7 +107,13 @@ const resetPeriode = (
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
-        return { fom: førsteDagIMånedTreMånederForut(søknadMottattTidspunkt), tom: dagensDato() };
+        return {
+            fom: førsteDagIMånederForut(
+                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.LÆREMIDLER],
+                søknadMottattTidspunkt
+            ),
+            tom: dagensDato(),
+        };
     }
 
     if (eksisterendeForm.type === AktivitetType.INGEN_AKTIVITET) {

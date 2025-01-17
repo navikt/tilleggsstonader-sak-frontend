@@ -1,7 +1,9 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
-import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
+import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
+import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
@@ -75,11 +77,17 @@ export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
 
 export const resettMålgruppe = (
+    stønadstype: Stønadstype,
     nyType: MålgruppeType,
     eksisterendeForm: EndreMålgruppeForm,
     søknadMottattTidspunkt?: string
 ): EndreMålgruppeForm => {
-    const { fom, tom } = resetPeriode(nyType, eksisterendeForm, søknadMottattTidspunkt);
+    const { fom, tom } = resetPeriode(
+        stønadstype,
+        nyType,
+        eksisterendeForm,
+        søknadMottattTidspunkt
+    );
     return {
         ...eksisterendeForm,
         type: nyType,
@@ -90,12 +98,19 @@ export const resettMålgruppe = (
 };
 
 const resetPeriode = (
+    stønadstype: Stønadstype,
     nyType: string,
     eksisterendeForm: EndreMålgruppeForm,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === MålgruppeType.INGEN_MÅLGRUPPE) {
-        return { fom: førsteDagIMånedTreMånederForut(søknadMottattTidspunkt), tom: dagensDato() };
+        return {
+            fom: førsteDagIMånederForut(
+                ingenMålgruppeAktivitetAntallMndBakITiden[stønadstype],
+                søknadMottattTidspunkt
+            ),
+            tom: dagensDato(),
+        };
     }
 
     if (eksisterendeForm.type === MålgruppeType.INGEN_MÅLGRUPPE) {

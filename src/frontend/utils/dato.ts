@@ -171,9 +171,9 @@ export const dagensDato = (): string => tilLocaleDateString(new Date());
  * Funksjon finner første dag i måneden tre måneder før gitt dato eller dagens dato
  * Eksempel: førsteDagIMånedTreMånederForut('2023-09-18') -> '2023-06-01'
  */
-export const førsteDagIMånedTreMånederForut = (dato?: string): string => {
+export const førsteDagIMånederForut = (antallMnd: number, dato?: string): string => {
     const utgangspunktDato = dato ? tilDato(dato) : new Date();
-    return tilLocaleDateString(startOfMonth(addMonths(tilDato(utgangspunktDato), -3)));
+    return tilLocaleDateString(startOfMonth(addMonths(tilDato(utgangspunktDato), -antallMnd)));
 };
 
 // Eksempel: formaterIsoÅr('2023-09-18') -> 2023

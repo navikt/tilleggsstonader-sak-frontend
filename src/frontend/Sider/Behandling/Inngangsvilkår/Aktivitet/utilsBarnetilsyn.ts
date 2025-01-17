@@ -1,8 +1,10 @@
 import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { dagensDato, førsteDagIMånedTreMånederForut } from '../../../../utils/dato';
+import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
+import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsynFaktaOgSvar } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
@@ -81,7 +83,13 @@ const resetPeriode = (
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
-        return { fom: førsteDagIMånedTreMånederForut(søknadMottattTidspunkt), tom: dagensDato() };
+        return {
+            fom: førsteDagIMånederForut(
+                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.BARNETILSYN],
+                søknadMottattTidspunkt
+            ),
+            tom: dagensDato(),
+        };
     }
 
     if (eksisterendeForm.type === AktivitetType.INGEN_AKTIVITET) {

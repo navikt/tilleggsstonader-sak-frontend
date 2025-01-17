@@ -137,7 +137,12 @@ const EndreMålgruppeRad: React.FC<{
 
     const oppdaterType = (type: MålgruppeType) => {
         settForm((prevState) =>
-            resettMålgruppe(type, prevState, behandlingFakta.søknadMottattTidspunkt)
+            resettMålgruppe(
+                behandling.stønadstype,
+                type,
+                prevState,
+                behandlingFakta.søknadMottattTidspunkt
+            )
         );
     };
 
