@@ -2,42 +2,40 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
+import { ActionMenu } from '@navikt/ds-react';
+
 import { useBehandling } from '../../../context/BehandlingContext';
-import {
-    Hamburgermeny,
-    MenuGroup,
-    MenuItem,
-} from '../../../komponenter/Hamburgermeny/Hamburgermeny';
+import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import { Hamburgermeny, LenkerGroup } from '../../../komponenter/Hamburgermeny/Hamburgermeny';
+import { ModiaPersonoversiktLenke } from '../../../komponenter/Hamburgermeny/Lenker/ModiaPersonoversiktLenke';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Steg } from '../../../typer/behandling/steg';
 import { Toggle } from '../../../utils/toggles';
 
 export const HamburgermenyBehandling = () => {
     const { behandling, settVisRedigerGrunnlagFomAdmin, behandlingErRedigerbar } = useBehandling();
+    const { personopplysninger } = usePersonopplysninger();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
-    const groups: MenuGroup[] = [];
-    const behandlingItems: MenuItem[] = [];
-    if (
+
+    const skalViseRedigerSaksopplysninger =
         behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
         behandling.steg === Steg.INNGANGSVILKÅR &&
-        kanRedigereGrunnlagFom
-    ) {
-        behandlingItems.push({
-            tekst: 'Rediger dato saksopplysninger hentes fra',
-            onSelect: () => settVisRedigerGrunnlagFomAdmin(true),
-        });
-    }
+        kanRedigereGrunnlagFom;
 
-    if (behandlingItems.length > 0) {
-        groups.push({
-            tekst: 'Behandling',
-            items: behandlingItems,
-        });
-    }
-
-    if (!behandlingErRedigerbar) {
-        return null;
-    }
-
-    return <Hamburgermeny groups={groups} />;
+    return (
+        <Hamburgermeny>
+            <LenkerGroup>
+                <ModiaPersonoversiktLenke ident={personopplysninger.personIdent} />
+            </LenkerGroup>
+            {behandlingErRedigerbar && skalViseRedigerSaksopplysninger && (
+                <ActionMenu.Group label={'Behandling'}>
+                    {skalViseRedigerSaksopplysninger && (
+                        <ActionMenu.Item onSelect={() => settVisRedigerGrunnlagFomAdmin(true)}>
+                            Rediger dato saksopplysninger hentes fra
+                        </ActionMenu.Item>
+                    )}
+                </ActionMenu.Group>
+            )}
+        </Hamburgermeny>
+    );
 };

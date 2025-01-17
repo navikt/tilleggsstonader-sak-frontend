@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { ActionMenu } from '@navikt/ds-react';
+
 import {
     Hamburgermeny,
-    henleggMenuItem,
-    MenuGroup,
+    HenleggMenuItem,
 } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import {
@@ -14,13 +15,15 @@ import {
 export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling }) => {
     const { settVisHenleggModal } = useKlagebehandling();
 
-    const groups: MenuGroup[] = [];
-    if (erBehandlingRedigerbar(behandling)) {
-        groups.push({
-            tekst: 'Behandling',
-            items: [henleggMenuItem(() => settVisHenleggModal((prevState) => !prevState))],
-        });
-    }
-
-    return <Hamburgermeny groups={groups} />;
+    return (
+        <Hamburgermeny>
+            {erBehandlingRedigerbar(behandling) && (
+                <ActionMenu.Group label={'Behandling'}>
+                    <HenleggMenuItem
+                        onSelect={() => settVisHenleggModal((prevState) => !prevState)}
+                    />
+                </ActionMenu.Group>
+            )}
+        </Hamburgermeny>
+    );
 };
