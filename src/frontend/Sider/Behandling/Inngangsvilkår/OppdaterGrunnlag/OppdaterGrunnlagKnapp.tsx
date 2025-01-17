@@ -26,9 +26,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
     const { visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { oppdaterGrunnlag, laster, feilmelding } = useOppdaterGrunnlag(hentVilkårperioder);
-    const [grunnlagHentFom, settGrunnlagHentFom] = useState<string | undefined>(
-        vilkårperioder.grunnlag?.hentetInformasjon?.fom
-    );
+    const [grunnlagHentFom, settGrunnlagHentFom] = useState<string | undefined>();
 
     if (!erStegRedigerbart || !vilkårperioder.grunnlag) {
         return null;
