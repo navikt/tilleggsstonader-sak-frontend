@@ -18,7 +18,7 @@ interface Response {
 export const useGenererModiaLenke = (ident: string) => {
     const { request } = useApp();
 
-    const genererModiaLenke = useCallback(async () => {
+    const genererModiaLenke = useCallback(async (): Promise<string> => {
         const envUrl = erProd() ? '.' : '.dev.';
         const urlModiaPersonoversikt = `https://modiapersonoversikt.intern${envUrl}nav.no`;
         try {
@@ -27,6 +27,8 @@ export const useGenererModiaLenke = (ident: string) => {
             });
             if (response.status === RessursStatus.SUKSESS) {
                 return `${urlModiaPersonoversikt}/person?sokFnrCode=${response.data.code}`;
+            } else {
+                return `${urlModiaPersonoversikt}/person`;
             }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
