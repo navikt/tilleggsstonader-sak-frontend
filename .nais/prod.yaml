@@ -50,6 +50,7 @@ spec:
           namespace: teamfamilie
       external:
         - host: tilleggsstonader-unleash-api.nav.cloud.nais.io
+        - host: modiacontextholder.intern.nav.no
   azure:
     sidecar:
       enabled: true
