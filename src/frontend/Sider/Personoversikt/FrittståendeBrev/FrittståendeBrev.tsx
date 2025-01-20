@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
+import { useBrevFeilContext } from '../../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
@@ -19,6 +21,7 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
+import { Toggle } from '../../../utils/toggles';
 
 const ToKolonner = styled.div`
     display: flex;
@@ -51,6 +54,9 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
+    const { manglendeBrevVariabler, brevMalManglerVariabler } = useBrevFeilContext();
+
+    const featureToggleManglendeBrevVariabler = useFlag(Toggle.FEATURE_MANGLENDE_BREV_VARIABLER);
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -102,6 +108,16 @@ const FrittståendeBrev: React.FC<{
         }
     };
 
+    const trykkPaaKnapp = () => {
+        if (featureToggleManglendeBrevVariabler && brevMalManglerVariabler) {
+            settFeilmelding(
+                `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
+            );
+            return;
+        }
+        sendBrev();
+    };
+
     return (
         <DataViewer response={{ brevmaler }}>
             {({ brevmaler }) => (
@@ -119,7 +135,6 @@ const FrittståendeBrev: React.FC<{
                             brevmal={brevmal}
                             settBrevmal={settBrevmal}
                         />
-
                         <DataViewer response={{ malStruktur, mellomlagretBrev }}>
                             {({ malStruktur, mellomlagretBrev }) => (
                                 <Brevmeny
@@ -131,7 +146,7 @@ const FrittståendeBrev: React.FC<{
                             )}
                         </DataViewer>
                         {fil.status === RessursStatus.SUKSESS && (
-                            <Button onClick={sendBrev} size="small" disabled={senderBrev}>
+                            <Button onClick={trykkPaaKnapp} size="small" disabled={senderBrev}>
                                 Send brev
                             </Button>
                         )}
