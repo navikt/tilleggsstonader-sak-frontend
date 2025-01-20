@@ -14,7 +14,6 @@ import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
 import Endringslogg from '@navikt/familie-endringslogg';
 
 import { AppProvider, useApp } from './context/AppContext';
-import { BrevFeilContextProvider } from './context/ManglendeBrevVariablerContext';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
 import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
@@ -92,9 +91,7 @@ const App: React.FC = () => {
                 }}
                 startClient={appEnv.unleashEnv !== 'mock'}
             >
-                <BrevFeilContextProvider>
-                    <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
-                </BrevFeilContextProvider>
+                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
             </FlagProvider>
         </AppProvider>
     );
