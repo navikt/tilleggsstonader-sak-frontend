@@ -10,6 +10,7 @@ import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
+import { useBrevFeilContext } from '../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
@@ -57,6 +58,7 @@ const Brevmeny: React.FC<Props> = ({
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
+    const { oppdaterManglendeBrevVariabler } = useBrevFeilContext();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -157,6 +159,10 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler,
     ]);
 
+    useEffect(() => {
+        oppdaterManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
+        // eslint-disable-next-line
+    }, [inkluderteDelmaler, variabler, mal, valgfelt]);
     return (
         <FlexColumn>
             {mal.delmaler.map(

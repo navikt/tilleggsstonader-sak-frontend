@@ -12,4 +12,9 @@ export enum Toggle {
     ADMIN_KAN_OPPRETTE_BEHANDLING = 'sak.admin-kan-opprette-behandling',
 
     KAN_REDIGERE_GRUNNLAG_FOM = 'sak.frontend.kan-redigere-grunnlag-fom',
+
+    /**
+     * features-under-utvikling
+     */
+    FEATURE_MANGLENDE_BREV_VARIABLER = 'sak.frontend.feature.manglende-brev-variabler',
 }

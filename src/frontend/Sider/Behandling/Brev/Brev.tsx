@@ -8,6 +8,7 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 import BrevLesevisning from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { BrevFeilContextProvider } from '../../../context/ManglendeBrevVariablerContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
@@ -97,20 +98,22 @@ const Brev: React.FC = () => {
                                     brevmal={brevmal}
                                     settBrevmal={settBrevmal}
                                 />
-                                <DataViewer response={{ malStruktur, vedtak }}>
-                                    {({ malStruktur, vedtak }) => (
-                                        <>
-                                            <Brevmeny
-                                                mal={malStruktur}
-                                                behandling={behandling}
-                                                mellomlagretBrev={mellomlagretBrev}
-                                                settFil={settFil}
-                                                vedtak={vedtak}
-                                            />
-                                            <SendTilBeslutterKnapp />
-                                        </>
-                                    )}
-                                </DataViewer>
+                                <BrevFeilContextProvider>
+                                    <DataViewer response={{ malStruktur, vedtak }}>
+                                        {({ malStruktur, vedtak }) => (
+                                            <>
+                                                <Brevmeny
+                                                    mal={malStruktur}
+                                                    behandling={behandling}
+                                                    mellomlagretBrev={mellomlagretBrev}
+                                                    settFil={settFil}
+                                                    vedtak={vedtak}
+                                                />
+                                                <SendTilBeslutterKnapp />
+                                            </>
+                                        )}
+                                    </DataViewer>
+                                </BrevFeilContextProvider>
                             </VStack>
                             <PdfVisning pdfFilInnhold={fil} />
                         </ToKolonner>
