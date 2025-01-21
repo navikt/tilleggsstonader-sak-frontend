@@ -1,6 +1,9 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { typeRegisterYtelseTilMålgruppeType } from '../../../../typer/registerytelser';
+import {
+    registerYtelseTilTekstStorForbokstav,
+    typeRegisterYtelseTilMålgruppeType,
+} from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
@@ -178,3 +181,7 @@ export const mapFaktaOgSvarTilRequest = (
     svarUtgifterDekketAvAnnetRegelverk:
         målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
 });
+
+export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
+    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === 'AAP_FERDIG_AVKLART' ? ' (Ferdig avklart)' : ''}`;
+};

@@ -31,6 +31,11 @@ export interface YtelseGrunnlagPeriode {
     type: TypeRegisterYtelse;
     fom: string;
     tom?: string;
+    subtype?: SubtypeYtelseGrunnlag;
+}
+
+export enum SubtypeYtelseGrunnlag {
+    AAP_FERDIG_AVKLART = 'AAP_FERDIG_AVKLART',
 }
 
 interface HentetInformasjon {

@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
+import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
-import { utledYtelseTekst } from '../../../../utils/registerYtelse';
-import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
+import { SubtypeYtelseGrunnlag, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
 const HvitTabell = styled(Table)`
     background: white;
@@ -41,11 +41,15 @@ const RegisterYtelserTabell: React.FC<{
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                             <Table.DataCell>
-                                {erStegRedigerbart && (
-                                    <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
-                                        Bruk
-                                    </Button>
-                                )}
+                                {erStegRedigerbart &&
+                                    ytelse.subtype !== SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART && (
+                                        <Button
+                                            size="xsmall"
+                                            onClick={() => lagRadForPeriode(ytelse)}
+                                        >
+                                            Bruk
+                                        </Button>
+                                    )}
                             </Table.DataCell>
                         </Table.Row>
                     );
