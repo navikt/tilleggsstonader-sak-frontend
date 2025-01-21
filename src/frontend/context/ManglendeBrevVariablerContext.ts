@@ -3,7 +3,14 @@ import { useState } from 'react';
 import constate from 'constate';
 
 import { MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
+import { variabelBeregningstabellId } from '../komponenter/Brev/variablerUtils';
 import { harIkkeVerdi } from '../utils/utils';
+
+/**
+ * Htmlvariabler populeres kun når man genrerer selve brevet og ligger ikke i et state
+ * Må filtreres vekk fra variabler fra delmalen for å unngå at man får treff på vedtakstabellen
+ */
+const htmlVariabler = new Set(variabelBeregningstabellId);
 
 export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
@@ -22,10 +29,12 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
                 const variablerIValg = valgForDelmal
                     .filter((valg) => valg._type === 'tekst')
                     .flatMap((valg) => valg.variabler);
+
                 const variablerIDelmal = delmal.blocks
                     .filter((block) => block._type === 'block')
                     .flatMap((block) => block.markDefs)
-                    .filter((mark) => mark._type === 'variabel');
+                    .filter((mark) => mark._type === 'variabel')
+                    .filter((mark) => !htmlVariabler.has(mark._id));
 
                 return [...variablerIValg, ...variablerIDelmal].filter((variabel) =>
                     harIkkeVerdi(variabler[variabel._id])
