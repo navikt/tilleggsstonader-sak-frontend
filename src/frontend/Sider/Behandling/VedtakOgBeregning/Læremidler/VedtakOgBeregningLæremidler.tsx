@@ -13,10 +13,12 @@ import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     AvslagLæremidler,
     InnvilgelseLæremidler,
+    OpphørLæremidler,
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
+import OpphørVedtak from '../Læremidler/OpphørVedtak';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -52,8 +54,8 @@ const VedtakOgBeregningLæremidler: FC = () => {
                                 <AvslåVedtak vedtak={vedtak as AvslagLæremidler} />
                             )}
                             {typeVedtak === TypeVedtak.OPPHØR && (
-                                <span>Har ikke støtte for opphør ennå</span>
-                                /*<OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />*/
+                                // <span>Har ikke støtte for opphør ennå</span>
+                                <OpphørVedtak vedtak={vedtak as OpphørLæremidler} />
                             )}
                         </HGrid>
                     </Panel>

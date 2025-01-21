@@ -29,7 +29,7 @@ const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn | OpphørLæremidler
 
     const lagreVedtak = () => {
         return request<null, OpphørBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/opphor`,
+            `/api/sak/vedtak/laremidler/${behandling.id}/opphor`,
             'POST',
             { type: TypeVedtak.OPPHØR, årsakerOpphør: årsaker, begrunnelse: begrunnelse }
         );
