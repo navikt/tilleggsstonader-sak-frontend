@@ -16,7 +16,11 @@ import {
     MålgruppeTypeTilFaktiskMålgruppe,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
-import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
+import {
+    SubtypeYtelseGrunnlag,
+    SvarJaNei,
+    YtelseGrunnlagPeriode,
+} from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export type MålgrupperMedMedlemskapsvurdering =
@@ -183,5 +187,5 @@ export const mapFaktaOgSvarTilRequest = (
 });
 
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
-    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === 'AAP_FERDIG_AVKLART' ? ' (Ferdig avklart)' : ''}`;
+    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (Ferdig avklart)' : ''}`;
 };
