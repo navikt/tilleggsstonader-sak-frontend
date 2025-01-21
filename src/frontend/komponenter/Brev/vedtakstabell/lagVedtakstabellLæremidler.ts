@@ -2,6 +2,7 @@ import { LagVedtakstabell } from './lagVedtakstabell';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { formaterTektligIsoPeriode } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
+import { variabelBeregningstabellId } from '../variablerUtils';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
@@ -9,8 +10,6 @@ const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 export const lagVedtakstabellLæremidler = (
     beregningsresultat: BeregningsresultatLæremidler | undefined
 ): LagVedtakstabell => {
-    const variabelBeregningstabellId = '02408de1-5ad8-44e9-a004-51f677d6ebab';
-
     return {
         [variabelBeregningstabellId]: lagBeregningstabell(beregningsresultat),
     };
