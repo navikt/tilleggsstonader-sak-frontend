@@ -54,7 +54,6 @@ const VedtakOgBeregningLæremidler: FC = () => {
                                 <AvslåVedtak vedtak={vedtak as AvslagLæremidler} />
                             )}
                             {typeVedtak === TypeVedtak.OPPHØR && (
-                                // <span>Har ikke støtte for opphør ennå</span>
                                 <OpphørVedtak vedtak={vedtak as OpphørLæremidler} />
                             )}
                         </HGrid>
