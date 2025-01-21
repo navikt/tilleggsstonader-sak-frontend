@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,7 +13,6 @@ import { useBrevFeilContext } from '../../../context/ManglendeBrevVariablerConte
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 
 const Knapp = styled(Button)`
     display: block;
@@ -29,7 +27,6 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
     const behandlingId = behandling.id;
-    const featureToggleManglendeBrevVariabler = useFlag(Toggle.FEATURE_MANGLENDE_BREV_VARIABLER);
 
     const sendTilBeslutter = () => {
         settLaster(true);
@@ -51,7 +48,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     };
 
     const trykkPaaKnapp = () => {
-        if (featureToggleManglendeBrevVariabler && brevMalManglerVariabler) {
+        if (brevMalManglerVariabler) {
             settFeilmelding(
                 `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );

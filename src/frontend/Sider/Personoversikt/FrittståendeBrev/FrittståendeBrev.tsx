@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Button, VStack } from '@navikt/ds-react';
@@ -21,7 +20,6 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 
 const ToKolonner = styled.div`
     display: flex;
@@ -55,8 +53,6 @@ const FrittståendeBrev: React.FC<{
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
     const { manglendeBrevVariabler, brevMalManglerVariabler } = useBrevFeilContext();
-
-    const featureToggleManglendeBrevVariabler = useFlag(Toggle.FEATURE_MANGLENDE_BREV_VARIABLER);
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -109,7 +105,7 @@ const FrittståendeBrev: React.FC<{
     };
 
     const trykkPaaKnapp = () => {
-        if (featureToggleManglendeBrevVariabler && brevMalManglerVariabler) {
+        if (brevMalManglerVariabler) {
             settFeilmelding(
                 `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );

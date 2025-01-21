@@ -16,5 +16,4 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    FEATURE_MANGLENDE_BREV_VARIABLER = 'sak.frontend.feature.manglende-brev-variabler',
 }
