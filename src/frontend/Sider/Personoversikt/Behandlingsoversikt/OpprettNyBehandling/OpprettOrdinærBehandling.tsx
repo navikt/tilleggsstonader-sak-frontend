@@ -61,7 +61,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         if (laster) {
             return;
         }
-        settLaster(true);
+        settLaster(false);
         if (!årsak) {
             settFeilmelding('Mangler årsak');
             return;
