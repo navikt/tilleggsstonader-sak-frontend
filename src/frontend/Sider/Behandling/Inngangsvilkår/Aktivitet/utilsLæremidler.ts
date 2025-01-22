@@ -45,7 +45,6 @@ function nyAktivitetFraRegister(
         tom: aktivitetFraRegister.tom || '',
         prosent: aktivitetFraRegister.prosentDeltakelse,
         studienivå: undefined,
-        begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
         vurderinger: {
             svarHarUtgifter: undefined,
             svarHarRettTilUtstyrsstipend: undefined,
@@ -67,9 +66,6 @@ function nyTomAktivitet(): EndreAktivitetFormLæremidler {
         },
     };
 }
-
-const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
-    `Status: ${aktivitetFraRegister.status}`;
 
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;

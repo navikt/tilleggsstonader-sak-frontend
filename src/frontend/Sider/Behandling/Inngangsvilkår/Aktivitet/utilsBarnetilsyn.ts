@@ -39,7 +39,6 @@ function nyAktivitetFraRegister(
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
-        begrunnelse: lagBegrunnelseForAktivitet(aktivitetFraRegister),
         svarLønnet: undefined,
         kildeId: aktivitetFraRegister.id,
     };
@@ -54,9 +53,6 @@ function nyTomAktivitet(): EndreAktivitetFormBarnetilsyn {
         svarLønnet: undefined,
     };
 }
-
-const lagBegrunnelseForAktivitet = (aktivitetFraRegister: Registeraktivitet) =>
-    `Status: ${aktivitetFraRegister.status}`;
 
 export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
