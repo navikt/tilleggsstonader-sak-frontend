@@ -11,7 +11,12 @@ export const ModiaPersonoversiktLenke = ({ ident }: { ident: string }) => {
         <ActionMenu.Item
             onSelect={async (e) => {
                 e.preventDefault();
-                window.open(await genererModiaLenke());
+                try {
+                    const url = await genererModiaLenke();
+                    window.open(url);
+                } catch {
+                    alert('Feilet generering av lenke til modia. Prøv på nytt.');
+                }
             }}
             icon={<ExternalLinkIcon />}
         >
