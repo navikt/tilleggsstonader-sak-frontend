@@ -85,6 +85,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         const value = event.target.value;
         if (harVerdi(value)) {
             settÅrsak(value as BehandlingÅrsak);
+            settFeilmelding(undefined);
         } else {
             settÅrsak(undefined);
         }
