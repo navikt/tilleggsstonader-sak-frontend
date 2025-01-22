@@ -61,9 +61,10 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         if (laster) {
             return;
         }
-        settLaster(false);
+        settLaster(true);
         if (!årsak) {
             settFeilmelding('Mangler årsak');
+            settLaster(false);
             return;
         }
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
