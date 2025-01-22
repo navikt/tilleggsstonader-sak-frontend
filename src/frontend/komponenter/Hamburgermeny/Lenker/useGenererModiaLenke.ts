@@ -21,18 +21,13 @@ export const useGenererModiaLenke = (ident: string) => {
     const genererModiaLenke = useCallback(async (): Promise<string> => {
         const envUrl = erProd() ? '.' : '.dev.';
         const urlModiaPersonoversikt = `https://modiapersonoversikt.intern${envUrl}nav.no`;
-        try {
-            const response = await request<Response, Request>('/api/generer-lenke-modia', 'POST', {
-                fnr: ident,
-            });
-            if (response.status === RessursStatus.SUKSESS) {
-                return `${urlModiaPersonoversikt}/person?sokFnrCode=${response.data.code}`;
-            } else {
-                return `${urlModiaPersonoversikt}/person`;
-            }
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-            return `${urlModiaPersonoversikt}/person`;
+        const response = await request<Response, Request>('/api/generer-lenke-modia', 'POST', {
+            fnr: ident,
+        });
+        if (response.status === RessursStatus.SUKSESS) {
+            return `${urlModiaPersonoversikt}/person?sokFnrCode=${response.data.code}`;
+        } else {
+            return Promise.reject();
         }
     }, [request, ident]);
     return {
