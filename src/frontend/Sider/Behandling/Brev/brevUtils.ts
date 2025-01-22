@@ -1,5 +1,6 @@
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { TypeVedtak } from '../../../typer/vedtak/vedtak';
+import { erProd } from '../../../utils/miljø';
 
 enum SanityMappe {
     INNVILGET = 'INNVILGET',
@@ -25,6 +26,11 @@ export const finnSanityMappe = (
 
     if (behandlingstype === BehandlingType.REVURDERING) {
         return [SanityMappe.REVURDERING, SanityMappe.INNVILGET];
+    }
+
+    // Midlertidig visning av opphørsbrev i dev for testing
+    if (vedtakType === TypeVedtak.INNVILGELSE && !erProd()) {
+        return [SanityMappe.INNVILGET, SanityMappe.OPPHØR];
     }
 
     if (vedtakType === TypeVedtak.INNVILGELSE) {
