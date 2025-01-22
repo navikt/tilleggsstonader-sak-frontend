@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
 
-import { GosysLenke } from './Lenker/GosysLenke';
 import { ModiaPersonoversiktLenke } from './Lenker/ModiaPersonoversiktLenke';
 
 export interface Props {
@@ -35,7 +34,7 @@ export const LenkerGroup = ({ ident }: { ident: string }) => {
     return (
         <ActionMenu.Group label={'Lenker'}>
             <ModiaPersonoversiktLenke ident={ident} />
-            <GosysLenke />
+            {/*<GosysLenke />*/}
         </ActionMenu.Group>
     );
 };
