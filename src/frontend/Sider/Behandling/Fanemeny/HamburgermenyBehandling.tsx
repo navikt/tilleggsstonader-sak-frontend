@@ -28,23 +28,22 @@ export const HamburgermenyBehandling = () => {
     const skalViseRedigerSaksopplysninger =
         behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
         behandling.steg === Steg.INNGANGSVILKÅR &&
+        behandlingErRedigerbar &&
         kanRedigereGrunnlagFom;
 
     return (
         <Hamburgermeny>
             <LenkerGroup ident={personopplysninger.personIdent} />
-            {behandlingErRedigerbar && skalViseRedigerSaksopplysninger && (
-                <ActionMenu.Group label={'Behandling'}>
-                    {skalViseRedigerSaksopplysninger && (
-                        <ActionMenu.Item onSelect={() => settVisRedigerGrunnlagFomAdmin(true)}>
-                            Endre dato for henting av saksopplysning
-                        </ActionMenu.Item>
-                    )}
-                    {behandlingErRedigerbar && (
-                        <HenleggMenuItem onSelect={() => settVisHenleggModal(true)} />
-                    )}
-                </ActionMenu.Group>
-            )}
+            <ActionMenu.Group label={'Behandling'}>
+                {skalViseRedigerSaksopplysninger && (
+                    <ActionMenu.Item onSelect={() => settVisRedigerGrunnlagFomAdmin(true)}>
+                        Endre dato for henting av saksopplysning
+                    </ActionMenu.Item>
+                )}
+                {behandlingErRedigerbar && (
+                    <HenleggMenuItem onSelect={() => settVisHenleggModal(true)} />
+                )}
+            </ActionMenu.Group>
         </Hamburgermeny>
     );
 };
