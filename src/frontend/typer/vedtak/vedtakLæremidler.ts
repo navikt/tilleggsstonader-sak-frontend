@@ -1,8 +1,8 @@
-import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { Periode } from '../../utils/periode';
 
-export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler;
+export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
@@ -40,3 +40,11 @@ export type AvslåLæremidlerRequest = {
 };
 
 export type AvslagLæremidler = AvslåLæremidlerRequest;
+
+export type OpphørLæremidlerRequest = {
+    type: TypeVedtak.OPPHØR;
+    årsakerOpphør: ÅrsakOpphør[];
+    begrunnelse: string;
+};
+
+export type OpphørLæremidler = OpphørLæremidlerRequest;
