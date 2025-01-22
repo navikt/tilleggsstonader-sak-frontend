@@ -11,14 +11,13 @@ import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { TypeVedtak, ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
-import { OpphørLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 import {
-    OpphørBarnetilsyn,
-    OpphørBarnetilsynRequest,
-} from '../../../../typer/vedtak/vedtakTilsynBarn';
+    OpphørLæremidler,
+    OpphørLæremidlerRequest,
+} from '../../../../typer/vedtak/vedtakLæremidler';
 import { FanePath } from '../../faner';
 
-const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn | OpphørLæremidler }> = ({ vedtak }) => {
+const OpphørVedtak: React.FC<{ vedtak?: OpphørLæremidler }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
@@ -28,7 +27,7 @@ const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn | OpphørLæremidler
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const lagreVedtak = () => {
-        return request<null, OpphørBarnetilsynRequest>(
+        return request<null, OpphørLæremidlerRequest>(
             `/api/sak/vedtak/laremidler/${behandling.id}/opphor`,
             'POST',
             { type: TypeVedtak.OPPHØR, årsakerOpphør: årsaker, begrunnelse: begrunnelse }
