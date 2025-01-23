@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { BodyShort, Button, List, VStack } from '@navikt/ds-react';
 
-import { MalStruktur, Valg, Valgfelt, Variabel } from './typer';
+import { MalStruktur, Valg, Valgfelt } from './typer';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 
@@ -65,7 +65,7 @@ export const Brevknapp = ({
 };
 
 const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefined }) => {
-    const { manglendeBrevVariabler } = useBrevFeilContext();
+    const { manglendeBrevVariabler, manglendeValgfelt } = useBrevFeilContext();
     return (
         feilmelding && (
             <Feilmelding variant="alert" size={'small'}>
@@ -74,12 +74,19 @@ const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefined }) =
                     tittel={'Felt som mangler verdi'}
                     mangler={manglendeBrevVariabler}
                 />
+                <ListeMedMangler tittel={'Valg som mangler verdi'} mangler={manglendeValgfelt} />
             </Feilmelding>
         )
     );
 };
 
-const ListeMedMangler = ({ tittel, mangler }: { tittel: string; mangler: Variabel[] }) => {
+const ListeMedMangler = ({
+    tittel,
+    mangler,
+}: {
+    tittel: string;
+    mangler: { _id: string; visningsnavn: string }[];
+}) => {
     return (
         mangler.length > 0 && (
             <List size={'small'}>

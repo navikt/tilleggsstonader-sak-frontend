@@ -14,6 +14,7 @@ const htmlVariabler = new Set([variabelBeregningstabellId]);
 
 export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
+    const [manglendeValgfelt, settManglendeValgfelt] = useState<Valgfelt[]>([]);
 
     const finnManglendeBrevVariabler = (
         delmaler: Delmal[],
@@ -39,6 +40,19 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         });
     };
 
+    const finnManglendeValgfelt = (
+        delmaler: Delmal[],
+        valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
+    ): Valgfelt[] => {
+        return delmaler.flatMap((delmal) => {
+            const valgfeltForDelmal = valgfelt[delmal._id] ?? {};
+            return delmal.blocks
+                .filter((block) => block._type === 'valgfelt')
+                .filter((block) => block.erPakrevd)
+                .filter((valg) => !valgfeltForDelmal[valg._id]);
+        });
+    };
+
     const oppdaterMangelIBrev = (
         mal: MalStruktur,
         inkluderteDelmaler: Record<string, boolean>,
@@ -46,13 +60,22 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         variabler: Partial<Record<string, string>>
     ): 'HAR_MANGEL' | 'HAR_IKKE_MANGEL' => {
         const valgteDelmaler = mal.delmaler.filter((delmal) => inkluderteDelmaler[delmal._id]);
-        const mangler = finnManglendeBrevVariabler(valgteDelmaler, valgfelt, variabler);
-        settManglendeBrevVariabler(mangler);
-        return mangler.length > 0 ? 'HAR_MANGEL' : 'HAR_IKKE_MANGEL';
+        const brevVariablerSomMangler = finnManglendeBrevVariabler(
+            valgteDelmaler,
+            valgfelt,
+            variabler
+        );
+        settManglendeBrevVariabler(brevVariablerSomMangler);
+        const valgfeltSomMangler = finnManglendeValgfelt(valgteDelmaler, valgfelt);
+        settManglendeValgfelt(valgfeltSomMangler);
+        return brevVariablerSomMangler.length > 0 || valgfeltSomMangler.length > 0
+            ? 'HAR_MANGEL'
+            : 'HAR_IKKE_MANGEL';
     };
 
     return {
         manglendeBrevVariabler,
+        manglendeValgfelt,
         oppdaterMangelIBrev,
     };
 });
