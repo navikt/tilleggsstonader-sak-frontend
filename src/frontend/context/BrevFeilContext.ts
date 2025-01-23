@@ -14,6 +14,7 @@ const htmlVariabler = new Set([variabelBeregningstabellId]);
 
 export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Variabel[]>([]);
+    const [manglendeValgfelt, settManglendeValgfelt] = useState<Valgfelt[]>([]);
 
     const finnManglendeBrevVariabler = (
         delmaler: Delmal[],
@@ -39,6 +40,19 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         });
     };
 
+    const finnManglendeValgfelt = (
+        delmaler: Delmal[],
+        valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
+    ): Valgfelt[] => {
+        return delmaler.flatMap((delmal) => {
+            const valgfeltForDelmal = valgfelt[delmal._id] ?? {};
+            return delmal.blocks
+                .filter((block) => block._type === 'valgfelt')
+                .filter((block) => block.erPakrevd)
+                .filter((valg) => !valgfeltForDelmal[valg._id]);
+        });
+    };
+
     const oppdaterMangelIBrev = (
         mal: MalStruktur,
         inkluderteDelmaler: Record<string, boolean>,
@@ -47,12 +61,14 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     ) => {
         const valgteDelmaler = mal.delmaler.filter((delmal) => inkluderteDelmaler[delmal._id]);
         settManglendeBrevVariabler(finnManglendeBrevVariabler(valgteDelmaler, valgfelt, variabler));
+        settManglendeValgfelt(finnManglendeValgfelt(valgteDelmaler, valgfelt));
     };
 
-    const brevHarMangler = manglendeBrevVariabler.length !== 0;
+    const brevHarMangler = manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0;
 
     return {
         manglendeBrevVariabler,
+        manglendeValgfelt,
         oppdaterMangelIBrev,
         brevHarMangler,
     };
