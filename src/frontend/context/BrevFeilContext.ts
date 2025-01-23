@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import constate from 'constate';
 
@@ -91,9 +91,30 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
             : 'HAR_IKKE_MANGEL';
     };
 
+    /**
+     * Grupperer mangler per delmal for å enklere kunne sjekke om en komponent i en delmal har mangel
+     */
+    const manglerPerDelmal = useMemo(() => {
+        return [...manglendeValgfelt, ...manglendeBrevVariabler].reduce(
+            (prev, current) => {
+                const previousValues = prev[current.delmalId] ?? [];
+                prev[current.delmalId] = new Set([
+                    ...previousValues,
+                    ...current.mangler.map((mangel) => mangel._id),
+                ]);
+                return prev;
+            },
+            {} as Record<string, Set<string>>
+        );
+    }, [manglendeValgfelt, manglendeBrevVariabler]);
+
+    const manglerVerdi = (delmalId: string, komponentId: string) =>
+        manglerPerDelmal[delmalId]?.has(komponentId);
+
     return {
         manglendeBrevVariabler,
         manglendeValgfelt,
         oppdaterMangelIBrev,
+        manglerVerdi,
     };
 });

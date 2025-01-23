@@ -53,6 +53,7 @@ export const DelmalMeny: React.FC<Props> = ({
                     case 'valgfelt':
                         return (
                             <Valgfelt
+                                delmalId={delmal._id}
                                 valgtVerdi={idEllerFritekst(valgfelt[val._id])}
                                 valgfelt={val}
                                 settValgfelt={settValgfelt}
@@ -66,6 +67,7 @@ export const DelmalMeny: React.FC<Props> = ({
                     case 'block':
                         return (
                             <Variabler
+                                delmalId={delmal._id}
                                 variabler={val.markDefs}
                                 variablerState={variabler}
                                 settVariabler={settVariabler}
