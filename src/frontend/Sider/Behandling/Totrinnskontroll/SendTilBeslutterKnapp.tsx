@@ -22,7 +22,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
-    const { brevMalManglerVariabler, manglendeBrevVariabler } = useBrevFeilContext();
+    const { brevHarMangler, manglendeBrevVariabler } = useBrevFeilContext();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     };
 
     const trykkPaaKnapp = () => {
-        if (brevMalManglerVariabler) {
+        if (brevHarMangler) {
             settFeilmelding(
                 `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );

@@ -58,7 +58,7 @@ const Brevmeny: React.FC<Props> = ({
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
-    const { oppdaterManglendeBrevVariabler } = useBrevFeilContext();
+    const { oppdaterMangelIBrev } = useBrevFeilContext();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -160,7 +160,7 @@ const Brevmeny: React.FC<Props> = ({
     ]);
 
     useEffect(() => {
-        oppdaterManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
+        oppdaterMangelIBrev(mal, inkluderteDelmaler, valgfelt, variabler);
         // eslint-disable-next-line
     }, [inkluderteDelmaler, variabler, mal, valgfelt]);
     return (

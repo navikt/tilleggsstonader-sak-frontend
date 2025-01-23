@@ -52,7 +52,7 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
-    const { manglendeBrevVariabler, brevMalManglerVariabler } = useBrevFeilContext();
+    const { manglendeBrevVariabler, brevHarMangler } = useBrevFeilContext();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -105,7 +105,7 @@ const FrittståendeBrev: React.FC<{
     };
 
     const trykkPaaKnapp = () => {
-        if (brevMalManglerVariabler) {
+        if (brevHarMangler) {
             settFeilmelding(
                 `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );
