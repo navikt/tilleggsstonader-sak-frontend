@@ -60,7 +60,10 @@ const VedtakOgBeregningLæremidler: FC = () => {
                     </Panel>
 
                     {typeVedtak === TypeVedtak.INNVILGELSE && (
-                        <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                        <InnvilgeLæremidler
+                            lagretVedtak={vedtak as InnvilgelseLæremidler}
+                            vedtaksperioderForrigeBehandling={undefined}
+                        />
                     )}
                 </Container>
             )}
