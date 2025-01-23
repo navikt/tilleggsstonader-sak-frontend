@@ -33,17 +33,12 @@ export const Brevknapp = ({
 }: Props) => {
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { oppdaterManglendeBrevVariabler } = useBrevFeilContext();
+    const { oppdaterMangelIBrev } = useBrevFeilContext();
 
     const trykkPåKnapp = () => {
         settFeilmelding(undefined);
 
-        const harMangelResultat = oppdaterManglendeBrevVariabler(
-            mal,
-            inkluderteDelmaler,
-            valgfelt,
-            variabler
-        );
+        const harMangelResultat = oppdaterMangelIBrev(mal, inkluderteDelmaler, valgfelt, variabler);
 
         if (harMangelResultat === 'HAR_MANGEL') {
             settFeilmelding('Kan ikke gå videre, følgende felter mangler fra brev:');
