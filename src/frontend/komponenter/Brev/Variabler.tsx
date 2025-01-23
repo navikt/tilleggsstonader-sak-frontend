@@ -13,16 +13,18 @@ interface Props {
 }
 
 const Variabler: React.FC<Props> = ({ delmalId, variabler, variablerState, settVariabler }) => {
-    const { manglerVerdi } = useBrevFeilContext();
+    const { manglerVerdi, nullstillVariabel } = useBrevFeilContext();
 
     return (
         <>
             {variabler.map((variabel) => {
-                const håndterInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+                const håndterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
                     settVariabler((prevState) => ({
                         ...prevState,
                         [variabel._id]: e.target.value,
                     }));
+                    nullstillVariabel(delmalId, variabel._id);
+                };
 
                 if (!variabel.erHtml) {
                     return (

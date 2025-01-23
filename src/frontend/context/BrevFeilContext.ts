@@ -111,10 +111,46 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const manglerVerdi = (delmalId: string, komponentId: string) =>
         manglerPerDelmal[delmalId]?.has(komponentId);
 
+    const nullstillValgfelt = (delmalId: string, komponentId: string) => {
+        settManglendeValgfelt((prevState) =>
+            prevState
+                .map((feil) => {
+                    if (feil.delmalId === delmalId) {
+                        return {
+                            ...feil,
+                            mangler: feil.mangler.filter((mangel) => mangel._id !== komponentId),
+                        };
+                    } else {
+                        return feil;
+                    }
+                })
+                .filter((feil) => feil.mangler.length > 0)
+        );
+    };
+
+    const nullstillVariabel = (delmalId: string, komponentId: string) => {
+        settManglendeBrevVariabler((prevState) =>
+            prevState
+                .map((feil) => {
+                    if (feil.delmalId === delmalId) {
+                        return {
+                            ...feil,
+                            mangler: feil.mangler.filter((mangel) => mangel._id !== komponentId),
+                        };
+                    } else {
+                        return feil;
+                    }
+                })
+                .filter((feil) => feil.mangler.length > 0)
+        );
+    };
+
     return {
         manglendeBrevVariabler,
         manglendeValgfelt,
         oppdaterMangelIBrev,
         manglerVerdi,
+        nullstillValgfelt,
+        nullstillVariabel,
     };
 });

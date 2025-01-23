@@ -28,7 +28,7 @@ const Valgfelt: React.FC<Props> = ({
     settFritekst,
     settVariabler,
 }) => {
-    const { manglerVerdi } = useBrevFeilContext();
+    const { manglerVerdi, nullstillValgfelt, nullstillVariabel } = useBrevFeilContext();
     const finnValgtBlock = (id: string | undefined) =>
         valgfelt.valg.find(
             (valg) =>
@@ -36,14 +36,21 @@ const Valgfelt: React.FC<Props> = ({
                 (valg._type === 'fritekst' && id === 'fritekst')
         );
 
+    const valgtBlock = finnValgtBlock(valgtVerdi);
+
     const oppdaterValgfelt = (id: string) => {
-        const valgtBlock = finnValgtBlock(id);
+        const nyttValgtBlock = finnValgtBlock(id);
+        if (nyttValgtBlock) {
+            nullstillValgfelt(delmalId, valgfelt._id);
+        } else if (valgtBlock?._type === 'tekst') {
+            valgtBlock.variabler.forEach((variabel) => nullstillVariabel(delmalId, variabel._id));
+        }
 
         settValgfelt((prevState) => {
             const oppdatertState = { ...prevState };
 
-            if (valgtBlock) {
-                oppdatertState[valgfelt._id] = valgtBlock;
+            if (nyttValgtBlock) {
+                oppdatertState[valgfelt._id] = nyttValgtBlock;
             } else {
                 delete oppdatertState[valgfelt._id];
             }
@@ -51,8 +58,6 @@ const Valgfelt: React.FC<Props> = ({
             return oppdatertState;
         });
     };
-
-    const valgtBlock = finnValgtBlock(valgtVerdi);
 
     return (
         <>
