@@ -10,7 +10,7 @@ import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useBrevFeilContext } from '../../../context/BrevFeilContext';
-import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { FeilmeldingBrev } from '../../../komponenter/Brev/FeilmeldingBrev';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 
@@ -22,7 +22,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
-    const { brevHarMangler, manglendeBrevVariabler } = useBrevFeilContext();
+    const { brevHarMangler } = useBrevFeilContext();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
@@ -49,9 +49,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
 
     const trykkPaaKnapp = () => {
         if (brevHarMangler) {
-            settFeilmelding(
-                `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
-            );
+            settFeilmelding(`Kan ikke sende til beslutter, alle påkrevde felt er ikke utfylte.`);
             return;
         }
         sendTilBeslutter();
@@ -70,7 +68,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
                     <Knapp onClick={trykkPaaKnapp} disabled={laster} type={'button'} size="small">
                         Send til beslutter
                     </Knapp>
-                    <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                    <FeilmeldingBrev feilmelding={feilmelding} />
                 </>
             )}
             <ModalWrapper
