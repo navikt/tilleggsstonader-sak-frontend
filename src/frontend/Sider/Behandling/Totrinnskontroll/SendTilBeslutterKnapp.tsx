@@ -9,7 +9,7 @@ import { Button } from '@navikt/ds-react';
 import { TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { useBrevFeilContext } from '../../../context/ManglendeBrevVariablerContext';
+import { useBrevFeilContext } from '../../../context/BrevFeilContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';

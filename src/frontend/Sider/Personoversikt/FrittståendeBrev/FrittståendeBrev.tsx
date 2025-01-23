@@ -6,7 +6,7 @@ import { Button, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../../../context/AppContext';
-import { useBrevFeilContext } from '../../../context/ManglendeBrevVariablerContext';
+import { useBrevFeilContext } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';

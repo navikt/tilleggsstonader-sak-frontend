@@ -8,7 +8,7 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 import BrevLesevisning from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { BrevFeilContextProvider } from '../../../context/ManglendeBrevVariablerContext';
+import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';

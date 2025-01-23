@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Alert, Heading, Select } from '@navikt/ds-react';
 
 import FrittståendeBrev from './FrittståendeBrev';
-import { BrevFeilContextProvider } from '../../../context/ManglendeBrevVariablerContext';
+import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
