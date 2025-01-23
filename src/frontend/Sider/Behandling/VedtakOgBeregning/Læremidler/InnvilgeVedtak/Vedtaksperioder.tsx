@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -41,6 +41,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
 
+    const [endretKeyNyeRader, settEndretKeyNyeRader] = useState<Set<string>>(new Set());
+
     const oppdaterPeriodeFelt = (
         indeks: number,
         property: 'fom' | 'tom',
@@ -60,7 +62,9 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     const leggTilPeriode = () => {
-        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode()]);
+        const nyVedtaksperiode = tomVedtaksperiode();
+        settEndretKeyNyeRader((prevState) => new Set([...prevState, nyVedtaksperiode.endretKey]));
+        settVedtaksperioder([...vedtaksperioder, nyVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
@@ -97,6 +101,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             }}
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
+                            erNyRad={endretKeyNyeRader.has(vedtaksperiode.endretKey)}
                         />
                     ))}
                 </Grid>

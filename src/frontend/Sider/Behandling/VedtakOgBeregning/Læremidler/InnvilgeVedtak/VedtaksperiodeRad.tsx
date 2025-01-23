@@ -4,6 +4,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 
@@ -13,6 +14,7 @@ interface Props {
     vedtaksperiodeFeil: FormErrors<Periode> | undefined;
     oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;
     slettPeriode: () => void;
+    erNyRad: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -21,13 +23,21 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     vedtaksperiodeFeil,
     oppdaterPeriode,
     slettPeriode,
+    erNyRad,
 }) => {
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
+        periodeFom: vedtaksperiode.fom,
+        periodeTom: vedtaksperiode.tom,
+        nyRadLeggesTil: erNyRad,
+    });
+
     return (
         <>
             <DateInputMedLeservisning
                 label="Fra"
                 hideLabel
                 erLesevisning={erLesevisning}
+                readOnly={!alleFelterKanEndres}
                 value={vedtaksperiode.fom}
                 onChange={(dato?: string) => oppdaterPeriode('fom', dato)}
                 feil={vedtaksperiodeFeil?.fom}
@@ -37,6 +47,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 label="Til"
                 hideLabel
                 erLesevisning={erLesevisning}
+                readOnly={helePeriodenErLåstForEndring}
                 value={vedtaksperiode.tom}
                 onChange={(dato?: string) => oppdaterPeriode('tom', dato)}
                 feil={vedtaksperiodeFeil?.tom}
