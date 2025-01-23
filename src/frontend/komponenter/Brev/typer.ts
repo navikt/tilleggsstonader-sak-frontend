@@ -36,6 +36,7 @@ export interface Valgfelt {
     _id: string;
     valg: Valg[];
     visningsnavn: string;
+    erPakrevd?: boolean;
 }
 
 interface Blockcontent {
