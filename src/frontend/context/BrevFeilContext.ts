@@ -14,61 +14,59 @@ const htmlVariabler = new Set([variabelBeregningstabellId]);
 
 export type FeilIDelmalType = Variabel | Valgfelt;
 
-export interface FeilIDelmal<T extends FeilIDelmalType> {
-    delmalId: string;
-    mangler: T[];
-}
-
 export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
-    const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<FeilIDelmal<Variabel>[]>(
-        []
+    const [manglendeBrevVariabler, settManglendeBrevVariabler] = useState<Map<string, Variabel[]>>(
+        new Map()
     );
-    const [manglendeValgfelt, settManglendeValgfelt] = useState<FeilIDelmal<Valgfelt>[]>([]);
+    const [manglendeValgfelt, settManglendeValgfelt] = useState<Map<string, Valgfelt[]>>(new Map());
 
     const finnManglendeBrevVariabler = (
         delmaler: Delmal[],
         valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>,
         variabler: Partial<Record<string, string>>
-    ): FeilIDelmal<Variabel>[] => {
-        return delmaler
-            .flatMap((delmal) => {
-                const valgForDelmal = Object.values(valgfelt[delmal._id] ?? {});
+    ): Map<string, Variabel[]> => {
+        const map = new Map<string, Variabel[]>();
 
-                const variablerIValg = valgForDelmal
-                    .filter((valg) => valg._type === 'tekst')
-                    .flatMap((valg) => valg.variabler);
+        delmaler.forEach((delmal) => {
+            const valgForDelmal = Object.values(valgfelt[delmal._id] ?? {});
 
-                const variablerIDelmal = delmal.blocks
-                    .filter((block) => block._type === 'block')
-                    .flatMap((block) => block.markDefs)
-                    .filter((mark) => mark._type === 'variabel')
-                    .filter((mark) => !htmlVariabler.has(mark._id));
+            const variablerIValg = valgForDelmal
+                .filter((valg) => valg._type === 'tekst')
+                .flatMap((valg) => valg.variabler);
 
-                const alleManglerIDelmal = [...variablerIValg, ...variablerIDelmal].filter(
-                    (variabel) => harIkkeVerdi(variabler[variabel._id])
-                );
-                return { delmalId: delmal._id, mangler: alleManglerIDelmal };
-            })
-            .filter((feil) => feil.mangler.length > 0);
+            const variablerIDelmal = delmal.blocks
+                .filter((block) => block._type === 'block')
+                .flatMap((block) => block.markDefs)
+                .filter((mark) => mark._type === 'variabel')
+                .filter((mark) => !htmlVariabler.has(mark._id));
+
+            const alleManglerIDelmal = [...variablerIValg, ...variablerIDelmal].filter((variabel) =>
+                harIkkeVerdi(variabler[variabel._id])
+            );
+            if (alleManglerIDelmal.length > 0) {
+                map.set(delmal._id, alleManglerIDelmal);
+            }
+        });
+        return map;
     };
 
     const finnManglendeValgfelt = (
         delmaler: Delmal[],
         valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
-    ): FeilIDelmal<Valgfelt>[] => {
-        return delmaler
-            .flatMap((delmal) => {
-                const valgfeltForDelmal = valgfelt[delmal._id] ?? {};
-                const mangler = delmal.blocks
-                    .filter((block) => block._type === 'valgfelt')
-                    .filter((block) => block.erPakrevd)
-                    .filter((valg) => !valgfeltForDelmal[valg._id]);
-                return {
-                    delmalId: delmal._id,
-                    mangler: mangler,
-                };
-            })
-            .filter((feil) => feil.mangler.length > 0);
+    ): Map<string, Valgfelt[]> => {
+        const map = new Map<string, Valgfelt[]>();
+
+        delmaler.forEach((delmal) => {
+            const valgfeltForDelmal = valgfelt[delmal._id] ?? {};
+            const mangler = delmal.blocks
+                .filter((block) => block._type === 'valgfelt')
+                .filter((block) => block.erPakrevd)
+                .filter((valg) => !valgfeltForDelmal[valg._id]);
+            if (mangler.length > 0) {
+                map.set(delmal._id, mangler);
+            }
+        });
+        return map;
     };
 
     const oppdaterMangelIBrev = (
@@ -86,7 +84,7 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         settManglendeBrevVariabler(brevVariablerSomMangler);
         const valgfeltSomMangler = finnManglendeValgfelt(valgteDelmaler, valgfelt);
         settManglendeValgfelt(valgfeltSomMangler);
-        return brevVariablerSomMangler.length > 0 || valgfeltSomMangler.length > 0
+        return brevVariablerSomMangler.size > 0 || valgfeltSomMangler.size > 0
             ? 'HAR_MANGEL'
             : 'HAR_IKKE_MANGEL';
     };
@@ -97,10 +95,12 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const manglerPerDelmal = useMemo(() => {
         return [...manglendeValgfelt, ...manglendeBrevVariabler].reduce(
             (prev, current) => {
-                const previousValues = prev[current.delmalId] ?? [];
-                prev[current.delmalId] = new Set([
-                    ...previousValues,
-                    ...current.mangler.map((mangel) => mangel._id),
+                const delmalId = current[0];
+                const tidligereMangler = prev[delmalId] ?? [];
+                const nyeMangler = current[1];
+                prev[delmalId] = new Set([
+                    ...tidligereMangler,
+                    ...nyeMangler.map((mangel) => mangel._id),
                 ]);
                 return prev;
             },
@@ -111,47 +111,46 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const manglerVerdi = (delmalId: string, komponentId: string) =>
         manglerPerDelmal[delmalId]?.has(komponentId);
 
+    const nullstill = <T extends { _id: string }>(
+        prevState: Map<string, T[]>,
+        delmalId: string,
+        komponentId: string
+    ): Map<string, T[]> => {
+        const newState = new Map<string, T[]>(prevState);
+
+        const tidligereVerdier = newState.get(delmalId);
+        if (tidligereVerdier) {
+            const nyeVerdier: T[] = tidligereVerdier.filter((v) => v._id !== komponentId);
+
+            if (nyeVerdier.length > 0) {
+                newState.set(delmalId, nyeVerdier);
+            } else {
+                newState.delete(delmalId);
+            }
+        }
+
+        return newState;
+    };
+
     const nullstillValgfelt = (delmalId: string, komponentId: string) => {
-        settManglendeValgfelt((prevState) =>
-            prevState
-                .map((feil) => {
-                    if (feil.delmalId === delmalId) {
-                        return {
-                            ...feil,
-                            mangler: feil.mangler.filter((mangel) => mangel._id !== komponentId),
-                        };
-                    } else {
-                        return feil;
-                    }
-                })
-                .filter((feil) => feil.mangler.length > 0)
-        );
+        settManglendeValgfelt((prevState) => nullstill(prevState, delmalId, komponentId));
     };
 
     const nullstillVariabel = (delmalId: string, komponentId: string) => {
-        settManglendeBrevVariabler((prevState) =>
-            prevState
-                .map((feil) => {
-                    if (feil.delmalId === delmalId) {
-                        return {
-                            ...feil,
-                            mangler: feil.mangler.filter((mangel) => mangel._id !== komponentId),
-                        };
-                    } else {
-                        return feil;
-                    }
-                })
-                .filter((feil) => feil.mangler.length > 0)
-        );
+        settManglendeBrevVariabler((prevState) => nullstill(prevState, delmalId, komponentId));
     };
 
     const nullstillDelmal = (delmalId: string) => {
-        settManglendeBrevVariabler((prevState) =>
-            prevState.filter((feil) => feil.delmalId !== delmalId)
-        );
-        settManglendeBrevVariabler((prevState) =>
-            prevState.filter((feil) => feil.delmalId !== delmalId)
-        );
+        settManglendeBrevVariabler((prevState) => {
+            const newState = new Map<string, Variabel[]>(prevState);
+            newState.delete(delmalId);
+            return newState;
+        });
+        settManglendeValgfelt((prevState) => {
+            const newState = new Map<string, Valgfelt[]>(prevState);
+            newState.delete(delmalId);
+            return newState;
+        });
     };
 
     return {

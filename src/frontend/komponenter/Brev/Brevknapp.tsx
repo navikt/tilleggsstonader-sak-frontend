@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { BodyShort, Button, List, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
-import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
+import { FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
@@ -67,7 +67,7 @@ export const Brevknapp = ({
 const FeilmeldingBrev = () => {
     const { manglendeBrevVariabler, manglendeValgfelt } = useBrevFeilContext();
     return (
-        (manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0) && (
+        (manglendeBrevVariabler.size > 0 || manglendeValgfelt.size > 0) && (
             <Feilmelding variant="alert" size={'small'}>
                 Kan ikke gå videre, følgende felter mangler fra brev:
                 <ListeMedMangler
@@ -85,9 +85,9 @@ const ListeMedMangler = ({
     mangler,
 }: {
     tittel: string;
-    mangler: FeilIDelmal<FeilIDelmalType>[];
+    mangler: Map<string, FeilIDelmalType[]>;
 }) => {
-    const alleMangler = mangler.flatMap((delmal) => delmal.mangler);
+    const alleMangler = [...mangler.values()].flat();
     return (
         alleMangler.length > 0 && (
             <List size={'small'}>
