@@ -1,7 +1,18 @@
 import { useBehandling } from '../context/BehandlingContext';
-import { dagenFør, datoErIPeriodeInklusivSlutt, erFør } from '../utils/dato';
+import { dagenFør, datoErIPeriodeInklusivSlutt, erDatoEtterEllerLik, erFør } from '../utils/dato';
 
 type FelterSomKanEndresIPerioden = 'INGEN' | 'BARE_TOM' | 'ALLE';
+
+const kanPeriodeSlettes = (
+    revurderFra: string | undefined,
+    periodeFom: string | undefined,
+    nyRadLeggesTil: boolean
+): boolean => {
+    if (nyRadLeggesTil || !revurderFra || !periodeFom) {
+        return true;
+    }
+    return erDatoEtterEllerLik(revurderFra, periodeFom);
+};
 
 export const useRevurderingAvPerioder = ({
     periodeFom,
@@ -14,6 +25,7 @@ export const useRevurderingAvPerioder = ({
 }): {
     alleFelterKanEndres: boolean;
     helePeriodenErLåstForEndring: boolean;
+    kanSlettePeriode: boolean;
 } => {
     const { behandling } = useBehandling();
     const datoDetRevurderesFra = behandling.revurderFra;
@@ -37,11 +49,14 @@ export const useRevurderingAvPerioder = ({
         }
     };
 
-    const alleFelterKanEndres = bestemFelterSomKanEndres() === 'ALLE';
-    const helePeriodenErLåstForEndring = bestemFelterSomKanEndres() === 'INGEN';
+    const felterSomKanEndres = bestemFelterSomKanEndres();
+    const alleFelterKanEndres = felterSomKanEndres === 'ALLE';
+    const helePeriodenErLåstForEndring = felterSomKanEndres === 'INGEN';
+    const kanSlettePeriode = kanPeriodeSlettes(datoDetRevurderesFra, periodeFom, nyRadLeggesTil);
 
     return {
         alleFelterKanEndres,
         helePeriodenErLåstForEndring,
+        kanSlettePeriode,
     };
 };

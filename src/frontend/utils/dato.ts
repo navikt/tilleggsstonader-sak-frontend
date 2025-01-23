@@ -91,6 +91,7 @@ export const tilDato = (dato: string | Date): Date =>
     typeof dato === 'string' ? parseISO(dato) : dato;
 
 // Eksempel: erDatoEtterEllerLik('2023-09-17', '2023-09-18') -> true
+// Sjekker om andre dato er lik eller etter første dato
 export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
     const datoFra = tilDato(fra);
     const datoTil = tilDato(til);

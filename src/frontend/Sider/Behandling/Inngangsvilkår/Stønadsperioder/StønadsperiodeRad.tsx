@@ -36,11 +36,12 @@ const StønadsperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erLeservisning,
 }) => {
-    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: lagrerStønadsperiode?.fom,
-        periodeTom: lagrerStønadsperiode?.tom,
-        nyRadLeggesTil: !stønadsperide.id,
-    });
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
+        useRevurderingAvPerioder({
+            periodeFom: lagrerStønadsperiode?.fom,
+            periodeTom: lagrerStønadsperiode?.tom,
+            nyRadLeggesTil: !stønadsperide.id,
+        });
 
     const { behandling } = useBehandling();
 
@@ -111,7 +112,7 @@ const StønadsperiodeRad: React.FC<Props> = ({
             {erLeservisning && behandling.type === BehandlingType.REVURDERING && (
                 <StatusTag status={stønadsperide.status} />
             )}
-            {!erLeservisning && alleFelterKanEndres && (
+            {!erLeservisning && kanSlettePeriode && (
                 <SøppelbøtteKnapp onClick={slettPeriode} size="xsmall" type="button" />
             )}
         </>
