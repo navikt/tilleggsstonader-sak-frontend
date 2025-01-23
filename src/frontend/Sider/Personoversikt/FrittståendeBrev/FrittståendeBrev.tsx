@@ -107,7 +107,7 @@ const FrittståendeBrev: React.FC<{
     const trykkPaaKnapp = () => {
         if (brevHarMangler) {
             settFeilmelding(
-                `Kan ikke sende til beslutter, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
+                `Kan ikke sende brev, følgende felter mangler fra brev:${manglendeBrevVariabler.map((variabel) => ` ` + variabel.visningsnavn)}`
             );
             return;
         }
