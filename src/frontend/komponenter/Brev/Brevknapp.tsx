@@ -41,7 +41,6 @@ export const Brevknapp = ({
         const harMangelResultat = oppdaterMangelIBrev(mal, inkluderteDelmaler, valgfelt, variabler);
 
         if (harMangelResultat === 'HAR_MANGEL') {
-            settFeilmelding('Kan ikke gå videre, følgende felter mangler fra brev:');
             return;
         }
 
@@ -59,17 +58,18 @@ export const Brevknapp = ({
             <Knapp onClick={trykkPåKnapp} disabled={laster}>
                 {tittel}
             </Knapp>
-            <FeilmeldingBrev feilmelding={feilmelding} />
+            <Feilmelding>{feilmelding}</Feilmelding>
+            <FeilmeldingBrev />
         </VStack>
     );
 };
 
-const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefined }) => {
+const FeilmeldingBrev = () => {
     const { manglendeBrevVariabler, manglendeValgfelt } = useBrevFeilContext();
     return (
-        feilmelding && (
+        (manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0) && (
             <Feilmelding variant="alert" size={'small'}>
-                {feilmelding}
+                Kan ikke gå videre, følgende felter mangler fra brev:
                 <ListeMedMangler
                     tittel={'Felt som mangler verdi'}
                     mangler={manglendeBrevVariabler}
