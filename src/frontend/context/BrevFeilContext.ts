@@ -53,11 +53,8 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         return mangler.length > 0 ? 'HAR_MANGEL' : 'HAR_IKKE_MANGEL';
     };
 
-    const brevMalManglerVariabler = manglendeBrevVariabler.length !== 0;
-
     return {
         manglendeBrevVariabler,
         oppdaterManglendeBrevVariabler,
-        brevMalManglerVariabler,
     };
 });
