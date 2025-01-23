@@ -22,7 +22,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
     const { request } = useApp();
     const navigate = useNavigate();
     const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
-    const { brevHarMangler } = useBrevFeilContext();
+    const { brevHarMangler, settVisMangler } = useBrevFeilContext();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [visModal, settVisModal] = useState<boolean>(false);
@@ -49,6 +49,7 @@ const SendTilBeslutterKnapp: React.FC = () => {
 
     const trykkPaaKnapp = () => {
         if (brevHarMangler) {
+            settVisMangler(true);
             settFeilmelding(`Kan ikke sende til beslutter, alle påkrevde felt er ikke utfylte.`);
             return;
         }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import constate from 'constate';
 
@@ -24,6 +24,7 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         []
     );
     const [manglendeValgfelt, settManglendeValgfelt] = useState<FeilIDelmal<Valgfelt>[]>([]);
+    const [visMangler, settVisMangler] = useState<boolean>(false);
 
     const finnManglendeBrevVariabler = (
         delmaler: Delmal[],
@@ -82,12 +83,34 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         settManglendeValgfelt(finnManglendeValgfelt(valgteDelmaler, valgfelt));
     };
 
+    /**
+     * Grupperer mangler per delmal for å enklere kunne sjekke om en komponent i en delmal har mangel
+     */
+    const manglerPerDelmal = useMemo(() => {
+        return [...manglendeValgfelt, ...manglendeBrevVariabler].reduce(
+            (prev, current) => {
+                const previousValues = prev[current.delmalId] ?? [];
+                prev[current.delmalId] = new Set([
+                    ...previousValues,
+                    ...current.mangler.map((mangel) => mangel._id),
+                ]);
+                return prev;
+            },
+            {} as Record<string, Set<string>>
+        );
+    }, [manglendeValgfelt, manglendeBrevVariabler]);
+
+    const harMangelForKomponent = (delmalId: string, komponentId: string) =>
+        visMangler && manglerPerDelmal[delmalId]?.has(komponentId);
+
     const brevHarMangler = manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0;
 
     return {
+        settVisMangler,
         manglendeBrevVariabler,
         manglendeValgfelt,
         oppdaterMangelIBrev,
         brevHarMangler,
+        harMangelForKomponent,
     };
 });

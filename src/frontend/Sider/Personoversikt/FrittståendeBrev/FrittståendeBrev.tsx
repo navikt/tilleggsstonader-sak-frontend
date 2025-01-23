@@ -52,7 +52,7 @@ const FrittståendeBrev: React.FC<{
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
-    const { brevHarMangler } = useBrevFeilContext();
+    const { brevHarMangler, settVisMangler } = useBrevFeilContext();
 
     useEffect(() => {
         if (mellomlagretBrev.status === RessursStatus.SUKSESS) {
@@ -106,6 +106,7 @@ const FrittståendeBrev: React.FC<{
 
     const trykkPaaKnapp = () => {
         if (brevHarMangler) {
+            settVisMangler(true);
             settFeilmelding(`Kan ikke sende brev, alle påkrevde felt er ikke utfylte.`);
             return;
         }
