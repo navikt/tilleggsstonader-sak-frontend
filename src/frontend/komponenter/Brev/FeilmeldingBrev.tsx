@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, List } from '@navikt/ds-react';
 
-import { useBrevFeilContext } from '../../context/BrevFeilContext';
+import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 export const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefined }) => {
@@ -12,27 +12,35 @@ export const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefin
         feilmelding && (
             <Feilmelding variant="alert" size={'small'}>
                 {feilmelding}
-                {manglendeBrevVariabler.length > 0 && (
-                    <List size={'small'}>
-                        <BodyShort size={'small'}>Felt som mangler verdi</BodyShort>
-                        {manglendeBrevVariabler.map((variabel, index) => (
-                            <List.Item key={`${variabel._id}-${index}`}>
-                                {variabel.visningsnavn}
-                            </List.Item>
-                        ))}
-                    </List>
-                )}
-                {manglendeValgfelt.length > 0 && (
-                    <List size={'small'}>
-                        <BodyShort size={'small'}>Valg som mangler verdi</BodyShort>
-                        {manglendeValgfelt.map((valgfelt, index) => (
-                            <List.Item key={`${valgfelt._id}-${index}`}>
-                                {valgfelt.visningsnavn}
-                            </List.Item>
-                        ))}
-                    </List>
-                )}
+                <ListeMedMangler
+                    tittel={'Valg som mangler verdi'}
+                    delmalerMedMangler={manglendeValgfelt}
+                />
+                <ListeMedMangler
+                    tittel={'Felt som mangler verdi'}
+                    delmalerMedMangler={manglendeBrevVariabler}
+                />
             </Feilmelding>
+        )
+    );
+};
+
+const ListeMedMangler = ({
+    tittel,
+    delmalerMedMangler,
+}: {
+    tittel: string;
+    delmalerMedMangler: FeilIDelmal<FeilIDelmalType>[];
+}) => {
+    const alleMangler = delmalerMedMangler.flatMap((delmal) => delmal.mangler);
+    return (
+        alleMangler.length > 0 && (
+            <List size={'small'}>
+                <BodyShort size={'small'}>{tittel}</BodyShort>
+                {alleMangler.map((mangel, index) => (
+                    <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>
+                ))}
+            </List>
         )
     );
 };
