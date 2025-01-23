@@ -9,6 +9,7 @@ import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
 import { idEllerFritekst } from './valgUtil';
 import Variabler from './Variabler';
+import { useBrevFeilContext } from '../../context/BrevFeilContext';
 
 interface Props {
     delmal: DelmalType;
@@ -39,12 +40,18 @@ export const DelmalMeny: React.FC<Props> = ({
     inkluderIBrev,
     settInkluderIBrev,
 }) => {
+    const { nullstillDelmal } = useBrevFeilContext();
     return (
         <FlexColumn>
             <Checkbox
                 disabled={delmal.visningsdetaljer.skalAlltidMed}
                 checked={inkluderIBrev}
-                onChange={(e) => settInkluderIBrev(e.target.checked)}
+                onChange={(e) => {
+                    settInkluderIBrev(e.target.checked);
+                    if (!e.target.checked) {
+                        nullstillDelmal(delmal._id);
+                    }
+                }}
             >
                 Inkluder seksjon i brev
             </Checkbox>

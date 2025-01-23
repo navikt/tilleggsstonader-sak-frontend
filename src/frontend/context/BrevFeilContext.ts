@@ -145,6 +145,15 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         );
     };
 
+    const nullstillDelmal = (delmalId: string) => {
+        settManglendeBrevVariabler((prevState) =>
+            prevState.filter((feil) => feil.delmalId !== delmalId)
+        );
+        settManglendeBrevVariabler((prevState) =>
+            prevState.filter((feil) => feil.delmalId !== delmalId)
+        );
+    };
+
     return {
         manglendeBrevVariabler,
         manglendeValgfelt,
@@ -152,5 +161,6 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         manglerVerdi,
         nullstillValgfelt,
         nullstillVariabel,
+        nullstillDelmal,
     };
 });
