@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { BodyShort, Button, List, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
-import { useBrevFeilContext } from '../../context/BrevFeilContext';
+import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
@@ -85,13 +85,14 @@ const ListeMedMangler = ({
     mangler,
 }: {
     tittel: string;
-    mangler: { _id: string; visningsnavn: string }[];
+    mangler: FeilIDelmal<FeilIDelmalType>[];
 }) => {
+    const alleMangler = mangler.flatMap((delmal) => delmal.mangler);
     return (
-        mangler.length > 0 && (
+        alleMangler.length > 0 && (
             <List size={'small'}>
                 <BodyShort size={'small'}>{tittel}</BodyShort>
-                {mangler.map((mangel, index) => (
+                {alleMangler.map((mangel, index) => (
                     <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>
                 ))}
             </List>
