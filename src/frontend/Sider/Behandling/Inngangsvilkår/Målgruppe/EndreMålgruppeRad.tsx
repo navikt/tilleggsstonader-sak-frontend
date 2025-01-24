@@ -146,7 +146,7 @@ const EndreMålgruppeRad: React.FC<{
         );
     };
 
-    const { alleFelterKanEndres } = useRevurderingAvPerioder({
+    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
         periodeFom: målgruppe?.fom,
         periodeTom: målgruppe?.tom,
         nyRadLeggesTil: !målgruppe,
@@ -196,7 +196,7 @@ const EndreMålgruppeRad: React.FC<{
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {målgruppe !== undefined && alleFelterKanEndres && (
+                {målgruppe !== undefined && kanSlettePeriode && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={målgruppe}

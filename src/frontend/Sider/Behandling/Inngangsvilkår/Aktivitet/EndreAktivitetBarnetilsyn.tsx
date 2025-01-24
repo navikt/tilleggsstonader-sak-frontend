@@ -143,7 +143,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
         );
     };
 
-    const { alleFelterKanEndres } = useRevurderingAvPerioder({
+    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
         periodeFom: aktivitet?.fom,
         periodeTom: aktivitet?.tom,
         nyRadLeggesTil: nyRadLeggesTil,
@@ -215,7 +215,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {aktivitet !== undefined && alleFelterKanEndres && (
+                {aktivitet !== undefined && kanSlettePeriode && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={aktivitet}
