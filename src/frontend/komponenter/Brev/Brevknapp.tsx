@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { BodyShort, Button, List, VStack } from '@navikt/ds-react';
 
-import { MalStruktur, Valg, Valgfelt, Variabel } from './typer';
-import { useBrevFeilContext } from '../../context/BrevFeilContext';
+import { MalStruktur, Valg, Valgfelt } from './typer';
+import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
@@ -33,20 +33,14 @@ export const Brevknapp = ({
 }: Props) => {
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
-    const { oppdaterManglendeBrevVariabler } = useBrevFeilContext();
+    const { oppdaterMangelIBrev } = useBrevFeilContext();
 
     const trykkPåKnapp = () => {
         settFeilmelding(undefined);
 
-        const harMangelResultat = oppdaterManglendeBrevVariabler(
-            mal,
-            inkluderteDelmaler,
-            valgfelt,
-            variabler
-        );
+        const harMangelResultat = oppdaterMangelIBrev(mal, inkluderteDelmaler, valgfelt, variabler);
 
         if (harMangelResultat === 'HAR_MANGEL') {
-            settFeilmelding('Kan ikke gå videre, følgende felter mangler fra brev:');
             return;
         }
 
@@ -64,32 +58,41 @@ export const Brevknapp = ({
             <Knapp onClick={trykkPåKnapp} disabled={laster}>
                 {tittel}
             </Knapp>
-            <FeilmeldingBrev feilmelding={feilmelding} />
+            <Feilmelding>{feilmelding}</Feilmelding>
+            <FeilmeldingBrev />
         </VStack>
     );
 };
 
-const FeilmeldingBrev = ({ feilmelding }: { feilmelding: string | undefined }) => {
-    const { manglendeBrevVariabler } = useBrevFeilContext();
+const FeilmeldingBrev = () => {
+    const { manglendeBrevVariabler, manglendeValgfelt } = useBrevFeilContext();
     return (
-        feilmelding && (
+        (manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0) && (
             <Feilmelding variant="alert" size={'small'}>
-                {feilmelding}
+                Kan ikke gå videre, følgende felter mangler fra brev:
                 <ListeMedMangler
                     tittel={'Felt som mangler verdi'}
                     mangler={manglendeBrevVariabler}
                 />
+                <ListeMedMangler tittel={'Valg som mangler verdi'} mangler={manglendeValgfelt} />
             </Feilmelding>
         )
     );
 };
 
-const ListeMedMangler = ({ tittel, mangler }: { tittel: string; mangler: Variabel[] }) => {
+const ListeMedMangler = ({
+    tittel,
+    mangler,
+}: {
+    tittel: string;
+    mangler: FeilIDelmal<FeilIDelmalType>[];
+}) => {
+    const alleMangler = mangler.flatMap((delmal) => delmal.mangler);
     return (
-        mangler.length > 0 && (
+        alleMangler.length > 0 && (
             <List size={'small'}>
                 <BodyShort size={'small'}>{tittel}</BodyShort>
-                {mangler.map((mangel, index) => (
+                {alleMangler.map((mangel, index) => (
                     <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>
                 ))}
             </List>
