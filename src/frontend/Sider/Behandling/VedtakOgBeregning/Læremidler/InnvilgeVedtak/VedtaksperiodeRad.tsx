@@ -25,11 +25,12 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erNyRad,
 }) => {
-    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: vedtaksperiode.fom,
-        periodeTom: vedtaksperiode.tom,
-        nyRadLeggesTil: erNyRad,
-    });
+    const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
+        useRevurderingAvPerioder({
+            periodeFom: vedtaksperiode.fom,
+            periodeTom: vedtaksperiode.tom,
+            nyRadLeggesTil: erNyRad,
+        });
 
     return (
         <>
@@ -53,7 +54,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 feil={vedtaksperiodeFeil?.tom}
                 size="small"
             />
-            {!erLesevisning ? (
+            {kanSlettePeriode ? (
                 <Button
                     variant="tertiary"
                     onClick={() => slettPeriode()}
