@@ -7,6 +7,8 @@ import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
+import { useSendTilBeslutter } from './useSendTilBeslutter';
+import { VedtakFerdigstiltModal } from './VedtakFerdigstiltModal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
@@ -21,7 +23,6 @@ import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
-import SendTilBeslutterKnapp from '../Totrinnskontroll/SendTilBeslutterKnapp';
 
 const Container = styled.div`
     padding: 2rem;
@@ -39,6 +40,8 @@ const ToKolonner = styled.div`
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
     const contextBrevmottakere = useContextBrevmottakereSak(behandling.id);
+    const { sendTilBeslutter, visVedtakFerdigstiltModal, lukkVedtakFerdigstiltModal } =
+        useSendTilBeslutter();
 
     const { personopplysninger } = usePersonopplysninger();
     const {
@@ -101,16 +104,18 @@ const Brev: React.FC = () => {
                                 <BrevFeilContextProvider>
                                     <DataViewer response={{ malStruktur, vedtak }}>
                                         {({ malStruktur, vedtak }) => (
-                                            <>
-                                                <Brevmeny
-                                                    mal={malStruktur}
-                                                    behandling={behandling}
-                                                    mellomlagretBrev={mellomlagretBrev}
-                                                    settFil={settFil}
-                                                    vedtak={vedtak}
-                                                />
-                                                <SendTilBeslutterKnapp />
-                                            </>
+                                            <Brevmeny
+                                                mal={malStruktur}
+                                                behandling={behandling}
+                                                mellomlagretBrev={mellomlagretBrev}
+                                                settFil={settFil}
+                                                vedtak={vedtak}
+                                                brevknapp={{
+                                                    tittel: 'Send til beslutter',
+                                                    onClick: sendTilBeslutter,
+                                                    visKnapp: true,
+                                                }}
+                                            />
                                         )}
                                     </DataViewer>
                                 </BrevFeilContextProvider>
@@ -122,6 +127,10 @@ const Brev: React.FC = () => {
             ) : (
                 <BrevLesevisning />
             )}
+            <VedtakFerdigstiltModal
+                visModal={visVedtakFerdigstiltModal}
+                lukkModal={lukkVedtakFerdigstiltModal}
+            />
         </Container>
     );
 };

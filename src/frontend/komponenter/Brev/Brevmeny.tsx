@@ -3,6 +3,7 @@ import React, { SetStateAction, useCallback, useEffect, useMemo, useState } from
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { Brevknapp } from './Brevknapp';
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
@@ -10,7 +11,6 @@ import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
-import { useBrevFeilContext } from '../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
@@ -20,6 +20,11 @@ type Props = {
     mal: MalStruktur;
     mellomlagretBrev: MellomlagretBrevDto | undefined;
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
+    brevknapp: {
+        tittel: string;
+        onClick: () => Promise<void>;
+        visKnapp: boolean;
+    };
 } & (
     | { behandling: Behandling; vedtak?: VedtakResponse; fagsakId?: never }
     | { behandling?: never; vedtak?: never; fagsakId: string }
@@ -55,10 +60,10 @@ const Brevmeny: React.FC<Props> = ({
     fagsakId,
     settFil,
     vedtak,
+    brevknapp,
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
-    const { oppdaterManglendeBrevVariabler } = useBrevFeilContext();
     const {
         mellomlagredeInkluderteDelmaler,
         mellomlagredeFritekstfelt,
@@ -159,10 +164,6 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler,
     ]);
 
-    useEffect(() => {
-        oppdaterManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
-        // eslint-disable-next-line
-    }, [inkluderteDelmaler, variabler, mal, valgfelt]);
     return (
         <FlexColumn>
             {mal.delmaler.map(
@@ -186,6 +187,16 @@ const Brevmeny: React.FC<Props> = ({
                             }}
                         />
                     )
+            )}
+            {brevknapp.visKnapp && (
+                <Brevknapp
+                    tittel={brevknapp.tittel}
+                    onClick={brevknapp.onClick}
+                    mal={mal}
+                    inkluderteDelmaler={inkluderteDelmaler}
+                    valgfelt={valgfelt}
+                    variabler={variabler}
+                />
             )}
         </FlexColumn>
     );

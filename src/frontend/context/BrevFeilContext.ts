@@ -47,17 +47,14 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         inkluderteDelmaler: Record<string, boolean>,
         valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>,
         variabler: Partial<Record<string, string>>
-    ) => {
-        return settManglendeBrevVariabler(
-            finnManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler)
-        );
+    ): 'HAR_MANGEL' | 'HAR_IKKE_MANGEL' => {
+        const mangler = finnManglendeBrevVariabler(mal, inkluderteDelmaler, valgfelt, variabler);
+        settManglendeBrevVariabler(mangler);
+        return mangler.length > 0 ? 'HAR_MANGEL' : 'HAR_IKKE_MANGEL';
     };
-
-    const brevMalManglerVariabler = manglendeBrevVariabler.length !== 0;
 
     return {
         manglendeBrevVariabler,
         oppdaterManglendeBrevVariabler,
-        brevMalManglerVariabler,
     };
 });
