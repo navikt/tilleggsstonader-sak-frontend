@@ -70,6 +70,12 @@ const HenleggModal: React.FC<Props> = ({ behandlingId, settBehandlingId, hentBeh
                 <RadioGroup legend={''} onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}>
                     <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
                     <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                    <Radio value={HenlagtÅrsak.SKAL_BEHANDLES_I_ARENA}>
+                        Skal behandles i Arena
+                    </Radio>
+                    <Radio value={HenlagtÅrsak.SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE}>
+                        Skal behandles av annet fagområde
+                    </Radio>
                 </RadioGroup>
                 {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
             </Box>
