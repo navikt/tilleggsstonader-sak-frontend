@@ -21,7 +21,7 @@ export enum MålgruppeType {
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     AAP: 'AAP',
     UFØRETRYGD: 'Uføretrygd',
-    OMSTILLINGSSTØNAD: 'Omstillingsstønad/gjenlevende',
+    OMSTILLINGSSTØNAD: 'Omstillingsstønad/gjenlevendepensjon',
     OVERGANGSSTØNAD: 'Overgangsstønad',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     SYKEPENGER_100_PROSENT: '100% sykepenger',
