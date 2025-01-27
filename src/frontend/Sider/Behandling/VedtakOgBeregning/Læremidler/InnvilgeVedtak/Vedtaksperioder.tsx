@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
+import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 
 const Grid = styled.div`
     display: grid;
@@ -41,6 +41,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
 
+    const [endretKeyNyeRader, settEndretKeyNyeRader] = useState<Set<string>>(new Set());
+
     const oppdaterPeriodeFelt = (
         indeks: number,
         property: 'fom' | 'tom',
@@ -60,7 +62,9 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     const leggTilPeriode = () => {
-        settVedtaksperioder([...vedtaksperioder, tomVedtaksperiode()]);
+        const nyVedtaksperiode = tomVedtaksperiode();
+        settEndretKeyNyeRader((prevState) => new Set([...prevState, nyVedtaksperiode.endretKey]));
+        settVedtaksperioder([...vedtaksperioder, nyVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
 
@@ -88,40 +92,17 @@ export const Vedtaksperioder: React.FC<Props> = ({
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
-                        <React.Fragment key={vedtaksperiode.endretKey}>
-                            <DateInputMedLeservisning
-                                label="Fra"
-                                hideLabel
-                                erLesevisning={!erStegRedigerbart}
-                                value={vedtaksperiode.fom}
-                                onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(indeks, 'fom', dato)
-                                }
-                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.fom}
-                                size="small"
-                            />
-                            <DateInputMedLeservisning
-                                label="Til"
-                                hideLabel
-                                erLesevisning={!erStegRedigerbart}
-                                value={vedtaksperiode.tom}
-                                onChange={(dato?: string) =>
-                                    oppdaterPeriodeFelt(indeks, 'tom', dato)
-                                }
-                                feil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]?.tom}
-                                size="small"
-                            />
-                            {erStegRedigerbart ? (
-                                <Button
-                                    variant="tertiary"
-                                    onClick={() => slettPeriode(indeks)}
-                                    icon={<TrashIcon />}
-                                    size="xsmall"
-                                />
-                            ) : (
-                                <div />
-                            )}
-                        </React.Fragment>
+                        <VedtaksperiodeRad
+                            key={vedtaksperiode.endretKey}
+                            vedtaksperiode={vedtaksperiode}
+                            erLesevisning={!erStegRedigerbart}
+                            oppdaterPeriode={(property, value) => {
+                                oppdaterPeriodeFelt(indeks, property, value);
+                            }}
+                            slettPeriode={() => slettPeriode(indeks)}
+                            vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
+                            erNyRad={endretKeyNyeRader.has(vedtaksperiode.endretKey)}
+                        />
                     ))}
                 </Grid>
             )}
