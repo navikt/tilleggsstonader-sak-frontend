@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { CopyButton, HStack, Popover, Table } from '@navikt/ds-react';
+import { CopyButton, HStack, Popover, Table, Tag } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
@@ -37,9 +37,12 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
     return (
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
-                {oppgave.oppgavetype
-                    ? oppgaveTypeTilTekst[oppgave.oppgavetype]
-                    : 'Mangler oppgavetype'}
+                <HStack gap={'2'} align={'center'}>
+                    {oppgave.oppgavetype
+                        ? oppgaveTypeTilTekst[oppgave.oppgavetype]
+                        : 'Mangler oppgavetype'}
+                    {oppgave.erOpphør && <Tag variant={'error'}>Opphør</Tag>}
+                </HStack>
             </Table.DataCell>
             <Table.DataCell>
                 {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
