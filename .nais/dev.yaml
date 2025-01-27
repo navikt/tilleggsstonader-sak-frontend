@@ -26,11 +26,10 @@ spec:
     path: "/metrics"
   resources:
     limits:
-      cpu: "200m"
-      memory: "256Mi"
+      memory: 256Mi # Lik requests som beste praksis
     requests:
-      cpu: "200m"
-      memory: "256Mi"
+      memory: 256Mi
+      cpu: 20m
   observability:
     logging:
       destinations:
