@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
+import { målgruppeTilMedlemskapHjelpetekst } from './HjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
