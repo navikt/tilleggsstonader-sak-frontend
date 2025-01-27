@@ -28,9 +28,9 @@ export const finnSanityMappe = (
         return [SanityMappe.REVURDERING, SanityMappe.INNVILGET];
     }
 
-    // Midlertidig visning av opphørsbrev i dev for testing
+    // Midlertidig visning av opphør og revurdering i dev for testing
     if (vedtakType === TypeVedtak.INNVILGELSE && !erProd()) {
-        return [SanityMappe.INNVILGET, SanityMappe.OPPHØR];
+        return [SanityMappe.INNVILGET, SanityMappe.OPPHØR, SanityMappe.REVURDERING];
     }
 
     if (vedtakType === TypeVedtak.INNVILGELSE) {
