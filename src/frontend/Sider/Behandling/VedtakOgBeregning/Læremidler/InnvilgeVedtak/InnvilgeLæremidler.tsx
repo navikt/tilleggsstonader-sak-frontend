@@ -29,7 +29,8 @@ import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
-}> = ({ lagretVedtak }) => {
+    vedtaksperioderForrigeBehandling: Periode[] | undefined;
+}> = ({ lagretVedtak, vedtaksperioderForrigeBehandling }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
@@ -37,7 +38,9 @@ export const InnvilgeLæremidler: React.FC<{
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
     const [vedtaksperioder, settVedtaksperioder] = useState<PeriodeMedEndretKey[]>(
-        initialiserVedtaksperioder(lagretVedtak)
+        initialiserVedtaksperioder(
+            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
+        )
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 

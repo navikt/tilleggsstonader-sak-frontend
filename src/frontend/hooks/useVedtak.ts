@@ -7,7 +7,7 @@ import { Ressurs, byggTomRessurs } from '../typer/ressurs';
 import { VedtakResponse } from '../typer/vedtak/vedtak';
 
 interface Response<T extends VedtakResponse> {
-    hentVedtak: (behandlingId: string) => void;
+    hentVedtak: () => void;
     vedtak: Ressurs<T>;
 }
 
@@ -35,5 +35,28 @@ export const useVedtak = <T extends VedtakResponse>(): Response<T> => {
     return {
         hentVedtak,
         vedtak,
+    };
+};
+
+export const useVedtakForrigeBehandling = <T extends VedtakResponse>(): {
+    forrigeVedtak: Ressurs<T>;
+    hentForrigeVedtak: (stønadstype: Stønadstype, forrigeBehandlingId: string) => void;
+} => {
+    const { request } = useApp();
+
+    const [forrigeVedtak, settForrigeVedtak] = useState<Ressurs<T>>(byggTomRessurs());
+
+    const hentForrigeVedtak = useCallback(
+        (stønadstype: Stønadstype, forrigeBehandlingId: string) => {
+            request<T, null>(
+                `/api/sak/vedtak/${stønadstypeTilVedtakUrl[stønadstype]}/${forrigeBehandlingId}`
+            ).then(settForrigeVedtak);
+        },
+        [request]
+    );
+
+    return {
+        hentForrigeVedtak,
+        forrigeVedtak,
     };
 };

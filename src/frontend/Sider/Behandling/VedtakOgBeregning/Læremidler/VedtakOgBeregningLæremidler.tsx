@@ -17,8 +17,8 @@ import {
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
-import { InnvilgeLæremidler } from './InnvilgeVedtak/InnvilgeLæremidler';
 import OpphørVedtak from '../Læremidler/OpphørVedtak';
+import { InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -60,7 +60,9 @@ const VedtakOgBeregningLæremidler: FC = () => {
                     </Panel>
 
                     {typeVedtak === TypeVedtak.INNVILGELSE && (
-                        <InnvilgeLæremidler lagretVedtak={vedtak as InnvilgelseLæremidler} />
+                        <InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling
+                            lagretVedtak={vedtak as InnvilgelseLæremidler}
+                        />
                     )}
                 </Container>
             )}
