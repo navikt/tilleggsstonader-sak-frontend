@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { Button, Table, Tooltip } from '@navikt/ds-react';
+import { Table, Tooltip } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
-import HenleggModal from './HenleggModal';
-import { useApp } from '../../../context/AppContext';
-import {
-    BehandlingStatus,
-    erBehandlingRedigerbar,
-} from '../../../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { PartialRecord } from '../../../typer/common';
 import {
@@ -48,20 +42,11 @@ const TabellData: PartialRecord<keyof TabellBehandling, string> = {
 
 interface Props {
     tabellbehandlinger: TabellBehandling[];
-    hentBehandlinger: () => void;
 }
 
-const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinger }) => {
-    const { erSaksbehandler } = useApp();
-    const skalViseHenleggKnapp = (behandling: TabellBehandling) =>
-        erSaksbehandler &&
-        behandling.type !== BehandlingType.KLAGE &&
-        erBehandlingRedigerbar(behandling.status as BehandlingStatus);
-
+const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
     const utledUrl = (type: BehandlingType) =>
         type === BehandlingType.KLAGE ? '/klagebehandling' : '/behandling';
-
-    const [behandlingIdForHenleggelse, settBehandlingIdForHenleggelse] = useState<string>();
 
     return (
         <>
@@ -108,30 +93,10 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger, hentBehandlinge
                             <Table.DataCell>
                                 {formaterNullableIsoDatoTid(behandling.vedtaksdato)}
                             </Table.DataCell>
-                            <Table.DataCell>
-                                {skalViseHenleggKnapp(behandling) && (
-                                    <Button
-                                        variant="tertiary"
-                                        size="small"
-                                        onClick={() =>
-                                            settBehandlingIdForHenleggelse(behandling.id)
-                                        }
-                                    >
-                                        Henlegg
-                                    </Button>
-                                )}
-                            </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Tabell>
-            {behandlingIdForHenleggelse && (
-                <HenleggModal
-                    behandlingId={behandlingIdForHenleggelse}
-                    settBehandlingId={settBehandlingIdForHenleggelse}
-                    hentBehandlinger={hentBehandlinger}
-                />
-            )}
         </>
     );
 };
