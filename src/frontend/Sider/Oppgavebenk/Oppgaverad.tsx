@@ -41,7 +41,11 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     {oppgave.oppgavetype
                         ? oppgaveTypeTilTekst[oppgave.oppgavetype]
                         : 'Mangler oppgavetype'}
-                    {oppgave.erOpphør && <Tag variant={'error'}>Opphør</Tag>}
+                    {oppgave.erOpphør && (
+                        <Tag variant={'error'} size={'small'}>
+                            Opphør
+                        </Tag>
+                    )}
                 </HStack>
             </Table.DataCell>
             <Table.DataCell>
