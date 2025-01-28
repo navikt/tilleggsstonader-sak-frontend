@@ -56,7 +56,6 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                         {Object.entries(TabellData).map(([key, value], indeks) => (
                             <Table.HeaderCell key={`${indeks}${key}`}>{value}</Table.HeaderCell>
                         ))}
-                        <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
