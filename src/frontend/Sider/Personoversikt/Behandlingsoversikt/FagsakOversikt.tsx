@@ -61,10 +61,7 @@ export const FagsakOversikt: React.FC<Props> = ({
                     </Tag>
                 )}
             </TittelLinje>
-            <BehandlingTabell
-                tabellbehandlinger={tabellbehandlinger}
-                hentBehandlinger={hentBehandlinger}
-            />
+            <BehandlingTabell tabellbehandlinger={tabellbehandlinger} />
             <OpprettNyBehandlingModal
                 fagsakId={fagsakId}
                 stønadstype={stønadstype}
