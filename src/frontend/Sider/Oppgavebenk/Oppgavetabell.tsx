@@ -23,7 +23,7 @@ import { useOppgave } from '../../context/OppgaveContext';
 import { PartialRecord } from '../../typer/common';
 
 const Tabell = styled(Table)`
-    width: 1250px;
+    width: 1400px;
 `;
 interface Props {
     oppgaverResponse: OppgaverResponse;
