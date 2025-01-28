@@ -4,7 +4,7 @@ import { CopyButton, HStack, Popover, Table, Tag } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
-import { utledTypeBehandling } from './oppgaveutils';
+import { skalViseOpphørTag, utledTypeBehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { oppgaveTypeTilTekst } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
@@ -41,7 +41,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     {oppgave.oppgavetype
                         ? oppgaveTypeTilTekst[oppgave.oppgavetype]
                         : 'Mangler oppgavetype'}
-                    {oppgave.erOpphør && (
+                    {skalViseOpphørTag(oppgave) && (
                         <Tag variant={'error'} size={'small'}>
                             Opphør
                         </Tag>

@@ -90,3 +90,6 @@ export const oppdaterOppgaveIOppgaveResponse = (
         return eksisterendeOppgaver;
     }
 };
+
+export const skalViseOpphørTag = (oppgave: Oppgave) =>
+    oppgave.erOpphør && oppgave.oppgavetype === 'GOD_VED';
