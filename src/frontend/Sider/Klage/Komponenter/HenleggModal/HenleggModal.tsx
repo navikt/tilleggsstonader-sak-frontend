@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Alert, Box, Radio, RadioGroup } from '@navikt/ds-react';
+import { Alert, Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
@@ -28,6 +28,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
     const [feilmelding, settFeilmelding] = useState<string>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
+    const [henlagtBegrunnelse, settHenlagtBegrunnelse] = useState<string>();
 
     const { lagreHenleggelse } = useHenleggBehandling(behandling.id);
 
@@ -41,7 +42,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
         }
         settHenleggerBehandling(true);
 
-        lagreHenleggelse(henlagtårsak)
+        lagreHenleggelse(henlagtårsak, henlagtBegrunnelse)
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
@@ -77,11 +78,21 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
             <Box paddingInline="2">
-                <RadioGroup legend={''} onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}>
-                    <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                    <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
-                </RadioGroup>
-                {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                <VStack gap={'4'}>
+                    <RadioGroup
+                        legend={''}
+                        onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}
+                    >
+                        <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+                        <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                    </RadioGroup>
+                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                    <Textarea
+                        label={'Begrunnelse for henleggelse'}
+                        value={henlagtBegrunnelse}
+                        onChange={(e) => settHenlagtBegrunnelse(e.target.value)}
+                    />
+                </VStack>
             </Box>
         </ModalWrapper>
     );
