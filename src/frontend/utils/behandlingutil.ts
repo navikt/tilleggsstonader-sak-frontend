@@ -8,11 +8,12 @@ import {
 } from '../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../typer/behandling/behandlingType';
-import { BehandlingÅrsak } from '../typer/behandling/behandlingÅrsak';
+import { BehandlingÅrsak, HenlagtÅrsak } from '../typer/behandling/behandlingÅrsak';
 import {
     KlageBehandling,
     KlagebehandlingResultat,
     KlagebehandlingStatus,
+    KlageHenlagtÅrsak,
     KlageinstansEventType,
     KlageinstansResultat,
     klageinstansUtfallTilTekst,
@@ -49,6 +50,8 @@ export const mapFagsakPersonTilTabellrader = (
             status: behandling.status,
             vedtaksdato: behandling.vedtaksdato,
             resultat: behandling.resultat,
+            henlagtÅrsak: behandling.henlagtÅrsak,
+            henlagtBegrunnelse: behandling.henlagtBegrunnelse,
             vedtaksperiode: behandling.vedtaksperiode,
         };
     });
@@ -66,6 +69,8 @@ export const mapKlagesakerTilTabellrader = (
         status: klageBehandling.status,
         vedtaksdato: klageBehandling.vedtaksdato,
         resultat: klageBehandling.resultat,
+        henlagtÅrsak: klageBehandling.henlagtÅrsak,
+        henlagtBegrunnelse: klageBehandling.henlagtBegrunnelse,
         klageinstansResultat: klageBehandling.klageinstansResultat,
     })) ?? [];
 
@@ -77,6 +82,8 @@ export interface TabellBehandling {
     status: BehandlingStatus | KlagebehandlingStatus;
     vedtaksdato?: string | undefined;
     resultat: BehandlingResultat | KlagebehandlingResultat | undefined;
+    henlagtÅrsak: HenlagtÅrsak | KlageHenlagtÅrsak | undefined;
+    henlagtBegrunnelse: string | undefined;
     vedtaksperiode?: Vedtaksperiode;
 }
 

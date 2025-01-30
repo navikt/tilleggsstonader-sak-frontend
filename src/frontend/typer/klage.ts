@@ -16,6 +16,7 @@ export interface KlageBehandling {
     årsak: KlageÅrsak | undefined;
     klageinstansResultat: KlageinstansResultat[];
     henlagtÅrsak: KlageHenlagtÅrsak | undefined;
+    henlagtBegrunnelse: string | undefined;
 }
 
 export interface KlageinstansResultat {
