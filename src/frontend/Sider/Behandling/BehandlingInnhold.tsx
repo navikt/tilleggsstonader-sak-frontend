@@ -7,6 +7,7 @@ import HenleggModal from './Modal/HenleggModal';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
+import { TotrinnskontrollProvider } from '../../context/TotrinnskontrollContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -37,12 +38,14 @@ const BehandlingInnhold: React.FC<{
         >
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
-                <BehandlingContainer>
-                    <VenstreMeny />
-                    <InnholdWrapper>
-                        <BehandlingTabsInnhold />
-                    </InnholdWrapper>
-                </BehandlingContainer>
+                <TotrinnskontrollProvider>
+                    <BehandlingContainer>
+                        <VenstreMeny />
+                        <InnholdWrapper>
+                            <BehandlingTabsInnhold />
+                        </InnholdWrapper>
+                    </BehandlingContainer>
+                </TotrinnskontrollProvider>
             </PersonopplysningerProvider>
             <HenleggModal />
         </BehandlingProvider>
