@@ -11,8 +11,9 @@ import SendtTilBeslutter from './SendtTilBeslutter';
 import TotrinnskontrollUnderkjent from './TotrinnskontrollUnderkjent';
 import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { useTotrinnskontroll } from '../../../context/TotrinnskontrollContext';
+import DataViewer from '../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
-import { Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { Ressurs } from '../../../typer/ressurs';
 
 const BorderBox = styled.div`
     border: 1px solid ${ABorderSubtle};
@@ -31,21 +32,29 @@ const TotrinnskontrollSwitch: FC<{
             return null;
         case TotrinnskontrollStatus.KAN_FATTE_VEDTAK:
             return (
-                <FatteVedtak
-                    settVisGodkjentModal={settVisModalGodkjent}
-                    settTotrinnskontroll={settTotrinnskontroll}
-                />
+                <BorderBox>
+                    <FatteVedtak
+                        settVisGodkjentModal={settVisModalGodkjent}
+                        settTotrinnskontroll={settTotrinnskontroll}
+                    />
+                </BorderBox>
             );
         case TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT:
             return (
-                <TotrinnskontrollUnderkjent totrinnskontroll={totrinnskontroll.totrinnskontroll} />
+                <BorderBox>
+                    <TotrinnskontrollUnderkjent
+                        totrinnskontroll={totrinnskontroll.totrinnskontroll}
+                    />
+                </BorderBox>
             );
         case TotrinnskontrollStatus.IKKE_AUTORISERT:
             return (
-                <SendtTilBeslutter
-                    totrinnskontroll={totrinnskontroll.totrinnskontroll}
-                    settTotrinnskontroll={settTotrinnskontroll}
-                />
+                <BorderBox>
+                    <SendtTilBeslutter
+                        totrinnskontroll={totrinnskontroll.totrinnskontroll}
+                        settTotrinnskontroll={settTotrinnskontroll}
+                    />
+                </BorderBox>
             );
         default:
             return null;
@@ -59,21 +68,17 @@ const Totrinnskontroll: FC = () => {
 
     const { totrinnskontroll, settTotrinnskontroll } = useTotrinnskontroll();
 
-    const skalViseTotrinnskontrollSwitch =
-        totrinnskontroll.status === RessursStatus.SUKSESS &&
-        totrinnskontroll.data.status !== TotrinnskontrollStatus.UAKTUELT;
-
     return (
         <>
-            {skalViseTotrinnskontrollSwitch && (
-                <BorderBox>
+            <DataViewer response={{ totrinnskontroll }}>
+                {({ totrinnskontroll }) => (
                     <TotrinnskontrollSwitch
-                        totrinnskontroll={totrinnskontroll.data}
+                        totrinnskontroll={totrinnskontroll}
                         settVisModalGodkjent={settVisGodkjentModal}
                         settTotrinnskontroll={settTotrinnskontroll}
                     />
-                </BorderBox>
-            )}
+                )}
+            </DataViewer>
             <ModalWrapper
                 tittel={'Vedtaket er godkjent'}
                 visModal={visGodkjentModal}
