@@ -12,7 +12,7 @@ export const useSendTilBeslutter = () => {
     const behandlingId = behandling.id;
 
     const sendTilBeslutter = async () => {
-        request<TotrinnskontrollResponse, null>(
+        return request<TotrinnskontrollResponse, null>(
             `/api/sak/totrinnskontroll/${behandlingId}/send-til-beslutter`,
             'POST'
         ).then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
