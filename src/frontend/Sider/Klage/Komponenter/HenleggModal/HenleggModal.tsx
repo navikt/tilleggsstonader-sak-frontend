@@ -90,12 +90,12 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                             {henlagtÅrsakTilTekst[HenlagtÅrsak.FEILREGISTRERT]}
                         </Radio>
                     </RadioGroup>
-                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
                     <Textarea
                         label={'Begrunnelse for henleggelse'}
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}
                     />
+                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
                 </VStack>
             </Box>
         </ModalWrapper>
