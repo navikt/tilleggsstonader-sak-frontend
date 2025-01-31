@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { Table, Tooltip } from '@navikt/ds-react';
+import { HStack, Table, Tooltip } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
+import HenlagtÅrsakOgBegrunnelse from './HenlagtÅrsakOgBegrunnelse';
+import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { PartialRecord } from '../../../typer/common';
 import {
@@ -66,20 +68,27 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                             </Table.DataCell>
                             <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
                             <Table.DataCell>
-                                <Link
-                                    to={{
-                                        pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
-                                    }}
-                                >
-                                    {utledBehandlingResultatTilTekst(behandling)}
-                                </Link>
-                                {erKlageOgFeilregistrertAvKA(behandling) && (
-                                    <Tooltip content="Klagen er feilregistrert av Nav klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
-                                        <AdvarselIkon
-                                            title={'Behandling feilregistrert av Nav klageinstans'}
-                                        />
-                                    </Tooltip>
-                                )}
+                                <HStack gap={'2'}>
+                                    <Link
+                                        to={{
+                                            pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
+                                        }}
+                                    >
+                                        {utledBehandlingResultatTilTekst(behandling)}
+                                    </Link>
+                                    {behandling.resultat == BehandlingResultat.HENLAGT && (
+                                        <HenlagtÅrsakOgBegrunnelse behandling={behandling} />
+                                    )}
+                                    {erKlageOgFeilregistrertAvKA(behandling) && (
+                                        <Tooltip content="Klagen er feilregistrert av Nav klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
+                                            <AdvarselIkon
+                                                title={
+                                                    'Behandling feilregistrert av Nav klageinstans'
+                                                }
+                                            />
+                                        </Tooltip>
+                                    )}
+                                </HStack>
                             </Table.DataCell>
                             <Table.DataCell>
                                 {behandling.vedtaksperiode &&

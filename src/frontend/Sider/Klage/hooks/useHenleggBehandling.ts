@@ -6,11 +6,13 @@ export const useHenleggBehandling = (behandlingId: string) => {
 
     type HenlagtÅrsakDto = {
         årsak: HenlagtÅrsak;
+        begrunnelse?: string;
     };
 
-    const lagreHenleggelse = (henlagtårsak: HenlagtÅrsak) =>
+    const lagreHenleggelse = (henlagtårsak: HenlagtÅrsak, henlagtBegrunnelse?: string) =>
         request<string, HenlagtÅrsakDto>(`/api/klage/behandling/${behandlingId}/henlegg`, 'POST', {
             årsak: henlagtårsak,
+            begrunnelse: henlagtBegrunnelse,
         });
 
     return { lagreHenleggelse };
