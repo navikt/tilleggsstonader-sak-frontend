@@ -7,7 +7,7 @@ import { Alert, Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-reac
 
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { HenlagtÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
+import { HenlagtÅrsak, henlagtÅrsakTilTekst } from '../../../../typer/behandling/behandlingÅrsak';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { Toast } from '../../../../typer/toast';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
@@ -83,8 +83,12 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                         legend={''}
                         onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}
                     >
-                        <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                        <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                        <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.TRUKKET_TILBAKE]}
+                        </Radio>
+                        <Radio value={HenlagtÅrsak.FEILREGISTRERT}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.FEILREGISTRERT]}
+                        </Radio>
                     </RadioGroup>
                     {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
                     <Textarea

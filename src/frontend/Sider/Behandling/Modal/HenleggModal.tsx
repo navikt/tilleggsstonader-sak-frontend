@@ -5,7 +5,7 @@ import { Alert, Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-reac
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
-import { HenlagtÅrsak } from '../../../typer/behandling/behandlingÅrsak';
+import { HenlagtÅrsak, henlagtÅrsakTilTekst } from '../../../typer/behandling/behandlingÅrsak';
 import { RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
@@ -71,13 +71,17 @@ const HenleggModal: React.FC = () => {
                         legend={''}
                         onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}
                     >
-                        <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                        <Radio value={HenlagtÅrsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                        <Radio value={HenlagtÅrsak.TRUKKET_TILBAKE}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.TRUKKET_TILBAKE]}
+                        </Radio>
+                        <Radio value={HenlagtÅrsak.FEILREGISTRERT}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.FEILREGISTRERT]}
+                        </Radio>
                         <Radio value={HenlagtÅrsak.SKAL_BEHANDLES_I_ARENA}>
-                            Skal behandles i Arena
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.SKAL_BEHANDLES_I_ARENA]}
                         </Radio>
                         <Radio value={HenlagtÅrsak.SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE}>
-                            Skal behandles av annet fagområde
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE]}
                         </Radio>
                     </RadioGroup>
                     <Textarea
