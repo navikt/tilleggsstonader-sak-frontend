@@ -4,11 +4,14 @@ import { useFlag } from '@unleash/proxy-client-react';
 import constate from 'constate';
 
 import { useApp } from './AppContext';
+import { useBehandlingshistorikk } from '../hooks/useBehandlingshistorikk';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
+import { HistorikkHendelse } from '../Sider/Behandling/Venstremeny/Historikk/typer';
 import { Behandling } from '../typer/behandling/behandling';
 import { BehandlingFakta } from '../typer/behandling/behandlingFakta/behandlingFakta';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
+import { Ressurs } from '../typer/ressurs';
 import { Toggle } from '../utils/toggles';
 
 interface Props {
@@ -27,6 +30,8 @@ interface BehandlingContext {
     behandling: Behandling;
     behandlingErRedigerbar: boolean;
     hentBehandling: RerrunnableEffect;
+    behandlingshistorikk: Ressurs<HistorikkHendelse[]>;
+    hentBehandlingshistorikk: RerrunnableEffect;
     behandlingFakta: BehandlingFakta;
     toggleKanSaksbehandle: boolean;
     kanSetteBehandlingPåVent: boolean;
@@ -70,6 +75,9 @@ export const [BehandlingProvider, useBehandling] = constate(
             useState<boolean>(false);
         const [visHenleggModal, settVisHenleggModal] = useState<boolean>(false);
 
+        const { hentBehandlingshistorikk, behandlingshistorikk } =
+            useBehandlingshistorikk(behandling);
+
         const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
         const kanRevurdere = useKanRevurdere(behandling.stønadstype);
 
@@ -83,6 +91,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             behandling,
             behandlingErRedigerbar: behandlingErRedigerbar && toggleKanSaksbehandleEllerRevurdere,
             hentBehandling,
+            behandlingshistorikk,
+            hentBehandlingshistorikk,
             behandlingFakta,
             toggleKanSaksbehandle: toggleKanSaksbehandleEllerRevurdere,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
