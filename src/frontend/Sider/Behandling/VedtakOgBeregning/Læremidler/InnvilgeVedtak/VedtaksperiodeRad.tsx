@@ -54,7 +54,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 feil={vedtaksperiodeFeil?.tom}
                 size="small"
             />
-            {kanSlettePeriode ? (
+            {kanSlettePeriode && !erLesevisning ? (
                 <Button
                     variant="tertiary"
                     onClick={() => slettPeriode()}
