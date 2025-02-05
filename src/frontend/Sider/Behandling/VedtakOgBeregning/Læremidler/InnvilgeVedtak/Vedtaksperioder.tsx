@@ -17,8 +17,9 @@ import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, max-content);
-    grid-gap: 0.5rem 1rem;
+    grid-gap: 0.5rem 1.5rem;
     align-items: start;
+
     > :nth-child(3n) {
         grid-column: 1;
     }
@@ -96,7 +97,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
                         <VedtaksperiodeRad
                             key={vedtaksperiode.endretKey}
                             vedtaksperiode={vedtaksperiode}
-                            erLesevisning={!erStegRedigerbart}
+                            // erLesevisning={!erStegRedigerbart}
+                            erLesevisning={true}
                             oppdaterPeriode={(property, value) => {
                                 oppdaterPeriodeFelt(indeks, property, value);
                             }}
