@@ -97,8 +97,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                         <VedtaksperiodeRad
                             key={vedtaksperiode.endretKey}
                             vedtaksperiode={vedtaksperiode}
-                            // erLesevisning={!erStegRedigerbart}
-                            erLesevisning={true}
+                            erLesevisning={!erStegRedigerbart}
                             oppdaterPeriode={(property, value) => {
                                 oppdaterPeriodeFelt(indeks, property, value);
                             }}
