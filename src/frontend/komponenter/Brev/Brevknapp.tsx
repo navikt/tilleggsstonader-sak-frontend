@@ -10,7 +10,7 @@ import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
-    display: block;
+    width: fit-content;
 `;
 
 interface Props {
