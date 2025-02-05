@@ -63,16 +63,16 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 size="small"
             />
             <div>
-                {!erLesevisning
-                    ? kanSlettePeriode && (
+                {erLesevisning
+                    ? skalViseStatus && <StatusTag status={vedtaksperiode.status} />
+                    : kanSlettePeriode && (
                           <Button
                               variant="tertiary"
                               onClick={() => slettPeriode()}
                               icon={<TrashIcon />}
                               size="xsmall"
                           />
-                      )
-                    : skalViseStatus && <StatusTag status={vedtaksperiode.status} />}
+                      )}
             </div>
         </>
     );
