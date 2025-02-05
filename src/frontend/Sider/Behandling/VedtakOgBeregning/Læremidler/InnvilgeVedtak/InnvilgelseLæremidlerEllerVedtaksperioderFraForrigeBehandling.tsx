@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { InnvilgeLæremidler } from './InnvilgeLæremidler';
+import { InnvilgeLæremidler, Vedtaksperiode } from './InnvilgeLæremidler';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
@@ -11,7 +11,6 @@ import {
     InnvilgelseLæremidler,
     VedtakLæremidler,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode } from '../../../../../utils/periode';
 
 export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
@@ -65,7 +64,7 @@ const InnvilgeLæremidlerMedPerioderFraForrigeBehandling = ({
     );
 };
 
-const vedtaksperioderForrigeVedtak = (vedtak: VedtakLæremidler): Periode[] | undefined => {
+const vedtaksperioderForrigeVedtak = (vedtak: VedtakLæremidler): Vedtaksperiode[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;

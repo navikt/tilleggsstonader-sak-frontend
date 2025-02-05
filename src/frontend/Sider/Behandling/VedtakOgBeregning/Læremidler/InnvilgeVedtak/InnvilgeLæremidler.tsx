@@ -21,15 +21,26 @@ import {
     InnvilgelseLæremidler,
     InnvilgelseLæremidlerRequest,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { validerVedtaksperioder } from '../validering';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 
+type VedtaksperiodeStatus = 'NY' | 'UENDRET' | 'ENDRET' | 'SLETTET';
+
+export interface Vedtaksperiode extends Periode {
+    id: string;
+    status?: VedtaksperiodeStatus;
+}
+
+export interface VedtaksperiodeMedEndretKey extends Vedtaksperiode {
+    endretKey: string;
+}
+
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
-    vedtaksperioderForrigeBehandling: Periode[] | undefined;
+    vedtaksperioderForrigeBehandling: Vedtaksperiode[] | undefined;
 }> = ({ lagretVedtak, vedtaksperioderForrigeBehandling }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
@@ -37,11 +48,12 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<PeriodeMedEndretKey[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeMedEndretKey[]>(
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
     );
+
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
     const [beregningsresultat, settBeregningsresultat] =

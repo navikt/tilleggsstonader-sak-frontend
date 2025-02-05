@@ -3,13 +3,14 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { VedtaksperiodeMedEndretKey } from './InnvilgeLæremidler';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
-import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { Periode } from '../../../../../utils/periode';
 
 interface Props {
-    vedtaksperiode: PeriodeMedEndretKey;
+    vedtaksperiode: VedtaksperiodeMedEndretKey;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Periode> | undefined;
     oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;

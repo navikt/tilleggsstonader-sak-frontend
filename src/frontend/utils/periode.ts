@@ -1,15 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { dagenFør, datoErIPeriodeInklusivSlutt, erDatoEtterEllerLik } from './dato';
 
 export type Periode = {
     fom: string;
     tom: string;
 };
-
-export interface PeriodeMedEndretKey extends Periode {
-    endretKey: string; // intern for re-rendring
-}
 
 export const validerPeriode = (
     periode: Periode,
@@ -83,6 +77,3 @@ const validerTomEtterEllerLikRevurderingsdato = (tom: string, tidligsteMuligeTom
         };
     }
 };
-
-export const tilPeriodeMedEndretKey = (utgifter: Periode[]): PeriodeMedEndretKey[] =>
-    utgifter.map((utgift) => ({ ...utgift, endretKey: uuidv4() }));

@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
+import { VedtaksperiodeMedEndretKey } from './InnvilgeLæremidler';
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { Periode } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 
@@ -24,8 +25,8 @@ const Grid = styled.div`
 `;
 
 interface Props {
-    vedtaksperioder: PeriodeMedEndretKey[];
-    settVedtaksperioder: React.Dispatch<React.SetStateAction<PeriodeMedEndretKey[]>>;
+    vedtaksperioder: VedtaksperiodeMedEndretKey[];
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<VedtaksperiodeMedEndretKey[]>>;
     vedtaksperioderFeil?: FormErrors<Periode>[];
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<Periode>[] | undefined>

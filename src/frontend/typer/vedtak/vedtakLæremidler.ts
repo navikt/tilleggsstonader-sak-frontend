@@ -1,17 +1,17 @@
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
-import { Periode } from '../../utils/periode';
+import { Vedtaksperiode } from '../../Sider/Behandling/VedtakOgBeregning/Læremidler/InnvilgeVedtak/InnvilgeLæremidler';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Periode[];
+    vedtaksperioder: Vedtaksperiode[];
 };
 
 export interface InnvilgelseLæremidler {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Periode[];
+    vedtaksperioder: Vedtaksperiode[];
     beregningsresultat: BeregningsresultatLæremidler;
     gjelderFraOgMed: string;
     gjelderTilOgMed: string;
