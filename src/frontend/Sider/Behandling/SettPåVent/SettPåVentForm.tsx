@@ -32,7 +32,7 @@ const SettPåVentForm: React.FC<{
     settStatusPåVent: (status: Ressurs<StatusSettPåVent>) => void;
     settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ status, settStatusPåVent, settStatusPåVentRedigering }) => {
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { request } = useApp();
 
     const [laster, settLaster] = useState(false);
@@ -81,6 +81,9 @@ const SettPåVentForm: React.FC<{
                 settStatusPåVentRedigering(false);
                 settFeilmelding(undefined);
                 settStatusPåVent(response);
+                if (oppdatererEksisterendeSettPåVent) {
+                    hentBehandlingshistorikk.rerun();
+                }
                 hentBehandling.rerun();
             } else {
                 settFeilmelding(response.frontendFeilmelding);
