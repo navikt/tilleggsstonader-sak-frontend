@@ -13,6 +13,7 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
+import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
@@ -27,11 +28,9 @@ import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStøn
 import { validerVedtaksperioder } from '../validering';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 
-type VedtaksperiodeStatus = 'NY' | 'UENDRET' | 'ENDRET' | 'SLETTET';
-
 export interface Vedtaksperiode extends Periode {
     id: string;
-    status?: VedtaksperiodeStatus;
+    status?: PeriodeStatus;
 }
 
 export interface VedtaksperiodeMedEndretKey extends Vedtaksperiode {
