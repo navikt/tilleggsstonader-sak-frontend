@@ -9,7 +9,11 @@ export interface HistorikkHendelse {
     metadata?: HendelseMetadata;
 }
 
-export type HendelseMetadata = SattPåVentMetadata | VedtakUnderkjentMetadata | TattAvVentMetadata;
+export type HendelseMetadata =
+    | SattPåVentMetadata
+    | VedtakUnderkjentMetadata
+    | TattAvVentMetadata
+    | SendtTilBeslutterMetadata;
 
 export interface SattPåVentMetadata {
     årsaker: ÅrsakSettPåVent[];
@@ -23,6 +27,10 @@ export interface VedtakUnderkjentMetadata {
 
 export interface TattAvVentMetadata {
     kommentar: string;
+}
+
+export interface SendtTilBeslutterMetadata {
+    kommentarTilBeslutter?: string;
 }
 
 export enum Hendelse {
