@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { InnvilgeLæremidler, Vedtaksperiode } from './InnvilgeLæremidler';
+import { InnvilgeLæremidler } from './InnvilgeLæremidler';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
@@ -10,6 +10,7 @@ import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     InnvilgelseLæremidler,
     VedtakLæremidler,
+    Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
 
 export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: React.FC<{

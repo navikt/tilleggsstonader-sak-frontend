@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
-import { Vedtaksperiode } from './InnvilgeLæremidler';
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
@@ -13,6 +12,7 @@ import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Periode } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
 
 const Grid = styled.div`
     display: grid;

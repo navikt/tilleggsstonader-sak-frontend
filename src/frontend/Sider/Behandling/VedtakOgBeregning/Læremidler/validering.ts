@@ -1,10 +1,9 @@
-import { Vedtaksperiode } from './InnvilgeVedtak/InnvilgeLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak/vedtak';
+import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakLæremidler';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
 
-// TODO: Dette er pliss likt barnetilsyn - fikse?
 export interface FeilmeldingVedtak {
     årsaker?: string;
     begrunnelse?: string;

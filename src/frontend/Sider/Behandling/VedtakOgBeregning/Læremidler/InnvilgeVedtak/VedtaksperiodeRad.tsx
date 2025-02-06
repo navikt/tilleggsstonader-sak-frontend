@@ -3,12 +3,12 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { Vedtaksperiode } from './InnvilgeLæremidler';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { Periode } from '../../../../../utils/periode';
 import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
 
