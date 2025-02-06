@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -16,6 +15,7 @@ import {
     OpphørBarnetilsynRequest,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
+import { FeilmeldingVedtak, valider } from '../Felles/validering';
 
 const OpphørVedtak: React.FC<{ vedtak?: OpphørBarnetilsyn }> = ({ vedtak }) => {
     const { behandling } = useBehandling();

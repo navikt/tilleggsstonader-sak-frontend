@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -16,6 +15,7 @@ import {
     OpphørLæremidlerRequest,
 } from '../../../../typer/vedtak/vedtakLæremidler';
 import { FanePath } from '../../faner';
+import { FeilmeldingVedtak, valider } from '../Felles/validering';
 
 const OpphørVedtak: React.FC<{ vedtak?: OpphørLæremidler }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
