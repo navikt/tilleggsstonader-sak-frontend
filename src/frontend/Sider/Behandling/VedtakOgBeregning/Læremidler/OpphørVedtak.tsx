@@ -3,43 +3,34 @@ import React, { useState } from 'react';
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
+import { useLagreOpphør } from '../../../../hooks/useLagreOpphør';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
-import { TypeVedtak, ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
-import {
-    OpphørLæremidler,
-    OpphørLæremidlerRequest,
-} from '../../../../typer/vedtak/vedtakLæremidler';
+import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
+import { OpphørLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 import { FanePath } from '../../faner';
 import { FeilmeldingVedtak, valider } from '../Felles/validering';
 
 const OpphørVedtak: React.FC<{ vedtak?: OpphørLæremidler }> = ({ vedtak }) => {
-    const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { request, settUlagretKomponent } = useApp();
+    const { settUlagretKomponent } = useApp();
+
+    const { lagreOpphør } = useLagreOpphør(Stønadstype.LÆREMIDLER);
 
     const [årsaker, settÅrsaker] = useState<ÅrsakOpphør[]>(vedtak?.årsakerOpphør || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
-
-    const lagreVedtak = () => {
-        return request<null, OpphørLæremidlerRequest>(
-            `/api/sak/vedtak/laremidler/${behandling.id}/opphor`,
-            'POST',
-            { type: TypeVedtak.OPPHØR, årsakerOpphør: årsaker, begrunnelse: begrunnelse }
-        );
-    };
 
     const validerOgLagreVedtak = () => {
         const feil = valider(årsaker, begrunnelse);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
-            return lagreVedtak();
+            return lagreOpphør(årsaker, begrunnelse);
         } else {
             return Promise.reject();
         }
