@@ -3,7 +3,7 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { VedtaksperiodeMedEndretKey } from './InnvilgeLæremidler';
+import { Vedtaksperiode } from './InnvilgeLæremidler';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
@@ -13,7 +13,7 @@ import { Periode } from '../../../../../utils/periode';
 import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
 
 interface Props {
-    vedtaksperiode: VedtaksperiodeMedEndretKey;
+    vedtaksperiode: Vedtaksperiode;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Periode> | undefined;
     oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;
@@ -37,7 +37,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
             nyRadLeggesTil: erNyRad,
         });
 
-    const skalViseStatus = erLesevisning && behandling.type === BehandlingType.REVURDERING;
+    const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
     return (
         <>
@@ -63,7 +63,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
             />
             <div>
                 {erLesevisning
-                    ? skalViseStatus && <StatusTag status={vedtaksperiode.status} />
+                    ? erRevurdering && <StatusTag status={vedtaksperiode.status} />
                     : kanSlettePeriode && (
                           <Button
                               variant="tertiary"

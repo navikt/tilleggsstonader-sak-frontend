@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
 
-import { VedtaksperiodeMedEndretKey } from './InnvilgeLæremidler';
+import { Vedtaksperiode } from './InnvilgeLæremidler';
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
@@ -26,8 +26,8 @@ const Grid = styled.div`
 `;
 
 interface Props {
-    vedtaksperioder: VedtaksperiodeMedEndretKey[];
-    settVedtaksperioder: React.Dispatch<React.SetStateAction<VedtaksperiodeMedEndretKey[]>>;
+    vedtaksperioder: Vedtaksperiode[];
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
     vedtaksperioderFeil?: FormErrors<Periode>[];
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<Periode>[] | undefined>
@@ -43,7 +43,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
 
-    const [endretKeyNyeRader, settEndretKeyNyeRader] = useState<Set<string>>(new Set());
+    const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -65,7 +65,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const leggTilPeriode = () => {
         const nyVedtaksperiode = tomVedtaksperiode();
-        settEndretKeyNyeRader((prevState) => new Set([...prevState, nyVedtaksperiode.endretKey]));
+        settIdNyeRader((prevState) => new Set([...prevState, nyVedtaksperiode.id]));
         settVedtaksperioder([...vedtaksperioder, nyVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
@@ -95,7 +95,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                     <Label size="small">Til og med</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
-                            key={vedtaksperiode.endretKey}
+                            key={vedtaksperiode.id}
                             vedtaksperiode={vedtaksperiode}
                             erLesevisning={!erStegRedigerbart}
                             oppdaterPeriode={(property, value) => {
@@ -103,7 +103,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             }}
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
-                            erNyRad={endretKeyNyeRader.has(vedtaksperiode.endretKey)}
+                            erNyRad={idNyeRader.has(vedtaksperiode.id)}
                         />
                     ))}
                 </Grid>

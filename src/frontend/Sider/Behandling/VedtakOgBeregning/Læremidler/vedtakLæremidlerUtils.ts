@@ -1,21 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Vedtaksperiode, VedtaksperiodeMedEndretKey } from './InnvilgeVedtak/InnvilgeLæremidler';
+import { Vedtaksperiode } from './InnvilgeVedtak/InnvilgeLæremidler';
 
 export const initialiserVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[] | undefined
-): VedtaksperiodeMedEndretKey[] => {
-    const perioderMedEndretKey = vedtaksperioder && tilVedtaksperiodeMedEndretKey(vedtaksperioder);
-
-    return perioderMedEndretKey ?? [tomVedtaksperiode()];
+): Vedtaksperiode[] => {
+    return vedtaksperioder ?? [tomVedtaksperiode()];
 };
 
-export const tomVedtaksperiode = (): VedtaksperiodeMedEndretKey => ({
+export const tomVedtaksperiode = (): Vedtaksperiode => ({
     fom: '',
     tom: '',
     id: uuidv4(),
-    endretKey: uuidv4(),
 });
-
-const tilVedtaksperiodeMedEndretKey = (utgifter: Vedtaksperiode[]): VedtaksperiodeMedEndretKey[] =>
-    utgifter.map((utgift) => ({ ...utgift, endretKey: uuidv4() }));

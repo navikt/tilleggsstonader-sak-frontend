@@ -33,10 +33,6 @@ export interface Vedtaksperiode extends Periode {
     status?: PeriodeStatus;
 }
 
-export interface VedtaksperiodeMedEndretKey extends Vedtaksperiode {
-    endretKey: string;
-}
-
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
     vedtaksperioderForrigeBehandling: Vedtaksperiode[] | undefined;
@@ -47,7 +43,7 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeMedEndretKey[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
