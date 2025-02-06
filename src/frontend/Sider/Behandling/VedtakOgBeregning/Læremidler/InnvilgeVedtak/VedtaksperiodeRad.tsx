@@ -3,13 +3,17 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
-import { Periode, PeriodeMedEndretKey } from '../../../../../utils/periode';
+import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Periode } from '../../../../../utils/periode';
+import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
 
 interface Props {
-    vedtaksperiode: PeriodeMedEndretKey;
+    vedtaksperiode: Vedtaksperiode;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Periode> | undefined;
     oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;
@@ -25,12 +29,15 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     slettPeriode,
     erNyRad,
 }) => {
+    const { behandling } = useBehandling();
     const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
         useRevurderingAvPerioder({
             periodeFom: vedtaksperiode.fom,
             periodeTom: vedtaksperiode.tom,
             nyRadLeggesTil: erNyRad,
         });
+
+    const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
     return (
         <>
@@ -54,16 +61,18 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 feil={vedtaksperiodeFeil?.tom}
                 size="small"
             />
-            {kanSlettePeriode && !erLesevisning ? (
-                <Button
-                    variant="tertiary"
-                    onClick={() => slettPeriode()}
-                    icon={<TrashIcon />}
-                    size="xsmall"
-                />
-            ) : (
-                <div />
-            )}
+            <div>
+                {erLesevisning
+                    ? erRevurdering && <StatusTag status={vedtaksperiode.status} />
+                    : kanSlettePeriode && (
+                          <Button
+                              variant="tertiary"
+                              onClick={() => slettPeriode()}
+                              icon={<TrashIcon />}
+                              size="xsmall"
+                          />
+                      )}
+            </div>
         </>
     );
 };

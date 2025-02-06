@@ -1,6 +1,7 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { ÅrsakAvslag, ÅrsakOpphør } from '../../../../typer/vedtak/vedtak';
-import { Periode, PeriodeMedEndretKey, validerPeriode } from '../../../../utils/periode';
+import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakLæremidler';
+import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
 
 export interface FeilmeldingVedtak {
@@ -25,5 +26,5 @@ export const valider = (
     return feilmeldinger;
 };
 
-export const validerVedtaksperioder = (vedtaksperioder: PeriodeMedEndretKey[]) =>
+export const validerVedtaksperioder = (vedtaksperioder: Vedtaksperiode[]) =>
     vedtaksperioder.map((periode) => validerPeriode(periode) as FormErrors<Periode>);

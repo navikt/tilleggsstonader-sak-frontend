@@ -10,8 +10,8 @@ import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     InnvilgelseLæremidler,
     VedtakLæremidler,
+    Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode } from '../../../../../utils/periode';
 
 export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
@@ -65,7 +65,7 @@ const InnvilgeLæremidlerMedPerioderFraForrigeBehandling = ({
     );
 };
 
-const vedtaksperioderForrigeVedtak = (vedtak: VedtakLæremidler): Periode[] | undefined => {
+const vedtaksperioderForrigeVedtak = (vedtak: VedtakLæremidler): Vedtaksperiode[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;

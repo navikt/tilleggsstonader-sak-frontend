@@ -1,17 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { tilPeriodeMedEndretKey, PeriodeMedEndretKey, Periode } from '../../../../utils/periode';
+import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakLæremidler';
 
 export const initialiserVedtaksperioder = (
-    vedtaksperioder: Periode[] | undefined
-): PeriodeMedEndretKey[] => {
-    const perioderMedEndretKey = vedtaksperioder && tilPeriodeMedEndretKey(vedtaksperioder);
-
-    return perioderMedEndretKey ?? [tomVedtaksperiode()];
+    vedtaksperioder: Vedtaksperiode[] | undefined
+): Vedtaksperiode[] => {
+    return vedtaksperioder ?? [tomVedtaksperiode()];
 };
 
-export const tomVedtaksperiode = (): PeriodeMedEndretKey => ({
+export const tomVedtaksperiode = (): Vedtaksperiode => ({
     fom: '',
     tom: '',
-    endretKey: uuidv4(),
+    id: uuidv4(),
 });
