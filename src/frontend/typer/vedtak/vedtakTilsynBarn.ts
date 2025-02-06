@@ -1,4 +1,5 @@
-import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
+import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
@@ -24,15 +25,9 @@ export type AvslåBarnetilsynRequest = {
     begrunnelse: string;
 };
 
-export type OpphørBarnetilsynRequest = {
-    type: TypeVedtak.OPPHØR;
-    årsakerOpphør: ÅrsakOpphør[];
-    begrunnelse: string;
-};
-
 export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
-export type OpphørBarnetilsyn = OpphørBarnetilsynRequest & {
+export type OpphørBarnetilsyn = OpphørRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;
 };
 

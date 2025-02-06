@@ -5,20 +5,16 @@ import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useSteg } from '../../../../context/StegContext';
-import { useLagreOpphør } from '../../../../hooks/useLagreOpphør';
+import { OpphørRequest, useLagreOpphør } from '../../../../hooks/useLagreOpphør';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
-import { OpphørLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
-import { OpphørBarnetilsyn } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
 
-type Opphørsvedtak = OpphørBarnetilsyn | OpphørLæremidler;
-
 const OpphørVedtak: React.FC<{
-    vedtak?: Opphørsvedtak;
+    vedtak?: OpphørRequest;
 }> = ({ vedtak }) => {
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();

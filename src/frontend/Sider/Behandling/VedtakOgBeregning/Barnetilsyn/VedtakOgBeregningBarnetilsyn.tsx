@@ -6,7 +6,6 @@ import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
-import OpphørVedtak from './OpphørVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -18,6 +17,7 @@ import {
     OpphørBarnetilsyn,
     VedtakBarnetilsyn,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
@@ -29,7 +29,6 @@ const Container = styled.div`
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();
-
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
     useEffect(() => {
