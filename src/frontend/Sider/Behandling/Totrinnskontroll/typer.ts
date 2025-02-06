@@ -43,3 +43,7 @@ export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
     FEIL_I_UTGIFTER: 'Feil i utgifter',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER: 'Retur etter ønske fra saksbehandler',
 };
+
+export interface SendTilBeslutterRequest {
+    kommentarTilBeslutter: string | undefined;
+}
