@@ -14,7 +14,6 @@ export interface DateInputProps {
     readOnly?: boolean;
     fromDate?: Date;
     toDate?: Date;
-    className?: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -27,7 +26,6 @@ const DateInput: React.FC<DateInputProps> = ({
     readOnly = false,
     fromDate,
     toDate,
-    className,
 }) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(value),
@@ -37,7 +35,7 @@ const DateInput: React.FC<DateInputProps> = ({
     });
 
     return (
-        <DatePicker {...datepickerProps} className={className}>
+        <DatePicker {...datepickerProps}>
             <DatePicker.Input
                 {...inputProps}
                 label={label}

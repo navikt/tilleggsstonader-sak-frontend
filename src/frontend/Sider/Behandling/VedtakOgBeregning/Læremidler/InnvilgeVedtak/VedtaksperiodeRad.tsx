@@ -42,7 +42,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     return (
         <>
             <DateInputMedLeservisning
-                className="kolonne"
                 label="Fra"
                 hideLabel
                 erLesevisning={erLesevisning}

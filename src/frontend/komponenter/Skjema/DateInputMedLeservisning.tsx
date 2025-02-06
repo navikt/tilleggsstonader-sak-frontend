@@ -27,14 +27,7 @@ const DateInputMedLeservisning: React.FC<Props> = ({
             size={size}
         />
     ) : (
-        <DateInput
-            {...props}
-            className={className}
-            label={label}
-            hideLabel={hideLabel}
-            value={value}
-            size={size}
-        />
+        <DateInput {...props} label={label} hideLabel={hideLabel} value={value} size={size} />
     );
 };
 
