@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Alert, BodyShort, Button, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, VStack } from '@navikt/ds-react';
 
 import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
@@ -52,11 +52,11 @@ const SendtTilBeslutter: React.FC<{
     };
 
     return (
-        <>
+        <VStack gap="2">
             <Heading size={'small'} level={'3'}>
                 Totrinnskontroll
             </Heading>
-            <Alert variant={'info'} inline={true}>
+            <Alert variant={'info'} inline={true} size="small">
                 Vedtaket er sendt til godkjenning
             </Alert>
             <div>
@@ -65,6 +65,12 @@ const SendtTilBeslutter: React.FC<{
                     {formaterIsoDatoTid(totrinnskontroll.opprettetTid)}
                 </BodyShort>
             </div>
+            {totrinnskontroll.begrunnelse && (
+                <BodyShort size="small">
+                    <b>Kommentar til beslutter:</b> <br />
+                    {totrinnskontroll.begrunnelse}
+                </BodyShort>
+            )}
             {totrinnskontroll.opprettetAv === saksbehandler.navIdent && (
                 <AngreSendTilBeslutterContainer>
                     <Button
@@ -78,7 +84,7 @@ const SendtTilBeslutter: React.FC<{
                     {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
                 </AngreSendTilBeslutterContainer>
             )}
-        </>
+        </VStack>
     );
 };
 

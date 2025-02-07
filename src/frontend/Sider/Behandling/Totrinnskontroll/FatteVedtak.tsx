@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import {
     Alert,
+    BodyShort,
     Button,
     Checkbox,
     CheckboxGroup,
@@ -15,7 +16,12 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
+import {
+    TotrinnskontrollOpprettet,
+    TotrinnskontrollResponse,
+    ÅrsakUnderkjent,
+    årsakUnderkjentTilTekst,
+} from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
@@ -46,9 +52,10 @@ enum Totrinnsresultat {
 }
 
 const FatteVedtak: React.FC<{
+    totrinnskontroll: TotrinnskontrollOpprettet;
     settVisGodkjentModal: (vis: boolean) => void;
     settTotrinnskontroll: React.Dispatch<React.SetStateAction<Ressurs<TotrinnskontrollResponse>>>;
-}> = ({ settVisGodkjentModal, settTotrinnskontroll }) => {
+}> = ({ totrinnskontroll, settVisGodkjentModal, settTotrinnskontroll }) => {
     const { request, settToast, settUlagretKomponent, nullstillUlagredeKomponenter } = useApp();
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { behandling, hentBehandling } = useBehandling();
@@ -115,6 +122,12 @@ const FatteVedtak: React.FC<{
                         Totrinnskontroll
                     </Heading>
                 </TittelContainer>
+                {totrinnskontroll.begrunnelse && (
+                    <BodyShort size={'small'}>
+                        <b>Kommentar fra saksbehandler: </b> <br />
+                        {totrinnskontroll.begrunnelse}
+                    </BodyShort>
+                )}
                 <RadioGroup
                     legend="Din vurdering"
                     value={resultat}

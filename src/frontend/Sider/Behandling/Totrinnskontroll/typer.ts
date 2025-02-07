@@ -15,12 +15,17 @@ export type TotrinnskontrollResponse =
           totrinnskontroll: TotrinnskontrollUnderkjentResponse;
       }
     | {
-          status: TotrinnskontrollStatus.KAN_FATTE_VEDTAK | TotrinnskontrollStatus.UAKTUELT;
+          status: TotrinnskontrollStatus.KAN_FATTE_VEDTAK;
+          totrinnskontroll: TotrinnskontrollOpprettet;
+      }
+    | {
+          status: TotrinnskontrollStatus.UAKTUELT;
       };
 
 export type TotrinnskontrollOpprettet = {
     opprettetAv: string;
     opprettetTid: string;
+    begrunnelse?: string;
 };
 
 export type TotrinnskontrollUnderkjentResponse = TotrinnskontrollOpprettet & {
