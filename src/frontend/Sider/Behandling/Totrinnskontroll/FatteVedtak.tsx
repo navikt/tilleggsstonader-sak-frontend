@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import {
     Alert,
-    BodyShort,
     Button,
     Checkbox,
     CheckboxGroup,
@@ -13,6 +12,7 @@ import {
     Radio,
     RadioGroup,
     Textarea,
+    VStack,
 } from '@navikt/ds-react';
 
 import { TotrinnskontrollResponse, ÅrsakUnderkjent, årsakUnderkjentTilTekst } from './typer';
@@ -22,11 +22,6 @@ import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNa
 import { UlagretKomponent } from '../../../hooks/useUlagredeKomponenter';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
-
-const WrapperMedMargin = styled.div`
-    display: block;
-    margin: 0.5rem 0;
-`;
 
 const SubmitButtonWrapper = styled.div`
     display: flex;
@@ -114,28 +109,23 @@ const FatteVedtak: React.FC<{
 
     return (
         <form onSubmit={beslutteVedtak}>
-            <TittelContainer>
-                <Heading size={'small'} level={'3'}>
-                    Totrinnskontroll
-                </Heading>
-            </TittelContainer>
-            <BodyShort size={'small'}>
-                Kontroller opplysninger og faglige vurderinger gjort under behandlingen
-            </BodyShort>
-            <WrapperMedMargin>
+            <VStack gap="4">
+                <TittelContainer>
+                    <Heading size={'small'} level={'3'}>
+                        Totrinnskontroll
+                    </Heading>
+                </TittelContainer>
                 <RadioGroup
-                    legend={'Beslutt vedtak'}
+                    legend="Din vurdering"
                     value={resultat}
-                    hideLegend
                     onChange={oppdaterResultat}
+                    size="small"
                 >
                     <Radio value={Totrinnsresultat.GODKJENT}>Godkjenn</Radio>
                     <Radio value={Totrinnsresultat.UNDERKJENT}>Underkjenn</Radio>
                 </RadioGroup>
-            </WrapperMedMargin>
-            {resultat === Totrinnsresultat.UNDERKJENT && (
-                <>
-                    <WrapperMedMargin>
+                {resultat === Totrinnsresultat.UNDERKJENT && (
+                    <>
                         <CheckboxGroup
                             legend={'Årsak til underkjennelse'}
                             description={'Manglende eller feil opplysninger om:'}
@@ -144,6 +134,7 @@ const FatteVedtak: React.FC<{
                                 settÅrsakerUnderkjent(årsaker);
                                 settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                             }}
+                            size="small"
                         >
                             {Object.values(ÅrsakUnderkjent).map((årsak) => (
                                 <Checkbox key={årsak} value={årsak}>
@@ -151,26 +142,27 @@ const FatteVedtak: React.FC<{
                                 </Checkbox>
                             ))}
                         </CheckboxGroup>
-                    </WrapperMedMargin>
-                    <Textarea
-                        value={begrunnelse || ''}
-                        maxLength={0}
-                        onChange={(e) => {
-                            settBegrunnelse(e.target.value);
-                            settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
-                        }}
-                        label={'Begrunnelse'}
-                    />
-                </>
-            )}
-            {erUtfylt && (
-                <SubmitButtonWrapper>
-                    <Button type="submit" disabled={laster}>
-                        Fullfør
-                    </Button>
-                </SubmitButtonWrapper>
-            )}
-            {feil && <Alert variant={'error'}>{feil}</Alert>}
+                        <Textarea
+                            value={begrunnelse || ''}
+                            maxLength={0}
+                            onChange={(e) => {
+                                settBegrunnelse(e.target.value);
+                                settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
+                            }}
+                            label={'Begrunnelse'}
+                            size="small"
+                        />
+                    </>
+                )}
+                {erUtfylt && (
+                    <SubmitButtonWrapper>
+                        <Button type="submit" disabled={laster} size="small">
+                            Fullfør
+                        </Button>
+                    </SubmitButtonWrapper>
+                )}
+                {feil && <Alert variant={'error'}>{feil}</Alert>}
+            </VStack>
         </form>
     );
 };
