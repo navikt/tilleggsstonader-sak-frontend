@@ -13,10 +13,10 @@ import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
-    AvslagBarnetilsyn,
-    InnvilgelseBarnetilsyn,
-    OpphørBarnetilsyn,
     VedtakBarnetilsyn,
+    vedtakErAvslag,
+    vedtakErInnvilgelse,
+    vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
@@ -50,16 +50,22 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                     settTypeVedtak={settTypeVedtak}
                                 />
                                 {typeVedtak === TypeVedtak.AVSLAG && (
-                                    <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
+                                    <AvslåVedtak
+                                        vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                    />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
+                                    <OpphørVedtak
+                                        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                    />
                                 )}
                             </HGrid>
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgeBarnetilsyn lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
+                            <InnvilgeBarnetilsyn
+                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
+                            />
                         )}
                     </Container>
                 )}

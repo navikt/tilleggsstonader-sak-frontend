@@ -5,6 +5,15 @@ import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
+export const vedtakErInnvilgelse = (vedtak: VedtakLæremidler): vedtak is InnvilgelseLæremidler =>
+    vedtak.type === TypeVedtak.INNVILGELSE;
+
+export const vedtakErAvslag = (vedtak: VedtakLæremidler): vedtak is AvslagLæremidler =>
+    vedtak.type === TypeVedtak.AVSLAG;
+
+export const vedtakErOpphør = (vedtak: VedtakLæremidler): vedtak is OpphørLæremidler =>
+    vedtak.type === TypeVedtak.OPPHØR;
+
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];

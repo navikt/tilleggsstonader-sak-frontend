@@ -11,9 +11,9 @@ import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
-    AvslagLæremidler,
-    InnvilgelseLæremidler,
-    OpphørLæremidler,
+    vedtakErInnvilgelse,
+    vedtakErAvslag,
+    vedtakErOpphør,
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
@@ -51,17 +51,19 @@ const VedtakOgBeregningLæremidler: FC = () => {
                                 />
                             }
                             {typeVedtak === TypeVedtak.AVSLAG && (
-                                <AvslåVedtak vedtak={vedtak as AvslagLæremidler} />
+                                <AvslåVedtak vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined} />
                             )}
                             {typeVedtak === TypeVedtak.OPPHØR && (
-                                <OpphørVedtak vedtak={vedtak as OpphørLæremidler} />
+                                <OpphørVedtak
+                                    vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                />
                             )}
                         </HGrid>
                     </Panel>
 
                     {typeVedtak === TypeVedtak.INNVILGELSE && (
                         <InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling
-                            lagretVedtak={vedtak as InnvilgelseLæremidler}
+                            lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                         />
                     )}
                 </Container>
