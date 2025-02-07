@@ -1,4 +1,5 @@
-import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
+import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
@@ -42,13 +43,7 @@ export type AvslåLæremidlerRequest = {
 
 export type AvslagLæremidler = AvslåLæremidlerRequest;
 
-export type OpphørLæremidlerRequest = {
-    type: TypeVedtak.OPPHØR;
-    årsakerOpphør: ÅrsakOpphør[];
-    begrunnelse: string;
-};
-
-export type OpphørLæremidler = OpphørLæremidlerRequest;
+export type OpphørLæremidler = OpphørRequest;
 
 export interface Vedtaksperiode extends Periode {
     id: string;

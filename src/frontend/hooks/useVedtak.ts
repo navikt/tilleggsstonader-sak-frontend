@@ -2,19 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
-import { Stønadstype } from '../typer/behandling/behandlingTema';
-import { Ressurs, byggTomRessurs } from '../typer/ressurs';
+import { Stønadstype, stønadstypeTilVedtakUrl } from '../typer/behandling/behandlingTema';
+import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { VedtakResponse } from '../typer/vedtak/vedtak';
 
 interface Response<T extends VedtakResponse> {
     hentVedtak: () => void;
     vedtak: Ressurs<T>;
 }
-
-const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
-    [Stønadstype.BARNETILSYN]: 'tilsyn-barn',
-    [Stønadstype.LÆREMIDLER]: 'laremidler',
-};
 
 export const useVedtak = <T extends VedtakResponse>(): Response<T> => {
     const { request } = useApp();
