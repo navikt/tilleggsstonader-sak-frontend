@@ -17,10 +17,8 @@ type RessursLaster = {
 };
 
 type FeilMelding = {
-    errorMelding?: string;
     melding: string;
-    frontendFeilmelding: string;
-    frontendFeilmeldingUtenFeilkode?: string;
+    feilkode: string | undefined;
 };
 
 export type RessursFeilet =
@@ -53,12 +51,11 @@ export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
     };
 };
 
-export const byggFeiletRessurs = <T>(melding: string, error?: Error): Ressurs<T> => {
+export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
     return {
-        errorMelding: error ? error.message : undefined,
-        melding,
-        frontendFeilmelding: melding,
         status: RessursStatus.FEILET,
+        melding: feilmelding,
+        feilkode: undefined,
     };
 };
 
@@ -66,15 +63,8 @@ export const pakkUtHvisSuksess = <T>(ressurs: Ressurs<T>) =>
     ressurs.status === RessursStatus.SUKSESS ? ressurs.data : undefined;
 
 export const feilmeldingVedFeil = <T>(response: Ressurs<T>) =>
-    erFeilressurs(response) ? response.frontendFeilmelding : undefined;
+    erFeilressurs(response) ? response.melding : undefined;
 
-export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
-    return {
-        status: RessursStatus.FEILET,
-        frontendFeilmelding: feilmelding,
-        melding: feilmelding,
-    };
-};
 export const harNoenRessursMedStatus = (
     // eslint-disable-next-line
     ressurser: Ressurs<any>[],
