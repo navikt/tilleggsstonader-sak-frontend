@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BodyShort, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
+import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -23,8 +24,6 @@ import {
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
-import { lagVedtakRequest } from '../utils';
-import { Vedtaksperioder } from './Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
 interface Props {
@@ -53,7 +52,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({ lagretVedtak }) => {
     const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
         initialiserVedtaksperioder(
             vedtaksperiodeTilVedtakperiodeTilsynBarn(
-                lagretVedtak?.beregningsresultat.vedtaksperioder
+                lagretVedtak?.beregningsresultat?.vedtaksperioder
             )
         )
     );
@@ -73,12 +72,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({ lagretVedtak }) => {
 
     const beregnBarnetilsyn = () => {
         settBeregningsresultat(byggHenterRessurs());
-        const vedtaksRequest = lagVedtakRequest();
-        //TODO ta i bruk nytt endepunkt
-        request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
+        request<BeregningsresultatTilsynBarn, VedtaksperiodeTilsynBarn[]>(
+            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
             'POST',
-            vedtaksRequest
+            vedtaksperioder
         ).then(settBeregningsresultat);
     };
 

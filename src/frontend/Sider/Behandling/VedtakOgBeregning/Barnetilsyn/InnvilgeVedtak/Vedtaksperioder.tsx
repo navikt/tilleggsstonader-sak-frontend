@@ -46,7 +46,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom' | 'målgruppe' | 'aktivitet',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
         value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {

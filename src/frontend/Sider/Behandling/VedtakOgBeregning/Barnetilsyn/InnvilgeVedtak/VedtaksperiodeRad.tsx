@@ -25,7 +25,7 @@ interface Props {
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> | undefined;
     oppdaterPeriode: (
-        property: 'fom' | 'tom' | 'målgruppe' | 'aktivitet',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
         value: string | undefined
     ) => void;
     slettPeriode: () => void;
@@ -80,13 +80,13 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 readOnly={!alleFelterKanEndres}
                 value={
                     erLesevisning
-                        ? aktivitetTypeTilTekst(vedtaksperiode.aktivitet ?? '')
-                        : vedtaksperiode.aktivitet
+                        ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
+                        : vedtaksperiode.aktivitetType
                 }
-                onChange={(e) => oppdaterPeriode('aktivitet', e.target.value)}
+                onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
                 valg={valgbareAktiviteter}
                 size={'small'}
-                error={vedtaksperiodeFeil?.aktivitet}
+                error={vedtaksperiodeFeil?.aktivitetType}
             />
             <SelectMedOptions
                 label={'Målgruppe'}
@@ -95,13 +95,13 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 readOnly={!alleFelterKanEndres}
                 value={
                     erLesevisning
-                        ? målgruppeTypeTilTekst(vedtaksperiode.målgruppe ?? '')
-                        : vedtaksperiode.målgruppe
+                        ? målgruppeTypeTilTekst(vedtaksperiode.målgruppeType ?? '')
+                        : vedtaksperiode.målgruppeType
                 }
-                onChange={(e) => oppdaterPeriode('målgruppe', e.target.value)}
+                onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
                 valg={målgruppeTypeOptionsForStønadsperiode}
                 size={'small'}
-                error={vedtaksperiodeFeil?.målgruppe}
+                error={vedtaksperiodeFeil?.målgruppeType}
             />
             <div>
                 {erLesevisning

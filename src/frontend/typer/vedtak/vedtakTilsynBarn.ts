@@ -69,8 +69,8 @@ type Beregningsgrunnlag = {
 export interface VedtaksperiodeTilsynBarn extends Periode {
     id: string;
     status?: PeriodeStatus;
-    målgruppe?: MålgruppeType;
-    aktivitet?: AktivitetType;
+    målgruppeType?: MålgruppeType;
+    aktivitetType?: AktivitetType;
 }
 
 export const vedtaksperiodeTilVedtakperiodeTilsynBarn = (
@@ -84,7 +84,7 @@ export const vedtaksperiodeTilVedtakperiodeTilsynBarn = (
         status: PeriodeStatus.UENDRET,
         fom: periode.fom,
         tom: periode.tom,
-        målgruppe: periode.målgruppe,
-        aktivitet: periode.aktivitet,
+        målgruppeType: periode.målgruppe,
+        aktivitetType: periode.aktivitet,
     }));
 };
