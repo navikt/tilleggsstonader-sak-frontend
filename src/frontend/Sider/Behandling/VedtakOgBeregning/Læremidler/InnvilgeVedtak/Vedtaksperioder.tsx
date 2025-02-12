@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -27,6 +27,7 @@ const Grid = styled.div`
 
 interface Props {
     vedtaksperioder: Vedtaksperiode[];
+    lagredeVedtaksperioder: Vedtaksperiode[] | undefined;
     settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
     vedtaksperioderFeil?: FormErrors<Periode>[];
     settVedtaksperioderFeil: React.Dispatch<
@@ -36,6 +37,7 @@ interface Props {
 
 export const Vedtaksperioder: React.FC<Props> = ({
     vedtaksperioder,
+    lagredeVedtaksperioder,
     settVedtaksperioder,
     vedtaksperioderFeil,
     settVedtaksperioderFeil,
@@ -44,6 +46,18 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { settUlagretKomponent } = useApp();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
+
+    const lagredeVedtaksperioderObjekt = useMemo(
+        () =>
+            (lagredeVedtaksperioder || []).reduce(
+                (prev, current) => {
+                    prev[current.id] = current;
+                    return prev;
+                },
+                {} as Record<string, Vedtaksperiode>
+            ),
+        [lagredeVedtaksperioder]
+    );
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -97,6 +111,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
                             vedtaksperiode={vedtaksperiode}
+                            lagretVedtaksperiode={lagredeVedtaksperioderObjekt[vedtaksperiode.id]}
                             erLesevisning={!erStegRedigerbart}
                             oppdaterPeriode={(property, value) => {
                                 oppdaterPeriodeFelt(indeks, property, value);

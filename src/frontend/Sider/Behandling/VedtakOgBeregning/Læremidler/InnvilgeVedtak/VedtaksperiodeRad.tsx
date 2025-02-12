@@ -14,6 +14,7 @@ import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
 
 interface Props {
     vedtaksperiode: Vedtaksperiode;
+    lagretVedtaksperiode: Vedtaksperiode | undefined;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Periode> | undefined;
     oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;
@@ -23,6 +24,7 @@ interface Props {
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
     vedtaksperiode,
+    lagretVedtaksperiode,
     erLesevisning,
     vedtaksperiodeFeil,
     oppdaterPeriode,
@@ -32,8 +34,8 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
         useRevurderingAvPerioder({
-            periodeFom: vedtaksperiode.fom,
-            periodeTom: vedtaksperiode.tom,
+            periodeFom: lagretVedtaksperiode?.fom,
+            periodeTom: lagretVedtaksperiode?.tom,
             nyRadLeggesTil: erNyRad,
         });
 

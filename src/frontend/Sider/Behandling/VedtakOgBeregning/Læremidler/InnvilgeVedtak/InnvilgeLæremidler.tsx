@@ -39,10 +39,10 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
+    const lagredeVedtaksperioder =
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling;
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
-        initialiserVedtaksperioder(
-            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
-        )
+        initialiserVedtaksperioder(lagredeVedtaksperioder)
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
@@ -111,6 +111,7 @@ export const InnvilgeLæremidler: React.FC<{
                 </DataViewer>
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
+                    lagredeVedtaksperioder={lagredeVedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
