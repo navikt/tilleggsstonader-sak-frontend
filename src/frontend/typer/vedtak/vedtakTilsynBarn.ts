@@ -5,10 +5,14 @@ import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vil
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
-export const erVedtakInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
+export const vedtakErInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
     vedtak.type === TypeVedtak.INNVILGELSE;
 
-export const vedtakErAvslag = (vedtak: VedtakBarnetilsyn) => vedtak.type === TypeVedtak.AVSLAG;
+export const vedtakErAvslag = (vedtak: VedtakBarnetilsyn): vedtak is AvslagBarnetilsyn =>
+    vedtak.type === TypeVedtak.AVSLAG;
+
+export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBarnetilsyn =>
+    vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBarnetilsynRequest = {
     type: TypeVedtak.INNVILGELSE;
