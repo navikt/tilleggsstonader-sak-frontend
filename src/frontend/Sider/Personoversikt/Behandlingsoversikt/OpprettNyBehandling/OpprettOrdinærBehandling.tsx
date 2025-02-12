@@ -76,7 +76,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 hentBehandlinger();
                 lukkModal();
             } else {
-                settFeilmelding(response.frontendFeilmelding || response.melding);
+                settFeilmelding(response.frontendFeilmelding);
                 settLaster(false);
             }
         });

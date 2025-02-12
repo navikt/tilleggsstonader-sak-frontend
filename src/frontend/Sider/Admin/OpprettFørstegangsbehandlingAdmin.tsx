@@ -23,8 +23,8 @@ import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import {
-    byggFeiletRessurs,
     byggHenterRessurs,
+    byggRessursFeilet,
     byggTomRessurs,
     Ressurs,
     RessursStatus,
@@ -126,7 +126,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
         settOpprettBehandlingResponse(byggTomRessurs());
         settValgteBarn([]);
         if (!erGyldigFnr(ident)) {
-            settPersoninfo(byggFeiletRessurs('Ikke gyldig ident.'));
+            settPersoninfo(byggRessursFeilet('Ikke gyldig ident.'));
             return;
         }
         settPersoninfo(byggHenterRessurs());
