@@ -7,7 +7,7 @@ import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
-import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
@@ -19,6 +19,7 @@ import {
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
+    validerVedtaksperioder,
     VedtaksperiodeTilsynBarn,
     vedtaksperiodeTilVedtakperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
@@ -28,6 +29,7 @@ import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
+    vedtaksperioderForrigeBehandling?: VedtaksperiodeTilsynBarn[];
 }
 
 export const HeadingBeregning: React.FC = () => {
@@ -44,7 +46,10 @@ export const HeadingBeregning: React.FC = () => {
     );
 };
 
-export const InnvilgeBarnetilsynV2: React.FC<Props> = ({ lagretVedtak }) => {
+export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
+    lagretVedtak,
+    vedtaksperioderForrigeBehandling,
+}) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
@@ -53,7 +58,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({ lagretVedtak }) => {
         initialiserVedtaksperioder(
             vedtaksperiodeTilVedtakperiodeTilsynBarn(
                 lagretVedtak?.beregningsresultat?.vedtaksperioder
-            )
+            ) || vedtaksperioderForrigeBehandling
         )
     );
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
@@ -69,14 +74,28 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({ lagretVedtak }) => {
             { type: TypeVedtak.INNVILGELSE }
         );
     };
+    const validerForm = (): boolean => {
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            vedtaksperioderForrigeBehandling,
+            behandling.revurderFra
+        );
+        settVedtaksperiodeFeil(vedtaksperiodeFeil);
+
+        return isValid(vedtaksperiodeFeil);
+    };
 
     const beregnBarnetilsyn = () => {
-        settBeregningsresultat(byggHenterRessurs());
-        request<BeregningsresultatTilsynBarn, VedtaksperiodeTilsynBarn[]>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
-            'POST',
-            vedtaksperioder
-        ).then(settBeregningsresultat);
+        const kanSendeInn = validerForm();
+
+        if (kanSendeInn) {
+            settBeregningsresultat(byggHenterRessurs());
+            request<BeregningsresultatTilsynBarn, VedtaksperiodeTilsynBarn[]>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
+                'POST',
+                vedtaksperioder
+            ).then(settBeregningsresultat);
+        }
     };
 
     return (

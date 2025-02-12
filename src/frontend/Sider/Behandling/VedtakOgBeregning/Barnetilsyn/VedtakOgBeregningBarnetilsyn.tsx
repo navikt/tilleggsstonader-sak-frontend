@@ -7,7 +7,6 @@ import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
-import { InnvilgeBarnetilsynV2 } from './InnvilgeVedtak/InnvilgeBarnetilsynV2';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -22,6 +21,7 @@ import {
 import { Toggle } from '../../../../utils/toggles';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -66,7 +66,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && skalSeInnvilgelseBarnetilsynV2 ? (
-                            <InnvilgeBarnetilsynV2
+                            <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         ) : (
