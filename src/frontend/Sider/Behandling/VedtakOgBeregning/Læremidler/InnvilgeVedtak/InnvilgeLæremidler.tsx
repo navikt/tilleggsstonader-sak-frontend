@@ -22,13 +22,12 @@ import {
     InnvilgelseLæremidlerRequest,
     Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
+import { validerVedtaksperioder } from './validering';
 
-export const validerVedtaksperioder = (vedtaksperioder: Vedtaksperiode[]) =>
-    vedtaksperioder.map((periode) => validerPeriode(periode) as FormErrors<Periode>);
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
     vedtaksperioderForrigeBehandling: Vedtaksperiode[] | undefined;
@@ -71,7 +70,11 @@ export const InnvilgeLæremidler: React.FC<{
     };
 
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            lagredeVedtaksperioder,
+            behandling.revurderFra
+        );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
