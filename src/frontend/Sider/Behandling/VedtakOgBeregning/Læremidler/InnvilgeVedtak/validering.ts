@@ -4,7 +4,7 @@ import { Periode, validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[],
-    lagredeVedstaksperioder: Vedtaksperiode[] | undefined,
+    lagredeVedstaksperioder: Map<string, Vedtaksperiode>,
     revurderesFraDato?: string
 ): FormErrors<Periode[]> =>
     vedtaksperioder.map((periode) => {
@@ -13,9 +13,7 @@ export const validerVedtaksperioder = (
             tom: undefined,
         };
 
-        const lagretPeriode = (lagredeVedstaksperioder || []).find(
-            (lagretVedtaksperiode) => lagretVedtaksperiode.id === periode.id
-        );
+        const lagretPeriode = lagredeVedstaksperioder.get(periode.id);
 
         const periodeValidering = validerPeriode(periode, lagretPeriode, revurderesFraDato);
         if (periodeValidering) {

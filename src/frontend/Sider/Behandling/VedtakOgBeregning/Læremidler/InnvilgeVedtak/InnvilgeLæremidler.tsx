@@ -27,6 +27,7 @@ import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 import { validerVedtaksperioder } from './validering';
+import { useMapById } from '../../../../../hooks/useMapById';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
@@ -38,10 +39,13 @@ export const InnvilgeLæremidler: React.FC<{
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
 
-    const lagredeVedtaksperioder =
-        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling;
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
-        initialiserVedtaksperioder(lagredeVedtaksperioder)
+        initialiserVedtaksperioder(
+            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
+        )
+    );
+    const lagredeVedtaksperioder = useMapById(
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
