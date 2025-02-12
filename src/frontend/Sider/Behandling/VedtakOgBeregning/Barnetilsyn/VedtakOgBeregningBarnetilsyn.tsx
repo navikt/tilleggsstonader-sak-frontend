@@ -1,11 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
+import { InnvilgeBarnetilsynV2 } from './InnvilgeVedtak/InnvilgeBarnetilsynV2';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -17,6 +19,7 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { Toggle } from '../../../../utils/toggles';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
@@ -30,6 +33,7 @@ const Container = styled.div`
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
+    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
 
     useEffect(() => {
         if (vedtak.status === RessursStatus.SUKSESS) {
@@ -61,7 +65,11 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                             </HGrid>
                         </Panel>
 
-                        {typeVedtak === TypeVedtak.INNVILGELSE && (
+                        {typeVedtak === TypeVedtak.INNVILGELSE && skalSeInnvilgelseBarnetilsynV2 ? (
+                            <InnvilgeBarnetilsynV2
+                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
+                            />
+                        ) : (
                             <InnvilgeBarnetilsyn
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />

@@ -1,7 +1,11 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { Periode } from '../../utils/periode';
+import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
@@ -60,4 +64,27 @@ type Beregningsgrunnlag = {
     måned: string;
     utgifterTotal: number;
     antallBarn: number;
+};
+
+export interface VedtaksperiodeTilsynBarn extends Periode {
+    id: string;
+    status?: PeriodeStatus;
+    målgruppe?: MålgruppeType;
+    aktivitet?: AktivitetType;
+}
+
+export const vedtaksperiodeTilVedtakperiodeTilsynBarn = (
+    vedtaksperiode?: Vedtaksperiode[]
+): VedtaksperiodeTilsynBarn[] | undefined => {
+    if (!vedtaksperiode) {
+        return;
+    }
+    return vedtaksperiode.map((periode) => ({
+        id: uuidv4(),
+        status: PeriodeStatus.UENDRET,
+        fom: periode.fom,
+        tom: periode.tom,
+        målgruppe: periode.målgruppe,
+        aktivitet: periode.aktivitet,
+    }));
 };
