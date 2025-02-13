@@ -23,6 +23,10 @@ export type InnvilgeBarnetilsynRequest = {
     type: TypeVedtak.INNVILGELSE;
 };
 
+export type InnvilgeBarnetilsynRequestV2 = {
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+};
+
 export interface InnvilgelseBarnetilsyn {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatTilsynBarn;

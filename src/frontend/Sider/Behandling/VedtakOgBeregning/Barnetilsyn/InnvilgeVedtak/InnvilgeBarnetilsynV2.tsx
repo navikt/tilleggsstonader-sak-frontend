@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { BodyShort, HStack, Link, VStack } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
@@ -13,11 +13,10 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
-import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
+import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
     BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequest,
+    InnvilgeBarnetilsynRequestV2,
     InnvilgelseBarnetilsyn,
     validerVedtaksperioder,
     VedtaksperiodeTilsynBarn,
@@ -67,12 +66,24 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
 
+    const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
+
+    useEffect(() => {
+        settErVedtaksperioderBeregnet(false);
+    }, [vedtaksperioder]);
+
     const lagreVedtak = () => {
-        return request<null, InnvilgeBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
-            'POST',
-            { type: TypeVedtak.INNVILGELSE }
-        );
+        if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
+            return request<null, InnvilgeBarnetilsynRequestV2>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
+                'POST',
+                { vedtaksperioder: vedtaksperioder }
+            );
+        } else {
+            settVisHarIkkeBeregnetFeilmelding(true);
+            return Promise.reject();
+        }
     };
     const validerForm = (): boolean => {
         const vedtaksperiodeFeil = validerVedtaksperioder(
@@ -86,6 +97,8 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     };
 
     const beregnBarnetilsyn = () => {
+        settVisHarIkkeBeregnetFeilmelding(false);
+
         const kanSendeInn = validerForm();
 
         if (kanSendeInn) {
@@ -94,7 +107,12 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
                 'POST',
                 vedtaksperioder
-            ).then(settBeregningsresultat);
+            ).then((result) => {
+                settBeregningsresultat(result);
+                if (result.status === 'SUKSESS') {
+                    settErVedtaksperioderBeregnet(true);
+                }
+            });
         }
     };
 
@@ -129,6 +147,9 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
+            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
+                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
+            )}
         </>
     );
 };
