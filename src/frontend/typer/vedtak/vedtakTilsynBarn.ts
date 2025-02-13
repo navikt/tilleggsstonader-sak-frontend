@@ -1,7 +1,12 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { FormErrors } from '../../hooks/felles/useFormState';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { Periode, validerPeriode } from '../../utils/periode';
+import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
@@ -16,6 +21,10 @@ export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBar
 
 export type InnvilgeBarnetilsynRequest = {
     type: TypeVedtak.INNVILGELSE;
+};
+
+export type InnvilgeBarnetilsynRequestV2 = {
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
 };
 
 export interface InnvilgelseBarnetilsyn {
@@ -61,3 +70,63 @@ type Beregningsgrunnlag = {
     utgifterTotal: number;
     antallBarn: number;
 };
+
+export interface VedtaksperiodeTilsynBarn extends Periode {
+    id: string;
+    status?: PeriodeStatus;
+    målgruppeType?: MålgruppeType;
+    aktivitetType?: AktivitetType;
+}
+
+export const vedtaksperiodeTilVedtakperiodeTilsynBarn = (
+    vedtaksperiode?: Vedtaksperiode[]
+): VedtaksperiodeTilsynBarn[] | undefined => {
+    if (!vedtaksperiode) {
+        return;
+    }
+    return vedtaksperiode.map((periode) => ({
+        id: uuidv4(),
+        status: PeriodeStatus.UENDRET,
+        fom: periode.fom,
+        tom: periode.tom,
+        målgruppeType: periode.målgruppe,
+        aktivitetType: periode.aktivitet,
+    }));
+};
+
+export const validerVedtaksperioder = (
+    vedtaksperioder: VedtaksperiodeTilsynBarn[],
+    lagretVedtaksperioder?: VedtaksperiodeTilsynBarn[] | [],
+    revurderesFraDato?: string
+): FormErrors<VedtaksperiodeTilsynBarn[]> =>
+    vedtaksperioder.map((vedtaksperiode) => {
+        const vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> = {
+            id: undefined,
+            målgruppeType: undefined,
+            aktivitetType: undefined,
+            fom: undefined,
+            tom: undefined,
+        };
+
+        if (!vedtaksperiode.aktivitetType) {
+            return { ...vedtaksperiodeFeil, aktivitetType: 'Mangler aktivitet for periode' };
+        }
+
+        if (!vedtaksperiode.målgruppeType) {
+            return { ...vedtaksperiodeFeil, målgruppeType: 'Mangler målgruppe for periode' };
+        }
+
+        const lagretPeriode = lagretVedtaksperioder?.find(
+            (periode) => periode.id === vedtaksperiode.id
+        );
+
+        const periodeValidering = validerPeriode(vedtaksperiode, lagretPeriode, revurderesFraDato);
+        if (periodeValidering) {
+            return {
+                ...vedtaksperiodeFeil,
+                ...periodeValidering,
+            };
+        }
+
+        return vedtaksperiodeFeil;
+    });

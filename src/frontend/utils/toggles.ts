@@ -16,4 +16,5 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
+    KAN_SE_INNVILGELSE_BARNETILSYN_V2 = 'sak.frontend.kan-se-innviligese-barnetilsnyn-v2',
 }
