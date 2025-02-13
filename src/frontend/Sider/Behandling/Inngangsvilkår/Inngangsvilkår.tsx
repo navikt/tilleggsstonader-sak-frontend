@@ -69,7 +69,8 @@ const Inngangsvilkår = () => {
                         <VStack gap="8">
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                            {!skalSeInnvilgelseBarnetilsynV2 && <Stønadsperioder />}
+                            {(behandling.stønadstype !== Stønadstype.BARNETILSYN ||
+                                !skalSeInnvilgelseBarnetilsynV2) && <Stønadsperioder />}
                         </VStack>
                     </InngangsvilkårProvider>
                 )}
