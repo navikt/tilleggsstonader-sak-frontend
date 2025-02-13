@@ -103,10 +103,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, VedtaksperiodeTilsynBarn[]>(
+            request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequestV2>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
                 'POST',
-                vedtaksperioder
+                { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
