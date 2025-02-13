@@ -65,14 +65,22 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                             </HGrid>
                         </Panel>
 
-                        {typeVedtak === TypeVedtak.INNVILGELSE && skalSeInnvilgelseBarnetilsynV2 ? (
-                            <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
-                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
-                            />
-                        ) : (
-                            <InnvilgeBarnetilsyn
-                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
-                            />
+                        {typeVedtak === TypeVedtak.INNVILGELSE && (
+                            <>
+                                {skalSeInnvilgelseBarnetilsynV2 ? (
+                                    <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
+                                        lagretVedtak={
+                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
+                                        }
+                                    />
+                                ) : (
+                                    <InnvilgeBarnetilsyn
+                                        lagretVedtak={
+                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
+                                        }
+                                    />
+                                )}
+                            </>
                         )}
                     </Container>
                 )}
