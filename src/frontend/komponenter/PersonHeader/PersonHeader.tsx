@@ -35,6 +35,7 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
             <BodyShort>|</BodyShort>
 
             <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
+            {personopplysninger.erSkjermet && <SmallWarningTag>Skjermet</SmallWarningTag>}
             {personopplysninger.harVergemål && <SmallWarningTag>Verge</SmallWarningTag>}
             {personopplysninger.harFullmektig && <SmallWarningTag>Fullmakt</SmallWarningTag>}
         </Container>

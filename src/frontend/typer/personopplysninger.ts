@@ -4,6 +4,7 @@ export interface Personopplysninger {
     harVergemål: boolean;
     harFullmektig: boolean;
     adressebeskyttelse: Adressebeskyttelse;
+    erSkjermet: boolean;
     vergemål: Vergemål[];
 }
 
