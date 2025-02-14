@@ -3,19 +3,23 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Button, List, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
+import { useTotrinnskontroll } from '../../context/TotrinnskontrollContext';
+import { TotrinnskontrollStatus } from '../../Sider/Behandling/Totrinnskontroll/typer';
+import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
-    width: fit-content;
+    display: block;
+    max-width: fit-content;
 `;
 
 interface Props {
     tittel: string;
-    onClick: () => Promise<void>;
+    onClick: (kommentarTilBeslutter: string | undefined) => Promise<void>;
 
     mal: MalStruktur;
     inkluderteDelmaler: Record<string, boolean>;
@@ -33,7 +37,9 @@ export const Brevknapp = ({
 }: Props) => {
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
+    const [kommentarTilBeslutter, settKommentarTilBeslutter] = useState<string>();
     const { oppdaterMangelIBrev } = useBrevFeilContext();
+    const { totrinnskontroll } = useTotrinnskontroll();
 
     const trykkPåKnapp = () => {
         settFeilmelding(undefined);
@@ -46,16 +52,29 @@ export const Brevknapp = ({
 
         settLaster(true);
 
-        onClick()
+        onClick(kommentarTilBeslutter)
             .catch((error) =>
                 settFeilmelding(error instanceof Error ? error.message : String(error))
             )
             .finally(() => settLaster(false));
     };
 
+    const kanGiKommentarTilBeslutter =
+        totrinnskontroll.status === RessursStatus.SUKSESS &&
+        totrinnskontroll.data?.status === TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT;
+
     return (
         <VStack gap={'2'}>
-            <Knapp onClick={trykkPåKnapp} disabled={laster}>
+            {kanGiKommentarTilBeslutter && (
+                <Textarea
+                    label="Kommentar til beslutter"
+                    description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
+                    value={kommentarTilBeslutter}
+                    onChange={(e) => settKommentarTilBeslutter(e.target.value)}
+                    style={{ maxWidth: '400px' }}
+                />
+            )}
+            <Knapp onClick={trykkPåKnapp} disabled={laster} size="small">
                 {tittel}
             </Knapp>
             <Feilmelding>{feilmelding}</Feilmelding>

@@ -22,7 +22,7 @@ type Props = {
     settFil: React.Dispatch<React.SetStateAction<Ressurs<string>>>;
     brevknapp: {
         tittel: string;
-        onClick: () => Promise<void>;
+        onClick: (kommentarTilBeslutter: string | undefined) => Promise<void>;
         visKnapp: boolean;
     };
 } & (

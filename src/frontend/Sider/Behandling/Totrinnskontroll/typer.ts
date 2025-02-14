@@ -15,12 +15,17 @@ export type TotrinnskontrollResponse =
           totrinnskontroll: TotrinnskontrollUnderkjentResponse;
       }
     | {
-          status: TotrinnskontrollStatus.KAN_FATTE_VEDTAK | TotrinnskontrollStatus.UAKTUELT;
+          status: TotrinnskontrollStatus.KAN_FATTE_VEDTAK;
+          totrinnskontroll: TotrinnskontrollOpprettet;
+      }
+    | {
+          status: TotrinnskontrollStatus.UAKTUELT;
       };
 
 export type TotrinnskontrollOpprettet = {
     opprettetAv: string;
     opprettetTid: string;
+    begrunnelse?: string;
 };
 
 export type TotrinnskontrollUnderkjentResponse = TotrinnskontrollOpprettet & {
@@ -43,3 +48,7 @@ export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
     FEIL_I_UTGIFTER: 'Feil i utgifter',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER: 'Retur etter ønske fra saksbehandler',
 };
+
+export interface SendTilBeslutterRequest {
+    kommentarTilBeslutter: string | undefined;
+}

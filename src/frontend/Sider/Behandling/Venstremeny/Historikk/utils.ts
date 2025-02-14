@@ -1,6 +1,7 @@
 import {
     HendelseMetadata,
     SattPåVentMetadata,
+    SendtTilBeslutterMetadata,
     TattAvVentMetadata,
     VedtakUnderkjentMetadata,
 } from './typer';
@@ -21,4 +22,10 @@ export const erTattAvVentMetadata = (
     metadata: HendelseMetadata
 ): metadata is TattAvVentMetadata => {
     return 'kommentar' in metadata;
+};
+
+export const erSendtTilBeslutterMetadata = (
+    metadata: HendelseMetadata
+): metadata is SendtTilBeslutterMetadata => {
+    return 'kommentarTilBeslutter' in metadata;
 };

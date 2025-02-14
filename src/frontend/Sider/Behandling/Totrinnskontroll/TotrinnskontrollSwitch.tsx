@@ -32,6 +32,7 @@ export const TotrinnskontrollSwitch: FC<{
                     <FatteVedtak
                         settVisGodkjentModal={settVisModalGodkjent}
                         settTotrinnskontroll={settTotrinnskontroll}
+                        totrinnskontroll={totrinnskontroll.totrinnskontroll}
                     />
                 </BorderBox>
             );

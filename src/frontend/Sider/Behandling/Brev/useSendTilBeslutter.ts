@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { TotrinnskontrollResponse } from '../Totrinnskontroll/typer';
+import { SendTilBeslutterRequest, TotrinnskontrollResponse } from '../Totrinnskontroll/typer';
 
 export const useSendTilBeslutter = () => {
     const { request } = useApp();
@@ -11,10 +11,13 @@ export const useSendTilBeslutter = () => {
     const [visVedtakFerdigstiltModal, settVisVedtakFerdigstiltModal] = useState<boolean>(false);
     const behandlingId = behandling.id;
 
-    const sendTilBeslutter = async () => {
-        return request<TotrinnskontrollResponse, null>(
+    const sendTilBeslutter = async (kommentarTilBeslutter?: string) => {
+        request<TotrinnskontrollResponse, SendTilBeslutterRequest>(
             `/api/sak/totrinnskontroll/${behandlingId}/send-til-beslutter`,
-            'POST'
+            'POST',
+            {
+                kommentarTilBeslutter: kommentarTilBeslutter,
+            }
         ).then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
             if (res.status === RessursStatus.SUKSESS) {
                 hentBehandling.rerun();
