@@ -25,6 +25,7 @@ import {
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
+import { BehandlingInfo } from './BehandlingInfo';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
@@ -119,6 +120,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     return (
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
+                <BehandlingInfo behandlingId={behandling.id} />
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
