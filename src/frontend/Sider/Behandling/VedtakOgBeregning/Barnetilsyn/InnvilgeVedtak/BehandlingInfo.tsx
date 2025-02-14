@@ -15,7 +15,9 @@ import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårpe
 import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../../vilkår';
 
-const StyledHGrid = styled(HGrid)<{ bottomBorder?: boolean }>`
+const StyledHGrid = styled(HGrid).withConfig({
+    shouldForwardProp: (prop) => prop !== 'bottomBorder',
+})<{ bottomBorder?: boolean }>`
     padding-bottom: 1rem;
     ${(props) => props.bottomBorder && `border-bottom: solid 1px white;`}
 `;
