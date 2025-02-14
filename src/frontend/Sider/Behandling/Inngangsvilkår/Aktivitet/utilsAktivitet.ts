@@ -34,5 +34,8 @@ export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype
 
         case Stønadstype.LÆREMIDLER:
             return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
+
+        case Stønadstype.BOUTGIFTER:
+            return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
     }
 };

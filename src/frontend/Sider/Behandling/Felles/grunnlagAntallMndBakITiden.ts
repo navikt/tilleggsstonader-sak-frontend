@@ -6,6 +6,7 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 export const ingenMålgruppeAktivitetAntallMndBakITiden: Record<Stønadstype, number> = {
     BARNETILSYN: 3,
     LÆREMIDLER: 6,
+    BOUTGIFTER: 6,
 };
 
 // Kopi av [ingenMålgruppeAktivitetAntallMndBakITiden] men med annet navn for å gjøre det tydligere for konsument

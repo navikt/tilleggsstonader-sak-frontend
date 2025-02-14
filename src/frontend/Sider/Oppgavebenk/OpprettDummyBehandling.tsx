@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Alert, Button, Heading, Select, TextField } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
-import { Stønadstype } from '../../typer/behandling/behandlingTema';
+import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 
 const StyledOpprettDummyBehandling = styled.div`
@@ -70,8 +70,13 @@ export const OpprettDummyBehandling: React.FC = () => {
                         settStønadstype(event.target.value as Stønadstype);
                     }}
                 >
-                    <option value="BARNETILSYN">Barnetilsyn</option>
-                    <option value="LÆREMIDLER">Læremidler</option>
+                    {[Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER, Stønadstype.BOUTGIFTER].map(
+                        (type) => (
+                            <option key={type} value={type}>
+                                {stønadstypeTilTekst[type]}
+                            </option>
+                        )
+                    )}
                 </Select>
 
                 <Button type={'button'} disabled={!harSattPersonIdent} onClick={opprettBehandling}>
