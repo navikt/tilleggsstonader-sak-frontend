@@ -34,6 +34,7 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
         case Stønadstype.LÆREMIDLER:
             return FanePath.VEDTAK_OG_BEREGNING;
         case Stønadstype.BARNETILSYN:
+        case Stønadstype.BOUTGIFTER:
             return FanePath.STØNADSVILKÅR;
     }
 };

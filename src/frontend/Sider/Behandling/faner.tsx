@@ -44,7 +44,10 @@ export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
 }
 
-const faneNavnStønadsvilkår: Record<Exclude<Stønadstype, 'LÆREMIDLER'>, StønadsvilkårFaneNavn> = {
+const faneNavnStønadsvilkår: Record<
+    Exclude<Stønadstype, 'LÆREMIDLER' | 'BOUTGIFTER'>,
+    StønadsvilkårFaneNavn
+> = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
 };
 
@@ -158,6 +161,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                     ikon: <HouseHeartIcon />,
                 },
             ];
+        case Stønadstype.BOUTGIFTER:
         case Stønadstype.LÆREMIDLER:
             return [];
     }

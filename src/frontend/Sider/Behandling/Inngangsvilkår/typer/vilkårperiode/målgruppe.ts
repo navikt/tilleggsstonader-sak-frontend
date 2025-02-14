@@ -47,6 +47,15 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
     },
+    [Stønadstype.BOUTGIFTER]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        SYKEPENGER_100_PROSENT: false,
+        INGEN_MÅLGRUPPE: true,
+    },
 };
 
 export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(
