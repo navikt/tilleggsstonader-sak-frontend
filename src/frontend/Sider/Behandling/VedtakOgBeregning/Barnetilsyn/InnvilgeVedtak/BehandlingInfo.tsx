@@ -1,20 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
 import { BodyShort, HGrid, HStack, VStack } from '@navikt/ds-react';
 
-import { useApp } from '../../../../../context/AppContext';
+import { useHentVilkårsvurdering } from '../../../../../hooks/useHentVilkårsvurdering';
 import { useVilkårperioder } from '../../../../../hooks/useVilkårperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { BehandlingFaktaTilsynBarn } from '../../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../../../typer/ressurs';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat, Vilkårsvurdering } from '../../../vilkår';
+import { Vilkårsresultat } from '../../../vilkår';
 
 const StyledHGrid = styled(HGrid)<{ bottomBorder?: boolean }>`
     padding-bottom: 1rem;
@@ -22,22 +21,12 @@ const StyledHGrid = styled(HGrid)<{ bottomBorder?: boolean }>`
 `;
 
 export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { request } = useApp();
     const { vilkårperioderResponse } = useVilkårperioder(behandlingId);
-
-    const [vilkårsvurdering, settVilkårsvurdering] =
-        useState<Ressurs<Vilkårsvurdering>>(byggTomRessurs());
-
-    const hentVilkårsvurdering = useCallback(() => {
-        settVilkårsvurdering(byggHenterRessurs());
-        return request<Vilkårsvurdering, null>(`/api/sak/vilkar/${behandlingId}`).then(
-            settVilkårsvurdering
-        );
-    }, [request, behandlingId]);
+    const { hentVilkårsvurdering, vilkårsvurdering } = useHentVilkårsvurdering();
 
     useEffect(() => {
-        hentVilkårsvurdering();
-    }, [hentVilkårsvurdering]);
+        hentVilkårsvurdering(behandlingId);
+    }, [behandlingId, hentVilkårsvurdering]);
 
     const finnBarnNavn = (
         barnId: string | undefined,
