@@ -43,7 +43,7 @@ const OpprettKlageBehandling: React.FC<Props> = ({
                 hentKlagebehandlinger();
                 lukkModal();
             } else {
-                settFeilmelding(response.frontendFeilmelding || response.melding);
+                settFeilmelding(response.frontendFeilmelding);
                 settLaster(false);
             }
         });

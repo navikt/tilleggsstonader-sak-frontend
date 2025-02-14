@@ -1,24 +1,27 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
 import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
-import OpphørVedtak from './OpphørVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
-    AvslagBarnetilsyn,
-    InnvilgelseBarnetilsyn,
-    OpphørBarnetilsyn,
     VedtakBarnetilsyn,
+    vedtakErAvslag,
+    vedtakErInnvilgelse,
+    vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import { Toggle } from '../../../../utils/toggles';
+import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -29,8 +32,8 @@ const Container = styled.div`
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();
-
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
+    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
 
     useEffect(() => {
         if (vedtak.status === RessursStatus.SUKSESS) {
@@ -50,16 +53,34 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                     settTypeVedtak={settTypeVedtak}
                                 />
                                 {typeVedtak === TypeVedtak.AVSLAG && (
-                                    <AvslåVedtak vedtak={vedtak as AvslagBarnetilsyn} />
+                                    <AvslåVedtak
+                                        vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                    />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak vedtak={vedtak as OpphørBarnetilsyn} />
+                                    <OpphørVedtak
+                                        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                    />
                                 )}
                             </HGrid>
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgeBarnetilsyn lagretVedtak={vedtak as InnvilgelseBarnetilsyn} />
+                            <>
+                                {skalSeInnvilgelseBarnetilsynV2 ? (
+                                    <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
+                                        lagretVedtak={
+                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
+                                        }
+                                    />
+                                ) : (
+                                    <InnvilgeBarnetilsyn
+                                        lagretVedtak={
+                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
+                                        }
+                                    />
+                                )}
+                            </>
                         )}
                     </Container>
                 )}

@@ -36,7 +36,8 @@ export const fetchFn = <ResponseData, RequestData>(
             return {
                 status: RessursStatus.FEILET,
                 frontendFeilmelding: feilmeldingMedCallId(error.detail, error.headers),
-                melding: error.detail,
+                frontendFeilmeldingUtenFeilkode: error.detail,
+                feilkode: feilkode(error.headers),
             };
         });
 };
@@ -62,11 +63,17 @@ const håndterFeil = (res: Response, headers: Headers): Promise<RessursFeilet> =
         return {
             status: RessursStatus.FEILET,
             frontendFeilmelding: feilmeldingMedCallId(res.detail, headers),
-            melding: res.detail,
+            frontendFeilmeldingUtenFeilkode: res.detail,
+            feilkode: feilkode(headers),
         };
     });
 
 const feilmeldingMedCallId = (feilmelding: string, headers?: Headers): string => {
-    const callId = headers?.get('Nav-Call-id');
+    const callId = feilkode(headers);
     return `${feilmelding}. Feilkode: ${callId}`;
+};
+
+const feilkode = (headers?: Headers): string | undefined => {
+    const callId = headers?.get('Nav-Call-id');
+    return callId || undefined;
 };

@@ -5,20 +5,20 @@ import styled from 'styled-components';
 import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
+import { InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
-    AvslagLæremidler,
-    InnvilgelseLæremidler,
-    OpphørLæremidler,
+    vedtakErInnvilgelse,
+    vedtakErAvslag,
+    vedtakErOpphør,
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
+import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
-import OpphørVedtak from '../Læremidler/OpphørVedtak';
-import { InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -51,17 +51,19 @@ const VedtakOgBeregningLæremidler: FC = () => {
                                 />
                             }
                             {typeVedtak === TypeVedtak.AVSLAG && (
-                                <AvslåVedtak vedtak={vedtak as AvslagLæremidler} />
+                                <AvslåVedtak vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined} />
                             )}
                             {typeVedtak === TypeVedtak.OPPHØR && (
-                                <OpphørVedtak vedtak={vedtak as OpphørLæremidler} />
+                                <OpphørVedtak
+                                    vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                />
                             )}
                         </HGrid>
                     </Panel>
 
                     {typeVedtak === TypeVedtak.INNVILGELSE && (
                         <InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling
-                            lagretVedtak={vedtak as InnvilgelseLæremidler}
+                            lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                         />
                     )}
                 </Container>

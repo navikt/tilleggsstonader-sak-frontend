@@ -3,34 +3,33 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
+import { Button, Heading, Label, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { Periode } from '../../../../../utils/periode';
-import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
+import { VedtaksperiodeTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
+import { tomVedtaksperiode } from '../VedtakBarnetilsynUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(5, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(3n) {
+    > :nth-child(5n) {
         grid-column: 1;
     }
 `;
 
 interface Props {
-    vedtaksperioder: Vedtaksperiode[];
-    settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
-    vedtaksperioderFeil?: FormErrors<Periode>[];
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    settVedtaksperioder: React.Dispatch<React.SetStateAction<VedtaksperiodeTilsynBarn[]>>;
+    vedtaksperioderFeil?: FormErrors<VedtaksperiodeTilsynBarn>[];
     settVedtaksperioderFeil: React.Dispatch<
-        React.SetStateAction<FormErrors<Periode>[] | undefined>
+        React.SetStateAction<FormErrors<VedtaksperiodeTilsynBarn>[] | undefined>
     >;
 }
 
@@ -47,7 +46,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
         value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {
@@ -56,7 +55,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
             return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
         });
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<VedtaksperiodeTilsynBarn>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
@@ -74,7 +73,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
         const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
         settVedtaksperioder(oppdatertePerioder);
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<VedtaksperiodeTilsynBarn>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
@@ -87,12 +86,13 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <Heading spacing size="xsmall" level="5">
                     Vedtaksperiode
                 </Heading>
-                <VedtaksperiodeReadMore />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
                 <Grid>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
+                    <Label size="small">Aktivitet</Label>
+                    <Label size="small">Målgruppe</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -122,15 +122,3 @@ export const Vedtaksperioder: React.FC<Props> = ({
         </VStack>
     );
 };
-
-const VedtaksperiodeReadMore = () => (
-    <ReadMore header="Slik setter du vedtaksperioden" size="small">
-        <BodyLong size={'small'}>
-            Vedtaksperioden kan maks være 11 måneder per år. Hvis søker har utdanning som feks går
-            fra januar - desember og skal ha vedtaksperiode på 10 måneder, må det settes to
-            vedtaksperioder, en fra 1. januar - 30. juni og en fra 1. august - 31. desember som
-            tilsammen blir 10 måneder. Hvis vedtaksperioden går over årsskiftet, f.eks. fra 1.
-            august - 31. mai, trenger du ikke dele dette opp i to perioder.
-        </BodyLong>
-    </ReadMore>
-);

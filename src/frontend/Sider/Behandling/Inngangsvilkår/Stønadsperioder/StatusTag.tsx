@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 import { Tag } from '@navikt/ds-react';
 
-import { StønadsperiodeStatus } from '../typer/stønadsperiode';
+import { PeriodeStatus } from '../../../../typer/behandling/periodeStatus';
 
 const StyledTag = styled(Tag)`
     max-width: fit-content;
     min-height: 20px;
 `;
 
-export const StatusTag: React.FC<{ status?: StønadsperiodeStatus }> = ({ status }) => {
-    if (status === StønadsperiodeStatus.ENDRET) {
+export const StatusTag: React.FC<{ status?: PeriodeStatus }> = ({ status }) => {
+    if (status === PeriodeStatus.ENDRET) {
         return (
             <StyledTag size="small" variant="warning">
                 Endret
@@ -20,7 +20,7 @@ export const StatusTag: React.FC<{ status?: StønadsperiodeStatus }> = ({ status
         );
     }
 
-    if (status === StønadsperiodeStatus.NY) {
+    if (status === PeriodeStatus.NY) {
         return (
             <StyledTag size="small" variant="success">
                 Ny

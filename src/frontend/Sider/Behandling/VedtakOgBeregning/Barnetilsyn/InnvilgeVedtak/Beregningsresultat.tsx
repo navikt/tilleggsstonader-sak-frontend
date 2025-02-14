@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { BodyShort, Label, List, VStack } from '@navikt/ds-react';
@@ -11,6 +12,7 @@ import {
     Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { Toggle } from '../../../../../utils/toggles';
 import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
@@ -46,35 +48,41 @@ const formaterVedtaksperiode = (vedtaksperiode: Vedtaksperiode): string => {
     return `${periode} (${målgruppe}, ${aktivitet}, ${vedtaksperiode.antallBarn} barn)`;
 };
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
-    <VStack gap={'8'}>
-        <Vedtaksliste title={'Vedtaksperioder'}>
-            {beregningsresultat.vedtaksperioder.map((vedtaksperiode) => (
-                <List.Item key={vedtaksperiode.fom}>
-                    {formaterVedtaksperiode(vedtaksperiode)}
-                </List.Item>
-            ))}
-        </Vedtaksliste>
+const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
 
-        <Container>
-            <Grid>
-                <Label>Periode</Label>
-                <Label>Barn</Label>
-                <Label>Månedlige utgifter</Label>
-                <Label>Dagsats</Label>
-                <Label>Stønadsbeløp</Label>
-                {beregningsresultat.perioder.map((periode, indeks) => (
-                    <React.Fragment key={indeks}>
-                        <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
-                        <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
-                        <BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>
-                        <BodyShort size="small">{periode.dagsats}</BodyShort>
-                        <BodyShort size="small">{periode.månedsbeløp}</BodyShort>
-                    </React.Fragment>
-                ))}
-            </Grid>
-        </Container>
-    </VStack>
-);
+    return (
+        <VStack gap={'8'}>
+            {!skalSeInnvilgelseBarnetilsynV2 && (
+                <Vedtaksliste title={'Vedtaksperioder'}>
+                    {beregningsresultat.vedtaksperioder.map((vedtaksperiode) => (
+                        <List.Item key={vedtaksperiode.fom}>
+                            {formaterVedtaksperiode(vedtaksperiode)}
+                        </List.Item>
+                    ))}
+                </Vedtaksliste>
+            )}
+
+            <Container>
+                <Grid>
+                    <Label>Periode</Label>
+                    <Label>Barn</Label>
+                    <Label>Månedlige utgifter</Label>
+                    <Label>Dagsats</Label>
+                    <Label>Stønadsbeløp</Label>
+                    {beregningsresultat.perioder.map((periode, indeks) => (
+                        <React.Fragment key={indeks}>
+                            <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
+                            <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
+                            <BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>
+                            <BodyShort size="small">{periode.dagsats}</BodyShort>
+                            <BodyShort size="small">{periode.månedsbeløp}</BodyShort>
+                        </React.Fragment>
+                    ))}
+                </Grid>
+            </Container>
+        </VStack>
+    );
+};
 
 export default Beregningsresultat;

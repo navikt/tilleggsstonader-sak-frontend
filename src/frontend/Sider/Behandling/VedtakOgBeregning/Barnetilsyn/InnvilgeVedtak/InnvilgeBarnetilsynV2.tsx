@@ -1,57 +1,73 @@
 import React, { useEffect, useState } from 'react';
 
-import { ErrorMessage, VStack } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
 
-import { Beregningsresultat } from './Beregningsresultat';
+import Beregningsresultat from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
-import { useStønadsperioder } from '../../../../../hooks/useStønadsperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
-import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
-    BeregningsresultatLæremidler,
-    InnvilgelseLæremidler,
-    InnvilgelseLæremidlerRequest,
-    Vedtaksperiode,
-} from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode, validerPeriode } from '../../../../../utils/periode';
+    BeregningsresultatTilsynBarn,
+    InnvilgeBarnetilsynRequestV2,
+    InnvilgelseBarnetilsyn,
+    validerVedtaksperioder,
+    VedtaksperiodeTilsynBarn,
+    vedtaksperiodeTilVedtakperiodeTilsynBarn,
+} from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
-import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
-import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
+import { lenkerBeregningTilsynBarn } from '../../../lenker';
+import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
-export const validerVedtaksperioder = (vedtaksperioder: Vedtaksperiode[]) =>
-    vedtaksperioder.map((periode) => validerPeriode(periode) as FormErrors<Periode>);
-export const InnvilgeLæremidler: React.FC<{
-    lagretVedtak: InnvilgelseLæremidler | undefined;
-    vedtaksperioderForrigeBehandling: Vedtaksperiode[] | undefined;
-}> = ({ lagretVedtak, vedtaksperioderForrigeBehandling }) => {
+interface Props {
+    lagretVedtak?: InnvilgelseBarnetilsyn;
+    vedtaksperioderForrigeBehandling?: VedtaksperiodeTilsynBarn[];
+}
+
+export const HeadingBeregning: React.FC = () => {
+    return (
+        <HStack gap="4" align={'end'}>
+            {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
+                <BodyShort key={indeks} size={'small'}>
+                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
+                        {lenke.tekst}
+                    </Link>
+                </BodyShort>
+            ))}
+        </HStack>
+    );
+};
+
+export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
+    lagretVedtak,
+    vedtaksperioderForrigeBehandling,
+}) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
-    const { stønadsperioder } = useStønadsperioder(behandling.id);
-
-    const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
         initialiserVedtaksperioder(
-            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
+            vedtaksperiodeTilVedtakperiodeTilsynBarn(
+                lagretVedtak?.beregningsresultat?.vedtaksperioder
+            ) || vedtaksperioderForrigeBehandling
         )
     );
-    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
+        useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningsresultatLæremidler>());
-
-    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Periode>[]>();
+        useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
@@ -59,36 +75,38 @@ export const InnvilgeLæremidler: React.FC<{
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgelseLæremidlerRequest>(
-                `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
+            return request<null, InnvilgeBarnetilsynRequestV2>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
                 'POST',
-                { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperioder }
+                { vedtaksperioder: vedtaksperioder }
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
             return Promise.reject();
         }
     };
-
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            vedtaksperioderForrigeBehandling,
+            behandling.revurderFra
+        );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
     };
 
-    const beregnLæremidler = () => {
+    const beregnBarnetilsyn = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
 
         const kanSendeInn = validerForm();
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-
-            request<BeregningsresultatLæremidler, Periode[]>(
-                `/api/sak/vedtak/laremidler/${behandling.id}/beregn`,
+            request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequestV2>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
                 'POST',
-                vedtaksperioder
+                { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
@@ -100,22 +118,14 @@ export const InnvilgeLæremidler: React.FC<{
 
     return (
         <>
-            <Panel tittel="Beregning og vedtaksperiode">
-                <DataViewer response={{ stønadsperioder }}>
-                    {({ stønadsperioder }) => (
-                        <StønadsperiodeListe
-                            stønadsperioder={stønadsperioder}
-                            tittel="Periode hvor bruker er i aktivitet og målgruppe"
-                        />
-                    )}
-                </DataViewer>
+            <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
                 />
-                {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}
+                {erStegRedigerbart && <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>}
                 <VStack gap="8">
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>

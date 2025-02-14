@@ -1,5 +1,6 @@
 import { AktivitetType } from './vilkårperiode/aktivitet';
 import { MålgruppeType } from './vilkårperiode/målgruppe';
+import { PeriodeStatus } from '../../../../typer/behandling/periodeStatus';
 import { Periode } from '../../../../utils/periode';
 
 /**
@@ -11,11 +12,5 @@ export interface Stønadsperiode extends Periode {
     id?: string;
     målgruppe: MålgruppeType | '';
     aktivitet: AktivitetType | '';
-    status?: StønadsperiodeStatus;
-}
-
-export enum StønadsperiodeStatus {
-    UENDRET = 'UENDRET',
-    ENDRET = 'ENDRET',
-    NY = 'NY',
+    status?: PeriodeStatus;
 }

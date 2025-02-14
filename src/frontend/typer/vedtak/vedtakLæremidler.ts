@@ -1,17 +1,28 @@
-import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from './vedtak';
+import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { Periode } from '../../utils/periode';
+import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
+export const vedtakErInnvilgelse = (vedtak: VedtakLæremidler): vedtak is InnvilgelseLæremidler =>
+    vedtak.type === TypeVedtak.INNVILGELSE;
+
+export const vedtakErAvslag = (vedtak: VedtakLæremidler): vedtak is AvslagLæremidler =>
+    vedtak.type === TypeVedtak.AVSLAG;
+
+export const vedtakErOpphør = (vedtak: VedtakLæremidler): vedtak is OpphørLæremidler =>
+    vedtak.type === TypeVedtak.OPPHØR;
+
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Periode[];
+    vedtaksperioder: Vedtaksperiode[];
 };
 
 export interface InnvilgelseLæremidler {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Periode[];
+    vedtaksperioder: Vedtaksperiode[];
     beregningsresultat: BeregningsresultatLæremidler;
     gjelderFraOgMed: string;
     gjelderTilOgMed: string;
@@ -41,10 +52,9 @@ export type AvslåLæremidlerRequest = {
 
 export type AvslagLæremidler = AvslåLæremidlerRequest;
 
-export type OpphørLæremidlerRequest = {
-    type: TypeVedtak.OPPHØR;
-    årsakerOpphør: ÅrsakOpphør[];
-    begrunnelse: string;
-};
+export type OpphørLæremidler = OpphørRequest;
 
-export type OpphørLæremidler = OpphørLæremidlerRequest;
+export interface Vedtaksperiode extends Periode {
+    id: string;
+    status?: PeriodeStatus;
+}

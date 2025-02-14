@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -16,6 +17,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
+import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
@@ -37,6 +39,8 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
 };
 
 const Inngangsvilkår = () => {
+    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
+
     const { behandling } = useBehandling();
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
@@ -65,7 +69,8 @@ const Inngangsvilkår = () => {
                         <VStack gap="8">
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                            <Stønadsperioder />
+                            {(behandling.stønadstype !== Stønadstype.BARNETILSYN ||
+                                !skalSeInnvilgelseBarnetilsynV2) && <Stønadsperioder />}
                         </VStack>
                     </InngangsvilkårProvider>
                 )}

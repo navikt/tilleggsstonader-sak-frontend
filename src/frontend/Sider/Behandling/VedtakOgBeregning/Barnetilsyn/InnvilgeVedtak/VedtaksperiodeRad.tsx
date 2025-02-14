@@ -7,16 +7,27 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
+import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode } from '../../../../../utils/periode';
+import { VedtaksperiodeTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
+import {
+    aktivitetTypeTilTekst,
+    valgbareAktivitetTyperForStønadsperiode,
+} from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
+import {
+    målgruppeTypeOptionsForStønadsperiode,
+    målgruppeTypeTilTekst,
+} from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 interface Props {
-    vedtaksperiode: Vedtaksperiode;
+    vedtaksperiode: VedtaksperiodeTilsynBarn;
     erLesevisning: boolean;
-    vedtaksperiodeFeil: FormErrors<Periode> | undefined;
-    oppdaterPeriode: (property: 'fom' | 'tom', value: string | undefined) => void;
+    vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> | undefined;
+    oppdaterPeriode: (
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        value: string | undefined
+    ) => void;
     slettPeriode: () => void;
     erNyRad: boolean;
 }
@@ -39,6 +50,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
 
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
+    const valgbareAktiviteter = valgbareAktivitetTyperForStønadsperiode(behandling.stønadstype);
     return (
         <>
             <DateInputMedLeservisning
@@ -60,6 +72,36 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 onChange={(dato?: string) => oppdaterPeriode('tom', dato)}
                 feil={vedtaksperiodeFeil?.tom}
                 size="small"
+            />
+            <SelectMedOptions
+                label={'Aktivitet'}
+                hideLabel
+                erLesevisning={erLesevisning}
+                readOnly={!alleFelterKanEndres}
+                value={
+                    erLesevisning
+                        ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
+                        : vedtaksperiode.aktivitetType
+                }
+                onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
+                valg={valgbareAktiviteter}
+                size={'small'}
+                error={vedtaksperiodeFeil?.aktivitetType}
+            />
+            <SelectMedOptions
+                label={'Målgruppe'}
+                hideLabel
+                erLesevisning={erLesevisning}
+                readOnly={!alleFelterKanEndres}
+                value={
+                    erLesevisning
+                        ? målgruppeTypeTilTekst(vedtaksperiode.målgruppeType ?? '')
+                        : vedtaksperiode.målgruppeType
+                }
+                onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
+                valg={målgruppeTypeOptionsForStønadsperiode}
+                size={'small'}
+                error={vedtaksperiodeFeil?.målgruppeType}
             />
             <div>
                 {erLesevisning
