@@ -22,13 +22,13 @@ import {
     InnvilgelseLæremidlerRequest,
     Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
+import { validerVedtaksperioder } from './validering';
+import { useMapById } from '../../../../../hooks/useMapById';
 
-export const validerVedtaksperioder = (vedtaksperioder: Vedtaksperiode[]) =>
-    vedtaksperioder.map((periode) => validerPeriode(periode) as FormErrors<Periode>);
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
     vedtaksperioderForrigeBehandling: Vedtaksperiode[] | undefined;
@@ -43,6 +43,9 @@ export const InnvilgeLæremidler: React.FC<{
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
+    );
+    const lagredeVedtaksperioder = useMapById(
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
@@ -71,7 +74,11 @@ export const InnvilgeLæremidler: React.FC<{
     };
 
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            lagredeVedtaksperioder,
+            behandling.revurderFra
+        );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
@@ -111,6 +118,7 @@ export const InnvilgeLæremidler: React.FC<{
                 </DataViewer>
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
+                    lagredeVedtaksperioder={lagredeVedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
