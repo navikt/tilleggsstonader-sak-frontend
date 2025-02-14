@@ -30,7 +30,7 @@ export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingI
 
     const hentVilkårsvurdering = useCallback(() => {
         settVilkårsvurdering(byggHenterRessurs());
-        return request<Vilkårsvurdering, void>(`/api/sak/vilkar/${behandlingId}`).then(
+        return request<Vilkårsvurdering, null>(`/api/sak/vilkar/${behandlingId}`).then(
             settVilkårsvurdering
         );
     }, [request, behandlingId]);
