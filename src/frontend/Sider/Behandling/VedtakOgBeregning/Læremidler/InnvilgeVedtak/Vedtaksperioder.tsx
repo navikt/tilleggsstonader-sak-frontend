@@ -27,6 +27,7 @@ const Grid = styled.div`
 
 interface Props {
     vedtaksperioder: Vedtaksperiode[];
+    lagredeVedtaksperioder: Map<string, Vedtaksperiode>;
     settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
     vedtaksperioderFeil?: FormErrors<Periode>[];
     settVedtaksperioderFeil: React.Dispatch<
@@ -36,6 +37,7 @@ interface Props {
 
 export const Vedtaksperioder: React.FC<Props> = ({
     vedtaksperioder,
+    lagredeVedtaksperioder,
     settVedtaksperioder,
     vedtaksperioderFeil,
     settVedtaksperioderFeil,
@@ -97,6 +99,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
                             vedtaksperiode={vedtaksperiode}
+                            lagretVedtaksperiode={lagredeVedtaksperioder.get(vedtaksperiode.id)}
                             erLesevisning={!erStegRedigerbart}
                             oppdaterPeriode={(property, value) => {
                                 oppdaterPeriodeFelt(indeks, property, value);
