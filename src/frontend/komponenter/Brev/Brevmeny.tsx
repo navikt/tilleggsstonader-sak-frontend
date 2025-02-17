@@ -1,4 +1,4 @@
-import React, { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
 
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
@@ -53,6 +53,20 @@ const FlexColumn = styled.div`
     gap: 1rem;
 `;
 
+const initialiserInkluderteDelmaler = (
+    mal: MalStruktur,
+    mellomlagredeInkluderteDelmaler: Record<string, boolean> | undefined
+) =>
+    mal.delmaler.reduce((acc, current) => {
+        const delmalErMedIMellomlager = !!(
+            mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
+        );
+        return {
+            ...acc,
+            [current._id]: current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
+        };
+    }, {});
+
 const Brevmeny: React.FC<Props> = ({
     mal,
     behandling,
@@ -80,28 +94,13 @@ const Brevmeny: React.FC<Props> = ({
         return { ...mellomlagredeVariabler, ...variabelStore };
     });
 
-    const initialiserInkluderteDelmaler = useCallback(
-        () =>
-            mal.delmaler.reduce((acc, current) => {
-                const delmalErMedIMellomlager = !!(
-                    mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
-                );
-                return {
-                    ...acc,
-                    [current._id]:
-                        current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
-                };
-            }, {}),
-        [mal, mellomlagredeInkluderteDelmaler]
-    );
-
     const [inkluderteDelmaler, settInkluderteDelmaler] = useState<Record<string, boolean>>(
-        initialiserInkluderteDelmaler()
+        initialiserInkluderteDelmaler(mal, mellomlagredeInkluderteDelmaler)
     );
 
     useEffect(() => {
-        settInkluderteDelmaler(initialiserInkluderteDelmaler());
-    }, [initialiserInkluderteDelmaler, mal]);
+        settInkluderteDelmaler(initialiserInkluderteDelmaler(mal, mellomlagredeInkluderteDelmaler));
+    }, [mal, mellomlagredeInkluderteDelmaler]);
 
     const [fritekst, settFritekst] = useState<
         Partial<Record<string, Record<string, FritekstAvsnitt[] | undefined>>>
