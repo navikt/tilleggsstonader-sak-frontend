@@ -22,6 +22,7 @@ import {
 
 interface Props {
     vedtaksperiode: VedtaksperiodeTilsynBarn;
+    lagretVedtaksperiode: VedtaksperiodeTilsynBarn | undefined;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> | undefined;
     oppdaterPeriode: (
@@ -34,6 +35,7 @@ interface Props {
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
     vedtaksperiode,
+    lagretVedtaksperiode,
     erLesevisning,
     vedtaksperiodeFeil,
     oppdaterPeriode,
@@ -43,8 +45,8 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
         useRevurderingAvPerioder({
-            periodeFom: vedtaksperiode.fom,
-            periodeTom: vedtaksperiode.tom,
+            periodeFom: lagretVedtaksperiode?.fom,
+            periodeTom: lagretVedtaksperiode?.tom,
             nyRadLeggesTil: erNyRad,
         });
 

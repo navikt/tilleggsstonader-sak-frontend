@@ -25,6 +25,7 @@ import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 import { BehandlingInfo } from './BehandlingInfo';
+import { useMapById } from '../../../../../hooks/useMapById';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
@@ -58,6 +59,11 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
     );
+
+    const lagredeVedtaksperioder = useMapById(
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
+    );
+
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
         useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
@@ -87,7 +93,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     const validerForm = (): boolean => {
         const vedtaksperiodeFeil = validerVedtaksperioder(
             vedtaksperioder,
-            vedtaksperioderForrigeBehandling,
+            lagredeVedtaksperioder,
             behandling.revurderFra
         );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
@@ -122,6 +128,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                 <BehandlingInfo behandlingId={behandling.id} />
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
+                    lagredeVedtaksperioder={lagredeVedtaksperioder}
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
