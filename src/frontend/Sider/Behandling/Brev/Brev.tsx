@@ -12,6 +12,7 @@ import { VedtakFerdigstiltModal } from './VedtakFerdigstiltModal';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
+import { useTotrinnskontroll } from '../../../context/TotrinnskontrollContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
@@ -23,6 +24,7 @@ import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
+import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
 
 const Container = styled.div`
     padding: 2rem;
@@ -59,6 +61,8 @@ const Brev: React.FC = () => {
 
     const { vedtak } = useVedtak();
 
+    const { totrinnskontroll } = useTotrinnskontroll();
+
     useEffect(() => {
         const brevmalFraMellomlagerErGyldigForResultat =
             mellomlagretBrev.status === RessursStatus.SUKSESS &&
@@ -81,6 +85,10 @@ const Brev: React.FC = () => {
             hentMalStruktur();
         }
     }, [behandlingErRedigerbar, hentMalStruktur]);
+
+    const kanSendeKommentarTilBeslutter =
+        totrinnskontroll.status === RessursStatus.SUKSESS &&
+        totrinnskontroll.data?.status === TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT;
 
     return (
         <Container>
@@ -114,6 +122,8 @@ const Brev: React.FC = () => {
                                                     tittel: 'Send til beslutter',
                                                     onClick: sendTilBeslutter,
                                                     visKnapp: true,
+                                                    kanSendeKommentarTilBeslutter:
+                                                        kanSendeKommentarTilBeslutter,
                                                 }}
                                             />
                                         )}

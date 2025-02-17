@@ -24,6 +24,7 @@ type Props = {
         tittel: string;
         onClick: (kommentarTilBeslutter: string | undefined) => Promise<void>;
         visKnapp: boolean;
+        kanSendeKommentarTilBeslutter?: boolean;
     };
 } & (
     | { behandling: Behandling; vedtak?: VedtakResponse; fagsakId?: never }
@@ -196,6 +197,7 @@ const Brevmeny: React.FC<Props> = ({
                     inkluderteDelmaler={inkluderteDelmaler}
                     valgfelt={valgfelt}
                     variabler={variabler}
+                    kanSendeKommentarTilBeslutter={brevknapp.kanSendeKommentarTilBeslutter}
                 />
             )}
         </FlexColumn>
