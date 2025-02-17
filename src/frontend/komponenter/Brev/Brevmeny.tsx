@@ -177,7 +177,7 @@ const Brevmeny: React.FC<Props> = ({
                             settVariabler={settVariabler}
                             fritekst={fritekst[delmal._id] || {}}
                             settFritekst={oppdaterStateForId(delmal._id, fritekst, settFritekst)}
-                            inkluderIBrev={inkluderteDelmaler[delmal._id]}
+                            inkluderIBrev={inkluderteDelmaler[delmal._id] || false}
                             settInkluderIBrev={(inkluderIBrev) => {
                                 settInkluderteDelmaler((prevState) => ({
                                     ...prevState,
