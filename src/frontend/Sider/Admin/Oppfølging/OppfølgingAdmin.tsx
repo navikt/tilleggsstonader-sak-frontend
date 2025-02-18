@@ -42,7 +42,7 @@ export const OppølgingAdmin = () => {
 
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<Oppfølging[]>(oppfølgingerInit);
-    const [oppføgingForKontroll, settOppføgingForKontroll] = useState<Oppfølging>();
+    const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
 
     const oppdaterOppfølging = (oppfølging: Oppfølging) => {
         settOppfølginger((prevState) =>
@@ -101,30 +101,12 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                 </VStack>
                             </Table.DataCell>
                             <Table.DataCell>
-                                {oppfølging.kontrollert && (
-                                    <OppfølgingKontrollertDetaljer
-                                        kontrollert={oppfølging.kontrollert}
-                                    />
-                                )}
-                                {!oppfølging.kontrollert &&
-                                    oppføgingForKontroll?.id === oppfølging.id && (
-                                        <KontrollerOppfølgning
-                                            oppfølging={oppfølging}
-                                            avbryt={() => settOppføgingForKontroll(undefined)}
-                                            oppdaterOppfølging={oppdaterOppfølging}
-                                        />
-                                    )}
-                                {!oppfølging.kontrollert && !oppføgingForKontroll && (
-                                    <WidthMaxContent>
-                                        <Button
-                                            onClick={() => settOppføgingForKontroll(oppfølging)}
-                                            size={'small'}
-                                            variant={'secondary'}
-                                        >
-                                            Kontroller
-                                        </Button>
-                                    </WidthMaxContent>
-                                )}
+                                <HåndterKontroll
+                                    oppfølging={oppfølging}
+                                    oppfølgingForKontroll={oppfølgingForKontroll}
+                                    settOppfølgingForKontroll={settOppfølgingForKontroll}
+                                    oppdaterOppfølging={oppdaterOppfølging}
+                                />
                             </Table.DataCell>
                         </Table.ExpandableRow>
                     ))}
@@ -132,4 +114,43 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
             </Table>
         </Container>
     );
+};
+
+const HåndterKontroll = ({
+    oppfølging,
+    oppfølgingForKontroll,
+    settOppfølgingForKontroll,
+    oppdaterOppfølging,
+}: {
+    oppfølging: Oppfølging;
+    oppfølgingForKontroll: Oppfølging | undefined;
+    settOppfølgingForKontroll: (oppfølging: Oppfølging | undefined) => void;
+    oppdaterOppfølging: (oppfølging: Oppfølging) => void;
+}) => {
+    if (oppfølging.kontrollert) {
+        return <OppfølgingKontrollertDetaljer kontrollert={oppfølging.kontrollert} />;
+    }
+    if (oppfølgingForKontroll?.id === oppfølging.id) {
+        return (
+            <KontrollerOppfølgning
+                oppfølging={oppfølging}
+                avbryt={() => settOppfølgingForKontroll(undefined)}
+                oppdaterOppfølging={oppdaterOppfølging}
+            />
+        );
+    }
+    if (!oppfølgingForKontroll) {
+        return (
+            <WidthMaxContent>
+                <Button
+                    onClick={() => settOppfølgingForKontroll(oppfølging)}
+                    size={'small'}
+                    variant={'secondary'}
+                >
+                    Kontroller
+                </Button>
+            </WidthMaxContent>
+        );
+    }
+    return null;
 };
