@@ -1,4 +1,6 @@
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { AktivitetType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { MålgruppeType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export interface Oppfølging {
     id: string;
@@ -22,8 +24,8 @@ export interface Oppfølging {
 interface PeriodeTilKontroll {
     fom: string;
     tom: string;
-    målgruppe: string;
-    aktivitet: string;
+    målgruppe: MålgruppeType;
+    aktivitet: AktivitetType;
     endringAktivitet: Kontroll[];
     endringMålgruppe: Kontroll[];
 }

@@ -51,14 +51,18 @@ export const KontrollerOppfølgning = ({
     };
 
     return (
-        <VStack>
-            <RadioGroup legend="Ufall" onChange={settUtfall}>
+        <VStack gap={'2'}>
+            <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall}>
                 <Radio value="OK">Ok</Radio>
                 <Radio value="IKKE_OK">Ikke ok</Radio>
             </RadioGroup>
-            <Textarea label={'Kommentar'} onChange={(e) => settKommentar(e.target.value)} />
+            <Textarea
+                label={'Kommentar'}
+                size={'small'}
+                onChange={(e) => settKommentar(e.target.value)}
+            />
             <Feilmelding>{feilmelding}</Feilmelding>
-            <HStack>
+            <HStack gap={'4'}>
                 <Button variant="tertiary" onClick={avbryt} loading={lagrer} size="small">
                     Avbryt
                 </Button>
