@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import { Behandling } from '../../../../typer/behandling/behandling';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
 
-export function StønadstypeTag({ behandling }: { behandling: Behandling }) {
+export function StønadstypeTag({ stønadstype }: { stønadstype: Stønadstype }) {
     return (
         <Tag size="small" variant="neutral">
-            {formaterEnumVerdi(behandling.stønadstype)}
+            {formaterEnumVerdi(stønadstype)}
         </Tag>
     );
 }

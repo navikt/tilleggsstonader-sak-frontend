@@ -14,7 +14,7 @@ const OppsummeringSøknad: React.FC = () => {
     return (
         <VStack gap="8">
             <HStack gap="4">
-                <StønadstypeTag behandling={behandling} />
+                <StønadstypeTag stønadstype={behandling.stønadstype} />
                 <RevurderingTag behandling={behandling} />
             </HStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (

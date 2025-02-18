@@ -3,17 +3,27 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, Table } from '@navikt/ds-react';
+import { BodyLong, Button, Table, VStack } from '@navikt/ds-react';
 
 import { OppfølgingModal } from './OppfølgingModal';
-import { Oppfølging } from './oppfølgingTyper';
+import { Oppfølging, oppfølgingUtfallTilTekst } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../utils/dato';
+import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
 
 const Container = styled.div`
     margin: 1rem;
     width: 60rem;
+`;
+
+const Kommentar = styled(BodyLong)`
+    white-space: pre-wrap;
+`;
+
+const WidthMaxContent = styled.div`
+    width: max-content;
 `;
 
 export const OppølgingAdmin = () => {
@@ -37,7 +47,7 @@ export const OppfølgingTabell = ({ oppfølginger }: { oppfølginger: Oppfølgin
 
     return (
         <Container>
-            <Table>
+            <Table size={'medium'}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope={'col'}>Behandling</Table.HeaderCell>
@@ -48,19 +58,42 @@ export const OppfølgingTabell = ({ oppfølginger }: { oppfølginger: Oppfølgin
                     {oppfølginger.map((oppfølging) => (
                         <Table.Row key={oppfølging.id}>
                             <Table.DataCell>
-                                <Link
-                                    to={{
-                                        pathname: `/behandling/${oppfølging.behandlingId}`,
-                                    }}
-                                    target="_blank"
-                                >
-                                    Gå til behandling
-                                </Link>
+                                <VStack>
+                                    <WidthMaxContent>
+                                        <StønadstypeTag stønadstype={oppfølging.data.stønadstype} />
+                                    </WidthMaxContent>
+
+                                    <span>
+                                        Vedtakstidspunkt:{' '}
+                                        {formaterIsoDato(oppfølging.data.vedtakstidspunkt)}
+                                    </span>
+                                    {oppfølging.harNyereBehandling && (
+                                        <span>Har nyere behandling</span>
+                                    )}
+                                    <Link
+                                        to={{
+                                            pathname: `/behandling/${oppfølging.behandlingId}`,
+                                        }}
+                                        target="_blank"
+                                    >
+                                        Gå til behandling
+                                    </Link>
+                                </VStack>
                             </Table.DataCell>
                             <Table.DataCell>
-                                <Button onClick={() => settOppføgingForKontroll(oppfølging)}>
-                                    Kontroller
-                                </Button>
+                                {oppfølging.kontrollert ? (
+                                    <OppfølgingKontrollert kontrollert={oppfølging.kontrollert} />
+                                ) : (
+                                    <WidthMaxContent>
+                                        <Button
+                                            onClick={() => settOppføgingForKontroll(oppfølging)}
+                                            size={'small'}
+                                            variant={'secondary'}
+                                        >
+                                            Kontroller
+                                        </Button>
+                                    </WidthMaxContent>
+                                )}
                             </Table.DataCell>
                         </Table.Row>
                     ))}
@@ -73,5 +106,22 @@ export const OppfølgingTabell = ({ oppfølginger }: { oppfølginger: Oppfølgin
                 />
             )}
         </Container>
+    );
+};
+
+export const OppfølgingKontrollert = ({
+    kontrollert,
+}: {
+    kontrollert: NonNullable<Oppfølging['kontrollert']>;
+}) => {
+    return (
+        <VStack>
+            <span>
+                Kontrollert: {formaterIsoDatoTid(kontrollert.tidspunkt)} av{' '}
+                {kontrollert.saksbehandler}
+            </span>
+            <span>Utfall: {oppfølgingUtfallTilTekst[kontrollert.utfall]}</span>
+            <Kommentar>Kommentar: {oppfølgingUtfallTilTekst[kontrollert.utfall]}</Kommentar>
+        </VStack>
     );
 };
