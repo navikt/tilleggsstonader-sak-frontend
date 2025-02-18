@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { FormErrors } from '../../hooks/felles/useFormState';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
@@ -30,6 +28,7 @@ export type InnvilgeBarnetilsynRequestV2 = {
 export interface InnvilgelseBarnetilsyn {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatTilsynBarn;
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
 }
 
 export type AvslåBarnetilsynRequest = {
@@ -77,22 +76,6 @@ export interface VedtaksperiodeTilsynBarn extends Periode {
     målgruppeType?: MålgruppeType;
     aktivitetType?: AktivitetType;
 }
-
-export const vedtaksperiodeTilVedtakperiodeTilsynBarn = (
-    vedtaksperiode?: Vedtaksperiode[]
-): VedtaksperiodeTilsynBarn[] | undefined => {
-    if (!vedtaksperiode) {
-        return;
-    }
-    return vedtaksperiode.map((periode) => ({
-        id: uuidv4(),
-        status: PeriodeStatus.UENDRET,
-        fom: periode.fom,
-        tom: periode.tom,
-        målgruppeType: periode.målgruppe,
-        aktivitetType: periode.aktivitet,
-    }));
-};
 
 export const validerVedtaksperioder = (
     vedtaksperioder: VedtaksperiodeTilsynBarn[],
