@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { BodyLong, Button, Table, VStack } from '@navikt/ds-react';
+import { BodyLong, Button, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { OppfølgingModal } from './OppfølgingModal';
 import { Oppfølging, oppfølgingUtfallTilTekst } from './oppfølgingTyper';
@@ -56,10 +56,16 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
 
     return (
         <Container>
+            {oppfølginger.length > 0 && (
+                <Heading size={'medium'}>
+                    Kontroll opprettet: {formaterIsoDatoTid(oppfølginger[0].opprettetTidspunkt)}
+                </Heading>
+            )}
             <Table size={'medium'}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell scope={'col'}>Behandling</Table.HeaderCell>
+                        <Table.HeaderCell scope={'col'}>Perioder til oppfølging</Table.HeaderCell>
                         <Table.HeaderCell scope={'col'}>Kontroller</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -68,6 +74,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                         <Table.Row key={oppfølging.id}>
                             <Table.DataCell>
                                 <VStack>
+                                    {/* TODO vise informasjon om hvilke perioder som trenger oppfølging*/}
                                     <WidthMaxContent>
                                         <StønadstypeTag stønadstype={oppfølging.data.stønadstype} />
                                     </WidthMaxContent>
@@ -89,6 +96,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                     </Link>
                                 </VStack>
                             </Table.DataCell>
+                            <Table.DataCell>Perioder</Table.DataCell>
                             <Table.DataCell>
                                 {oppfølging.kontrollert ? (
                                     <OppfølgingKontrollert kontrollert={oppfølging.kontrollert} />
