@@ -19,6 +19,7 @@ import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
 import Toast from './komponenter/Toast';
 import { Sticky } from './komponenter/Visningskomponenter/Sticky';
+import { OppølgingAdmin } from './Sider/Admin/Oppfølging/OppfølgingAdmin';
 import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegangsbehandlingAdmin';
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
@@ -53,6 +54,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                         path={'/admin/opprett-behandling'}
                         element={<OpprettFørstegangsbehandlingAdmin />}
                     />
+                    <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
                 </Route>
             ) : (
                 <Route
@@ -101,6 +103,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
+    const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
     return (
         <>
             <Sticky $zIndex={100}>
@@ -132,6 +135,11 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                                         href="/admin/opprett-behandling"
                                     >
                                         [Admin] Opprett førstegangsbehandling
+                                    </Dropdown.Menu.GroupedList.Item>
+                                )}
+                                {adminKanHenteOppfølging && (
+                                    <Dropdown.Menu.GroupedList.Item as="a" href="/admin/oppfolging">
+                                        [Admin] Oppfølging
                                     </Dropdown.Menu.GroupedList.Item>
                                 )}
                                 <Dropdown.Menu.Divider />
