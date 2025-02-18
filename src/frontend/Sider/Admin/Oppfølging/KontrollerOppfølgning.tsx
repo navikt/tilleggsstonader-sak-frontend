@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
-import { Button, Modal, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Button, HStack, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { Oppfølging, OppfølgingKontrollRequest, OppfølgingUtfall } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
 
-export const OppfølgingModal = ({
+export const KontrollerOppfølgning = ({
     oppfølging,
-    lukkModal,
+    avbryt,
     oppdaterOppfølging,
 }: {
     oppfølging: Oppfølging;
-    lukkModal: () => void;
+    avbryt: () => void;
     oppdaterOppfølging: (oppfølging: Oppfølging) => void;
 }) => {
     const { request } = useApp();
@@ -42,36 +42,30 @@ export const OppfølgingModal = ({
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {
                     oppdaterOppfølging(response.data);
-                    lukkModal();
+                    avbryt();
                 } else {
                     settFeilmelding(response.frontendFeilmelding);
                 }
             })
             .finally(() => settLagrer(false));
     };
+
     return (
-        <Modal
-            open={true}
-            onClose={lukkModal}
-            header={{ heading: 'Kontroller behandling' }}
-            width={'medium'}
-        >
-            <Modal.Body>
-                <RadioGroup legend="Ufall" onChange={settUtfall}>
-                    <Radio value="OK">Ok</Radio>
-                    <Radio value="IKKE_OK">Ikke ok</Radio>
-                </RadioGroup>
-                <Textarea label={'Kommentar'} onChange={(e) => settKommentar(e.target.value)} />
-                <Feilmelding>{feilmelding}</Feilmelding>
-            </Modal.Body>
-            <Modal.Footer>
+        <VStack>
+            <RadioGroup legend="Ufall" onChange={settUtfall}>
+                <Radio value="OK">Ok</Radio>
+                <Radio value="IKKE_OK">Ikke ok</Radio>
+            </RadioGroup>
+            <Textarea label={'Kommentar'} onChange={(e) => settKommentar(e.target.value)} />
+            <Feilmelding>{feilmelding}</Feilmelding>
+            <HStack>
+                <Button variant="tertiary" onClick={avbryt} loading={lagrer} size="small">
+                    Avbryt
+                </Button>
                 <Button variant="primary" onClick={lagre} loading={lagrer} size="small">
                     Lagre
                 </Button>
-                <Button variant="tertiary" onClick={lukkModal} loading={lagrer} size="small">
-                    Avbryt
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            </HStack>
+        </VStack>
     );
 };

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { BodyLong, Button, Heading, Table, VStack } from '@navikt/ds-react';
 
-import { OppfølgingModal } from './OppfølgingModal';
+import { KontrollerOppfølgning } from './KontrollerOppfølgning';
 import { Oppfølging, oppfølgingUtfallTilTekst } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -98,9 +98,18 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                             </Table.DataCell>
                             <Table.DataCell>Perioder</Table.DataCell>
                             <Table.DataCell>
-                                {oppfølging.kontrollert ? (
+                                {oppfølging.kontrollert && (
                                     <OppfølgingKontrollert kontrollert={oppfølging.kontrollert} />
-                                ) : (
+                                )}
+                                {!oppfølging.kontrollert &&
+                                    oppføgingForKontroll?.id === oppfølging.id && (
+                                        <KontrollerOppfølgning
+                                            oppfølging={oppfølging}
+                                            avbryt={() => settOppføgingForKontroll(undefined)}
+                                            oppdaterOppfølging={oppdaterOppfølging}
+                                        />
+                                    )}
+                                {!oppfølging.kontrollert && !oppføgingForKontroll && (
                                     <WidthMaxContent>
                                         <Button
                                             onClick={() => settOppføgingForKontroll(oppfølging)}
@@ -116,13 +125,6 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     ))}
                 </Table.Body>
             </Table>
-            {oppføgingForKontroll && (
-                <OppfølgingModal
-                    oppfølging={oppføgingForKontroll}
-                    lukkModal={() => settOppføgingForKontroll(undefined)}
-                    oppdaterOppfølging={oppdaterOppfølging}
-                />
-            )}
         </Container>
     );
 };
@@ -139,7 +141,7 @@ export const OppfølgingKontrollert = ({
                 {kontrollert.saksbehandler}
             </span>
             <span>Utfall: {oppfølgingUtfallTilTekst[kontrollert.utfall]}</span>
-            <Kommentar>Kommentar: {oppfølgingUtfallTilTekst[kontrollert.utfall]}</Kommentar>
+            <Kommentar>Kommentar: {kontrollert.kommentar}</Kommentar>
         </VStack>
     );
 };
