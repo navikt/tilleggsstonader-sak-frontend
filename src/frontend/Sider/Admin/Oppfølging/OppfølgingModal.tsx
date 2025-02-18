@@ -10,9 +10,11 @@ import { RessursStatus } from '../../../typer/ressurs';
 export const OppfølgingModal = ({
     oppfølging,
     lukkModal,
+    oppdaterOppfølging,
 }: {
     oppfølging: Oppfølging;
     lukkModal: () => void;
+    oppdaterOppfølging: (oppfølging: Oppfølging) => void;
 }) => {
     const { request } = useApp();
     const [kommentar, settKommentar] = useState<string>();
@@ -31,7 +33,7 @@ export const OppfølgingModal = ({
         }
         settLagrer(false);
 
-        request<null, OppfølgingKontrollRequest>(`/api/sak/oppfolging/kontroller`, 'POST', {
+        request<Oppfølging, OppfølgingKontrollRequest>(`/api/sak/oppfolging/kontroller`, 'POST', {
             id: oppfølging.id,
             version: oppfølging.version,
             utfall: utfall,
@@ -39,6 +41,7 @@ export const OppfølgingModal = ({
         })
             .then((response) => {
                 if (response.status === RessursStatus.SUKSESS) {
+                    oppdaterOppfølging(response.data);
                     lukkModal();
                 } else {
                     settFeilmelding(response.frontendFeilmelding);

@@ -37,13 +37,22 @@ export const OppølgingAdmin = () => {
 
     return (
         <DataViewer response={{ oppfølginger }}>
-            {({ oppfølginger }) => <OppfølgingTabell oppfølginger={oppfølginger} />}
+            {({ oppfølginger }) => <OppfølgingTabell oppfølgingerInit={oppfølginger} />}
         </DataViewer>
     );
 };
 
-export const OppfølgingTabell = ({ oppfølginger }: { oppfølginger: Oppfølging[] }) => {
+export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
+    const [oppfølginger, settOppfølginger] = useState<Oppfølging[]>(oppfølgingerInit);
     const [oppføgingForKontroll, settOppføgingForKontroll] = useState<Oppfølging>();
+
+    const oppdaterOppfølging = (oppfølging: Oppfølging) => {
+        settOppfølginger((prevState) =>
+            prevState.map((prevOppfølging) =>
+                prevOppfølging.id === oppfølging.id ? oppfølging : prevOppfølging
+            )
+        );
+    };
 
     return (
         <Container>
@@ -103,6 +112,7 @@ export const OppfølgingTabell = ({ oppfølginger }: { oppfølginger: Oppfølgin
                 <OppfølgingModal
                     oppfølging={oppføgingForKontroll}
                     lukkModal={() => settOppføgingForKontroll(undefined)}
+                    oppdaterOppfølging={oppdaterOppfølging}
                 />
             )}
         </Container>
