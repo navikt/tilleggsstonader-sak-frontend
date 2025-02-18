@@ -18,10 +18,8 @@ export const OppfølgingKontrollertDetaljer = ({
 }) => {
     return (
         <VStack>
-            <span>
-                Kontrollert: {formaterIsoDatoTid(kontrollert.tidspunkt)} av{' '}
-                {kontrollert.saksbehandler}
-            </span>
+            <span>Kontrollert: {formaterIsoDatoTid(kontrollert.tidspunkt)}</span>
+            <span>Kontrollert av: {kontrollert.saksbehandler}</span>
             <span>Utfall: {oppfølgingUtfallTilTekst[kontrollert.utfall]}</span>
             {kontrollert.kommentar && <Kommentar>Kommentar: {kontrollert.kommentar}</Kommentar>}
             {!kontrollert.kommentar && <span>Ingen kommentar</span>}

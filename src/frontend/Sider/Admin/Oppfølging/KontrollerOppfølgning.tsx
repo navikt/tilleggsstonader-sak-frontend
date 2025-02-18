@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 
 import { Button, HStack, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { Oppfølging, OppfølgingKontrollRequest, OppfølgingUtfall } from './oppfølgingTyper';
+import {
+    Oppfølging,
+    OppfølgingKontrollRequest,
+    OppfølgingUtfall,
+    oppfølgingUtfallTilTekst,
+} from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
@@ -53,8 +58,11 @@ export const KontrollerOppfølgning = ({
     return (
         <VStack gap={'2'}>
             <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall}>
-                <Radio value="OK">Ok</Radio>
-                <Radio value="IKKE_OK">Ikke ok</Radio>
+                {[OppfølgingUtfall.OK, OppfølgingUtfall.IKKE_OK].map((utfall) => (
+                    <Radio key={utfall} value={utfall}>
+                        {oppfølgingUtfallTilTekst[utfall]}
+                    </Radio>
+                ))}
             </RadioGroup>
             <Textarea
                 label={'Kommentar'}
