@@ -12,7 +12,7 @@ import { useApp } from '../../../context/AppContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { RessursStatus } from '../../../typer/ressurs';
 
-export const KontrollerOppfølgning = ({
+export const KontrollerOppfølging = ({
     oppfølging,
     avbryt,
     oppdaterOppfølging,

@@ -8,8 +8,6 @@ export interface Oppfølging {
     behandlingId: string;
     opprettetTidspunkt: string;
     data: {
-        stønadstype: Stønadstype;
-        vedtakstidspunkt: string;
         perioderTilKontroll: PeriodeTilKontroll[];
     };
     kontrollert?: {
@@ -18,7 +16,13 @@ export interface Oppfølging {
         utfall: OppfølgingUtfall;
         kommentar?: string;
     };
-    harNyereBehandling: boolean;
+    behandlingsdetaljer: {
+        saksnummer: number;
+        fagsakPersonId: string;
+        stønadstype: Stønadstype;
+        vedtakstidspunkt: string;
+        harNyereBehandling: boolean;
+    };
 }
 
 interface PeriodeTilKontroll {
