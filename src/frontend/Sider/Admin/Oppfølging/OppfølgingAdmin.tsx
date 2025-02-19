@@ -66,6 +66,10 @@ export const OppølgingAdmin = () => {
     );
 };
 
+interface OppfølgingMedDetaljer extends Oppfølging {
+    skalViseWarningTag: boolean;
+}
+
 /**
  * Skal vise warning hvis en kontroll påvirker en periode som endres i neste måned då vi ønsker å unngå tilbakekreving
  */
@@ -78,10 +82,18 @@ const skalViseWarningTag = (oppfølging: Oppfølging) =>
             )
     );
 
+const oppfølgingMedDetaljer = (oppfølging: Oppfølging) => ({
+    ...oppfølging,
+    skalViseWarningTag: skalViseWarningTag(oppfølging),
+});
+
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
-    const [oppfølginger, settOppfølginger] = useState<Oppfølging[]>(oppfølgingerInit);
+    const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
+        oppfølgingerInit.map(oppfølgingMedDetaljer)
+    );
     const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
-    const [visKunManglerKontroll, setVisKunManglerKontroll] = useState(false);
+    const [visKunManglerKontroll, settVisKunManglerKontroll] = useState(false);
+    const [visKunWarningTag, settVisKunWarningTag] = useState(false);
 
     const [ekspanderteRader, settEkspanderteRader] = useState<Record<string, boolean>>(
         oppfølgingerInit
@@ -99,11 +111,16 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         settEkspanderteRader((prevState) => ({ ...prevState, [oppfølging.id]: false }));
         settOppfølginger((prevState) =>
             prevState.map((prevOppfølging) =>
-                prevOppfølging.id === oppfølging.id ? oppfølging : prevOppfølging
+                prevOppfølging.id === oppfølging.id
+                    ? oppfølgingMedDetaljer(oppfølging)
+                    : prevOppfølging
             )
         );
     };
 
+    const filtrerteOppfølginger = oppfølginger
+        .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
+        .filter((oppfølging) => !visKunWarningTag || !oppfølging.skalViseWarningTag);
     return (
         <Container>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
@@ -131,11 +148,21 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     Kontroll opprettet: {formaterIsoDatoTid(oppfølginger[0].opprettetTidspunkt)}
                 </Heading>
             )}
+            <BodyShort>
+                Viser {filtrerteOppfølginger.length} av {oppfølginger.length} oppfølginger
+            </BodyShort>
             <Checkbox
                 value={visKunManglerKontroll}
-                onChange={() => setVisKunManglerKontroll((prevState) => !prevState)}
+                onChange={() => settVisKunManglerKontroll((prevState) => !prevState)}
             >
-                {visKunManglerKontroll ? 'Vis alle' : 'Vis kun de som mangler kontroll'}
+                Vis kun de som mangler kontroll
+            </Checkbox>
+            <Checkbox
+                title={'Viktige'}
+                value={visKunWarningTag}
+                onChange={() => settVisKunWarningTag((prevState) => !prevState)}
+            >
+                Vis kun viktige
             </Checkbox>
             <Table size={'medium'}>
                 <Table.Header>
@@ -148,76 +175,72 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {oppfølginger
-                        .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
-                        .map((oppfølging) => (
-                            <Table.ExpandableRow
-                                key={oppfølging.id}
-                                togglePlacement={'right'}
-                                content={<OppfølgingExpandableRowBody oppfølging={oppfølging} />}
-                                expandOnRowClick={true}
-                                open={ekspanderteRader[oppfølging.id] || false}
-                                onOpenChange={() =>
-                                    settEkspanderteRader((prevState) => ({
-                                        ...prevState,
-                                        [oppfølging.id]: !prevState[oppfølging.id],
-                                    }))
-                                }
-                            >
-                                <Table.DataCell>
-                                    <VStack>
-                                        <WidthMaxContent>
-                                            <StønadstypeTag
-                                                stønadstype={
-                                                    oppfølging.behandlingsdetaljer.stønadstype
-                                                }
-                                            />
-                                        </WidthMaxContent>
-                                        <span>
-                                            Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
-                                        </span>
-                                        <span>
-                                            Vedtakstidspunkt:{' '}
-                                            {formaterIsoDato(
-                                                oppfølging.behandlingsdetaljer.vedtakstidspunkt
-                                            )}
-                                        </span>
-                                        {oppfølging.behandlingsdetaljer.harNyereBehandling && (
-                                            <ErrorMessage size={'small'}>
-                                                Har nyere behandling
-                                            </ErrorMessage>
+                    {filtrerteOppfølginger.map((oppfølging) => (
+                        <Table.ExpandableRow
+                            key={oppfølging.id}
+                            togglePlacement={'right'}
+                            content={<OppfølgingExpandableRowBody oppfølging={oppfølging} />}
+                            expandOnRowClick={true}
+                            open={ekspanderteRader[oppfølging.id] || false}
+                            onOpenChange={() =>
+                                settEkspanderteRader((prevState) => ({
+                                    ...prevState,
+                                    [oppfølging.id]: !prevState[oppfølging.id],
+                                }))
+                            }
+                        >
+                            <Table.DataCell>
+                                <VStack>
+                                    <WidthMaxContent>
+                                        <StønadstypeTag
+                                            stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
+                                        />
+                                    </WidthMaxContent>
+                                    <span>
+                                        Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
+                                    </span>
+                                    <span>
+                                        Vedtakstidspunkt:{' '}
+                                        {formaterIsoDato(
+                                            oppfølging.behandlingsdetaljer.vedtakstidspunkt
                                         )}
-                                        <Link
-                                            to={{
-                                                pathname: `/behandling/${oppfølging.behandlingId}`,
-                                            }}
-                                            target="_blank"
-                                        >
-                                            Gå til behandling
-                                        </Link>
-                                        <Link
-                                            to={{
-                                                pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
-                                            }}
-                                            target="_blank"
-                                        >
-                                            Gå til behandlingsoversikt
-                                        </Link>
-                                    </VStack>
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {skalViseWarningTag(oppfølging) && (
-                                        <Tag variant={'warning'}>Viktig</Tag>
+                                    </span>
+                                    {oppfølging.behandlingsdetaljer.harNyereBehandling && (
+                                        <ErrorMessage size={'small'}>
+                                            Har nyere behandling
+                                        </ErrorMessage>
                                     )}
-                                    <HåndterKontroll
-                                        oppfølging={oppfølging}
-                                        oppfølgingForKontroll={oppfølgingForKontroll}
-                                        settOppfølgingForKontroll={settOppfølgingForKontroll}
-                                        oppdaterOppfølging={oppdaterOppfølging}
-                                    />
-                                </Table.DataCell>
-                            </Table.ExpandableRow>
-                        ))}
+                                    <Link
+                                        to={{
+                                            pathname: `/behandling/${oppfølging.behandlingId}`,
+                                        }}
+                                        target="_blank"
+                                    >
+                                        Gå til behandling
+                                    </Link>
+                                    <Link
+                                        to={{
+                                            pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
+                                        }}
+                                        target="_blank"
+                                    >
+                                        Gå til behandlingsoversikt
+                                    </Link>
+                                </VStack>
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {oppfølging.skalViseWarningTag && (
+                                    <Tag variant={'warning'}>Viktig</Tag>
+                                )}
+                                <HåndterKontroll
+                                    oppfølging={oppfølging}
+                                    oppfølgingForKontroll={oppfølgingForKontroll}
+                                    settOppfølgingForKontroll={settOppfølgingForKontroll}
+                                    oppdaterOppfølging={oppdaterOppfølging}
+                                />
+                            </Table.DataCell>
+                        </Table.ExpandableRow>
+                    ))}
                 </Table.Body>
             </Table>
         </Container>
