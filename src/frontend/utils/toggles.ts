@@ -10,6 +10,7 @@ export enum Toggle {
      */
     BEHANDLING_ÅRSAK_UTEN_BREV = 'sak.behandling-arsak-uten-brev',
     ADMIN_KAN_OPPRETTE_BEHANDLING = 'sak.admin-kan-opprette-behandling',
+    ADMIN_OPPFØLGING = 'sak.hent-behandlinger-for-oppfoelging',
 
     KAN_REDIGERE_GRUNNLAG_FOM = 'sak.frontend.kan-redigere-grunnlag-fom',
 
