@@ -48,7 +48,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
 
-    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string | undefined>();
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const oppdaterPeriodeFelt = (
         indeks: number,
