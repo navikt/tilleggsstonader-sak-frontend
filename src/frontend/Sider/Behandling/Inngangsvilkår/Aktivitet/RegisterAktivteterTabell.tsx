@@ -6,7 +6,6 @@ import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
-import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
@@ -23,8 +22,6 @@ const RegisterAktiviteterTabell: React.FC<{
     registerAktivitet: Registeraktivitet[];
     leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
 }> = ({ registerAktivitet, leggTilAktivitetFraRegister }) => {
-    const { erStegRedigerbart } = useSteg();
-
     const utledVisningstekstForAktivitetType = (aktivtet: Registeraktivitet) => {
         const aktivtetType = aktivtet.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK;
         return AktivitetTypeTilTekst[aktivtetType];
@@ -66,12 +63,10 @@ const RegisterAktiviteterTabell: React.FC<{
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>{aktivitet.prosentDeltakelse ?? '-'}</Table.DataCell>
                             <Table.DataCell>
-                                {erStegRedigerbart && (
-                                    <BrukAktivitetKnapp
-                                        registerAktivitet={aktivitet}
-                                        leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
-                                    />
-                                )}
+                                <BrukAktivitetKnapp
+                                    registerAktivitet={aktivitet}
+                                    leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                                />
                             </Table.DataCell>
                         </Table.Row>
                     );
