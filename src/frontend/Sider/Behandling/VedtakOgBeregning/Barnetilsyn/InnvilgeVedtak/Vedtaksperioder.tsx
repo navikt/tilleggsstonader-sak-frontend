@@ -34,6 +34,8 @@ interface Props {
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<VedtaksperiodeTilsynBarn>[] | undefined>
     >;
+    foreslåPeriodeFeil?: string;
+    settForeslåPeriodeFeil: React.Dispatch<string | undefined>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -41,14 +43,14 @@ export const Vedtaksperioder: React.FC<Props> = ({
     settVedtaksperioder,
     vedtaksperioderFeil,
     settVedtaksperioderFeil,
+    foreslåPeriodeFeil,
+    settForeslåPeriodeFeil,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
-
-    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -97,15 +99,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
                     id: uuid(),
                 }));
                 settVedtaksperioder(perioder);
-                resetForeslåPeriodeFeilmelding();
+                settForeslåPeriodeFeil(undefined);
             } else {
                 settForeslåPeriodeFeil(res.frontendFeilmelding);
             }
         });
-    };
-
-    const resetForeslåPeriodeFeilmelding = () => {
-        settForeslåPeriodeFeil(undefined);
     };
 
     return (
@@ -137,30 +135,32 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 </Grid>
             )}
             {erStegRedigerbart && (
-                <HStack gap={'2'}>
-                    <Button
-                        size="small"
-                        onClick={leggTilPeriode}
-                        style={{ maxWidth: 'fit-content' }}
-                        variant="secondary"
-                        icon={<PlusCircleIcon />}
-                    >
-                        Legg til vedtaksperiode
-                    </Button>
-                    <Button
-                        size="small"
-                        onClick={foreslåVedtaksperioder}
-                        style={{ maxWidth: 'fit-content' }}
-                        variant="tertiary"
-                    >
-                        Foreslå vedtaksperioder
-                    </Button>
+                <>
+                    <HStack gap={'2'}>
+                        <Button
+                            size="small"
+                            onClick={leggTilPeriode}
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til vedtaksperiode
+                        </Button>
+                        <Button
+                            size="small"
+                            onClick={foreslåVedtaksperioder}
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="tertiary"
+                        >
+                            Foreslå vedtaksperioder
+                        </Button>
+                    </HStack>
                     {foreslåPeriodeFeil && (
                         <Alert variant="error" title="Klarte ikke å preutfylle periode">
                             {foreslåPeriodeFeil}
                         </Alert>
                     )}
-                </HStack>
+                </>
             )}
         </VStack>
     );

@@ -63,6 +63,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     );
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
         useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
@@ -99,6 +100,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
 
     const beregnBarnetilsyn = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
+        settForeslåPeriodeFeil(undefined);
 
         const kanSendeInn = validerForm();
 
@@ -126,6 +128,8 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
+                    foreslåPeriodeFeil={foreslåPeriodeFeil}
+                    settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                 />
                 {erStegRedigerbart && <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>}
                 <VStack gap="8">
