@@ -3,7 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { BodyShort, Button, Heading, List, Table, VStack } from '@navikt/ds-react';
+import {
+    BodyShort,
+    Button,
+    ErrorMessage,
+    Heading,
+    List,
+    Table,
+    Tag,
+    VStack,
+} from '@navikt/ds-react';
 
 import { KontrollerOppfølging } from './KontrollerOppfølging';
 import { OppfølgingExpandableRowBody } from './OppfølgingExpandableRowBody';
@@ -12,12 +21,18 @@ import { Oppfølging } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
-import { formaterIsoDato, formaterIsoDatoTid } from '../../../utils/dato';
+import {
+    erEtter,
+    erEtterDagensDato,
+    formaterIsoDato,
+    formaterIsoDatoTid,
+    førsteDagIMånederForut,
+} from '../../../utils/dato';
 import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
 
 const Container = styled.div`
-    margin: 1rem;
-    width: 60rem;
+    padding: 2rem;
+    width: 70rem;
 `;
 
 const WidthMaxContent = styled.div`
@@ -50,11 +65,36 @@ export const OppølgingAdmin = () => {
     );
 };
 
+/**
+ * Skal vise warning hvis en kontroll påvirker en periode som endres i neste måned då vi ønsker å unngå tilbakekreving
+ */
+const skalViseWarningTag = (oppfølging: Oppfølging) =>
+    oppfølging.data.perioderTilKontroll.some(
+        (periode) =>
+            erEtterDagensDato(periode.tom) &&
+            [...periode.endringAktivitet, ...periode.endringMålgruppe].some(
+                (endring) => endring.tom && erEtter(førsteDagIMånederForut(-2), endring.tom)
+            )
+    );
+
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<Oppfølging[]>(oppfølgingerInit);
     const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
 
+    const [ekspanderteRader, settEkspanderteRader] = useState<Record<string, boolean>>(
+        oppfølgingerInit
+            .filter((oppfølging) => !oppfølging.kontrollert)
+            .reduce(
+                (acc, curr) => {
+                    acc[curr.id] = true;
+                    return acc;
+                },
+                {} as Record<string, boolean>
+            )
+    );
+
     const oppdaterOppfølging = (oppfølging: Oppfølging) => {
+        settEkspanderteRader((prevState) => ({ ...prevState, [oppfølging.id]: false }));
         settOppfølginger((prevState) =>
             prevState.map((prevOppfølging) =>
                 prevOppfølging.id === oppfølging.id ? oppfølging : prevOppfølging
@@ -106,6 +146,13 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                             togglePlacement={'right'}
                             content={<OppfølgingExpandableRowBody oppfølging={oppfølging} />}
                             expandOnRowClick={true}
+                            open={ekspanderteRader[oppfølging.id] || false}
+                            onOpenChange={() =>
+                                settEkspanderteRader((prevState) => ({
+                                    ...prevState,
+                                    [oppfølging.id]: !prevState[oppfølging.id],
+                                }))
+                            }
                         >
                             <Table.DataCell>
                                 <VStack>
@@ -124,11 +171,21 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                         )}
                                     </span>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
-                                        <span>Har nyere behandling</span>
+                                        <ErrorMessage size={'small'}>
+                                            Har nyere behandling
+                                        </ErrorMessage>
                                     )}
                                     <Link
                                         to={{
-                                            pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}`,
+                                            pathname: `/behandling/${oppfølging.behandlingId}`,
+                                        }}
+                                        target="_blank"
+                                    >
+                                        Gå til behandling
+                                    </Link>
+                                    <Link
+                                        to={{
+                                            pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
                                         }}
                                         target="_blank"
                                     >
@@ -137,6 +194,9 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                 </VStack>
                             </Table.DataCell>
                             <Table.DataCell>
+                                {skalViseWarningTag(oppfølging) && (
+                                    <Tag variant={'warning'}>Viktig</Tag>
+                                )}
                                 <HåndterKontroll
                                     oppfølging={oppfølging}
                                     oppfølgingForKontroll={oppfølgingForKontroll}

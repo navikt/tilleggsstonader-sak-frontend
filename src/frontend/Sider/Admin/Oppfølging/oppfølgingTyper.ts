@@ -48,10 +48,10 @@ enum ÅrsakKontroll {
 }
 
 export const årsakKontrollTilTekst: Record<ÅrsakKontroll, string> = {
-    INGEN_TREFF: 'Ingen treff',
-    FOM_ENDRET: 'Fom endret',
-    TOM_ENDRET: 'Tom endret',
-    TREFF_MEN_FEIL_TYPE: 'Treff, men feil type',
+    INGEN_TREFF: 'Ingen overlappende periode',
+    FOM_ENDRET: 'Fom begynner ',
+    TOM_ENDRET: 'Tom slutter ',
+    TREFF_MEN_FEIL_TYPE: 'Overlappende periode, men feil type',
 };
 
 export enum OppfølgingUtfall {
