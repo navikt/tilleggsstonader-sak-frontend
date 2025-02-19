@@ -45,11 +45,14 @@ interface BehandlingContext {
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     const kanSaksbehandleLæremidler = useFlag(Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER);
+    const kanSaksbehandleBoutgifter = useFlag(Toggle.KAN_SAKSBEHANDLE_BOUTGIFTER);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return true;
         case Stønadstype.LÆREMIDLER:
             return kanSaksbehandleLæremidler;
+        case Stønadstype.BOUTGIFTER:
+            return kanSaksbehandleBoutgifter;
         default:
             return false;
     }
@@ -57,11 +60,14 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
 
 const useKanRevurdere = (stønadstype: Stønadstype) => {
     const kanRevurdereLæremidler = useFlag(Toggle.KAN_REVURDERE_LÆREMIDLER);
+    const kanRevurdereBoutgifter = useFlag(Toggle.KAN_REVURDERE_BOUTGIFTER);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return true;
         case Stønadstype.LÆREMIDLER:
             return kanRevurdereLæremidler;
+        case Stønadstype.BOUTGIFTER:
+            return kanRevurdereBoutgifter;
         default:
             return false;
     }

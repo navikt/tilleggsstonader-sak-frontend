@@ -67,6 +67,15 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: true,
         ANNET: true,
     },
+    [Stønadstype.BOUTGIFTER]: {
+        INGEN_AKTIVITET: true,
+        IKKE_I_MÅLGRUPPE: true,
+        INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
+        MANGELFULL_DOKUMENTASJON: true,
+        HAR_IKKE_UTGIFTER: true,
+        RETT_TIL_UTSTYRSSTIPEND: false,
+        ANNET: true,
+    },
 };
 
 export const årsakerForStønad: Record<Stønadstype, ÅrsakAvslag[]> = Object.entries(årsaker).reduce(
