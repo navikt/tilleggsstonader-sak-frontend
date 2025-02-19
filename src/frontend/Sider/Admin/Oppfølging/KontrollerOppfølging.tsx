@@ -36,7 +36,7 @@ export const KontrollerOppfølging = ({
             settFeilmelding('Mangler utfall');
             return;
         }
-        settLagrer(false);
+        settLagrer(true);
 
         request<Oppfølging, OppfølgingKontrollRequest>(`/api/sak/oppfolging/kontroller`, 'POST', {
             id: oppfølging.id,
