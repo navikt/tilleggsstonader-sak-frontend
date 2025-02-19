@@ -157,6 +157,8 @@ const EndreMålgruppeRad: React.FC<{
             ? målgruppeTypeOptionsForStønad(stønadstype)
             : [];
 
+    const erMålgruppeSomStøttes = form.type !== MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
+
     return (
         <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
             <FeltContainer>
@@ -168,6 +170,7 @@ const EndreMålgruppeRad: React.FC<{
                     formFeil={vilkårsperiodeFeil}
                     alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}
+                    erStøttetType={erMålgruppeSomStøttes}
                 />
             </FeltContainer>
 
@@ -181,17 +184,22 @@ const EndreMålgruppeRad: React.FC<{
                     }))
                 }
             />
-
-            <Begrunnelse
-                begrunnelse={form?.begrunnelse || ''}
-                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
-                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
-                feil={vilkårsperiodeFeil?.begrunnelse}
-            />
+            {erMålgruppeSomStøttes && (
+                <Begrunnelse
+                    begrunnelse={form?.begrunnelse || ''}
+                    oppdaterBegrunnelse={(nyBegrunnelse) =>
+                        oppdaterForm('begrunnelse', nyBegrunnelse)
+                    }
+                    delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                    feil={vilkårsperiodeFeil?.begrunnelse}
+                />
+            )}
             <HStack gap="4">
-                <Button size="xsmall" onClick={lagre}>
-                    Lagre
-                </Button>
+                {erMålgruppeSomStøttes && (
+                    <Button size="xsmall" onClick={lagre}>
+                        Lagre
+                    </Button>
+                )}
 
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt

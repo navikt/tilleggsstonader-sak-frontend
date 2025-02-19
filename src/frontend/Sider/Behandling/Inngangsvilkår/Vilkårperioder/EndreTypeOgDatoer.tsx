@@ -23,6 +23,7 @@ interface Props<T extends MålgruppeEllerAktivitet> {
     formFeil?: FormErrors<TypeOgDatoFelter>;
     alleFelterKanEndres: boolean;
     kanEndreType: boolean;
+    erStøttetType?: boolean;
 }
 
 export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
@@ -33,6 +34,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     formFeil,
     alleFelterKanEndres,
     kanEndreType,
+    erStøttetType = true,
 }: Props<T>) => {
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
         useTriggRerendringAvDateInput();
@@ -62,7 +64,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
             <FeilmeldingMaksBredde>
                 <DateInputMedLeservisning
                     key={fomKeyDato}
-                    readOnly={!alleFelterKanEndres}
+                    readOnly={!alleFelterKanEndres || !erStøttetType}
                     label={'Fra'}
                     value={form?.fom}
                     onChange={(dato) => oppdaterPeriode('fom', dato || '')}
@@ -73,6 +75,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
             <FeilmeldingMaksBredde>
                 <DateInputMedLeservisning
                     key={tomKeyDato}
+                    readOnly={!erStøttetType}
                     label={'Til'}
                     value={form?.tom}
                     onChange={(dato) => oppdaterPeriode('tom', dato || '')}
