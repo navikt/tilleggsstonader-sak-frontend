@@ -20,7 +20,6 @@ import {
     InnvilgelseBarnetilsyn,
     validerVedtaksperioder,
     VedtaksperiodeTilsynBarn,
-    vedtaksperiodeTilVedtakperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
@@ -56,9 +55,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
 
     const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
         initialiserVedtaksperioder(
-            vedtaksperiodeTilVedtakperiodeTilsynBarn(
-                lagretVedtak?.beregningsresultat?.vedtaksperioder
-            ) || vedtaksperioderForrigeBehandling
+            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
     );
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =

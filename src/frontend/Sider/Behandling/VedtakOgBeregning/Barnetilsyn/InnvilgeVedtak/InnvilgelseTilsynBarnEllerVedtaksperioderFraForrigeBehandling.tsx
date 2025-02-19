@@ -11,7 +11,6 @@ import {
     InnvilgelseBarnetilsyn,
     VedtakBarnetilsyn,
     VedtaksperiodeTilsynBarn,
-    vedtaksperiodeTilVedtakperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling: React.FC<{
@@ -71,9 +70,7 @@ const vedtaksperioderForrigeVedtak = (
 ): VedtaksperiodeTilsynBarn[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
-            return vedtaksperiodeTilVedtakperiodeTilsynBarn(
-                vedtak.beregningsresultat.vedtaksperioder
-            );
+            return vedtak.vedtaksperioder;
         case TypeVedtak.OPPHØR:
             return undefined; // TODO legg till når opphør inneholder vedtaksperioder?
         case TypeVedtak.AVSLAG:
