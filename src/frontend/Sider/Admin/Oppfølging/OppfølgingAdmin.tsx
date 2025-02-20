@@ -7,12 +7,13 @@ import {
     BodyShort,
     Button,
     Checkbox,
-    ErrorMessage,
+    Detail,
     Heading,
-    Table,
+    HStack,
     Tag,
     VStack,
 } from '@navikt/ds-react';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 import { InformasjonOppfølging } from './InformasjonOppfølging';
 import { KontrollerOppfølging } from './KontrollerOppfølging';
@@ -25,19 +26,13 @@ import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 import {
     erEtter,
     erEtterDagensDato,
-    formaterIsoDato,
     formaterIsoDatoTid,
     førsteDagIMånederForut,
 } from '../../../utils/dato';
 import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
 
-const Container = styled.div`
+const Container = styled(VStack)`
     padding: 2rem;
-    width: 70rem;
-`;
-
-const WidthMaxContent = styled.div`
-    width: max-content;
 `;
 
 export const OppølgingAdmin = () => {
@@ -82,23 +77,10 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         oppfølgingerInit.map(oppfølgingMedDetaljer)
     );
     const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
-    const [visKunManglerKontroll, settVisKunManglerKontroll] = useState(false);
+    const [visKunManglerKontroll, settVisKunManglerKontroll] = useState(true);
     const [visKunWarningTag, settVisKunWarningTag] = useState(false);
 
-    const [ekspanderteRader, settEkspanderteRader] = useState<Record<string, boolean>>(
-        oppfølgingerInit
-            .filter((oppfølging) => !oppfølging.kontrollert)
-            .reduce(
-                (acc, curr) => {
-                    acc[curr.id] = true;
-                    return acc;
-                },
-                {} as Record<string, boolean>
-            )
-    );
-
     const oppdaterOppfølging = (oppfølging: Oppfølging) => {
-        settEkspanderteRader((prevState) => ({ ...prevState, [oppfølging.id]: false }));
         settOppfølginger((prevState) =>
             prevState.map((prevOppfølging) =>
                 prevOppfølging.id === oppfølging.id
@@ -112,108 +94,111 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
         .filter((oppfølging) => !visKunWarningTag || !oppfølging.skalViseWarningTag);
     return (
-        <Container>
+        <Container gap={'4'}>
+            <Heading size={'medium'}>[Admin] Oppfølging</Heading>
             <InformasjonOppfølging />
-            {oppfølginger.length > 0 && (
-                <Heading size={'small'}>
-                    Kontroll opprettet: {formaterIsoDatoTid(oppfølginger[0].opprettetTidspunkt)}
-                </Heading>
-            )}
-            <BodyShort>
-                Viser {filtrerteOppfølginger.length} av {oppfølginger.length} oppfølginger
-            </BodyShort>
-            <Checkbox
-                value={visKunManglerKontroll}
-                onChange={() => settVisKunManglerKontroll((prevState) => !prevState)}
-            >
-                Vis kun de som mangler kontroll
-            </Checkbox>
-            <Checkbox
-                title={'Viktige'}
-                value={visKunWarningTag}
-                onChange={() => settVisKunWarningTag((prevState) => !prevState)}
-            >
-                Vis kun viktige
-            </Checkbox>
-            <Table size={'medium'}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell scope={'col'} style={{ width: '20rem' }}>
-                            Behandling
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope={'col'}>Kontroller</Table.HeaderCell>
-                        <Table.HeaderCell scope={'col'}>Se detaljer</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {filtrerteOppfølginger.map((oppfølging) => (
-                        <Table.ExpandableRow
+            <div>
+                {oppfølginger.length > 0 && (
+                    <Heading size={'small'}>
+                        Kontroll opprettet: {formaterIsoDatoTid(oppfølginger[0].opprettetTidspunkt)}
+                    </Heading>
+                )}
+                <BodyShort>
+                    Viser {filtrerteOppfølginger.length} av {oppfølginger.length} oppfølginger
+                </BodyShort>
+            </div>
+            <div>
+                <Checkbox
+                    value={visKunManglerKontroll}
+                    size={'small'}
+                    onChange={() => settVisKunManglerKontroll((prevState) => !prevState)}
+                >
+                    Vis kun de som mangler kontroll
+                </Checkbox>
+                <Checkbox
+                    size={'small'}
+                    value={visKunWarningTag}
+                    onChange={() => settVisKunWarningTag((prevState) => !prevState)}
+                >
+                    Vis kun viktige
+                </Checkbox>
+            </div>
+            <VStack gap={'8'} style={{ width: '70rem' }}>
+                {filtrerteOppfølginger.map((oppfølging) => {
+                    return (
+                        <VStack
                             key={oppfølging.id}
-                            togglePlacement={'right'}
-                            content={<OppfølgingExpandableRowBody oppfølging={oppfølging} />}
-                            expandOnRowClick={true}
-                            open={ekspanderteRader[oppfølging.id] || false}
-                            onOpenChange={() =>
-                                settEkspanderteRader((prevState) => ({
-                                    ...prevState,
-                                    [oppfølging.id]: !prevState[oppfølging.id],
-                                }))
-                            }
+                            gap={'4'}
+                            justify={'space-between'}
+                            style={{
+                                border: `2px solid ${ABorderStrong}`,
+                                padding: '1.5rem',
+                                borderRadius: '10px',
+                            }}
                         >
-                            <Table.DataCell>
-                                <VStack>
-                                    <WidthMaxContent>
-                                        <StønadstypeTag
-                                            stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
-                                        />
-                                    </WidthMaxContent>
-                                    <span>
+                            <HStack justify={'space-between'}>
+                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                    <StønadstypeTag
+                                        stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
+                                    />
+                                    <Detail>
                                         Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
-                                    </span>
-                                    <span>
+                                    </Detail>
+                                    <Detail>
                                         Vedtakstidspunkt:{' '}
-                                        {formaterIsoDato(
+                                        {formaterIsoDatoTid(
                                             oppfølging.behandlingsdetaljer.vedtakstidspunkt
                                         )}
-                                    </span>
+                                    </Detail>
+                                </HStack>
+                                <HStack>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
-                                        <ErrorMessage size={'small'}>
+                                        <Tag variant={'info'} size={'small'}>
                                             Har nyere behandling
-                                        </ErrorMessage>
+                                        </Tag>
                                     )}
-                                    <Link
-                                        to={{
-                                            pathname: `/behandling/${oppfølging.behandlingId}`,
-                                        }}
-                                        target="_blank"
-                                    >
-                                        Gå til behandling
-                                    </Link>
-                                    <Link
-                                        to={{
-                                            pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
-                                        }}
-                                        target="_blank"
-                                    >
-                                        Gå til behandlingsoversikt
-                                    </Link>
+                                    {oppfølging.skalViseWarningTag && (
+                                        <Tag variant={'warning'} size={'small'}>
+                                            Viktig
+                                        </Tag>
+                                    )}
+                                </HStack>
+                            </HStack>
+                            <HStack gap={'6'} align={'start'}>
+                                <VStack gap={'4'}>
+                                    <OppfølgingExpandableRowBody oppfølging={oppfølging} />
+                                    <HStack gap={'4'} align={'start'} justify={'start'}>
+                                        <Link
+                                            to={{
+                                                pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
+                                            }}
+                                            target="_blank"
+                                        >
+                                            <BodyShort size={'small'}>
+                                                Gå til behandlingsoversikt
+                                            </BodyShort>
+                                        </Link>
+                                        <Link
+                                            to={{
+                                                pathname: `/behandling/${oppfølging.behandlingId}`,
+                                            }}
+                                            target="_blank"
+                                        >
+                                            <BodyShort size={'small'}>Gå til behandling</BodyShort>
+                                        </Link>
+                                    </HStack>
                                 </VStack>
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                {oppfølging.skalViseWarningTag && (
-                                    <Tag variant={'warning'}>Viktig</Tag>
-                                )}
                                 <HåndterKontroll
                                     oppfølging={oppfølging}
                                     oppfølgingForKontroll={oppfølgingForKontroll}
                                     settOppfølgingForKontroll={settOppfølgingForKontroll}
                                     oppdaterOppfølging={oppdaterOppfølging}
                                 />
-                            </Table.DataCell>
-                        </Table.ExpandableRow>
-                    ))}
-                </Table.Body>
-            </Table>
+                            </HStack>
+                        </VStack>
+                    );
+                })}
+            </VStack>
         </Container>
     );
 };
@@ -243,15 +228,13 @@ const HåndterKontroll = ({
     }
     if (!oppfølgingForKontroll) {
         return (
-            <WidthMaxContent>
-                <Button
-                    onClick={() => settOppfølgingForKontroll(oppfølging)}
-                    size={'small'}
-                    variant={'secondary'}
-                >
-                    Kontroller
-                </Button>
-            </WidthMaxContent>
+            <Button
+                onClick={() => settOppfølgingForKontroll(oppfølging)}
+                size={'small'}
+                variant={'secondary'}
+            >
+                Kontroller
+            </Button>
         );
     }
     return null;

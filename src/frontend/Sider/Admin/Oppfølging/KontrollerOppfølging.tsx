@@ -67,6 +67,7 @@ export const KontrollerOppfølging = ({
             <Textarea
                 label={'Kommentar'}
                 size={'small'}
+                style={{ width: '15rem' }}
                 onChange={(e) => settKommentar(e.target.value)}
             />
             <Feilmelding>{feilmelding}</Feilmelding>

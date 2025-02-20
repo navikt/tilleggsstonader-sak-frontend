@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Heading, List, VStack } from '@navikt/ds-react';
+import { BodyShort, List, VStack } from '@navikt/ds-react';
 
 const LiteUtenMargins = styled(List)`
     ul {
@@ -15,8 +15,7 @@ const LiteUtenMargins = styled(List)`
 `;
 
 export const InformasjonOppfølging = () => (
-    <>
-        <Heading size={'medium'}>[Admin] Oppfølging</Heading>
+    <div>
         <VStack gap={'2'}>
             <BodyShort>Her vises behadlinger som trenger oppfølging</BodyShort>
             <BodyShort size={'small'}>
@@ -24,8 +23,8 @@ export const InformasjonOppfølging = () => (
             </BodyShort>
             <LiteUtenMargins size={'small'}>
                 <List.Item>Ingen treff mot registeret</List.Item>
-                <List.Item>Fom er endret</List.Item>
-                <List.Item>Tom er endret</List.Item>
+                <List.Item>Fom. starter senere</List.Item>
+                <List.Item>Tom. slutter tidligere</List.Item>
                 <List.Item>Feil type aktivitet</List.Item>
             </LiteUtenMargins>
             <BodyShort size={'small'}>
@@ -36,5 +35,5 @@ export const InformasjonOppfølging = () => (
                 Hvis du er usikker, spør på teams.
             </BodyShort>
         </VStack>
-    </>
+    </div>
 );
