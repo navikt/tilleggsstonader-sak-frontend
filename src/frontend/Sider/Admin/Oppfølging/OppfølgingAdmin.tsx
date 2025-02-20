@@ -17,8 +17,8 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 import { InformasjonOppfølging } from './InformasjonOppfølging';
 import { KontrollerOppfølging } from './KontrollerOppfølging';
-import { OppfølgingExpandableRowBody } from './OppfølgingExpandableRowBody';
 import { OppfølgingKontrollertDetaljer } from './OppfølgingKontrollertDetaljer';
+import { OppfølgingPerioderTilKontrollTabell } from './OppfølgingPerioderTilKontrollTabell';
 import { Oppfølging } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -166,7 +166,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                             </HStack>
                             <HStack gap={'6'} align={'start'}>
                                 <VStack gap={'4'}>
-                                    <OppfølgingExpandableRowBody oppfølging={oppfølging} />
+                                    <OppfølgingPerioderTilKontrollTabell oppfølging={oppfølging} />
                                     <HStack gap={'4'} align={'start'} justify={'start'}>
                                         <Link
                                             to={{

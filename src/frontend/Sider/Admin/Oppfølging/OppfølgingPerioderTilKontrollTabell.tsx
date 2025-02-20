@@ -14,7 +14,7 @@ const Tabell = styled(Table)`
     border: 1px solid ${ABorderDefault};
 `;
 
-export const OppfølgingExpandableRowBody = ({ oppfølging }: { oppfølging: Oppfølging }) => {
+export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølging: Oppfølging }) => {
     return (
         <Tabell size={'small'} style={{ maxWidth: 'fit-content' }}>
             <Table.Header>
