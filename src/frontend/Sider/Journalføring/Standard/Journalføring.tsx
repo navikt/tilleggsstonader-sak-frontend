@@ -19,7 +19,7 @@ import { JournalføringState, useJournalføringState } from '../../../hooks/useJ
 import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { JournalpostResponse } from '../../../typer/journalpost';
-import { RessursStatus } from '../../../typer/ressurs';
+import { erFeilressurs, RessursStatus } from '../../../typer/ressurs';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
@@ -109,10 +109,9 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
     const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
-    const innsendingsfeil =
-        journalpostState.innsending.status === RessursStatus.FEILET
-            ? journalpostState.innsending.frontendFeilmelding
-            : undefined;
+    const innsendingsfeil = erFeilressurs(journalpostState.innsending)
+        ? journalpostState.innsending.frontendFeilmelding
+        : undefined;
 
     const validerOgJournalfør = () => {
         settFeilmelding('');

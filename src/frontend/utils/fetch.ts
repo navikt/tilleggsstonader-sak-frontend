@@ -58,15 +58,13 @@ const håndterSuksess = <ResponseData>(res: Response): Promise<RessursSuksess<Re
     });
 };
 
-const håndterFeil = (res: Response, headers: Headers): Promise<RessursFeilet> =>
-    res.json().then((res) => {
-        return {
-            status: RessursStatus.FEILET,
-            frontendFeilmelding: feilmeldingMedCallId(res.detail, headers),
-            frontendFeilmeldingUtenFeilkode: res.detail,
-            feilkode: feilkode(headers),
-        };
-    });
+const håndterFeil = (response: Response, headers: Headers): Promise<RessursFeilet> =>
+    response.json().then((res) => ({
+        status: response.status === 400 ? RessursStatus.FUNKSJONELL_FEIL : RessursStatus.FEILET,
+        frontendFeilmelding: feilmeldingMedCallId(res.detail, headers),
+        frontendFeilmeldingUtenFeilkode: res.detail,
+        feilkode: feilkode(headers),
+    }));
 
 const feilmeldingMedCallId = (feilmelding: string, headers?: Headers): string => {
     const callId = feilkode(headers);
