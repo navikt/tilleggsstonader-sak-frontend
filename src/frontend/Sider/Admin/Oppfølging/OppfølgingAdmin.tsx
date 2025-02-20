@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -72,6 +72,30 @@ const oppfølgingMedDetaljer = (oppfølging: Oppfølging) => ({
     skalViseWarningTag: skalViseWarningTag(oppfølging),
 });
 
+/**
+ * Sorterer oppfølginger som er viktige først og sen etter vedtakstidspunkt
+ */
+const sort = (b: OppfølgingMedDetaljer, a: OppfølgingMedDetaljer) => {
+    const sortByWarningTag = Number(b.skalViseWarningTag) - Number(a.skalViseWarningTag);
+    if (sortByWarningTag !== 0) {
+        return sortByWarningTag;
+    }
+    return (
+        new Date(a.behandlingsdetaljer.vedtakstidspunkt).getTime() -
+        new Date(b.behandlingsdetaljer.vedtakstidspunkt).getTime()
+    );
+};
+
+const filtrerOgSorter = (
+    oppfølginger: OppfølgingMedDetaljer[],
+    visKunManglerKontroll: boolean,
+    visKunWarningTag: boolean
+) =>
+    oppfølginger
+        .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
+        .filter((oppfølging) => !visKunWarningTag || !oppfølging.skalViseWarningTag)
+        .sort((a, b) => sort(b, a));
+
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
         oppfølgingerInit.map(oppfølgingMedDetaljer)
@@ -90,9 +114,10 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         );
     };
 
-    const filtrerteOppfølginger = oppfølginger
-        .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
-        .filter((oppfølging) => !visKunWarningTag || !oppfølging.skalViseWarningTag);
+    const filtrerteOppfølginger = useMemo(
+        () => filtrerOgSorter(oppfølginger, visKunManglerKontroll, visKunWarningTag),
+        [oppfølginger, visKunManglerKontroll, visKunWarningTag]
+    );
     return (
         <Container gap={'4'}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
