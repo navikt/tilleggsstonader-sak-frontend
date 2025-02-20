@@ -134,8 +134,9 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
             </div>
             <div>
                 <Checkbox
-                    value={visKunManglerKontroll}
                     size={'small'}
+                    value={visKunManglerKontroll}
+                    defaultChecked={visKunManglerKontroll}
                     onChange={() => settVisKunManglerKontroll((prevState) => !prevState)}
                 >
                     Vis kun de som mangler kontroll
@@ -143,12 +144,13 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                 <Checkbox
                     size={'small'}
                     value={visKunWarningTag}
+                    defaultChecked={visKunWarningTag}
                     onChange={() => settVisKunWarningTag((prevState) => !prevState)}
                 >
                     Vis kun viktige
                 </Checkbox>
             </div>
-            <VStack gap={'8'} style={{ width: '70rem' }}>
+            <VStack gap={'8'} style={{ width: 'fit-content' }}>
                 {filtrerteOppfølginger.map((oppfølging) => {
                     return (
                         <VStack
@@ -213,12 +215,14 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                         </Link>
                                     </HStack>
                                 </VStack>
-                                <HåndterKontroll
-                                    oppfølging={oppfølging}
-                                    oppfølgingForKontroll={oppfølgingForKontroll}
-                                    settOppfølgingForKontroll={settOppfølgingForKontroll}
-                                    oppdaterOppfølging={oppdaterOppfølging}
-                                />
+                                <div style={{ width: '15rem' }}>
+                                    <HåndterKontroll
+                                        oppfølging={oppfølging}
+                                        oppfølgingForKontroll={oppfølgingForKontroll}
+                                        settOppfølgingForKontroll={settOppfølgingForKontroll}
+                                        oppdaterOppfølging={oppdaterOppfølging}
+                                    />
+                                </div>
                             </HStack>
                         </VStack>
                     );

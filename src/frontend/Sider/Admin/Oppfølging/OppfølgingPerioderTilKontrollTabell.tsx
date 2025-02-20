@@ -16,7 +16,7 @@ const Tabell = styled(Table)`
 
 export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølging: Oppfølging }) => {
     return (
-        <Tabell size={'small'} style={{ maxWidth: 'fit-content' }}>
+        <Tabell size={'small'} style={{ width: '50rem' }}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope={'col'}>Periode</Table.HeaderCell>
