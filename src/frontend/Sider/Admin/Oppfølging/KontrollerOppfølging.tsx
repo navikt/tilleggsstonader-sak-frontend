@@ -58,9 +58,9 @@ export const KontrollerOppfølging = ({
     return (
         <VStack gap={'2'}>
             <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall}>
-                {[OppfølgingUtfall.OK, OppfølgingUtfall.IKKE_OK].map((utfall) => (
+                {Object.keys(OppfølgingUtfall).map((utfall) => (
                     <Radio key={utfall} value={utfall}>
-                        {oppfølgingUtfallTilTekst[utfall]}
+                        {oppfølgingUtfallTilTekst[utfall as OppfølgingUtfall]}
                     </Radio>
                 ))}
             </RadioGroup>

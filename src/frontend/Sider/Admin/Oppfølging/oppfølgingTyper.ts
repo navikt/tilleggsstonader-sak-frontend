@@ -57,13 +57,15 @@ export const årsakKontrollTilTekst: Record<ÅrsakKontroll, string> = {
 };
 
 export enum OppfølgingUtfall {
-    OK = 'OK',
-    IKKE_OK = 'IKKE_OK',
+    HÅNDTERT = 'HÅNDTERT',
+    IGNORERES = 'IGNORERES',
+    UTSETTES = 'UTSETTES',
 }
 
 export const oppfølgingUtfallTilTekst: Record<OppfølgingUtfall, string> = {
-    OK: 'Ok',
-    IKKE_OK: 'Ikke ok',
+    HÅNDTERT: 'Håndtert',
+    IGNORERES: 'Ignoreres',
+    UTSETTES: 'Utsettes',
 };
 
 export interface OppfølgingKontrollRequest {
