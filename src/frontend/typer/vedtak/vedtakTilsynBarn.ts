@@ -79,7 +79,7 @@ export interface VedtaksperiodeTilsynBarn extends Periode {
 
 export const validerVedtaksperioder = (
     vedtaksperioder: VedtaksperiodeTilsynBarn[],
-    lagretVedtaksperioder?: VedtaksperiodeTilsynBarn[] | [],
+    lagretVedtaksperioder: Map<string, VedtaksperiodeTilsynBarn>,
     revurderesFraDato?: string
 ): FormErrors<VedtaksperiodeTilsynBarn[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
@@ -99,9 +99,7 @@ export const validerVedtaksperioder = (
             return { ...vedtaksperiodeFeil, målgruppeType: 'Mangler målgruppe for periode' };
         }
 
-        const lagretPeriode = lagretVedtaksperioder?.find(
-            (periode) => periode.id === vedtaksperiode.id
-        );
+        const lagretPeriode = lagretVedtaksperioder.get(vedtaksperiode.id);
 
         const periodeValidering = validerPeriode(vedtaksperiode, lagretPeriode, revurderesFraDato);
         if (periodeValidering) {
