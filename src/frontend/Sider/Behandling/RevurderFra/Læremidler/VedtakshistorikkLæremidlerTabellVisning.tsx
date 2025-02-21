@@ -4,6 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { vedtakErAvslag, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { studienivåTilTekst } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { målgruppeTypeTilTekst } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
@@ -23,18 +24,22 @@ const VedtakshistorikkLæremidlerTabellVisning: React.FC<Props> = ({ vedtakLære
                     <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Til</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Studienivå</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Studieprosent</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {vedtakLæremidler.beregningsresultat.perioder?.map(
-                    ({ fom, tom, målgruppe, studienivå, studieprosent }) => {
+                    ({ fom, tom, målgruppe, aktivitetType, studienivå, studieprosent }) => {
                         return (
                             <Table.Row key={fom}>
                                 <Table.DataCell>8{formaterNullableIsoDato(fom)}</Table.DataCell>
                                 <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
                                 <Table.DataCell>{målgruppeTypeTilTekst(målgruppe)}</Table.DataCell>
+                                <Table.DataCell>
+                                    {aktivitetTypeTilTekst(aktivitetType)}
+                                </Table.DataCell>
                                 <Table.DataCell>{studienivåTilTekst[studienivå]}</Table.DataCell>
                                 <Table.DataCell>{studieprosent}</Table.DataCell>
                             </Table.Row>

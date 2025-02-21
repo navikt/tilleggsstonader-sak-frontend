@@ -1,5 +1,6 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { Periode } from '../../utils/periode';
@@ -44,6 +45,7 @@ interface BeregningsresultatForPeriode {
     stønadsbeløp: number;
     utbetalingsdato: string;
     målgruppe: MålgruppeType;
+    aktivitetType: AktivitetType;
 }
 
 export type AvslåLæremidlerRequest = {
