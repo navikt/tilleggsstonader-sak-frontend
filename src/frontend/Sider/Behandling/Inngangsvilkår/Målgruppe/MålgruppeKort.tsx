@@ -56,13 +56,13 @@ export const MålgruppeKort: React.FC<{
             }
         >
             <CelleContainer>
-                <Celle>
+                <Celle $width={180}>
                     <BodyShort size="small">
                         {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
                     </BodyShort>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[målgruppe.type]}</BodyShort>
                 </Celle>
-                <Celle>
+                <Celle $width={200}>
                     <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
                 </Celle>
                 <Celle $width={400}>

@@ -58,7 +58,7 @@ export const AktivitetKort: React.FC<{
             }
         >
             <CelleContainer>
-                <Celle>
+                <Celle $width={180}>
                     <BodyShort size="small">
                         <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
                     </BodyShort>
@@ -71,7 +71,7 @@ export const AktivitetKort: React.FC<{
                         <BodyShort size="small">{aktivitetFraRegister?.arrangør}</BodyShort>
                     )}
                 </Celle>
-                <Celle>
+                <Celle $width={200}>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
                 <Celle $width={400}>
