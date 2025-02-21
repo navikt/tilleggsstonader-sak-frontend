@@ -19,9 +19,15 @@ export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølg
         <Tabell size={'small'} style={{ width: '50rem' }}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope={'col'}>Periode</Table.HeaderCell>
-                    <Table.HeaderCell scope={'col'}>Målgruppe</Table.HeaderCell>
-                    <Table.HeaderCell scope={'col'}>Aktivitet</Table.HeaderCell>
+                    <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
+                        Periode
+                    </Table.HeaderCell>
+                    <Table.HeaderCell scope={'col'} style={{ width: '38%' }}>
+                        Målgruppe
+                    </Table.HeaderCell>
+                    <Table.HeaderCell scope={'col'} style={{ width: '38%' }}>
+                        Aktivitet
+                    </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body style={{ verticalAlign: 'top' }}>

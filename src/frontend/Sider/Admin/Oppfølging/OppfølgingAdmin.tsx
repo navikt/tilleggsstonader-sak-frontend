@@ -178,7 +178,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                         )}
                                     </Detail>
                                 </HStack>
-                                <HStack>
+                                <HStack gap={'2'}>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
                                         <Tag variant={'info'} size={'small'}>
                                             Har nyere behandling
@@ -215,7 +215,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                         </Link>
                                     </HStack>
                                 </VStack>
-                                <div style={{ width: '15rem' }}>
+                                <div style={{ width: '20rem' }}>
                                     <HåndterKontroll
                                         oppfølging={oppfølging}
                                         oppfølgingForKontroll={oppfølgingForKontroll}
