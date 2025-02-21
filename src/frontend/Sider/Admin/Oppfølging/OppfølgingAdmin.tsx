@@ -92,8 +92,8 @@ const filtrerOgSorter = (
     visKunWarningTag: boolean
 ) =>
     oppfølginger
-        .filter((oppfølging) => !visKunManglerKontroll || !oppfølging.kontrollert)
-        .filter((oppfølging) => !visKunWarningTag || !oppfølging.skalViseWarningTag)
+        .filter((oppfølging) => (visKunManglerKontroll ? !oppfølging.kontrollert : true))
+        .filter((oppfølging) => (visKunWarningTag ? oppfølging.skalViseWarningTag : true))
         .sort((a, b) => sort(b, a));
 
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
