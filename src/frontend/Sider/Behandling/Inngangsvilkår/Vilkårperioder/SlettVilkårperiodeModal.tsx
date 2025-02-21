@@ -5,6 +5,7 @@ import { Button, Table, Textarea, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { lagFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
@@ -85,8 +86,8 @@ const SlettVilkårperiode: React.FC<{
     const oppdaterStønadsperiodeFeil = (response: Response) => {
         if (response.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
             settStønadsperiodeFeil(undefined);
-        } else {
-            settStønadsperiodeFeil(response.stønadsperiodeFeil);
+        } else if (response.stønadsperiodeFeil) {
+            settStønadsperiodeFeil(lagFeilmelding(response.stønadsperiodeFeil));
         }
     };
 

@@ -19,6 +19,11 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import {
+    feiletRessursTilFeilmelding,
+    Feil,
+    lagFeilmelding,
+} from '../../../../komponenter/Feil/feilmeldingUtils';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
@@ -75,7 +80,7 @@ const EndreMålgruppeRad: React.FC<{
         initaliserForm(målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<MålgruppeValidering>>();
 
@@ -119,12 +124,14 @@ const EndreMålgruppeRad: React.FC<{
                         }
                         if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
                             settStønadsperiodeFeil(undefined);
-                        } else {
-                            settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
+                        } else if (res.data.stønadsperiodeFeil) {
+                            settStønadsperiodeFeil(lagFeilmelding(res.data.stønadsperiodeFeil));
                         }
                         avbrytRedigering();
                     } else {
-                        settFeilmelding(`Feilet legg til periode: ${res.frontendFeilmelding}`);
+                        settFeilmelding(
+                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
+                        );
                     }
                 })
                 .finally(() => settLaster(false));

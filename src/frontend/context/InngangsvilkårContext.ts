@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
+import { Feil, lagFeilmelding } from '../komponenter/Feil/feilmeldingUtils';
 import { Stønadsperiode } from '../Sider/Behandling/Inngangsvilkår/typer/stønadsperiode';
 import {
     Aktivitet,
@@ -11,7 +12,10 @@ import {
     Målgruppe,
     MålgruppeType,
 } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { Vilkårperioder } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import {
+    StønadsperiodeStatus,
+    Vilkårperioder,
+} from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 interface UseInngangsvilkår {
     målgrupper: Målgruppe[];
@@ -22,9 +26,13 @@ interface UseInngangsvilkår {
     oppdaterAktivitet: (oppdatertPeriode: Aktivitet) => void;
     slettVilkårperiode: (type: MålgruppeType | AktivitetType, id: string) => void;
     stønadsperioder: Stønadsperiode[];
-    stønadsperiodeFeil: string | undefined;
-    settStønadsperiodeFeil: (feilmelding: string | undefined) => void;
+    stønadsperiodeFeil: Feil | undefined;
+    settStønadsperiodeFeil: (feilmelding: Feil | undefined) => void;
     oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) => void;
+    oppdatertStønadsperiodeFeil: (
+        status: StønadsperiodeStatus,
+        stønadsperiodeFeil?: string
+    ) => void;
 }
 
 interface Props {
@@ -38,7 +46,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
         const [aktiviteter, settAktiviteter] = useState<Aktivitet[]>(vilkårperioder.aktiviteter);
         const [stønadsperioder, settStønadsperioder] =
             useState<Stønadsperiode[]>(hentedeStønadsperioder);
-        const [stønadsperiodeFeil, settStønadsperiodeFeil] = useState<string>();
+        const [stønadsperiodeFeil, settStønadsperiodeFeil] = useState<Feil>();
 
         useEffect(() => {
             settStønadsperioder(hentedeStønadsperioder);
@@ -78,6 +86,17 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             );
         };
 
+        const oppdatertStønadsperiodeFeil = (
+            status: StønadsperiodeStatus,
+            stønadsperiodeFeil?: string
+        ) => {
+            if (status === StønadsperiodeStatus.Ok) {
+                settStønadsperiodeFeil(undefined);
+            } else if (stønadsperiodeFeil) {
+                settStønadsperiodeFeil(lagFeilmelding(stønadsperiodeFeil));
+            }
+        };
+
         return {
             målgrupper,
             leggTilMålgruppe,
@@ -91,6 +110,7 @@ export const [InngangsvilkårProvider, useInngangsvilkår] = constate(
             settStønadsperiodeFeil,
             oppdaterStønadsperioder: (oppdaterteStønadsperioder: Stønadsperiode[]) =>
                 settStønadsperioder(oppdaterteStønadsperioder),
+            oppdatertStønadsperiodeFeil,
         };
     }
 );

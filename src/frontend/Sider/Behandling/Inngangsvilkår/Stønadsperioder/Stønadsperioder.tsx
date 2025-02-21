@@ -19,6 +19,7 @@ import useFormState, { FormErrors, FormState } from '../../../../hooks/felles/us
 import { ListState } from '../../../../hooks/felles/useListState';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Stønadsperiode } from '../typer/stønadsperiode';
@@ -111,7 +112,9 @@ const Stønadsperioder: React.FC = () => {
                     settRedigerer(false);
                     oppdaterStønadsperioder(res.data);
                 } else {
-                    settStønadsperiodeFeil(`Feilet legg til periode: ${res.frontendFeilmelding}`);
+                    settStønadsperiodeFeil(
+                        feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
+                    );
                 }
             })
             .finally(() => settLaster(false));
