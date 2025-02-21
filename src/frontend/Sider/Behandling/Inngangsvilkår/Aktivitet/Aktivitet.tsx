@@ -129,7 +129,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                         </div>
                     )}
 
-                    <Feilmelding ref={feilmeldingRef}>{feilmelding}</Feilmelding>
+                    <Feilmelding ref={feilmeldingRef} feil={feilmelding} />
 
                     {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
                         <Button

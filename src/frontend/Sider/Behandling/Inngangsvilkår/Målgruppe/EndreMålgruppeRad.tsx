@@ -204,7 +204,7 @@ const EndreMålgruppeRad: React.FC<{
                 )}
             </HStack>
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VilkårperiodeKortBase>
     );
 };

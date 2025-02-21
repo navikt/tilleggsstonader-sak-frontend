@@ -216,7 +216,7 @@ const Stønadsperioder: React.FC = () => {
                         </Grid>
                     )}
 
-                    <Feilmelding>{stønadsperiodeFeil}</Feilmelding>
+                    <Feilmelding feil={stønadsperiodeFeil} />
 
                     {erStegRedigerbart && (
                         <Aksjonsknapper

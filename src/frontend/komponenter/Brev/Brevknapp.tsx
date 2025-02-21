@@ -71,7 +71,7 @@ export const Brevknapp = ({
             <Knapp onClick={trykkPåKnapp} disabled={laster} size="small">
                 {tittel}
             </Knapp>
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
             <FeilmeldingBrev />
         </VStack>
     );

@@ -123,7 +123,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                         </div>
                     )}
 
-                    <Feilmelding ref={feilmeldingRef}>{feilmelding}</Feilmelding>
+                    <Feilmelding ref={feilmeldingRef} feil={feilmelding} />
 
                     {kanSetteNyRadIRedigeringsmodus && (
                         <Button

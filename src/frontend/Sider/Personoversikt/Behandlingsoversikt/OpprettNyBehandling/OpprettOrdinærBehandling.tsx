@@ -131,7 +131,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     Lagre
                 </Button>
             </HStack>
-            <Feilmelding variant={'alert'}>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VStack>
     );
 };

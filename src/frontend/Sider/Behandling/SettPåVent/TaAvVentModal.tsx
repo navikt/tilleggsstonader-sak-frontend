@@ -80,7 +80,7 @@ const TaAvVentModal: React.FC<{
                     value={kommentar}
                     onChange={(e) => settKommentar(e.target.value)}
                 />
-                <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+                <Feilmelding feil={feilmelding} />
             </FlexColumn>
         </ModalWrapper>
     );

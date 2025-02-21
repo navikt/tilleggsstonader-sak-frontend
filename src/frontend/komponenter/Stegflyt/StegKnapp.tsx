@@ -81,7 +81,8 @@ export const StegKnapp: FC<{
     }
 
     return (
-        <VStack align={'start'}>
+        <VStack align="start" gap="4">
+            <Feilmelding feil={feilmelding} />
             {behandling.steg === steg && erStegRedigerbart && (
                 <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
                     {children}
@@ -92,7 +93,6 @@ export const StegKnapp: FC<{
                     Rediger steg
                 </Button>
             )}
-            <Feilmelding>{feilmelding}</Feilmelding>
         </VStack>
     );
 };

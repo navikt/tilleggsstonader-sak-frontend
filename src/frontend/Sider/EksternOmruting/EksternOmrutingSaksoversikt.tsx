@@ -29,5 +29,5 @@ export const EksternOmrutingSaksoversikt = () => {
         );
     }, [eksternFagsakId, navigate, request]);
 
-    return <Feilmelding variant="alert">{feilmelding}</Feilmelding>;
+    return <Feilmelding feil={feilmelding} />;
 };

@@ -70,7 +70,7 @@ export const KontrollerOppfølging = ({
                 style={{ width: '15rem' }}
                 onChange={(e) => settKommentar(e.target.value)}
             />
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
             <HStack gap={'4'}>
                 <Button variant="tertiary" onClick={avbryt} loading={lagrer} size="small">
                     Avbryt

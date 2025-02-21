@@ -36,7 +36,7 @@ const OppgavebenkContainer = () => {
             <DataViewer response={{ oppgaver: oppgaveRessurs }}>
                 {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}
             </DataViewer>
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </Container>
     );
 };

@@ -43,7 +43,7 @@ export const UtenBrev: React.FC = () => {
                     Send til beslutter
                 </Knapp>
             )}
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
             <VedtakFerdigstiltModal
                 visModal={visVedtakFerdigstiltModal}
                 lukkModal={lukkVedtakFerdigstiltModal}

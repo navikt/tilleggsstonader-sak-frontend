@@ -149,7 +149,7 @@ const SettPåVentForm: React.FC<{
                     Angre
                 </Button>
             </HStack>
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VStack>
     );
 };

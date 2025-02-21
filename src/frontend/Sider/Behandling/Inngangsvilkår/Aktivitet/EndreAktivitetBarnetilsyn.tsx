@@ -223,7 +223,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 )}
             </HStack>
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VilkårperiodeKortBase>
     );
 };

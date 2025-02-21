@@ -264,7 +264,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 )}
             </HStack>
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VilkårperiodeKortBase>
     );
 };

@@ -120,7 +120,7 @@ const Oppgaveliste: React.FC<{
                     ))}
                 </Table.Body>
             </Tabell>
-            <Feilmelding variant="alert">{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </FlexColumn>
     );
 };
