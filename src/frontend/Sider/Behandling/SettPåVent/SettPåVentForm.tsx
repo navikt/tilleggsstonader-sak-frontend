@@ -156,7 +156,7 @@ const SettPåVentForm: React.FC<{
                     }));
                 }}
             >
-                Behold eierskap av oppgave
+                Behold oppgave på egen benk
             </Checkbox>
             <HStack gap={'4'}>
                 <Button size={'small'} onClick={settPåVentClick}>
