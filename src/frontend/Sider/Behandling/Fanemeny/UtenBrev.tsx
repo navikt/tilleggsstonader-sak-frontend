@@ -32,6 +32,7 @@ export const UtenBrev: React.FC = () => {
         settLaster(true);
         sendTilBeslutter()
             .then(() => settFeilmelding(undefined))
+            .catch((error) => settFeilmelding(error.message))
             .finally(() => settLaster(false));
     };
 
