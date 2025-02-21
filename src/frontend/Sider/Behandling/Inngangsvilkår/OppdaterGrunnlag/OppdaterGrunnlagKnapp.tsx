@@ -46,7 +46,6 @@ const OppdaterGrunnlagKnapp: React.FC<{
             >
                 {tekst}
             </Button>
-            <Feilmelding size={'small'}>{feilmelding}</Feilmelding>
             {visRedigerGrunnlagFomAdmin && (
                 <AdminEndreHenteGrunnlagFra>
                     <DateInput
@@ -68,19 +67,22 @@ const OppdaterGrunnlagKnapp: React.FC<{
 
     if (dagerSidenGrunnlagBleHentet > 0) {
         return (
-            <Alert variant={'warning'} size={'small'}>
-                <Heading size={'xsmall'} level="3">
-                    Det har gått {dagerSidenGrunnlagBleHentet}{' '}
-                    {dagerSidenGrunnlagBleHentet > 1 ? 'dager' : 'dag'} siden aktivitet og ytelse
-                    ble hentet
-                </Heading>
-                <HStack>
-                    <span>
-                        Informasjonen kan være utdatert. Vi anbefaler at du henter inn på nytt.
-                    </span>
-                    {knapp('Hent på nytt')}
-                </HStack>
-            </Alert>
+            <>
+                <Alert variant={'warning'} size={'small'}>
+                    <Heading size={'xsmall'} level="3">
+                        Det har gått {dagerSidenGrunnlagBleHentet}{' '}
+                        {dagerSidenGrunnlagBleHentet > 1 ? 'dager' : 'dag'} siden aktivitet og
+                        ytelse ble hentet
+                    </Heading>
+                    <HStack>
+                        <span>
+                            Informasjonen kan være utdatert. Vi anbefaler at du henter inn på nytt.
+                        </span>
+                        {knapp('Hent på nytt')}
+                    </HStack>
+                </Alert>
+                <Feilmelding feil={feilmelding} />
+            </>
         );
     }
     return <div>{knapp('Hent saksopplysninger om aktiviteter og ytelser på nytt')}</div>;
