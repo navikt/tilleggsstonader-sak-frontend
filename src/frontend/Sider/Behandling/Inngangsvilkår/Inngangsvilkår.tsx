@@ -40,7 +40,7 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
 };
 
 const Inngangsvilkår = () => {
-    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
+    const kanBrukeVedtaksperioderTilsynBarn = useFlag(Toggle.KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN);
 
     const { behandling } = useBehandling();
 
@@ -71,7 +71,7 @@ const Inngangsvilkår = () => {
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                             {(behandling.stønadstype !== Stønadstype.BARNETILSYN ||
-                                !skalSeInnvilgelseBarnetilsynV2) && <Stønadsperioder />}
+                                !kanBrukeVedtaksperioderTilsynBarn) && <Stønadsperioder />}
                         </VStack>
                     </InngangsvilkårProvider>
                 )}

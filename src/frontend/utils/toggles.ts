@@ -19,5 +19,5 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    KAN_SE_INNVILGELSE_BARNETILSYN_V2 = 'sak.frontend.kan-se-innviligese-barnetilsnyn-v2',
+    KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN = 'sak.kan-bruke-vedtaksperioder-tilsyn-barn',
 }

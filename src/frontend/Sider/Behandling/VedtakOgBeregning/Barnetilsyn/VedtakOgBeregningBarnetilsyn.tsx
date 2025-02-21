@@ -33,7 +33,7 @@ const Container = styled.div`
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
-    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
+    const kanBrukeVedtaksperioderTilsynBarn = useFlag(Toggle.KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN);
 
     useEffect(() => {
         if (vedtak.status === RessursStatus.SUKSESS) {
@@ -67,7 +67,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
                             <>
-                                {skalSeInnvilgelseBarnetilsynV2 ? (
+                                {kanBrukeVedtaksperioderTilsynBarn ? (
                                     <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
                                         lagretVedtak={
                                             vedtakErInnvilgelse(vedtak) ? vedtak : undefined

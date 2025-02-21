@@ -49,11 +49,11 @@ const formaterVedtaksperiode = (vedtaksperiode: Vedtaksperiode): string => {
 };
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
-    const skalSeInnvilgelseBarnetilsynV2 = useFlag(Toggle.KAN_SE_INNVILGELSE_BARNETILSYN_V2);
+    const kanBrukeVedtaksperioderTilsynBarn = useFlag(Toggle.KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN);
 
     return (
         <VStack gap={'8'}>
-            {!skalSeInnvilgelseBarnetilsynV2 && (
+            {!kanBrukeVedtaksperioderTilsynBarn && (
                 <Vedtaksliste title={'Vedtaksperioder'}>
                     {beregningsresultat.vedtaksperioder.map((vedtaksperiode) => (
                         <List.Item key={vedtaksperiode.fom}>
