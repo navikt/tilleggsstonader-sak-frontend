@@ -4,6 +4,11 @@ import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../../komponenter/Feil/feilmeldingUtils';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 
@@ -25,14 +30,16 @@ const OpprettKlageBehandling: React.FC<Props> = ({
     const { request } = useApp();
     const [klageMottattDato, settKlageMottattDato] = useState('');
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const opprett = () => {
         if (laster) {
             return;
         }
         if (!klageMottattDato) {
-            settFeilmelding('Må sette dato for klage mottatt');
+            settFeilmelding(
+                lagFeilmelding('Må sette dato for klage mottatt', RessursStatus.FUNKSJONELL_FEIL)
+            );
             return;
         }
         settLaster(true);
@@ -43,7 +50,7 @@ const OpprettKlageBehandling: React.FC<Props> = ({
                 hentKlagebehandlinger();
                 lukkModal();
             } else {
-                settFeilmelding(response.frontendFeilmelding);
+                settFeilmelding(feiletRessursTilFeilmelding(response));
                 settLaster(false);
             }
         });

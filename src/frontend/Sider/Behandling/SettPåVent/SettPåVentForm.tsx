@@ -20,6 +20,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { FormErrors, isValid } from '../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../hooks/useTriggRerendringAvDateInput';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import DateInput from '../../../komponenter/Skjema/DateInput';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 
@@ -36,7 +37,7 @@ const SettPåVentForm: React.FC<{
     const { request } = useApp();
 
     const [laster, settLaster] = useState(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
     const [settPåVent, settSettPåVent] = useState<SettPåVent>({
         årsaker: status?.årsaker || [],
         frist: status?.frist,
@@ -86,7 +87,7 @@ const SettPåVentForm: React.FC<{
                 }
                 hentBehandling.rerun();
             } else {
-                settFeilmelding(response.frontendFeilmelding);
+                settFeilmelding(feiletRessursTilFeilmelding(response));
             }
         });
     };

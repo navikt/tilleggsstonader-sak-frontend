@@ -7,6 +7,11 @@ import { Button, HStack, Select, VStack } from '@navikt/ds-react';
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../../komponenter/Feil/feilmeldingUtils';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
@@ -53,7 +58,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
 
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
 
@@ -63,7 +68,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         }
         settLaster(true);
         if (!årsak) {
-            settFeilmelding('Mangler årsak');
+            settFeilmelding(lagFeilmelding('Mangler årsak'));
             settLaster(false);
             return;
         }
@@ -76,7 +81,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 hentBehandlinger();
                 lukkModal();
             } else {
-                settFeilmelding(response.frontendFeilmelding);
+                settFeilmelding(feiletRessursTilFeilmelding(response));
                 settLaster(false);
             }
         });

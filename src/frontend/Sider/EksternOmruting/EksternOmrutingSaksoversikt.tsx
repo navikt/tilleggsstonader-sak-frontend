@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useApp } from '../../context/AppContext';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../komponenter/Feil/feilmeldingUtils';
 import { Søkeresultat } from '../../komponenter/PersonSøk';
 import { RessursStatus } from '../../typer/ressurs';
 
@@ -15,7 +16,7 @@ export const EksternOmrutingSaksoversikt = () => {
     const { request } = useApp();
     const { eksternFagsakId } = useParams<{ eksternFagsakId: string }>();
 
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     useEffect(() => {
         request<Søkeresultat, null>(`/api/sak/sok/person/fagsak-ekstern/${eksternFagsakId}`).then(
@@ -23,7 +24,7 @@ export const EksternOmrutingSaksoversikt = () => {
                 if (resultat.status === RessursStatus.SUKSESS) {
                     navigate(`/person/${resultat.data.fagsakPersonId}`);
                 } else {
-                    settFeilmelding(resultat.frontendFeilmelding);
+                    settFeilmelding(feiletRessursTilFeilmelding(resultat));
                 }
             }
         );

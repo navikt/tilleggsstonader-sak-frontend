@@ -7,6 +7,7 @@ import { Textarea } from '@navikt/ds-react';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { RessursStatus } from '../../../typer/ressurs';
@@ -25,7 +26,7 @@ const TaAvVentModal: React.FC<{
     const navigate = useNavigate();
 
     const [kommentar, settKommentar] = useState('');
-    const [feilmelding, settFeilmelding] = useState('');
+    const [feilmelding, settFeilmelding] = useState<Feil>();
     const [laster, settLaster] = useState(false);
 
     const taAvVent = (skalTilordnesRessurs: boolean) => {
@@ -42,7 +43,7 @@ const TaAvVentModal: React.FC<{
                     navigate('/');
                 }
             } else {
-                settFeilmelding(resp.frontendFeilmelding);
+                settFeilmelding(feiletRessursTilFeilmelding(resp));
             }
         });
     };
