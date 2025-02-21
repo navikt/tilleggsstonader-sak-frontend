@@ -7,6 +7,11 @@ export enum RessursStatus {
     FUNKSJONELL_FEIL = 'FUNKSJONELL_FEIL',
 }
 
+export type RessursStatusFeilet =
+    | RessursStatus.FEILET
+    | RessursStatus.FUNKSJONELL_FEIL
+    | RessursStatus.IKKE_TILGANG;
+
 export type RessursSuksess<T> = {
     data: T;
     status: RessursStatus.SUKSESS;
