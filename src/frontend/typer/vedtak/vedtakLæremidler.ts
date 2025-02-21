@@ -1,6 +1,8 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
+import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
@@ -42,6 +44,8 @@ interface BeregningsresultatForPeriode {
     beløp: number;
     stønadsbeløp: number;
     utbetalingsdato: string;
+    målgruppe: MålgruppeType;
+    aktivitetType: AktivitetType;
 }
 
 export type AvslåLæremidlerRequest = {
@@ -52,7 +56,9 @@ export type AvslåLæremidlerRequest = {
 
 export type AvslagLæremidler = AvslåLæremidlerRequest;
 
-export type OpphørLæremidler = OpphørRequest;
+export type OpphørLæremidler = OpphørRequest & {
+    beregningsresultat: BeregningsresultatLæremidler;
+};
 
 export interface Vedtaksperiode extends Periode {
     id: string;

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { VedtakshistorikkLæremidler } from './Læremidler/VedtakshistorikkLæremidler';
 import { VedtakshistorikkTilsynBarn } from './TilsynBarn/VedtakshistorikkTilsynBarn';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -16,7 +17,9 @@ export const VedtaksperioderRevurderFra = () => {
                 <VedtakshistorikkTilsynBarn forrigeBehandlingId={behandling.forrigeBehandlingId} />
             );
         case Stønadstype.LÆREMIDLER:
-            return null;
+            return (
+                <VedtakshistorikkLæremidler forrigeBehandlingId={behandling.forrigeBehandlingId} />
+            );
         default:
             return null;
     }
