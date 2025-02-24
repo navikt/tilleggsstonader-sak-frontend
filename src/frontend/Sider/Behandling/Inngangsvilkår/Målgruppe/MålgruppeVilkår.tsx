@@ -67,8 +67,9 @@ const MålgruppeVilkår: React.FC<{
                         Gjenlevende etter gammelt regelverk kan ikke behandles
                     </Heading>
                     <BodyLong size="small" spacing>
-                        Det er per d.d. ikke mulig å behandle saker hvor bruker er gjenlevende og
-                        har rett til ytelser etter gammelt regelverk.
+                        Det er per d.d. ikke mulig å behandle saker hvor bruker hvor bruker er
+                        gjenlevende med rett til ytelser etter reglene som gjaldt før 1. januar
+                        2024.
                     </BodyLong>
                     <BodyLong size="small">
                         Sett saken på vent og gi beskjed til TS-teamet på teams med saksnummeret det
