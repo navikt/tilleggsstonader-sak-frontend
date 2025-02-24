@@ -21,16 +21,12 @@ type RessursLaster = {
     status: RessursStatus.HENTER;
 };
 
-type FeilMelding = {
+export type RessursFeilet = {
     frontendFeilmelding: string;
     frontendFeilmeldingUtenFeilkode: string | undefined;
     feilkode: string | undefined;
+    status: RessursStatusFeilet;
 };
-
-export type RessursFeilet =
-    | (FeilMelding & { status: RessursStatus.IKKE_TILGANG })
-    | (FeilMelding & { status: RessursStatus.FEILET })
-    | (FeilMelding & { status: RessursStatus.FUNKSJONELL_FEIL });
 
 export type Ressurs<T> =
     | { status: RessursStatus.IKKE_HENTET }
