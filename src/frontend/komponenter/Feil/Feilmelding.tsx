@@ -1,34 +1,39 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-import { Alert, ErrorMessage } from '@navikt/ds-react';
+import { Alert, BodyShort, CopyButton, Detail, HStack, Label } from '@navikt/ds-react';
+
+import { Feil, finnFeilmeldingVariant } from './feilmeldingUtils';
 
 interface Props {
-    children: ReactNode | undefined;
-    variant?: 'inline' | 'alert';
-    size?: 'small' | 'medium';
+    feil: Feil | string | undefined;
 }
 
 export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElement, Props>(
-    function Feilmelding({ children, variant, size }, ref) {
-        if (!children) {
+    function Feilmelding({ feil }, ref) {
+        if (!feil) {
             return null;
         }
 
-        switch (variant) {
-            case 'alert':
-                return (
-                    <Alert ref={ref} variant="error" size={size}>
-                        {children}
-                    </Alert>
-                );
-
-            case 'inline':
-            default:
-                return (
-                    <ErrorMessage ref={ref} size={size}>
-                        {children}
-                    </ErrorMessage>
-                );
+        if (typeof feil === 'string') {
+            return (
+                <Alert variant="warning" size="small" ref={ref}>
+                    {feil}
+                </Alert>
+            );
         }
+
+        return (
+            <Alert variant={finnFeilmeldingVariant(feil.status)} size="small" ref={ref} fullWidth>
+                {feil.tittel && <Label size="small">{feil.tittel}</Label>}
+
+                <BodyShort size="small">{feil.feilmelding}</BodyShort>
+                <HStack align="center">
+                    {feil.feilkode && <Detail>Feilkode: {feil.feilkode}</Detail>}
+                    {feil.feilmeldingMedFeilkode && (
+                        <CopyButton copyText={feil.feilmeldingMedFeilkode} size="small" />
+                    )}
+                </HStack>
+            </Alert>
+        );
     }
 );

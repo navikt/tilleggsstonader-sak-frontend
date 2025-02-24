@@ -9,6 +9,7 @@ import { VedtaksperioderRevurderFra } from './VedtaksperioderRevurderFra';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import { Behandling } from '../../../typer/behandling/behandling';
@@ -26,7 +27,7 @@ export function RevurderFra() {
     const navigate = useNavigate();
 
     const [valideringsfeil, settValideringsfeil] = useState<string | undefined>();
-    const [feilVedLagring, settFeilVedLagring] = useState<string>();
+    const [feilVedLagring, settFeilVedLagring] = useState<Feil>();
     const [revurderFraDato, settRevurderFraDato] = useState<string | undefined>(
         behandling.revurderFra
     );
@@ -57,7 +58,7 @@ export function RevurderFra() {
             hentBehandling.rerun();
             navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
         } else {
-            settFeilVedLagring(response.frontendFeilmelding);
+            settFeilVedLagring(feiletRessursTilFeilmelding(response));
         }
     }
 
@@ -83,7 +84,7 @@ export function RevurderFra() {
                     {behandlingErRedigerbar && (
                         <SmallButton onClick={lagreRevurderFraDato}>Lagre og gå videre</SmallButton>
                     )}
-                    {feilVedLagring && <Feilmelding>{feilVedLagring}</Feilmelding>}
+                    <Feilmelding feil={feilVedLagring} />
                 </VStack>
                 <VedtaksperioderRevurderFra />
             </VStack>

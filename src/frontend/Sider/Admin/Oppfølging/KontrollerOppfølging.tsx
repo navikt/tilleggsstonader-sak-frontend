@@ -10,6 +10,11 @@ import {
 } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../typer/ressurs';
 
 export const KontrollerOppfølging = ({
@@ -24,7 +29,7 @@ export const KontrollerOppfølging = ({
     const { request } = useApp();
     const [kommentar, settKommentar] = useState<string>();
     const [utfall, settUtfall] = useState<OppfølgingUtfall>();
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const [lagrer, settLagrer] = useState<boolean>(false);
 
@@ -33,7 +38,7 @@ export const KontrollerOppfølging = ({
             return;
         }
         if (!utfall) {
-            settFeilmelding('Mangler utfall');
+            settFeilmelding(lagFeilmelding('Mangler utfall'));
             return;
         }
         settLagrer(true);
@@ -49,7 +54,7 @@ export const KontrollerOppfølging = ({
                     oppdaterOppfølging(response.data);
                     avbryt();
                 } else {
-                    settFeilmelding(response.frontendFeilmelding);
+                    settFeilmelding(feiletRessursTilFeilmelding(response));
                 }
             })
             .finally(() => settLagrer(false));
@@ -70,7 +75,7 @@ export const KontrollerOppfølging = ({
                 style={{ width: '15rem' }}
                 onChange={(e) => settKommentar(e.target.value)}
             />
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
             <HStack gap={'4'}>
                 <Button variant="tertiary" onClick={avbryt} loading={lagrer} size="small">
                     Avbryt

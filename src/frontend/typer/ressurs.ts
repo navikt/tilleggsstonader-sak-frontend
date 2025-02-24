@@ -7,6 +7,11 @@ export enum RessursStatus {
     FUNKSJONELL_FEIL = 'FUNKSJONELL_FEIL',
 }
 
+export type RessursStatusFeilet =
+    | RessursStatus.FEILET
+    | RessursStatus.FUNKSJONELL_FEIL
+    | RessursStatus.IKKE_TILGANG;
+
 export type RessursSuksess<T> = {
     data: T;
     status: RessursStatus.SUKSESS;
@@ -16,16 +21,12 @@ type RessursLaster = {
     status: RessursStatus.HENTER;
 };
 
-type FeilMelding = {
+export type RessursFeilet = {
     frontendFeilmelding: string;
     frontendFeilmeldingUtenFeilkode: string | undefined;
     feilkode: string | undefined;
+    status: RessursStatusFeilet;
 };
-
-export type RessursFeilet =
-    | (FeilMelding & { status: RessursStatus.IKKE_TILGANG })
-    | (FeilMelding & { status: RessursStatus.FEILET })
-    | (FeilMelding & { status: RessursStatus.FUNKSJONELL_FEIL });
 
 export type Ressurs<T> =
     | { status: RessursStatus.IKKE_HENTET }

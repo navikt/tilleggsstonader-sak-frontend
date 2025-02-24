@@ -10,6 +10,7 @@ import { FanePath } from '../../Sider/Behandling/faner';
 import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
+import { feiletRessursTilFeilmelding, Feil, lagFeilmelding } from '../Feil/feilmeldingUtils';
 
 const feilmeldingUlagretData = 'Har ulagret data, vennligst ferdigstill';
 
@@ -29,10 +30,10 @@ export const StegKnapp: FC<{
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
 
     useEffect(() => {
-        if (!harUlagradeKomponenter && feilmelding === feilmeldingUlagretData) {
+        if (!harUlagradeKomponenter && feilmelding?.feilmelding === feilmeldingUlagretData) {
             settFeilmelding(undefined);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,14 +47,14 @@ export const StegKnapp: FC<{
             if (res.status === RessursStatus.SUKSESS) {
                 hentBehandling.rerun();
             } else {
-                settFeilmelding(`Kunne ikke redigere steg: ${res.frontendFeilmelding}`);
+                settFeilmelding(feiletRessursTilFeilmelding(res, 'Kunne ikke redigere steg'));
             }
         });
     };
 
     const gåTilNesteSteg = () => {
         if (validerUlagedeKomponenter && harUlagradeKomponenter) {
-            settFeilmelding(feilmeldingUlagretData);
+            settFeilmelding(lagFeilmelding(feilmeldingUlagretData, 'Kunne ikke gå til neste steg'));
             return;
         }
         settFeilmelding(undefined);
@@ -71,7 +72,7 @@ export const StegKnapp: FC<{
                 hentBehandling.rerun();
                 navigate(`/behandling/${behandling.id}/${nesteFane}`);
             } else {
-                settFeilmelding(`Kunne ikke gå til neste steg: ${res.frontendFeilmelding}`);
+                settFeilmelding(feiletRessursTilFeilmelding(res, 'Kunne ikke gå til neste steg'));
             }
         });
     };
@@ -81,7 +82,8 @@ export const StegKnapp: FC<{
     }
 
     return (
-        <VStack align={'start'}>
+        <VStack align="start" gap="4">
+            <Feilmelding feil={feilmelding} />
             {behandling.steg === steg && erStegRedigerbart && (
                 <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
                     {children}
@@ -92,7 +94,6 @@ export const StegKnapp: FC<{
                     Rediger steg
                 </Button>
             )}
-            <Feilmelding>{feilmelding}</Feilmelding>
         </VStack>
     );
 };

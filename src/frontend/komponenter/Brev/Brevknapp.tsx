@@ -3,7 +3,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
@@ -71,7 +71,7 @@ export const Brevknapp = ({
             <Knapp onClick={trykkPåKnapp} disabled={laster} size="small">
                 {tittel}
             </Knapp>
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
             <FeilmeldingBrev />
         </VStack>
     );
@@ -81,14 +81,14 @@ const FeilmeldingBrev = () => {
     const { manglendeBrevVariabler, manglendeValgfelt } = useBrevFeilContext();
     return (
         (manglendeBrevVariabler.length > 0 || manglendeValgfelt.length > 0) && (
-            <Feilmelding variant="alert" size={'small'}>
+            <Alert size="small" variant="warning">
                 Kan ikke gå videre, følgende felter mangler fra brev:
                 <ListeMedMangler
                     tittel={'Felt som mangler verdi'}
                     mangler={manglendeBrevVariabler}
                 />
                 <ListeMedMangler tittel={'Valg som mangler verdi'} mangler={manglendeValgfelt} />
-            </Feilmelding>
+            </Alert>
         )
     );
 };

@@ -185,8 +185,8 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                                 settFeilmelding={settFeilmelding}
                             />
                         </section>
-                        <Feilmelding>{feilmelding}</Feilmelding>
-                        <Feilmelding>{innsendingsfeil}</Feilmelding>
+                        <Feilmelding feil={feilmelding} />
+                        <Feilmelding feil={innsendingsfeil} />
                         <HStack gap="4" justify="end">
                             <Button
                                 size={'small'}

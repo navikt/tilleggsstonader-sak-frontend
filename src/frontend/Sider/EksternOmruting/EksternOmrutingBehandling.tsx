@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useApp } from '../../context/AppContext';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../komponenter/Feil/feilmeldingUtils';
 import { Behandling } from '../../typer/behandling/behandling';
 import { RessursStatus } from '../../typer/ressurs';
 
@@ -15,7 +16,7 @@ export const EksternOmrutingBehandling = () => {
     const { request } = useApp();
     const { eksternBehandlingId } = useParams<{ eksternBehandlingId: string }>();
 
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     useEffect(() => {
         request<Behandling, null>(`/api/sak/behandling/ekstern/${eksternBehandlingId}`).then(
@@ -23,11 +24,11 @@ export const EksternOmrutingBehandling = () => {
                 if (resultat.status === RessursStatus.SUKSESS) {
                     navigate(`/behandling/${resultat.data.id}`);
                 } else {
-                    settFeilmelding(resultat.frontendFeilmelding);
+                    settFeilmelding(feiletRessursTilFeilmelding(resultat));
                 }
             }
         );
     }, [eksternBehandlingId, navigate, request]);
 
-    return <Feilmelding variant="alert">{feilmelding}</Feilmelding>;
+    return <Feilmelding feil={feilmelding} />;
 };

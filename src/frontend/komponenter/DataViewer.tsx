@@ -1,7 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Alert } from '@navikt/ds-react';
-
 import SystemetLaster from './SystemetLaster/SystemetLaster';
 import {
     erFeilressurs,
@@ -10,6 +8,8 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../typer/ressurs';
+import { Feilmelding } from './Feil/Feilmelding';
+import { feiletRessursTilFeilmelding } from './Feil/feilmeldingUtils';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -46,9 +46,7 @@ function DataViewer<T extends Record<string, unknown>>(
         return (
             <>
                 {responses.filter(erFeilressurs).map((feilet, index) => (
-                    <Alert key={index} variant={'error'}>
-                        {feilet.frontendFeilmelding}
-                    </Alert>
+                    <Feilmelding key={index} feil={feiletRessursTilFeilmelding(feilet)} />
                 ))}
             </>
         );

@@ -21,6 +21,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -30,11 +31,7 @@ import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
-import {
-    KildeVilkårsperiode,
-    StønadsperiodeStatus,
-    SvarJaNei,
-} from '../typer/vilkårperiode/vilkårperiode';
+import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -73,14 +70,15 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterAktivitet, leggTilAktivitet, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { oppdaterAktivitet, leggTilAktivitet, oppdatertStønadsperiodeFeil } =
+        useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
         initaliserForm(aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<AktivitetValidering>>();
 
@@ -118,14 +116,16 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                             oppdaterAktivitet(res.data.periode);
                         }
 
-                        if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
-                            settStønadsperiodeFeil(undefined);
-                        } else {
-                            settStønadsperiodeFeil(res.data.stønadsperiodeFeil);
-                        }
+                        oppdatertStønadsperiodeFeil(
+                            res.data.stønadsperiodeStatus,
+                            res.data.stønadsperiodeFeil
+                        );
+
                         avbrytRedigering();
                     } else {
-                        settFeilmelding(`Feilet legg til periode: ${res.frontendFeilmelding}`);
+                        settFeilmelding(
+                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
+                        );
                     }
                 })
                 .finally(() => settLaster(false));
@@ -223,7 +223,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 )}
             </HStack>
 
-            <Feilmelding>{feilmelding}</Feilmelding>
+            <Feilmelding feil={feilmelding} />
         </VilkårperiodeKortBase>
     );
 };
