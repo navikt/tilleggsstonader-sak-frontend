@@ -6,7 +6,7 @@ import { Alert, Button, VStack } from '@navikt/ds-react';
 
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
-import { erFeil, Feil } from '../../../komponenter/Feil/feilmeldingUtils';
+import { erFeil, Feil, lagFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { useSendTilBeslutter } from '../Brev/useSendTilBeslutter';
 import { VedtakFerdigstiltModal } from '../Brev/VedtakFerdigstiltModal';
 
@@ -33,7 +33,11 @@ export const UtenBrev: React.FC = () => {
         settLaster(true);
         sendTilBeslutter()
             .then(() => settFeilmelding(undefined))
-            .catch((error) => erFeil(error) && settFeilmelding(error))
+            .catch((error) =>
+                erFeil(error)
+                    ? settFeilmelding(error)
+                    : settFeilmelding(lagFeilmelding('Ukjent feil oppstod'))
+            )
             .finally(() => settLaster(false));
     };
 
