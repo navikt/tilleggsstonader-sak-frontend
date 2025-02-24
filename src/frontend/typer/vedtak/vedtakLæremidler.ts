@@ -45,7 +45,7 @@ interface BeregningsresultatForPeriode {
     stønadsbeløp: number;
     utbetalingsdato: string;
     målgruppe: MålgruppeType;
-    aktivitetType: AktivitetType;
+    aktivitet: AktivitetType;
 }
 
 export type AvslåLæremidlerRequest = {
