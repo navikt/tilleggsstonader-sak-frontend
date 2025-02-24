@@ -42,8 +42,8 @@ export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingI
             {({ vilkårsvurdering, vilkårperioderResponse }) => (
                 <VStack gap={'6'}>
                     <StyledHGrid bottomBorder columns={'125px auto'}>
-                        <BodyShort>Aktivitet</BodyShort>
-                        <VStack>
+                        <BodyShort size={'small'}>Aktivitet</BodyShort>
+                        <VStack gap={'2'}>
                             {vilkårperioderResponse.vilkårperioder.aktiviteter.map((aktivitet) => (
                                 <InfoRad
                                     key={aktivitet.id}
@@ -56,8 +56,8 @@ export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingI
                         </VStack>
                     </StyledHGrid>
                     <StyledHGrid bottomBorder columns={'125px auto'}>
-                        <BodyShort>Målgruppe</BodyShort>
-                        <VStack>
+                        <BodyShort size={'small'}>Målgruppe</BodyShort>
+                        <VStack gap={'2'}>
                             {vilkårperioderResponse.vilkårperioder.målgrupper.map((målgruppe) => (
                                 <InfoRad
                                     key={målgruppe.id}
@@ -70,7 +70,7 @@ export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingI
                         </VStack>
                     </StyledHGrid>
                     <StyledHGrid columns={'125px auto'}>
-                        <BodyShort>Pass av barn</BodyShort>
+                        <BodyShort size={'small'}>Pass av barn</BodyShort>
                         <VStack gap={'2'}>
                             {vilkårsvurdering.vilkårsett.map((vilkår) => (
                                 <InfoRad
@@ -103,7 +103,9 @@ const InfoRad: React.FC<InfoRadProps> = ({ resultat, fom, tom, gjelder }) => {
     return (
         <HStack gap={'2'} align={'center'}>
             <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />
-            <BodyShort>{`${formaterNullablePeriode(fom, tom)}: ${gjelder}`}</BodyShort>
+            <BodyShort
+                size={'small'}
+            >{`${formaterNullablePeriode(fom, tom)}: ${gjelder}`}</BodyShort>
         </HStack>
     );
 };

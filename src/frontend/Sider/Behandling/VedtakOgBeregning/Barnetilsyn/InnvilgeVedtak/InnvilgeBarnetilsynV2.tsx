@@ -125,18 +125,20 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     return (
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
-                <BehandlingInfo behandlingId={behandling.id} />
-                <Vedtaksperioder
-                    vedtaksperioder={vedtaksperioder}
-                    lagredeVedtaksperioder={lagredeVedtaksperioder}
-                    settVedtaksperioder={settVedtaksperioder}
-                    vedtaksperioderFeil={vedtaksperiodeFeil}
-                    settVedtaksperioderFeil={settVedtaksperiodeFeil}
-                    foreslåPeriodeFeil={foreslåPeriodeFeil}
-                    settForeslåPeriodeFeil={settForeslåPeriodeFeil}
-                />
-                {erStegRedigerbart && <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>}
-                <VStack gap="8">
+                <VStack gap={'8'}>
+                    <BehandlingInfo behandlingId={behandling.id} />
+                    <Vedtaksperioder
+                        vedtaksperioder={vedtaksperioder}
+                        lagredeVedtaksperioder={lagredeVedtaksperioder}
+                        settVedtaksperioder={settVedtaksperioder}
+                        vedtaksperioderFeil={vedtaksperiodeFeil}
+                        settVedtaksperioderFeil={settVedtaksperiodeFeil}
+                        foreslåPeriodeFeil={foreslåPeriodeFeil}
+                        settForeslåPeriodeFeil={settForeslåPeriodeFeil}
+                    />
+                    {erStegRedigerbart && (
+                        <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
+                    )}
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (

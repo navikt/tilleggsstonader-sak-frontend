@@ -111,8 +111,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
     return (
         <VStack gap="4">
             <div>
-                <Heading spacing size="xsmall" level="5">
-                    Vedtaksperiode
+                <Heading size="xsmall" level="5">
+                    Vedtaksperioder
                 </Heading>
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
