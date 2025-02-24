@@ -80,7 +80,7 @@ const EndreMålgruppeRad: React.FC<{
         initaliserForm(målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<MålgruppeValidering>>();
 

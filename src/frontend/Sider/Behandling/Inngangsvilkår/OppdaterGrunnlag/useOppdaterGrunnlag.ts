@@ -16,7 +16,7 @@ export const useOppdaterGrunnlag = (hentVilkårperioder: () => void): OppdaterGr
     const { request, settToast } = useApp();
     const { behandling } = useBehandling();
     const [laster, settLaster] = useState(false);
-    const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const oppdaterGrunnlag = (hentFom?: string) => {
         if (laster) {
