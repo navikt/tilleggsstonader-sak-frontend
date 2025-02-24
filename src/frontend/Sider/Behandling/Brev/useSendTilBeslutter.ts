@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { SendTilBeslutterRequest, TotrinnskontrollResponse } from '../Totrinnskontroll/typer';
 
@@ -12,7 +13,7 @@ export const useSendTilBeslutter = () => {
     const behandlingId = behandling.id;
 
     const sendTilBeslutter = async (kommentarTilBeslutter?: string) => {
-        request<TotrinnskontrollResponse, SendTilBeslutterRequest>(
+        return request<TotrinnskontrollResponse, SendTilBeslutterRequest>(
             `/api/sak/totrinnskontroll/${behandlingId}/send-til-beslutter`,
             'POST',
             {
@@ -25,7 +26,7 @@ export const useSendTilBeslutter = () => {
                 settVisVedtakFerdigstiltModal(true);
                 return Promise.resolve();
             } else {
-                return Promise.reject(res.frontendFeilmelding);
+                return Promise.reject(feiletRessursTilFeilmelding(res));
             }
         });
     };

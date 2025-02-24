@@ -6,6 +6,7 @@ import { Alert, Button, VStack } from '@navikt/ds-react';
 
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { erFeil, Feil } from '../../../komponenter/Feil/feilmeldingUtils';
 import { useSendTilBeslutter } from '../Brev/useSendTilBeslutter';
 import { VedtakFerdigstiltModal } from '../Brev/VedtakFerdigstiltModal';
 
@@ -20,7 +21,7 @@ const Knapp = styled(Button)`
 export const UtenBrev: React.FC = () => {
     const { erStegRedigerbart } = useSteg();
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const { sendTilBeslutter, visVedtakFerdigstiltModal, lukkVedtakFerdigstiltModal } =
         useSendTilBeslutter();
@@ -32,7 +33,7 @@ export const UtenBrev: React.FC = () => {
         settLaster(true);
         sendTilBeslutter()
             .then(() => settFeilmelding(undefined))
-            .catch((error) => settFeilmelding(error.message))
+            .catch((error) => erFeil(error) && settFeilmelding(error))
             .finally(() => settLaster(false));
     };
 

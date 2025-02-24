@@ -40,3 +40,10 @@ export const finnFeilmeldingVariant = (status: RessursStatus | undefined): 'erro
             return 'warning';
     }
 };
+
+export const erFeil = (feil: unknown): feil is Feil => {
+    if (typeof feil === 'object' && feil && 'feilmelding' in feil) {
+        return true;
+    }
+    return false;
+};
