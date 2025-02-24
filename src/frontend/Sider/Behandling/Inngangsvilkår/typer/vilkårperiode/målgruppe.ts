@@ -16,6 +16,7 @@ export enum MålgruppeType {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+    GJENLEVENDE_GAMMELT_REGELVERK = 'GJENLEVENDE_GAMMELT_REGELVERK', // Ikke støttet i backend, brukes kun for å vise feilmelding om manglende støtte ved valg av denne
 }
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
@@ -26,6 +27,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
+    GJENLEVENDE_GAMMELT_REGELVERK: 'Gjenlevende - gammelt regelverk',
 };
 
 const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
@@ -37,6 +39,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         NEDSATT_ARBEIDSEVNE: true,
         SYKEPENGER_100_PROSENT: true,
         INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
     [Stønadstype.LÆREMIDLER]: {
         AAP: true,
@@ -46,6 +49,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         NEDSATT_ARBEIDSEVNE: true,
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
     [Stønadstype.BOUTGIFTER]: {
         AAP: true,
@@ -55,6 +59,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         NEDSATT_ARBEIDSEVNE: true,
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
 };
 
@@ -114,6 +119,7 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     SYKEPENGER_100_PROSENT: FaktiskMålgruppe.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
+    GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
 };
 
 export interface MålgruppeVurderinger {

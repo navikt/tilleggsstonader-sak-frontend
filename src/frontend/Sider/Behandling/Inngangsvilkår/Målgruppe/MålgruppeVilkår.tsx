@@ -2,11 +2,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
-import { SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
+import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 const Container = styled.div`
@@ -25,8 +27,14 @@ const MålgruppeVilkår: React.FC<{
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
     const skalVurdereDekketAvAnnetRegelverk = skalVurdereDekkesAvAnnetRegelverk(målgruppeForm.type);
+    const erGjenlevendeGammeltRegelverk =
+        målgruppeForm.type === MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
 
-    if (!skalVurdereMedlemskap && !skalVurdereDekketAvAnnetRegelverk) {
+    if (
+        !skalVurdereMedlemskap &&
+        !skalVurdereDekketAvAnnetRegelverk &&
+        !erGjenlevendeGammeltRegelverk
+    ) {
         return null;
     }
 
@@ -52,6 +60,22 @@ const MålgruppeVilkår: React.FC<{
                         oppdaterVurderinger('svarUtgifterDekketAvAnnetRegelverk', nyttSvar)
                     }
                 />
+            )}
+            {erGjenlevendeGammeltRegelverk && (
+                <Alert variant="warning" size="small">
+                    <Heading spacing size="xsmall" level="3">
+                        Gjenlevende etter gammelt regelverk kan ikke behandles
+                    </Heading>
+                    <BodyLong size="small" spacing>
+                        Det er per d.d. ikke mulig å behandle saker hvor bruker hvor bruker er
+                        gjenlevende med rett til ytelser etter reglene som gjaldt før 1. januar
+                        2024.
+                    </BodyLong>
+                    <BodyLong size="small">
+                        Sett saken på vent og gi beskjed til TS-teamet på teams med saksnummeret det
+                        gjelder.
+                    </BodyLong>
+                </Alert>
             )}
         </Container>
     );
