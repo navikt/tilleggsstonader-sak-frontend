@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, Heading, HStack, Textarea, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
+import {
+    Button,
+    Checkbox,
+    Heading,
+    HStack,
+    Textarea,
+    UNSAFE_Combobox,
+    VStack,
+} from '@navikt/ds-react';
 
 import { finnNyFrist } from './antallDagerFrist';
 import {
@@ -43,6 +51,7 @@ const SettPåVentForm: React.FC<{
         frist: status?.frist,
         kommentar: status?.kommentar,
         oppgaveVersjon: status?.oppgaveVersjon,
+        beholdOppgave: false,
     });
 
     const { keyDato, oppdaterDatoKey } = useTriggRerendringAvDateInput();
@@ -138,6 +147,18 @@ const SettPåVentForm: React.FC<{
                 maxLength={1000}
                 error={formErrors?.kommentar}
             />
+            <Checkbox
+                value={settPåVent.beholdOppgave}
+                defaultChecked={settPåVent.beholdOppgave}
+                onChange={() => {
+                    settSettPåVent((prevState) => ({
+                        ...prevState,
+                        beholdOppgave: !prevState.beholdOppgave,
+                    }));
+                }}
+            >
+                Behold oppgave på egen benk
+            </Checkbox>
             <HStack gap={'4'}>
                 <Button size={'small'} onClick={settPåVentClick}>
                     {oppdatererEksisterendeSettPåVent ? 'Oppdater' : 'Sett på vent'}
