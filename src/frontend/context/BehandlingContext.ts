@@ -44,11 +44,12 @@ interface BehandlingContext {
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
+    const kanSaksbehandleBarnetilsyn = useFlag(Toggle.KAN_SAKSBEHANDLE_BARNETILSYN);
     const kanSaksbehandleLæremidler = useFlag(Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER);
     const kanSaksbehandleBoutgifter = useFlag(Toggle.KAN_SAKSBEHANDLE_BOUTGIFTER);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return true;
+            return kanSaksbehandleBarnetilsyn;
         case Stønadstype.LÆREMIDLER:
             return kanSaksbehandleLæremidler;
         case Stønadstype.BOUTGIFTER:

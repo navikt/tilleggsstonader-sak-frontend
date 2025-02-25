@@ -2,6 +2,7 @@ export enum Toggle {
     /**
      * Kan opprette saksbehandling og revurdering
      */
+    KAN_SAKSBEHANDLE_BARNETILSYN = 'sak.frontend.kan-saksbehandle.barnetilsyn',
     KAN_SAKSBEHANDLE_LÆREMIDLER = 'sak.frontend.kan-saksbehandle.laremidler',
     KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
     KAN_SAKSBEHANDLE_BOUTGIFTER = 'sak.frontend.kan-saksbehandle.boutgifter',
