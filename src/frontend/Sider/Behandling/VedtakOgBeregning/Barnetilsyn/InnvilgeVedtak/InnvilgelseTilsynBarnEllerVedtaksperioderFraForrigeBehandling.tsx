@@ -72,7 +72,7 @@ const vedtaksperioderForrigeVedtak = (
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;
         case TypeVedtak.OPPHØR:
-            return undefined; // TODO legg till når opphør inneholder vedtaksperioder?
+            return vedtak.vedtaksperioder;
         case TypeVedtak.AVSLAG:
             return undefined;
     }

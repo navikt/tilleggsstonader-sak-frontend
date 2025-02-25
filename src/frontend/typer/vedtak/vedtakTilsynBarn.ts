@@ -41,6 +41,7 @@ export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
 export type OpphørBarnetilsyn = OpphørRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
 };
 
 export type BeregningsresultatTilsynBarn = {
