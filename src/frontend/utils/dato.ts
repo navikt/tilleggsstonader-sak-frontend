@@ -165,6 +165,10 @@ export const formaterNullableÅrMåned = (dato: string | undefined): string | un
 export const formaterÅrMåned = (dato: string): string =>
     format(parseISO(dato), 'MMM yyyy', { locale: nb });
 
+// Eksempel: formaterÅrMåned('2023-09-18') -> 'september 2023'
+export const formaterÅrFullMåned = (dato: string): string =>
+    format(parseISO(dato), 'MMMM yyyy', { locale: nb });
+
 // Eksempel: dagensDato() -> '2023-09-18'
 export const dagensDato = (): string => tilLocaleDateString(new Date());
 

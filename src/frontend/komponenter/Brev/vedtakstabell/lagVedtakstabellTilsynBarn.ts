@@ -1,6 +1,6 @@
 import { LagVedtakstabell } from './lagVedtakstabell';
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
-import { formaterÅrMåned } from '../../../utils/dato';
+import { formaterÅrFullMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { toTitleCase } from '../../../utils/tekstformatering';
 import { variabelBeregningstabellId } from '../variablerUtils';
@@ -38,7 +38,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatTilsynBarn): s
     }
     return beregningsresultat.perioder
         .map((periode) => {
-            const datoperiode = `${toTitleCase(formaterÅrMåned(periode.grunnlag.måned))}`;
+            const datoperiode = `${toTitleCase(formaterÅrFullMåned(periode.grunnlag.måned))}`;
             const månedligUtgifter = formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal);
             const beløp = formaterTallMedTusenSkille(periode.månedsbeløp);
 
