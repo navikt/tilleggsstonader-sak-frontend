@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 
-import { Alert, Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
+import { Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak, henlagtÅrsakTilTekst } from '../../../typer/behandling/behandlingÅrsak';
 import { RessursStatus } from '../../../typer/ressurs';
@@ -15,17 +21,22 @@ const HenleggModal: React.FC = () => {
     const { behandling, hentBehandling, visHenleggModal, settVisHenleggModal } = useBehandling();
 
     const [laster, settLaster] = useState(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
     const [henlagtBegrunnelse, settHenlagtBegrunnelse] = useState<string>();
 
     const lukkModal = () => {
-        settFeilmelding('');
+        settFeilmelding(undefined);
         settVisHenleggModal(false);
     };
 
     const henleggBehandling = () => {
-        if (!henlagtårsak || laster) return;
+        if (laster) return;
+
+        if (!henlagtårsak) {
+            settFeilmelding(lagFeilmelding('Årsak til henleggelse må velges.'));
+            return;
+        }
 
         settLaster(true);
 
@@ -43,7 +54,7 @@ const HenleggModal: React.FC = () => {
                     lukkModal();
                     settToast(Toast.BEHANDLING_HENLAGT);
                 } else {
-                    settFeilmelding(respons.frontendFeilmelding);
+                    settFeilmelding(feiletRessursTilFeilmelding(respons));
                 }
             })
             .finally(() => settLaster(false));
@@ -89,7 +100,7 @@ const HenleggModal: React.FC = () => {
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}
                     />
-                    {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
+                    <Feilmelding feil={feilmelding} />
                 </VStack>
             </Box>
         </ModalWrapper>
