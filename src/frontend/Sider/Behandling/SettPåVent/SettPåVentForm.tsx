@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import {
-    Button,
-    Checkbox,
-    Heading,
-    HStack,
-    Textarea,
-    UNSAFE_Combobox,
-    VStack,
-} from '@navikt/ds-react';
+import { Button, Heading, HStack, Textarea, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 
 import { finnNyFrist } from './antallDagerFrist';
 import {
     alleÅrsaker,
     SettPåVent,
     SettPåVentError,
+    SettPåVentRequest,
     StatusSettPåVent,
     tekstTilÅrsak,
     ÅrsakSettPåVent,
@@ -50,7 +43,6 @@ const SettPåVentForm: React.FC<{
         frist: status?.frist,
         kommentar: status?.kommentar,
         oppgaveVersjon: status?.oppgaveVersjon,
-        beholdOppgave: false,
     });
 
     const { keyDato, oppdaterDatoKey } = useTriggRerendringAvDateInput();
@@ -70,7 +62,7 @@ const SettPåVentForm: React.FC<{
         oppdaterDatoKey();
     };
 
-    const settPåVentClick = () => {
+    const settPåVentClick = (beholdOppgave: boolean) => {
         if (laster) return;
 
         const validering = validerSettPåVent(settPåVent);
@@ -80,10 +72,10 @@ const SettPåVentForm: React.FC<{
         }
 
         settLaster(true);
-        request<StatusSettPåVent, SettPåVent>(
+        request<StatusSettPåVent, SettPåVentRequest>(
             `/api/sak/sett-pa-vent/${behandling.id}`,
             oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
-            settPåVent
+            { ...settPåVent, beholdOppgave }
         ).then((response) => {
             settLaster(false);
             if (response.status === RessursStatus.SUKSESS) {
@@ -146,21 +138,16 @@ const SettPåVentForm: React.FC<{
                 maxLength={1000}
                 error={formErrors?.kommentar}
             />
-            <Checkbox
-                value={settPåVent.beholdOppgave}
-                defaultChecked={settPåVent.beholdOppgave}
-                onChange={() => {
-                    settSettPåVent((prevState) => ({
-                        ...prevState,
-                        beholdOppgave: !prevState.beholdOppgave,
-                    }));
-                }}
-            >
-                Behold oppgave på egen benk
-            </Checkbox>
             <HStack gap={'4'}>
-                <Button size={'small'} onClick={settPåVentClick}>
-                    {oppdatererEksisterendeSettPåVent ? 'Oppdater' : 'Sett på vent'}
+                <Button size={'small'} onClick={() => settPåVentClick(false)}>
+                    {oppdatererEksisterendeSettPåVent
+                        ? 'Oppdater og sett som ufordelt'
+                        : 'Sett på vent'}
+                </Button>
+                <Button size={'small'} variant={'secondary'} onClick={() => settPåVentClick(true)}>
+                    {oppdatererEksisterendeSettPåVent
+                        ? 'Oppdater og behold oppgave'
+                        : 'Sett på vent og behold oppgave'}
                 </Button>
                 <Button
                     size={'small'}

@@ -3,8 +3,9 @@ export interface SettPåVent {
     kommentar?: string;
     frist?: string;
     oppgaveVersjon?: number;
-    beholdOppgave: boolean;
 }
+
+export type SettPåVentRequest = SettPåVent & { beholdOppgave: boolean };
 
 export interface StatusSettPåVent {
     årsaker: ÅrsakSettPåVent[];
@@ -17,7 +18,7 @@ export interface StatusSettPåVent {
     oppgaveVersjon: number;
 }
 
-export interface SettPåVentError extends Omit<SettPåVent, 'årsaker' | 'beholdOppgave'> {
+export interface SettPåVentError extends Omit<SettPåVent, 'årsaker'> {
     årsaker: string;
 }
 
