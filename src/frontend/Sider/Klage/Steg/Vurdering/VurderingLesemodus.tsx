@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Heading, List } from '@navikt/ds-react';
 
 import { alleHjemlerTilVisningstekst } from './hjemmel';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
@@ -60,7 +60,7 @@ const OmgjørVedtak: React.FC<{ vurdering: OmgjøringDto }> = ({ vurdering }) =>
 };
 
 const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurdering }) => {
-    const { vedtak, hjemmel, innstillingKlageinstans, interntNotat } = vurdering;
+    const { vedtak, hjemler, innstillingKlageinstans, interntNotat } = vurdering;
     return (
         <Container>
             <Avsnitt>
@@ -71,9 +71,13 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
             </Avsnitt>
             <Avsnitt>
                 <Heading level="1" size="medium">
-                    Årsak
+                    Hjemler
                 </Heading>
-                <BodyShort>{alleHjemlerTilVisningstekst[hjemmel]}</BodyShort>
+                <List>
+                    {hjemler.map((hjemmel) => (
+                        <List.Item key={hjemmel}>{alleHjemlerTilVisningstekst[hjemmel]}</List.Item>
+                    ))}
+                </List>
             </Avsnitt>
             <Avsnitt>
                 <Heading level="1" size="medium">

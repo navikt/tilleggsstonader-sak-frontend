@@ -177,14 +177,16 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
                                     <>
                                         <HjemmelVelger
-                                            settHjemmel={settOppdatertVurdering}
-                                            hjemmelValgt={oppdatertVurdering.hjemmel}
+                                            settHjemler={settOppdatertVurdering}
+                                            hjemler={oppdatertVurdering.hjemler}
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>
                                             <EnsligTextArea
                                                 label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
-                                                value={oppdatertVurdering.innstillingKlageinstans}
+                                                value={
+                                                    oppdatertVurdering.innstillingKlageinstans || ''
+                                                }
                                                 onChange={(e) => {
                                                     settIkkePersistertKomponent(e.target.value);
                                                     settOppdatertVurdering((tidligereTilstand) => ({

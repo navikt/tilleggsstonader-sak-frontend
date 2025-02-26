@@ -208,7 +208,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         <>
                             <Textarea
                                 label={'Begrunnelse (intern)'}
-                                value={vurderinger.saksbehandlerBegrunnelse}
+                                value={vurderinger.saksbehandlerBegrunnelse || ''}
                                 onChange={(e) => {
                                     settIkkePersistertKomponent('formkravVilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
@@ -234,7 +234,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                         </HjelpeTekst>
                                     </FlexRow>
                                 }
-                                value={vurderinger.brevtekst}
+                                value={vurderinger.brevtekst || ''}
                                 onChange={(e) => {
                                     settIkkePersistertKomponent('formkravVilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
