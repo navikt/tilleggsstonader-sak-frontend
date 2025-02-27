@@ -4,16 +4,16 @@ import styled from 'styled-components';
 
 import { BodyShort, HGrid, HStack, VStack } from '@navikt/ds-react';
 
-import { useHentVilkårsvurdering } from '../../../../../hooks/useHentVilkårsvurdering';
-import { useVilkårperioder } from '../../../../../hooks/useVilkårperioder';
-import DataViewer from '../../../../../komponenter/DataViewer';
-import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
-import { BehandlingFaktaTilsynBarn } from '../../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterNullablePeriode } from '../../../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
-import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../../../vilkår';
+import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
+import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
+import DataViewer from '../../../komponenter/DataViewer';
+import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { BehandlingFaktaTilsynBarn } from '../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { formaterNullablePeriode } from '../../../utils/dato';
+import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivitet';
+import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { VilkårPeriodeResultat } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { Vilkårsresultat } from '../vilkår';
 
 const StyledHGrid = styled(HGrid).withConfig({
     shouldForwardProp: (prop) => prop !== 'bottomBorder',
@@ -22,7 +22,9 @@ const StyledHGrid = styled(HGrid).withConfig({
     ${(props) => props.bottomBorder && `border-bottom: solid 1px white;`}
 `;
 
-export const BehandlingInfo: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+export const OppsummeringVilkårperioderOgVilkår: React.FC<{ behandlingId: string }> = ({
+    behandlingId,
+}) => {
     const { vilkårperioderResponse } = useVilkårperioder(behandlingId);
     const { hentVilkårsvurdering, vilkårsvurdering } = useHentVilkårsvurdering();
 
