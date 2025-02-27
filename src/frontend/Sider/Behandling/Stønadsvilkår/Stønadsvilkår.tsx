@@ -19,6 +19,7 @@ import { Steg } from '../../../typer/behandling/steg';
 import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
+import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -42,6 +43,7 @@ const Stønadsvilkår = () => {
     return (
         <Container>
             <VarselRevurderFraDatoMangler />
+            <OppsummeringVilkårperioder behandlingId={behandling.id} />
             <DataViewer
                 response={{
                     regler,
