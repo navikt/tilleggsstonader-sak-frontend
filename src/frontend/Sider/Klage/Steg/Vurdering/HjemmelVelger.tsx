@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, Select } from '@navikt/ds-react';
+import { UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
 import { Vurderingsfelter } from './vurderingsfelter';
@@ -14,45 +14,57 @@ const HjemmelStyled = styled.div`
 
 const HjemmelInnholdStyled = styled.div`
     display: block;
-    width: 18rem;
+    width: 23rem;
 `;
 
 interface IHjemmel {
-    settHjemmel: Dispatch<SetStateAction<Vurderingsfelter>>;
-    hjemmelValgt?: Hjemmel;
+    settHjemler: Dispatch<SetStateAction<Vurderingsfelter>>;
+    hjemler?: Hjemmel[];
     endring: (komponentId: string) => void;
 }
 
-export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, endring }) => {
+const hjemlerTilOptions = (hjemler: Hjemmel[] | undefined) =>
+    hjemler?.map((hjemmel) => ({
+        value: hjemmel,
+        label: alleHjemlerTilVisningstekst[hjemmel as Hjemmel],
+    })) ?? [];
+
+export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endring }) => {
+    const options = hjemlerTilOptions(Object.keys(alleHjemlerTilVisningstekst) as Hjemmel[]);
+    const selectedOptions = hjemlerTilOptions(hjemler);
+    const onToggleSelected = (option: string, isSelected: boolean) => {
+        endring('hjemmel');
+        settHjemler((prevState) => {
+            if (isSelected) {
+                return {
+                    ...prevState,
+                    hjemler: [...(prevState.hjemler || []), option as Hjemmel],
+                };
+            } else {
+                return {
+                    ...prevState,
+                    hjemler: (prevState.hjemler || []).filter((hjemmel) => hjemmel !== option),
+                };
+            }
+        });
+    };
+
     return (
         <HjemmelStyled>
-            <Heading spacing size="medium" level="5">
-                Hjemmel
-            </Heading>
             <HjemmelInnholdStyled>
-                <Select
-                    value={hjemmelValgt}
-                    label=""
+                <UNSAFE_Combobox
+                    label="Hjemler"
+                    description={'Velg inntil 2 hjemler som klagen kan knyttes til'}
                     size="medium"
-                    onChange={(e) => {
-                        endring(e.target.value);
-                        settHjemmel(
-                            (tidligereTilstand: Vurderingsfelter) =>
-                                ({
-                                    ...tidligereTilstand,
-                                    hjemmel: e.target.value,
-                                }) as Vurderingsfelter
-                        );
+                    options={options}
+                    selectedOptions={selectedOptions}
+                    onToggleSelected={onToggleSelected}
+                    isMultiSelect={true}
+                    maxSelected={{
+                        limit: 2,
+                        message: `2 av maks 2 er valgt`,
                     }}
-                    hideLabel
-                >
-                    <option value={''}>Velg</option>
-                    {Object.keys(alleHjemlerTilVisningstekst).map((hjemmel: string) => (
-                        <option value={hjemmel as Hjemmel} key={hjemmel}>
-                            {alleHjemlerTilVisningstekst[hjemmel as Hjemmel]}
-                        </option>
-                    ))}
-                </Select>
+                />
             </HjemmelInnholdStyled>
         </HjemmelStyled>
     );
