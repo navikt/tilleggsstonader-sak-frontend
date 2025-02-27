@@ -2,18 +2,17 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, HGrid, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid, VStack } from '@navikt/ds-react';
 
+import {
+    OppsummeringAktiviteter,
+    OppsummeringMålgrupper,
+    VilkårOppsummeringRad,
+} from './VilkårOppsummeringRad';
 import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
-import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { BehandlingFaktaTilsynBarn } from '../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterNullablePeriode } from '../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivitet';
-import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { VilkårPeriodeResultat } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../vilkår';
 
 const StyledHGrid = styled(HGrid).withConfig({
     shouldForwardProp: (prop) => prop !== 'bottomBorder',
@@ -46,36 +45,24 @@ export const OppsummeringVilkårperioderOgVilkår: React.FC<{ behandlingId: stri
                     <StyledHGrid bottomBorder columns={'125px auto'}>
                         <BodyShort size={'small'}>Aktivitet</BodyShort>
                         <VStack gap={'2'}>
-                            {vilkårperioderResponse.vilkårperioder.aktiviteter.map((aktivitet) => (
-                                <InfoRad
-                                    key={aktivitet.id}
-                                    resultat={aktivitet.resultat}
-                                    fom={aktivitet.fom}
-                                    tom={aktivitet.tom}
-                                    gjelder={aktivitetTypeTilTekst(aktivitet.type)}
-                                />
-                            ))}
+                            <OppsummeringAktiviteter
+                                aktiviteter={vilkårperioderResponse.vilkårperioder.aktiviteter}
+                            />
                         </VStack>
                     </StyledHGrid>
                     <StyledHGrid bottomBorder columns={'125px auto'}>
                         <BodyShort size={'small'}>Målgruppe</BodyShort>
                         <VStack gap={'2'}>
-                            {vilkårperioderResponse.vilkårperioder.målgrupper.map((målgruppe) => (
-                                <InfoRad
-                                    key={målgruppe.id}
-                                    resultat={målgruppe.resultat}
-                                    fom={målgruppe.fom}
-                                    tom={målgruppe.tom}
-                                    gjelder={målgruppeTypeTilTekst(målgruppe.type)}
-                                />
-                            ))}
+                            <OppsummeringMålgrupper
+                                målgrupper={vilkårperioderResponse.vilkårperioder.målgrupper}
+                            />
                         </VStack>
                     </StyledHGrid>
                     <StyledHGrid columns={'125px auto'}>
                         <BodyShort size={'small'}>Pass av barn</BodyShort>
                         <VStack gap={'2'}>
                             {vilkårsvurdering.vilkårsett.map((vilkår) => (
-                                <InfoRad
+                                <VilkårOppsummeringRad
                                     key={vilkår.id}
                                     resultat={vilkår.resultat}
                                     fom={vilkår.fom}
@@ -91,23 +78,5 @@ export const OppsummeringVilkårperioderOgVilkår: React.FC<{ behandlingId: stri
                 </VStack>
             )}
         </DataViewer>
-    );
-};
-
-interface InfoRadProps {
-    resultat: VilkårPeriodeResultat | Vilkårsresultat;
-    fom?: string;
-    tom?: string;
-    gjelder?: string;
-}
-
-const InfoRad: React.FC<InfoRadProps> = ({ resultat, fom, tom, gjelder }) => {
-    return (
-        <HStack gap={'2'} align={'center'}>
-            <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />
-            <BodyShort
-                size={'small'}
-            >{`${formaterNullablePeriode(fom, tom)}: ${gjelder}`}</BodyShort>
-        </HStack>
     );
 };

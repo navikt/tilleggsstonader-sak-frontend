@@ -1,9 +1,6 @@
-import { AktivitetType } from './aktivitet';
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import { VilkårPeriodeAktivitet, SvarJaNei, Vurdering } from './vilkårperiode';
 
-export interface AktivitetBarnetilsyn extends VilkårPeriode {
-    id: string;
-    type: AktivitetType;
+export interface AktivitetBarnetilsyn extends VilkårPeriodeAktivitet {
     kildeId?: string;
     faktaOgVurderinger: AktivitetBarnetilsynFaktaOgVurderinger;
 }

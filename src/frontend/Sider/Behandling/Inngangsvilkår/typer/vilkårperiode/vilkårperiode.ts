@@ -66,6 +66,10 @@ export interface VilkårPeriode extends Periode {
     forrigeVilkårperiodeId?: string;
 }
 
+export interface VilkårPeriodeAktivitet extends VilkårPeriode {
+    type: AktivitetType;
+}
+
 export enum VilkårPeriodeResultat {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
