@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { Heading, UNSAFE_Combobox } from '@navikt/ds-react';
+import { UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
 import { Vurderingsfelter } from './vurderingsfelter';
@@ -14,7 +14,7 @@ const HjemmelStyled = styled.div`
 
 const HjemmelInnholdStyled = styled.div`
     display: block;
-    width: 18rem;
+    width: 23rem;
 `;
 
 interface IHjemmel {
@@ -51,18 +51,19 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endrin
 
     return (
         <HjemmelStyled>
-            <Heading spacing size="medium" level="5">
-                Hjemmel
-            </Heading>
             <HjemmelInnholdStyled>
                 <UNSAFE_Combobox
-                    label=""
-                    hideLabel
+                    label="Hjemler"
+                    description={'Velg inntil 2 hjemler som klagen kan knyttes til'}
                     size="medium"
                     options={options}
                     selectedOptions={selectedOptions}
                     onToggleSelected={onToggleSelected}
                     isMultiSelect={true}
+                    maxSelected={{
+                        limit: 2,
+                        message: `2 av maks 2 er valgt`,
+                    }}
                 />
             </HjemmelInnholdStyled>
         </HjemmelStyled>
