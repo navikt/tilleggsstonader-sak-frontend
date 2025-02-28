@@ -141,17 +141,17 @@ const SettPåVentForm: React.FC<{
             <HStack gap={'4'}>
                 <Button size={'small'} onClick={() => settPåVentClick(false)}>
                     {oppdatererEksisterendeSettPåVent
-                        ? 'Oppdater og sett som ufordelt'
-                        : 'Sett på vent'}
+                        ? 'Sett på vent og ufordelt'
+                        : 'Sett på vent og tildel meg'}
                 </Button>
                 <Button size={'small'} variant={'secondary'} onClick={() => settPåVentClick(true)}>
                     {oppdatererEksisterendeSettPåVent
-                        ? 'Oppdater og behold oppgave'
-                        : 'Sett på vent og behold oppgave'}
+                        ? 'Oppdater og sett som ufordelt'
+                        : 'Oppdater og tildel meg'}
                 </Button>
                 <Button
                     size={'small'}
-                    variant={'secondary'}
+                    variant={'tertiary'}
                     onClick={() => settStatusPåVentRedigering(false)}
                 >
                     Angre
