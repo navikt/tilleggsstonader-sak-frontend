@@ -1,7 +1,7 @@
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { erDatoEtterEllerLik } from '../../../../utils/dato';
+import { datoErIPeriodeInklusivSlutt, erDatoEtterEllerLik } from '../../../../utils/dato';
 import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
 
 export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
@@ -44,11 +44,15 @@ export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype
 
 /**
  * En aktivitet kan alltid brukes i en førstegangsbehandling
- * Hvis det er en revurdering kan den kun brukes dersom aktiviteten er etter datoen det revurderes fra.
+ * Hvis det er en revurdering kan den kun brukes dersom det revurderes eller eller i aktivitetens periode
+ * OBS: Man vil ikke kunne lagre den brukte aktiviteten som en vilkårperiode uten å endre fom-datoen til minst revurder fra.
  */
 export const kanRegisterAktivitetBrukes = (aktivitet: Registeraktivitet, revurderFra?: string) => {
     if (!revurderFra) return true;
     if (!aktivitet.fom) return false;
 
-    return erDatoEtterEllerLik(revurderFra, aktivitet.fom);
+    return (
+        erDatoEtterEllerLik(revurderFra, aktivitet.fom) ||
+        (aktivitet.tom && datoErIPeriodeInklusivSlutt(revurderFra, aktivitet.fom, aktivitet.tom))
+    );
 };
