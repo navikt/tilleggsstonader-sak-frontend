@@ -9,6 +9,7 @@ import {
     alleÅrsaker,
     SettPåVent,
     SettPåVentError,
+    SettPåVentRequest,
     StatusSettPåVent,
     tekstTilÅrsak,
     ÅrsakSettPåVent,
@@ -62,7 +63,7 @@ const SettPåVentForm: React.FC<{
         oppdaterDatoKey();
     };
 
-    const settPåVentClick = () => {
+    const settPåVentClick = (beholdOppgave: boolean) => {
         if (laster) return;
 
         const validering = validerSettPåVent(settPåVent);
@@ -72,10 +73,10 @@ const SettPåVentForm: React.FC<{
         }
 
         settLaster(true);
-        request<StatusSettPåVent, SettPåVent>(
+        request<StatusSettPåVent, SettPåVentRequest>(
             `/api/sak/sett-pa-vent/${behandling.id}`,
             oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
-            settPåVent
+            { ...settPåVent, beholdOppgave }
         ).then((response) => {
             settLaster(false);
             if (response.status === RessursStatus.SUKSESS) {
@@ -139,12 +140,19 @@ const SettPåVentForm: React.FC<{
                 error={formErrors?.kommentar}
             />
             <HStack gap={'4'}>
-                <Button size={'small'} onClick={settPåVentClick}>
-                    {oppdatererEksisterendeSettPåVent ? 'Oppdater' : 'Sett på vent'}
+                <Button size={'small'} onClick={() => settPåVentClick(false)}>
+                    {oppdatererEksisterendeSettPåVent
+                        ? 'Sett på vent og ufordelt'
+                        : 'Sett på vent og tildel meg'}
+                </Button>
+                <Button size={'small'} variant={'secondary'} onClick={() => settPåVentClick(true)}>
+                    {oppdatererEksisterendeSettPåVent
+                        ? 'Oppdater og sett som ufordelt'
+                        : 'Oppdater og tildel meg'}
                 </Button>
                 <Button
                     size={'small'}
-                    variant={'secondary'}
+                    variant={'tertiary'}
                     onClick={() => settStatusPåVentRedigering(false)}
                 >
                     Angre
