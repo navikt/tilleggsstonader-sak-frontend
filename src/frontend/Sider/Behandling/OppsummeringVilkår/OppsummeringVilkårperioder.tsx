@@ -18,7 +18,7 @@ export const OppsummeringVilkårperioder: React.FC<{ behandlingId: string }> = (
                     <VStack gap={'6'}>
                         <HGrid columns={'125px auto'}>
                             <Heading size="small">Aktivitet</Heading>
-                            <VStack gap={'2'}>
+                            <VStack gap={'2'} justify={'center'}>
                                 <OppsummeringAktiviteter
                                     aktiviteter={vilkårperioderResponse.vilkårperioder.aktiviteter}
                                 />
@@ -26,7 +26,7 @@ export const OppsummeringVilkårperioder: React.FC<{ behandlingId: string }> = (
                         </HGrid>
                         <HGrid columns={'125px auto'}>
                             <Heading size="small">Målgruppe</Heading>
-                            <VStack gap={'2'}>
+                            <VStack gap={'2'} justify={'center'}>
                                 <OppsummeringMålgrupper
                                     målgrupper={vilkårperioderResponse.vilkårperioder.målgrupper}
                                 />

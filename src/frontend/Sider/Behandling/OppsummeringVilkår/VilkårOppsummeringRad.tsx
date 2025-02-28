@@ -26,7 +26,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     gjelder,
 }) => {
     return (
-        <HStack gap={'2'} align={'center'}>
+        <HStack gap={'2'} align={'center'} className={'info'}>
             <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />
             <BodyShort
                 size={'small'}
@@ -40,6 +40,9 @@ export const OppsummeringAktiviteter = ({
 }: {
     aktiviteter: VilkårPeriodeAktivitet[];
 }) => {
+    if (!aktiviteter.length) {
+        return <BodyShort size={'small'}>Ingen aktiviteter</BodyShort>;
+    }
     return aktiviteter.map((aktivitet) => (
         <VilkårOppsummeringRad
             key={aktivitet.id}
@@ -52,6 +55,13 @@ export const OppsummeringAktiviteter = ({
 };
 
 export const OppsummeringMålgrupper = ({ målgrupper }: { målgrupper: Målgruppe[] }) => {
+    if (!målgrupper.length) {
+        return (
+            <BodyShort size={'small'} className={'info'}>
+                Ingen målgrupper
+            </BodyShort>
+        );
+    }
     return målgrupper.map((målgruppe) => (
         <VilkårOppsummeringRad
             key={målgruppe.id}
