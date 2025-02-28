@@ -7,7 +7,7 @@ import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/toke
 
 import TagAdressebeskyttelse from './TagAdressebeskyttelse';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
-import SmallWarningTag from '../SmallWarningTag';
+import { SmallWarningTag } from '../Tags';
 import { Sticky } from '../Visningskomponenter/Sticky';
 
 const Container = styled(Sticky)`
