@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
+import {
+    BodyLong,
+    BodyShort,
+    ErrorMessage,
+    HStack,
+    Link,
+    Textarea,
+    VStack,
+} from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
@@ -16,6 +24,7 @@ import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
+    BeregnBarnetilsynRequest,
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequestV2,
     InnvilgelseBarnetilsyn,
@@ -74,6 +83,8 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
+    const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
@@ -83,7 +94,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
             return request<null, InnvilgeBarnetilsynRequestV2>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
                 'POST',
-                { vedtaksperioder: vedtaksperioder }
+                {
+                    vedtaksperioder: vedtaksperioder,
+                    begrunnelse: begrunnelse,
+                }
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
@@ -109,7 +123,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequestV2>(
+            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
@@ -136,6 +150,20 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                     />
+                    {erStegRedigerbart ? (
+                        <Textarea
+                            label="Begrunnelse for vedtaksperiode (valgfri)"
+                            style={{ width: '600px' }}
+                            resize
+                            size="small"
+                            minRows={2}
+                            value={begrunnelse}
+                            onChange={(e) => settBegrunnelse(e.target.value)}
+                            description="For eksempel bør du begrunne hvis vedtaksperioden ikke samsvarer med perioden alle vilkår er oppfylt."
+                        />
+                    ) : (
+                        <BodyLong>{begrunnelse}</BodyLong>
+                    )}
                     {erStegRedigerbart && (
                         <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
                     )}
