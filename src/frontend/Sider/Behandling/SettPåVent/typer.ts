@@ -5,6 +5,8 @@ export interface SettPåVent {
     oppgaveVersjon?: number;
 }
 
+export type SettPåVentRequest = SettPåVent & { beholdOppgave: boolean };
+
 export interface StatusSettPåVent {
     årsaker: ÅrsakSettPåVent[];
     datoSattPåVent: string;

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -15,8 +16,10 @@ import { useVilkårsoppsummering } from '../../../hooks/useVilkårsoppsummering'
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
+import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
+import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -27,6 +30,7 @@ const Stønadsvilkår = () => {
     const { regler, hentRegler } = useRegler();
     const { vilkårsoppsummering } = useVilkårsoppsummering(behandling.id);
     const { hentVilkårsvurdering, vilkårsvurdering } = useHentVilkårsvurdering();
+    const kanBrukeVedtaksperioderTilsynbarn = useFlag(Toggle.KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN);
 
     useEffect(() => {
         hentVilkårsvurdering(behandling.id);
@@ -39,6 +43,7 @@ const Stønadsvilkår = () => {
     return (
         <Container>
             <VarselRevurderFraDatoMangler />
+            <OppsummeringVilkårperioder behandlingId={behandling.id} />
             <DataViewer
                 response={{
                     regler,
@@ -49,9 +54,11 @@ const Stønadsvilkår = () => {
                 {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
                     <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
                         {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
-                        <OppsummeringStønadsperioder
-                            stønadsperioder={vilkårsoppsummering.stønadsperioder}
-                        />
+                        {!kanBrukeVedtaksperioderTilsynbarn && (
+                            <OppsummeringStønadsperioder
+                                stønadsperioder={vilkårsoppsummering.stønadsperioder}
+                            />
+                        )}
                         <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
                     </VilkårProvider>
                 )}

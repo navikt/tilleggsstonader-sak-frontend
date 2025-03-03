@@ -8,6 +8,7 @@ import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
+import { useMapById } from '../../../../../hooks/useMapById';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
@@ -23,9 +24,8 @@ import {
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
+import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
-import { BehandlingInfo } from './BehandlingInfo';
-import { useMapById } from '../../../../../hooks/useMapById';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
@@ -126,7 +126,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap={'8'}>
-                    <BehandlingInfo behandlingId={behandling.id} />
+                    <OppsummeringVilkårperioderOgVilkår behandlingId={behandling.id} />
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}

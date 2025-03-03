@@ -6,6 +6,7 @@ export interface Personopplysninger {
     adressebeskyttelse: Adressebeskyttelse;
     erSkjermet: boolean;
     vergemål: Vergemål[];
+    dødsdato?: string;
 }
 
 interface Navn {

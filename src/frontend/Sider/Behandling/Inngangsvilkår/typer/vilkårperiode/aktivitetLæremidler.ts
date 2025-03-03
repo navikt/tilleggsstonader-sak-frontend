@@ -1,8 +1,7 @@
 import { AktivitetType } from './aktivitet';
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import { VilkårPeriodeAktivitet, SvarJaNei, Vurdering } from './vilkårperiode';
 
-export interface AktivitetLæremidler extends VilkårPeriode {
-    id: string;
+export interface AktivitetLæremidler extends VilkårPeriodeAktivitet {
     type: AktivitetTypeLæremidler;
     kildeId?: string;
     faktaOgVurderinger: AktivitetLæremidlerFaktaOgVurderinger;

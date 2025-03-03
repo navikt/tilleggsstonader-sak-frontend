@@ -7,7 +7,7 @@ export interface Vurderingsfelter {
     vedtak?: VedtakValg;
     årsak?: ÅrsakOmgjøring;
     begrunnelseOmgjøring?: string;
-    hjemmel?: Hjemmel;
+    hjemler?: Hjemmel[];
     innstillingKlageinstans?: string;
     interntNotat?: string;
 }
@@ -19,8 +19,8 @@ export function erNødvendigeFelterUtfylt(vurderinsfelter: Vurderingsfelter): bo
         const { årsak, begrunnelseOmgjøring } = vurderinsfelter;
         return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
     } else {
-        const { innstillingKlageinstans, hjemmel } = vurderinsfelter;
-        return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
+        const { innstillingKlageinstans, hjemler } = vurderinsfelter;
+        return harVerdi(innstillingKlageinstans) && !!hjemler && hjemler.length > 0;
     }
 }
 
@@ -31,7 +31,7 @@ export function tilVurderingDto(vurderinger: Vurderingsfelter, behandlingId: str
     return vurderinger.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
         ? lagOpprettholdelseDto(
               behandlingId,
-              vurderinger.hjemmel!,
+              vurderinger.hjemler!,
               vurderinger.innstillingKlageinstans!,
               vurderinger.interntNotat!
           )

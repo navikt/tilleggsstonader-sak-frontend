@@ -3,7 +3,6 @@ import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
 export interface Målgruppe extends VilkårPeriode {
-    id: string;
     type: MålgruppeType;
     faktaOgVurderinger: MålgruppeVurderinger;
 }

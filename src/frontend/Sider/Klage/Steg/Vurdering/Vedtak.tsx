@@ -38,7 +38,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                     ...tidligereTilstand,
                     vedtak: nyttValg,
                     årsak: undefined,
-                    hjemmel: undefined,
+                    hjemler: undefined,
                 }) as Vurderingsfelter
         );
     };

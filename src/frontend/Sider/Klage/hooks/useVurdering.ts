@@ -28,7 +28,7 @@ export interface OmgjøringDto {
 export interface OpprettholdelseDto {
     behandlingId: string;
     vedtak: VedtakValg.OPPRETTHOLD_VEDTAK;
-    hjemmel: Hjemmel;
+    hjemler: Hjemmel[];
     innstillingKlageinstans: string;
     interntNotat: string;
 }
@@ -48,14 +48,14 @@ export function lagOmgjøringDto(
 
 export function lagOpprettholdelseDto(
     behandlingId: string,
-    hjemmel: Hjemmel,
+    hjemler: Hjemmel[],
     innstillingKlageinstans: string,
     interntNotat: string
 ): OpprettholdelseDto {
     return {
         behandlingId,
         vedtak: VedtakValg.OPPRETTHOLD_VEDTAK,
-        hjemmel,
+        hjemler,
         innstillingKlageinstans,
         interntNotat,
     };

@@ -23,7 +23,7 @@ import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
 import TextField from '../../../komponenter/Skjema/TextField';
-import SmallWarningTag from '../../../komponenter/SmallWarningTag';
+import { SmallWarningTag } from '../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';

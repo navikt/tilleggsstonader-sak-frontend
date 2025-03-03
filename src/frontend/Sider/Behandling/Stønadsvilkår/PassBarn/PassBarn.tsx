@@ -4,9 +4,11 @@ import { automatiskVurdert } from './automatiskVurdert';
 import { PassBarnLesMer } from './PassBarnLesMer';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
+import { SmallErrorTag } from '../../../../komponenter/Tags';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Regler } from '../../../../typer/regel';
+import { formaterIsoDato } from '../../../../utils/dato';
 import {
     lenkerForskriftPassBarn,
     lenkerParagrafPassBarn,
@@ -33,11 +35,11 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
     return vilkårsvurdering.grunnlag.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
-        const { navn, alder } = barn.registergrunnlag || '-';
+        const { navn, alder, dødsdato } = barn.registergrunnlag;
 
         return (
             <VilkårPanel
-                tittel={`${navn} (${alder} år)`}
+                tittel={`${navn || '-'} (${alder || '-'} år)`}
                 ekstraHeading={
                     <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
@@ -46,6 +48,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
                 forskriftlenker={lenkerForskriftPassBarn}
                 key={barn.barnId}
             >
+                {dødsdato && <SmallErrorTag>Død ({formaterIsoDato(dødsdato)})</SmallErrorTag>}
                 <PassBarnLesMer />
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
