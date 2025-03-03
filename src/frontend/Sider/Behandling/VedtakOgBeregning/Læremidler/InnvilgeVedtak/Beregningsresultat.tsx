@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Label } from '@navikt/ds-react';
+import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(6, max-content);
+    grid-template-columns: repeat(7, max-content);
     gap: 0.4rem 2rem;
 `;
 
@@ -32,6 +32,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
             <Label>Prosent</Label>
             <Label>Månedsbeløp</Label>
             <Label>Stønadsbeløp</Label>
+            <div></div>
             {beregningsresultat.perioder.map((periode, indeks) => (
                 <React.Fragment key={indeks}>
                     <BodyShort size="small">
@@ -42,6 +43,13 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     <BodyShort size="small">{periode.studieprosent}%</BodyShort>
                     <BodyShort size="small">{periode.beløp} kr</BodyShort>
                     <BodyShort size="small">{periode.stønadsbeløp} kr</BodyShort>
+                    <div>
+                        {periode.delAvTidligereUtbetaling && (
+                            <Alert variant="info" size={'small'} inline>
+                                Treffer allerede utbetalt mnd
+                            </Alert>
+                        )}
+                    </div>
                 </React.Fragment>
             ))}
         </Grid>

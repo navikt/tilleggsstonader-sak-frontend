@@ -46,6 +46,7 @@ interface BeregningsresultatForPeriode {
     utbetalingsdato: string;
     målgruppe: MålgruppeType;
     aktivitet: AktivitetType;
+    delAvTidligereUtbetaling: boolean;
 }
 
 export type AvslåLæremidlerRequest = {
