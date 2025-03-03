@@ -1,6 +1,8 @@
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
+import { Registeraktivitet } from '../../../../typer/registeraktivitet';
+import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
+import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
 
 export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
     if (type === '') return type;
@@ -39,3 +41,14 @@ export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype
             return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
     }
 };
+
+export const erAktivitet = (
+    vilkårperiode: Målgruppe | Aktivitet | undefined
+): vilkårperiode is Aktivitet => {
+    return vilkårperiode ? vilkårperiode.type in AktivitetType : false;
+};
+
+export const erRegisterAktivitetBrukt = (
+    aktiviteter: Aktivitet[],
+    registerAktivitet: Registeraktivitet
+) => aktiviteter.some((aktivitet) => registerAktivitet.id === aktivitet.kildeId);
