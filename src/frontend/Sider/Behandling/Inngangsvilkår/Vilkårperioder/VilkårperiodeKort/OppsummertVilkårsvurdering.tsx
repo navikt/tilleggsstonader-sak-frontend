@@ -3,13 +3,14 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 import { CircleBrokenIcon } from '@navikt/aksel-icons';
-import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
+import { Detail, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
 
 import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
 import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
+import { erAktivitet } from '../../Aktivitet/utilsAktivitet';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import {
@@ -24,6 +25,8 @@ const Container = styled.div`
     gap: 1rem;
     border-left: 3px solid ${AGray200};
     padding-left: 1rem;
+    justify-content: space-between;
+    height: 100%;
 `;
 
 export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppe, string> = {
@@ -45,14 +48,23 @@ export const OppsummertVilkårsvurdering: React.FC<{
 
     return (
         <Container className={className}>
-            <HStack align="center" gap="4">
-                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
-                <Label size="small">{VilkårperiodeResultatTilTekst[vilkårperiode.resultat]}</Label>
-            </HStack>
-            {vilkårperiode.resultat === 'SLETTET' ? (
-                <SlettetPeriodeOppsummering slettetKommentar={vilkårperiode.slettetKommentar} />
-            ) : (
-                <OppsummeringAvDelvilkår vilkårperiode={vilkårperiode} />
+            <VStack gap="4">
+                <HStack align="center" gap="4">
+                    <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                    <Label size="small">
+                        {VilkårperiodeResultatTilTekst[vilkårperiode.resultat]}
+                    </Label>
+                </HStack>
+                {vilkårperiode.resultat === 'SLETTET' ? (
+                    <SlettetPeriodeOppsummering slettetKommentar={vilkårperiode.slettetKommentar} />
+                ) : (
+                    <OppsummeringAvDelvilkår vilkårperiode={vilkårperiode} />
+                )}
+            </VStack>
+            {erAktivitet(vilkårperiode) && vilkårperiode.kildeId && (
+                <Tag variant="alt2" size="small" style={{ alignSelf: 'end' }}>
+                    {vilkårperiode.kildeId}
+                </Tag>
             )}
         </Container>
     );
