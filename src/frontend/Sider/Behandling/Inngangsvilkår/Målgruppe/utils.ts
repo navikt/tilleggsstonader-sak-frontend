@@ -22,6 +22,7 @@ import {
     YtelseGrunnlagPeriode,
 } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
+import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
 
 export type MålgrupperMedMedlemskapsvurdering =
     | MålgruppeType.NEDSATT_ARBEIDSEVNE
@@ -188,4 +189,13 @@ export const mapFaktaOgSvarTilRequest = (
 
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
     return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (Ferdig avklart)' : ''}`;
+};
+
+export const kanRegisterYtelseBrukes = (
+    ytelse: YtelseGrunnlagPeriode,
+    revurderFra?: string
+): boolean => {
+    if (ytelse.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART) return false;
+
+    return kanRegisterperiodeBrukes(ytelse, revurderFra);
 };
