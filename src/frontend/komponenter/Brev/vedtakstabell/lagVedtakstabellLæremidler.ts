@@ -20,8 +20,9 @@ const lagBeregningstabell = (beregningsresultat?: BeregningsresultatLæremidler)
                 <thead>
                     <tr>
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
-                        <th style="width: 70px; word-wrap: break-word; ${borderStylingCompact}">Fast sats</th>
-                        <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">Beløpet du får</th>
+                        <th style="width: 120px; ${borderStylingCompact}">Antall måneder</th>
+                        <th style="width: 70px; word-wrap: break-word; ${borderStylingCompact}">Sats</th>
+                        <th style="width: 80px; word-wrap: break-word; ${borderStylingCompact}">Beløp</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,11 +40,13 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatLæremidler): 
             const datoperiode = formaterTektligIsoPeriode(periode.fom, periode.tom);
             const satsPerMåned = formaterTallMedTusenSkille(periode.beløp);
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
+            const stjernmerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
 
             return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
+                        <td style="${borderStyling}">${periode.antallMåneder}</td>
                         <td style="${borderStyling}">${satsPerMåned} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløp} kr</td>
+                        <td style="${borderStyling}">${stønadsbeløp} kr${stjernmerktRad}</td>
                     </tr>`;
         })
         .join('');
