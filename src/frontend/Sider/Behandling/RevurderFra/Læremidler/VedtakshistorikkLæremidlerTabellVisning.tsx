@@ -34,7 +34,7 @@ const VedtakshistorikkLæremidlerTabellVisning: React.FC<Props> = ({ vedtakLære
                     ({ fom, tom, målgruppe, aktivitet, studienivå, studieprosent }) => {
                         return (
                             <Table.Row key={fom}>
-                                <Table.DataCell>8{formaterNullableIsoDato(fom)}</Table.DataCell>
+                                <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
                                 <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
                                 <Table.DataCell>{målgruppeTypeTilTekst(målgruppe)}</Table.DataCell>
                                 <Table.DataCell>{aktivitetTypeTilTekst(aktivitet)}</Table.DataCell>
