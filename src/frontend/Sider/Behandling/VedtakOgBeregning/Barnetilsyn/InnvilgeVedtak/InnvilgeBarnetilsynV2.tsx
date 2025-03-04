@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-    BodyLong,
-    BodyShort,
-    ErrorMessage,
-    HStack,
-    Link,
-    Textarea,
-    VStack,
-} from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
@@ -34,6 +26,7 @@ import {
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
+import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
 interface Props {
@@ -150,20 +143,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                     />
-                    {erStegRedigerbart ? (
-                        <Textarea
-                            label="Begrunnelse for vedtaksperiode (valgfri)"
-                            style={{ width: '600px' }}
-                            resize
-                            size="small"
-                            minRows={2}
-                            value={begrunnelse}
-                            onChange={(e) => settBegrunnelse(e.target.value)}
-                            description="For eksempel bør du begrunne hvis vedtaksperioden ikke samsvarer med perioden alle vilkår er oppfylt."
-                        />
-                    ) : (
-                        <BodyLong>{begrunnelse}</BodyLong>
-                    )}
+                    <Begrunnelsesfelt
+                        begrunnelse={begrunnelse}
+                        oppdaterBegrunnelse={settBegrunnelse}
+                    />
                     {erStegRedigerbart && (
                         <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
                     )}

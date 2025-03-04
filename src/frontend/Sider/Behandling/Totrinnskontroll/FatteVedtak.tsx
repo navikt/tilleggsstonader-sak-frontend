@@ -162,7 +162,7 @@ const FatteVedtak: React.FC<{
                                 settBegrunnelse(e.target.value);
                                 settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                             }}
-                            label={'Begrunnelse'}
+                            label="Begrunnelse"
                             size="small"
                         />
                     </>
