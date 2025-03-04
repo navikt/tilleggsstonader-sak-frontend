@@ -20,6 +20,7 @@ export const vedtakErOpphør = (vedtak: VedtakLæremidler): vedtak is OpphørLæ
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
+    begrunnelse?: string;
 };
 
 export interface InnvilgelseLæremidler {
@@ -28,6 +29,7 @@ export interface InnvilgelseLæremidler {
     beregningsresultat: BeregningsresultatLæremidler;
     gjelderFraOgMed: string;
     gjelderTilOgMed: string;
+    begrunnelse?: string;
 }
 
 export interface BeregningsresultatLæremidler {
