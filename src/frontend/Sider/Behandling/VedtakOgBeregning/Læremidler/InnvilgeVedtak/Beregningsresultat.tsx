@@ -32,7 +32,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
             <Label>Prosent</Label>
             <Label>Månedsbeløp</Label>
             <Label>Stønadsbeløp</Label>
-            <div></div>
+            <div />
             {beregningsresultat.perioder.map((periode, indeks) => (
                 <React.Fragment key={indeks}>
                     <BodyShort size="small">
