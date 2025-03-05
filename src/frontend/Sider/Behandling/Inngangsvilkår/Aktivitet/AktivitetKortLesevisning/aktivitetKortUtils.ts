@@ -3,57 +3,39 @@ import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 
 // Beskriver felter som kan være ulike mellom en aktivitet og en registeraktivitet
 enum KeysMedMuligeUlikheter {
-    fom = 'fom',
-    tom = 'tom',
+    fom = 'startdato',
+    tom = 'sluttdato',
     prosent = 'prosent',
     aktivitetsdager = 'aktivitetsdager',
 }
 
-const KeysMedMuligeUlikheterTilRegisteraktivitetKey: Record<
-    KeysMedMuligeUlikheter,
-    keyof Registeraktivitet
-> = {
-    fom: 'fom',
-    tom: 'tom',
-    prosent: 'prosentDeltakelse',
-    aktivitetsdager: 'antallDagerPerUke',
-};
-
-export const keysMedMuligeUlikheterTilTekst: Record<KeysMedMuligeUlikheter, string> = {
-    fom: 'startdato',
-    tom: 'sluttdato',
-    prosent: 'prosent',
-    aktivitetsdager: 'aktivitetsdager',
-};
-
-// Finner forskjeller mellom en aktivitet og en registeraktivitet
-// Fellesfelter (fom og tom) ligger direkte på aktiviteten, mens detaljer ligger i faktaOgVurderinger
-export const finnForskjellerMellomRegisterOgAktivitet = (
+export const finnForskjellerMellomAktivitetOgRegisteraktivitet = (
     aktivitet: Aktivitet,
     registerAktivitet: Registeraktivitet
 ): KeysMedMuligeUlikheter[] => {
     const forskjeller: KeysMedMuligeUlikheter[] = [];
 
-    Object.keys(KeysMedMuligeUlikheter).forEach((key) => {
-        const keyIRegisteraktivitet =
-            KeysMedMuligeUlikheterTilRegisteraktivitetKey[key as KeysMedMuligeUlikheter];
+    if (aktivitet.fom !== registerAktivitet.fom) {
+        forskjeller.push(KeysMedMuligeUlikheter.fom);
+    }
 
-        if (key in aktivitet && key in registerAktivitet) {
-            if (aktivitet[key as keyof Aktivitet] !== registerAktivitet[keyIRegisteraktivitet]) {
-                forskjeller.push(key as KeysMedMuligeUlikheter);
-            }
-        } else if (
-            key in aktivitet.faktaOgVurderinger &&
-            keyIRegisteraktivitet in registerAktivitet
-        ) {
-            if (
-                aktivitet.faktaOgVurderinger[key as keyof Aktivitet['faktaOgVurderinger']] !==
-                registerAktivitet[keyIRegisteraktivitet]
-            ) {
-                forskjeller.push(key as KeysMedMuligeUlikheter);
-            }
-        }
-    });
+    if (aktivitet.tom !== registerAktivitet.tom) {
+        forskjeller.push(KeysMedMuligeUlikheter.tom);
+    }
+
+    if (
+        'prosent' in aktivitet.faktaOgVurderinger &&
+        aktivitet.faktaOgVurderinger.prosent !== registerAktivitet.prosentDeltakelse
+    ) {
+        forskjeller.push(KeysMedMuligeUlikheter.prosent);
+    }
+
+    if (
+        'aktivitetsdager' in aktivitet.faktaOgVurderinger &&
+        aktivitet.faktaOgVurderinger.aktivitetsdager !== registerAktivitet.antallDagerPerUke
+    ) {
+        forskjeller.push(KeysMedMuligeUlikheter.aktivitetsdager);
+    }
 
     return forskjeller;
 };

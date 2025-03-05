@@ -2,10 +2,7 @@ import React from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import {
-    finnForskjellerMellomRegisterOgAktivitet as finnForskjellerMellomAktivitetOgRegisteraktivitet,
-    keysMedMuligeUlikheterTilTekst,
-} from './aktivitetKortUtils';
+import { finnForskjellerMellomAktivitetOgRegisteraktivitet } from './aktivitetKortUtils';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { BehandlingStatus } from '../../../../../typer/behandling/behandlingStatus';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
@@ -34,8 +31,7 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
     if (forskjeller.length > 0) {
         return (
             <Tag size="small" variant="warning" style={{ alignSelf: 'start' }}>
-                Opplysninger om aktivitet som er ulik Arena:{' '}
-                {forskjeller.map((key) => keysMedMuligeUlikheterTilTekst[key]).join(', ')}
+                Opplysninger om aktivitet som er ulik Arena: {forskjeller.join(', ')}
             </Tag>
         );
     }
