@@ -24,6 +24,7 @@ const Container = styled.div`
     gap: 1rem;
     border-left: 3px solid ${AGray200};
     padding-left: 1rem;
+    height: 100%;
 `;
 
 export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppe, string> = {
