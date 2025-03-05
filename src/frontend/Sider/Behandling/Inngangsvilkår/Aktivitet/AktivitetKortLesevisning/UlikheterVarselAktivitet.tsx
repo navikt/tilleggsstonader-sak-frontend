@@ -34,7 +34,7 @@ export const UlikheterVarselEndring: React.FC<{
     if (forskjeller.length > 0) {
         return (
             <Tag size="small" variant="warning" style={{ alignSelf: 'start' }}>
-                Opplysninger om aktivitet ikke likt som Arena:{' '}
+                Opplysninger om aktivitet som er ulik Arena:{' '}
                 {forskjeller.map((key) => keysMedMuligeUlikheterTilTekst[key]).join(', ')}
             </Tag>
         );
