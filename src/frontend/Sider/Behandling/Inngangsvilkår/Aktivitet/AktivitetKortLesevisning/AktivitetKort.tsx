@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
+import { AktivitetkortFooter } from './AktivitetKortFooter';
 import { useSteg } from '../../../../../context/StegContext';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
@@ -55,6 +56,12 @@ export const AktivitetKort: React.FC<{
                         icon={<PencilIcon />}
                     />
                 )
+            }
+            footer={
+                <AktivitetkortFooter
+                    aktivitet={aktivitet}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                />
             }
         >
             <CelleContainer>
