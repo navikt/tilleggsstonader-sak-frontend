@@ -6,6 +6,8 @@ import {
     finnForskjellerMellomRegisterOgAktivitet as finnForskjellerMellomAktivitetOgRegisteraktivitet,
     keysMedMuligeUlikheterTilTekst,
 } from './aktivitetKortUtils';
+import { useBehandling } from '../../../../../context/BehandlingContext';
+import { BehandlingStatus } from '../../../../../typer/behandling/behandlingStatus';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 
@@ -13,6 +15,9 @@ export const UlikheterVarselEndring: React.FC<{
     aktivitet: Aktivitet;
     aktivitetFraRegister: Registeraktivitet | undefined;
 }> = ({ aktivitet, aktivitetFraRegister }) => {
+    const { behandling } = useBehandling();
+    if (behandling.status === BehandlingStatus.FERDIGSTILT) return null;
+
     if (!aktivitetFraRegister) {
         return (
             <Tag size="small" variant="info" style={{ alignSelf: 'start' }}>
