@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HStack, Tag } from '@navikt/ds-react';
 
-import { UlikheterVarselEndring } from './UlikheterVarselAktivitet';
+import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 
@@ -12,7 +12,7 @@ export const AktivitetkortFooter: React.FC<{
 }> = ({ aktivitet, aktivitetFraRegister }) => {
     return (
         <HStack justify="space-between" width="100%">
-            <UlikheterVarselEndring
+            <AktivitetUlikRegisterVarsel
                 aktivitet={aktivitet}
                 aktivitetFraRegister={aktivitetFraRegister}
             />

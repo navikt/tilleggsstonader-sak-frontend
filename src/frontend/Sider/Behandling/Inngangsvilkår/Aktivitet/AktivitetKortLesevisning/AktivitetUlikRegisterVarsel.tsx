@@ -11,7 +11,7 @@ import { BehandlingStatus } from '../../../../../typer/behandling/behandlingStat
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 
-export const UlikheterVarselEndring: React.FC<{
+export const AktivitetUlikRegisterVarsel: React.FC<{
     aktivitet: Aktivitet;
     aktivitetFraRegister: Registeraktivitet | undefined;
 }> = ({ aktivitet, aktivitetFraRegister }) => {
