@@ -4,27 +4,22 @@ import { CheckmarkIcon } from '@navikt/aksel-icons';
 import { Button, Tag } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../context/BehandlingContext';
-import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
-
-const erAktivitetLagtTil = (aktiviteter: Aktivitet[], registerAktivitet: Registeraktivitet) =>
-    aktiviteter.some((aktivitet) => registerAktivitet.id === aktivitet.kildeId);
 
 export function BrukAktivitetKnapp({
     registerAktivitet,
     leggTilAktivitetFraRegister,
+    harBruktAktivitet,
 }: {
     registerAktivitet: Registeraktivitet;
     leggTilAktivitetFraRegister: (registerAktivitet: Registeraktivitet) => void;
+    harBruktAktivitet: boolean;
 }) {
-    const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
     const { behandling } = useBehandling();
 
-    const harBruktAktivitet = erAktivitetLagtTil(aktiviteter, registerAktivitet);
     const aktivitetKanBrukes = kanRegisterperiodeBrukes(registerAktivitet, behandling.revurderFra);
 
     if (harBruktAktivitet) {
