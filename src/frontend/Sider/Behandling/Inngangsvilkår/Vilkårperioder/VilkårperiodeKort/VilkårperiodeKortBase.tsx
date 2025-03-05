@@ -17,8 +17,20 @@ const Container = styled.div`
     padding: 1rem;
 
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+`;
+
+const HovedinnholdContainer = styled.div`
+    display: grid;
+    grid-template-columns: auto 32px 230px;
+    gap: 1rem;
+    align-items: start;
+
+    .oppsummering {
+        grid-column: 3;
+    }
 `;
 
 const VenstreKolonne = styled.div`
@@ -27,23 +39,13 @@ const VenstreKolonne = styled.div`
     gap: 2rem;
 `;
 
-const KnappOgOppsummeringContainer = styled.div`
-    display: grid;
-    grid-template-columns: 32px 230px;
-    gap: 1rem;
-    align-items: start;
-
-    .oppsummering {
-        grid-column: 2;
-    }
-`;
-
 const VilkårperiodeKortBase: React.FC<{
     vilkårperiode?: Målgruppe | Aktivitet;
     redigeringKnapp?: React.ReactNode;
     children: React.ReactNode;
     redigeres?: boolean;
-}> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false }) => {
+    footer?: React.ReactNode;
+}> = ({ vilkårperiode, redigeringKnapp, children, redigeres = false, footer }) => {
     const { behandling } = useBehandling();
 
     const skalViseStatus =
@@ -52,15 +54,16 @@ const VilkårperiodeKortBase: React.FC<{
     return (
         <Container>
             {skalViseStatus && <Statusbånd status={vilkårperiode.status} />}
-            <VenstreKolonne>{children}</VenstreKolonne>
-            <KnappOgOppsummeringContainer>
+            <HovedinnholdContainer>
+                <VenstreKolonne>{children}</VenstreKolonne>
                 {redigeringKnapp}
                 <OppsummertVilkårsvurdering
                     redigeres={redigeres}
                     vilkårperiode={vilkårperiode}
                     className="oppsummering"
                 />
-            </KnappOgOppsummeringContainer>
+            </HovedinnholdContainer>
+            {footer}
         </Container>
     );
 };
