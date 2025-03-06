@@ -27,8 +27,12 @@ export const KontrollerOppfølging = ({
     oppdaterOppfølging: (oppfølging: Oppfølging) => void;
 }) => {
     const { request } = useApp();
-    const [kommentar, settKommentar] = useState<string>();
-    const [utfall, settUtfall] = useState<OppfølgingUtfall>();
+    const [kommentar, settKommentar] = useState<string | undefined>(
+        oppfølging.kontrollert?.kommentar
+    );
+    const [utfall, settUtfall] = useState<OppfølgingUtfall | undefined>(
+        oppfølging.kontrollert?.utfall
+    );
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const [lagrer, settLagrer] = useState<boolean>(false);
@@ -62,7 +66,7 @@ export const KontrollerOppfølging = ({
 
     return (
         <VStack gap={'2'}>
-            <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall}>
+            <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall} value={utfall || ''}>
                 {Object.keys(OppfølgingUtfall).map((utfall) => (
                     <Radio key={utfall} value={utfall}>
                         {oppfølgingUtfallTilTekst[utfall as OppfølgingUtfall]}
@@ -73,6 +77,7 @@ export const KontrollerOppfølging = ({
                 label={'Kommentar'}
                 size={'small'}
                 style={{ width: '15rem' }}
+                value={kommentar || ''}
                 onChange={(e) => settKommentar(e.target.value)}
             />
             <Feilmelding feil={feilmelding} />

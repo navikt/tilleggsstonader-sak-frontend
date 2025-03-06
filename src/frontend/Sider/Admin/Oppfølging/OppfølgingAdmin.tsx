@@ -19,7 +19,7 @@ import { InformasjonOppfølging } from './InformasjonOppfølging';
 import { KontrollerOppfølging } from './KontrollerOppfølging';
 import { OppfølgingKontrollertDetaljer } from './OppfølgingKontrollertDetaljer';
 import { OppfølgingPerioderTilKontrollTabell } from './OppfølgingPerioderTilKontrollTabell';
-import { Oppfølging } from './oppfølgingTyper';
+import { Oppfølging, OppfølgingUtfall } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
@@ -92,9 +92,12 @@ const filtrerOgSorter = (
     visKunWarningTag: boolean
 ) =>
     oppfølginger
-        .filter((oppfølging) => (visKunManglerKontroll ? !oppfølging.kontrollert : true))
+        .filter((oppfølging) => (visKunManglerKontroll ? manglerKontroll(oppfølging) : true))
         .filter((oppfølging) => (visKunWarningTag ? oppfølging.skalViseWarningTag : true))
         .sort((a, b) => sort(b, a));
+
+const manglerKontroll = (oppfølging: OppfølgingMedDetaljer) =>
+    !(oppfølging.kontrollert && oppfølging.kontrollert.utfall != OppfølgingUtfall.UNDER_ARBEID);
 
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
@@ -243,8 +246,13 @@ const HåndterKontroll = ({
     settOppfølgingForKontroll: (oppfølging: Oppfølging | undefined) => void;
     oppdaterOppfølging: (oppfølging: Oppfølging) => void;
 }) => {
-    if (oppfølging.kontrollert) {
-        return <OppfølgingKontrollertDetaljer kontrollert={oppfølging.kontrollert} />;
+    if (oppfølging.kontrollert && oppfølgingForKontroll?.id !== oppfølging.id) {
+        return (
+            <OppfølgingKontrollertDetaljer
+                kontrollert={oppfølging.kontrollert}
+                rediger={() => settOppfølgingForKontroll(oppfølging)}
+            />
+        );
     }
     if (oppfølgingForKontroll?.id === oppfølging.id) {
         return (

@@ -60,12 +60,14 @@ export enum OppfølgingUtfall {
     HÅNDTERT = 'HÅNDTERT',
     IGNORERES = 'IGNORERES',
     UTSETTES = 'UTSETTES',
+    UNDER_ARBEID = 'UNDER_ARBEID',
 }
 
 export const oppfølgingUtfallTilTekst: Record<OppfølgingUtfall, string> = {
     HÅNDTERT: 'Håndtert',
     IGNORERES: 'Ignoreres',
     UTSETTES: 'Utsettes',
+    UNDER_ARBEID: 'Under arbeid',
 };
 
 export interface OppfølgingKontrollRequest {
