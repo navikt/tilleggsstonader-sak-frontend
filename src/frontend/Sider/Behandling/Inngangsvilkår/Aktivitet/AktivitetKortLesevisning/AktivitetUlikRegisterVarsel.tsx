@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Tag } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { Tag, VStack } from '@navikt/ds-react';
 
 import { finnForskjellerMellomAktivitetOgRegisteraktivitet } from './aktivitetKortUtils';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -13,15 +14,7 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
     aktivitetFraRegister: Registeraktivitet | undefined;
 }> = ({ aktivitet, aktivitetFraRegister }) => {
     const { behandling } = useBehandling();
-    if (behandling.status === BehandlingStatus.FERDIGSTILT) return null;
-
-    if (!aktivitetFraRegister) {
-        return (
-            <Tag size="small" variant="info" style={{ alignSelf: 'start' }}>
-                Opplysninger om aktivitet lagt til manuelt
-            </Tag>
-        );
-    }
+    if (behandling.status === BehandlingStatus.FERDIGSTILT || !aktivitetFraRegister) return null;
 
     const forskjeller = finnForskjellerMellomAktivitetOgRegisteraktivitet(
         aktivitet,
@@ -30,9 +23,16 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
 
     if (forskjeller.length > 0) {
         return (
-            <Tag size="small" variant="warning" style={{ alignSelf: 'start' }}>
-                Opplysninger om aktivitet som er ulik Arena: {forskjeller.join(', ')}
-            </Tag>
+            <VStack gap="4">
+                <Tag
+                    icon={<ExclamationmarkTriangleIcon />}
+                    size="small"
+                    variant="warning"
+                    style={{ alignSelf: 'start' }}
+                >
+                    Opplysninger om aktivitet som er ulik Arena: {forskjeller.join(', ')}
+                </Tag>
+            </VStack>
         );
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HStack, Tag } from '@navikt/ds-react';
+import { Detail, HStack } from '@navikt/ds-react';
 
 import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
@@ -16,11 +16,9 @@ export const AktivitetkortFooter: React.FC<{
                 aktivitet={aktivitet}
                 aktivitetFraRegister={aktivitetFraRegister}
             />
-            {aktivitet.kildeId && (
-                <Tag variant="alt2" size="small" style={{ marginLeft: 'auto' }}>
-                    {aktivitet.kildeId}
-                </Tag>
-            )}
+            <Detail style={{ marginLeft: 'auto' }}>
+                {aktivitet.kildeId ? `ID: ${aktivitet.kildeId}` : 'Lagt til manuelt'}
+            </Detail>
         </HStack>
     );
 };

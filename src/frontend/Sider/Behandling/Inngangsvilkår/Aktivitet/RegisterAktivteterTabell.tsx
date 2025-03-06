@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { Table, Tag } from '@navikt/ds-react';
+import { Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
@@ -69,15 +69,7 @@ const RegisterAktiviteterTabell: React.FC<{
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
                             <Table.DataCell>{aktivitet.prosentDeltakelse ?? '-'}</Table.DataCell>
-                            <Table.DataCell>
-                                {erAktivitetBrukt ? (
-                                    <Tag size="small" variant="alt2">
-                                        {aktivitet.id}
-                                    </Tag>
-                                ) : (
-                                    aktivitet.id
-                                )}
-                            </Table.DataCell>
+                            <Table.DataCell>{aktivitet.id}</Table.DataCell>
                             <Table.DataCell>
                                 <BrukAktivitetKnapp
                                     registerAktivitet={aktivitet}
