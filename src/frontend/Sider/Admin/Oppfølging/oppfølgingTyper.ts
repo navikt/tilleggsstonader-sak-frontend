@@ -49,7 +49,7 @@ enum ÅrsakKontroll {
 }
 
 export const årsakKontrollTilTekst: Record<ÅrsakKontroll, string> = {
-    INGEN_TREFF: 'Ingen overlappende periode',
+    INGEN_TREFF: 'Finner ikke periode i register',
     FOM_ENDRET: 'Fom. starter senere',
     TOM_ENDRET: 'Tom. slutter tidligere',
     TREFF_MEN_FEIL_TYPE: 'Overlappende periode, men feil type',
