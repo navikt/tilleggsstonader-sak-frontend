@@ -1,8 +1,6 @@
 import React, { DependencyList, useEffect, useRef, useState } from 'react';
 
-import styled from 'styled-components';
-
-import { ErrorMessage } from '@navikt/ds-react';
+import { ErrorMessage, HStack, Label, VStack } from '@navikt/ds-react';
 
 import MånedVelger from './MånedVelger';
 import { Årvelger } from './ÅrVelger';
@@ -20,15 +18,6 @@ interface Props {
     size?: 'medium' | 'small';
 }
 
-const DatolabelStyle = styled.label`
-    margin-bottom: 0.5em;
-`;
-
-const FlexDiv = styled.div`
-    display: flex;
-    gap: 0.25rem;
-`;
-
 export const MånedÅrVelger: React.FC<Props> = ({
     className,
     label,
@@ -39,7 +28,7 @@ export const MånedÅrVelger: React.FC<Props> = ({
     feilmelding,
     lesevisning = false,
     disabled = false,
-    size,
+    size = 'small',
 }) => {
     const [år, settÅr] = useState(
         årMånedInitiell ? parseInt(årMånedInitiell.split('-')[0], 10) : undefined
@@ -57,9 +46,13 @@ export const MånedÅrVelger: React.FC<Props> = ({
     }, [år, måned]);
 
     return (
-        <div className={className} style={lesevisning ? { minWidth: '140px' } : {}}>
-            {label && <DatolabelStyle htmlFor="regdatoTil">{label}</DatolabelStyle>}
-            <FlexDiv>
+        <VStack gap="2" className={className} style={lesevisning ? { minWidth: '140px' } : {}}>
+            {label && (
+                <Label size="small" htmlFor="regdatoTil">
+                    {label}
+                </Label>
+            )}
+            <HStack gap="1" wrap={false}>
                 <MånedVelger
                     måned={måned}
                     settMåned={settMåned}
@@ -76,9 +69,9 @@ export const MånedÅrVelger: React.FC<Props> = ({
                     disabled={disabled}
                     size={size}
                 />
-            </FlexDiv>
+            </HStack>
             <ErrorMessage>{feilmelding}</ErrorMessage>
-        </div>
+        </VStack>
     );
 };
 
