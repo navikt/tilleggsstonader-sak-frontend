@@ -28,6 +28,7 @@ import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStøn
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 import { validerVedtaksperioder } from './validering';
 import { useMapById } from '../../../../../hooks/useMapById';
+import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;
@@ -56,6 +57,8 @@ export const InnvilgeLæremidler: React.FC<{
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
 
+    const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
@@ -65,7 +68,11 @@ export const InnvilgeLæremidler: React.FC<{
             return request<null, InnvilgelseLæremidlerRequest>(
                 `/api/sak/vedtak/laremidler/${behandling.id}/innvilgelse`,
                 'POST',
-                { type: TypeVedtak.INNVILGELSE, vedtaksperioder: vedtaksperioder }
+                {
+                    type: TypeVedtak.INNVILGELSE,
+                    vedtaksperioder: vedtaksperioder,
+                    begrunnelse: begrunnelse,
+                }
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
@@ -123,6 +130,7 @@ export const InnvilgeLæremidler: React.FC<{
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
                 />
+                <Begrunnelsesfelt begrunnelse={begrunnelse} oppdaterBegrunnelse={settBegrunnelse} />
                 {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}
                 <VStack gap="8">
                     {erStegRedigerbart && (

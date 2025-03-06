@@ -23,12 +23,14 @@ export type InnvilgeBarnetilsynRequest = {
 
 export type InnvilgeBarnetilsynRequestV2 = {
     vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    begrunnelse?: string;
 };
 
 export interface InnvilgelseBarnetilsyn {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatTilsynBarn;
     vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    begrunnelse?: string;
 }
 
 export type AvslåBarnetilsynRequest = {
@@ -41,6 +43,10 @@ export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
 export type OpphørBarnetilsyn = OpphørRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;
+    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+};
+
+export type BeregnBarnetilsynRequest = {
     vedtaksperioder: VedtaksperiodeTilsynBarn[];
 };
 

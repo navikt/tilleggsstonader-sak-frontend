@@ -16,6 +16,7 @@ import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
+    BeregnBarnetilsynRequest,
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequestV2,
     InnvilgelseBarnetilsyn,
@@ -25,6 +26,7 @@ import {
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
+import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
 interface Props {
@@ -74,6 +76,8 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
+    const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
@@ -83,7 +87,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
             return request<null, InnvilgeBarnetilsynRequestV2>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
                 'POST',
-                { vedtaksperioder: vedtaksperioder }
+                {
+                    vedtaksperioder: vedtaksperioder,
+                    begrunnelse: begrunnelse,
+                }
             );
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
@@ -109,7 +116,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequestV2>(
+            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
@@ -135,6 +142,10 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
                         settVedtaksperioderFeil={settVedtaksperiodeFeil}
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
+                    />
+                    <Begrunnelsesfelt
+                        begrunnelse={begrunnelse}
+                        oppdaterBegrunnelse={settBegrunnelse}
                     />
                     {erStegRedigerbart && (
                         <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
