@@ -4,7 +4,7 @@ import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
 import { AktivitetHjelpetekst } from './AktivitetHjelpetekst';
-import { AktivitetKort } from './AktivitetKort';
+import { AktivitetKort } from './AktivitetKortLesevisning/AktivitetKort';
 import { EndreAktivitet } from './EndreAktivitet';
 import RegisterAktiviteter from './RegisterAktivteter';
 import { useApp } from '../../../../context/AppContext';

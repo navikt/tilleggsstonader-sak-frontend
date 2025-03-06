@@ -5,18 +5,19 @@ import { styled } from 'styled-components';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
-import { FaktaOgDelvilkårVisning } from './Delvilkår/FaktaOgDelvilkårVisning';
-import { useSteg } from '../../../../context/StegContext';
-import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
-import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
-import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { formaterIsoPeriode } from '../../../../utils/dato';
-import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetkortFooter } from './AktivitetKortFooter';
+import { useSteg } from '../../../../../context/StegContext';
+import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
+import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
+import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
+import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import {
     VilkårPeriodeResultat,
     vilkårperiodeTypeTilTekst,
-} from '../typer/vilkårperiode/vilkårperiode';
-import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
+} from '../../typer/vilkårperiode/vilkårperiode';
+import VilkårperiodeKortBase from '../../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
+import { FaktaOgDelvilkårVisning } from '../Delvilkår/FaktaOgDelvilkårVisning';
 
 const CelleContainer = styled.div`
     flex-grow: 1;
@@ -55,6 +56,12 @@ export const AktivitetKort: React.FC<{
                         icon={<PencilIcon />}
                     />
                 )
+            }
+            footer={
+                <AktivitetkortFooter
+                    aktivitet={aktivitet}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                />
             }
         >
             <CelleContainer>
