@@ -2,13 +2,16 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Table, VStack } from '@navikt/ds-react';
+import { Alert, Table, VStack } from '@navikt/ds-react';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { Oppfølging, årsakKontrollTilTekst } from './oppfølgingTyper';
 import { formaterIsoDato, formaterIsoPeriode } from '../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
-import { målgruppeTypeTilTekst } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import {
+    MålgruppeType,
+    målgruppeTypeTilTekst,
+} from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Tabell = styled(Table)`
     border: 1px solid ${ABorderDefault};
@@ -38,7 +41,14 @@ export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølg
                         </Table.DataCell>
                         <Table.DataCell>
                             <VStack>
-                                <span>{målgruppeTypeTilTekst(periode.målgruppe)}</span>
+                                <VStack>
+                                    <span>{målgruppeTypeTilTekst(periode.målgruppe)}</span>
+                                    {periode.målgruppe === MålgruppeType.OMSTILLINGSSTØNAD && (
+                                        <Alert variant={'warning'} inline>
+                                            Kan gjelde gammelt regelverk
+                                        </Alert>
+                                    )}
+                                </VStack>
                                 {periode.endringMålgruppe.map((endring) => (
                                     <span key={endring.årsak}>
                                         {årsakKontrollTilTekst[endring.årsak]}
