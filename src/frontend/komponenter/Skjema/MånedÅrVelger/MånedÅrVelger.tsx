@@ -1,5 +1,6 @@
 import React, { DependencyList, useEffect, useRef, useState } from 'react';
 
+import { PadlockLockedFillIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, HStack, Label, VStack } from '@navikt/ds-react';
 
 import MånedVelger from './MånedVelger';
@@ -48,9 +49,12 @@ export const MånedÅrVelger: React.FC<Props> = ({
     return (
         <VStack gap="2" className={className} style={lesevisning ? { minWidth: '140px' } : {}}>
             {label && (
-                <Label size="small" htmlFor="regdatoTil">
-                    {label}
-                </Label>
+                <HStack gap="1" wrap={false}>
+                    {lesevisning && <PadlockLockedFillIcon />}
+                    <Label size="small" htmlFor="regdatoTil">
+                        {label}
+                    </Label>
+                </HStack>
             )}
             <HStack gap="1" wrap={false}>
                 <MånedVelger

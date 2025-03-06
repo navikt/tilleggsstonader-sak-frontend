@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select from '../Select';
+import { Select } from '@navikt/ds-react';
 
 interface ÅrProps {
     år: number | undefined;
@@ -41,18 +41,17 @@ export const Årvelger: React.FC<ÅrProps> = ({
 
     return (
         <Select
-            lesevisningVerdi={år ? år.toString() : ''}
             value={år}
             onChange={(event) => {
                 event.persist();
                 settÅr(parseInt(event.target.value));
             }}
-            erLesevisning={lesevisning}
             disabled={disabled}
             label={'År'}
             hideLabel
             className={className}
             size={size}
+            readOnly={lesevisning}
         >
             <option value="">År</option>
             {årOptions}

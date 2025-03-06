@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select from '../Select';
+import { Select } from '@navikt/ds-react';
 
 export type FamilieSelectSize = 'small' | 'medium';
 
@@ -38,8 +38,6 @@ const MånedVelger: React.FC<MånedProps> = ({
 }) => {
     return (
         <Select
-            erLesevisning={lesevisning}
-            lesevisningVerdi={måned ? månedValg.find((mnd) => mnd.mndNr === måned)?.verdi : ''}
             value={måned}
             className={className}
             onChange={(event) => {
@@ -50,6 +48,7 @@ const MånedVelger: React.FC<MånedProps> = ({
             label={'Måned'}
             hideLabel
             size={size}
+            readOnly={lesevisning}
         >
             <option value="">Måned</option>
             {månedValg.map((mnd) => (
