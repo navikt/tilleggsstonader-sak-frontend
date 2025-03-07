@@ -1,3 +1,4 @@
+import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
 export interface FaktaBarn {
@@ -13,6 +14,13 @@ interface RegistergrunnlagBarn {
     fødselsdato?: string;
     dødsdato?: string;
     alder?: number;
+    saksinformasjonAndreForeldre?: SaksinformasjonAndreForeldre;
+}
+
+export interface SaksinformasjonAndreForeldre {
+    hentetTidspunkt: string;
+    harBehandlingUnderArbeid: boolean;
+    vedtaksperioderBarn: Periode[];
 }
 
 interface SøknadsgrunnlagBarn {
