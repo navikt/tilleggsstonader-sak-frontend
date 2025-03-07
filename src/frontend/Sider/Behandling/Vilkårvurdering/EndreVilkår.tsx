@@ -230,8 +230,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                             settDetFinnesUlagredeEndringer(true);
                             settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
                         }}
-                        antallÅrFrem={3}
-                        antallÅrTilbake={3}
+                        antallÅrFrem={1}
+                        antallÅrTilbake={1}
                     />
                 ) : (
                     <MonthInput
@@ -261,8 +261,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                             settDetFinnesUlagredeEndringer(true);
                             settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
                         }}
-                        antallÅrFrem={3}
-                        antallÅrTilbake={3}
+                        antallÅrFrem={2}
+                        antallÅrTilbake={1}
                     />
                 ) : (
                     <MonthInput
