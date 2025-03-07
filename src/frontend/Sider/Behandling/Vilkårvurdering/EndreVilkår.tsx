@@ -255,7 +255,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                         size="small"
                         årMånedInitiell={tom}
                         feilmelding={feilmeldinger.tom}
-                        lesevisning={!props.alleFelterKanRedigeres}
                         onEndret={(dato) => {
                             settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
                             settDetFinnesUlagredeEndringer(true);
