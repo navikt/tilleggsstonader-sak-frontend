@@ -9,10 +9,12 @@ import {
     OppsummeringMålgrupper,
     VilkårOppsummeringRad,
 } from './VilkårOppsummeringRad';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingFaktaTilsynBarn } from '../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
 const StyledHGrid = styled(HGrid).withConfig({
     shouldForwardProp: (prop) => prop !== 'bottomBorder',
@@ -21,15 +23,14 @@ const StyledHGrid = styled(HGrid).withConfig({
     ${(props) => props.bottomBorder && `border-bottom: solid 1px white;`}
 `;
 
-export const OppsummeringVilkårperioderOgVilkår: React.FC<{ behandlingId: string }> = ({
-    behandlingId,
-}) => {
-    const { vilkårperioderResponse } = useVilkårperioder(behandlingId);
+export const OppsummeringVilkårperioderOgVilkår: React.FC = () => {
+    const { behandling, behandlingFakta } = useBehandling();
+    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
     const { hentVilkårsvurdering, vilkårsvurdering } = useHentVilkårsvurdering();
 
     useEffect(() => {
-        hentVilkårsvurdering(behandlingId);
-    }, [behandlingId, hentVilkårsvurdering]);
+        hentVilkårsvurdering(behandling.id);
+    }, [behandling.id, hentVilkårsvurdering]);
 
     const finnBarnNavn = (
         barnId: string | undefined,
@@ -58,23 +59,22 @@ export const OppsummeringVilkårperioderOgVilkår: React.FC<{ behandlingId: stri
                             />
                         </VStack>
                     </StyledHGrid>
-                    <StyledHGrid columns={'125px auto'}>
-                        <BodyShort size={'small'}>Pass av barn</BodyShort>
-                        <VStack gap={'2'}>
-                            {vilkårsvurdering.vilkårsett.map((vilkår) => (
-                                <VilkårOppsummeringRad
-                                    key={vilkår.id}
-                                    resultat={vilkår.resultat}
-                                    fom={vilkår.fom}
-                                    tom={vilkår.tom}
-                                    gjelder={finnBarnNavn(
-                                        vilkår.barnId,
-                                        vilkårsvurdering.grunnlag as BehandlingFaktaTilsynBarn
-                                    )}
-                                />
-                            ))}
-                        </VStack>
-                    </StyledHGrid>
+                    {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
+                        <StyledHGrid columns={'125px auto'}>
+                            <BodyShort size={'small'}>Pass av barn</BodyShort>
+                            <VStack gap={'2'}>
+                                {vilkårsvurdering.vilkårsett.map((vilkår) => (
+                                    <VilkårOppsummeringRad
+                                        key={vilkår.id}
+                                        resultat={vilkår.resultat}
+                                        fom={vilkår.fom}
+                                        tom={vilkår.tom}
+                                        gjelder={finnBarnNavn(vilkår.barnId, behandlingFakta)}
+                                    />
+                                ))}
+                            </VStack>
+                        </StyledHGrid>
+                    )}
                 </VStack>
             )}
         </DataViewer>

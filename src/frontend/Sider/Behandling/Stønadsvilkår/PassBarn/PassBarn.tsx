@@ -2,6 +2,7 @@ import React from 'react';
 
 import { automatiskVurdert } from './automatiskVurdert';
 import { PassBarnLesMer } from './PassBarnLesMer';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
 import { SmallErrorTag } from '../../../../komponenter/Tags';
@@ -24,15 +25,16 @@ interface Props {
 }
 
 const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
+    const { behandlingFakta } = useBehandling();
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
     );
 
-    if (vilkårsvurdering.grunnlag['@type'] !== Stønadstype.BARNETILSYN) {
+    if (behandlingFakta['@type'] !== Stønadstype.BARNETILSYN) {
         return <>Feil faktatype for pass av barn</>;
     }
-    return vilkårsvurdering.grunnlag.barn.map((barn) => {
+    return behandlingFakta.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
         const { navn, alder, dødsdato } = barn.registergrunnlag;
