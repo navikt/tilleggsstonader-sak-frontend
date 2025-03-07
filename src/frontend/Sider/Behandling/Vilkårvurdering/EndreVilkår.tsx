@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
@@ -22,6 +23,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
+import { MånedÅrVelger } from '../../../komponenter/Skjema/MånedÅrVelger/MånedÅrVelger';
 import TextField from '../../../komponenter/Skjema/TextField';
 import { SmallWarningTag } from '../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
@@ -30,6 +32,7 @@ import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
+import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
 import { Delvilkår, RedigerbareVilkårfelter, Vilkår, Vurdering } from '../vilkår';
 
@@ -76,6 +79,7 @@ type EndreVilkårProps = {
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
+    const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -214,31 +218,64 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                <MonthInput
-                    label="Fra"
-                    size="small"
-                    value={fom}
-                    feil={feilmeldinger.fom}
-                    readOnly={!props.alleFelterKanRedigeres}
-                    onChange={(dato) => {
-                        settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
-                        settDetFinnesUlagredeEndringer(true);
-                        settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
-                    }}
-                />
+                {skalBrukeMånedÅrVelger ? (
+                    <MånedÅrVelger
+                        label="Fra"
+                        size="small"
+                        årMånedInitiell={fom}
+                        feilmelding={feilmeldinger.fom}
+                        lesevisning={!props.alleFelterKanRedigeres}
+                        onEndret={(dato) => {
+                            settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
+                            settDetFinnesUlagredeEndringer(true);
+                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                        }}
+                        antallÅrFrem={1}
+                        antallÅrTilbake={1}
+                    />
+                ) : (
+                    <MonthInput
+                        label="Fra"
+                        size="small"
+                        value={fom}
+                        feil={feilmeldinger.fom}
+                        readOnly={!props.alleFelterKanRedigeres}
+                        onChange={(dato) => {
+                            settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
+                            settDetFinnesUlagredeEndringer(true);
+                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                        }}
+                    />
+                )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                <MonthInput
-                    label="Til"
-                    size="small"
-                    value={tom}
-                    feil={feilmeldinger.tom}
-                    onChange={(dato) => {
-                        settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
-                        settDetFinnesUlagredeEndringer(true);
-                        settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
-                    }}
-                />
+                {skalBrukeMånedÅrVelger ? (
+                    <MånedÅrVelger
+                        label="Til"
+                        size="small"
+                        årMånedInitiell={tom}
+                        feilmelding={feilmeldinger.tom}
+                        onEndret={(dato) => {
+                            settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
+                            settDetFinnesUlagredeEndringer(true);
+                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                        }}
+                        antallÅrFrem={2}
+                        antallÅrTilbake={1}
+                    />
+                ) : (
+                    <MonthInput
+                        label="Til"
+                        size="small"
+                        value={tom}
+                        feil={feilmeldinger.tom}
+                        onChange={(dato) => {
+                            settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
+                            settDetFinnesUlagredeEndringer(true);
+                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                        }}
+                    />
+                )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
