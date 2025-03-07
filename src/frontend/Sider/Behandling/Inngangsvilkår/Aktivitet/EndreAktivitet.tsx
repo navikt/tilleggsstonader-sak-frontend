@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { EndreAktivitetBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { EndreAktivitetBoutgfiter } from './EndreAktivitetBoutgifter';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetBoutgifter } from '../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
 
 export const EndreAktivitet: React.FC<{
@@ -28,6 +30,14 @@ export const EndreAktivitet: React.FC<{
             return (
                 <EndreAktivitetLæremidler
                     aktivitet={aktivitet as AktivitetLæremidler}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
+        case Stønadstype.BOUTGIFTER:
+            return (
+                <EndreAktivitetBoutgfiter
+                    aktivitet={aktivitet as AktivitetBoutgifter}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
