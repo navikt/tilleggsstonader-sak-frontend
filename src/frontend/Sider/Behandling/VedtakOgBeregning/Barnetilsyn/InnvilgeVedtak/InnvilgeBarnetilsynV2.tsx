@@ -126,7 +126,7 @@ export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap={'8'}>
-                    <OppsummeringVilkårperioderOgVilkår behandlingId={behandling.id} />
+                    <OppsummeringVilkårperioderOgVilkår />
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}
