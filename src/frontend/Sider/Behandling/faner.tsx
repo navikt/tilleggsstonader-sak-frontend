@@ -42,13 +42,12 @@ export enum FaneNavn {
 
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
+    VILKÅR = 'Vilkår',
 }
 
-const faneNavnStønadsvilkår: Record<
-    Exclude<Stønadstype, 'LÆREMIDLER' | 'BOUTGIFTER'>,
-    StønadsvilkårFaneNavn
-> = {
+const faneNavnStønadsvilkår: Record<Exclude<Stønadstype, 'LÆREMIDLER'>, StønadsvilkårFaneNavn> = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
+    BOUTGIFTER: StønadsvilkårFaneNavn.VILKÅR,
 };
 
 export enum FanePath {
@@ -162,6 +161,14 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 },
             ];
         case Stønadstype.BOUTGIFTER:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <p>Ikke implementert</p>,
+                    ikon: <HouseHeartIcon />,
+                },
+            ];
         case Stønadstype.LÆREMIDLER:
             return [];
     }
