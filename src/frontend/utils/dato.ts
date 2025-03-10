@@ -15,6 +15,9 @@ import {
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
+import { TANKESTREKK } from './fomatering';
+import { Periode } from './periode';
+
 // Eksempel: formaterNullableIsoDato('2023-09-18') -> '18.09.2023'
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);
@@ -41,6 +44,15 @@ export const formaterIsoDatoTidKort = (dato: string): string => {
 // Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18.09.2023 - 18.10.2023'
 export const formaterIsoPeriode = (fom: string, tom: string): string => {
     return formaterIsoDato(fom) + ' - ' + formaterIsoDato(tom);
+};
+
+/**
+ * Datoer ut til bruker skal formateres med tankestrek, uten space
+ * https://sprakradet.no/godt-og-korrekt-sprak/rettskriving-og-grammatikk/tegn/tankestrek/
+ * Eksempel: formaterIsoPeriode(periode) -> '18.09.2023–18.10.2023'
+ */
+export const formaterIsoPeriodeMedTankestrek = (periode: Periode) => {
+    return `${formaterIsoDato(periode.fom)}${TANKESTREKK}${formaterIsoDato(periode.tom)}`;
 };
 
 // Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18. september 2023 - 18. oktober 2023'

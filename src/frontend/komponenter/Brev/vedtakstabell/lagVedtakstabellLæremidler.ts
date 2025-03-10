@@ -1,6 +1,6 @@
 import { LagVedtakstabell } from './lagVedtakstabell';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
-import { formaterTektligIsoPeriode } from '../../../utils/dato';
+import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { variabelBeregningstabellId } from '../variablerUtils';
 
@@ -37,7 +37,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatLæremidler): 
     }
     return beregningsresultat.perioder
         .map((periode) => {
-            const datoperiode = formaterTektligIsoPeriode(periode.fom, periode.tom);
+            const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
             const satsPerMåned = formaterTallMedTusenSkille(periode.beløp);
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
             const stjernmerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
