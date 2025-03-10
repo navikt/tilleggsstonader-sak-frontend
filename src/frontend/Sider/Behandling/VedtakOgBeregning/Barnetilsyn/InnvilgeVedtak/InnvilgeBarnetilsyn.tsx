@@ -48,7 +48,7 @@ export const HeadingBeregning: React.FC = () => {
     );
 };
 
-export const InnvilgeBarnetilsynV2: React.FC<Props> = ({
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
