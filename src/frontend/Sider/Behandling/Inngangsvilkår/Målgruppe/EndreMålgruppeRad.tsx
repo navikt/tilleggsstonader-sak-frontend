@@ -160,7 +160,9 @@ const EndreMålgruppeRad: React.FC<{
     });
 
     const målgruppeTyperForStønadstype = (stønadstype: Stønadstype): SelectOption[] =>
-        [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER].includes(stønadstype)
+        [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER, Stønadstype.BOUTGIFTER].includes(
+            stønadstype
+        )
             ? målgruppeTypeOptionsForStønad(stønadstype)
             : [];
 
