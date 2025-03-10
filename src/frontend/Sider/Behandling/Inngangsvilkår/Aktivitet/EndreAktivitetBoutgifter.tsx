@@ -22,16 +22,13 @@ import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
-import TextField from '../../../../komponenter/Skjema/TextField';
-import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBoutgifter } from '../typer/vilkårperiode/aktivitetBoutgifter';
-import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -49,7 +46,6 @@ const FeltContainer = styled.div`
 
 export interface EndreAktivitetFormBoutgifter extends Periode {
     type: AktivitetType | '';
-    aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
@@ -169,27 +165,6 @@ export const EndreAktivitetBoutgfiter: React.FC<{
                         alleFelterKanEndres={alleFelterKanEndres}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                    {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                        <FeilmeldingMaksBredde $maxWidth={140}>
-                            <TextField
-                                erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
-                                label="Aktivitetsdager"
-                                value={
-                                    harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
-                                }
-                                onChange={(event) =>
-                                    settForm((prevState) => ({
-                                        ...prevState,
-                                        aktivitetsdager: tilHeltall(event.target.value),
-                                    }))
-                                }
-                                size="small"
-                                error={vilkårsperiodeFeil?.aktivitetsdager}
-                                autoComplete="off"
-                                readOnly={!alleFelterKanEndres}
-                            />
-                        </FeilmeldingMaksBredde>
-                    )}
                 </FeltContainer>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
