@@ -1,12 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { HGrid } from '@navikt/ds-react';
 
 import AvslåVedtak from './AvslåVedtak';
-import { InnvilgeBarnetilsyn } from './InnvilgeVedtak/InnvilgeBarnetilsyn';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -18,7 +16,6 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
-import { Toggle } from '../../../../utils/toggles';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
@@ -33,7 +30,6 @@ const Container = styled.div`
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
-    const kanBrukeVedtaksperioderTilsynBarn = useFlag(Toggle.KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN);
 
     useEffect(() => {
         if (vedtak.status === RessursStatus.SUKSESS) {
@@ -66,21 +62,9 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <>
-                                {kanBrukeVedtaksperioderTilsynBarn ? (
-                                    <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
-                                        lagretVedtak={
-                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
-                                        }
-                                    />
-                                ) : (
-                                    <InnvilgeBarnetilsyn
-                                        lagretVedtak={
-                                            vedtakErInnvilgelse(vedtak) ? vedtak : undefined
-                                        }
-                                    />
-                                )}
-                            </>
+                            <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
+                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
+                            />
                         )}
                     </Container>
                 )}

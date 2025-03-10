@@ -1,24 +1,11 @@
 import React from 'react';
 
-import { BodyShort, Box, List } from '@navikt/ds-react';
+import { BodyShort, List } from '@navikt/ds-react';
 
 import { formaterTilTekstligDato } from '../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { Stønadsperiode } from '../Inngangsvilkår/typer/stønadsperiode';
 import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
-
-export const OppsummeringStønadsperioder: React.FC<{ stønadsperioder: Stønadsperiode[] }> = ({
-    stønadsperioder,
-}) => {
-    return (
-        <Box padding="4" background="surface-selected">
-            <StønadsperiodeListe
-                stønadsperioder={stønadsperioder}
-                tittel="Perioder med overlapp mellom aktivitet og målgruppe"
-            />
-        </Box>
-    );
-};
 
 export const StønadsperiodeListe: React.FC<{
     stønadsperioder: Stønadsperiode[];
