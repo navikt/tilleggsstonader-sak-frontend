@@ -2,13 +2,11 @@ import { EndreAktivitetFormBoutgifter } from './EndreAktivitetBoutgifter';
 import { finnBegrunnelseGrunnerAktivitet } from './utilsBoutgifter';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
-import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
-    aktivitetsdager?: number;
     begrunnelse?: string;
 }
 
@@ -21,7 +19,6 @@ export const validerAktivitet = (
         fom: undefined,
         tom: undefined,
         type: undefined,
-        aktivitetsdager: undefined,
         begrunnelse: undefined,
     };
 
@@ -38,13 +35,6 @@ export const validerAktivitet = (
         };
     }
 
-    if (
-        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
-        !aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)
-    ) {
-        return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
-    }
-
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
         endretAktivitet.type,
         endretAktivitet.svarLønnet
@@ -55,6 +45,3 @@ export const validerAktivitet = (
 
     return feil;
 };
-
-const aktivitetsdagerErGyldigTall = (aktivitetsdager: number | undefined): boolean =>
-    harTallverdi(aktivitetsdager) && aktivitetsdager >= 1 && aktivitetsdager <= 5;

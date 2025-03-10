@@ -7,12 +7,10 @@ export interface AktivitetBoutgifter extends VilkårPeriodeAktivitet {
 
 export interface AktivitetBoutgifterFaktaOgVurderinger {
     '@type': 'AKTIVITET_BOUTGIFTER';
-    aktivitetsdager: number | undefined;
     lønnet: Vurdering | undefined;
 }
 
 export interface AktivitetBoutgifterFaktaOgSvar {
     '@type': 'AKTIVITET_BOUTGIFTER';
-    aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
 }

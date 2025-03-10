@@ -3,7 +3,6 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi } from '../../../../utils/tall';
 import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
@@ -22,16 +21,8 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetBoutgifter
 ): EndreAktivitetFormBoutgifter => ({
     ...eksisterendeAktivitet,
-    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
 });
-
-/**
- * Prefyller aktivtetsdager med 5 dager hvis det gjelder utdanning då feltet mangler fra arena
- * Ellers brukes antallDagerPerUke
- */
-const aktivitetsdagerFraRegister = (aktivitetFraRegister: Registeraktivitet) =>
-    aktivitetFraRegister.erUtdanning ? 5 : aktivitetFraRegister.antallDagerPerUke;
 
 function nyAktivitetFraRegister(
     aktivitetFraRegister: Registeraktivitet
@@ -40,7 +31,6 @@ function nyAktivitetFraRegister(
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        aktivitetsdager: aktivitetsdagerFraRegister(aktivitetFraRegister),
         svarLønnet: undefined,
         kildeId: aktivitetFraRegister.id,
     };
@@ -51,7 +41,6 @@ function nyTomAktivitet(): EndreAktivitetFormBoutgifter {
         type: '',
         fom: '',
         tom: '',
-        aktivitetsdager: undefined,
         svarLønnet: undefined,
     };
 }
@@ -70,7 +59,6 @@ export const resettAktivitet = (
         type: nyType,
         fom: fom,
         tom: tom,
-        aktivitetsdager: resetAktivitetsdager(nyType, eksisterendeAktivitetForm),
         svarLønnet: undefined,
     };
 };
@@ -98,19 +86,6 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-const resetAktivitetsdager = (
-    nyType: AktivitetType,
-    eksisterendeForm: EndreAktivitetFormBoutgifter
-) => {
-    if (nyType === AktivitetType.INGEN_AKTIVITET) {
-        return undefined;
-    } else if (!harTallverdi(eksisterendeForm.aktivitetsdager)) {
-        return 5;
-    }
-
-    return eksisterendeForm.aktivitetsdager;
-};
-
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
     svarLønnet: SvarJaNei | undefined
@@ -132,6 +107,5 @@ export const mapFaktaOgSvarTilRequest = (
     aktivitetForm: EndreAktivitetFormBoutgifter
 ): AktivitetBoutgifterFaktaOgSvar => ({
     '@type': 'AKTIVITET_BOUTGIFTER',
-    aktivitetsdager: aktivitetForm.aktivitetsdager,
     svarLønnet: aktivitetForm.svarLønnet,
 });

@@ -1,5 +1,6 @@
 import { useApp } from '../context/AppContext';
 import { EndreAktivitetFormBarnetilsyn } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBarnetilsyn';
+import { EndreAktivitetFormBoutgifter } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBoutgifter';
 import { EndreAktivitetFormLæremidler } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetLæremidler';
 import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppeRad';
 import {
@@ -29,7 +30,8 @@ type FaktaOgSvar = MålgruppeFaktaOgSvar | AktivitetFaktaOgSvar;
 type VilkårperiodeForm =
     | EndreMålgruppeForm
     | EndreAktivitetFormBarnetilsyn
-    | EndreAktivitetFormLæremidler;
+    | EndreAktivitetFormLæremidler
+    | EndreAktivitetFormBoutgifter;
 
 export const useLagreVilkårperiode = () => {
     const { request } = useApp();
