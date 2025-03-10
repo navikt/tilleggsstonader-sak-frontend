@@ -20,6 +20,5 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    KAN_BRUKE_VEDTAKSPERIODER_TILSYN_BARN = 'sak.kan-bruke-vedtaksperioder-tilsyn-barn',
     SKAL_BRUKE_MANED_AR_VELGER = 'sak.frontend.skal-bruke-maned-ar-velger',
 }

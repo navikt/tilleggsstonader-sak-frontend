@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { InnvilgeBarnetilsynV2 } from './InnvilgeBarnetilsynV2';
+import { InnvilgeBarnetilsyn } from './InnvilgeBarnetilsyn';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
@@ -21,7 +21,7 @@ export const InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling: Reac
 
     if (lagretVedtak || !erStegRedigerbart || !behandling.forrigeBehandlingId) {
         return (
-            <InnvilgeBarnetilsynV2
+            <InnvilgeBarnetilsyn
                 lagretVedtak={lagretVedtak}
                 vedtaksperioderForrigeBehandling={undefined}
             />
@@ -53,7 +53,7 @@ const InnvilgeTilsynBarnMedPerioderFraForrigeBehandling = ({
         <DataViewer response={{ forrigeVedtak }}>
             {({ forrigeVedtak }) => {
                 return (
-                    <InnvilgeBarnetilsynV2
+                    <InnvilgeBarnetilsyn
                         lagretVedtak={undefined}
                         vedtaksperioderForrigeBehandling={vedtaksperioderForrigeVedtak(
                             forrigeVedtak

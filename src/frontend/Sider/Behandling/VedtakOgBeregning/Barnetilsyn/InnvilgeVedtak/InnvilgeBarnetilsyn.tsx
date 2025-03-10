@@ -1,28 +1,37 @@
 import React, { useEffect, useState } from 'react';
 
-import { BodyShort, HStack, Link, VStack } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
+import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
+import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
+import { useMapById } from '../../../../../hooks/useMapById';
 import DataViewer from '../../../../../komponenter/DataViewer';
+import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
-import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
+import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
+    BeregnBarnetilsynRequest,
     BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequest,
+    InnvilgeBarnetilsynRequestV2,
     InnvilgelseBarnetilsyn,
+    validerVedtaksperioder,
+    VedtaksperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
-import { lagVedtakRequest } from '../utils';
+import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
+import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
+import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
+    vedtaksperioderForrigeBehandling?: VedtaksperiodeTilsynBarn[];
 }
 
 export const HeadingBeregning: React.FC = () => {
@@ -39,43 +48,108 @@ export const HeadingBeregning: React.FC = () => {
     );
 };
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
+export const InnvilgeBarnetilsyn: React.FC<Props> = ({
+    lagretVedtak,
+    vedtaksperioderForrigeBehandling,
+}) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
+    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
+        initialiserVedtaksperioder(
+            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
+        )
+    );
+
+    const lagredeVedtaksperioder = useMapById(
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
+    );
+
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
+        useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
+
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
 
+    const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
+
+    const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
+
+    useEffect(() => {
+        settErVedtaksperioderBeregnet(false);
+    }, [vedtaksperioder]);
+
     const lagreVedtak = () => {
-        return request<null, InnvilgeBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
-            'POST',
-            { type: TypeVedtak.INNVILGELSE }
+        if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
+            return request<null, InnvilgeBarnetilsynRequestV2>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
+                'POST',
+                {
+                    vedtaksperioder: vedtaksperioder,
+                    begrunnelse: begrunnelse,
+                }
+            );
+        } else {
+            settVisHarIkkeBeregnetFeilmelding(true);
+            return Promise.reject();
+        }
+    };
+    const validerForm = (): boolean => {
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            lagredeVedtaksperioder,
+            behandling.revurderFra
         );
+        settVedtaksperiodeFeil(vedtaksperiodeFeil);
+
+        return isValid(vedtaksperiodeFeil);
     };
 
     const beregnBarnetilsyn = () => {
-        settBeregningsresultat(byggHenterRessurs());
-        const vedtaksRequest = lagVedtakRequest();
-        request<BeregningsresultatTilsynBarn, InnvilgeBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
-            'POST',
-            vedtaksRequest
-        ).then(settBeregningsresultat);
-    };
+        settVisHarIkkeBeregnetFeilmelding(false);
+        settForeslåPeriodeFeil(undefined);
 
-    useEffect(() => {
-        if (erStegRedigerbart) {
-            beregnBarnetilsyn();
+        const kanSendeInn = validerForm();
+
+        if (kanSendeInn) {
+            settBeregningsresultat(byggHenterRessurs());
+            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
+                'POST',
+                { vedtaksperioder: vedtaksperioder }
+            ).then((result) => {
+                settBeregningsresultat(result);
+                if (result.status === 'SUKSESS') {
+                    settErVedtaksperioderBeregnet(true);
+                }
+            });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [erStegRedigerbart]);
+    };
 
     return (
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
-                <VStack gap="8">
+                <VStack gap={'8'}>
+                    <OppsummeringVilkårperioderOgVilkår />
+                    <Vedtaksperioder
+                        vedtaksperioder={vedtaksperioder}
+                        lagredeVedtaksperioder={lagredeVedtaksperioder}
+                        settVedtaksperioder={settVedtaksperioder}
+                        vedtaksperioderFeil={vedtaksperiodeFeil}
+                        settVedtaksperioderFeil={settVedtaksperiodeFeil}
+                        foreslåPeriodeFeil={foreslåPeriodeFeil}
+                        settForeslåPeriodeFeil={settForeslåPeriodeFeil}
+                    />
+                    <Begrunnelsesfelt
+                        begrunnelse={begrunnelse}
+                        oppdaterBegrunnelse={settBegrunnelse}
+                    />
+                    {erStegRedigerbart && (
+                        <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
+                    )}
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
@@ -96,6 +170,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({ lagretVedtak }) => {
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
+            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
+                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
+            )}
         </>
     );
 };
