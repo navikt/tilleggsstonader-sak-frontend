@@ -3,12 +3,17 @@ import React from 'react';
 import { Tag } from '@navikt/ds-react';
 
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
+
+const stønadstypeTagTittel: Record<Stønadstype, string> = {
+    BARNETILSYN: 'Barnetilsyn',
+    LÆREMIDLER: 'Læremidler',
+    BOUTGIFTER: 'Bolig/overnatting',
+};
 
 export function StønadstypeTag({ stønadstype }: { stønadstype: Stønadstype }) {
     return (
         <Tag size="small" variant="neutral">
-            {formaterEnumVerdi(stønadstype)}
+            {stønadstypeTagTittel[stønadstype]}
         </Tag>
     );
 }
