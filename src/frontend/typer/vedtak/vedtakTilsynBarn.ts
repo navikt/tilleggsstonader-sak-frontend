@@ -18,10 +18,6 @@ export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBar
     vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBarnetilsynRequest = {
-    type: TypeVedtak.INNVILGELSE;
-};
-
-export type InnvilgeBarnetilsynRequestV2 = {
     vedtaksperioder: VedtaksperiodeTilsynBarn[];
     begrunnelse?: string;
 };

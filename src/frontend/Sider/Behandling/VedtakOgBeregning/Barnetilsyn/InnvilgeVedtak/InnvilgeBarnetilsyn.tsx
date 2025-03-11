@@ -18,7 +18,7 @@ import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../..
 import {
     BeregnBarnetilsynRequest,
     BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequestV2,
+    InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
     validerVedtaksperioder,
     VedtaksperiodeTilsynBarn,
@@ -84,7 +84,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgeBarnetilsynRequestV2>(
+            return request<null, InnvilgeBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
                 'POST',
                 {
