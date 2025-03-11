@@ -85,7 +85,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
             return request<null, InnvilgeBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelseV2`,
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
                 'POST',
                 {
                     vedtaksperioder: vedtaksperioder,
@@ -117,7 +117,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
             request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregnV2`,
+                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
