@@ -92,7 +92,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const foreslåVedtaksperioder = () => {
         request<VedtaksperiodeBoutgifter[], null>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/foresla`,
+            `/api/sak/vedtak/boutgifter/${behandling.id}/foresla`,
             'GET'
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
