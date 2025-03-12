@@ -14,6 +14,7 @@ import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
+import StønadsvilkårBoutgifter from './Stønadsvilkår/StønadsvilkårBoutgifter';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
@@ -168,7 +169,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <p>Ikke implementert</p>,
+                    komponent: () => <StønadsvilkårBoutgifter />,
                     ikon: <HouseHeartIcon />,
                 },
             ];
