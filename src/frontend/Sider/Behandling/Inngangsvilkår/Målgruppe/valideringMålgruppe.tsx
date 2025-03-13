@@ -1,4 +1,4 @@
-import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { EndreMålgruppeForm } from './EndreMålgruppeGenerell';
 import { finnBegrunnelseGrunnerMålgruppe } from './utils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';

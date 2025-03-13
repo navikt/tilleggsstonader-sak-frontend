@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
-import EndreMålgruppeRad from './EndreMålgruppeRad';
+import EndreMålgruppeRad from './EndreMålgruppeGenerell';
 import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
 import { MålgruppeKort } from './MålgruppeKort';
 import RegisterYtelser from './RegisterYtelser';

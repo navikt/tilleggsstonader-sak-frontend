@@ -1,4 +1,4 @@
-import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { EndreMålgruppeForm } from './EndreMålgruppeGenerell';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import {
     registerYtelseTilTekstStorForbokstav,
