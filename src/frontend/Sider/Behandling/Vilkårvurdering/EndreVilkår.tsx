@@ -22,6 +22,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
+import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
 import { MånedÅrVelger } from '../../../komponenter/Skjema/MånedÅrVelger/MånedÅrVelger';
 import TextField from '../../../komponenter/Skjema/TextField';
@@ -34,7 +35,14 @@ import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
-import { Delvilkår, RedigerbareVilkårfelter, Vilkår, Vurdering } from '../vilkår';
+import {
+    Delvilkår,
+    RedigerbareVilkårfelter,
+    Vilkår,
+    VilkårperiodeType,
+    Vilkårtype,
+    Vurdering,
+} from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -74,11 +82,13 @@ type EndreVilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
+    vilkårtype: Vilkårtype;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
+    const erMidlertidigOvernatting = props.vilkårtype === VilkårperiodeType.MIDLERTIDIG_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
@@ -218,7 +228,19 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {skalBrukeMånedÅrVelger ? (
+                {erMidlertidigOvernatting ? (
+                    <DateInputMedLeservisning
+                        label={'Fra'}
+                        value={fom}
+                        onChange={(dato) => {
+                            settFom(dato);
+                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                        }}
+                        readOnly={!props.alleFelterKanRedigeres}
+                        size="small"
+                        feil={feilmeldinger.fom}
+                    />
+                ) : skalBrukeMånedÅrVelger ? (
                     <MånedÅrVelger
                         label="Fra"
                         size="small"
@@ -249,7 +271,18 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {skalBrukeMånedÅrVelger ? (
+                {erMidlertidigOvernatting ? (
+                    <DateInputMedLeservisning
+                        label={'Til'}
+                        value={tom}
+                        onChange={(dato) => {
+                            settTom(dato);
+                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                        }}
+                        size="small"
+                        feil={feilmeldinger.tom}
+                    />
+                ) : skalBrukeMånedÅrVelger ? (
                     <MånedÅrVelger
                         label="Til"
                         size="small"
@@ -279,7 +312,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label="Månedlig utgift"
+                    label={erMidlertidigOvernatting ? 'Utgift' : 'Månedlig utgift'}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
