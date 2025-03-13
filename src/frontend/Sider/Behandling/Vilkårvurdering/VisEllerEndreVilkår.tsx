@@ -52,6 +52,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                           slettVilkår(vilkår);
                       }
             }
+            vilkårtype={vilkår.vilkårType}
         />
     ) : (
         <LesevisningVilkår
