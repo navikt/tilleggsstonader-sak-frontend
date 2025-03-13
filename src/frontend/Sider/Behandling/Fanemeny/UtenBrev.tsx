@@ -9,6 +9,7 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { erFeil, Feil, lagFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { useSendTilBeslutter } from '../Brev/useSendTilBeslutter';
 import { VedtakFerdigstiltModal } from '../Brev/VedtakFerdigstiltModal';
+import { KommentarTilBeslutter } from '../Totrinnskontroll/KommentarTilBeslutter';
 
 const Container = styled(VStack)`
     margin: 2rem;
@@ -22,6 +23,7 @@ export const UtenBrev: React.FC = () => {
     const { erStegRedigerbart } = useSteg();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
+    const [kommentarTilBeslutter, settKommentarTilBeslutter] = useState<string>();
 
     const { sendTilBeslutter, visVedtakFerdigstiltModal, lukkVedtakFerdigstiltModal } =
         useSendTilBeslutter();
@@ -31,7 +33,7 @@ export const UtenBrev: React.FC = () => {
             return;
         }
         settLaster(true);
-        sendTilBeslutter()
+        sendTilBeslutter(kommentarTilBeslutter)
             .then(() => settFeilmelding(undefined))
             .catch((error) =>
                 erFeil(error)
@@ -44,6 +46,10 @@ export const UtenBrev: React.FC = () => {
     return (
         <Container gap="2" align="start">
             <Alert variant={'warning'}>Årsak til behandling er uten brev</Alert>
+            <KommentarTilBeslutter
+                kommentarTilBeslutter={kommentarTilBeslutter}
+                settKommentarTilBeslutter={settKommentarTilBeslutter}
+            />
             {erStegRedigerbart && (
                 <Knapp onClick={onClick} disabled={laster}>
                     Send til beslutter

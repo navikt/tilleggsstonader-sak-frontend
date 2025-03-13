@@ -3,10 +3,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Alert, BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, List, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
+import { KommentarTilBeslutter } from '../../Sider/Behandling/Totrinnskontroll/KommentarTilBeslutter';
 import { Feilmelding } from '../Feil/Feilmelding';
 
 const Knapp = styled(Button)`
@@ -60,12 +61,9 @@ export const Brevknapp = ({
     return (
         <VStack gap={'2'}>
             {kanSendeKommentarTilBeslutter && (
-                <Textarea
-                    label="Kommentar til beslutter"
-                    description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
-                    value={kommentarTilBeslutter}
-                    onChange={(e) => settKommentarTilBeslutter(e.target.value)}
-                    style={{ maxWidth: '400px' }}
+                <KommentarTilBeslutter
+                    kommentarTilBeslutter={kommentarTilBeslutter}
+                    settKommentarTilBeslutter={settKommentarTilBeslutter}
                 />
             )}
             <Knapp onClick={trykkPåKnapp} disabled={laster} size="small">
