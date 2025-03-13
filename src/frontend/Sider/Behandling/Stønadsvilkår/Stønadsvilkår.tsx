@@ -17,7 +17,7 @@ import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
-import { Inngangsvilkårtype, VilkårperiodeType, Vilkårtype } from '../vilkår';
+import { StønadsvilkårType, Vilkårtype } from '../vilkår';
 import MidlertidigOvernatting from './Boutgifter/MidlertidigOvernatting';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -53,7 +53,7 @@ const Stønadsvilkår: React.FC<{
             >
                 {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
                     <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
-                        {vilkårtype === Inngangsvilkårtype.PASS_BARN && (
+                        {vilkårtype === StønadsvilkårType.PASS_BARN && (
                             <>
                                 {vilkårsoppsummering.visVarselKontantstøtte && (
                                     <VarselBarnUnder2År />
@@ -61,7 +61,7 @@ const Stønadsvilkår: React.FC<{
                                 <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
                             </>
                         )}
-                        {vilkårtype === VilkårperiodeType.MIDLERTIDIG_OVERNATTING && (
+                        {vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
                             <MidlertidigOvernatting
                                 vilkårsregler={regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler}
                             />

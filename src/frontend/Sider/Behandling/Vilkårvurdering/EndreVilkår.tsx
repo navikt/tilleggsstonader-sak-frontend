@@ -39,7 +39,7 @@ import {
     Delvilkår,
     RedigerbareVilkårfelter,
     Vilkår,
-    VilkårperiodeType,
+    StønadsvilkårType,
     Vilkårtype,
     Vurdering,
 } from '../vilkår';
@@ -88,7 +88,7 @@ type EndreVilkårProps = {
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erMidlertidigOvernatting = props.vilkårtype === VilkårperiodeType.MIDLERTIDIG_OVERNATTING;
+    const erMidlertidigOvernatting = props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);

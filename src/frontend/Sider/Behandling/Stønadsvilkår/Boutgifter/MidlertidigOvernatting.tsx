@@ -3,7 +3,7 @@ import React from 'react';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Regler } from '../../../../typer/regel';
-import { VilkårperiodeType } from '../../vilkår';
+import { StønadsvilkårType } from '../../vilkår';
 import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { lagTomtDelvilkårsett, tomVurdering } from '../../Vilkårvurdering/utils';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
@@ -15,7 +15,7 @@ interface Props {
 const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === VilkårperiodeType.MIDLERTIDIG_OVERNATTING
+        (v) => v.vilkårType === StønadsvilkårType.MIDLERTIDIG_OVERNATTING
     );
 
     return (
@@ -29,7 +29,7 @@ const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}
             <NyttVilkår
-                vilkårtype={VilkårperiodeType.MIDLERTIDIG_OVERNATTING}
+                vilkårtype={StønadsvilkårType.MIDLERTIDIG_OVERNATTING}
                 vilkårsregler={vilkårsregler}
                 lagTomtDelvilkårsett={() =>
                     lagTomtDelvilkårsett(vilkårsregler, (regelId) => tomVurdering(regelId))
