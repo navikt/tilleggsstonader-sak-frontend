@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import { Vedtaksperioder } from './Vedtaksperioder';
@@ -16,39 +16,24 @@ import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import {
-    BeregnBarnetilsynRequest,
-    BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequest,
-    InnvilgelseBarnetilsyn,
+    BeregnBoutgifterRequest,
+    BeregningsresultatBoutgifter,
+    InnvilgeBoutgifterRequest,
+    InnvilgelseBoutgifter,
     validerVedtaksperioder,
-    VedtaksperiodeTilsynBarn,
-} from '../../../../../typer/vedtak/vedtakTilsynBarn';
+    VedtaksperiodeBoutgifter,
+} from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { FanePath } from '../../../faner';
-import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
-import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
+import { initialiserVedtaksperioder } from '../VedtakBoutgifterUtils';
 
 interface Props {
-    lagretVedtak?: InnvilgelseBarnetilsyn;
-    vedtaksperioderForrigeBehandling?: VedtaksperiodeTilsynBarn[];
+    lagretVedtak?: InnvilgelseBoutgifter;
+    vedtaksperioderForrigeBehandling?: VedtaksperiodeBoutgifter[];
 }
 
-export const HeadingBeregning: React.FC = () => {
-    return (
-        <HStack gap="4" align={'end'}>
-            {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
-                <BodyShort key={indeks} size={'small'}>
-                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                        {lenke.tekst}
-                    </Link>
-                </BodyShort>
-            ))}
-        </HStack>
-    );
-};
-
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({
+export const InnvilgeBoutgifter: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
@@ -56,7 +41,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeBoutgifter[]>(
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
@@ -67,11 +52,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     );
 
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
-        useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
+        useState<FormErrors<VedtaksperiodeBoutgifter>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
+        useState(byggTomRessurs<BeregningsresultatBoutgifter>());
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
@@ -84,8 +69,8 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgeBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
+            return request<null, InnvilgeBoutgifterRequest>(
+                `/api/sak/vedtak/boutgifter/${behandling.id}/innvilgelse`,
                 'POST',
                 {
                     vedtaksperioder: vedtaksperioder,
@@ -108,7 +93,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         return isValid(vedtaksperiodeFeil);
     };
 
-    const beregnBarnetilsyn = () => {
+    const beregnBoutgifter = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
         settForeslåPeriodeFeil(undefined);
 
@@ -116,8 +101,8 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
+            request<BeregningsresultatBoutgifter, BeregnBoutgifterRequest>(
+                `/api/sak/vedtak/boutgifter/${behandling.id}/beregn`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
@@ -131,7 +116,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     return (
         <>
-            <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
+            <Panel tittel="Beregning og vedtaksperiode">
                 <VStack gap={'8'}>
                     <OppsummeringVilkårperioderOgVilkår />
                     <Vedtaksperioder
@@ -148,7 +133,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                         oppdaterBegrunnelse={settBegrunnelse}
                     />
                     {erStegRedigerbart && (
-                        <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
+                        <SmallButton onClick={beregnBoutgifter}>Beregn</SmallButton>
                     )}
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>

@@ -1,8 +1,9 @@
+import { VedtakBoutgifter } from './vedtakBoutgifter';
 import { VedtakLæremidler } from './vedtakLæremidler';
 import { VedtakBarnetilsyn } from './vedtakTilsynBarn';
 import { Stønadstype } from '../behandling/behandlingTema';
 
-export type VedtakResponse = VedtakBarnetilsyn | VedtakLæremidler;
+export type VedtakResponse = VedtakBarnetilsyn | VedtakLæremidler | VedtakBoutgifter;
 
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
