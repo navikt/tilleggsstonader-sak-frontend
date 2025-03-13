@@ -67,7 +67,7 @@ const initaliserForm = (
 };
 
 // TODO: Endre navn til EndreMålgruppe
-export const EndreMålgruppeGenerelt: React.FC<{
+export const EndreMålgruppeLæremidler: React.FC<{
     målgruppe?: Målgruppe;
     registerYtelsePeriode?: PeriodeYtelseRegister;
     avbrytRedigering: () => void;

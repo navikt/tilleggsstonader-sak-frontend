@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Label } from '@navikt/ds-react';
 
-import EndreMålgruppeRad from './EndreMålgruppeGenerell';
+import { EndreMålgruppe } from './EndreMålgruppe';
 import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
 import { MålgruppeKort } from './MålgruppeKort';
 import RegisterYtelser from './RegisterYtelser';
@@ -102,7 +102,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                     {målgrupper.map((målgruppe) => (
                         <React.Fragment key={målgruppe.id}>
                             {målgruppe.id === radSomRedigeres ? (
-                                <EndreMålgruppeRad
+                                <EndreMålgruppe
                                     målgruppe={målgruppe}
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
                                 />
@@ -116,7 +116,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                     ))}
                     {radSomRedigeres === 'nyPeriode' && (
                         <div ref={nyPeriodeRef}>
-                            <EndreMålgruppeRad
+                            <EndreMålgruppe
                                 avbrytRedigering={fjernRadIRedigeringsmodus}
                                 registerYtelsePeriode={periodeFraRegister}
                             />
