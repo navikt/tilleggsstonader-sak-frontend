@@ -1,11 +1,21 @@
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import {
+    MålgruppeGenerell,
+    MålgruppeGenerellFaktaOgSvar,
+    MålgruppeGenerellVurderinger,
+} from './målgruppeGenerell';
+import {
+    MålgruppeLæremidler,
+    MålgruppeLæremidlerFaktaOgSvar,
+    MålgruppeLæremidlerVurderinger,
+} from './målgruppeLæremidler';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
-export interface Målgruppe extends VilkårPeriode {
-    type: MålgruppeType;
-    faktaOgVurderinger: MålgruppeVurderinger;
-}
+export type Målgruppe = MålgruppeGenerell | MålgruppeLæremidler;
+
+export type MålgruppeVurderinger = MålgruppeGenerellVurderinger | MålgruppeLæremidlerVurderinger;
+
+export type MålgruppeFaktaOgSvar = MålgruppeGenerellFaktaOgSvar | MålgruppeLæremidlerFaktaOgSvar;
 
 export enum MålgruppeType {
     AAP = 'AAP',
@@ -120,17 +130,3 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
     INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
     GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
 };
-
-export interface MålgruppeVurderinger {
-    medlemskap: Vurdering | undefined;
-    utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
-}
-
-export interface SvarMålgruppe {
-    svarMedlemskap: SvarJaNei | undefined;
-    svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
-}
-
-export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {
-    '@type': 'MÅLGRUPPE';
-}
