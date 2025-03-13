@@ -29,6 +29,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
     NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til bolig eller overnatting?',
+    RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -37,6 +38,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
     NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
+    RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

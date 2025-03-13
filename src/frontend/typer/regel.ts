@@ -15,7 +15,7 @@ export type ReglerPassBarn =
     | 'HAR_FULLFØRT_FJERDEKLASSE'
     | 'UNNTAK_ALDER';
 
-export type ReglerBoutgifter = 'NØDVENDIGE_MERUTGIFTER';
+export type ReglerBoutgifter = 'NØDVENDIGE_MERUTGIFTER' | 'RETT_TIL_BOSTØTTE';
 
 export type SluttNode = 'SLUTT_NODE';
 
