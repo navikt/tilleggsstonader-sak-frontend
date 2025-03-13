@@ -12,7 +12,7 @@ interface Props {
     vilkårsregler: Regler;
 }
 
-const Boutgifter: React.FC<Props> = ({ vilkårsregler }) => {
+const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
         (v) => v.vilkårType === VilkårperiodeType.MIDLERTIDIG_OVERNATTING
@@ -39,4 +39,4 @@ const Boutgifter: React.FC<Props> = ({ vilkårsregler }) => {
     );
 };
 
-export default Boutgifter;
+export default MidlertidigOvernatting;
