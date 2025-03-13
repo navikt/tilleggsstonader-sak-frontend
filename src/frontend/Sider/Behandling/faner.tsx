@@ -14,10 +14,10 @@ import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
-import StønadsvilkårBoutgifter from './Stønadsvilkår/StønadsvilkårBoutgifter';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
+import { Inngangsvilkårtype, VilkårperiodeType } from './vilkår';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
@@ -160,7 +160,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <Stønadsvilkår />,
+                    komponent: () => <Stønadsvilkår vilkårtype={Inngangsvilkårtype.PASS_BARN} />,
                     ikon: <HouseHeartIcon />,
                 },
             ];
@@ -169,7 +169,9 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <StønadsvilkårBoutgifter />,
+                    komponent: () => (
+                        <Stønadsvilkår vilkårtype={VilkårperiodeType.MIDLERTIDIG_OVERNATTING} />
+                    ),
                     ikon: <HouseHeartIcon />,
                 },
             ];
