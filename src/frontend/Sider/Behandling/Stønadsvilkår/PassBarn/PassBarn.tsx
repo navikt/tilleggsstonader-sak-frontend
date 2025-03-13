@@ -15,7 +15,7 @@ import {
     lenkerParagrafPassBarn,
     lenkerRundskrivPassBarn,
 } from '../../lenker';
-import { Inngangsvilkårtype } from '../../vilkår';
+import { StønadsvilkårType } from '../../vilkår';
 import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
 import { lagTomtDelvilkårsett } from '../../Vilkårvurdering/utils';
 import { VisEllerEndreVilkår } from '../../Vilkårvurdering/VisEllerEndreVilkår';
@@ -28,7 +28,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
     const { behandlingFakta } = useBehandling();
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === Inngangsvilkårtype.PASS_BARN
+        (v) => v.vilkårType === StønadsvilkårType.PASS_BARN
     );
 
     if (behandlingFakta['@type'] !== Stønadstype.BARNETILSYN) {
@@ -56,7 +56,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
                     <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
                 ))}
                 <NyttVilkår
-                    vilkårtype={Inngangsvilkårtype.PASS_BARN}
+                    vilkårtype={StønadsvilkårType.PASS_BARN}
                     vilkårsregler={vilkårsregler}
                     barnId={barn.barnId}
                     lagTomtDelvilkårsett={() =>

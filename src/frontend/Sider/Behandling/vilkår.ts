@@ -10,7 +10,7 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export type Vilkårtype = Inngangsvilkårtype;
+export type Vilkårtype = Inngangsvilkårtype | StønadsvilkårType;
 
 export enum Inngangsvilkårtype {
     MÅLGRUPPE = 'MÅLGRUPPE',
@@ -19,6 +19,10 @@ export enum Inngangsvilkårtype {
     AKTIVITET = 'AKTIVITET',
     AKTIVITET_TILTAK = 'AKTIVITET_TILTAK',
     AKTIVITET_UTDANNING = 'AKTIVITET_UTDANNING',
+}
+
+export enum StønadsvilkårType {
+    MIDLERTIDIG_OVERNATTING = 'MIDLERTIDIG_OVERNATTING',
     PASS_BARN = 'PASS_BARN',
 }
 
