@@ -16,7 +16,7 @@ export const validateToken = (redirectToLogin: boolean = false): RequestHandler 
         try {
             const token = await getValidatedTokenFromHeader(req);
             if (!token) {
-                logWarn('Fant ikke gyldig token', req);
+                logWarn('Validering av token - fant ikke gyldig token i header', req);
                 if (redirectToLogin) {
                     redirectResponseToLogin(req, res);
                     return;
@@ -51,7 +51,7 @@ export const attachToken = (applicationName: ApplicationName): RequestHandler =>
         try {
             const authenticationHeader = await prepareSecuredRequest(req, applicationName);
             if (!authenticationHeader) {
-                logWarn('Fant ikke gyldig token', req);
+                logWarn('AttachToken - Fant ikke gyldig token', req);
                 res.status(401).send('Fant ikke gyldig token');
                 return;
             }
