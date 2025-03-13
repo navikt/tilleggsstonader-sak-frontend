@@ -42,6 +42,8 @@ export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): E
         svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
         svarUtgifterDekketAvAnnetRegelverk:
             eksisterendeMålgruppe.faktaOgVurderinger.utgifterDekketAvAnnetRegelverk?.svar,
+        svarMottarSykepengerForFulltidsstilling:
+            eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar,
     },
 });
 
@@ -66,9 +68,10 @@ const tomMålgruppeForm = (): EndreMålgruppeForm => {
     };
 };
 
-const tomVurderingerMålgruppe = {
+const tomVurderingerMålgruppe: SvarMålgruppe = {
     svarMedlemskap: undefined,
     svarUtgifterDekketAvAnnetRegelverk: undefined,
+    svarMottarSykepengerForFulltidsstilling: undefined,
 };
 
 export const målgrupperHvorMedlemskapMåVurderes = [
@@ -82,6 +85,9 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
 };
 
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
+    målgruppeErNedsattArbeidsevne(type);
+
+export const skalVurdereMottarSykepengerForFulltidsstilling = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
 
 export const resettMålgruppe = (
@@ -185,6 +191,8 @@ export const mapFaktaOgSvarTilRequest = (
     svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
     svarUtgifterDekketAvAnnetRegelverk:
         målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
+    svarMottarSykepengerForFulltidsstilling:
+        målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling,
 });
 
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {

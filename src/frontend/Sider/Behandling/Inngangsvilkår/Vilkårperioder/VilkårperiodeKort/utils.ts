@@ -7,7 +7,8 @@ export type DelvilkårKey =
     | 'utgifterDekketAvAnnetRegelverk'
     | 'lønnet'
     | 'harUtgifter'
-    | 'harRettTilUtstyrsstipend';
+    | 'harRettTilUtstyrsstipend'
+    | 'mottarSykepengerForFulltidsstilling';
 
 export const finnDelvilkårTilOppsummering = (
     faktaOgVurderinger: MålgruppeVurderinger | AktivitetFaktaOgVurderinger,

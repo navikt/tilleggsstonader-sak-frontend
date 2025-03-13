@@ -124,11 +124,13 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
 export interface MålgruppeVurderinger {
     medlemskap: Vurdering | undefined;
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
+    mottarSykepengerForFulltidsstilling: Vurdering | undefined;
 }
 
 export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
     svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
+    svarMottarSykepengerForFulltidsstilling: SvarJaNei | undefined;
 }
 
 export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {

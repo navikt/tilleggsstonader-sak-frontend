@@ -6,6 +6,7 @@ import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import {
     dekketAvAnnetRegelverkSvarTilTekst,
     medlemskapSvarTilTekst,
+    mottarSykepengerForFulltidsstillingSvarTilTekst,
 } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 
 const FaktaOgDelvilkårVisning: React.FC<{
@@ -21,6 +22,15 @@ const FaktaOgDelvilkårVisning: React.FC<{
                     {
                         dekketAvAnnetRegelverkSvarTilTekst[
                             vurderinger.utgifterDekketAvAnnetRegelverk.svar
+                        ]
+                    }
+                </Detail>
+            )}
+            {vurderinger.mottarSykepengerForFulltidsstilling?.svar && (
+                <Detail>
+                    {
+                        mottarSykepengerForFulltidsstillingSvarTilTekst[
+                            vurderinger.mottarSykepengerForFulltidsstilling.svar
                         ]
                     }
                 </Detail>

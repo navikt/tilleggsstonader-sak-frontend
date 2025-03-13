@@ -14,6 +14,15 @@ export const dekketAvAnnetRegelverkSvarTilTekst: Record<SvarJaNei, string | unde
     [SvarJaNei.JA_IMPLISITT]: undefined,
 };
 
+export const mottarSykepengerForFulltidsstillingSvarTilTekst: Record<
+    SvarJaNei,
+    string | undefined
+> = {
+    [SvarJaNei.JA]: 'Mottar 100% sykepenger for fulltidsstilling',
+    [SvarJaNei.NEI]: 'Mottar ikke 100% sykepenger for fulltidsstilling',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+};
+
 export const lønnetSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Lønnet',
     [SvarJaNei.NEI]: 'Ikke lønnet',
@@ -54,6 +63,7 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     utgifterDekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
     harUtgifter: 'har utgifter til læremidler',
     harRettTilUtstyrsstipend: 'har rett til utstyrsstipend',
+    mottarSykepengerForFulltidsstilling: 'mottar 100% sykepenger for fulltidsstilling',
 };
 
 export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
