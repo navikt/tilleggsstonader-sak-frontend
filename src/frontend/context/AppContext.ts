@@ -12,50 +12,53 @@ import { Saksbehandler } from '../utils/saksbehandler';
 interface Props {
     saksbehandler: Saksbehandler;
     appEnv: AppEnv;
+    autentisert: boolean;
+    settIkkeAutentisert: () => void;
 }
 
-const [AppProvider, useApp] = constate(({ saksbehandler, appEnv }: Props) => {
-    const [autentisert, settAutentisert] = useState(true);
+const [AppProvider, useApp] = constate(
+    ({ saksbehandler, appEnv, autentisert, settIkkeAutentisert }: Props) => {
+        const [erSaksbehandler, settErSaksbehandler] = useState(
+            harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler')
+        );
 
-    const [erSaksbehandler, settErSaksbehandler] = useState(
-        harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler')
-    );
+        const [toast, settToast] = useState<Toast | undefined>();
 
-    const [toast, settToast] = useState<Toast | undefined>();
+        const request = useCallback(
+            <RES, REQ>(url: string, method: Method = 'GET', data?: REQ) =>
+                fetchFn<RES, REQ>(url, method, () => settIkkeAutentisert(), data),
+            [settIkkeAutentisert]
+        ); // Saksbehandler skal inn som dep etter hvert
 
-    const request = useCallback(
-        <RES, REQ>(url: string, method: Method = 'GET', data?: REQ) =>
-            fetchFn<RES, REQ>(url, method, () => settAutentisert(false), data),
-        []
-    ); // Saksbehandler skal inn som dep etter hvert
+        useEffect(() => {
+            settErSaksbehandler(harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'));
+        }, [saksbehandler, appEnv]);
 
-    useEffect(() => {
-        settErSaksbehandler(harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'));
-    }, [saksbehandler, appEnv]);
+        const {
+            ulagradeKomponenter,
+            harUlagradeKomponenter,
+            settUlagretKomponent,
+            nullstillUlagretKomponent,
+            nullstillUlagredeKomponenter,
+        } = useUlagredeKomponenter();
 
-    const {
-        ulagradeKomponenter,
-        harUlagradeKomponenter,
-        settUlagretKomponent,
-        nullstillUlagretKomponent,
-        nullstillUlagredeKomponenter,
-    } = useUlagredeKomponenter();
+        return {
+            request,
+            autentisert,
+            settIkkeAutentisert,
+            saksbehandler,
+            erSaksbehandler,
+            appEnv,
+            toast,
+            settToast,
 
-    return {
-        request,
-        autentisert,
-        saksbehandler,
-        erSaksbehandler,
-        appEnv,
-        toast,
-        settToast,
-
-        ulagradeKomponenter,
-        harUlagradeKomponenter,
-        settUlagretKomponent,
-        nullstillUlagretKomponent,
-        nullstillUlagredeKomponenter,
-    };
-});
+            ulagradeKomponenter,
+            harUlagradeKomponenter,
+            settUlagretKomponent,
+            nullstillUlagretKomponent,
+            nullstillUlagredeKomponenter,
+        };
+    }
+);
 
 export { AppProvider, useApp };
