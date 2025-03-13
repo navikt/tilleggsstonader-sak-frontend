@@ -13,7 +13,7 @@ import { Delvilkår, RedigerbareVilkårfelter, Vilkårtype } from '../vilkår';
 export const NyttVilkår: React.FC<{
     vilkårtype: Vilkårtype;
     vilkårsregler: Regler;
-    barnId: string | undefined;
+    barnId?: string;
     lagTomtDelvilkårsett: () => Delvilkår[];
 }> = ({ vilkårtype, vilkårsregler, barnId, lagTomtDelvilkårsett }) => {
     const { behandling } = useBehandling();
@@ -54,6 +54,7 @@ export const NyttVilkår: React.FC<{
             lagreVurdering={opprettVilkår}
             alleFelterKanRedigeres={true}
             slettVilkår={undefined}
+            vilkårtype={vilkårtype}
         />
     );
 };
