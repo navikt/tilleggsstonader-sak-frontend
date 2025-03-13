@@ -17,8 +17,14 @@ interface RegistergrunnlagBarn {
 
 interface SøknadsgrunnlagBarn {
     type: TypeBarnepass;
+    utgifter?: Utgifter;
     startetIFemte?: JaNei;
     årsak?: ÅrsakBarnepass;
+}
+export interface Utgifter {
+    harUtgifterTilPass: JaNei;
+    fom?: string;
+    tom?: string;
 }
 
 export interface VilkårFaktaBarn {

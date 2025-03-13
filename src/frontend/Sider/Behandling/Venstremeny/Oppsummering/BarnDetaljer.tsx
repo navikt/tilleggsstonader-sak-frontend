@@ -15,6 +15,7 @@ import { tekstEllerKode } from '../../../../utils/tekstformatering';
 const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
     const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
+    const utgifter = barn.søknadgrunnlag?.utgifter;
     const årsak = barn.søknadgrunnlag?.årsak;
 
     return (
@@ -33,6 +34,15 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
                             {tekstEllerKode(årsakBarnepassTilTekst, årsak)}{' '}
                         </BodyShort>
                     )}
+                </>
+            )}
+            {utgifter !== undefined && (
+                <>
+                    <BodyShort size="small">
+                        {utgifter?.harUtgifterTilPass === JaNei.JA
+                            ? 'utgifter hele perioden :'
+                            : 'har ikke utgifter hele perioden'}
+                    </BodyShort>
                 </>
             )}
         </InfoSeksjon>
