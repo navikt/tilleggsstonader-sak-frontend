@@ -28,12 +28,14 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
+    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til bolig eller overnatting?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Dokumentert utgifter?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
+    NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
 };
 
