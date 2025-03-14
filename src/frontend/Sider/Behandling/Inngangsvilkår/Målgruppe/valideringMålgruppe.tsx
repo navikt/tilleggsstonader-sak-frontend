@@ -1,5 +1,4 @@
 import { EndreMålgruppeForm } from './EndreMålgruppeGenerell';
-import { finnBegrunnelseGrunnerMålgruppe } from './utils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
@@ -12,6 +11,7 @@ export interface MålgruppeValidering extends Periode {
 
 export const validerMålgruppe = (
     endretMålgruppe: EndreMålgruppeForm,
+    begrunnelsePåkrevd: boolean,
     lagretMålgruppe?: Målgruppe | undefined,
     revurderesFraDato?: string
 ): FormErrors<MålgruppeValidering> => {
@@ -35,12 +35,7 @@ export const validerMålgruppe = (
         };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerMålgruppe(
-        endretMålgruppe.type,
-        endretMålgruppe.vurderinger
-    );
-
-    if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretMålgruppe.begrunnelse))
+    if (begrunnelsePåkrevd && harIkkeVerdi(endretMålgruppe.begrunnelse))
         return { ...feil, begrunnelse: 'Begrunnelse er obligatorisk' };
 
     return feil;

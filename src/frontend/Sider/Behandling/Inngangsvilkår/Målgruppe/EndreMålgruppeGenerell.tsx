@@ -11,7 +11,7 @@ import {
     mapFaktaOgSvarTilRequest,
     nyMålgruppe,
     resettMålgruppe,
-} from './utils';
+} from './utilsMålgruppeGenerell';
 import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -88,10 +88,18 @@ export const EndreMålgruppeGenerelt: React.FC<{
         form.type,
         form.vurderinger
     );
+
+    const begrunnelseErPåkrevd = delvilkårSomKreverBegrunnelse.length > 0;
+
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerMålgruppe(
+            form,
+            begrunnelseErPåkrevd,
+            målgruppe,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);

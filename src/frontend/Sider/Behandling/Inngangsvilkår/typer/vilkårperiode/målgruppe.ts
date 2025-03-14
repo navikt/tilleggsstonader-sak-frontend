@@ -2,11 +2,13 @@ import {
     MålgruppeGenerell,
     MålgruppeGenerellFaktaOgSvar,
     MålgruppeGenerellVurderinger,
+    SvarMålgruppeGenerell,
 } from './målgruppeGenerell';
 import {
     MålgruppeLæremidler,
     MålgruppeLæremidlerFaktaOgSvar,
     MålgruppeLæremidlerVurderinger,
+    SvarMålgruppeLæremidler,
 } from './målgruppeLæremidler';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
@@ -14,6 +16,8 @@ import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 export type Målgruppe = MålgruppeGenerell | MålgruppeLæremidler;
 
 export type MålgruppeVurderinger = MålgruppeGenerellVurderinger | MålgruppeLæremidlerVurderinger;
+
+export type SvarMålgruppe = SvarMålgruppeGenerell | SvarMålgruppeLæremidler;
 
 export type MålgruppeFaktaOgSvar = MålgruppeGenerellFaktaOgSvar | MålgruppeLæremidlerFaktaOgSvar;
 
