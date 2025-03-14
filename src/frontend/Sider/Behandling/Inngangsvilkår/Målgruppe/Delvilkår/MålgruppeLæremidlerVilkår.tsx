@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
-import { EndreMålgruppeForm } from './EndreMålgruppeRad';
-import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
-import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
-import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
-import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { MålgruppeType, SvarMålgruppe } from '../../typer/vilkårperiode/målgruppe';
+import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
+import { EndreMålgruppeForm } from '../EndreMålgruppeGenerell';
+import { målgruppeTilMedlemskapHjelpetekst } from '../hjelpetekstVurdereMålgruppe';
+import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from '../utils';
 
 const Container = styled.div`
     display: flex;
@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 // TODO: Rename til MålgruppeDelvilkår
-const MålgruppeVilkår: React.FC<{
+export const MålgruppeLæremidlerVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
@@ -80,5 +80,3 @@ const MålgruppeVilkår: React.FC<{
         </Container>
     );
 };
-
-export default MålgruppeVilkår;

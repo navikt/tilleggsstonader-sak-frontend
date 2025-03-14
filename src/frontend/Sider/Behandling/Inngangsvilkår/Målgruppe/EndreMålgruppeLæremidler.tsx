@@ -4,14 +4,14 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import MålgruppeVilkår from './MålgruppeVilkår';
+import { MålgruppeLæremidlerVilkår } from './Delvilkår/MålgruppeLæremidlerVilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
     mapEksisterendeMålgruppe,
     mapFaktaOgSvarTilRequest,
     nyMålgruppe,
     resettMålgruppe,
-} from './utils';
+} from './utilsMålgruppeLæremidler';
 import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
@@ -66,8 +66,7 @@ const initaliserForm = (
         : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
 };
 
-// TODO: Endre navn til EndreMålgruppe
-const EndreMålgruppeRad: React.FC<{
+export const EndreMålgruppeLæremidler: React.FC<{
     målgruppe?: Målgruppe;
     registerYtelsePeriode?: PeriodeYtelseRegister;
     avbrytRedigering: () => void;
@@ -88,10 +87,17 @@ const EndreMålgruppeRad: React.FC<{
         form.type,
         form.vurderinger
     );
+    const begrunnelseErPåkrevd = delvilkårSomKreverBegrunnelse.length > 0;
+
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerMålgruppe(
+            form,
+            begrunnelseErPåkrevd,
+            målgruppe,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
@@ -183,7 +189,7 @@ const EndreMålgruppeRad: React.FC<{
                 />
             </FeltContainer>
 
-            <MålgruppeVilkår
+            <MålgruppeLæremidlerVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
@@ -225,5 +231,3 @@ const EndreMålgruppeRad: React.FC<{
         </VilkårperiodeKortBase>
     );
 };
-
-export default EndreMålgruppeRad;
