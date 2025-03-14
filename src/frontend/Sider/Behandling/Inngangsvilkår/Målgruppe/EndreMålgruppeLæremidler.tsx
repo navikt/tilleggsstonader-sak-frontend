@@ -66,7 +66,6 @@ const initaliserForm = (
         : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
 };
 
-// TODO: Endre navn til EndreMålgruppe
 export const EndreMålgruppeLæremidler: React.FC<{
     målgruppe?: Målgruppe;
     registerYtelsePeriode?: PeriodeYtelseRegister;
