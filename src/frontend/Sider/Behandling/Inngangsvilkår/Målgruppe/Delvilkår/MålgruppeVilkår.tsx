@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
-import { EndreMålgruppeForm } from './EndreMålgruppeGenerell';
-import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
-import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
-import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
-import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { MålgruppeType, SvarMålgruppe } from '../../typer/vilkårperiode/målgruppe';
+import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
+import { EndreMålgruppeForm } from '../EndreMålgruppeGenerell';
+import { målgruppeTilMedlemskapHjelpetekst } from '../hjelpetekstVurdereMålgruppe';
+import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from '../utils';
 
 const Container = styled.div`
     display: flex;

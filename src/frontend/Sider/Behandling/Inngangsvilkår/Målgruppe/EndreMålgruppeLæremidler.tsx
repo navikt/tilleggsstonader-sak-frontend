@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import MålgruppeVilkår from './MålgruppeVilkår';
+import MålgruppeVilkår from './Delvilkår/MålgruppeVilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
     mapEksisterendeMålgruppe,
