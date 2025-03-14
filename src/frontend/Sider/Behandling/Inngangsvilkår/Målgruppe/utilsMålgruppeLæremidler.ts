@@ -153,7 +153,7 @@ export const finnBegrunnelseGrunnerMålgruppe = (
 export const mapFaktaOgSvarTilRequest = (
     målgruppeForm: EndreMålgruppeForm
 ): MålgruppeLæremidlerFaktaOgSvar => ({
-    '@type': 'MÅLGRUPPE',
+    '@type': 'MÅLGRUPPE_LÆREMIDLER',
     svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
     svarUtgifterDekketAvAnnetRegelverk:
         målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,

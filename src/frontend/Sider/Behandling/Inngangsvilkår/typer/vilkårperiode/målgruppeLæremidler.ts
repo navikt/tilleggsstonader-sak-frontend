@@ -17,5 +17,5 @@ export interface SvarMålgruppeLæremidler {
 }
 
 export interface MålgruppeLæremidlerFaktaOgSvar extends SvarMålgruppeLæremidler {
-    '@type': 'MÅLGRUPPE';
+    '@type': 'MÅLGRUPPE_LÆREMIDLER';
 }
