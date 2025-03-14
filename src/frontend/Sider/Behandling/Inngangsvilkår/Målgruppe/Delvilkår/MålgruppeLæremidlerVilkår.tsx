@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 // TODO: Rename til MålgruppeDelvilkår
-const MålgruppeVilkår: React.FC<{
+export const MålgruppeLæremidlerVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
@@ -80,5 +80,3 @@ const MålgruppeVilkår: React.FC<{
         </Container>
     );
 };
-
-export default MålgruppeVilkår;

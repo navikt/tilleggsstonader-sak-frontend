@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import MålgruppeVilkår from './Delvilkår/MålgruppeVilkår';
+import { MålgruppeLæremidlerVilkår } from './Delvilkår/MålgruppeLæremidlerVilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
     mapEksisterendeMålgruppe,
@@ -189,7 +189,7 @@ export const EndreMålgruppeLæremidler: React.FC<{
                 />
             </FeltContainer>
 
-            <MålgruppeVilkår
+            <MålgruppeLæremidlerVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
