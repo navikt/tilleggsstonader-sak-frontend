@@ -17,7 +17,6 @@ import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
-import { StønadsvilkårType } from './vilkår';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
@@ -160,7 +159,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <Stønadsvilkår vilkårtype={StønadsvilkårType.PASS_BARN} />,
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.BARNETILSYN} />,
                     ikon: <HouseHeartIcon />,
                 },
             ];
@@ -169,9 +168,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => (
-                        <Stønadsvilkår vilkårtype={StønadsvilkårType.MIDLERTIDIG_OVERNATTING} />
-                    ),
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.BOUTGIFTER} />,
                     ikon: <HouseHeartIcon />,
                 },
             ];

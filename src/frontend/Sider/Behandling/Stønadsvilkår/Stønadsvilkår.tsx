@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
 
+import FasteUtgifter from './Boutgifter/FasteUtgifter';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -17,16 +18,16 @@ import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
-import { StønadsvilkårType, Vilkårtype } from '../vilkår';
 import MidlertidigOvernatting from './Boutgifter/MidlertidigOvernatting';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
 `;
 
 const Stønadsvilkår: React.FC<{
-    vilkårtype: Vilkårtype;
-}> = ({ vilkårtype }) => {
+    stønadstype: Stønadstype;
+}> = ({ stønadstype }) => {
     const { behandling } = useBehandling();
     const { regler, hentRegler } = useRegler();
     const { vilkårsoppsummering } = useVilkårsoppsummering(behandling.id);
@@ -53,7 +54,7 @@ const Stønadsvilkår: React.FC<{
             >
                 {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
                     <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
-                        {vilkårtype === StønadsvilkårType.PASS_BARN && (
+                        {stønadstype === Stønadstype.BARNETILSYN && (
                             <>
                                 {vilkårsoppsummering.visVarselKontantstøtte && (
                                     <VarselBarnUnder2År />
@@ -61,10 +62,17 @@ const Stønadsvilkår: React.FC<{
                                 <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
                             </>
                         )}
-                        {vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
-                            <MidlertidigOvernatting
-                                vilkårsregler={regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler}
-                            />
+                        {stønadstype === Stønadstype.BOUTGIFTER && (
+                            <>
+                                <MidlertidigOvernatting
+                                    vilkårsregler={
+                                        regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler
+                                    }
+                                />
+                                <FasteUtgifter
+                                    vilkårsregler={regler.vilkårsregler.FASTE_UTGIFTER.regler}
+                                />
+                            </>
                         )}
                     </VilkårProvider>
                 )}
