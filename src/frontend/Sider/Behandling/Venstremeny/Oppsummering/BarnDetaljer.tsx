@@ -9,7 +9,7 @@ import {
     typeBarnepassTilTekst,
     årsakBarnepassTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
-import { JaNei } from '../../../../typer/common';
+import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
@@ -21,6 +21,31 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     return (
         <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
             <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
+            {utgifter !== undefined && (
+                <>
+                    {utgifter.harUtgifterTilPass === JaNei.JA ? (
+                        <>
+                            <BodyShort size="small">
+                                Har utgifter hele perioden:{' '}
+                                {jaNeiTilTekst[utgifter.harUtgifterTilPass]}
+                            </BodyShort>
+                            <BodyShort size="small">Behov for ekstra pleie/tilsyn</BodyShort>
+                        </>
+                    ) : (
+                        <>
+                            <BodyShort size="small">
+                                Har utgifter hele perioden:{' '}
+                                {jaNeiTilTekst[utgifter.harUtgifterTilPass]}
+                            </BodyShort>
+                            {utgifter.fom && utgifter.tom && (
+                                <BodyShort size="small">
+                                    Har utgifter: {utgifter.fom} - {utgifter.tom}
+                                </BodyShort>
+                            )}
+                        </>
+                    )}
+                </>
+            )}
             {startetIFemte !== undefined && (
                 <>
                     <BodyShort size="small">
@@ -34,15 +59,6 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
                             {tekstEllerKode(årsakBarnepassTilTekst, årsak)}{' '}
                         </BodyShort>
                     )}
-                </>
-            )}
-            {utgifter !== undefined && (
-                <>
-                    <BodyShort size="small">
-                        {utgifter?.harUtgifterTilPass === JaNei.JA
-                            ? 'utgifter hele perioden :'
-                            : 'har ikke utgifter hele perioden'}
-                    </BodyShort>
                 </>
             )}
         </InfoSeksjon>
