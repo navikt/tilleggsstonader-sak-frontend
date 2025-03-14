@@ -19,12 +19,13 @@ import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
+import { Behandlingsoppsummering } from '../Oppsummering/Behandlingsoppsummering';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin: 0.5rem 2rem 2rem 2rem;
+    gap: 1rem;
+    margin: 1rem 2rem 2rem 2rem;
 `;
 
 const nesteFane = (stønadstype: Stønadstype): FanePath => {
@@ -47,6 +48,7 @@ const Inngangsvilkår = () => {
         <Container>
             <VarselVedtakIArena />
             <VarselRevurderFraDatoMangler />
+            <Behandlingsoppsummering steg={Steg.INNGANGSVILKÅR} />
 
             <DataViewer
                 response={{

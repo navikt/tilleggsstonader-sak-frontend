@@ -24,7 +24,8 @@ import {
     VedtaksperiodeBoutgifter,
 } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { FanePath } from '../../../faner';
-import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
+import { OppsummeringVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkår';
+import { OppsummeringVilkårperioder } from '../../../OppsummeringVilkår/OppsummeringVilkårperioder';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { initialiserVedtaksperioder } from '../VedtakBoutgifterUtils';
 
@@ -118,7 +119,8 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
         <>
             <Panel tittel="Beregning og vedtaksperiode">
                 <VStack gap={'8'}>
-                    <OppsummeringVilkårperioderOgVilkår />
+                    <OppsummeringVilkår />
+                    <OppsummeringVilkårperioder />
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}

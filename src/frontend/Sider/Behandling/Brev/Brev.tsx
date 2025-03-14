@@ -23,11 +23,16 @@ import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
 import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
+import { Steg } from '../../../typer/behandling/steg';
 import { RessursStatus } from '../../../typer/ressurs';
+import { Behandlingsoppsummering } from '../Oppsummering/Behandlingsoppsummering';
 import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
 
 const Container = styled.div`
-    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 2rem 2rem 2rem;
 `;
 
 const ToKolonner = styled.div`
@@ -92,6 +97,7 @@ const Brev: React.FC = () => {
 
     return (
         <Container>
+            <Behandlingsoppsummering steg={Steg.SEND_TIL_BESLUTTER} />
             {behandlingErRedigerbar ? (
                 <DataViewer response={{ brevmaler, mellomlagretBrev }}>
                     {({ brevmaler, mellomlagretBrev }) => (

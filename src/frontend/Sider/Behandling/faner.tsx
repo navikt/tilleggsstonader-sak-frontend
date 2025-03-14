@@ -14,13 +14,11 @@ import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
-import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
-import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
-import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
+import { VedtakOgBeregning } from './VedtakOgBeregning/VedtakOgBeregning';
 import { StønadsvilkårType } from './vilkår';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
-import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
+import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
@@ -140,19 +138,6 @@ const sendTilBeslutterUtenBrev = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => {
-    switch (behandling.stønadstype) {
-        case Stønadstype.BARNETILSYN:
-            return <VedtakOgBeregningBarnetilsyn />;
-        case Stønadstype.LÆREMIDLER:
-            return <VedtakOgBeregningLæremidler />;
-        case Stønadstype.BOUTGIFTER:
-            return <VedtakOgBeregningBoutgifter />;
-        default:
-            return <span>Har ikke vedtak for {stønadstypeTilTekst[behandling.stønadstype]}</span>;
-    }
-};
-
 const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
@@ -193,7 +178,7 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
         {
             navn: FaneNavn.VEDTAK_OG_BEREGNING,
             path: FanePath.VEDTAK_OG_BEREGNING,
-            komponent: () => vedtakForBehandling(behandling),
+            komponent: () => <VedtakOgBeregning />,
             ikon: <CalculatorIcon />,
             erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
         },

@@ -16,12 +16,12 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
-import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
 import { StønadsvilkårType, Vilkårtype } from '../vilkår';
 import MidlertidigOvernatting from './Boutgifter/MidlertidigOvernatting';
+import { Behandlingsoppsummering } from '../Oppsummering/Behandlingsoppsummering';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
-    margin: 2rem;
+    margin: 1rem 2rem 2rem 2rem;
 `;
 
 const Stønadsvilkår: React.FC<{
@@ -43,7 +43,7 @@ const Stønadsvilkår: React.FC<{
     return (
         <Container>
             <VarselRevurderFraDatoMangler />
-            <OppsummeringVilkårperioder behandlingId={behandling.id} />
+            <Behandlingsoppsummering steg={Steg.VILKÅR} />
             <DataViewer
                 response={{
                     regler,

@@ -8,6 +8,7 @@ import AvslåVedtak from './AvslåVedtak';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
+import { Steg } from '../../../../typer/behandling/steg';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
@@ -19,9 +20,10 @@ import {
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
+import { Behandlingsoppsummering } from '../../Oppsummering/Behandlingsoppsummering';
 
 const Container = styled.div`
-    padding: 2rem 2rem;
+    margin: 1rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -38,10 +40,11 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     }, [vedtak]);
 
     return (
-        <>
+        <Container>
+            <Behandlingsoppsummering steg={Steg.BEREGNE_YTELSE} />
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => (
-                    <Container>
+                    <>
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
@@ -66,10 +69,10 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         )}
-                    </Container>
+                    </>
                 )}
             </DataViewer>
-        </>
+        </Container>
     );
 };
 

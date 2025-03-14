@@ -7,6 +7,7 @@ import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivit
 import { Stønadsperiode } from '../Inngangsvilkår/typer/stønadsperiode';
 import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
+// TODO fjerne
 export const StønadsperiodeListe: React.FC<{
     stønadsperioder: Stønadsperiode[];
     tittel: string;
