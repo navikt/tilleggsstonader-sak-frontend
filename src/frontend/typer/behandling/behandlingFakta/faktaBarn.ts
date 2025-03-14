@@ -22,7 +22,7 @@ interface SøknadsgrunnlagBarn {
     årsak?: ÅrsakBarnepass;
 }
 export interface Utgifter {
-    harUtgifterTilPass: JaNei;
+    harUtgifterTilPassHelePerioden: JaNei;
     fom?: string;
     tom?: string;
 }

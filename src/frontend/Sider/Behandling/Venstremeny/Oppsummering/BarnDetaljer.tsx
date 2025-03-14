@@ -21,21 +21,20 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     return (
         <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
             <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
-            {utgifter !== undefined && (
+            {utgifter !== undefined && utgifter !== null && (
                 <>
-                    {utgifter.harUtgifterTilPass === JaNei.JA ? (
+                    {utgifter.harUtgifterTilPassHelePerioden === JaNei.JA ? (
                         <>
                             <BodyShort size="small">
                                 Har utgifter hele perioden:{' '}
-                                {jaNeiTilTekst[utgifter.harUtgifterTilPass]}
+                                {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
                             </BodyShort>
-                            <BodyShort size="small">Behov for ekstra pleie/tilsyn</BodyShort>
                         </>
                     ) : (
                         <>
                             <BodyShort size="small">
                                 Har utgifter hele perioden:{' '}
-                                {jaNeiTilTekst[utgifter.harUtgifterTilPass]}
+                                {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
                             </BodyShort>
                             {utgifter.fom && utgifter.tom && (
                                 <BodyShort size="small">
