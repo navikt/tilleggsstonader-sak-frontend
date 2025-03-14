@@ -4,12 +4,17 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
+import { Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
+import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+} from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { VedtaksperiodeTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { tomVedtaksperiode } from '../VedtakBarnetilsynUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
@@ -35,8 +40,8 @@ interface Props {
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<VedtaksperiodeTilsynBarn>[] | undefined>
     >;
-    foreslåPeriodeFeil?: string;
-    settForeslåPeriodeFeil: React.Dispatch<string | undefined>;
+    foreslåPeriodeFeil?: Feil;
+    settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -103,7 +108,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 settVedtaksperioder(perioder);
                 settForeslåPeriodeFeil(undefined);
             } else {
-                settForeslåPeriodeFeil(res.frontendFeilmelding);
+                settForeslåPeriodeFeil(feiletRessursTilFeilmelding(res));
             }
         });
     };
@@ -158,11 +163,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             Foreslå vedtaksperioder
                         </Button>
                     </HStack>
-                    {foreslåPeriodeFeil && (
-                        <Alert variant="error" title="Klarte ikke å preutfylle periode">
-                            {foreslåPeriodeFeil}
-                        </Alert>
-                    )}
+                    <Feilmelding feil={foreslåPeriodeFeil} />
                 </>
             )}
         </VStack>
