@@ -7,7 +7,7 @@ export enum Stønadstype {
 export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     BARNETILSYN: 'Tilsyn barn',
     LÆREMIDLER: 'Læremidler',
-    BOUTGIFTER: 'Boutgifter',
+    BOUTGIFTER: 'Bolig/overnatting',
 };
 
 export const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
