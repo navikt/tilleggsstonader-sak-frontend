@@ -23,6 +23,7 @@ export enum Inngangsvilkårtype {
 
 export enum StønadsvilkårType {
     MIDLERTIDIG_OVERNATTING = 'MIDLERTIDIG_OVERNATTING',
+    FASTE_UTGIFTER = 'FASTE_UTGIFTER',
     PASS_BARN = 'PASS_BARN',
 }
 
