@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { Alert, VStack } from '@navikt/ds-react';
+import { Alert, Label, VStack } from '@navikt/ds-react';
 
 import { VedtaksperioderRevurderFra } from './VedtaksperioderRevurderFra';
 import { useApp } from '../../../context/AppContext';
@@ -16,6 +16,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
+import RevurderFraReadMore from './RevurderFraReadMore';
 
 const Container = styled.div`
     margin: 2rem;
@@ -66,8 +67,11 @@ export function RevurderFra() {
         <Container>
             <VStack gap="16">
                 <VStack gap="2">
+                    <Label size={'small'}>Revurderes fra</Label>
+                    <RevurderFraReadMore />
                     <DateInputMedLeservisning
                         label="Revurderes fra"
+                        hideLabel={true}
                         value={revurderFraDato}
                         onChange={håndterEndretDato}
                         erLesevisning={!behandlingErRedigerbar}
