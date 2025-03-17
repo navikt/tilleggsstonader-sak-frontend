@@ -8,17 +8,21 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 export const VedtaksperioderRevurderFra = () => {
     const { behandling } = useBehandling();
 
-    if (!behandling.forrigeBehandlingId) {
+    if (!behandling.forrigeIverksatteBehandlingId) {
         return null;
     }
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
             return (
-                <VedtakshistorikkTilsynBarn forrigeBehandlingId={behandling.forrigeBehandlingId} />
+                <VedtakshistorikkTilsynBarn
+                    forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
+                />
             );
         case Stønadstype.LÆREMIDLER:
             return (
-                <VedtakshistorikkLæremidler forrigeBehandlingId={behandling.forrigeBehandlingId} />
+                <VedtakshistorikkLæremidler
+                    forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
+                />
             );
         default:
             return null;

@@ -7,7 +7,7 @@ import { Steg } from './steg';
 
 export interface Behandling {
     id: string;
-    forrigeBehandlingId?: string;
+    forrigeIverksatteBehandlingId?: string;
     fagsakId: string;
     fagsakPersonId: string;
     steg: Steg;
