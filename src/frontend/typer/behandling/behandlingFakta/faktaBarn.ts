@@ -25,8 +25,14 @@ export interface SaksinformasjonAndreForeldre {
 
 interface SøknadsgrunnlagBarn {
     type: TypeBarnepass;
+    utgifter?: Utgifter;
     startetIFemte?: JaNei;
     årsak?: ÅrsakBarnepass;
+}
+export interface Utgifter {
+    harUtgifterTilPassHelePerioden: JaNei;
+    fom?: string;
+    tom?: string;
 }
 
 export interface VilkårFaktaBarn {
