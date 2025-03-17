@@ -10,6 +10,7 @@ import {
     årsakBarnepassTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
+import { formaterIsoPeriode } from '../../../../utils/dato';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
@@ -21,27 +22,16 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     return (
         <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
             <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
-            {utgifter !== undefined && utgifter !== null && (
+            {utgifter && (
                 <>
-                    {utgifter.harUtgifterTilPassHelePerioden === JaNei.JA ? (
-                        <>
-                            <BodyShort size="small">
-                                Har utgifter hele perioden:{' '}
-                                {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
-                            </BodyShort>
-                        </>
-                    ) : (
-                        <>
-                            <BodyShort size="small">
-                                Har utgifter hele perioden:{' '}
-                                {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
-                            </BodyShort>
-                            {utgifter.fom && utgifter.tom && (
-                                <BodyShort size="small">
-                                    Har utgifter: {utgifter.fom} - {utgifter.tom}
-                                </BodyShort>
-                            )}
-                        </>
+                    <BodyShort size="small">
+                        Har utgifter hele perioden:{' '}
+                        {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
+                    </BodyShort>
+                    {utgifter.fom && utgifter.tom && (
+                        <BodyShort size="small">
+                            Har utgifter: ${formaterIsoPeriode(utgifter.fom, utgifter.tom)}
+                        </BodyShort>
                     )}
                 </>
             )}
