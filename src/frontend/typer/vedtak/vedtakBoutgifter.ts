@@ -54,9 +54,15 @@ export type BeregningsresultatBoutgifter = {
 };
 
 type Beregningsresultat = {
-    dagsats: number;
-    månedsbeløp: number;
-    grunnlag: Beregningsgrunnlag;
+    stønadsbeløp: number;
+    fom: string;
+    tom: string;
+    utbetalingsdato: string;
+    utgifter: number;
+    makssats: number;
+    målgruppe: string;
+    aktivitet: string;
+    delAvTidligereUtbetaling: boolean;
 };
 
 export interface Vedtaksperiode {
@@ -64,14 +70,7 @@ export interface Vedtaksperiode {
     tom: string;
     målgruppe: MålgruppeType;
     aktivitet: AktivitetType;
-    // antallBarn: number;
 }
-
-type Beregningsgrunnlag = {
-    måned: string;
-    utgifterTotal: number;
-    // antallBarn: number;
-};
 
 export interface VedtaksperiodeBoutgifter extends Periode {
     id: string;
