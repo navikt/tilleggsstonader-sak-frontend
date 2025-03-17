@@ -33,18 +33,18 @@ import {
     Målgruppe,
     MålgruppeType,
     målgruppeTypeOptionsForStønad,
-    SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
+import { SvarMålgruppeGenerell } from '../typer/vilkårperiode/målgruppeGenerell';
 import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
-export interface EndreMålgruppeForm extends Periode {
+export interface EndreMålgruppeGenerellForm extends Periode {
     type: MålgruppeType | '';
     begrunnelse?: string;
-    vurderinger: SvarMålgruppe;
+    vurderinger: SvarMålgruppeGenerell;
 }
 
 const FeltContainer = styled.div`
@@ -60,7 +60,7 @@ const FeltContainer = styled.div`
 const initaliserForm = (
     eksisterendeMålgruppe?: Målgruppe,
     registrertYtelsePeriode?: PeriodeYtelseRegister
-): EndreMålgruppeForm => {
+): EndreMålgruppeGenerellForm => {
     return eksisterendeMålgruppe === undefined
         ? nyMålgruppe(registrertYtelsePeriode)
         : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
@@ -75,7 +75,7 @@ export const EndreMålgruppeGenerelt: React.FC<{
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
-    const [form, settForm] = useState<EndreMålgruppeForm>(
+    const [form, settForm] = useState<EndreMålgruppeGenerellForm>(
         initaliserForm(målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
@@ -193,7 +193,7 @@ export const EndreMålgruppeGenerelt: React.FC<{
             <MålgruppeGenerellVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
+                oppdaterVurderinger={(key: keyof SvarMålgruppeGenerell, nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },

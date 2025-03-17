@@ -1,4 +1,5 @@
-import { EndreMålgruppeForm } from './EndreMålgruppeGenerell';
+import { EndreMålgruppeGenerellForm } from './EndreMålgruppeGenerell';
+import { EndreMålgruppeLæremidlerForm } from './EndreMålgruppeLæremidler';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
@@ -10,7 +11,7 @@ export interface MålgruppeValidering extends Periode {
 }
 
 export const validerMålgruppe = (
-    endretMålgruppe: EndreMålgruppeForm,
+    endretMålgruppe: EndreMålgruppeGenerellForm | EndreMålgruppeLæremidlerForm,
     begrunnelsePåkrevd: boolean,
     lagretMålgruppe?: Målgruppe | undefined,
     revurderesFraDato?: string

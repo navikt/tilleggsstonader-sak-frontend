@@ -1,4 +1,4 @@
-import { EndreMålgruppeForm } from './EndreMålgruppeLæremidler';
+import { EndreMålgruppeLæremidlerForm } from './EndreMålgruppeLæremidler';
 import {
     dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler,
     målgrupperHvorMedlemskapMåVurderes,
@@ -20,7 +20,7 @@ import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyMålgruppe = (
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
-): EndreMålgruppeForm => {
+): EndreMålgruppeLæremidlerForm => {
     return registrertYtelsePeriode
         ? nyMålgruppeFraRegister(registrertYtelsePeriode)
         : tomMålgruppeForm();
@@ -28,7 +28,7 @@ export const nyMålgruppe = (
 
 export const mapEksisterendeMålgruppe = (
     eksisterendeMålgruppe: MålgruppeLæremidler
-): EndreMålgruppeForm => ({
+): EndreMålgruppeLæremidlerForm => ({
     ...eksisterendeMålgruppe,
     vurderinger: {
         svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
@@ -39,7 +39,7 @@ export const mapEksisterendeMålgruppe = (
 
 const nyMålgruppeFraRegister = (
     registrertYtelsePeriode: YtelseGrunnlagPeriode
-): EndreMålgruppeForm => {
+): EndreMålgruppeLæremidlerForm => {
     const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
     return {
         type: type,
@@ -49,7 +49,7 @@ const nyMålgruppeFraRegister = (
     };
 };
 
-const tomMålgruppeForm = (): EndreMålgruppeForm => {
+const tomMålgruppeForm = (): EndreMålgruppeLæremidlerForm => {
     return {
         type: '',
         fom: '',
@@ -66,9 +66,9 @@ const tomVurderingerMålgruppe = {
 export const resettMålgruppe = (
     stønadstype: Stønadstype,
     nyType: MålgruppeType,
-    eksisterendeForm: EndreMålgruppeForm,
+    eksisterendeForm: EndreMålgruppeLæremidlerForm,
     søknadMottattTidspunkt?: string
-): EndreMålgruppeForm => {
+): EndreMålgruppeLæremidlerForm => {
     const { fom, tom } = resetPeriode(
         stønadstype,
         nyType,
@@ -87,7 +87,7 @@ export const resettMålgruppe = (
 const resetPeriode = (
     stønadstype: Stønadstype,
     nyType: string,
-    eksisterendeForm: EndreMålgruppeForm,
+    eksisterendeForm: EndreMålgruppeLæremidlerForm,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === MålgruppeType.INGEN_MÅLGRUPPE) {
@@ -151,7 +151,7 @@ export const finnBegrunnelseGrunnerMålgruppe = (
 };
 
 export const mapFaktaOgSvarTilRequest = (
-    målgruppeForm: EndreMålgruppeForm
+    målgruppeForm: EndreMålgruppeLæremidlerForm
 ): MålgruppeLæremidlerFaktaOgSvar => ({
     '@type': 'MÅLGRUPPE_LÆREMIDLER',
     svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
