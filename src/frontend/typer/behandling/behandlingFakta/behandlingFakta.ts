@@ -25,4 +25,13 @@ export interface BehandlingFaktaLæremidler extends BehandlingFaktaInterface {
     '@type': Stønadstype.LÆREMIDLER;
 }
 
-export type BehandlingFakta = BehandlingFaktaTilsynBarn | BehandlingFaktaLæremidler;
+export interface BehandlingFaktaBoutgifter extends BehandlingFaktaInterface {
+    utdanning: FaktaUtdanning;
+    alder?: number;
+    '@type': Stønadstype.BOUTGIFTER;
+}
+
+export type BehandlingFakta =
+    | BehandlingFaktaTilsynBarn
+    | BehandlingFaktaLæremidler
+    | BehandlingFaktaBoutgifter;
