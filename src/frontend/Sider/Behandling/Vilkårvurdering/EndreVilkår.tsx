@@ -4,7 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, Switch, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -100,6 +100,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
     const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
     const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
+    const [erNullvedtak, settErNullvedtak] = useState(props.redigerbareVilkårfelter.erNullvedtak);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
@@ -208,7 +209,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (ingen(valideringsfeil)) {
-            const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
+            const response = await props.lagreVurdering({
+                delvilkårsett,
+                fom,
+                tom,
+                utgift,
+                erNullvedtak,
+            });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
                 settFeilmeldingVedLagring(null);
@@ -225,8 +232,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     };
 
+    const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
+        settUtgift(undefined);
+        settErNullvedtak(erNullvedtak);
+    };
+
     const EndrePerioder = (
-        <HStack gap="4" align="start">
+        <HStack gap="4" align="end">
             <FeilmeldingMaksBredde $maxWidth={152}>
                 {erMidlertidigOvernatting ? (
                     <DateInputMedLeservisning
@@ -317,11 +329,21 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
                     readOnly={!props.alleFelterKanRedigeres}
+                    disabled={erNullvedtak}
                     onChange={(e) => {
                         settDetFinnesUlagredeEndringer(true);
                         settUtgift(tilHeltall(fjernSpaces(e.target.value)));
                     }}
                 />
+            </FeilmeldingMaksBredde>
+            <FeilmeldingMaksBredde $maxWidth={180}>
+                <Switch
+                    size={'small'}
+                    checked={erNullvedtak}
+                    onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
+                >
+                    Nullvedtak
+                </Switch>
             </FeilmeldingMaksBredde>
         </HStack>
     );
