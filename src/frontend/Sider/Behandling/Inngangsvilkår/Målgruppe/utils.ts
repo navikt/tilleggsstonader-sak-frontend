@@ -87,8 +87,10 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
 
-export const skalVurdereMottarSykepengerForFulltidsstilling = (type: MålgruppeType) =>
-    målgruppeErNedsattArbeidsevne(type);
+export const skalVurdereMottarSykepengerForFulltidsstilling = (
+    type: MålgruppeType,
+    stønadstype: Stønadstype
+) => stønadstype !== Stønadstype.LÆREMIDLER && type === MålgruppeType.NEDSATT_ARBEIDSEVNE;
 
 export const resettMålgruppe = (
     stønadstype: Stønadstype,

@@ -11,6 +11,7 @@ import {
     skalVurdereDekkesAvAnnetRegelverk,
     skalVurdereMottarSykepengerForFulltidsstilling,
 } from './utils';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -26,13 +27,15 @@ const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ målgruppeForm, oppdaterVurderinger, readOnly }) => {
+    stønadstype: Stønadstype;
+}> = ({ målgruppeForm, oppdaterVurderinger, readOnly, stønadstype }) => {
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
     const skalVurdereDekketAvAnnetRegelverk = skalVurdereDekkesAvAnnetRegelverk(målgruppeForm.type);
     const skalVurdereSykepengerForFulltidsstilling = skalVurdereMottarSykepengerForFulltidsstilling(
-        målgruppeForm.type
+        målgruppeForm.type,
+        stønadstype
     );
 
     const erGjenlevendeGammeltRegelverk =

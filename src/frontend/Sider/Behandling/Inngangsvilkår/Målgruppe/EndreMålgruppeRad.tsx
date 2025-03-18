@@ -192,6 +192,7 @@ const EndreMålgruppeRad: React.FC<{
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
                     }))
                 }
+                stønadstype={behandling.stønadstype}
             />
             {erMålgruppeSomStøttes && (
                 <Begrunnelse
