@@ -57,9 +57,8 @@ type Beregningsresultat = {
     stønadsbeløp: number;
     fom: string;
     tom: string;
+    antallMåneder: number;
     utbetalingsdato: string;
-    utgifter: number;
-    makssats: number;
     målgruppe: string;
     aktivitet: string;
     delAvTidligereUtbetaling: boolean;

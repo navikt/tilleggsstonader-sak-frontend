@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(7, max-content);
     gap: 0.4rem 2rem;
 `;
 
@@ -33,18 +33,20 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 <Grid>
                     <Label>Fom</Label>
                     <Label>Tom</Label>
-                    {/*<Label>Barn</Label>*/}
-                    {/*<Label>Månedlige utgifter</Label>*/}
-                    {/*<Label>Dagsats</Label>*/}
+                    <Label>Antall måneder</Label>
                     <Label>Stønadsbeløp</Label>
+                    <Label>Utbetalingsdato</Label>
+                    <Label>Målgruppe</Label>
+                    <Label>Aktivitet</Label>
                     {beregningsresultat.perioder.map((periode, indeks) => (
                         <React.Fragment key={indeks}>
                             <BodyShort size="small">{periode.fom}</BodyShort>
                             <BodyShort size="small">{periode.tom}</BodyShort>
-                            {/*<BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>*/}
-                            {/*<BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>*/}
+                            <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
-                            {/*<BodyShort size="small">{periode.månedsbeløp}</BodyShort>*/}
+                            <BodyShort size="small">{periode.utbetalingsdato}</BodyShort>
+                            <BodyShort size="small">{periode.målgruppe}</BodyShort>
+                            <BodyShort size="small">{periode.aktivitet}</BodyShort>
                         </React.Fragment>
                     ))}
                 </Grid>
