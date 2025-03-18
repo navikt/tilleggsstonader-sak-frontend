@@ -47,6 +47,7 @@ export interface Vilkår {
     fom?: string;
     tom?: string;
     utgift?: number;
+    erNullvedtak?: boolean;
 }
 
 export interface Opphavsvilkår {
@@ -77,4 +78,7 @@ export type NyttVilkår = Pick<
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
 // Internt bruk av felter som kan oppdateres i komponent
-export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'utgift'>;
+export type RedigerbareVilkårfelter = Pick<
+    Vilkår,
+    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erNullvedtak'
+>;
