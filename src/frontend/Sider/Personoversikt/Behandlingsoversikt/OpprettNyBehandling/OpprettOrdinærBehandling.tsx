@@ -75,6 +75,11 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
+        if (!kravMottatt) {
+            settFeilmelding(lagFeilmelding('Må sette Søknadsdato'));
+            settLaster(false);
+            return;
+        }
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
