@@ -7,6 +7,7 @@ export type Feilmeldinger = {
     delvilkårsvurderinger: Record<RegelId, string | undefined>;
     fom?: string;
     tom?: string;
+    utgift?: string;
 };
 
 export const ingenFeil = { delvilkårsvurderinger: {} };
@@ -21,6 +22,8 @@ export const validerVilkårsvurderinger = (
     regler: Regler,
     fom?: string,
     tom?: string,
+    utgift?: number,
+    erNullvedtak?: boolean,
     revurderesFraDato?: string
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
@@ -35,6 +38,10 @@ export const validerVilkårsvurderinger = (
             ...valideringsfeil,
             ...periodeValidering,
         };
+    }
+
+    if (!erNullvedtak && utgift == null) {
+        return { ...valideringsfeil, utgift: 'Mangler utgift' };
     }
 
     delvilkårsett

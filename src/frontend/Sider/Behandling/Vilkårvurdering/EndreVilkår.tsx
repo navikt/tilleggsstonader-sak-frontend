@@ -207,6 +207,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             props.regler,
             fom,
             tom,
+            utgift,
+            erNullvedtak,
             behandling.revurderFra
         );
 
@@ -333,9 +335,11 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
                     readOnly={!props.alleFelterKanRedigeres || erNullvedtak}
+                    error={feilmeldinger.utgift}
                     onChange={(e) => {
                         settDetFinnesUlagredeEndringer(true);
                         settUtgift(tilHeltall(fjernSpaces(e.target.value)));
+                        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
                     }}
                 />
             </FeilmeldingMaksBredde>
