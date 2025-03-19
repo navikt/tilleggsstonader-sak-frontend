@@ -12,6 +12,7 @@ import {
     feiletRessursTilFeilmelding,
     lagFeilmelding,
 } from '../../../../komponenter/Feil/feilmeldingUtils';
+import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
@@ -28,6 +29,7 @@ interface Props {
 interface OpprettBehandlingRequest {
     fagsakId: string;
     årsak: BehandlingÅrsak;
+    kravMottatt: string;
     valgteBarn: string[];
 }
 
@@ -61,6 +63,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
+    const [kravMottatt, settKravMottatt] = useState('');
 
     const opprett = () => {
         if (laster) {
@@ -75,6 +78,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
+            kravMottatt: kravMottatt,
             valgteBarn: valgteBarn,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
@@ -114,6 +118,12 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 )}
             </Select>
 
+            <DateInput
+                label={`Søknadsdato`}
+                onChange={(dato: string | undefined) => settKravMottatt(dato || '')}
+                value={kravMottatt}
+                toDate={new Date()}
+            />
             {skalViseBarnTilRevurdering && (
                 <BarnTilRevurdering
                     fagsakId={fagsakId}
