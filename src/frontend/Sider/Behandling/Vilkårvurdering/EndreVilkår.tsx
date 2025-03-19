@@ -238,7 +238,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     };
 
     const EndrePerioder = (
-        <HStack gap="4" align="end">
+        <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
                 {erMidlertidigOvernatting ? (
                     <DateInputMedLeservisning
