@@ -332,8 +332,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
-                    readOnly={!props.alleFelterKanRedigeres}
-                    disabled={erNullvedtak}
+                    readOnly={!props.alleFelterKanRedigeres || erNullvedtak}
                     onChange={(e) => {
                         settDetFinnesUlagredeEndringer(true);
                         settUtgift(tilHeltall(fjernSpaces(e.target.value)));
