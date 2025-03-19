@@ -38,8 +38,8 @@ import { fjernSpaces } from '../../../utils/utils';
 import {
     Delvilkår,
     RedigerbareVilkårfelter,
-    Vilkår,
     StønadsvilkårType,
+    Vilkår,
     Vilkårtype,
     Vurdering,
 } from '../vilkår';
@@ -336,15 +336,17 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     }}
                 />
             </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde $maxWidth={180}>
-                <Switch
-                    size={'small'}
-                    checked={erNullvedtak}
-                    onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
-                >
-                    Nullvedtak
-                </Switch>
-            </FeilmeldingMaksBredde>
+            {props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <Switch
+                        size={'small'}
+                        checked={erNullvedtak}
+                        onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
+                    >
+                        Nullvedtak
+                    </Switch>
+                </FeilmeldingMaksBredde>
+            )}
         </HStack>
     );
 
