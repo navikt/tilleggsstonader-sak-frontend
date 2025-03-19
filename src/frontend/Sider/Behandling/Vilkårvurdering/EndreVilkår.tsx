@@ -73,6 +73,10 @@ const Knapper = styled.div`
     }
 `;
 
+const StyledSwitch = styled(Switch)`
+    align-self: end;
+`;
+
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
@@ -337,15 +341,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 />
             </FeilmeldingMaksBredde>
             {props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
-                <FeilmeldingMaksBredde $maxWidth={180}>
-                    <Switch
-                        size={'small'}
-                        checked={erNullvedtak}
-                        onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
-                    >
-                        Nullvedtak
-                    </Switch>
-                </FeilmeldingMaksBredde>
+                <StyledSwitch
+                    size={'small'}
+                    checked={erNullvedtak}
+                    onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
+                >
+                    Nullvedtak
+                </StyledSwitch>
             )}
         </HStack>
     );
