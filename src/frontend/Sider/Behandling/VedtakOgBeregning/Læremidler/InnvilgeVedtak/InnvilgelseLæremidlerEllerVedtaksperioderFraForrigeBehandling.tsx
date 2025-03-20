@@ -19,7 +19,7 @@ export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: Rea
     const { erStegRedigerbart } = useSteg();
     const { behandling } = useBehandling();
 
-    if (lagretVedtak || !erStegRedigerbart || !behandling.forrigeBehandlingId) {
+    if (lagretVedtak || !erStegRedigerbart || !behandling.forrigeIverksatteBehandlingId) {
         return (
             <InnvilgeLæremidler
                 lagretVedtak={lagretVedtak}
@@ -30,7 +30,7 @@ export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: Rea
         return (
             <InnvilgeLæremidlerMedPerioderFraForrigeBehandling
                 stønadstype={behandling.stønadstype}
-                forrigeBehandlingId={behandling.forrigeBehandlingId}
+                forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
             />
         );
     }
@@ -38,16 +38,16 @@ export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: Rea
 
 const InnvilgeLæremidlerMedPerioderFraForrigeBehandling = ({
     stønadstype,
-    forrigeBehandlingId,
+    forrigeIverksatteBehandlingId,
 }: {
     stønadstype: Stønadstype;
-    forrigeBehandlingId: string;
+    forrigeIverksatteBehandlingId: string;
 }) => {
     const { forrigeVedtak, hentForrigeVedtak } = useVedtakForrigeBehandling<VedtakLæremidler>();
 
     useEffect(() => {
-        hentForrigeVedtak(stønadstype, forrigeBehandlingId);
-    }, [hentForrigeVedtak, forrigeBehandlingId, stønadstype]);
+        hentForrigeVedtak(stønadstype, forrigeIverksatteBehandlingId);
+    }, [hentForrigeVedtak, forrigeIverksatteBehandlingId, stønadstype]);
 
     return (
         <DataViewer response={{ forrigeVedtak }}>

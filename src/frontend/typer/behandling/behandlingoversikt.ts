@@ -21,7 +21,7 @@ export interface FagsakMedBehandlinger {
 
 export interface BehandlingDetaljer {
     id: string;
-    forrigeBehandlingId?: string;
+    forrigeIverksatteBehandlingId?: string;
     fagsakId: string;
     steg: Steg;
     type: BehandlingType;

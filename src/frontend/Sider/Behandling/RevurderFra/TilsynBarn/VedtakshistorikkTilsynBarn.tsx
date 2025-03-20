@@ -13,11 +13,11 @@ const StyledVStack = styled(VStack)`
 `;
 
 type Props = {
-    forrigeBehandlingId: string;
+    forrigeIverksatteBehandlingId: string;
 };
 
-export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeBehandlingId }) => {
-    const { vedtakBarnetilsyn } = useHentFullstendigOversikt(forrigeBehandlingId);
+export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeIverksatteBehandlingId }) => {
+    const { vedtakBarnetilsyn } = useHentFullstendigOversikt(forrigeIverksatteBehandlingId);
 
     return (
         <StyledVStack gap="4">
