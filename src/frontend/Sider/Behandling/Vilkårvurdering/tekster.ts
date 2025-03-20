@@ -34,6 +34,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Er det nødvendig for søker å bo nærmere aktivitetsstedet?',
     RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte for boligen de søker om støtte til?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -46,6 +47,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødveidg å bo nærmere aktivitetssted?',
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsak?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgifter?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

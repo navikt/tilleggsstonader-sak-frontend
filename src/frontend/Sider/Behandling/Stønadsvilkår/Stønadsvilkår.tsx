@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import { VStack } from '@navikt/ds-react';
 
 import FasteUtgifterEnBolig from './Boutgifter/FasteUtgifterEnBolig';
+import FasteUtgifterToBoliger from './Boutgifter/FasteUtgifterToBoliger';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -72,6 +73,11 @@ const Stønadsvilkår: React.FC<{
                                 <FasteUtgifterEnBolig
                                     vilkårsregler={
                                         regler.vilkårsregler.FASTE_UTGIFTER_EN_BOLIG.regler
+                                    }
+                                />
+                                <FasteUtgifterToBoliger
+                                    vilkårsregler={
+                                        regler.vilkårsregler.FASTE_UTGIFTER_TO_BOLIGER.regler
                                     }
                                 />
                             </>
