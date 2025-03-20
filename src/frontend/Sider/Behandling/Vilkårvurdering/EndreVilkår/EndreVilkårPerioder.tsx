@@ -73,6 +73,7 @@ const EndreVilkårPerioder = ({
                         value={fom}
                         onChange={(dato) => {
                             settFom(dato);
+                            settDetFinnesUlagredeEndringer(true);
                             settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
                         }}
                         readOnly={!alleFelterKanRedigeres}
@@ -116,6 +117,7 @@ const EndreVilkårPerioder = ({
                         value={tom}
                         onChange={(dato) => {
                             settTom(dato);
+                            settDetFinnesUlagredeEndringer(true);
                             settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
                         }}
                         size="small"
