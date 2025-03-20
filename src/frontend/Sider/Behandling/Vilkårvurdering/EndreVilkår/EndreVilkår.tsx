@@ -116,11 +116,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         }
     };
 
-    const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
-        settUtgift(undefined);
-        settErNullvedtak(erNullvedtak);
-    };
-
     const slettVilkår = props.slettVilkår;
 
     return (
@@ -129,17 +124,17 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <EndreVilkårPerioder
                     fom={fom}
                     tom={tom}
+                    utgift={utgift}
+                    erNullvedtak={erNullvedtak}
+                    feilmeldinger={feilmeldinger}
+                    erMidlertidigOvernatting={erMidlertidigOvernatting}
+                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
                     settFom={settFom}
                     settTom={settTom}
-                    erMidlertidigOvernatting={erMidlertidigOvernatting}
-                    settFeilmeldinger={settFeilmeldinger}
-                    feilmeldinger={feilmeldinger}
-                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
-                    settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
-                    utgift={utgift}
                     settUtgift={settUtgift}
-                    erNullvedtak={erNullvedtak}
-                    oppdaterErNullvedtak={oppdaterErNullvedtak}
+                    settErNullvedtak={settErNullvedtak}
+                    settFeilmeldinger={settFeilmeldinger}
+                    settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                 />
                 <Skillelinje />
                 <EndreDelvilkår

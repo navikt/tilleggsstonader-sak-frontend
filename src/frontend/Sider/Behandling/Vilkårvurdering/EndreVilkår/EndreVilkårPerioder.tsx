@@ -22,22 +22,24 @@ const StyledSwitch = styled(Switch)`
 
 interface EndreVilkårPerioderProps {
     fom: string | undefined;
-    settFom: (fom: string | undefined) => void;
     tom: string | undefined;
-    settTom: (tom: string | undefined) => void;
+    feilmeldinger: Feilmeldinger;
     erMidlertidigOvernatting: boolean;
+    utgift: number | undefined;
+    alleFelterKanRedigeres: boolean;
+    erNullvedtak: undefined | boolean;
+    settFom: (fom: string | undefined) => void;
+    settTom: (tom: string | undefined) => void;
     settFeilmeldinger: (
         value: ((prevState: Feilmeldinger) => Feilmeldinger) | Feilmeldinger
     ) => void;
-    feilmeldinger: Feilmeldinger;
-    alleFelterKanRedigeres: boolean;
     settDetFinnesUlagredeEndringer: (value: ((prevState: boolean) => boolean) | boolean) => void;
-    utgift: number | undefined;
     settUtgift: (
         value: ((prevState: number | undefined) => number | undefined) | number | undefined
     ) => void;
-    erNullvedtak: undefined | boolean;
-    oppdaterErNullvedtak: (erNullvedtak: boolean) => void;
+    settErNullvedtak: (
+        value: ((prevState: boolean | undefined) => boolean | undefined) | boolean | undefined
+    ) => void;
 }
 
 const EndreVilkårPerioder = ({
@@ -53,9 +55,14 @@ const EndreVilkårPerioder = ({
     utgift,
     settUtgift,
     erNullvedtak,
-    oppdaterErNullvedtak,
+    settErNullvedtak,
 }: EndreVilkårPerioderProps) => {
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
+
+    const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
+        settUtgift(undefined);
+        settErNullvedtak(erNullvedtak);
+    };
 
     return (
         <HStack gap="4" align="start">
