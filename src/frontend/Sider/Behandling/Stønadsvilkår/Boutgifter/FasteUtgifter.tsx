@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { HouseHeartIcon } from '@navikt/aksel-icons';
+
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Regler } from '../../../../typer/regel';
@@ -21,6 +23,7 @@ const FasteUtgifter: React.FC<Props> = ({ vilkårsregler }) => {
     return (
         <VilkårPanel
             tittel={'Faste utgifter'}
+            ikon={<HouseHeartIcon />}
             paragraflenker={[]}
             rundskrivlenke={[]}
             forskriftlenker={[]}
