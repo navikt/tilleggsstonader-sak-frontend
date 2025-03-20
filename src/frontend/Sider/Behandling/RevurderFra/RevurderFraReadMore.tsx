@@ -9,7 +9,7 @@ const RevurderFraReadMore = () => (
             i situasjon for brukeren, for eksempel
         </BodyLong>
         <List as="ul" size={'small'}>
-            <List.Item>dagen AAP forlenges fra </List.Item>
+            <List.Item>dagen tiltaket eller ytelsen forlenges fra</List.Item>
             <List.Item>oppstart på nytt tiltak</List.Item>
             <List.Item>dagen stønaden opphører</List.Item>
         </List>
