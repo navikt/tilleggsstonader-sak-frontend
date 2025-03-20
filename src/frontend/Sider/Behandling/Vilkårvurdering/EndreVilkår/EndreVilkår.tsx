@@ -53,21 +53,29 @@ type EndreVilkårProps = {
     vilkårtype: Vilkårtype;
 };
 
-export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
+export const EndreVilkår: FC<EndreVilkårProps> = ({
+    alleFelterKanRedigeres,
+    avsluttRedigering,
+    lagreVurdering,
+    redigerbareVilkårfelter,
+    regler,
+    slettVilkår,
+    vilkårtype,
+}) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erMidlertidigOvernatting = props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
+    const erMidlertidigOvernatting = vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
 
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(
-        props.redigerbareVilkårfelter.delvilkårsett
+        redigerbareVilkårfelter.delvilkårsett
     );
-    const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
-    const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
-    const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
-    const [erNullvedtak, settErNullvedtak] = useState(props.redigerbareVilkårfelter.erNullvedtak);
+    const [fom, settFom] = useState(redigerbareVilkårfelter.fom);
+    const [tom, settTom] = useState(redigerbareVilkårfelter.tom);
+    const [utgift, settUtgift] = useState(redigerbareVilkårfelter.utgift);
+    const [erNullvedtak, settErNullvedtak] = useState(redigerbareVilkårfelter.erNullvedtak);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
@@ -90,8 +98,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
-            props.redigerbareVilkårfelter,
-            props.regler,
+            redigerbareVilkårfelter,
+            regler,
             fom,
             tom,
             behandling.revurderFra
@@ -100,7 +108,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (ingen(valideringsfeil)) {
-            const response = await props.lagreVurdering({
+            const response = await lagreVurdering({
                 delvilkårsett,
                 fom,
                 tom,
@@ -108,15 +116,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 erNullvedtak,
             });
             if (response.status === RessursStatus.SUKSESS) {
-                props.avsluttRedigering();
+                avsluttRedigering();
                 settFeilmeldingVedLagring(null);
             } else {
                 settFeilmeldingVedLagring(response.frontendFeilmelding);
             }
         }
     };
-
-    const slettVilkår = props.slettVilkår;
 
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
@@ -128,7 +134,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     erNullvedtak={erNullvedtak}
                     feilmeldinger={feilmeldinger}
                     erMidlertidigOvernatting={erMidlertidigOvernatting}
-                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                    alleFelterKanRedigeres={alleFelterKanRedigeres}
                     settFom={settFom}
                     settTom={settTom}
                     settUtgift={settUtgift}
@@ -140,8 +146,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <EndreDelvilkår
                     delvilkårsett={delvilkårsett}
                     settDelvilkårsett={settDelvilkårsett}
-                    regler={props.regler}
-                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                    regler={regler}
+                    alleFelterKanRedigeres={alleFelterKanRedigeres}
                     settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                     feilmeldinger={feilmeldinger}
                     settFeilmeldinger={settFeilmeldinger}
@@ -149,7 +155,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>
-                        <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
+                        <SmallButton variant="secondary" onClick={avsluttRedigering}>
                             Avbryt
                         </SmallButton>
                         <div className={'right'}>
