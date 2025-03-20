@@ -70,7 +70,9 @@ const Stønadsvilkår: React.FC<{
                                     }
                                 />
                                 <FasteUtgifter
-                                    vilkårsregler={regler.vilkårsregler.FASTE_UTGIFTER.regler}
+                                    vilkårsregler={
+                                        regler.vilkårsregler.FASTE_UTGIFTER_EN_BOLIG.regler
+                                    }
                                 />
                             </>
                         )}
