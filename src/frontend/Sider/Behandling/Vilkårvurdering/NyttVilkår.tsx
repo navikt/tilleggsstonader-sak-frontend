@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
-import { EndreVilkår } from './EndreVilkår';
+import { EndreVilkår } from './EndreVilkår/EndreVilkår';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
