@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
-import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
+import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreVilkårPerioder from './EndreVilkårPerioder';
 import { useApp } from '../../../../context/AppContext';
@@ -13,7 +13,7 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { SmallWarningTag } from '../../../../komponenter/Tags';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
-import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../../typer/regel';
+import { Regler } from '../../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import {
     Delvilkår,
@@ -21,32 +21,9 @@ import {
     StønadsvilkårType,
     Vilkår,
     Vilkårtype,
-    Vurdering,
 } from '../../vilkår';
-import Begrunnelse from '../Begrunnelse';
-import DelvilkårRadioknapper from '../DelvilkårRadioknapper';
-import {
-    begrunnelseErPåkrevdOgUtfyllt,
-    hentSvaralternativ,
-    kanHaBegrunnelse,
-    kopierBegrunnelse,
-    leggTilNesteIdHvis,
-    oppdaterSvarIListe,
-} from '../utils';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
-
-const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
-    border-left: ${({ $erUndervilkår }) =>
-        $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
-    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
-    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
-    display: flex;
-
-    @media (max-width: 900px) {
-        flex-direction: column;
-        gap: 1rem;
-    }
-`;
+import EndreDelvilkår from './EndreDelvilkår';
 
 const StyledForm = styled.form`
     background: white;
@@ -108,82 +85,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [detFinnesUlagredeEndringer]);
 
-    const oppdaterVilkårsvar = (index: number, nySvarArray: Vurdering[]) => {
-        settDelvilkårsett((prevSvar) => {
-            const prevDelvilkårsett = prevSvar[index];
-            return [
-                ...prevSvar.slice(0, index),
-                {
-                    ...prevDelvilkårsett,
-                    vurderinger: nySvarArray,
-                },
-                ...prevSvar.slice(index + 1),
-            ];
-        });
-    };
-
-    const oppdaterBegrunnelse = (
-        vurderinger: Vurdering[],
-        delvilkårIndex: number,
-        nyttSvar: Vurdering
-    ) => {
-        const { begrunnelse } = nyttSvar;
-        const svaralternativ: Svaralternativ | undefined = hentSvaralternativ(
-            props.regler,
-            nyttSvar
-        );
-        if (!svaralternativ) {
-            return;
-        }
-
-        const oppdaterteSvar = oppdaterSvarIListe(nyttSvar, vurderinger, true);
-
-        const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svaralternativ.regelId,
-            oppdaterteSvar,
-            () => begrunnelseErPåkrevdOgUtfyllt(svaralternativ, begrunnelse)
-        );
-        oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedNesteRegel);
-    };
-
-    const oppdaterSvar = (
-        vurderinger: Vurdering[],
-        delvilkårIndex: number,
-        nyttSvar: Vurdering
-    ) => {
-        const svaralternativer: Svaralternativ | undefined = hentSvaralternativ(
-            props.regler,
-            nyttSvar
-        );
-
-        if (!svaralternativer) {
-            return;
-        }
-
-        const oppdaterteSvar = oppdaterSvarIListe(
-            nyttSvar,
-            vurderinger,
-            false,
-            kanHaBegrunnelse(svaralternativer)
-        );
-
-        const oppdaterteSvarMedNesteRegel = leggTilNesteIdHvis(
-            svaralternativer.regelId,
-            oppdaterteSvar,
-            () => svaralternativer.begrunnelseType !== BegrunnelseRegel.PÅKREVD
-        );
-
-        const oppdaterteSvarMedKopiertBegrunnelse = kopierBegrunnelse(
-            vurderinger,
-            oppdaterteSvarMedNesteRegel,
-            nyttSvar,
-            svaralternativer,
-            props.regler
-        );
-
-        oppdaterVilkårsvar(delvilkårIndex, oppdaterteSvarMedKopiertBegrunnelse);
-    };
-
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -215,55 +116,10 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         }
     };
 
-    const nullstillFeilmeldingForRegel = (regelId: string) => {
-        settFeilmeldinger({
-            ...feilmeldinger,
-            delvilkårsvurderinger: { ...feilmeldinger.delvilkårsvurderinger, [regelId]: undefined },
-        });
-    };
-
     const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
         settUtgift(undefined);
         settErNullvedtak(erNullvedtak);
     };
-
-    const EndreDelvilkår = delvilkårsett.map((delvikår, delvilkårIndex) => {
-        return delvikår.vurderinger.map((svar) => {
-            const gjeldendeRegel = props.regler[svar.regelId];
-            const erUndervilkår = !gjeldendeRegel.erHovedregel;
-            return (
-                <React.Fragment key={gjeldendeRegel.regelId}>
-                    {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                    <DelvilkårContainer $erUndervilkår={erUndervilkår}>
-                        <DelvilkårRadioknapper
-                            vurdering={svar}
-                            regel={gjeldendeRegel}
-                            readOnly={!props.alleFelterKanRedigeres}
-                            settVurdering={(nyVurdering) => {
-                                settDetFinnesUlagredeEndringer(true);
-                                oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);
-                            }}
-                            feilmelding={
-                                feilmeldinger.delvilkårsvurderinger[gjeldendeRegel.regelId]
-                            }
-                            nullstillFeilmelding={nullstillFeilmeldingForRegel}
-                        />
-                        <Begrunnelse
-                            oppdaterBegrunnelse={(begrunnelse) => {
-                                settDetFinnesUlagredeEndringer(true);
-                                oppdaterBegrunnelse(delvikår.vurderinger, delvilkårIndex, {
-                                    ...svar,
-                                    begrunnelse,
-                                });
-                            }}
-                            vurdering={svar}
-                            regel={gjeldendeRegel}
-                        />
-                    </DelvilkårContainer>
-                </React.Fragment>
-            );
-        });
-    });
 
     const slettVilkår = props.slettVilkår;
 
@@ -286,7 +142,15 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     oppdaterErNullvedtak={oppdaterErNullvedtak}
                 />
                 <Skillelinje />
-                {EndreDelvilkår}
+                <EndreDelvilkår
+                    delvilkårsett={delvilkårsett}
+                    settDelvilkårsett={settDelvilkårsett}
+                    regler={props.regler}
+                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                    settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
+                    feilmeldinger={feilmeldinger}
+                    settFeilmeldinger={settFeilmeldinger}
+                />
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>
