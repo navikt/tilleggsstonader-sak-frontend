@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
 
-import FasteUtgifter from './Boutgifter/FasteUtgifter';
+import FasteUtgifterEnBolig from './Boutgifter/FasteUtgifterEnBolig';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -69,7 +69,7 @@ const Stønadsvilkår: React.FC<{
                                         regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler
                                     }
                                 />
-                                <FasteUtgifter
+                                <FasteUtgifterEnBolig
                                     vilkårsregler={
                                         regler.vilkårsregler.FASTE_UTGIFTER_EN_BOLIG.regler
                                     }
