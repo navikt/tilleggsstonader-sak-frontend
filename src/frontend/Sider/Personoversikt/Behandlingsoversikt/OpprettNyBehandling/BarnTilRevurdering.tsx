@@ -68,7 +68,7 @@ const BarnTilRevurdering: React.FC<{
 
                         {valgbareBarn.length > 0 && (
                             <CheckboxGroup
-                                legend={'Velg eventuelle nye barn det søkes stønad for....'}
+                                legend={'Velg eventuelle nye barn det søkes stønad for'}
                                 onChange={settValgteBarn}
                             >
                                 {valgbareBarn.map(({ ident, navn }) => (

@@ -63,7 +63,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
-    const [kravMottatt, settKravMottatt] = useState('');
+    const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
     const opprett = () => {
         if (laster) {
@@ -122,13 +122,14 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     </option>
                 )}
             </Select>
-
-            <DateInput
-                label={`Søknadsdato`}
-                onChange={(dato: string | undefined) => settKravMottatt(dato || '')}
-                value={kravMottatt}
-                toDate={new Date()}
-            />
+            {årsak == BehandlingÅrsak.PAPIRSØKNAD && (
+                <DateInput
+                    label={`Søknadsdato`}
+                    onChange={(dato: string | undefined) => settKravMottatt(dato)}
+                    value={kravMottatt}
+                    toDate={new Date()}
+                />
+            )}
             {skalViseBarnTilRevurdering && (
                 <BarnTilRevurdering
                     fagsakId={fagsakId}
