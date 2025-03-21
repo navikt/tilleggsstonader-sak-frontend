@@ -29,7 +29,7 @@ interface Props {
 interface OpprettBehandlingRequest {
     fagsakId: string;
     årsak: BehandlingÅrsak;
-    kravMottatt: string;
+    kravMottatt?: string;
     valgteBarn: string[];
 }
 
@@ -75,7 +75,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
-        if (!kravMottatt) {
+        if (!kravMottatt && årsak == BehandlingÅrsak.PAPIRSØKNAD) {
             settFeilmelding(lagFeilmelding('Må sette Søknadsdato'));
             settLaster(false);
             return;
