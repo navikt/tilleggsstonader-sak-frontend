@@ -4,8 +4,7 @@ import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
 
-import FasteUtgifterEnBolig from './Boutgifter/FasteUtgifterEnBolig';
-import FasteUtgifterToBoliger from './Boutgifter/FasteUtgifterToBoliger';
+import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -15,12 +14,11 @@ import { useRegler } from '../../../hooks/useRegler';
 import { useVilkårsoppsummering } from '../../../hooks/useVilkårsoppsummering';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
-import MidlertidigOvernatting from './Boutgifter/MidlertidigOvernatting';
-import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
@@ -64,23 +62,7 @@ const Stønadsvilkår: React.FC<{
                             </>
                         )}
                         {stønadstype === Stønadstype.BOUTGIFTER && (
-                            <>
-                                <MidlertidigOvernatting
-                                    vilkårsregler={
-                                        regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler
-                                    }
-                                />
-                                <FasteUtgifterEnBolig
-                                    vilkårsregler={
-                                        regler.vilkårsregler.FASTE_UTGIFTER_EN_BOLIG.regler
-                                    }
-                                />
-                                <FasteUtgifterToBoliger
-                                    vilkårsregler={
-                                        regler.vilkårsregler.FASTE_UTGIFTER_TO_BOLIGER.regler
-                                    }
-                                />
-                            </>
+                            <StønadsvilkårBoutgifter regler={regler} />
                         )}
                     </VilkårProvider>
                 )}
