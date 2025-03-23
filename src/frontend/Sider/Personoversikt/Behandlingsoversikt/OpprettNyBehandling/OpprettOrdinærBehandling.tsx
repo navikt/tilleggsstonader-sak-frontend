@@ -76,7 +76,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             return;
         }
         if (!kravMottatt && årsak == BehandlingÅrsak.PAPIRSØKNAD) {
-            settFeilmelding(lagFeilmelding('Må sette Søknadsdato'));
+            settFeilmelding(lagFeilmelding('Søknadsdato må settes'));
             settLaster(false);
             return;
         }
