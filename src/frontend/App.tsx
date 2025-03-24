@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import FlagProvider, { IConfig, useFlag } from '@unleash/proxy-client-react';
+import FlagProvider, { IConfig, useFlag, useFlagsStatus } from '@unleash/proxy-client-react';
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -32,36 +32,31 @@ import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler
 import { Toggle } from './utils/toggles';
 import { mockFlags } from './utils/unleashMock';
 
-const AppRoutes: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
-    const { autentisert } = useApp();
+const AppRoutes = () => {
+    const { settIkkeAutentisert } = useApp();
+    const { flagsError } = useFlagsStatus();
+
+    useEffect(() => {
+        if (flagsError?.code === 403) {
+            settIkkeAutentisert();
+        }
+    }, [settIkkeAutentisert, flagsError]);
 
     const router = createBrowserRouter(
         createRoutesFromElements(
-            autentisert ? (
+            <Route path={'/'} element={<AppInnhold />}>
+                <Route path={''} element={<Oppgavebenk />} />
+                <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
+                <Route path={'/journalfor'} element={<Journalføring />} />
+                <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
+                <Route path={'/ekstern/*'} element={<EksternOmruting />} />
+                <Route path={'/klagebehandling/*'} element={<KlageApp />} />
                 <Route
-                    path={'/'}
-                    element={<AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />}
-                >
-                    <Route path={''} element={<Oppgavebenk />} />
-                    <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
-                    <Route path={'/journalfor'} element={<Journalføring />} />
-                    <Route path={'/behandling/:behandlingId/*'} element={<BehandlingContainer />} />
-                    <Route path={'/ekstern/*'} element={<EksternOmruting />} />
-                    <Route path={'/klagebehandling/*'} element={<KlageApp />} />
-                    <Route
-                        path={'/admin/opprett-behandling'}
-                        element={<OpprettFørstegangsbehandlingAdmin />}
-                    />
-                    <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
-                </Route>
-            ) : (
-                <Route
-                    path={'*'}
-                    element={<div>Sesjonen har utløpt. Prøv å last inn siden på nytt.</div>}
+                    path={'/admin/opprett-behandling'}
+                    element={<OpprettFørstegangsbehandlingAdmin />}
                 />
-            )
+                <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
+            </Route>
         )
     );
     return <RouterProvider router={router} />;
@@ -75,6 +70,7 @@ const config: IConfig = {
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<Saksbehandler>();
+    const [autentisert, settAutentisert] = useState(true);
     const [appEnv, settAppEnv] = useState<AppEnv>();
     useEffect(() => hentInnloggetSaksbehandler(settInnloggetSaksbehandler), []);
     useEffect(() => hentEnv(settAppEnv), []);
@@ -82,8 +78,16 @@ const App: React.FC = () => {
     if (!innloggetSaksbehandler || !appEnv) {
         return null;
     }
+    if (!autentisert) {
+        return <div>Sesjonen har utløpt. Prøv å last inn siden på nytt.</div>;
+    }
     return (
-        <AppProvider saksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
+        <AppProvider
+            saksbehandler={innloggetSaksbehandler}
+            appEnv={appEnv}
+            autentisert={autentisert}
+            settIkkeAutentisert={() => settAutentisert(false)}
+        >
             <FlagProvider
                 config={{
                     ...config,
@@ -93,15 +97,14 @@ const App: React.FC = () => {
                 }}
                 startClient={appEnv.unleashEnv !== 'mock'}
             >
-                <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />
+                <AppRoutes />
             </FlagProvider>
         </AppProvider>
     );
 };
 
-const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+const AppInnhold = () => {
+    const { saksbehandler } = useApp();
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
     return (
@@ -111,7 +114,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
                     <Endringslogg
-                        userId={innloggetSaksbehandler.navIdent}
+                        userId={saksbehandler.navIdent}
                         dataFetchingIntervalSeconds={60 * 15}
                         appId={'TS'}
                         backendUrl={'/endringslogg'}
@@ -123,10 +126,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: Saksbehandler }> = ({
                     />
                     <PersonSøk />
                     <Dropdown>
-                        <InternalHeader.UserButton
-                            as={Dropdown.Toggle}
-                            name={innloggetSaksbehandler.name}
-                        />
+                        <InternalHeader.UserButton as={Dropdown.Toggle} name={saksbehandler.name} />
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
                                 {adminKanOppretteBehandling && (

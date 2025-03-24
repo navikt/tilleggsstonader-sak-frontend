@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
 
+import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
 import PassBarn from './PassBarn/PassBarn';
 import { VarselBarnUnder2År } from './PassBarn/VarselBarnUnder2år';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -13,6 +14,7 @@ import { useRegler } from '../../../hooks/useRegler';
 import { useVilkårsoppsummering } from '../../../hooks/useVilkårsoppsummering';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
@@ -22,7 +24,9 @@ const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
 `;
 
-const Stønadsvilkår = () => {
+const Stønadsvilkår: React.FC<{
+    stønadstype: Stønadstype;
+}> = ({ stønadstype }) => {
     const { behandling } = useBehandling();
     const { regler, hentRegler } = useRegler();
     const { vilkårsoppsummering } = useVilkårsoppsummering(behandling.id);
@@ -49,8 +53,17 @@ const Stønadsvilkår = () => {
             >
                 {({ regler, vilkårsvurdering, vilkårsoppsummering }) => (
                     <VilkårProvider hentetVilkårsvurdering={vilkårsvurdering}>
-                        {vilkårsoppsummering.visVarselKontantstøtte && <VarselBarnUnder2År />}
-                        <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
+                        {stønadstype === Stønadstype.BARNETILSYN && (
+                            <>
+                                {vilkårsoppsummering.visVarselKontantstøtte && (
+                                    <VarselBarnUnder2År />
+                                )}
+                                <PassBarn vilkårsregler={regler.vilkårsregler.PASS_BARN.regler} />
+                            </>
+                        )}
+                        {stønadstype === Stønadstype.BOUTGIFTER && (
+                            <StønadsvilkårBoutgifter regler={regler} />
+                        )}
                     </VilkårProvider>
                 )}
             </DataViewer>

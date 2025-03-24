@@ -5,7 +5,7 @@ import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 import { InnvilgelseLæremidler, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 
 export const useHentFullstendigOversikt = (
-    forrigeBehandlingId: string
+    forrigeIverksatteBehandlingId: string
 ): {
     vedtakLæremidler: Ressurs<VedtakLæremidler>;
 } => {
@@ -15,16 +15,16 @@ export const useHentFullstendigOversikt = (
         useState<Ressurs<VedtakLæremidler>>(byggTomRessurs());
 
     const hentForrigeVedtakMedFullHistorikk = useCallback(
-        (forrigeBehandlingId: string) => {
+        (forrigeIverksatteBehandlingId: string) => {
             request<InnvilgelseLæremidler, null>(
-                `/api/sak/vedtak/laremidler/fullstendig-oversikt/${forrigeBehandlingId}`
+                `/api/sak/vedtak/laremidler/fullstendig-oversikt/${forrigeIverksatteBehandlingId}`
             ).then(setVedtakLæremidler);
         },
         [request]
     );
     useEffect(() => {
-        hentForrigeVedtakMedFullHistorikk(forrigeBehandlingId);
-    }, [forrigeBehandlingId, hentForrigeVedtakMedFullHistorikk]);
+        hentForrigeVedtakMedFullHistorikk(forrigeIverksatteBehandlingId);
+    }, [forrigeIverksatteBehandlingId, hentForrigeVedtakMedFullHistorikk]);
 
     return {
         vedtakLæremidler: vedtakLæremidler,

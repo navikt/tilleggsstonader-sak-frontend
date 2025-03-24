@@ -10,7 +10,7 @@ export enum Vilkårsresultat {
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
 }
 
-export type Vilkårtype = Inngangsvilkårtype;
+export type Vilkårtype = Inngangsvilkårtype | StønadsvilkårType;
 
 export enum Inngangsvilkårtype {
     MÅLGRUPPE = 'MÅLGRUPPE',
@@ -19,6 +19,12 @@ export enum Inngangsvilkårtype {
     AKTIVITET = 'AKTIVITET',
     AKTIVITET_TILTAK = 'AKTIVITET_TILTAK',
     AKTIVITET_UTDANNING = 'AKTIVITET_UTDANNING',
+}
+
+export enum StønadsvilkårType {
+    MIDLERTIDIG_OVERNATTING = 'MIDLERTIDIG_OVERNATTING',
+    FASTE_UTGIFTER_EN_BOLIG = 'FASTE_UTGIFTER_EN_BOLIG',
+    FASTE_UTGIFTER_TO_BOLIGER = 'FASTE_UTGIFTER_TO_BOLIGER',
     PASS_BARN = 'PASS_BARN',
 }
 
@@ -42,6 +48,7 @@ export interface Vilkår {
     fom?: string;
     tom?: string;
     utgift?: number;
+    erNullvedtak?: boolean;
 }
 
 export interface Opphavsvilkår {
@@ -72,4 +79,7 @@ export type NyttVilkår = Pick<
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
 
 // Internt bruk av felter som kan oppdateres i komponent
-export type RedigerbareVilkårfelter = Pick<Vilkår, 'delvilkårsett' | 'fom' | 'tom' | 'utgift'>;
+export type RedigerbareVilkårfelter = Pick<
+    Vilkår,
+    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erNullvedtak'
+>;

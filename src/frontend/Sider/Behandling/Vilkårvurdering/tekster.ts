@@ -28,13 +28,26 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
+    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til bolig eller overnatting?',
+    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE:
+        'Har søker dokumentert høyere boutgifter på aktivitetssted sammenlignet med tidligere bolig?',
+    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Er det nødvendig for søker å bo nærmere aktivitetsstedet?',
+    RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte for boligen de søker om støtte til?',
+    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     UTGIFTER_DOKUMENTERT: 'Dokumentert utgifter?',
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
+    NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
+    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Dokumentert høyere utgift?',
+    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødveidg å bo nærmere aktivitetssted?',
+    RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
+    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsak?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgifter?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

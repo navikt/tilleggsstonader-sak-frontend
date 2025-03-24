@@ -15,6 +15,7 @@ import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
+import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
@@ -42,13 +43,12 @@ export enum FaneNavn {
 
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
+    VILKÅR = 'Vilkår',
 }
 
-const faneNavnStønadsvilkår: Record<
-    Exclude<Stønadstype, 'LÆREMIDLER' | 'BOUTGIFTER'>,
-    StønadsvilkårFaneNavn
-> = {
+const faneNavnStønadsvilkår: Record<Exclude<Stønadstype, 'LÆREMIDLER'>, StønadsvilkårFaneNavn> = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
+    BOUTGIFTER: StønadsvilkårFaneNavn.VILKÅR,
 };
 
 export enum FanePath {
@@ -145,6 +145,8 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningBarnetilsyn />;
         case Stønadstype.LÆREMIDLER:
             return <VedtakOgBeregningLæremidler />;
+        case Stønadstype.BOUTGIFTER:
+            return <VedtakOgBeregningBoutgifter />;
         default:
             return <span>Har ikke vedtak for {stønadstypeTilTekst[behandling.stønadstype]}</span>;
     }
@@ -157,11 +159,19 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <Stønadsvilkår />,
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.BARNETILSYN} />,
                     ikon: <HouseHeartIcon />,
                 },
             ];
         case Stønadstype.BOUTGIFTER:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.BOUTGIFTER} />,
+                    ikon: <HouseHeartIcon />,
+                },
+            ];
         case Stønadstype.LÆREMIDLER:
             return [];
     }

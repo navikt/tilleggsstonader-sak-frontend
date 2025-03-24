@@ -30,6 +30,7 @@ export const StegKnapp: FC<{
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
+    const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
 
     useEffect(() => {
@@ -40,23 +41,33 @@ export const StegKnapp: FC<{
     }, [harUlagradeKomponenter]);
 
     const redigerSteg = () => {
+        if (laster) {
+            return;
+        }
+        settLaster(true);
         settFeilmelding(undefined);
         request<string, { steg: Steg }>(`/api/sak/steg/behandling/${behandling.id}/reset`, 'POST', {
             steg: steg,
-        }).then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                hentBehandling.rerun();
-            } else {
-                settFeilmelding(feiletRessursTilFeilmelding(res, 'Kunne ikke redigere steg'));
-            }
-        });
+        })
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    hentBehandling.rerun();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Kunne ikke redigere steg'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const gåTilNesteSteg = () => {
+        if (laster) {
+            return;
+        }
         if (validerUlagedeKomponenter && harUlagradeKomponenter) {
             settFeilmelding(lagFeilmelding(feilmeldingUlagretData, 'Kunne ikke gå til neste steg'));
             return;
         }
+        settLaster(true);
         settFeilmelding(undefined);
         const håndterSteg = onNesteSteg
             ? onNesteSteg()
@@ -67,14 +78,18 @@ export const StegKnapp: FC<{
                       steg: behandling.steg,
                   }
               );
-        håndterSteg.then((res) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                hentBehandling.rerun();
-                navigate(`/behandling/${behandling.id}/${nesteFane}`);
-            } else {
-                settFeilmelding(feiletRessursTilFeilmelding(res, 'Kunne ikke gå til neste steg'));
-            }
-        });
+        håndterSteg
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    hentBehandling.rerun();
+                    navigate(`/behandling/${behandling.id}/${nesteFane}`);
+                } else {
+                    settFeilmelding(
+                        feiletRessursTilFeilmelding(res, 'Kunne ikke gå til neste steg')
+                    );
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     if (!behandlingErRedigerbar) {
@@ -85,12 +100,12 @@ export const StegKnapp: FC<{
         <VStack align="start" gap="4">
             <Feilmelding feil={feilmelding} />
             {behandling.steg === steg && erStegRedigerbart && (
-                <Button variant="primary" size="small" onClick={gåTilNesteSteg}>
+                <Button variant="primary" size="small" onClick={gåTilNesteSteg} disabled={laster}>
                     {children}
                 </Button>
             )}
             {stegErEtterAnnetSteg(behandling.steg, steg) && (
-                <Button variant="secondary" size="small" onClick={redigerSteg}>
+                <Button variant="secondary" size="small" onClick={redigerSteg} disabled={laster}>
                     Rediger steg
                 </Button>
             )}

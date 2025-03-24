@@ -4,7 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, Switch, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -22,6 +22,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
+import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
 import MonthInput from '../../../komponenter/Skjema/MonthInput';
 import { MånedÅrVelger } from '../../../komponenter/Skjema/MånedÅrVelger/MånedÅrVelger';
 import TextField from '../../../komponenter/Skjema/TextField';
@@ -34,7 +35,14 @@ import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils
 import { harTallverdi, tilHeltall } from '../../../utils/tall';
 import { Toggle } from '../../../utils/toggles';
 import { fjernSpaces } from '../../../utils/utils';
-import { Delvilkår, RedigerbareVilkårfelter, Vilkår, Vurdering } from '../vilkår';
+import {
+    Delvilkår,
+    RedigerbareVilkårfelter,
+    StønadsvilkårType,
+    Vilkår,
+    Vilkårtype,
+    Vurdering,
+} from '../vilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -65,6 +73,10 @@ const Knapper = styled.div`
     }
 `;
 
+const StyledSwitch = styled(Switch)`
+    align-self: end;
+`;
+
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
@@ -74,11 +86,13 @@ type EndreVilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
+    vilkårtype: Vilkårtype;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
+    const erMidlertidigOvernatting = props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
@@ -90,6 +104,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
     const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
     const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
+    const [erNullvedtak, settErNullvedtak] = useState(props.redigerbareVilkårfelter.erNullvedtak);
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
@@ -198,7 +213,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (ingen(valideringsfeil)) {
-            const response = await props.lagreVurdering({ delvilkårsett, fom, tom, utgift });
+            const response = await props.lagreVurdering({
+                delvilkårsett,
+                fom,
+                tom,
+                utgift,
+                erNullvedtak,
+            });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
                 settFeilmeldingVedLagring(null);
@@ -215,10 +236,27 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     };
 
+    const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
+        settUtgift(undefined);
+        settErNullvedtak(erNullvedtak);
+    };
+
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {skalBrukeMånedÅrVelger ? (
+                {erMidlertidigOvernatting ? (
+                    <DateInputMedLeservisning
+                        label={'Fra'}
+                        value={fom}
+                        onChange={(dato) => {
+                            settFom(dato);
+                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
+                        }}
+                        readOnly={!props.alleFelterKanRedigeres}
+                        size="small"
+                        feil={feilmeldinger.fom}
+                    />
+                ) : skalBrukeMånedÅrVelger ? (
                     <MånedÅrVelger
                         label="Fra"
                         size="small"
@@ -249,7 +287,18 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {skalBrukeMånedÅrVelger ? (
+                {erMidlertidigOvernatting ? (
+                    <DateInputMedLeservisning
+                        label={'Til'}
+                        value={tom}
+                        onChange={(dato) => {
+                            settTom(dato);
+                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
+                        }}
+                        size="small"
+                        feil={feilmeldinger.tom}
+                    />
+                ) : skalBrukeMånedÅrVelger ? (
                     <MånedÅrVelger
                         label="Til"
                         size="small"
@@ -279,17 +328,26 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label="Månedlig utgift"
+                    label={erMidlertidigOvernatting ? 'Utgift' : 'Månedlig utgift'}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
-                    readOnly={!props.alleFelterKanRedigeres}
+                    readOnly={!props.alleFelterKanRedigeres || erNullvedtak}
                     onChange={(e) => {
                         settDetFinnesUlagredeEndringer(true);
                         settUtgift(tilHeltall(fjernSpaces(e.target.value)));
                     }}
                 />
             </FeilmeldingMaksBredde>
+            {props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
+                <StyledSwitch
+                    size={'small'}
+                    checked={erNullvedtak}
+                    onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
+                >
+                    Nullvedtak
+                </StyledSwitch>
+            )}
         </HStack>
     );
 

@@ -4,17 +4,14 @@ import styled from 'styled-components';
 
 import { BodyShort, HGrid, VStack } from '@navikt/ds-react';
 
-import {
-    OppsummeringAktiviteter,
-    OppsummeringMålgrupper,
-    VilkårOppsummeringRad,
-} from './VilkårOppsummeringRad';
+import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsummeringRad';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
-import { BehandlingFaktaTilsynBarn } from '../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { VilkårOppsummeringRadPassBarn } from '../VedtakOgBeregning/Barnetilsyn/InnvilgeVedtak/VilkårOppsummeringRadPassBarn';
+import { VilkårOppsummeringRadBoutgifter } from '../VedtakOgBeregning/Boutgifter/innvilgeVedtak/VilkårOppsummeringRadBoutgifter';
 
 const StyledHGrid = styled(HGrid).withConfig({
     shouldForwardProp: (prop) => prop !== 'bottomBorder',
@@ -31,13 +28,6 @@ export const OppsummeringVilkårperioderOgVilkår: React.FC = () => {
     useEffect(() => {
         hentVilkårsvurdering(behandling.id);
     }, [behandling.id, hentVilkårsvurdering]);
-
-    const finnBarnNavn = (
-        barnId: string | undefined,
-        behandlingFakta: BehandlingFaktaTilsynBarn
-    ) => {
-        return behandlingFakta.barn.find((barn) => barn.barnId === barnId)?.registergrunnlag.navn;
-    };
 
     return (
         <DataViewer response={{ vilkårsvurdering, vilkårperioderResponse }}>
@@ -61,18 +51,12 @@ export const OppsummeringVilkårperioderOgVilkår: React.FC = () => {
                     </StyledHGrid>
                     {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
                         <StyledHGrid columns={'125px auto'}>
-                            <BodyShort size={'small'}>Pass av barn</BodyShort>
-                            <VStack gap={'2'}>
-                                {vilkårsvurdering.vilkårsett.map((vilkår) => (
-                                    <VilkårOppsummeringRad
-                                        key={vilkår.id}
-                                        resultat={vilkår.resultat}
-                                        fom={vilkår.fom}
-                                        tom={vilkår.tom}
-                                        gjelder={finnBarnNavn(vilkår.barnId, behandlingFakta)}
-                                    />
-                                ))}
-                            </VStack>
+                            {VilkårOppsummeringRadPassBarn(vilkårsvurdering, behandlingFakta)}
+                        </StyledHGrid>
+                    )}
+                    {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
+                        <StyledHGrid columns={'125px auto'}>
+                            {VilkårOppsummeringRadBoutgifter(vilkårsvurdering)}
                         </StyledHGrid>
                     )}
                 </VStack>

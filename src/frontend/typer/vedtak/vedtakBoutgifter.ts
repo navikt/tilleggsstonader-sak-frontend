@@ -6,47 +6,47 @@ import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vil
 import { Periode, validerPeriode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
-export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
+export type VedtakBoutgifter = InnvilgelseBoutgifter | AvslagBoutgifter | OpphørBoutgifter;
 
-export const vedtakErInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
+export const vedtakErInnvilgelse = (vedtak: VedtakBoutgifter): vedtak is InnvilgelseBoutgifter =>
     vedtak.type === TypeVedtak.INNVILGELSE;
 
-export const vedtakErAvslag = (vedtak: VedtakBarnetilsyn): vedtak is AvslagBarnetilsyn =>
-    vedtak.type === TypeVedtak.AVSLAG;
+// export const vedtakErAvslag = (vedtak: VedtakBoutgifter): vedtak is AvslagBoutgifter =>
+//     vedtak.type === TypeVedtak.AVSLAG;
 
-export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBarnetilsyn =>
-    vedtak.type === TypeVedtak.OPPHØR;
+// export const vedtakErOpphør = (vedtak: VedtakBoutgifter): vedtak is OpphørBoutgifter =>
+//     vedtak.type === TypeVedtak.OPPHØR;
 
-export type InnvilgeBarnetilsynRequest = {
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+export type InnvilgeBoutgifterRequest = {
+    vedtaksperioder: VedtaksperiodeBoutgifter[];
     begrunnelse?: string;
 };
 
-export interface InnvilgelseBarnetilsyn {
+export interface InnvilgelseBoutgifter {
     type: TypeVedtak.INNVILGELSE;
-    beregningsresultat: BeregningsresultatTilsynBarn;
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    beregningsresultat: BeregningsresultatBoutgifter;
+    vedtaksperioder: VedtaksperiodeBoutgifter[];
     begrunnelse?: string;
 }
 
-export type AvslåBarnetilsynRequest = {
+export type AvslåBoutgifterRequest = {
     type: TypeVedtak.AVSLAG;
     årsakerAvslag: ÅrsakAvslag[];
     begrunnelse: string;
 };
 
-export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
+export type AvslagBoutgifter = AvslåBoutgifterRequest;
 
-export type OpphørBarnetilsyn = OpphørRequest & {
-    beregningsresultat: BeregningsresultatTilsynBarn;
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+export type OpphørBoutgifter = OpphørRequest & {
+    beregningsresultat: BeregningsresultatBoutgifter;
+    vedtaksperioder: VedtaksperiodeBoutgifter[];
 };
 
-export type BeregnBarnetilsynRequest = {
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+export type BeregnBoutgifterRequest = {
+    vedtaksperioder: VedtaksperiodeBoutgifter[];
 };
 
-export type BeregningsresultatTilsynBarn = {
+export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
     vedtaksperioder: Vedtaksperiode[];
     gjelderFraOgMed?: string;
@@ -54,9 +54,14 @@ export type BeregningsresultatTilsynBarn = {
 };
 
 type Beregningsresultat = {
-    dagsats: number;
-    månedsbeløp: number;
-    grunnlag: Beregningsgrunnlag;
+    stønadsbeløp: number;
+    fom: string;
+    tom: string;
+    antallMåneder: number;
+    utbetalingsdato: string;
+    målgruppe: string;
+    aktivitet: string;
+    delAvTidligereUtbetaling: boolean;
 };
 
 export interface Vedtaksperiode {
@@ -64,16 +69,9 @@ export interface Vedtaksperiode {
     tom: string;
     målgruppe: MålgruppeType;
     aktivitet: AktivitetType;
-    antallBarn: number;
 }
 
-type Beregningsgrunnlag = {
-    måned: string;
-    utgifterTotal: number;
-    antallBarn: number;
-};
-
-export interface VedtaksperiodeTilsynBarn extends Periode {
+export interface VedtaksperiodeBoutgifter extends Periode {
     id: string;
     status?: PeriodeStatus;
     målgruppeType?: MålgruppeType;
@@ -81,12 +79,12 @@ export interface VedtaksperiodeTilsynBarn extends Periode {
 }
 
 export const validerVedtaksperioder = (
-    vedtaksperioder: VedtaksperiodeTilsynBarn[],
-    lagretVedtaksperioder: Map<string, VedtaksperiodeTilsynBarn>,
+    vedtaksperioder: VedtaksperiodeBoutgifter[],
+    lagretVedtaksperioder: Map<string, VedtaksperiodeBoutgifter>,
     revurderesFraDato?: string
-): FormErrors<VedtaksperiodeTilsynBarn[]> =>
+): FormErrors<VedtaksperiodeBoutgifter[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
-        const vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> = {
+        const vedtaksperiodeFeil: FormErrors<VedtaksperiodeBoutgifter> = {
             id: undefined,
             målgruppeType: undefined,
             aktivitetType: undefined,

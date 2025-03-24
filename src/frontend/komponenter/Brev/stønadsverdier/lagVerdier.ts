@@ -4,6 +4,7 @@ import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import {
     BeregningsresultatTilsynBarn,
@@ -14,7 +15,7 @@ const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 
 function behandleInnvilgelse(
     behandling: Behandling,
-    vedtak: InnvilgelseBarnetilsyn | InnvilgelseLæremidler
+    vedtak: InnvilgelseBarnetilsyn | InnvilgelseLæremidler | InnvilgelseBoutgifter
 ) {
     if (behandling.stønadstype === Stønadstype.LÆREMIDLER) {
         const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;

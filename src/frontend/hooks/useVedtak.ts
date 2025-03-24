@@ -35,16 +35,16 @@ export const useVedtak = <T extends VedtakResponse>(): Response<T> => {
 
 export const useVedtakForrigeBehandling = <T extends VedtakResponse>(): {
     forrigeVedtak: Ressurs<T>;
-    hentForrigeVedtak: (stønadstype: Stønadstype, forrigeBehandlingId: string) => void;
+    hentForrigeVedtak: (stønadstype: Stønadstype, forrigeIverksatteBehandlingId: string) => void;
 } => {
     const { request } = useApp();
 
     const [forrigeVedtak, settForrigeVedtak] = useState<Ressurs<T>>(byggTomRessurs());
 
     const hentForrigeVedtak = useCallback(
-        (stønadstype: Stønadstype, forrigeBehandlingId: string) => {
+        (stønadstype: Stønadstype, forrigeIverksatteBehandlingId: string) => {
             request<T, null>(
-                `/api/sak/vedtak/${stønadstypeTilVedtakUrl[stønadstype]}/${forrigeBehandlingId}`
+                `/api/sak/vedtak/${stønadstypeTilVedtakUrl[stønadstype]}/${forrigeIverksatteBehandlingId}`
             ).then(settForrigeVedtak);
         },
         [request]

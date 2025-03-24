@@ -8,7 +8,7 @@ import {
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const useHentFullstendigOversikt = (
-    forrigeBehandlingId: string
+    forrigeIverksatteBehandlingId: string
 ): {
     vedtakBarnetilsyn: Ressurs<VedtakBarnetilsyn>;
 } => {
@@ -18,16 +18,16 @@ export const useHentFullstendigOversikt = (
         useState<Ressurs<VedtakBarnetilsyn>>(byggTomRessurs());
 
     const hentForrigeVedtakMedFullHistorikk = useCallback(
-        (forrigeBehandlingId: string) => {
+        (forrigeIverksatteBehandlingId: string) => {
             request<InnvilgelseBarnetilsyn, null>(
-                `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeBehandlingId}`
+                `/api/sak/vedtak/tilsyn-barn/fullstendig-oversikt/${forrigeIverksatteBehandlingId}`
             ).then(setVedtakBarnetilsyn);
         },
         [request]
     );
     useEffect(() => {
-        hentForrigeVedtakMedFullHistorikk(forrigeBehandlingId);
-    }, [forrigeBehandlingId, hentForrigeVedtakMedFullHistorikk]);
+        hentForrigeVedtakMedFullHistorikk(forrigeIverksatteBehandlingId);
+    }, [forrigeIverksatteBehandlingId, hentForrigeVedtakMedFullHistorikk]);
 
     return {
         vedtakBarnetilsyn: vedtakBarnetilsyn,

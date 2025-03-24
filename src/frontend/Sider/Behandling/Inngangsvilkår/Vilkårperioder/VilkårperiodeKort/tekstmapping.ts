@@ -63,6 +63,7 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     utgifterDekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
     harUtgifter: 'har utgifter til læremidler',
     harRettTilUtstyrsstipend: 'har rett til utstyrsstipend',
+    aldersvilkår: 'aldersvilkår',
     mottarSykepengerForFulltidsstilling: 'mottar 100% sykepenger for fulltidsstilling',
 };
 

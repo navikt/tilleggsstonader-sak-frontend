@@ -35,6 +35,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 fom: vilkår.fom,
                 tom: vilkår.tom,
                 utgift: vilkår.utgift,
+                erNullvedtak: vilkår.erNullvedtak,
             }}
             lagreVurdering={(redigerbareVilkårfelter) =>
                 lagreVilkår({
@@ -52,6 +53,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                           slettVilkår(vilkår);
                       }
             }
+            vilkårtype={vilkår.vilkårType}
         />
     ) : (
         <LesevisningVilkår

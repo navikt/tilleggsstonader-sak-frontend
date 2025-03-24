@@ -12,10 +12,10 @@ const StyledVStack = styled(VStack)`
     max-width: 40rem;
 `;
 type Props = {
-    forrigeBehandlingId: string;
+    forrigeIverksatteBehandlingId: string;
 };
-export const VedtakshistorikkLæremidler: FC<Props> = ({ forrigeBehandlingId }) => {
-    const { vedtakLæremidler } = useHentFullstendigOversikt(forrigeBehandlingId);
+export const VedtakshistorikkLæremidler: FC<Props> = ({ forrigeIverksatteBehandlingId }) => {
+    const { vedtakLæremidler } = useHentFullstendigOversikt(forrigeIverksatteBehandlingId);
     return (
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk læremidler TS-Sak </Heading>
