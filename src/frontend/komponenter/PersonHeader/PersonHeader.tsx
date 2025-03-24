@@ -24,7 +24,6 @@ const Container = styled(Sticky)`
 
 const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { personopplysninger } = usePersonopplysninger();
-
     return (
         <Container>
             <Heading size="xsmall">{personopplysninger.navn.visningsnavn}</Heading>
@@ -39,6 +38,7 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
             {personopplysninger.erSkjermet && <SmallWarningTag>Skjermet</SmallWarningTag>}
             {personopplysninger.harVergemål && <SmallWarningTag>Verge</SmallWarningTag>}
             {personopplysninger.harFullmektig && <SmallWarningTag>Fullmakt</SmallWarningTag>}
+            {personopplysninger.erUtlandet && <SmallWarningTag>Utland</SmallWarningTag>}
             {personopplysninger.dødsdato && (
                 <SmallErrorTag>Død ({formaterIsoDato(personopplysninger.dødsdato)})</SmallErrorTag>
             )}
