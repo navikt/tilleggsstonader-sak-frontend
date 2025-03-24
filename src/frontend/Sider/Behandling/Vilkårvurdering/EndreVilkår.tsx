@@ -42,6 +42,7 @@ import {
     Vilkår,
     Vurdering,
 } from '../vilkår';
+import { vilkårTypeTilUtgiftTekst } from './tekster';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -327,7 +328,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label={erMidlertidigOvernatting ? 'Utgift' : 'Månedlig utgift'}
+                    label={vilkårTypeTilUtgiftTekst[props.vilkårtype]}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
