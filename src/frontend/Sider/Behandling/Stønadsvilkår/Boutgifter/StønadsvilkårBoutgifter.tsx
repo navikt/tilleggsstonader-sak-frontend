@@ -5,16 +5,21 @@ import { Heading, HStack, VStack } from '@navikt/ds-react';
 import FasteUtgifterEnBolig from './FasteUtgifterEnBolig';
 import FasteUtgifterToBoliger from './FasteUtgifterToBoliger';
 import MidlertidigOvernatting from './MidlertidigOvernatting';
+import { useVilkår } from '../../../../context/VilkårContext';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ReglerResponse } from '../../../../typer/regel';
+import { StønadsvilkårType, Vilkårsvurdering } from '../../vilkår';
 
 interface StønadsvilkårBoutgifterProps {
     regler: ReglerResponse;
 }
 
 const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) => {
-    const [visFastUtgift, settVisFastUtgift] = useState(false);
-    const [visMidlertidigUtgift, settVisMidlertidigUtgift] = useState(false);
+    const { vilkårsvurdering } = useVilkår();
+    const [visFastUtgift, settVisFastUtgift] = useState(finnesFasteUtgifter(vilkårsvurdering));
+    const [visMidlertidigUtgift, settVisMidlertidigUtgift] = useState(
+        finnesMidlertidigOvernatting(vilkårsvurdering)
+    );
 
     return (
         <>
@@ -59,5 +64,17 @@ const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) =
         </>
     );
 };
+
+const finnesFasteUtgifter = (vilkårsvurdering: Vilkårsvurdering) =>
+    vilkårsvurdering.vilkårsett.some(
+        (vilkår) =>
+            vilkår.vilkårType === StønadsvilkårType.FASTE_UTGIFTER_EN_BOLIG ||
+            vilkår.vilkårType === StønadsvilkårType.FASTE_UTGIFTER_TO_BOLIGER
+    );
+
+const finnesMidlertidigOvernatting = (vilkårsvurdering: Vilkårsvurdering) =>
+    vilkårsvurdering.vilkårsett.some(
+        (vilkår) => vilkår.vilkårType === StønadsvilkårType.MIDLERTIDIG_OVERNATTING
+    );
 
 export default StønadsvilkårBoutgifter;
