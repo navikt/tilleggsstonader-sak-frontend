@@ -58,12 +58,13 @@ const FeltContainer = styled.div`
 `;
 
 const initaliserForm = (
+    alleFelterKanEndres: boolean,
     eksisterendeMålgruppe?: Målgruppe,
     registrertYtelsePeriode?: PeriodeYtelseRegister
 ): EndreMålgruppeForm => {
     return eksisterendeMålgruppe === undefined
         ? nyMålgruppe(registrertYtelsePeriode)
-        : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
+        : mapEksisterendeMålgruppe(eksisterendeMålgruppe, alleFelterKanEndres);
 };
 
 // TODO: Endre navn til EndreMålgruppe
@@ -75,9 +76,14 @@ const EndreMålgruppeRad: React.FC<{
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
+    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
+        periodeFom: målgruppe?.fom,
+        periodeTom: målgruppe?.tom,
+        nyRadLeggesTil: !målgruppe,
+    });
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(målgruppe, registerYtelsePeriode)
+        initaliserForm(alleFelterKanEndres, målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -153,12 +159,6 @@ const EndreMålgruppeRad: React.FC<{
         );
     };
 
-    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
-        periodeFom: målgruppe?.fom,
-        periodeTom: målgruppe?.tom,
-        nyRadLeggesTil: !målgruppe,
-    });
-
     const målgruppeTyperForStønadstype = (stønadstype: Stønadstype): SelectOption[] =>
         [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER, Stønadstype.BOUTGIFTER].includes(
             stønadstype
@@ -186,7 +186,7 @@ const EndreMålgruppeRad: React.FC<{
             <MålgruppeVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
+                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei | undefined) =>
                     settForm((prevState) => ({
                         ...prevState,
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },

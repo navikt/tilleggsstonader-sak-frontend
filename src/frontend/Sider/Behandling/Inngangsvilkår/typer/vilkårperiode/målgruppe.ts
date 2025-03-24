@@ -130,7 +130,7 @@ export interface MålgruppeVurderinger {
 export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
     svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
-    svarMottarSykepengerForFulltidsstilling: SvarJaNei | undefined;
+    svarMottarSykepengerForFulltidsstilling: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA';
 }
 
 export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {

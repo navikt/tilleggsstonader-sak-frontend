@@ -36,16 +36,30 @@ export const nyMålgruppe = (
         : tomMålgruppeForm();
 };
 
-export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): EndreMålgruppeForm => ({
+export const mapEksisterendeMålgruppe = (
+    eksisterendeMålgruppe: Målgruppe,
+    alleFelterKanEndres: boolean
+): EndreMålgruppeForm => ({
     ...eksisterendeMålgruppe,
     vurderinger: {
         svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
         svarUtgifterDekketAvAnnetRegelverk:
             eksisterendeMålgruppe.faktaOgVurderinger.utgifterDekketAvAnnetRegelverk?.svar,
-        svarMottarSykepengerForFulltidsstilling:
+        svarMottarSykepengerForFulltidsstilling: nullstillGammelManglerData(
             eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar,
+            alleFelterKanEndres
+        ),
     },
 });
+
+const nullstillGammelManglerData = (
+    svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA',
+    kanRedidereAlleFelter: boolean
+): SvarJaNei | 'GAMMEL_MANGLER_DATA' | undefined => {
+    if (svar === 'GAMMEL_MANGLER_DATA' && kanRedidereAlleFelter) return undefined;
+
+    return svar;
+};
 
 const nyMålgruppeFraRegister = (
     registrertYtelsePeriode: YtelseGrunnlagPeriode
