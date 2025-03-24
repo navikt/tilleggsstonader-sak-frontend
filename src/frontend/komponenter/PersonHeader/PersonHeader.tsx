@@ -38,7 +38,9 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
             {personopplysninger.erSkjermet && <SmallWarningTag>Skjermet</SmallWarningTag>}
             {personopplysninger.harVergemål && <SmallWarningTag>Verge</SmallWarningTag>}
             {personopplysninger.harFullmektig && <SmallWarningTag>Fullmakt</SmallWarningTag>}
-            {personopplysninger.erUtlandet && <SmallWarningTag>Utland</SmallWarningTag>}
+            {personopplysninger.harGeografiskTilknytningUtland && (
+                <SmallWarningTag>Utland</SmallWarningTag>
+            )}
             {personopplysninger.dødsdato && (
                 <SmallErrorTag>Død ({formaterIsoDato(personopplysninger.dødsdato)})</SmallErrorTag>
             )}

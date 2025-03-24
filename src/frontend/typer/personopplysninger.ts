@@ -7,7 +7,7 @@ export interface Personopplysninger {
     erSkjermet: boolean;
     vergemål: Vergemål[];
     dødsdato?: string;
-    erUtlandet: boolean;
+    harGeografiskTilknytningUtland: boolean;
 }
 
 interface Navn {
