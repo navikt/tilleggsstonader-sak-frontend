@@ -40,7 +40,6 @@ import {
     RedigerbareVilkårfelter,
     StønadsvilkårType,
     Vilkår,
-    Vilkårtype,
     Vurdering,
 } from '../vilkår';
 
@@ -86,7 +85,7 @@ type EndreVilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
-    vilkårtype: Vilkårtype;
+    vilkårtype: StønadsvilkårType;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
