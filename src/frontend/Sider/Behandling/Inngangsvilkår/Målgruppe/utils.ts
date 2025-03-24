@@ -52,6 +52,11 @@ export const mapEksisterendeMålgruppe = (
     },
 });
 
+/**
+ * GAMMEL_MANGLER_DATA er kun et gyldig svar dersom alle felter utenom tom er låst.
+ * Dersom alle felter (fakta og vurderinger) kan redigeres,
+ * skal svar settes til undefined slik at saksbehandler må ta stilling til vilkåret.
+ */
 const nullstillGammelManglerData = (
     svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA',
     kanRedidereAlleFelter: boolean
