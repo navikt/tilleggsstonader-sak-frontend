@@ -75,7 +75,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
-        if (!kravMottatt && årsak == BehandlingÅrsak.PAPIRSØKNAD) {
+        if (!kravMottatt && årsak === BehandlingÅrsak.PAPIRSØKNAD) {
             settFeilmelding(lagFeilmelding('Søknadsdato må settes'));
             settLaster(false);
             return;
@@ -122,7 +122,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     </option>
                 )}
             </Select>
-            {årsak == BehandlingÅrsak.PAPIRSØKNAD && (
+            {årsak === BehandlingÅrsak.PAPIRSØKNAD && (
                 <DateInput
                     label={`Søknadsdato`}
                     onChange={(dato: string | undefined) => settKravMottatt(dato)}
