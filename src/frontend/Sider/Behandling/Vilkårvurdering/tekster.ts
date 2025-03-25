@@ -1,4 +1,5 @@
 import { RegelId } from '../../../typer/regel';
+import { StønadsvilkårType } from '../vilkår';
 
 export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',
@@ -57,4 +58,11 @@ export const hjelpetekster: Record<RegelId, string[]> = {
         'Faktura fra barnehage må i tillegg inneholde eventuelle kostnader til bleier, så det er mulig å trekke dette fra.',
         'Ved privat pass så skal det vurderes om det er sannsynlig at søker har hatt utgifter til barnepass i perioden det søkes for. Avtale mellom barnepasser og søker eller A-melding kan være eksempler på dokumentasjon som godtas. Skjermbilde av betalinger via vipps eller bankutskrift godkjennes ikke. ',
     ],
+};
+
+export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
+    PASS_BARN: 'Månedlig utgift',
+    MIDLERTIDIG_OVERNATTING: 'Utgift',
+    FASTE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
+    FASTE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
 };

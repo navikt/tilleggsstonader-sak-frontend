@@ -39,7 +39,7 @@ export interface Vilkår {
     behandlingId: string;
     resultat: Vilkårsresultat;
     status: PeriodeStatus;
-    vilkårType: Vilkårtype;
+    vilkårType: StønadsvilkårType;
     barnId?: string;
     endretAv: string;
     endretTid: string;
