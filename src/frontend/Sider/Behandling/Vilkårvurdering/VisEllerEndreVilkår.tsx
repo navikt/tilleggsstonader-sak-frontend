@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { EndreVilkår } from './EndreVilkår';
+import { EndreVilkår } from './EndreVilkår/EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
