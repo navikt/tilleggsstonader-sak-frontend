@@ -86,12 +86,14 @@ export enum SvarJaNei {
     JA = 'JA',
     JA_IMPLISITT = 'JA_IMPLISITT',
     NEI = 'NEI',
+    NEI_IMPLISITT = 'NEI_IMPLISITT',
 }
 
 export const svarJaNeiMapping: Record<SvarJaNei, string> = {
     JA: 'Ja',
     JA_IMPLISITT: 'Ja',
     NEI: 'Nei',
+    NEI_IMPLISITT: 'Nei',
 };
 
 export interface Vurdering {
