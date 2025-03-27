@@ -43,7 +43,7 @@ export enum FaneNavn {
 
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
-    VILKÅR = 'Vilkår',
+    VILKÅR = 'Bolig/overnatting',
 }
 
 const faneNavnStønadsvilkår: Record<Exclude<Stønadstype, 'LÆREMIDLER'>, StønadsvilkårFaneNavn> = {
