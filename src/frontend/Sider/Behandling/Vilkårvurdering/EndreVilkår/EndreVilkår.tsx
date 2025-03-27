@@ -64,7 +64,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erMidlertidigOvernatting = vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
+    const erMidlertidigOvernatting = vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -135,6 +135,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     feilmeldinger={feilmeldinger}
                     erMidlertidigOvernatting={erMidlertidigOvernatting}
                     alleFelterKanRedigeres={alleFelterKanRedigeres}
+                    vilkårtype={vilkårtype as StønadsvilkårType}
                     settFom={settFom}
                     settTom={settTom}
                     settUtgift={settUtgift}

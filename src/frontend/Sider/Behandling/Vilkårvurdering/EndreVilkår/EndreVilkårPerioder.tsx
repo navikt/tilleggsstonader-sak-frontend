@@ -14,6 +14,8 @@ import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../../ut
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { Toggle } from '../../../../utils/toggles';
 import { fjernSpaces } from '../../../../utils/utils';
+import { StønadsvilkårType } from '../../vilkår';
+import { vilkårTypeTilUtgiftTekst } from '../tekster';
 import { Feilmeldinger } from '../validering';
 
 const StyledSwitch = styled(Switch)`
@@ -40,6 +42,7 @@ interface EndreVilkårPerioderProps {
     settErNullvedtak: (
         value: ((prevState: boolean | undefined) => boolean | undefined) | boolean | undefined
     ) => void;
+    vilkårtype: StønadsvilkårType;
 }
 
 const EndreVilkårPerioder = ({
@@ -56,6 +59,7 @@ const EndreVilkårPerioder = ({
     settUtgift,
     erNullvedtak,
     settErNullvedtak,
+    vilkårtype,
 }: EndreVilkårPerioderProps) => {
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
@@ -153,7 +157,7 @@ const EndreVilkårPerioder = ({
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label={erMidlertidigOvernatting ? 'Utgift' : 'Månedlig utgift'}
+                    label={vilkårTypeTilUtgiftTekst[vilkårtype]}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
