@@ -8,6 +8,7 @@ export type DelvilkårKey =
     | 'lønnet'
     | 'harUtgifter'
     | 'harRettTilUtstyrsstipend'
+    | 'mottarSykepengerForFulltidsstilling'
     | 'aldersvilkår';
 
 export const finnDelvilkårTilOppsummering = (

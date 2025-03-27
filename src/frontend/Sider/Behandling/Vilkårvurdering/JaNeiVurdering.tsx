@@ -12,7 +12,7 @@ const LesMerTekst = styled(ReadMore)`
 
 export const JaNeiVurdering: React.FC<{
     label: string;
-    svar: SvarJaNei | undefined;
+    svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA';
     oppdaterSvar: (svar: SvarJaNei) => void;
     svarJa?: string;
     svarNei?: string;
@@ -29,6 +29,10 @@ export const JaNeiVurdering: React.FC<{
     hjelpetekstHeader,
     readOnly = false,
 }) => {
+    if (svar === 'GAMMEL_MANGLER_DATA' && readOnly) {
+        return null;
+    }
+
     return (
         <RadioGroup
             value={svar || ''}
