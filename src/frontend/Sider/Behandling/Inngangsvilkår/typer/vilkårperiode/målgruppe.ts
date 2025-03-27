@@ -1,4 +1,9 @@
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import {
+    SvarJaNei,
+    VilkårPeriode,
+    Vurdering,
+    VurderingMedGammelManglerData,
+} from './vilkårperiode';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
@@ -124,7 +129,7 @@ export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskM
 export interface MålgruppeVurderinger {
     medlemskap: Vurdering | undefined;
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
-    mottarSykepengerForFulltidsstilling: Vurdering | undefined;
+    mottarSykepengerForFulltidsstilling: VurderingMedGammelManglerData | undefined;
 }
 
 export interface SvarMålgruppe {

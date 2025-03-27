@@ -26,15 +26,16 @@ const FaktaOgDelvilkårVisning: React.FC<{
                     }
                 </Detail>
             )}
-            {vurderinger.mottarSykepengerForFulltidsstilling?.svar && (
-                <Detail>
-                    {
-                        mottarSykepengerForFulltidsstillingSvarTilTekst[
-                            vurderinger.mottarSykepengerForFulltidsstilling.svar
-                        ]
-                    }
-                </Detail>
-            )}
+            {vurderinger.mottarSykepengerForFulltidsstilling?.svar &&
+                vurderinger.mottarSykepengerForFulltidsstilling?.svar !== 'GAMMEL_MANGLER_DATA' && (
+                    <Detail>
+                        {
+                            mottarSykepengerForFulltidsstillingSvarTilTekst[
+                                vurderinger.mottarSykepengerForFulltidsstilling.svar
+                            ]
+                        }
+                    </Detail>
+                )}
         </VStack>
     );
 };

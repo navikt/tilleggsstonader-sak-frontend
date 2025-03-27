@@ -99,6 +99,11 @@ export interface Vurdering {
     resultat?: VilkårPeriodeResultat;
 }
 
+export interface VurderingMedGammelManglerData {
+    svar?: SvarJaNei | 'GAMMEL_MANGLER_DATA';
+    resultat?: VilkårPeriodeResultat;
+}
+
 export interface SlettVilkårperiode {
     behandlingId: string;
     kommentar: string;
