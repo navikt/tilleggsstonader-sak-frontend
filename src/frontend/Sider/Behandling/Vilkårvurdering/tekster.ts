@@ -63,6 +63,6 @@ export const hjelpetekster: Record<RegelId, string[]> = {
 export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     PASS_BARN: 'Månedlig utgift',
     UTGIFTER_OVERNATTING: 'Utgift',
-    FASTE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
-    FASTE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
+    LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
+    LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
 };

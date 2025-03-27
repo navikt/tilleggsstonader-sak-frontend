@@ -14,15 +14,15 @@ interface Props {
     vilkårsregler: Regler;
 }
 
-const FasteUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
+const LøpendeUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === StønadsvilkårType.FASTE_UTGIFTER_TO_BOLIGER
+        (v) => v.vilkårType === StønadsvilkårType.LØPENDE_UTGIFTER_TO_BOLIGER
     );
 
     return (
         <VilkårPanel
-            tittel={'Faste utgifter to boliger'}
+            tittel={'Løpende utgifter to boliger'}
             ikon={<HouseHeartIcon />}
             paragraflenker={[]}
             rundskrivlenke={[]}
@@ -32,7 +32,7 @@ const FasteUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}
             <NyttVilkår
-                vilkårtype={StønadsvilkårType.FASTE_UTGIFTER_TO_BOLIGER}
+                vilkårtype={StønadsvilkårType.LØPENDE_UTGIFTER_TO_BOLIGER}
                 vilkårsregler={vilkårsregler}
                 lagTomtDelvilkårsett={() =>
                     lagTomtDelvilkårsett(vilkårsregler, (regelId) => tomVurdering(regelId))
@@ -42,4 +42,4 @@ const FasteUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
     );
 };
 
-export default FasteUtgifterToBoliger;
+export default LøpendeUtgifterToBoliger;
