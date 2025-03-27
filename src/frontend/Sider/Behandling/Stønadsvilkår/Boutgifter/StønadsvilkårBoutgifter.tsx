@@ -2,7 +2,7 @@ import React from 'react';
 
 import FasteUtgifterEnBolig from './FasteUtgifterEnBolig';
 import FasteUtgifterToBoliger from './FasteUtgifterToBoliger';
-import MidlertidigOvernatting from './MidlertidigOvernatting';
+import UtgifterOvernatting from './UtgifterOvernatting';
 import { ReglerResponse } from '../../../../typer/regel';
 
 interface StønadsvilkårBoutgifterProps {
@@ -15,9 +15,7 @@ const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) =
         <FasteUtgifterToBoliger
             vilkårsregler={regler.vilkårsregler.FASTE_UTGIFTER_TO_BOLIGER.regler}
         />
-        <MidlertidigOvernatting
-            vilkårsregler={regler.vilkårsregler.MIDLERTIDIG_OVERNATTING.regler}
-        />
+        <UtgifterOvernatting vilkårsregler={regler.vilkårsregler.UTGIFTER_OVERNATTING.regler} />
     </>
 );
 

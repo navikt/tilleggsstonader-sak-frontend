@@ -14,15 +14,15 @@ interface Props {
     vilkårsregler: Regler;
 }
 
-const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
+const UtgifterOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === StønadsvilkårType.MIDLERTIDIG_OVERNATTING
+        (v) => v.vilkårType === StønadsvilkårType.UTGIFTER_OVERNATTING
     );
 
     return (
         <VilkårPanel
-            tittel={'Midlertidig overnatting'}
+            tittel={'Utgifter til overnatting'}
             ikon={<Buildings2Icon />}
             paragraflenker={[]}
             rundskrivlenke={[]}
@@ -32,7 +32,7 @@ const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}
             <NyttVilkår
-                vilkårtype={StønadsvilkårType.MIDLERTIDIG_OVERNATTING}
+                vilkårtype={StønadsvilkårType.UTGIFTER_OVERNATTING}
                 vilkårsregler={vilkårsregler}
                 lagTomtDelvilkårsett={() =>
                     lagTomtDelvilkårsett(vilkårsregler, (regelId) => tomVurdering(regelId))
@@ -42,4 +42,4 @@ const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     );
 };
 
-export default MidlertidigOvernatting;
+export default UtgifterOvernatting;

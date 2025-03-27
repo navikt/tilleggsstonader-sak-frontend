@@ -92,7 +92,7 @@ type EndreVilkårProps = {
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erMidlertidigOvernatting = props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
+    const erUtgifterOvernatting = props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
@@ -244,7 +244,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erMidlertidigOvernatting ? (
+                {erUtgifterOvernatting ? (
                     <DateInputMedLeservisning
                         label={'Fra'}
                         value={fom}
@@ -287,7 +287,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erMidlertidigOvernatting ? (
+                {erUtgifterOvernatting ? (
                     <DateInputMedLeservisning
                         label={'Til'}
                         value={tom}
@@ -339,7 +339,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     }}
                 />
             </FeilmeldingMaksBredde>
-            {props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
+            {props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
                 <StyledSwitch
                     size={'small'}
                     checked={erNullvedtak}
