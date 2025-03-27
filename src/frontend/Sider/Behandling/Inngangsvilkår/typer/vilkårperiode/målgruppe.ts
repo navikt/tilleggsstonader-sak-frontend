@@ -41,7 +41,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
         NEDSATT_ARBEIDSEVNE: true,
-        SYKEPENGER_100_PROSENT: true,
+        SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
