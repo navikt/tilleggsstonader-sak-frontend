@@ -9,4 +9,4 @@ WORKDIR /app/server
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["--es-module-specifier-resolution=node", "build/server.js"]
+CMD ["--import=./build/register.js","--es-module-specifier-resolution=node", "./build/server.js"]
