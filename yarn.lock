@@ -562,13 +562,13 @@
     "@portabletext/react" "^3.2.0"
     classnames "^2.5.1"
 
-"@navikt/familie-form-elements@^15.0.0":
-  version "15.2.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/15.2.0/30faf72b8c39a251bdce8f32872da95a2de0e153#30faf72b8c39a251bdce8f32872da95a2de0e153"
-  integrity sha512-p0W8+6AvI6zmxbxtq1Q3gb+mlsM8THyoeBArakkfGmB4xMIbbgCa4O9z6Vd0qVxnbuHzj2YJVDIg3++0A+8OBQ==
+"@navikt/familie-form-elements@^21.0.4":
+  version "21.0.4"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/21.0.4/cfbd3541081b539804664c4a02018cfe7b4e114b#cfbd3541081b539804664c4a02018cfe7b4e114b"
+  integrity sha512-stYA0FyjxvatWA4SEbBRkjN9vaoFCwFKInRSMKQLnLzZkK1MZnh7R95OAKS3e3I4+8uCWKjWP7D/kxkDbQ2u4g==
   dependencies:
     classnames "^2.5.1"
-    react-select "^5.8.0"
+    react-select "5.9.0"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -4393,10 +4393,10 @@ react-router@6.27.0:
   dependencies:
     "@remix-run/router" "1.20.0"
 
-react-select@^5.8.0:
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.10.1.tgz#e858dd98358ccd864b65d53ab0fb682cd5e96b89"
-  integrity sha512-roPEZUL4aRZDx6DcsD+ZNreVl+fM8VsKn0Wtex1v4IazH60ILp5xhdlp464IsEAlJdXeD+BhDAFsBVMfvLQueA==
+react-select@5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.9.0.tgz#41325b7bfe8452a8d401b82fc4fb7d44a03e29c5"
+  integrity sha512-nwRKGanVHGjdccsnzhFte/PULziueZxGD8LL2WojON78Mvnq7LdAMEtu2frrwld1fr3geixg3iiMBIc/LLAZpw==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"
