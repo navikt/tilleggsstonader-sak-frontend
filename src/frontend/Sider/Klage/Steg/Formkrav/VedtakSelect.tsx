@@ -2,8 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import styled from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
-import { FamilieSelect } from '@navikt/familie-form-elements';
+import { Select, VStack } from '@navikt/ds-react';
 
 import { IFormkravVilkår } from './typer';
 import {
@@ -58,7 +57,7 @@ export const VedtakSelect: React.FC<IProps> = ({
 
     return (
         <SelectWrapper gap={'4'}>
-            <FamilieSelect
+            <Select
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {
                     handleChange(e.target.value);
@@ -85,7 +84,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
-            </FamilieSelect>
+            </Select>
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
                 <DateInput
                     label={'Vedtaksdato'}
