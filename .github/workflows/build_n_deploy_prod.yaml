@@ -17,3 +17,4 @@ jobs:
       prod-manifest: '.nais/prod.yaml'
       dev-cluster: 'dev-gcp'
       dev-manifest: '.nais/dev.yaml'
+      node-version: "20"

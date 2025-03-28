@@ -8,8 +8,8 @@
     "ci": "yarn --prefer-offline --frozen-lockfile",
     "build": "tsc --build",
     "start": "NODE_ENV=production node build/server.js",
-    "start:dev": "NODE_ENV=development ENV=localhost node  --experimental-modules --es-module-specifier-resolution=node build/server.js",
-    "start:dev-preprod": "NODE_ENV=development ENV=localhost-preprod node  --experimental-modules --es-module-specifier-resolution=node build/server.js"
+    "start:dev": "NODE_ENV=development ENV=localhost node --es-module-specifier-resolution=node build/server.js",
+    "start:dev-preprod": "NODE_ENV=development ENV=localhost-preprod node --es-module-specifier-resolution=node build/server.js"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
