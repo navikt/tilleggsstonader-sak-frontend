@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
-import { Action as HistoryAction } from '@remix-run/router/history';
-import { Location } from 'react-router-dom';
+import { BlockerFunction } from 'react-router-dom';
 import ReactRouterPrompt from 'react-router-prompt';
 
 import { ModalWrapper } from './ModalWrapper';
@@ -11,11 +10,7 @@ import { UlagretKomponent } from '../../hooks/useUlagredeKomponenter';
 /**
  * Argumenten i BlockerFunction
  */
-interface BlockerFunctionArguments {
-    currentLocation: Location;
-    nextLocation: Location;
-    historyAction: HistoryAction;
-}
+type BlockerFunctionArguments = Parameters<BlockerFunction>[0];
 
 const behandlingKomponenterSomKanBytteFane: UlagretKomponent[] = [UlagretKomponent.FATTE_VEDTAK];
 
@@ -51,7 +46,6 @@ const UlagredeKomponenterModal: FC = () => {
     const { nullstillUlagredeKomponenter, ulagradeKomponenter } = useApp();
 
     const harUlagradeKomponenter = ulagradeKomponenter.size > 0;
-
     return (
         <ReactRouterPrompt
             when={(args?: BlockerFunctionArguments) => {
