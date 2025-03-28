@@ -10,10 +10,10 @@ import { HjemmelVelger } from './HjemmelVelger';
 import { InterntNotat } from './InterntNotat';
 import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
 import { Vedtak } from './Vedtak';
+import { VelgÅrsakOmgjøring } from './VelgÅrsakOmgjøring';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
-import { Årsak } from './Årsak';
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import {
@@ -150,7 +150,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 />
                                 {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                                     <>
-                                        <Årsak
+                                        <VelgÅrsakOmgjøring
                                             settÅrsak={settOppdatertVurdering}
                                             årsakValgt={oppdatertVurdering.årsak}
                                             årsakValgmuligheter={årsakValgTilTekst}
