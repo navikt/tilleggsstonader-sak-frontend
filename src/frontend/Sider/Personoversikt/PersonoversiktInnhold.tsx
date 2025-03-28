@@ -77,7 +77,7 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
             <Tabs
                 value={path}
                 onChange={(tabPath) => {
-                    navigate(tabPath);
+                    navigate(`/person/${fagsakPersonId}/${tabPath}`);
                 }}
             >
                 <Tabs.List>
@@ -95,7 +95,15 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                             element={tab.komponent(fagsakPersonId)}
                         />
                     ))}
-                    <Route path="*" element={<Navigate to={tabs[0].path} replace={true} />} />
+                    <Route
+                        path="*"
+                        element={
+                            <Navigate
+                                to={`/person/${fagsakPersonId}/${tabs[0].path}`}
+                                replace={true}
+                            />
+                        }
+                    />
                 </Routes>
             </InnholdWrapper>
         </>

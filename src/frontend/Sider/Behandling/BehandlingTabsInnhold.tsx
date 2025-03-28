@@ -62,7 +62,7 @@ const BehandlingTabsInnhold = () => {
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
-            navigate(FanePath.INNGANGSVILKÅR);
+            navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
         }
         // skal kun sjekke om fane er låst etter at behandling er oppdatert
         // eslint-disable-next-line react-hooks/exhaustive-deps
