@@ -45,7 +45,7 @@ Feilmelding ved oppstart av app:
 ```
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/token' imported from <...>/src/backend/build/server.js 
 ```
-Løsning: Du trenger Node-versjon 18. 
+Løsning: Du trenger Node-versjon 20. 
 
 
 ##### App vil ikke starte lokalt

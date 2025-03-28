@@ -9,3 +9,5 @@ jobs:
     name: "Bygger appen"
     uses: navikt/tilleggsstonader/.github/workflows/ts-build.yml@main
     secrets: inherit
+    with:
+      node-version: "20"
