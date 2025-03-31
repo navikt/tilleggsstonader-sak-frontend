@@ -11,14 +11,14 @@ import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { VedtaksperiodeBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import {
+    nyFaktiskMålgruppeTilTekst,
+    nyFaktiskMålgruppeTypeOptions,
+} from '../../../Felles/nyFaktiskMålgruppe';
+import {
     aktivitetTypeTilTekst,
     valgbareAktivitetTyperForStønadsperiode,
 } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
-import {
-    målgruppeTypeOptionsForStønadsperiode,
-    målgruppeTypeTilTekst,
-} from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 interface Props {
     vedtaksperiode: VedtaksperiodeBoutgifter;
@@ -97,11 +97,11 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 readOnly={!alleFelterKanEndres}
                 value={
                     erLesevisning
-                        ? målgruppeTypeTilTekst(vedtaksperiode.målgruppeType ?? '')
+                        ? nyFaktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
                         : vedtaksperiode.målgruppeType
                 }
                 onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
-                valg={målgruppeTypeOptionsForStønadsperiode}
+                valg={nyFaktiskMålgruppeTypeOptions}
                 size={'small'}
                 error={vedtaksperiodeFeil?.målgruppeType}
             />

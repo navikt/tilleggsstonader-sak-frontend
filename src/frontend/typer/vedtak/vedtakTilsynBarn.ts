@@ -1,8 +1,8 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { FormErrors } from '../../hooks/felles/useFormState';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { NyFaktiskMålgruppe } from '../../Sider/Behandling/Felles/nyFaktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { Periode, validerPeriode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
@@ -62,7 +62,7 @@ type Beregningsresultat = {
 export interface Vedtaksperiode {
     fom: string;
     tom: string;
-    målgruppe: MålgruppeType;
+    målgruppe: NyFaktiskMålgruppe;
     aktivitet: AktivitetType;
     antallBarn: number;
 }
@@ -76,7 +76,7 @@ type Beregningsgrunnlag = {
 export interface VedtaksperiodeTilsynBarn extends Periode {
     id: string;
     status?: PeriodeStatus;
-    målgruppeType?: MålgruppeType;
+    målgruppeType?: NyFaktiskMålgruppe;
     aktivitetType?: AktivitetType;
 }
 

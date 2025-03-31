@@ -3,16 +3,16 @@ import React from 'react';
 import { BodyShort, List } from '@navikt/ds-react';
 
 import { formaterTilTekstligDato } from '../../../utils/dato';
+import { nyFaktiskMålgruppeTilTekst } from '../Felles/nyFaktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { Stønadsperiode } from '../Inngangsvilkår/typer/stønadsperiode';
-import { målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export const StønadsperiodeListe: React.FC<{
     stønadsperioder: Stønadsperiode[];
     tittel: string;
 }> = ({ stønadsperioder, tittel }) => {
     const oppsummerStønadsperiode = (stønadsperiode: Stønadsperiode) => {
-        return `${formaterTilTekstligDato(stønadsperiode.fom)} - ${formaterTilTekstligDato(stønadsperiode.tom)} (${målgruppeTypeTilTekst(stønadsperiode.målgruppe)}, ${aktivitetTypeTilTekst(stønadsperiode.aktivitet)})`;
+        return `${formaterTilTekstligDato(stønadsperiode.fom)} - ${formaterTilTekstligDato(stønadsperiode.tom)} (${nyFaktiskMålgruppeTilTekst(stønadsperiode.målgruppe)}, ${aktivitetTypeTilTekst(stønadsperiode.aktivitet)})`;
     };
 
     if (stønadsperioder.length === 0) {

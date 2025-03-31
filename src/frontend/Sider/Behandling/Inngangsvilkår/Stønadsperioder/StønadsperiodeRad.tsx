@@ -10,14 +10,14 @@ import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
 import {
+    nyFaktiskMålgruppeTilTekst,
+    nyFaktiskMålgruppeTypeOptions,
+} from '../../Felles/nyFaktiskMålgruppe';
+import {
     aktivitetTypeTilTekst,
     valgbareAktivitetTyperForStønadsperiode,
 } from '../Aktivitet/utilsAktivitet';
 import { Stønadsperiode } from '../typer/stønadsperiode';
-import {
-    målgruppeTypeOptionsForStønadsperiode,
-    målgruppeTypeTilTekst,
-} from '../typer/vilkårperiode/målgruppe';
 
 interface Props {
     stønadsperide: Stønadsperiode;
@@ -72,13 +72,13 @@ const StønadsperiodeRad: React.FC<Props> = ({
             />
             <SelectMedOptions
                 erLesevisning={erLeservisning}
-                valg={målgruppeTypeOptionsForStønadsperiode}
+                valg={nyFaktiskMålgruppeTypeOptions}
                 label={'Målgruppe'}
                 hideLabel
                 readOnly={!alleFelterKanEndres}
                 value={
                     erLeservisning
-                        ? målgruppeTypeTilTekst(stønadsperide.målgruppe)
+                        ? nyFaktiskMålgruppeTilTekst(stønadsperide.målgruppe)
                         : stønadsperide.målgruppe
                 }
                 onChange={(e) => oppdaterStønadsperiode('målgruppe', e.target.value)}

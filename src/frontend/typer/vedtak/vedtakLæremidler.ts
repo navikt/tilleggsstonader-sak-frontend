@@ -1,8 +1,8 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { NyFaktiskMålgruppe } from '../../Sider/Behandling/Felles/nyFaktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
-import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
@@ -46,7 +46,7 @@ interface BeregningsresultatForPeriode {
     beløp: number;
     stønadsbeløp: number;
     utbetalingsdato: string;
-    målgruppe: MålgruppeType;
+    målgruppe: NyFaktiskMålgruppe;
     aktivitet: AktivitetType;
     delAvTidligereUtbetaling: boolean;
 }

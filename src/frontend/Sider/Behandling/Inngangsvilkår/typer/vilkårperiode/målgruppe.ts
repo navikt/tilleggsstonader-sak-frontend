@@ -86,18 +86,6 @@ export const målgruppeTypeOptionsForStønad = (stønadstype: Stønadstype): Sel
         label: målgruppeTypeTilTekst(type),
     }));
 };
-export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTypeTilTekst).map(
-    ([value, label]) => ({
-        value: value,
-        label: label,
-    })
-);
-
-export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.filter(
-    (option) =>
-        option.value !== MålgruppeType.INGEN_MÅLGRUPPE &&
-        option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
-);
 
 // TODO: Endre navn på enum
 // FaktiskMålgruppe brukes som navn foreløpig

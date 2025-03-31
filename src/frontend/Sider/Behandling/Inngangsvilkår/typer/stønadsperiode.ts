@@ -1,7 +1,7 @@
 import { AktivitetType } from './vilkårperiode/aktivitet';
-import { MålgruppeType } from './vilkårperiode/målgruppe';
 import { PeriodeStatus } from '../../../../typer/behandling/periodeStatus';
 import { Periode } from '../../../../utils/periode';
+import { NyFaktiskMålgruppe } from '../../Felles/nyFaktiskMålgruppe';
 
 /**
  * @field _ulagretId er en temporær nøkkel på stønadsperioden før stønadsperioden har blitt lagret.
@@ -10,7 +10,7 @@ import { Periode } from '../../../../utils/periode';
 export interface Stønadsperiode extends Periode {
     _ulagretId?: string;
     id?: string;
-    målgruppe: MålgruppeType | '';
+    målgruppe: NyFaktiskMålgruppe | '';
     aktivitet: AktivitetType | '';
     status?: PeriodeStatus;
 }
