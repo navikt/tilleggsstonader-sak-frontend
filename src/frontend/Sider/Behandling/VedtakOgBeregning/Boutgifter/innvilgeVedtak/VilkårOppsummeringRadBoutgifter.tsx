@@ -4,6 +4,7 @@ import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { VilkårOppsummeringRad } from '../../../OppsummeringVilkår/VilkårOppsummeringRad';
 import { Vilkårsvurdering } from '../../../vilkår';
+import { vilkårTypeTilUtgiftTekst } from '../../../Vilkårvurdering/tekster';
 
 export function VilkårOppsummeringRadBoutgifter(vilkårsvurdering: Vilkårsvurdering) {
     return (
@@ -16,7 +17,7 @@ export function VilkårOppsummeringRadBoutgifter(vilkårsvurdering: Vilkårsvurd
                         resultat={vilkår.resultat}
                         fom={vilkår.fom}
                         tom={vilkår.tom}
-                        gjelder={vilkår.vilkårType}
+                        gjelder={`${vilkår.utgift},- (${vilkårTypeTilUtgiftTekst[vilkår.vilkårType].toLowerCase()})`}
                     />
                 ))}
             </VStack>
