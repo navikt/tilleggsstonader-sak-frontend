@@ -94,6 +94,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { behandling } = useBehandling();
     const erUtgifterOvernatting = props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
+    const tillaterNullvedtak = useFlag(Toggle.TILLATER_NULLVEDAK);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -339,7 +340,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     }}
                 />
             </FeilmeldingMaksBredde>
-            {props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
+            {/*VENTER PÅ AVKLARING PÅ HVORDAN OG OM VI SKAL STØTTE NULLVEDTAK*/}
+            {tillaterNullvedtak && props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
                 <StyledSwitch
                     size={'small'}
                     checked={erNullvedtak}
