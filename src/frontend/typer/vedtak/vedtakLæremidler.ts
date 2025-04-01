@@ -66,5 +66,7 @@ export type OpphørLæremidler = OpphørRequest & {
 
 export interface Vedtaksperiode extends Periode {
     id: string;
+    målgruppeType?: FaktiskMålgruppe;
+    aktivitetType?: AktivitetType;
     status?: PeriodeStatus;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
@@ -9,18 +10,18 @@ import { useApp } from '../../../../../context/AppContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { Periode } from '../../../../../utils/periode';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Toggle } from '../../../../../utils/toggles';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(5, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(3n) {
+    > :nth-child(5n) {
         grid-column: 1;
     }
 `;
@@ -29,9 +30,9 @@ interface Props {
     vedtaksperioder: Vedtaksperiode[];
     lagredeVedtaksperioder: Map<string, Vedtaksperiode>;
     settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
-    vedtaksperioderFeil?: FormErrors<Periode>[];
+    vedtaksperioderFeil?: FormErrors<Vedtaksperiode>[];
     settVedtaksperioderFeil: React.Dispatch<
-        React.SetStateAction<FormErrors<Periode>[] | undefined>
+        React.SetStateAction<FormErrors<Vedtaksperiode>[] | undefined>
     >;
 }
 
@@ -46,10 +47,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { settUlagretKomponent } = useApp();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
+    const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
         value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {
@@ -58,7 +60,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
             return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
         });
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<Vedtaksperiode>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
@@ -76,7 +78,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
         const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
         settVedtaksperioder(oppdatertePerioder);
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<Vedtaksperiode>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
@@ -95,6 +97,17 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <Grid>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
+                    {skalSetteMålgruppeOgAktivitet ? (
+                        <>
+                            <Label size="small">Aktivitet</Label>
+                            <Label size="small">Målgruppe</Label>
+                        </>
+                    ) : (
+                        <>
+                            <div />
+                            <div />
+                        </>
+                    )}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}

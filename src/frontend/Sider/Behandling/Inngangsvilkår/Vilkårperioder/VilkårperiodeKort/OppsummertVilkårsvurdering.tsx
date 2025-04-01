@@ -10,7 +10,7 @@ import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstm
 import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
-import { faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
+import { FaktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { Målgruppe } from '../../typer/vilkårperiode/målgruppe';
@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgruppe, string> = {
-    ...faktiskMålgruppeTilTekst,
+    ...FaktiskMålgruppeTilTekst,
     SYKEPENGER_100_PROSENT: 'Ikke i målgruppe',
     INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
 };

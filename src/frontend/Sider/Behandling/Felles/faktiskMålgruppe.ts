@@ -10,7 +10,7 @@ export enum FaktiskMålgruppe {
     GJENLEVENDE = 'GJENLEVENDE',
 }
 
-export const faktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
+export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
@@ -18,20 +18,20 @@ export const faktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
 
 type MålgruppeEllerNyFaktiskMålgruppe = FaktiskMålgruppe | MålgruppeType;
 
-const nyFaktiskMålgruppeOgMålgruppe: Record<MålgruppeEllerNyFaktiskMålgruppe, string> = {
+const faktiskMålgruppeOgMålgruppe: Record<MålgruppeEllerNyFaktiskMålgruppe, string> = {
     ...MålgruppeTypeTilTekst,
-    ...faktiskMålgruppeTilTekst,
+    ...FaktiskMålgruppeTilTekst,
 };
 
 // TODO fjern kobling til målgruppe når den ikke trengs
-export const nyFaktiskMålgruppeTilTekst = (type: MålgruppeEllerNyFaktiskMålgruppe | '') => {
+export const faktiskMålgruppeTilTekst = (type: MålgruppeEllerNyFaktiskMålgruppe | '') => {
     if (type === '') return type;
 
-    return nyFaktiskMålgruppeOgMålgruppe[type];
+    return faktiskMålgruppeOgMålgruppe[type];
 };
 
-export const nyFaktiskMålgruppeTypeOptions: SelectOption[] = Object.entries(
-    faktiskMålgruppeTilTekst
+export const faktiskMålgruppeTypeOptions: SelectOption[] = Object.entries(
+    FaktiskMålgruppeTilTekst
 ).map(([value, label]) => ({
     value: value,
     label: label,

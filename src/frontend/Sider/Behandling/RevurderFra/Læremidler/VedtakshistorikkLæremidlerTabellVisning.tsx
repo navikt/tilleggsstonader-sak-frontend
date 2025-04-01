@@ -4,7 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { vedtakErAvslag, VedtakLæremidler } from '../../../../typer/vedtak/vedtakLæremidler';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
-import { nyFaktiskMålgruppeTilTekst } from '../../Felles/faktiskMålgruppe';
+import { faktiskMålgruppeTilTekst } from '../../Felles/faktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { studienivåTilTekst } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 
@@ -37,7 +37,7 @@ const VedtakshistorikkLæremidlerTabellVisning: React.FC<Props> = ({ vedtakLære
                                 <Table.DataCell>{formaterNullableIsoDato(fom)}</Table.DataCell>
                                 <Table.DataCell>{formaterNullableIsoDato(tom)}</Table.DataCell>
                                 <Table.DataCell>
-                                    {nyFaktiskMålgruppeTilTekst(målgruppe)}
+                                    {faktiskMålgruppeTilTekst(målgruppe)}
                                 </Table.DataCell>
                                 <Table.DataCell>{aktivitetTypeTilTekst(aktivitet)}</Table.DataCell>
                                 <Table.DataCell>{studienivåTilTekst[studienivå]}</Table.DataCell>

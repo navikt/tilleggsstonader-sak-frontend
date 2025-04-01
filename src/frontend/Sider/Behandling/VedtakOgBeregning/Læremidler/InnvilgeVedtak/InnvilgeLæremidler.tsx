@@ -53,7 +53,7 @@ export const InnvilgeLæremidler: React.FC<{
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
 
-    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Periode>[]>();
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
 

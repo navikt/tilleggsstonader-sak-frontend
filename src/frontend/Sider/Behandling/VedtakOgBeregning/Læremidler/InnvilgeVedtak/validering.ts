@@ -1,16 +1,19 @@
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[],
     lagredeVedstaksperioder: Map<string, Vedtaksperiode>,
     revurderesFraDato?: string
-): FormErrors<Periode[]> =>
+): FormErrors<Vedtaksperiode[]> =>
     vedtaksperioder.map((periode) => {
-        const feil: FormErrors<Periode> = {
+        const feil: FormErrors<Vedtaksperiode> = {
+            id: undefined,
             fom: undefined,
             tom: undefined,
+            målgruppeType: undefined,
+            aktivitetType: undefined,
         };
 
         const lagretPeriode = lagredeVedstaksperioder.get(periode.id);
@@ -22,6 +25,8 @@ export const validerVedtaksperioder = (
                 ...periodeValidering,
             };
         }
+
+        // TODO validering av målgruppe/aktivitet ?
 
         return feil;
     });
