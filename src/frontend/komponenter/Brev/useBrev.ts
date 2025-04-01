@@ -18,6 +18,8 @@ const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
             return 'BARNETILSYN';
         case Stønadstype.LÆREMIDLER:
             return 'LAREMIDLER';
+        case Stønadstype.BOUTGIFTER:
+            return 'BOUTGIFTER';
         default:
             return 'ikke-definiert';
     }
