@@ -99,28 +99,6 @@ export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.fil
         option.value !== MålgruppeType.SYKEPENGER_100_PROSENT
 );
 
-// TODO: Endre navn på enum
-// FaktiskMålgruppe brukes som navn foreløpig
-// Disse verdiene er faktiske målgrupper, mens målgruppetype burde hete noe ala hovedytelse eller liknende
-export enum FaktiskMålgruppe {
-    NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
-    ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
-    GJENLEVENDE = 'GJENLEVENDE',
-    SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
-    INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
-}
-
-export const MålgruppeTypeTilFaktiskMålgruppe: Record<MålgruppeType, FaktiskMålgruppe> = {
-    AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
-    OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
-    NEDSATT_ARBEIDSEVNE: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    SYKEPENGER_100_PROSENT: FaktiskMålgruppe.SYKEPENGER_100_PROSENT,
-    INGEN_MÅLGRUPPE: FaktiskMålgruppe.INGEN_MÅLGRUPPE,
-    GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
-};
-
 export interface MålgruppeVurderinger {
     medlemskap: Vurdering | undefined;
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;

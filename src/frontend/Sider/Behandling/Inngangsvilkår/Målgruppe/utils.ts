@@ -6,16 +6,16 @@ import {
 } from '../../../../typer/registerytelser';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
+import { FaktiskMålgruppe } from '../../Felles/faktiskMålgruppe';
 import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
-    FaktiskMålgruppe,
     Målgruppe,
     MålgruppeType,
-    MålgruppeTypeTilFaktiskMålgruppe,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
+import { målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe } from '../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
 import {
     SubtypeYtelseGrunnlag,
     SvarJaNei,
@@ -78,7 +78,10 @@ export const målgrupperHvorMedlemskapMåVurderes = [
 ];
 
 export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) => {
-    return MålgruppeTypeTilFaktiskMålgruppe[målgruppeType] === FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE;
+    return (
+        målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe[målgruppeType] ===
+        FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE
+    );
 };
 
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
