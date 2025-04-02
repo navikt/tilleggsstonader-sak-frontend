@@ -58,14 +58,16 @@ const LesevisningVilkår: FC<{
                             : `kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
                     </BodyShort>
                 </VStack>
-                <VStack>
+                <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
                     {delvilkårsett.map((delvilkår, index) => (
                         <React.Fragment key={index}>
                             <Vurderingsrad delvilkår={delvilkår} />
-                            {index !== delvilkårsett.length - 1 && <Skillelinje />}
+                            {index !== delvilkårsett.length - 1 && (
+                                <Skillelinje style={{ gridColumn: 'span 2' }} />
+                            )}
                         </React.Fragment>
                     ))}
-                </VStack>
+                </HGrid>
                 {skalViseRedigeringsknapp && (
                     <Redigeringsknapp
                         variant="tertiary"

@@ -47,7 +47,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
     DOKUMENTERT_UTGIFTER_OVERNATTING: `Dokumentert utgift tilfredsstillende?`,
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
-    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Dokumentert høyere utgift?',
+    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Høyere utgift på aktivitetssted?',
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødvendig å bo nærmere aktivitetssted?',
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsaker?',
