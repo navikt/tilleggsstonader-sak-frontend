@@ -36,6 +36,8 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte for boligen de søker om støtte til?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
+    DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
+    SØKER_DELTA_PÅ: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -43,12 +45,14 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
     NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
+    DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
     HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Dokumentert høyere utgift?',
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødvendig å bo nærmere aktivitetssted?',
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsaker?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgifter?',
+    SØKER_DELTA_PÅ: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
