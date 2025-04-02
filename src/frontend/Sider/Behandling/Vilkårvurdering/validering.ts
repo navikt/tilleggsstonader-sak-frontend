@@ -48,7 +48,7 @@ export const validerVilkårsvurderinger = (
                 vurdering.svar === 'JA'
             ) {
                 valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
-                    'Vi støtter ikke beregning med "Høyere utgifter grunnet helsemessig årsaker". Ta kontakt med Tilleggsstønader teamet.';
+                    'Løsningen støtter ikke dette valget enda. Ta kontakt med Tilleggsstønader-teamet.';
                 return;
             }
 
