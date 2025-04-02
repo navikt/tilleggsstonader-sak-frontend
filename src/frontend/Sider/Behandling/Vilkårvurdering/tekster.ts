@@ -37,7 +37,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
     DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
-    SØKER_DELTA_PÅ: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
+    DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -52,7 +52,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift av helsemessige årsak?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgift tilfredsstillende?',
-    SØKER_DELTA_PÅ: `Dokumentert samling e.l.?`,
+    DOKUMENTERT_DELTAKELSE: `Dokumentert samling e.l.?`,
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
