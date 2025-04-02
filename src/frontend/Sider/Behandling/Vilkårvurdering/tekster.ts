@@ -44,11 +44,11 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
     NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
-    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Dokumentert høyere utgift?',
+    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Høyere utgift på aktivitetssted?',
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødvendig å bo nærmere aktivitetssted?',
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
-    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsaker?',
-    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgifter?',
+    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift av helsemessige årsak?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgift tilfredsstillende?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
