@@ -20,10 +20,10 @@ export const mottarSykepengerForFulltidsstillingSvarTilTekst: Record<
     SvarJaNei,
     string | undefined
 > = {
-    [SvarJaNei.JA]: 'Mottar 100% sykepenger for fulltidsstilling',
-    [SvarJaNei.NEI]: 'Mottar ikke 100% sykepenger for fulltidsstilling',
+    [SvarJaNei.JA]: 'Mottar sykepenger for fulltidsstilling',
+    [SvarJaNei.NEI]: 'Mottar ikke sykepenger for fulltidsstilling',
     [SvarJaNei.JA_IMPLISITT]: undefined,
-    [SvarJaNei.NEI_IMPLISITT]: 'Mottar ikke 100% sykepenger for fulltidsstilling',
+    [SvarJaNei.NEI_IMPLISITT]: 'Mottar ikke sykepenger for fulltidsstilling',
 };
 
 export const lønnetSvarTilTekst: Record<SvarJaNei, string | undefined> = {
@@ -70,7 +70,7 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     harUtgifter: 'har utgifter til læremidler',
     harRettTilUtstyrsstipend: 'har rett til utstyrsstipend',
     aldersvilkår: 'aldersvilkår',
-    mottarSykepengerForFulltidsstilling: 'mottar 100% sykepenger for fulltidsstilling',
+    mottarSykepengerForFulltidsstilling: 'mottar sykepenger for fulltidsstilling',
 };
 
 export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
