@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
-import { Stønadstype, stønadstypeTilVedtakUrl } from '../typer/behandling/behandlingTema';
+import { stønadstypeTilVedtakUrl } from '../Sider/Behandling/VedtakOgBeregning/Felles/stønadstypeTilVedtakUrl';
+import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { VedtakResponse } from '../typer/vedtak/vedtak';
 

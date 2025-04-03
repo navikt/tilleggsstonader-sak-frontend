@@ -14,9 +14,9 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { stønadstypeTilVedtakUrl } from '../../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { stønadstypeTilVedtakUrl } from '../stønadstypeTilVedtakUrl';
 
 const Grid = styled.div`
     display: grid;

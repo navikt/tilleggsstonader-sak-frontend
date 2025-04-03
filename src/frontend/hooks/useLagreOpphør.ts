@@ -1,6 +1,6 @@
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
-import { stønadstypeTilVedtakUrl } from '../typer/behandling/behandlingTema';
+import { stønadstypeTilVedtakUrl } from '../Sider/Behandling/VedtakOgBeregning/Felles/stønadstypeTilVedtakUrl';
 import { TypeVedtak, ÅrsakOpphør } from '../typer/vedtak/vedtak';
 
 export type OpphørRequest = {

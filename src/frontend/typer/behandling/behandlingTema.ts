@@ -9,9 +9,3 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     LÆREMIDLER: 'Læremidler',
     BOUTGIFTER: 'Bolig/overnatting',
 };
-
-export const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
-    [Stønadstype.BARNETILSYN]: 'tilsyn-barn',
-    [Stønadstype.LÆREMIDLER]: 'laremidler',
-    [Stønadstype.BOUTGIFTER]: 'boutgifter',
-};
