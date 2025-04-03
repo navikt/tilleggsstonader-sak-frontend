@@ -29,6 +29,12 @@ function behandleInnvilgelse(
             beregningsresultat.gjelderFraOgMed,
             beregningsresultat.gjelderTilOgMed
         );
+    } else if (behandling.stønadstype === Stønadstype.BOUTGIFTER) {
+        const innvilgelseBoutgifter = vedtak as InnvilgelseBoutgifter;
+        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+            innvilgelseBoutgifter.gjelderFraOgMed,
+            innvilgelseBoutgifter.gjelderTilOgMed
+        );
     } else {
         return TOMME_VERDIER;
     }
