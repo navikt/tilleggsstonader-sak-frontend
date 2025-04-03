@@ -1,4 +1,5 @@
 import { RegelId } from '../../../typer/regel';
+import { StønadsvilkårType } from '../vilkår';
 
 export const svarIdTilTekst: Record<string, string> = {
     JA: 'Ja',
@@ -35,6 +36,8 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     RETT_TIL_BOSTØTTE: 'Har søker rett til bostøtte for boligen de søker om støtte til?',
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
+    DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
+    DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -42,12 +45,14 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     ANNEN_FORELDER_MOTTAR_STØTTE: 'Mottar annen forelder støtte?',
     HAR_FULLFØRT_FJERDEKLASSE: 'Ferdig med 4. skoleår?',
     NØDVENDIGE_MERUTGIFTER: 'Har nødvendige merutgifter?',
+    DOKUMENTERT_UTGIFTER_OVERNATTING: `Dokumentert utgift tilfredsstillende?`,
     UNNTAK_ALDER: 'Unntak fra aldersregelen?',
-    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Dokumentert høyere utgift?',
-    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødveidg å bo nærmere aktivitetssted?',
+    HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE: 'Høyere utgift på aktivitetssted?',
+    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Nødvendig å bo nærmere aktivitetssted?',
     RETT_TIL_BOSTØTTE: 'Rett til bostøtte?',
-    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift grunnet helsemessige årsak?',
-    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgifter?',
+    HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift av helsemessige årsak?',
+    DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgift tilfredsstillende?',
+    DOKUMENTERT_DELTAKELSE: `Dokumentert samling e.l.?`,
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
@@ -57,4 +62,11 @@ export const hjelpetekster: Record<RegelId, string[]> = {
         'Faktura fra barnehage må i tillegg inneholde eventuelle kostnader til bleier, så det er mulig å trekke dette fra.',
         'Ved privat pass så skal det vurderes om det er sannsynlig at søker har hatt utgifter til barnepass i perioden det søkes for. Avtale mellom barnepasser og søker eller A-melding kan være eksempler på dokumentasjon som godtas. Skjermbilde av betalinger via vipps eller bankutskrift godkjennes ikke. ',
     ],
+};
+
+export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
+    PASS_BARN: 'Månedlig utgift',
+    UTGIFTER_OVERNATTING: 'Utgift',
+    LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
+    LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
 };

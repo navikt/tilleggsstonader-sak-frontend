@@ -29,6 +29,7 @@ import {
     formaterIsoDatoTid,
     førsteDagIMånederForut,
 } from '../../../utils/dato';
+import { MålgruppeType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
 
 const Container = styled(VStack)`
@@ -89,15 +90,22 @@ const sort = (b: OppfølgingMedDetaljer, a: OppfølgingMedDetaljer) => {
 const filtrerOgSorter = (
     oppfølginger: OppfølgingMedDetaljer[],
     visKunManglerKontroll: boolean,
-    visKunWarningTag: boolean
+    visKunWarningTag: boolean,
+    skjulAAP: boolean
 ) =>
     oppfølginger
         .filter((oppfølging) => (visKunManglerKontroll ? manglerKontroll(oppfølging) : true))
         .filter((oppfølging) => (visKunWarningTag ? oppfølging.skalViseWarningTag : true))
+        .filter((oppfølging) => !skjulAAP || inneholderIkkeKunAAP(oppfølging))
         .sort((a, b) => sort(b, a));
 
 const manglerKontroll = (oppfølging: OppfølgingMedDetaljer) =>
     !(oppfølging.kontrollert && oppfølging.kontrollert.utfall != OppfølgingUtfall.UNDER_ARBEID);
+
+const inneholderIkkeKunAAP = (oppfølging: OppfølgingMedDetaljer) =>
+    oppfølging.data.perioderTilKontroll.some(
+        (periode) => periode.målgruppe !== MålgruppeType.AAP || periode.endringAktivitet.length
+    );
 
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
@@ -106,6 +114,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
     const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
     const [visKunManglerKontroll, settVisKunManglerKontroll] = useState(true);
     const [visKunWarningTag, settVisKunWarningTag] = useState(false);
+    const [skjulAAP, settSkjulAAP] = useState(false);
 
     const oppdaterOppfølging = (oppfølging: Oppfølging) => {
         settOppfølginger((prevState) =>
@@ -118,8 +127,8 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
     };
 
     const filtrerteOppfølginger = useMemo(
-        () => filtrerOgSorter(oppfølginger, visKunManglerKontroll, visKunWarningTag),
-        [oppfølginger, visKunManglerKontroll, visKunWarningTag]
+        () => filtrerOgSorter(oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP),
+        [oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP]
     );
     return (
         <Container gap={'4'}>
@@ -151,6 +160,14 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     onChange={() => settVisKunWarningTag((prevState) => !prevState)}
                 >
                     Vis kun viktige
+                </Checkbox>
+                <Checkbox
+                    size={'small'}
+                    value={skjulAAP}
+                    defaultChecked={skjulAAP}
+                    onChange={() => settSkjulAAP((prevState) => !prevState)}
+                >
+                    Skul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
                 </Checkbox>
             </div>
             <VStack gap={'8'} style={{ width: 'fit-content' }}>

@@ -25,7 +25,7 @@ interface IÅrsak {
     endring: (komponentId: string) => void;
 }
 
-export const Årsak: React.FC<IÅrsak> = ({
+export const VelgÅrsakOmgjøring: React.FC<IÅrsak> = ({
     settÅrsak,
     årsakValgt,
     årsakValgmuligheter,

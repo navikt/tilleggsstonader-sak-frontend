@@ -42,6 +42,16 @@ export const validerVilkårsvurderinger = (
         .forEach((vurdering) => {
             const gjeldendeRegel = vurdering.regelId;
 
+            // I MVPen krever vi at svarer på "Har søker høyere utgifter grunnet helsemessige årsaker?" er "Nei" da vi ikke har støtte for å beregne dette
+            if (
+                gjeldendeRegel === 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER' &&
+                vurdering.svar === 'JA'
+            ) {
+                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
+                    'Løsningen støtter ikke dette valget enda. Ta kontakt med Tilleggsstønader-teamet.';
+                return;
+            }
+
             if (!vurdering.svar) {
                 valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] = 'Du må ta et valg';
                 return;

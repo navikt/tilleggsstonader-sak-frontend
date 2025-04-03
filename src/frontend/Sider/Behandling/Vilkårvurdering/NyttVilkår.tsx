@@ -8,10 +8,10 @@ import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Regler } from '../../../typer/regel';
-import { Delvilkår, RedigerbareVilkårfelter, Vilkårtype } from '../vilkår';
+import { Delvilkår, RedigerbareVilkårfelter, StønadsvilkårType } from '../vilkår';
 
 export const NyttVilkår: React.FC<{
-    vilkårtype: Vilkårtype;
+    vilkårtype: StønadsvilkårType;
     vilkårsregler: Regler;
     barnId?: string;
     lagTomtDelvilkårsett: () => Delvilkår[];

@@ -36,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 
     app.use(devMiddleware);
+    // @ts-ignore
     app.use(webpackHotMiddleware(compiler));
     setupLocal(app);
 } else {

@@ -22,9 +22,9 @@ export enum Inngangsvilkårtype {
 }
 
 export enum StønadsvilkårType {
-    MIDLERTIDIG_OVERNATTING = 'MIDLERTIDIG_OVERNATTING',
-    FASTE_UTGIFTER_EN_BOLIG = 'FASTE_UTGIFTER_EN_BOLIG',
-    FASTE_UTGIFTER_TO_BOLIGER = 'FASTE_UTGIFTER_TO_BOLIGER',
+    UTGIFTER_OVERNATTING = 'UTGIFTER_OVERNATTING',
+    LØPENDE_UTGIFTER_EN_BOLIG = 'LØPENDE_UTGIFTER_EN_BOLIG',
+    LØPENDE_UTGIFTER_TO_BOLIGER = 'LØPENDE_UTGIFTER_TO_BOLIGER',
     PASS_BARN = 'PASS_BARN',
 }
 
@@ -39,7 +39,7 @@ export interface Vilkår {
     behandlingId: string;
     resultat: Vilkårsresultat;
     status: PeriodeStatus;
-    vilkårType: Vilkårtype;
+    vilkårType: StønadsvilkårType;
     barnId?: string;
     endretAv: string;
     endretTid: string;

@@ -40,9 +40,9 @@ import {
     RedigerbareVilkårfelter,
     StønadsvilkårType,
     Vilkår,
-    Vilkårtype,
     Vurdering,
 } from '../vilkår';
+import { vilkårTypeTilUtgiftTekst } from './tekster';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -86,14 +86,15 @@ type EndreVilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
-    vilkårtype: Vilkårtype;
+    vilkårtype: StønadsvilkårType;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erMidlertidigOvernatting = props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING;
+    const erUtgifterOvernatting = props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
+    const tillaterNullvedtak = useFlag(Toggle.TILLATER_NULLVEDAK);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -244,7 +245,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erMidlertidigOvernatting ? (
+                {erUtgifterOvernatting ? (
                     <DateInputMedLeservisning
                         label={'Fra'}
                         value={fom}
@@ -287,7 +288,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erMidlertidigOvernatting ? (
+                {erUtgifterOvernatting ? (
                     <DateInputMedLeservisning
                         label={'Til'}
                         value={tom}
@@ -328,7 +329,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label={erMidlertidigOvernatting ? 'Utgift' : 'Månedlig utgift'}
+                    label={vilkårTypeTilUtgiftTekst[props.vilkårtype]}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
@@ -339,7 +340,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     }}
                 />
             </FeilmeldingMaksBredde>
-            {props.vilkårtype === StønadsvilkårType.MIDLERTIDIG_OVERNATTING && (
+            {/*VENTER PÅ AVKLARING PÅ HVORDAN OG OM VI SKAL STØTTE NULLVEDTAK*/}
+            {tillaterNullvedtak && props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
                 <StyledSwitch
                     size={'small'}
                     checked={erNullvedtak}

@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    Button,
+    Heading,
+    HStack,
+    Label,
+    ReadMore,
+    VStack,
+} from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
-import { Periode } from '../../../../../utils/periode';
+import { RessursStatus } from '../../../../../typer/ressurs';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Toggle } from '../../../../../utils/toggles';
 
-const Grid = styled.div`
+const Grid = styled.div<{ skalSetteMålgruppeOgAktivitet: boolean }>`
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(3n) {
+    > :nth-child(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}n) {
         grid-column: 1;
     }
 `;
@@ -29,10 +42,12 @@ interface Props {
     vedtaksperioder: Vedtaksperiode[];
     lagredeVedtaksperioder: Map<string, Vedtaksperiode>;
     settVedtaksperioder: React.Dispatch<React.SetStateAction<Vedtaksperiode[]>>;
-    vedtaksperioderFeil?: FormErrors<Periode>[];
+    vedtaksperioderFeil?: FormErrors<Vedtaksperiode>[];
     settVedtaksperioderFeil: React.Dispatch<
-        React.SetStateAction<FormErrors<Periode>[] | undefined>
+        React.SetStateAction<FormErrors<Vedtaksperiode>[] | undefined>
     >;
+    foreslåPeriodeFeil?: string;
+    settForeslåPeriodeFeil: React.Dispatch<string | undefined>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -41,15 +56,19 @@ export const Vedtaksperioder: React.FC<Props> = ({
     settVedtaksperioder,
     vedtaksperioderFeil,
     settVedtaksperioderFeil,
+    foreslåPeriodeFeil,
+    settForeslåPeriodeFeil,
 }) => {
     const { erStegRedigerbart } = useSteg();
-    const { settUlagretKomponent } = useApp();
+    const { request, settUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
+    const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
         value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {
@@ -58,7 +77,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
             return prevState.map((periode, i) => (i === indeks ? oppdatertPeriode : periode));
         });
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<Vedtaksperiode>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
@@ -76,11 +95,30 @@ export const Vedtaksperioder: React.FC<Props> = ({
         const oppdatertePerioder = vedtaksperioder.filter((_, i) => i != indeks);
         settVedtaksperioder(oppdatertePerioder);
 
-        settVedtaksperioderFeil((prevState: FormErrors<Periode>[] | undefined) =>
+        settVedtaksperioderFeil((prevState: FormErrors<Vedtaksperiode>[] | undefined) =>
             prevState?.filter((_, i) => i !== indeks)
         );
 
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+    };
+
+    const foreslåVedtaksperioder = () => {
+        request<Vedtaksperiode[], null>(
+            `/api/sak/vedtak/laremidler/${behandling.id}/foresla`,
+            'GET'
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                const perioder = res.data.map((periode) => ({
+                    ...periode,
+                    id: uuid(),
+                }));
+                settVedtaksperioder(perioder);
+                settForeslåPeriodeFeil(undefined);
+                settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+            } else {
+                settForeslåPeriodeFeil(res.frontendFeilmelding);
+            }
+        });
     };
 
     return (
@@ -92,9 +130,15 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <Grid>
+                <Grid skalSetteMålgruppeOgAktivitet={skalSetteMålgruppeOgAktivitet}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
+                    {skalSetteMålgruppeOgAktivitet && (
+                        <>
+                            <Label size="small">Aktivitet</Label>
+                            <Label size="small">Målgruppe</Label>
+                        </>
+                    )}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -112,15 +156,34 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 </Grid>
             )}
             {erStegRedigerbart && (
-                <Button
-                    size="small"
-                    onClick={leggTilPeriode}
-                    style={{ maxWidth: 'fit-content' }}
-                    variant="secondary"
-                    icon={<PlusCircleIcon />}
-                >
-                    Legg til vedtaksperiode
-                </Button>
+                <>
+                    <HStack gap={'2'}>
+                        <Button
+                            size="small"
+                            onClick={leggTilPeriode}
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til vedtaksperiode
+                        </Button>
+                        {skalSetteMålgruppeOgAktivitet && (
+                            <Button
+                                size="small"
+                                onClick={foreslåVedtaksperioder}
+                                style={{ maxWidth: 'fit-content' }}
+                                variant="tertiary"
+                            >
+                                Foreslå vedtaksperioder
+                            </Button>
+                        )}
+                    </HStack>
+                    {foreslåPeriodeFeil && (
+                        <Alert variant="error" title="Klarte ikke å preutfylle periode">
+                            {foreslåPeriodeFeil}
+                        </Alert>
+                    )}
+                </>
             )}
         </VStack>
     );

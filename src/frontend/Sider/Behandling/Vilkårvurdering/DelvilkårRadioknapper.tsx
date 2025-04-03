@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Radio, RadioGroup } from '@navikt/ds-react';
+import { Detail, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
@@ -67,6 +67,8 @@ const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
             return <SlikGjørDuVurderingen regelId={regelId} />;
+        case 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER':
+            return <Detail>Skal søker få dekket faktiske utgifter?</Detail>;
         default:
             return null;
     }

@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, Textarea } from '@navikt/ds-react';
 
 import { HjemmelVelger } from './HjemmelVelger';
 import { InterntNotat } from './InterntNotat';
 import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
 import { Vedtak } from './Vedtak';
+import { VelgÅrsakOmgjøring } from './VelgÅrsakOmgjøring';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
-import { Årsak } from './Årsak';
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import {
@@ -27,12 +27,12 @@ import {
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { useVurdering } from '../../hooks/useVurdering';
-import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
+    max-width: 50rem;
 `;
 
 const AlertStyled = styled(Alert)`
@@ -150,14 +150,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 />
                                 {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                                     <>
-                                        <Årsak
+                                        <VelgÅrsakOmgjøring
                                             settÅrsak={settOppdatertVurdering}
                                             årsakValgt={oppdatertVurdering.årsak}
                                             årsakValgmuligheter={årsakValgTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>
-                                            <EnsligTextArea
+                                            <Textarea
                                                 label="Begrunnelse for omgjøring (internt notat)"
                                                 value={oppdatertVurdering.begrunnelseOmgjøring}
                                                 onChange={(e) => {
@@ -169,7 +169,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                     settVurderingEndret(true);
                                                 }}
                                                 size="medium"
-                                                erLesevisning={false}
                                             />
                                         </FritekstFeltWrapper>
                                     </>
@@ -182,7 +181,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>
-                                            <EnsligTextArea
+                                            <Textarea
                                                 label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
                                                 value={
                                                     oppdatertVurdering.innstillingKlageinstans || ''
@@ -196,7 +195,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                     settVurderingEndret(true);
                                                 }}
                                                 size="medium"
-                                                erLesevisning={false}
                                             />
                                             <LesMerTekstInnstilling />
                                         </FritekstFeltWrapper>

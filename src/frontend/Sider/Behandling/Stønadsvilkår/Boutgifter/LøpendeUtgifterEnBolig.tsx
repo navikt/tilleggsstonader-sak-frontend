@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Buildings2Icon } from '@navikt/aksel-icons';
+import { HouseHeartIcon } from '@navikt/aksel-icons';
 
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -14,16 +14,16 @@ interface Props {
     vilkårsregler: Regler;
 }
 
-const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
+const LøpendeUtgifterEnBolig: React.FC<Props> = ({ vilkårsregler }) => {
     const { vilkårsvurdering } = useVilkår();
     const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === StønadsvilkårType.MIDLERTIDIG_OVERNATTING
+        (v) => v.vilkårType === StønadsvilkårType.LØPENDE_UTGIFTER_EN_BOLIG
     );
 
     return (
         <VilkårPanel
-            tittel={'Midlertidig overnatting'}
-            ikon={<Buildings2Icon />}
+            tittel={'Løpende utgifter en bolig'}
+            ikon={<HouseHeartIcon />}
             paragraflenker={[]}
             rundskrivlenke={[]}
             forskriftlenker={[]}
@@ -32,7 +32,7 @@ const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}
             <NyttVilkår
-                vilkårtype={StønadsvilkårType.MIDLERTIDIG_OVERNATTING}
+                vilkårtype={StønadsvilkårType.LØPENDE_UTGIFTER_EN_BOLIG}
                 vilkårsregler={vilkårsregler}
                 lagTomtDelvilkårsett={() =>
                     lagTomtDelvilkårsett(vilkårsregler, (regelId) => tomVurdering(regelId))
@@ -42,4 +42,4 @@ const MidlertidigOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     );
 };
 
-export default MidlertidigOvernatting;
+export default LøpendeUtgifterEnBolig;

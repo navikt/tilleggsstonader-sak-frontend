@@ -102,6 +102,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 }));
                 settVedtaksperioder(perioder);
                 settForeslåPeriodeFeil(undefined);
+                settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
             } else {
                 settForeslåPeriodeFeil(res.frontendFeilmelding);
             }

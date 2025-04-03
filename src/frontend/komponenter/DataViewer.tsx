@@ -38,7 +38,7 @@ const renderChildren = (children: any, response: any): ReactElement => {
 
 function DataViewer<T extends Record<string, unknown>>(
     props: DataViewerProps<T>
-): JSX.Element | null {
+): ReactNode | null {
     const { response, children } = props;
     const responses = Object.values(response);
 

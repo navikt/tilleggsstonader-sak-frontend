@@ -60,10 +60,7 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endrin
                     selectedOptions={selectedOptions}
                     onToggleSelected={onToggleSelected}
                     isMultiSelect={true}
-                    maxSelected={{
-                        limit: 2,
-                        message: `2 av maks 2 er valgt`,
-                    }}
+                    maxSelected={2}
                 />
             </HjemmelInnholdStyled>
         </HjemmelStyled>

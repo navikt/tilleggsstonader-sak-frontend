@@ -4,13 +4,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Textarea } from '@navikt/ds-react';
 
 import { harVerdi } from '../../../../utils/utils';
-import { EnsligTextArea } from '../../Komponenter/EnsligTextArea/EnsligTextArea';
 
 const FritekstWrapper = styled.div`
     margin: 0 4rem 2rem 4rem;
+    max-width: 50rem;
 `;
 
 const KnappWrapper = styled.div`
@@ -54,9 +54,9 @@ export const InterntNotat: React.FC<{
             </KnappWrapper>
             {skalViseFritekstFelt && (
                 <FritekstWrapper>
-                    <EnsligTextArea
+                    <Textarea
                         label={'Internt notat'}
-                        erLesevisning={!behandlingErRedigerbar}
+                        readOnly={!behandlingErRedigerbar}
                         onChange={(e) => oppdaterTekst(e.target.value)}
                         value={tekst}
                     />
