@@ -27,13 +27,13 @@ import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { Toggle } from '../../../../../utils/toggles';
 
-const Grid = styled.div`
+const Grid = styled.div<{ skalSetteMålgruppeOgAktivitet: boolean }>`
     display: grid;
-    grid-template-columns: repeat(5, max-content);
+    grid-template-columns: repeat(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(5n) {
+    > :nth-child(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}n) {
         grid-column: 1;
     }
 `;
@@ -130,18 +130,13 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <Grid>
+                <Grid skalSetteMålgruppeOgAktivitet={skalSetteMålgruppeOgAktivitet}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {skalSetteMålgruppeOgAktivitet ? (
+                    {skalSetteMålgruppeOgAktivitet && (
                         <>
                             <Label size="small">Aktivitet</Label>
                             <Label size="small">Målgruppe</Label>
-                        </>
-                    ) : (
-                        <>
-                            <div />
-                            <div />
                         </>
                     )}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (

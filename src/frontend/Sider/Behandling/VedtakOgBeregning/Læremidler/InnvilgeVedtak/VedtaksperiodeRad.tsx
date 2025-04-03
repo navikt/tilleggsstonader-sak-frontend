@@ -85,7 +85,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {skalSetteMålgruppeOgAktivitet ? (
+            {skalSetteMålgruppeOgAktivitet && (
                 <>
                     <FeilmeldingMaksBredde>
                         <SelectMedOptions
@@ -121,11 +121,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                             error={vedtaksperiodeFeil?.målgruppeType}
                         />
                     </FeilmeldingMaksBredde>
-                </>
-            ) : (
-                <>
-                    <div />
-                    <div />
                 </>
             )}
             <div>
