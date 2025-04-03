@@ -5,7 +5,6 @@ import { Button, Table, Textarea, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { lagFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
@@ -18,7 +17,6 @@ import {
     KildeVilkårsperiode,
     LagreVilkårperiodeResponse,
     SlettVilkårperiode,
-    StønadsperiodeStatus,
 } from '../typer/vilkårperiode/vilkårperiode';
 
 type Response = LagreVilkårperiodeResponse<Aktivitet | Målgruppe | null>;
@@ -29,8 +27,7 @@ const SlettVilkårperiode: React.FC<{
 }> = ({ vilkårperiode, avbrytRedigering }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const { oppdaterAktivitet, oppdaterMålgruppe, settStønadsperiodeFeil, slettVilkårperiode } =
-        useInngangsvilkår();
+    const { oppdaterAktivitet, oppdaterMålgruppe, slettVilkårperiode } = useInngangsvilkår();
 
     const kanSlettePeriodePermanent =
         vilkårperiode.kilde !== KildeVilkårsperiode.SYSTEM &&
@@ -58,8 +55,6 @@ const SlettVilkårperiode: React.FC<{
         )
             .then((res: RessursSuksess<Response> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    oppdaterStønadsperiodeFeil(res.data);
-
                     if (res.data.periode) {
                         markerPeriodeSomSlettet(res.data.periode);
                     } else {
@@ -80,14 +75,6 @@ const SlettVilkårperiode: React.FC<{
             oppdaterMålgruppe(periode);
         } else {
             oppdaterAktivitet(periode);
-        }
-    };
-
-    const oppdaterStønadsperiodeFeil = (response: Response) => {
-        if (response.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
-            settStønadsperiodeFeil(undefined);
-        } else if (response.stønadsperiodeFeil) {
-            settStønadsperiodeFeil(lagFeilmelding(response.stønadsperiodeFeil));
         }
     };
 

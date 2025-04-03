@@ -9,7 +9,6 @@ import Målgruppe from './Målgruppe/Målgruppe';
 import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
-import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
@@ -39,7 +38,6 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
 const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
 
-    const { stønadsperioder } = useStønadsperioder(behandling.id);
     const { vilkårperioderResponse, hentVilkårperioder } = useVilkårperioder(behandling.id);
 
     return (
@@ -50,14 +48,10 @@ const Inngangsvilkår = () => {
             <DataViewer
                 response={{
                     vilkårperioderResponse,
-                    stønadsperioder,
                 }}
             >
-                {({ vilkårperioderResponse, stønadsperioder }) => (
-                    <InngangsvilkårProvider
-                        vilkårperioder={vilkårperioderResponse.vilkårperioder}
-                        hentedeStønadsperioder={stønadsperioder}
-                    >
+                {({ vilkårperioderResponse }) => (
+                    <InngangsvilkårProvider vilkårperioder={vilkårperioderResponse.vilkårperioder}>
                         <OppdaterGrunnlagKnapp
                             vilkårperioder={vilkårperioderResponse}
                             hentVilkårperioder={hentVilkårperioder}

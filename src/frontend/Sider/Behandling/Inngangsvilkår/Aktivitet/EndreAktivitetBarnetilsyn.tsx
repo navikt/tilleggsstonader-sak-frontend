@@ -70,8 +70,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterAktivitet, leggTilAktivitet, oppdatertStønadsperiodeFeil } =
-        useInngangsvilkår();
+    const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
@@ -115,11 +114,6 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                         } else {
                             oppdaterAktivitet(res.data.periode);
                         }
-
-                        oppdatertStønadsperiodeFeil(
-                            res.data.stønadsperiodeStatus,
-                            res.data.stønadsperiodeFeil
-                        );
 
                         avbrytRedigering();
                     } else {
