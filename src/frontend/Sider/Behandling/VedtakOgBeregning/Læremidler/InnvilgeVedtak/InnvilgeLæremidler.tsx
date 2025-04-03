@@ -25,8 +25,8 @@ import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
-import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtakLæremidlerUtils';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
+import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;

@@ -4,24 +4,17 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import {
-    Alert,
-    BodyLong,
-    Button,
-    Heading,
-    HStack,
-    Label,
-    ReadMore,
-    VStack,
-} from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 
-import { tomVedtaksperiode } from './vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
+import { VedtaksperiodeReadMore } from './VedtaksperioderReadMore';
+import { tomVedtaksperiode } from './vedtaksperiodeUtils';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
+import { stønadstypeTilVedtakUrl } from '../../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
@@ -101,7 +94,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const foreslåVedtaksperioder = () => {
         request<Vedtaksperiode[], null>(
-            `/api/sak/vedtak/laremidler/${behandling.id}/foresla`,
+            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[behandling.stønadstype]}/${behandling.id}/foresla`,
             'GET'
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
@@ -124,7 +117,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <Heading spacing size="xsmall" level="5">
                     Vedtaksperiode
                 </Heading>
-                <VedtaksperiodeReadMore />
+                <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
                 <Grid>
@@ -179,15 +172,3 @@ export const Vedtaksperioder: React.FC<Props> = ({
         </VStack>
     );
 };
-
-const VedtaksperiodeReadMore = () => (
-    <ReadMore header="Slik setter du vedtaksperioden" size="small">
-        <BodyLong size={'small'}>
-            Vedtaksperioden kan maks være 11 måneder per år. Hvis søker har utdanning som feks går
-            fra januar - desember og skal ha vedtaksperiode på 10 måneder, må det settes to
-            vedtaksperioder, en fra 1. januar - 30. juni og en fra 1. august - 31. desember som
-            tilsammen blir 10 måneder. Hvis vedtaksperioden går over årsskiftet, f.eks. fra 1.
-            august - 31. mai, trenger du ikke dele dette opp i to perioder.
-        </BodyLong>
-    </ReadMore>
-);
