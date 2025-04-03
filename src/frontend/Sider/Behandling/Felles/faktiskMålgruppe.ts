@@ -1,8 +1,4 @@
 import { SelectOption } from '../../../komponenter/Skjema/SelectMedOptions';
-import {
-    MålgruppeType,
-    MålgruppeTypeTilTekst,
-} from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
@@ -16,18 +12,10 @@ export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     GJENLEVENDE: 'Gjenlevende',
 };
 
-type MålgruppeEllerNyFaktiskMålgruppe = FaktiskMålgruppe | MålgruppeType;
-
-const faktiskMålgruppeOgMålgruppe: Record<MålgruppeEllerNyFaktiskMålgruppe, string> = {
-    ...MålgruppeTypeTilTekst,
-    ...FaktiskMålgruppeTilTekst,
-};
-
-// TODO fjern kobling til målgruppe når den ikke trengs
-export const faktiskMålgruppeTilTekst = (type: MålgruppeEllerNyFaktiskMålgruppe | '') => {
+export const faktiskMålgruppeTilTekst = (type: FaktiskMålgruppe | '') => {
     if (type === '') return type;
 
-    return faktiskMålgruppeOgMålgruppe[type];
+    return FaktiskMålgruppeTilTekst[type];
 };
 
 export const faktiskMålgruppeTypeOptions: SelectOption[] = Object.entries(

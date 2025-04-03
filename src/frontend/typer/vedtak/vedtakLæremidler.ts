@@ -4,7 +4,6 @@ import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
-import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
@@ -46,7 +45,7 @@ interface BeregningsresultatForPeriode {
     beløp: number;
     stønadsbeløp: number;
     utbetalingsdato: string;
-    målgruppe: MålgruppeType | FaktiskMålgruppe;
+    målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
     delAvTidligereUtbetaling: boolean;
 }
