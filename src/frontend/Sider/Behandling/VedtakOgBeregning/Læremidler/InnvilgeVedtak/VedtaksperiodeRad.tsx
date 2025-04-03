@@ -6,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
+import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
@@ -19,7 +20,6 @@ import {
     aktivitetTypeTilTekst,
     valgbareAktivitetTyperForStønadsperiode,
 } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
-import { StatusTag } from '../../../Inngangsvilkår/Stønadsperioder/StatusTag';
 
 interface Props {
     vedtaksperiode: Vedtaksperiode;

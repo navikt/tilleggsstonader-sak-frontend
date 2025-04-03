@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { StatusTag } from './StatusTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
+import { StatusTag } from '../../../../komponenter/PerioderStatusTag/StatusTag';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
