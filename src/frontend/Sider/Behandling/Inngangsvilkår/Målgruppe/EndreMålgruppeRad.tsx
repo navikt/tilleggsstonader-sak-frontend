@@ -19,11 +19,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import {
-    feiletRessursTilFeilmelding,
-    Feil,
-    lagFeilmelding,
-} from '../../../../komponenter/Feil/feilmeldingUtils';
+import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
@@ -35,7 +31,7 @@ import {
     målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
-import { StønadsperiodeStatus, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -73,7 +69,7 @@ const EndreMålgruppeRad: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterMålgruppe, leggTilMålgruppe, settStønadsperiodeFeil } = useInngangsvilkår();
+    const { oppdaterMålgruppe, leggTilMålgruppe } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
@@ -121,11 +117,6 @@ const EndreMålgruppeRad: React.FC<{
                             leggTilMålgruppe(res.data.periode);
                         } else {
                             oppdaterMålgruppe(res.data.periode);
-                        }
-                        if (res.data.stønadsperiodeStatus === StønadsperiodeStatus.Ok) {
-                            settStønadsperiodeFeil(undefined);
-                        } else if (res.data.stønadsperiodeFeil) {
-                            settStønadsperiodeFeil(lagFeilmelding(res.data.stønadsperiodeFeil));
                         }
                         avbrytRedigering();
                     } else {

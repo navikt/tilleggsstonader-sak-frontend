@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Tag } from '@navikt/ds-react';
 
-import { PeriodeStatus } from '../../../../typer/behandling/periodeStatus';
+import { PeriodeStatus } from '../../typer/behandling/periodeStatus';
 
 const StyledTag = styled(Tag)`
     max-width: fit-content;

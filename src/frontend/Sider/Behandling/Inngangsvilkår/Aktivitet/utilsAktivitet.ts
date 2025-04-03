@@ -18,7 +18,7 @@ export const valgbareAktivitetTyper = (stønadstype: Stønadstype): SelectOption
     }));
 };
 
-export const valgbareAktivitetTyperForStønadsperiode = (stønadstype: Stønadstype) =>
+export const valgbareAktivitetTyperForVedtaksperiode = (stønadstype: Stønadstype) =>
     valgbareAktivitetTyper(stønadstype).filter(
         (option) => option.value !== AktivitetType.INGEN_AKTIVITET
     );

@@ -46,13 +46,6 @@ interface HentetInformasjon {
 
 export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe | null> {
     periode: T;
-    stønadsperiodeStatus: StønadsperiodeStatus;
-    stønadsperiodeFeil?: string;
-}
-
-export enum StønadsperiodeStatus {
-    Feil = 'Feil',
-    Ok = 'Ok',
 }
 
 export interface VilkårPeriode extends Periode {

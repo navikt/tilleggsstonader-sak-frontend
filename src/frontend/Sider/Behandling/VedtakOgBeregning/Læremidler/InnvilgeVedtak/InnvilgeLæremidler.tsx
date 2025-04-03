@@ -8,7 +8,6 @@ import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
-import { useStønadsperioder } from '../../../../../hooks/useStønadsperioder';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
@@ -24,7 +23,6 @@ import {
 } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
-import { StønadsperiodeListe } from '../../../Stønadsvilkår/OppsummeringStønadsperioder';
 import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
 import { validerVedtaksperioder } from './validering';
 import { useMapById } from '../../../../../hooks/useMapById';
@@ -37,8 +35,6 @@ export const InnvilgeLæremidler: React.FC<{
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-
-    const { stønadsperioder } = useStønadsperioder(behandling.id);
 
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
         initialiserVedtaksperioder(
@@ -116,14 +112,6 @@ export const InnvilgeLæremidler: React.FC<{
     return (
         <>
             <Panel tittel="Beregning og vedtaksperiode">
-                <DataViewer response={{ stønadsperioder }}>
-                    {({ stønadsperioder }) => (
-                        <StønadsperiodeListe
-                            stønadsperioder={stønadsperioder}
-                            tittel="Periode hvor bruker er i aktivitet og målgruppe"
-                        />
-                    )}
-                </DataViewer>
                 <Vedtaksperioder
                     vedtaksperioder={vedtaksperioder}
                     lagredeVedtaksperioder={lagredeVedtaksperioder}
