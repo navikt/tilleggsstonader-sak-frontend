@@ -13,10 +13,10 @@ import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { VedtaksperiodeBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import {
     aktivitetTypeTilTekst,
-    valgbareAktivitetTyperForStønadsperiode,
+    valgbareAktivitetTyperForVedtaksperiode,
 } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import {
-    målgruppeTypeOptionsForStønadsperiode,
+    målgruppeTypeOptionsForVedtaksperiode,
     målgruppeTypeTilTekst,
 } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
@@ -52,7 +52,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
 
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
-    const valgbareAktiviteter = valgbareAktivitetTyperForStønadsperiode(behandling.stønadstype);
+    const valgbareAktiviteter = valgbareAktivitetTyperForVedtaksperiode(behandling.stønadstype);
     return (
         <>
             <DateInputMedLeservisning
@@ -101,7 +101,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                         : vedtaksperiode.målgruppeType
                 }
                 onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
-                valg={målgruppeTypeOptionsForStønadsperiode}
+                valg={målgruppeTypeOptionsForVedtaksperiode}
                 size={'small'}
                 error={vedtaksperiodeFeil?.målgruppeType}
             />

@@ -93,7 +93,7 @@ export const målgruppeTypeOptions: SelectOption[] = Object.entries(MålgruppeTy
     })
 );
 
-export const målgruppeTypeOptionsForStønadsperiode = målgruppeTypeOptions.filter(
+export const målgruppeTypeOptionsForVedtaksperiode = målgruppeTypeOptions.filter(
     (option) =>
         option.value !== MålgruppeType.INGEN_MÅLGRUPPE &&
         option.value !== MålgruppeType.SYKEPENGER_100_PROSENT

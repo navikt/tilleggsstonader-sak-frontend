@@ -18,7 +18,7 @@ import {
 } from '../../../Felles/faktiskMålgruppe';
 import {
     aktivitetTypeTilTekst,
-    valgbareAktivitetTyperForStønadsperiode,
+    valgbareAktivitetTyperForVedtaksperiode,
 } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 interface Props {
@@ -53,7 +53,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
 
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
-    const valgbareAktiviteter = valgbareAktivitetTyperForStønadsperiode(behandling.stønadstype);
+    const valgbareAktiviteter = valgbareAktivitetTyperForVedtaksperiode(behandling.stønadstype);
 
     return (
         <>
