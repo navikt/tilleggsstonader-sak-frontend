@@ -54,6 +54,7 @@ export const InnvilgeLæremidler: React.FC<{
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
 
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
 
@@ -129,6 +130,8 @@ export const InnvilgeLæremidler: React.FC<{
                     settVedtaksperioder={settVedtaksperioder}
                     vedtaksperioderFeil={vedtaksperiodeFeil}
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
+                    foreslåPeriodeFeil={foreslåPeriodeFeil}
+                    settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                 />
                 <Begrunnelsesfelt begrunnelse={begrunnelse} oppdaterBegrunnelse={settBegrunnelse} />
                 {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}

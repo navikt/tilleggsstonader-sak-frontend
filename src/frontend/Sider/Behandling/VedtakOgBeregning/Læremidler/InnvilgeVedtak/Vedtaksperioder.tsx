@@ -2,14 +2,26 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { BodyLong, Button, Heading, Label, ReadMore, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    Button,
+    Heading,
+    HStack,
+    Label,
+    ReadMore,
+    VStack,
+} from '@navikt/ds-react';
 
 import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
+import { RessursStatus } from '../../../../../typer/ressurs';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
@@ -34,6 +46,8 @@ interface Props {
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<Vedtaksperiode>[] | undefined>
     >;
+    foreslåPeriodeFeil?: string;
+    settForeslåPeriodeFeil: React.Dispatch<string | undefined>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -42,9 +56,12 @@ export const Vedtaksperioder: React.FC<Props> = ({
     settVedtaksperioder,
     vedtaksperioderFeil,
     settVedtaksperioderFeil,
+    foreslåPeriodeFeil,
+    settForeslåPeriodeFeil,
 }) => {
     const { erStegRedigerbart } = useSteg();
-    const { settUlagretKomponent } = useApp();
+    const { request, settUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
     const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
@@ -83,6 +100,25 @@ export const Vedtaksperioder: React.FC<Props> = ({
         );
 
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+    };
+
+    const foreslåVedtaksperioder = () => {
+        request<Vedtaksperiode[], null>(
+            `/api/sak/vedtak/laremidler/${behandling.id}/foresla`,
+            'GET'
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                const perioder = res.data.map((periode) => ({
+                    ...periode,
+                    id: uuid(),
+                }));
+                settVedtaksperioder(perioder);
+                settForeslåPeriodeFeil(undefined);
+                settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
+            } else {
+                settForeslåPeriodeFeil(res.frontendFeilmelding);
+            }
+        });
     };
 
     return (
@@ -125,15 +161,34 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 </Grid>
             )}
             {erStegRedigerbart && (
-                <Button
-                    size="small"
-                    onClick={leggTilPeriode}
-                    style={{ maxWidth: 'fit-content' }}
-                    variant="secondary"
-                    icon={<PlusCircleIcon />}
-                >
-                    Legg til vedtaksperiode
-                </Button>
+                <>
+                    <HStack gap={'2'}>
+                        <Button
+                            size="small"
+                            onClick={leggTilPeriode}
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til vedtaksperiode
+                        </Button>
+                        {skalSetteMålgruppeOgAktivitet && (
+                            <Button
+                                size="small"
+                                onClick={foreslåVedtaksperioder}
+                                style={{ maxWidth: 'fit-content' }}
+                                variant="tertiary"
+                            >
+                                Foreslå vedtaksperioder
+                            </Button>
+                        )}
+                    </HStack>
+                    {foreslåPeriodeFeil && (
+                        <Alert variant="error" title="Klarte ikke å preutfylle periode">
+                            {foreslåPeriodeFeil}
+                        </Alert>
+                    )}
+                </>
             )}
         </VStack>
     );
