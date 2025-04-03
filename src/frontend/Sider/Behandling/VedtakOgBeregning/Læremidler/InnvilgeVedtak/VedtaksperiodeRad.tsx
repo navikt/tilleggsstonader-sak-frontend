@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
@@ -13,7 +11,6 @@ import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Toggle } from '../../../../../utils/toggles';
 import {
     faktiskMålgruppeTilTekst,
     faktiskMålgruppeTypeOptions,
@@ -47,7 +44,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     erNyRad,
 }) => {
     const { behandling } = useBehandling();
-    const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
     const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
         useRevurderingAvPerioder({
             periodeFom: lagretVedtaksperiode?.fom,
@@ -85,44 +81,40 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {skalSetteMålgruppeOgAktivitet && (
-                <>
-                    <FeilmeldingMaksBredde>
-                        <SelectMedOptions
-                            label={'Aktivitet'}
-                            hideLabel
-                            erLesevisning={erLesevisning}
-                            readOnly={!alleFelterKanEndres}
-                            value={
-                                erLesevisning
-                                    ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
-                                    : vedtaksperiode.aktivitetType
-                            }
-                            onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
-                            valg={valgbareAktiviteter}
-                            size={'small'}
-                            error={vedtaksperiodeFeil?.aktivitetType}
-                        />
-                    </FeilmeldingMaksBredde>
-                    <FeilmeldingMaksBredde>
-                        <SelectMedOptions
-                            label={'Målgruppe'}
-                            hideLabel
-                            erLesevisning={erLesevisning}
-                            readOnly={!alleFelterKanEndres}
-                            value={
-                                erLesevisning
-                                    ? faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
-                                    : vedtaksperiode.målgruppeType
-                            }
-                            onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
-                            valg={faktiskMålgruppeTypeOptions}
-                            size={'small'}
-                            error={vedtaksperiodeFeil?.målgruppeType}
-                        />
-                    </FeilmeldingMaksBredde>
-                </>
-            )}
+            <FeilmeldingMaksBredde>
+                <SelectMedOptions
+                    label={'Aktivitet'}
+                    hideLabel
+                    erLesevisning={erLesevisning}
+                    readOnly={!alleFelterKanEndres}
+                    value={
+                        erLesevisning
+                            ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
+                            : vedtaksperiode.aktivitetType
+                    }
+                    onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
+                    valg={valgbareAktiviteter}
+                    size={'small'}
+                    error={vedtaksperiodeFeil?.aktivitetType}
+                />
+            </FeilmeldingMaksBredde>
+            <FeilmeldingMaksBredde>
+                <SelectMedOptions
+                    label={'Målgruppe'}
+                    hideLabel
+                    erLesevisning={erLesevisning}
+                    readOnly={!alleFelterKanEndres}
+                    value={
+                        erLesevisning
+                            ? faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
+                            : vedtaksperiode.målgruppeType
+                    }
+                    onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
+                    valg={faktiskMålgruppeTypeOptions}
+                    size={'small'}
+                    error={vedtaksperiodeFeil?.målgruppeType}
+                />
+            </FeilmeldingMaksBredde>
             <div>
                 {erLesevisning
                     ? erRevurdering && <StatusTag status={vedtaksperiode.status} />

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -8,7 +7,6 @@ import { VStack } from '@navikt/ds-react';
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
 import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
-import Stønadsperioder from './Stønadsperioder/Stønadsperioder';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useStønadsperioder } from '../../../hooks/useStønadsperioder';
@@ -17,7 +15,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
-import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
@@ -44,7 +41,6 @@ const Inngangsvilkår = () => {
 
     const { stønadsperioder } = useStønadsperioder(behandling.id);
     const { vilkårperioderResponse, hentVilkårperioder } = useVilkårperioder(behandling.id);
-    const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
 
     return (
         <Container>
@@ -69,8 +65,6 @@ const Inngangsvilkår = () => {
                         <VStack gap="8">
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                            {behandling.stønadstype === Stønadstype.LÆREMIDLER &&
-                                !skalSetteMålgruppeOgAktivitet && <Stønadsperioder />}
                         </VStack>
                     </InngangsvilkårProvider>
                 )}

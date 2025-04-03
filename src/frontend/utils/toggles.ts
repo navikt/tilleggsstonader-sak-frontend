@@ -22,6 +22,4 @@ export enum Toggle {
      */
     SKAL_BRUKE_MANED_AR_VELGER = 'sak.frontend.skal-bruke-maned-ar-velger',
     TILLATER_NULLVEDAK = `sak.tillater_nullvedtak`,
-
-    LÆREMIDLER_VEDTAKSPERIODER_V2 = 'sak.laremidler-vedtaksperioder-v2',
 }

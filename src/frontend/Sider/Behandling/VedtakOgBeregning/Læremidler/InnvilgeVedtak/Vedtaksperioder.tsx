@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
@@ -25,15 +24,14 @@ import { RessursStatus } from '../../../../../typer/ressurs';
 import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { Toggle } from '../../../../../utils/toggles';
 
-const Grid = styled.div<{ skalSetteMålgruppeOgAktivitet: boolean }>`
+const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}, max-content);
+    grid-template-columns: repeat(5, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(${(p) => (p.skalSetteMålgruppeOgAktivitet ? 5 : 3)}n) {
+    > :nth-child(5n) {
         grid-column: 1;
     }
 `;
@@ -64,7 +62,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { behandling } = useBehandling();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
-    const skalSetteMålgruppeOgAktivitet = useFlag(Toggle.LÆREMIDLER_VEDTAKSPERIODER_V2);
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -130,15 +127,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <Grid skalSetteMålgruppeOgAktivitet={skalSetteMålgruppeOgAktivitet}>
+                <Grid>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {skalSetteMålgruppeOgAktivitet && (
-                        <>
-                            <Label size="small">Aktivitet</Label>
-                            <Label size="small">Målgruppe</Label>
-                        </>
-                    )}
+                    <Label size="small">Aktivitet</Label>
+                    <Label size="small">Målgruppe</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -167,16 +160,14 @@ export const Vedtaksperioder: React.FC<Props> = ({
                         >
                             Legg til vedtaksperiode
                         </Button>
-                        {skalSetteMålgruppeOgAktivitet && (
-                            <Button
-                                size="small"
-                                onClick={foreslåVedtaksperioder}
-                                style={{ maxWidth: 'fit-content' }}
-                                variant="tertiary"
-                            >
-                                Foreslå vedtaksperioder
-                            </Button>
-                        )}
+                        <Button
+                            size="small"
+                            onClick={foreslåVedtaksperioder}
+                            style={{ maxWidth: 'fit-content' }}
+                            variant="tertiary"
+                        >
+                            Foreslå vedtaksperioder
+                        </Button>
                     </HStack>
                     {foreslåPeriodeFeil && (
                         <Alert variant="error" title="Klarte ikke å preutfylle periode">
