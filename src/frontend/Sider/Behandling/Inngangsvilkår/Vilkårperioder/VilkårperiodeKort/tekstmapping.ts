@@ -2,34 +2,49 @@ import { DelvilkårKey } from './utils';
 import { Vilkårsresultat } from '../../../vilkår';
 import { SvarJaNei, VilkårPeriodeResultat } from '../../typer/vilkårperiode/vilkårperiode';
 
-export const medlemskapSvarTilTekst: Record<SvarJaNei, string> = {
+export const medlemskapSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Medlemskap i folketrygden',
     [SvarJaNei.JA_IMPLISITT]: 'Medlemskap i folketrygden',
     [SvarJaNei.NEI]: 'Ikke medlemskap i folketrygden',
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
 };
 
 export const dekketAvAnnetRegelverkSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Utgifter dekkes av annet regelverk',
     [SvarJaNei.NEI]: 'Utgifter dekkes ikke av annet regelverk',
     [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
+};
+
+export const mottarSykepengerForFulltidsstillingSvarTilTekst: Record<
+    SvarJaNei,
+    string | undefined
+> = {
+    [SvarJaNei.JA]: 'Mottar sykepenger for fulltidsstilling',
+    [SvarJaNei.NEI]: 'Mottar ikke sykepenger for fulltidsstilling',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: 'Mottar ikke sykepenger for fulltidsstilling',
 };
 
 export const lønnetSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Lønnet',
     [SvarJaNei.NEI]: 'Ikke lønnet',
     [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
 };
 
 export const harUtgifterSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Har utgifter',
     [SvarJaNei.NEI]: 'Har ikke utgifter',
     [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
 };
 
 export const harRettTilUtstyrsstipendSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Har rett til utstyrsstipend',
     [SvarJaNei.NEI]: 'Har ikke rett til utsstyrsstipend',
     [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
 };
 
 export const VilkårperiodeResultatTilTekst: Record<VilkårPeriodeResultat, string> = {
@@ -55,6 +70,7 @@ export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
     harUtgifter: 'har utgifter til læremidler',
     harRettTilUtstyrsstipend: 'har rett til utstyrsstipend',
     aldersvilkår: 'aldersvilkår',
+    mottarSykepengerForFulltidsstilling: 'mottar sykepenger for fulltidsstilling',
 };
 
 export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>

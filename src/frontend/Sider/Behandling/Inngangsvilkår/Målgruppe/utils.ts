@@ -36,14 +36,35 @@ export const nyMålgruppe = (
         : tomMålgruppeForm();
 };
 
-export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): EndreMålgruppeForm => ({
+export const mapEksisterendeMålgruppe = (
+    eksisterendeMålgruppe: Målgruppe,
+    alleFelterKanEndres: boolean
+): EndreMålgruppeForm => ({
     ...eksisterendeMålgruppe,
     vurderinger: {
         svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
         svarUtgifterDekketAvAnnetRegelverk:
             eksisterendeMålgruppe.faktaOgVurderinger.utgifterDekketAvAnnetRegelverk?.svar,
+        svarMottarSykepengerForFulltidsstilling: nullstillGammelManglerData(
+            eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar,
+            alleFelterKanEndres
+        ),
     },
 });
+
+/**
+ * GAMMEL_MANGLER_DATA er kun et gyldig svar dersom alle felter utenom tom er låst.
+ * Dersom alle felter (fakta og vurderinger) kan redigeres,
+ * skal svar settes til undefined slik at saksbehandler må ta stilling til vilkåret.
+ */
+const nullstillGammelManglerData = (
+    svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA',
+    kanRedidereAlleFelter: boolean
+): SvarJaNei | 'GAMMEL_MANGLER_DATA' | undefined => {
+    if (svar === 'GAMMEL_MANGLER_DATA' && kanRedidereAlleFelter) return undefined;
+
+    return svar;
+};
 
 const nyMålgruppeFraRegister = (
     registrertYtelsePeriode: YtelseGrunnlagPeriode
@@ -66,9 +87,10 @@ const tomMålgruppeForm = (): EndreMålgruppeForm => {
     };
 };
 
-const tomVurderingerMålgruppe = {
+const tomVurderingerMålgruppe: SvarMålgruppe = {
     svarMedlemskap: undefined,
     svarUtgifterDekketAvAnnetRegelverk: undefined,
+    svarMottarSykepengerForFulltidsstilling: undefined,
 };
 
 export const målgrupperHvorMedlemskapMåVurderes = [
@@ -86,6 +108,11 @@ export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) =
 
 export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
     målgruppeErNedsattArbeidsevne(type);
+
+export const skalVurdereMottarSykepengerForFulltidsstilling = (
+    type: MålgruppeType,
+    stønadstype: Stønadstype
+) => stønadstype !== Stønadstype.LÆREMIDLER && type === MålgruppeType.NEDSATT_ARBEIDSEVNE;
 
 export const resettMålgruppe = (
     stønadstype: Stønadstype,
@@ -188,6 +215,8 @@ export const mapFaktaOgSvarTilRequest = (
     svarMedlemskap: målgruppeForm.vurderinger.svarMedlemskap,
     svarUtgifterDekketAvAnnetRegelverk:
         målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
+    svarMottarSykepengerForFulltidsstilling:
+        målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling,
 });
 
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {

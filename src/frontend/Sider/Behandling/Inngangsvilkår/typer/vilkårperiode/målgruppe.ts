@@ -1,4 +1,9 @@
-import { SvarJaNei, VilkårPeriode, Vurdering } from './vilkårperiode';
+import {
+    SvarJaNei,
+    VilkårPeriode,
+    Vurdering,
+    VurderingMedGammelManglerData,
+} from './vilkårperiode';
 import { SelectOption } from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 
@@ -36,7 +41,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
         NEDSATT_ARBEIDSEVNE: true,
-        SYKEPENGER_100_PROSENT: true,
+        SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
@@ -102,11 +107,13 @@ export const målgruppeTypeOptionsForVedtaksperiode = målgruppeTypeOptions.filt
 export interface MålgruppeVurderinger {
     medlemskap: Vurdering | undefined;
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
+    mottarSykepengerForFulltidsstilling: VurderingMedGammelManglerData | undefined;
 }
 
 export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
     svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
+    svarMottarSykepengerForFulltidsstilling: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA';
 }
 
 export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {

@@ -6,7 +6,12 @@ import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
 import { EndreMålgruppeForm } from './EndreMålgruppeRad';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
-import { målgrupperHvorMedlemskapMåVurderes, skalVurdereDekkesAvAnnetRegelverk } from './utils';
+import {
+    målgrupperHvorMedlemskapMåVurderes,
+    skalVurdereDekkesAvAnnetRegelverk,
+    skalVurdereMottarSykepengerForFulltidsstilling,
+} from './utils';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -22,11 +27,17 @@ const MålgruppeVilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
-}> = ({ målgruppeForm, oppdaterVurderinger, readOnly }) => {
+    stønadstype: Stønadstype;
+}> = ({ målgruppeForm, oppdaterVurderinger, readOnly, stønadstype }) => {
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
     const skalVurdereDekketAvAnnetRegelverk = skalVurdereDekkesAvAnnetRegelverk(målgruppeForm.type);
+    const skalVurdereSykepengerForFulltidsstilling = skalVurdereMottarSykepengerForFulltidsstilling(
+        målgruppeForm.type,
+        stønadstype
+    );
+
     const erGjenlevendeGammeltRegelverk =
         målgruppeForm.type === MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
 
@@ -59,6 +70,17 @@ const MålgruppeVilkår: React.FC<{
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
                         oppdaterVurderinger('svarUtgifterDekketAvAnnetRegelverk', nyttSvar)
                     }
+                />
+            )}
+            {skalVurdereSykepengerForFulltidsstilling && (
+                <JaNeiVurdering
+                    label="Mottar søker sykepenger for fulltidsstilling?"
+                    readOnly={readOnly}
+                    svar={målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarMottarSykepengerForFulltidsstilling', nyttSvar)
+                    }
+                    hjelpetekst="Med fulltidsstilling menes at søker jobber 37,5 timer eller mer i uken."
                 />
             )}
             {erGjenlevendeGammeltRegelverk && (
