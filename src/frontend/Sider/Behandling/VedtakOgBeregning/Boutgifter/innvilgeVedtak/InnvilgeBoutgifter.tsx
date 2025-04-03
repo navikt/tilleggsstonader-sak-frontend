@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
-import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -20,17 +19,18 @@ import {
     BeregningsresultatBoutgifter,
     InnvilgeBoutgifterRequest,
     InnvilgelseBoutgifter,
-    validerVedtaksperioder,
-    VedtaksperiodeBoutgifter,
 } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { FanePath } from '../../../faner';
 import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
-import { initialiserVedtaksperioder } from '../VedtakBoutgifterUtils';
+import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
+import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
+import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseBoutgifter;
-    vedtaksperioderForrigeBehandling?: VedtaksperiodeBoutgifter[];
+    vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
 
 export const InnvilgeBoutgifter: React.FC<Props> = ({
@@ -41,7 +41,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeBoutgifter[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
@@ -51,8 +51,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
         lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
     );
 
-    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
-        useState<FormErrors<VedtaksperiodeBoutgifter>[]>();
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const [beregningsresultat, settBeregningsresultat] =

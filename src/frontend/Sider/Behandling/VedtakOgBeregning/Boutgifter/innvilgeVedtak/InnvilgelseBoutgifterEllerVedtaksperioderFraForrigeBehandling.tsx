@@ -10,8 +10,8 @@ import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     InnvilgelseBoutgifter,
     VedtakBoutgifter,
-    VedtaksperiodeBoutgifter,
 } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
 export const InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling: React.FC<{
     lagretVedtak: InnvilgelseBoutgifter | undefined;
@@ -65,9 +65,7 @@ const InnvilgeBoutgifterMedPerioderFraForrigeBehandling = ({
     );
 };
 
-const vedtaksperioderForrigeVedtak = (
-    vedtak: VedtakBoutgifter
-): VedtaksperiodeBoutgifter[] | undefined => {
+const vedtaksperioderForrigeVedtak = (vedtak: VedtakBoutgifter): Vedtaksperiode[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;
