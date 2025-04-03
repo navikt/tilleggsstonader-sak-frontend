@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat';
-import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
+import { useMapById } from '../../../../../hooks/useMapById';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
@@ -19,14 +19,14 @@ import {
     BeregningsresultatLæremidler,
     InnvilgelseLæremidler,
     InnvilgelseLæremidlerRequest,
-    Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { Periode } from '../../../../../utils/periode';
 import { FanePath } from '../../../faner';
-import { initialiserVedtaksperioder } from '../vedtakLæremidlerUtils';
-import { validerVedtaksperioder } from './validering';
-import { useMapById } from '../../../../../hooks/useMapById';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
+import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
+import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtakLæremidlerUtils';
+import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 
 export const InnvilgeLæremidler: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;

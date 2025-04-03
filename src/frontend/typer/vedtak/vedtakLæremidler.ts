@@ -1,11 +1,10 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { Periode } from '../../utils/periode';
-import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
@@ -63,10 +62,3 @@ export type AvslagLæremidler = AvslåLæremidlerRequest;
 export type OpphørLæremidler = OpphørRequest & {
     beregningsresultat: BeregningsresultatLæremidler;
 };
-
-export interface Vedtaksperiode extends Periode {
-    id: string;
-    målgruppeType?: FaktiskMålgruppe;
-    aktivitetType?: AktivitetType;
-    status?: PeriodeStatus;
-}

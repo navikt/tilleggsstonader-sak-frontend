@@ -11,7 +11,7 @@ import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInpu
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
     faktiskMålgruppeTilTekst,
     faktiskMålgruppeTypeOptions,

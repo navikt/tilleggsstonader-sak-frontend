@@ -15,15 +15,15 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
+import { tomVedtaksperiode } from './vedtakLæremidlerUtils';
+import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { RessursStatus } from '../../../../../typer/ressurs';
-import { tomVedtaksperiode } from '../vedtakLæremidlerUtils';
-import { VedtaksperiodeRad } from './VedtaksperiodeRad';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
 const Grid = styled.div`
     display: grid;

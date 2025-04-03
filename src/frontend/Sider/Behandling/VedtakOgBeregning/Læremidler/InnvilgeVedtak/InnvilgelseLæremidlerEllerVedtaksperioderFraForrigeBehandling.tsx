@@ -10,8 +10,8 @@ import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     InnvilgelseLæremidler,
     VedtakLæremidler,
-    Vedtaksperiode,
 } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
 export const InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling: React.FC<{
     lagretVedtak: InnvilgelseLæremidler | undefined;

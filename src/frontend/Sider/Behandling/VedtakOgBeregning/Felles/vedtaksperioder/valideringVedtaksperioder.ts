@@ -1,5 +1,5 @@
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakLæremidler';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
@@ -7,7 +7,7 @@ export const validerVedtaksperioder = (
     lagredeVedstaksperioder: Map<string, Vedtaksperiode>,
     revurderesFraDato?: string
 ): FormErrors<Vedtaksperiode[]> =>
-    vedtaksperioder.map((periode) => {
+    vedtaksperioder.map((vedtaksperiode) => {
         const feil: FormErrors<Vedtaksperiode> = {
             id: undefined,
             fom: undefined,
@@ -16,17 +16,23 @@ export const validerVedtaksperioder = (
             aktivitetType: undefined,
         };
 
-        const lagretPeriode = lagredeVedstaksperioder.get(periode.id);
+        if (!vedtaksperiode.aktivitetType) {
+            return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
+        }
 
-        const periodeValidering = validerPeriode(periode, lagretPeriode, revurderesFraDato);
+        if (!vedtaksperiode.målgruppeType) {
+            return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
+        }
+
+        const lagretPeriode = lagredeVedstaksperioder.get(vedtaksperiode.id);
+
+        const periodeValidering = validerPeriode(vedtaksperiode, lagretPeriode, revurderesFraDato);
         if (periodeValidering) {
             return {
                 ...feil,
                 ...periodeValidering,
             };
         }
-
-        // TODO validering av målgruppe/aktivitet ?
 
         return feil;
     });
