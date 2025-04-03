@@ -27,6 +27,8 @@ export interface InnvilgelseBoutgifter {
     beregningsresultat: BeregningsresultatBoutgifter;
     vedtaksperioder: VedtaksperiodeBoutgifter[];
     begrunnelse?: string;
+    gjelderFraOgMed?: string;
+    gjelderTilOgMed?: string;
 }
 
 export type AvslåBoutgifterRequest = {
@@ -49,8 +51,6 @@ export type BeregnBoutgifterRequest = {
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
     vedtaksperioder: Vedtaksperiode[];
-    gjelderFraOgMed?: string;
-    gjelderTilOgMed?: string;
 };
 
 type Beregningsresultat = {

@@ -17,20 +17,34 @@ function behandleInnvilgelse(
     behandling: Behandling,
     vedtak: InnvilgelseBarnetilsyn | InnvilgelseLæremidler | InnvilgelseBoutgifter
 ) {
-    if (behandling.stønadstype === Stønadstype.LÆREMIDLER) {
-        const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
-        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
-            innvilgelseLæremidler.gjelderFraOgMed,
-            innvilgelseLæremidler.gjelderTilOgMed
-        );
-    } else if (behandling.stønadstype === Stønadstype.BARNETILSYN) {
-        const beregningsresultat = vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
-        return mapVedtaksDatoerForPreutfyllingIBrevfanen(
-            beregningsresultat.gjelderFraOgMed,
-            beregningsresultat.gjelderTilOgMed
-        );
-    } else {
-        return TOMME_VERDIER;
+    switch (behandling.stønadstype) {
+        case Stønadstype.LÆREMIDLER: {
+            const innvilgelseLæremidler = vedtak as InnvilgelseLæremidler;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseLæremidler.gjelderFraOgMed,
+                innvilgelseLæremidler.gjelderTilOgMed
+            );
+        }
+
+        case Stønadstype.BARNETILSYN: {
+            const innvilgelseBarnetilsyn =
+                vedtak.beregningsresultat as BeregningsresultatTilsynBarn;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseBarnetilsyn.gjelderFraOgMed,
+                innvilgelseBarnetilsyn.gjelderTilOgMed
+            );
+        }
+
+        case Stønadstype.BOUTGIFTER: {
+            const innvilgelseBoutgifter = vedtak as InnvilgelseBoutgifter;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseBoutgifter.gjelderFraOgMed,
+                innvilgelseBoutgifter.gjelderTilOgMed
+            );
+        }
+
+        default:
+            return TOMME_VERDIER;
     }
 }
 
