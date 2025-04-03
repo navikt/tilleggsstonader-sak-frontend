@@ -83,3 +83,16 @@ export type RedigerbareVilkårfelter = Pick<
     Vilkår,
     'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erNullvedtak'
 >;
+
+export const erOppfylt = (vilkårsresultat: Vilkårsresultat) => {
+    switch (vilkårsresultat) {
+        case Vilkårsresultat.OPPFYLT:
+        case Vilkårsresultat.AUTOMATISK_OPPFYLT:
+            return true;
+        case Vilkårsresultat.IKKE_OPPFYLT:
+        case Vilkårsresultat.IKKE_AKTUELL:
+        case Vilkårsresultat.IKKE_TATT_STILLING_TIL:
+        case Vilkårsresultat.SKAL_IKKE_VURDERES:
+            return false;
+    }
+};

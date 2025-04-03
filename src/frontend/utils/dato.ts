@@ -1,6 +1,7 @@
 import {
     addDays,
     addMonths,
+    addYears,
     differenceInDays,
     endOfMonth,
     format,
@@ -102,6 +103,10 @@ export const dagensDatoFormatert = (): string => {
 export const tilDato = (dato: string | Date): Date =>
     typeof dato === 'string' ? parseISO(dato) : dato;
 
+// Eksempel: tilDato(Date('2023-09-18')) -> '2023-09-18'
+export const tilDatoStr = (dato: string | Date): string =>
+    typeof dato === 'string' ? dato : format(dato, 'yyyy-MM-dd');
+
 // Eksempel: erDatoEtterEllerLik('2023-09-17', '2023-09-18') -> true
 // Sjekker om andre dato er lik eller etter første dato
 export const erDatoEtterEllerLik = (fra: string, til: string): boolean => {
@@ -169,6 +174,9 @@ export const erGyldigDato = (dato: string | Date): boolean =>
 export const plusDager = (dato: string | Date, antallDager: number): string =>
     tilLocaleDateString(addDays(tilDato(dato), antallDager));
 
+export const plusÅr = (dato: string | Date, antallÅr: number): Date =>
+    addYears(tilDato(dato), antallÅr);
+
 // Eksempel: formaterNullableÅrMåned('2023-09-18') -> 'sep 2023'
 export const formaterNullableÅrMåned = (dato: string | undefined): string | undefined =>
     dato && formaterÅrMåned(dato);
@@ -221,3 +229,7 @@ export const datoErIPeriodeInklusivSlutt = (
 ) => {
     return erFør(periodeFom, dato) && erDatoEtterEllerLik(dato, periodeTom);
 };
+
+export const perioderOverlapper = (periode1: Periode, periode2: Periode) =>
+    erDatoFørEllerLik(periode1.fom, periode2.tom) &&
+    erDatoEtterEllerLik(periode2.fom, periode1.tom);
