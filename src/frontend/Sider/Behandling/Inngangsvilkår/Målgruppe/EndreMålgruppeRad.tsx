@@ -186,7 +186,7 @@ const EndreMålgruppeRad: React.FC<{
             <MålgruppeVilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
-                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei | undefined) =>
+                oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
                         vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
