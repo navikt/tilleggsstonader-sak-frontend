@@ -7,10 +7,10 @@ import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
     InnvilgelseBarnetilsyn,
     VedtakBarnetilsyn,
-    VedtaksperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 
 export const InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling: React.FC<{
@@ -65,9 +65,7 @@ const InnvilgeTilsynBarnMedPerioderFraForrigeBehandling = ({
     );
 };
 
-const vedtaksperioderForrigeVedtak = (
-    vedtak: VedtakBarnetilsyn
-): VedtaksperiodeTilsynBarn[] | undefined => {
+const vedtaksperioderForrigeVedtak = (vedtak: VedtakBarnetilsyn): Vedtaksperiode[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;

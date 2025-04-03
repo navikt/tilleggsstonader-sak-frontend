@@ -1,10 +1,8 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
-import { FormErrors } from '../../hooks/felles/useFormState';
+import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { Periode, validerPeriode } from '../../utils/periode';
-import { PeriodeStatus } from '../behandling/periodeStatus';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
@@ -18,14 +16,14 @@ export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBar
     vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBarnetilsynRequest = {
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    vedtaksperioder: Vedtaksperiode[];
     begrunnelse?: string;
 };
 
 export interface InnvilgelseBarnetilsyn {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatTilsynBarn;
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    vedtaksperioder: Vedtaksperiode[];
     begrunnelse?: string;
 }
 
@@ -39,16 +37,16 @@ export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
 
 export type OpphørBarnetilsyn = OpphørRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    vedtaksperioder: Vedtaksperiode[];
 };
 
 export type BeregnBarnetilsynRequest = {
-    vedtaksperioder: VedtaksperiodeTilsynBarn[];
+    vedtaksperioder: Vedtaksperiode[];
 };
 
 export type BeregningsresultatTilsynBarn = {
     perioder: Beregningsresultat[];
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeBeregningsresultat[];
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
 };
@@ -59,7 +57,7 @@ type Beregningsresultat = {
     grunnlag: Beregningsgrunnlag;
 };
 
-export interface Vedtaksperiode {
+export interface VedtaksperiodeBeregningsresultat {
     fom: string;
     tom: string;
     målgruppe: MålgruppeType;
@@ -72,45 +70,3 @@ type Beregningsgrunnlag = {
     utgifterTotal: number;
     antallBarn: number;
 };
-
-export interface VedtaksperiodeTilsynBarn extends Periode {
-    id: string;
-    status?: PeriodeStatus;
-    målgruppeType?: MålgruppeType;
-    aktivitetType?: AktivitetType;
-}
-
-export const validerVedtaksperioder = (
-    vedtaksperioder: VedtaksperiodeTilsynBarn[],
-    lagretVedtaksperioder: Map<string, VedtaksperiodeTilsynBarn>,
-    revurderesFraDato?: string
-): FormErrors<VedtaksperiodeTilsynBarn[]> =>
-    vedtaksperioder.map((vedtaksperiode) => {
-        const vedtaksperiodeFeil: FormErrors<VedtaksperiodeTilsynBarn> = {
-            id: undefined,
-            målgruppeType: undefined,
-            aktivitetType: undefined,
-            fom: undefined,
-            tom: undefined,
-        };
-
-        if (!vedtaksperiode.aktivitetType) {
-            return { ...vedtaksperiodeFeil, aktivitetType: 'Mangler aktivitet for periode' };
-        }
-
-        if (!vedtaksperiode.målgruppeType) {
-            return { ...vedtaksperiodeFeil, målgruppeType: 'Mangler målgruppe for periode' };
-        }
-
-        const lagretPeriode = lagretVedtaksperioder.get(vedtaksperiode.id);
-
-        const periodeValidering = validerPeriode(vedtaksperiode, lagretPeriode, revurderesFraDato);
-        if (periodeValidering) {
-            return {
-                ...vedtaksperiodeFeil,
-                ...periodeValidering,
-            };
-        }
-
-        return vedtaksperiodeFeil;
-    });

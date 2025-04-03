@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
-import { Vedtaksperioder } from './Vedtaksperioder';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -15,23 +14,24 @@ import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
     BeregnBarnetilsynRequest,
     BeregningsresultatTilsynBarn,
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
-    validerVedtaksperioder,
-    VedtaksperiodeTilsynBarn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
-import { initialiserVedtaksperioder } from '../VedtakBarnetilsynUtils';
+import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
+import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
+import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
-    vedtaksperioderForrigeBehandling?: VedtaksperiodeTilsynBarn[];
+    vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
 
 export const HeadingBeregning: React.FC = () => {
@@ -56,7 +56,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
-    const [vedtaksperioder, settVedtaksperioder] = useState<VedtaksperiodeTilsynBarn[]>(
+    const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
         initialiserVedtaksperioder(
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
@@ -66,8 +66,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
     );
 
-    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] =
-        useState<FormErrors<VedtaksperiodeTilsynBarn>[]>();
+    const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
 
     const [beregningsresultat, settBeregningsresultat] =
