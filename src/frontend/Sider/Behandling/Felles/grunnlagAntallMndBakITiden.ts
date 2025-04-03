@@ -8,6 +8,3 @@ export const ingenMålgruppeAktivitetAntallMndBakITiden: Record<Stønadstype, nu
     LÆREMIDLER: 6,
     BOUTGIFTER: 6,
 };
-
-// Kopi av [ingenMålgruppeAktivitetAntallMndBakITiden] men med annet navn for å gjøre det tydligere for konsument
-export const stønadsperiodeInnvilgeAntallMndBakITiden = ingenMålgruppeAktivitetAntallMndBakITiden;
