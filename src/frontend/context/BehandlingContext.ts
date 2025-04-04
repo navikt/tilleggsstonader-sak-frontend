@@ -91,7 +91,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         const behandlingErRedigerbar = erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
 
         const toggleKanSaksbehandleEllerRevurdere = behandling.forrigeIverksatteBehandlingId
-            ? kanRevurdere
+            ? kanSaksbehandle && kanRevurdere
             : kanSaksbehandle;
 
         return {
