@@ -44,6 +44,14 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
                         )}
+                        {behandlingsoversikt.boUtgifter && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.boUtgifter}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.boUtgifter ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            />
+                        )}
                     </>
                 )}
             </DataViewer>
