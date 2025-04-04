@@ -1,5 +1,6 @@
-import { TypeVedtak, ÅrsakAvslag } from './vedtak';
+import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
+import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
@@ -27,13 +28,7 @@ export interface InnvilgelseBarnetilsyn {
     begrunnelse?: string;
 }
 
-export type AvslåBarnetilsynRequest = {
-    type: TypeVedtak.AVSLAG;
-    årsakerAvslag: ÅrsakAvslag[];
-    begrunnelse: string;
-};
-
-export type AvslagBarnetilsyn = AvslåBarnetilsynRequest;
+export type AvslagBarnetilsyn = AvslagRequest;
 
 export type OpphørBarnetilsyn = OpphørRequest & {
     beregningsresultat: BeregningsresultatTilsynBarn;

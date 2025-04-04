@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { HGrid } from '@navikt/ds-react';
 
-import AvslåVedtak from './AvslåVedtak';
+import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -16,9 +16,9 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
+import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
-import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
 
 const Container = styled.div`
     padding: 2rem 2rem;

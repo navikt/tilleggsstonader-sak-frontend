@@ -2,50 +2,39 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
+import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
+import { AvslagRequest, useLagreAvslag } from '../../../../hooks/useLagreAvslag';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
-import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import {
-    TypeVedtak,
     ÅrsakAvslag,
     årsakAvslagTilTekst,
     årsakerForStønad,
 } from '../../../../typer/vedtak/vedtak';
-import {
-    AvslagBarnetilsyn,
-    AvslåBarnetilsynRequest,
-} from '../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../faner';
-import { FeilmeldingVedtak, valider } from '../Felles/validering';
 
-const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
+const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { request, settUlagretKomponent } = useApp();
+    const { settUlagretKomponent } = useApp();
+
+    const { lagreAvslag } = useLagreAvslag();
 
     const [årsaker, settÅrsaker] = useState<ÅrsakAvslag[]>(vedtak?.årsakerAvslag || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
-
-    const lagreVedtak = () => {
-        return request<null, AvslåBarnetilsynRequest>(
-            `/api/sak/vedtak/tilsyn-barn/${behandling.id}/avslag`,
-            'POST',
-            { type: TypeVedtak.AVSLAG, årsakerAvslag: årsaker, begrunnelse: begrunnelse }
-        );
-    };
 
     const validerOgLagreVedtak = () => {
         const feil = valider(årsaker, begrunnelse);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
-            return lagreVedtak();
+            return lagreAvslag(årsaker, begrunnelse);
         } else {
             return Promise.reject();
         }
@@ -64,7 +53,7 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagBarnetilsyn }> = ({ vedtak }) => {
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {årsakerForStønad[Stønadstype.BARNETILSYN].map((årsak) => (
+                {årsakerForStønad[behandling.stønadstype].map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
                         {årsakAvslagTilTekst[årsak as ÅrsakAvslag]}
                     </Checkbox>
