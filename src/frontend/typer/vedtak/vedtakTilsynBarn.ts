@@ -1,8 +1,8 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
@@ -60,7 +60,7 @@ type Beregningsresultat = {
 export interface VedtaksperiodeBeregningsresultat {
     fom: string;
     tom: string;
-    målgruppe: MålgruppeType;
+    målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
     antallBarn: number;
 }
