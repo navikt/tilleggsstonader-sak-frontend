@@ -3,7 +3,6 @@ import React from 'react';
 import { automatiskVurdert } from './automatiskVurdert';
 import { PassBarnLesMer } from './PassBarnLesMer';
 import { PassBarnSaksinformasjonAndreForeldre } from './PassBarnSaksinformasjonAndreForeldre';
-import { VarselBarnUnder2År } from './VarselBarnUnder2år';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkår } from '../../../../context/VilkårContext';
 import { InlineKopiknapp } from '../../../../komponenter/Knapper/InlineKopiknapp';
@@ -39,8 +38,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
     return behandlingFakta.barn.map((barn) => {
         const vilkårForDetteBarnet = vilkårsett.filter((e) => e.barnId === barn.barnId);
 
-        const { navn, alder, fødselsdato, dødsdato, saksinformasjonAndreForeldre } =
-            barn.registergrunnlag;
+        const { navn, alder, dødsdato, saksinformasjonAndreForeldre } = barn.registergrunnlag;
 
         return (
             <VilkårPanel
@@ -57,7 +55,6 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
                 <PassBarnSaksinformasjonAndreForeldre
                     saksinformasjonAndreForeldre={saksinformasjonAndreForeldre}
                 />
-                <VarselBarnUnder2År fødselsdato={fødselsdato} vilkår={vilkårForDetteBarnet} />
                 <PassBarnLesMer />
                 {vilkårForDetteBarnet.map((vilkår) => (
                     <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
