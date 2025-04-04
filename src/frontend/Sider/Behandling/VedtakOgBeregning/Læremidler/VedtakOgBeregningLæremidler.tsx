@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { HGrid } from '@navikt/ds-react';
 
-import AvslåVedtak from './AvslåVedtak';
 import { InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseLæremidlerEllerVedtaksperioderFraForrigeBehandling';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -17,6 +16,7 @@ import {
     vedtakErOpphør,
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
+import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
