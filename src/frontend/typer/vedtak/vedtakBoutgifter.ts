@@ -59,8 +59,8 @@ type Beregningsresultat = {
     tom: string;
     antallMåneder: number;
     utbetalingsdato: string;
-    målgruppe: string;
-    aktivitet: string;
+    målgruppe: MålgruppeType;
+    aktivitet: AktivitetType;
     delAvTidligereUtbetaling: boolean;
 };
 

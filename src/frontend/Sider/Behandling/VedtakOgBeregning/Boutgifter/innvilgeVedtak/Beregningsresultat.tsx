@@ -7,6 +7,8 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
+import { målgruppeTypeTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -45,8 +47,12 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                             <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
                             <BodyShort size="small">{periode.utbetalingsdato}</BodyShort>
-                            <BodyShort size="small">{periode.målgruppe}</BodyShort>
-                            <BodyShort size="small">{periode.aktivitet}</BodyShort>
+                            <BodyShort size="small">
+                                {målgruppeTypeTilTekst(periode.målgruppe)}
+                            </BodyShort>
+                            <BodyShort size="small">
+                                {aktivitetTypeTilTekst(periode.aktivitet)}
+                            </BodyShort>
                         </React.Fragment>
                     ))}
                 </Grid>
