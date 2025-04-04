@@ -147,6 +147,9 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
                     )}
                 </VStack>
             </Panel>
+            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
+                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
+            )}
             <StegKnapp
                 steg={Steg.BEREGNE_YTELSE}
                 nesteFane={FanePath.SIMULERING}
@@ -155,9 +158,6 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
             >
                 Lagre vedtak og gå videre
             </StegKnapp>
-            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
-                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
-            )}
         </>
     );
 };
