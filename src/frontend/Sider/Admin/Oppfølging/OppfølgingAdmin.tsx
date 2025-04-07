@@ -42,7 +42,7 @@ export const OppølgingAdmin = () => {
     const [oppfølginger, settOppføginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
 
     useEffect(() => {
-        request<Oppfølging[], null>(`/api/sak/oppfolging/v2`).then(settOppføginger);
+        request<Oppfølging[], null>(`/api/sak/oppfolging`).then(settOppføginger);
     }, [request]);
 
     return (
