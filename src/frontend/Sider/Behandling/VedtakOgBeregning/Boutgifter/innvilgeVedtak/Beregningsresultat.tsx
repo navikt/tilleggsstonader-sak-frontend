@@ -36,7 +36,6 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 <Grid>
                     <Label>Fom</Label>
                     <Label>Tom</Label>
-                    <Label>Antall måneder</Label>
                     <Label>Stønadsbeløp</Label>
                     <Label>Utbetalingsdato</Label>
                     <Label>Målgruppe</Label>
@@ -45,7 +44,6 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         <React.Fragment key={indeks}>
                             <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
                             <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
-                            <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
                             <BodyShort size="small">
                                 {formaterIsoDato(periode.utbetalingsdato)}
