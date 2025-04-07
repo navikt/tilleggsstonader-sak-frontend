@@ -1,8 +1,10 @@
+import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
 import { lagVedtakstabellTilsynBarn } from './lagVedtakstabellTilsynBarn';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
@@ -33,6 +35,10 @@ export const lagVedtakstabell = (
         case Stønadstype.LÆREMIDLER:
             return lagVedtakstabellLæremidler(
                 vedtak.beregningsresultat as BeregningsresultatLæremidler
+            );
+        case Stønadstype.BOUTGIFTER:
+            return lagVedtakstabellBoutgifter(
+                vedtak.beregningsresultat as BeregningsresultatBoutgifter
             );
         default:
             return TOM_VEDTAKSTABELL;
