@@ -3,6 +3,7 @@ import { BehandlingStatus } from './behandling/behandlingStatus';
 export interface Klagebehandlinger {
     tilsynBarn: KlageBehandling[];
     læremidler: KlageBehandling[];
+    boutgifter: KlageBehandling[];
 }
 
 export interface KlageBehandling {

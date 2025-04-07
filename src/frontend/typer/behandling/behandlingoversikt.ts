@@ -9,6 +9,7 @@ export interface Behandlingsoversikt {
     fagsakPersonId: string;
     tilsynBarn?: FagsakMedBehandlinger;
     læremidler?: FagsakMedBehandlinger;
+    boutgifter?: FagsakMedBehandlinger;
 }
 
 export interface FagsakMedBehandlinger {
