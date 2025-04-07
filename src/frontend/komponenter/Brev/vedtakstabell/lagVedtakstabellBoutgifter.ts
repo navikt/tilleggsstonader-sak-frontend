@@ -21,6 +21,7 @@ const lagBeregningstabell = (
                 <thead>
                     <tr>
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
+                        <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Merutgift</th>
                         <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Beløpet du får</th>
                     </tr>
                 </thead>
@@ -37,12 +38,13 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
     return beregningsresultat.perioder
         .map((periode) => {
             const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
-            // const merutgift = formaterTallMedTusenSkille(periode.merutgift);
+            const merutgift = formaterTallMedTusenSkille(periode.merutgift);
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
             const stjernemerkingSatsendring = periode.delAvTidligereUtbetaling ? '*' : '';
 
             return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
+                        <td style="${borderStyling}">${merutgift} kr</td>
                         <td style="${borderStyling}">${stønadsbeløp} kr${stjernemerkingSatsendring}</td>
                     </tr>`;
         })
