@@ -7,15 +7,23 @@ import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { Oppfølging, årsakKontrollTilTekst } from './oppfølgingTyper';
 import { formaterIsoDato, formaterIsoPeriode } from '../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
+import {
+    AktivitetType,
+    AktivitetTypeTilTekst,
+} from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     MålgruppeType,
-    målgruppeTypeTilTekst,
+    MålgruppeTypeTilTekst,
 } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Tabell = styled(Table)`
     border: 1px solid ${ABorderDefault};
 `;
+
+const typerTilTekst: Record<MålgruppeType | AktivitetType, string> = {
+    ...MålgruppeTypeTilTekst,
+    ...AktivitetTypeTilTekst,
+};
 
 export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølging: Oppfølging }) => {
     return (
@@ -25,43 +33,33 @@ export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølg
                     <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
                         Periode
                     </Table.HeaderCell>
-                    <Table.HeaderCell scope={'col'} style={{ width: '38%' }}>
-                        Målgruppe
+                    <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
+                        Type
                     </Table.HeaderCell>
-                    <Table.HeaderCell scope={'col'} style={{ width: '38%' }}>
-                        Aktivitet
+                    <Table.HeaderCell scope={'col'} style={{ width: '52%' }}>
+                        Årsak
                     </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body style={{ verticalAlign: 'top' }}>
-                {oppfølging.data.perioderTilKontroll.map((periode, index) => (
+                {oppfølging.perioderTilKontroll.map((periode, index) => (
                     <Table.Row key={index}>
                         <Table.DataCell>
                             {formaterIsoPeriode(periode.fom, periode.tom)}
                         </Table.DataCell>
                         <Table.DataCell>
                             <VStack>
-                                <VStack>
-                                    <span>{målgruppeTypeTilTekst(periode.målgruppe)}</span>
-                                    {periode.målgruppe === MålgruppeType.OMSTILLINGSSTØNAD && (
-                                        <Alert variant={'warning'} inline>
-                                            Kan gjelde gammelt regelverk
-                                        </Alert>
-                                    )}
-                                </VStack>
-                                {periode.endringMålgruppe.map((endring) => (
-                                    <span key={endring.årsak}>
-                                        {årsakKontrollTilTekst[endring.årsak]}
-                                        {endring.fom && ` (${formaterIsoDato(endring.fom)})`}
-                                        {endring.tom && ` (${formaterIsoDato(endring.tom)})`}
-                                    </span>
-                                ))}
+                                <span>{typerTilTekst[periode.type]}</span>
+                                {periode.type === MålgruppeType.OMSTILLINGSSTØNAD && (
+                                    <Alert variant={'warning'} inline>
+                                        Kan gjelde gammelt regelverk
+                                    </Alert>
+                                )}
                             </VStack>
                         </Table.DataCell>
                         <Table.DataCell>
                             <VStack>
-                                {aktivitetTypeTilTekst(periode.aktivitet)}
-                                {periode.endringAktivitet.map((endring) => (
+                                {periode.endringer.map((endring) => (
                                     <span key={endring.årsak}>
                                         {årsakKontrollTilTekst[endring.årsak]}
                                         {endring.fom && ` (${formaterIsoDato(endring.fom)})`}

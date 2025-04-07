@@ -42,7 +42,7 @@ export const OppølgingAdmin = () => {
     const [oppfølginger, settOppføginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
 
     useEffect(() => {
-        request<Oppfølging[], null>(`/api/sak/oppfolging`).then(settOppføginger);
+        request<Oppfølging[], null>(`/api/sak/oppfolging/v2`).then(settOppføginger);
     }, [request]);
 
     return (
@@ -60,10 +60,10 @@ interface OppfølgingMedDetaljer extends Oppfølging {
  * Skal vise warning hvis en kontroll påvirker en periode som endres i neste måned då vi ønsker å unngå tilbakekreving
  */
 const skalViseWarningTag = (oppfølging: Oppfølging) =>
-    oppfølging.data.perioderTilKontroll.some(
+    oppfølging.perioderTilKontroll.some(
         (periode) =>
             erEtterDagensDato(periode.tom) &&
-            [...periode.endringAktivitet, ...periode.endringMålgruppe].some(
+            periode.endringer.some(
                 (endring) => endring.tom && erEtter(førsteDagIMånederForut(-2), endring.tom)
             )
     );
@@ -103,9 +103,7 @@ const manglerKontroll = (oppfølging: OppfølgingMedDetaljer) =>
     !(oppfølging.kontrollert && oppfølging.kontrollert.utfall != OppfølgingUtfall.UNDER_ARBEID);
 
 const inneholderIkkeKunAAP = (oppfølging: OppfølgingMedDetaljer) =>
-    oppfølging.data.perioderTilKontroll.some(
-        (periode) => periode.målgruppe !== MålgruppeType.AAP || periode.endringAktivitet.length
-    );
+    oppfølging.perioderTilKontroll.some((periode) => periode.type !== MålgruppeType.AAP);
 
 export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
     const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
@@ -167,7 +165,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     defaultChecked={skjulAAP}
                     onChange={() => settSkjulAAP((prevState) => !prevState)}
                 >
-                    Skul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
+                    Skjul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
                 </Checkbox>
             </div>
             <VStack gap={'8'} style={{ width: 'fit-content' }}>

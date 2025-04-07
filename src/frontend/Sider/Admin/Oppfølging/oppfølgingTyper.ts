@@ -7,9 +7,7 @@ export interface Oppfølging {
     version: number;
     behandlingId: string;
     opprettetTidspunkt: string;
-    data: {
-        perioderTilKontroll: PeriodeTilKontroll[];
-    };
+    perioderTilKontroll: PeriodeTilKontroll[];
     kontrollert?: {
         tidspunkt: string;
         saksbehandler: string;
@@ -28,10 +26,8 @@ export interface Oppfølging {
 interface PeriodeTilKontroll {
     fom: string;
     tom: string;
-    målgruppe: MålgruppeType;
-    aktivitet: AktivitetType;
-    endringAktivitet: Kontroll[];
-    endringMålgruppe: Kontroll[];
+    type: MålgruppeType | AktivitetType;
+    endringer: Kontroll[];
 }
 
 interface Kontroll {
