@@ -7,6 +7,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import { formaterIsoDato } from '../../../../../utils/dato';
 import { faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 
@@ -42,11 +43,13 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     <Label>Aktivitet</Label>
                     {beregningsresultat.perioder.map((periode, indeks) => (
                         <React.Fragment key={indeks}>
-                            <BodyShort size="small">{periode.fom}</BodyShort>
-                            <BodyShort size="small">{periode.tom}</BodyShort>
+                            <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
+                            <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
                             <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
-                            <BodyShort size="small">{periode.utbetalingsdato}</BodyShort>
+                            <BodyShort size="small">
+                                {formaterIsoDato(periode.utbetalingsdato)}
+                            </BodyShort>
                             <BodyShort size="small">
                                 {faktiskMålgruppeTilTekst(periode.målgruppe)}
                             </BodyShort>
