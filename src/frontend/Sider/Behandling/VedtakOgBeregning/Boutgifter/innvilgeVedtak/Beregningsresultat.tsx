@@ -21,7 +21,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(7, max-content);
+    grid-template-columns: repeat(6, max-content);
     gap: 0.4rem 2rem;
 `;
 
