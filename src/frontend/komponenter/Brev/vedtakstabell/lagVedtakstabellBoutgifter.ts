@@ -38,7 +38,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
     return beregningsresultat.perioder
         .map((periode) => {
             const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
-            const merutgift = formaterTallMedTusenSkille(periode.merutgift);
+            const merutgift = formaterTallMedTusenSkille(periode.sumUtgifter);
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
             // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
             const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';

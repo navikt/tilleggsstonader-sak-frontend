@@ -55,7 +55,7 @@ type Beregningsresultat = {
     fom: string;
     tom: string;
     utbetalingsdato: string;
-    merutgift: number;
+    sumUtgifter: number;
     målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
     makssatsBekreftet: boolean;
