@@ -58,5 +58,6 @@ type Beregningsresultat = {
     merutgift: number;
     målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
+    makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
 };

@@ -40,12 +40,13 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
             const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
             const merutgift = formaterTallMedTusenSkille(periode.merutgift);
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
-            const stjernemerkingSatsendring = periode.delAvTidligereUtbetaling ? '*' : '';
+            // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
+            const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
 
             return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
                         <td style="${borderStyling}">${merutgift} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløp} kr${stjernemerkingSatsendring}</td>
+                        <td style="${borderStyling}">${stønadsbeløp} kr${asteriksForSatsendring}</td>
                     </tr>`;
         })
         .join('');
