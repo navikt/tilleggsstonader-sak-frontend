@@ -10,9 +10,14 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
-import { VedtakBoutgifter, vedtakErInnvilgelse } from '../../../../typer/vedtak/vedtakBoutgifter';
+import {
+    VedtakBoutgifter,
+    vedtakErAvslag,
+    vedtakErInnvilgelse,
+} from '../../../../typer/vedtak/vedtakBoutgifter';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling';
+import AvslåVedtak from '../Felles/AvslåVedtak';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -42,11 +47,11 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
                                     typeVedtak={typeVedtak}
                                     settTypeVedtak={settTypeVedtak}
                                 />
-                                {/*{typeVedtak === TypeVedtak.AVSLAG && (*/}
-                                {/*    <AvslåVedtak*/}
-                                {/*        vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}*/}
-                                {/*    />*/}
-                                {/*)}*/}
+                                {typeVedtak === TypeVedtak.AVSLAG && (
+                                    <AvslåVedtak
+                                        vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                    />
+                                )}
                                 {/*{typeVedtak === TypeVedtak.OPPHØR && (*/}
                                 {/*    <OpphørVedtak*/}
                                 {/*        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}*/}
