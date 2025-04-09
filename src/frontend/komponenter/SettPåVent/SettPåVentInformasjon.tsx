@@ -10,7 +10,7 @@ import {
     formaterIsoDato,
     formaterNullableTilTekstligDato,
     formaterTilTekstligDato,
-} from '../../../utils/dato';
+} from '../../utils/dato';
 
 const Kommentar = styled(BodyLong)`
     white-space: pre-wrap;

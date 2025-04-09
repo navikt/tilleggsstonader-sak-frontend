@@ -16,14 +16,14 @@ import {
     årsakTilTekst,
 } from './typer';
 import { harValgtAnnet, validerSettPåVent } from './validerSettPåVent';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { FormErrors, isValid } from '../../../hooks/felles/useFormState';
-import { useTriggRerendringAvDateInput } from '../../../hooks/useTriggRerendringAvDateInput';
-import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
-import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
-import DateInput from '../../../komponenter/Skjema/DateInput';
-import { Ressurs, RessursStatus } from '../../../typer/ressurs';
+import { useApp } from '../../context/AppContext';
+import { useBehandling } from '../../context/BehandlingContext';
+import { FormErrors, isValid } from '../../hooks/felles/useFormState';
+import { useTriggRerendringAvDateInput } from '../../hooks/useTriggRerendringAvDateInput';
+import { Ressurs, RessursStatus } from '../../typer/ressurs';
+import { Feilmelding } from '../Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
+import DateInput from '../Skjema/DateInput';
 
 const ÅrsakContainer = styled.div`
     width: 35rem;

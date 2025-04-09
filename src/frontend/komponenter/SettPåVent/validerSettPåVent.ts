@@ -1,6 +1,6 @@
 import { SettPåVent, SettPåVentError, ÅrsakSettPåVent } from './typer';
-import { FormErrors } from '../../../hooks/felles/useFormState';
-import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
+import { FormErrors } from '../../hooks/felles/useFormState';
+import { harIkkeVerdi, harVerdi } from '../../utils/utils';
 
 export const validerSettPåVent = (settPåVent: SettPåVent): FormErrors<SettPåVentError> => {
     let feil: FormErrors<SettPåVentError> = {

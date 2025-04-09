@@ -8,12 +8,12 @@ import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
 import SettPåVentForm from './SettPåVentForm';
 import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import { useVisFeilmeldingVedUnload } from '../../../hooks/useVisFeilmeldingVedUnload';
-import DataViewer from '../../../komponenter/DataViewer';
-import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
-import { byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { useApp } from '../../context/AppContext';
+import { useBehandling } from '../../context/BehandlingContext';
+import { useVisFeilmeldingVedUnload } from '../../hooks/useVisFeilmeldingVedUnload';
+import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
+import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import DataViewer from '../DataViewer';
 
 const Container = styled.div`
     margin: 2rem;
