@@ -1,4 +1,4 @@
-import { ÅrsakSettPåVent } from '../../SettPåVent/typer';
+import { ÅrsakSettPåVent } from '../../../../komponenter/SettPåVent/typer';
 import { ÅrsakUnderkjent } from '../../Totrinnskontroll/typer';
 
 export interface HistorikkHendelse {

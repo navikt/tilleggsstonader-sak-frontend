@@ -1,5 +1,5 @@
 import { ÅrsakSettPåVent, årsakTilFrist } from './typer';
-import { plusDager } from '../../../utils/dato';
+import { plusDager } from '../../utils/dato';
 
 /**
  * Hver årsak er mappet til frist i antall dager

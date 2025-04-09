@@ -8,10 +8,10 @@ import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
-import SettPåVentContainer from './SettPåVent/SettPåVentContainer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
+import SettPåVentContainer from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';

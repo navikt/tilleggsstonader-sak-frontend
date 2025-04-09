@@ -9,7 +9,7 @@ import {
     erTattAvVentMetadata,
     erVedtakUnderkjentMetadata,
 } from './utils';
-import { årsakTilTekst } from '../../SettPåVent/typer';
+import { årsakTilTekst } from '../../../../komponenter/SettPåVent/typer';
 import { årsakUnderkjentTilTekst } from '../../Totrinnskontroll/typer';
 
 const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
