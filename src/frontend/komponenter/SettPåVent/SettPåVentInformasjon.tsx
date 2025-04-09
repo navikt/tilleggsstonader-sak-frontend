@@ -66,10 +66,7 @@ const SettPåVentInformasjon: React.FC<{
                     </Button>
                 </HStack>
             )}
-            <TaAvVentModal
-                visModal={visTaAvVentModal}
-                skjulModal={() => settVisTaAvVentModal(false)}
-            />
+            {visTaAvVentModal && <TaAvVentModal skjulModal={() => settVisTaAvVentModal(false)} />}
         </VStack>
     );
 };
