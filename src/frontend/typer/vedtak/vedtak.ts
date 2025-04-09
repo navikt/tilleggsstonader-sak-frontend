@@ -30,7 +30,7 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     MANGELFULL_DOKUMENTASJON: 'Mangelfull dokumentasjon',
     HAR_IKKE_UTGIFTER: 'Har ikke utgifter',
     RETT_TIL_UTSTYRSSTIPEND: 'Rett til utstyrsstipend',
-    HAR_IKKE_MER_UTGIFTER: 'Har ikke nødvendivige mer utgifter',
+    HAR_IKKE_MER_UTGIFTER: 'Har ikke nødvendige merutgifter',
     RETT_TIL_BOSTØTTE: 'Rett til/mottar bostøtte',
     ANNET: 'Annet',
 };
