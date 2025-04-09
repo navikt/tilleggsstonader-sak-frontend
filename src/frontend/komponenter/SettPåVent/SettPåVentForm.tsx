@@ -17,7 +17,7 @@ import {
 } from './typer';
 import { harValgtAnnet, validerSettPåVent } from './validerSettPåVent';
 import { useApp } from '../../context/AppContext';
-import { useBehandling } from '../../context/BehandlingContext';
+import { useSettPåVent } from '../../context/SettPåVentContext';
 import { FormErrors, isValid } from '../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../hooks/useTriggRerendringAvDateInput';
 import { Ressurs, RessursStatus } from '../../typer/ressurs';
@@ -34,8 +34,9 @@ const SettPåVentForm: React.FC<{
     settStatusPåVent: (status: Ressurs<StatusSettPåVent>) => void;
     settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ status, settStatusPåVent, settStatusPåVentRedigering }) => {
-    const { behandling, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { request } = useApp();
+
+    const { behandlingId, hentBehandling, hentBehandlingshistorikk } = useSettPåVent();
 
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -74,7 +75,7 @@ const SettPåVentForm: React.FC<{
 
         settLaster(true);
         request<StatusSettPåVent, SettPåVentRequest>(
-            `/api/sak/sett-pa-vent/${behandling.id}`,
+            `/api/sak/sett-pa-vent/${behandlingId}`,
             oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
             { ...settPåVent, beholdOppgave }
         ).then((response) => {

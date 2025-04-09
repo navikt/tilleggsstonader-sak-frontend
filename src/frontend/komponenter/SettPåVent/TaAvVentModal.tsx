@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Textarea } from '@navikt/ds-react';
 
 import { useApp } from '../../context/AppContext';
-import { useBehandling } from '../../context/BehandlingContext';
+import { useSettPåVent } from '../../context/SettPåVentContext';
 import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
@@ -22,7 +22,7 @@ const TaAvVentModal: React.FC<{
     skjulModal: () => void;
 }> = ({ visModal, skjulModal }) => {
     const { request } = useApp();
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandlingId, hentBehandling } = useSettPåVent();
     const navigate = useNavigate();
 
     const [kommentar, settKommentar] = useState('');
@@ -32,7 +32,7 @@ const TaAvVentModal: React.FC<{
     const taAvVent = (skalTilordnesRessurs: boolean) => {
         if (laster) return;
         settLaster(true);
-        request<null, TaAvVentRequest>(`/api/sak/sett-pa-vent/${behandling.id}`, 'DELETE', {
+        request<null, TaAvVentRequest>(`/api/sak/sett-pa-vent/${behandlingId}`, 'DELETE', {
             skalTilordnesRessurs: skalTilordnesRessurs,
             kommentar: kommentar,
         }).then((resp) => {

@@ -10,6 +10,7 @@ import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
+import { SettPåVentProvider, useSettPåVent } from '../../context/SettPåVentContext';
 import { useVisFeilmeldingVedUnload } from '../../hooks/useVisFeilmeldingVedUnload';
 import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
@@ -21,29 +22,54 @@ const Container = styled.div`
     background: ${AGray100};
 `;
 
+export const SettPåVentSak = ({
+    statusPåVentRedigering,
+    settStatusPåVentRedigering,
+}: {
+    statusPåVentRedigering: boolean;
+    settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+    const { behandling, hentBehandling, hentBehandlingshistorikk } = useBehandling();
+    return (
+        <SettPåVentProvider
+            context={'sak'}
+            behandlingId={behandling.id}
+            behandlingErSattPåVent={behandling.status === BehandlingStatus.SATT_PÅ_VENT}
+            hentBehandling={hentBehandling}
+            hentBehandlingshistorikk={hentBehandlingshistorikk}
+        >
+            <SettPåVentContainer
+                statusPåVentRedigering={statusPåVentRedigering}
+                settStatusPåVentRedigering={settStatusPåVentRedigering}
+            />
+        </SettPåVentProvider>
+    );
+};
+
 const SettPåVentContainer: React.FC<{
     statusPåVentRedigering: boolean;
     settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ statusPåVentRedigering, settStatusPåVentRedigering }) => {
-    const { request, erSaksbehandler } = useApp();
-    const { behandling } = useBehandling();
+    const { erSaksbehandler, request } = useApp();
+
+    const { context, behandlingId, behandlingErSattPåVent } = useSettPåVent();
 
     const [statusResponse, settStatusResponse] =
         useState<Ressurs<StatusSettPåVent>>(byggTomRessurs());
 
     useEffect(() => {
-        if (erSaksbehandler && behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
-            request<StatusSettPåVent, null>(`/api/sak/sett-pa-vent/${behandling.id}`).then(
+        if (erSaksbehandler && behandlingErSattPåVent) {
+            request<StatusSettPåVent, null>(`/api/${context}/sett-pa-vent/${behandlingId}`).then(
                 settStatusResponse
             );
         }
         // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling.id]);
+    }, [behandlingId]);
 
     useVisFeilmeldingVedUnload(statusPåVentRedigering);
 
-    if (behandling.status === BehandlingStatus.SATT_PÅ_VENT) {
+    if (behandlingErSattPåVent) {
         if (!erSaksbehandler) {
             return <Alert variant={'warning'}>Behandlingen er satt på vent.</Alert>;
         }
@@ -83,4 +109,3 @@ const SettPåVentContainer: React.FC<{
         return null;
     }
 };
-export default SettPåVentContainer;
