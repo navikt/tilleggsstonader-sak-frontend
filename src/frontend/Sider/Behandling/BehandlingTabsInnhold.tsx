@@ -11,7 +11,7 @@ import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner'
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
-import SettPåVentContainer from '../../komponenter/SettPåVent/SettPåVentContainer';
+import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
@@ -122,7 +122,7 @@ const BehandlingTabsInnhold = () => {
                 {!toggleKanSaksbehandle && (
                     <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
                 )}
-                <SettPåVentContainer
+                <SettPåVentSak
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />

@@ -1,3 +1,6 @@
+export type SettPåVentContext = 'sak';
+export type SettPåVentBehandlingStatus = 'SATT_PÅ_VENT' | 'ANNET';
+
 export interface SettPåVent {
     årsaker: ÅrsakSettPåVent[];
     kommentar?: string;
