@@ -18,9 +18,8 @@ interface TaAvVentRequest {
 }
 
 const TaAvVentModal: React.FC<{
-    visModal: boolean;
     skjulModal: () => void;
-}> = ({ visModal, skjulModal }) => {
+}> = ({ skjulModal }) => {
     const { request } = useApp();
     const { behandlingId, hentBehandling } = useSettPåVent();
     const navigate = useNavigate();
@@ -56,7 +55,7 @@ const TaAvVentModal: React.FC<{
 
     return (
         <ModalWrapper
-            visModal={visModal}
+            visModal={true}
             onClose={lukkModal}
             tittel="Ta behandling av vent"
             aksjonsknapper={{
