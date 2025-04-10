@@ -8,8 +8,6 @@ import '@navikt/ds-css';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
-import { faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
-import { aktivitetTypeTilTekst } from '../../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -21,7 +19,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(6, max-content);
+    grid-template-columns: repeat(4, max-content);
     gap: 0.4rem 2rem;
 `;
 
@@ -34,26 +32,16 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
         <VStack gap={'8'}>
             <Container>
                 <Grid>
-                    <Label>Fom</Label>
-                    <Label>Tom</Label>
+                    <Label>Fra og med</Label>
+                    <Label>Til og med</Label>
+                    <Label>Merutgift</Label>
                     <Label>Stønadsbeløp</Label>
-                    <Label>Utbetalingsdato</Label>
-                    <Label>Målgruppe</Label>
-                    <Label>Aktivitet</Label>
                     {beregningsresultat.perioder.map((periode, indeks) => (
                         <React.Fragment key={indeks}>
                             <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
                             <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
+                            <BodyShort size="small">{periode.sumUtgifter}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
-                            <BodyShort size="small">
-                                {formaterIsoDato(periode.utbetalingsdato)}
-                            </BodyShort>
-                            <BodyShort size="small">
-                                {faktiskMålgruppeTilTekst(periode.målgruppe)}
-                            </BodyShort>
-                            <BodyShort size="small">
-                                {aktivitetTypeTilTekst(periode.aktivitet)}
-                            </BodyShort>
                         </React.Fragment>
                     ))}
                 </Grid>
