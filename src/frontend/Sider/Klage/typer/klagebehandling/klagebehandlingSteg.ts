@@ -27,13 +27,3 @@ export const behandlingStegTilTekst: Record<KlagebehandlingSteg, string> = {
     KABAL_VENTER_SVAR: 'Venter på svar fra Nav klageinstans',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
-
-export const behandlingStegFullførtTilTekst: Record<KlagebehandlingSteg, string> = {
-    OPPRETTET: 'Behandling er opprettet',
-    FORMKRAV: 'Formkrav er oppdatert',
-    VURDERING: 'Vurdering er oppdatert',
-    BREV: 'Brev er oppdatert',
-    OVERFØRING_TIL_KABAL: 'Overført til Nav klageinstans',
-    KABAL_VENTER_SVAR: 'Mottatt svar fra Nav klageinstans',
-    BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
-};

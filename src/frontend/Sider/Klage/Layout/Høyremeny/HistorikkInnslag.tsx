@@ -7,11 +7,9 @@ import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 import { formaterIsoDatoTid } from '../../../../utils/dato';
+import { Behandlingshistorikk, hendelseTilTekst } from '../../typer/behandlingshistorikk';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-import {
-    behandlingStegFullførtTilTekst,
-    KlagebehandlingSteg,
-} from '../../typer/klagebehandling/klagebehandlingSteg';
+import { KlagebehandlingSteg } from '../../typer/klagebehandling/klagebehandlingSteg';
 import { utledStegutfall } from '../../utils/behandlingsresultat';
 
 const Innslag = styled.div`
@@ -36,17 +34,14 @@ const Tekst = styled.div`
 
 interface IHistorikkOppdatering {
     behandling: Klagebehandling;
-    historikksteg: KlagebehandlingSteg;
-    opprettetAv: string;
-    endretTid: string;
+    historikk: Behandlingshistorikk;
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     behandling,
-    historikksteg,
-    opprettetAv,
-    endretTid,
+    historikk,
 }) => {
+    const { steg, hendelse, endretTid, endretAvNavn } = historikk;
     return (
         <Innslag>
             <Ikon>
@@ -54,12 +49,13 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StipletLinje />
             </Ikon>
             <Tekst>
-                <Label size="small">{behandlingStegFullførtTilTekst[historikksteg]}</Label>
-                {historikksteg === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT && (
-                    <BodyShort>{utledStegutfall(behandling, historikksteg)}</BodyShort>
+                {}
+                <Label size="small">{hendelseTilTekst[hendelse]}</Label>
+                {hendelse === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT && (
+                    <BodyShort>{utledStegutfall(behandling, steg)}</BodyShort>
                 )}
                 <Detail size="small">
-                    {formaterIsoDatoTid(endretTid)} | {opprettetAv}
+                    {formaterIsoDatoTid(endretTid)} | {endretAvNavn}
                 </Detail>
             </Tekst>
         </Innslag>

@@ -24,8 +24,8 @@ export const fjernDuplikatStegFraHistorikk = (steg: Behandlingshistorikk[]) => {
 };
 
 const lagHistorikkInnslag = (steg: KlagebehandlingSteg): Behandlingshistorikk => ({
-    behandlingId: '',
     steg: steg,
-    opprettetAv: '',
+    hendelse: steg,
+    endretAvNavn: '',
     endretTid: '',
 });

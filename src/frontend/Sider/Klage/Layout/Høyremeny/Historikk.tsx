@@ -33,13 +33,7 @@ const HistorikkContainer: React.FC<{
         <>
             {behandlingHistorikk.map((historikk, index) => {
                 return (
-                    <HistorikkInnslag
-                        behandling={behandling}
-                        historikksteg={historikk.steg}
-                        opprettetAv={historikk.opprettetAv}
-                        endretTid={historikk.endretTid}
-                        key={index}
-                    />
+                    <HistorikkInnslag key={index} behandling={behandling} historikk={historikk} />
                 );
             })}
         </>
