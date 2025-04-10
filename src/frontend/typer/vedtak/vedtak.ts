@@ -18,6 +18,8 @@ export enum ÅrsakAvslag {
     MANGELFULL_DOKUMENTASJON = 'MANGELFULL_DOKUMENTASJON',
     HAR_IKKE_UTGIFTER = 'HAR_IKKE_UTGIFTER',
     RETT_TIL_UTSTYRSSTIPEND = 'RETT_TIL_UTSTYRSSTIPEND',
+    HAR_IKKE_MERUTGIFTER = 'HAR_IKKE_MERUTGIFTER',
+    RETT_TIL_BOSTØTTE = 'RETT_TIL_BOSTØTTE',
     ANNET = 'ANNET',
 }
 
@@ -28,6 +30,8 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     MANGELFULL_DOKUMENTASJON: 'Mangelfull dokumentasjon',
     HAR_IKKE_UTGIFTER: 'Har ikke utgifter',
     RETT_TIL_UTSTYRSSTIPEND: 'Rett til utstyrsstipend',
+    HAR_IKKE_MERUTGIFTER: 'Har ikke nødvendige merutgifter',
+    RETT_TIL_BOSTØTTE: 'Rett til/mottar bostøtte',
     ANNET: 'Annet',
 };
 
@@ -57,6 +61,8 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         MANGELFULL_DOKUMENTASJON: true,
         HAR_IKKE_UTGIFTER: false,
         RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
         ANNET: true,
     },
     [Stønadstype.LÆREMIDLER]: {
@@ -66,6 +72,8 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         MANGELFULL_DOKUMENTASJON: false,
         HAR_IKKE_UTGIFTER: true,
         RETT_TIL_UTSTYRSSTIPEND: true,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
         ANNET: true,
     },
     [Stønadstype.BOUTGIFTER]: {
@@ -73,8 +81,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         IKKE_I_MÅLGRUPPE: true,
         INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
         MANGELFULL_DOKUMENTASJON: true,
-        HAR_IKKE_UTGIFTER: true,
+        HAR_IKKE_UTGIFTER: false,
         RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: true,
+        RETT_TIL_BOSTØTTE: true,
         ANNET: true,
     },
 };
