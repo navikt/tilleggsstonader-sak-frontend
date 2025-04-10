@@ -21,7 +21,7 @@ const TaAvVentModal: React.FC<{
     skjulModal: () => void;
 }> = ({ skjulModal }) => {
     const { request } = useApp();
-    const { behandlingId, hentBehandling } = useSettPåVent();
+    const { context, behandlingId, hentBehandling } = useSettPåVent();
     const navigate = useNavigate();
 
     const [kommentar, settKommentar] = useState('');
@@ -31,7 +31,7 @@ const TaAvVentModal: React.FC<{
     const taAvVent = (skalTilordnesRessurs: boolean) => {
         if (laster) return;
         settLaster(true);
-        request<null, TaAvVentRequest>(`/api/sak/sett-pa-vent/${behandlingId}`, 'DELETE', {
+        request<null, TaAvVentRequest>(`/api/${context}/sett-pa-vent/${behandlingId}`, 'DELETE', {
             skalTilordnesRessurs: skalTilordnesRessurs,
             kommentar: kommentar,
         }).then((resp) => {

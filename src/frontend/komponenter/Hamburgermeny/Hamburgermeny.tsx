@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
+import { HourglassTopFilledIcon, MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
 
 import { ModiaPersonoversiktLenke } from './Lenker/ModiaPersonoversiktLenke';
@@ -19,6 +19,14 @@ export const Hamburgermeny: FC<Props> = ({ children }) => {
                 {children ?? <ActionMenu.Item>Ingen valg</ActionMenu.Item>}
             </ActionMenu.Content>
         </ActionMenu>
+    );
+};
+
+export const SettBehandlingPåVentItem = ({ onSelect }: { onSelect: () => void }) => {
+    return (
+        <ActionMenu.Item onSelect={onSelect} icon={<HourglassTopFilledIcon />}>
+            Sett på vent
+        </ActionMenu.Item>
     );
 };
 

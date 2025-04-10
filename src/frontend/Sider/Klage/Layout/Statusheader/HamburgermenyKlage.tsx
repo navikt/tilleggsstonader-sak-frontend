@@ -6,6 +6,7 @@ import {
     Hamburgermeny,
     HenleggMenuItem,
     LenkerGroup,
+    SettBehandlingPåVentItem,
 } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
@@ -15,7 +16,12 @@ import {
 } from '../../typer/klagebehandling/klagebehandling';
 
 export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling }) => {
-    const { settVisHenleggModal } = useKlagebehandling();
+    const {
+        settVisHenleggModal,
+        behandlingErRedigerbar,
+        statusPåVentRedigering,
+        settStatusPåVentRedigering,
+    } = useKlagebehandling();
     const { personIdent } = useKlageApp();
 
     return (
@@ -23,6 +29,11 @@ export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling
             {personIdent && <LenkerGroup ident={personIdent} />}
             {erBehandlingRedigerbar(behandling) && (
                 <ActionMenu.Group label={'Behandling'}>
+                    {behandlingErRedigerbar && !statusPåVentRedigering && (
+                        <SettBehandlingPåVentItem
+                            onSelect={() => settStatusPåVentRedigering(true)}
+                        />
+                    )}
                     <HenleggMenuItem
                         onSelect={() => settVisHenleggModal((prevState) => !prevState)}
                     />

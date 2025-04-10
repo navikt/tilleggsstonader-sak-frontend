@@ -6,12 +6,12 @@ import { Button, Heading, HStack, Textarea, UNSAFE_Combobox, VStack } from '@nav
 
 import { finnNyFrist } from './antallDagerFrist';
 import {
-    alleÅrsaker,
     SettPåVent,
     SettPåVentError,
     SettPåVentRequest,
     StatusSettPåVent,
     tekstTilÅrsak,
+    årsakerForContext,
     ÅrsakSettPåVent,
     årsakTilTekst,
 } from './typer';
@@ -36,7 +36,7 @@ const SettPåVentForm: React.FC<{
 }> = ({ status, settStatusPåVent, settStatusPåVentRedigering }) => {
     const { request } = useApp();
 
-    const { behandlingId, hentBehandling, hentBehandlingshistorikk } = useSettPåVent();
+    const { context, behandlingId, hentBehandling, hentBehandlingshistorikk } = useSettPåVent();
 
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -75,7 +75,7 @@ const SettPåVentForm: React.FC<{
 
         settLaster(true);
         request<StatusSettPåVent, SettPåVentRequest>(
-            `/api/sak/sett-pa-vent/${behandlingId}`,
+            `/api/${context}/sett-pa-vent/${behandlingId}`,
             oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
             { ...settPåVent, beholdOppgave }
         ).then((response) => {
@@ -94,7 +94,7 @@ const SettPåVentForm: React.FC<{
         });
     };
 
-    const filteredOptions = alleÅrsaker
+    const filteredOptions = årsakerForContext[context]
         .filter((årsak) => settPåVent.årsaker.indexOf(årsak as ÅrsakSettPåVent) === -1)
         .map((årsak) => årsakTilTekst[årsak as ÅrsakSettPåVent]);
 

@@ -1,6 +1,7 @@
 import constate from 'constate';
 
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
+import { SettPåVentContext } from '../komponenter/SettPåVent/typer';
 
 export const [SettPåVentProvider, useSettPåVent] = constate(
     ({
@@ -10,7 +11,7 @@ export const [SettPåVentProvider, useSettPåVent] = constate(
         hentBehandling,
         hentBehandlingshistorikk,
     }: {
-        context: 'sak';
+        context: SettPåVentContext;
         behandlingId: string;
         behandlingErSattPåVent: boolean;
         hentBehandling: RerrunnableEffect;

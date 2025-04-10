@@ -12,8 +12,10 @@ import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { SettPåVentProvider, useSettPåVent } from '../../context/SettPåVentContext';
 import { useVisFeilmeldingVedUnload } from '../../hooks/useVisFeilmeldingVedUnload';
+import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
+import { KlagebehandlingStatus } from '../../Sider/Klage/typer/klagebehandling/klagebehandlingStatus';
 import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
-import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../typer/ressurs';
 import DataViewer from '../DataViewer';
 
 const Container = styled.div`
@@ -35,6 +37,33 @@ export const SettPåVentSak = ({
             context={'sak'}
             behandlingId={behandling.id}
             behandlingErSattPåVent={behandling.status === BehandlingStatus.SATT_PÅ_VENT}
+            hentBehandling={hentBehandling}
+            hentBehandlingshistorikk={hentBehandlingshistorikk}
+        >
+            <SettPåVentContainer
+                statusPåVentRedigering={statusPåVentRedigering}
+                settStatusPåVentRedigering={settStatusPåVentRedigering}
+            />
+        </SettPåVentProvider>
+    );
+};
+
+export const SettPåVentKlage = () => {
+    const {
+        behandling,
+        hentBehandling,
+        hentBehandlingshistorikk,
+        statusPåVentRedigering,
+        settStatusPåVentRedigering,
+    } = useKlagebehandling();
+    if (behandling.status !== RessursStatus.SUKSESS) {
+        return;
+    }
+    return (
+        <SettPåVentProvider
+            context={'klage'}
+            behandlingId={behandling.data.id}
+            behandlingErSattPåVent={behandling.data.status === KlagebehandlingStatus.SATT_PÅ_VENT}
             hentBehandling={hentBehandling}
             hentBehandlingshistorikk={hentBehandlingshistorikk}
         >

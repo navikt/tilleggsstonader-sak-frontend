@@ -15,7 +15,6 @@ import { erBehandlingRedigerbar } from '../typer/klagebehandling/klagebehandling
 const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
-    const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerFraKlageResponse } =
         useHentPersonopplysninger(behandlingId);
     const { hentBehandlingCallback, behandling } = useHentKlagebehandling(behandlingId);
@@ -23,6 +22,7 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
         useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
+    const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
     const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
@@ -33,9 +33,6 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
 
     useEffect(() => {
-        settBehandlingErRedigerbar(
-            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
-        );
         hentVilkårsvurderinger(behandlingId);
     }, [behandling, behandlingId, hentVilkårsvurderinger]);
     useEffect(() => {
@@ -51,6 +48,9 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
     const [vurderingEndret, settVurderingEndret] = useState(false);
+
+    const behandlingErRedigerbar =
+        behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data);
 
     return {
         behandling,
@@ -68,6 +68,8 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(() => {
         vurderingEndret,
         settVurderingEndret,
         formkravOppfylt,
+        statusPåVentRedigering,
+        settStatusPåVentRedigering,
     };
 });
 

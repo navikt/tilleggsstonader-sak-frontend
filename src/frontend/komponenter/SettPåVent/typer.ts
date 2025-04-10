@@ -1,4 +1,4 @@
-export type SettPåVentContext = 'sak';
+export type SettPåVentContext = 'sak' | 'klage';
 export type SettPåVentBehandlingStatus = 'SATT_PÅ_VENT' | 'ANNET';
 
 export interface SettPåVent {
@@ -46,6 +46,41 @@ export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
     REGISTRERING_AV_UTDANNING: 'Registrering av utdanning',
     ANNET: 'Annet',
 };
+
+const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> = {
+    sak: {
+        [ÅrsakSettPåVent.DOKUMENTASJON_FRA_BRUKER]: true,
+        [ÅrsakSettPåVent.REGISTRERING_AV_TILTAK]: true,
+        [ÅrsakSettPåVent.VURDERING_AV_NEDSATT_ARBEIDSEVNE]: true,
+        [ÅrsakSettPåVent.ADRESSE_TIL_TILTAKSARRANGØR]: true,
+        [ÅrsakSettPåVent.ANTALL_DAGER_PÅ_TILTAK]: true,
+        [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: true,
+        [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
+        [ÅrsakSettPåVent.ANNET]: true,
+    },
+    klage: {
+        [ÅrsakSettPåVent.DOKUMENTASJON_FRA_BRUKER]: true,
+        [ÅrsakSettPåVent.REGISTRERING_AV_TILTAK]: true,
+        [ÅrsakSettPåVent.VURDERING_AV_NEDSATT_ARBEIDSEVNE]: true,
+        [ÅrsakSettPåVent.ADRESSE_TIL_TILTAKSARRANGØR]: false,
+        [ÅrsakSettPåVent.ANTALL_DAGER_PÅ_TILTAK]: false,
+        [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: false,
+        [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
+        [ÅrsakSettPåVent.ANNET]: true,
+    },
+};
+
+export const årsakerForContext: Record<SettPåVentContext, ÅrsakSettPåVent[]> = Object.entries(
+    årsaker
+).reduce(
+    (prev, [context, årsaker]) => {
+        prev[context as SettPåVentContext] = Object.entries(årsaker)
+            .filter(([, skalMed]) => skalMed)
+            .map(([årsak]) => årsak) as ÅrsakSettPåVent[];
+        return prev;
+    },
+    {} as Record<SettPåVentContext, ÅrsakSettPåVent[]>
+);
 
 const EN_UKE = 7;
 const TRE_UKER = 21;
