@@ -6,6 +6,7 @@ import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
+import { Metadata } from './Metadata';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import { Behandlingshistorikk, hendelseTilTekst } from '../../typer/behandlingshistorikk';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
@@ -41,7 +42,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     behandling,
     historikk,
 }) => {
-    const { steg, hendelse, endretTid, endretAvNavn } = historikk;
+    const { steg, hendelse, endretTid, endretAvNavn, metadata } = historikk;
     return (
         <Innslag>
             <Ikon>
@@ -57,6 +58,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {endretAvNavn}
                 </Detail>
+                {metadata && <Metadata metadata={metadata} />}
             </Tekst>
         </Innslag>
     );

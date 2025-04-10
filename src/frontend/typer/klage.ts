@@ -58,6 +58,7 @@ export enum KlagebehandlingResultat {
 export enum KlagebehandlingStatus {
     OPPRETTET = 'OPPRETTET',
     UTREDES = 'UTREDES',
+    SATT_PÅ_VENT = 'SATT_PÅ_VENT',
     VENTER = 'VENTER',
     FERDIGSTILT = 'FERDIGSTILT',
 }

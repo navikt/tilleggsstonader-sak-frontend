@@ -9,13 +9,13 @@ export interface Behandlingshistorikk {
     metadata?: HendelseMetadataKlage;
 }
 
-enum StegUtfall {
+export enum StegUtfallKlage {
     HENLAGT = 'HENLAGT',
     SATT_PÅ_VENT = 'SATT_PÅ_VENT',
     TATT_AV_VENT = 'TATT_AV_VENT',
 }
 
-type BehandlingshistorikkHendelseKlage = StegUtfall | KlagebehandlingSteg;
+export type BehandlingshistorikkHendelseKlage = StegUtfallKlage | KlagebehandlingSteg;
 
 const behandlingStegFullførtTilTekst: Record<KlagebehandlingSteg, string> = {
     OPPRETTET: 'Behandling er opprettet',
@@ -27,7 +27,7 @@ const behandlingStegFullførtTilTekst: Record<KlagebehandlingSteg, string> = {
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
-const stegUtfall: Record<StegUtfall, string> = {
+const stegUtfall: Record<StegUtfallKlage, string> = {
     HENLAGT: 'Behandling henlagt',
     SATT_PÅ_VENT: 'Satt på vent',
     TATT_AV_VENT: 'Tatt av vent',

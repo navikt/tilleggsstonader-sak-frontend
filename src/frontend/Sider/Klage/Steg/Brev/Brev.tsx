@@ -23,12 +23,18 @@ import {
     RessursSuksess,
 } from '../../../../typer/ressurs';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+import { KlagebehandlingStatus } from '../../typer/klagebehandling/klagebehandlingStatus';
 import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
+    padding: 2rem 2rem 0 2rem;
+`;
+
+const BehandlingPåVent = styled.div`
     padding: 2rem 2rem 0 2rem;
 `;
 
@@ -55,11 +61,25 @@ const StyledKnapp = styled(Button)`
 
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
-interface IBrev {
-    behandlingId: string;
-}
+export const Brev = () => {
+    const { behandling } = useKlagebehandling();
+    return (
+        <DataViewer response={{ behandling }}>
+            {({ behandling }) => {
+                if (behandling.status !== KlagebehandlingStatus.SATT_PÅ_VENT) {
+                    return <BrevComponent behandling={behandling} />;
+                } else {
+                    return (
+                        <BehandlingPåVent>Behandling på vent - kan ikke vise brev</BehandlingPåVent>
+                    );
+                }
+            }}
+        </DataViewer>
+    );
+};
 
-export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
+export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
+    const behandlingId = behandling.id;
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const contextBrevmottakere = useContextBrevmottakereKlage(behandlingId);
     const {

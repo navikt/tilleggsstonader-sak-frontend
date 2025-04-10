@@ -53,6 +53,7 @@ export const revurderingIkkeOpprettetÅrsak: Record<RevurderingIkkeOpprettetÅrs
 };
 
 export const erBehandlingRedigerbar = (behandling: Klagebehandling): boolean =>
+    behandling.status !== KlagebehandlingStatus.SATT_PÅ_VENT &&
     [
         KlagebehandlingSteg.FORMKRAV,
         KlagebehandlingSteg.VURDERING,

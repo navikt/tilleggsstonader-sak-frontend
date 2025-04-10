@@ -34,7 +34,7 @@ const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
             <Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />
             <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
             <Route path="/vurdering" element={<Vurdering behandlingId={behandling.id} />} />
-            <Route path="/brev" element={<Brev behandlingId={behandling.id} />} />
+            <Route path="/brev" element={<Brev />} />
             <Route path="/resultat" element={<Resultat />} />
         </Routes>
     );
