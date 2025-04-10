@@ -88,10 +88,3 @@ export const klageinstansUtfallTilTekst: Record<KlageinstansUtfall, string> = {
     INNSTILLING_STADFESTELSE: 'Innstilling om stadfestelse til trygderetten fra KA',
     INNSTILLING_AVVIST: 'Innstilling om avist til trygderetten fra KA',
 };
-
-export const KlagebehandlingStatusTilTekst: Record<KlagebehandlingStatus, string> = {
-    OPPRETTET: 'Opprettet',
-    UTREDES: 'Utredes',
-    VENTER: 'Venter',
-    FERDIGSTILT: 'Ferdigstilt',
-};
