@@ -11,13 +11,13 @@ interface StønadsvilkårBoutgifterProps {
 
 const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) => (
     <>
+        <UtgifterOvernatting vilkårsregler={regler.vilkårsregler.UTGIFTER_OVERNATTING.regler} />
         <LøpendeUtgifterEnBolig
             vilkårsregler={regler.vilkårsregler.LØPENDE_UTGIFTER_EN_BOLIG.regler}
         />
         <LøpendeUtgifterToBoliger
             vilkårsregler={regler.vilkårsregler.LØPENDE_UTGIFTER_TO_BOLIGER.regler}
         />
-        <UtgifterOvernatting vilkårsregler={regler.vilkårsregler.UTGIFTER_OVERNATTING.regler} />
     </>
 );
 
