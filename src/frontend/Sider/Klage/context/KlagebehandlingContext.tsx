@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import constate from 'constate';
 
-import { RerrunnableEffect, useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
+import { RerrunnableEffect } from '../../../hooks/useRerunnableEffect';
 import { RessursStatus } from '../../../typer/ressurs';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
@@ -22,19 +22,16 @@ const [KlagebehandlingProvider, useKlagebehandling] = constate(
     }) => {
         const behandlingId = behandling.id;
 
-        const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
-            useHentBehandlingHistorikk(behandlingId);
+        const { hentBehandlingshistorikk, behandlingHistorikk } =
+            useHentBehandlingHistorikk(behandling);
         const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
         const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
         const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-        const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
-            behandlingId,
-        ]);
-
         useEffect(() => {
             hentVilkårsvurderinger(behandlingId);
         }, [behandling, behandlingId, hentVilkårsvurderinger]);
+
         useEffect(() => {
             settFormkravOppfylt(
                 vilkårsvurderinger.status === RessursStatus.SUKSESS &&
