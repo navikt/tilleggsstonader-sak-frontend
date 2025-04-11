@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 
 import styled from 'styled-components';
 
@@ -26,11 +25,7 @@ const TidslinjeContainer = styled.div<{ åpenHøyremeny: boolean }>`
 `;
 
 export const Resultat: React.FC = () => {
-    const { behandling, hentBehandling, behandlingHistorikk, åpenHøyremeny } = useKlagebehandling();
-
-    useEffect(() => {
-        hentBehandling.rerun();
-    }, [hentBehandling]);
+    const { behandling, behandlingHistorikk, åpenHøyremeny } = useKlagebehandling();
 
     return (
         <DataViewer response={{ behandlingHistorikk }}>
