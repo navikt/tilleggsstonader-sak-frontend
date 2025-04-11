@@ -11,7 +11,6 @@ import { useApp } from '../../../../context/AppContext';
 import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../../../komponenter/Brev/typer';
 import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
-import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import PdfVisning from '../../../../komponenter/PdfVisning';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
@@ -63,31 +62,19 @@ type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
 export const Brev = () => {
     const { behandling } = useKlagebehandling();
-    return (
-        <DataViewer response={{ behandling }}>
-            {({ behandling }) => {
-                if (behandling.status !== KlagebehandlingStatus.SATT_PÅ_VENT) {
-                    return <BrevComponent behandling={behandling} />;
-                } else {
-                    return (
-                        <BehandlingPåVent>Behandling på vent - kan ikke vise brev</BehandlingPåVent>
-                    );
-                }
-            }}
-        </DataViewer>
-    );
+    if (behandling.status !== KlagebehandlingStatus.SATT_PÅ_VENT) {
+        return <BrevComponent behandling={behandling} />;
+    } else {
+        return <BehandlingPåVent>Behandling på vent - kan ikke vise brev</BehandlingPåVent>;
+    }
 };
 
 export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const behandlingId = behandling.id;
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const contextBrevmottakere = useContextBrevmottakereKlage(behandlingId);
-    const {
-        hentBehandling,
-        hentBehandlingshistorikk,
-        behandlingErRedigerbar,
-        personopplysningerFraKlageResponse,
-    } = useKlagebehandling();
+    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar, personopplysninger } =
+        useKlagebehandling();
     const navigate = useNavigate();
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -170,21 +157,13 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
                 <BrevContainer>
                     <div>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <DataViewer
-                                response={{
-                                    personopplysningerFraKlageResponse,
-                                }}
-                            >
-                                {({ personopplysningerFraKlageResponse }) => (
-                                    <BrevMottakere
-                                        context={contextBrevmottakere}
-                                        kanEndreBrevmottakere={behandlingErRedigerbar}
-                                        personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
-                                            personopplysningerFraKlageResponse
-                                        )}
-                                    />
+                            <BrevMottakere
+                                context={contextBrevmottakere}
+                                kanEndreBrevmottakere={behandlingErRedigerbar}
+                                personopplysninger={mapPersonopplysningerFraKlageTilPersonopplysningenIBrevmottaker(
+                                    personopplysninger
                                 )}
-                            </DataViewer>
+                            />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp

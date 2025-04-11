@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
@@ -10,16 +11,17 @@ import BehandlingRoutes from './BehandlingRoutes';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { Høyremeny } from './Høyremeny/Høyremeny';
 import { Statusheader } from './Statusheader/Statusheader';
+import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
 import { SettPåVentKlage } from '../../../komponenter/SettPåVent/SettPåVentContainer';
 import { Toggle } from '../../../utils/toggles';
 import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
+import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
+import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
 import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
-import { Klagebehandling } from '../typer/klagebehandling/klagebehandling';
-import { PersonopplysningerFraKlage } from '../typer/personopplysningerFraKlage';
 
 const Container = styled.div`
     display: flex;
@@ -53,17 +55,36 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
 `;
 
 const BehandlingContainer: FC = () => {
+    const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
+
+    useEffect(() => {
+        document.title = 'Klagebehandling';
+    }, []);
+
+    const { hentBehandlingCallback, behandling } = useHentKlagebehandling(behandlingId);
+    const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
+
+    const { hentPersonopplysninger, personopplysninger } = useHentPersonopplysninger(behandlingId);
+
+    // eslint-disable-next-line
+    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
     return (
-        <KlagebehandlingProvider>
-            <BehandlingOverbygg />
-        </KlagebehandlingProvider>
+        <DataViewer response={{ behandling, personopplysninger }}>
+            {({ behandling, personopplysninger }) => (
+                <KlagebehandlingProvider
+                    behandling={behandling}
+                    hentBehandling={hentBehandling}
+                    personopplysninger={personopplysninger}
+                >
+                    <BehandlingContent />
+                </KlagebehandlingProvider>
+            )}
+        </DataViewer>
     );
 };
 
-const BehandlingContent: FC<{
-    behandling: Klagebehandling;
-    personopplysninger: PersonopplysningerFraKlage;
-}> = ({ behandling, personopplysninger }) => {
+const BehandlingContent = () => {
+    const { behandling, personopplysninger } = useKlagebehandling();
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useKlagebehandling();
@@ -86,30 +107,6 @@ const BehandlingContent: FC<{
                 </HøyreMenyWrapper>
             </Container>
         </>
-    );
-};
-
-const BehandlingOverbygg: FC = () => {
-    const { personopplysningerFraKlageResponse, behandling } = useKlagebehandling();
-
-    useEffect(() => {
-        document.title = 'Klagebehandling';
-    }, []);
-
-    return (
-        <DataViewer
-            response={{
-                behandling,
-                personopplysningerFraKlageResponse,
-            }}
-        >
-            {({ behandling, personopplysningerFraKlageResponse }) => (
-                <BehandlingContent
-                    behandling={behandling}
-                    personopplysninger={personopplysningerFraKlageResponse}
-                />
-            )}
-        </DataViewer>
     );
 };
 

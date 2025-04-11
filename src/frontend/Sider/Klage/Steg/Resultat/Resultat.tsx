@@ -33,8 +33,8 @@ export const Resultat: React.FC = () => {
     }, [hentBehandling]);
 
     return (
-        <DataViewer response={{ behandling, behandlingHistorikk }}>
-            {({ behandling, behandlingHistorikk }) => (
+        <DataViewer response={{ behandlingHistorikk }}>
+            {({ behandlingHistorikk }) => (
                 <>
                     <HeadingContainer>
                         <Heading spacing size="large" level="5">

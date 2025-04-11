@@ -8,21 +8,21 @@ export const useHentPersonopplysninger = (
     behandlingId: string
 ): {
     hentPersonopplysninger: (behandlingsid: string) => void;
-    personopplysningerFraKlageResponse: Ressurs<PersonopplysningerFraKlage>;
+    personopplysninger: Ressurs<PersonopplysningerFraKlage>;
 } => {
     const { request } = useApp();
-    const [personopplysningerFraKlageResponse, settPersonopplysningerFraKlageResponse] =
+    const [personopplysninger, settPersonopplysninger] =
         useState<Ressurs<PersonopplysningerFraKlage>>(byggTomRessurs());
 
     const hentPersonopplysninger = useCallback(() => {
-        settPersonopplysningerFraKlageResponse(byggHenterRessurs());
+        settPersonopplysninger(byggHenterRessurs());
         request<PersonopplysningerFraKlage, { behandlingId: string }>(
             `/api/klage/personopplysninger/${behandlingId}`
-        ).then(settPersonopplysningerFraKlageResponse);
+        ).then(settPersonopplysninger);
     }, [request, behandlingId]);
 
     return {
         hentPersonopplysninger,
-        personopplysningerFraKlageResponse: personopplysningerFraKlageResponse,
+        personopplysninger,
     };
 };

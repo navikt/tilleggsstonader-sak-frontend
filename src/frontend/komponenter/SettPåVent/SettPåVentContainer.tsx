@@ -15,7 +15,7 @@ import { useVisFeilmeldingVedUnload } from '../../hooks/useVisFeilmeldingVedUnlo
 import { useKlagebehandling } from '../../Sider/Klage/context/KlagebehandlingContext';
 import { KlagebehandlingStatus } from '../../Sider/Klage/typer/klagebehandling/klagebehandlingStatus';
 import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 import DataViewer from '../DataViewer';
 
 const Container = styled.div`
@@ -56,14 +56,11 @@ export const SettPåVentKlage = () => {
         statusPåVentRedigering,
         settStatusPåVentRedigering,
     } = useKlagebehandling();
-    if (behandling.status !== RessursStatus.SUKSESS) {
-        return;
-    }
     return (
         <SettPåVentProvider
             context={'klage'}
-            behandlingId={behandling.data.id}
-            behandlingErSattPåVent={behandling.data.status === KlagebehandlingStatus.SATT_PÅ_VENT}
+            behandlingId={behandling.id}
+            behandlingErSattPåVent={behandling.status === KlagebehandlingStatus.SATT_PÅ_VENT}
             hentBehandling={hentBehandling}
             hentBehandlingshistorikk={hentBehandlingshistorikk}
         >
