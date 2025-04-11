@@ -22,6 +22,7 @@ export const useHentBehandlingHistorikk = (behandling: Klagebehandling) => {
         request,
         behandling.id,
         behandling.status,
+        behandling.steg,
     ]);
 
     return {

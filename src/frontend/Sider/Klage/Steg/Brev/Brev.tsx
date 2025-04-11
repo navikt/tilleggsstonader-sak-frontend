@@ -73,8 +73,7 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
     const behandlingId = behandling.id;
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const contextBrevmottakere = useContextBrevmottakereKlage(behandlingId);
-    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar, personopplysninger } =
-        useKlagebehandling();
+    const { hentBehandling, behandlingErRedigerbar, personopplysninger } = useKlagebehandling();
     const navigate = useNavigate();
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -126,7 +125,6 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
                 if (res.status === RessursStatus.SUKSESS) {
                     lukkModal();
                     hentBehandling.rerun();
-                    hentBehandlingshistorikk.rerun();
                     navigate(`/klagebehandling/${behandlingId}/resultat`);
                 } else {
                     settFeilmelding(res.frontendFeilmelding);

@@ -100,7 +100,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const { hentBehandling, hentBehandlingshistorikk } = useKlagebehandling();
+    const { hentBehandling } = useKlagebehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useKlageApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
@@ -123,7 +123,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
             }
         });
     };

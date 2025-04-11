@@ -54,13 +54,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
     const navigate = useNavigate();
 
-    const {
-        vurderingEndret,
-        settVurderingEndret,
-        hentBehandlingshistorikk,
-        hentBehandling,
-        behandlingErRedigerbar,
-    } = useKlagebehandling();
+    const { vurderingEndret, settVurderingEndret, hentBehandling, behandlingErRedigerbar } =
+        useKlagebehandling();
 
     const [oppdatertVurdering, settOppdatertVurdering] = useState<Vurderingsfelter>({});
 
@@ -109,7 +104,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settSenderInn(false);
                 settVurderingEndret(false);
                 hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
             }
         );
     };

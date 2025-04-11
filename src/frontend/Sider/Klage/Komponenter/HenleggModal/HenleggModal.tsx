@@ -21,8 +21,7 @@ const AlertStripe = styled(Alert)`
 export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const { settToast } = useApp();
 
-    const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
-        useKlagebehandling();
+    const { visHenleggModal, settVisHenleggModal, hentBehandling } = useKlagebehandling();
 
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<HenlagtÅrsak>();
@@ -47,7 +46,6 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
                     hentBehandling.rerun();
-                    hentBehandlingshistorikk.rerun();
                     navigate(`/klagebehandling/${behandling.id}/resultat`);
                     settToast(Toast.BEHANDLING_HENLAGT);
                 } else {

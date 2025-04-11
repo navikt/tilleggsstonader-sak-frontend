@@ -126,8 +126,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
 }) => {
-    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } =
-        useKlagebehandling();
+    const { behandlingErRedigerbar, hentBehandling } = useKlagebehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
@@ -157,7 +156,6 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 settOppdaterteVurderinger(nullstilteVurderinger);
                 settRedigeringsmodus(Redigeringsmodus.IKKE_PÅSTARTET);
                 hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
             }
         });
     };
