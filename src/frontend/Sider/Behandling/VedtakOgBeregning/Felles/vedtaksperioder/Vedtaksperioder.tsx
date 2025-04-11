@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
+import { Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { VedtaksperiodeReadMore } from './VedtaksperioderReadMore';
@@ -14,6 +14,11 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
+import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+} from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { stønadstypeTilVedtakUrl } from '../stønadstypeTilVedtakUrl';
@@ -37,8 +42,8 @@ interface Props {
     settVedtaksperioderFeil: React.Dispatch<
         React.SetStateAction<FormErrors<Vedtaksperiode>[] | undefined>
     >;
-    foreslåPeriodeFeil?: string;
-    settForeslåPeriodeFeil: React.Dispatch<string | undefined>;
+    foreslåPeriodeFeil?: Feil;
+    settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -106,7 +111,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 settForeslåPeriodeFeil(undefined);
                 settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
             } else {
-                settForeslåPeriodeFeil(res.frontendFeilmelding);
+                settForeslåPeriodeFeil(feiletRessursTilFeilmelding(res));
             }
         });
     };
@@ -162,11 +167,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             Foreslå vedtaksperioder
                         </Button>
                     </HStack>
-                    {foreslåPeriodeFeil && (
-                        <Alert variant="error" title="Klarte ikke å preutfylle periode">
-                            {foreslåPeriodeFeil}
-                        </Alert>
-                    )}
+                    {foreslåPeriodeFeil && <Feilmelding feil={foreslåPeriodeFeil} />}
                 </>
             )}
         </VStack>

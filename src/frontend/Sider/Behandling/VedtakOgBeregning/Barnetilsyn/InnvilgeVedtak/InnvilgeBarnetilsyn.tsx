@@ -9,6 +9,7 @@ import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
 import { useMapById } from '../../../../../hooks/useMapById';
 import DataViewer from '../../../../../komponenter/DataViewer';
+import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
@@ -67,7 +68,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     );
 
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
-    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<string>();
+    const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
