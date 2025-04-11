@@ -71,6 +71,9 @@ export const utledRedigeringsmodus = (
     if (!behandlingErRedigerbar) {
         return Redigeringsmodus.VISNING;
     }
+    if (vurderinger.påklagetVedtak.påklagetVedtakstype === 'UTEN_VEDTAK') {
+        return Redigeringsmodus.VISNING;
+    }
     if (alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT)) {
         return Redigeringsmodus.IKKE_PÅSTARTET;
     }
