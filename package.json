@@ -22,18 +22,18 @@
     ]
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^7.18.0",
-    "@navikt/ds-css": "^7.18.0",
-    "@navikt/ds-react": "^7.18.0",
+    "@navikt/aksel-icons": "^7.20.0",
+    "@navikt/ds-css": "^7.20.0",
+    "@navikt/ds-react": "^7.20.0",
     "@navikt/ds-tokens": "^7.18.0",
     "@navikt/familie-endringslogg": "^14.0.0",
     "@navikt/familie-form-elements": "^21.0.4",
     "@portabletext/react": "^3.2.1",
-    "@sanity/client": "^6.28.4",
+    "@sanity/client": "^6.29.0",
     "@unleash/proxy-client-react": "^5.0.0",
     "constate": "^3.3.2",
     "data-fns": "^1.1.0",
-    "groq": "^3.82.0",
+    "groq": "^3.84.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-pdf": "^9.2.1",
@@ -74,7 +74,7 @@
     "prettier": "3.5.3",
     "style-loader": "^4.0.0",
     "typescript": "^5.8.2",
-    "webpack": "^5.98.0",
+    "webpack": "^5.99.5",
     "webpack-cli": "^6.0.1"
   },
   "resolutions": {
