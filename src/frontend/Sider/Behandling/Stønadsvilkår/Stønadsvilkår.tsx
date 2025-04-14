@@ -16,7 +16,6 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
-import { OppsummeringVilkårperioder } from '../OppsummeringVilkår/OppsummeringVilkårperioder';
 import { StønadsvilkårPassBarn } from './PassBarn/StønadsvilkårPassBarn';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
@@ -42,7 +41,6 @@ const Stønadsvilkår: React.FC<{
     return (
         <Container>
             <VarselRevurderFraDatoMangler />
-            <OppsummeringVilkårperioder behandlingId={behandling.id} />
             <DataViewer
                 response={{
                     regler,

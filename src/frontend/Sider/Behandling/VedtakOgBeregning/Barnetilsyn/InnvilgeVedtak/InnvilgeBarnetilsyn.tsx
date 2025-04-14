@@ -24,7 +24,6 @@ import {
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
-import { OppsummeringVilkårperioderOgVilkår } from '../../../OppsummeringVilkår/OppsummeringVilkårperioderOgVilkår';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
@@ -133,7 +132,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         <>
             <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
                 <VStack gap={'8'}>
-                    <OppsummeringVilkårperioderOgVilkår />
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}
