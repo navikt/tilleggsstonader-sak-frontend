@@ -1,18 +1,17 @@
 import React from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { OppsummertVilkårperiode } from '../../../../typer/behandling/behandlingOppsummering';
 import { formaterNullablePeriode } from '../../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
+import { AktivitetType } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
-    Målgruppe,
+    MålgruppeType,
     målgruppeTypeTilTekst,
 } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import {
-    VilkårPeriodeAktivitet,
-    VilkårPeriodeResultat,
-} from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { VilkårPeriodeResultat } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../vilkår';
 
 interface VilkårOppsummeringRadProps {
@@ -29,7 +28,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     gjelder,
 }) => {
     return (
-        <HStack gap={'2'} align={'center'} className={'info'}>
+        <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
             <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />
             <BodyShort
                 size={'small'}
@@ -38,40 +37,48 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     );
 };
 
-export const OppsummeringAktiviteter = ({
-    aktiviteter,
-}: {
-    aktiviteter: VilkårPeriodeAktivitet[];
-}) => {
-    if (!aktiviteter.length) {
-        return <BodyShort size={'small'}>Ingen aktiviteter</BodyShort>;
-    }
-    return aktiviteter.map((aktivitet) => (
-        <VilkårOppsummeringRad
-            key={aktivitet.id}
-            resultat={aktivitet.resultat}
-            fom={aktivitet.fom}
-            tom={aktivitet.tom}
-            gjelder={aktivitetTypeTilTekst(aktivitet.type)}
-        />
-    ));
+export const OppsummeringAktiviteter: React.FC<{
+    aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
+}> = ({ aktiviteter }) => {
+    return (
+        <VStack gap="2">
+            <Label size="small">Aktiviteter</Label>
+            {aktiviteter.length > 0 ? (
+                aktiviteter.map((aktivitet) => (
+                    <VilkårOppsummeringRad
+                        key={aktivitet.id}
+                        resultat={aktivitet.resultat}
+                        fom={aktivitet.fom}
+                        tom={aktivitet.tom}
+                        gjelder={aktivitetTypeTilTekst(aktivitet.type)}
+                    />
+                ))
+            ) : (
+                <BodyShort size={'small'}>Ingen aktiviteter</BodyShort>
+            )}
+        </VStack>
+    );
 };
 
-export const OppsummeringMålgrupper = ({ målgrupper }: { målgrupper: Målgruppe[] }) => {
-    if (!målgrupper.length) {
-        return (
-            <BodyShort size={'small'} className={'info'}>
-                Ingen målgrupper
-            </BodyShort>
-        );
-    }
-    return målgrupper.map((målgruppe) => (
-        <VilkårOppsummeringRad
-            key={målgruppe.id}
-            resultat={målgruppe.resultat}
-            fom={målgruppe.fom}
-            tom={målgruppe.tom}
-            gjelder={målgruppeTypeTilTekst(målgruppe.type)}
-        />
-    ));
+export const OppsummeringMålgrupper: React.FC<{
+    målgrupper: OppsummertVilkårperiode<MålgruppeType>[];
+}> = ({ målgrupper }) => {
+    return (
+        <VStack gap="2">
+            <Label size="small">Målgrupper</Label>
+            {målgrupper.length > 0 ? (
+                målgrupper.map((målgruppe) => (
+                    <VilkårOppsummeringRad
+                        key={målgruppe.id}
+                        resultat={målgruppe.resultat}
+                        fom={målgruppe.fom}
+                        tom={målgruppe.tom}
+                        gjelder={målgruppeTypeTilTekst(målgruppe.type)}
+                    />
+                ))
+            ) : (
+                <BodyShort size={'small'}>Ingen målgrupper</BodyShort>
+            )}
+        </VStack>
+    );
 };

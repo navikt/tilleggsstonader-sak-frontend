@@ -10,6 +10,7 @@ import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
+import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
@@ -49,6 +50,7 @@ const VenstreMeny: React.FC = () => {
     return (
         <Container>
             <Totrinnskontroll />
+            <BehandlingOppsummering />
             <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
                 <StickyTablistContainer>
                     <Tabs.List>
