@@ -2,6 +2,7 @@ import React from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
+import OppsummeringBoutgifter from './OppsummeringBoutgifter';
 import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
@@ -22,6 +23,9 @@ const OppsummeringSøknad: React.FC = () => {
             )}
             {behandlingFakta['@type'] === Stønadstype.LÆREMIDLER && (
                 <OppsummeringLæremidler behandlingFakta={behandlingFakta} />
+            )}
+            {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
+                <OppsummeringBoutgifter behandlingFakta={behandlingFakta} />
             )}
         </VStack>
     );

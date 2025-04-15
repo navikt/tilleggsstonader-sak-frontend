@@ -25,7 +25,22 @@ export interface BehandlingFaktaLæremidler extends BehandlingFaktaInterface {
     '@type': Stønadstype.LÆREMIDLER;
 }
 
+class BoligEllerOvernatting {}
+export interface Personopplysninger {
+    adresse: Adresse;
+}
+export interface Adresse {
+    gyldigFraOgMed: string;
+    adresse: string;
+    postnummer: string;
+    poststed: string;
+    landkode: string;
+}
+
 export interface BehandlingFaktaBoutgifter extends BehandlingFaktaInterface {
+    aktiviteter: FaktaAktivtet;
+    boligEllerOvernatting: BoligEllerOvernatting;
+    dineOpplysninger: Personopplysninger;
     '@type': Stønadstype.BOUTGIFTER;
 }
 
