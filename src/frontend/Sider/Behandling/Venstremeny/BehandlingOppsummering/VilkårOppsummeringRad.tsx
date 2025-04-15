@@ -2,15 +2,18 @@ import React from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
-import { formaterNullablePeriode } from '../../../utils/dato';
-import { aktivitetTypeTilTekst } from '../Inngangsvilkår/Aktivitet/utilsAktivitet';
-import { Målgruppe, målgruppeTypeTilTekst } from '../Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { formaterNullablePeriode } from '../../../../utils/dato';
+import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
+import {
+    Målgruppe,
+    målgruppeTypeTilTekst,
+} from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import {
     VilkårPeriodeAktivitet,
     VilkårPeriodeResultat,
-} from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../vilkår';
+} from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { Vilkårsresultat } from '../../vilkår';
 
 interface VilkårOppsummeringRadProps {
     resultat: VilkårPeriodeResultat | Vilkårsresultat;
