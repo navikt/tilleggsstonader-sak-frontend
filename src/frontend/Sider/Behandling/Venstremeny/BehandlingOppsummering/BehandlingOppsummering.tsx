@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -22,19 +22,13 @@ const StyledExpansionCard = styled(ExpansionCard)`
 
 export const BehandlingOppsummering = () => {
     const { behandling } = useBehandling();
-    const { behandlingOppsummering, hentBehandlingOppsummering } = useBehandlingOppsummering(
-        behandling.id
-    );
-
-    useEffect(() => {
-        hentBehandlingOppsummering();
-    }, [behandling.steg, hentBehandlingOppsummering]);
-
+    const { behandlingOppsummering } = useBehandlingOppsummering();
     if (
         behandlingOppsummering.status === RessursStatus.SUKSESS &&
-        !behandlingOppsummering.data.finnesOppsummeringData
-    )
+        !behandlingOppsummering.data.finnesDataÅOppsummere
+    ) {
         return null;
+    }
 
     return (
         <DataViewer response={{ behandlingOppsummering }}>

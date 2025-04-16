@@ -1,28 +1,30 @@
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
+import { useBehandling } from '../context/BehandlingContext';
 import { BehandlingOppsummering } from '../typer/behandling/behandlingOppsummering';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
     behandlingOppsummering: Ressurs<BehandlingOppsummering>;
-    hentBehandlingOppsummering: () => void;
 }
 
-export const useBehandlingOppsummering = (behandlingId: string): Response => {
+export const useBehandlingOppsummering = (): Response => {
     const { request } = useApp();
+    const { behandling } = useBehandling();
+
     const [behandlingOppsummering, settBehandlingOppsummering] =
         useState<Ressurs<BehandlingOppsummering>>(byggTomRessurs());
 
-    const hentBehandlingOppsummering = useCallback(() => {
+    useEffect(() => {
         settBehandlingOppsummering(byggHenterRessurs());
+
         request<BehandlingOppsummering, null>(
-            `/api/sak/behandlingsoppsummering/${behandlingId}`
+            `/api/sak/behandlingsoppsummering/${behandling.id}`
         ).then(settBehandlingOppsummering);
-    }, [request, behandlingId]);
+    }, [request, behandling.id, behandling.steg]);
 
     return {
         behandlingOppsummering,
-        hentBehandlingOppsummering,
     };
 };
