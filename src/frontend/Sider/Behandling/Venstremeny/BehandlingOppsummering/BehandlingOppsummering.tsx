@@ -58,13 +58,13 @@ export const BehandlingOppsummering = () => {
                                 vilkår={behandlingOppsummering.vilkår}
                                 stønadstype={behandling.stønadstype}
                             />
+                            <BodyShort size="small" color="red">
+                                <b>Vedtaksresultat: </b>
+                                {behandlingOppsummering.vedtaksresultat
+                                    ? typeVedtakTilTekst[behandlingOppsummering.vedtaksresultat]
+                                    : 'Ikke satt'}
+                            </BodyShort>
                         </VStack>
-                        <BodyShort size="small" color="red">
-                            <b>Vedtaksresultat: </b>
-                            {behandlingOppsummering.vedtaksresultat
-                                ? typeVedtakTilTekst[behandlingOppsummering.vedtaksresultat]
-                                : 'Ikke satt'}
-                        </BodyShort>
                     </ExpansionCard.Content>
                 </StyledExpansionCard>
             )}
