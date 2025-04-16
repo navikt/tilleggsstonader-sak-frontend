@@ -10,6 +10,8 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../../typer/ressurs';
+import { typeVedtakTilTekst } from '../../../../typer/vedtak/vedtak';
+import { formaterDato } from '../../../../utils/dato';
 
 const StyledExpansionCard = styled(ExpansionCard)`
     margin: 0.5rem;
@@ -43,7 +45,7 @@ export const BehandlingOppsummering = () => {
                         <VStack gap="4">
                             {behandling.revurderFra && (
                                 <BodyShort size="small">
-                                    <b>Revurder fra:</b> {behandling.revurderFra}
+                                    <b>Revurder fra:</b> {formaterDato(behandling.revurderFra)}
                                 </BodyShort>
                             )}
                             <OppsummeringAktiviteter
@@ -57,6 +59,12 @@ export const BehandlingOppsummering = () => {
                                 stønadstype={behandling.stønadstype}
                             />
                         </VStack>
+                        <BodyShort size="small" color="red">
+                            <b>Vedtaksresultat: </b>
+                            {behandlingOppsummering.vedtaksresultat
+                                ? typeVedtakTilTekst[behandlingOppsummering.vedtaksresultat]
+                                : 'Ikke satt'}
+                        </BodyShort>
                     </ExpansionCard.Content>
                 </StyledExpansionCard>
             )}
