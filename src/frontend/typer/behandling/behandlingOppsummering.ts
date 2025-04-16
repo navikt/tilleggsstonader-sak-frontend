@@ -1,6 +1,7 @@
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { TypeVedtak } from '../vedtak/vedtak';
 
 export interface BehandlingOppsummering {
@@ -8,7 +9,7 @@ export interface BehandlingOppsummering {
     målgrupper: OppsummertVilkårperiode<MålgruppeType>[];
     vilkår: Stønadsvilkår[];
     vedtaksresultat?: TypeVedtak;
-    finnesOppsummeringData: boolean;
+    finnesDataÅOppsummere: boolean;
 }
 
 export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> = {
@@ -18,3 +19,17 @@ export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> =
     resultat: VilkårPeriodeResultat;
     type: T;
 };
+
+export interface Stønadsvilkår {
+    type: StønadsvilkårType;
+    barnId: string | null;
+    vilkår: OppsummertVilkår[];
+}
+
+interface OppsummertVilkår {
+    id: string;
+    fom?: string;
+    tom?: string;
+    resultat: Vilkårsresultat;
+    utgift?: number;
+}

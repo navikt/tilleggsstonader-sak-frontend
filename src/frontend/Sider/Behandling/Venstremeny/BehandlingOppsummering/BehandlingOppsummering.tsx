@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { BodyShort, ExpansionCard, VStack } from '@navikt/ds-react';
 
+import { OppsummeringVilkår } from './OppsummeringVilkår';
 import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsummeringRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
@@ -56,6 +57,10 @@ export const BehandlingOppsummering = () => {
                             />
                             <OppsummeringMålgrupper
                                 målgrupper={behandlingOppsummering.målgrupper}
+                            />
+                            <OppsummeringVilkår
+                                vilkår={behandlingOppsummering.vilkår}
+                                stønadstype={behandling.stønadstype}
                             />
                         </VStack>
                     </ExpansionCard.Content>
