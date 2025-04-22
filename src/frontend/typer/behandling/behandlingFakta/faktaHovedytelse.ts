@@ -7,6 +7,7 @@ export interface FaktaHovedytelse {
 interface SøknadsgrunnlagHovedytelse {
     hovedytelse: Hovedytelse[];
     arbeidOgOpphold?: FaktaArbeidOgOpphold;
+    harNedsattArbeidsevne?: JaNei;
 }
 
 /**

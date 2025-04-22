@@ -8,9 +8,11 @@ import {
     FaktaHovedytelse,
     hovedytelseTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
+import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 const Hovedytelse: React.FC<{ faktaHovedytelse: FaktaHovedytelse }> = ({ faktaHovedytelse }) => {
+    const harNedsattArbeidsevne = faktaHovedytelse.søknadsgrunnlag?.harNedsattArbeidsevne;
     return (
         <InfoSeksjon label="Ytelse/situasjon" ikon={<CardIcon />}>
             <BodyShort size="small">
@@ -18,6 +20,11 @@ const Hovedytelse: React.FC<{ faktaHovedytelse: FaktaHovedytelse }> = ({ faktaHo
                     ?.map((hovedytelse) => tekstEllerKode(hovedytelseTilTekst, hovedytelse))
                     ?.join(', ')}
             </BodyShort>
+            {harNedsattArbeidsevne && (
+                <BodyShort size={'small'}>
+                    Har nedsatt arbeidsevne: {jaNeiTilTekst[harNedsattArbeidsevne]}
+                </BodyShort>
+            )}
         </InfoSeksjon>
     );
 };

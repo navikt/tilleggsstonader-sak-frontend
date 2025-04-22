@@ -5,6 +5,8 @@ import { FaktaDokumentasjon } from './faktaDokumentasjon';
 import { FaktaHovedytelse } from './faktaHovedytelse';
 import { FaktaUtdanning } from './faktaUtdanning';
 import { Stønadstype } from '../behandlingTema';
+import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
+import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 
 interface BehandlingFaktaInterface {
     søknadMottattTidspunkt?: string;
@@ -25,23 +27,11 @@ export interface BehandlingFaktaLæremidler extends BehandlingFaktaInterface {
     '@type': Stønadstype.LÆREMIDLER;
 }
 
-class BoligEllerOvernatting {}
-export interface Personopplysninger {
-    adresse: Adresse;
-}
-export interface Adresse {
-    gyldigFraOgMed: string;
-    adresse: string;
-    postnummer: string;
-    poststed: string;
-    landkode: string;
-}
-
 export interface BehandlingFaktaBoutgifter extends BehandlingFaktaInterface {
-    aktiviteter: FaktaAktivtet;
-    boligEllerOvernatting: BoligEllerOvernatting;
-    dineOpplysninger: Personopplysninger;
     '@type': Stønadstype.BOUTGIFTER;
+    aktiviteter: FaktaAktivtet;
+    boligEllerOvernatting: FaktaBoligEllerOvernatting;
+    personopplysninger: FaktaPersonopplysninger;
 }
 
 export type BehandlingFakta =

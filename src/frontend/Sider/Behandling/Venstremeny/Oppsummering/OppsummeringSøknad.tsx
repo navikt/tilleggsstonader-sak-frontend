@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
-import OppsummeringBoutgifter from './OppsummeringBoutgifter';
+import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
