@@ -38,7 +38,7 @@ const LesevisningVilkår: FC<{
 }> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
     const { behandling } = useBehandling();
 
-    const { resultat, delvilkårsett, fom, tom, utgift, erNullvedtak } = vilkår;
+    const { resultat, delvilkårsett, fom, tom, utgift, erFremtidigUtgift } = vilkår;
 
     const visStatusbånd = behandling.type == BehandlingType.REVURDERING;
 
@@ -53,8 +53,8 @@ const LesevisningVilkår: FC<{
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                     </HStack>
                     <BodyShort size="small">
-                        {erNullvedtak
-                            ? 'Nullvedtak'
+                        {erFremtidigUtgift
+                            ? 'Fremtidig utgift'
                             : `kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
                     </BodyShort>
                 </VStack>

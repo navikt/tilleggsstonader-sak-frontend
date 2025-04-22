@@ -94,7 +94,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { behandling } = useBehandling();
     const erUtgifterOvernatting = props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
-    const tillaterNullvedtak = useFlag(Toggle.TILLATER_NULLVEDAK);
+    const tillaterErFremtidigUtgift = useFlag(Toggle.TILLATER_NULLVEDAK);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -105,7 +105,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
     const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
     const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
-    const [erNullvedtak, settErNullvedtak] = useState(props.redigerbareVilkårfelter.erNullvedtak);
+    const [erFremtidigUtgift, settErFremtidigUtgift] = useState(
+        props.redigerbareVilkårfelter.erFremtidigUtgift
+    );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
@@ -208,7 +210,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             props.regler,
             fom,
             tom,
-            behandling.revurderFra
+            behandling.revurderFra,
+            erFremtidigUtgift
         );
 
         settFeilmeldinger(valideringsfeil);
@@ -219,7 +222,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 fom,
                 tom,
                 utgift,
-                erNullvedtak,
+                erFremtidigUtgift,
             });
             if (response.status === RessursStatus.SUKSESS) {
                 props.avsluttRedigering();
@@ -237,9 +240,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     };
 
-    const oppdaterErNullvedtak = (erNullvedtak: boolean) => {
+    const oppdaterErFremtidigUtgift = (erFremtidigUtgift: boolean) => {
         settUtgift(undefined);
-        settErNullvedtak(erNullvedtak);
+        settErFremtidigUtgift(erFremtidigUtgift);
     };
 
     const EndrePerioder = (
@@ -333,7 +336,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
-                    readOnly={!props.alleFelterKanRedigeres || erNullvedtak}
+                    readOnly={!props.alleFelterKanRedigeres}
                     onChange={(e) => {
                         settDetFinnesUlagredeEndringer(true);
                         settUtgift(tilHeltall(fjernSpaces(e.target.value)));
@@ -341,15 +344,16 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 />
             </FeilmeldingMaksBredde>
             {/*VENTER PÅ AVKLARING PÅ HVORDAN OG OM VI SKAL STØTTE NULLVEDTAK*/}
-            {tillaterNullvedtak && props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
-                <StyledSwitch
-                    size={'small'}
-                    checked={erNullvedtak}
-                    onChange={(e) => oppdaterErNullvedtak(e.target.checked)}
-                >
-                    Nullvedtak
-                </StyledSwitch>
-            )}
+            {tillaterErFremtidigUtgift &&
+                props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
+                    <StyledSwitch
+                        size={'small'}
+                        checked={erFremtidigUtgift}
+                        onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
+                    >
+                        Fremtidig utgift
+                    </StyledSwitch>
+                )}
         </HStack>
     );
 
@@ -372,6 +376,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                             feilmelding={
                                 feilmeldinger.delvilkårsvurderinger[gjeldendeRegel.regelId]
                             }
+                            erFremtidigUtgift={erFremtidigUtgift}
                             nullstillFeilmelding={nullstillFeilmeldingForRegel}
                         />
                         <Begrunnelse
