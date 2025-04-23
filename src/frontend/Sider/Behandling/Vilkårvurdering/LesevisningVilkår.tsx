@@ -6,6 +6,7 @@ import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
+import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
@@ -45,37 +46,51 @@ const LesevisningVilkår: FC<{
     return (
         <Container>
             {visStatusbånd && <Statusbånd status={vilkår.status} />}
-            <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 175px) auto minmax(auto, 32px)">
-                <VStack gap="3">
-                    <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
-                    <HStack gap="3" align="center">
-                        <VilkårsresultatIkon vilkårsresultat={resultat} height={14} width={14} />
-                        <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
-                    </HStack>
-                    <BodyShort size="small">
-                        {erFremtidigUtgift
-                            ? 'Fremtidig utgift'
-                            : `kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
-                    </BodyShort>
-                </VStack>
-                <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
-                    {delvilkårsett.map((delvilkår, index) => (
-                        <React.Fragment key={index}>
-                            <Vurderingsrad delvilkår={delvilkår} />
-                            {index !== delvilkårsett.length - 1 && (
-                                <Skillelinje style={{ gridColumn: 'span 2' }} />
-                            )}
-                        </React.Fragment>
-                    ))}
+            {erFremtidigUtgift ? (
+                <LesevisningFremtidigUtgift
+                    vilkår={vilkår}
+                    skalViseRedigeringsknapp={skalViseRedigeringsknapp}
+                    startRedigering={startRedigering}
+                />
+            ) : (
+                <HGrid
+                    gap={{ md: '4', lg: '8' }}
+                    columns="minmax(auto, 175px) auto minmax(auto, 32px)"
+                >
+                    <VStack gap="3">
+                        <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
+                        <HStack gap="3" align="center">
+                            <VilkårsresultatIkon
+                                vilkårsresultat={resultat}
+                                height={14}
+                                width={14}
+                            />
+                            <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
+                        </HStack>
+                        <BodyShort size="small">
+                            {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
+                        </BodyShort>
+                    </VStack>
+                    <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
+                        {!erFremtidigUtgift &&
+                            delvilkårsett.map((delvilkår, index) => (
+                                <React.Fragment key={index}>
+                                    <Vurderingsrad delvilkår={delvilkår} />
+                                    {index !== delvilkårsett.length - 1 && (
+                                        <Skillelinje style={{ gridColumn: 'span 2' }} />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                    </HGrid>
+                    {skalViseRedigeringsknapp && (
+                        <Redigeringsknapp
+                            variant="tertiary"
+                            onClick={startRedigering}
+                            icon={<PencilIcon />}
+                        />
+                    )}
                 </HGrid>
-                {skalViseRedigeringsknapp && (
-                    <Redigeringsknapp
-                        variant="tertiary"
-                        onClick={startRedigering}
-                        icon={<PencilIcon />}
-                    />
-                )}
-            </HGrid>
+            )}
         </Container>
     );
 };
