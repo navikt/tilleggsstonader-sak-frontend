@@ -240,11 +240,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     };
 
-    const oppdaterErFremtidigUtgift = (erFremtidigUtgift: boolean) => {
-        settUtgift(undefined);
-        settErFremtidigUtgift(erFremtidigUtgift);
-    };
-
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
@@ -349,7 +344,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     <StyledSwitch
                         size={'small'}
                         checked={erFremtidigUtgift}
-                        onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
+                        onChange={(e) => settErFremtidigUtgift(e.target.checked)}
                     >
                         Fremtidig utgift
                     </StyledSwitch>
@@ -376,7 +371,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                             feilmelding={
                                 feilmeldinger.delvilkårsvurderinger[gjeldendeRegel.regelId]
                             }
-                            erFremtidigUtgift={erFremtidigUtgift}
                             nullstillFeilmelding={nullstillFeilmeldingForRegel}
                         />
                         <Begrunnelse
@@ -403,7 +397,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             <FlexColumn $gap={1}>
                 {EndrePerioder}
                 <Skillelinje />
-                {EndreDelvilkår}
+                {!erFremtidigUtgift && EndreDelvilkår}
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>
