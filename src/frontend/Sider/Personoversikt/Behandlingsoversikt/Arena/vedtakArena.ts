@@ -29,10 +29,12 @@ export interface ArenaVedtak {
     fom?: string;
     tom?: string;
     totalbeløp?: number;
+    begrunnelse?: string;
     datoInnstillt?: string;
     utfall?: string;
     vedtakfakta: Vedtakfakta[];
     vilkårsvurderinger: Vilkårsvurdering[];
+    spesialutbetalinger: Spesialutbetaling[];
     datoMottatt?: string;
     saksbehandler?: string;
     beslutter?: string;
@@ -47,4 +49,18 @@ interface Vilkårsvurdering {
     vilkår: string;
     vurdering: string;
     vurdertAv?: string;
+}
+
+export interface Spesialutbetaling {
+    spesialutbetalingId: number;
+    belop: number;
+    begrunnelse?: string;
+    saksbehandler: string;
+    beslutter?: string;
+    datoUtbetaling: string;
+    fom: string;
+    tom: string;
+    status: string;
+    opprettetDato: string;
+    endretDato: string;
 }
