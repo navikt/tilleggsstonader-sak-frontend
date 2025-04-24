@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { ActionMenu } from '@navikt/ds-react';
 
 import {
@@ -10,7 +8,6 @@ import {
     LenkerGroup,
     SettBehandlingPåVentItem,
 } from '../../../../komponenter/Hamburgermeny/Hamburgermeny';
-import { Toggle } from '../../../../utils/toggles';
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import {
@@ -27,14 +24,12 @@ export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling
     } = useKlagebehandling();
     const { personIdent } = useKlageApp();
 
-    const kanSetteKlagePåVent = useFlag(Toggle.KLAGE_PÅ_VENT);
-
     return (
         <Hamburgermeny>
             {personIdent && <LenkerGroup ident={personIdent} />}
             {erBehandlingRedigerbar(behandling) && (
                 <ActionMenu.Group label={'Behandling'}>
-                    {behandlingErRedigerbar && !statusPåVentRedigering && kanSetteKlagePåVent && (
+                    {behandlingErRedigerbar && !statusPåVentRedigering && (
                         <SettBehandlingPåVentItem
                             onSelect={() => settStatusPåVentRedigering(true)}
                         />

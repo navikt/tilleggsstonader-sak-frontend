@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,7 +14,6 @@ import { useRerunnableEffect } from '../../../hooks/useRerunnableEffect';
 import DataViewer from '../../../komponenter/DataViewer';
 import ScrollToTop from '../../../komponenter/ScrollToTop/ScrollToTop';
 import { SettPåVentKlage } from '../../../komponenter/SettPåVent/SettPåVentContainer';
-import { Toggle } from '../../../utils/toggles';
 import { KlagebehandlingProvider, useKlagebehandling } from '../context/KlagebehandlingContext';
 import { useHentKlagebehandling } from '../hooks/useHentKlagebehandling';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
@@ -89,8 +87,6 @@ const BehandlingContent = () => {
     useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useKlagebehandling();
 
-    const kanSetteKlagePåVent = useFlag(Toggle.KLAGE_PÅ_VENT);
-
     return (
         <>
             <ScrollToTop />
@@ -98,7 +94,7 @@ const BehandlingContent = () => {
             <Container>
                 <InnholdWrapper $åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
-                    {kanSetteKlagePåVent && <SettPåVentKlage />}
+                    <SettPåVentKlage />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
                 </InnholdWrapper>
