@@ -7,7 +7,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
-import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { formaterIsoDato } from '../../../../../utils/dato';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(7, max-content);
+    grid-template-columns: repeat(8, max-content);
     gap: 0.4rem 2rem;
 `;
 
@@ -26,7 +26,8 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
 }) => (
     <Container>
         <Grid>
-            <Label>Periode</Label>
+            <Label>Fom</Label>
+            <Label>Tom</Label>
             <Label>Ant. måneder</Label>
             <Label>Studienivå</Label>
             <Label>Prosent</Label>
@@ -35,9 +36,8 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
             <div />
             {beregningsresultat.perioder.map((periode, indeks) => (
                 <React.Fragment key={indeks}>
-                    <BodyShort size="small">
-                        {formaterIsoPeriode(periode.fom, periode.tom)}
-                    </BodyShort>
+                    <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
+                    <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
                     <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                     <BodyShort size="small">{studienivåTilTekst[periode.studienivå]}</BodyShort>
                     <BodyShort size="small">{periode.studieprosent}%</BodyShort>
