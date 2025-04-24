@@ -88,8 +88,10 @@ const UtgifterNyBolig = ({
 }) => {
     if (!utgifterNyBolig) return null;
     return (
-        <>
-            <BodyShort weight={'semibold'}>Løpende utgift 1 bolig</BodyShort>
+        <div>
+            <BodyShort size={'small'} weight={'semibold'}>
+                Løpende utgift 1 bolig
+            </BodyShort>
             <BodyShort size={'small'}>
                 Deler utgifter: {jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
             </BodyShort>
@@ -105,7 +107,7 @@ const UtgifterNyBolig = ({
             {utgifterNyBolig.mottarBostotte === JaNei.JA && (
                 <BodyShort size={'small'}>Mottar bostøtte</BodyShort>
             )}
-        </>
+        </div>
     );
 };
 
@@ -116,8 +118,10 @@ const UtgifterFlereSteder = ({
 }) => {
     if (!utgifterFlereSteder) return null;
     return (
-        <>
-            <BodyShort weight={'semibold'}>Løpende utgift 2 boliger</BodyShort>
+        <div>
+            <BodyShort size={'small'} weight={'semibold'}>
+                Løpende utgift 2 boliger
+            </BodyShort>
             <BodyShort size={'small'}>
                 Deler utgifter:{' '}
                 {utgifterFlereSteder.delerBoutgifter
@@ -132,7 +136,7 @@ const UtgifterFlereSteder = ({
                 {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)}
                 ,-
             </BodyShort>
-        </>
+        </div>
     );
 };
 
@@ -143,9 +147,11 @@ const UtgifterSamling = ({
 }) => {
     if (!samling) return null;
     return (
-        <>
-            <BodyShort weight={'semibold'}>Utgifter til overnatting</BodyShort>
-            <VStack gap={'3'}>
+        <VStack gap={'1'}>
+            <BodyShort size={'small'} weight={'semibold'}>
+                Utgifter til overnatting
+            </BodyShort>
+            <VStack gap={'2'}>
                 {samling.periodeForSamling.map((periode, index) => (
                     <div key={index}>
                         <BodyShort size={'small'}>
@@ -158,6 +164,6 @@ const UtgifterSamling = ({
                     </div>
                 ))}
             </VStack>
-        </>
+        </VStack>
     );
 };
