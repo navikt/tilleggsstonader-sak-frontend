@@ -10,6 +10,7 @@ import Vedlegg from './Vedlegg';
 import { InfoSeksjon } from './Visningskomponenter';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
+    DelerUtgifterFlereStederType,
     delerUtgifterFlereStederTypeTilTekst,
     FaktaBoligEllerOvernattingSøknadsgrunnlag,
     FaktaUtgifterFlereSteder,
@@ -83,9 +84,11 @@ const UtgifterNyBolig = ({
             <BodyShort size={'small'} weight={'semibold'}>
                 Løpende utgift 1 bolig
             </BodyShort>
-            <BodyShort size={'small'}>
-                Deler utgifter: {jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
-            </BodyShort>
+            {utgifterNyBolig.delerBoutgifter === JaNei.JA && (
+                <BodyShort size={'small'}>
+                    Deler utgifter: {jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
+                </BodyShort>
+            )}
             {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
                 <BodyShort size={'small'}>
                     Utgifter ny bolig: {tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-
@@ -108,17 +111,26 @@ const UtgifterFlereSteder = ({
     utgifterFlereSteder: FaktaUtgifterFlereSteder | undefined;
 }) => {
     if (!utgifterFlereSteder) return null;
+    const typerDelerBoutgifter = utgifterFlereSteder.delerBoutgifter;
+    const delerUtgifter =
+        typerDelerBoutgifter.length > 0 &&
+        !(
+            typerDelerBoutgifter.length === 1 &&
+            typerDelerBoutgifter[0] === DelerUtgifterFlereStederType.NEI
+        );
     return (
         <div>
             <BodyShort size={'small'} weight={'semibold'}>
                 Løpende utgift 2 boliger
             </BodyShort>
-            <BodyShort size={'small'}>
-                Deler utgifter:{' '}
-                {utgifterFlereSteder.delerBoutgifter
-                    .map((delerBoutgift) => delerUtgifterFlereStederTypeTilTekst[delerBoutgift])
-                    .join(', ')}
-            </BodyShort>
+            {delerUtgifter && (
+                <BodyShort size={'small'}>
+                    Deler utgifter:{' '}
+                    {typerDelerBoutgifter
+                        .map((delerBoutgift) => delerUtgifterFlereStederTypeTilTekst[delerBoutgift])
+                        .join(', ')}
+                </BodyShort>
+            )}
             <BodyShort size={'small'}>
                 Utgift hjemsted: {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-
             </BodyShort>

@@ -39,7 +39,7 @@ interface PeriodeForSamling {
     utgifterTilOvernatting: number;
 }
 
-enum DelerUtgifterFlereStederType {
+export enum DelerUtgifterFlereStederType {
     HJEMSTED = 'HJEMSTED',
     AKTIVITETSSTED = 'AKTIVITETSSTED',
     NEI = 'NEI',
