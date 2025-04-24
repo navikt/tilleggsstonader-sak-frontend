@@ -11,6 +11,7 @@ import { InfoSeksjon } from './Visningskomponenter';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     delerUtgifterFlereStederTypeTilTekst,
+    FaktaBoligEllerOvernattingSøknadsgrunnlag,
     FaktaUtgifterFlereSteder,
     FaktaUtgifterIForbindelseMedSamling,
     FaktaUtgifterNyBolig,
@@ -63,17 +64,7 @@ export const OppsummeringBoutgifter: React.FC<{
                         <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
                         <UtgifterSamling samling={samling} />
                     </InfoSeksjon>
-                    <InfoSeksjon label={'Høyere utgift pga helse'} ikon={<WheelchairIcon />}>
-                        <BodyShort size={'small'}>
-                            Trenger tilpasset bolig:{' '}
-                            {
-                                jaNeiTilTekst[
-                                    boligEllerOvernatting
-                                        .harSærligStoreUtgifterPgaFunksjonsnedsettelse
-                                ]
-                            }
-                        </BodyShort>
-                    </InfoSeksjon>
+                    <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
                 </>
             )}
             <Vedlegg fakta={behandlingFakta.dokumentasjon} />
@@ -165,5 +156,26 @@ const UtgifterSamling = ({
                 ))}
             </VStack>
         </VStack>
+    );
+};
+
+const HøyereUtgifterPgaHelse = ({
+    boligEllerOvernatting,
+}: {
+    boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag;
+}) => {
+    return (
+        boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse === JaNei.JA && (
+            <InfoSeksjon label={'Høyere utgift pga helse'} ikon={<WheelchairIcon />}>
+                <BodyShort size={'small'}>
+                    Trenger tilpasset bolig:{' '}
+                    {
+                        jaNeiTilTekst[
+                            boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse
+                        ]
+                    }
+                </BodyShort>
+            </InfoSeksjon>
+        )
     );
 };

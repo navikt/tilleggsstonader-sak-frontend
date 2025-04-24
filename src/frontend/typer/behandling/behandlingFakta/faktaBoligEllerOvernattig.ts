@@ -4,7 +4,7 @@ export interface FaktaBoligEllerOvernatting {
     søknadsgrunnlag?: FaktaBoligEllerOvernattingSøknadsgrunnlag;
 }
 
-interface FaktaBoligEllerOvernattingSøknadsgrunnlag {
+export interface FaktaBoligEllerOvernattingSøknadsgrunnlag {
     fasteUtgifter?: FaktaFasteUtgifter;
     samling?: FaktaUtgifterIForbindelseMedSamling;
     harSærligStoreUtgifterPgaFunksjonsnedsettelse: JaNei;
