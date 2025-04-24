@@ -327,7 +327,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
-                    label={vilkårTypeTilUtgiftTekst[props.vilkårtype]}
+                    label={`${vilkårTypeTilUtgiftTekst[props.vilkårtype]}${erFremtidigUtgift ? ' (valgfri)' : ''}`}
                     size="small"
                     erLesevisning={false}
                     value={harTallverdi(utgift) ? utgift : ''}
