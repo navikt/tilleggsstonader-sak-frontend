@@ -22,6 +22,9 @@ const Begrunnelse = styled(BodyLong).attrs({ size: 'small' })`
     white-space: pre-wrap;
 `;
 
+const HeaderCellCol = styled(Table.HeaderCell).attrs({ scope: 'col', textSize: 'small' })``;
+const DataCell = styled(Table.DataCell).attrs({ textSize: 'small' })``;
+
 export function Vedtaksdetaljer({
     vedtak,
     sak,
@@ -74,10 +77,10 @@ function Vedtaksinfo({ vedtak, sak }: { vedtak: ArenaVedtak; sak: ArenaSak | und
             <Table.Body>
                 {vedtakinfo.map((info) => (
                     <Table.Row key={info[0]}>
-                        <Table.DataCell textSize={'small'}>
+                        <DataCell>
                             <strong>{info[0]}</strong>
-                        </Table.DataCell>
-                        <Table.DataCell textSize={'small'}>{info[1]}</Table.DataCell>
+                        </DataCell>
+                        <DataCell>{info[1]}</DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -123,29 +126,17 @@ function Vilkårsvurderinger({ vedtak }: { vedtak: ArenaVedtak }) {
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col" textSize={'small'}>
-                        Vilkår
-                    </Table.HeaderCell>
-                    <Table.HeaderCell scope="col" textSize={'small'}>
-                        Vurdering
-                    </Table.HeaderCell>
-                    <Table.HeaderCell scope="col" textSize={'small'}>
-                        Vurdert av
-                    </Table.HeaderCell>
+                    <HeaderCellCol>Vilkår</HeaderCellCol>
+                    <HeaderCellCol>Vurdering</HeaderCellCol>
+                    <HeaderCellCol>Vurdert av</HeaderCellCol>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {vedtak.vilkårsvurderinger.map((vilkårsvurdering, index) => (
                     <Table.Row key={index}>
-                        <Table.DataCell textSize={'small'}>
-                            {vilkårsvurdering.vilkår}
-                        </Table.DataCell>
-                        <Table.DataCell textSize={'small'}>
-                            {vilkårsvurdering.vurdering}
-                        </Table.DataCell>
-                        <Table.DataCell textSize={'small'}>
-                            {vilkårsvurdering.vurdertAv}
-                        </Table.DataCell>
+                        <DataCell>{vilkårsvurdering.vilkår}</DataCell>
+                        <DataCell>{vilkårsvurdering.vurdering}</DataCell>
+                        <DataCell>{vilkårsvurdering.vurdertAv}</DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -161,19 +152,15 @@ function Vedtaksfakta({ vedtak }: { vedtak: ArenaVedtak }) {
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col" textSize={'small'}>
-                        Vedtaksfakta
-                    </Table.HeaderCell>
-                    <Table.HeaderCell scope="col" textSize={'small'}>
-                        Verdi
-                    </Table.HeaderCell>
+                    <HeaderCellCol>Vedtaksfakta</HeaderCellCol>
+                    <HeaderCellCol>Verdi</HeaderCellCol>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {vedtak.vedtakfakta.map((fakta, index) => (
                     <Table.Row key={index}>
-                        <Table.DataCell textSize={'small'}>{fakta.type}</Table.DataCell>
-                        <Table.DataCell textSize={'small'}>{fakta.verdi}</Table.DataCell>
+                        <DataCell>{fakta.type}</DataCell>
+                        <DataCell>{fakta.verdi}</DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -194,16 +181,16 @@ function Spesialutbetalinger({ vedtak }: { vedtak: ArenaVedtak }) {
                 <Table size={'small'}>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell scope="col">Dato fra</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Dato til</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Beløp</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Utbet.dato</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Saksbeh.</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Opprettet dato</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Beslutter</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Endret dato</Table.HeaderCell>
-                            <Table.HeaderCell scope="col">Begrunnelse</Table.HeaderCell>
+                            <HeaderCellCol>Dato fra</HeaderCellCol>
+                            <HeaderCellCol>Dato til</HeaderCellCol>
+                            <HeaderCellCol>Beløp</HeaderCellCol>
+                            <HeaderCellCol>Utbet.dato</HeaderCellCol>
+                            <HeaderCellCol>Status</HeaderCellCol>
+                            <HeaderCellCol>Saksbeh.</HeaderCellCol>
+                            <HeaderCellCol>Opprettet dato</HeaderCellCol>
+                            <HeaderCellCol>Beslutter</HeaderCellCol>
+                            <HeaderCellCol>Endret dato</HeaderCellCol>
+                            <HeaderCellCol>Begrunnelse</HeaderCellCol>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -229,28 +216,16 @@ function SpesialutbetalingRad({ spesialutbetaling }: { spesialutbetaling: Spesia
             expansionDisabled={true}
             open={open}
         >
-            <Table.DataCell textSize={'small'}>
-                {formaterIsoDato(spesialutbetaling.fom)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>
-                {formaterIsoDato(spesialutbetaling.tom)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>
-                {formaterTallMedTusenSkille(spesialutbetaling.belop)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>
-                {formaterIsoDato(spesialutbetaling.datoUtbetaling)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>{spesialutbetaling.status}</Table.DataCell>
-            <Table.DataCell textSize={'small'}>{spesialutbetaling.saksbehandler}</Table.DataCell>
-            <Table.DataCell textSize={'small'}>
-                {formaterIsoDato(spesialutbetaling.opprettetDato)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>{spesialutbetaling.beslutter}</Table.DataCell>
-            <Table.DataCell textSize={'small'}>
-                {formaterIsoDato(spesialutbetaling.endretDato)}
-            </Table.DataCell>
-            <Table.DataCell textSize={'small'}>
+            <DataCell>{formaterIsoDato(spesialutbetaling.fom)}</DataCell>
+            <DataCell>{formaterIsoDato(spesialutbetaling.tom)}</DataCell>
+            <DataCell>{formaterTallMedTusenSkille(spesialutbetaling.belop)}</DataCell>
+            <DataCell>{formaterIsoDato(spesialutbetaling.datoUtbetaling)}</DataCell>
+            <DataCell>{spesialutbetaling.status}</DataCell>
+            <DataCell>{spesialutbetaling.saksbehandler}</DataCell>
+            <DataCell>{formaterIsoDato(spesialutbetaling.opprettetDato)}</DataCell>
+            <DataCell>{spesialutbetaling.beslutter}</DataCell>
+            <DataCell>{formaterIsoDato(spesialutbetaling.endretDato)}</DataCell>
+            <DataCell>
                 {harVerdi(spesialutbetaling.begrunnelse) ? (
                     <Button variant={'tertiary'} size={'small'} onClick={() => setOpen(!open)}>
                         {!open ? 'Vis' : 'Skjul'}
@@ -258,7 +233,7 @@ function SpesialutbetalingRad({ spesialutbetaling }: { spesialutbetaling: Spesia
                 ) : (
                     'Ingen begrunnelse'
                 )}
-            </Table.DataCell>
+            </DataCell>
         </Table.ExpandableRow>
     );
 }
