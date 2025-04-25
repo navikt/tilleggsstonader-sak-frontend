@@ -21,7 +21,8 @@ export const validerVilkårsvurderinger = (
     regler: Regler,
     fom?: string,
     tom?: string,
-    revurderesFraDato?: string
+    revurderesFraDato?: string,
+    erFremtidigUtgift?: boolean
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
@@ -37,35 +38,37 @@ export const validerVilkårsvurderinger = (
         };
     }
 
-    delvilkårsett
-        .flatMap((delvilkår) => delvilkår.vurderinger)
-        .forEach((vurdering) => {
-            const gjeldendeRegel = vurdering.regelId;
+    if (!erFremtidigUtgift) {
+        delvilkårsett
+            .flatMap((delvilkår) => delvilkår.vurderinger)
+            .forEach((vurdering) => {
+                const gjeldendeRegel = vurdering.regelId;
 
-            // I MVPen krever vi at svarer på "Har søker høyere utgifter grunnet helsemessige årsaker?" er "Nei" da vi ikke har støtte for å beregne dette
-            if (
-                gjeldendeRegel === 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER' &&
-                vurdering.svar === 'JA'
-            ) {
-                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
-                    'Løsningen støtter ikke dette valget enda. Ta kontakt med Tilleggsstønader-teamet.';
-                return;
-            }
+                // I MVPen krever vi at svarer på "Har søker høyere utgifter grunnet helsemessige årsaker?" er "Nei" da vi ikke har støtte for å beregne dette
+                if (
+                    gjeldendeRegel === 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER' &&
+                    vurdering.svar === 'JA'
+                ) {
+                    valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
+                        'Løsningen støtter ikke dette valget enda. Ta kontakt med Tilleggsstønader-teamet.';
+                    return;
+                }
 
-            if (!vurdering.svar) {
-                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] = 'Du må ta et valg';
-                return;
-            }
+                if (!vurdering.svar) {
+                    valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] = 'Du må ta et valg';
+                    return;
+                }
 
-            if (
-                begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
-                harIkkeVerdi(vurdering.begrunnelse)
-            ) {
-                valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
-                    'Begrunnelse er obligatorisk for dette valget';
-                return;
-            }
-        });
+                if (
+                    begrunnelseKreves(vurdering.svar, regler[gjeldendeRegel]) &&
+                    harIkkeVerdi(vurdering.begrunnelse)
+                ) {
+                    valideringsfeil.delvilkårsvurderinger[gjeldendeRegel] =
+                        'Begrunnelse er obligatorisk for dette valget';
+                    return;
+                }
+            });
+    }
 
     return valideringsfeil;
 };

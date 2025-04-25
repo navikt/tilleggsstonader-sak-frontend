@@ -18,7 +18,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
     const { lagreVilkår, slettVilkår } = useVilkår();
 
     const [redigerer, settRedigerer] = useState<boolean>(
-        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
+        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL && !vilkår.erFremtidigUtgift
     );
 
     const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
@@ -35,7 +35,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 fom: vilkår.fom,
                 tom: vilkår.tom,
                 utgift: vilkår.utgift,
-                erNullvedtak: vilkår.erNullvedtak,
+                erFremtidigUtgift: vilkår.erFremtidigUtgift,
             }}
             lagreVurdering={(redigerbareVilkårfelter) =>
                 lagreVilkår({
