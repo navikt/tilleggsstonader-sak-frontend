@@ -18,7 +18,7 @@ const Vedtakinfotabell = styled(Table)`
     max-width: fit-content;
 `;
 
-const Begrunnelse = styled(BodyLong)`
+const Begrunnelse = styled(BodyLong).attrs({ size: 'small' })`
     white-space: pre-wrap;
 `;
 
@@ -44,11 +44,15 @@ const formaterAktivitet = function (sak: ArenaSak | undefined) {
     if (!aktivitet) return undefined;
     return (
         <>
-            <BodyShort>{aktivitet.type}</BodyShort>
-            <BodyShort>Status: {aktivitet.status}</BodyShort>
-            <BodyShort>Periode: {formaterNullablePeriode(aktivitet.fom, aktivitet.tom)}</BodyShort>
-            {aktivitet.gjelderUtdanning && <BodyShort>Utdanning</BodyShort>}
-            {aktivitet.beskrivelse && <BodyShort>Beskrivelse: {aktivitet.beskrivelse}</BodyShort>}
+            <BodyShort size={'small'}>{aktivitet.type}</BodyShort>
+            <BodyShort size={'small'}>Status: {aktivitet.status}</BodyShort>
+            <BodyShort size={'small'}>
+                Periode: {formaterNullablePeriode(aktivitet.fom, aktivitet.tom)}
+            </BodyShort>
+            {aktivitet.gjelderUtdanning && <BodyShort size={'small'}>Utdanning</BodyShort>}
+            {aktivitet.beskrivelse && (
+                <Begrunnelse>Beskrivelse: {aktivitet.beskrivelse}</Begrunnelse>
+            )}
         </>
     );
 };
@@ -70,10 +74,10 @@ function Vedtaksinfo({ vedtak, sak }: { vedtak: ArenaVedtak; sak: ArenaSak | und
             <Table.Body>
                 {vedtakinfo.map((info) => (
                     <Table.Row key={info[0]}>
-                        <Table.DataCell>
+                        <Table.DataCell textSize={'small'}>
                             <strong>{info[0]}</strong>
                         </Table.DataCell>
-                        <Table.DataCell>{info[1]}</Table.DataCell>
+                        <Table.DataCell textSize={'small'}>{info[1]}</Table.DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -86,7 +90,7 @@ function BegrunnelseVedtak({ vedtak }: { vedtak: ArenaVedtak }) {
     const [visHele, settVisHele] = useState(false);
     const begrunnelse = vedtak.begrunnelse;
     if (!harVerdi(begrunnelse)) {
-        return <>Mangler begrunnelse</>;
+        return <BodyShort size={'small'}>Mangler begrunnelse</BodyShort>;
     }
 
     return (
@@ -119,17 +123,29 @@ function Vilkårsvurderinger({ vedtak }: { vedtak: ArenaVedtak }) {
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Vilkår</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Vurdering</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Vurdert av</Table.HeaderCell>
+                    <Table.HeaderCell scope="col" textSize={'small'}>
+                        Vilkår
+                    </Table.HeaderCell>
+                    <Table.HeaderCell scope="col" textSize={'small'}>
+                        Vurdering
+                    </Table.HeaderCell>
+                    <Table.HeaderCell scope="col" textSize={'small'}>
+                        Vurdert av
+                    </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {vedtak.vilkårsvurderinger.map((vilkårsvurdering, index) => (
                     <Table.Row key={index}>
-                        <Table.DataCell>{vilkårsvurdering.vilkår}</Table.DataCell>
-                        <Table.DataCell>{vilkårsvurdering.vurdering}</Table.DataCell>
-                        <Table.DataCell>{vilkårsvurdering.vurdertAv}</Table.DataCell>
+                        <Table.DataCell textSize={'small'}>
+                            {vilkårsvurdering.vilkår}
+                        </Table.DataCell>
+                        <Table.DataCell textSize={'small'}>
+                            {vilkårsvurdering.vurdering}
+                        </Table.DataCell>
+                        <Table.DataCell textSize={'small'}>
+                            {vilkårsvurdering.vurdertAv}
+                        </Table.DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -145,15 +161,19 @@ function Vedtaksfakta({ vedtak }: { vedtak: ArenaVedtak }) {
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Vedtaksfakta</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Verdi</Table.HeaderCell>
+                    <Table.HeaderCell scope="col" textSize={'small'}>
+                        Vedtaksfakta
+                    </Table.HeaderCell>
+                    <Table.HeaderCell scope="col" textSize={'small'}>
+                        Verdi
+                    </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {vedtak.vedtakfakta.map((fakta, index) => (
                     <Table.Row key={index}>
-                        <Table.DataCell>{fakta.type}</Table.DataCell>
-                        <Table.DataCell>{fakta.verdi}</Table.DataCell>
+                        <Table.DataCell textSize={'small'}>{fakta.type}</Table.DataCell>
+                        <Table.DataCell textSize={'small'}>{fakta.verdi}</Table.DataCell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -162,38 +182,40 @@ function Vedtaksfakta({ vedtak }: { vedtak: ArenaVedtak }) {
 }
 
 function Spesialutbetalinger({ vedtak }: { vedtak: ArenaVedtak }) {
-    if (!vedtak.spesialutbetalinger.length) {
-        return null;
-    }
     return (
         <div>
             <Heading size={'small'} level={'3'}>
                 Spesialutbetalinger
             </Heading>
-            <Table size={'small'}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell scope="col">Dato fra</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Dato til</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Beløp</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Utbet.dato</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Saksbeh.</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Opprettet dato</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Beslutter</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Endret dato</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Begrunnelse</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {vedtak.spesialutbetalinger.map((spesialutbetaling) => (
-                        <SpesialutbetalingRad
-                            key={spesialutbetaling.spesialutbetalingId}
-                            spesialutbetaling={spesialutbetaling}
-                        />
-                    ))}
-                </Table.Body>
-            </Table>
+            {vedtak.spesialutbetalinger.length === 0 && (
+                <BodyShort size={'small'}>Ingen spesialutbetalinger</BodyShort>
+            )}
+            {vedtak.spesialutbetalinger.length > 0 && (
+                <Table size={'small'}>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell scope="col">Dato fra</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Dato til</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Beløp</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Utbet.dato</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Status</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Saksbeh.</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Opprettet dato</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Beslutter</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Endret dato</Table.HeaderCell>
+                            <Table.HeaderCell scope="col">Begrunnelse</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {vedtak.spesialutbetalinger.map((spesialutbetaling) => (
+                            <SpesialutbetalingRad
+                                key={spesialutbetaling.spesialutbetalingId}
+                                spesialutbetaling={spesialutbetaling}
+                            />
+                        ))}
+                    </Table.Body>
+                </Table>
+            )}
         </div>
     );
 }
@@ -207,16 +229,28 @@ function SpesialutbetalingRad({ spesialutbetaling }: { spesialutbetaling: Spesia
             expansionDisabled={true}
             open={open}
         >
-            <Table.DataCell>{formaterIsoDato(spesialutbetaling.fom)}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(spesialutbetaling.tom)}</Table.DataCell>
-            <Table.DataCell>{formaterTallMedTusenSkille(spesialutbetaling.belop)}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(spesialutbetaling.datoUtbetaling)}</Table.DataCell>
-            <Table.DataCell>{spesialutbetaling.status}</Table.DataCell>
-            <Table.DataCell>{spesialutbetaling.saksbehandler}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(spesialutbetaling.opprettetDato)}</Table.DataCell>
-            <Table.DataCell>{spesialutbetaling.beslutter}</Table.DataCell>
-            <Table.DataCell>{formaterIsoDato(spesialutbetaling.endretDato)}</Table.DataCell>
-            <Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterIsoDato(spesialutbetaling.fom)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterIsoDato(spesialutbetaling.tom)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterTallMedTusenSkille(spesialutbetaling.belop)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterIsoDato(spesialutbetaling.datoUtbetaling)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>{spesialutbetaling.status}</Table.DataCell>
+            <Table.DataCell textSize={'small'}>{spesialutbetaling.saksbehandler}</Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterIsoDato(spesialutbetaling.opprettetDato)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>{spesialutbetaling.beslutter}</Table.DataCell>
+            <Table.DataCell textSize={'small'}>
+                {formaterIsoDato(spesialutbetaling.endretDato)}
+            </Table.DataCell>
+            <Table.DataCell textSize={'small'}>
                 {harVerdi(spesialutbetaling.begrunnelse) ? (
                     <Button variant={'tertiary'} size={'small'} onClick={() => setOpen(!open)}>
                         {!open ? 'Vis' : 'Skjul'}
