@@ -2,8 +2,8 @@ import React from 'react';
 
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
+import { VilkårOppsummeringRad } from './OppsummeringRad';
 import { finnNavnFraBarnId } from './oppsummeringUtils';
-import { VilkårOppsummeringRad } from './VilkårOppsummeringRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Stønadsvilkår } from '../../../../typer/behandling/behandlingOppsummering';

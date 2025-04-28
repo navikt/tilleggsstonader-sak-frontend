@@ -1,41 +1,15 @@
 import React from 'react';
 
-import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { VilkårOppsummeringRad } from './OppsummeringRad';
 import { OppsummertVilkårperiode } from '../../../../typer/behandling/behandlingOppsummering';
-import { formaterNullablePeriode } from '../../../../utils/dato';
 import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { AktivitetType } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     MålgruppeType,
     målgruppeTypeTilTekst,
 } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
-import { VilkårPeriodeResultat } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../../vilkår';
-
-interface VilkårOppsummeringRadProps {
-    resultat: VilkårPeriodeResultat | Vilkårsresultat;
-    fom?: string;
-    tom?: string;
-    gjelder?: string;
-}
-
-export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
-    resultat,
-    fom,
-    tom,
-    gjelder,
-}) => {
-    return (
-        <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
-            <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />
-            <BodyShort
-                size={'small'}
-            >{`${formaterNullablePeriode(fom, tom)}: ${gjelder}`}</BodyShort>
-        </HStack>
-    );
-};
 
 export const OppsummeringAktiviteter: React.FC<{
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
