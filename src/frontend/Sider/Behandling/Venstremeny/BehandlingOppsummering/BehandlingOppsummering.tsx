@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { BodyShort, ExpansionCard, VStack } from '@navikt/ds-react';
 
 import { OppsummeringVilkår } from './OppsummeringVilkår';
+import { VedtakOppsummering } from './VedtakOppsummering';
 import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsummeringRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { typeVedtakTilTekst } from '../../../../typer/vedtak/vedtak';
 import { formaterDato } from '../../../../utils/dato';
 
 const StyledExpansionCard = styled(ExpansionCard)`
@@ -42,7 +42,7 @@ export const BehandlingOppsummering = () => {
                 >
                     <ExpansionCard.Header>Oppsummering av vurderinger</ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack gap="4">
+                        <VStack gap="6">
                             {behandling.revurderFra && (
                                 <BodyShort size="small">
                                     <b>Revurder fra:</b> {formaterDato(behandling.revurderFra)}
@@ -58,12 +58,7 @@ export const BehandlingOppsummering = () => {
                                 vilkår={behandlingOppsummering.vilkår}
                                 stønadstype={behandling.stønadstype}
                             />
-                            <BodyShort size="small" color="red">
-                                <b>Vedtaksresultat: </b>
-                                {behandlingOppsummering.vedtaksresultat
-                                    ? typeVedtakTilTekst[behandlingOppsummering.vedtaksresultat]
-                                    : 'Ikke satt'}
-                            </BodyShort>
+                            <VedtakOppsummering vedtak={behandlingOppsummering.vedtak} />
                         </VStack>
                     </ExpansionCard.Content>
                 </StyledExpansionCard>

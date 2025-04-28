@@ -11,5 +11,7 @@ export const initialiserVedtaksperioder = (
 export const tomVedtaksperiode = (): Vedtaksperiode => ({
     fom: '',
     tom: '',
+    målgruppeType: '',
+    aktivitetType: '',
     id: uuidv4(),
 });

@@ -2,13 +2,14 @@ import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilk
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
-import { TypeVedtak } from '../vedtak/vedtak';
+import { TypeVedtak, ÅrsakAvslag } from '../vedtak/vedtak';
+import { Vedtaksperiode } from '../vedtak/vedtakperiode';
 
 export interface BehandlingOppsummering {
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
     målgrupper: OppsummertVilkårperiode<MålgruppeType>[];
     vilkår: Stønadsvilkår[];
-    vedtaksresultat?: TypeVedtak;
+    vedtak: OppsummertVedtak;
     finnesDataÅOppsummere: boolean;
 }
 
@@ -32,4 +33,23 @@ interface OppsummertVilkår {
     tom?: string;
     resultat: Vilkårsresultat;
     utgift?: number;
+}
+
+export type OppsummertVedtak =
+    | OppsummertVedtakInnvilgelse
+    | OppsummertVedtakAvslag
+    | OppsummertVedtakOpphør;
+
+export interface OppsummertVedtakInnvilgelse {
+    resultat: TypeVedtak.INNVILGELSE;
+    vedtaksperioder: Vedtaksperiode[];
+}
+
+export interface OppsummertVedtakAvslag {
+    resultat: TypeVedtak.AVSLAG;
+    årsaker: ÅrsakAvslag[];
+}
+
+export interface OppsummertVedtakOpphør {
+    resultat: TypeVedtak.OPPHØR;
 }
