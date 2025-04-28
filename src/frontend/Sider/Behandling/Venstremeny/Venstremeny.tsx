@@ -14,13 +14,12 @@ import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsu
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
-    width: 20rem;
-    min-height: calc(100vh - 97px);
-`;
-
-const StickyTablistContainer = styled(Sticky)`
+    width: 27rem;
+    position: sticky;
+    height: calc(100vh - 97px);
     top: 97px;
-    border-right: 1px solid ${ABorderDefault};
+    overflow-y: scroll;
+    overflow-x: hidden;
 `;
 
 const Tab = styled(Tabs.Tab)`
@@ -51,14 +50,14 @@ const VenstreMeny: React.FC = () => {
         <Container>
             <Totrinnskontroll />
             <BehandlingOppsummering />
-            <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
-                <StickyTablistContainer>
+            <Tabs defaultValue="søknaden">
+                <Sticky>
                     <Tabs.List>
                         {tabs.map((tab) => (
                             <Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
-                </StickyTablistContainer>
+                </Sticky>
                 {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
