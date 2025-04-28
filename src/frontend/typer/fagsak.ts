@@ -6,6 +6,7 @@ export interface FagsakPerson {
     id: string;
     tilsynBarn?: string;
     læremidler?: string;
+    boutgifter?: string;
 }
 
 export interface FagsakPersonMedBehandlinger {
@@ -32,6 +33,8 @@ export function utledFagsakId(
             return fagsakPerson.tilsynBarn;
         case Stønadstype.LÆREMIDLER:
             return fagsakPerson.læremidler;
+        case Stønadstype.BOUTGIFTER:
+            return fagsakPerson.boutgifter;
     }
 }
 
