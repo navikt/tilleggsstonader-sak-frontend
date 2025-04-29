@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Button, HStack, Select, VStack } from '@navikt/ds-react';
+import {
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    HStack,
+    Select,
+    Textarea,
+    VStack,
+} from '@navikt/ds-react';
 
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
 import { useApp } from '../../../../context/AppContext';
@@ -15,6 +23,12 @@ import {
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
+import {
+    NyeOpplysningerEndring,
+    nyeOpplysningerEndringTilTekst,
+    NyeOpplysningerKilde,
+    NyeOpplysningerMetadata,
+} from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
@@ -31,6 +45,7 @@ interface OpprettBehandlingRequest {
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
     valgteBarn: string[];
+    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
 }
 
 const utledSkalViseBarnTilRevurdering = (
@@ -55,6 +70,9 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const { request } = useApp();
 
     const [årsak, settÅrsak] = useState<BehandlingÅrsak>();
+    const [kilde, settKilde] = useState<NyeOpplysningerKilde>();
+    const [endringer, settEndringer] = useState<NyeOpplysningerEndring[]>();
+    const [beskrivelse, settBeskrivelse] = useState<string>();
     const [barnTilRevurdering, setBarnTilRevurdering] =
         useState<Ressurs<BarnTilRevurderingResponse>>(byggTomRessurs());
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
@@ -80,11 +98,31 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
+
+        let nyeOpplysninger: NyeOpplysningerMetadata | undefined = undefined;
+        if (årsak === BehandlingÅrsak.NYE_OPPLYSNINGER) {
+            if (!kilde) {
+                settFeilmelding(lagFeilmelding('Kilde for nye opplysninger må settes'));
+                settLaster(false);
+                return;
+            }
+            if (!endringer) {
+                settFeilmelding(lagFeilmelding('Endringer ved nye opplysninger må settes'));
+                settLaster(false);
+                return;
+            }
+            nyeOpplysninger = {
+                kilde: kilde,
+                endringer: endringer,
+                beskrivelse: beskrivelse,
+            };
+        }
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
             kravMottatt: kravMottatt,
             valgteBarn: valgteBarn,
+            nyeOpplysningerMetadata: nyeOpplysninger,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
                 hentBehandlinger();
@@ -106,6 +144,15 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         }
     };
 
+    const endreKilde = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        if (harVerdi(value)) {
+            settKilde(value as NyeOpplysningerKilde);
+            settFeilmelding(undefined);
+        } else {
+            settKilde(undefined);
+        }
+    };
     const skalViseBarnTilRevurdering = utledSkalViseBarnTilRevurdering(stønadstype, årsak);
     const skalVentePåOkHentingAvBarn =
         skalViseBarnTilRevurdering && barnTilRevurdering.status !== RessursStatus.SUKSESS;
@@ -129,6 +176,36 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     value={kravMottatt}
                     toDate={new Date()}
                 />
+            )}
+            {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
+                <>
+                    <Select label={'Kilde til opplysninger'} onChange={endreKilde}>
+                        <option value={''}>-Velg kilde-</option>
+                        <option value={NyeOpplysningerKilde.MODIA}>Modia</option>
+                        <option value={NyeOpplysningerKilde.GOSYS}>Gosys</option>
+                        <option value={NyeOpplysningerKilde.ETTERSENDING}>Ettersending</option>
+                        <option value={NyeOpplysningerKilde.OPPFØLGINGSLISTE}>
+                            Oppfølgingsliste
+                        </option>
+                        <option value={NyeOpplysningerKilde.ANNET}>Annet</option>
+                    </Select>
+
+                    <CheckboxGroup
+                        legend={'Hva er endret?'}
+                        onChange={(values) => settEndringer(values)}
+                    >
+                        {Object.values(NyeOpplysningerEndring).map((endring) => (
+                            <Checkbox key={endring} value={endring}>
+                                {nyeOpplysningerEndringTilTekst[endring]}
+                            </Checkbox>
+                        ))}
+                    </CheckboxGroup>
+                    <Textarea
+                        label={'Beskrivelse (valgfri)'}
+                        value={beskrivelse}
+                        onChange={(e) => settBeskrivelse(e.target.value)}
+                    />
+                </>
             )}
             {skalViseBarnTilRevurdering && (
                 <BarnTilRevurdering
