@@ -24,7 +24,11 @@ const LesevisningFremtidigUtgift: FC<{
     const { fom, tom, utgift } = vilkår;
 
     return (
-        <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 175px) auto minmax(auto, 32px)">
+        <HGrid
+            gap={{ md: '4', lg: '8' }}
+            columns="minmax(auto, 175px) auto minmax(auto, 32px)"
+            minHeight={'60px'} //Så redigeringsknappen ikke forsvinner under statusbåndet
+        >
             <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
             <HStack gap="4">
                 <BodyShort size={'small'}>Fremtidig utgift</BodyShort>

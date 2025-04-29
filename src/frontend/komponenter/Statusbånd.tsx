@@ -25,6 +25,8 @@ const Ribbon = styled.div<{ $hovedfarge: string; $skygge: string }>`
     top: -5px;
     right: -5px;
 
+    pointer-events: none;
+
     &::before,
     &::after {
         position: absolute;
