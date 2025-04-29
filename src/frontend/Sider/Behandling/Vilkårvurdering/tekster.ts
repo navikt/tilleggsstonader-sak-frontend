@@ -37,7 +37,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Har søker høyere utgifter grunnet helsemessige årsaker?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
     DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
-    DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har vært/skal de delta på samling/eksamen/opptaksprøve?`,
+    DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har samling/eksamen/opptaksprøve/kurs på datoene for overnatting?`,
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
