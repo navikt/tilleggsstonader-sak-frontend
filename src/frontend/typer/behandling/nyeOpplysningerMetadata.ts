@@ -25,3 +25,11 @@ export const nyeOpplysningerEndringTilTekst: Record<NyeOpplysningerEndring, stri
     UTGIFT: 'Utgift',
     ANNET: 'Annet',
 };
+
+export const nyeOpplysningerKildeTilTekst: Record<NyeOpplysningerKilde | string, string> = {
+    MODIA: 'Modia',
+    GOSYS: 'Gosys',
+    ETTERSENDING: 'Ettersending',
+    OPPFØLGINGSLISTE: 'Oppfølgingsliste',
+    ANNET: 'Annet',
+};

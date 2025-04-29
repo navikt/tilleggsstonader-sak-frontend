@@ -27,6 +27,7 @@ import {
     NyeOpplysningerEndring,
     nyeOpplysningerEndringTilTekst,
     NyeOpplysningerKilde,
+    nyeOpplysningerKildeTilTekst,
     NyeOpplysningerMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
@@ -139,6 +140,9 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         if (harVerdi(value)) {
             settÅrsak(value as BehandlingÅrsak);
             settFeilmelding(undefined);
+            settKilde(undefined);
+            settEndringer(undefined);
+            settBeskrivelse(undefined);
         } else {
             settÅrsak(undefined);
         }
@@ -181,13 +185,11 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 <>
                     <Select label={'Kilde til opplysninger'} onChange={endreKilde}>
                         <option value={''}>-Velg kilde-</option>
-                        <option value={NyeOpplysningerKilde.MODIA}>Modia</option>
-                        <option value={NyeOpplysningerKilde.GOSYS}>Gosys</option>
-                        <option value={NyeOpplysningerKilde.ETTERSENDING}>Ettersending</option>
-                        <option value={NyeOpplysningerKilde.OPPFØLGINGSLISTE}>
-                            Oppfølgingsliste
-                        </option>
-                        <option value={NyeOpplysningerKilde.ANNET}>Annet</option>
+                        {Object.keys(NyeOpplysningerKilde).map((kilde) => (
+                            <option key={kilde} value={kilde}>
+                                {nyeOpplysningerKildeTilTekst[kilde]}
+                            </option>
+                        ))}
                     </Select>
 
                     <CheckboxGroup
