@@ -6,6 +6,7 @@ import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
 import { useRevurderingAvPerioder } from '../../../hooks/useRevurderingAvPerioder';
 import { Regler } from '../../../typer/regel';
+import { PeriodeStatus } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
 
 type LesEllerEndreDelvilkårProps = {
@@ -27,6 +28,10 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         nyRadLeggesTil: false,
     });
 
+    const kanVæreFremtidigUtgift =
+        vilkår.status === PeriodeStatus.NY ||
+        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL;
+
     return erStegRedigerbart && !helePeriodenErLåstForEndring && redigerer ? (
         <EndreVilkår
             regler={regler}
@@ -47,13 +52,14 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             avsluttRedigering={() => settRedigerer(false)}
             alleFelterKanRedigeres={alleFelterKanEndres}
             slettVilkår={
-                vilkår.opphavsvilkår
-                    ? undefined
-                    : () => {
+                vilkår.status === PeriodeStatus.NY
+                    ? () => {
                           slettVilkår(vilkår);
                       }
+                    : undefined
             }
             vilkårtype={vilkår.vilkårType}
+            kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
         />
     ) : (
         <LesevisningVilkår
