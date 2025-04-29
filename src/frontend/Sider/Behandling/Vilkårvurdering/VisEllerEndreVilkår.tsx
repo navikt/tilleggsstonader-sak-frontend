@@ -52,7 +52,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             avsluttRedigering={() => settRedigerer(false)}
             alleFelterKanRedigeres={alleFelterKanEndres}
             slettVilkår={
-                vilkår.status === PeriodeStatus.NY
+                vilkår.status === PeriodeStatus.NY || vilkår.erFremtidigUtgift
                     ? () => {
                           slettVilkår(vilkår);
                       }
