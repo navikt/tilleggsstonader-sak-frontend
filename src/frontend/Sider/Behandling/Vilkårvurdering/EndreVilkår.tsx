@@ -40,6 +40,7 @@ import {
     RedigerbareVilkårfelter,
     StønadsvilkårType,
     Vilkår,
+    Vilkårsresultat,
     Vurdering,
 } from '../vilkår';
 import { vilkårTypeTilUtgiftTekst } from './tekster';
@@ -240,6 +241,23 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         });
     };
 
+    const nullstillDelvilkårsett = () =>
+        settDelvilkårsett(
+            delvilkårsett.map((delvilkår) => ({
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vurderinger: delvilkår.vurderinger.map((vurdering) => ({
+                    regelId: vurdering.regelId,
+                    svar: undefined,
+                    begrunnelse: undefined,
+                })),
+            }))
+        );
+
+    const oppdaterErFremtidigUtgift = (nyErFremtidigUtgift: boolean) => {
+        nullstillDelvilkårsett();
+        settErFremtidigUtgift(nyErFremtidigUtgift);
+    };
+
     const EndrePerioder = (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
@@ -344,7 +362,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                     <StyledSwitch
                         size={'small'}
                         checked={erFremtidigUtgift}
-                        onChange={(e) => settErFremtidigUtgift(e.target.checked)}
+                        onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
                     >
                         Fremtidig utgift
                     </StyledSwitch>
