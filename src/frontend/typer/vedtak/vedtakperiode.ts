@@ -4,9 +4,8 @@ import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
 /**
- * TODO: Burde ikke ha muligheten for å ha "" som FaktiskMålgruppe eller AktivitetType
- * Lagt til som erstatning for null/undefined, da disse ikke er nullable i backend.
- * Kræsjer innlegging av vedtaksperioder i læremidler hvis de ikke er enten nullable eller "".
+ * Tillater at målgruppe og aktivitet kan være tomme strenger, slik at
+ * de kan brukes i formen hvor man legger inn perioder og typene ikke er satt enda.
  **/
 export interface Vedtaksperiode extends Periode {
     id: string;
