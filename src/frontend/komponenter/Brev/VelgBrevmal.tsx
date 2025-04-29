@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Select } from '@navikt/ds-react';
 
 import { Brevmal } from './typer';
+import { useBrevFeilContext } from '../../context/BrevFeilContext';
 
 const Container = styled.div`
     max-width: fit-content;
@@ -15,14 +16,20 @@ interface Props {
     brevmal?: string;
     settBrevmal: (brevmal: string) => void;
 }
+
 const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
+    const { nullstillFeilIBrev } = useBrevFeilContext();
+
+    const handleOnChange = (event: string) => {
+        settBrevmal(event);
+        nullstillFeilIBrev();
+    };
+
     return (
         <Container>
             <Select
                 label="Velg brevmal"
-                onChange={(e) => {
-                    settBrevmal(e.target.value);
-                }}
+                onChange={(e) => handleOnChange(e.target.value)}
                 value={brevmal || ''}
                 size="small"
             >
