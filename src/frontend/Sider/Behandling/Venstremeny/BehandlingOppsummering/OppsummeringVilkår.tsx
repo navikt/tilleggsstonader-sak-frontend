@@ -17,12 +17,10 @@ export const OppsummeringVilkår: React.FC<{
 }> = ({ vilkår, stønadstype }) => {
     const { behandlingFakta } = useBehandling();
 
-    if (!vilkår.length) {
+    if (!vilkår.length && stønadstype !== Stønadstype.LÆREMIDLER) {
         return (
             <VStack gap="2">
-                {stønadstype !== Stønadstype.LÆREMIDLER && (
-                    <Label size="small">{faneNavnStønadsvilkår[stønadstype]}</Label>
-                )}
+                <Label size="small">{faneNavnStønadsvilkår[stønadstype]}</Label>
                 <BodyShort size={'small'}>Ingen vilkår registrert</BodyShort>
             </VStack>
         );
