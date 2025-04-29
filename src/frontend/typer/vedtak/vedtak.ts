@@ -11,6 +11,12 @@ export enum TypeVedtak {
     OPPHØR = 'OPPHØR',
 }
 
+export const typeVedtakTilTekst: Record<TypeVedtak, string> = {
+    INNVILGELSE: 'Innvilgelse',
+    AVSLAG: 'Avslag',
+    OPPHØR: 'Opphør',
+};
+
 export enum ÅrsakAvslag {
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
     IKKE_I_MÅLGRUPPE = 'IKKE_I_MÅLGRUPPE',

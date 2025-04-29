@@ -10,16 +10,16 @@ import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
+import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
-    width: 20rem;
-    min-height: calc(100vh - 97px);
-`;
-
-const StickyTablistContainer = styled(Sticky)`
+    width: 27rem;
+    position: sticky;
+    height: calc(100vh - 97px);
     top: 97px;
-    border-right: 1px solid ${ABorderDefault};
+    overflow-y: scroll;
+    overflow-x: hidden;
 `;
 
 const Tab = styled(Tabs.Tab)`
@@ -49,14 +49,15 @@ const VenstreMeny: React.FC = () => {
     return (
         <Container>
             <Totrinnskontroll />
-            <Tabs defaultValue="søknaden" style={{ width: 'inherit', height: '100%' }}>
-                <StickyTablistContainer>
+            <BehandlingOppsummering />
+            <Tabs defaultValue="søknaden">
+                <Sticky>
                     <Tabs.List>
                         {tabs.map((tab) => (
                             <Tab label={tab.label} value={tab.value} key={tab.value} />
                         ))}
                     </Tabs.List>
-                </StickyTablistContainer>
+                </Sticky>
                 {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
                         <Box padding="4">{tab.komponent}</Box>
