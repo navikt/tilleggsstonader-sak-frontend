@@ -26,10 +26,6 @@ const BarnetilsynHjelpetekst = () => (
             uføretrygd, må du be Nav-kontoret vurdere om vilkårene for nedsatt arbeidsevne i §11 A-3
             er oppfylt.
         </BodyLong>
-        <BodyLong size={'small'}>
-            Velg <strong>100% sykepenger</strong> hvis søker mottar sykepenger fra en
-            fulltidsstilling.
-        </BodyLong>
     </ReadMore>
 );
 
