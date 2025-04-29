@@ -32,7 +32,7 @@
     "@sanity/client": "^6.29.1",
     "@unleash/proxy-client-react": "^5.0.0",
     "constate": "^3.3.3",
-    "data-fns": "^1.1.0",
+    "date-fns": "^4.1.0",
     "groq": "^3.86.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
