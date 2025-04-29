@@ -5,8 +5,15 @@ import { VStack, Label, BodyShort } from '@navikt/ds-react';
 import { VilkårOppsummeringRad } from './OppsummeringRad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { OppsummertVedtak } from '../../../../typer/behandling/behandlingOppsummering';
-import { TypeVedtak, ÅrsakAvslag, årsakAvslagTilTekst } from '../../../../typer/vedtak/vedtak';
+import {
+    TypeVedtak,
+    ÅrsakAvslag,
+    årsakAvslagTilTekst,
+    ÅrsakOpphør,
+    årsakOpphørTilTekst,
+} from '../../../../typer/vedtak/vedtak';
 import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakperiode';
+import { formaterDato } from '../../../../utils/dato';
 import { faktiskMålgruppeTilTekst } from '../../Felles/faktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../../Inngangsvilkår/Aktivitet/utilsAktivitet';
 
@@ -21,7 +28,7 @@ export const VedtakOppsummering: React.FC<{ vedtak: OppsummertVedtak | undefined
         case TypeVedtak.AVSLAG:
             return <OppsummeringAvslag årsaker={vedtak.årsaker} />;
         case TypeVedtak.OPPHØR:
-            return <OppsummeringOpphør />;
+            return <OppsummeringOpphør årsaker={vedtak.årsaker} />;
     }
 };
 
@@ -64,12 +71,14 @@ const OppsummeringAvslag: React.FC<{
     );
 };
 
-const OppsummeringOpphør: React.FC = () => {
+const OppsummeringOpphør: React.FC<{ årsaker: ÅrsakOpphør[] }> = ({ årsaker }) => {
     const { behandling } = useBehandling();
     return (
         <VStack gap="2">
-            <Label size="small">Opphørt</Label>
-            <BodyShort size={'small'}>Fra og med: {behandling.revurderFra}</BodyShort>
+            <Label size="small">Opphørt fra og med {formaterDato(behandling.revurderFra)}</Label>
+            <BodyShort size={'small'}>
+                Årsaker: {årsaker.map((årsak) => årsakOpphørTilTekst[årsak]).join(', ')}
+            </BodyShort>
         </VStack>
     );
 };

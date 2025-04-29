@@ -2,7 +2,7 @@ import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilk
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
-import { TypeVedtak, ÅrsakAvslag } from '../vedtak/vedtak';
+import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
 import { Vedtaksperiode } from '../vedtak/vedtakperiode';
 
 export interface BehandlingOppsummering {
@@ -52,4 +52,5 @@ export interface OppsummertVedtakAvslag {
 
 export interface OppsummertVedtakOpphør {
     resultat: TypeVedtak.OPPHØR;
+    årsaker: ÅrsakOpphør[];
 }
