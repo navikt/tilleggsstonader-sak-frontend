@@ -104,12 +104,12 @@ const Brev: React.FC = () => {
                                         personopplysninger
                                     )}
                                 />
-                                <VelgBrevmal
-                                    brevmaler={brevmaler}
-                                    brevmal={brevmal}
-                                    settBrevmal={settBrevmal}
-                                />
                                 <BrevFeilContextProvider>
+                                    <VelgBrevmal
+                                        brevmaler={brevmaler}
+                                        brevmal={brevmal}
+                                        settBrevmal={settBrevmal}
+                                    />
                                     <DataViewer response={{ malStruktur, vedtak }}>
                                         {({ malStruktur, vedtak }) => (
                                             <Brevmeny

@@ -154,6 +154,11 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         );
     };
 
+    const nullstillFeilIBrev = () => {
+        settManglendeBrevVariabler([]);
+        settManglendeValgfelt([]);
+    };
+
     return {
         manglendeBrevVariabler,
         manglendeValgfelt,
@@ -162,5 +167,6 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
         nullstillValgfelt,
         nullstillVariabel,
         nullstillDelmal,
+        nullstillFeilIBrev,
     };
 });
