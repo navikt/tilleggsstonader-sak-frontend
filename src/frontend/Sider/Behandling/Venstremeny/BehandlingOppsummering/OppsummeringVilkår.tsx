@@ -3,9 +3,8 @@ import React from 'react';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import { VilkårOppsummeringRad } from './OppsummeringRad';
-import { finnNavnFraBarnId } from './oppsummeringUtils';
+import { finnTittelForStønadsvilkår } from './oppsummeringUtils';
 import { useBehandling } from '../../../../context/BehandlingContext';
-import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Stønadsvilkår } from '../../../../typer/behandling/behandlingOppsummering';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
@@ -26,24 +25,18 @@ export const OppsummeringVilkår: React.FC<{
         );
     }
 
-    return vilkår.map((etVilkår, indeks) => {
-        const tittel = etVilkår.barnId
-            ? finnNavnFraBarnId(etVilkår.barnId, behandlingFakta as BehandlingFaktaTilsynBarn)
-            : etVilkår.type;
-
-        return (
-            <VStack gap="2" key={indeks}>
-                <Label size="small">{tittel}</Label>
-                {etVilkår.vilkår.map((vilkår) => (
-                    <VilkårOppsummeringRad
-                        key={vilkår.id}
-                        fom={vilkår.fom}
-                        tom={vilkår.tom}
-                        resultat={vilkår.resultat}
-                        gjelder={`${formaterTallMedTusenSkilleEllerStrek(vilkår.utgift)} kr`}
-                    />
-                ))}
-            </VStack>
-        );
-    });
+    return vilkår.map((etVilkår, indeks) => (
+        <VStack gap="2" key={indeks}>
+            <Label size="small">{finnTittelForStønadsvilkår(etVilkår, behandlingFakta)}</Label>
+            {etVilkår.vilkår.map((vilkår) => (
+                <VilkårOppsummeringRad
+                    key={vilkår.id}
+                    fom={vilkår.fom}
+                    tom={vilkår.tom}
+                    resultat={vilkår.resultat}
+                    gjelder={`${formaterTallMedTusenSkilleEllerStrek(vilkår.utgift)} kr`}
+                />
+            ))}
+        </VStack>
+    ));
 };

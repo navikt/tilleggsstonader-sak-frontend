@@ -70,3 +70,10 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
 };
+
+export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
+    PASS_BARN: 'Pass av barn',
+    UTGIFTER_OVERNATTING: 'Utgifter til overnatting',
+    LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende utgifter til en bolig',
+    LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende utgifter til to boliger',
+};
