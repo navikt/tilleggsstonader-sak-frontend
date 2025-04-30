@@ -55,6 +55,7 @@ export const NyttVilkår: React.FC<{
             alleFelterKanRedigeres={true}
             slettVilkår={undefined}
             vilkårtype={vilkårtype}
+            kanVæreFremtidigUtgift={true}
         />
     );
 };

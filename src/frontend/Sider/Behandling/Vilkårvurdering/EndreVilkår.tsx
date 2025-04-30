@@ -88,6 +88,7 @@ type EndreVilkårProps = {
     slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
     vilkårtype: StønadsvilkårType;
+    kanVæreFremtidigUtgift: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
@@ -358,7 +359,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             </FeilmeldingMaksBredde>
             {/*VENTER PÅ AVKLARING PÅ HVORDAN OG OM VI SKAL STØTTE NULLVEDTAK*/}
             {tillaterErFremtidigUtgift &&
-                props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && (
+                props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING &&
+                props.kanVæreFremtidigUtgift && (
                     <StyledSwitch
                         size={'small'}
                         checked={erFremtidigUtgift}
