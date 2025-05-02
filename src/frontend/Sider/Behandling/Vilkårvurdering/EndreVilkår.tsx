@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, HStack, Switch, VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 import { ABorderAction, AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import Begrunnelse from './Begrunnelse';
@@ -22,19 +21,10 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
-import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
-import MonthInput from '../../../komponenter/Skjema/MonthInput';
-import { MånedÅrVelger } from '../../../komponenter/Skjema/MånedÅrVelger/MånedÅrVelger';
-import TextField from '../../../komponenter/Skjema/TextField';
 import { SmallWarningTag } from '../../../komponenter/Tags';
-import { FeilmeldingMaksBredde } from '../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
-import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../utils/dato';
-import { harTallverdi, tilHeltall } from '../../../utils/tall';
-import { Toggle } from '../../../utils/toggles';
-import { fjernSpaces } from '../../../utils/utils';
 import {
     Delvilkår,
     RedigerbareVilkårfelter,
@@ -43,7 +33,9 @@ import {
     Vilkårsresultat,
     Vurdering,
 } from '../vilkår';
-import { vilkårTypeTilUtgiftTekst } from './tekster';
+import EndrePeriodeForVilkår, {
+    EndrePeriodeForVilkårForm,
+} from './EndreVilkår/EndrePeriodeForVilkår';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     border-left: ${({ $erUndervilkår }) =>
@@ -74,10 +66,6 @@ const Knapper = styled.div`
     }
 `;
 
-const StyledSwitch = styled(Switch)`
-    align-self: end;
-`;
-
 type EndreVilkårProps = {
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
@@ -94,9 +82,6 @@ type EndreVilkårProps = {
 export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const erUtgifterOvernatting = props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
-    const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
-    const tillaterErFremtidigUtgift = useFlag(Toggle.TILLATER_NULLVEDAK);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -104,14 +89,38 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(
         props.redigerbareVilkårfelter.delvilkårsett
     );
-    const [fom, settFom] = useState(props.redigerbareVilkårfelter.fom);
-    const [tom, settTom] = useState(props.redigerbareVilkårfelter.tom);
-    const [utgift, settUtgift] = useState(props.redigerbareVilkårfelter.utgift);
-    const [erFremtidigUtgift, settErFremtidigUtgift] = useState(
-        props.redigerbareVilkårfelter.erFremtidigUtgift
-    );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
+
+    const [endrePeriodeForVilkårForm, settEndrePeriodeForVilkårForm] =
+        useState<EndrePeriodeForVilkårForm>({
+            fom: props.redigerbareVilkårfelter.fom,
+            tom: props.redigerbareVilkårfelter.tom,
+            utgift: props.redigerbareVilkårfelter.utgift,
+            erFremtidigUtgift: props.redigerbareVilkårfelter.erFremtidigUtgift,
+        });
+
+    const nullstillDelvilkårsett = () =>
+        settDelvilkårsett(
+            delvilkårsett.map((delvilkår) => ({
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vurderinger: delvilkår.vurderinger.map((vurdering) => ({
+                    regelId: vurdering.regelId,
+                    svar: undefined,
+                    begrunnelse: undefined,
+                })),
+            }))
+        );
+
+    const oppdaterendrePeriodeForVilkårForm = (
+        key: keyof EndrePeriodeForVilkårForm,
+        nyVerdi: string | number | boolean | undefined
+    ) => {
+        if (key === 'erFremtidigUtgift') {
+            nullstillDelvilkårsett();
+        }
+        settEndrePeriodeForVilkårForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
+    };
 
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
 
@@ -205,6 +214,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const { fom, tom, utgift, erFremtidigUtgift } = endrePeriodeForVilkårForm;
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
@@ -241,136 +251,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
             delvilkårsvurderinger: { ...feilmeldinger.delvilkårsvurderinger, [regelId]: undefined },
         });
     };
-
-    const nullstillDelvilkårsett = () =>
-        settDelvilkårsett(
-            delvilkårsett.map((delvilkår) => ({
-                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-                vurderinger: delvilkår.vurderinger.map((vurdering) => ({
-                    regelId: vurdering.regelId,
-                    svar: undefined,
-                    begrunnelse: undefined,
-                })),
-            }))
-        );
-
-    const oppdaterErFremtidigUtgift = (nyErFremtidigUtgift: boolean) => {
-        nullstillDelvilkårsett();
-        settErFremtidigUtgift(nyErFremtidigUtgift);
-    };
-
-    const EndrePerioder = (
-        <HStack gap="4" align="start">
-            <FeilmeldingMaksBredde $maxWidth={152}>
-                {erUtgifterOvernatting ? (
-                    <DateInputMedLeservisning
-                        label={'Fra'}
-                        value={fom}
-                        onChange={(dato) => {
-                            settFom(dato);
-                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
-                        }}
-                        readOnly={!props.alleFelterKanRedigeres}
-                        size="small"
-                        feil={feilmeldinger.fom}
-                    />
-                ) : skalBrukeMånedÅrVelger ? (
-                    <MånedÅrVelger
-                        label="Fra"
-                        size="small"
-                        årMånedInitiell={fom}
-                        feilmelding={feilmeldinger.fom}
-                        lesevisning={!props.alleFelterKanRedigeres}
-                        onEndret={(dato) => {
-                            settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
-                            settDetFinnesUlagredeEndringer(true);
-                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
-                        }}
-                        antallÅrFrem={1}
-                        antallÅrTilbake={1}
-                    />
-                ) : (
-                    <MonthInput
-                        label="Fra"
-                        size="small"
-                        value={fom}
-                        feil={feilmeldinger.fom}
-                        readOnly={!props.alleFelterKanRedigeres}
-                        onChange={(dato) => {
-                            settFom(dato ? tilFørsteDagenIMåneden(dato) : undefined);
-                            settDetFinnesUlagredeEndringer(true);
-                            settFeilmeldinger((prevState) => ({ ...prevState, fom: undefined }));
-                        }}
-                    />
-                )}
-            </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde $maxWidth={152}>
-                {erUtgifterOvernatting ? (
-                    <DateInputMedLeservisning
-                        label={'Til'}
-                        value={tom}
-                        onChange={(dato) => {
-                            settTom(dato);
-                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
-                        }}
-                        size="small"
-                        feil={feilmeldinger.tom}
-                    />
-                ) : skalBrukeMånedÅrVelger ? (
-                    <MånedÅrVelger
-                        label="Til"
-                        size="small"
-                        årMånedInitiell={tom}
-                        feilmelding={feilmeldinger.tom}
-                        onEndret={(dato) => {
-                            settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
-                            settDetFinnesUlagredeEndringer(true);
-                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
-                        }}
-                        antallÅrFrem={2}
-                        antallÅrTilbake={1}
-                    />
-                ) : (
-                    <MonthInput
-                        label="Til"
-                        size="small"
-                        value={tom}
-                        feil={feilmeldinger.tom}
-                        onChange={(dato) => {
-                            settTom(dato ? tilSisteDagenIMåneden(dato) : undefined);
-                            settDetFinnesUlagredeEndringer(true);
-                            settFeilmeldinger((prevState) => ({ ...prevState, tom: undefined }));
-                        }}
-                    />
-                )}
-            </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde $maxWidth={180}>
-                <TextField
-                    label={`${vilkårTypeTilUtgiftTekst[props.vilkårtype]}${erFremtidigUtgift ? ' (valgfri)' : ''}`}
-                    size="small"
-                    erLesevisning={false}
-                    value={harTallverdi(utgift) ? utgift : ''}
-                    readOnly={!props.alleFelterKanRedigeres}
-                    onChange={(e) => {
-                        settDetFinnesUlagredeEndringer(true);
-                        settUtgift(tilHeltall(fjernSpaces(e.target.value)));
-                    }}
-                />
-            </FeilmeldingMaksBredde>
-            {/*VENTER PÅ AVKLARING PÅ HVORDAN OG OM VI SKAL STØTTE NULLVEDTAK*/}
-            {tillaterErFremtidigUtgift &&
-                props.vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING &&
-                props.kanVæreFremtidigUtgift && (
-                    <StyledSwitch
-                        size={'small'}
-                        checked={erFremtidigUtgift}
-                        onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
-                    >
-                        Fremtidig utgift
-                    </StyledSwitch>
-                )}
-        </HStack>
-    );
 
     const EndreDelvilkår = delvilkårsett.map((delvikår, delvilkårIndex) => {
         return delvikår.vurderinger.map((svar) => {
@@ -415,9 +295,18 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>
-                {EndrePerioder}
+                <EndrePeriodeForVilkår
+                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                    settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
+                    vilkårtype={props.vilkårtype}
+                    kanVæreFremtidigUtgift={props.kanVæreFremtidigUtgift}
+                    endrePeriodeForVilkårFrom={endrePeriodeForVilkårForm}
+                    oppdaterEndrePeriodeForVilkårForm={oppdaterendrePeriodeForVilkårForm}
+                    feilmeldinger={feilmeldinger}
+                    settFeilmeldinger={settFeilmeldinger}
+                />
                 <Skillelinje />
-                {!erFremtidigUtgift && EndreDelvilkår}
+                {!endrePeriodeForVilkårForm.erFremtidigUtgift && EndreDelvilkår}
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>
