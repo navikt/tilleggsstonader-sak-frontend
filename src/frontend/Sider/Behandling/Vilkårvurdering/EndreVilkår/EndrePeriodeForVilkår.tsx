@@ -22,6 +22,11 @@ const StyledSwitch = styled(Switch)`
     align-self: end;
 `;
 
+export enum TypePeriodeVelger {
+    DATO = 'DATO',
+    MANED_ÅR = 'MANED_ÅR',
+}
+
 export type EndrePeriodeForVilkårForm = {
     fom: string | undefined;
     tom: string | undefined;
@@ -42,6 +47,7 @@ const EndrePeriodeForVilkår: React.FC<{
         value: ((prevState: Feilmeldinger) => Feilmeldinger) | Feilmeldinger
     ) => void;
     feilmeldinger: Feilmeldinger;
+    typePeriodeVelger: TypePeriodeVelger;
     kanVæreFremtidigUtgift?: boolean;
 }> = ({
     endrePeriodeForVilkårFrom,
@@ -51,9 +57,9 @@ const EndrePeriodeForVilkår: React.FC<{
     vilkårtype,
     settFeilmeldinger,
     feilmeldinger,
+    typePeriodeVelger,
     kanVæreFremtidigUtgift,
 }) => {
-    const erUtgifterOvernatting = vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING;
     const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
     const tillaterErFremtidigUtgift = useFlag(Toggle.TILLATER_NULLVEDAK);
 
@@ -90,7 +96,7 @@ const EndrePeriodeForVilkår: React.FC<{
     return (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erUtgifterOvernatting ? (
+                {typePeriodeVelger == TypePeriodeVelger.DATO ? (
                     <DateInputMedLeservisning
                         label={'Fra'}
                         value={fom}
@@ -128,7 +134,7 @@ const EndrePeriodeForVilkår: React.FC<{
                 )}
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={152}>
-                {erUtgifterOvernatting ? (
+                {typePeriodeVelger == TypePeriodeVelger.DATO ? (
                     <DateInputMedLeservisning
                         label={'Til'}
                         value={tom}

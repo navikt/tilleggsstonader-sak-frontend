@@ -25,6 +25,7 @@ import {
 } from '../vilkår';
 import EndrePeriodeForVilkår, {
     EndrePeriodeForVilkårForm,
+    TypePeriodeVelger,
 } from './EndreVilkår/EndrePeriodeForVilkår';
 
 const StyledForm = styled.form`
@@ -155,6 +156,13 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         }
     };
 
+    const finnTypePeriodeVelger = () => {
+        if (vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING) {
+            return TypePeriodeVelger.DATO;
+        }
+        return TypePeriodeVelger.MANED_ÅR;
+    };
+
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>
@@ -167,6 +175,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     oppdaterEndrePeriodeForVilkårForm={oppdaterendrePeriodeForVilkårForm}
                     feilmeldinger={feilmeldinger}
                     settFeilmeldinger={settFeilmeldinger}
+                    typePeriodeVelger={finnTypePeriodeVelger()}
                 />
                 <Skillelinje />
                 {!endrePeriodeForVilkårForm.erFremtidigUtgift && (
