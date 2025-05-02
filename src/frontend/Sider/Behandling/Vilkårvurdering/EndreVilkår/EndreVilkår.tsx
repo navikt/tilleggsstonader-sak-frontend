@@ -6,27 +6,27 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
-import EndreDelvilkår from './EndreVilkår/EndreDelvilkår';
-import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from './validering';
-import { useApp } from '../../../context/AppContext';
-import { useBehandling } from '../../../context/BehandlingContext';
-import SmallButton from '../../../komponenter/Knapper/SmallButton';
-import { Skillelinje } from '../../../komponenter/Skillelinje';
-import { SmallWarningTag } from '../../../komponenter/Tags';
-import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
-import { Regler } from '../../../typer/regel';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import EndreDelvilkår from './EndreDelvilkår';
+import EndrePeriodeForVilkår, {
+    EndrePeriodeForVilkårForm,
+    TypePeriodeVelger,
+} from './EndrePeriodeForVilkår';
+import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import SmallButton from '../../../../komponenter/Knapper/SmallButton';
+import { Skillelinje } from '../../../../komponenter/Skillelinje';
+import { SmallWarningTag } from '../../../../komponenter/Tags';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { Regler } from '../../../../typer/regel';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import {
     Delvilkår,
     RedigerbareVilkårfelter,
     StønadsvilkårType,
     Vilkår,
     Vilkårsresultat,
-} from '../vilkår';
-import EndrePeriodeForVilkår, {
-    EndrePeriodeForVilkårForm,
-    TypePeriodeVelger,
-} from './EndreVilkår/EndrePeriodeForVilkår';
+} from '../../vilkår';
+import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 
 const StyledForm = styled.form`
     background: white;
