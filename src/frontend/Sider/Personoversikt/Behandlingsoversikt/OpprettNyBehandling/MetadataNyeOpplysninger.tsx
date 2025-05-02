@@ -44,12 +44,7 @@ const MetadataNyeOpplysninger = ({
         <>
             <Select
                 label={'Kilde til opplysninger'}
-                onChange={(e) =>
-                    oppdater(
-                        'kilde',
-                        e.target.value === '' ? undefined : (e.target.value as NyeOpplysningerKilde)
-                    )
-                }
+                onChange={(e) => oppdater('kilde', e.target.value as NyeOpplysningerKilde)}
                 error={feil.kilde}
             >
                 <option value={''}>-Velg kilde-</option>

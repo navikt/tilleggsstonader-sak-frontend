@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { harIkkeVerdi } from '../../../../utils/utils';
 
 export interface FeilNyeOpplysningerMetadata {
     kilde: string | undefined;
@@ -23,7 +24,7 @@ export const useValiderNyeOpplysningerMetadata = () => {
             return false;
         }
 
-        if (!metadata.kilde) {
+        if (harIkkeVerdi(metadata.kilde)) {
             settFeilNyeOpplysningerMetadata((prevState) => ({
                 ...prevState,
                 kilde: 'Kilde må velges',
