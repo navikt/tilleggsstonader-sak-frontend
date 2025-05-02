@@ -42,7 +42,7 @@ export const useValiderNyeOpplysningerMetadata = () => {
         return true;
     };
 
-    const nullstillFeilFelt = (key: keyof FeilNyeOpplysningerMetadata) => {
+    const nullstillFeilForFelt = (key: keyof FeilNyeOpplysningerMetadata) => {
         settFeilNyeOpplysningerMetadata((prevState) => ({
             ...prevState,
             [key]: undefined,
@@ -52,6 +52,6 @@ export const useValiderNyeOpplysningerMetadata = () => {
     return {
         validerNyeOpplysningerMetadata,
         feilNyeOpplysningerMetadata,
-        nullstillFeilForFelt: nullstillFeilFelt,
+        nullstillFeilForFelt,
     };
 };
