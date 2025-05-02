@@ -56,7 +56,16 @@ type EndreVilkårProps = {
     kanVæreFremtidigUtgift: boolean;
 };
 
-export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
+export const EndreVilkår: FC<EndreVilkårProps> = ({
+    alleFelterKanRedigeres,
+    avsluttRedigering,
+    kanVæreFremtidigUtgift,
+    lagreVurdering,
+    redigerbareVilkårfelter,
+    regler,
+    slettVilkår,
+    vilkårtype,
+}) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
 
@@ -64,17 +73,17 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
     const [komponentId] = useId();
 
     const [delvilkårsett, settDelvilkårsett] = useState<Delvilkår[]>(
-        props.redigerbareVilkårfelter.delvilkårsett
+        redigerbareVilkårfelter.delvilkårsett
     );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
 
     const [endrePeriodeForVilkårForm, settEndrePeriodeForVilkårForm] =
         useState<EndrePeriodeForVilkårForm>({
-            fom: props.redigerbareVilkårfelter.fom,
-            tom: props.redigerbareVilkårfelter.tom,
-            utgift: props.redigerbareVilkårfelter.utgift,
-            erFremtidigUtgift: props.redigerbareVilkårfelter.erFremtidigUtgift,
+            fom: redigerbareVilkårfelter.fom,
+            tom: redigerbareVilkårfelter.tom,
+            utgift: redigerbareVilkårfelter.utgift,
+            erFremtidigUtgift: redigerbareVilkårfelter.erFremtidigUtgift,
         });
 
     const nullstillDelvilkårsett = () =>
@@ -119,8 +128,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
-            props.redigerbareVilkårfelter,
-            props.regler,
+            redigerbareVilkårfelter,
+            regler,
             fom,
             tom,
             behandling.revurderFra,
@@ -130,7 +139,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         settFeilmeldinger(valideringsfeil);
 
         if (ingen(valideringsfeil)) {
-            const response = await props.lagreVurdering({
+            const response = await lagreVurdering({
                 delvilkårsett,
                 fom,
                 tom,
@@ -138,7 +147,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 erFremtidigUtgift,
             });
             if (response.status === RessursStatus.SUKSESS) {
-                props.avsluttRedigering();
+                avsluttRedigering();
                 settFeilmeldingVedLagring(null);
             } else {
                 settFeilmeldingVedLagring(response.frontendFeilmelding);
@@ -146,16 +155,14 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
         }
     };
 
-    const slettVilkår = props.slettVilkår;
-
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>
                 <EndrePeriodeForVilkår
-                    alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                    alleFelterKanRedigeres={alleFelterKanRedigeres}
                     settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
-                    vilkårtype={props.vilkårtype}
-                    kanVæreFremtidigUtgift={props.kanVæreFremtidigUtgift}
+                    vilkårtype={vilkårtype}
+                    kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
                     endrePeriodeForVilkårFrom={endrePeriodeForVilkårForm}
                     oppdaterEndrePeriodeForVilkårForm={oppdaterendrePeriodeForVilkårForm}
                     feilmeldinger={feilmeldinger}
@@ -165,8 +172,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 {!endrePeriodeForVilkårForm.erFremtidigUtgift && (
                     <EndreDelvilkår
                         delvilkårsett={delvilkårsett}
-                        regler={props.regler}
-                        alleFelterKanRedigeres={props.alleFelterKanRedigeres}
+                        regler={regler}
+                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         feilmeldinger={feilmeldinger}
                         settFeilmeldinger={settFeilmeldinger}
@@ -176,7 +183,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = (props) => {
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>
-                        <SmallButton variant="secondary" onClick={props.avsluttRedigering}>
+                        <SmallButton variant="secondary" onClick={avsluttRedigering}>
                             Avbryt
                         </SmallButton>
                         <div className={'right'}>
