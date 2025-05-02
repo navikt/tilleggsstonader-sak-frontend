@@ -22,7 +22,7 @@ const NyeOpplysningerMetadata: React.FC<{
                     Kilde:
                 </BodyShort>
                 <BodyShort size={'small'}>
-                    {nyeOpplysningerKildeTilTekst[nyeOpplysningerMetadata.kilde]}
+                    {nyeOpplysningerKildeTilTekst[nyeOpplysningerMetadata.kilde ?? '-']}
                 </BodyShort>
             </HStack>
             <HStack gap={'1'}>
