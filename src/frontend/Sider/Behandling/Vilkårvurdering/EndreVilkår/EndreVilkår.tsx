@@ -3,12 +3,13 @@ import React, { FC, useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import EndreDelvilkår from './EndreDelvilkår';
+import EndreErFremtidigUtgift from './EndreErFremtidigUtgift';
 import EndrePeriodeForVilkår, {
-    EndrePeriodeForVilkårForm,
+    PeriodeForVilkår,
     TypePeriodeVelger,
 } from './EndrePeriodeForVilkår';
 import { useApp } from '../../../../context/AppContext';
@@ -27,6 +28,7 @@ import {
     Vilkårsresultat,
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
+import EndreUtgift from './EndreUtgift';
 
 const StyledForm = styled.form`
     background: white;
@@ -77,38 +79,16 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         redigerbareVilkårfelter.delvilkårsett
     );
 
+    const [periodeForVilkår, settPeriodeForVilkår] = useState<PeriodeForVilkår>({
+        fom: redigerbareVilkårfelter.fom,
+        tom: redigerbareVilkårfelter.tom,
+    });
+    const [utgift, settUtgift] = useState<number | undefined>(redigerbareVilkårfelter.utgift);
+    const [erFremtidigUtgift, settErFremtidigUtgift] = useState<boolean | undefined>(
+        redigerbareVilkårfelter.erFremtidigUtgift
+    );
+
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
-
-    const [endrePeriodeForVilkårForm, settEndrePeriodeForVilkårForm] =
-        useState<EndrePeriodeForVilkårForm>({
-            fom: redigerbareVilkårfelter.fom,
-            tom: redigerbareVilkårfelter.tom,
-            utgift: redigerbareVilkårfelter.utgift,
-            erFremtidigUtgift: redigerbareVilkårfelter.erFremtidigUtgift,
-        });
-
-    const nullstillDelvilkårsett = () =>
-        settDelvilkårsett(
-            delvilkårsett.map((delvilkår) => ({
-                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
-                vurderinger: delvilkår.vurderinger.map((vurdering) => ({
-                    regelId: vurdering.regelId,
-                    svar: undefined,
-                    begrunnelse: undefined,
-                })),
-            }))
-        );
-
-    const oppdaterendrePeriodeForVilkårForm = (
-        key: keyof EndrePeriodeForVilkårForm,
-        nyVerdi: string | number | boolean | undefined
-    ) => {
-        if (key === 'erFremtidigUtgift') {
-            nullstillDelvilkårsett();
-        }
-        settEndrePeriodeForVilkårForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
-    };
-
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
 
     useEffect(() => {
@@ -125,7 +105,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const { fom, tom, utgift, erFremtidigUtgift } = endrePeriodeForVilkårForm;
+        const { fom, tom } = periodeForVilkår;
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
@@ -163,22 +143,63 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         return TypePeriodeVelger.MANED_ÅR;
     };
 
+    const nullstillDelvilkårsett = () =>
+        settDelvilkårsett(
+            delvilkårsett.map((delvilkår) => ({
+                resultat: Vilkårsresultat.IKKE_TATT_STILLING_TIL,
+                vurderinger: delvilkår.vurderinger.map((vurdering) => ({
+                    regelId: vurdering.regelId,
+                    svar: undefined,
+                    begrunnelse: undefined,
+                })),
+            }))
+        );
+
+    const oppdaterPeriodeForVilkår = (key: keyof PeriodeForVilkår, nyVerdi: string | undefined) => {
+        settPeriodeForVilkår((prevState) => ({ ...prevState, [key]: nyVerdi }));
+        settFeilmeldinger((prevState) => ({ ...prevState, [key]: undefined }));
+        settDetFinnesUlagredeEndringer(true);
+    };
+
+    const oppdaterErFremtidigUtgift = (verdi: boolean) => {
+        settErFremtidigUtgift(verdi);
+        nullstillDelvilkårsett();
+        settDetFinnesUlagredeEndringer(true);
+    };
+
+    const oppdaterUtgift = (verdi: number | undefined) => {
+        settUtgift(verdi);
+        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
+        settDetFinnesUlagredeEndringer(true);
+    };
+
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>
-                <EndrePeriodeForVilkår
-                    alleFelterKanRedigeres={alleFelterKanRedigeres}
-                    settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
-                    vilkårtype={vilkårtype}
-                    kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
-                    endrePeriodeForVilkårFrom={endrePeriodeForVilkårForm}
-                    oppdaterEndrePeriodeForVilkårForm={oppdaterendrePeriodeForVilkårForm}
-                    feilmeldinger={feilmeldinger}
-                    settFeilmeldinger={settFeilmeldinger}
-                    typePeriodeVelger={finnTypePeriodeVelger()}
-                />
+                <HStack gap="4" align="start">
+                    <EndrePeriodeForVilkår
+                        alleFelterKanRedigeres={alleFelterKanRedigeres}
+                        periodeForVilkår={periodeForVilkår}
+                        oppdaterPeriodeForVilkår={oppdaterPeriodeForVilkår}
+                        feilmeldinger={feilmeldinger}
+                        typePeriodeVelger={finnTypePeriodeVelger()}
+                    />
+                    <EndreUtgift
+                        vilkårtype={vilkårtype}
+                        erFremtidigUtgift={erFremtidigUtgift}
+                        alleFelterKanRedigeres={alleFelterKanRedigeres}
+                        oppdaterUtgift={oppdaterUtgift}
+                        utgift={utgift}
+                    />
+                    <EndreErFremtidigUtgift
+                        vilkårtype={vilkårtype}
+                        erFremtidigUtgift={erFremtidigUtgift}
+                        oppdaterErFremtidigUtgift={oppdaterErFremtidigUtgift}
+                        kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
+                    />
+                </HStack>
                 <Skillelinje />
-                {!endrePeriodeForVilkårForm.erFremtidigUtgift && (
+                {!erFremtidigUtgift && (
                     <EndreDelvilkår
                         delvilkårsett={delvilkårsett}
                         regler={regler}
