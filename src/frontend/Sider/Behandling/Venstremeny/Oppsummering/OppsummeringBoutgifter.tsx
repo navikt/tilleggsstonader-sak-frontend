@@ -159,7 +159,9 @@ const UtgifterSamling = ({
                     <div key={index}>
                         <BodyShort size={'small'}>
                             {formaterIsoPeriode(periode.fom, periode.tom)}:{' '}
-                            {tilTallverdi(periode.utgifterTilOvernatting)},-
+                            {harTallverdi(periode.utgifterTilOvernatting)
+                                ? `${tilTallverdi(periode.utgifterTilOvernatting)},-`
+                                : '-'}
                         </BodyShort>
                         {periode.trengteEkstraOvernatting === JaNei.JA && (
                             <BodyShort size={'small'}>Ekstra overnatting</BodyShort>
