@@ -2,17 +2,11 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import {
-    Button,
-    Checkbox,
-    CheckboxGroup,
-    HStack,
-    Select,
-    Textarea,
-    VStack,
-} from '@navikt/ds-react';
+import { Button, HStack, Select, VStack } from '@navikt/ds-react';
 
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
+import MetadataNyeOpplysninger from './MetadataNyeOpplysninger';
+import { useValiderNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import {
@@ -23,13 +17,7 @@ import {
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import {
-    NyeOpplysningerEndring,
-    nyeOpplysningerEndringTilTekst,
-    NyeOpplysningerKilde,
-    nyeOpplysningerKildeTilTekst,
-    NyeOpplysningerMetadata,
-} from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
@@ -71,9 +59,6 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const { request } = useApp();
 
     const [årsak, settÅrsak] = useState<BehandlingÅrsak>();
-    const [kilde, settKilde] = useState<NyeOpplysningerKilde>();
-    const [endringer, settEndringer] = useState<NyeOpplysningerEndring[]>();
-    const [beskrivelse, settBeskrivelse] = useState<string>();
     const [barnTilRevurdering, setBarnTilRevurdering] =
         useState<Ressurs<BarnTilRevurderingResponse>>(byggTomRessurs());
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
@@ -84,6 +69,11 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
+    const [nyeOpplysninger, settNyeOpplysninger] = useState<NyeOpplysningerMetadata | undefined>(
+        undefined
+    );
+    const { feilNyeOpplysningerMetadata, validerNyeOpplysningerMetadata, nullstillFeilForFelt } =
+        useValiderNyeOpplysningerMetadata();
     const opprett = () => {
         if (laster) {
             return;
@@ -100,24 +90,14 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             return;
         }
 
-        let nyeOpplysninger: NyeOpplysningerMetadata | undefined = undefined;
-        if (årsak === BehandlingÅrsak.NYE_OPPLYSNINGER) {
-            if (!kilde) {
-                settFeilmelding(lagFeilmelding('Kilde for nye opplysninger må settes'));
-                settLaster(false);
-                return;
-            }
-            if (!endringer) {
-                settFeilmelding(lagFeilmelding('Endringer ved nye opplysninger må settes'));
-                settLaster(false);
-                return;
-            }
-            nyeOpplysninger = {
-                kilde: kilde,
-                endringer: endringer,
-                beskrivelse: beskrivelse,
-            };
+        if (
+            årsak === BehandlingÅrsak.NYE_OPPLYSNINGER &&
+            !validerNyeOpplysningerMetadata(nyeOpplysninger)
+        ) {
+            settLaster(false);
+            return;
         }
+
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
@@ -139,24 +119,17 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         const value = event.target.value;
         if (harVerdi(value)) {
             settÅrsak(value as BehandlingÅrsak);
-            settFeilmelding(undefined);
-            settKilde(undefined);
-            settEndringer(undefined);
-            settBeskrivelse(undefined);
+            nullstillNyeOpplysningerMetadata();
         } else {
             settÅrsak(undefined);
         }
     };
 
-    const endreKilde = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        if (harVerdi(value)) {
-            settKilde(value as NyeOpplysningerKilde);
-            settFeilmelding(undefined);
-        } else {
-            settKilde(undefined);
-        }
+    const nullstillNyeOpplysningerMetadata = () => {
+        settFeilmelding(undefined);
+        settNyeOpplysninger(undefined);
     };
+
     const skalViseBarnTilRevurdering = utledSkalViseBarnTilRevurdering(stønadstype, årsak);
     const skalVentePåOkHentingAvBarn =
         skalViseBarnTilRevurdering && barnTilRevurdering.status !== RessursStatus.SUKSESS;
@@ -182,32 +155,12 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 />
             )}
             {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
-                <>
-                    <Select label={'Kilde til opplysninger'} onChange={endreKilde}>
-                        <option value={''}>-Velg kilde-</option>
-                        {Object.keys(NyeOpplysningerKilde).map((kilde) => (
-                            <option key={kilde} value={kilde}>
-                                {nyeOpplysningerKildeTilTekst[kilde]}
-                            </option>
-                        ))}
-                    </Select>
-
-                    <CheckboxGroup
-                        legend={'Hva er endret?'}
-                        onChange={(values) => settEndringer(values)}
-                    >
-                        {Object.values(NyeOpplysningerEndring).map((endring) => (
-                            <Checkbox key={endring} value={endring}>
-                                {nyeOpplysningerEndringTilTekst[endring]}
-                            </Checkbox>
-                        ))}
-                    </CheckboxGroup>
-                    <Textarea
-                        label={'Beskrivelse (valgfri)'}
-                        value={beskrivelse}
-                        onChange={(e) => settBeskrivelse(e.target.value)}
-                    />
-                </>
+                <MetadataNyeOpplysninger
+                    nyeOpplysningerMetadata={nyeOpplysninger}
+                    settnyeOpplysningerMetadata={settNyeOpplysninger}
+                    feil={feilNyeOpplysningerMetadata}
+                    nullstillFeilForFelt={nullstillFeilForFelt}
+                />
             )}
             {skalViseBarnTilRevurdering && (
                 <BarnTilRevurdering

@@ -1,3 +1,5 @@
+import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+
 export enum OpprettNyBehandlingType {
     ORDINAER_BEHANDLING = 'ORDINAER_BEHANDLING',
     KLAGE = 'KLAGE',
@@ -8,4 +10,10 @@ export const opprettNyBehandlingTypeTilTekst: Record<OpprettNyBehandlingType, st
     ORDINAER_BEHANDLING: 'Ordinær behandling',
     KLAGE: 'Klage',
     TILBAKEKREVING: 'Tilbakekreving',
+};
+
+export const tomNyeOpplysningerMetadata: NyeOpplysningerMetadata = {
+    kilde: undefined,
+    endringer: [],
+    beskrivelse: undefined,
 };

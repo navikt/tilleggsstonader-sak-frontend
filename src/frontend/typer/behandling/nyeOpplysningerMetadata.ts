@@ -1,5 +1,5 @@
 export type NyeOpplysningerMetadata = {
-    kilde: NyeOpplysningerKilde;
+    kilde: NyeOpplysningerKilde | undefined;
     endringer: NyeOpplysningerEndring[];
     beskrivelse: string | undefined;
 };
