@@ -1710,10 +1710,10 @@ nth-check@^2.0.1:
   dependencies:
     boolbase "^1.0.0"
 
-oauth4webapi@^3.3.1:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-3.3.2.tgz#6cdb20dd607e5d1bed6233f17b8e8dd7529c77f0"
-  integrity sha512-hCJgDQayOLpBxdDpzShK/SI3C1PVnkj4CcKLOGyQm23Lk5V+qYPH+LtQlu8YO29MswBry/FBVlwWBnWgQvaFdA==
+oauth4webapi@^3.4.1:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-3.5.0.tgz#9be1227e2a6af7761dd0d1a811ce33050077974b"
+  integrity sha512-DF3mLWNuxPkxJkHmWxbSFz4aE5CjWOsm465VBfBdWzmzX4Mg3vF8icxK+iKqfdWrIumBJ2TaoNQWx+SQc2bsPQ==
 
 object-inspect@^1.13.3:
   version "1.13.4"
@@ -1746,13 +1746,13 @@ one-time@^1.0.0:
   dependencies:
     fn.name "1.x.x"
 
-openid-client@^6.1.4:
-  version "6.3.4"
-  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-6.3.4.tgz#dc853b5b7eef448fd0092e26a0c61747e595d5d6"
-  integrity sha512-CGZGk9Y6Bv9R4bXlrzVoxzD1n4h8iP914UhjVyRSftqzqO4CWaRqKpOmW253Jmpv4EWkz7/Gut/90iiWW8t0ow==
+openid-client@^6.4.2:
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-6.4.2.tgz#3e85842ca466074f92ae268ed218b99bcab349db"
+  integrity sha512-4zBRTsKNRTyKxV5cFzl+LtamsYx/FsWhejjax+qgMkFNGtLj1gMtng2iSoJqqWUT0FHU3IUhO53aeBePg7Sp/g==
   dependencies:
     jose "^6.0.10"
-    oauth4webapi "^3.3.1"
+    oauth4webapi "^3.4.1"
 
 param-case@^3.0.4:
   version "3.0.4"
