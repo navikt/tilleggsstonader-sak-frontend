@@ -5,6 +5,8 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { Button, HStack, Select, VStack } from '@navikt/ds-react';
 
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
+import MetadataNyeOpplysninger from './MetadataNyeOpplysninger';
+import { useValiderNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import {
@@ -15,6 +17,7 @@ import {
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
+import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
@@ -31,6 +34,7 @@ interface OpprettBehandlingRequest {
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
     valgteBarn: string[];
+    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
 }
 
 const utledSkalViseBarnTilRevurdering = (
@@ -65,6 +69,11 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
+    const [nyeOpplysninger, settNyeOpplysninger] = useState<NyeOpplysningerMetadata | undefined>(
+        undefined
+    );
+    const { feilNyeOpplysningerMetadata, validerNyeOpplysningerMetadata, nullstillFeilForFelt } =
+        useValiderNyeOpplysningerMetadata();
     const opprett = () => {
         if (laster) {
             return;
@@ -80,11 +89,21 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
+
+        if (
+            årsak === BehandlingÅrsak.NYE_OPPLYSNINGER &&
+            !validerNyeOpplysningerMetadata(nyeOpplysninger)
+        ) {
+            settLaster(false);
+            return;
+        }
+
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
             kravMottatt: kravMottatt,
             valgteBarn: valgteBarn,
+            nyeOpplysningerMetadata: nyeOpplysninger,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
                 hentBehandlinger();
@@ -100,10 +119,15 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
         const value = event.target.value;
         if (harVerdi(value)) {
             settÅrsak(value as BehandlingÅrsak);
-            settFeilmelding(undefined);
+            nullstillNyeOpplysningerMetadata();
         } else {
             settÅrsak(undefined);
         }
+    };
+
+    const nullstillNyeOpplysningerMetadata = () => {
+        settFeilmelding(undefined);
+        settNyeOpplysninger(undefined);
     };
 
     const skalViseBarnTilRevurdering = utledSkalViseBarnTilRevurdering(stønadstype, årsak);
@@ -128,6 +152,14 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     onChange={(dato: string | undefined) => settKravMottatt(dato)}
                     value={kravMottatt}
                     toDate={new Date()}
+                />
+            )}
+            {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
+                <MetadataNyeOpplysninger
+                    nyeOpplysningerMetadata={nyeOpplysninger}
+                    settnyeOpplysningerMetadata={settNyeOpplysninger}
+                    feil={feilNyeOpplysningerMetadata}
+                    nullstillFeilForFelt={nullstillFeilForFelt}
                 />
             )}
             {skalViseBarnTilRevurdering && (

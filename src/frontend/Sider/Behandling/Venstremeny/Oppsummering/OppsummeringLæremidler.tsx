@@ -23,9 +23,7 @@ const OppsummeringLæremidler: React.FC<{
                     </BodyShort>
                 </InfoSeksjon>
             )}
-
             <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
             {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
                 <ArbeidOgOpphold
                     fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}

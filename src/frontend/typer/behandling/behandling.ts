@@ -3,6 +3,7 @@ import { BehandlingStatus } from './behandlingStatus';
 import { Stønadstype } from './behandlingTema';
 import { BehandlingType } from './behandlingType';
 import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
+import { NyeOpplysningerMetadata } from './nyeOpplysningerMetadata';
 import { Steg } from './steg';
 
 export interface Behandling {
@@ -22,6 +23,7 @@ export interface Behandling {
     stønadstype: Stønadstype;
     vedtaksdato?: string;
     revurderFra?: string;
+    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
 }
 
 export interface HentBehandlingerRequest {

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
+import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
@@ -14,10 +15,17 @@ const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
     return (
         <VStack gap="8">
-            <HStack gap="2">
-                <StønadstypeTag stønadstype={behandling.stønadstype} />
-                <RevurderingTag behandling={behandling} />
-            </HStack>
+            <VStack gap={'4'}>
+                <HStack gap="2">
+                    <StønadstypeTag stønadstype={behandling.stønadstype} />
+                    <RevurderingTag behandling={behandling} />
+                </HStack>
+                {behandling.nyeOpplysningerMetadata && (
+                    <NyeOpplysningerMetadata
+                        nyeOpplysningerMetadata={behandling.nyeOpplysningerMetadata}
+                    />
+                )}
+            </VStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
                 <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
             )}
