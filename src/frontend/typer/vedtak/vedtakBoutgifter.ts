@@ -12,8 +12,8 @@ export const vedtakErInnvilgelse = (vedtak: VedtakBoutgifter): vedtak is Innvilg
 export const vedtakErAvslag = (vedtak: VedtakBoutgifter): vedtak is AvslagBoutgifter =>
     vedtak.type === TypeVedtak.AVSLAG;
 
-// export const vedtakErOpphør = (vedtak: VedtakBoutgifter): vedtak is OpphørBoutgifter =>
-//     vedtak.type === TypeVedtak.OPPHØR;
+export const vedtakErOpphør = (vedtak: VedtakBoutgifter): vedtak is OpphørBoutgifter =>
+    vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBoutgifterRequest = {
     vedtaksperioder: Vedtaksperiode[];

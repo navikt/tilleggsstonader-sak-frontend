@@ -14,10 +14,12 @@ import {
     VedtakBoutgifter,
     vedtakErAvslag,
     vedtakErInnvilgelse,
+    vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakBoutgifter';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling';
 import AvslåVedtak from '../Felles/AvslåVedtak';
+import OpphørVedtak from '../Felles/Opphørsvedtak';
 
 const Container = styled.div`
     padding: 2rem 2rem;
@@ -52,11 +54,11 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
                                         vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
                                     />
                                 )}
-                                {/*{typeVedtak === TypeVedtak.OPPHØR && (*/}
-                                {/*    <OpphørVedtak*/}
-                                {/*        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}*/}
-                                {/*    />*/}
-                                {/*)}*/}
+                                {typeVedtak === TypeVedtak.OPPHØR && (
+                                    <OpphørVedtak
+                                        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                    />
+                                )}
                             </HGrid>
                         </Panel>
 
