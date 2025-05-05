@@ -8,6 +8,7 @@ export interface DokumentInfo {
     journalpostId: string;
     dato?: string;
     tema?: Arkivtema;
+    brevkode: string;
     journalstatus: Journalstatus;
     journalposttype: Journalposttype;
     harSaksbehandlerTilgang: boolean;

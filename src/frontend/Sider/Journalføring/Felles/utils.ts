@@ -7,7 +7,8 @@ import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { LogiskVedlegg } from '../../../typer/dokument';
-import { JournalpostResponse } from '../../../typer/journalpost';
+import { Journalpost, JournalpostResponse } from '../../../typer/journalpost';
+import { Behandlingstema } from '../../Oppgavebenk/typer/oppgave';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
@@ -137,3 +138,38 @@ export const skalViseBekreftelsesmodal = (
 export const journalføringsÅrsakErKlage = (journalføringsårsak: Journalføringsårsak): boolean =>
     journalføringsårsak === Journalføringsårsak.KLAGE ||
     journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
+
+export const journalpostTilStønadstype = (journalpost: Journalpost): Stønadstype | undefined => {
+    return (
+        behandlingstemaTilStønadstype(journalpost.behandlingstema) ??
+        stønadstypeFraBrevkode(journalpost)
+    );
+};
+
+const behandlingstemaTilStønadstype = (
+    behandlingstema: Behandlingstema | undefined
+): Stønadstype | undefined => {
+    switch (behandlingstema) {
+        case 'ab0300':
+            return Stønadstype.BARNETILSYN;
+        case 'ab0292':
+            return Stønadstype.LÆREMIDLER;
+        case 'ab0286': // Se [stønadstypeFraBrevkode]
+            return Stønadstype.BOUTGIFTER;
+        default:
+            return undefined;
+    }
+};
+
+/**
+ * FyllUt/SendInn som arkiverer søknad for boutgifter setter ikke behandlingstema på journalposten
+ * Av den grunnen må vi sjekke om det finnes en dokument med brevkode NAV 11-12.19 for å vite at det gjelder boutgifter
+ * Hvis ikke får man ikke journalført journalposten på stønadstype boutgifter
+ */
+const stønadstypeFraBrevkode = (journalpost: Journalpost): Stønadstype | undefined => {
+    if (journalpost.dokumenter.some((dokument) => dokument.brevkode === 'NAV 11-12.19')) {
+        return Stønadstype.BOUTGIFTER;
+    }
+
+    return undefined;
+};

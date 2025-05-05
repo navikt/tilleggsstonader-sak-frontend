@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useHentBehandlinger } from './useHentBehandlinger';
 import { useApp } from '../context/AppContext';
+import { journalpostTilStønadstype } from '../Sider/Journalføring/Felles/utils';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
-import { behandlingstemaTilStønadstype } from '../Sider/Oppgavebenk/typer/oppgave';
 import { Behandling } from '../typer/behandling/behandling';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
@@ -100,7 +100,7 @@ export const useJournalføringState = (
         utledJournalføringsårsak()
     );
     const [stønadstype, settStønadstype] = useState<Stønadstype | undefined>(
-        behandlingstemaTilStønadstype(journalpost.behandlingstema)
+        journalpostTilStønadstype(journalpost)
     );
     const [journalføringsaksjon, settJournalføringsaksjon] = useState<Journalføringsaksjon>(
         Journalføringsaksjon.JOURNALFØR_PÅ_FAGSAK
