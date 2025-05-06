@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
-
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
 import { BehandlingOppsummering } from '../typer/behandling/behandlingOppsummering';
@@ -14,7 +12,6 @@ interface Response {
 export const useBehandlingOppsummering = (): Response => {
     const { request } = useApp();
     const { behandling } = useBehandling();
-    const location = useLocation();
 
     const [behandlingOppsummering, settBehandlingOppsummering] =
         useState<Ressurs<BehandlingOppsummering>>(byggTomRessurs());
@@ -25,7 +22,7 @@ export const useBehandlingOppsummering = (): Response => {
         request<BehandlingOppsummering, null>(
             `/api/sak/behandlingsoppsummering/${behandling.id}`
         ).then(settBehandlingOppsummering);
-    }, [request, behandling.id, behandling.steg, location.pathname]);
+    }, [request, behandling.id, behandling.steg, behandling.revurderFra]);
 
     return {
         behandlingOppsummering,
