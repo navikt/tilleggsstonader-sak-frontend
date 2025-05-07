@@ -6,8 +6,8 @@ import { journalpostTilStønadstype } from '../Sider/Journalføring/Felles/utils
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { Behandling } from '../typer/behandling/behandling';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
-import { DokumentInfo, DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
-import { Journalpost, JournalpostResponse } from '../typer/journalpost';
+import { DokumentTitler, LogiskeVedleggPåDokument } from '../typer/dokument';
+import { DokumentInfoJournalpost, Journalpost, JournalpostResponse } from '../typer/journalpost';
 import { byggHenterRessurs, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 
 interface NyAvsender {
@@ -82,7 +82,7 @@ export const useJournalføringState = (
         }
     };
 
-    const utledFørsteDokument = (dokumenter: DokumentInfo[]) =>
+    const utledFørsteDokument = (dokumenter: DokumentInfoJournalpost[]) =>
         dokumenter.length > 0 ? dokumenter[0].dokumentInfoId : '';
 
     const { request } = useApp();

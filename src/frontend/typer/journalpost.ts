@@ -1,4 +1,4 @@
-import { DokumentInfo } from './dokument';
+import { LogiskVedlegg } from './dokument';
 import { Behandlingstema } from '../Sider/Oppgavebenk/typer/oppgave';
 
 export interface JournalpostResponse {
@@ -19,10 +19,17 @@ export interface Journalpost {
     bruker: BrukerInfo;
     journalforendeEnhet?: string;
     kanal?: string;
-    dokumenter: DokumentInfo[];
+    dokumenter: DokumentInfoJournalpost[];
     relevanteDatoer?: RelevantDato[];
     datoMottatt?: string;
     avsenderMottaker: AvsenderMottaker | undefined;
+}
+
+export interface DokumentInfoJournalpost {
+    dokumentInfoId: string;
+    tittel: string;
+    brevkode?: string;
+    logiskeVedlegg: LogiskVedlegg[];
 }
 
 export enum Journalstatus {

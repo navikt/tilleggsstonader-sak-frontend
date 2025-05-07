@@ -9,12 +9,12 @@ import { FamilieReactSelect, ISelectOption } from '@navikt/familie-form-elements
 
 import { DokumentPanelHeader } from './DokumentPanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
-import { DokumentInfo } from '../../../typer/dokument';
+import { DokumentInfoJournalpost } from '../../../typer/journalpost';
 import { åpneFilIEgenTab } from '../../../utils/utils';
 import {
     dokumentTitlerMultiSelect,
-    mapLogiskeVedleggTilMultiselectValue,
     mapDokumentTittelTilMultiselectValue,
+    mapLogiskeVedleggTilMultiselectValue,
     mapMultiselectValueTilLogiskeVedlegg,
 } from '../Felles/utils';
 
@@ -39,7 +39,7 @@ const MultiSelect = styled(FamilieReactSelect)`
 
 interface Props {
     journalpostState: JournalføringState;
-    dokument: DokumentInfo;
+    dokument: DokumentInfoJournalpost;
 }
 
 const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
