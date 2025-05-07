@@ -35,15 +35,10 @@ export const Årvelger: React.FC<ÅrProps> = ({
 }) => {
     const årOptions = lagÅrOptions(år, antallÅrFrem, antallÅrTilbake);
 
-    const oppdaterÅr = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        event.persist();
-        settÅr(parseInt(event.target.value));
-    };
-
     return (
         <Select
             value={år}
-            onChange={(event) => oppdaterÅr(event)}
+            onChange={(event) => settÅr(parseInt(event.target.value))}
             label={'År'}
             hideLabel
             className={className}

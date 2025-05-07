@@ -31,16 +31,11 @@ const MånedVelger: React.FC<MånedProps> = ({
     lesevisning = false,
     className,
 }) => {
-    const oppdaterMåned = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        event.persist();
-        settMåned(event.target.value);
-    };
-
     return (
         <Select
             value={måned}
             className={className}
-            onChange={(event) => oppdaterMåned(event)}
+            onChange={(event) => settMåned(event.target.value)}
             label={'Måned'}
             hideLabel
             size="small"
