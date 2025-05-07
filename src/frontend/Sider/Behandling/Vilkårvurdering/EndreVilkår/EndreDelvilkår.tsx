@@ -32,7 +32,7 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
     }
 `;
 
-const EndreDelvilkår: React.FC<{
+interface Props {
     delvilkårsett: Delvilkår[];
     regler: Regler;
     alleFelterKanRedigeres: boolean;
@@ -42,7 +42,9 @@ const EndreDelvilkår: React.FC<{
         value: ((prevState: Feilmeldinger) => Feilmeldinger) | Feilmeldinger
     ) => void;
     settDelvilkårsett: (value: ((prevState: Delvilkår[]) => Delvilkår[]) | Delvilkår[]) => void;
-}> = ({
+}
+
+const EndreDelvilkår: React.FC<Props> = ({
     delvilkårsett,
     regler,
     alleFelterKanRedigeres,
