@@ -8,7 +8,10 @@ import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { Behandling } from '../../../../typer/behandling/behandling';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { VilkårperioderGrunnlag } from '../typer/vilkårperiode/vilkårperiode';
+import {
+    hentetInformasjonAktivitetTilTekst,
+    VilkårperioderGrunnlag,
+} from '../typer/vilkårperiode/vilkårperiode';
 
 export const RegisterAktiviteter: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;
@@ -31,10 +34,7 @@ export const RegisterAktiviteter: React.FC<{
         return (
             <Alert variant={'info'} inline size="small">
                 Vi fant ingen stønadsberettigede aktiviteteter registrert på bruker.
-                <Hjelpetekst
-                    behandling={behandling}
-                    tidspunktHentet={hentetInformasjon.tidspunktHentet}
-                />
+                <Hjelpetekst behandling={behandling} grunnlag={grunnlag} />
             </Alert>
         );
     }
@@ -49,10 +49,7 @@ export const RegisterAktiviteter: React.FC<{
                         registerAktivitet={aktiviteter}
                         leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                     />
-                    <Hjelpetekst
-                        behandling={behandling}
-                        tidspunktHentet={hentetInformasjon.tidspunktHentet}
-                    />
+                    <Hjelpetekst behandling={behandling} grunnlag={grunnlag} />
                 </VStack>
             </ExpansionCard>
         </VStack>
@@ -61,39 +58,57 @@ export const RegisterAktiviteter: React.FC<{
 
 function Hjelpetekst({
     behandling,
-    tidspunktHentet,
+    grunnlag,
 }: {
     behandling: Behandling;
-    tidspunktHentet: string;
+    grunnlag: VilkårperioderGrunnlag;
 }) {
+    const tidspunktHentet = grunnlag.hentetInformasjon.tidspunktHentet;
+    const typer = grunnlag.aktivitet.hentetInformasjon
+        .map((hentetInformasjon) => hentetInformasjonAktivitetTilTekst[hentetInformasjon.type])
+        .join(', ');
+    const feiledeTyper = grunnlag.aktivitet.hentetInformasjon
+        .filter((hentetInformasjon) => hentetInformasjon.status !== 'FEILET')
+        .map((hentetInformasjon) => hentetInformasjonAktivitetTilTekst[hentetInformasjon.type])
+        .join(', ');
     return (
-        <HStack gap="2" align="center">
-            <Detail>
-                <strong>Hentet fra Arena: {formaterNullableIsoDatoTid(tidspunktHentet)}</strong>
-            </Detail>
-            <HelpText>
-                <BodyShort spacing>
-                    Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
-                    aktiviteter i{' '}
-                    <Link
-                        href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
-                        target="_blank"
-                        variant={'neutral'}
-                    >
-                        personoversikten
-                    </Link>
-                    .
-                </BodyShort>
-                <BodyShort spacing>
-                    Datoet som brukes i en førstegangsbehandling er mottatt tidspunkt minus X
-                    måneder (3 for tilsyn barn, 6 for læremidler). I en revurdering hentes grunnlag
-                    fra og med revurder-fra datoet.
-                </BodyShort>
-                <BodyShort spacing>
-                    I en førstegangsbehandling kan man overstyre datoet man henter grunnlaget fra.
-                </BodyShort>
-            </HelpText>
-        </HStack>
+        <VStack gap={'2'}>
+            <HStack gap="2" align="center">
+                <Detail>
+                    <strong>
+                        Hentet fra {typer}: {formaterNullableIsoDatoTid(tidspunktHentet)}
+                    </strong>
+                </Detail>
+                <HelpText>
+                    <BodyShort spacing>
+                        Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
+                        aktiviteter i{' '}
+                        <Link
+                            href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
+                            target="_blank"
+                            variant={'neutral'}
+                        >
+                            personoversikten
+                        </Link>
+                        .
+                    </BodyShort>
+                    <BodyShort spacing>
+                        Datoet som brukes i en førstegangsbehandling er mottatt tidspunkt minus X
+                        måneder (3 for tilsyn barn, 6 for læremidler). I en revurdering hentes
+                        grunnlag fra og med revurder-fra datoet.
+                    </BodyShort>
+                    <BodyShort spacing>
+                        I en førstegangsbehandling kan man overstyre datoet man henter grunnlaget
+                        fra.
+                    </BodyShort>
+                </HelpText>
+            </HStack>
+            {feiledeTyper && (
+                <Alert variant={'error'} size="small" style={{ maxWidth: 'fit-content' }}>
+                    Feilet henting av aktiviteter fra: {feiledeTyper}. Prøv å hent data på nytt.
+                </Alert>
+            )}
+        </VStack>
     );
 }
 

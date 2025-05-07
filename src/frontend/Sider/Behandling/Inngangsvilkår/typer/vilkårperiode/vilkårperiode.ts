@@ -21,10 +21,29 @@ export interface VilkårperioderGrunnlag {
 
 interface AktivitetGrunnlag {
     aktiviteter: Registeraktivitet[];
+    hentetInformasjon: HentetInformasjonAktivitet[];
 }
+
+interface HentetInformasjonAktivitet {
+    type: 'ARENA';
+    status: 'OK' | 'FEILET';
+}
+
+export const hentetInformasjonAktivitetTilTekst: Record<
+    HentetInformasjonAktivitet['type'],
+    string
+> = {
+    ARENA: 'Arena',
+};
 
 interface YtelseGrunnlag {
     perioder: YtelseGrunnlagPeriode[];
+    hentetInformasjon: HentetInformasjonYtelse[];
+}
+
+interface HentetInformasjonYtelse {
+    type: TypeRegisterYtelse;
+    status: 'OK' | 'FEILET';
 }
 
 export interface YtelseGrunnlagPeriode {
