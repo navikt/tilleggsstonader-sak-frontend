@@ -25,6 +25,12 @@ interface AktivitetGrunnlag {
 
 interface YtelseGrunnlag {
     perioder: YtelseGrunnlagPeriode[];
+    kildeResultat: KildeResultatYtelse[];
+}
+
+interface KildeResultatYtelse {
+    type: TypeRegisterYtelse;
+    resultat: 'OK' | 'FEILET';
 }
 
 export interface YtelseGrunnlagPeriode {
