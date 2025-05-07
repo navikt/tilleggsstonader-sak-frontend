@@ -4,7 +4,10 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import BeregningsresultatMedUtgift from './BeregningsresultatMedUtgift';
-import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import {
+    BeregningsresultatBoutgifter,
+    BeregningsresultatUtgifterKeys,
+} from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { Toggle } from '../../../../../utils/toggles';
 
 const BeregningsresultatContainer: React.FC<{
@@ -14,7 +17,13 @@ const BeregningsresultatContainer: React.FC<{
         Toggle.SKAL_VISE_DETALJERT_BEREGNINGSRESULTAT
     );
 
-    return beregningsresultat.skalBrukeDetaljertVisning && skalViseDetaljertBeregningsresultat ? (
+    const skalBrukeDetaljertVisning = () =>
+        skalViseDetaljertBeregningsresultat &&
+        beregningsresultat.perioder.some(
+            (periode) => periode.utgifter[BeregningsresultatUtgifterKeys.UTGIFTER_OVERNATTING]
+        );
+
+    return skalBrukeDetaljertVisning() ? (
         <BeregningsresultatMedUtgift beregningsresultat={beregningsresultat} />
     ) : (
         <Beregningsresultat beregningsresultat={beregningsresultat} />

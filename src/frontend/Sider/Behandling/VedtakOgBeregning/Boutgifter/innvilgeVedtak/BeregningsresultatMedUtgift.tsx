@@ -18,9 +18,11 @@ const TableRow = styled(Table.Row)`
     border-bottom: hidden;
 `;
 
-const TableRowGray = styled(Table.Row)<{ borderBottom?: boolean }>`
+const TableRowGray = styled(Table.Row).withConfig({
+    shouldForwardProp: (prop) => prop !== 'borderbottom',
+})<{ borderbottom: boolean }>`
     background-color: ${AGray50};
-    border-bottom: ${(props) => (props.borderBottom ? 'initial' : 'hidden')};
+    border-bottom: ${(props) => (props.borderbottom ? 'initial' : 'hidden')};
 `;
 
 interface Props {
@@ -45,17 +47,19 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                             <Table.DataCell>{periode.sumUtgifter}</Table.DataCell>
                             <Table.DataCell>{periode.stønadsbeløp}</Table.DataCell>
                         </TableRow>
-                        {periode.utgifter.map((utgift, index) => (
-                            <TableRowGray
-                                key={utgift.fom + utgift.tom}
-                                borderBottom={index == periode.utgifter.length - 1}
-                            >
-                                <Table.DataCell />
-                                <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
-                                <Table.DataCell>{utgift.utgift}</Table.DataCell>
-                                <Table.DataCell />
-                            </TableRowGray>
-                        ))}
+                        {Object.values(periode.utgifter)
+                            .flat()
+                            .map((utgift, index, utgifter) => (
+                                <TableRowGray
+                                    key={utgift.fom + utgift.tom}
+                                    borderbottom={index === utgifter.length - 1}
+                                >
+                                    <Table.DataCell />
+                                    <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
+                                    <Table.DataCell>{utgift.utgift}</Table.DataCell>
+                                    <Table.DataCell />
+                                </TableRowGray>
+                            ))}
                     </React.Fragment>
                 ))}
             </Table.Header>

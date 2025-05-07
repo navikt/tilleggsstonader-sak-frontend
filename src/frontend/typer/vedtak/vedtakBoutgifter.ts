@@ -48,7 +48,16 @@ export type BeregnBoutgifterRequest = {
 
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
-    skalBrukeDetaljertVisning: boolean;
+};
+
+export enum BeregningsresultatUtgifterKeys {
+    UTGIFTER_OVERNATTING = 'UTGIFTER_OVERNATTING',
+    LØPENDE_UTGIFTER_EN_BOLIG = 'LØPENDE_UTGIFTER_EN_BOLIG',
+    LØPENDE_UTGIFTER_TO_BOLIGER = 'LØPENDE_UTGIFTER_TO_BOLIGER',
+}
+
+export type BeregningsresultatUtgifterMap = {
+    [key in BeregningsresultatUtgifterKeys]: BeregningsresultatUtgifter[];
 };
 
 export type BeregningsresultatUtgifter = {
@@ -63,7 +72,7 @@ type Beregningsresultat = {
     tom: string;
     utbetalingsdato: string;
     sumUtgifter: number;
-    utgifter: BeregningsresultatUtgifter[];
+    utgifter: BeregningsresultatUtgifterMap;
     målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
     makssatsBekreftet: boolean;
