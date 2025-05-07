@@ -48,6 +48,13 @@ export type BeregnBoutgifterRequest = {
 
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
+    skalBrukeDetaljertVisning: boolean;
+};
+
+export type BeregningsresultatUtgifter = {
+    fom: string;
+    tom: string;
+    utgift: number;
 };
 
 type Beregningsresultat = {
@@ -56,6 +63,7 @@ type Beregningsresultat = {
     tom: string;
     utbetalingsdato: string;
     sumUtgifter: number;
+    utgifter: BeregningsresultatUtgifter[];
     målgruppe: FaktiskMålgruppe;
     aktivitet: AktivitetType;
     makssatsBekreftet: boolean;

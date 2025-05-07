@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
-import Beregningsresultat from './Beregningsresultat';
+import BeregningsresultatContainer from './BeregningsresultatContainer';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -136,12 +136,16 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
                     {erStegRedigerbart && (
                         <DataViewer response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
-                                <Beregningsresultat beregningsresultat={beregningsresultat} />
+                                <BeregningsresultatContainer
+                                    beregningsresultat={beregningsresultat}
+                                />
                             )}
                         </DataViewer>
                     )}
                     {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
-                        <Beregningsresultat beregningsresultat={lagretVedtak.beregningsresultat} />
+                        <BeregningsresultatContainer
+                            beregningsresultat={lagretVedtak.beregningsresultat}
+                        />
                     )}
                 </VStack>
             </Panel>

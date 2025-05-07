@@ -1,0 +1,24 @@
+import React from 'react';
+
+import { useFlag } from '@unleash/proxy-client-react';
+
+import Beregningsresultat from './Beregningsresultat';
+import BeregningsresultatMedUtgift from './BeregningsresultatMedUtgift';
+import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
+import { Toggle } from '../../../../../utils/toggles';
+
+const BeregningsresultatContainer: React.FC<{
+    beregningsresultat: BeregningsresultatBoutgifter;
+}> = ({ beregningsresultat }) => {
+    const skalViseDetaljertBeregningsresultat = useFlag(
+        Toggle.SKAL_VISE_DETALJERT_BEREGNINGSRESULTAT
+    );
+
+    return beregningsresultat.skalBrukeDetaljertVisning && skalViseDetaljertBeregningsresultat ? (
+        <BeregningsresultatMedUtgift beregningsresultat={beregningsresultat} />
+    ) : (
+        <Beregningsresultat beregningsresultat={beregningsresultat} />
+    );
+};
+
+export default BeregningsresultatContainer;
