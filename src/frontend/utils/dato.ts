@@ -214,9 +214,19 @@ export const dagerSiden = (dato: string | Date, dato2: string | Date): number =>
 export const tilFørsteDagenIMåneden = (dato: string | Date): string =>
     tilLocaleDateString(startOfMonth(tilDato(dato)));
 
+// Eksempel: tilFørsteDagenIMånedenNullable('2023-09-18') -> '2023-09-01'
+export const tilFørsteDagenIMånedenNullable = (
+    dato: string | Date | undefined
+): string | undefined => (dato ? tilFørsteDagenIMåneden(dato) : undefined);
+
 // Eksempel: tilSisteDagenIMåneden('2023-09-18') -> '2023-09-30'
 export const tilSisteDagenIMåneden = (dato: string | Date): string =>
     tilLocaleDateString(endOfMonth(tilDato(dato)));
+
+// Eksempel: tilSisteDagenIMånedenNullable('2023-09-18') -> '2023-09-30'
+export const tilSisteDagenIMånedenNullable = (
+    dato: string | Date | undefined
+): string | undefined => (dato ? tilSisteDagenIMåneden(dato) : undefined);
 
 // Eksempel: dagenFør('2023-09-18') -> '2023-09-17'
 export const dagenFør = (dato: string | Date): string =>

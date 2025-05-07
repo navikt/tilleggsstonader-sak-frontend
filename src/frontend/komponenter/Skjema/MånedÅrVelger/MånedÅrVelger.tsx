@@ -15,8 +15,6 @@ interface Props {
     antallÅrFrem: number;
     feilmelding?: string | null;
     lesevisning?: boolean;
-    disabled?: boolean;
-    size?: 'medium' | 'small';
 }
 
 export const MånedÅrVelger: React.FC<Props> = ({
@@ -28,8 +26,6 @@ export const MånedÅrVelger: React.FC<Props> = ({
     antallÅrFrem = 4,
     feilmelding,
     lesevisning = false,
-    disabled = false,
-    size = 'small',
 }) => {
     const [år, settÅr] = useState(
         årMånedInitiell ? parseInt(årMånedInitiell.split('-')[0], 10) : undefined
@@ -57,21 +53,13 @@ export const MånedÅrVelger: React.FC<Props> = ({
                 </HStack>
             )}
             <HStack gap="1" wrap={false}>
-                <MånedVelger
-                    måned={måned}
-                    settMåned={settMåned}
-                    lesevisning={lesevisning}
-                    disabled={disabled}
-                    size={size}
-                />
+                <MånedVelger måned={måned} settMåned={settMåned} lesevisning={lesevisning} />
                 <Årvelger
                     år={år}
                     settÅr={settÅr}
                     antallÅrTilbake={antallÅrTilbake}
                     antallÅrFrem={antallÅrFrem}
                     lesevisning={lesevisning}
-                    disabled={disabled}
-                    size={size}
                 />
             </HStack>
             <ErrorMessage>{feilmelding}</ErrorMessage>
