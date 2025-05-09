@@ -44,8 +44,8 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Vedtaksperiode',
-        path: 'vedtaksperiode',
+        label: 'Vedtaksperioder',
+        path: 'vedtaksperioder',
         komponent: (fagsakPersonId) => <VedtaksperioderOversikt fagsakPersonId={fagsakPersonId} />,
     },
     {
@@ -80,7 +80,7 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
 
     const visVedtaksperiodeOversikt = useFlag(Toggle.SKAL_VISE_VEDTAKSPERIODER_TAB);
     const tabsSomSkalVises = tabs.filter(
-        (tab) => tab.path !== 'vedtaksperiode' || visVedtaksperiodeOversikt
+        (tab) => tab.path !== 'vedtaksperioder' || visVedtaksperiodeOversikt
     );
 
     return (
