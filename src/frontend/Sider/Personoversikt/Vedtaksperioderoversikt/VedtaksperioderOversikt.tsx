@@ -2,6 +2,7 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import { useHentFullstendigVedtaksOversikt } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -22,6 +23,9 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                 <VStack gap={'8'}>
                     <VedtaksperioderOversiktTilsynBarn
                         vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
+                    />
+                    <VedtaksperioderOversiktLæremidler
+                        vedtaksperioder={vedtaksperioderOversikt.læremidler}
                     />
                 </VStack>
             )}
