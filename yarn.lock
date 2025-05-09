@@ -599,10 +599,10 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@sanity/client@^6.29.1":
-  version "6.29.1"
-  resolved "https://registry.yarnpkg.com/@sanity/client/-/client-6.29.1.tgz#a40e6be06481b7291d9dc0115ef34809bb5befe3"
-  integrity sha512-BQRCMeDlBxwnMbFtB61HUxFf9aSb4HNVrpfrC7IFVqFf4cwcc3o5H8/nlrL9U3cDFedbe4W0AXt1mQzwbY/ljw==
+"@sanity/client@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@sanity/client/-/client-7.0.0.tgz#9387170f03856c43c26e772f96abd3d05fdd19f7"
+  integrity sha512-Kr96rYNJpA/zSyYhio9tx3SvID1ew2Y4mICzHYe81xF1MdjZLdUf0BudRv+wSa1QxtQdBnY4hDZKA96BAYo5ng==
   dependencies:
     "@sanity/eventsource" "^5.0.2"
     get-it "^8.6.7"
