@@ -8,9 +8,7 @@ interface ÅrProps {
     antallÅrFrem: number;
     antallÅrTilbake: number;
     lesevisning?: boolean;
-    disabled?: boolean;
     className?: string;
-    size?: 'medium' | 'small';
 }
 
 const lagÅrOptions = (år: number | undefined, antallÅrFrem: number, antallÅrTilbake: number) => {
@@ -33,24 +31,18 @@ export const Årvelger: React.FC<ÅrProps> = ({
     antallÅrFrem,
     antallÅrTilbake,
     lesevisning = false,
-    disabled = false,
     className,
-    size,
 }) => {
     const årOptions = lagÅrOptions(år, antallÅrFrem, antallÅrTilbake);
 
     return (
         <Select
             value={år}
-            onChange={(event) => {
-                event.persist();
-                settÅr(parseInt(event.target.value));
-            }}
-            disabled={disabled}
+            onChange={(event) => settÅr(parseInt(event.target.value))}
             label={'År'}
             hideLabel
             className={className}
-            size={size}
+            size="small"
             readOnly={lesevisning}
         >
             <option value="">År</option>

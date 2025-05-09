@@ -20,7 +20,6 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    SKAL_BRUKE_MANED_AR_VELGER = 'sak.frontend.skal-bruke-maned-ar-velger',
     TILLATER_NULLVEDAK = `sak.tillater_nullvedtak`,
     SKAL_VISE_DETALJERT_BEREGNINGSRESULTAT = `sak.detaljert_beregningsresultat`,
 }

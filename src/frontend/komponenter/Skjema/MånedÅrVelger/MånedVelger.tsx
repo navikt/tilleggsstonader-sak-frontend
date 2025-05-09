@@ -2,15 +2,12 @@ import React from 'react';
 
 import { Select } from '@navikt/ds-react';
 
-export type FamilieSelectSize = 'small' | 'medium';
-
 interface MånedProps {
     måned: string | undefined;
     settMåned: (måned: string) => void;
     lesevisning?: boolean;
     disabled?: boolean;
     className?: string;
-    size?: FamilieSelectSize;
 }
 
 const månedValg = [
@@ -32,22 +29,16 @@ const MånedVelger: React.FC<MånedProps> = ({
     måned,
     settMåned,
     lesevisning = false,
-    disabled = false,
     className,
-    size,
 }) => {
     return (
         <Select
             value={måned}
             className={className}
-            onChange={(event) => {
-                event.persist();
-                settMåned(event.target.value);
-            }}
-            disabled={disabled}
+            onChange={(event) => settMåned(event.target.value)}
             label={'Måned'}
             hideLabel
-            size={size}
+            size="small"
             readOnly={lesevisning}
         >
             <option value="">Måned</option>

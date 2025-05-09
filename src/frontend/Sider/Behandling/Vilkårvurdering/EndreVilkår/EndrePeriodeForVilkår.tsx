@@ -1,15 +1,14 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { HStack } from '@navikt/ds-react';
 
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
-import MonthInput from '../../../../komponenter/Skjema/MonthInput';
 import { MånedÅrVelger } from '../../../../komponenter/Skjema/MånedÅrVelger/MånedÅrVelger';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { tilFørsteDagenIMåneden, tilSisteDagenIMåneden } from '../../../../utils/dato';
-import { Toggle } from '../../../../utils/toggles';
+import {
+    tilFørsteDagenIMånedenNullable,
+    tilSisteDagenIMånedenNullable,
+} from '../../../../utils/dato';
 import { Feilmeldinger } from '../validering';
 
 export enum TypePeriodeVelger {
@@ -35,7 +34,6 @@ const EndrePeriodeForVilkår: React.FC<{
     feilmeldinger,
     typePeriodeVelger,
 }) => {
-    const skalBrukeMånedÅrVelger = useFlag(Toggle.SKAL_BRUKE_MANED_AR_VELGER);
     const { fom, tom } = periodeForVilkår;
 
     return (
@@ -52,35 +50,17 @@ const EndrePeriodeForVilkår: React.FC<{
                         size="small"
                         feil={feilmeldinger.fom}
                     />
-                ) : skalBrukeMånedÅrVelger ? (
+                ) : (
                     <MånedÅrVelger
                         label="Fra"
-                        size="small"
                         årMånedInitiell={fom}
                         feilmelding={feilmeldinger.fom}
                         lesevisning={!alleFelterKanRedigeres}
                         onEndret={(dato) => {
-                            oppdaterPeriodeForVilkår(
-                                'fom',
-                                dato ? tilFørsteDagenIMåneden(dato) : undefined
-                            );
+                            oppdaterPeriodeForVilkår('fom', tilFørsteDagenIMånedenNullable(dato));
                         }}
                         antallÅrFrem={1}
                         antallÅrTilbake={1}
-                    />
-                ) : (
-                    <MonthInput
-                        label="Fra"
-                        size="small"
-                        value={fom}
-                        feil={feilmeldinger.fom}
-                        readOnly={!alleFelterKanRedigeres}
-                        onChange={(dato) => {
-                            oppdaterPeriodeForVilkår(
-                                'fom',
-                                dato ? tilFørsteDagenIMåneden(dato) : undefined
-                            );
-                        }}
                     />
                 )}
             </FeilmeldingMaksBredde>
@@ -95,33 +75,16 @@ const EndrePeriodeForVilkår: React.FC<{
                         size="small"
                         feil={feilmeldinger.tom}
                     />
-                ) : skalBrukeMånedÅrVelger ? (
+                ) : (
                     <MånedÅrVelger
                         label="Til"
-                        size="small"
                         årMånedInitiell={tom}
                         feilmelding={feilmeldinger.tom}
                         onEndret={(dato) => {
-                            oppdaterPeriodeForVilkår(
-                                'tom',
-                                dato ? tilSisteDagenIMåneden(dato) : undefined
-                            );
+                            oppdaterPeriodeForVilkår('tom', tilSisteDagenIMånedenNullable(dato));
                         }}
                         antallÅrFrem={2}
                         antallÅrTilbake={1}
-                    />
-                ) : (
-                    <MonthInput
-                        label="Til"
-                        size="small"
-                        value={tom}
-                        feil={feilmeldinger.tom}
-                        onChange={(dato) => {
-                            oppdaterPeriodeForVilkår(
-                                'tom',
-                                dato ? tilSisteDagenIMåneden(dato) : undefined
-                            );
-                        }}
                     />
                 )}
             </FeilmeldingMaksBredde>
