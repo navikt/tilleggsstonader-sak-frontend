@@ -94,9 +94,9 @@ function OpprettFørstegangsbehandlingAdmin() {
             </div>
             <Select label="Stønadstype" onChange={endreStønadstype}>
                 <option value="">- Velg stønadstype -</option>
-                {[Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER].map((stønadstype) => (
+                {Object.keys(Stønadstype).map((stønadstype) => (
                     <option key={stønadstype} value={stønadstype}>
-                        {stønadstypeTilTekst[stønadstype]}
+                        {stønadstypeTilTekst[stønadstype as Stønadstype]}
                     </option>
                 ))}
             </Select>
