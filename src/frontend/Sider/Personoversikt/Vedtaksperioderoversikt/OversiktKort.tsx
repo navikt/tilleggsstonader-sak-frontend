@@ -10,7 +10,7 @@ const Container = styled(VStack)`
     border-radius: 4px;
     padding: 1rem;
     background-color: ${ABgDefault};
-    width: 956px;
+    width: 1020px;
 `;
 
 interface Props {

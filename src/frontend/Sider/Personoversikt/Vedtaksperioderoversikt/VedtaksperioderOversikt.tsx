@@ -2,6 +2,7 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { VedtaksperioderOversiktBoutgifter } from './VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import { useHentFullstendigVedtaksOversikt } from '../../../hooks/useHentFullstendigVedtaksOversikt';
@@ -26,6 +27,9 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                     />
                     <VedtaksperioderOversiktLæremidler
                         vedtaksperioder={vedtaksperioderOversikt.læremidler}
+                    />
+                    <VedtaksperioderOversiktBoutgifter
+                        vedtaksperioder={vedtaksperioderOversikt.boutgifter}
                     />
                 </VStack>
             )}

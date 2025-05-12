@@ -1,3 +1,4 @@
+import { TypeBoutgift } from './vedtakBoutgifter';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
@@ -5,6 +6,7 @@ import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkå
 export interface VedtakperioderOversiktResponse {
     tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
+    boutgifter: DetaljertVedtaksperiodeBoutgifter[];
 }
 
 export type DetaljertVedtaksperiodeTilsynBarn = {
@@ -25,4 +27,15 @@ export type DetaljertVedtaksperiodeLæremidler = {
     studienivå: Studienivå;
     studieprosent: number;
     månedsbeløp: number;
+};
+
+export type DetaljertVedtaksperiodeBoutgifter = {
+    fom: string;
+    tom: string;
+    antallMåneder: number;
+    type: TypeBoutgift;
+    aktivitet: AktivitetType;
+    målgruppe: FaktiskMålgruppe;
+    utgift: number;
+    stønad: number;
 };
