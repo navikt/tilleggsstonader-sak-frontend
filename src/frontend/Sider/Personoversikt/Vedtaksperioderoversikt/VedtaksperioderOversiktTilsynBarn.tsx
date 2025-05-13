@@ -24,7 +24,9 @@ export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperi
                         <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Ant. barn</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Utgifter</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'right'}>
+                            Utgifter
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -44,8 +46,8 @@ export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperi
                                     {faktiskMålgruppeTilTekst(periode.målgruppe)}
                                 </Table.DataCell>
                                 <Table.DataCell>{periode.antallBarn}</Table.DataCell>
-                                <Table.DataCell>
-                                    {formaterTallMedTusenSkille(periode.totalMånedsUtgift)}
+                                <Table.DataCell align={'right'}>
+                                    {formaterTallMedTusenSkille(periode.totalMånedsUtgift)} kr
                                 </Table.DataCell>
                             </Table.Row>
                         );

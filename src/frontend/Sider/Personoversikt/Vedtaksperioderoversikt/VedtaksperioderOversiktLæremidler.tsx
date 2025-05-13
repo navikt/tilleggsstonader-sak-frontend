@@ -27,7 +27,9 @@ export const VedtaksperioderOversiktLæremidler: React.FC<Props> = ({ vedtaksper
                         <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Nivå</Table.HeaderCell>
-                        <Table.HeaderCell scope="col">Prosent</Table.HeaderCell>
+                        <Table.HeaderCell scope="col" align={'right'}>
+                            Prosent
+                        </Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'right'}>
                             Månedsbeløp
                         </Table.HeaderCell>

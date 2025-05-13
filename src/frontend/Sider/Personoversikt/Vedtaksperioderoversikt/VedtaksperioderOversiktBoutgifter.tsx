@@ -27,7 +27,7 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                         <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Type</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={'center'}>
+                        <Table.HeaderCell scope="col" align={'right'}>
                             Utgift
                         </Table.HeaderCell>
                         <Table.HeaderCell scope="col" align={'right'}>
