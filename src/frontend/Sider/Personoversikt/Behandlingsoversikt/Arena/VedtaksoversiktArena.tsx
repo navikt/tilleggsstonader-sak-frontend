@@ -34,7 +34,7 @@ export const VedtaksoversiktArena: React.FC<{ fagsakPersonId: string }> = ({ fag
             {!visVedtaksperiodeOversikt && <Heading size="small">Vedtak i Arena</Heading>}
             <DataViewer response={{ vedtakArena }}>
                 {({ vedtakArena }) => (
-                    <Vedtakstabell>
+                    <Vedtakstabell size={'small'}>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell scope="col">Rettighetstype</Table.HeaderCell>

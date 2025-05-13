@@ -83,10 +83,7 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
         if (tab.path === 'vedtaksperioder' && !visVedtaksperiodeOversikt) {
             return false;
         }
-        if (tab.path === 'arena' && visVedtaksperiodeOversikt) {
-            return false;
-        }
-        return true;
+        return !(tab.path === 'arena' && visVedtaksperiodeOversikt);
     });
 
     return (
