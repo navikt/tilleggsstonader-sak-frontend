@@ -47,19 +47,17 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                             <Table.DataCell>{periode.sumUtgifter}</Table.DataCell>
                             <Table.DataCell>{periode.stønadsbeløp}</Table.DataCell>
                         </TableRow>
-                        {Object.values(periode.utgifter)
-                            .flat()
-                            .map((utgift, index, utgifter) => (
-                                <TableRowGray
-                                    key={utgift.fom + utgift.tom}
-                                    borderbottom={index === utgifter.length - 1}
-                                >
-                                    <Table.DataCell />
-                                    <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
-                                    <Table.DataCell>{utgift.utgift}</Table.DataCell>
-                                    <Table.DataCell />
-                                </TableRowGray>
-                            ))}
+                        {periode.utgifter.map((utgift, index, utgifter) => (
+                            <TableRowGray
+                                key={utgift.fom + utgift.tom}
+                                borderbottom={index === utgifter.length - 1}
+                            >
+                                <Table.DataCell />
+                                <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
+                                <Table.DataCell>{utgift.utgift}</Table.DataCell>
+                                <Table.DataCell>{utgift.tilUtbetaling}</Table.DataCell>
+                            </TableRowGray>
+                        ))}
                     </React.Fragment>
                 ))}
             </Table.Header>
