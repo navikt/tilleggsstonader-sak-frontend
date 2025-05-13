@@ -2,11 +2,13 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktBoutgifter } from './VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import { useHentFullstendigVedtaksOversikt } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../../komponenter/DataViewer';
+import { VedtaksoversiktArena } from '../Behandlingsoversikt/Arena/VedtaksoversiktArena';
 
 interface Props {
     fagsakPersonId: string;
@@ -31,6 +33,13 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                     <VedtaksperioderOversiktBoutgifter
                         vedtaksperioder={vedtaksperioderOversikt.boutgifter}
                     />
+                    <OversiktKort
+                        tittel={'TS vedtak i Arena'}
+                        tagTittel={'Arena'}
+                        tagVariant={'info'}
+                    >
+                        <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />
+                    </OversiktKort>
                 </VStack>
             )}
         </DataViewer>

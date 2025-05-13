@@ -10,21 +10,23 @@ const Container = styled(VStack)`
     border-radius: 4px;
     padding: 1rem;
     background-color: ${ABgDefault};
-    width: 1020px;
+    width: 1200px;
 `;
 
 interface Props {
     tittel: string;
+    tagTittel?: string;
+    tagVariant?: 'info' | 'alt2';
     children: React.ReactNode;
 }
 
-export const OversiktKort: React.FC<Props> = ({ tittel, children }) => {
+export const OversiktKort: React.FC<Props> = ({ tittel, tagTittel, tagVariant, children }) => {
     return (
         <Container gap={'6'}>
             <HStack justify={'space-between'}>
                 <Heading size={'small'}>{tittel}</Heading>
-                <Tag size={'small'} variant="alt2">
-                    TS-Sak
+                <Tag size={'small'} variant={tagVariant ? tagVariant : 'alt2'}>
+                    {tagTittel ? tagTittel : 'TS - Sak'}
                 </Tag>
             </HStack>
             {children}

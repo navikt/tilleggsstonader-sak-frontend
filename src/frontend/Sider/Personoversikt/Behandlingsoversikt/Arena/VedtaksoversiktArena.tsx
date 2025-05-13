@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Heading, Table } from '@navikt/ds-react';
@@ -10,6 +11,7 @@ import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { byggTomRessurs, Ressurs } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato, formaterNullablePeriode } from '../../../../utils/dato';
+import { Toggle } from '../../../../utils/toggles';
 
 const Vedtakstabell = styled(Table)`
     max-width: 1200px;
@@ -26,9 +28,10 @@ export const VedtaksoversiktArena: React.FC<{ fagsakPersonId: string }> = ({ fag
         );
     }, [request, fagsakPersonId]);
 
+    const visVedtaksperiodeOversikt = useFlag(Toggle.SKAL_VISE_VEDTAKSPERIODER_TAB);
     return (
         <>
-            <Heading size="small">Vedtak i Arena</Heading>
+            {!visVedtaksperiodeOversikt && <Heading size="small">Vedtak i Arena</Heading>}
             <DataViewer response={{ vedtakArena }}>
                 {({ vedtakArena }) => (
                     <Vedtakstabell>
