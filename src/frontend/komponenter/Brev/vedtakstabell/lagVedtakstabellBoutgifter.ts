@@ -22,7 +22,7 @@ const lagBeregningstabell = (
                     <tr>
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
                         <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Merutgift</th>
-                        <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Beløpet du får</th>
+                        <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Stønadsbeløp</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,18 +36,26 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
         return '';
     }
     return beregningsresultat.perioder
-        .map((periode) => {
-            const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
-            const merutgift = formaterTallMedTusenSkille(periode.sumUtgifter);
-            const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
-            // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
-            const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
+        .map((periode) =>
+            periode.utgifter
+                .filter((utgift) => !utgift.erFørRevurderFra)
+                .map((utgift) => {
+                    const datoperiode = formaterIsoPeriodeMedTankestrek({
+                        fom: utgift.fom,
+                        tom: utgift.tom,
+                    });
+                    const merutgift = formaterTallMedTusenSkille(utgift.utgift);
+                    const stønadsbeløp = formaterTallMedTusenSkille(utgift.tilUtbetaling);
+                    // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
+                    // const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
 
-            return `<tr style="text-align: right;">
+                    return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
                         <td style="${borderStyling}">${merutgift} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløp} kr${asteriksForSatsendring}</td>
+                        <td style="${borderStyling}">${stønadsbeløp} kr</td>
                     </tr>`;
-        })
-        .join('');
+                })
+        )
+        .join('')
+        .replaceAll(',', '');
 };

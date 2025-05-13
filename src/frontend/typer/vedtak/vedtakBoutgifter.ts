@@ -1,8 +1,6 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
-import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
-import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 
 export type VedtakBoutgifter = InnvilgelseBoutgifter | AvslagBoutgifter | OpphørBoutgifter;
 
@@ -48,6 +46,7 @@ export type BeregnBoutgifterRequest = {
 
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
+    skalBrukeDetaljertVisning: boolean;
 };
 
 export enum BeregningsresultatUtgifterKeys {
@@ -56,25 +55,20 @@ export enum BeregningsresultatUtgifterKeys {
     LØPENDE_UTGIFTER_TO_BOLIGER = 'LØPENDE_UTGIFTER_TO_BOLIGER',
 }
 
-export type BeregningsresultatUtgifterMap = {
-    [key in BeregningsresultatUtgifterKeys]: BeregningsresultatUtgifter[];
-};
-
 export type BeregningsresultatUtgifter = {
     fom: string;
     tom: string;
     utgift: number;
+    tilUtbetaling: number;
+    erFørRevurderFra: boolean;
 };
 
 type Beregningsresultat = {
-    stønadsbeløp: number;
     fom: string;
     tom: string;
-    utbetalingsdato: string;
+    stønadsbeløp: number;
     sumUtgifter: number;
-    utgifter: BeregningsresultatUtgifterMap;
-    målgruppe: FaktiskMålgruppe;
-    aktivitet: AktivitetType;
+    utgifter: BeregningsresultatUtgifter[];
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
 };
