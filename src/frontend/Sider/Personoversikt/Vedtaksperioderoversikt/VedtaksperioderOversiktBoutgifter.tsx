@@ -3,7 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { OversiktKort } from './OversiktKort';
-import { typeBoutgiftTilTekst } from '../../../typer/vedtak/vedtakBoutgifter';
+import { TypeBoutgift, typeBoutgiftTilTekst } from '../../../typer/vedtak/vedtakBoutgifter';
 import { DetaljertVedtaksperiodeBoutgifter } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
@@ -21,9 +21,13 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                     <Table.Row>
                         <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Til</Table.HeaderCell>
-                        <Table.HeaderCell scope="col" align={'center'}>
-                            Ant.mnd
-                        </Table.HeaderCell>
+                        {!vedtaksperioder.some(
+                            (periode) => periode.type === TypeBoutgift.UTGIFTER_OVERNATTING
+                        ) && (
+                            <Table.HeaderCell scope="col" align="center">
+                                Ant.mnd
+                            </Table.HeaderCell>
+                        )}
                         <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Type</Table.HeaderCell>
@@ -45,9 +49,11 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                                 <Table.DataCell>
                                     {formaterNullableIsoDato(periode.tom)}
                                 </Table.DataCell>
-                                <Table.DataCell align={'center'}>
-                                    {periode.antallMåneder}
-                                </Table.DataCell>
+                                {periode.type !== TypeBoutgift.UTGIFTER_OVERNATTING && (
+                                    <Table.DataCell align={'center'}>
+                                        {periode.antallMåneder}
+                                    </Table.DataCell>
+                                )}
                                 <Table.DataCell>
                                     {aktivitetTypeTilTekst(periode.aktivitet)}
                                 </Table.DataCell>
