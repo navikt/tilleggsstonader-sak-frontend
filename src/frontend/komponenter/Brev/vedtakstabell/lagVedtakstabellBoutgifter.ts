@@ -1,6 +1,7 @@
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
+import { Periode } from '../../../utils/periode';
 import { variabelBeregningstabellId } from '../variablerUtils';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
@@ -26,12 +27,18 @@ const lagBeregningstabell = (
                     </tr>
                 </thead>
                 <tbody>
-                    ${lagRaderForVedtak(beregningsresultat)}
+               ${
+                   beregningsresultat?.inneholderUtgifterOvernatting
+                       ? lagRaderForVedtakMidlertidigOvernatting(beregningsresultat)
+                       : lagRaderForVedtakLøpendeUtgifter(beregningsresultat)
+               }
                 </tbody>
             </table>`;
 };
 
-const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): string => {
+const lagRaderForVedtakMidlertidigOvernatting = (
+    beregningsresultat?: BeregningsresultatBoutgifter
+): string => {
     if (!beregningsresultat) {
         return '';
     }
@@ -39,23 +46,39 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
         .map((periode) =>
             periode.utgifterTilUtbetaling
                 .filter((utgift) => !utgift.erFørRevurderFra)
-                .map((utgift) => {
-                    const datoperiode = formaterIsoPeriodeMedTankestrek({
-                        fom: utgift.fom,
-                        tom: utgift.tom,
-                    });
-                    const merutgift = formaterTallMedTusenSkille(utgift.utgift);
-                    const stønadsbeløp = formaterTallMedTusenSkille(utgift.tilUtbetaling);
-                    // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
-                    // const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
-
-                    return `<tr style="text-align: right;">
-                        <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
-                        <td style="${borderStyling}">${merutgift} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløp} kr</td>
-                    </tr>`;
-                })
+                .map((utgift) =>
+                    lagRadForVedtak(
+                        { fom: utgift.fom, tom: utgift.tom },
+                        utgift.utgift,
+                        utgift.tilUtbetaling
+                    )
+                )
         )
         .join('')
         .replaceAll(',', '');
+};
+
+const lagRaderForVedtakLøpendeUtgifter = (
+    beregningsresultat?: BeregningsresultatBoutgifter
+): string => {
+    if (!beregningsresultat) {
+        return '';
+    }
+    return beregningsresultat.perioder
+        .map((periode) => lagRadForVedtak(periode, periode.sumUtgifter, periode.stønadsbeløp))
+        .join('');
+};
+
+const lagRadForVedtak = (datoperiode: Periode, merutgift: number, stønadsbeløp: number) => {
+    const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
+    const merutgiftString = formaterTallMedTusenSkille(merutgift);
+    const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
+    // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
+    // const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
+
+    return `<tr style="text-align: right;">
+                        <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
+                        <td style="${borderStyling}">${merutgiftString} kr</td>
+                        <td style="${borderStyling}">${stønadsbeløpString} kr</td>
+                    </tr>`;
 };
