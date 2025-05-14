@@ -15,7 +15,7 @@ const BeregningsresultatContainer: React.FC<{
     );
 
     const skalBrukeDetaljertVisning = () =>
-        skalViseDetaljertBeregningsresultat && beregningsresultat.skalBrukeDetaljertVisning;
+        skalViseDetaljertBeregningsresultat && beregningsresultat.inneholderUtgifterOvernatting;
 
     return skalBrukeDetaljertVisning() ? (
         <BeregningsresultatMedUtgift beregningsresultat={beregningsresultat} />

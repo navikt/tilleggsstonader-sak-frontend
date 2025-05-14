@@ -46,7 +46,7 @@ export type BeregnBoutgifterRequest = {
 
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
-    skalBrukeDetaljertVisning: boolean;
+    inneholderUtgifterOvernatting: boolean;
 };
 
 export enum BeregningsresultatUtgifterKeys {
@@ -68,7 +68,7 @@ type Beregningsresultat = {
     tom: string;
     stønadsbeløp: number;
     sumUtgifter: number;
-    utgifter: BeregningsresultatUtgifter[];
+    utgifterTilUtbetaling: BeregningsresultatUtgifter[];
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
 };

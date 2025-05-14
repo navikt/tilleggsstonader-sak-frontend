@@ -37,7 +37,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatBoutgifter): s
     }
     return beregningsresultat.perioder
         .map((periode) =>
-            periode.utgifter
+            periode.utgifterTilUtbetaling
                 .filter((utgift) => !utgift.erFørRevurderFra)
                 .map((utgift) => {
                     const datoperiode = formaterIsoPeriodeMedTankestrek({
