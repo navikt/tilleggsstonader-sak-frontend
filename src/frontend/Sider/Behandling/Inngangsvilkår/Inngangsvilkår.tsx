@@ -51,21 +51,28 @@ const Inngangsvilkår = () => {
                 }}
             >
                 {({ vilkårperioderResponse }) => (
-                    <InngangsvilkårProvider vilkårperioder={vilkårperioderResponse.vilkårperioder}>
-                        <OppdaterGrunnlagKnapp
-                            vilkårperioder={vilkårperioderResponse}
-                            hentVilkårperioder={hentVilkårperioder}
-                        />
-                        <VStack gap="8">
-                            <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
-                            <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                        </VStack>
-                    </InngangsvilkårProvider>
+                    <>
+                        <InngangsvilkårProvider
+                            vilkårperioder={vilkårperioderResponse.vilkårperioder}
+                        >
+                            <OppdaterGrunnlagKnapp
+                                vilkårperioder={vilkårperioderResponse}
+                                hentVilkårperioder={hentVilkårperioder}
+                            />
+                            <VStack gap="8">
+                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                                <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
+                            </VStack>
+                        </InngangsvilkårProvider>
+                        <StegKnapp
+                            steg={Steg.INNGANGSVILKÅR}
+                            nesteFane={nesteFane(behandling.stønadstype)}
+                        >
+                            Ferdigstill inngangsvilkår og gå videre
+                        </StegKnapp>
+                    </>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.INNGANGSVILKÅR} nesteFane={nesteFane(behandling.stønadstype)}>
-                Ferdigstill inngangsvilkår og gå videre
-            </StegKnapp>
         </Container>
     );
 };
