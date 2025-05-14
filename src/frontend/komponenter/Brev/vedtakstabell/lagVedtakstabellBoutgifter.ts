@@ -53,9 +53,9 @@ const lagRaderForVedtakMidlertidigOvernatting = (
                         utgift.tilUtbetaling
                     )
                 )
+                .join('')
         )
-        .join('')
-        .replaceAll(',', '');
+        .join('');
 };
 
 const lagRaderForVedtakLøpendeUtgifter = (
