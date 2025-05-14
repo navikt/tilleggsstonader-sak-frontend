@@ -50,7 +50,8 @@ const lagRaderForVedtakMidlertidigOvernatting = (
                     lagRadForVedtak(
                         { fom: utgift.fom, tom: utgift.tom },
                         utgift.utgift,
-                        utgift.tilUtbetaling
+                        utgift.tilUtbetaling,
+                        periode.makssatsBekreftet
                     )
                 )
                 .join('')
@@ -65,20 +66,32 @@ const lagRaderForVedtakLøpendeUtgifter = (
         return '';
     }
     return beregningsresultat.perioder
-        .map((periode) => lagRadForVedtak(periode, periode.sumUtgifter, periode.stønadsbeløp))
+        .map((periode) =>
+            lagRadForVedtak(
+                periode,
+                periode.sumUtgifter,
+                periode.stønadsbeløp,
+                periode.makssatsBekreftet
+            )
+        )
         .join('');
 };
 
-const lagRadForVedtak = (datoperiode: Periode, merutgift: number, stønadsbeløp: number) => {
+const lagRadForVedtak = (
+    datoperiode: Periode,
+    merutgift: number,
+    stønadsbeløp: number,
+    makssatsBekreftet: boolean
+) => {
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     const merutgiftString = formaterTallMedTusenSkille(merutgift);
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
     // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
-    // const asteriksForSatsendring = periode.makssatsBekreftet ? '' : '*';
+    const asteriksForSatsendring = makssatsBekreftet ? '' : '*';
 
     return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløpString} kr</td>
+                        <td style="${borderStyling}">${stønadsbeløpString} kr${asteriksForSatsendring}</td>
                     </tr>`;
 };
