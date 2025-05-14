@@ -10,7 +10,7 @@ import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../utils/dato';
 
 const formaterYtelsesHeader = (ytelser: Registerytelser) => {
-    const infotyper = ytelser.hentetInformasjon.map((info) => registerYtelseTilTekst[info.type]);
+    const infotyper = ytelser.kildeResultat.map((info) => registerYtelseTilTekst[info.type]);
     const sisteType = infotyper.pop();
     const dato = formaterTilTekstligDato(ytelser.tidspunktHentet);
     return 'Perioder med ' + infotyper.join(', ') + ' eller ' + sisteType + ' fra og med ' + dato;
@@ -39,17 +39,17 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
                     <Heading size={'small'} spacing>
                         {formaterYtelsesHeader(ytelser)}
                     </Heading>
-                    {ytelser.hentetInformasjon
-                        .filter((info) => info.status === 'FEILET')
-                        .map((hentetInformasjon) => (
+                    {ytelser.kildeResultat
+                        .filter((kildeResultat) => kildeResultat.resultat === 'FEILET')
+                        .map((kildeResultat) => (
                             <Alert
-                                key={hentetInformasjon.type}
+                                key={kildeResultat.type}
                                 variant={'warning'}
                                 size={'small'}
                                 style={{ maxWidth: 'fit-content' }}
                             >
                                 Feilet ved henting av informasjon fra{' '}
-                                {registerYtelseTilTekst[hentetInformasjon.type]}
+                                {registerYtelseTilTekst[kildeResultat.type]}
                             </Alert>
                         ))}
                     <YtelserTabell perioder={ytelser.perioder} />

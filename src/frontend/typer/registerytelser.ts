@@ -2,7 +2,7 @@ import { MålgruppeType } from '../Sider/Behandling/Inngangsvilkår/typer/vilkå
 
 export interface Registerytelser {
     perioder: PeriodeYtelseRegister[];
-    hentetInformasjon: HentetInformasjon[];
+    kildeResultat: KildeResultatYtelse[];
     tidspunktHentet: string;
 }
 
@@ -22,9 +22,9 @@ export const ensligForsørgerStønadstypeTekst: Record<EnsligForsørgerStønadst
     BARNETILSYN: 'Barnetilsyn (Enslig forsørger)',
 };
 
-export interface HentetInformasjon {
+export interface KildeResultatYtelse {
     type: TypeRegisterYtelse;
-    status: 'OK' | 'FEILET';
+    resultat: 'OK' | 'FEILET';
 }
 
 export enum TypeRegisterYtelse {
