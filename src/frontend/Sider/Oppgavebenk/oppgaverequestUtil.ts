@@ -6,7 +6,7 @@ export const OPPGAVE_SIDE_STØRRELSE = 15;
 export const defaultSortering: Pick<OppgaveRequest, 'offset' | 'limit' | 'order' | 'orderBy'> = {
     offset: 0,
     limit: OPPGAVE_SIDE_STØRRELSE,
-    orderBy: 'OPPRETTET_TIDSPUNKT',
+    orderBy: 'FRIST',
     order: 'ASC',
 };
 
