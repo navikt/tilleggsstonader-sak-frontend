@@ -20,7 +20,7 @@ export const Begrunnelsesfelt: React.FC<{
                 resize
                 size="small"
                 minRows={2}
-                value={begrunnelse}
+                value={begrunnelse || ''}
                 readOnly={!erStegRedigerbart}
                 onChange={(e) => {
                     oppdaterBegrunnelse(e.target.value);
