@@ -5,9 +5,10 @@ import styled from 'styled-components';
 import SimuleringResultatWrapper from './SimuleringResultatWrapper';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
+import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
-    margin: 2rem;
+    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -20,6 +21,7 @@ const Simulering: React.FC = () => {
 
     return (
         <Container>
+            <VarselVedtakIArena />
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => <SimuleringResultatWrapper vedtak={vedtak} />}
             </DataViewer>

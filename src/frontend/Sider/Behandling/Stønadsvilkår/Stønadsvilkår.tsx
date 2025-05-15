@@ -17,9 +17,10 @@ import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { StønadsvilkårPassBarn } from './PassBarn/StønadsvilkårPassBarn';
+import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
-    margin: 2rem;
+    margin: 0.5rem 2rem 2rem 2rem;
 `;
 
 const Stønadsvilkår: React.FC<{
@@ -40,6 +41,7 @@ const Stønadsvilkår: React.FC<{
 
     return (
         <Container>
+            <VarselVedtakIArena />
             <VarselRevurderFraDatoMangler />
             <DataViewer
                 response={{

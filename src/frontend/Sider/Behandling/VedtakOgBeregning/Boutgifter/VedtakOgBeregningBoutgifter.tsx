@@ -18,11 +18,12 @@ import {
 } from '../../../../typer/vedtak/vedtakBoutgifter';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling';
+import { VarselVedtakIArena } from '../../Felles/VarselVedtakIArena';
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 
 const Container = styled.div`
-    padding: 2rem 2rem;
+    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -43,6 +44,7 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
             <DataViewer response={{ vedtak }}>
                 {({ vedtak }) => (
                     <Container>
+                        <VarselVedtakIArena />
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
