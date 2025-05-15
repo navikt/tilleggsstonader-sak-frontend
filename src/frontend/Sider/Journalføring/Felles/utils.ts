@@ -86,7 +86,11 @@ export const utledNesteJournalføringsårsak = (prevState: Journalføringsårsak
         ? Journalføringsårsak.KLAGE_TILBAKEKREVING
         : Journalføringsårsak.KLAGE;
 
-export const valgbareStønadstyper = [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER];
+export const valgbareStønadstyper = [
+    Stønadstype.BARNETILSYN,
+    Stønadstype.LÆREMIDLER,
+    Stønadstype.BOUTGIFTER,
+];
 
 export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) => [
     Journalføringsårsak.IKKE_VALGT,
