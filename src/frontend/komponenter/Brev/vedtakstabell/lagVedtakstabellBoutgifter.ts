@@ -8,15 +8,20 @@ const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 
 export const lagVedtakstabellBoutgifter = (
-    beregningsresultat: BeregningsresultatBoutgifter | undefined
+    beregningsresultat: BeregningsresultatBoutgifter | undefined,
+    skalViseDetaljertBeregningsresultatFlag: boolean
 ) => {
     return {
-        [variabelBeregningstabellId]: lagBeregningstabell(beregningsresultat),
+        [variabelBeregningstabellId]: lagBeregningstabell(
+            beregningsresultat,
+            skalViseDetaljertBeregningsresultatFlag
+        ),
     };
 };
 
 const lagBeregningstabell = (
-    beregningsresultat: BeregningsresultatBoutgifter | undefined
+    beregningsresultat: BeregningsresultatBoutgifter | undefined,
+    skalViseDetaljertBeregningsresultatFlag: boolean
 ): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
@@ -28,18 +33,14 @@ const lagBeregningstabell = (
                 </thead>
                 <tbody>
                ${
+                   skalViseDetaljertBeregningsresultatFlag &&
                    beregningsresultat?.inneholderUtgifterOvernatting
                        ? lagRaderForVedtakMidlertidigOvernatting(beregningsresultat)
                        : lagRaderForVedtakLøpendeUtgifter(beregningsresultat)
                }
                 </tbody>
             </table>
-            ${
-                skalHaTekstForBegrensetAvMakssats(beregningsresultat) &&
-                `<p style="margin-left: 2px; margin-right: 2px; margin-top: 1px; padding: 0;">
-                    * beløpet er begrenset av makssats
-                </p>`
-            }
+            ${lagTekstForBegrensetAvMakssats(skalViseDetaljertBeregningsresultatFlag, beregningsresultat)}
             `;
 };
 
@@ -107,7 +108,21 @@ const lagRadForVedtak = (
                     </tr>`;
 };
 
-const skalHaTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatBoutgifter) =>
+const lagTekstForBegrensetAvMakssats = (
+    skalViseDetaljertBeregningsresultatFlag: boolean,
+    beregningsresultat?: BeregningsresultatBoutgifter
+) =>
+    skalHaTekstForBegrensetAvMakssats(skalViseDetaljertBeregningsresultatFlag, beregningsresultat)
+        ? `<p style="margin-left: 2px; margin-right: 2px; margin-top: 1px; padding: 0;">
+                    * beløpet er begrenset av makssats
+                </p>`
+        : '';
+
+const skalHaTekstForBegrensetAvMakssats = (
+    skalViseDetaljertBeregningsresultatFlag: boolean,
+    beregningsresultat?: BeregningsresultatBoutgifter
+) =>
+    skalViseDetaljertBeregningsresultatFlag &&
     beregningsresultat?.inneholderUtgifterOvernatting &&
     beregningsresultat.perioder.some((periode) =>
         periode.utgifterTilUtbetaling.some((utgift) => utgift.tilUtbetaling < utgift.utgift)

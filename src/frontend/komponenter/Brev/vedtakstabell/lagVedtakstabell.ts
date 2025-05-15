@@ -18,7 +18,8 @@ const TOM_VEDTAKSTABELL = {};
  */
 export const lagVedtakstabell = (
     behandling: Behandling | undefined,
-    vedtak: VedtakResponse | undefined
+    vedtak: VedtakResponse | undefined,
+    skalViseDetaljertBeregningsresultatFlag: boolean
 ): LagVedtakstabell => {
     if (!behandling || !vedtak) {
         return TOM_VEDTAKSTABELL;
@@ -38,7 +39,8 @@ export const lagVedtakstabell = (
             );
         case Stønadstype.BOUTGIFTER:
             return lagVedtakstabellBoutgifter(
-                vedtak.beregningsresultat as BeregningsresultatBoutgifter
+                vedtak.beregningsresultat as BeregningsresultatBoutgifter,
+                skalViseDetaljertBeregningsresultatFlag
             );
         default:
             return TOM_VEDTAKSTABELL;
