@@ -1,4 +1,3 @@
-import { TypeBoutgift } from './vedtakBoutgifter';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
@@ -33,9 +32,17 @@ export type DetaljertVedtaksperiodeBoutgifter = {
     fom: string;
     tom: string;
     antallMåneder: number;
-    type: TypeBoutgift;
+    erLøpendeUtgift: boolean;
     aktivitet: AktivitetType;
     målgruppe: FaktiskMålgruppe;
-    utgift: number;
-    stønad: number;
+    totalUtgiftMåned: number;
+    stønadsbeløpMnd: number;
+    utgifterTilOvernatting?: UtgiftBoutgift[];
 };
+
+export interface UtgiftBoutgift {
+    fom: string;
+    tom: string;
+    utgift: number;
+    beløpSomDekkes: number;
+}
