@@ -21,6 +21,7 @@ import {
 
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
+import DateInput from '../../komponenter/Skjema/DateInput';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import {
     byggHenterRessurs,
@@ -57,6 +58,7 @@ interface OpprettFørstegansbehandlingRequest {
     ident: string;
     valgteBarn: string[];
     medBrev: boolean;
+    kravMottatt: string;
 }
 
 const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
@@ -116,6 +118,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const navigate = useNavigate();
     const [ident, settIdent] = useState<string>('');
     const [medBrev, settMedBrev] = useState<boolean>(true);
+    const [kravMottatt, settKravMottatt] = useState<string>('');
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
 
@@ -145,7 +148,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { stønadstype, ident, valgteBarn, medBrev }
+            { stønadstype, ident, valgteBarn, medBrev, kravMottatt }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -181,6 +184,11 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         <BodyShort>
                             <b>Navn: </b> {personinfo.navn}
                         </BodyShort>
+                        <DateInput
+                            label={'Krav mottatt'}
+                            onChange={(dato) => settKravMottatt(dato || '')}
+                            toDate={new Date()}
+                        />
                         <RadioGroup
                             legend={
                                 <HStack gap={'2'}>
