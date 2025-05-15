@@ -22,4 +22,5 @@ export enum Toggle {
      */
     TILLATER_NULLVEDAK = `sak.tillater_nullvedtak`,
     SKAL_VISE_DETALJERT_BEREGNINGSRESULTAT = `sak.detaljert_beregningsresultat`,
+    SKAL_VISE_VEDTAKSPERIODER_TAB = `sak.frontend.skal-vise-vedtaksperiode-tab`,
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -11,7 +12,9 @@ import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
+import { VedtaksperioderOversikt } from './Vedtaksperioderoversikt/VedtaksperioderOversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
+import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {
     label: string;
@@ -41,7 +44,12 @@ const tabs: TabWithRouter[] = [
         komponent: (fagsakPersonId) => <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />,
     },
     {
-        label: 'Ytelser',
+        label: 'Vedtaksperioder',
+        path: 'vedtaksperioder',
+        komponent: (fagsakPersonId) => <VedtaksperioderOversikt fagsakPersonId={fagsakPersonId} />,
+    },
+    {
+        label: 'Andre ytelser',
         path: 'ytelser',
         komponent: (fagsakPersonId) => <Ytelseoversikt fagsakPersonId={fagsakPersonId} />,
     },
@@ -70,7 +78,13 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const paths = useLocation().pathname.split('/').slice(-1);
     const path = paths.length ? paths[paths.length - 1] : '';
 
-    const tabsSomSkalVises = tabs;
+    const visVedtaksperiodeOversikt = useFlag(Toggle.SKAL_VISE_VEDTAKSPERIODER_TAB);
+    const tabsSomSkalVises = tabs.filter((tab) => {
+        if (tab.path === 'vedtaksperioder' && !visVedtaksperiodeOversikt) {
+            return false;
+        }
+        return !(tab.path === 'arena' && visVedtaksperiodeOversikt);
+    });
 
     return (
         <>

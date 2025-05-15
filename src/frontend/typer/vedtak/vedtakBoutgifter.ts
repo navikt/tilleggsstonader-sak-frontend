@@ -6,6 +6,22 @@ import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilk
 
 export type VedtakBoutgifter = InnvilgelseBoutgifter | AvslagBoutgifter | OpphørBoutgifter;
 
+export enum TypeBoutgift {
+    UTGIFTER_OVERNATTING = 'UTGIFTER_OVERNATTING',
+    LØPENDE_UTGIFTER_EN_BOLIG = 'LØPENDE_UTGIFTER_EN_BOLIG',
+    LØPENDE_UTGIFTER_TO_BOLIGER = 'LØPENDE_UTGIFTER_TO_BOLIGER',
+}
+
+export const TypeboutgiftTilTekst: Record<TypeBoutgift, string> = {
+    UTGIFTER_OVERNATTING: 'Overnatting',
+    LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende',
+    LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende',
+};
+
+export const typeBoutgiftTilTekst = (type: TypeBoutgift) => {
+    return TypeboutgiftTilTekst[type];
+};
+
 export const vedtakErInnvilgelse = (vedtak: VedtakBoutgifter): vedtak is InnvilgelseBoutgifter =>
     vedtak.type === TypeVedtak.INNVILGELSE;
 
