@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Button, HStack, Select, VStack } from '@navikt/ds-react';
+import { Button, HelpText, HStack, Label, Select, VStack } from '@navikt/ds-react';
 
 import BarnTilRevurdering, { BarnTilRevurderingResponse } from './BarnTilRevurdering';
 import MetadataNyeOpplysninger from './MetadataNyeOpplysninger';
@@ -84,8 +84,8 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             settLaster(false);
             return;
         }
-        if (!kravMottatt && årsak === BehandlingÅrsak.PAPIRSØKNAD) {
-            settFeilmelding(lagFeilmelding('Søknadsdato må settes'));
+        if (!kravMottatt) {
+            settFeilmelding(lagFeilmelding('Krav mottatt må settes'));
             settLaster(false);
             return;
         }
@@ -146,14 +146,20 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     </option>
                 )}
             </Select>
-            {årsak === BehandlingÅrsak.PAPIRSØKNAD && (
-                <DateInput
-                    label={`Søknadsdato`}
-                    onChange={(dato: string | undefined) => settKravMottatt(dato)}
-                    value={kravMottatt}
-                    toDate={new Date()}
-                />
-            )}
+            <DateInput
+                label={
+                    <HStack gap={'2'}>
+                        <Label>Krav mottatt</Label>
+                        <HelpText title={'Krav mottatt'}>
+                            Krav mottatt kan være når man fikk beskjed om endring eller søknadsdato
+                            i tilfelle årsak er søknad
+                        </HelpText>
+                    </HStack>
+                }
+                onChange={(dato: string | undefined) => settKravMottatt(dato)}
+                value={kravMottatt}
+                toDate={new Date()}
+            />
             {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
                 <MetadataNyeOpplysninger
                     nyeOpplysningerMetadata={nyeOpplysninger}
@@ -171,6 +177,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 />
             )}
 
+            <Feilmelding feil={feilmelding} />
             <HStack gap="4" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">
                     Avbryt
@@ -184,7 +191,6 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     Lagre
                 </Button>
             </HStack>
-            <Feilmelding feil={feilmelding} />
         </VStack>
     );
 };

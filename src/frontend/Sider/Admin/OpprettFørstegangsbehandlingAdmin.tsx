@@ -11,6 +11,7 @@ import {
     Heading,
     HelpText,
     HStack,
+    Label,
     List,
     Radio,
     RadioGroup,
@@ -21,6 +22,7 @@ import {
 
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
+import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import DateInput from '../../komponenter/Skjema/DateInput';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import {
@@ -121,6 +123,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [kravMottatt, settKravMottatt] = useState<string>('');
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
+    const [feilmelding, settFeilmelding] = useState<string>();
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -144,6 +147,10 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     };
 
     const opprettBehandling = () => {
+        if (!kravMottatt) {
+            settFeilmelding('Krav mottatt må fylles ut');
+            return;
+        }
         settOpprettBehandlingResponse(byggHenterRessurs());
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
@@ -185,7 +192,15 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                             <b>Navn: </b> {personinfo.navn}
                         </BodyShort>
                         <DateInput
-                            label={'Krav mottatt'}
+                            label={
+                                <HStack gap={'2'}>
+                                    <Label>Krav mottatt</Label>
+                                    <HelpText title={'Krav mottatt'}>
+                                        Krav mottatt kan være når man fikk beskjed om endring eller
+                                        søknadsdato i tilfelle årsak er søknad
+                                    </HelpText>
+                                </HStack>
+                            }
                             onChange={(dato) => settKravMottatt(dato || '')}
                             toDate={new Date()}
                         />
@@ -222,6 +237,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                                 ))}
                             </CheckboxGroup>
                         )}
+                        <Feilmelding feil={feilmelding} />
                         <Button variant={'primary'} size={'small'} onClick={opprettBehandling}>
                             Opprett førstegangsbehandling
                         </Button>

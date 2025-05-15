@@ -7,7 +7,7 @@ import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 export interface DateInputProps {
     feil?: ReactNode;
     hideLabel?: boolean;
-    label: string;
+    label: ReactNode;
     onChange: (dato?: string) => void;
     size?: 'small' | 'medium';
     value?: string;
