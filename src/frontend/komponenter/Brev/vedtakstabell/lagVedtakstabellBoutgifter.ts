@@ -33,7 +33,14 @@ const lagBeregningstabell = (
                        : lagRaderForVedtakLøpendeUtgifter(beregningsresultat)
                }
                 </tbody>
-            </table>`;
+            </table>
+            ${
+                skalHaTekstForBegrensetAvMakssats(beregningsresultat) &&
+                `<p style="margin-left: 2px; margin-right: 2px; margin-top: 1px; padding: 0;">
+                    * beløpet er begrenset av makssats
+                </p>`
+            }
+            `;
 };
 
 const lagRaderForVedtakMidlertidigOvernatting = (
@@ -51,7 +58,8 @@ const lagRaderForVedtakMidlertidigOvernatting = (
                         { fom: utgift.fom, tom: utgift.tom },
                         utgift.utgift,
                         utgift.tilUtbetaling,
-                        periode.makssatsBekreftet
+                        periode.makssatsBekreftet,
+                        utgift.utgift > utgift.tilUtbetaling
                     )
                 )
                 .join('')
@@ -71,7 +79,8 @@ const lagRaderForVedtakLøpendeUtgifter = (
                 periode,
                 periode.sumUtgifter,
                 periode.stønadsbeløp,
-                periode.makssatsBekreftet
+                periode.makssatsBekreftet,
+                false
             )
         )
         .join('');
@@ -81,17 +90,25 @@ const lagRadForVedtak = (
     datoperiode: Periode,
     merutgift: number,
     stønadsbeløp: number,
-    makssatsBekreftet: boolean
+    makssatsBekreftet: boolean,
+    begrensetAvMakssats: boolean
 ) => {
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     const merutgiftString = formaterTallMedTusenSkille(merutgift);
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
     // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
     const asteriksForSatsendring = makssatsBekreftet ? '' : '*';
+    const asteriksForBegrensetAvMakssats = begrensetAvMakssats ? '*' : '';
 
     return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløpString} kr${asteriksForSatsendring}</td>
+                        <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForSatsendring} ${asteriksForBegrensetAvMakssats}</td>
                     </tr>`;
 };
+
+const skalHaTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatBoutgifter) =>
+    beregningsresultat?.inneholderUtgifterOvernatting &&
+    beregningsresultat.perioder.some((periode) =>
+        periode.utgifterTilUtbetaling.some((utgift) => utgift.tilUtbetaling < utgift.utgift)
+    );
