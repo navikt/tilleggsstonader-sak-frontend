@@ -6,9 +6,12 @@ import { BodyLong, Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
 import { mappeIdTilMappenavn } from './utils';
-import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableIsoDato } from '../../../utils/dato';
+import {
+    FeilmeldingHåndterOppgave,
+    FeilmeldingHåndterOppgaveModal,
+} from '../../Oppgavebenk/FeilmeldingHåndterOppgaveModal';
 import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
 import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
@@ -32,7 +35,7 @@ const EkspanderbarRad: React.FC<{
     oppdaterOppgaveEtterOppdatering: (oppgave: Oppgave) => void;
     laster: boolean;
     settLaster: React.Dispatch<React.SetStateAction<boolean>>;
-    settFeilmelding: React.Dispatch<React.SetStateAction<string | undefined>>;
+    settFeilmelding: React.Dispatch<React.SetStateAction<FeilmeldingHåndterOppgave | undefined>>;
 }> = ({
     oppgave,
     mapper,
@@ -83,8 +86,9 @@ const Oppgaveliste: React.FC<{
     oppgaver: Oppgave[];
     mapper: Record<number, Mappe>;
     oppdaterOppgaveEtterOppdatering: (oppgave: Oppgave) => void;
-}> = ({ oppgaver, mapper, oppdaterOppgaveEtterOppdatering }) => {
-    const [feilmelding, settFeilmelding] = useState<string>();
+    hentOppgaver: () => void;
+}> = ({ oppgaver, mapper, oppdaterOppgaveEtterOppdatering, hentOppgaver }) => {
+    const [feilmelding, settFeilmelding] = useState<FeilmeldingHåndterOppgave>();
     const [laster, settLaster] = useState<boolean>(false);
 
     return (
@@ -120,7 +124,11 @@ const Oppgaveliste: React.FC<{
                     ))}
                 </Table.Body>
             </Tabell>
-            <Feilmelding feil={feilmelding} />
+            <FeilmeldingHåndterOppgaveModal
+                feilmelding={feilmelding}
+                hentOppgaver={hentOppgaver}
+                nullstillFeilmelding={() => settFeilmelding(undefined)}
+            />
         </FlexColumn>
     );
 };

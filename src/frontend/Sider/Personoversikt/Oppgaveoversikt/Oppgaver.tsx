@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
 
@@ -32,6 +32,15 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
         });
     }, [fagsakPersonId, request]);
 
+    const hentOppgaverPåNytt = useCallback(() => {
+        request<OppgaverResponse, null>(`/api/sak/oppgave/soek/person/${fagsakPersonId}`).then(
+            (response) => {
+                settOppgaveResponse(response);
+                settOppdatertTidspunkt(new Date());
+            }
+        );
+    }, [fagsakPersonId, request]);
+
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveResponse((prevState) =>
             oppdaterOppgaveIOppgaveResponse(prevState, oppdatertOppgave)
@@ -57,6 +66,7 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
                             oppgaver={oppgaveResponse.oppgaver}
                             mapper={mapperTilIdRecord(mapper)}
                             oppdaterOppgaveEtterOppdatering={oppdaterOppgaveEtterOppdatering}
+                            hentOppgaver={hentOppgaverPåNytt}
                         />
                         <Detail>
                             Informasjon hentet: {formaterDatoMedTidspunkt(oppdatertTidspunkt)}

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import constate from 'constate';
 
 import { useApp } from './AppContext';
+import { FeilmeldingHåndterOppgave } from '../Sider/Oppgavebenk/FeilmeldingHåndterOppgaveModal';
 import { hentLagretOppgaveRequest } from '../Sider/Oppgavebenk/filter/oppgavefilterStorage';
 import { defaultOppgaveRequest } from '../Sider/Oppgavebenk/oppgaverequestUtil';
 import { oppdaterOppgaveIOppgaveResponse } from '../Sider/Oppgavebenk/oppgaveutils';
@@ -17,7 +18,8 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     const [laster, settLaster] = useState<boolean>(false);
     const [lasterOppgaveRequestFraLocaleStorage, settLasterOppgaveRequestFraLocaleStorage] =
         useState<boolean>(true);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmeldingHåndterOppgave, settFeilmeldingHåndterOppgave] =
+        useState<FeilmeldingHåndterOppgave>();
 
     const [oppgaveRequest, settOppgaveRequest] = useState<OppgaveRequest>(defaultOppgaveRequest);
 
@@ -54,8 +56,8 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
         settLaster,
         oppgaveRessurs,
         hentOppgaver,
-        feilmelding,
-        settFeilmelding,
+        feilmeldingHåndterOppgave,
+        settFeilmeldingHåndterOppgave,
         oppdaterOppgaveEtterOppdatering,
         lasterOppgaveRequestFraLocaleStorage,
         oppgaveRequest,

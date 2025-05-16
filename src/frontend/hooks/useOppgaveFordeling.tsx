@@ -24,11 +24,16 @@ export const useOppgaveFordeling = (
                     if (res.status === RessursStatus.SUKSESS) {
                         return Promise.resolve(res.data);
                     } else {
-                        return Promise.reject(
-                            new Error(
-                                `Feilet fordeling av oppgave. Feil: ${res.frontendFeilmelding}`
-                            )
-                        );
+                        if (res.httpStatus === 409) {
+                            const feilkode = res.feilkode ? ` Feilkode: ${res.feilkode}` : '';
+                            return Promise.reject(
+                                new Error(
+                                    `Oppgaven har endret eier, beskrivelse eller annet siden siste du oppdaterte oppgavebenken. For å kunne gjøre endringer må du hente oppgaver på nytt.${feilkode}`
+                                )
+                            );
+                        } else {
+                            return Promise.reject(new Error(res.frontendFeilmelding));
+                        }
                     }
                 })
                 .finally(() => settLaster(false));

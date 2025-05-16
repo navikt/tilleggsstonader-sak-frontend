@@ -6,12 +6,13 @@ import styled from 'styled-components';
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, HStack } from '@navikt/ds-react';
 
+import { FeilmeldingHåndterOppgave } from './FeilmeldingHåndterOppgaveModal';
 import {
     lagJournalføringUrl,
-    saksbehandlerHarSendtTilGodkjenneVedtak,
     oppgaveErJournalføring,
     oppgaveErSaksbehandling,
     oppgaveErSaksbehandlingKlage,
+    saksbehandlerHarSendtTilGodkjenneVedtak,
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
@@ -25,7 +26,7 @@ const TabellKnapp = styled(Button)`
 interface Props {
     oppgave: Oppgave;
     oppdaterOppgaveEtterOppdatering: (oppgave: Oppgave) => void;
-    settFeilmelding: (feilmelding: string) => void;
+    settFeilmelding: (feilmelding: FeilmeldingHåndterOppgave) => void;
     laster: boolean;
     settLaster: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -76,16 +77,21 @@ const Oppgaveknapp: React.FC<Props> = ({
         }
     };
 
-    const utførHandlingOgHentOppgavePåNytt = (handling: () => Promise<Oppgave>) => () => {
-        handling()
-            .then((oppdatertOppgave) => oppdaterOppgaveEtterOppdatering(oppdatertOppgave))
-            .catch((error: Error) => settFeilmelding(error.message));
-    };
+    const utførHandlingOgHentOppgavePåNytt =
+        (hendelse: string, handling: () => Promise<Oppgave>) => () => {
+            handling()
+                .then((oppdatertOppgave) => oppdaterOppgaveEtterOppdatering(oppdatertOppgave))
+                .catch((error: Error) =>
+                    settFeilmelding({ tittel: `${hendelse} feilet`, melding: error.message })
+                );
+        };
 
     const tildelOgGåTilOppgaveutførelse = () =>
         settOppgaveTilSaksbehandler(oppgave)
             .then(gåTilOppgaveUtførelse)
-            .catch((e) => settFeilmelding(e.message));
+            .catch((e) =>
+                settFeilmelding({ tittel: 'Tildeling av oppgave feilet', melding: e.message })
+            );
 
     if (saksbehandlerHarSendtTilGodkjenneVedtak(oppgave, saksbehandler)) {
         return null;
@@ -108,7 +114,7 @@ const Oppgaveknapp: React.FC<Props> = ({
                     valg={[
                         {
                             label: 'Flytt fra meg',
-                            onClick: utførHandlingOgHentOppgavePåNytt(() =>
+                            onClick: utførHandlingOgHentOppgavePåNytt('Flytt oppgave fra meg', () =>
                                 tilbakestillFordeling(oppgave)
                             ),
                         },
@@ -123,7 +129,7 @@ const Oppgaveknapp: React.FC<Props> = ({
                     valg={[
                         {
                             label: 'Overta',
-                            onClick: utførHandlingOgHentOppgavePåNytt(() =>
+                            onClick: utførHandlingOgHentOppgavePåNytt('Overta oppgave', () =>
                                 settOppgaveTilSaksbehandler(oppgave)
                             ),
                         },
