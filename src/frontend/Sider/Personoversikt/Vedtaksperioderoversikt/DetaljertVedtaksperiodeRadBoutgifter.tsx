@@ -14,7 +14,7 @@ import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivite
 import { AktivitetType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 
 const TabellRad = styled(Table.Row)<{ skalHaLinjeUnder: boolean; fargetBakrunn: boolean }>`
-    background-color: ${({ fargetBakrunn }) => (fargetBakrunn ? ASurfaceSubtle : 'white')};
+    background-color: ${({ fargetBakrunn }) => (fargetBakrunn ? 'white' : ASurfaceSubtle)};
     
     .navds-table__data-cell {
         border-bottom: ${({ skalHaLinjeUnder }) =>
