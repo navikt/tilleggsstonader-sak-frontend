@@ -38,6 +38,7 @@ export const fetchFn = <ResponseData, RequestData>(
                 frontendFeilmelding: feilmeldingMedCallId(error.detail, error.headers),
                 frontendFeilmeldingUtenFeilkode: error.detail,
                 feilkode: feilkode(error.headers),
+                httpStatus: undefined,
             };
         });
 };
@@ -64,6 +65,7 @@ const håndterFeil = (response: Response, headers: Headers): Promise<RessursFeil
         frontendFeilmelding: feilmeldingMedCallId(res.detail, headers),
         frontendFeilmeldingUtenFeilkode: res.detail,
         feilkode: feilkode(headers),
+        httpStatus: response.status,
     }));
 
 const feilmeldingMedCallId = (feilmelding: string, headers?: Headers): string => {
