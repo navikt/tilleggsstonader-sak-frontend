@@ -51,9 +51,7 @@ export const Brevknapp = ({
         settLaster(true);
 
         onClick(kommentarTilBeslutter)
-            .catch((error) =>
-                settFeilmelding(error instanceof Error ? error.message : String(error))
-            )
+            .catch((error) => settFeilmelding(error))
             .finally(() => settLaster(false));
     };
 
