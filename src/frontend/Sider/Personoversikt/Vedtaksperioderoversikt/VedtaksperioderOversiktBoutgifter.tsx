@@ -2,18 +2,17 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { DetaljertVedtaksperiodeRadBoutgifter } from './DetaljertVedtaksperiodeRadBoutgifter';
 import { OversiktKort } from './OversiktKort';
-import { TypeBoutgift, typeBoutgiftTilTekst } from '../../../typer/vedtak/vedtakBoutgifter';
 import { DetaljertVedtaksperiodeBoutgifter } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
-import { formaterNullableIsoDato } from '../../../utils/dato';
-import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
-import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 interface Props {
     vedtaksperioder: DetaljertVedtaksperiodeBoutgifter[];
 }
 
 export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperioder }) => {
+    const inneholderLøpendeUtgifter = vedtaksperioder.some((periode) => periode.erLøpendeUtgift);
+
     return (
         <OversiktKort tittel={'Boutgifter'}>
             <Table size={'small'}>
@@ -21,9 +20,7 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                     <Table.Row>
                         <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
                         <Table.HeaderCell scope="col">Til</Table.HeaderCell>
-                        {!vedtaksperioder.some(
-                            (periode) => periode.type === TypeBoutgift.UTGIFTER_OVERNATTING
-                        ) && (
+                        {inneholderLøpendeUtgifter && (
                             <Table.HeaderCell scope="col" align="center">
                                 Ant.mnd
                             </Table.HeaderCell>
@@ -40,33 +37,41 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {vedtaksperioder.map((periode) => {
-                        return (
-                            <Table.Row key={periode.fom}>
-                                <Table.DataCell>
-                                    {formaterNullableIsoDato(periode.fom)}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {formaterNullableIsoDato(periode.tom)}
-                                </Table.DataCell>
-                                {periode.type !== TypeBoutgift.UTGIFTER_OVERNATTING && (
-                                    <Table.DataCell align={'center'}>
-                                        {periode.antallMåneder}
-                                    </Table.DataCell>
-                                )}
-                                <Table.DataCell>
-                                    {aktivitetTypeTilTekst(periode.aktivitet)}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {faktiskMålgruppeTilTekst(periode.målgruppe)}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {typeBoutgiftTilTekst(periode.type)}
-                                </Table.DataCell>
-                                <Table.DataCell align={'right'}>{periode.utgift} kr</Table.DataCell>
-                                <Table.DataCell align={'right'}>{periode.stønad} kr</Table.DataCell>
-                            </Table.Row>
-                        );
+                    {vedtaksperioder.map((periode, tabellIndeks) => {
+                        if (periode.utgifterTilOvernatting) {
+                            return periode.utgifterTilOvernatting.map((utgift, utgiftIndeks) => (
+                                <DetaljertVedtaksperiodeRadBoutgifter
+                                    key={utgift.fom}
+                                    fom={utgift.fom}
+                                    tom={utgift.tom}
+                                    skalViseAntallMånederKolonne={false}
+                                    aktivitet={periode.aktivitet}
+                                    målgruppe={periode.målgruppe}
+                                    type="Overnatting"
+                                    totalUtgiftMåned={utgift.utgift}
+                                    stønadsbeløpMnd={utgift.beløpSomDekkes}
+                                    skalHaLinjeUnder={
+                                        utgiftIndeks === periode.utgifterTilOvernatting!.length - 1
+                                    }
+                                    fargetBakgrunn={tabellIndeks % 2 === 0}
+                                />
+                            ));
+                        } else {
+                            return (
+                                <DetaljertVedtaksperiodeRadBoutgifter
+                                    key={periode.fom}
+                                    fom={periode.fom}
+                                    tom={periode.tom}
+                                    antallMåneder={periode.antallMåneder}
+                                    aktivitet={periode.aktivitet}
+                                    målgruppe={periode.målgruppe}
+                                    type="Løpende"
+                                    totalUtgiftMåned={periode.totalUtgiftMåned}
+                                    stønadsbeløpMnd={periode.stønadsbeløpMnd}
+                                    fargetBakgrunn={tabellIndeks % 2 === 0}
+                                />
+                            );
+                        }
                     })}
                 </Table.Body>
             </Table>
