@@ -8,6 +8,7 @@ import { Alert, BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-rea
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
+import { Feil } from '../Feil/feilmeldingUtils';
 
 const Knapp = styled(Button)`
     display: block;
@@ -35,7 +36,7 @@ export const Brevknapp = ({
     kanSendeKommentarTilBeslutter = false,
 }: Props) => {
     const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<string>();
+    const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
     const [kommentarTilBeslutter, settKommentarTilBeslutter] = useState<string>();
     const { oppdaterMangelIBrev } = useBrevFeilContext();
 
