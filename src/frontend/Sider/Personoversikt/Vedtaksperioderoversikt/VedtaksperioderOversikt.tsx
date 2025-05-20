@@ -2,6 +2,7 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
 import { VedtaksperioderOversiktBoutgifter } from './VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
@@ -28,19 +29,25 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
             {({ vedtaksperioderOversikt, arenaSakOgVedtak }) => (
                 <VStack gap={'8'}>
                     {vedtaksperioderOversikt.tilsynBarn.length > 0 && (
-                        <VedtaksperioderOversiktTilsynBarn
-                            vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
-                        />
+                        <OversiktKort tittel={'Tilsyn Barn'}>
+                            <VedtaksperioderOversiktTilsynBarn
+                                vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
+                            />
+                        </OversiktKort>
                     )}
                     {vedtaksperioderOversikt.læremidler.length > 0 && (
-                        <VedtaksperioderOversiktLæremidler
-                            vedtaksperioder={vedtaksperioderOversikt.læremidler}
-                        />
+                        <OversiktKort tittel={'Læremidler'}>
+                            <VedtaksperioderOversiktLæremidler
+                                vedtaksperioder={vedtaksperioderOversikt.læremidler}
+                            />
+                        </OversiktKort>
                     )}
                     {vedtaksperioderOversikt.boutgifter.length > 0 && (
-                        <VedtaksperioderOversiktBoutgifter
-                            vedtaksperioder={vedtaksperioderOversikt.boutgifter}
-                        />
+                        <OversiktKort tittel={'Boutgifter'}>
+                            <VedtaksperioderOversiktBoutgifter
+                                vedtaksperioder={vedtaksperioderOversikt.boutgifter}
+                            />
+                        </OversiktKort>
                     )}
                     {arenaSakOgVedtak.vedtak.length > 0 && (
                         <VedtaksperioderOversiktArena arenaSakOgVedtak={arenaSakOgVedtak} />
