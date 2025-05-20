@@ -28,7 +28,7 @@ const lagBeregningstabell = (
                     <tr>
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
                         <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Merutgift</th>
-                        <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Stønadsbeløp</th>
+                        <th style="width: 180px; word-wrap: break-word; ${borderStylingCompact}">Beløp du har rett til</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,7 +113,7 @@ const lagTekstForBegrensetAvMakssats = (
 ) =>
     skalHaTekstForBegrensetAvMakssats(skalViseDetaljertBeregningsresultatFlag, beregningsresultat)
         ? `<p style="margin-left: 2px; margin-right: 2px; margin-top: 1px; padding: 0;">
-                    * beløpet er begrenset av makssats
+                    *beløpet er redusert på grunn av makssats
                 </p>`
         : '';
 
