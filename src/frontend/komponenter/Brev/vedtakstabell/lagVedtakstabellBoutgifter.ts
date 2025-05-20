@@ -97,14 +97,13 @@ const lagRadForVedtak = (
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     const merutgiftString = formaterTallMedTusenSkille(merutgift);
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
-    // const stjernemerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
     const asteriksForSatsendring = makssatsBekreftet ? '' : '*';
     const asteriksForBegrensetAvMakssats = begrensetAvMakssats ? '*' : '';
 
     return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForSatsendring} ${asteriksForBegrensetAvMakssats}</td>
+                        <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForSatsendring}${asteriksForBegrensetAvMakssats}</td>
                     </tr>`;
 };
 
