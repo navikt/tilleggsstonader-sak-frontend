@@ -12,8 +12,6 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
-import { Steg } from '../../../../../typer/behandling/steg';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
@@ -22,9 +20,9 @@ import {
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
-import { FanePath } from '../../../faner';
 import { lenkerBeregningTilsynBarn } from '../../../lenker';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
+import { StegKnappInnvilgelseMedVarselOmVedtakIArena } from '../../Felles/StegKnappInnvilgelseMedVarselOmVedtakIArena';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
@@ -163,14 +161,10 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
-            <StegKnapp
-                steg={Steg.BEREGNE_YTELSE}
-                nesteFane={FanePath.SIMULERING}
-                onNesteSteg={lagreVedtak}
-                validerUlagedeKomponenter={false}
-            >
-                Lagre vedtak og gå videre
-            </StegKnapp>
+            <StegKnappInnvilgelseMedVarselOmVedtakIArena
+                lagreVedtak={lagreVedtak}
+                vedtaksperioder={vedtaksperioder}
+            />
         </>
     );
 };

@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { Button, VStack } from '@navikt/ds-react';
 
+import { StegBekreftelseModal, StegKnappBekreftelsesModal } from './StegKnappBekreftelsesModal';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { useSteg } from '../../context/StegContext';
@@ -23,8 +24,16 @@ export const StegKnapp: FC<{
     steg: Steg;
     onNesteSteg?: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     validerUlagedeKomponenter?: boolean;
+    bekreftelseModalProps?: StegBekreftelseModal;
     children: React.ReactNode;
-}> = ({ nesteFane, steg, onNesteSteg, validerUlagedeKomponenter = true, children }) => {
+}> = ({
+    nesteFane,
+    steg,
+    onNesteSteg,
+    validerUlagedeKomponenter = true,
+    bekreftelseModalProps,
+    children,
+}) => {
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { request, harUlagradeKomponenter } = useApp();
 
@@ -32,6 +41,7 @@ export const StegKnapp: FC<{
     const { erStegRedigerbart } = useSteg();
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil | undefined>();
+    const [visModal, settVisModal] = useState<boolean>(false);
 
     useEffect(() => {
         if (!harUlagradeKomponenter && feilmelding?.feilmelding === feilmeldingUlagretData) {
@@ -100,9 +110,28 @@ export const StegKnapp: FC<{
         <VStack align="start" gap="4">
             <Feilmelding feil={feilmelding} />
             {behandling.steg === steg && erStegRedigerbart && (
-                <Button variant="primary" size="small" onClick={gåTilNesteSteg} disabled={laster}>
-                    {children}
-                </Button>
+                <>
+                    <StegKnappBekreftelsesModal
+                        modalProps={bekreftelseModalProps}
+                        gåTilNesteSteg={gåTilNesteSteg}
+                        visModal={visModal}
+                        settVisModal={settVisModal}
+                    />
+                    <Button
+                        variant="primary"
+                        size="small"
+                        onClick={() => {
+                            if (bekreftelseModalProps) {
+                                settVisModal(true);
+                            } else {
+                                gåTilNesteSteg();
+                            }
+                        }}
+                        disabled={laster}
+                    >
+                        {children}
+                    </Button>
+                </>
             )}
             {stegErEtterAnnetSteg(behandling.steg, steg) && (
                 <Button variant="secondary" size="small" onClick={redigerSteg} disabled={laster}>
