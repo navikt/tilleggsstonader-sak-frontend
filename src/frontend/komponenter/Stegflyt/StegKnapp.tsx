@@ -24,14 +24,14 @@ export const StegKnapp: FC<{
     steg: Steg;
     onNesteSteg?: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     validerUlagedeKomponenter?: boolean;
-    bekreftelseModal?: StegBekreftelseModal;
+    bekreftelseModalProps?: StegBekreftelseModal;
     children: React.ReactNode;
 }> = ({
     nesteFane,
     steg,
     onNesteSteg,
     validerUlagedeKomponenter = true,
-    bekreftelseModal,
+    bekreftelseModalProps,
     children,
 }) => {
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
@@ -112,7 +112,7 @@ export const StegKnapp: FC<{
             {behandling.steg === steg && erStegRedigerbart && (
                 <>
                     <StegKnappBekreftelsesModal
-                        modalProps={bekreftelseModal}
+                        modalProps={bekreftelseModalProps}
                         gåTilNesteSteg={gåTilNesteSteg}
                         visModal={visModal}
                         settVisModal={settVisModal}
@@ -121,7 +121,7 @@ export const StegKnapp: FC<{
                         variant="primary"
                         size="small"
                         onClick={() => {
-                            if (bekreftelseModal) {
+                            if (bekreftelseModalProps) {
                                 settVisModal(true);
                             } else {
                                 gåTilNesteSteg();

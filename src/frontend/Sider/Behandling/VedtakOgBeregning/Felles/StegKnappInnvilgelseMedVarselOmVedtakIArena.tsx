@@ -10,6 +10,22 @@ import { nullableTilDato, tilDato } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { FanePath } from '../../faner';
 
+const bekreftelseModalProps = {
+    tittel: 'Vedtak i Arena i samme periode',
+    tekst: 'Er du sikker på at det er riktig at det skal være innvilgelse for samme periode som det er innvilget i Arena?',
+    hovedKnapp: {
+        tekst: 'Angre og endre vedtaksperiode',
+        skalTriggeGåTilNesteSteg: false,
+    },
+    sekundærKnapp: {
+        tekst: 'Lagre og gå videre',
+        skalTriggeGåTilNesteSteg: true,
+    },
+    lukkKnapp: {
+        tekst: 'Avbryt',
+    },
+};
+
 export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
     lagreVedtak,
     vedtaksperioder,
@@ -25,30 +41,15 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
         vedtaksperioder
     );
 
-    const bekreftelseModal = harVedtaksperioderFørVedtakIArena
-        ? {
-              tittel: 'Vedtak i Arena i samme periode',
-              tekst: 'Er du sikker på at det er riktig at det skal være innvilgelse for samme periode som det er innvilget i Arena?',
-              hovedKnapp: {
-                  tekst: 'Angre og endre vedtaksperiode',
-                  skalTriggeGåTilNesteSteg: false,
-              },
-              sekundærKnapp: {
-                  tekst: 'Lagre og gå videre',
-                  skalTriggeGåTilNesteSteg: true,
-              },
-              lukkKnapp: {
-                  tekst: 'Avbryt',
-              },
-          }
-        : undefined;
     return (
         <StegKnapp
             steg={Steg.BEREGNE_YTELSE}
             nesteFane={FanePath.SIMULERING}
             onNesteSteg={lagreVedtak}
             validerUlagedeKomponenter={false}
-            bekreftelseModal={bekreftelseModal}
+            bekreftelseModalProps={
+                harVedtaksperioderFørVedtakIArena ? bekreftelseModalProps : undefined
+            }
         >
             Lagre vedtak og gå videre
         </StegKnapp>
@@ -68,14 +69,14 @@ const finnHarVedtaksperioderFørVedtakIArena = (
     if (!arenaVedtakTom) {
         return false;
     }
-    const førsteDatoEtterRevurderFra = finnFørsteDatoEtterRevurderFra(
+    const førsteDagIVedtaksperiode = finnFørsteDagIVedtaksperiodeEtterRevurderFra(
         behandling.revurderFra,
         vedtaksperioder
     );
-    return !!førsteDatoEtterRevurderFra && førsteDatoEtterRevurderFra <= arenaVedtakTom;
+    return !!førsteDagIVedtaksperiode && førsteDagIVedtaksperiode <= arenaVedtakTom;
 };
 
-const finnFørsteDatoEtterRevurderFra = (
+const finnFørsteDagIVedtaksperiodeEtterRevurderFra = (
     revurderFra: string | undefined,
     vedtaksperioder: Periode[]
 ): Date | undefined => {
