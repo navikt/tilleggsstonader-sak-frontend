@@ -2,10 +2,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Table } from '@navikt/ds-react';
-import { ASurfaceSubtle, ABorderDefault, AGray300 } from '@navikt/ds-tokens/dist/tokens';
+import { BodyShort, Label, Table } from '@navikt/ds-react';
+import { ASurfaceSubtle, ABorderDefault, AGray300, AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
-import { formaterNullableIsoDato } from '../../../utils/dato';
+import { DetaljertVedtaksperiodeBoutgifter } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
+import { formaterIsoPeriode, formaterNullableIsoDato } from '../../../utils/dato';
 import {
     FaktiskMålgruppe,
     faktiskMålgruppeTilTekst,
@@ -60,5 +61,147 @@ export const DetaljertVedtaksperiodeRadBoutgifter: React.FC<{
             <Table.DataCell align={'right'}>{totalUtgiftMåned} kr</Table.DataCell>
             <Table.DataCell align={'right'}>{stønadsbeløpMnd} kr</Table.DataCell>
         </TabellRad>
+    );
+};
+
+const TableRow = styled(Table.Row)`
+    border-bottom: hidden;
+`;
+
+const TableRowGray = styled(Table.Row).withConfig({
+    shouldForwardProp: (prop) => prop !== 'borderbottom',
+})<{ borderbottom: boolean }>`
+    background-color: ${AGray50};
+    border-bottom: ${(props) => (props.borderbottom ? 'initial' : 'hidden')};
+`;
+
+export const DetaljertVedtaksperiodeRadBoutgifter2: React.FC<{
+    detaljertBoutgift: DetaljertVedtaksperiodeBoutgifter;
+}> = ({ detaljertBoutgift }) => {
+    return (
+        <>
+            <TableRow>
+                <Table.DataCell>
+                    {formaterIsoPeriode(detaljertBoutgift.fom, detaljertBoutgift.tom)}
+                </Table.DataCell>
+                <Table.DataCell />
+                {/* {skalViseAntallMånederKolonne && (
+                    <Table.DataCell align={'center'}>{detaljertBoutgift. antallMåneder}</Table.DataCell>
+                )} */}
+                <Table.DataCell />
+                <Table.DataCell />
+                <Table.DataCell />
+                {/* <Table.DataCell>
+                    {aktivitetTypeTilTekst(detaljertBoutgift.aktivitet)}
+                </Table.DataCell>
+                <Table.DataCell>
+                    {faktiskMålgruppeTilTekst(detaljertBoutgift.målgruppe)}
+                </Table.DataCell>
+                <Table.DataCell>
+                    {detaljertBoutgift.erLøpendeUtgift ? 'Løpende' : 'Overnatting'}
+                </Table.DataCell> */}
+                {/* <Table.DataCell align={'right'}>
+                    {detaljertBoutgift.totalUtgiftMåned} kr
+                </Table.DataCell>
+                <Table.DataCell align={'right'}>
+                    {detaljertBoutgift.stønadsbeløpMnd} kr
+                </Table.DataCell> */}
+            </TableRow>
+            {detaljertBoutgift.utgifterTilOvernatting &&
+                detaljertBoutgift.utgifterTilOvernatting.map((utgift, index) => (
+                    <TableRowGray
+                        key={index}
+                        borderbottom={
+                            index === detaljertBoutgift.utgifterTilOvernatting!.length - 1
+                        }
+                    >
+                        <Table.DataCell />
+                        <Table.DataCell>
+                            {formaterIsoPeriode(utgift.fom, utgift.tom)}
+                        </Table.DataCell>
+
+                        {/* <Table.DataCell align={'center'}>{utgift.antallMåneder}</Table.DataCell> */}
+                        <Table.DataCell>
+                            {aktivitetTypeTilTekst(detaljertBoutgift.aktivitet)}
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            {faktiskMålgruppeTilTekst(detaljertBoutgift.målgruppe)}
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            {detaljertBoutgift.erLøpendeUtgift ? 'Løpende' : 'Overnatting'}
+                        </Table.DataCell>
+                        {/* <Table.DataCell />
+                        <Table.DataCell />
+                        <Table.DataCell /> */}
+                        <Table.DataCell align={'right'}>{utgift.utgift} kr</Table.DataCell>
+                        <Table.DataCell align={'right'}>{utgift.beløpSomDekkes} kr</Table.DataCell>
+                    </TableRowGray>
+                ))}
+        </>
+    );
+};
+
+const ContentContainer = styled.div`
+    padding: 1rem;
+    background-color: ${ASurfaceSubtle};
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 0.4rem 2rem;
+    width: fit-content;
+`;
+
+export const DetaljertVedtaksperiodeRadBoutgifter3: React.FC<{
+    detaljertBoutgift: DetaljertVedtaksperiodeBoutgifter;
+}> = ({ detaljertBoutgift }) => {
+    return (
+        <>
+            <Table.ExpandableRow
+                togglePlacement="right"
+                content={
+                    <ContentContainer>
+                        <Label size={'small'}>Fom</Label>
+                        <Label size={'small'}>Tom</Label>
+                        <Label size={'small'}>Utgift</Label>
+                        <Label size={'small'}>Beløp som dekkes</Label>
+                        {detaljertBoutgift.utgifterTilOvernatting &&
+                            detaljertBoutgift.utgifterTilOvernatting.map((utgift, index) => (
+                                // eslint-disable-next-line react/jsx-key
+                                <>
+                                    <BodyShort size={'small'} key={index}>
+                                        {formaterNullableIsoDato(utgift.fom)}
+                                    </BodyShort>
+                                    <BodyShort size={'small'} key={index}>
+                                        {formaterNullableIsoDato(utgift.tom)}
+                                    </BodyShort>
+                                    <BodyShort size={'small'}>{utgift.utgift} kr</BodyShort>
+                                    <BodyShort size={'small'}>{utgift.beløpSomDekkes} kr</BodyShort>
+                                </>
+                            ))}
+                    </ContentContainer>
+                }
+            >
+                <Table.DataCell>
+                    {formaterIsoPeriode(detaljertBoutgift.fom, detaljertBoutgift.tom)}
+                </Table.DataCell>
+                {/* {skalViseAntallMånederKolonne && (
+                    <Table.DataCell align={'center'}>{detaljertBoutgift. antallMåneder}</Table.DataCell>
+                )} */}
+                <Table.DataCell>
+                    {aktivitetTypeTilTekst(detaljertBoutgift.aktivitet)}
+                </Table.DataCell>
+                <Table.DataCell>
+                    {faktiskMålgruppeTilTekst(detaljertBoutgift.målgruppe)}
+                </Table.DataCell>
+                <Table.DataCell>
+                    {detaljertBoutgift.erLøpendeUtgift ? 'Løpende' : 'Overnatting'}
+                </Table.DataCell>
+                <Table.DataCell align={'right'}>
+                    {detaljertBoutgift.totalUtgiftMåned} kr
+                </Table.DataCell>
+                <Table.DataCell align={'right'}>
+                    {detaljertBoutgift.stønadsbeløpMnd} kr
+                </Table.DataCell>
+            </Table.ExpandableRow>
+        </>
     );
 };

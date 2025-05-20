@@ -5,6 +5,8 @@ import { VStack } from '@navikt/ds-react';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
 import { VedtaksperioderOversiktBoutgifter } from './VedtaksperioderOversiktBoutgifter';
+import { VedtaksperioderOversiktBoutgifter2 } from './VedtaksperioderOversiktBoutgifter2';
+import { VedtaksperioderOversiktBoutgifter3 } from './VedtaksperioderOversiktBoutgifter3';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import {
@@ -45,6 +47,20 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                     {vedtaksperioderOversikt.boutgifter.length > 0 && (
                         <OversiktKort tittel={'Boutgifter'}>
                             <VedtaksperioderOversiktBoutgifter
+                                vedtaksperioder={vedtaksperioderOversikt.boutgifter}
+                            />
+                        </OversiktKort>
+                    )}
+                    {vedtaksperioderOversikt.boutgifter.length > 0 && (
+                        <OversiktKort tittel={'Boutgifter'}>
+                            <VedtaksperioderOversiktBoutgifter2
+                                vedtaksperioder={vedtaksperioderOversikt.boutgifter}
+                            />
+                        </OversiktKort>
+                    )}
+                    {vedtaksperioderOversikt.boutgifter.length > 0 && (
+                        <OversiktKort tittel={'Boutgifter'}>
+                            <VedtaksperioderOversiktBoutgifter3
                                 vedtaksperioder={vedtaksperioderOversikt.boutgifter}
                             />
                         </OversiktKort>
