@@ -11,6 +11,7 @@ import { VedtaksperioderOversiktBoutgifter } from '../../../Personoversikt/Vedta
 const StyledVStack = styled(VStack)`
     max-width: 50rem;
 `;
+
 type Props = {
     forrigeIverksatteBehandlingId: string;
 };
