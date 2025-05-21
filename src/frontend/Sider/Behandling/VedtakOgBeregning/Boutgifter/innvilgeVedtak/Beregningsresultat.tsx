@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
@@ -42,6 +42,13 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                             <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
                             <BodyShort size="small">{periode.sumUtgifter}</BodyShort>
                             <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
+                            <div>
+                                {periode.delAvTidligereUtbetaling && (
+                                    <Alert variant="info" size={'small'} inline>
+                                        Treffer allerede utbetalt periode
+                                    </Alert>
+                                )}
+                            </div>
                         </React.Fragment>
                     ))}
                 </Grid>

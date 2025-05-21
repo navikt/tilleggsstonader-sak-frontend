@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { Table } from '@navikt/ds-react';
+import { Alert, Table } from '@navikt/ds-react';
 import { AGray50, AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
@@ -38,6 +38,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                     <Table.HeaderCell scope={'col'}>Utgiftsperiode</Table.HeaderCell>
                     <Table.HeaderCell scope={'col'}>Merutgift</Table.HeaderCell>
                     <Table.HeaderCell scope={'col'}>Stønadsbeløp</Table.HeaderCell>
+                    <Table.HeaderCell scope={'col'} />
                 </Table.Row>
                 {beregningsresultat.perioder.map((periode) => (
                     <React.Fragment key={periode.fom + periode.tom}>
@@ -46,6 +47,13 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                             <Table.DataCell />
                             <Table.DataCell>{periode.sumUtgifter}</Table.DataCell>
                             <Table.DataCell>{periode.stønadsbeløp}</Table.DataCell>
+                            <Table.DataCell>
+                                {periode.delAvTidligereUtbetaling && (
+                                    <Alert variant="info" size={'small'} inline>
+                                        Treffer allerede utbetalt periode
+                                    </Alert>
+                                )}
+                            </Table.DataCell>
                         </TableRow>
                         {periode.utgifterTilUtbetaling.map((utgift, index, utgifter) => (
                             <TableRowGray
@@ -56,6 +64,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                                 <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
                                 <Table.DataCell>{utgift.utgift}</Table.DataCell>
                                 <Table.DataCell>{utgift.tilUtbetaling}</Table.DataCell>
+                                <Table.DataCell />
                             </TableRowGray>
                         ))}
                     </React.Fragment>
