@@ -6,11 +6,12 @@ import { Heading, VStack } from '@navikt/ds-react';
 
 import { useHentFullstendigOversikt } from './useHentFullstendigOversikt';
 import DataViewer from '../../../../komponenter/DataViewer';
-import { VedtaksperioderOversiktBoutgifter } from '../../../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktBoutgifter';
+import { VedtaksperioderOversiktBoutgifter } from '../../../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
 
 const StyledVStack = styled(VStack)`
     max-width: 50rem;
 `;
+
 type Props = {
     forrigeIverksatteBehandlingId: string;
 };
