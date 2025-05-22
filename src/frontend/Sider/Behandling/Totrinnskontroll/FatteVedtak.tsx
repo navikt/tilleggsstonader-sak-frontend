@@ -4,7 +4,6 @@ import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
 import {
-    Alert,
     BodyShort,
     Button,
     Checkbox,
@@ -26,6 +25,8 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { UlagretKomponent } from '../../../hooks/useUlagredeKomponenter';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
 
@@ -63,20 +64,47 @@ const FatteVedtak: React.FC<{
     const [resultat, settResultat] = useState<Totrinnsresultat>(Totrinnsresultat.IKKE_VALGT);
     const [årsakerUnderkjent, settÅrsakerUnderkjent] = useState<ÅrsakUnderkjent[]>([]);
     const [begrunnelse, settBegrunnelse] = useState<string>();
-    const [feil, settFeil] = useState<string>();
+    const [feil, settFeil] = useState<Feil>();
+    const [feilÅrsak, settFeilÅrsak] = useState<string>();
+    const [feilBegrunnelse, settFeilBegrunnelse] = useState<string>();
     const [laster, settLaster] = useState<boolean>(false);
 
     const erUtfylt =
-        resultat === Totrinnsresultat.GODKJENT ||
-        (resultat === Totrinnsresultat.UNDERKJENT && begrunnelse && årsakerUnderkjent.length > 0);
+        resultat === Totrinnsresultat.GODKJENT || resultat === Totrinnsresultat.UNDERKJENT;
+
+    const validerSkjema = (): boolean => {
+        let gyldig = true;
+
+        if (resultat === Totrinnsresultat.UNDERKJENT) {
+            if (!begrunnelse?.trim()) {
+                settFeilBegrunnelse('Mangler begrunnelse for underkjennelse');
+                gyldig = false;
+            } else {
+                settFeilBegrunnelse(undefined);
+            }
+
+            if (årsakerUnderkjent.length === 0) {
+                settFeilÅrsak('Mangler årsak for underkjennelse');
+                gyldig = false;
+            } else {
+                settFeilÅrsak(undefined);
+            }
+        } else {
+            settFeilBegrunnelse(undefined);
+            settFeilÅrsak(undefined);
+        }
+
+        return gyldig;
+    };
 
     const beslutteVedtak = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         settLaster(true);
-        if (!erUtfylt) {
+
+        if (!validerSkjema()) {
+            settLaster(false);
             return;
         }
-        settFeil(undefined);
         request<TotrinnskontrollResponse, TotrinnskontrollForm>(
             `/api/sak/totrinnskontroll/${behandling.id}/beslutte-vedtak`,
             'POST',
@@ -99,7 +127,7 @@ const FatteVedtak: React.FC<{
                         navigate('/');
                     }
                 } else {
-                    settFeil(response.frontendFeilmelding);
+                    settFeil(feiletRessursTilFeilmelding(response));
                 }
             })
             .finally(() => settLaster(false));
@@ -143,8 +171,11 @@ const FatteVedtak: React.FC<{
                             legend={'Årsak til underkjennelse'}
                             description={'Manglende eller feil opplysninger om:'}
                             value={årsakerUnderkjent}
+                            error={feilÅrsak}
                             onChange={(årsaker) => {
                                 settÅrsakerUnderkjent(årsaker);
+                                if (resultat === Totrinnsresultat.UNDERKJENT && årsaker.length > 0)
+                                    settFeilÅrsak(undefined);
                                 settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                             }}
                             size="small"
@@ -158,8 +189,11 @@ const FatteVedtak: React.FC<{
                         <Textarea
                             value={begrunnelse || ''}
                             maxLength={0}
+                            error={feilBegrunnelse}
                             onChange={(e) => {
                                 settBegrunnelse(e.target.value);
+                                if (resultat === Totrinnsresultat.UNDERKJENT && begrunnelse)
+                                    settFeilBegrunnelse(undefined);
                                 settUlagretKomponent(UlagretKomponent.FATTE_VEDTAK);
                             }}
                             label="Begrunnelse"
@@ -174,7 +208,7 @@ const FatteVedtak: React.FC<{
                         </Button>
                     </SubmitButtonWrapper>
                 )}
-                {feil && <Alert variant={'error'}>{feil}</Alert>}
+                <Feilmelding feil={feil} />
             </VStack>
         </form>
     );
