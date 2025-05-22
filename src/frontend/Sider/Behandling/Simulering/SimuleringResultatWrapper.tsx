@@ -10,7 +10,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
-import { formaterDato } from '../../../utils/dato';
+import { formaterÅrFullMåned } from '../../../utils/dato';
 
 const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedtak }) => {
     const { behandling, hentBehandling } = useBehandling();
@@ -46,7 +46,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
                 return perioder && oppsummering ? (
                     <>
                         <Heading size={'medium'}>
-                            {`Simulering for perioden ${formaterDato(oppsummering.fom)} - ${formaterDato(oppsummering.tom)}`}
+                            {`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
                         </Heading>
                         <Oppsumering oppsummering={oppsummering} />
                         <SimuleringTabell perioder={perioder} />
