@@ -2,9 +2,9 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderOversiktBoutgifter';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
-import { VedtaksperioderOversiktBoutgifter } from './VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import {

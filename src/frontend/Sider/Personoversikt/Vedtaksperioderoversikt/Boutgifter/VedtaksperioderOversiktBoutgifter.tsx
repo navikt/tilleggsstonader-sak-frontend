@@ -3,7 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { DetaljertVedtaksperiodeRadBoutgifter } from './DetaljertVedtaksperiodeRadBoutgifter';
-import { DetaljertVedtaksperiodeBoutgifter } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
+import { DetaljertVedtaksperiodeBoutgifter } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
 
 interface Props {
     vedtaksperioder: DetaljertVedtaksperiodeBoutgifter[];
@@ -40,6 +40,7 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                         <DetaljertVedtaksperiodeRadBoutgifter
                             key={periode.fom}
                             detaljertBoutgift={periode}
+                            inneholderLøpendeUtgifter={inneholderLøpendeUtgifter}
                         />
                     );
                 })}
