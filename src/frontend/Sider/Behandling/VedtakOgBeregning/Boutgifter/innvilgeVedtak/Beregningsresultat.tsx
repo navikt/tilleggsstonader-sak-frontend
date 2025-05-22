@@ -19,7 +19,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, max-content);
+    grid-template-columns: repeat(5, max-content);
     gap: 0.4rem 2rem;
 `;
 
@@ -36,6 +36,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     <Label>Til og med</Label>
                     <Label>Merutgift</Label>
                     <Label>Stønadsbeløp</Label>
+                    <div />
                     {beregningsresultat.perioder.map((periode, indeks) => (
                         <React.Fragment key={indeks}>
                             <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
