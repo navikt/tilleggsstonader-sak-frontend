@@ -16,7 +16,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
-import RevurderFraReadMore from './RevurderFraReadMore';
+import { RevurderFraReadMore } from './RevurderFraReadMore';
 
 const Container = styled.div`
     margin: 2rem;
