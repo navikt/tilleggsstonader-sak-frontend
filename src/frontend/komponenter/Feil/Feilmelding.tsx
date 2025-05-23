@@ -27,7 +27,7 @@ export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElemen
                 {feil.tittel && <Label size="small">{feil.tittel}</Label>}
 
                 <BodyShort size="small">{feil.feilmelding}</BodyShort>
-                <HStack align="center">
+                <HStack align="center" wrap={false}>
                     {feil.feilkode && <Detail>Feilkode: {feil.feilkode}</Detail>}
                     {feil.feilmeldingMedFeilkode && (
                         <CopyButton copyText={feil.feilmeldingMedFeilkode} size="small" />
