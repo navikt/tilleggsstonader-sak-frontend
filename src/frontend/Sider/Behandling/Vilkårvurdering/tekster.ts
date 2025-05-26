@@ -29,7 +29,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
-    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til bolig eller overnatting?',
+    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til overnatting?',
     HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE:
         'Har søker dokumentert høyere boutgifter på aktivitetssted sammenlignet med tidligere bolig?',
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Er det nødvendig for søker å bo nærmere aktivitetsstedet?',
