@@ -74,6 +74,15 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
 };
 
+export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
+    PASS_BARN: undefined,
+    UTGIFTER_OVERNATTING: undefined,
+    LØPENDE_UTGIFTER_EN_BOLIG:
+        'Merutgift utgjør differansen mellom boutgift på aktivitetsstedet og boutgift på tidligere hjemsted. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
+    LØPENDE_UTGIFTER_TO_BOLIGER:
+        'Merutgiften tilsvarer utgiften til boligen på aktivitetsstedet, som kommer i tillegg til utgifter til bolig på hjemstedet. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
+};
+
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     PASS_BARN: 'Pass av barn',
     UTGIFTER_OVERNATTING: 'Utgifter til overnatting',
