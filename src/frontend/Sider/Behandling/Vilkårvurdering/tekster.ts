@@ -65,6 +65,9 @@ export const hjelpetekster: Record<RegelId, string[]> = {
     NØDVENDIGE_MERUTGIFTER: [
         'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
     ],
+    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: [
+        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
+    ],
 };
 
 export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
