@@ -48,14 +48,14 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
                             {mal.visningsnavn}
                         </option>
                     ));
-                    if (gruppe === 'FRITTSTAENDE') {
-                        return options;
+                    if (Object.keys(gruperteBrevmaler).length > 1) {
+                        return (
+                            <optgroup label={gruppeTilTekst[gruppe as Gruppe]} key={gruppe}>
+                                {options}
+                            </optgroup>
+                        );
                     }
-                    return (
-                        <optgroup label={gruppeTilTekst[gruppe as Gruppe]} key={gruppe}>
-                            {options}
-                        </optgroup>
-                    );
+                    return options;
                 })}
             </Select>
         </Container>
