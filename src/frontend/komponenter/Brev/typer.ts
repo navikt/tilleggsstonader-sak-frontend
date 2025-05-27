@@ -2,6 +2,15 @@ export interface Brevmal {
     _id: string;
     visningsnavn: string;
     publisert: boolean;
+    resultat: BrevmalResultat;
+}
+
+export enum BrevmalResultat {
+    INNVILGET = 'INNVILGET',
+    AVSLAG = 'AVSLAG',
+    REVURDERING = 'REVURDERING',
+    OPPHØR = 'OPPHOR',
+    FRITTSTAENDE = 'FRITTSTAENDE',
 }
 
 export interface MalStruktur extends Brevmal {

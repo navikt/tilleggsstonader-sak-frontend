@@ -10,6 +10,7 @@ import { usePersonopplysninger } from '../../../context/PersonopplysningerContex
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
 import Brevmeny from '../../../komponenter/Brev/Brevmeny';
 import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
+import { BrevmalResultat } from '../../../komponenter/Brev/typer';
 import useBrev from '../../../komponenter/Brev/useBrev';
 import useMellomlagringFrittståendeBrev from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
 import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
@@ -57,7 +58,7 @@ const FrittståendeBrev: React.FC<{
     }, [mellomlagretBrev, settBrevmal]);
 
     useEffect(() => {
-        hentBrevmaler(['FRITTSTAENDE']);
+        hentBrevmaler([BrevmalResultat.FRITTSTAENDE]);
     }, [hentBrevmaler]);
 
     useEffect(() => {

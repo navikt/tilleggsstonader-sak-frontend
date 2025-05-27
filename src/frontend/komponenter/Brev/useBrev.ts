@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
-import { Brevmal, MalStruktur } from './typer';
+import { Brevmal, MalStruktur, BrevmalResultat } from './typer';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     byggRessursFeilet,
@@ -33,7 +33,7 @@ const useBrev = (ytelse: Stønadstype) => {
     const [malStruktur, settMalStruktur] = useState<Ressurs<MalStruktur>>(byggTomRessurs());
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const hentBrevmaler = useCallback((resultat: string[]) => {
+    const hentBrevmaler = useCallback((resultat: BrevmalResultat[]) => {
         sanityClient
             .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
                 resultat: resultat,
