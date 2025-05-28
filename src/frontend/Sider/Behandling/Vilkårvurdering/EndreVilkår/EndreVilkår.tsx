@@ -90,6 +90,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
+    const [laster, settLaster] = useState<boolean>(false);
 
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
@@ -106,6 +107,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const { fom, tom } = periodeForVilkår;
+        if (laster) return;
+        settLaster(true);
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
@@ -134,6 +137,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                 settFeilmeldingVedLagring(response.frontendFeilmelding);
             }
         }
+        settLaster(false);
     };
 
     const finnTypePeriodeVelger = () => {
