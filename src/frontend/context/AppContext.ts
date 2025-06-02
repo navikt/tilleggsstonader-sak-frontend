@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import constate from 'constate';
 
@@ -18,10 +18,6 @@ interface Props {
 
 const [AppProvider, useApp] = constate(
     ({ saksbehandler, appEnv, autentisert, settIkkeAutentisert }: Props) => {
-        const [erSaksbehandler, settErSaksbehandler] = useState(
-            harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler')
-        );
-
         const [toast, settToast] = useState<Toast | undefined>();
 
         const request = useCallback(
@@ -30,8 +26,11 @@ const [AppProvider, useApp] = constate(
             [settIkkeAutentisert]
         ); // Saksbehandler skal inn som dep etter hvert
 
-        useEffect(() => {
-            settErSaksbehandler(harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'));
+        const { erSaksbehandler, erBeslutter } = useMemo(() => {
+            return {
+                erSaksbehandler: harTilgangTilRolle(appEnv, saksbehandler, 'saksbehandler'),
+                erBeslutter: harTilgangTilRolle(appEnv, saksbehandler, 'beslutter'),
+            };
         }, [saksbehandler, appEnv]);
 
         const {
@@ -48,6 +47,7 @@ const [AppProvider, useApp] = constate(
             settIkkeAutentisert,
             saksbehandler,
             erSaksbehandler,
+            erBeslutter,
             appEnv,
             toast,
             settToast,

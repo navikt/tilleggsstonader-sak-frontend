@@ -12,6 +12,7 @@ import {
     oppgaveErJournalføring,
     oppgaveErSaksbehandling,
     oppgaveErSaksbehandlingKlage,
+    oppgaveGjelderGodkjenneVedtak,
     saksbehandlerHarSendtTilGodkjenneVedtak,
 } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
@@ -43,7 +44,7 @@ const Oppgaveknapp: React.FC<Props> = ({
     laster,
     settLaster,
 }) => {
-    const { saksbehandler } = useApp();
+    const { saksbehandler, erBeslutter } = useApp();
     const navigate = useNavigate();
 
     const { settOppgaveTilSaksbehandler, tilbakestillFordeling } = useOppgaveFordeling(settLaster);
@@ -94,6 +95,8 @@ const Oppgaveknapp: React.FC<Props> = ({
             );
 
     if (saksbehandlerHarSendtTilGodkjenneVedtak(oppgave, saksbehandler)) {
+        return null;
+    } else if (oppgaveGjelderGodkjenneVedtak(oppgave) && !erBeslutter) {
         return null;
     } else if (oppgaveTilordnetInnloggetSaksbehandler) {
         return (

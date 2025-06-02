@@ -42,6 +42,9 @@ export const saksbehandlerHarSendtTilGodkjenneVedtak = (
     oppgave.oppgavetype === 'GOD_VED' &&
     oppgave.sendtTilTotrinnskontrollAv === saksbehandler.navIdent;
 
+export const oppgaveGjelderGodkjenneVedtak = (oppgave: Oppgave): boolean =>
+    oppgave.oppgavetype === 'GOD_VED';
+
 export const oppgaveErJournalføring = (oppgave: Oppgave) => oppgave.oppgavetype === 'JFR';
 
 export const oppgaveErJournalføringKlage = (oppgave: Oppgave) =>
