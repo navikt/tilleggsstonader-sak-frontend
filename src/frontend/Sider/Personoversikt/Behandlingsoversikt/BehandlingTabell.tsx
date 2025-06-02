@@ -26,6 +26,7 @@ import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 const Tabell = styled(Table)`
     max-width: fit-content;
     border: 1px solid ${ABorderDefault};
+    margin-left: 10px;
 `;
 
 const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
