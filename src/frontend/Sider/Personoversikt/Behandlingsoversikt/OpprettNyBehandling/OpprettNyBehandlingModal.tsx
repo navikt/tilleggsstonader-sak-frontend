@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 
+import styled from 'styled-components';
+
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
@@ -18,6 +20,11 @@ interface Props {
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
+
+const StyledContainer = styled.div`
+    margin-left: 10px;
+    margin-bottom: 14px;
+`;
 
 const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
@@ -40,8 +47,8 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     }
 
     return (
-        <div className="py-16">
-            <Button variant={'secondary'} onClick={() => settVisModal(true)}>
+        <StyledContainer className="py-16">
+            <Button size={'small'} variant={'secondary'} onClick={() => settVisModal(true)}>
                 Opprett ny behandling
             </Button>
             <ModalWrapper visModal={visModal} onClose={lukkModal} tittel={'Opprett ny behandling'}>
@@ -82,7 +89,7 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     )}
                 </VStack>
             </ModalWrapper>
-        </div>
+        </StyledContainer>
     );
 };
 
