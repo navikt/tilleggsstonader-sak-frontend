@@ -11,7 +11,10 @@ import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
 import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPerioderPunktliste';
 import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
-import { variabelInnvilgetPerioderPunktlisteId } from './variablerUtils';
+import {
+    variabelBeregningstabellId,
+    variabelInnvilgetPerioderPunktlisteId,
+} from './variablerUtils';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -147,7 +150,11 @@ const Brevmeny: React.FC<Props> = ({
                 behandling,
                 vedtak
             ),
-            ...lagVedtakstabell(behandling, vedtak, skalViseDetaljertBeregningsresultatFlag),
+            [variabelBeregningstabellId]: lagVedtakstabell(
+                behandling,
+                vedtak,
+                skalViseDetaljertBeregningsresultatFlag
+            ),
         };
         return htmlVariabler;
     };

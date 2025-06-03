@@ -2,24 +2,11 @@ import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgi
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { Periode } from '../../../utils/periode';
-import { variabelBeregningstabellId } from '../variablerUtils';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 
 export const lagVedtakstabellBoutgifter = (
-    beregningsresultat: BeregningsresultatBoutgifter | undefined,
-    skalViseDetaljertBeregningsresultatFlag: boolean
-) => {
-    return {
-        [variabelBeregningstabellId]: lagBeregningstabell(
-            beregningsresultat,
-            skalViseDetaljertBeregningsresultatFlag
-        ),
-    };
-};
-
-const lagBeregningstabell = (
     beregningsresultat: BeregningsresultatBoutgifter | undefined,
     skalViseDetaljertBeregningsresultatFlag: boolean
 ): string => {
