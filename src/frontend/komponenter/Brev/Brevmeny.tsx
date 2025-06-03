@@ -8,8 +8,10 @@ import { Brevknapp } from './Brevknapp';
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
+import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPerioderPunktliste';
 import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
+import { variabelInnvilgetPerioderPunktlisteId } from './variablerUtils';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -139,6 +141,17 @@ const Brevmeny: React.FC<Props> = ({
         request<null, MellomlagretBrevDto>(mellomlagerUrl, 'POST', data);
     };
 
+    const genererHtmlVariabler = () => {
+        const htmlVariabler: Record<string, string> = {
+            [variabelInnvilgetPerioderPunktlisteId]: lagInnvilgetPerioderPunktliste(
+                behandling,
+                vedtak
+            ),
+            ...lagVedtakstabell(behandling, vedtak, skalViseDetaljertBeregningsresultatFlag),
+        };
+        return htmlVariabler;
+    };
+
     const genererPdf = () => {
         const url = behandlingId ? `/api/sak/brev/${behandlingId}` : `/api/sak/frittstaende-brev`;
 
@@ -153,11 +166,7 @@ const Brevmeny: React.FC<Props> = ({
                 mal: mal,
                 valgfelt: valgfelt,
                 variabler: variabler,
-                htmlVariabler: lagVedtakstabell(
-                    behandling,
-                    vedtak,
-                    skalViseDetaljertBeregningsresultatFlag
-                ),
+                htmlVariabler: genererHtmlVariabler(),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
         }).then(settFil);
