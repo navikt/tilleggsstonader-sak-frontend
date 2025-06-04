@@ -22,8 +22,10 @@ const EndreUtgift: React.FC<{
             <TextField
                 label={
                     <HStack gap="2" align="center">
-                        {vilkårTypeTilUtgiftTekst[vilkårtype]}
-                        {erFremtidigUtgift ? ' (valgfri)' : ''}
+                        <span>
+                            {vilkårTypeTilUtgiftTekst[vilkårtype]}
+                            {erFremtidigUtgift ? ' (valgfri)' : ''}
+                        </span>
                         {hjelpetekst && <HelpText>{hjelpetekst}</HelpText>}
                     </HStack>
                 }
