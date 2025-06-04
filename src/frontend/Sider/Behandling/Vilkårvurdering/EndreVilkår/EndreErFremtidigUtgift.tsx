@@ -26,7 +26,7 @@ const EndreErFremtidigUtgift: React.FC<{
             {vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && kanVæreFremtidigUtgift && (
                 <StyledSwitch
                     size={'small'}
-                    checked={erFremtidigUtgift}
+                    checked={erFremtidigUtgift ?? false}
                     onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
                 >
                     Fremtidig utgift
