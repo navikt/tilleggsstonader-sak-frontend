@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { HelpText, HStack } from '@navikt/ds-react';
+
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { fjernSpaces } from '../../../../utils/utils';
 import { StønadsvilkårType } from '../../vilkår';
-import { vilkårTypeTilUtgiftTekst } from '../tekster';
+import { vilkårTypeTilUtgiftHjelpeTekst, vilkårTypeTilUtgiftTekst } from '../tekster';
 
 const EndreUtgift: React.FC<{
     vilkårtype: StønadsvilkårType;
@@ -14,10 +16,19 @@ const EndreUtgift: React.FC<{
     alleFelterKanRedigeres: boolean;
     oppdaterUtgift: (verdi: number | undefined) => void;
 }> = ({ vilkårtype, erFremtidigUtgift, utgift, alleFelterKanRedigeres, oppdaterUtgift }) => {
+    const hjelpetekst = vilkårTypeTilUtgiftHjelpeTekst[vilkårtype];
     return (
         <FeilmeldingMaksBredde $maxWidth={180}>
             <TextField
-                label={`${vilkårTypeTilUtgiftTekst[vilkårtype]}${erFremtidigUtgift ? ' (valgfri)' : ''}`}
+                label={
+                    <HStack gap="2" align="center">
+                        <span>
+                            {vilkårTypeTilUtgiftTekst[vilkårtype]}
+                            {erFremtidigUtgift ? ' (valgfri)' : ''}
+                        </span>
+                        {hjelpetekst && <HelpText>{hjelpetekst}</HelpText>}
+                    </HStack>
+                }
                 size="small"
                 erLesevisning={false}
                 value={harTallverdi(utgift) ? utgift : ''}

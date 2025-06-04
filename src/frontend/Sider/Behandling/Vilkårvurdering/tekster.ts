@@ -29,7 +29,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_FULLFØRT_FJERDEKLASSE: 'Er barnet ferdig med 4. skoleår?',
     UNNTAK_ALDER:
         'Har barnet behov for pass utover 4. skoleår, og er behovet tilfredsstillende dokumentert?',
-    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til bolig eller overnatting?',
+    NØDVENDIGE_MERUTGIFTER: 'Har søker nødvendige merutgifter til overnatting?',
     HØYERE_BOUTGIFTER_SAMMENLIGNET_MED_TIDLIGERE:
         'Har søker dokumentert høyere boutgifter på aktivitetssted sammenlignet med tidligere bolig?',
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: 'Er det nødvendig for søker å bo nærmere aktivitetsstedet?',
@@ -62,6 +62,12 @@ export const hjelpetekster: Record<RegelId, string[]> = {
         'Faktura fra barnehage må i tillegg inneholde eventuelle kostnader til bleier, så det er mulig å trekke dette fra.',
         'Ved privat pass så skal det vurderes om det er sannsynlig at søker har hatt utgifter til barnepass i perioden det søkes for. Avtale mellom barnepasser og søker eller A-melding kan være eksempler på dokumentasjon som godtas. Skjermbilde av betalinger via vipps eller bankutskrift godkjennes ikke. ',
     ],
+    NØDVENDIGE_MERUTGIFTER: [
+        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
+    ],
+    NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: [
+        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
+    ],
 };
 
 export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
@@ -69,6 +75,15 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgift',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
+};
+
+export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
+    PASS_BARN: undefined,
+    UTGIFTER_OVERNATTING: undefined,
+    LØPENDE_UTGIFTER_EN_BOLIG:
+        'Merutgift utgjør differansen mellom boutgift på aktivitetsstedet og boutgift på tidligere hjemsted. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
+    LØPENDE_UTGIFTER_TO_BOLIGER:
+        'Merutgiften tilsvarer utgiften til boligen på aktivitetsstedet, som kommer i tillegg til utgifter til bolig på hjemstedet. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {

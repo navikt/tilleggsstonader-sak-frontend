@@ -66,6 +66,8 @@ const DelvilkårRadioknapper: FC<Props> = ({
 const Spørsmålsbeskrivelse = (regelId: string): React.ReactNode => {
     switch (regelId) {
         case 'UTGIFTER_DOKUMENTERT':
+        case 'NØDVENDIGE_MERUTGIFTER':
+        case 'NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET':
             return <SlikGjørDuVurderingen regelId={regelId} />;
         case 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER':
             return <Detail>Skal søker få dekket faktiske utgifter?</Detail>;
