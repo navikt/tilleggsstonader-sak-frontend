@@ -67,7 +67,6 @@ export const Journalføring: React.FC = () => {
         hentJournalPost(journalpostId);
     }, [hentJournalPost, journalpostId]);
 
-    // TODO: Kan vurdere å vise en infostripe med feilmelding her
     if (!oppgaveId || !journalpostId) {
         return <Navigate to="/" />;
     }
