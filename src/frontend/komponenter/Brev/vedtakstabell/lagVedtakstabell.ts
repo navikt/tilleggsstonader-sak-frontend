@@ -10,8 +10,6 @@ import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsyn
 
 export type LagVedtakstabell = Record<string, string>;
 
-const TOM_VEDTAKSTABELL = {};
-
 /**
  * Lager en vedtakstabell i html som vises i innvilgelsebrevet
  * @param behandling trengs for å vite hvilken stønadstype det er for å kunne typecaste
@@ -20,12 +18,12 @@ export const lagVedtakstabell = (
     behandling: Behandling | undefined,
     vedtak: VedtakResponse | undefined,
     skalViseDetaljertBeregningsresultatFlag: boolean
-): LagVedtakstabell => {
+): string => {
     if (!behandling || !vedtak) {
-        return TOM_VEDTAKSTABELL;
+        return '';
     }
     if (vedtak.type !== 'INNVILGELSE') {
-        return TOM_VEDTAKSTABELL;
+        return '';
     }
 
     switch (behandling.stønadstype) {
@@ -43,6 +41,6 @@ export const lagVedtakstabell = (
                 skalViseDetaljertBeregningsresultatFlag
             );
         default:
-            return TOM_VEDTAKSTABELL;
+            return '';
     }
 };

@@ -1,21 +1,13 @@
-import { LagVedtakstabell } from './lagVedtakstabell';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
-import { variabelBeregningstabellId } from '../variablerUtils';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 
 export const lagVedtakstabellLæremidler = (
-    beregningsresultat: BeregningsresultatLæremidler | undefined
-): LagVedtakstabell => {
-    return {
-        [variabelBeregningstabellId]: lagBeregningstabell(beregningsresultat),
-    };
-};
-
-const lagBeregningstabell = (beregningsresultat?: BeregningsresultatLæremidler): string => {
+    beregningsresultat?: BeregningsresultatLæremidler
+): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
                     <tr>
