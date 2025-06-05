@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
-import { EndreMålgruppeForm } from './EndreMålgruppeRad';
+import { EndreMålgruppeForm } from './EndreMålgruppe';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
 import {
     målgrupperHvorMedlemskapMåVurderes,
@@ -22,8 +22,7 @@ const Container = styled.div`
     gap: 2rem;
 `;
 
-// TODO: Rename til MålgruppeDelvilkår
-const MålgruppeVilkår: React.FC<{
+const MålgruppeDelvilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
     readOnly: boolean;
@@ -103,4 +102,4 @@ const MålgruppeVilkår: React.FC<{
     );
 };
 
-export default MålgruppeVilkår;
+export default MålgruppeDelvilkår;

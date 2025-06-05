@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Button, HStack } from '@navikt/ds-react';
 
-import MålgruppeVilkår from './MålgruppeVilkår';
+import MålgruppeDelvilkår from './MålgruppeDelvilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
     mapEksisterendeMålgruppe,
@@ -63,8 +63,7 @@ const initaliserForm = (
         : mapEksisterendeMålgruppe(eksisterendeMålgruppe, alleFelterKanEndres);
 };
 
-// TODO: Endre navn til EndreMålgruppe
-const EndreMålgruppeRad: React.FC<{
+const EndreMålgruppe: React.FC<{
     målgruppe?: Målgruppe;
     registerYtelsePeriode?: PeriodeYtelseRegister;
     avbrytRedigering: () => void;
@@ -174,7 +173,7 @@ const EndreMålgruppeRad: React.FC<{
                 />
             </FeltContainer>
 
-            <MålgruppeVilkår
+            <MålgruppeDelvilkår
                 målgruppeForm={form}
                 readOnly={!alleFelterKanEndres}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
@@ -218,4 +217,4 @@ const EndreMålgruppeRad: React.FC<{
     );
 };
 
-export default EndreMålgruppeRad;
+export default EndreMålgruppe;

@@ -2,7 +2,7 @@ import { useApp } from '../context/AppContext';
 import { EndreAktivitetFormBarnetilsyn } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBarnetilsyn';
 import { EndreAktivitetFormBoutgifter } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBoutgifter';
 import { EndreAktivitetFormLæremidler } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetLæremidler';
-import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppeRad';
+import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppe';
 import {
     Aktivitet,
     AktivitetFaktaOgSvar,
