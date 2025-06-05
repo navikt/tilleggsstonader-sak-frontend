@@ -24,10 +24,6 @@ import {
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
 
-export type MålgrupperMedMedlemskapsvurdering =
-    | MålgruppeType.NEDSATT_ARBEIDSEVNE
-    | MålgruppeType.OMSTILLINGSSTØNAD;
-
 export const nyMålgruppe = (
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
