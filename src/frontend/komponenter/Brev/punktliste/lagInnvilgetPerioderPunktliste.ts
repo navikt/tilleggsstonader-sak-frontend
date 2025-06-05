@@ -17,7 +17,7 @@ export const lagInnvilgetPerioderPunktliste = (
 
     switch (behandling?.stønadstype) {
         case Stønadstype.BOUTGIFTER:
-            return lagPunktlisteInnvilgetPerioderForBoutgifter(
+            return lagPunktlisteInnvilgedePerioderForBoutgifter(
                 vedtak.beregningsresultat as BeregningsresultatBoutgifter
             );
         default:
@@ -25,7 +25,7 @@ export const lagInnvilgetPerioderPunktliste = (
     }
 };
 
-const lagPunktlisteInnvilgetPerioderForBoutgifter = (
+const lagPunktlisteInnvilgedePerioderForBoutgifter = (
     beregningsresultat: BeregningsresultatBoutgifter
 ): string => {
     return `<ul style="margin: 0; padding-top: 0">

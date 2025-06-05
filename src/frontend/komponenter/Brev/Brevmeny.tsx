@@ -13,7 +13,7 @@ import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import {
     variabelBeregningstabellId,
-    variabelInnvilgetPerioderPunktlisteId,
+    variabelInnvilgedePerioderPunktlisteId,
 } from './variablerUtils';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
@@ -146,7 +146,7 @@ const Brevmeny: React.FC<Props> = ({
 
     const genererHtmlVariabler = () => {
         const htmlVariabler: Record<string, string> = {
-            [variabelInnvilgetPerioderPunktlisteId]: lagInnvilgetPerioderPunktliste(
+            [variabelInnvilgedePerioderPunktlisteId]: lagInnvilgetPerioderPunktliste(
                 behandling,
                 vedtak
             ),
