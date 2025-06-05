@@ -22,7 +22,6 @@ export enum Tema {
 }
 
 export interface LogiskVedlegg {
-    logiskVedleggId: string;
     tittel: string;
 }
 

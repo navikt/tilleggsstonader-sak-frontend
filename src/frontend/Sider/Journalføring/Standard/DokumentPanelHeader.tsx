@@ -36,8 +36,8 @@ export const DokumentPanelHeader: React.FC<Props> = ({
                 <Label as={'p'}>{dokumentTittel}</Label>
                 {logiskeVedlegg.length > 0 && (
                     <VStack gap={'0'}>
-                        {logiskeVedlegg.map((it) => (
-                            <BodyShort key={it.logiskVedleggId}>{it.tittel}</BodyShort>
+                        {logiskeVedlegg.map((it, index) => (
+                            <BodyShort key={index}>{it.tittel}</BodyShort>
                         ))}
                     </VStack>
                 )}

@@ -12,7 +12,6 @@ const LogiskVedleggWrapper = styled.ul`
 `;
 
 export interface ILogiskVedlegg {
-    logiskVedleggId: string;
     tittel: string;
 }
 
