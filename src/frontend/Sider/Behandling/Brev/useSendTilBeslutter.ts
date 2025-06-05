@@ -22,7 +22,6 @@ export const useSendTilBeslutter = () => {
         ).then((res: RessursSuksess<TotrinnskontrollResponse> | RessursFeilet) => {
             if (res.status === RessursStatus.SUKSESS) {
                 hentBehandling.rerun();
-                //hentTotrinnskontroll.rerun(); // TODO håndter henting i totrinnskontroll-komponenten
                 settVisVedtakFerdigstiltModal(true);
                 return Promise.resolve();
             } else {
