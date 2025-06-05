@@ -48,7 +48,6 @@ const utledSkalViseBarnTilRevurdering = (
         BehandlingÅrsak.PAPIRSØKNAD,
         BehandlingÅrsak.KORRIGERING_UTEN_BREV,
     ].indexOf(årsak) > -1;
-// TODO skal ikke kunne velge nye barn etter opprydding av de 2 sakene som trenger det
 
 const OpprettOrdinærBehandling: React.FC<Props> = ({
     fagsakId,
