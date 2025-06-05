@@ -37,6 +37,7 @@ const lagPunktlisteInnvilgedePerioderForBoutgifter = (
                     (utgift) =>
                         `<li style="margin: 0;">fra og med ${formaterTilTekstligDato(utgift.fom)} til og med ${formaterTilTekstligDato(utgift.tom)}</li>`
                 )
+                .join('')
         )
         .join('')}
     </ul>`;
