@@ -38,8 +38,8 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatLæremidler): 
     return beregningsresultat.perioder
         .map((periode) => {
             const datoperiode = formaterIsoPeriodeMedTankestrek(periode);
-            const satsPerMåned = formaterTallMedTusenSkille(periode.beløp);
-            const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløp);
+            const satsPerMåned = formaterTallMedTusenSkille(periode.stønadsbeløpPerMåned);
+            const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløpForPeriode);
             const stjernmerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
 
             return `<tr style="text-align: right;">
