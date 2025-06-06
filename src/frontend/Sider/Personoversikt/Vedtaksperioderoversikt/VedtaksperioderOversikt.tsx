@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { Heading, VStack } from '@navikt/ds-react';
 
 import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderOversiktBoutgifter';
 import { OversiktKort } from './OversiktKort';
@@ -25,35 +25,40 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
     }
 
     return (
-        <DataViewer response={{ vedtaksperioderOversikt, arenaSakOgVedtak }}>
-            {({ vedtaksperioderOversikt, arenaSakOgVedtak }) => (
-                <VStack gap={'8'}>
-                    {vedtaksperioderOversikt.tilsynBarn.length > 0 && (
-                        <OversiktKort tittel={'Tilsyn Barn'}>
-                            <VedtaksperioderOversiktTilsynBarn
-                                vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
-                            />
-                        </OversiktKort>
-                    )}
-                    {vedtaksperioderOversikt.læremidler.length > 0 && (
-                        <OversiktKort tittel={'Læremidler'}>
-                            <VedtaksperioderOversiktLæremidler
-                                vedtaksperioder={vedtaksperioderOversikt.læremidler}
-                            />
-                        </OversiktKort>
-                    )}
-                    {vedtaksperioderOversikt.boutgifter.length > 0 && (
-                        <OversiktKort tittel={'Boutgifter'}>
-                            <VedtaksperioderOversiktBoutgifter
-                                vedtaksperioder={vedtaksperioderOversikt.boutgifter}
-                            />
-                        </OversiktKort>
-                    )}
-                    {arenaSakOgVedtak.vedtak.length > 0 && (
-                        <VedtaksperioderOversiktArena arenaSakOgVedtak={arenaSakOgVedtak} />
-                    )}
-                </VStack>
-            )}
-        </DataViewer>
+        <>
+            <Heading size="small" spacing>
+                Vedtaksperioder i TS-sak
+            </Heading>
+            <DataViewer response={{ vedtaksperioderOversikt, arenaSakOgVedtak }}>
+                {({ vedtaksperioderOversikt, arenaSakOgVedtak }) => (
+                    <VStack gap={'8'}>
+                        {vedtaksperioderOversikt.tilsynBarn.length > 0 && (
+                            <OversiktKort tittel={'Tilsyn Barn'}>
+                                <VedtaksperioderOversiktTilsynBarn
+                                    vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
+                                />
+                            </OversiktKort>
+                        )}
+                        {vedtaksperioderOversikt.læremidler.length > 0 && (
+                            <OversiktKort tittel={'Læremidler'}>
+                                <VedtaksperioderOversiktLæremidler
+                                    vedtaksperioder={vedtaksperioderOversikt.læremidler}
+                                />
+                            </OversiktKort>
+                        )}
+                        {vedtaksperioderOversikt.boutgifter.length > 0 && (
+                            <OversiktKort tittel={'Boutgifter'}>
+                                <VedtaksperioderOversiktBoutgifter
+                                    vedtaksperioder={vedtaksperioderOversikt.boutgifter}
+                                />
+                            </OversiktKort>
+                        )}
+                        {arenaSakOgVedtak.vedtak.length > 0 && (
+                            <VedtaksperioderOversiktArena arenaSakOgVedtak={arenaSakOgVedtak} />
+                        )}
+                    </VStack>
+                )}
+            </DataViewer>
+        </>
     );
 }
