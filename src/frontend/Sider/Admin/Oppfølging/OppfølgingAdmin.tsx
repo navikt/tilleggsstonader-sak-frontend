@@ -33,7 +33,7 @@ import { MålgruppeType } from '../../Behandling/Inngangsvilkår/typer/vilkårpe
 import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
 
 const Container = styled(VStack)`
-    padding: 2rem;
+    padding: 2rem 2rem 64px;
 `;
 
 export const OppølgingAdmin = () => {

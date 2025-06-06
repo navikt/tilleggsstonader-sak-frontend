@@ -16,6 +16,10 @@ import { Personopplysninger } from '../../typer/personopplysninger';
 
 const BehandlingContainer = styled.div`
     display: flex;
+
+    > * {
+        padding-bottom: 64px;
+    }
 `;
 
 const InnholdWrapper = styled.div`

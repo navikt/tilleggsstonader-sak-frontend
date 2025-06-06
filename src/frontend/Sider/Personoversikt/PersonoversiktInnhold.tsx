@@ -66,7 +66,7 @@ const tabs: TabWithRouter[] = [
 ];
 
 const InnholdWrapper = styled.div`
-    padding: 2rem;
+    padding: 2rem 2rem 64px;
     display: flex;
     flex-direction: column;
     gap: 1rem;

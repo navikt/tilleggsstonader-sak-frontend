@@ -16,6 +16,7 @@ import { erProd } from '../../utils/miljø';
 
 const Container = styled(VStack).attrs({ gap: '8' })`
     margin: 2rem;
+    padding-bottom: 64px;
 `;
 
 const AlertContainer = styled.div`
