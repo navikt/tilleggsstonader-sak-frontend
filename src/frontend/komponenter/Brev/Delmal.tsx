@@ -3,7 +3,7 @@ import React, { SetStateAction } from 'react';
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
 
-import { ExpansionCard } from '@navikt/ds-react';
+import { Alert, ExpansionCard } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { DelmalMeny } from './DelmalMeny';
@@ -45,6 +45,7 @@ interface Props {
     settFritekst: React.Dispatch<SetStateAction<Record<string, FritekstAvsnitt[] | undefined>>>;
     inkluderIBrev: boolean;
     settInkluderIBrev: (inkluderIBrev: boolean) => void;
+    erEndringerIDelmal: boolean;
 }
 
 export const CustomComponets = (
@@ -72,6 +73,7 @@ const Delmal: React.FC<Props> = ({
     settFritekst,
     inkluderIBrev,
     settInkluderIBrev,
+    erEndringerIDelmal,
 }) => {
     return (
         <Background>
@@ -85,6 +87,12 @@ const Delmal: React.FC<Props> = ({
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <Container>
+                        {erEndringerIDelmal && !inkluderIBrev && (
+                            <Alert variant={'warning'} size="small">
+                                Du har gjort endringer i seksjonen. Huk av for &quot;Inkluder
+                                seksjon i brev&quot; for at teksten skal bli med i brevet.
+                            </Alert>
+                        )}
                         <DelmalMeny
                             delmal={delmal}
                             valgfelt={valgfelt}

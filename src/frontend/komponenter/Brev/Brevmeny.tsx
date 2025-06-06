@@ -190,6 +190,17 @@ const Brevmeny: React.FC<Props> = ({
         inkluderteDelmaler,
     ]);
 
+    const erEndringerIDelmal = (delmalId: string) => {
+        const valgfeltForDelmal = valgfelt[delmalId] || {};
+        const fritekstForDelmal = fritekst[delmalId] || {};
+        const erEndringerIValgfelt = Object.keys(valgfeltForDelmal).length > 0;
+        const erEndringerIFritekst = Object.values(fritekstForDelmal)
+            .flat()
+            .filter((avsnitt) => avsnitt !== undefined)
+            .some(({ deloverskrift, innhold }) => deloverskrift.length > 0 || innhold.length > 0);
+        return erEndringerIValgfelt || erEndringerIFritekst;
+    };
+
     return (
         <FlexColumn>
             {mal.delmaler.map(
@@ -211,6 +222,7 @@ const Brevmeny: React.FC<Props> = ({
                                     [delmal._id]: inkluderIBrev,
                                 }));
                             }}
+                            erEndringerIDelmal={erEndringerIDelmal(delmal._id)}
                         />
                     )
             )}
