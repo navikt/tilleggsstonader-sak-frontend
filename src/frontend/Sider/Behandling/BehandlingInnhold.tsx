@@ -22,6 +22,8 @@ const InnholdWrapper = styled.div`
     flex-grow: 1;
 
     max-width: calc(100% - 20rem);
+
+    padding-bottom: 64px;
 `;
 
 const BehandlingInnhold: React.FC<{
