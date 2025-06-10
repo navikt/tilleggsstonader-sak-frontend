@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Alert, Detail, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Detail, Heading } from '@navikt/ds-react';
 
 import YtelserTabell from './YtelserTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Registerytelser, registerYtelseTilTekst } from '../../../typer/registerytelser';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
-import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../utils/dato';
+import { formaterDatoMedTidspunkt, formaterIsoPeriode } from '../../../utils/dato';
 
-const formaterYtelsesHeader = (ytelser: Registerytelser) => {
+const formaterYtelserHentet = (ytelser: Registerytelser) => {
     const infotyper = ytelser.kildeResultat.map((info) => registerYtelseTilTekst[info.type]);
     const sisteType = infotyper.pop();
-    const dato = formaterTilTekstligDato(ytelser.perioderHentetFom);
-    return 'Perioder med ' + infotyper.join(', ') + ' eller ' + sisteType + ' fra og med ' + dato;
+    return `Hentet perioder for følgende ytelser: ${infotyper.join(', ')} og ${sisteType}`;
 };
 
 const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
@@ -37,9 +36,13 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
         <DataViewer response={{ ytelser }}>
             {({ ytelser }) => (
                 <>
-                    <Heading size={'small'} spacing>
-                        {formaterYtelsesHeader(ytelser)}
+                    <Heading size={'small'}>
+                        Andre ytelser i perioden{' '}
+                        {formaterIsoPeriode(ytelser.perioderHentetFom, ytelser.perioderHentetTom)}
                     </Heading>
+                    <BodyShort size={'small'} spacing>
+                        {formaterYtelserHentet(ytelser)}
+                    </BodyShort>
                     {ytelser.kildeResultat
                         .filter((kildeResultat) => kildeResultat.resultat === 'FEILET')
                         .map((kildeResultat) => (
