@@ -6,7 +6,7 @@ import YtelserTabell from './YtelserTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Registerytelser, registerYtelseTilTekst } from '../../../typer/registerytelser';
-import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../utils/dato';
 
 const formaterYtelsesHeader = (ytelser: Registerytelser) => {
@@ -19,11 +19,12 @@ const formaterYtelsesHeader = (ytelser: Registerytelser) => {
 const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
 
-    const [ytelser, settYtelser] = useState<Ressurs<Registerytelser>>(byggHenterRessurs());
+    const [ytelser, settYtelser] = useState<Ressurs<Registerytelser>>(byggTomRessurs());
 
     const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
     const hentYtelser = useCallback(async () => {
+        settYtelser(byggHenterRessurs());
         const response = request<Registerytelser, null>(`/api/sak/ytelse/${fagsakPersonId}`, 'GET');
         settYtelser(await response);
     }, [fagsakPersonId, request]);

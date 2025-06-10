@@ -20,9 +20,6 @@ interface Props {
 export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
     const { vedtaksperioderOversikt } = useHentFullstendigVedtaksOversikt(fagsakPersonId);
     const { arenaSakOgVedtak } = useVedtaksperioderOversiktArena(fagsakPersonId);
-    if (vedtaksperioderOversikt.status !== 'SUKSESS') {
-        return;
-    }
 
     return (
         <>
