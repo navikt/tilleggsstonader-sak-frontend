@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Behandlingsoversikt } from '../typer/behandling/behandlingoversikt';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 export const useHentBehandlingsoversikt = (): {
     hentBehandlingsoversikt: (fagsakPersonId: string) => void;
@@ -15,6 +15,7 @@ export const useHentBehandlingsoversikt = (): {
 
     const hentBehandlingsoversikt = useCallback(
         (fagsakPersonId: string) => {
+            settBehandlingsoversikt(byggHenterRessurs());
             request<Behandlingsoversikt, null>(
                 `/api/sak/behandling/fagsak-person/${fagsakPersonId}`
             ).then(settBehandlingsoversikt);
