@@ -39,7 +39,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
 const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     [Stønadstype.BARNETILSYN]: {
         AAP: true,
-        DAGPENGER: true,
+        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
@@ -50,7 +50,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.LÆREMIDLER]: {
         AAP: true,
-        DAGPENGER: true,
+        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
@@ -61,7 +61,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.BOUTGIFTER]: {
         AAP: true,
-        DAGPENGER: true,
+        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
