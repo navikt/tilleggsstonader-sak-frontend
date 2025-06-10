@@ -29,24 +29,28 @@ export interface KildeResultatYtelse {
 
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
+    DAGPENGER = 'DAGPENGER',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
 
 export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
     AAP: MålgruppeType.AAP,
+    DAGPENGER: MålgruppeType.DAGPENGER,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
 };
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
+    DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
 };
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
+    DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
 };
