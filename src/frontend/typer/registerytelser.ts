@@ -4,6 +4,8 @@ export interface Registerytelser {
     perioder: PeriodeYtelseRegister[];
     kildeResultat: KildeResultatYtelse[];
     tidspunktHentet: string;
+    perioderHentetFom: string;
+    perioderHentetTom: string;
 }
 
 export interface PeriodeYtelseRegister {
@@ -43,7 +45,7 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
-    DAGPENGER: 'Dagpenger',
+    DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
 };

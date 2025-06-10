@@ -12,7 +12,7 @@ import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../util
 const formaterYtelsesHeader = (ytelser: Registerytelser) => {
     const infotyper = ytelser.kildeResultat.map((info) => registerYtelseTilTekst[info.type]);
     const sisteType = infotyper.pop();
-    const dato = formaterTilTekstligDato(ytelser.tidspunktHentet);
+    const dato = formaterTilTekstligDato(ytelser.perioderHentetFom);
     return 'Perioder med ' + infotyper.join(', ') + ' eller ' + sisteType + ' fra og med ' + dato;
 };
 
