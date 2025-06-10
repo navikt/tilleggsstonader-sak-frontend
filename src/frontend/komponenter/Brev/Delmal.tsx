@@ -3,7 +3,8 @@ import React, { SetStateAction } from 'react';
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
 
-import { ExpansionCard } from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { ExpansionCard, HStack } from '@navikt/ds-react';
 import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { DelmalMeny } from './DelmalMeny';
@@ -11,6 +12,7 @@ import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
 import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import { VariabelSerializer } from './VariabelSerializer';
+import { useBrevFeilContext } from '../../context/BrevFeilContext';
 
 const Background = styled.div`
     --ac-expansioncard-bg: ${ABlue50};
@@ -73,6 +75,7 @@ const Delmal: React.FC<Props> = ({
     inkluderIBrev,
     settInkluderIBrev,
 }) => {
+    const { delmalInneholderMangler } = useBrevFeilContext();
     return (
         <Background>
             <ExpansionCard
@@ -81,7 +84,14 @@ const Delmal: React.FC<Props> = ({
                 defaultOpen={delmal.visningsdetaljer.skalAlltidMed}
             >
                 <ExpansionCard.Header>
-                    <ExpansionCard.Title size="small">{delmal.visningsnavn}</ExpansionCard.Title>
+                    <HStack wrap={false} align={'center'} gap={'2'}>
+                        {delmalInneholderMangler(delmal._id) && (
+                            <ExclamationmarkTriangleIcon color={'red'} fontSize={'2rem'} />
+                        )}
+                        <ExpansionCard.Title size="small">
+                            {delmal.visningsnavn}
+                        </ExpansionCard.Title>
+                    </HStack>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
                     <Container>

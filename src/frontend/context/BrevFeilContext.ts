@@ -111,6 +111,10 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     const manglerVerdi = (delmalId: string, komponentId: string) =>
         manglerPerDelmal[delmalId]?.has(komponentId);
 
+    const delmalInneholderMangler = (delmalId: string) => {
+        return (manglerPerDelmal[delmalId]?.size ?? 0) > 0;
+    };
+
     const nullstillValgfelt = (delmalId: string, komponentId: string) => {
         settManglendeValgfelt((prevState) =>
             prevState
@@ -162,6 +166,7 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
     return {
         manglendeBrevVariabler,
         manglendeValgfelt,
+        delmalInneholderMangler,
         oppdaterMangelIBrev,
         manglerVerdi,
         nullstillValgfelt,
