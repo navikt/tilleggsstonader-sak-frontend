@@ -25,34 +25,19 @@ import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
-export const Kolonner = styled.div`
+export const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-`;
-
-export const Venstrekolonne = styled.div`
-    padding: 1rem 2rem 1rem 2rem;
-    height: inherit;
-    overflow: auto;
-    @media (min-width: 1225px) {
-        height: calc(100vh - 3.5rem);
-        max-width: 750px;
-    }
-`;
-
-export const Høyrekolonne = styled.div`
-    display: flex;
-    flex: 1 1 auto;
-    min-width: 450px;
     height: calc(100vh - 3.5rem);
 `;
 
-const InnerContainer = styled.div`
+const VenstreKolonne = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
     min-width: 42.75rem;
+    padding: 1rem 2rem 10rem 1rem;
 `;
 
 export const Journalføring: React.FC = () => {
@@ -142,74 +127,66 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     return (
         <>
-            <Kolonner>
-                <Venstrekolonne>
-                    <InnerContainer>
-                        <section>
-                            <Heading spacing size={'medium'} level={'1'}>
-                                Journalføring
-                            </Heading>
-                            <JournalpostPanel
-                                journalpost={journalResponse.journalpost}
-                                journalpostState={journalpostState}
-                            />
-                        </section>
-                        <section>
-                            <Heading spacing size={'small'} level={'2'}>
-                                Dokumenter
-                            </Heading>
-                            <Dokumenter journalpostState={journalpostState} />
-                        </section>
-                        <section>
-                            <Heading spacing size={'small'} level={'2'}>
-                                Bruker
-                            </Heading>
-                            <BrukerPanel journalpostResponse={journalResponse} />
-                        </section>
-                        <section>
-                            <Heading spacing size={'small'} level={'2'}>
-                                Avsender
-                            </Heading>
-                            <AvsenderPanel
-                                journalpostResponse={journalResponse}
-                                journalpostState={journalpostState}
-                            />
-                        </section>
-                        <section>
-                            <Heading spacing size={'small'} level={'2'}>
-                                Behandling
-                            </Heading>
-                            <Behandlinger
-                                journalpostState={journalpostState}
-                                settFeilmelding={settFeilmelding}
-                            />
-                        </section>
-                        <Feilmelding feil={feilmelding} />
-                        <Feilmelding feil={innsendingsfeil} />
-                        <HStack gap="4" justify="end">
-                            <Button
-                                size={'small'}
-                                variant={'tertiary'}
-                                onClick={() => navigate('/')}
-                            >
-                                Avbryt
-                            </Button>
-                            <Button
-                                size={'small'}
-                                variant={'primary'}
-                                onClick={validerOgJournalfør}
-                                loading={senderInnJournalføring}
-                                disabled={senderInnJournalføring}
-                            >
-                                Journalfør
-                            </Button>
-                        </HStack>
-                    </InnerContainer>
-                </Venstrekolonne>
-                <Høyrekolonne>
-                    <PdfVisning journalpostState={journalpostState} />
-                </Høyrekolonne>
-            </Kolonner>
+            <Container>
+                <VenstreKolonne>
+                    <section>
+                        <Heading spacing size={'medium'} level={'1'}>
+                            Journalføring
+                        </Heading>
+                        <JournalpostPanel
+                            journalpost={journalResponse.journalpost}
+                            journalpostState={journalpostState}
+                        />
+                    </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Dokumenter
+                        </Heading>
+                        <Dokumenter journalpostState={journalpostState} />
+                    </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Bruker
+                        </Heading>
+                        <BrukerPanel journalpostResponse={journalResponse} />
+                    </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Avsender
+                        </Heading>
+                        <AvsenderPanel
+                            journalpostResponse={journalResponse}
+                            journalpostState={journalpostState}
+                        />
+                    </section>
+                    <section>
+                        <Heading spacing size={'small'} level={'2'}>
+                            Behandling
+                        </Heading>
+                        <Behandlinger
+                            journalpostState={journalpostState}
+                            settFeilmelding={settFeilmelding}
+                        />
+                    </section>
+                    <Feilmelding feil={feilmelding} />
+                    <Feilmelding feil={innsendingsfeil} />
+                    <HStack gap="4" justify="end">
+                        <Button size={'small'} variant={'tertiary'} onClick={() => navigate('/')}>
+                            Avbryt
+                        </Button>
+                        <Button
+                            size={'small'}
+                            variant={'primary'}
+                            onClick={validerOgJournalfør}
+                            loading={senderInnJournalføring}
+                            disabled={senderInnJournalføring}
+                        >
+                            Journalfør
+                        </Button>
+                    </HStack>
+                </VenstreKolonne>
+                <PdfVisning journalpostState={journalpostState} />
+            </Container>
             <BekreftJournalføringModal journalpostState={journalpostState} />
         </>
     );
