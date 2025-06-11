@@ -32,6 +32,7 @@ export interface KildeResultatYtelse {
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     DAGPENGER = 'DAGPENGER',
+    TILTAKSPENGER = 'TILTAKSPENGER',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
@@ -39,12 +40,14 @@ export enum TypeRegisterYtelse {
 export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
     AAP: MålgruppeType.AAP,
     DAGPENGER: MålgruppeType.DAGPENGER,
+    TILTAKSPENGER: MålgruppeType.TILTAKSPENGER,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
 };
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
+    TILTAKSPENGER: 'tiltakspenger',
     DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
@@ -52,6 +55,7 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
+    TILTAKSPENGER: 'Tiltakspenger',
     DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
