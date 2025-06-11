@@ -10,19 +10,20 @@ import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 import { formaterDatoMedTidspunkt, formaterTilTekstligDato } from '../../../utils/dato';
 
 const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
-    const { request } = useApp();
+    const { request2 } = useApp();
 
     const [aktiviteter, settAktiviteter] = useState<Ressurs<AktiviteterDto>>(byggHenterRessurs());
 
     const [oppdatertTidspunkt, settOppdatertTidspunkt] = useState<Date | undefined>();
 
     const hentAktiviter = useCallback(async () => {
-        const response = request<AktiviteterDto, null>(
-            `/api/sak/register-aktivitet/${fagsakPersonId}`,
-            'GET'
-        );
+        const response = request2<AktiviteterDto, null>({
+            url: `/api/sak/register-aktivitet2/${fagsakPersonId}`,
+            method: 'GET',
+            tittel: 'Registeraktiviteter',
+        });
         settAktiviteter(await response);
-    }, [fagsakPersonId, request]);
+    }, [fagsakPersonId, request2]);
 
     useEffect(() => {
         hentAktiviter().then(() => settOppdatertTidspunkt(new Date()));

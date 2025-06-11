@@ -27,6 +27,7 @@ export type RessursFeilet = {
     feilkode: string | undefined;
     status: RessursStatusFeilet;
     httpStatus: number | undefined;
+    tittel: string;
 };
 
 export type Ressurs<T> =
@@ -54,13 +55,14 @@ export const byggRessursSuksess = <T>(data: T): RessursSuksess<T> => {
     };
 };
 
-export const byggRessursFeilet = (feilmelding: string): RessursFeilet => {
+export const byggRessursFeilet = (tittel: string, feilmelding: string): RessursFeilet => {
     return {
         status: RessursStatus.FEILET,
         frontendFeilmelding: feilmelding,
         frontendFeilmeldingUtenFeilkode: feilmelding,
         feilkode: undefined,
         httpStatus: undefined,
+        tittel: tittel,
     };
 };
 

@@ -13,7 +13,11 @@ export const feiletRessursTilFeilmelding = (
     tittel?: string
 ): Feil => ({
     feilmelding: feiletRessurs.frontendFeilmeldingUtenFeilkode || feiletRessurs.frontendFeilmelding,
-    tittel: tittel,
+    tittel:
+        tittel ??
+        (feiletRessurs.frontendFeilmeldingUtenFeilkode === 'Ukjent feil'
+            ? feiletRessurs.tittel
+            : undefined),
     status: feiletRessurs.status,
     feilkode: feiletRessurs.feilkode,
     feilmeldingMedFeilkode: feiletRessurs.frontendFeilmelding,

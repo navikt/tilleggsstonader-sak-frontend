@@ -4,12 +4,14 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'UPDATE';
 
-export const fetchFn = <ResponseData, RequestData>(
-    url: string,
-    method: Method,
-    settIkkeAutentisert: () => void,
-    data?: RequestData
-): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
+export const fetchFn = <ResponseData, RequestData>(props: {
+    url: string;
+    method: Method;
+    tittel?: string;
+    data?: RequestData;
+    settIkkeAutentisert: () => void;
+}): Promise<RessursSuksess<ResponseData> | RessursFeilet> => {
+    const { url, method, settIkkeAutentisert, data } = props;
     const requestId = uuidv4().replaceAll('-', '');
 
     return fetch(url, {
@@ -27,7 +29,7 @@ export const fetchFn = <ResponseData, RequestData>(
                 if (res.status === 401) {
                     settIkkeAutentisert();
                 }
-                return håndterFeil(res, res.headers);
+                return håndterFeil(res, res.headers, props.tittel);
             }
         })
         .catch((error) => {
@@ -39,6 +41,7 @@ export const fetchFn = <ResponseData, RequestData>(
                 frontendFeilmeldingUtenFeilkode: error.detail,
                 feilkode: feilkode(error.headers),
                 httpStatus: undefined,
+                tittel: props.tittel,
             };
         });
 };
@@ -59,13 +62,18 @@ const håndterSuksess = <ResponseData>(res: Response): Promise<RessursSuksess<Re
     });
 };
 
-const håndterFeil = (response: Response, headers: Headers): Promise<RessursFeilet> =>
+const håndterFeil = (
+    response: Response,
+    headers: Headers,
+    tittel?: string
+): Promise<RessursFeilet> =>
     response.json().then((res) => ({
         status: response.status === 400 ? RessursStatus.FUNKSJONELL_FEIL : RessursStatus.FEILET,
         frontendFeilmelding: feilmeldingMedCallId(res.detail, headers),
         frontendFeilmeldingUtenFeilkode: res.detail,
         feilkode: feilkode(headers),
         httpStatus: response.status,
+        tittel: tittel,
     }));
 
 const feilmeldingMedCallId = (feilmelding: string, headers?: Headers): string => {

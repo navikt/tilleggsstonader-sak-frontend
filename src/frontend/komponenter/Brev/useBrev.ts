@@ -43,7 +43,7 @@ const useBrev = (ytelse: Stønadstype) => {
                 settBrevmaler(byggRessursSuksess(data));
             })
             .catch((error) => {
-                settBrevmaler(byggRessursFeilet(error.message));
+                settBrevmaler(byggRessursFeilet('Brevmaler', error.message));
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -57,7 +57,7 @@ const useBrev = (ytelse: Stønadstype) => {
                         settMalStruktur(byggRessursSuksess(data));
                     }
                 })
-                .catch((error) => settMalStruktur(byggRessursFeilet(error.message)));
+                .catch((error) => settMalStruktur(byggRessursFeilet('Malstruktur', error.message)));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brevmal]);

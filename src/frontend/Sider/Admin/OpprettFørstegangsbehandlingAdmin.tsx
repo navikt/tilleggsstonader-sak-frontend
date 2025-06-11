@@ -133,7 +133,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
         settOpprettBehandlingResponse(byggTomRessurs());
         settValgteBarn([]);
         if (!erGyldigFnr(ident)) {
-            settPersoninfo(byggRessursFeilet('Ikke gyldig ident.'));
+            settPersoninfo(byggRessursFeilet('Personinfo', 'Ikke gyldig ident.'));
             return;
         }
         settPersoninfo(byggHenterRessurs());

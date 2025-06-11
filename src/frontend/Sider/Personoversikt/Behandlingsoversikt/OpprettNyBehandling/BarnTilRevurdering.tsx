@@ -30,13 +30,14 @@ const BarnTilRevurdering: React.FC<{
     >;
     settValgteBarn: (identer: string[]) => void;
 }> = ({ fagsakId, barnTilRevurdering, settBarnTilRevurdering, settValgteBarn }) => {
-    const { request } = useApp();
+    const { request2 } = useApp();
 
     const hentBarnTilRevurdering = (fagsakId: string) => {
         settBarnTilRevurdering(byggHenterRessurs());
-        request<BarnTilRevurderingResponse, null>(
-            `/api/sak/behandling/barn-til-revurdering/${fagsakId}`
-        ).then(settBarnTilRevurdering);
+        request2<BarnTilRevurderingResponse, null>({
+            tittel: 'Barn til revurdering',
+            url: `/api/sak/behandling/barn-til-revurdering/${fagsakId}`,
+        }).then(settBarnTilRevurdering);
     };
 
     useEffect(() => {

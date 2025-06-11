@@ -22,7 +22,23 @@ const [AppProvider, useApp] = constate(
 
         const request = useCallback(
             <RES, REQ>(url: string, method: Method = 'GET', data?: REQ) =>
-                fetchFn<RES, REQ>(url, method, () => settIkkeAutentisert(), data),
+                fetchFn<RES, REQ>({
+                    url,
+                    method,
+                    data,
+                    settIkkeAutentisert,
+                }),
+            [settIkkeAutentisert]
+        ); // Saksbehandler skal inn som dep etter hvert
+        const request2 = useCallback(
+            <RES, REQ>(props: { tittel?: string; url: string; method?: Method; data?: REQ }) =>
+                fetchFn<RES, REQ>({
+                    tittel: props.tittel,
+                    url: props.url,
+                    method: props.method || 'GET',
+                    data: props.data,
+                    settIkkeAutentisert: settIkkeAutentisert,
+                }),
             [settIkkeAutentisert]
         ); // Saksbehandler skal inn som dep etter hvert
 
@@ -43,6 +59,7 @@ const [AppProvider, useApp] = constate(
 
         return {
             request,
+            request2,
             autentisert,
             settIkkeAutentisert,
             saksbehandler,
