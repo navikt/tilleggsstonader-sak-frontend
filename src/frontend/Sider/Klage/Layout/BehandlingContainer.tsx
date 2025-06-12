@@ -24,6 +24,10 @@ import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
 const Container = styled.div`
     display: flex;
     flex-shrink: 2;
+
+    > * {
+        padding-bottom: 64px;
+    }
 `;
 
 interface HøyreMenyWrapperProps {
@@ -37,7 +41,6 @@ const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
     width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
     min-width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
     transition: all 0.25s;
-    padding-bottom: 64px;
 `;
 
 interface InnholdWrapperProps {
@@ -51,7 +54,6 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     min-width: 0;
     max-width: ${(p) => (p.$åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
     z-index: 9;
-    padding-bottom: 64px;
 `;
 
 const BehandlingContainer: FC = () => {
