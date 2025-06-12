@@ -18,7 +18,7 @@ const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerson
 
     const hentAktiviter = useCallback(async () => {
         const response = request<AktiviteterDto, null>(
-            `/api/sak/register-aktivitet/${fagsakPersonId}`,
+            `/api/sak/register-aktivitet2/${fagsakPersonId}`,
             'GET'
         );
         settAktiviteter(await response);
@@ -29,7 +29,7 @@ const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerson
     }, [fagsakPersonId, hentAktiviter]);
 
     return (
-        <DataViewer response={{ aktiviteter }}>
+        <DataViewer type={'aktiviteter'} response={{ aktiviteter }}>
             {({ aktiviteter }) => (
                 <>
                     <Heading size="small" spacing>
