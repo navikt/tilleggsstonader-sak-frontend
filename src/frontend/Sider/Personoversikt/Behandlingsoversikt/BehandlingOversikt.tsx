@@ -25,7 +25,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     return (
         <>
             <Heading size="small">Behandlinger i TS-sak</Heading>
-            <DataViewer response={{ behandlingsoversikt }}>
+            <DataViewer type={'behandlingsoversikt'} response={{ behandlingsoversikt }}>
                 {({ behandlingsoversikt }) => (
                     <>
                         {behandlingsoversikt.tilsynBarn && (

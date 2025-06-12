@@ -50,7 +50,7 @@ const InnvilgeLæremidlerMedPerioderFraForrigeBehandling = ({
     }, [hentForrigeVedtak, forrigeIverksatteBehandlingId, stønadstype]);
 
     return (
-        <DataViewer response={{ forrigeVedtak }}>
+        <DataViewer type={'forrige vedtak'} response={{ forrigeVedtak }}>
             {({ forrigeVedtak }) => {
                 return (
                     <InnvilgeLæremidler

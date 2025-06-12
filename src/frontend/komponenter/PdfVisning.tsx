@@ -55,7 +55,7 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
     }
 
     return (
-        <DataViewer response={{ pdfFilInnhold }}>
+        <DataViewer type={'pdf'} response={{ pdfFilInnhold }}>
             {({ pdfFilInnhold }) => (
                 <DokumentWrapper>
                     <Pagination

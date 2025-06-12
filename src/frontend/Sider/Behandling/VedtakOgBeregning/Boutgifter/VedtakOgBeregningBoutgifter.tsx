@@ -41,7 +41,7 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
 
     return (
         <>
-            <DataViewer response={{ vedtak }}>
+            <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
                     <Container>
                         <VarselVedtakIArena />

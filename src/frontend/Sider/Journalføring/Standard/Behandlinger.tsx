@@ -70,7 +70,7 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
         journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING;
 
     return (
-        <DataViewer response={{ behandlinger }}>
+        <DataViewer type={'behandlinger'} response={{ behandlinger }}>
             {({ behandlinger }) => {
                 const behandlingstypePåNyBehandling =
                     behandlingTypeTilTekst[

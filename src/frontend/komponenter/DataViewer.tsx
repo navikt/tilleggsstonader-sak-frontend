@@ -21,7 +21,7 @@ import { feiletRessursTilFeilmelding } from './Feil/feilmeldingUtils';
 interface DataViewerProps<T extends Record<string, unknown>> {
     children: ((data: T) => React.ReactElement | null) | ReactNode;
     response: { [P in keyof T]: Ressurs<T[P]> };
-    type?: string;
+    type: string;
 }
 
 // eslint-disable-next-line
@@ -47,12 +47,18 @@ function DataViewer<T extends Record<string, unknown>>(
         return (
             <>
                 {responses.filter(erFeilressurs).map((feilet, index) => {
-                    const tittelForFeil =
-                        feilet.frontendFeilmeldingUtenFeilkode === 'Ukjent feil'
-                            ? `Vi kan ikke vise ${type} akkurat nå på grunn av en teknisk feil. Prøv å laste siden på nytt`
-                            : undefined;
+                    const erUkjentFeil = feilet.frontendFeilmeldingUtenFeilkode === 'Ukjent feil';
+                    const tittelForFeil = erUkjentFeil
+                        ? `Vi kan ikke vise ${type} akkurat nå på grunn av en teknisk feil. Prøv å laste siden på nytt.`
+                        : undefined;
                     const feil = feiletRessursTilFeilmelding(feilet, tittelForFeil);
-                    return <Feilmelding key={index} feil={feil} />;
+                    const feilUtenFeilmeldingHvisUkjentFeil = tittelForFeil
+                        ? {
+                              ...feil,
+                              feilmelding: ' ',
+                          }
+                        : feil;
+                    return <Feilmelding key={index} feil={feilUtenFeilmeldingHvisUkjentFeil} />;
                 })}
             </>
         );

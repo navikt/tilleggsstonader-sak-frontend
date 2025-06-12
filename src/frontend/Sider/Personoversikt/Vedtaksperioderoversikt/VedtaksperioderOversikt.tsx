@@ -26,7 +26,10 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
             <Heading size="small" spacing>
                 Vedtaksperioder i TS-sak
             </Heading>
-            <DataViewer response={{ vedtaksperioderOversikt, arenaSakOgVedtak }}>
+            <DataViewer
+                type={'vedtaksperioder'}
+                response={{ vedtaksperioderOversikt, arenaSakOgVedtak }}
+            >
                 {({ vedtaksperioderOversikt, arenaSakOgVedtak }) => (
                     <VStack gap={'8'}>
                         {vedtaksperioderOversikt.tilsynBarn.length > 0 && (

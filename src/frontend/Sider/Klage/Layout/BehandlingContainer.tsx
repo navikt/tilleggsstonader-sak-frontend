@@ -69,7 +69,7 @@ const BehandlingContainer: FC = () => {
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
     return (
-        <DataViewer response={{ behandling, personopplysninger }}>
+        <DataViewer type={'behandlingsinformasjon'} response={{ behandling, personopplysninger }}>
             {({ behandling, personopplysninger }) => (
                 <KlagebehandlingProvider
                     behandling={behandling}

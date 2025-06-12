@@ -124,7 +124,7 @@ export const InnvilgeLæremidler: React.FC<{
                 {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}
                 <VStack gap="8">
                     {erStegRedigerbart && (
-                        <DataViewer response={{ beregningsresultat }}>
+                        <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
                                 <Beregningsresultat beregningsresultat={beregningsresultat} />
                             )}

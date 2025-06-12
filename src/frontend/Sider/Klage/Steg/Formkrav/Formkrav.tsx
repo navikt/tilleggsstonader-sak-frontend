@@ -32,7 +32,7 @@ export const Formkrav: React.FC<{ behandling: Klagebehandling }> = ({ behandling
     }, [behandling, fagsystemVedtak, hentFagsystemVedtak]);
 
     return (
-        <DataViewer response={{ vilkårsvurderinger, fagsystemVedtak }}>
+        <DataViewer type={'vilkårsvurderinger'} response={{ vilkårsvurderinger, fagsystemVedtak }}>
             {({ vilkårsvurderinger, fagsystemVedtak }) => {
                 return (
                     <FormkravKomponent

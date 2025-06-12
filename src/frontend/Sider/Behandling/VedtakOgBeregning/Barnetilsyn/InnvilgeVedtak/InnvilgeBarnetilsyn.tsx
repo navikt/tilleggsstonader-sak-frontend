@@ -147,7 +147,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                         <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
                     )}
                     {erStegRedigerbart && (
-                        <DataViewer response={{ beregningsresultat }}>
+                        <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
                                 <Beregningsresultat beregningsresultat={beregningsresultat} />
                             )}

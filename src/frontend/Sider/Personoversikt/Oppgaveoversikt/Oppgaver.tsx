@@ -59,7 +59,7 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
                     behandle noen typer oppgaver for tilsyn barn i TS-sak.
                 </HelpText>
             </HStack>
-            <DataViewer response={{ oppgaveResponse, mapper }}>
+            <DataViewer type={'oppgaver'} response={{ oppgaveResponse, mapper }}>
                 {({ oppgaveResponse, mapper }) => (
                     <>
                         <Oppgaveliste

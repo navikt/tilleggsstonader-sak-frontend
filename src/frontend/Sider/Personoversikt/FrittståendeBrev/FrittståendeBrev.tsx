@@ -97,7 +97,7 @@ const FrittståendeBrev: React.FC<{
     };
 
     return (
-        <DataViewer response={{ brevmaler }}>
+        <DataViewer type={'brevmaler'} response={{ brevmaler }}>
             {({ brevmaler }) => (
                 <ToKolonner>
                     <VStack gap="8" align="start">
@@ -113,7 +113,7 @@ const FrittståendeBrev: React.FC<{
                             brevmal={brevmal}
                             settBrevmal={settBrevmal}
                         />
-                        <DataViewer response={{ malStruktur, mellomlagretBrev }}>
+                        <DataViewer type={'delmaler'} response={{ malStruktur, mellomlagretBrev }}>
                             {({ malStruktur, mellomlagretBrev }) => (
                                 <Brevmeny
                                     mal={malStruktur}

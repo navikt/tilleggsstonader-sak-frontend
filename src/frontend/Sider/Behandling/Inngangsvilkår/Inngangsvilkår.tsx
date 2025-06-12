@@ -46,6 +46,7 @@ const Inngangsvilkår = () => {
             <VarselRevurderFraDatoMangler />
 
             <DataViewer
+                type={'inngangsvilkår'}
                 response={{
                     vilkårperioderResponse,
                 }}

@@ -44,6 +44,7 @@ const Stønadsvilkår: React.FC<{
             <VarselVedtakIArena />
             <VarselRevurderFraDatoMangler />
             <DataViewer
+                type={'stønadsvilkår'}
                 response={{
                     regler,
                     vilkårsvurdering,

@@ -29,7 +29,7 @@ const Personoversikt = () => {
     }, []);
 
     return (
-        <DataViewer response={{ personopplysninger }}>
+        <DataViewer type={'personopplysninger'} response={{ personopplysninger }}>
             {({ personopplysninger }) => (
                 <PersonopplysningerProvider personopplysninger={personopplysninger}>
                     <PersonHeader fagsakPersonId={fagsakPersonId} />
