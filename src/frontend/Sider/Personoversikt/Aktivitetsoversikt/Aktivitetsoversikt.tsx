@@ -29,7 +29,7 @@ const Aktivitetsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerson
     }, [fagsakPersonId, hentAktiviter]);
 
     return (
-        <DataViewer response={{ aktiviteter }}>
+        <DataViewer type={'aktiviteter'} response={{ aktiviteter }}>
             {({ aktiviteter }) => (
                 <>
                     <Heading size="small" spacing>

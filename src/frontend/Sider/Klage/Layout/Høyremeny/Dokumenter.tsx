@@ -22,7 +22,7 @@ export const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     }
 
     return (
-        <DataViewer response={{ dokumenter }}>
+        <DataViewer type={'dokumenter'} response={{ dokumenter }}>
             {({ dokumenter }) => {
                 const sortertDokumentliste = sorterDokumentlisten(dokumenter);
                 return (

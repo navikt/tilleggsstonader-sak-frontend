@@ -25,7 +25,7 @@ const Dokumentoversikt: React.FC = () => {
     }, [request, behandling]);
 
     return (
-        <DataViewer response={{ dokumenter }}>
+        <DataViewer type={'dokumenter'} response={{ dokumenter }}>
             {({ dokumenter }) => <Dokumentliste dokumenter={dokumenter} />}
         </DataViewer>
     );

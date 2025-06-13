@@ -40,7 +40,7 @@ export const BehandlingOppsummering = () => {
     }
 
     return (
-        <DataViewer response={{ behandlingOppsummering }}>
+        <DataViewer type={'behandlingsoppsummering'} response={{ behandlingOppsummering }}>
             {({ behandlingOppsummering }) => (
                 <Container>
                     <StyledExpansionCard

@@ -22,7 +22,7 @@ const Simulering: React.FC = () => {
     return (
         <Container>
             <VarselVedtakIArena />
-            <DataViewer response={{ vedtak }}>
+            <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => <SimuleringResultatWrapper vedtak={vedtak} />}
             </DataViewer>
         </Container>

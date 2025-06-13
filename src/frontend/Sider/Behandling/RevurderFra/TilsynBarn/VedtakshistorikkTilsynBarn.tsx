@@ -22,7 +22,7 @@ export const VedtakshistorikkTilsynBarn: FC<Props> = ({ forrigeIverksatteBehandl
     return (
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk tilsyn barn TS-Sak </Heading>
-            <DataViewer response={{ vedtakBarnetilsyn }}>
+            <DataViewer type={'vedtaksperioder'} response={{ vedtakBarnetilsyn }}>
                 {({ vedtakBarnetilsyn }) => (
                     <VedtakshistorikkTilsynBarnTabellVisning
                         vedtakBarnetilsyn={vedtakBarnetilsyn}

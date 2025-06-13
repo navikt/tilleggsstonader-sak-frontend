@@ -33,7 +33,7 @@ const Ytelseoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }
     }, [fagsakPersonId, hentYtelser]);
 
     return (
-        <DataViewer response={{ ytelser }}>
+        <DataViewer type={'andre ytelser'} response={{ ytelser }}>
             {({ ytelser }) => (
                 <>
                     <Heading size={'small'}>

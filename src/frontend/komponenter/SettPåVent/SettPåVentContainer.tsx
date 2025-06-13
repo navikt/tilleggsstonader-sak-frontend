@@ -101,7 +101,7 @@ const SettPåVentContainer: React.FC<{
         }
         return (
             <Container>
-                <DataViewer response={{ statusResponse }}>
+                <DataViewer type={'sett på vent'} response={{ statusResponse }}>
                     {({ statusResponse }) => (
                         <>
                             <SettPåVentInformasjon

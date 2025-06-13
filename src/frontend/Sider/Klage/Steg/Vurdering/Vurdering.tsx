@@ -121,7 +121,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     };
 
     return (
-        <DataViewer response={{ formkrav }}>
+        <DataViewer type={'formkrav'} response={{ formkrav }}>
             {({ formkrav }) => {
                 const skalViseVurderingsvalg =
                     påKlagetVedtakValgt(formkrav) && alleVilkårOppfylt(formkrav);

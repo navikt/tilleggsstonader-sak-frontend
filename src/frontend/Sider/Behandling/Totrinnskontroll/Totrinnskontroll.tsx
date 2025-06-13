@@ -17,7 +17,7 @@ const Totrinnskontroll: FC = () => {
 
     return (
         <>
-            <DataViewer response={{ totrinnskontroll }}>
+            <DataViewer type={'totrinnskontroll'} response={{ totrinnskontroll }}>
                 {({ totrinnskontroll }) => (
                     <TotrinnskontrollSwitch
                         totrinnskontroll={totrinnskontroll}
