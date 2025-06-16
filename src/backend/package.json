@@ -19,7 +19,7 @@
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "http-proxy-middleware": "^3.0.5",
-    "jose": "^5.9.6",
+    "jose": "^6.0.11",
     "node-cache": "^5.1.2",
     "openid-client": "^6.1.4",
     "uuid": "^11.1.0",
