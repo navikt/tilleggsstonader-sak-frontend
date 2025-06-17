@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
+import { Select, VStack } from '@navikt/ds-react';
 import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
 
 import BrevLesevisning from './BrevLesevisning';
@@ -24,6 +24,7 @@ import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
+import { erProd } from '../../../utils/miljø';
 import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
 
 const Container = styled.div`
@@ -55,6 +56,8 @@ const Brev: React.FC = () => {
         malStruktur,
         fil,
         settFil,
+        brukDrafts,
+        settBrukDrafts,
     } = useBrev(behandling.stønadstype);
 
     const { mellomlagretBrev } = useMellomlagrignBrev();
@@ -97,6 +100,18 @@ const Brev: React.FC = () => {
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
+                                {!erProd() && (
+                                    <Select
+                                        label="Velg miljø"
+                                        onChange={(event) => {
+                                            settBrukDrafts(event.target.value === 'true');
+                                        }}
+                                        value={brukDrafts ? 'true' : ''}
+                                    >
+                                        <option value="">Prod</option>
+                                        <option value="true">Drafts</option>
+                                    </Select>
+                                )}
                                 <BrevMottakere
                                     context={contextBrevmottakere}
                                     kanEndreBrevmottakere={behandlingErRedigerbar}

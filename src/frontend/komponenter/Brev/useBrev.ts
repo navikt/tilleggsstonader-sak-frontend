@@ -26,41 +26,49 @@ const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
 };
 
 const useBrev = (ytelse: Stønadstype) => {
-    const sanityClient = useSanityClient();
+    const [brukDrafts, settBrukDrafts] = useState<boolean>(false);
+    const sanityClient = useSanityClient(brukDrafts);
 
     const [brevmal, settBrevmal] = useState<string>();
     const [brevmaler, settBrevmaler] = useState<Ressurs<Brevmal[]>>(byggTomRessurs());
     const [malStruktur, settMalStruktur] = useState<Ressurs<MalStruktur>>(byggTomRessurs());
     const [fil, settFil] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const hentBrevmaler = useCallback((resultat: BrevmalResultat[]) => {
-        sanityClient
-            .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
-                resultat: resultat,
-                ytelse: stønadstypeTilSanityYtelse(ytelse),
-            })
-            .then((data) => {
-                settBrevmaler(byggRessursSuksess(data));
-            })
-            .catch((error) => {
-                settBrevmaler(byggRessursFeilet(error.message));
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const hentBrevmaler = useCallback(
+        (resultat: BrevmalResultat[]) => {
+            sanityClient
+                .fetch<Brevmal[]>(hentMalerQuery(!erProd()), {
+                    resultat: resultat,
+                    ytelse: stønadstypeTilSanityYtelse(ytelse),
+                })
+                .then((data) => {
+                    settBrevmaler(byggRessursSuksess(data));
+                })
+                .catch((error) => {
+                    settBrevmaler(byggRessursFeilet(error.message));
+                });
+        },
+        [sanityClient, ytelse]
+    );
 
     const hentMalStruktur = useCallback(() => {
         if (brevmal) {
+            const query = malQuery(brevmal);
             sanityClient
-                .fetch<MalStruktur>(malQuery(brevmal))
+                .fetch<MalStruktur>(query)
                 .then((data) => {
                     if (data !== null) {
-                        settMalStruktur(byggRessursSuksess(data));
+                        // TODO
+                        const dataMedGyldigeDelmaler: MalStruktur = {
+                            ...data,
+                            delmaler: data.delmaler.filter((delmal) => !!delmal._id),
+                        };
+                        settMalStruktur(byggRessursSuksess(dataMedGyldigeDelmaler));
                     }
                 })
                 .catch((error) => settMalStruktur(byggRessursFeilet(error.message)));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [brevmal]);
+    }, [sanityClient, brevmal]);
 
     return {
         hentBrevmaler,
@@ -72,6 +80,8 @@ const useBrev = (ytelse: Stønadstype) => {
         settMalStruktur,
         fil,
         settFil,
+        brukDrafts,
+        settBrukDrafts,
     };
 };
 
