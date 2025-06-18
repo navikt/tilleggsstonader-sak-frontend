@@ -37,10 +37,13 @@ export enum TypeRegisterYtelse {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
 
-export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
+export const typeRegisterYtelseTilMålgruppeType: Record<
+    TypeRegisterYtelse,
+    MålgruppeType | undefined
+> = {
     AAP: MålgruppeType.AAP,
     DAGPENGER: MålgruppeType.DAGPENGER,
-    TILTAKSPENGER: MålgruppeType.TILTAKSPENGER,
+    TILTAKSPENGER: undefined,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
 };
