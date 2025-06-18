@@ -9,7 +9,7 @@ export interface Registerytelser {
 }
 
 export interface PeriodeYtelseRegister {
-    type: TypeRegisterYtelse;
+    type: TypeRegisterYtelseForVilkårperiode;
     fom: string;
     tom?: string;
     aapErFerdigAvklart?: boolean;
@@ -29,6 +29,11 @@ export interface KildeResultatYtelse {
     resultat: 'OK' | 'FEILET';
 }
 
+export type TypeRegisterYtelseForVilkårperiode = Exclude<
+    TypeRegisterYtelse,
+    TypeRegisterYtelse.TILTAKSPENGER
+>;
+
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     DAGPENGER = 'DAGPENGER',
@@ -38,12 +43,11 @@ export enum TypeRegisterYtelse {
 }
 
 export const typeRegisterYtelseTilMålgruppeType: Record<
-    TypeRegisterYtelse,
-    MålgruppeType | undefined
+    TypeRegisterYtelseForVilkårperiode,
+    MålgruppeType
 > = {
     AAP: MålgruppeType.AAP,
     DAGPENGER: MålgruppeType.DAGPENGER,
-    TILTAKSPENGER: undefined,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
 };

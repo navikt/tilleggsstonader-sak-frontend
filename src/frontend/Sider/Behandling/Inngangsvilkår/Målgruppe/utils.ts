@@ -66,16 +66,12 @@ const nyMålgruppeFraRegister = (
     registrertYtelsePeriode: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
-    if (type !== undefined) {
-        return {
-            type: type,
-            fom: registrertYtelsePeriode.fom,
-            tom: registrertYtelsePeriode.tom || '',
-            vurderinger: resetVurderinger(type, tomVurderingerMålgruppe),
-        };
-    }
-
-    return tomMålgruppeForm();
+    return {
+        type: type,
+        fom: registrertYtelsePeriode.fom,
+        tom: registrertYtelsePeriode.tom || '',
+        vurderinger: resetVurderinger(type, tomVurderingerMålgruppe),
+    };
 };
 
 const tomMålgruppeForm = (): EndreMålgruppeForm => {
