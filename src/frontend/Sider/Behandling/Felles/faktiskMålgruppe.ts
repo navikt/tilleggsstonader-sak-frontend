@@ -3,7 +3,6 @@ import { SelectOption } from '../../../komponenter/Skjema/SelectMedOptions';
 export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     DAGPENGER = 'DAGPENGER',
-    TILTAKSPENGER = 'TILTAKSPENGER',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
 }
@@ -11,7 +10,6 @@ export enum FaktiskMålgruppe {
 export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     DAGPENGER: 'Dagpenger',
-    TILTAKSPENGER: 'Tiltakspenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
 };

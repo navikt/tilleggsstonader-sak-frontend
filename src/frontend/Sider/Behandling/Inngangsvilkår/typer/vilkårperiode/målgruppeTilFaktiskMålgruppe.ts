@@ -4,6 +4,7 @@ import { FaktiskMålgruppe } from '../../../Felles/faktiskMålgruppe';
 export enum MålgruppeSomIkkeGirRettPåStønad {
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+    TILTAKSPENGER = 'TILTAKSPENGER',
 }
 
 export type FaktiskMålgruppeEllerIngenMålgruppe =
@@ -16,7 +17,6 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
 > = {
     AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     DAGPENGER: FaktiskMålgruppe.DAGPENGER,
-    TILTAKSPENGER: FaktiskMålgruppe.TILTAKSPENGER,
     UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
     OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
@@ -24,4 +24,5 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     SYKEPENGER_100_PROSENT: MålgruppeSomIkkeGirRettPåStønad.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: MålgruppeSomIkkeGirRettPåStønad.INGEN_MÅLGRUPPE,
     GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
+    TILTAKSPENGER: MålgruppeSomIkkeGirRettPåStønad.TILTAKSPENGER,
 };
