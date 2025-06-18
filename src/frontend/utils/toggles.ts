@@ -30,4 +30,5 @@ export enum Toggle {
     SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK = `sak.utled-endringsdato-revurdering`,
     KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-på-samme-fagsak',
     KAN_NULLSTILLE_BEHANDLING = `sak.frontend.kan-nullstille-behandling`,
+    SKAL_VISE_TILORDNET_SAKSBEHANDLER = 'sak.frontend.skal-vise-tilordnet-saksbehandler',
 }

@@ -24,6 +24,7 @@ export interface Behandling {
     vedtaksdato?: string;
     revurderFra?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
+    tilordnetSaksbehandler?: string;
 }
 
 export interface HentBehandlingerRequest {
