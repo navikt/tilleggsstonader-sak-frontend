@@ -9,12 +9,15 @@ import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import TilordnetSaksbehandlerCard from '../../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandler';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
 const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
+
     return (
         <VStack gap="8">
+            <TilordnetSaksbehandlerCard />
             <VStack gap={'4'}>
                 <HStack gap="2">
                     <StønadstypeTag stønadstype={behandling.stønadstype} />

@@ -8,6 +8,7 @@ import { AGray100, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
 import HendelseIkon from './HendelseIkon';
 import Metadata from './Metadata';
 import { HistorikkHendelse, hendelseTilHistorikkTekst } from './typer';
+import TilordnetSaksbehandlerCard from '../../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandler';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
 
 const Linje = styled.div`
@@ -49,22 +50,29 @@ const HistorikkElement: React.FC<{
     historikkHendelse: HistorikkHendelse;
 }> = ({ historikkHendelse, erSisteElementIListe }) => {
     return (
-        <Container>
-            <div>
-                <BlåRunding>
-                    <HendelseIkon hendelse={historikkHendelse.hendelse} />
-                </BlåRunding>
-                {!erSisteElementIListe && <Linje />}
-            </div>
-            <InnholdContainer>
-                <Label size="small">{hendelseTilHistorikkTekst[historikkHendelse.hendelse]}</Label>
-                <Detail>
-                    {formaterIsoDatoTidKort(historikkHendelse.endretTid)} |{' '}
-                    {historikkHendelse.endretAvNavn}
-                </Detail>
-                {historikkHendelse.metadata && <Metadata metadata={historikkHendelse.metadata} />}
-            </InnholdContainer>
-        </Container>
+        <>
+            <TilordnetSaksbehandlerCard />
+            <Container style={{ marginTop: '1rem' }}>
+                <div>
+                    <BlåRunding>
+                        <HendelseIkon hendelse={historikkHendelse.hendelse} />
+                    </BlåRunding>
+                    {!erSisteElementIListe && <Linje />}
+                </div>
+                <InnholdContainer>
+                    <Label size="small">
+                        {hendelseTilHistorikkTekst[historikkHendelse.hendelse]}
+                    </Label>
+                    <Detail>
+                        {formaterIsoDatoTidKort(historikkHendelse.endretTid)} |{' '}
+                        {historikkHendelse.endretAvNavn}
+                    </Detail>
+                    {historikkHendelse.metadata && (
+                        <Metadata metadata={historikkHendelse.metadata} />
+                    )}
+                </InnholdContainer>
+            </Container>
+        </>
     );
 };
 
