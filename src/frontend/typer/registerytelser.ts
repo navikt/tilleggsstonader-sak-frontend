@@ -9,7 +9,7 @@ export interface Registerytelser {
 }
 
 export interface PeriodeYtelseRegister {
-    type: TypeRegisterYtelseForVilkårperiode;
+    type: TypeRegisterYtelse;
     fom: string;
     tom?: string;
     aapErFerdigAvklart?: boolean;
