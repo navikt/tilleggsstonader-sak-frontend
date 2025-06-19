@@ -4,7 +4,6 @@ import { Alert, HStack, Link, VStack } from '@navikt/ds-react';
 
 import { DokumentTypeTag, Hoveddokument, Vedlegg } from './DokumentKomponenter';
 import { useBehandling } from '../../../../context/BehandlingContext';
-import TilordnetSaksbehandlerCard from '../../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandler';
 import { DokumentInfo } from '../../../../typer/dokument';
 import {
     grupperDokumenterPåJournalpost,
@@ -19,7 +18,6 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
 
     return (
         <>
-            <TilordnetSaksbehandlerCard />
             <VStack gap="6" style={{ marginTop: '1rem' }}>
                 <Alert variant="info" inline size="small">
                     Vi viser bare tema TSO og TSR her. Se flere dokumenter{' '}
