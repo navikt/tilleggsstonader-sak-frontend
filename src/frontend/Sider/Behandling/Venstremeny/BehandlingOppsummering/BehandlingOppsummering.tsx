@@ -11,7 +11,6 @@ import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsu
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
-import TilordnetSaksbehandlerCard from '../../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandler';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { formaterDato } from '../../../../utils/dato';
 
@@ -30,10 +29,6 @@ const StyledExpansionCard = styled(ExpansionCard)`
     }
 `;
 
-const TilordnetSaksbehandlerContainer = styled.div`
-    padding: 0 0 0.5rem 1rem;
-`;
-
 export const BehandlingOppsummering = () => {
     const { behandling } = useBehandling();
     const { behandlingOppsummering } = useBehandlingOppsummering();
@@ -48,9 +43,6 @@ export const BehandlingOppsummering = () => {
         <DataViewer type={'behandlingsoppsummering'} response={{ behandlingOppsummering }}>
             {({ behandlingOppsummering }) => (
                 <Container>
-                    <TilordnetSaksbehandlerContainer>
-                        <TilordnetSaksbehandlerCard />
-                    </TilordnetSaksbehandlerContainer>
                     <StyledExpansionCard
                         aria-label="Oppsummering av vurderinger"
                         defaultOpen
