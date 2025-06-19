@@ -26,7 +26,9 @@ export const Feilmelding = React.forwardRef<HTMLDivElement | HTMLParagraphElemen
             <Alert variant={finnFeilmeldingVariant(feil.status)} size="small" ref={ref} fullWidth>
                 {feil.tittel && <Label size="small">{feil.tittel}</Label>}
 
-                <BodyShort size="small">{feil.feilmelding}</BodyShort>
+                <BodyShort style={{ whiteSpace: 'pre-wrap' }} size="small">
+                    {feil.feilmelding}
+                </BodyShort>
                 <HStack align="center" wrap={false}>
                     {feil.feilkode && <Detail>Feilkode: {feil.feilkode}</Detail>}
                     {feil.feilmeldingMedFeilkode && (
