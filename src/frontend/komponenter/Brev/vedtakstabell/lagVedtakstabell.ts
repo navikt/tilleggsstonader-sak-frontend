@@ -16,8 +16,7 @@ export type LagVedtakstabell = Record<string, string>;
  */
 export const lagVedtakstabell = (
     behandling: Behandling | undefined,
-    vedtak: VedtakResponse | undefined,
-    skalViseDetaljertBeregningsresultatFlag: boolean
+    vedtak: VedtakResponse | undefined
 ): string => {
     if (!behandling || !vedtak) {
         return '';
@@ -37,8 +36,7 @@ export const lagVedtakstabell = (
             );
         case Stønadstype.BOUTGIFTER:
             return lagVedtakstabellBoutgifter(
-                vedtak.beregningsresultat as BeregningsresultatBoutgifter,
-                skalViseDetaljertBeregningsresultatFlag
+                vedtak.beregningsresultat as BeregningsresultatBoutgifter
             );
         default:
             return '';
