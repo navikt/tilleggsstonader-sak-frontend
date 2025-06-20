@@ -29,6 +29,9 @@ export interface KildeResultatYtelse {
     resultat: 'OK' | 'FEILET';
 }
 
+/**
+ * Beskriver hvilke registerytelser som kan brukes for å opprette en vilkårperiode (målgruppe) i en behandling.
+ */
 export type TypeRegisterYtelseForVilkårperiode = Exclude<
     TypeRegisterYtelse,
     TypeRegisterYtelse.TILTAKSPENGER
