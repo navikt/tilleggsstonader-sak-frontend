@@ -7,7 +7,7 @@ import {
     Svaralternativ,
 } from '../../../typer/regel';
 import { harIkkeVerdi, harVerdi } from '../../../utils/utils';
-import { Delvilkår, Vilkårsresultat, Vurdering } from '../vilkår';
+import { Delvilkår, Vilkår, Vilkårsresultat, Vurdering } from '../vilkår';
 
 export function begrunnelseErPåkrevdOgUtfyllt(
     svarsalternativ: Svaralternativ,
@@ -136,3 +136,12 @@ export const lagTomtDelvilkårsett = (
                 vurderinger: [utledVurdering(regel)],
             };
         });
+
+export const skalFåDekketFaktiskeUtgifter = (vilkår: Vilkår) =>
+    vilkår.delvilkårsett.some((delvilkår) =>
+        delvilkår.vurderinger.some(
+            (vurdering) =>
+                vurdering.regelId === 'HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER' &&
+                vurdering.svar === 'JA'
+        )
+    );
