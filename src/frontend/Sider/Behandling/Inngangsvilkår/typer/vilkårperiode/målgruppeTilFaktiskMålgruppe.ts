@@ -4,7 +4,6 @@ import { FaktiskMålgruppe } from '../../../Felles/faktiskMålgruppe';
 export enum MålgruppeSomIkkeGirRettPåStønad {
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
-    TILTAKSPENGER = 'TILTAKSPENGER',
 }
 
 export type FaktiskMålgruppeEllerIngenMålgruppe =
