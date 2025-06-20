@@ -14,7 +14,6 @@ export interface Målgruppe extends VilkårPeriode {
 
 export enum MålgruppeType {
     AAP = 'AAP',
-    DAGPENGER = 'DAGPENGER',
     UFØRETRYGD = 'UFØRETRYGD',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
     OVERGANGSSTØNAD = 'OVERGANGSSTØNAD',
@@ -26,7 +25,6 @@ export enum MålgruppeType {
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     AAP: 'AAP',
-    DAGPENGER: 'Dagpenger',
     UFØRETRYGD: 'Uføretrygd',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
     OVERGANGSSTØNAD: 'Overgangsstønad',
@@ -39,7 +37,6 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
 const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     [Stønadstype.BARNETILSYN]: {
         AAP: true,
-        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
@@ -50,7 +47,6 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.LÆREMIDLER]: {
         AAP: true,
-        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
@@ -61,7 +57,6 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.BOUTGIFTER]: {
         AAP: true,
-        DAGPENGER: false,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
         OVERGANGSSTØNAD: true,
