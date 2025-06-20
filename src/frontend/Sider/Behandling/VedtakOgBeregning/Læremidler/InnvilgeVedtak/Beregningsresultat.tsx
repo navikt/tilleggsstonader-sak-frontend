@@ -8,6 +8,7 @@ import '@navikt/ds-css';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 
 const Container = styled.div`
@@ -41,8 +42,12 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     <BodyShort size="small">{periode.antallMåneder}</BodyShort>
                     <BodyShort size="small">{studienivåTilTekst[periode.studienivå]}</BodyShort>
                     <BodyShort size="small">{periode.studieprosent}%</BodyShort>
-                    <BodyShort size="small">{periode.stønadsbeløpPerMåned} kr</BodyShort>
-                    <BodyShort size="small">{periode.stønadsbeløpForPeriode} kr</BodyShort>
+                    <BodyShort size="small">
+                        {formaterTallMedTusenSkille(periode.stønadsbeløpPerMåned)} kr
+                    </BodyShort>
+                    <BodyShort size="small">
+                        {formaterTallMedTusenSkille(periode.stønadsbeløpForPeriode)} kr
+                    </BodyShort>
                     <div>
                         {periode.delAvTidligereUtbetaling && (
                             <Alert variant="info" size={'small'} inline>

@@ -7,6 +7,7 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
+import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -40,9 +41,13 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         <React.Fragment key={indeks}>
                             <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
                             <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
-                            <BodyShort size="small">{periode.grunnlag.utgifterTotal}</BodyShort>
+                            <BodyShort size="small">
+                                {formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal)}
+                            </BodyShort>
                             <BodyShort size="small">{periode.dagsats}</BodyShort>
-                            <BodyShort size="small">{periode.månedsbeløp}</BodyShort>
+                            <BodyShort size="small">
+                                {formaterTallMedTusenSkille(periode.månedsbeløp)}
+                            </BodyShort>
                         </React.Fragment>
                     ))}
                 </Grid>
