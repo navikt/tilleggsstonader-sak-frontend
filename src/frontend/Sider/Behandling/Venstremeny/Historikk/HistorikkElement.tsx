@@ -49,7 +49,7 @@ const HistorikkElement: React.FC<{
     historikkHendelse: HistorikkHendelse;
 }> = ({ historikkHendelse, erSisteElementIListe }) => {
     return (
-        <Container>
+        <Container style={{ marginTop: '1rem' }}>
             <div>
                 <BlåRunding>
                     <HendelseIkon hendelse={historikkHendelse.hendelse} />
