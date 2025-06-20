@@ -32,7 +32,6 @@ const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgr
     ...FaktiskMålgruppeTilTekst,
     SYKEPENGER_100_PROSENT: 'Ikke i målgruppe',
     INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
-    TILTAKSPENGER: 'Ikke i målgruppe',
 };
 
 export const OppsummertVilkårsvurdering: React.FC<{
