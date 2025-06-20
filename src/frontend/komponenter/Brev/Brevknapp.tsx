@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Alert, BodyShort, Button, List, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, List, Loader, Textarea, VStack } from '@navikt/ds-react';
 
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
@@ -23,6 +22,7 @@ interface Props {
     inkluderteDelmaler: Record<string, boolean>;
     valgfelt: Partial<Record<string, Record<Valgfelt['_id'], Valg>>>;
     variabler: Partial<Record<string, string>>;
+    generererBrevPdf: boolean;
     kanSendeKommentarTilBeslutter?: boolean;
 }
 
@@ -33,6 +33,7 @@ export const Brevknapp = ({
     inkluderteDelmaler,
     valgfelt,
     variabler,
+    generererBrevPdf,
     kanSendeKommentarTilBeslutter = false,
 }: Props) => {
     const [laster, settLaster] = useState<boolean>(false);
@@ -67,8 +68,16 @@ export const Brevknapp = ({
                     style={{ maxWidth: '400px' }}
                 />
             )}
-            <Knapp onClick={trykkPåKnapp} disabled={laster} size="small">
-                {tittel}
+            <Knapp onClick={trykkPåKnapp} disabled={laster || generererBrevPdf} size="small">
+                <HStack gap={'2'}>
+                    {generererBrevPdf ? (
+                        <>
+                            <Loader size={'small'} /> Genererer brev
+                        </>
+                    ) : (
+                        tittel
+                    )}
+                </HStack>
             </Knapp>
             <Feilmelding feil={feilmelding} />
             <FeilmeldingBrev />

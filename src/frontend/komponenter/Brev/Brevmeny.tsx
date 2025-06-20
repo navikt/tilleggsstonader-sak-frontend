@@ -100,6 +100,7 @@ const Brevmeny: React.FC<Props> = ({
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(mellomlagredeValgfelt || {});
+    const [generererBrevPdf, settGenerererBrevPdf] = useState(false);
 
     const { variabelStore } = lagVerdier(behandling, vedtak);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
@@ -176,19 +177,19 @@ const Brevmeny: React.FC<Props> = ({
                 htmlVariabler: genererHtmlVariabler(),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
-        }).then(settFil);
+        })
+            .then(settFil)
+            .finally(() => {
+                settGenerererBrevPdf(false);
+            });
     };
 
     const utsattGenererBrev = useDebouncedCallback(genererPdf, 1000);
 
-    useEffect(utsattGenererBrev, [
-        utsattGenererBrev,
-        mal,
-        variabler,
-        valgfelt,
-        fritekst,
-        inkluderteDelmaler,
-    ]);
+    useEffect(() => {
+        settGenerererBrevPdf(true);
+        utsattGenererBrev();
+    }, [utsattGenererBrev, mal, variabler, valgfelt, fritekst, inkluderteDelmaler]);
 
     const erEndringerIDelmal = (delmalId: string) => {
         const valgfeltForDelmal = valgfelt[delmalId] || {};
@@ -234,6 +235,7 @@ const Brevmeny: React.FC<Props> = ({
                     inkluderteDelmaler={inkluderteDelmaler}
                     valgfelt={valgfelt}
                     variabler={variabler}
+                    generererBrevPdf={generererBrevPdf}
                     kanSendeKommentarTilBeslutter={brevknapp.kanSendeKommentarTilBeslutter}
                 />
             )}
