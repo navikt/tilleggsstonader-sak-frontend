@@ -63,10 +63,10 @@ export const hjelpetekster: Record<RegelId, string[]> = {
         'Ved privat pass så skal det vurderes om det er sannsynlig at søker har hatt utgifter til barnepass i perioden det søkes for. Avtale mellom barnepasser og søker eller A-melding kan være eksempler på dokumentasjon som godtas. Skjermbilde av betalinger via vipps eller bankutskrift godkjennes ikke. ',
     ],
     NØDVENDIGE_MERUTGIFTER: [
-        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
+        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og aktivitetssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
     ],
     NØDVENDIG_Å_BO_NÆRMERE_AKTIVITET: [
-        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og arbeidssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
+        'Det må vurderes om aktivitetsstedet er i naturlig pendleravstand fra bostedet. Ved vurdering av naturlig pendleravstand skal det blant annet legges vekt på avstanden mellom hjem og aktivitetssted, tilgjengelig transportmidler, reisetid, kostnader og ev. andre forhold knyttet til søker.',
     ],
 };
 
