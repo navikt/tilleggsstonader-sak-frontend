@@ -29,7 +29,13 @@ const TilordnetSaksbehandlerCard: React.FC = () => {
             {visTilordnetSaksbehandler && (
                 <VStack>
                     <Heading size="xsmall">Ansvarlig saksbehandler:</Heading>
-                    <BodyShort size="small">{behandling.tilordnetSaksbehandler ?? '-'}</BodyShort>
+                    <BodyShort size="small">
+                        {behandling.tilordnetSaksbehandler
+                            ? behandling.tilordnetSaksbehandler.fornavn +
+                              ' ' +
+                              behandling.tilordnetSaksbehandler.etternavn
+                            : '-'}
+                    </BodyShort>
                 </VStack>
             )}
         </>
