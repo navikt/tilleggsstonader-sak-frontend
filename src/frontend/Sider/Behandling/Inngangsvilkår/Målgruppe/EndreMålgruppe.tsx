@@ -22,7 +22,6 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { PeriodeYtelseRegister } from '../../../../typer/registerytelser';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import {
@@ -31,7 +30,7 @@ import {
     målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -56,7 +55,7 @@ const FeltContainer = styled.div`
 const initaliserForm = (
     alleFelterKanEndres: boolean,
     eksisterendeMålgruppe?: Målgruppe,
-    registrertYtelsePeriode?: PeriodeYtelseRegister
+    registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     return eksisterendeMålgruppe === undefined
         ? nyMålgruppe(registrertYtelsePeriode)
@@ -65,7 +64,7 @@ const initaliserForm = (
 
 const EndreMålgruppe: React.FC<{
     målgruppe?: Målgruppe;
-    registerYtelsePeriode?: PeriodeYtelseRegister;
+    registerYtelsePeriode?: YtelseGrunnlagPeriode;
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { behandling, behandlingFakta } = useBehandling();

@@ -29,14 +29,26 @@ export interface KildeResultatYtelse {
     resultat: 'OK' | 'FEILET';
 }
 
+/**
+ * Beskriver hvilke registerytelser som kan brukes for å opprette en vilkårperiode (målgruppe) i en behandling.
+ */
+export type TypeRegisterYtelseForVilkårperiode = Exclude<
+    TypeRegisterYtelse,
+    TypeRegisterYtelse.TILTAKSPENGER
+>;
+
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     DAGPENGER = 'DAGPENGER',
+    TILTAKSPENGER = 'TILTAKSPENGER',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
 
-export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
+export const typeRegisterYtelseTilMålgruppeType: Record<
+    TypeRegisterYtelseForVilkårperiode,
+    MålgruppeType
+> = {
     AAP: MålgruppeType.AAP,
     DAGPENGER: MålgruppeType.DAGPENGER,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
@@ -45,6 +57,7 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
+    TILTAKSPENGER: 'tiltakspenger',
     DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
@@ -52,6 +65,7 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
+    TILTAKSPENGER: 'Tiltakspenger',
     DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
