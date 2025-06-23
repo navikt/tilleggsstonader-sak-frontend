@@ -3,10 +3,11 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
+import { skalFåDekketFaktiskeUtgifter } from './utils';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
@@ -70,6 +71,11 @@ const LesevisningVilkår: FC<{
                         <BodyShort size="small">
                             {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
                         </BodyShort>
+                        {skalFåDekketFaktiskeUtgifter(vilkår) && (
+                            <Tag variant="alt1" size={'xsmall'} style={{ maxWidth: 'fit-content' }}>
+                                Faktiske utgifter
+                            </Tag>
+                        )}
                     </VStack>
                     <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
                         {!erFremtidigUtgift &&

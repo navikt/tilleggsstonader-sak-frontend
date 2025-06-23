@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
@@ -29,6 +30,7 @@ import {
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
+import { Toggle } from '../../../../utils/toggles';
 
 const StyledForm = styled.form`
     background: white;
@@ -71,6 +73,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
+
+    const skalTillateIngenHøyereUtgifter = useFlag(Toggle.BOUTGIFTER_TILLAT_HOYERE_UTGIFTER);
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -117,7 +121,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             fom,
             tom,
             behandling.revurderFra,
-            erFremtidigUtgift
+            erFremtidigUtgift,
+            skalTillateIngenHøyereUtgifter
         );
 
         settFeilmeldinger(valideringsfeil);
