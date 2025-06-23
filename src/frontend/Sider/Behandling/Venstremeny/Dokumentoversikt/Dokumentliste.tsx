@@ -17,7 +17,7 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
     const journalposterSortertPåTid = sorterJournalpostPåTid(dokumenterGruppertPåJournalpost);
 
     return (
-        <VStack gap="6" style={{ marginTop: '1rem' }}>
+        <VStack gap="6">
             <Alert variant="info" inline size="small">
                 Vi viser bare tema TSO og TSR her. Se flere dokumenter{' '}
                 <Link
