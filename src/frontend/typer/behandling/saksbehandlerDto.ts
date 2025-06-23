@@ -1,7 +1,7 @@
-export interface Saksbehandler {
+export interface SaksbehandlerDto {
     fornavn: string;
     etternavn: string;
-    roller: SaksbehandlerRolle;
+    rolle: SaksbehandlerRolle;
 }
 
 export enum SaksbehandlerRolle {

@@ -11,6 +11,7 @@ import {
     HenleggMenuItem,
     LenkerGroup,
 } from '../../../komponenter/Hamburgermeny/Hamburgermeny';
+import TilordnetSaksbehandlerCard from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerCard';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { Steg } from '../../../typer/behandling/steg';
 import { Toggle } from '../../../utils/toggles';
@@ -33,6 +34,7 @@ export const HamburgermenyBehandling = () => {
 
     return (
         <Hamburgermeny>
+            <TilordnetSaksbehandlerCard />
             <LenkerGroup ident={personopplysninger.personIdent} />
             <ActionMenu.Group label={'Behandling'}>
                 {skalViseRedigerSaksopplysninger && (
