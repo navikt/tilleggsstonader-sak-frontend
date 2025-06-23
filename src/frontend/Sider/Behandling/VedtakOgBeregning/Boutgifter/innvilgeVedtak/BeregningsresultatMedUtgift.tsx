@@ -60,7 +60,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                                 )}
                             </Table.DataCell>
                         </TableRow>
-                        {periode.utgifterTilUtbetaling.map((utgift, index, utgifter) => (
+                        {periode.utgifter.map((utgift, index, utgifter) => (
                             <TableRowGray
                                 key={utgift.fom + utgift.tom}
                                 borderbottom={index === utgifter.length - 1}
