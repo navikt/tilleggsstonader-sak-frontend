@@ -58,15 +58,15 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         ))}
                     </Grid>
                 </Container>
-                {endringsdatoUtledesAutomatisk && beregningsresultat.beregnetFra && (
-                    <VStack gap="2">
-                        <Label size="small">Beregnet fra første endring i revurdering:</Label>
-                        <BodyShort size="small">
-                            {formaterIsoDato(beregningsresultat.beregnetFra)}
-                        </BodyShort>
-                    </VStack>
-                )}
             </VStack>
+            {endringsdatoUtledesAutomatisk && beregningsresultat.beregnetFra && (
+                <VStack gap="2">
+                    <Label size="small">Beregnet fra første endring i revurdering:</Label>
+                    <BodyShort size="small">
+                        {formaterIsoDato(beregningsresultat.beregnetFra)}
+                    </BodyShort>
+                </VStack>
+            )}
         </>
     );
 };
