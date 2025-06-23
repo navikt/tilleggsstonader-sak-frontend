@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
-import { BodyShort, Heading, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { useBehandling } from '../../context/BehandlingContext';
-import { Toggle } from '../../utils/toggles';
+import { SaksbehandlerDto, SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
 
-const TilordnetSaksbehandlerCard: React.FC = () => {
+const TilordnetSaksbehandler: React.FC = () => {
     const [retryCount, setRetryCount] = useState(0);
     const maxRetries = 3;
     const { behandling, hentBehandling } = useBehandling();
-    const visTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
 
     useEffect(() => {
-        if (!behandling.tilordnetSaksbehandler && retryCount < maxRetries) {
+        if (
+            behandling.tilordnetSaksbehandler?.rolle === SaksbehandlerRolle.OPPGAVE_FINNES_IKKE &&
+            retryCount < maxRetries
+        ) {
             const timeout = setTimeout(() => {
                 hentBehandling.rerun();
                 setRetryCount((prev) => prev + 1);
@@ -24,22 +24,45 @@ const TilordnetSaksbehandlerCard: React.FC = () => {
         }
     }, [behandling.tilordnetSaksbehandler, hentBehandling, retryCount]);
 
+    const saksbehandler = behandling.tilordnetSaksbehandler;
+
+    const visingsnavn = utledVisningsnavn(saksbehandler);
+
+    const skalViseAnsvarligSaksbehandler =
+        saksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE;
+
     return (
-        <>
-            {visTilordnetSaksbehandler && (
-                <VStack>
-                    <Heading size="xsmall">Ansvarlig saksbehandler:</Heading>
-                    <BodyShort size="small">
-                        {behandling.tilordnetSaksbehandler
-                            ? behandling.tilordnetSaksbehandler.fornavn +
-                              ' ' +
-                              behandling.tilordnetSaksbehandler.etternavn
-                            : '-'}
+        <div>
+            {skalViseAnsvarligSaksbehandler && (
+                <div>
+                    <BodyShort weight={'semibold'} size={'small'}>
+                        Ansvarlig saksbehandler:
                     </BodyShort>
-                </VStack>
+                    <BodyShort size={'small'}>{visingsnavn}</BodyShort>
+                </div>
             )}
-        </>
+            <div style={{ marginLeft: '-1rem', marginTop: '0.5rem' }}>
+                {saksbehandler?.rolle ===
+                    SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
+                    <Alert variant={'warning'} style={{ padding: '1rem' }}>
+                        Behandlingens tilhørende oppgave er enten feilregistrert eller satt på et
+                        annet tema.
+                    </Alert>
+                )}
+            </div>
+        </div>
     );
 };
 
-export default TilordnetSaksbehandlerCard;
+export function utledVisningsnavn(ansvarligSaksbehandler: SaksbehandlerDto | undefined) {
+    switch (ansvarligSaksbehandler?.rolle) {
+        case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
+        case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
+        case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
+            return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
+        default:
+            return 'ingen ansvarlig';
+    }
+}
+
+export default TilordnetSaksbehandler;
