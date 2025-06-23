@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
@@ -7,7 +8,9 @@ import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
+import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
+import { Toggle } from '../../../../../utils/toggles';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -28,31 +31,42 @@ interface Props {
 }
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+    const endringsdatoUtledesAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
     return (
-        <VStack gap={'8'}>
-            <Container>
-                <Grid>
-                    <Label>Periode</Label>
-                    <Label>Barn</Label>
-                    <Label>Månedlige utgifter</Label>
-                    <Label>Dagsats</Label>
-                    <Label>Stønadsbeløp</Label>
-                    {beregningsresultat.perioder.map((periode, indeks) => (
-                        <React.Fragment key={indeks}>
-                            <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
-                            <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
-                            <BodyShort size="small">
-                                {formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal)}
-                            </BodyShort>
-                            <BodyShort size="small">{periode.dagsats}</BodyShort>
-                            <BodyShort size="small">
-                                {formaterTallMedTusenSkille(periode.månedsbeløp)}
-                            </BodyShort>
-                        </React.Fragment>
-                    ))}
-                </Grid>
-            </Container>
-        </VStack>
+        <>
+            <VStack gap={'8'}>
+                <Container>
+                    <Grid>
+                        <Label>Periode</Label>
+                        <Label>Barn</Label>
+                        <Label>Månedlige utgifter</Label>
+                        <Label>Dagsats</Label>
+                        <Label>Stønadsbeløp</Label>
+                        {beregningsresultat.perioder.map((periode, indeks) => (
+                            <React.Fragment key={indeks}>
+                                <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
+                                <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
+                                <BodyShort size="small">
+                                    {formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal)}
+                                </BodyShort>
+                                <BodyShort size="small">{periode.dagsats}</BodyShort>
+                                <BodyShort size="small">
+                                    {formaterTallMedTusenSkille(periode.månedsbeløp)}
+                                </BodyShort>
+                            </React.Fragment>
+                        ))}
+                    </Grid>
+                </Container>
+            </VStack>
+            {endringsdatoUtledesAutomatisk && beregningsresultat.beregnetFra && (
+                <VStack gap="2">
+                    <Label size="small">Beregnet fra første endring i revurdering:</Label>
+                    <BodyShort size="small">
+                        {formaterIsoDato(beregningsresultat.beregnetFra)}
+                    </BodyShort>
+                </VStack>
+            )}
+        </>
     );
 };
 
