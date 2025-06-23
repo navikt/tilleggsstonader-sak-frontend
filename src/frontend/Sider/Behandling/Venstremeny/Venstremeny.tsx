@@ -14,7 +14,7 @@ import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsu
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
-    width: 20rem;
+    width: 24rem;
     position: sticky;
     height: calc(100vh - 97px);
     top: 97px;
