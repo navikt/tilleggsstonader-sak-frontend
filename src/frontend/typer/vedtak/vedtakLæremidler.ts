@@ -34,6 +34,7 @@ export interface InnvilgelseLæremidler {
 
 export interface BeregningsresultatLæremidler {
     perioder: BeregningsresultatForPeriode[];
+    tidligsteEndring: string | undefined;
 }
 
 interface BeregningsresultatForPeriode {

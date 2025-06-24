@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { styled } from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
@@ -14,6 +15,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
+import { Toggle } from '../../../utils/toggles';
 import { FanePath } from '../faner';
 import { VarselRevurderFraDatoMangler } from '../Felles/VarselRevurderFraDatoMangler';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
@@ -39,11 +41,12 @@ const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
 
     const { vilkårperioderResponse, hentVilkårperioder } = useVilkårperioder(behandling.id);
+    const utledEndringsdatoAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
 
     return (
         <Container>
             <VarselVedtakIArena />
-            <VarselRevurderFraDatoMangler />
+            {!utledEndringsdatoAutomatisk && <VarselRevurderFraDatoMangler />}
 
             <DataViewer
                 type={'inngangsvilkår'}
