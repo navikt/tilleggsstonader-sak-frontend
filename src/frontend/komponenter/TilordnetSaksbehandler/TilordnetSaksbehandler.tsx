@@ -1,65 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { useBehandling } from '../../context/BehandlingContext';
+import { UsehentTilordnetSaksbehandler } from '../../hooks/usehentTilordnetSaksbehandler';
 import { SaksbehandlerDto, SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
+import DataViewer from '../DataViewer';
 
 const TilordnetSaksbehandler: React.FC = () => {
-    const [retryCount, setRetryCount] = useState(0);
-    const maxRetries = 3;
-    const { behandling, hentBehandling } = useBehandling();
-
-    useEffect(() => {
-        if (
-            behandling.tilordnetSaksbehandler?.rolle === SaksbehandlerRolle.OPPGAVE_FINNES_IKKE &&
-            retryCount < maxRetries
-        ) {
-            const timeout = setTimeout(() => {
-                hentBehandling.rerun();
-                setRetryCount((prev) => prev + 1);
-            }, 1000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, [behandling.tilordnetSaksbehandler, hentBehandling, retryCount]);
-
-    const saksbehandler = behandling.tilordnetSaksbehandler;
-
-    const visingsnavn = utledVisningsnavn(saksbehandler);
-
-    const skalViseAnsvarligSaksbehandler =
-        saksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE;
+    const { tilordnetSaksbehandler } = UsehentTilordnetSaksbehandler();
 
     return (
-        <div>
-            {skalViseAnsvarligSaksbehandler && (
+        <DataViewer response={{ tilordnetSaksbehandler }}>
+            {({ tilordnetSaksbehandler }) => (
                 <div>
-                    <BodyShort weight={'semibold'} size={'small'}>
-                        Ansvarlig saksbehandler:
-                    </BodyShort>
-                    <BodyShort size={'small'}>{visingsnavn}</BodyShort>
+                    {tilordnetSaksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE && (
+                        <div>
+                            <BodyShort weight={'semibold'} size={'small'}>
+                                Ansvarlig saksbehandler:
+                            </BodyShort>
+                            <BodyShort size={'small'}>
+                                {utledVisningsnavn(tilordnetSaksbehandler)}
+                            </BodyShort>
+                        </div>
+                    )}
+                    <div style={{ marginLeft: '-1rem', marginTop: '0.5rem' }}>
+                        {tilordnetSaksbehandler?.rolle ===
+                            SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
+                            <Alert variant={'warning'} style={{ padding: '1rem' }}>
+                                Behandlingens tilhørende oppgave er enten feilregistrert eller satt
+                                på et annet tema.
+                            </Alert>
+                        )}
+                    </div>
                 </div>
             )}
-            <div style={{ marginLeft: '-1rem', marginTop: '0.5rem' }}>
-                {saksbehandler?.rolle ===
-                    SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
-                    <Alert variant={'warning'} style={{ padding: '1rem' }}>
-                        Behandlingens tilhørende oppgave er enten feilregistrert eller satt på et
-                        annet tema.
-                    </Alert>
-                )}
-            </div>
-        </div>
+        </DataViewer>
     );
 };
 
-export function utledVisningsnavn(ansvarligSaksbehandler: SaksbehandlerDto | undefined) {
-    switch (ansvarligSaksbehandler?.rolle) {
+export function utledVisningsnavn(tilordnetSaksbehandler: SaksbehandlerDto | undefined) {
+    switch (tilordnetSaksbehandler?.rolle) {
         case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
         case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
         case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-            return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
+            return `${tilordnetSaksbehandler.fornavn} ${tilordnetSaksbehandler.etternavn}`;
         default:
             return 'ingen ansvarlig';
     }
