@@ -66,11 +66,11 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     ))}
                 </Grid>
             </Container>
-            {endringsdatoUtledesAutomatisk && beregningsresultat.beregnetFra && (
+            {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
                 <VStack gap="2">
                     <Label size={'small'}>Beregnet fra første endring i revurdering:</Label>
                     <BodyShort size="small">
-                        {formaterIsoDato(beregningsresultat.beregnetFra)}
+                        {formaterIsoDato(beregningsresultat.tidligsteEndring)}
                     </BodyShort>
                 </VStack>
             )}

@@ -44,7 +44,7 @@ export type BeregningsresultatTilsynBarn = {
     vedtaksperioder: VedtaksperiodeBeregningsresultat[];
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
-    beregnetFra: string | undefined;
+    tidligsteEndring: string | undefined;
 };
 
 type Beregningsresultat = {

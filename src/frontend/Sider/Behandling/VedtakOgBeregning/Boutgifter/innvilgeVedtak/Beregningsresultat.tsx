@@ -59,11 +59,11 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     </Grid>
                 </Container>
             </VStack>
-            {endringsdatoUtledesAutomatisk && beregningsresultat.beregnetFra && (
+            {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
                 <VStack gap="2">
                     <Label size="small">Beregnet fra første endring i revurdering:</Label>
                     <BodyShort size="small">
-                        {formaterIsoDato(beregningsresultat.beregnetFra)}
+                        {formaterIsoDato(beregningsresultat.tidligsteEndring)}
                     </BodyShort>
                 </VStack>
             )}

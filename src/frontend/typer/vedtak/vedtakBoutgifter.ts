@@ -63,7 +63,7 @@ export type BeregnBoutgifterRequest = {
 export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
     inneholderUtgifterOvernatting: boolean;
-    beregnetFra: string | undefined;
+    tidligsteEndring: string | undefined;
 };
 
 export enum BeregningsresultatUtgifterKeys {
