@@ -45,7 +45,7 @@ const BarnTilRevurdering: React.FC<{
     }, [fagsakId]);
 
     return (
-        <DataViewer response={{ barnTilRevurdering }}>
+        <DataViewer type={'barn'} response={{ barnTilRevurdering }}>
             {({ barnTilRevurdering }) => {
                 const eksisterendeBarn = filterEksisterendeBarn(barnTilRevurdering);
                 const valgbareBarn = filterValgbareBarn(barnTilRevurdering);

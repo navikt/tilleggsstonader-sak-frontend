@@ -93,7 +93,7 @@ const Brev: React.FC = () => {
     return (
         <Container>
             {behandlingErRedigerbar ? (
-                <DataViewer response={{ brevmaler, mellomlagretBrev }}>
+                <DataViewer type={'brevmaler'} response={{ brevmaler, mellomlagretBrev }}>
                     {({ brevmaler, mellomlagretBrev }) => (
                         <ToKolonner>
                             <VStack gap="8" align="start">
@@ -110,7 +110,10 @@ const Brev: React.FC = () => {
                                         brevmal={brevmal}
                                         settBrevmal={settBrevmal}
                                     />
-                                    <DataViewer response={{ malStruktur, vedtak }}>
+                                    <DataViewer
+                                        type={'delmaler'}
+                                        response={{ malStruktur, vedtak }}
+                                    >
                                         {({ malStruktur, vedtak }) => (
                                             <Brevmeny
                                                 mal={malStruktur}

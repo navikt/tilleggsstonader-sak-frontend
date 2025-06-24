@@ -46,7 +46,7 @@ export const OppølgingAdmin = () => {
     }, [request]);
 
     return (
-        <DataViewer response={{ oppfølginger }}>
+        <DataViewer type={'oppfølginger'} response={{ oppfølginger }}>
             {({ oppfølginger }) => <OppfølgingTabell oppfølgingerInit={oppfølginger} />}
         </DataViewer>
     );

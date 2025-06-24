@@ -39,7 +39,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
     };
 
     return (
-        <DataViewer response={{ simuleringsresultat }}>
+        <DataViewer type={'simuleringsresultat'} response={{ simuleringsresultat }}>
             {({ simuleringsresultat }) => {
                 const { perioder, oppsummering } = simuleringsresultat || {};
 

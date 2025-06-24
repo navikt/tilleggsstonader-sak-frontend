@@ -47,7 +47,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                 value={organisasjonsnummer}
                 onChange={(e) => settOrganisasjonsnummer(e.target.value)}
             />
-            <DataViewer response={{ søkeresultat }}>
+            <DataViewer type={'søkeresultat'} response={{ søkeresultat }}>
                 {({ søkeresultat }) => {
                     return (
                         <Søkeresultat>

@@ -28,7 +28,7 @@ export const Resultat: React.FC = () => {
     const { behandling, behandlingHistorikk, åpenHøyremeny } = useKlagebehandling();
 
     return (
-        <DataViewer response={{ behandlingHistorikk }}>
+        <DataViewer type={'behandlingshistorikk'} response={{ behandlingHistorikk }}>
             {({ behandlingHistorikk }) => (
                 <>
                     <HeadingContainer>

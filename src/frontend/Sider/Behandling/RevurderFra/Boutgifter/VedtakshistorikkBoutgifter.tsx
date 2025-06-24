@@ -23,6 +23,7 @@ export const VedtakshistorikkBoutgifter: FC<Props> = ({ forrigeIverksatteBehandl
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk boutgifter TS-Sak </Heading>
             <DataViewer
+                type={'vedtaksperioder'}
                 response={{
                     detaljerteVedtaksperioderBoutgifter: detaljerteVedtaksperioderBoutgifter,
                 }}

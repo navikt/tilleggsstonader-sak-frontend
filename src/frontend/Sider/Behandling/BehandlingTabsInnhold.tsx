@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,6 +16,7 @@ import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContain
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
+import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -54,8 +56,10 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
+    const utledEndringsdatoAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
+
     const førsteFanePath =
-        behandling.type === BehandlingType.REVURDERING
+        behandling.type === BehandlingType.REVURDERING && !utledEndringsdatoAutomatisk
             ? FanePath.REVURDER_FRA
             : FanePath.INNGANGSVILKÅR;
     const aktivFane = isFanePath(path) ? path : førsteFanePath;
@@ -76,7 +80,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, !utledEndringsdatoAutomatisk);
 
     return (
         <StegProvider

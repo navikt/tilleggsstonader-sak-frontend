@@ -19,7 +19,7 @@ export const VedtakshistorikkLæremidler: FC<Props> = ({ forrigeIverksatteBehand
     return (
         <StyledVStack gap="4">
             <Heading size="xsmall">Vedtakshistorikk læremidler TS-Sak </Heading>
-            <DataViewer response={{ vedtakLæremidler }}>
+            <DataViewer type={'vedtaksperioder'} response={{ vedtakLæremidler }}>
                 {({ vedtakLæremidler }) => (
                     <VedtakshistorikkLæremidlerTabellVisning vedtakLæremidler={vedtakLæremidler} />
                 )}

@@ -72,7 +72,7 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 onToggleSelected={onToggleSelected}
                 selectedOptions={vedleggRequest.tema?.map(arkivtemaTilOption) ?? []}
             />
-            <DataViewer response={{ dokumenter }}>
+            <DataViewer type={'dokumenter'} response={{ dokumenter }}>
                 {({ dokumenter }) => <DokumentTabell dokumenter={dokumenter} />}
             </DataViewer>
         </>

@@ -30,7 +30,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     return (
         <Container>
             <Heading size="small">Frittstående brev til bruker</Heading>
-            <DataViewer response={{ fagsakPerson }}>
+            <DataViewer type={'fagsak'} response={{ fagsakPerson }}>
                 {({ fagsakPerson }) => (
                     <>
                         <Select

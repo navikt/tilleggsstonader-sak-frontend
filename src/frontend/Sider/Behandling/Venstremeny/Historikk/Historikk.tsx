@@ -15,7 +15,7 @@ const Historikk: React.FC = () => {
     const { behandlingshistorikk } = useBehandling();
 
     return (
-        <DataViewer response={{ behandlingshistorikk }}>
+        <DataViewer type={'behandlingshistorikk'} response={{ behandlingshistorikk }}>
             {({ behandlingshistorikk }) => (
                 <Container>
                     {behandlingshistorikk.map((historikkElement, index) => {

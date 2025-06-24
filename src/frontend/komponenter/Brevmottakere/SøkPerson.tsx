@@ -40,7 +40,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere }) => {
                 value={søkIdent}
                 onChange={(e) => settSøkIdent(e.target.value)}
             />
-            <DataViewer response={{ søkeresultat }}>
+            <DataViewer type={'søkeresultat'} response={{ søkeresultat }}>
                 {({ søkeresultat }) => {
                     return (
                         <Søkeresultat>

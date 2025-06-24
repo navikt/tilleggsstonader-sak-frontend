@@ -132,7 +132,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
                         <SmallButton onClick={beregnBoutgifter}>Beregn</SmallButton>
                     )}
                     {erStegRedigerbart && (
-                        <DataViewer response={{ beregningsresultat }}>
+                        <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
                                 <BeregningsresultatContainer
                                     beregningsresultat={beregningsresultat}

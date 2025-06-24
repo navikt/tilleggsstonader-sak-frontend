@@ -8,6 +8,7 @@ import '@navikt/ds-css';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -45,8 +46,12 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                         <TableRow>
                             <Table.DataCell>{`${formaterIsoDato(periode.fom)} - ${formaterIsoDato(periode.tom)}`}</Table.DataCell>
                             <Table.DataCell />
-                            <Table.DataCell>{periode.sumUtgifter}</Table.DataCell>
-                            <Table.DataCell>{periode.stønadsbeløp}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterTallMedTusenSkille(periode.sumUtgifter)}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {formaterTallMedTusenSkille(periode.stønadsbeløp)}
+                            </Table.DataCell>
                             <Table.DataCell>
                                 {periode.delAvTidligereUtbetaling && (
                                     <Alert variant="info" size={'small'} inline>
@@ -62,8 +67,12 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                             >
                                 <Table.DataCell />
                                 <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
-                                <Table.DataCell>{utgift.utgift}</Table.DataCell>
-                                <Table.DataCell>{utgift.tilUtbetaling}</Table.DataCell>
+                                <Table.DataCell>
+                                    {formaterTallMedTusenSkille(utgift.utgift)}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {formaterTallMedTusenSkille(utgift.tilUtbetaling)}
+                                </Table.DataCell>
                                 <Table.DataCell />
                             </TableRowGray>
                         ))}

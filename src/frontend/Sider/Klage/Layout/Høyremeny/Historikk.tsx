@@ -14,7 +14,7 @@ const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     }
 
     return (
-        <DataViewer response={{ behandlingHistorikk }}>
+        <DataViewer type={'behandlingshistorikk'} response={{ behandlingHistorikk }}>
             {({ behandlingHistorikk }) => (
                 <HistorikkContainer
                     behandling={behandling}

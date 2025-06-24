@@ -93,7 +93,7 @@ export const OmgjørVedtak: React.FC<{
     }
 
     return (
-        <DataViewer response={{ kanOppretteRevurdering }}>
+        <DataViewer type={'revurderingsmulighet'} response={{ kanOppretteRevurdering }}>
             {({ kanOppretteRevurdering }) => (
                 <>
                     {behandlingErRedigerbar && (

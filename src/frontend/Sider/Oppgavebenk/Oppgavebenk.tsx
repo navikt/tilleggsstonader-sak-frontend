@@ -41,7 +41,7 @@ const OppgavebenkContainer = () => {
     return (
         <Container>
             <Oppgavefiltrering />
-            <DataViewer response={{ oppgaver: oppgaveRessurs }}>
+            <DataViewer type={'oppgaver'} response={{ oppgaver: oppgaveRessurs }}>
                 {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}
             </DataViewer>
             <FeilmeldingHåndterOppgaveModal

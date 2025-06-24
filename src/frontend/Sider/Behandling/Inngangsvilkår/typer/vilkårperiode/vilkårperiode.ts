@@ -1,7 +1,7 @@
 import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from './aktivitet';
 import { Målgruppe, MålgruppeType, MålgruppeTypeTilTekst } from './målgruppe';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
-import { TypeRegisterYtelse } from '../../../../../typer/registerytelser';
+import { TypeRegisterYtelseForVilkårperiode } from '../../../../../typer/registerytelser';
 import { Periode } from '../../../../../utils/periode';
 
 export interface VilkårperioderResponse {
@@ -29,12 +29,12 @@ interface YtelseGrunnlag {
 }
 
 interface KildeResultatYtelse {
-    type: TypeRegisterYtelse;
+    type: TypeRegisterYtelseForVilkårperiode;
     resultat: 'OK' | 'FEILET';
 }
 
 export interface YtelseGrunnlagPeriode {
-    type: TypeRegisterYtelse;
+    type: TypeRegisterYtelseForVilkårperiode;
     fom: string;
     tom?: string;
     subtype?: SubtypeYtelseGrunnlag;

@@ -185,7 +185,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                 </Button>
             </VStack>
 
-            <DataViewer response={{ personinfo }}>
+            <DataViewer type={'personinformasjon'} response={{ personinfo }}>
                 {({ personinfo }) => (
                     <>
                         <Heading size={'small'}>Informasjon om søker</Heading>
@@ -245,7 +245,9 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                     </>
                 )}
             </DataViewer>
-            <DataViewer response={{ opprettBehandlingResponse }}>{() => <>Ok</>}</DataViewer>
+            <DataViewer type={'opprett behandling'} response={{ opprettBehandlingResponse }}>
+                {() => <>Ok</>}
+            </DataViewer>
         </>
     );
 }

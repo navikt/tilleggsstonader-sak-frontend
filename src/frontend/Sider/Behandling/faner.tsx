@@ -180,9 +180,12 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
+export const hentBehandlingfaner = (
+    behandling: Behandling,
+    medRevurdering: boolean
+): FanerMedRouter[] => {
     return [
-        ...revurderingFraFane(behandling),
+        ...(medRevurdering ? revurderingFraFane(behandling) : []),
         {
             navn: FaneNavn.INNGANGSVILKÅR,
             path: FanePath.INNGANGSVILKÅR,

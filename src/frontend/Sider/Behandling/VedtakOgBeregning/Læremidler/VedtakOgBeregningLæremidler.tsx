@@ -40,7 +40,7 @@ const VedtakOgBeregningLæremidler: FC = () => {
     }, [vedtak]);
 
     return (
-        <DataViewer response={{ vedtak }}>
+        <DataViewer type={'vedtak'} response={{ vedtak }}>
             {({ vedtak }) => (
                 <Container>
                     <VarselVedtakIArena />

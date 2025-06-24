@@ -1,6 +1,5 @@
 import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -21,7 +20,6 @@ import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
 import { VedtakResponse } from '../../typer/vedtak/vedtak';
-import { Toggle } from '../../utils/toggles';
 
 type Props = {
     mal: MalStruktur;
@@ -93,13 +91,10 @@ const Brevmeny: React.FC<Props> = ({
         mellomlagredeVariabler,
     } = useMemo(() => parseMellomlagretBrev(mellomlagretBrev), [mellomlagretBrev]);
 
-    const skalViseDetaljertBeregningsresultatFlag = useFlag(
-        Toggle.SKAL_VISE_DETALJERT_BEREGNINGSRESULTAT
-    );
-
     const [valgfelt, settValgfelt] = useState<
         Partial<Record<string, Record<Valgfelt['_id'], Valg>>>
     >(mellomlagredeValgfelt || {});
+    const [generererBrevPdf, settGenerererBrevPdf] = useState(false);
 
     const { variabelStore } = lagVerdier(behandling, vedtak);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
@@ -150,11 +145,7 @@ const Brevmeny: React.FC<Props> = ({
                 behandling,
                 vedtak
             ),
-            [variabelBeregningstabellId]: lagVedtakstabell(
-                behandling,
-                vedtak,
-                skalViseDetaljertBeregningsresultatFlag
-            ),
+            [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
         };
         return htmlVariabler;
     };
@@ -176,19 +167,19 @@ const Brevmeny: React.FC<Props> = ({
                 htmlVariabler: genererHtmlVariabler(),
                 inkluderBeslutterSignaturPlaceholder: !!behandlingId,
             }),
-        }).then(settFil);
+        })
+            .then(settFil)
+            .finally(() => {
+                settGenerererBrevPdf(false);
+            });
     };
 
     const utsattGenererBrev = useDebouncedCallback(genererPdf, 1000);
 
-    useEffect(utsattGenererBrev, [
-        utsattGenererBrev,
-        mal,
-        variabler,
-        valgfelt,
-        fritekst,
-        inkluderteDelmaler,
-    ]);
+    useEffect(() => {
+        settGenerererBrevPdf(true);
+        utsattGenererBrev();
+    }, [utsattGenererBrev, mal, variabler, valgfelt, fritekst, inkluderteDelmaler]);
 
     const erEndringerIDelmal = (delmalId: string) => {
         const valgfeltForDelmal = valgfelt[delmalId] || {};
@@ -234,6 +225,7 @@ const Brevmeny: React.FC<Props> = ({
                     inkluderteDelmaler={inkluderteDelmaler}
                     valgfelt={valgfelt}
                     variabler={variabler}
+                    generererBrevPdf={generererBrevPdf}
                     kanSendeKommentarTilBeslutter={brevknapp.kanSendeKommentarTilBeslutter}
                 />
             )}

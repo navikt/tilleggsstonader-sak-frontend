@@ -66,7 +66,7 @@ const BrevMottakere: React.FC<{
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
 
     return (
-        <DataViewer response={{ brevmottakere }}>
+        <DataViewer type={'brevmottakere'} response={{ brevmottakere }}>
             {({ brevmottakere }) => (
                 <>
                     <Brevmottakere

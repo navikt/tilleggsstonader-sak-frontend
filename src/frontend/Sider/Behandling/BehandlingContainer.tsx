@@ -53,7 +53,10 @@ const BehandlingContainer = () => {
     }, []);
 
     return (
-        <DataViewer response={{ behandling, personopplysninger, behandlingFakta }}>
+        <DataViewer
+            type={'behandlingsinformasjon'}
+            response={{ behandling, personopplysninger, behandlingFakta }}
+        >
             {({ behandling, personopplysninger, behandlingFakta }) => (
                 <BehandlingInnhold
                     behandling={behandling}
