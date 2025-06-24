@@ -10,7 +10,7 @@ const TilordnetSaksbehandler: React.FC = () => {
     const { tilordnetSaksbehandler } = UsehentTilordnetSaksbehandler();
 
     return (
-        <DataViewer response={{ tilordnetSaksbehandler }}>
+        <DataViewer type={'tilordnetSaksbehandler'} response={{ tilordnetSaksbehandler }}>
             {({ tilordnetSaksbehandler }) => (
                 <div>
                     {tilordnetSaksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE && (
