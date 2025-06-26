@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { Alert, Button } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { NullstillBehandlingAdvarselModal } from './NullstillBehandlingAdvarselModal';
 import TaAvVentModal from './TaAvVentModal';
 import { useApp } from '../../context/AppContext';
 import { useSettPåVent } from '../../context/SettPåVentContext';
 import { RessursStatus } from '../../typer/ressurs';
+import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
 
 type KanTaAvVentResponse = {
     resultat:
@@ -15,54 +16,53 @@ type KanTaAvVentResponse = {
         | 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN'
         | 'ER_IKKE_PÅ_VENT';
 };
-type ModalSomVises = null | 'TaAvVent' | 'BehandlingenMåNullstillesAdvarsel';
 
-export const TaAvVentKnapp: React.FC = () => {
+export const TaAvVentKnapp: React.FC<{
+    settTaAvVentFeil: (feil: Feil | string) => void;
+}> = ({ settTaAvVentFeil }) => {
     const { request } = useApp();
     const { context, behandlingId, hentBehandling } = useSettPåVent();
-    const [kanIkkeTasAvVentFeilmelding, settKanIkkeTasAvVentFeilmelding] = useState<string>();
 
-    const [modalSomVises, settModalSomVises] = useState<ModalSomVises>(null);
+    const [modalSomVises, settModalSomVises] = useState<
+        undefined | 'TaAvVentModal' | 'NullstillBehandlingAdvarselModal'
+    >();
 
-    const håndterTaAvVent = () => {
+    const håndterKanTaAvVent = () => {
         request<KanTaAvVentResponse, null>(
             `/api/${context}/sett-pa-vent/${behandlingId}/kan-ta-av-vent`
         ).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
-                if (resp.data.resultat === 'OK') {
-                    settModalSomVises('TaAvVent');
-                } else if (resp.data.resultat === 'MÅ_NULLSTILLE_BEHANDLING') {
-                    settModalSomVises('BehandlingenMåNullstillesAdvarsel');
-                } else if (resp.data.resultat === 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN') {
-                    settKanIkkeTasAvVentFeilmelding(
+                const kanTaAvVentStatus = resp.data.resultat;
+                if (kanTaAvVentStatus === 'OK') {
+                    settModalSomVises('TaAvVentModal');
+                } else if (kanTaAvVentStatus === 'MÅ_NULLSTILLE_BEHANDLING') {
+                    settModalSomVises('NullstillBehandlingAdvarselModal');
+                } else if (kanTaAvVentStatus === 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN') {
+                    settTaAvVentFeil(
                         'Det finnes allerede en aktiv behanding på denne fagsaken. Den må ferdigstilles eller settes på vent før denne behandlingen kan tas av vent.'
                     );
-                } else if (resp.data.resultat === 'ER_IKKE_PÅ_VENT') {
+                } else if (kanTaAvVentStatus === 'ER_IKKE_PÅ_VENT') {
                     hentBehandling.rerun();
                 }
+            } else {
+                settTaAvVentFeil(feiletRessursTilFeilmelding(resp));
             }
         });
     };
 
     return (
         <>
-            <Button size={'small'} variant={'secondary'} onClick={håndterTaAvVent}>
+            <Button size={'small'} variant={'secondary'} onClick={håndterKanTaAvVent}>
                 Ta av vent
             </Button>
-
-            {kanIkkeTasAvVentFeilmelding && (
-                <Alert variant="warning">{kanIkkeTasAvVentFeilmelding}</Alert>
-            )}
-
-            {modalSomVises === 'BehandlingenMåNullstillesAdvarsel' && (
+            {modalSomVises === 'NullstillBehandlingAdvarselModal' && (
                 <NullstillBehandlingAdvarselModal
-                    bekreftNullstilling={() => settModalSomVises('TaAvVent')}
-                    avbryt={() => settModalSomVises(null)}
+                    bekreftNullstilling={() => settModalSomVises('TaAvVentModal')}
+                    avbryt={() => settModalSomVises(undefined)}
                 />
             )}
-
-            {modalSomVises === 'TaAvVent' && (
-                <TaAvVentModal skjulModal={() => settModalSomVises(null)} />
+            {modalSomVises === 'TaAvVentModal' && (
+                <TaAvVentModal skjulModal={() => settModalSomVises(undefined)} />
             )}
         </>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -11,6 +11,8 @@ import {
     formaterNullableTilTekstligDato,
     formaterTilTekstligDato,
 } from '../../utils/dato';
+import { Feilmelding } from '../Feil/Feilmelding';
+import { Feil } from '../Feil/feilmeldingUtils';
 
 const Kommentar = styled(BodyLong)`
     white-space: pre-wrap;
@@ -23,6 +25,7 @@ const SettPåVentInformasjon: React.FC<{
 }> = ({ status, statusPåVentRedigering, settStatusPåVentRedigering }) => {
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
     const datoSattPåVent = formaterTilTekstligDato(status.datoSattPåVent);
+    const [kanTaAvVentFeil, settKanTaAvVentFeil] = useState<Feil | string>();
 
     return (
         <VStack gap={'4'}>
@@ -49,12 +52,13 @@ const SettPåVentInformasjon: React.FC<{
                     <Kommentar>{status.kommentar}</Kommentar>
                 </div>
             </VStack>
+            <Feilmelding feil={kanTaAvVentFeil} />
             {!statusPåVentRedigering && (
                 <HStack gap={'4'}>
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
                         Oppdater
                     </Button>
-                    <TaAvVentKnapp />
+                    <TaAvVentKnapp settTaAvVentFeil={settKanTaAvVentFeil} />
                 </HStack>
             )}
         </VStack>
