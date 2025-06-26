@@ -1,52 +1,55 @@
 import React from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import styled from 'styled-components';
 
-import { UsehentTilordnetSaksbehandler } from '../../hooks/usehentTilordnetSaksbehandler';
+import { PersonHeadsetIcon } from '@navikt/aksel-icons';
+import { BodyShort, HStack } from '@navikt/ds-react';
+
+import { StatusBar, utledStatusbarFarge } from './StatusBar';
+import { useBehandling } from '../../context/BehandlingContext';
 import { SaksbehandlerDto, SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
-import DataViewer from '../DataViewer';
+
+export const PersonIkon = styled(PersonHeadsetIcon)`
+    width: 3rem;
+    height: 3rem;
+`;
 
 const TilordnetSaksbehandler: React.FC = () => {
-    const { tilordnetSaksbehandler } = UsehentTilordnetSaksbehandler();
+    const { behandling } = useBehandling();
+
+    if (!behandling.tilordnetSaksbehandler) {
+        return;
+    }
+
+    const utledVisningsnavn = (ansvarligSaksbehandler: SaksbehandlerDto) => {
+        switch (ansvarligSaksbehandler.rolle) {
+            case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
+            case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
+            case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
+                return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
+            case SaksbehandlerRolle.UTVIKLER_MED_VEILDERROLLE:
+                return 'ingen tilgang';
+            default:
+                return 'ingen ansvarlig';
+        }
+    };
 
     return (
-        <DataViewer type={'tilordnetSaksbehandler'} response={{ tilordnetSaksbehandler }}>
-            {({ tilordnetSaksbehandler }) => (
+        <>
+            <HStack gap={'2'} align={'center'}>
+                <PersonIkon />
                 <div>
-                    {tilordnetSaksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE && (
-                        <div>
-                            <BodyShort weight={'semibold'} size={'small'}>
-                                Ansvarlig saksbehandler:
-                            </BodyShort>
-                            <BodyShort size={'small'}>
-                                {utledVisningsnavn(tilordnetSaksbehandler)}
-                            </BodyShort>
-                        </div>
-                    )}
-                    <div style={{ marginLeft: '-1rem', marginTop: '0.5rem' }}>
-                        {tilordnetSaksbehandler?.rolle ===
-                            SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
-                            <Alert variant={'warning'} style={{ padding: '1rem' }}>
-                                Behandlingens tilhørende oppgave er enten feilregistrert eller satt
-                                på et annet tema.
-                            </Alert>
-                        )}
-                    </div>
+                    <BodyShort weight={'semibold'} size={'small'}>
+                        Ansvarlig saksbehandler:
+                    </BodyShort>
+                    <BodyShort size={'small'}>
+                        {utledVisningsnavn(behandling.tilordnetSaksbehandler)}
+                    </BodyShort>
                 </div>
-            )}
-        </DataViewer>
+            </HStack>
+            <StatusBar $color={utledStatusbarFarge(behandling.tilordnetSaksbehandler.rolle)} />
+        </>
     );
 };
-
-export function utledVisningsnavn(tilordnetSaksbehandler: SaksbehandlerDto | undefined) {
-    switch (tilordnetSaksbehandler?.rolle) {
-        case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
-        case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
-        case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-            return `${tilordnetSaksbehandler.fornavn} ${tilordnetSaksbehandler.etternavn}`;
-        default:
-            return 'ingen ansvarlig';
-    }
-}
 
 export default TilordnetSaksbehandler;
