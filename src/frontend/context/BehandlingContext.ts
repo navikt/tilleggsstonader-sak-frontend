@@ -41,6 +41,8 @@ interface BehandlingContext {
 
     visHenleggModal: boolean;
     settVisHenleggModal: React.Dispatch<React.SetStateAction<boolean>>;
+    visNullstillModal: boolean;
+    settVisNullstillModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
@@ -81,6 +83,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         const [visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin] =
             useState<boolean>(false);
         const [visHenleggModal, settVisHenleggModal] = useState<boolean>(false);
+        const [visNullstillModal, settVisNullstillModal] = useState<boolean>(false);
 
         const { hentBehandlingshistorikk, behandlingshistorikk } =
             useBehandlingshistorikk(behandling);
@@ -107,6 +110,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             settVisRedigerGrunnlagFomAdmin,
             visHenleggModal,
             settVisHenleggModal,
+            visNullstillModal,
+            settVisNullstillModal,
         };
     }
 );
