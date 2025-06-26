@@ -15,14 +15,14 @@ type KanTaAvVentResponse = {
         | 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN'
         | 'ER_IKKE_PÅ_VENT';
 };
+type ModalSomVises = null | 'TaAvVent' | 'BehandlingenMåNullstillesAdvarsel';
 
 export const TaAvVentKnapp: React.FC = () => {
     const { request } = useApp();
-    const { context, behandlingId } = useSettPåVent();
-    const [visTaAvVentModal, settVisTaAvVentModal] = useState<boolean>(false);
-    const [visNullstillBehandlingAdvarselModal, settVisNullstillBehandlingAdvarselModal] =
-        useState<boolean>(false);
+    const { context, behandlingId, hentBehandling } = useSettPåVent();
     const [kanIkkeTasAvVentFeilmelding, settKanIkkeTasAvVentFeilmelding] = useState<string>();
+
+    const [modalSomVises, settModalSomVises] = useState<ModalSomVises>(null);
 
     const håndterTaAvVent = () => {
         request<KanTaAvVentResponse, null>(
@@ -30,17 +30,15 @@ export const TaAvVentKnapp: React.FC = () => {
         ).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 if (resp.data.resultat === 'OK') {
-                    settVisTaAvVentModal(true);
+                    settModalSomVises('TaAvVent');
                 } else if (resp.data.resultat === 'MÅ_NULLSTILLE_BEHANDLING') {
-                    settVisNullstillBehandlingAdvarselModal(true);
+                    settModalSomVises('BehandlingenMåNullstillesAdvarsel');
                 } else if (resp.data.resultat === 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN') {
                     settKanIkkeTasAvVentFeilmelding(
                         'Det finnes allerede en aktiv behanding på denne fagsaken. Den må ferdigstilles eller settes på vent før denne behandlingen kan tas av vent.'
                     );
                 } else if (resp.data.resultat === 'ER_IKKE_PÅ_VENT') {
-                    settKanIkkeTasAvVentFeilmelding(
-                        'Denne behandlingen er ikke på vent. Vennligst oppdater nettsiden.'
-                    );
+                    hentBehandling.rerun();
                 }
             }
         });
@@ -56,16 +54,16 @@ export const TaAvVentKnapp: React.FC = () => {
                 <Alert variant="warning">{kanIkkeTasAvVentFeilmelding}</Alert>
             )}
 
-            {visNullstillBehandlingAdvarselModal && (
+            {modalSomVises === 'BehandlingenMåNullstillesAdvarsel' && (
                 <NullstillBehandlingAdvarselModal
-                    settVisTaAvVentModal={settVisTaAvVentModal}
-                    settVisNullstillBehandlingAdvarselModal={
-                        settVisNullstillBehandlingAdvarselModal
-                    }
+                    bekreftNullstilling={() => settModalSomVises('TaAvVent')}
+                    avbryt={() => settModalSomVises(null)}
                 />
             )}
 
-            {visTaAvVentModal && <TaAvVentModal skjulModal={() => settVisTaAvVentModal(false)} />}
+            {modalSomVises === 'TaAvVent' && (
+                <TaAvVentModal skjulModal={() => settModalSomVises(null)} />
+            )}
         </>
     );
 };

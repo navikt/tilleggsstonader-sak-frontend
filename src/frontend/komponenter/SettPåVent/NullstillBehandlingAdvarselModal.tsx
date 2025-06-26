@@ -5,31 +5,22 @@ import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from '../Modal/ModalWrapper';
 
 interface Props {
-    settVisTaAvVentModal: (verdi: boolean) => void;
-    settVisNullstillBehandlingAdvarselModal: (verdi: boolean) => void;
+    bekreftNullstilling: () => void;
+    avbryt: () => void;
 }
 
-export function NullstillBehandlingAdvarselModal({
-    settVisNullstillBehandlingAdvarselModal,
-    settVisTaAvVentModal,
-}: Props) {
+export function NullstillBehandlingAdvarselModal({ bekreftNullstilling, avbryt }: Props) {
     return (
         <ModalWrapper
             visModal={true}
             tittel="Behandlingen nullstilles!"
             aksjonsknapper={{
                 hovedKnapp: {
-                    onClick: () => {
-                        settVisNullstillBehandlingAdvarselModal(false);
-                        settVisTaAvVentModal(true);
-                    },
+                    onClick: bekreftNullstilling,
                     tekst: 'Det er ok - nullstill behandling',
                 },
                 lukkKnapp: {
-                    onClick: () => {
-                        settVisNullstillBehandlingAdvarselModal(false);
-                        settVisTaAvVentModal(false);
-                    },
+                    onClick: avbryt,
                     tekst: 'Avbryt',
                 },
             }}
