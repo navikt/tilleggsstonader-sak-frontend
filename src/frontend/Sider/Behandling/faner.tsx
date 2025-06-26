@@ -44,6 +44,7 @@ export enum FaneNavn {
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
     VILKÅR = 'Bolig/overnatting',
+    DAGLIG_REISE = 'Daglig reise',
 }
 
 export const faneNavnStønadsvilkår: Record<
@@ -52,6 +53,8 @@ export const faneNavnStønadsvilkår: Record<
 > = {
     BARNETILSYN: StønadsvilkårFaneNavn.PASS_BARN,
     BOUTGIFTER: StønadsvilkårFaneNavn.VILKÅR,
+    DAGLIG_REISE_TSO: StønadsvilkårFaneNavn.DAGLIG_REISE,
+    DAGLIG_REISE_TSR: StønadsvilkårFaneNavn.DAGLIG_REISE,
 };
 
 export enum FanePath {
@@ -177,6 +180,24 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
             ];
         case Stønadstype.LÆREMIDLER:
             return [];
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.DAGLIG_REISE_TSO} />,
+                    ikon: <HouseHeartIcon />,
+                },
+            ];
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.DAGLIG_REISE_TSR} />,
+                    ikon: <HouseHeartIcon />,
+                },
+            ];
     }
 };
 

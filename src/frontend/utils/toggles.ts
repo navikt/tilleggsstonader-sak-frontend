@@ -7,6 +7,10 @@ export enum Toggle {
     KAN_REVURDERE_LÆREMIDLER = 'sak.frontend.kan-revurdere.laremidler',
     KAN_SAKSBEHANDLE_BOUTGIFTER = 'sak.frontend.kan-saksbehandle.boutgifter',
     KAN_REVURDERE_BOUTGIFTER = 'sak.frontend.kan-revurdere.boutgifter',
+    KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO = 'sak.frontend.kan-saksbehandle.daglig-reise-tso',
+    KAN_REVURDERE_DAGLIG_REISE_TSO = 'sak.frontend.kan-revurdere.daglig-reise-tso',
+    KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR = 'sak.frontend.kan-saksbehandle.daglig-reise-tsr',
+    KAN_REVURDERE_DAGLIG_REISE_TSR = 'sak.frontend.kan-revurdere.daglig-reise-tsr',
 
     /**
      * Permission-toggles

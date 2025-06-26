@@ -93,6 +93,28 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_BOSTØTTE: true,
         ANNET: true,
     },
+    [Stønadstype.DAGLIG_REISE_TSO]: {
+        INGEN_AKTIVITET: true,
+        IKKE_I_MÅLGRUPPE: true,
+        INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
+        MANGELFULL_DOKUMENTASJON: true,
+        HAR_IKKE_UTGIFTER: true,
+        RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
+        ANNET: true,
+    },
+    [Stønadstype.DAGLIG_REISE_TSR]: {
+        INGEN_AKTIVITET: true,
+        IKKE_I_MÅLGRUPPE: true,
+        INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
+        MANGELFULL_DOKUMENTASJON: true,
+        HAR_IKKE_UTGIFTER: true,
+        RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
+        ANNET: true,
+    },
 };
 
 export const årsakerForStønad: Record<Stønadstype, ÅrsakAvslag[]> = Object.entries(årsaker).reduce(

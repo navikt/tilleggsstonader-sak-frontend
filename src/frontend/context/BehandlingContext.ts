@@ -47,6 +47,8 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     const kanSaksbehandleBarnetilsyn = useFlag(Toggle.KAN_SAKSBEHANDLE_BARNETILSYN);
     const kanSaksbehandleLæremidler = useFlag(Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER);
     const kanSaksbehandleBoutgifter = useFlag(Toggle.KAN_SAKSBEHANDLE_BOUTGIFTER);
+    const kanSaksbehandleDagligReiseTso = useFlag(Toggle.KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO);
+    const kanSaksbehandleDagligReiseTsr = useFlag(Toggle.KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return kanSaksbehandleBarnetilsyn;
@@ -54,6 +56,10 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
             return kanSaksbehandleLæremidler;
         case Stønadstype.BOUTGIFTER:
             return kanSaksbehandleBoutgifter;
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return kanSaksbehandleDagligReiseTso;
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return kanSaksbehandleDagligReiseTsr;
         default:
             return false;
     }
@@ -62,6 +68,8 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
 const useKanRevurdere = (stønadstype: Stønadstype) => {
     const kanRevurdereLæremidler = useFlag(Toggle.KAN_REVURDERE_LÆREMIDLER);
     const kanRevurdereBoutgifter = useFlag(Toggle.KAN_REVURDERE_BOUTGIFTER);
+    const kanRevurdereDagligReiseTso = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSO);
+    const kanRevurdereDagligReiseTsr = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSR);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return true;
@@ -69,6 +77,10 @@ const useKanRevurdere = (stønadstype: Stønadstype) => {
             return kanRevurdereLæremidler;
         case Stønadstype.BOUTGIFTER:
             return kanRevurdereBoutgifter;
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return kanRevurdereDagligReiseTso;
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return kanRevurdereDagligReiseTsr;
         default:
             return false;
     }
