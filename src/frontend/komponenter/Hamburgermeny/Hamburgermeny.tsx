@@ -38,6 +38,14 @@ export const HenleggMenuItem = ({ onSelect }: { onSelect: () => void }) => {
     );
 };
 
+export const NullstillMenuItem = ({ onSelect }: { onSelect: () => void }) => {
+    return (
+        <ActionMenu.Item onSelect={onSelect} variant={'danger'}>
+            Nullstill
+        </ActionMenu.Item>
+    );
+};
+
 export const LenkerGroup = ({ ident }: { ident: string }) => {
     return (
         <ActionMenu.Group label={'Lenker'}>
