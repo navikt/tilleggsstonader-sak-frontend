@@ -24,4 +24,5 @@ export enum Toggle {
     SKAL_VISE_VEDTAKSPERIODER_TAB = `sak.frontend.skal-vise-vedtaksperiode-tab`,
     BOUTGIFTER_TILLAT_HOYERE_UTGIFTER = `sak.boutgifter-tillat-hoyere-utgifter`,
     SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK = `sak.utled-endringsdato-revurdering`,
+    KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-på-samme-fagsak',
 }
