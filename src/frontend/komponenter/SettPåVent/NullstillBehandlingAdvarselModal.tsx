@@ -17,7 +17,7 @@ export function NullstillBehandlingAdvarselModal({ bekreftNullstilling, avbryt }
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: bekreftNullstilling,
-                    tekst: 'Det er ok - nullstill behandling',
+                    tekst: 'Nullstill behandling',
                 },
                 lukkKnapp: {
                     onClick: avbryt,
