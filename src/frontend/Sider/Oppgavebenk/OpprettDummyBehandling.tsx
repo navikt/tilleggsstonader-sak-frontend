@@ -74,8 +74,8 @@ export const OpprettDummyBehandling: React.FC = () => {
                         Stønadstype.BARNETILSYN,
                         Stønadstype.LÆREMIDLER,
                         Stønadstype.BOUTGIFTER,
-                        Stønadstype.DAGLIG_REISE_TSO,
-                        Stønadstype.DAGLIG_REISE_TSR,
+                        // Stønadstype.DAGLIG_REISE_TSO,
+                        // Stønadstype.DAGLIG_REISE_TSR,
                     ].map((type) => (
                         <option key={type} value={type}>
                             {stønadstypeTilTekst[type]}
