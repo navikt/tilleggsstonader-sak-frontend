@@ -34,13 +34,13 @@ export const TaAvVentKnapp: React.FC<{
     );
 
     const håndterKanTaAvVent = () => {
+        if (!kanHaFlereBehandlingerPerFagsak) {
+            settModalSomVises('TaAvVentModal');
+            return;
+        }
         request<KanTaAvVentResponse, null>(
             `/api/${context}/sett-pa-vent/${behandlingId}/kan-ta-av-vent`
         ).then((resp) => {
-            if (!kanHaFlereBehandlingerPerFagsak) {
-                settModalSomVises('TaAvVentModal');
-                return;
-            }
             if (resp.status === RessursStatus.SUKSESS) {
                 const kanTaAvVentStatus = resp.data.resultat;
                 switch (kanTaAvVentStatus) {
