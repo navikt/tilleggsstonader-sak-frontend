@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { ArenaSakOgVedtak } from './Arena/vedtakArena';
+import { Vedtaksdetaljer } from './Arena/Vedtaksdetaljer';
 import { OversiktKort } from './OversiktKort';
 import { formaterNullableIsoDato, formaterNullablePeriode } from '../../../utils/dato';
-import { ArenaSakOgVedtak } from '../Behandlingsoversikt/Arena/vedtakArena';
-import { Vedtaksdetaljer } from '../Behandlingsoversikt/Arena/Vedtaksdetaljer';
 
 export const VedtaksperioderOversiktArena: React.FC<{ arenaSakOgVedtak: ArenaSakOgVedtak }> = ({
     arenaSakOgVedtak,
