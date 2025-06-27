@@ -70,6 +70,31 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
     },
+    [Stønadstype.DAGLIG_REISE_TSO]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
+        DAGPENGER: false,
+        SYKEPENGER_100_PROSENT: false,
+    },
+
+    [Stønadstype.DAGLIG_REISE_TSR]: {
+        DAGPENGER: true,
+        INGEN_MÅLGRUPPE: true,
+        // KVALIFISERINGSPROGRAM: true,
+        // TILTAKSPENGER: true
+        AAP: false,
+        UFØRETRYGD: false,
+        OMSTILLINGSSTØNAD: false,
+        OVERGANGSSTØNAD: false,
+        NEDSATT_ARBEIDSEVNE: false,
+        SYKEPENGER_100_PROSENT: false,
+        GJENLEVENDE_GAMMELT_REGELVERK: false,
+    },
 };
 
 export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(

@@ -70,13 +70,17 @@ export const OpprettDummyBehandling: React.FC = () => {
                         settStønadstype(event.target.value as Stønadstype);
                     }}
                 >
-                    {[Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER, Stønadstype.BOUTGIFTER].map(
-                        (type) => (
-                            <option key={type} value={type}>
-                                {stønadstypeTilTekst[type]}
-                            </option>
-                        )
-                    )}
+                    {[
+                        Stønadstype.BARNETILSYN,
+                        Stønadstype.LÆREMIDLER,
+                        Stønadstype.BOUTGIFTER,
+                        // Stønadstype.DAGLIG_REISE_TSO,
+                        // Stønadstype.DAGLIG_REISE_TSR,
+                    ].map((type) => (
+                        <option key={type} value={type}>
+                            {stønadstypeTilTekst[type]}
+                        </option>
+                    ))}
                 </Select>
 
                 <Button type={'button'} disabled={!harSattPersonIdent} onClick={opprettBehandling}>

@@ -160,6 +160,10 @@ const behandlingstemaTilStønadstype = (
             return Stønadstype.LÆREMIDLER;
         case 'ab0286': // Se [stønadstypeFraBrevkode]
             return Stønadstype.BOUTGIFTER;
+        case 'ab0287':
+            return Stønadstype.DAGLIG_REISE_TSR;
+        case 'ab0288':
+            return Stønadstype.DAGLIG_REISE_TSO;
         default:
             return undefined;
     }
