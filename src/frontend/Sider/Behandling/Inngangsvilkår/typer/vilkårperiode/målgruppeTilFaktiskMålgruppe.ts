@@ -15,7 +15,6 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     FaktiskMålgruppeEllerIngenMålgruppe
 > = {
     AAP: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
-    DAGPENGER: FaktiskMålgruppe.DAGPENGER,
     UFØRETRYGD: FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE,
     OMSTILLINGSSTØNAD: FaktiskMålgruppe.GJENLEVENDE,
     OVERGANGSSTØNAD: FaktiskMålgruppe.ENSLIG_FORSØRGER,
