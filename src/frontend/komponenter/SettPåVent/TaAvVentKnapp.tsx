@@ -43,16 +43,21 @@ export const TaAvVentKnapp: React.FC<{
             }
             if (resp.status === RessursStatus.SUKSESS) {
                 const kanTaAvVentStatus = resp.data.resultat;
-                if (kanTaAvVentStatus === 'OK') {
-                    settModalSomVises('TaAvVentModal');
-                } else if (kanTaAvVentStatus === 'MÅ_NULLSTILLE_BEHANDLING') {
-                    settModalSomVises('NullstillBehandlingAdvarselModal');
-                } else if (kanTaAvVentStatus === 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN') {
-                    settTaAvVentFeil(
-                        'Det finnes allerede en aktiv behanding på denne fagsaken. Den må ferdigstilles eller settes på vent før denne behandlingen kan tas av vent.'
-                    );
-                } else if (kanTaAvVentStatus === 'ER_IKKE_PÅ_VENT') {
-                    hentBehandling.rerun();
+                switch (kanTaAvVentStatus) {
+                    case 'OK':
+                        settModalSomVises('TaAvVentModal');
+                        break;
+                    case 'MÅ_NULLSTILLE_BEHANDLING':
+                        settModalSomVises('NullstillBehandlingAdvarselModal');
+                        break;
+                    case 'ANNEN_AKTIV_BEHANDLING_PÅ_FAGSAKEN':
+                        settTaAvVentFeil(
+                            'Det finnes allerede en aktiv behanding på denne fagsaken. Den må ferdigstilles eller settes på vent før denne behandlingen kan tas av vent.'
+                        );
+                        break;
+                    case 'ER_IKKE_PÅ_VENT':
+                        hentBehandling.rerun();
+                        break;
                 }
             } else {
                 settTaAvVentFeil(feiletRessursTilFeilmelding(resp));
