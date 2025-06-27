@@ -6,8 +6,8 @@ import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
+import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
-import { SaksbehandlerDto, SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
 
 export const PersonIkon = styled(PersonHeadsetIcon)`
     width: 3rem;
@@ -20,19 +20,6 @@ const TilordnetSaksbehandler: React.FC = () => {
     if (!behandling.tilordnetSaksbehandler) {
         return;
     }
-
-    const utledVisningsnavn = (ansvarligSaksbehandler: SaksbehandlerDto) => {
-        switch (ansvarligSaksbehandler.rolle) {
-            case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
-            case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
-            case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-                return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
-            case SaksbehandlerRolle.UTVIKLER_MED_VEILDERROLLE:
-                return 'ingen tilgang';
-            default:
-                return 'ingen ansvarlig';
-        }
-    };
 
     return (
         <>
