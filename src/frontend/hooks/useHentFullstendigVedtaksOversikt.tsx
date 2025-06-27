@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Behandlingsoversikt/Arena/vedtakArena';
+import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Vedtaksperioderoversikt/Arena/vedtakArena';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { VedtakperioderOversiktResponse } from '../typer/vedtak/vedtaksperiodeOppsummering';
 
