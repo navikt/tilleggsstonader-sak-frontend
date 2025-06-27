@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 
-import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { Checkbox, CheckboxGroup, Label, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useSteg } from '../../../../context/StegContext';
 import { OpphørRequest, useLagreOpphør } from '../../../../hooks/useLagreOpphør';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
+import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
+import { Toggle } from '../../../../utils/toggles';
 import { FanePath } from '../../faner';
 
 const OpphørVedtak: React.FC<{
@@ -23,14 +27,17 @@ const OpphørVedtak: React.FC<{
 
     const [årsaker, settÅrsaker] = useState<ÅrsakOpphør[]>(vedtak?.årsakerOpphør || []);
     const [begrunnelse, settBegrunnelse] = useState<string>(vedtak?.begrunnelse || '');
+    const [opphørsdato, settOpphørsdato] = useState<string | undefined>(vedtak?.opphørsdato);
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
+    const skalSetteOpphørsdato = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
+
     const validerOgLagreVedtak = () => {
-        const feil = valider(årsaker, begrunnelse);
+        const feil = valider(årsaker, begrunnelse, opphørsdato, skalSetteOpphørsdato);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
-            return lagreOpphør(årsaker, begrunnelse);
+            return lagreOpphør(årsaker, begrunnelse, opphørsdato);
         } else {
             return Promise.reject();
         }
@@ -38,6 +45,19 @@ const OpphørVedtak: React.FC<{
 
     return (
         <VStack gap="4">
+            <Label size={'small'}>Opphørsdato</Label>
+            {skalSetteOpphørsdato && (
+                <DateInputMedLeservisning
+                    label="Opphørsdato"
+                    hideLabel={true}
+                    value={opphørsdato}
+                    onChange={(e) => settOpphørsdato(e)}
+                    erLesevisning={!erStegRedigerbart}
+                    feil={feilmeldinger.opphørsdato}
+                    size="small"
+                />
+            )}
+
             <CheckboxGroup
                 legend="Årsak til opphør"
                 value={årsaker}
