@@ -4,7 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Box, Tabs } from '@navikt/ds-react';
-import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderDefault, AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
@@ -23,6 +23,11 @@ const Container = styled.div`
     top: 97px;
     overflow-y: scroll;
     overflow-x: hidden;
+`;
+
+const Con = styled.div`
+    background-color: ${AGray50};
+    padding: 1rem;
 `;
 
 const Tab = styled(Tabs.Tab)`
@@ -52,9 +57,11 @@ const VenstreMeny: React.FC = () => {
     const skalViseTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
     return (
         <Container>
-            {skalViseTilordnetSaksbehandler && <TilordnetSaksbehandlerVenstremeny />}
-            <Totrinnskontroll />
-            <BehandlingOppsummering />
+            <Con>
+                {skalViseTilordnetSaksbehandler && <TilordnetSaksbehandlerVenstremeny />}
+                <Totrinnskontroll />
+                <BehandlingOppsummering />
+            </Con>
             <Tabs defaultValue="søknaden">
                 <Sticky>
                     <Tabs.List>

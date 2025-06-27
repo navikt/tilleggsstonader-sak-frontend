@@ -1,15 +1,25 @@
 import React from 'react';
 
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
-import { AGray50, AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
-import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
 
 const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
     const { behandling } = useBehandling();
+
+    /*  if (true) {
+  return (
+      <Alert
+          variant={'info'}
+          inline={true}
+          style={{ padding: '0.5rem', backgroundColor: AGray50  }}
+      >
+          Klarte ikke å hente ansvarlig saksbehandler
+      </Alert>
+  );
+} */
 
     if (!behandling.tilordnetSaksbehandler) {
         return;
@@ -19,16 +29,7 @@ const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
         <>
             {behandling.tilordnetSaksbehandler?.rolle !==
                 SaksbehandlerRolle.OPPGAVE_FINNES_IKKE && (
-                <HStack
-                    gap={'2'}
-                    align={'center'}
-                    paddingInline={'space-16 space-0'}
-                    paddingBlock={'space-8 space-0'}
-                    style={{
-                        backgroundColor:
-                            behandling.type === BehandlingType.REVURDERING ? AGray50 : AWhite,
-                    }}
-                >
+                <HStack gap={'2'} align={'center'} paddingBlock={'space-0 space-16'}>
                     <div>
                         <BodyShort weight={'semibold'} size={'small'}>
                             Ansvarlig saksbehandler:
