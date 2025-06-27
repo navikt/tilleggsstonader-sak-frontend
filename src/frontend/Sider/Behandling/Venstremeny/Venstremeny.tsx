@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Box, Tabs } from '@navikt/ds-react';
@@ -11,6 +12,8 @@ import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
+import TilordnetSaksbehandlerVenstremeny from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
+import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
     border-right: 1px solid ${ABorderDefault};
@@ -46,8 +49,10 @@ const tabs = [
 ];
 
 const VenstreMeny: React.FC = () => {
+    const skalViseTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
     return (
         <Container>
+            {skalViseTilordnetSaksbehandler && <TilordnetSaksbehandlerVenstremeny />}
             <Totrinnskontroll />
             <BehandlingOppsummering />
             <Tabs defaultValue="søknaden">
