@@ -1,20 +1,17 @@
 import React from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
 
 import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
-import { VedtaksoversiktArena } from './Behandlingsoversikt/Arena/VedtaksoversiktArena';
 import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
 import { VedtaksperioderOversikt } from './Vedtaksperioderoversikt/VedtaksperioderOversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
-import { Toggle } from '../../utils/toggles';
 
 type TabWithRouter = {
     label: string;
@@ -37,11 +34,6 @@ const tabs: TabWithRouter[] = [
         label: 'Aktiviteter',
         path: 'aktiviteter',
         komponent: (fagsakPersonId) => <Aktivitetsoversikt fagsakPersonId={fagsakPersonId} />,
-    },
-    {
-        label: 'TS-Arena',
-        path: 'arena',
-        komponent: (fagsakPersonId) => <VedtaksoversiktArena fagsakPersonId={fagsakPersonId} />,
     },
     {
         label: 'Vedtaksperioder',
@@ -78,14 +70,6 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const paths = useLocation().pathname.split('/').slice(-1);
     const path = paths.length ? paths[paths.length - 1] : '';
 
-    const visVedtaksperiodeOversikt = useFlag(Toggle.SKAL_VISE_VEDTAKSPERIODER_TAB);
-    const tabsSomSkalVises = tabs.filter((tab) => {
-        if (tab.path === 'vedtaksperioder' && !visVedtaksperiodeOversikt) {
-            return false;
-        }
-        return !(tab.path === 'arena' && visVedtaksperiodeOversikt);
-    });
-
     return (
         <>
             <Tabs
@@ -95,14 +79,14 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                 }}
             >
                 <Tabs.List>
-                    {tabsSomSkalVises.map((tab) => {
+                    {tabs.map((tab) => {
                         return <Tabs.Tab key={tab.path} value={tab.path} label={tab.label} />;
                     })}
                 </Tabs.List>
             </Tabs>
             <InnholdWrapper>
                 <Routes>
-                    {tabsSomSkalVises.map((tab) => (
+                    {tabs.map((tab) => (
                         <Route
                             key={tab.path}
                             path={`/${tab.path}`}
