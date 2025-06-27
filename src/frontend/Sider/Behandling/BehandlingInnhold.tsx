@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
 import HenleggModal from './Modal/HenleggModal';
+import NullstillModal from './Modal/NullstillModal';
 import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
@@ -52,6 +53,7 @@ const BehandlingInnhold: React.FC<{
                 </TotrinnskontrollProvider>
             </PersonopplysningerProvider>
             <HenleggModal />
+            <NullstillModal />
         </BehandlingProvider>
     );
 };

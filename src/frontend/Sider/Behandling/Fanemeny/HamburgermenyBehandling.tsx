@@ -10,6 +10,7 @@ import {
     Hamburgermeny,
     HenleggMenuItem,
     LenkerGroup,
+    NullstillMenuItem,
 } from '../../../komponenter/Hamburgermeny/Hamburgermeny';
 import TilordnetSaksbehandlerHamburgermeny from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerHamburgermeny';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
@@ -22,9 +23,11 @@ export const HamburgermenyBehandling = () => {
         settVisRedigerGrunnlagFomAdmin,
         behandlingErRedigerbar,
         settVisHenleggModal,
+        settVisNullstillModal,
     } = useBehandling();
     const { personopplysninger } = usePersonopplysninger();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
+    const kanNullstillBehandlingFlag = useFlag(Toggle.KAN_NULLSTILLE_BEHANDLING);
     const skalViseTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
 
     const skalViseRedigerSaksopplysninger =
@@ -32,6 +35,11 @@ export const HamburgermenyBehandling = () => {
         behandling.steg === Steg.INNGANGSVILKÅR &&
         behandlingErRedigerbar &&
         kanRedigereGrunnlagFom;
+
+    const skalViseNullstillBehandling =
+        behandlingErRedigerbar &&
+        behandling.type === BehandlingType.REVURDERING &&
+        kanNullstillBehandlingFlag;
 
     return (
         <Hamburgermeny>
@@ -45,6 +53,9 @@ export const HamburgermenyBehandling = () => {
                 )}
                 {behandlingErRedigerbar && (
                     <HenleggMenuItem onSelect={() => settVisHenleggModal(true)} />
+                )}
+                {skalViseNullstillBehandling && (
+                    <NullstillMenuItem onSelect={() => settVisNullstillModal(true)} />
                 )}
             </ActionMenu.Group>
         </Hamburgermeny>

@@ -25,4 +25,5 @@ export enum Toggle {
     BOUTGIFTER_TILLAT_HOYERE_UTGIFTER = `sak.boutgifter-tillat-hoyere-utgifter`,
     SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK = `sak.utled-endringsdato-revurdering`,
     SKAL_VISE_TILORDNET_SAKSBEHANDLER = 'sak.frontend.skal-vise-tilordnet-saksbehandler',
+    KAN_NULLSTILLE_BEHANDLING = `sak.frontend.kan-nullstille-behandling`,
 }
