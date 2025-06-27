@@ -34,7 +34,7 @@ export interface KildeResultatYtelse {
  */
 export type TypeRegisterYtelseForVilkårperiode = Exclude<
     TypeRegisterYtelse,
-    TypeRegisterYtelse.TILTAKSPENGER
+    TypeRegisterYtelse.TILTAKSPENGER | TypeRegisterYtelse.DAGPENGER
 >;
 
 export enum TypeRegisterYtelse {
@@ -50,7 +50,6 @@ export const typeRegisterYtelseTilMålgruppeType: Record<
     MålgruppeType
 > = {
     AAP: MålgruppeType.AAP,
-    DAGPENGER: MålgruppeType.DAGPENGER,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
 };
