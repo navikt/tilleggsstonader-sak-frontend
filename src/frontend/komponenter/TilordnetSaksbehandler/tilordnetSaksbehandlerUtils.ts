@@ -8,6 +8,6 @@ export function utledVisningsnavn(ansvarligSaksbehandler: SaksbehandlerDto) {
         case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
             return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
         default:
-            return 'ingen ansvarlig';
+            return 'Ingen ansvarlig';
     }
 }
