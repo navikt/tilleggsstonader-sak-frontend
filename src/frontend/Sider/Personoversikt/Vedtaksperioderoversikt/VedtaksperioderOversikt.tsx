@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Detail, Heading, VStack } from '@navikt/ds-react';
 
+import { ArenaSakOgVedtak } from './Arena/vedtakArena';
 import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderOversiktBoutgifter';
 import { IngenVedtaksperioderInfo } from './IngenVedtaksperioderInfo';
 import { OversiktKort } from './OversiktKort';
@@ -15,7 +16,6 @@ import {
 import DataViewer from '../../../komponenter/DataViewer';
 import { VedtakperioderOversiktResponse } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterDatoMedTidspunkt } from '../../../utils/dato';
-import { ArenaSakOgVedtak } from './Arena/vedtakArena';
 
 interface Props {
     fagsakPersonId: string;
