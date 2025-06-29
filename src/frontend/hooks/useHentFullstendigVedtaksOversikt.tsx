@@ -7,35 +7,46 @@ import { VedtakperioderOversiktResponse } from '../typer/vedtak/vedtaksperiodeOp
 
 export const useHentFullstendigVedtaksOversikt = (
     fagsakPersonId: string
-): { vedtaksperioderOversikt: Ressurs<VedtakperioderOversiktResponse> } => {
+): {
+    hentetTidspunkt: Date | undefined;
+    vedtaksperioderOversikt: Ressurs<VedtakperioderOversiktResponse>;
+} => {
     const { request } = useApp();
 
     const [vedtakOversiktResponse, settVedtakOversiktResponse] =
         useState<Ressurs<VedtakperioderOversiktResponse>>(byggTomRessurs());
 
+    const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
+
     useEffect(() => {
         settVedtakOversiktResponse(byggHenterRessurs());
         request<VedtakperioderOversiktResponse, null>(
             `/api/sak/vedtak/fullstendig-oversikt/${fagsakPersonId}`
-        ).then(settVedtakOversiktResponse);
+        ).then((res) => {
+            settVedtakOversiktResponse(res);
+            settHentetTidspunkt(new Date());
+        });
     }, [request, fagsakPersonId]);
 
-    return { vedtaksperioderOversikt: vedtakOversiktResponse };
+    return { hentetTidspunkt: hentetTidspunkt, vedtaksperioderOversikt: vedtakOversiktResponse };
 };
 
 export const useVedtaksperioderOversiktArena = (
     fagsakPersonId: string
-): { arenaSakOgVedtak: Ressurs<ArenaSakOgVedtak> } => {
+): { arenaSakOgVedtak: Ressurs<ArenaSakOgVedtak>; hentetTidspunkt: Date | undefined } => {
     const { request } = useApp();
 
     const [vedtakArena, settVedtakArena] = useState<Ressurs<ArenaSakOgVedtak>>(byggTomRessurs());
 
+    const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
+
     useEffect(() => {
         settVedtakArena(byggHenterRessurs());
-        request<ArenaSakOgVedtak, null>(`/api/sak/arena/vedtak/${fagsakPersonId}`).then(
-            settVedtakArena
-        );
+        request<ArenaSakOgVedtak, null>(`/api/sak/arena/vedtak/${fagsakPersonId}`).then((res) => {
+            settVedtakArena(res);
+            settHentetTidspunkt(new Date());
+        });
     }, [request, fagsakPersonId]);
 
-    return { arenaSakOgVedtak: vedtakArena };
+    return { arenaSakOgVedtak: vedtakArena, hentetTidspunkt: hentetTidspunkt };
 };
