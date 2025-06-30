@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Checkbox, CheckboxGroup, Label, Textarea, VStack } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
@@ -45,13 +45,15 @@ const OpphørVedtak: React.FC<{
 
     return (
         <VStack gap="4">
-            <Label size={'small'}>Opphørsdato</Label>
             {skalSetteOpphørsdato && (
                 <DateInputMedLeservisning
                     label="Opphørsdato"
-                    hideLabel={true}
+                    hideLabel={false}
                     value={opphørsdato}
-                    onChange={(e) => settOpphørsdato(e)}
+                    onChange={(e) => {
+                        settOpphørsdato(e);
+                        settUlagretKomponent(UlagretKomponent.BEREGNING_OPPHØR);
+                    }}
                     erLesevisning={!erStegRedigerbart}
                     feil={feilmeldinger.opphørsdato}
                     size="small"
