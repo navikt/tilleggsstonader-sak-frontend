@@ -3,7 +3,7 @@ import React from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
-import { Box, Tabs } from '@navikt/ds-react';
+import { Box, Tabs, VStack } from '@navikt/ds-react';
 import { ABorderDefault, AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
@@ -12,7 +12,7 @@ import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
-import TilordnetSaksbehandlerVenstremeny from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
+import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 import { Toggle } from '../../../utils/toggles';
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ const Container = styled.div`
     overflow-x: hidden;
 `;
 
-const Con = styled.div`
+const GråContainer = styled(VStack)`
     background-color: ${AGray50};
     padding: 1rem;
 `;
@@ -57,11 +57,11 @@ const VenstreMeny: React.FC = () => {
     const skalViseTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
     return (
         <Container>
-            <Con>
+            <GråContainer gap={'4'}>
                 {skalViseTilordnetSaksbehandler && <TilordnetSaksbehandlerVenstremeny />}
                 <Totrinnskontroll />
                 <BehandlingOppsummering />
-            </Con>
+            </GråContainer>
             <Tabs defaultValue="søknaden">
                 <Sticky>
                     <Tabs.List>

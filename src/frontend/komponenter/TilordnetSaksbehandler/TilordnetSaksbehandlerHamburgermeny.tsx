@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Alert, BodyShort, HGrid, VStack } from '@navikt/ds-react';
 import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import TilordnetSaksbehandler from './TilordnetSaksbehandler';
+import { TilordnetSaksbehandler } from './TilordnetSaksbehandler';
 import { useBehandling } from '../../context/BehandlingContext';
 import { behandlingResultatTilTekst } from '../../typer/behandling/behandlingResultat';
 import { behandlingStatusTilTekst } from '../../typer/behandling/behandlingStatus';

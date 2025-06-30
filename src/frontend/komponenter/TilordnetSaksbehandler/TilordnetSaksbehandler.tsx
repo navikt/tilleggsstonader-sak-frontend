@@ -15,15 +15,16 @@ export const PersonIkon = styled(PersonHeadsetIcon)`
     height: 3rem;
 `;
 
-const TilordnetSaksbehandler: React.FC = () => {
+export const TilordnetSaksbehandler: React.FC = () => {
     const { behandling } = useBehandling();
 
     if (!behandling.tilordnetSaksbehandler) {
         return (
             <Alert
                 variant={'info'}
+                size={'small'}
                 inline={true}
-                style={{ padding: '0.5rem', backgroundColor: AGray50 }}
+                style={{ backgroundColor: AGray50 }}
             >
                 Klarte ikke å hente ansvarlig saksbehandler
             </Alert>
@@ -47,5 +48,3 @@ const TilordnetSaksbehandler: React.FC = () => {
         </>
     );
 };
-
-export default TilordnetSaksbehandler;
