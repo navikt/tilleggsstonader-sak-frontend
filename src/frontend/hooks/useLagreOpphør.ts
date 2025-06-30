@@ -7,6 +7,7 @@ export type OpphørRequest = {
     type: TypeVedtak.OPPHØR;
     årsakerOpphør: ÅrsakOpphør[];
     begrunnelse: string;
+    opphørsdato?: string | undefined;
 };
 
 export const useLagreOpphør = () => {
@@ -14,11 +15,20 @@ export const useLagreOpphør = () => {
     const { behandling } = useBehandling();
     const { id, stønadstype } = behandling;
 
-    const lagreOpphør = (årsakerOpphør: ÅrsakOpphør[], begrunnelse: string) =>
+    const lagreOpphør = (
+        årsakerOpphør: ÅrsakOpphør[],
+        begrunnelse: string,
+        opphørsdato: string | undefined
+    ) =>
         request<null, OpphørRequest>(
             `/api/sak/vedtak/${stønadstypeTilVedtakUrl[stønadstype]}/${id}/opphor`,
             'POST',
-            { type: TypeVedtak.OPPHØR, årsakerOpphør, begrunnelse }
+            {
+                type: TypeVedtak.OPPHØR,
+                årsakerOpphør: årsakerOpphør,
+                begrunnelse: begrunnelse,
+                opphørsdato: opphørsdato,
+            }
         );
 
     return { lagreOpphør };

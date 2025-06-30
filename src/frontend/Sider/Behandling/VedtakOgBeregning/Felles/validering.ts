@@ -4,11 +4,14 @@ import { harIkkeVerdi } from '../../../../utils/utils';
 export interface FeilmeldingVedtak {
     årsaker?: string;
     begrunnelse?: string;
+    opphørsdato?: string;
 }
 
 export const valider = (
     årsaker: ÅrsakAvslag[] | ÅrsakOpphør[],
-    begrunnelse?: string
+    begrunnelse?: string,
+    opphørsdato?: string | undefined,
+    skalSetteOpphørsdato?: boolean
 ): FeilmeldingVedtak => {
     const feilmeldinger: FeilmeldingVedtak = {};
 
@@ -18,6 +21,10 @@ export const valider = (
 
     if (harIkkeVerdi(begrunnelse)) {
         feilmeldinger.begrunnelse = 'Begrunnelse må fylles ut';
+    }
+
+    if (skalSetteOpphørsdato && !opphørsdato) {
+        feilmeldinger.opphørsdato = 'Opphørsdato må fylles ut';
     }
 
     return feilmeldinger;
