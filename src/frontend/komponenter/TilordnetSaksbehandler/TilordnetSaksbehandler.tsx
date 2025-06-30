@@ -3,7 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { Alert, BodyShort, HStack } from '@navikt/ds-react';
+import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
@@ -18,7 +19,15 @@ const TilordnetSaksbehandler: React.FC = () => {
     const { behandling } = useBehandling();
 
     if (!behandling.tilordnetSaksbehandler) {
-        return;
+        return (
+            <Alert
+                variant={'info'}
+                inline={true}
+                style={{ padding: '0.5rem', backgroundColor: AGray50 }}
+            >
+                Klarte ikke å hente ansvarlig saksbehandler
+            </Alert>
+        );
     }
 
     return (

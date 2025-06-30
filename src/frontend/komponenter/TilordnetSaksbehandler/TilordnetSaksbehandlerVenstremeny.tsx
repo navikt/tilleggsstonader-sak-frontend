@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
+import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -9,20 +10,16 @@ import { SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
 const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
     const { behandling } = useBehandling();
 
-    /*  if (true) {
-  return (
-      <Alert
-          variant={'info'}
-          inline={true}
-          style={{ padding: '0.5rem', backgroundColor: AGray50  }}
-      >
-          Klarte ikke å hente ansvarlig saksbehandler
-      </Alert>
-  );
-} */
-
     if (!behandling.tilordnetSaksbehandler) {
-        return;
+        return (
+            <Alert
+                variant={'info'}
+                inline={true}
+                style={{ padding: '0.5rem', backgroundColor: AGray50 }}
+            >
+                Klarte ikke å hente ansvarlig saksbehandler
+            </Alert>
+        );
     }
 
     return (
