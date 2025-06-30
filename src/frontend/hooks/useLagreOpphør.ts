@@ -23,7 +23,12 @@ export const useLagreOpphør = () => {
         request<null, OpphørRequest>(
             `/api/sak/vedtak/${stønadstypeTilVedtakUrl[stønadstype]}/${id}/opphor`,
             'POST',
-            { type: TypeVedtak.OPPHØR, årsakerOpphør, begrunnelse, opphørsdato }
+            {
+                type: TypeVedtak.OPPHØR,
+                årsakerOpphør: årsakerOpphør,
+                begrunnelse: begrunnelse,
+                opphørsdato: opphørsdato,
+            }
         );
 
     return { lagreOpphør };
