@@ -10,6 +10,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
 import { DokumentInfo, VedleggRequest } from '../../../typer/dokument';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { formaterDatoMedTidspunkt } from '../../../utils/dato';
 
 const ComboBox = styled(UNSAFE_Combobox)`
     width: 35rem;
@@ -25,6 +26,8 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
         tema: [Arkivtema.TSO, Arkivtema.TSR],
     });
 
+    const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
+
     const hentDokumenter = useCallback(
         (fagsakPersonId: string) => {
             settDokumenter(byggHenterRessurs());
@@ -36,7 +39,10 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                     tema:
                         vedleggRequest.tema.length > 0 ? vedleggRequest.tema : relevanteArkivtemaer,
                 }
-            ).then(settDokumenter);
+            ).then((res) => {
+                settDokumenter(res);
+                settHentetTidspunkt(new Date());
+            });
         },
         [request, vedleggRequest]
     );
@@ -73,7 +79,12 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 selectedOptions={vedleggRequest.tema?.map(arkivtemaTilOption) ?? []}
             />
             <DataViewer type={'dokumenter'} response={{ dokumenter }}>
-                {({ dokumenter }) => <DokumentTabell dokumenter={dokumenter} />}
+                {({ dokumenter }) => (
+                    <>
+                        <DokumentTabell dokumenter={dokumenter} />
+                        <Detail>Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}</Detail>
+                    </>
+                )}
             </DataViewer>
         </>
     );
