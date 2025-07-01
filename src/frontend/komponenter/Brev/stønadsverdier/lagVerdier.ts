@@ -1,4 +1,4 @@
-import { mapRevurderFraDatoForPreutfyllingIBrevfanen } from './mapRevurderFraDatoForPreutfyllingIBrevfanen';
+import { mapOpphørsdatoForPreutfyllingIBrevfanen } from './mapOpphørsdatoForPreutfyllingIBrevfanen';
 import { mapVedtaksDatoerForPreutfyllingIBrevfanen } from './mapVedtaksDatoerForPreutfyllingIBrevfanen';
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
@@ -58,7 +58,7 @@ export const lagVerdier = (
 
     switch (vedtak.type) {
         case TypeVedtak.OPPHØR: {
-            return mapRevurderFraDatoForPreutfyllingIBrevfanen(behandling.revurderFra);
+            return mapOpphørsdatoForPreutfyllingIBrevfanen(vedtak.opphørsdato);
         }
         case TypeVedtak.INNVILGELSE: {
             return behandleInnvilgelse(behandling, vedtak);

@@ -7,7 +7,7 @@ export type OpphørRequest = {
     type: TypeVedtak.OPPHØR;
     årsakerOpphør: ÅrsakOpphør[];
     begrunnelse: string;
-    opphørsdato?: string | undefined;
+    opphørsdato: string | undefined;
 };
 
 export const useLagreOpphør = () => {
