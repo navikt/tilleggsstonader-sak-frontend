@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
@@ -59,6 +60,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { behandling } = useBehandling();
 
     const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
+    /**
+     * Må trigge rendering av komponent når vi foreslår nye vedtaksperioder
+     * fordi DateInput ikke bli rerendret pga hook og har samme key
+     */
+    const [vedtaksperioderId, settVedtaksperioderId] = useState<string>(uuidv4());
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -103,6 +109,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVedtaksperioder(res.data);
+                settVedtaksperioderId(uuidv4());
                 settForeslåPeriodeFeil(undefined);
                 settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
             } else {
@@ -120,7 +127,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <Grid>
+                <Grid key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
                     <Label size="small">Aktivitet</Label>
