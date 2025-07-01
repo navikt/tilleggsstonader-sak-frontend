@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import { v4 as uuid } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
@@ -103,11 +102,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
             'GET'
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
-                const perioder = res.data.map((periode) => ({
-                    ...periode,
-                    id: uuid(),
-                }));
-                settVedtaksperioder(perioder);
+                settVedtaksperioder(res.data);
                 settForeslåPeriodeFeil(undefined);
                 settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
             } else {
