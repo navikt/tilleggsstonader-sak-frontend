@@ -13,6 +13,7 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
 const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
+
     return (
         <VStack gap="8">
             <VStack gap={'4'}>

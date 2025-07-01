@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderSubtle, AWhite } from '@navikt/ds-tokens/dist/tokens';
 
 import FatteVedtak from './FatteVedtak';
 import SendtTilBeslutter from './SendtTilBeslutter';
@@ -13,8 +13,9 @@ import { Ressurs } from '../../../typer/ressurs';
 
 const BorderBox = styled.div`
     border: 1px solid ${ABorderSubtle};
+    background-color: ${AWhite};
     padding: 0.5rem 1rem;
-    margin: 1rem 0.5rem;
+    margin-bottom: 0.5rem;
     border-radius: 0.125rem;
 `;
 
