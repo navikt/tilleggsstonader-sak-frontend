@@ -53,4 +53,5 @@ export interface OppsummertVedtakAvslag {
 export interface OppsummertVedtakOpphør {
     resultat: TypeVedtak.OPPHØR;
     årsaker: ÅrsakOpphør[];
+    opphørsdato: string;
 }

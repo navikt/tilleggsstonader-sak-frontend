@@ -31,7 +31,7 @@ const lagPunktlisteInnvilgedePerioderForBoutgifter = (
     return `<ul style="margin: 0; padding-top: 0">
     ${beregningsresultat.perioder
         .map((periode) =>
-            periode.utgifterTilUtbetaling
+            periode.utgifter
                 .filter((utgift) => !utgift.erFørRevurderFra)
                 .map(
                     (utgift) =>

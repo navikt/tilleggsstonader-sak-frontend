@@ -85,7 +85,7 @@ type Beregningsresultat = {
     tom: string;
     stønadsbeløp: number;
     sumUtgifter: number;
-    utgifterTilUtbetaling: BeregningsresultatUtgifter[];
+    utgifter: BeregningsresultatUtgifter[];
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
 };

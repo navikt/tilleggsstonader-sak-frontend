@@ -34,6 +34,10 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
         case Stønadstype.BARNETILSYN:
         case Stønadstype.BOUTGIFTER:
             return FanePath.STØNADSVILKÅR;
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return FanePath.STØNADSVILKÅR;
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return FanePath.STØNADSVILKÅR;
     }
 };
 

@@ -37,7 +37,7 @@ const lagRaderForVedtakMidlertidigOvernatting = (
     }
     return beregningsresultat.perioder
         .map((periode) =>
-            periode.utgifterTilUtbetaling
+            periode.utgifter
                 .filter((utgift) => !utgift.erFørRevurderFra)
                 .map((utgift) =>
                     lagRadForVedtak(
@@ -102,5 +102,5 @@ const lagTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatB
 const skalHaTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatBoutgifter) =>
     beregningsresultat?.inneholderUtgifterOvernatting &&
     beregningsresultat.perioder.some((periode) =>
-        periode.utgifterTilUtbetaling.some((utgift) => utgift.tilUtbetaling < utgift.utgift)
+        periode.utgifter.some((utgift) => utgift.tilUtbetaling < utgift.utgift)
     );

@@ -4,13 +4,15 @@ import styled from 'styled-components';
 
 import { BodyLong, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 
-import TaAvVentModal from './TaAvVentModal';
+import { TaAvVentKnapp } from './TaAvVentKnapp';
 import { StatusSettPåVent, årsakTilTekst } from './typer';
 import {
     formaterIsoDato,
     formaterNullableTilTekstligDato,
     formaterTilTekstligDato,
 } from '../../utils/dato';
+import { Feilmelding } from '../Feil/Feilmelding';
+import { Feil } from '../Feil/feilmeldingUtils';
 
 const Kommentar = styled(BodyLong)`
     white-space: pre-wrap;
@@ -21,11 +23,9 @@ const SettPåVentInformasjon: React.FC<{
     statusPåVentRedigering: boolean;
     settStatusPåVentRedigering: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ status, statusPåVentRedigering, settStatusPåVentRedigering }) => {
-    const [visTaAvVentModal, settVisTaAvVentModal] = useState<boolean>(false);
-
     const frist = status.frist ? formaterIsoDato(status.frist) : '';
-
     const datoSattPåVent = formaterTilTekstligDato(status.datoSattPåVent);
+    const [kanTaAvVentFeil, settKanTaAvVentFeil] = useState<Feil | string>();
 
     return (
         <VStack gap={'4'}>
@@ -52,21 +52,15 @@ const SettPåVentInformasjon: React.FC<{
                     <Kommentar>{status.kommentar}</Kommentar>
                 </div>
             </VStack>
+            <Feilmelding feil={kanTaAvVentFeil} />
             {!statusPåVentRedigering && (
                 <HStack gap={'4'}>
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
                         Oppdater
                     </Button>
-                    <Button
-                        size={'small'}
-                        variant={'secondary'}
-                        onClick={() => settVisTaAvVentModal(true)}
-                    >
-                        Ta av vent
-                    </Button>
+                    <TaAvVentKnapp settTaAvVentFeil={settKanTaAvVentFeil} />
                 </HStack>
             )}
-            {visTaAvVentModal && <TaAvVentModal skjulModal={() => settVisTaAvVentModal(false)} />}
         </VStack>
     );
 };
