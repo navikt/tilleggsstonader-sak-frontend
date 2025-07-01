@@ -5,7 +5,7 @@ import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
-import { SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
+import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 
 export const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
     const { behandling } = useBehandling();
@@ -22,7 +22,10 @@ export const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
             </Alert>
         );
     }
-    if (behandling.tilordnetSaksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE) {
+    if (
+        behandling.tilordnetSaksbehandler?.tilordnetSaksbehandlerPåOppgave !==
+        TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE
+    ) {
         return (
             <HStack gap={'2'} align={'center'}>
                 <div>

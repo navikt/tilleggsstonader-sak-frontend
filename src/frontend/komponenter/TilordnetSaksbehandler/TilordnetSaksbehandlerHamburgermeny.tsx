@@ -9,7 +9,7 @@ import { TilordnetSaksbehandler } from './TilordnetSaksbehandler';
 import { useBehandling } from '../../context/BehandlingContext';
 import { behandlingResultatTilTekst } from '../../typer/behandling/behandlingResultat';
 import { behandlingStatusTilTekst } from '../../typer/behandling/behandlingStatus';
-import { SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
+import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 import { formaterIsoDato } from '../../utils/dato';
 
 const Container = styled.div`
@@ -25,7 +25,8 @@ const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
     const { behandling } = useBehandling();
 
     const skalViseAnsvarligSaksbehandler =
-        behandling.tilordnetSaksbehandler?.rolle !== SaksbehandlerRolle.OPPGAVE_FINNES_IKKE;
+        behandling.tilordnetSaksbehandler?.tilordnetSaksbehandlerPåOppgave !==
+        TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE;
 
     return (
         <Container>
@@ -65,8 +66,8 @@ const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
                         </BodyShort>
                     </VStack>
                 </HGrid>
-                {behandling.tilordnetSaksbehandler?.rolle ===
-                    SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
+                {behandling.tilordnetSaksbehandler?.tilordnetSaksbehandlerPåOppgave ===
+                    TilordnetSaksbehandlerPåOppgave.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER && (
                     <Alert variant={'warning'}>
                         Behandlingens tilhørende oppgave er enten feilregistrert eller satt på et
                         annet tema.

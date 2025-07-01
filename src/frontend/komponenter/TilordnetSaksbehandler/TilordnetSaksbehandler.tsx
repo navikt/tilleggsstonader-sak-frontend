@@ -44,7 +44,11 @@ export const TilordnetSaksbehandler: React.FC = () => {
                     </BodyShort>
                 </div>
             </HStack>
-            <StatusBar $color={utledStatusbarFarge(behandling.tilordnetSaksbehandler.rolle)} />
+            <StatusBar
+                $color={utledStatusbarFarge(
+                    behandling.tilordnetSaksbehandler.tilordnetSaksbehandlerPåOppgave
+                )}
+            />
         </>
     );
 };

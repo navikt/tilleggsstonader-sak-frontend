@@ -1,10 +1,11 @@
-export interface SaksbehandlerDto {
+export interface TilordnetSaksbehandlerDto {
+    navIdent: string;
     fornavn: string;
     etternavn: string;
-    rolle: SaksbehandlerRolle;
+    tilordnetSaksbehandlerPåOppgave: TilordnetSaksbehandlerPåOppgave;
 }
 
-export enum SaksbehandlerRolle {
+export enum TilordnetSaksbehandlerPåOppgave {
     IKKE_SATT = 'IKKE_SATT',
     INNLOGGET_SAKSBEHANDLER = 'INNLOGGET_SAKSBEHANDLER',
     ANNEN_SAKSBEHANDLER = 'ANNEN_SAKSBEHANDLER',

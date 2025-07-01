@@ -4,8 +4,8 @@ import { Stønadstype } from './behandlingTema';
 import { BehandlingType } from './behandlingType';
 import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
 import { NyeOpplysningerMetadata } from './nyeOpplysningerMetadata';
-import { SaksbehandlerDto } from './saksbehandlerDto';
 import { Steg } from './steg';
+import { TilordnetSaksbehandlerDto } from './tilordnetSaksbehandlerDto';
 
 export interface Behandling {
     id: string;
@@ -25,7 +25,7 @@ export interface Behandling {
     vedtaksdato?: string;
     revurderFra?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
-    tilordnetSaksbehandler?: SaksbehandlerDto;
+    tilordnetSaksbehandler?: TilordnetSaksbehandlerDto;
 }
 
 export interface HentBehandlingerRequest {

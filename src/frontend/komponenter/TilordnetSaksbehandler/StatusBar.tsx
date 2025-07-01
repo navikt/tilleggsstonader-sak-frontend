@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { ASurfaceSuccess, ASurfaceNeutral, ASurfaceWarning } from '@navikt/ds-tokens/dist/tokens';
 
-import { SaksbehandlerRolle } from '../../typer/behandling/saksbehandlerDto';
+import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 
 export const StatusBar = styled.span<{ $color: string }>`
     display: block;
@@ -11,16 +11,18 @@ export const StatusBar = styled.span<{ $color: string }>`
     border-top: 4px solid ${(props) => props.$color};
 `;
 
-export function utledStatusbarFarge(ansvarligSaksbehandlerRolle: SaksbehandlerRolle | undefined) {
+export function utledStatusbarFarge(
+    ansvarligSaksbehandlerRolle: TilordnetSaksbehandlerPåOppgave | undefined
+) {
     switch (ansvarligSaksbehandlerRolle) {
-        case SaksbehandlerRolle.IKKE_SATT:
-        case SaksbehandlerRolle.UTVIKLER_MED_VEILDERROLLE:
+        case TilordnetSaksbehandlerPåOppgave.IKKE_SATT:
+        case TilordnetSaksbehandlerPåOppgave.UTVIKLER_MED_VEILDERROLLE:
             return ASurfaceNeutral;
-        case SaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
-        case SaksbehandlerRolle.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
+        case TilordnetSaksbehandlerPåOppgave.INNLOGGET_SAKSBEHANDLER:
+        case TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
             return ASurfaceSuccess;
-        case SaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-        case SaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER:
+        case TilordnetSaksbehandlerPåOppgave.ANNEN_SAKSBEHANDLER:
+        case TilordnetSaksbehandlerPåOppgave.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER:
             return ASurfaceWarning;
         default:
             return ASurfaceNeutral;
