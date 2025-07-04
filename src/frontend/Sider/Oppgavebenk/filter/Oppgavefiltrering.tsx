@@ -20,7 +20,12 @@ import {
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
 import { enhetTilTekst } from '../typer/enhet';
-import { behandlingstemaTilTekst, OppgaveBehandlingstype, OppgaveRequest } from '../typer/oppgave';
+import {
+    behandlingstemaDagligReise,
+    behandlingstemaTilTekst,
+    OppgaveBehandlingstype,
+    OppgaveRequest,
+} from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
     oppgaveTypeTilTekst,
@@ -125,11 +130,13 @@ export const Oppgavefiltrering = () => {
                     size="small"
                 >
                     <option value="">Alle</option>
-                    {Object.entries(behandlingstemaTilTekst).map(([type, val]) => (
-                        <option key={type} value={type}>
-                            {val}
-                        </option>
-                    ))}
+                    {Object.entries(behandlingstemaTilTekst)
+                        .filter(([type]) => !behandlingstemaDagligReise.includes(type))
+                        .map(([type, val]) => (
+                            <option key={type} value={type}>
+                                {val}
+                            </option>
+                        ))}
                 </Select>
                 <Select
                     value={oppgaveRequest.enhet}
