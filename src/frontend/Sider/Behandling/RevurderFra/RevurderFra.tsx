@@ -12,7 +12,6 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import DateInputMedLeservisning from '../../../komponenter/Skjema/DateInputMedLeservisning';
-import { Behandling } from '../../../typer/behandling/behandling';
 import { RessursStatus } from '../../../typer/ressurs';
 import { erEtter, formaterNullableTilTekstligDato } from '../../../utils/dato';
 import { FanePath } from '../faner';
@@ -50,7 +49,7 @@ export function RevurderFra() {
             return;
         }
 
-        const response = await request<Behandling, null>(
+        const response = await request<null, null>(
             `/api/sak/behandling/${behandling.id}/revurder-fra/${revurderFraDato}`,
             'POST'
         );
