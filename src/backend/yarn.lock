@@ -1485,10 +1485,10 @@ jose@^5.9.6:
   resolved "https://registry.yarnpkg.com/jose/-/jose-5.10.0.tgz#c37346a099d6467c401351a9a0c2161e0f52c4be"
   integrity sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==
 
-jose@^6.0.10:
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/jose/-/jose-6.0.10.tgz#52d96e1a671b4c02e13b71e0d35abea2e774712b"
-  integrity sha512-skIAxZqcMkOrSwjJvplIPYrlXGpxTPnro2/QWTDCxAdWQrSTV5/KqspMWmi5WAx5+ULswASJiZ0a+1B/Lxt9cw==
+jose@^6.0.11:
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-6.0.11.tgz#0b7ea8b3b21a1bda5e00255a044c3a0e43270882"
+  integrity sha512-QxG7EaliDARm1O1S8BGakqncGT9s25bKL1WSf6/oa17Tkqwi8D2ZNglqCF+DsYF88/rV66Q/Q2mFAy697E1DUg==
 
 js-tokens@^4.0.0:
   version "4.0.0"
@@ -1710,10 +1710,10 @@ nth-check@^2.0.1:
   dependencies:
     boolbase "^1.0.0"
 
-oauth4webapi@^3.3.1:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-3.3.2.tgz#6cdb20dd607e5d1bed6233f17b8e8dd7529c77f0"
-  integrity sha512-hCJgDQayOLpBxdDpzShK/SI3C1PVnkj4CcKLOGyQm23Lk5V+qYPH+LtQlu8YO29MswBry/FBVlwWBnWgQvaFdA==
+oauth4webapi@^3.5.4:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-3.5.5.tgz#8568c6f84e4e3864aac7f0d9b32a285c46cc6abd"
+  integrity sha512-1K88D2GiAydGblHo39NBro5TebGXa+7tYoyIbxvqv3+haDDry7CBE1eSYuNbOSsYCCU6y0gdynVZAkm4YPw4hg==
 
 object-inspect@^1.13.3:
   version "1.13.4"
@@ -1746,13 +1746,13 @@ one-time@^1.0.0:
   dependencies:
     fn.name "1.x.x"
 
-openid-client@^6.1.4:
-  version "6.3.4"
-  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-6.3.4.tgz#dc853b5b7eef448fd0092e26a0c61747e595d5d6"
-  integrity sha512-CGZGk9Y6Bv9R4bXlrzVoxzD1n4h8iP914UhjVyRSftqzqO4CWaRqKpOmW253Jmpv4EWkz7/Gut/90iiWW8t0ow==
+openid-client@^6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-6.6.2.tgz#8b50685491e7a23cf6553a68ceeef1b2ee279f98"
+  integrity sha512-Xya5TNMnnZuTM6DbHdB4q0S3ig2NTAELnii/ASie1xDEr8iiB8zZbO871OWBdrw++sd3hW6bqWjgcmSy1RTWHA==
   dependencies:
-    jose "^6.0.10"
-    oauth4webapi "^3.3.1"
+    jose "^6.0.11"
+    oauth4webapi "^3.5.4"
 
 param-case@^3.0.4:
   version "3.0.4"
