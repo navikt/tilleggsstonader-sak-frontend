@@ -28,6 +28,14 @@ export interface Behandling {
     tilordnetSaksbehandler?: TilordnetSaksbehandlerDto;
 }
 
+export interface BehandlingForJournalføring {
+    id: string;
+    type: BehandlingType;
+    status: BehandlingStatus;
+    sistEndret: string;
+    resultat: BehandlingResultat;
+}
+
 export interface HentBehandlingerRequest {
     ident: string;
     stønadstype: Stønadstype;

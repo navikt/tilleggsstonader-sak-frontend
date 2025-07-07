@@ -1,7 +1,7 @@
 import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
 
 import { Journalføringsaksjon } from '../../../hooks/useJournalføringState';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
@@ -101,7 +101,9 @@ export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) =
     Journalføringsårsak.PAPIRSØKNAD,
 ];
 
-export const alleBehandlingerErFerdigstiltEllerSattPåVent = (behandlinger: Behandling[]) =>
+export const alleBehandlingerErFerdigstiltEllerSattPåVent = (
+    behandlinger: BehandlingForJournalføring[]
+) =>
     behandlinger.every(
         (behandling) =>
             behandling.status === BehandlingStatus.FERDIGSTILT ||
@@ -110,7 +112,7 @@ export const alleBehandlingerErFerdigstiltEllerSattPåVent = (behandlinger: Beha
     );
 
 export const utledBehandlingstype = (
-    tidligereBehandlinger: Behandling[],
+    tidligereBehandlinger: BehandlingForJournalføring[],
     journalføringsårsak: Journalføringsårsak
 ): BehandlingType => {
     if (
