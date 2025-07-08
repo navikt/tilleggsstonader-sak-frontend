@@ -12,6 +12,7 @@ interface HentBehandlingerResponse {
     hentBehandlinger: (personIdent: string, stønadstype: Stønadstype) => void;
     behandlinger: Ressurs<BehandlingForJournalføring[]>;
 }
+
 export const useHentBehandlinger = (): HentBehandlingerResponse => {
     const { request } = useApp();
     const [behandlinger, settBehandlinger] =
@@ -20,7 +21,7 @@ export const useHentBehandlinger = (): HentBehandlingerResponse => {
     const hentBehandlinger = useCallback(
         (ident: string, stønadstype: Stønadstype) => {
             request<BehandlingForJournalføring[], HentBehandlingerRequest>(
-                `/api/sak/behandling/person/V2`,
+                `/api/sak/behandling/person`,
                 'POST',
                 {
                     ident,
