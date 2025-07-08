@@ -34,6 +34,7 @@ export interface BehandlingForJournalføring {
     status: BehandlingStatus;
     sistEndret: string;
     resultat: BehandlingResultat;
+    behandlingsÅrsak: BehandlingÅrsak;
 }
 
 export interface HentBehandlingerRequest {
