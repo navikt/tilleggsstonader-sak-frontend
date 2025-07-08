@@ -1,5 +1,5 @@
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
-import { Behandling } from '../../../typer/behandling/behandling';
+import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { DokumentTitler } from '../../../typer/dokument';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { harIkkeVerdi } from '../../../utils/utils';
@@ -12,7 +12,7 @@ import { Journalføringsårsak } from '../typer/journalføringsårsak';
 export const validerJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: Behandling[]
+    behandlinger: BehandlingForJournalføring[]
 ): string | undefined => {
     if (journalføringGjelderKlage(journalpostState.journalføringsårsak))
         return validerKlageJournalføring(journalResponse, journalpostState);
@@ -39,7 +39,7 @@ const validerKlageJournalføring = (
 const validerStandardJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: Behandling[]
+    behandlinger: BehandlingForJournalføring[]
 ): string | undefined => {
     const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
 
@@ -84,7 +84,7 @@ const validerFellesFelter = (
 const validerJournalføringTilNyBehandling = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: Behandling[]
+    behandlinger: BehandlingForJournalføring[]
 ) => {
     if (!alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger))
         return 'Kan ikke journalføre på ny behandling når det finnes en behandling som ikke er ferdigstilt';
