@@ -2,9 +2,16 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { Button } from '@navikt/ds-react';
+
 import SimuleringResultatWrapper from './SimuleringResultatWrapper';
+import { useBehandling } from '../../../context/BehandlingContext';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
+import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
+import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
+import { FanePath } from '../faner';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
@@ -17,7 +24,13 @@ const Container = styled.div`
 `;
 
 const Simulering: React.FC = () => {
+    const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
     const { vedtak } = useVedtak();
+    const { behandling } = useBehandling();
+
+    const gåTilNesteSteg = () => {
+        navigate(`/behandling/${behandling.id}/${FanePath.BREV}`);
+    };
 
     return (
         <Container>
@@ -25,8 +38,19 @@ const Simulering: React.FC = () => {
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => <SimuleringResultatWrapper vedtak={vedtak} />}
             </DataViewer>
+            {behandling.resultat === BehandlingResultat.IKKE_SATT &&
+                behandling.status !== BehandlingStatus.FATTER_VEDTAK && (
+                    <Button
+                        variant="primary"
+                        size="small"
+                        onClick={() => {
+                            gåTilNesteSteg();
+                        }}
+                    >
+                        Neste
+                    </Button>
+                )}
         </Container>
     );
 };
-
 export default Simulering;
