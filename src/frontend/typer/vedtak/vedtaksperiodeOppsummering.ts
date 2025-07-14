@@ -6,6 +6,8 @@ export interface VedtakperioderOversiktResponse {
     tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
+    dagligreiseTSO: DetaljertVedtaksperiodeDagligReiseTSO[];
+    dagligreiseTSR: DetaljertVedtaksperiodeDagligReiseTSR[];
 }
 
 export type DetaljertVedtaksperiodeTilsynBarn = {
@@ -38,6 +40,20 @@ export type DetaljertVedtaksperiodeBoutgifter = {
     totalUtgiftMåned: number;
     stønadsbeløpMnd: number;
     utgifterTilOvernatting?: UtgiftBoutgift[];
+};
+
+export type DetaljertVedtaksperiodeDagligReiseTSO = {
+    fom: string;
+    tom: string;
+    aktivitet: AktivitetType;
+    målgruppe: FaktiskMålgruppe;
+};
+
+export type DetaljertVedtaksperiodeDagligReiseTSR = {
+    fom: string;
+    tom: string;
+    aktivitet: AktivitetType;
+    målgruppe: FaktiskMålgruppe;
 };
 
 export interface UtgiftBoutgift {
