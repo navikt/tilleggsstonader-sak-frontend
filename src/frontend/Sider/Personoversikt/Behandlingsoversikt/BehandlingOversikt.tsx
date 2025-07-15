@@ -11,7 +11,6 @@ import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
     const { hentKlagebehandlinger, klagebehandlinger } = useHentKlagebehandlinger();
-
     useEffect(() => {
         hentBehandlingsoversikt(fagsakPersonId);
         hentKlagebehandlinger(fagsakPersonId);
@@ -52,10 +51,18 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
                         )}
-                        {behandlingsoversikt.dagligReiseTso && (
+                        {behandlingsoversikt.dagligReiseTSO && (
                             <FagsakOversikt
-                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTso}
-                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTso ?? []}
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSO}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSO ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            />
+                        )}
+                        {behandlingsoversikt.dagligReiseTSR && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSR}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSR ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
