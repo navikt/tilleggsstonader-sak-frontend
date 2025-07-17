@@ -10,6 +10,8 @@ export interface Behandlingsoversikt {
     tilsynBarn?: FagsakMedBehandlinger;
     læremidler?: FagsakMedBehandlinger;
     boutgifter?: FagsakMedBehandlinger;
+    dagligReiseTSO?: FagsakMedBehandlinger;
+    dagligReiseTSR?: FagsakMedBehandlinger;
 }
 
 export interface FagsakMedBehandlinger {

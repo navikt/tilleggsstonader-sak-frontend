@@ -11,7 +11,6 @@ import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
 const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
     const { hentKlagebehandlinger, klagebehandlinger } = useHentKlagebehandlinger();
-
     useEffect(() => {
         hentBehandlingsoversikt(fagsakPersonId);
         hentKlagebehandlinger(fagsakPersonId);
@@ -48,6 +47,22 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                             <FagsakOversikt
                                 fagsakMedBehandlinger={behandlingsoversikt.boutgifter}
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.boutgifter ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            />
+                        )}
+                        {behandlingsoversikt.dagligReiseTSO && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSO}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSO ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                            />
+                        )}
+                        {behandlingsoversikt.dagligReiseTSR && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSR}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSR ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
