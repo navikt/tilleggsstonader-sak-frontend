@@ -44,11 +44,12 @@ const KnappWrapper = styled.div`
     flex-direction: row;
     gap: 1rem;
 `;
-
-export const Oppgavefiltrering = () => {
+interface Props {
+    typeCounts: Record<string, number>;
+}
+export const Oppgavefiltrering = ({ typeCounts }: Props) => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
-
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
     const harSaksbehandlerNayUtlandRolle = harNayUtlandRolle(appEnv, saksbehandler);
@@ -111,7 +112,7 @@ export const Oppgavefiltrering = () => {
                     <option value="">Alle</option>
                     {oppgaverTyperSomSkalVisesFørst.map((type) => (
                         <option key={type} value={type}>
-                            {oppgaveTypeTilTekst[type]}
+                            {oppgaveTypeTilTekst[type]}({typeCounts[type] ?? 0})
                         </option>
                     ))}
                     <option value={OppgaveBehandlingstype.Klage}>Klage</option>

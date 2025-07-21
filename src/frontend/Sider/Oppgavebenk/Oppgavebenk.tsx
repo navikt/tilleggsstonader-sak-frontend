@@ -40,9 +40,24 @@ const OppgavebenkContainer = () => {
 
     return (
         <Container>
-            <Oppgavefiltrering />
-            <DataViewer type={'oppgaver'} response={{ oppgaver: oppgaveRessurs }}>
-                {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}
+            <DataViewer type="oppgaver" response={{ oppgaver: oppgaveRessurs }}>
+                {({ oppgaver }) => {
+                    const typeCounts = oppgaver.oppgaver.reduce(
+                        (acc, oppgave) => {
+                            const type = oppgave.oppgavetype;
+                            if (!type) return acc;
+                            acc[type] = (acc[type] || 0) + 1;
+                            return acc;
+                        },
+                        {} as Record<string, number>
+                    );
+                    return (
+                        <>
+                            <Oppgavefiltrering typeCounts={typeCounts} />
+                            <Oppgavetabell oppgaverResponse={oppgaver} />
+                        </>
+                    );
+                }}
             </DataViewer>
             <FeilmeldingHåndterOppgaveModal
                 feilmelding={feilmeldingHåndterOppgave}
