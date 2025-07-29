@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
-import { Alert, BodyShort, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
@@ -12,6 +12,7 @@ import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { Toggle } from '../../../../../utils/toggles';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
+import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -67,12 +68,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                 </Grid>
             </Container>
             {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
-                <VStack gap="2">
-                    <Label size={'small'}>Beregnet fra første endring i revurdering:</Label>
-                    <BodyShort size="small">
-                        {formaterIsoDato(beregningsresultat.tidligsteEndring)}
-                    </BodyShort>
-                </VStack>
+                <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
             )}
         </>
     );

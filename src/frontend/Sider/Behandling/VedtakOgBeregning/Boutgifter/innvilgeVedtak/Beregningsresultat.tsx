@@ -10,6 +10,7 @@ import '@navikt/ds-css';
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { Toggle } from '../../../../../utils/toggles';
+import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
 const Container = styled.div`
     background-color: ${AWhite};
@@ -60,12 +61,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 </Container>
             </VStack>
             {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
-                <VStack gap="2">
-                    <Label size="small">Beregnet fra første endring i revurdering:</Label>
-                    <BodyShort size="small">
-                        {formaterIsoDato(beregningsresultat.tidligsteEndring)}
-                    </BodyShort>
-                </VStack>
+                <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
             )}
         </>
     );
