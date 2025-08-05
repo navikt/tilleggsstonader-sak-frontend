@@ -25,7 +25,6 @@ export enum Toggle {
      * features-under-utvikling
      */
     TILLATER_NULLVEDAK = `sak.tillater_nullvedtak`,
-    BOUTGIFTER_TILLAT_HOYERE_UTGIFTER = `sak.boutgifter-tillat-hoyere-utgifter`,
     SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK = `sak.utled-endringsdato-revurdering`,
     KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-pa-samme-fagsak',
     KAN_NULLSTILLE_BEHANDLING = `sak.frontend.kan-nullstille-behandling`,
