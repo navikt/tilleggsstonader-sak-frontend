@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Pagination, Table } from '@navikt/ds-react';
+import { BodyShort, HStack, Pagination, Table } from '@navikt/ds-react';
 import { SortState } from '@navikt/ds-react/src/table/types';
 
 import Oppgaverad from './Oppgaverad';
@@ -25,6 +25,7 @@ import { PartialRecord } from '../../typer/common';
 const Tabell = styled(Table)`
     width: 1400px;
 `;
+
 interface Props {
     oppgaverResponse: OppgaverResponse;
 }
@@ -115,12 +116,15 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
                 </Table.Body>
             </Tabell>
             {antallSider > 1 && (
-                <Pagination
-                    page={side}
-                    count={antallSider}
-                    onPageChange={oppdaterValgtSide}
-                    size="small"
-                />
+                <HStack align="center" gap="14">
+                    <Pagination
+                        page={side}
+                        count={antallSider}
+                        onPageChange={oppdaterValgtSide}
+                        size="small"
+                    />
+                    <BodyShort>Totalt {oppgaverResponse.antallTreffTotalt} treff</BodyShort>
+                </HStack>
             )}
         </>
     );
