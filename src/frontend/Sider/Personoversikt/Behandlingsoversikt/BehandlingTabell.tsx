@@ -93,8 +93,8 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                             </Table.DataCell>
                             <Table.DataCell>
                                 {behandling.resultat === BehandlingResultat.OPPHØRT &&
-                                behandling.revurderFra
-                                    ? formaterNullableIsoDato(behandling.revurderFra)
+                                behandling.opphørsdato
+                                    ? formaterNullableIsoDato(behandling.opphørsdato)
                                     : behandling.vedtaksperiode?.fom &&
                                         behandling.vedtaksperiode?.tom
                                       ? `${formaterNullableIsoDato(behandling.vedtaksperiode.fom)} - ${formaterNullableIsoDato(behandling.vedtaksperiode.tom)}`

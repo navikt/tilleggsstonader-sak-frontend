@@ -39,6 +39,7 @@ export interface BehandlingDetaljer {
     henlagtBegrunnelse?: string;
     revurderFra?: string;
     vedtaksperiode?: Vedtaksperiode;
+    opphørsdato?: string;
 }
 
 export interface Vedtaksperiode {
