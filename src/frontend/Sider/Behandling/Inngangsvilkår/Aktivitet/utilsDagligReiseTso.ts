@@ -71,7 +71,7 @@ const resetPeriode = (
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return {
             fom: førsteDagIMånederForut(
-                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.BOUTGIFTER],
+                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.DAGLIG_REISE_TSO],
                 søknadMottattTidspunkt
             ),
             tom: dagensDato(),
