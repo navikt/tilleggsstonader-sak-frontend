@@ -3,6 +3,7 @@ import React from 'react';
 import { EndreAktivitetBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { EndreAktivitetBoutgfiter } from './EndreAktivitetBoutgifter';
 import { EndreAktivitetDagligReiseTso } from './EndreAktivitetDagligReiseTso';
+import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -11,6 +12,7 @@ import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBoutgifter } from '../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../typer/vilkårperiode/aktivitetDagligReiseTso';
+import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
 import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
 
 export const EndreAktivitet: React.FC<{
@@ -48,6 +50,14 @@ export const EndreAktivitet: React.FC<{
             return (
                 <EndreAktivitetDagligReiseTso
                     aktivitet={aktivitet as AktivitetDagligReiseTso}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return (
+                <EndreAktivitetDagligReiseTsr
+                    aktivitet={aktivitet as AktivitetDagligReiseTsr}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
