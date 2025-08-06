@@ -86,7 +86,7 @@ export interface TabellBehandling {
     henlagtÅrsak: HenlagtÅrsak | KlageHenlagtÅrsak | undefined;
     henlagtBegrunnelse: string | undefined;
     vedtaksperiode?: Vedtaksperiode;
-    opphørsdato?: string | undefined;
+    opphørsdato?: string;
 }
 
 export interface TabelllBehandlingKlage extends TabellBehandling {
