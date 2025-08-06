@@ -10,6 +10,6 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     BARNETILSYN: 'Tilsyn barn',
     LÆREMIDLER: 'Læremidler',
     BOUTGIFTER: 'Bolig/overnatting',
-    DAGLIG_REISE_TSO: 'Daglig reise', //Nay
-    DAGLIG_REISE_TSR: 'Daglig reise', //Tiltaksenheten
+    DAGLIG_REISE_TSO: 'Daglig reise (Nay)',
+    DAGLIG_REISE_TSR: 'Daglig reise (Tiltaksenheten)',
 };
