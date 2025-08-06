@@ -9,12 +9,21 @@ import {
     AktivitetBoutgifterFaktaOgVurderinger,
 } from './aktivitetBoutgifter';
 import {
+    AktivitetDagligReiseTso,
+    AktivitetDagligReiseTsoFaktaOgSvar,
+    AktivitetDagligReiseTsoFaktaOgVurderinger,
+} from './aktivitetDagligReiseTso';
+import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetLæremidlerFaktaOgVurderinger,
 } from './aktivitetLæremidler';
 
-export type Aktivitet = AktivitetBarnetilsyn | AktivitetLæremidler | AktivitetBoutgifter;
+export type Aktivitet =
+    | AktivitetBarnetilsyn
+    | AktivitetLæremidler
+    | AktivitetBoutgifter
+    | AktivitetDagligReiseTso;
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -33,9 +42,11 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
 export type AktivitetFaktaOgVurderinger =
     | AktivitetBarnetilsynFaktaOgVurderinger
     | AktivitetLæremidlerFaktaOgVurderinger
-    | AktivitetBoutgifterFaktaOgVurderinger;
+    | AktivitetBoutgifterFaktaOgVurderinger
+    | AktivitetDagligReiseTsoFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
     | AktivitetBarnetilsynFaktaOgSvar
     | AktivitetLæremidlerFaktaOgSvar
-    | AktivitetBoutgifterFaktaOgSvar;
+    | AktivitetBoutgifterFaktaOgSvar
+    | AktivitetDagligReiseTsoFaktaOgSvar;

@@ -1,4 +1,4 @@
-import { VilkårPeriodeAktivitet, SvarJaNei, Vurdering } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriodeAktivitet, Vurdering } from './vilkårperiode';
 
 export interface AktivitetBoutgifter extends VilkårPeriodeAktivitet {
     kildeId?: string;
