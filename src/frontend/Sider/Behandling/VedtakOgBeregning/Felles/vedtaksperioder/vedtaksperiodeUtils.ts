@@ -5,7 +5,7 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 export const initialiserVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[] | undefined
 ): Vedtaksperiode[] => {
-    return vedtaksperioder?.length ? vedtaksperioder : [tomVedtaksperiode()];
+    return vedtaksperioder?.length ? vedtaksperioder : [];
 };
 
 export const tomVedtaksperiode = (): Vedtaksperiode => ({
