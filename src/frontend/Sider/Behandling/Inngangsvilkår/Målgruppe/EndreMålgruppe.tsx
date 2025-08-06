@@ -149,9 +149,12 @@ const EndreMålgruppe: React.FC<{
     };
 
     const målgruppeTyperForStønadstype = (stønadstype: Stønadstype): SelectOption[] =>
-        [Stønadstype.BARNETILSYN, Stønadstype.LÆREMIDLER, Stønadstype.BOUTGIFTER].includes(
-            stønadstype
-        )
+        [
+            Stønadstype.BARNETILSYN,
+            Stønadstype.LÆREMIDLER,
+            Stønadstype.BOUTGIFTER,
+            Stønadstype.DAGLIG_REISE_TSO,
+        ].includes(stønadstype)
             ? målgruppeTypeOptionsForStønad(stønadstype)
             : [];
 
