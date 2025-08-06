@@ -11,7 +11,18 @@ const StyledTag = styled(Tag)`
     min-height: 20px;
 `;
 
-export const StatusTag: React.FC<{ status?: PeriodeStatus }> = ({ status }) => {
+export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean }> = ({
+    status,
+    lesevisning,
+}) => {
+    if (status === PeriodeStatus.UENDRET) {
+        return (
+            <StyledTag size="small" variant="warning">
+                Fra tidligere vedtak
+            </StyledTag>
+        );
+    }
+
     if (status === PeriodeStatus.ENDRET) {
         return (
             <StyledTag size="small" variant="warning">
@@ -20,7 +31,7 @@ export const StatusTag: React.FC<{ status?: PeriodeStatus }> = ({ status }) => {
         );
     }
 
-    if (status === PeriodeStatus.NY) {
+    if (lesevisning && status === PeriodeStatus.NY) {
         return (
             <StyledTag size="small" variant="success">
                 Ny

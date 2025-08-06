@@ -11,6 +11,7 @@ import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInpu
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
+import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
     faktiskMålgruppeTilTekst,
@@ -54,6 +55,21 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
     const valgbareAktiviteter = valgbareAktivitetTyperForVedtaksperiode(behandling.stønadstype);
+
+    const utledStatus = (vedtaksperiode: Vedtaksperiode) => {
+        if (!vedtaksperiode.forrigeVedtaksperiode) {
+            return PeriodeStatus.NY;
+        }
+
+        if (
+            vedtaksperiode.fom === vedtaksperiode.forrigeVedtaksperiode.fom &&
+            vedtaksperiode.tom === vedtaksperiode.forrigeVedtaksperiode.tom
+        ) {
+            return PeriodeStatus.UENDRET;
+        }
+
+        return PeriodeStatus.ENDRET;
+    };
 
     return (
         <>
@@ -116,16 +132,19 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 />
             </FeilmeldingMaksBredde>
             <div>
-                {erLesevisning
-                    ? erRevurdering && <StatusTag status={vedtaksperiode.status} />
-                    : kanSlettePeriode && (
-                          <Button
-                              variant="tertiary"
-                              onClick={() => slettPeriode()}
-                              icon={<TrashIcon />}
-                              size="xsmall"
-                          />
-                      )}
+                {!erLesevisning && kanSlettePeriode && (
+                    <Button
+                        variant="tertiary"
+                        onClick={() => slettPeriode()}
+                        icon={<TrashIcon />}
+                        size="xsmall"
+                    />
+                )}
+            </div>
+            <div>
+                {erRevurdering && (
+                    <StatusTag status={utledStatus(vedtaksperiode)} lesevisning={erLesevisning} />
+                )}
             </div>
         </>
     );

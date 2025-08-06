@@ -25,11 +25,11 @@ import { stønadstypeTilVedtakUrl } from '../stønadstypeTilVedtakUrl';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(5, max-content);
+    grid-template-columns: repeat(6, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(5n) {
+    > :nth-child(5) {
         grid-column: 1;
     }
 `;

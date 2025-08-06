@@ -12,4 +12,11 @@ export interface Vedtaksperiode extends Periode {
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType: AktivitetType | '';
     status?: PeriodeStatus;
+    forrigeVedtaksperiode?: ForrigeVedtaksperiode;
+}
+
+export interface ForrigeVedtaksperiode extends Periode {
+    id: string;
+    målgruppeType: FaktiskMålgruppe | '';
+    aktivitetType: AktivitetType | '';
 }
