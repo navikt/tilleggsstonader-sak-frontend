@@ -154,7 +154,7 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
                         oppdaterPeriode={oppdaterForm}
-                        typeOptions={valgbareAktivitetTyper(Stønadstype.BOUTGIFTER)}
+                        typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSO)}
                         formFeil={vilkårsperiodeFeil}
                         alleFelterKanEndres={alleFelterKanEndres}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
