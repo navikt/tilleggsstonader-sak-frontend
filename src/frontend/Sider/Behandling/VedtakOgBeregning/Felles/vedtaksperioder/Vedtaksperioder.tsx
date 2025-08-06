@@ -153,20 +153,20 @@ export const Vedtaksperioder: React.FC<Props> = ({
                     <HStack gap={'2'}>
                         <Button
                             size="small"
-                            onClick={leggTilPeriode}
+                            onClick={foreslåVedtaksperioder}
                             style={{ maxWidth: 'fit-content' }}
-                            variant="secondary"
-                            icon={<PlusCircleIcon />}
+                            variant="primary"
                         >
-                            Legg til vedtaksperiode
+                            Få forslag til vedtaksperioder
                         </Button>
                         <Button
                             size="small"
-                            onClick={foreslåVedtaksperioder}
+                            onClick={leggTilPeriode}
                             style={{ maxWidth: 'fit-content' }}
                             variant="tertiary"
+                            icon={<PlusCircleIcon />}
                         >
-                            Foreslå vedtaksperioder
+                            Legg til periode manuellt
                         </Button>
                     </HStack>
                     {foreslåPeriodeFeil && <Feilmelding feil={foreslåPeriodeFeil} />}
