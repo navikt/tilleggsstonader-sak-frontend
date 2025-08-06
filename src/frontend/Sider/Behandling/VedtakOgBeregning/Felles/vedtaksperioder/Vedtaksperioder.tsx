@@ -166,7 +166,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             variant="tertiary"
                             icon={<PlusCircleIcon />}
                         >
-                            Legg til periode manuellt
+                            Legg til periode manuelt
                         </Button>
                     </HStack>
                     {foreslåPeriodeFeil && <Feilmelding feil={foreslåPeriodeFeil} />}
