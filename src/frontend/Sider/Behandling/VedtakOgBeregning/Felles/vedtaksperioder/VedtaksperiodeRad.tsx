@@ -61,19 +61,19 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     const utledStatus = (vedtaksperiode: Vedtaksperiode) => {
         // Hvis vedtak ikke er lagret på behandling, hentes vedtaksperiode fra forrige behandling
         // og vedtaksperiode.forrigeVedtaksperiode er forrige-forrige vedtaksperiode
-        const vedtaksperiodeFraForrigeBehandling = vedtakErLagret
-            ? vedtaksperiode.forrigeVedtaksperiode
+        const vedtaksperiodeFraForrigeVedtak = vedtakErLagret
+            ? vedtaksperiode.vedtaksperiodeFraForrigeVedtak
             : lagretVedtaksperiode;
 
-        if (!vedtaksperiodeFraForrigeBehandling) {
+        if (!vedtaksperiodeFraForrigeVedtak) {
             return PeriodeStatus.NY;
         }
 
         if (
-            vedtaksperiode.fom === vedtaksperiodeFraForrigeBehandling.fom &&
-            vedtaksperiode.tom === vedtaksperiodeFraForrigeBehandling.tom &&
-            vedtaksperiode.aktivitetType === vedtaksperiodeFraForrigeBehandling.aktivitetType &&
-            vedtaksperiode.målgruppeType === vedtaksperiodeFraForrigeBehandling.målgruppeType
+            vedtaksperiode.fom === vedtaksperiodeFraForrigeVedtak.fom &&
+            vedtaksperiode.tom === vedtaksperiodeFraForrigeVedtak.tom &&
+            vedtaksperiode.aktivitetType === vedtaksperiodeFraForrigeVedtak.aktivitetType &&
+            vedtaksperiode.målgruppeType === vedtaksperiodeFraForrigeVedtak.målgruppeType
         ) {
             return PeriodeStatus.UENDRET;
         }
