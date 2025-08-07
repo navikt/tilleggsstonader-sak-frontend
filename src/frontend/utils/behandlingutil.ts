@@ -53,6 +53,7 @@ export const mapFagsakPersonTilTabellrader = (
             henlagtÅrsak: behandling.henlagtÅrsak,
             henlagtBegrunnelse: behandling.henlagtBegrunnelse,
             vedtaksperiode: behandling.vedtaksperiode,
+            opphørsdato: behandling.opphørsdato,
         };
     });
     return tabellBehandlinger ?? [];
@@ -85,6 +86,7 @@ export interface TabellBehandling {
     henlagtÅrsak: HenlagtÅrsak | KlageHenlagtÅrsak | undefined;
     henlagtBegrunnelse: string | undefined;
     vedtaksperiode?: Vedtaksperiode;
+    opphørsdato?: string;
 }
 
 export interface TabelllBehandlingKlage extends TabellBehandling {
