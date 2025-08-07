@@ -63,7 +63,9 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
 
         if (
             vedtaksperiode.fom === vedtaksperiode.forrigeVedtaksperiode.fom &&
-            vedtaksperiode.tom === vedtaksperiode.forrigeVedtaksperiode.tom
+            vedtaksperiode.tom === vedtaksperiode.forrigeVedtaksperiode.tom &&
+            vedtaksperiode.aktivitetType === vedtaksperiode.forrigeVedtaksperiode.aktivitetType &&
+            vedtaksperiode.målgruppeType === vedtaksperiode.forrigeVedtaksperiode.målgruppeType
         ) {
             return PeriodeStatus.UENDRET;
         }
