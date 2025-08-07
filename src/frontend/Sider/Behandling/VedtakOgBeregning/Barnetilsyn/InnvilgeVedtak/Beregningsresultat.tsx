@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
-import { Toggle } from '../../../../../utils/toggles';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
 const Container = styled.div`
@@ -31,7 +30,7 @@ interface Props {
 }
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
-    const endringsdatoUtledesAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
+    const { behandling } = useBehandling();
     return (
         <>
             <VStack gap={'8'}>
@@ -58,7 +57,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     </Grid>
                 </Container>
             </VStack>
-            {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
+            {!behandling.revurderFra && beregningsresultat.tidligsteEndring && (
                 <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
             )}
         </>

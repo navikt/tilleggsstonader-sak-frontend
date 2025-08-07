@@ -1,16 +1,15 @@
 import React, { FC } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 import '@navikt/ds-css';
 
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
-import { Toggle } from '../../../../../utils/toggles';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
@@ -28,7 +27,7 @@ const Grid = styled.div`
 export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLæremidler }> = ({
     beregningsresultat,
 }) => {
-    const endringsdatoUtledesAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
+    const { behandling } = useBehandling();
     return (
         <>
             <Container>
@@ -67,7 +66,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     ))}
                 </Grid>
             </Container>
-            {endringsdatoUtledesAutomatisk && beregningsresultat.tidligsteEndring && (
+            {!behandling.revurderFra && beregningsresultat.tidligsteEndring && (
                 <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
             )}
         </>
