@@ -33,6 +33,7 @@ interface Props {
     ) => void;
     slettPeriode: () => void;
     erNyRad: boolean;
+    vedtakErLagret: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -43,6 +44,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     oppdaterPeriode,
     slettPeriode,
     erNyRad,
+    vedtakErLagret,
 }) => {
     const { behandling } = useBehandling();
     const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
@@ -57,15 +59,21 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     const valgbareAktiviteter = valgbareAktivitetTyperForVedtaksperiode(behandling.stønadstype);
 
     const utledStatus = (vedtaksperiode: Vedtaksperiode) => {
-        if (!vedtaksperiode.forrigeVedtaksperiode) {
+        // Hvis vedtak ikke er lagret på behandling, hentes vedtaksperiode fra forrige behandling
+        // og vedtaksperiode.forrigeVedtaksperiode er forrige-forrige vedtaksperiode
+        const vedtaksperiodeFraForrigeBehandling = vedtakErLagret
+            ? vedtaksperiode.forrigeVedtaksperiode
+            : lagretVedtaksperiode;
+
+        if (!vedtaksperiodeFraForrigeBehandling) {
             return PeriodeStatus.NY;
         }
 
         if (
-            vedtaksperiode.fom === vedtaksperiode.forrigeVedtaksperiode.fom &&
-            vedtaksperiode.tom === vedtaksperiode.forrigeVedtaksperiode.tom &&
-            vedtaksperiode.aktivitetType === vedtaksperiode.forrigeVedtaksperiode.aktivitetType &&
-            vedtaksperiode.målgruppeType === vedtaksperiode.forrigeVedtaksperiode.målgruppeType
+            vedtaksperiode.fom === vedtaksperiodeFraForrigeBehandling.fom &&
+            vedtaksperiode.tom === vedtaksperiodeFraForrigeBehandling.tom &&
+            vedtaksperiode.aktivitetType === vedtaksperiodeFraForrigeBehandling.aktivitetType &&
+            vedtaksperiode.målgruppeType === vedtaksperiodeFraForrigeBehandling.målgruppeType
         ) {
             return PeriodeStatus.UENDRET;
         }

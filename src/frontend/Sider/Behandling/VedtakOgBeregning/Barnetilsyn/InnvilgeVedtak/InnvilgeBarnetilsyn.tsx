@@ -138,6 +138,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                         settVedtaksperioderFeil={settVedtaksperiodeFeil}
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
+                        vedtakErLagret={lagretVedtak !== undefined}
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}

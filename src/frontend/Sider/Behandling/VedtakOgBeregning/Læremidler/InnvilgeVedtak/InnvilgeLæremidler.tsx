@@ -119,6 +119,7 @@ export const InnvilgeLæremidler: React.FC<{
                     settVedtaksperioderFeil={settVedtaksperiodeFeil}
                     foreslåPeriodeFeil={foreslåPeriodeFeil}
                     settForeslåPeriodeFeil={settForeslåPeriodeFeil}
+                    vedtakErLagret={lagretVedtak !== undefined}
                 />
                 <Begrunnelsesfelt begrunnelse={begrunnelse} oppdaterBegrunnelse={settBegrunnelse} />
                 {erStegRedigerbart && <SmallButton onClick={beregnLæremidler}>Beregn</SmallButton>}
