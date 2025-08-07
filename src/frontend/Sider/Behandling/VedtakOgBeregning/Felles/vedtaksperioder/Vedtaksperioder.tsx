@@ -25,11 +25,11 @@ import { stønadstypeTilVedtakUrl } from '../stønadstypeTilVedtakUrl';
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(5, max-content);
+    grid-template-columns: repeat(6, max-content);
     grid-gap: 0.5rem 1.5rem;
     align-items: start;
 
-    > :nth-child(5n) {
+    > :nth-child(5) {
         grid-column: 1;
     }
 `;
@@ -44,6 +44,7 @@ interface Props {
     >;
     foreslåPeriodeFeil?: Feil;
     settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
+    vedtakErLagret: boolean;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -54,6 +55,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     settVedtaksperioderFeil,
     foreslåPeriodeFeil,
     settForeslåPeriodeFeil,
+    vedtakErLagret,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
@@ -144,6 +146,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
                             erNyRad={idNyeRader.has(vedtaksperiode.id)}
+                            vedtakErLagret={vedtakErLagret}
                         />
                     ))}
                 </Grid>
