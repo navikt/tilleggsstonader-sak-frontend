@@ -4,12 +4,14 @@ export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
+    TODO = 'TODO',
 }
 
 export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
+    TODO: 'Todo',
 };
 
 export const faktiskMålgruppeTilTekst = (type: FaktiskMålgruppe | '') => {

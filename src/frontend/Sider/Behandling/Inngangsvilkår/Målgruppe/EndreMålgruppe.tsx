@@ -154,6 +154,7 @@ const EndreMålgruppe: React.FC<{
             Stønadstype.LÆREMIDLER,
             Stønadstype.BOUTGIFTER,
             Stønadstype.DAGLIG_REISE_TSO,
+            Stønadstype.DAGLIG_REISE_TSR,
         ].includes(stønadstype)
             ? målgruppeTypeOptionsForStønad(stønadstype)
             : [];

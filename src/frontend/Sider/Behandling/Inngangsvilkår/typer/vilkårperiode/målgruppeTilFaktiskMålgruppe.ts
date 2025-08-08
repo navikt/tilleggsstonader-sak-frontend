@@ -22,4 +22,7 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     SYKEPENGER_100_PROSENT: MålgruppeSomIkkeGirRettPåStønad.SYKEPENGER_100_PROSENT,
     INGEN_MÅLGRUPPE: MålgruppeSomIkkeGirRettPåStønad.INGEN_MÅLGRUPPE,
     GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
+    DAGPENGER: FaktiskMålgruppe.TODO,
+    TILTAKSPENGER: FaktiskMålgruppe.TODO,
+    KVALIFISERINGSSTØNAD: FaktiskMålgruppe.TODO,
 };

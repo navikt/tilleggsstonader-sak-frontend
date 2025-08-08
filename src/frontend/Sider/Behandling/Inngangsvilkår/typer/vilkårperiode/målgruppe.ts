@@ -21,6 +21,9 @@ export enum MålgruppeType {
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
     GJENLEVENDE_GAMMELT_REGELVERK = 'GJENLEVENDE_GAMMELT_REGELVERK', // Ikke støttet i backend, brukes kun for å vise feilmelding om manglende støtte ved valg av denne
+    DAGPENGER = 'DAGPENGER',
+    KVALIFISERINGSSTØNAD = 'KVALIFISERINGSSTØNAD',
+    TILTAKSPENGER = 'TILTAKSPENGER',
 }
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
@@ -32,6 +35,9 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     GJENLEVENDE_GAMMELT_REGELVERK: 'Gjenlevende - gammelt regelverk',
+    DAGPENGER: 'Dagpenger',
+    KVALIFISERINGSSTØNAD: 'Kvalifiseringsstønad',
+    TILTAKSPENGER: 'Tiltakspenger',
 };
 
 const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
@@ -44,6 +50,9 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
     },
     [Stønadstype.LÆREMIDLER]: {
         AAP: true,
@@ -54,6 +63,9 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
     },
     [Stønadstype.BOUTGIFTER]: {
         AAP: true,
@@ -64,6 +76,9 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
         AAP: true,
@@ -73,15 +88,17 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         NEDSATT_ARBEIDSEVNE: true,
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
-        // DAGPENGER: false,
         SYKEPENGER_100_PROSENT: false,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
     },
 
     [Stønadstype.DAGLIG_REISE_TSR]: {
-        // DAGPENGER: true,
+        DAGPENGER: true,
+        KVALIFISERINGSSTØNAD: true,
+        TILTAKSPENGER: true,
         INGEN_MÅLGRUPPE: true,
-        // KVALIFISERINGSPROGRAM: true,
-        // TILTAKSPENGER: true
         AAP: false,
         UFØRETRYGD: false,
         OMSTILLINGSSTØNAD: false,
