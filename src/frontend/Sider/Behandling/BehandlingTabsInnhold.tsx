@@ -57,9 +57,15 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const utledEndringsdatoAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
+    const medRevurderFraFane = (): boolean => {
+        if (utledEndringsdatoAutomatisk) return false;
+        // Antar at man ser i en avsluttet behandling eller beslutter en behandling.
+        else if (!behandling.revurderFra && !behandlingErRedigerbar) return false;
+        else return true;
+    };
 
     const førsteFanePath =
-        behandling.type === BehandlingType.REVURDERING && !utledEndringsdatoAutomatisk
+        behandling.type === BehandlingType.REVURDERING && medRevurderFraFane()
             ? FanePath.REVURDER_FRA
             : FanePath.INNGANGSVILKÅR;
     const aktivFane = isFanePath(path) ? path : førsteFanePath;
@@ -80,7 +86,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling, !utledEndringsdatoAutomatisk);
+    const behandlingFaner = hentBehandlingfaner(behandling, medRevurderFraFane());
 
     return (
         <StegProvider
