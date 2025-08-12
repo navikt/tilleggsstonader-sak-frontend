@@ -6,6 +6,8 @@ import { useApp } from './AppContext';
 import {
     NyttVilkår,
     OppdaterVilkår,
+    SlettVilkår,
+    SlettVilkårRespons,
     SvarPåVilkår,
     Vilkår,
     Vilkårsvurdering,
@@ -56,7 +58,9 @@ export interface UseVilkår {
     vilkårsvurdering: Vilkårsvurdering;
     lagreNyttVilkår: (vurdering: NyttVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    slettVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<null> | RessursFeilet>;
+    slettVilkår: (
+        vilkår: SlettVilkår
+    ) => Promise<RessursSuksess<SlettVilkårRespons> | RessursFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
 
@@ -96,18 +100,29 @@ export const [VilkårProvider, useVilkår] = constate(
         };
 
         const slettVilkår = (
-            vilkår: OppdaterVilkår
-        ): Promise<RessursSuksess<null> | RessursFeilet> => {
-            return request<null, OppdaterVilkår>(`/api/sak/vilkar`, 'DELETE', vilkår).then(
-                (respons: RessursSuksess<null> | RessursFeilet) => {
-                    if (respons.status === RessursStatus.SUKSESS) {
+            slettVilkår: SlettVilkår
+        ): Promise<RessursSuksess<SlettVilkårRespons> | RessursFeilet> => {
+            return request<SlettVilkårRespons, SlettVilkår>(
+                `/api/sak/vilkar`,
+                'DELETE',
+                slettVilkår
+            ).then((respons: RessursSuksess<SlettVilkårRespons> | RessursFeilet) => {
+                if (respons.status === RessursStatus.SUKSESS) {
+                    if (respons.data.slettetPermanent) {
                         settVilkårsvurdering((prevVilkårsvurdering) =>
-                            fjernVilkårFraVilkårsvurdering(prevVilkårsvurdering, vilkår)
+                            fjernVilkårFraVilkårsvurdering(prevVilkårsvurdering, slettVilkår)
+                        );
+                    } else {
+                        settVilkårsvurdering((prevVilkårsvurdering) =>
+                            oppdaterVilkårsvurderingMedVilkår(
+                                prevVilkårsvurdering,
+                                respons.data.vilkår
+                            )
                         );
                     }
-                    return respons;
                 }
-            );
+                return respons;
+            });
         };
         const ikkeVurderVilkår = (
             vilkår: OppdaterVilkår

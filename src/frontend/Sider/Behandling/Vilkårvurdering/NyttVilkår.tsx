@@ -49,11 +49,11 @@ export const NyttVilkår: React.FC<{
     return (
         <EndreVilkår
             regler={vilkårsregler}
+            lagretVilkår={undefined}
             redigerbareVilkårfelter={{ delvilkårsett: lagTomtDelvilkårsett() }}
             avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
             lagreVurdering={opprettVilkår}
             alleFelterKanRedigeres={true}
-            slettVilkår={undefined}
             vilkårtype={vilkårtype}
             kanVæreFremtidigUtgift={true}
         />
