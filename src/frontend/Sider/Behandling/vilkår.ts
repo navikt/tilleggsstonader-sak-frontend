@@ -49,6 +49,7 @@ export interface Vilkår {
     tom?: string;
     utgift?: number;
     erFremtidigUtgift?: boolean;
+    slettetKommentar?: string;
 }
 
 export interface Opphavsvilkår {
