@@ -38,10 +38,10 @@ export const OppsummeringBoutgifter: React.FC<{
                 </InfoSeksjon>
             )}
 
-            {behandlingFakta.personopplysninger.søknadsgrunnlag && (
+            {behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
                 <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
                     <BodyShort size="small">
-                        {behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse}
+                        {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
                     </BodyShort>
                 </InfoSeksjon>
             )}
