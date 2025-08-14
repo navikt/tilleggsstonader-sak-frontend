@@ -30,8 +30,8 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                         <ÅrVelger {...props} />
                     </Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.HeaderCell scope={'col'} key={p.fom} style={{ width: '6rem' }}>
-                            {toTitleCase(formaterÅrMåned(p.fom))}
+                        <Table.HeaderCell scope={'col'} key={p.måned} style={{ width: '6rem' }}>
+                            {toTitleCase(formaterÅrMåned(p.måned))}
                         </Table.HeaderCell>
                     ))}
                 </Table.Row>
@@ -40,7 +40,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                 <Table.Row>
                     <Table.HeaderCell>Nytt beløp</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.DataCell key={p.fom} scope={'row'} align={'right'}>
+                        <Table.DataCell key={p.måned} scope={'row'} align={'right'}>
                             {formaterTallMedTusenSkilleEllerStrek(p.nyUtbetaling)}
                         </Table.DataCell>
                     ))}
@@ -48,7 +48,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                 <Table.Row>
                     <Table.HeaderCell>Tidligere utbetalt</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.DataCell key={p.fom} align={'right'}>
+                        <Table.DataCell key={p.måned} align={'right'}>
                             {formaterTallMedTusenSkilleEllerStrek(p.tidligereUtbetalt)}
                         </Table.DataCell>
                     ))}
@@ -56,7 +56,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                 <Table.Row>
                     <Table.HeaderCell>Totalt etterbetaling</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.DataCell key={p.fom} align={'right'}>
+                        <Table.DataCell key={p.måned} align={'right'}>
                             <ResultatVerdi $verdi={p.totalEtterbetaling}>
                                 {formaterTallMedTusenSkilleEllerStrek(p.totalEtterbetaling)}
                             </ResultatVerdi>
@@ -66,7 +66,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                 <Table.Row>
                     <Table.HeaderCell>Totalt feilutbetaling</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
-                        <Table.DataCell key={p.fom} align={'right'}>
+                        <Table.DataCell key={p.måned} align={'right'}>
                             <ResultatVerdi $verdi={-p.totalFeilutbetaling}>
                                 {formaterTallMedTusenSkilleEllerStrek(p.totalFeilutbetaling)}
                             </ResultatVerdi>

@@ -12,8 +12,7 @@ export interface SimuleringOppsummering {
 }
 
 export interface OppsummeringForPeriode {
-    fom: string;
-    tom: string;
+    måned: string;
     tidligereUtbetalt: number;
     nyUtbetaling: number;
     totalEtterbetaling: number;
