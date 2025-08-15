@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Table, Textarea, VStack } from '@navikt/ds-react';
 
@@ -12,7 +10,6 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
-import { Toggle } from '../../../../utils/toggles';
 import { SlettVilkårRespons, Vilkår } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
@@ -22,7 +19,6 @@ const SlettVilkårModal: React.FC<{
 }> = ({ vilkår, avsluttRedigering }) => {
     const { behandling } = useBehandling();
     const { slettVilkår } = useVilkår();
-    const featureKanSletteVilkår = useFlag(Toggle.KAN_SLETTE_VILKÅR);
 
     const kanSlettePeriodePermanent = vilkår.status === 'NY' || vilkår.erFremtidigUtgift;
 
@@ -65,20 +61,18 @@ const SlettVilkårModal: React.FC<{
 
     return (
         <>
-            {(vilkår.status === 'NY' || vilkår.erFremtidigUtgift || featureKanSletteVilkår) && (
-                <SmallButton
-                    variant={'tertiary'}
-                    icon={<TrashIcon />}
-                    iconPosition={'right'}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        settVisModal(true);
-                    }}
-                >
-                    Slett vilkår
-                </SmallButton>
-            )}
+            <SmallButton
+                variant={'tertiary'}
+                icon={<TrashIcon />}
+                iconPosition={'right'}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    settVisModal(true);
+                }}
+            >
+                Slett vilkår
+            </SmallButton>
             <ModalWrapper
                 visModal={visModal}
                 onClose={lukkModal}
