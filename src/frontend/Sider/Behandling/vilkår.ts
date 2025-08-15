@@ -49,6 +49,7 @@ export interface Vilkår {
     tom?: string;
     utgift?: number;
     erFremtidigUtgift?: boolean;
+    slettetKommentar?: string;
 }
 
 export interface Opphavsvilkår {
@@ -77,6 +78,13 @@ export type NyttVilkår = Pick<
 
 // Brukes for nullstilling av vilkår
 export type OppdaterVilkår = Pick<Vilkår, 'id' | 'behandlingId'>;
+
+export type SlettVilkår = Pick<Vilkår, 'id' | 'behandlingId'> & { kommentar?: string };
+
+export interface SlettVilkårRespons {
+    slettetPermanent: boolean;
+    vilkår: Vilkår;
+}
 
 // Internt bruk av felter som kan oppdateres i komponent
 export type RedigerbareVilkårfelter = Pick<

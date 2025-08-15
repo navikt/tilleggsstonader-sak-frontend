@@ -16,7 +16,7 @@ type LesEllerEndreDelvilkårProps = {
 
 export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler, vilkår }) => {
     const { erStegRedigerbart } = useSteg();
-    const { lagreVilkår, slettVilkår } = useVilkår();
+    const { lagreVilkår } = useVilkår();
 
     const [redigerer, settRedigerer] = useState<boolean>(
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL && !vilkår.erFremtidigUtgift
@@ -32,8 +32,14 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         vilkår.status === PeriodeStatus.NY ||
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL;
 
+    const skalViseRedigeringsknapp =
+        erStegRedigerbart &&
+        !helePeriodenErLåstForEndring &&
+        vilkår.status !== PeriodeStatus.SLETTET;
+
     return erStegRedigerbart && !helePeriodenErLåstForEndring && redigerer ? (
         <EndreVilkår
+            lagretVilkår={vilkår}
             regler={regler}
             redigerbareVilkårfelter={{
                 delvilkårsett: vilkår.delvilkårsett,
@@ -51,20 +57,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
             }
             avsluttRedigering={() => settRedigerer(false)}
             alleFelterKanRedigeres={alleFelterKanEndres}
-            slettVilkår={
-                vilkår.status === PeriodeStatus.NY || vilkår.erFremtidigUtgift
-                    ? () => {
-                          slettVilkår(vilkår);
-                      }
-                    : undefined
-            }
             vilkårtype={vilkår.vilkårType}
             kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
         />
     ) : (
         <LesevisningVilkår
             vilkår={vilkår}
-            skalViseRedigeringsknapp={erStegRedigerbart && !helePeriodenErLåstForEndring}
+            skalViseRedigeringsknapp={skalViseRedigeringsknapp}
             startRedigering={() => settRedigerer(true)}
         />
     );
