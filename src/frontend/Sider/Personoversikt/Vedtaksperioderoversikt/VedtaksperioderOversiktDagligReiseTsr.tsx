@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { DetaljertVedtaksperiodeDagligReiseTSO } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
+import { DetaljertVedtaksperiodeDagligReiseTsr } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 interface Props {
-    vedtaksperioder: DetaljertVedtaksperiodeDagligReiseTSO[];
+    vedtaksperioder: DetaljertVedtaksperiodeDagligReiseTsr[];
 }
 
-export const VedtaksperioderOversiktDagligReiseTSO: React.FC<Props> = ({ vedtaksperioder }) => {
+export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({ vedtaksperioder }) => {
     return (
         <Table size={'small'}>
             <Table.Header>

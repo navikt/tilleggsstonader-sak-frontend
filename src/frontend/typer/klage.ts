@@ -4,8 +4,8 @@ export interface Klagebehandlinger {
     tilsynBarn: KlageBehandling[];
     læremidler: KlageBehandling[];
     boutgifter: KlageBehandling[];
-    dagligReiseTSO: KlageBehandling[];
-    dagligReiseTSR: KlageBehandling[];
+    dagligReiseTso: KlageBehandling[];
+    dagligReiseTsr: KlageBehandling[];
 }
 
 export interface KlageBehandling {

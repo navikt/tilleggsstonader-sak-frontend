@@ -51,18 +51,18 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
                         )}
-                        {behandlingsoversikt.dagligReiseTSO && (
+                        {behandlingsoversikt.dagligReiseTso && (
                             <FagsakOversikt
-                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSO}
-                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSO ?? []}
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTso}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTso ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
                         )}
-                        {behandlingsoversikt.dagligReiseTSR && (
+                        {behandlingsoversikt.dagligReiseTsr && (
                             <FagsakOversikt
-                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTSR}
-                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTSR ?? []}
+                                fagsakMedBehandlinger={behandlingsoversikt.dagligReiseTsr}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTsr ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                             />
