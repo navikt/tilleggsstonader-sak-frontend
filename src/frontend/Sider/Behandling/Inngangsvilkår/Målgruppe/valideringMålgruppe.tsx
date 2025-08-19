@@ -1,6 +1,7 @@
 import { EndreMålgruppeForm } from './EndreMålgruppe';
 import { finnBegrunnelseGrunnerMålgruppe } from './utils';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
+import { formaterIsoPeriode, perioderOverlapper } from '../../../../utils/dato';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
 import { Målgruppe, MålgruppeType } from '../typer/vilkårperiode/målgruppe';
@@ -12,7 +13,8 @@ export interface MålgruppeValidering extends Periode {
 
 export const validerMålgruppe = (
     endretMålgruppe: EndreMålgruppeForm,
-    lagretMålgruppe?: Målgruppe | undefined,
+    lagretMålgruppe: Målgruppe | undefined,
+    lagredeMålgrupper: Målgruppe[],
     revurderesFraDato?: string
 ): FormErrors<MålgruppeValidering> => {
     const feil: FormErrors<MålgruppeValidering> = {
@@ -32,6 +34,18 @@ export const validerMålgruppe = (
         return {
             ...feil,
             ...periodeValidering,
+        };
+    }
+
+    const overlappendeMålgruppe = lagredeMålgrupper
+        .filter((målgruppe) => målgruppe.status !== 'SLETTET')
+        .filter((målgruppe) => målgruppe.id !== lagretMålgruppe?.id)
+        .filter((målgruppe) => målgruppe.type === endretMålgruppe.type)
+        .find((målgruppe) => perioderOverlapper(målgruppe, endretMålgruppe));
+    if (overlappendeMålgruppe) {
+        return {
+            ...feil,
+            fom: `Periode overlapper med ${formaterIsoPeriode(overlappendeMålgruppe.fom, overlappendeMålgruppe.tom)}`,
         };
     }
 
