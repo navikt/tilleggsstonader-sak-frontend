@@ -16,7 +16,6 @@ type Props = {
     ) => void;
     feilmeldinger: Feilmeldinger;
     alleFelterKanRedigeres: boolean;
-    erFremtidigUtgift: boolean | undefined;
     settOffentligTransport: (offentligTransport: OffentligTransport) => void;
 };
 
@@ -25,7 +24,6 @@ export const OffentligTransportSeksjon = ({
     settDetFinnesUlagredeEndringer,
     settFeilmeldinger,
     alleFelterKanRedigeres,
-    erFremtidigUtgift,
     settOffentligTransport,
 }: Props) => {
     const [antallReisedager, settAntallReisedager] = useState<number | undefined>(
@@ -78,10 +76,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>
-                                    {'Reisedager pr uke'}
-                                    {erFremtidigUtgift ? ' (valgfri)' : ''}
-                                </span>
+                                <span>{'Reisedager pr uke'}</span>
                             </HStack>
                         }
                         size="small"
@@ -96,10 +91,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>
-                                    {'Pris enkeltbillett'}
-                                    {erFremtidigUtgift ? ' (valgfri)' : ''}
-                                </span>
+                                <span>{'Pris enkeltbillett'}</span>
                             </HStack>
                         }
                         size="small"
@@ -114,10 +106,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>
-                                    {'Pris 30-dagersbillett'}
-                                    {erFremtidigUtgift ? ' (valgfri)' : ''}
-                                </span>
+                                <span>{'Pris 30-dagersbillett'}</span>
                             </HStack>
                         }
                         size="small"

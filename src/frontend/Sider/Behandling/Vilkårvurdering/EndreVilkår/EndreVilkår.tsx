@@ -254,7 +254,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         settFeilmeldinger={settFeilmeldinger}
                         feilmeldinger={feilmeldinger}
-                        erFremtidigUtgift={erFremtidigUtgift}
                         settOffentligTransport={settOffentligTransport}
                     />
                 )}
