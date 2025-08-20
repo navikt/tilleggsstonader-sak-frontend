@@ -26,6 +26,7 @@ export enum StønadsvilkårType {
     LØPENDE_UTGIFTER_EN_BOLIG = 'LØPENDE_UTGIFTER_EN_BOLIG',
     LØPENDE_UTGIFTER_TO_BOLIGER = 'LØPENDE_UTGIFTER_TO_BOLIGER',
     PASS_BARN = 'PASS_BARN',
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT = 'DAGLIG_REISE_OFFENTLIG_TRANSPORT',
 }
 
 export interface Vurdering {
@@ -50,6 +51,7 @@ export interface Vilkår {
     utgift?: number;
     erFremtidigUtgift?: boolean;
     slettetKommentar?: string;
+    offentligTransport?: OffentligTransport;
 }
 
 export interface Opphavsvilkår {
@@ -64,6 +66,12 @@ export interface Delvilkår {
 
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
+}
+
+export interface OffentligTransport {
+    reisedagerPerUke: number;
+    prisEnkelbillett: number;
+    prisTrettidagersbillett: number;
 }
 
 export type SvarPåVilkår = Pick<
@@ -89,7 +97,7 @@ export interface SlettVilkårRespons {
 // Internt bruk av felter som kan oppdateres i komponent
 export type RedigerbareVilkårfelter = Pick<
     Vilkår,
-    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift'
+    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift' | 'offentligTransport'
 >;
 
 export const erOppfylt = (vilkårsresultat: Vilkårsresultat) => {
