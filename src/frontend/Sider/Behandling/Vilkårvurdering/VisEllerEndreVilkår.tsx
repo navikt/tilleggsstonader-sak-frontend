@@ -41,6 +41,7 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 tom: vilkår.tom,
                 utgift: vilkår.utgift,
                 erFremtidigUtgift: vilkår.erFremtidigUtgift,
+                offentligTransport: vilkår.offentligTransport,
             }}
             lagreVurdering={(redigerbareVilkårfelter) =>
                 lagreVilkår({

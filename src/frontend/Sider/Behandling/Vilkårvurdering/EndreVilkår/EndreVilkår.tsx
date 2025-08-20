@@ -22,6 +22,7 @@ import { Regler } from '../../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import {
     Delvilkår,
+    OffentligTransport,
     RedigerbareVilkårfelter,
     StønadsvilkårType,
     Vilkår,
@@ -29,6 +30,7 @@ import {
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
+import { OffentligTransportSeksjon } from '../../Stønadsvilkår/DagligReise/OffentligTransportSeksjon';
 
 const StyledForm = styled.form`
     background: white;
@@ -88,6 +90,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         redigerbareVilkårfelter.erFremtidigUtgift
     );
 
+    const [offentligTransport, settOffentligTransport] = useState<OffentligTransport>();
+
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
     const [laster, settLaster] = useState<boolean>(false);
@@ -129,6 +133,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                 tom,
                 utgift,
                 erFremtidigUtgift,
+                offentligTransport,
             });
             if (response.status === RessursStatus.SUKSESS) {
                 avsluttRedigering();
@@ -141,7 +146,10 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     };
 
     const finnTypePeriodeVelger = () => {
-        if (vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING) {
+        if (
+            vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING ||
+            vilkårtype === StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT
+        ) {
             return TypePeriodeVelger.DATO;
         }
         return TypePeriodeVelger.MANED_ÅR;
@@ -177,6 +185,28 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         settDetFinnesUlagredeEndringer(true);
     };
 
+    const visOffentligTransport = () => {
+        const kanBrukerReiseMedOffentligTransport = delvilkårsett[0]?.vurderinger.find(
+            (vurdering) => vurdering.regelId === 'KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT'
+        );
+
+        return kanBrukerReiseMedOffentligTransport?.svar === 'JA';
+    };
+
+    const visKjøreliste = () => {
+        const kanBrukerKjøreSelv = delvilkårsett[0]?.vurderinger.find(
+            (vurdering) => vurdering.regelId === 'KAN_BRUKER_KJØRE_SELV'
+        );
+        return kanBrukerKjøreSelv === undefined ? undefined : kanBrukerKjøreSelv.svar === 'JA';
+    };
+
+    const visTaxi = () => {
+        const kanBrukerKjøreSelv = delvilkårsett[0]?.vurderinger.find(
+            (vurdering) => vurdering.regelId === 'KAN_BRUKER_KJØRE_SELV'
+        );
+        return kanBrukerKjøreSelv === undefined ? undefined : kanBrukerKjøreSelv.svar === 'NEI';
+    };
+
     return (
         <StyledForm onSubmit={validerOgLagreVilkårsvurderinger}>
             <FlexColumn $gap={1}>
@@ -188,13 +218,15 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         feilmeldinger={feilmeldinger}
                         typePeriodeVelger={finnTypePeriodeVelger()}
                     />
-                    <EndreUtgift
-                        vilkårtype={vilkårtype}
-                        erFremtidigUtgift={erFremtidigUtgift}
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
-                        oppdaterUtgift={oppdaterUtgift}
-                        utgift={utgift}
-                    />
+                    {vilkårtype !== StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT && (
+                        <EndreUtgift
+                            vilkårtype={vilkårtype}
+                            erFremtidigUtgift={erFremtidigUtgift}
+                            alleFelterKanRedigeres={alleFelterKanRedigeres}
+                            oppdaterUtgift={oppdaterUtgift}
+                            utgift={utgift}
+                        />
+                    )}
                     <EndreErFremtidigUtgift
                         vilkårtype={vilkårtype}
                         erFremtidigUtgift={erFremtidigUtgift}
@@ -214,6 +246,21 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         settDelvilkårsett={settDelvilkårsett}
                     />
                 )}
+                <Skillelinje />
+                {visOffentligTransport() && (
+                    <OffentligTransportSeksjon
+                        redigerbareVilkårfelter={redigerbareVilkårfelter}
+                        alleFelterKanRedigeres={alleFelterKanRedigeres}
+                        settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
+                        settFeilmeldinger={settFeilmeldinger}
+                        feilmeldinger={feilmeldinger}
+                        erFremtidigUtgift={erFremtidigUtgift}
+                        settOffentligTransport={settOffentligTransport}
+                    />
+                )}
+                {visKjøreliste() && <p>Bruker har egen bil 🚗 da blir det kjøreliste</p>}
+                {visTaxi() && <p>Hello, da må du bestille en taxi 🚕</p>}
+
                 <VStack gap="4">
                     <Knapper>
                         <SmallButton>Lagre</SmallButton>

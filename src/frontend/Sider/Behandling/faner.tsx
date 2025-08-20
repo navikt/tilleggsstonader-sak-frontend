@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+    BriefcaseIcon,
     CalculatorIcon,
     ClockIcon,
     EnvelopeClosedIcon,
@@ -186,7 +187,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
                     komponent: () => <Stønadsvilkår stønadstype={Stønadstype.DAGLIG_REISE_TSO} />,
-                    ikon: <HouseHeartIcon />,
+                    ikon: <BriefcaseIcon />,
                 },
             ];
         case Stønadstype.DAGLIG_REISE_TSR:
@@ -195,7 +196,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
                     komponent: () => <Stønadsvilkår stønadstype={Stønadstype.DAGLIG_REISE_TSR} />,
-                    ikon: <HouseHeartIcon />,
+                    ikon: <BriefcaseIcon />,
                 },
             ];
     }
