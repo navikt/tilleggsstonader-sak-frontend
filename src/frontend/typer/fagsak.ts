@@ -6,6 +6,8 @@ export interface FagsakPerson {
     tilsynBarn?: string;
     læremidler?: string;
     boutgifter?: string;
+    dagligReiseTso?: string;
+    dagligReiseTsr?: string;
 }
 
 export function utledFagsakId(
@@ -19,6 +21,10 @@ export function utledFagsakId(
             return fagsakPerson.læremidler;
         case Stønadstype.BOUTGIFTER:
             return fagsakPerson.boutgifter;
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return fagsakPerson.dagligReiseTso;
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return fagsakPerson.dagligReiseTsr;
     }
 }
 
