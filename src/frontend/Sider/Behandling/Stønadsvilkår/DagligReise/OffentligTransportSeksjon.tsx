@@ -74,7 +74,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>{'Reisedager pr uke'}</span>
+                                <span>Reisedager pr uke</span>
                             </HStack>
                         }
                         size="small"
@@ -88,7 +88,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>{'Pris enkeltbillett'}</span>
+                                <span>Pris enkeltbillett</span>
                             </HStack>
                         }
                         size="small"
@@ -102,7 +102,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={
                             <HStack gap="2" align="center">
-                                <span>{'Pris 30-dagersbillett'}</span>
+                                <span>Pris 30-dagersbillett</span>
                             </HStack>
                         }
                         size="small"
