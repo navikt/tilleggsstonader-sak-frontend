@@ -250,7 +250,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                 {visOffentligTransport() && (
                     <OffentligTransportSeksjon
                         redigerbareVilkårfelter={redigerbareVilkårfelter}
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         settFeilmeldinger={settFeilmeldinger}
                         feilmeldinger={feilmeldinger}

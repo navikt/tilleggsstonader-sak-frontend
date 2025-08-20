@@ -15,7 +15,6 @@ type Props = {
         value: ((prevState: Feilmeldinger) => Feilmeldinger) | Feilmeldinger
     ) => void;
     feilmeldinger: Feilmeldinger;
-    alleFelterKanRedigeres: boolean;
     settOffentligTransport: (offentligTransport: OffentligTransport) => void;
 };
 
@@ -23,7 +22,6 @@ export const OffentligTransportSeksjon = ({
     redigerbareVilkårfelter,
     settDetFinnesUlagredeEndringer,
     settFeilmeldinger,
-    alleFelterKanRedigeres,
     settOffentligTransport,
 }: Props) => {
     const [antallReisedager, settAntallReisedager] = useState<number | undefined>(
@@ -81,7 +79,6 @@ export const OffentligTransportSeksjon = ({
                         }
                         size="small"
                         value={harTallverdi(antallReisedager) ? antallReisedager : ''}
-                        readOnly={!alleFelterKanRedigeres}
                         onChange={(e) => {
                             oppdaterAntallReisedager(tilHeltall(fjernSpaces(e.target.value)));
                         }}
@@ -96,7 +93,6 @@ export const OffentligTransportSeksjon = ({
                         }
                         size="small"
                         value={harTallverdi(enkeltbillett) ? enkeltbillett : ''}
-                        readOnly={!alleFelterKanRedigeres}
                         onChange={(e) => {
                             oppdaterEnkeltbilett(tilHeltall(fjernSpaces(e.target.value)));
                         }}
@@ -111,7 +107,6 @@ export const OffentligTransportSeksjon = ({
                         }
                         size="small"
                         value={harTallverdi(trettidagersbillett) ? trettidagersbillett : ''}
-                        readOnly={!alleFelterKanRedigeres}
                         onChange={(e) => {
                             oppdaterTrettidagersbilett(tilHeltall(fjernSpaces(e.target.value)));
                         }}
