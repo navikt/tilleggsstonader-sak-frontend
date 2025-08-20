@@ -72,11 +72,7 @@ export const OffentligTransportSeksjon = ({
             <HStack gap="4" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={
-                            <HStack gap="2" align="center">
-                                <span>Reisedager pr uke</span>
-                            </HStack>
-                        }
+                        label={'Reisedager pr uke'}
                         size="small"
                         value={harTallverdi(antallReisedager) ? antallReisedager : ''}
                         onChange={(e) => {
@@ -86,11 +82,7 @@ export const OffentligTransportSeksjon = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={
-                            <HStack gap="2" align="center">
-                                <span>Pris enkeltbillett</span>
-                            </HStack>
-                        }
+                        label={'Pris enkeltbillett'}
                         size="small"
                         value={harTallverdi(enkeltbillett) ? enkeltbillett : ''}
                         onChange={(e) => {
@@ -100,11 +92,7 @@ export const OffentligTransportSeksjon = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={
-                            <HStack gap="2" align="center">
-                                <span>Pris 30-dagersbillett</span>
-                            </HStack>
-                        }
+                        label={'Pris 30-dagersbillett'}
                         size="small"
                         value={harTallverdi(trettidagersbillett) ? trettidagersbillett : ''}
                         onChange={(e) => {
