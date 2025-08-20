@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
+import { BodyShort, Detail, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
@@ -31,6 +31,10 @@ const Container = styled(FlexColumn)`
 const Redigeringsknapp = styled(SmallButton)`
     max-height: 24px;
     align-self: end;
+`;
+
+const SlettetKommentar = styled(Detail)`
+    white-space: pre-wrap;
 `;
 
 const LesevisningVilkår: FC<{
@@ -95,6 +99,13 @@ const LesevisningVilkår: FC<{
                             icon={<PencilIcon />}
                         />
                     )}
+                </HGrid>
+            )}
+            {/*TODO plassering? Tittel?*/}
+            {vilkår.slettetKommentar && (
+                <HGrid>
+                    <Detail>Kommentar slettet:</Detail>
+                    <SlettetKommentar>{vilkår.slettetKommentar}</SlettetKommentar>
                 </HGrid>
             )}
         </Container>

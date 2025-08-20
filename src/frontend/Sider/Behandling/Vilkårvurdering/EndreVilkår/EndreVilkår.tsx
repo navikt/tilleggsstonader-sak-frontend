@@ -2,7 +2,6 @@ import React, { FC, useEffect, useId, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { TrashIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
 
@@ -30,6 +29,7 @@ import {
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
+import SlettVilkårModal from './SlettVilkårModal';
 import { OffentligTransportSeksjon } from '../../Stønadsvilkår/DagligReise/OffentligTransportSeksjon';
 
 const StyledForm = styled.form`
@@ -49,26 +49,26 @@ const Knapper = styled.div`
 `;
 
 type EndreVilkårProps = {
+    lagretVilkår: Vilkår | undefined;
     regler: Regler;
     redigerbareVilkårfelter: RedigerbareVilkårfelter;
     avsluttRedigering: () => void;
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    slettVilkår: undefined | (() => void);
     alleFelterKanRedigeres: boolean;
     vilkårtype: StønadsvilkårType;
     kanVæreFremtidigUtgift: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = ({
+    lagretVilkår,
     alleFelterKanRedigeres,
     avsluttRedigering,
     kanVæreFremtidigUtgift,
     lagreVurdering,
     redigerbareVilkårfelter,
     regler,
-    slettVilkår,
     vilkårtype,
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
@@ -268,18 +268,11 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                             Avbryt
                         </SmallButton>
                         <div className={'right'}>
-                            {slettVilkår && (
-                                <SmallButton
-                                    variant={'tertiary'}
-                                    icon={<TrashIcon />}
-                                    iconPosition={'right'}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        slettVilkår();
-                                    }}
-                                >
-                                    Slett vilkår
-                                </SmallButton>
+                            {lagretVilkår && (
+                                <SlettVilkårModal
+                                    vilkår={lagretVilkår}
+                                    avsluttRedigering={avsluttRedigering}
+                                />
                             )}
                         </div>
                     </Knapper>

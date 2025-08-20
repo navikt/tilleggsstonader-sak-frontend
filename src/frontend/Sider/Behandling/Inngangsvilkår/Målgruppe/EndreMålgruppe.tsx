@@ -68,7 +68,11 @@ const EndreMålgruppe: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ målgruppe, avbrytRedigering, registerYtelsePeriode }) => {
     const { behandling, behandlingFakta } = useBehandling();
-    const { oppdaterMålgruppe, leggTilMålgruppe } = useInngangsvilkår();
+    const {
+        oppdaterMålgruppe,
+        leggTilMålgruppe,
+        målgrupper: lagredeMålgrupper,
+    } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
     const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
         periodeFom: målgruppe?.fom,
@@ -91,7 +95,12 @@ const EndreMålgruppe: React.FC<{
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerMålgruppe(
+            form,
+            målgruppe,
+            lagredeMålgrupper,
+            behandling.revurderFra
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);

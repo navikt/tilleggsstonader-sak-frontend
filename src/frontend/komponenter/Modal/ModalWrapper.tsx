@@ -53,6 +53,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                     <Modal.Footer>
                         <Button
                             variant="primary"
+                            type={'button'} // For å unngå at man trigger submit i skjema
                             onClick={aksjonsknapper.hovedKnapp.onClick}
                             disabled={aksjonsknapper.hovedKnapp.disabled}
                             loading={aksjonsknapper.hovedKnapp.spinner}

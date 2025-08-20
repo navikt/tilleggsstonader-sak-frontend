@@ -70,11 +70,12 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
 const useKanRevurdere = (stønadstype: Stønadstype) => {
     const kanRevurdereLæremidler = useFlag(Toggle.KAN_REVURDERE_LÆREMIDLER);
     const kanRevurdereBoutgifter = useFlag(Toggle.KAN_REVURDERE_BOUTGIFTER);
+    const kanRevurdereTilsynBarn = useFlag(Toggle.KAN_REVURDERE_TILSYN_BARN);
     const kanRevurdereDagligReiseTso = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSO);
     const kanRevurdereDagligReiseTsr = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSR);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return true;
+            return kanRevurdereTilsynBarn;
         case Stønadstype.LÆREMIDLER:
             return kanRevurdereLæremidler;
         case Stønadstype.BOUTGIFTER:

@@ -7,8 +7,7 @@ import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderO
 import { IngenVedtaksperioderInfo } from './IngenVedtaksperioderInfo';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
-import { VedtaksperioderOversiktDagligReiseTSO } from './VedtaksperioderOversiktDagligReiseTSO';
-import { VedtaksperioderOversiktDagligReiseTSR } from './VedtaksperioderOversiktDagligReiseTSR';
+import { VedtaksperioderOversiktDagligReiseTsr } from './VedtaksperioderOversiktDagligReiseTsr';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import {
@@ -73,20 +72,20 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                                     </Detail>
                                 </OversiktKort>
                             )}
-                            {vedtaksperioderOversikt.dagligreiseTSO.length > 0 && (
+                            {vedtaksperioderOversikt.dagligReiseTso.length > 0 && (
                                 <OversiktKort tittel={'Daglig reise Nay'}>
-                                    <VedtaksperioderOversiktDagligReiseTSO
-                                        vedtaksperioder={vedtaksperioderOversikt.dagligreiseTSO}
+                                    <VedtaksperioderOversiktDagligReiseTsr
+                                        vedtaksperioder={vedtaksperioderOversikt.dagligReiseTso}
                                     />
                                     <Detail>
                                         Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
                                     </Detail>
                                 </OversiktKort>
                             )}
-                            {vedtaksperioderOversikt.dagligreiseTSR.length > 0 && (
+                            {vedtaksperioderOversikt.dagligReiseTsr.length > 0 && (
                                 <OversiktKort tittel={'Daglig reise Tiltaksenheten'}>
-                                    <VedtaksperioderOversiktDagligReiseTSR
-                                        vedtaksperioder={vedtaksperioderOversikt.dagligreiseTSR}
+                                    <VedtaksperioderOversiktDagligReiseTsr
+                                        vedtaksperioder={vedtaksperioderOversikt.dagligReiseTsr}
                                     />
                                     <Detail>
                                         Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
@@ -126,8 +125,8 @@ const finnesIngenVedtaksperioder = (
         vedtaksperioderOversikt.boutgifter.length === 0 &&
         vedtaksperioderOversikt.læremidler.length === 0 &&
         vedtaksperioderOversikt.tilsynBarn.length === 0 &&
-        vedtaksperioderOversikt.dagligreiseTSO.length === 0 &&
-        vedtaksperioderOversikt.dagligreiseTSR.length === 0 &&
+        vedtaksperioderOversikt.dagligReiseTso.length === 0 &&
+        vedtaksperioderOversikt.dagligReiseTsr.length === 0 &&
         arenaSakOgVedtak.vedtak.length === 0
     );
 };

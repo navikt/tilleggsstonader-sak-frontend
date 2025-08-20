@@ -6,8 +6,8 @@ export interface VedtakperioderOversiktResponse {
     tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
-    dagligreiseTSO: DetaljertVedtaksperiodeDagligReiseTSO[];
-    dagligreiseTSR: DetaljertVedtaksperiodeDagligReiseTSR[];
+    dagligReiseTso: DetaljertVedtaksperiodeDagligReiseTso[];
+    dagligReiseTsr: DetaljertVedtaksperiodeDagligReiseTsr[];
 }
 
 export type DetaljertVedtaksperiodeTilsynBarn = {
@@ -42,14 +42,14 @@ export type DetaljertVedtaksperiodeBoutgifter = {
     utgifterTilOvernatting?: UtgiftBoutgift[];
 };
 
-export type DetaljertVedtaksperiodeDagligReiseTSO = {
+export type DetaljertVedtaksperiodeDagligReiseTso = {
     fom: string;
     tom: string;
     aktivitet: AktivitetType;
     målgruppe: FaktiskMålgruppe;
 };
 
-export type DetaljertVedtaksperiodeDagligReiseTSR = {
+export type DetaljertVedtaksperiodeDagligReiseTsr = {
     fom: string;
     tom: string;
     aktivitet: AktivitetType;

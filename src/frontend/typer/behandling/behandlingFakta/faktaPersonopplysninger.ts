@@ -3,5 +3,5 @@ export interface FaktaPersonopplysninger {
 }
 
 interface FaktaPersonopplysningerSøknadsgrunnlag {
-    adresse: string;
+    adresse?: string;
 }
