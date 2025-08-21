@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, ExpansionCard, VStack } from '@navikt/ds-react';
+import { ExpansionCard, VStack } from '@navikt/ds-react';
 
 import { OppsummeringVilkår } from './OppsummeringVilkår';
 import { VedtakOppsummering } from './VedtakOppsummering';
@@ -11,7 +11,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { formaterDato } from '../../../../utils/dato';
 
 const StyledExpansionCard = styled(ExpansionCard)`
     .navds-expansioncard__header {
@@ -41,11 +40,6 @@ export const BehandlingOppsummering = () => {
                     <ExpansionCard.Header>Oppsummering av vurderinger</ExpansionCard.Header>
                     <ExpansionCard.Content>
                         <VStack gap="6">
-                            {behandling.revurderFra && (
-                                <BodyShort size="small">
-                                    <b>Revurder fra:</b> {formaterDato(behandling.revurderFra)}
-                                </BodyShort>
-                            )}
                             <OppsummeringAktiviteter
                                 aktiviteter={behandlingOppsummering.aktiviteter}
                             />
