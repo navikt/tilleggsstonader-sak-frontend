@@ -136,15 +136,15 @@ export const InnvilgeLæremidler: React.FC<{
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
 
-            <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
-                {({ beregningsresultat }) => (
-                    <StegKnappInnvilgelseMedVarselOmVedtakIArena
-                        lagreVedtak={lagreVedtak}
-                        vedtaksperioder={vedtaksperioder}
-                        tidligsteEndring={beregningsresultat.tidligsteEndring}
-                    />
-                )}
-            </DataViewer>
+            <StegKnappInnvilgelseMedVarselOmVedtakIArena
+                lagreVedtak={lagreVedtak}
+                vedtaksperioder={vedtaksperioder}
+                tidligsteEndring={
+                    beregningsresultat.status === RessursStatus.SUKSESS
+                        ? beregningsresultat.data.tidligsteEndring
+                        : undefined
+                }
+            />
         </>
     );
 };
