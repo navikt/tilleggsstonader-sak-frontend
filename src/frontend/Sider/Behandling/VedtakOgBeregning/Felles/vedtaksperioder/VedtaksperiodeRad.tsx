@@ -5,7 +5,6 @@ import { Button } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
-import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
@@ -32,7 +31,6 @@ interface Props {
         value: string | undefined
     ) => void;
     slettPeriode: () => void;
-    erNyRad: boolean;
     vedtakErLagret: boolean;
 }
 
@@ -43,16 +41,9 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     vedtaksperiodeFeil,
     oppdaterPeriode,
     slettPeriode,
-    erNyRad,
     vedtakErLagret,
 }) => {
     const { behandling } = useBehandling();
-    const { alleFelterKanEndres, helePeriodenErLåstForEndring, kanSlettePeriode } =
-        useRevurderingAvPerioder({
-            periodeFom: lagretVedtaksperiode?.fom,
-            periodeTom: lagretVedtaksperiode?.tom,
-            nyRadLeggesTil: erNyRad,
-        });
 
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
@@ -88,7 +79,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     label="Fra"
                     hideLabel
                     erLesevisning={erLesevisning}
-                    readOnly={!alleFelterKanEndres}
                     value={vedtaksperiode.fom}
                     onChange={(dato?: string) => oppdaterPeriode('fom', dato)}
                     feil={vedtaksperiodeFeil?.fom}
@@ -100,7 +90,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     label="Til"
                     hideLabel
                     erLesevisning={erLesevisning}
-                    readOnly={helePeriodenErLåstForEndring}
                     value={vedtaksperiode.tom}
                     onChange={(dato?: string) => oppdaterPeriode('tom', dato)}
                     feil={vedtaksperiodeFeil?.tom}
@@ -112,7 +101,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     label={'Aktivitet'}
                     hideLabel
                     erLesevisning={erLesevisning}
-                    readOnly={!alleFelterKanEndres}
                     value={
                         erLesevisning
                             ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
@@ -129,7 +117,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     label={'Målgruppe'}
                     hideLabel
                     erLesevisning={erLesevisning}
-                    readOnly={!alleFelterKanEndres}
                     value={
                         erLesevisning
                             ? faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
@@ -142,7 +129,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 />
             </FeilmeldingMaksBredde>
             <div>
-                {!erLesevisning && kanSlettePeriode && (
+                {!erLesevisning && (
                     <Button
                         variant="tertiary"
                         onClick={() => slettPeriode()}

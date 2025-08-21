@@ -7,7 +7,6 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import { AktivitetkortFooter } from './AktivitetKortFooter';
 import { useSteg } from '../../../../../context/StegContext';
-import { useRevurderingAvPerioder } from '../../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -33,16 +32,8 @@ export const AktivitetKort: React.FC<{
 }> = ({ aktivitet, aktivitetFraRegister, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
-    const { helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: aktivitet.fom,
-        periodeTom: aktivitet.tom,
-        nyRadLeggesTil: false,
-    });
-
     const visRedigerKnapp =
-        aktivitet.resultat != VilkårPeriodeResultat.SLETTET &&
-        erStegRedigerbart &&
-        !helePeriodenErLåstForEndring;
+        aktivitet.resultat != VilkårPeriodeResultat.SLETTET && erStegRedigerbart;
 
     return (
         <VilkårperiodeKortBase

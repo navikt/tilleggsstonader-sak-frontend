@@ -22,9 +22,8 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
-import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -157,12 +156,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                 vurderinger: { ...prevState.vurderinger, [key]: nyttSvar },
             }));
 
-    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
-        periodeFom: aktivitet?.fom,
-        periodeTom: aktivitet?.tom,
-        nyRadLeggesTil: nyRadLeggesTil,
-    });
-
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
         form.vurderinger
@@ -190,7 +183,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                         oppdaterPeriode={oppdaterForm}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.LÆREMIDLER)}
                         formFeil={vilkårsperiodeFeil}
-                        alleFelterKanEndres={alleFelterKanEndres}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
                     {erUtdanningEllerTiltak(form.type) && (
@@ -205,7 +197,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                                 size="small"
                                 error={vilkårsperiodeFeil?.prosent}
                                 autoComplete="off"
-                                readOnly={!alleFelterKanEndres}
                             />
                         </FeilmeldingMaksBredde>
                     )}
@@ -214,7 +205,6 @@ export const EndreAktivitetLæremidler: React.FC<{
             </VStack>
             <HarBrukerUtgifterTilLæremidler
                 aktivitetForm={form}
-                readOnly={!alleFelterKanEndres}
                 oppdaterSvar={oppdaterVurdering('svarHarUtgifter')}
                 resettStudienivå={() => oppdaterForm('studienivå', undefined)}
                 resettHarRettTilUtstyrsstipendSvar={() =>
@@ -229,12 +219,10 @@ export const EndreAktivitetLæremidler: React.FC<{
                         defaultHarRettTilUtstyrsstipendSvar(studienivåSvar)
                     )
                 }
-                alleFelterKanEndres={alleFelterKanEndres}
                 feil={vilkårsperiodeFeil}
             />
             <HarBrukerRettTilUtstyrsstipend
                 aktivitetForm={form}
-                readOnly={!alleFelterKanEndres}
                 oppdaterSvar={oppdaterVurdering('svarHarRettTilUtstyrsstipend')}
             />
             <Begrunnelse
@@ -250,7 +238,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {aktivitet !== undefined && kanSlettePeriode && (
+                {aktivitet !== undefined && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={aktivitet}

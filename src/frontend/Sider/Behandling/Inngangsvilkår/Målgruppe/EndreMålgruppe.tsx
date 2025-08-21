@@ -17,7 +17,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
-import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
@@ -53,13 +52,12 @@ const FeltContainer = styled.div`
 `;
 
 const initaliserForm = (
-    alleFelterKanEndres: boolean,
     eksisterendeMålgruppe?: Målgruppe,
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     return eksisterendeMålgruppe === undefined
         ? nyMålgruppe(registrertYtelsePeriode)
-        : mapEksisterendeMålgruppe(eksisterendeMålgruppe, alleFelterKanEndres);
+        : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
 };
 
 const EndreMålgruppe: React.FC<{
@@ -74,14 +72,9 @@ const EndreMålgruppe: React.FC<{
         målgrupper: lagredeMålgrupper,
     } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
-    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
-        periodeFom: målgruppe?.fom,
-        periodeTom: målgruppe?.tom,
-        nyRadLeggesTil: !målgruppe,
-    });
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(alleFelterKanEndres, målgruppe, registerYtelsePeriode)
+        initaliserForm(målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -174,7 +167,6 @@ const EndreMålgruppe: React.FC<{
                     oppdaterPeriode={oppdaterForm}
                     typeOptions={målgruppeTyperForStønadstype(behandling.stønadstype)}
                     formFeil={vilkårsperiodeFeil}
-                    alleFelterKanEndres={alleFelterKanEndres}
                     kanEndreType={kanEndreType}
                     erStøttetType={erMålgruppeSomStøttes}
                 />
@@ -182,7 +174,6 @@ const EndreMålgruppe: React.FC<{
 
             <MålgruppeDelvilkår
                 målgruppeForm={form}
-                readOnly={!alleFelterKanEndres}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
                     settForm((prevState) => ({
                         ...prevState,
@@ -211,7 +202,7 @@ const EndreMålgruppe: React.FC<{
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {målgruppe !== undefined && kanSlettePeriode && (
+                {målgruppe !== undefined && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={målgruppe}

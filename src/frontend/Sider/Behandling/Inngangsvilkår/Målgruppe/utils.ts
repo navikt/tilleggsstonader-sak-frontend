@@ -31,18 +31,14 @@ export const nyMålgruppe = (
         : tomMålgruppeForm();
 };
 
-export const mapEksisterendeMålgruppe = (
-    eksisterendeMålgruppe: Målgruppe,
-    alleFelterKanEndres: boolean
-): EndreMålgruppeForm => ({
+export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): EndreMålgruppeForm => ({
     ...eksisterendeMålgruppe,
     vurderinger: {
         svarMedlemskap: eksisterendeMålgruppe.faktaOgVurderinger.medlemskap?.svar,
         svarUtgifterDekketAvAnnetRegelverk:
             eksisterendeMålgruppe.faktaOgVurderinger.utgifterDekketAvAnnetRegelverk?.svar,
         svarMottarSykepengerForFulltidsstilling: nullstillGammelManglerData(
-            eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar,
-            alleFelterKanEndres
+            eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar
         ),
     },
 });
@@ -53,10 +49,9 @@ export const mapEksisterendeMålgruppe = (
  * skal svar settes til undefined slik at saksbehandler må ta stilling til vilkåret.
  */
 const nullstillGammelManglerData = (
-    svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA',
-    kanRedidereAlleFelter: boolean
+    svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA'
 ): SvarJaNei | 'GAMMEL_MANGLER_DATA' | undefined => {
-    if (svar === 'GAMMEL_MANGLER_DATA' && kanRedidereAlleFelter) return undefined;
+    if (svar === 'GAMMEL_MANGLER_DATA') return undefined;
 
     return svar;
 };

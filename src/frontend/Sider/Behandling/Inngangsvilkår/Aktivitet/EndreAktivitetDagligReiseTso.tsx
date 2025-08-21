@@ -19,7 +19,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
-import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -133,12 +132,6 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
         );
     };
 
-    const { alleFelterKanEndres, kanSlettePeriode } = useRevurderingAvPerioder({
-        periodeFom: aktivitet?.fom,
-        periodeTom: aktivitet?.tom,
-        nyRadLeggesTil: nyRadLeggesTil,
-    });
-
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
         form.svarLønnet
@@ -156,7 +149,6 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                         oppdaterPeriode={oppdaterForm}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSO)}
                         formFeil={vilkårsperiodeFeil}
-                        alleFelterKanEndres={alleFelterKanEndres}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
                 </FeltContainer>
@@ -165,7 +157,6 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
 
             <AktivitetDelvilkårDagligReiseTso
                 aktivitetForm={form}
-                readOnly={!alleFelterKanEndres}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
@@ -184,7 +175,7 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
                     Avbryt
                 </Button>
-                {aktivitet !== undefined && kanSlettePeriode && (
+                {aktivitet !== undefined && (
                     <SlettVilkårperiode
                         avbrytRedigering={avbrytRedigering}
                         vilkårperiode={aktivitet}

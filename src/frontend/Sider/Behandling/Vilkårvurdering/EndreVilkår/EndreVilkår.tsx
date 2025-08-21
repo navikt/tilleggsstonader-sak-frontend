@@ -55,14 +55,12 @@ type EndreVilkårProps = {
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    alleFelterKanRedigeres: boolean;
     vilkårtype: StønadsvilkårType;
     kanVæreFremtidigUtgift: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = ({
     lagretVilkår,
-    alleFelterKanRedigeres,
     avsluttRedigering,
     kanVæreFremtidigUtgift,
     lagreVurdering,
@@ -208,7 +206,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             <FlexColumn $gap={1}>
                 <HStack gap="4" align="start">
                     <EndrePeriodeForVilkår
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         periodeForVilkår={periodeForVilkår}
                         oppdaterPeriodeForVilkår={oppdaterPeriodeForVilkår}
                         feilmeldinger={feilmeldinger}
@@ -218,7 +215,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         <EndreUtgift
                             vilkårtype={vilkårtype}
                             erFremtidigUtgift={erFremtidigUtgift}
-                            alleFelterKanRedigeres={alleFelterKanRedigeres}
                             oppdaterUtgift={oppdaterUtgift}
                             utgift={utgift}
                         />
@@ -235,7 +231,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     <EndreDelvilkår
                         delvilkårsett={delvilkårsett}
                         regler={regler}
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         feilmeldinger={feilmeldinger}
                         settFeilmeldinger={settFeilmeldinger}

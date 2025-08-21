@@ -61,7 +61,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { request, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
 
-    const [idNyeRader, settIdNyeRader] = useState<Set<string>>(new Set());
     /**
      * Må trigge rendering av komponent når vi foreslår nye vedtaksperioder
      * fordi DateInput ikke bli rerendret pga hook og har samme key
@@ -88,7 +87,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const leggTilPeriode = () => {
         const nyVedtaksperiode = tomVedtaksperiode();
-        settIdNyeRader((prevState) => new Set([...prevState, nyVedtaksperiode.id]));
         settVedtaksperioder([...vedtaksperioder, nyVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
@@ -145,7 +143,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             }}
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
-                            erNyRad={idNyeRader.has(vedtaksperiode.id)}
                             vedtakErLagret={vedtakErLagret}
                         />
                     ))}
