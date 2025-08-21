@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,9 +13,7 @@ import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
-import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
-import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -56,19 +53,7 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const utledEndringsdatoAutomatisk = useFlag(Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK);
-    const medRevurderFraFane = (): boolean => {
-        if (utledEndringsdatoAutomatisk) return false;
-        // Antar at man ser i en avsluttet behandling eller beslutter en behandling.
-        else if (!behandling.revurderFra && !behandlingErRedigerbar) return false;
-        else return true;
-    };
-
-    const førsteFanePath =
-        behandling.type === BehandlingType.REVURDERING && medRevurderFraFane()
-            ? FanePath.REVURDER_FRA
-            : FanePath.INNGANGSVILKÅR;
-    const aktivFane = isFanePath(path) ? path : førsteFanePath;
+    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
@@ -86,7 +71,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling, medRevurderFraFane());
+    const behandlingFaner = hentBehandlingfaner(behandling);
 
     return (
         <StegProvider

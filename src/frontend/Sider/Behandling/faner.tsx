@@ -3,7 +3,6 @@ import React from 'react';
 import {
     BriefcaseIcon,
     CalculatorIcon,
-    ClockIcon,
     EnvelopeClosedIcon,
     HouseHeartIcon,
     PersonRectangleIcon,
@@ -12,7 +11,6 @@ import {
 import Brev from './Brev/Brev';
 import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
-import { RevurderFra } from './RevurderFra/RevurderFra';
 import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
@@ -21,7 +19,6 @@ import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/Vedtak
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
-import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
 
@@ -64,11 +61,9 @@ export enum FanePath {
     VEDTAK_OG_BEREGNING = 'vedtak-og-beregning',
     SIMULERING = 'simulering',
     BREV = 'brev',
-    REVURDER_FRA = 'revurder-fra',
 }
 
 export const faneTilSteg: Record<FanePath, Steg> = {
-    'revurder-fra': Steg.INNGANGSVILKÅR,
     inngangsvilkar: Steg.INNGANGSVILKÅR,
     stonadsvilkar: Steg.VILKÅR,
     'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
@@ -78,7 +73,6 @@ export const faneTilSteg: Record<FanePath, Steg> = {
 
 export const isFanePath = (path: string): path is FanePath => {
     switch (path) {
-        case FanePath.REVURDER_FRA:
         case FanePath.INNGANGSVILKÅR:
         case FanePath.STØNADSVILKÅR:
         case FanePath.VEDTAK_OG_BEREGNING:
@@ -92,22 +86,6 @@ export const isFanePath = (path: string): path is FanePath => {
 
 export const faneErLåst = (behandling: Behandling, fanePath: FanePath) => {
     return stegErLåstForBehandling(behandling, faneTilSteg[fanePath]);
-};
-
-const revurderingFraFane = (behandling: Behandling): FanerMedRouter[] => {
-    if (behandling.type === BehandlingType.REVURDERING) {
-        return [
-            {
-                navn: FaneNavn.REVURDER_FRA,
-                path: FanePath.REVURDER_FRA,
-                komponent: () => <RevurderFra />,
-                ikon: <ClockIcon />,
-                erLåst: faneErLåst(behandling, FanePath.REVURDER_FRA),
-            },
-        ];
-    } else {
-        return [];
-    }
 };
 
 const årsakUtenBrev = (behandling: Behandling) =>
@@ -202,12 +180,8 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (
-    behandling: Behandling,
-    medRevurdering: boolean
-): FanerMedRouter[] => {
+export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
-        ...(medRevurdering ? revurderingFraFane(behandling) : []),
         {
             navn: FaneNavn.INNGANGSVILKÅR,
             path: FanePath.INNGANGSVILKÅR,
