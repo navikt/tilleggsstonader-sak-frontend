@@ -22,7 +22,6 @@ import {
     YtelseGrunnlagPeriode,
 } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
-import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
 
 export const nyMålgruppe = (
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
@@ -219,11 +218,6 @@ export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
     return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (Ferdig avklart)' : ''}`;
 };
 
-export const kanRegisterYtelseBrukes = (
-    ytelse: YtelseGrunnlagPeriode,
-    revurderFra?: string
-): boolean => {
-    if (ytelse.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART) return false;
-
-    return kanRegisterperiodeBrukes(ytelse, revurderFra);
+export const kanRegisterYtelseBrukes = (ytelse: YtelseGrunnlagPeriode): boolean => {
+    return ytelse.subtype !== SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART;
 };
