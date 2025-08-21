@@ -80,11 +80,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(
-            vedtaksperioder,
-            lagredeVedtaksperioder,
-            behandling.revurderFra
-        );
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);

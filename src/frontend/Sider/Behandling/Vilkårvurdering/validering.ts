@@ -1,7 +1,7 @@
 import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
 import { validerPeriode } from '../../../utils/periode';
 import { harIkkeVerdi } from '../../../utils/utils';
-import { Delvilkår, RedigerbareVilkårfelter } from '../vilkår';
+import { Delvilkår } from '../vilkår';
 
 export type Feilmeldinger = {
     delvilkårsvurderinger: Record<RegelId, string | undefined>;
@@ -17,20 +17,14 @@ export function ingen(valideringsfeil: Feilmeldinger) {
 
 export const validerVilkårsvurderinger = (
     delvilkårsett: Delvilkår[],
-    lagredeFelter: RedigerbareVilkårfelter,
     regler: Regler,
     fom: string | undefined,
     tom: string | undefined,
-    revurderesFraDato: string | undefined,
     erFremtidigUtgift: boolean | undefined
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
-    const periodeValidering = validerPeriode(
-        { fom: fom || '', tom: tom || '' },
-        { fom: lagredeFelter.fom || '', tom: lagredeFelter.tom || '' },
-        revurderesFraDato
-    );
+    const periodeValidering = validerPeriode({ fom: fom || '', tom: tom || '' });
     if (periodeValidering) {
         return {
             ...valideringsfeil,

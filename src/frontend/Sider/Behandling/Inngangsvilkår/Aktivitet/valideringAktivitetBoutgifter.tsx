@@ -3,7 +3,7 @@ import { finnBegrunnelseGrunnerAktivitet } from './utilsBoutgifter';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
@@ -11,9 +11,7 @@ export interface AktivitetValidering extends Periode {
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormBoutgifter,
-    lagretAktivitet?: Aktivitet | undefined,
-    revurderesFraDato?: string
+    endretAktivitet: EndreAktivitetFormBoutgifter
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
         fom: undefined,
@@ -26,7 +24,7 @@ export const validerAktivitet = (
         return { ...feil, type: 'Må velges' };
     }
 
-    const periodeValidering = validerPeriode(endretAktivitet, lagretAktivitet, revurderesFraDato);
+    const periodeValidering = validerPeriode(endretAktivitet);
 
     if (periodeValidering) {
         return {

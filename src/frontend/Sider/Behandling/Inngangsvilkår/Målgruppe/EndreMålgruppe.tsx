@@ -95,12 +95,7 @@ const EndreMålgruppe: React.FC<{
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerMålgruppe(
-            form,
-            målgruppe,
-            lagredeMålgrupper,
-            behandling.revurderFra
-        );
+        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, lagredeMålgrupper);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);

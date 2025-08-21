@@ -12,7 +12,6 @@ import EndrePeriodeForVilkår, {
     TypePeriodeVelger,
 } from './EndrePeriodeForVilkår';
 import { useApp } from '../../../../context/AppContext';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { SmallWarningTag } from '../../../../komponenter/Tags';
@@ -72,7 +71,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     vilkårtype,
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
-    const { behandling } = useBehandling();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -116,11 +114,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
-            redigerbareVilkårfelter,
             regler,
             fom,
             tom,
-            behandling.revurderFra,
             erFremtidigUtgift
         );
 

@@ -4,7 +4,7 @@ import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
-import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
+import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 
 export interface AktivitetValidering extends Periode {
@@ -15,9 +15,7 @@ export interface AktivitetValidering extends Periode {
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormLæremidler,
-    lagretAktivitet?: Aktivitet | undefined,
-    revurderesFraDato?: string
+    endretAktivitet: EndreAktivitetFormLæremidler
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
         fom: undefined,
@@ -32,7 +30,7 @@ export const validerAktivitet = (
         return { ...feil, type: 'Må velges' };
     }
 
-    const periodefeil = validerPeriode(endretAktivitet, lagretAktivitet, revurderesFraDato);
+    const periodefeil = validerPeriode(endretAktivitet);
 
     if (periodefeil) {
         return {

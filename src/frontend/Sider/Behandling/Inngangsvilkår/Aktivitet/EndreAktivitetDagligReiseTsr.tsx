@@ -76,7 +76,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         useState<FormErrors<AktivitetValidering>>();
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
+        const vilkårsperiodeFeil = validerAktivitet(form);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
