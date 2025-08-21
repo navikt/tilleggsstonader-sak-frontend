@@ -77,7 +77,8 @@ export type BeregningsresultatUtgifter = {
     tom: string;
     utgift: number;
     tilUtbetaling: number;
-    erFørRevurderFra: boolean;
+    //TODO avklar med Andreas at denne blir med fra backend
+    erFørTidligsteEndring: boolean;
 };
 
 type Beregningsresultat = {

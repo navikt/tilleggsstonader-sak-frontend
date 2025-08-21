@@ -38,7 +38,7 @@ const lagRaderForVedtakMidlertidigOvernatting = (
     return beregningsresultat.perioder
         .map((periode) =>
             periode.utgifter
-                .filter((utgift) => !utgift.erFørRevurderFra)
+                .filter((utgift) => !utgift.erFørTidligsteEndring)
                 .map((utgift) =>
                     lagRadForVedtak(
                         { fom: utgift.fom, tom: utgift.tom },
