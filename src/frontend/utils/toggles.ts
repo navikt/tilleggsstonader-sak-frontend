@@ -21,6 +21,7 @@ export enum Toggle {
     ADMIN_OPPFØLGING = 'sak.hent-behandlinger-for-oppfoelging',
 
     KAN_REDIGERE_GRUNNLAG_FOM = 'sak.frontend.kan-redigere-grunnlag-fom',
+    VIS_VARSEL_ENDRING_AV_PERIODE = 'sak.frontend.vis-varsel-endring-av-periode',
 
     /**
      * features-under-utvikling
