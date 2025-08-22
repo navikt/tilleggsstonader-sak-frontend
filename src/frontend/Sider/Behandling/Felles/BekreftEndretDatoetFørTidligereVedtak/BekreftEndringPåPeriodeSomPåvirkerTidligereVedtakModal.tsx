@@ -38,7 +38,10 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
             }}
         >
             {/* en bedre feilmelding */}
-            <Alert variant={'error'}>Julenissen</Alert>
+            <Alert variant={'error'}>
+                Du gjør nå en endring tilbake i tid, som kan påvirke beregningen og tidligere
+                innvilget vedtak. Er du sikker på at du ønsker dette?
+            </Alert>
         </ModalWrapper>
     );
 };
