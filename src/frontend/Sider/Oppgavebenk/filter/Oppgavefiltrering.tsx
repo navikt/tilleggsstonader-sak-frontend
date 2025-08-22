@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Button, Select, VStack } from '@navikt/ds-react';
@@ -14,6 +15,7 @@ import {
     harNayUtlandRolle,
     harStrengtFortroligRolle,
 } from '../../../utils/roller';
+import { Toggle } from '../../../utils/toggles';
 import {
     defaultOppgaveRequest,
     nullstillSortering,
@@ -43,6 +45,10 @@ const KnappWrapper = styled.div`
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+
+    const visEnheterSomBareHarTsSakMapperIDev = useFlag(
+        Toggle.VIS_ENHETER_SOM_KUN_HAR_TS_SAK_MAPPER_I_DEV
+    );
 
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
@@ -141,7 +147,8 @@ export const Oppgavefiltrering = () => {
                         enhetTilTekst(
                             harSaksbehandlerStrengtFortroligRolle,
                             harSaksbehandlerEgenAnsattRolle,
-                            harSaksbehandlerNayUtlandRolle
+                            harSaksbehandlerNayUtlandRolle,
+                            visEnheterSomBareHarTsSakMapperIDev
                         )
                     ).map(([type, val]) => (
                         <option key={type} value={type}>

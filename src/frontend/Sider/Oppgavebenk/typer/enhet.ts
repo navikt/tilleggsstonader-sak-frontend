@@ -2,14 +2,21 @@ export enum IkkeFortroligEnhet {
     NAY = '4462',
     NAY_ROMERIKE = '4402', // Håndterer utlandssaker
     EGNE_ANSATTE = '4483',
+    TILTAK_OSLO = '0387',
 }
 
 export enum FortroligEnhet {
     VIKAFOSSEN = '2103',
 }
 
-const enhetTilTekstIkkeFortrolig: Record<IkkeFortroligEnhet.NAY, string> = {
+const enhetTilTekstIkkeFortrolig: Partial<Record<IkkeFortroligEnhet, string>> = {
     '4462': '4462 Tilleggsstønad INN', // Nasjonal kø for NAY
+};
+
+//Legger til en egen variabel for dev da vi ikke har TS-sak mapper for Nav tiltak Oslo i prod
+const enhetTilTekstIkkeFortroligDev: Partial<Record<IkkeFortroligEnhet, string>> = {
+    '4462': '4462 Tilleggsstønad INN', // Nasjonal kø for NAY
+    '0387': '0387 Nav tiltak Oslo',
 };
 
 const enhetTilTekstNayUtland: Record<IkkeFortroligEnhet.NAY_ROMERIKE, string> = {
@@ -29,14 +36,17 @@ type Enheter = IkkeFortroligEnhet | FortroligEnhet;
 export const enhetTilTekst = (
     harSaksbehandlerStrengtFortroligRolle: boolean,
     harSaksbehandlerEgenAnsattRolle: boolean,
-    harSaksbehandlerNayUtlandRolle: boolean
+    harSaksbehandlerNayUtlandRolle: boolean,
+    visEnheterSomBareHarTsSakMapperIDev: boolean
 ): Partial<Record<Enheter, string>> => {
     // Fortrolig rolle skal kun se enhet for fortrolig rolle
     if (harSaksbehandlerStrengtFortroligRolle) {
         return enhetTilTekstFortrolig;
     }
 
-    let enheter: Partial<Record<Enheter, string>> = enhetTilTekstIkkeFortrolig;
+    let enheter: Partial<Record<Enheter, string>> = visEnheterSomBareHarTsSakMapperIDev
+        ? enhetTilTekstIkkeFortroligDev
+        : enhetTilTekstIkkeFortrolig;
     if (harSaksbehandlerEgenAnsattRolle) {
         enheter = { ...enheter, ...enhetTilTekstEgenAnsatte };
     }
