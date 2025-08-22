@@ -78,6 +78,7 @@ export type BeregningsresultatUtgifter = {
     utgift: number;
     tilUtbetaling: number;
     erFørRevurderFra: boolean;
+    skalFåDekketFaktiskeUtgifter: boolean;
 };
 
 type Beregningsresultat = {
@@ -88,4 +89,5 @@ type Beregningsresultat = {
     utgifter: BeregningsresultatUtgifter[];
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
+    skalFåDekketFaktiskeUtgifter: boolean;
 };
