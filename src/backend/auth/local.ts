@@ -12,7 +12,7 @@ import { miljø } from '../miljø';
 
 type TokenSet = oauth.TokenEndpointResponse & TokenEndpointResponseHelpers;
 
-export const setupLocal = async (app: Express) => {
+export const setupLocalAuth = async (app: Express) => {
     app.use(cookieParser());
     app.use(
         session({
