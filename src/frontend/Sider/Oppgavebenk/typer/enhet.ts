@@ -1,5 +1,3 @@
-import { erProd } from '../../../utils/miljø';
-
 export enum IkkeFortroligEnhet {
     NAY = '4462',
     NAY_ROMERIKE = '4402', // Håndterer utlandssaker
@@ -38,16 +36,17 @@ type Enheter = IkkeFortroligEnhet | FortroligEnhet;
 export const enhetTilTekst = (
     harSaksbehandlerStrengtFortroligRolle: boolean,
     harSaksbehandlerEgenAnsattRolle: boolean,
-    harSaksbehandlerNayUtlandRolle: boolean
+    harSaksbehandlerNayUtlandRolle: boolean,
+    visEnheterSomBareHarTsSakMapperIDev: boolean
 ): Partial<Record<Enheter, string>> => {
     // Fortrolig rolle skal kun se enhet for fortrolig rolle
     if (harSaksbehandlerStrengtFortroligRolle) {
         return enhetTilTekstFortrolig;
     }
 
-    let enheter: Partial<Record<Enheter, string>> = erProd()
-        ? enhetTilTekstIkkeFortrolig
-        : enhetTilTekstIkkeFortroligDev;
+    let enheter: Partial<Record<Enheter, string>> = visEnheterSomBareHarTsSakMapperIDev
+        ? enhetTilTekstIkkeFortroligDev
+        : enhetTilTekstIkkeFortrolig;
     if (harSaksbehandlerEgenAnsattRolle) {
         enheter = { ...enheter, ...enhetTilTekstEgenAnsatte };
     }
