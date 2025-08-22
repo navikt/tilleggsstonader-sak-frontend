@@ -3,10 +3,8 @@ import React from 'react';
 import { CheckmarkIcon } from '@navikt/aksel-icons';
 import { Button, Tag } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
 
 export function BrukAktivitetKnapp({
     registerAktivitet,
@@ -18,9 +16,6 @@ export function BrukAktivitetKnapp({
     harBruktAktivitet: boolean;
 }) {
     const { erStegRedigerbart } = useSteg();
-    const { behandling } = useBehandling();
-
-    const aktivitetKanBrukes = kanRegisterperiodeBrukes(registerAktivitet, behandling.revurderFra);
 
     if (harBruktAktivitet) {
         return (
@@ -33,7 +28,7 @@ export function BrukAktivitetKnapp({
                 Brukt
             </Tag>
         );
-    } else if (erStegRedigerbart && aktivitetKanBrukes) {
+    } else if (erStegRedigerbart) {
         return (
             <Button size="xsmall" onClick={() => leggTilAktivitetFraRegister(registerAktivitet)}>
                 Bruk

@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 import { Alert, BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
-import '@navikt/ds-css';
 
-import { useBehandling } from '../../../../../context/BehandlingContext';
+import '@navikt/ds-css';
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
@@ -29,41 +28,38 @@ interface Props {
     beregningsresultat: BeregningsresultatBoutgifter;
 }
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
-    const { behandling } = useBehandling();
-    return (
-        <>
-            <VStack gap={'8'}>
-                <Container>
-                    <Grid>
-                        <Label>Fra og med</Label>
-                        <Label>Til og med</Label>
-                        <Label>Merutgift</Label>
-                        <Label>Stønadsbeløp</Label>
-                        <div />
-                        {beregningsresultat.perioder.map((periode, indeks) => (
-                            <React.Fragment key={indeks}>
-                                <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
-                                <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
-                                <BodyShort size="small">{periode.sumUtgifter}</BodyShort>
-                                <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
-                                <div>
-                                    {periode.delAvTidligereUtbetaling && (
-                                        <Alert variant="info" size={'small'} inline>
-                                            Treffer allerede utbetalt periode
-                                        </Alert>
-                                    )}
-                                </div>
-                            </React.Fragment>
-                        ))}
-                    </Grid>
-                </Container>
-            </VStack>
-            {!behandling.revurderFra && beregningsresultat.tidligsteEndring && (
-                <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
-            )}
-        </>
-    );
-};
+const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
+    <>
+        <VStack gap={'8'}>
+            <Container>
+                <Grid>
+                    <Label>Fra og med</Label>
+                    <Label>Til og med</Label>
+                    <Label>Merutgift</Label>
+                    <Label>Stønadsbeløp</Label>
+                    <div />
+                    {beregningsresultat.perioder.map((periode, indeks) => (
+                        <React.Fragment key={indeks}>
+                            <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
+                            <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
+                            <BodyShort size="small">{periode.sumUtgifter}</BodyShort>
+                            <BodyShort size="small">{periode.stønadsbeløp}</BodyShort>
+                            <div>
+                                {periode.delAvTidligereUtbetaling && (
+                                    <Alert variant="info" size={'small'} inline>
+                                        Treffer allerede utbetalt periode
+                                    </Alert>
+                                )}
+                            </div>
+                        </React.Fragment>
+                    ))}
+                </Grid>
+            </Container>
+        </VStack>
+        {beregningsresultat.tidligsteEndring && (
+            <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
+        )}
+    </>
+);
 
 export default Beregningsresultat;

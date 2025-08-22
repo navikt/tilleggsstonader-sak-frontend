@@ -15,8 +15,7 @@ const Container = styled.div`
 export const AktivitetDelvilkårDagligReiseTso: React.FC<{
     aktivitetForm: EndreAktivitetFormDagligReiseTso;
     oppdaterLønnet: (svar: SvarJaNei) => void;
-    readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterLønnet, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterLønnet }) => {
     if (aktivitetForm.type === '') return null;
 
     if (!skalVurdereLønnet(aktivitetForm.type)) return null;
@@ -25,7 +24,6 @@ export const AktivitetDelvilkårDagligReiseTso: React.FC<{
         <Container>
             <JaNeiVurdering
                 label="Mottar bruker ordinær lønn i tiltaket?"
-                readOnly={readOnly}
                 svar={aktivitetForm.svarLønnet}
                 oppdaterSvar={oppdaterLønnet}
             />

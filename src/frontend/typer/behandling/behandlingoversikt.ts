@@ -37,7 +37,6 @@ export interface BehandlingDetaljer {
     vedtaksdato?: string;
     henlagtÅrsak?: HenlagtÅrsak;
     henlagtBegrunnelse?: string;
-    revurderFra?: string;
     vedtaksperiode?: Vedtaksperiode;
     opphørsdato?: string;
 }

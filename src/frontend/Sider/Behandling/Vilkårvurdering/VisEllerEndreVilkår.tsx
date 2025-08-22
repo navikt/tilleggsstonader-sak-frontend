@@ -4,7 +4,6 @@ import { EndreVilkår } from './EndreVilkår/EndreVilkår';
 import LesevisningVilkår from './LesevisningVilkår';
 import { useSteg } from '../../../context/StegContext';
 import { useVilkår } from '../../../context/VilkårContext';
-import { useRevurderingAvPerioder } from '../../../hooks/useRevurderingAvPerioder';
 import { Regler } from '../../../typer/regel';
 import { PeriodeStatus } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkår, Vilkårsresultat } from '../vilkår';
@@ -22,22 +21,13 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL && !vilkår.erFremtidigUtgift
     );
 
-    const { alleFelterKanEndres, helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: vilkår.fom,
-        periodeTom: vilkår.tom,
-        nyRadLeggesTil: false,
-    });
-
     const kanVæreFremtidigUtgift =
         vilkår.status === PeriodeStatus.NY ||
         vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL;
 
-    const skalViseRedigeringsknapp =
-        erStegRedigerbart &&
-        !helePeriodenErLåstForEndring &&
-        vilkår.status !== PeriodeStatus.SLETTET;
+    const skalViseRedigeringsknapp = erStegRedigerbart && vilkår.status !== PeriodeStatus.SLETTET;
 
-    return erStegRedigerbart && !helePeriodenErLåstForEndring && redigerer ? (
+    return erStegRedigerbart && redigerer ? (
         <EndreVilkår
             lagretVilkår={vilkår}
             regler={regler}
@@ -57,7 +47,6 @@ export const VisEllerEndreVilkår: FC<LesEllerEndreDelvilkårProps> = ({ regler,
                 })
             }
             avsluttRedigering={() => settRedigerer(false)}
-            alleFelterKanRedigeres={alleFelterKanEndres}
             vilkårtype={vilkår.vilkårType}
             kanVæreFremtidigUtgift={kanVæreFremtidigUtgift}
         />

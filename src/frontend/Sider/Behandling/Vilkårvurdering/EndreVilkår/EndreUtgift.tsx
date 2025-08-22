@@ -13,9 +13,8 @@ const EndreUtgift: React.FC<{
     vilkårtype: StønadsvilkårType;
     erFremtidigUtgift?: boolean;
     utgift?: number;
-    alleFelterKanRedigeres: boolean;
     oppdaterUtgift: (verdi: number | undefined) => void;
-}> = ({ vilkårtype, erFremtidigUtgift, utgift, alleFelterKanRedigeres, oppdaterUtgift }) => {
+}> = ({ vilkårtype, erFremtidigUtgift, utgift, oppdaterUtgift }) => {
     const hjelpetekst = vilkårTypeTilUtgiftHjelpeTekst[vilkårtype];
     return (
         <FeilmeldingMaksBredde $maxWidth={180}>
@@ -32,7 +31,6 @@ const EndreUtgift: React.FC<{
                 size="small"
                 erLesevisning={false}
                 value={harTallverdi(utgift) ? utgift : ''}
-                readOnly={!alleFelterKanRedigeres}
                 onChange={(e) => {
                     oppdaterUtgift(tilHeltall(fjernSpaces(e.target.value)));
                 }}

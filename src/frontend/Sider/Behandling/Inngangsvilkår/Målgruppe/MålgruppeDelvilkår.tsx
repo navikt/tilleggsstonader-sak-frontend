@@ -25,9 +25,8 @@ const Container = styled.div`
 const MålgruppeDelvilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
     oppdaterVurderinger: (key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) => void;
-    readOnly: boolean;
     stønadstype: Stønadstype;
-}> = ({ målgruppeForm, oppdaterVurderinger, readOnly, stønadstype }) => {
+}> = ({ målgruppeForm, oppdaterVurderinger, stønadstype }) => {
     if (målgruppeForm.type === '') return null;
 
     const skalVurdereMedlemskap = målgrupperHvorMedlemskapMåVurderes.includes(målgruppeForm.type);
@@ -53,7 +52,6 @@ const MålgruppeDelvilkår: React.FC<{
             {skalVurdereMedlemskap && (
                 <JaNeiVurdering
                     label="Medlemskap i folketrygden?"
-                    readOnly={readOnly}
                     svar={målgruppeForm.vurderinger.svarMedlemskap}
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
                         oppdaterVurderinger('svarMedlemskap', nyttSvar)
@@ -64,7 +62,6 @@ const MålgruppeDelvilkår: React.FC<{
             {skalVurdereDekketAvAnnetRegelverk && (
                 <JaNeiVurdering
                     label="Dekkes utgiftene av annet regelverk?"
-                    readOnly={readOnly}
                     svar={målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk}
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
                         oppdaterVurderinger('svarUtgifterDekketAvAnnetRegelverk', nyttSvar)
@@ -74,7 +71,6 @@ const MålgruppeDelvilkår: React.FC<{
             {skalVurdereSykepengerForFulltidsstilling && (
                 <JaNeiVurdering
                     label="Mottar søker sykepenger for fulltidsstilling?"
-                    readOnly={readOnly}
                     svar={målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling}
                     oppdaterSvar={(nyttSvar: SvarJaNei) =>
                         oppdaterVurderinger('svarMottarSykepengerForFulltidsstilling', nyttSvar)

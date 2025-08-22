@@ -35,7 +35,6 @@ const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
 interface Props {
     delvilkårsett: Delvilkår[];
     regler: Regler;
-    alleFelterKanRedigeres: boolean;
     settDetFinnesUlagredeEndringer: (value: ((prevState: boolean) => boolean) | boolean) => void;
     feilmeldinger: Feilmeldinger;
     settFeilmeldinger: (
@@ -47,7 +46,6 @@ interface Props {
 const EndreDelvilkår: React.FC<Props> = ({
     delvilkårsett,
     regler,
-    alleFelterKanRedigeres,
     settDetFinnesUlagredeEndringer,
     feilmeldinger,
     settFeilmeldinger,
@@ -141,7 +139,6 @@ const EndreDelvilkår: React.FC<Props> = ({
                         <DelvilkårRadioknapper
                             vurdering={svar}
                             regel={gjeldendeRegel}
-                            readOnly={!alleFelterKanRedigeres}
                             settVurdering={(nyVurdering) => {
                                 settDetFinnesUlagredeEndringer(true);
                                 oppdaterSvar(delvikår.vurderinger, delvilkårIndex, nyVurdering);

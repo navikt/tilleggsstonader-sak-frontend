@@ -16,7 +16,6 @@ interface Props {
     settVurdering: (nyttSvar: Vurdering) => void;
     feilmelding?: string;
     nullstillFeilmelding: (regelId: string) => void;
-    readOnly: boolean;
 }
 
 const Container = styled.div`
@@ -29,7 +28,6 @@ const DelvilkårRadioknapper: FC<Props> = ({
     settVurdering,
     feilmelding,
     nullstillFeilmelding,
-    readOnly = false,
 }) => {
     const svaralternativer = Object.keys(regel.svarMapping);
     const regelId = regel.regelId;
@@ -48,7 +46,6 @@ const DelvilkårRadioknapper: FC<Props> = ({
                             key={`${regelId}_${svar}`}
                             name={`${regelId}_${svar}`}
                             value={svar}
-                            readOnly={readOnly}
                             onChange={() => {
                                 settVurdering({ svar, regelId });
                                 nullstillFeilmelding(regelId);

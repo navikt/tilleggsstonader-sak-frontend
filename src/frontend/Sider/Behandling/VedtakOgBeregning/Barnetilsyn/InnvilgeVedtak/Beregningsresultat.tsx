@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
-import '@navikt/ds-css';
 
-import { useBehandling } from '../../../../../context/BehandlingContext';
+import '@navikt/ds-css';
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
@@ -29,39 +28,36 @@ interface Props {
     beregningsresultat: BeregningsresultatTilsynBarn;
 }
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
-    const { behandling } = useBehandling();
-    return (
-        <>
-            <VStack gap={'8'}>
-                <Container>
-                    <Grid>
-                        <Label>Periode</Label>
-                        <Label>Barn</Label>
-                        <Label>Månedlige utgifter</Label>
-                        <Label>Dagsats</Label>
-                        <Label>Stønadsbeløp</Label>
-                        {beregningsresultat.perioder.map((periode, indeks) => (
-                            <React.Fragment key={indeks}>
-                                <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
-                                <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
-                                <BodyShort size="small">
-                                    {formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal)}
-                                </BodyShort>
-                                <BodyShort size="small">{periode.dagsats}</BodyShort>
-                                <BodyShort size="small">
-                                    {formaterTallMedTusenSkille(periode.månedsbeløp)}
-                                </BodyShort>
-                            </React.Fragment>
-                        ))}
-                    </Grid>
-                </Container>
-            </VStack>
-            {!behandling.revurderFra && beregningsresultat.tidligsteEndring && (
-                <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
-            )}
-        </>
-    );
-};
+const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
+    <>
+        <VStack gap={'8'}>
+            <Container>
+                <Grid>
+                    <Label>Periode</Label>
+                    <Label>Barn</Label>
+                    <Label>Månedlige utgifter</Label>
+                    <Label>Dagsats</Label>
+                    <Label>Stønadsbeløp</Label>
+                    {beregningsresultat.perioder.map((periode, indeks) => (
+                        <React.Fragment key={indeks}>
+                            <BodyShort size="small">{periode.grunnlag.måned}</BodyShort>
+                            <BodyShort size="small">{periode.grunnlag.antallBarn}</BodyShort>
+                            <BodyShort size="small">
+                                {formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal)}
+                            </BodyShort>
+                            <BodyShort size="small">{periode.dagsats}</BodyShort>
+                            <BodyShort size="small">
+                                {formaterTallMedTusenSkille(periode.månedsbeløp)}
+                            </BodyShort>
+                        </React.Fragment>
+                    ))}
+                </Grid>
+            </Container>
+        </VStack>
+        {beregningsresultat.tidligsteEndring && (
+            <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
+        )}
+    </>
+);
 
 export default Beregningsresultat;

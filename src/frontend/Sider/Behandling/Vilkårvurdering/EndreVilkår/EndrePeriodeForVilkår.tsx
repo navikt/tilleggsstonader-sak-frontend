@@ -24,16 +24,9 @@ export type PeriodeForVilkår = {
 const EndrePeriodeForVilkår: React.FC<{
     periodeForVilkår: PeriodeForVilkår;
     oppdaterPeriodeForVilkår: (key: keyof PeriodeForVilkår, nyVerdi: string | undefined) => void;
-    alleFelterKanRedigeres: boolean;
     feilmeldinger: Feilmeldinger;
     typePeriodeVelger: TypePeriodeVelger;
-}> = ({
-    periodeForVilkår,
-    oppdaterPeriodeForVilkår,
-    alleFelterKanRedigeres,
-    feilmeldinger,
-    typePeriodeVelger,
-}) => {
+}> = ({ periodeForVilkår, oppdaterPeriodeForVilkår, feilmeldinger, typePeriodeVelger }) => {
     const { fom, tom } = periodeForVilkår;
 
     return (
@@ -46,7 +39,6 @@ const EndrePeriodeForVilkår: React.FC<{
                         onChange={(dato) => {
                             oppdaterPeriodeForVilkår('fom', dato);
                         }}
-                        readOnly={!alleFelterKanRedigeres}
                         size="small"
                         feil={feilmeldinger.fom}
                     />
@@ -55,7 +47,6 @@ const EndrePeriodeForVilkår: React.FC<{
                         label="Fra"
                         årMånedInitiell={fom}
                         feilmelding={feilmeldinger.fom}
-                        lesevisning={!alleFelterKanRedigeres}
                         onEndret={(dato) => {
                             oppdaterPeriodeForVilkår('fom', tilFørsteDagenIMånedenNullable(dato));
                         }}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
-import { Behandling } from '../../../../typer/behandling/behandling';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Steg } from '../../../../typer/behandling/steg';
 import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
@@ -29,16 +28,18 @@ const bekreftelseModalProps = {
 export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
     lagreVedtak,
     vedtaksperioder,
+    tidligsteEndring,
 }: {
     vedtaksperioder: Periode[];
     lagreVedtak: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
+    tidligsteEndring: string | undefined;
 }) => {
-    const { behandling, behandlingFakta } = useBehandling();
+    const { behandlingFakta } = useBehandling();
 
     const harVedtaksperioderFørVedtakIArena = finnHarVedtaksperioderFørVedtakIArena(
-        behandling,
         behandlingFakta,
-        vedtaksperioder
+        vedtaksperioder,
+        tidligsteEndring
     );
 
     return (
@@ -58,32 +59,32 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
 
 /**
  * Finnes ut om man har vedtaksperiode før vedtak i Arena.
- * Dersom det er en revurdering så må man avkorte vedtaksperiodene fra og med revurder fra.
+ * Dersom det er en revurdering så må man avkorte vedtaksperiodene fra og med tidligste endring.
  */
 const finnHarVedtaksperioderFørVedtakIArena = (
-    behandling: Behandling,
     behandlingFakta: BehandlingFakta,
-    vedtaksperioder: Periode[]
+    vedtaksperioder: Periode[],
+    tidligsteEndring: string | undefined
 ): boolean => {
     const arenaVedtakTom = nullableTilDato(behandlingFakta.arena?.vedtakTom);
     if (!arenaVedtakTom) {
         return false;
     }
-    const førsteDagIVedtaksperiode = finnFørsteDagIVedtaksperiodeEtterRevurderFra(
-        behandling.revurderFra,
+    const førsteDagIVedtaksperiode = finnFørsteDagIVedtaksperiodeEtterTidligsteEndring(
+        tidligsteEndring,
         vedtaksperioder
     );
     return !!førsteDagIVedtaksperiode && førsteDagIVedtaksperiode <= arenaVedtakTom;
 };
 
-const finnFørsteDagIVedtaksperiodeEtterRevurderFra = (
-    revurderFra: string | undefined,
+const finnFørsteDagIVedtaksperiodeEtterTidligsteEndring = (
+    tidligsteEndring: string | undefined,
     vedtaksperioder: Periode[]
 ): Date | undefined => {
-    const revurderFraDate = nullableTilDato(revurderFra);
+    const tidligsteEndringDate = nullableTilDato(tidligsteEndring);
 
     const fraOgMedDatoer = vedtaksperioder
-        .map((periode) => førsteGyldigeDatoForPeriode(periode, revurderFraDate))
+        .map((periode) => førsteGyldigeDatoForPeriode(periode, tidligsteEndringDate))
         .filter((d): d is Date => !!d);
 
     return fraOgMedDatoer.length > 0
@@ -93,24 +94,24 @@ const finnFørsteDagIVedtaksperiodeEtterRevurderFra = (
 
 /**
  * Finner første gyldige dato for periode.
- * Hvis man ikke har revurderFraDate, returneres fom.
- * Hvis revurderFraDate er etter tom, returneres undefined fordi vedtaksperioden ikke er aktuell i denne behandlingen
- * Hvis ikke så avkortes perioden til revurderFraDate.
+ * Hvis man ikke har tidligsteEndringDate, returneres fom.
+ * Hvis tidligsteEndringDate er etter tom, returneres undefined fordi vedtaksperioden ikke er aktuell i denne behandlingen
+ * Hvis ikke så avkortes perioden til tidligsteEndringDate.
  */
 const førsteGyldigeDatoForPeriode = (
     periode: Periode,
-    revurderFraDate: Date | undefined
+    tidligsteEndringDate: Date | undefined
 ): Date | undefined => {
     const fom = tilDato(periode.fom);
     const tom = tilDato(periode.tom);
 
-    if (!revurderFraDate) {
+    if (!tidligsteEndringDate) {
         return fom;
     }
 
-    if (tom < revurderFraDate) {
+    if (tom < tidligsteEndringDate) {
         return undefined;
     }
 
-    return fom < revurderFraDate ? revurderFraDate : fom;
+    return fom < tidligsteEndringDate ? tidligsteEndringDate : fom;
 };

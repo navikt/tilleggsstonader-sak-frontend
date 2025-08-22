@@ -7,7 +7,6 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import FaktaOgDelvilkårVisning from './Delvilkår/FaktaOgDelvilkårVisning';
 import { useSteg } from '../../../../context/StegContext';
-import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
@@ -30,16 +29,8 @@ export const MålgruppeKort: React.FC<{
 }> = ({ målgruppe, startRedigering }) => {
     const { erStegRedigerbart } = useSteg();
 
-    const { helePeriodenErLåstForEndring } = useRevurderingAvPerioder({
-        periodeFom: målgruppe.fom,
-        periodeTom: målgruppe.tom,
-        nyRadLeggesTil: false,
-    });
-
     const visRedigerKnapp =
-        målgruppe.resultat != VilkårPeriodeResultat.SLETTET &&
-        erStegRedigerbart &&
-        !helePeriodenErLåstForEndring;
+        målgruppe.resultat != VilkårPeriodeResultat.SLETTET && erStegRedigerbart;
 
     return (
         <VilkårperiodeKortBase

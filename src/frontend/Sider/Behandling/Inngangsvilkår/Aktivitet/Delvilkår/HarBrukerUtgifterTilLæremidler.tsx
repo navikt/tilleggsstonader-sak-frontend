@@ -13,20 +13,12 @@ export const HarBrukerUtgifterTilLæremidler: React.FC<{
     oppdaterSvar: (nyttSvar: SvarJaNei) => void;
     resettStudienivå: () => void;
     resettHarRettTilUtstyrsstipendSvar: () => void;
-    readOnly: boolean;
-}> = ({
-    aktivitetForm,
-    oppdaterSvar,
-    resettStudienivå,
-    resettHarRettTilUtstyrsstipendSvar,
-    readOnly,
-}) => {
+}> = ({ aktivitetForm, oppdaterSvar, resettStudienivå, resettHarRettTilUtstyrsstipendSvar }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     return (
         <JaNeiVurdering
             label="Har bruker utgifter til læremidler?"
-            readOnly={readOnly}
             svar={aktivitetForm.vurderinger.svarHarUtgifter}
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);

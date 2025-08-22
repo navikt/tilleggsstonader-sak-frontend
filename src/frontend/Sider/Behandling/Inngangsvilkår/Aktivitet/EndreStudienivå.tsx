@@ -13,9 +13,8 @@ export const EndreStudienivå: React.FC<{
     form: EndreAktivitetFormLæremidler;
     settStudienivå: (studienivå: Studienivå) => void;
     resettHarRettTilUtstyrsstipendSvar: (studienivå: Studienivå) => void;
-    alleFelterKanEndres: boolean;
     feil?: FormErrors<AktivitetValidering>;
-}> = ({ form, settStudienivå, resettHarRettTilUtstyrsstipendSvar, alleFelterKanEndres, feil }) => {
+}> = ({ form, settStudienivå, resettHarRettTilUtstyrsstipendSvar, feil }) => {
     if (!erUtdanningEllerTiltak(form.type)) {
         return null;
     }
@@ -29,7 +28,6 @@ export const EndreStudienivå: React.FC<{
         <RadioGroup
             value={form.studienivå || ''}
             legend="Studienivå"
-            readOnly={!alleFelterKanEndres}
             onChange={(valgtStudienivå) => {
                 settStudienivå(valgtStudienivå);
                 resettHarRettTilUtstyrsstipendSvar(valgtStudienivå);
