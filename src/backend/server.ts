@@ -8,7 +8,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { setupLocal } from './auth/local';
 import { getProfile } from './auth/profile';
-import { getTokenFromHeader, attachToken, validateToken } from './auth/token';
+import { attachToken, getTokenFromHeader, validateToken } from './auth/token';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
@@ -27,17 +27,19 @@ app.get([`${BASE_PATH}/internal/isAlive`, `${BASE_PATH}/internal/isReady`], (req
 });
 
 if (process.env.NODE_ENV === 'development') {
-    // @ts-ignore
-    const compiler = webpack(developmentConfig);
+    const webpackCompiler = webpack(developmentConfig as webpack.Configuration);
 
-    const devMiddleware = webpackDevMiddleware(compiler, {
+    if (!webpackCompiler) {
+        throw new Error('Klarte ikke opprette webpack-kompilator');
+    }
+
+    const devMiddleware = webpackDevMiddleware(webpackCompiler, {
         writeToDisk: true,
         publicPath: developmentConfig.output.publicPath,
     });
 
     app.use(devMiddleware);
-    // @ts-ignore
-    app.use(webpackHotMiddleware(compiler));
+    app.use(webpackHotMiddleware(webpackCompiler));
     setupLocal(app);
 } else {
     app.use('/assets', express.static(buildPath, { index: false }));
