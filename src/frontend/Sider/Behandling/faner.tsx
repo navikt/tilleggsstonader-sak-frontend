@@ -36,7 +36,6 @@ export enum FaneNavn {
     SIMULERING = 'Simulering',
     BREV = 'Vedtaksbrev',
     UTEN_BREV = 'Uten brev',
-    REVURDER_FRA = 'Revurder fra',
 }
 
 export enum StønadsvilkårFaneNavn {
