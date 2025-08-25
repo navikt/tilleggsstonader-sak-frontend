@@ -23,7 +23,7 @@ export function RegelverkKontekstmeny({
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
-                <Button variant="tertiary" size="small" icon={<GavelSoundBlockIcon />}>
+                <Button variant="tertiary" size="xsmall" icon={<GavelSoundBlockIcon />}>
                     Regelverk
                 </Button>
             </ActionMenu.Trigger>
