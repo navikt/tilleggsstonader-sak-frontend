@@ -28,7 +28,6 @@ export const HamburgermenyBehandling = () => {
     const { personopplysninger } = usePersonopplysninger();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
     const kanNullstillBehandlingFlag = useFlag(Toggle.KAN_NULLSTILLE_BEHANDLING);
-    const skalViseTilordnetSaksbehandler = useFlag(Toggle.SKAL_VISE_TILORDNET_SAKSBEHANDLER);
 
     const skalViseRedigerSaksopplysninger =
         behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
@@ -43,7 +42,7 @@ export const HamburgermenyBehandling = () => {
 
     return (
         <Hamburgermeny>
-            {skalViseTilordnetSaksbehandler && <TilordnetSaksbehandlerHamburgermeny />}
+            <TilordnetSaksbehandlerHamburgermeny />
             <LenkerGroup ident={personopplysninger.personIdent} />
             <ActionMenu.Group label={'Behandling'}>
                 {skalViseRedigerSaksopplysninger && (

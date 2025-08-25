@@ -2,18 +2,15 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import RateLimit from 'express-rate-limit';
 import path from 'path';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { setupLocal } from './auth/local';
+import { setupLocalAuth } from './auth/local';
 import { getProfile } from './auth/profile';
-import { getTokenFromHeader, attachToken, validateToken } from './auth/token';
+import { attachToken, getTokenFromHeader, validateToken } from './auth/token';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
 import { attachUnleashAuthToken } from './toggle';
-import developmentConfig from './webpack/webpack.development';
+import { setupWebpackDevMiddleware } from './webpack/webpack-dev-middleware';
 
 const app = express();
 
@@ -27,18 +24,8 @@ app.get([`${BASE_PATH}/internal/isAlive`, `${BASE_PATH}/internal/isReady`], (req
 });
 
 if (process.env.NODE_ENV === 'development') {
-    // @ts-ignore
-    const compiler = webpack(developmentConfig);
-
-    const devMiddleware = webpackDevMiddleware(compiler, {
-        writeToDisk: true,
-        publicPath: developmentConfig.output.publicPath,
-    });
-
-    app.use(devMiddleware);
-    // @ts-ignore
-    app.use(webpackHotMiddleware(compiler));
-    setupLocal(app);
+    setupWebpackDevMiddleware(app);
+    setupLocalAuth(app);
 } else {
     app.use('/assets', express.static(buildPath, { index: false }));
 }

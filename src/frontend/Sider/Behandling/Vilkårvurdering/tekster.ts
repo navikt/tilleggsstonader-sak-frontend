@@ -38,6 +38,9 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
     DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
     DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har samling/eksamen/opptaksprøve/kurs på datoene for overnatting?`,
+    AVSTAND_OVER_SEKS_KM: 'Har bruker reiseavstand over seks kilometer?',
+    KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan bruker benytte offentlig transport?',
+    KAN_BRUKER_KJØRE_SELV: 'Kan bruker kjøre selv?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -75,6 +78,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgift',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -84,6 +88,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
         'Merutgift utgjør differansen mellom boutgift på aktivitetsstedet og boutgift på tidligere hjemsted. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
     LØPENDE_UTGIFTER_TO_BOLIGER:
         'Merutgiften tilsvarer utgiften til boligen på aktivitetsstedet, som kommer i tillegg til utgifter til bolig på hjemstedet. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -91,4 +96,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgifter til overnatting',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende utgifter til en bolig',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende utgifter til to boliger',
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Daglig reise med offentlig transport',
 };
