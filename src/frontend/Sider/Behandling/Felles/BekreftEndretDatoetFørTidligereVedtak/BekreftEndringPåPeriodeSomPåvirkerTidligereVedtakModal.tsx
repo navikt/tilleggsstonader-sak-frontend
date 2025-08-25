@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
+import { formaterDato } from '../../../../utils/dato';
 
 export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
     visBekreftModal,
@@ -15,6 +17,7 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
     bekreftLagre: () => void;
     laster: boolean;
 }) => {
+    const { sluttDatoForrigeVedtak } = useBehandling();
     return (
         <ModalWrapper
             visModal={visBekreftModal}
@@ -25,7 +28,7 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
                     onClick: () => {
                         bekreftLagre();
                     },
-                    tekst: 'Bekreft',
+                    tekst: 'Fortsett',
                     disabled: laster,
                     spinner: laster,
                 },
@@ -39,8 +42,8 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
         >
             {/* en bedre feilmelding */}
             <Alert variant={'warning'}>
-                Du gjør nå en endring tilbake i tid, som kan påvirke beregningen og tidligere
-                innvilget vedtak. Er du sikker på at du ønsker dette?
+                Du gjør nå endring før {formaterDato(sluttDatoForrigeVedtak.sluttdato)} (sluttdato
+                for forrige vedtak) som kan påvirke beregningen og tidligere innvilget vedtak.
             </Alert>
         </ModalWrapper>
     );
