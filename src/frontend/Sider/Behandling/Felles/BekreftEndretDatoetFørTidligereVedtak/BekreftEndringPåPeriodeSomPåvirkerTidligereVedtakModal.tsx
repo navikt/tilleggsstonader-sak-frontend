@@ -40,7 +40,6 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
                 },
             }}
         >
-            {/* en bedre feilmelding */}
             <Alert variant={'warning'}>
                 Du gjør nå endring før {formaterDato(sluttDatoForrigeVedtak.sluttdato)} (sluttdato
                 for forrige vedtak) som kan påvirke beregningen og tidligere innvilget vedtak.
