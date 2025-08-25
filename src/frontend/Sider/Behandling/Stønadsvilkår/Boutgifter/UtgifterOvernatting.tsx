@@ -21,13 +21,7 @@ const UtgifterOvernatting: React.FC<Props> = ({ vilkårsregler }) => {
     );
 
     return (
-        <VilkårPanel
-            tittel={'Utgifter til overnatting'}
-            ikon={<Buildings2Icon />}
-            paragraflenker={[]}
-            rundskrivlenke={[]}
-            forskriftlenker={[]}
-        >
+        <VilkårPanel tittel={'Utgifter til overnatting'} ikon={<Buildings2Icon />}>
             {vilkårsett.map((vilkår) => (
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}

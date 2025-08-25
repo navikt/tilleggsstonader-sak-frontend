@@ -22,13 +22,7 @@ export const StønadsvilkårDagligReise = ({ regler }: Props) => {
     const vilkårsregler = regler.vilkårsregler.DAGLIG_REISE_OFFENTLIG_TRANSPORT.regler;
 
     return (
-        <VilkårPanel
-            tittel={'Daglig Reise'}
-            ikon={<BriefcaseIcon />}
-            paragraflenker={[]}
-            rundskrivlenke={[]}
-            forskriftlenker={[]}
-        >
+        <VilkårPanel tittel={'Daglig Reise'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}

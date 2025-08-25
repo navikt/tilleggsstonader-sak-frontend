@@ -79,8 +79,8 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             ikon={<BriefcaseIcon />}
             tittel="Aktivitet"
             paragraflenker={lenkerParagrafAktivitet}
-            rundskrivlenke={lenkerRundskrivAktivitet}
             forskriftlenker={lenkerForskriftAktivitet}
+            rundskrivlenker={lenkerRundskrivAktivitet}
         >
             <FlexColumn $gap={2}>
                 <RegisterAktiviteter

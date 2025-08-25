@@ -47,8 +47,8 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
                     <InlineKopiknapp kopitekst={barn.ident} tooltipTekst="Kopier fødselsnummer" />
                 }
                 paragraflenker={lenkerParagrafPassBarn}
-                rundskrivlenke={lenkerRundskrivPassBarn}
                 forskriftlenker={lenkerForskriftPassBarn}
+                rundskrivlenker={lenkerRundskrivPassBarn}
                 key={barn.barnId}
             >
                 {dødsdato && <SmallErrorTag>Død ({formaterIsoDato(dødsdato)})</SmallErrorTag>}
