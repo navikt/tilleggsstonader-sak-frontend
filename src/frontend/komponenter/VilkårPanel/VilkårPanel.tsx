@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { BodyShort, Detail, HStack, Link } from '@navikt/ds-react';
+import { MenuHamburgerIcon } from '@navikt/aksel-icons';
+import { ActionMenu, Button } from '@navikt/ds-react';
 
 import { Lenke } from '../../Sider/Behandling/lenker';
 import Panel from '../Panel/Panel';
@@ -31,56 +32,54 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
             ekstraHeading={
                 <>
                     {ekstraHeading}
-                    <ParagrafOgRundskrivLenker
-                        paragrafLenker={paragraflenker}
-                        rundskrivLenke={rundskrivlenke}
-                        forskriftlenker={forskriftlenker}
-                    />
+                    <ActionMenu>
+                        <ActionMenu.Trigger>
+                            <Button
+                                variant={'tertiary'}
+                                size={'small'}
+                                icon={<MenuHamburgerIcon />}
+                            />
+                        </ActionMenu.Trigger>
+                        <ActionMenu.Content>
+                            <ActionMenu.Group label="Relevante lovbestemmelser"></ActionMenu.Group>
+                            {paragraflenker.map((lenke, indeks) => (
+                                <ActionMenu.Item
+                                    as={'a'}
+                                    key={indeks}
+                                    href={lenke.url}
+                                    target="_blank"
+                                >
+                                    {lenke.tekst}
+                                </ActionMenu.Item>
+                            ))}
+                            <ActionMenu.Group label="Forskrifter"></ActionMenu.Group>
+                            {forskriftlenker.map((lenke, indeks) => (
+                                <ActionMenu.Item
+                                    as={'a'}
+                                    key={indeks}
+                                    href={lenke.url}
+                                    target="_blank"
+                                >
+                                    {lenke.tekst}
+                                </ActionMenu.Item>
+                            ))}
+                            <ActionMenu.Group label="Rundskriv"></ActionMenu.Group>
+                            {rundskrivlenke.map((lenke, indeks) => (
+                                <ActionMenu.Item
+                                    as={'a'}
+                                    key={indeks}
+                                    href={lenke.url}
+                                    target="_blank"
+                                >
+                                    {lenke.tekst}
+                                </ActionMenu.Item>
+                            ))}
+                        </ActionMenu.Content>
+                    </ActionMenu>
                 </>
             }
         >
             {children}
         </Panel>
-    );
-};
-
-export const ParagrafOgRundskrivLenker: React.FC<{
-    paragrafLenker: Lenke[];
-    rundskrivLenke: Lenke[];
-    forskriftlenker: Lenke[];
-}> = ({ paragrafLenker, rundskrivLenke, forskriftlenker }) => {
-    return (
-        <HStack gap="4">
-            <HStack gap="2">
-                {paragrafLenker.map((lenke, indeks) => (
-                    <BodyShort key={indeks} size={'small'}>
-                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                            {lenke.tekst}
-                        </Link>
-                    </BodyShort>
-                ))}
-            </HStack>
-            {rundskrivLenke.length > 0 && (
-                <HStack gap="2">
-                    <Detail>Rundskriv til:</Detail>
-                    {rundskrivLenke.map((lenke, indeks) => (
-                        <BodyShort key={indeks} size={'small'}>
-                            <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                                {lenke.tekst}
-                            </Link>
-                        </BodyShort>
-                    ))}
-                </HStack>
-            )}
-            <HStack gap="2">
-                {forskriftlenker.map((lenke, indeks) => (
-                    <BodyShort key={indeks} size={'small'}>
-                        <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                            {lenke.tekst}
-                        </Link>
-                    </BodyShort>
-                ))}
-            </HStack>
-        </HStack>
     );
 };
