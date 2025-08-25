@@ -14,17 +14,23 @@ export function RegelverkKontekstmeny({
     forskriftlenker: Lenke[];
     rundskrivlenke: Lenke[];
 }) {
+    const harLenker = paragraflenker.length || forskriftlenker.length || rundskrivlenke.length;
+
+    if (!harLenker) {
+        return null;
+    }
+
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
-                <Button variant={'tertiary'} size={'small'} icon={<GavelSoundBlockIcon />}>
+                <Button variant="tertiary" size="small" icon={<GavelSoundBlockIcon />}>
                     Regelverk
                 </Button>
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <Gruppe tittel={'Lovbestemmelser'} lenker={paragraflenker} />
-                <Gruppe tittel={'Forskrifter'} lenker={forskriftlenker} />
-                <Gruppe tittel={'Rundskriv'} lenker={rundskrivlenke} />
+                <Gruppe tittel="Lovbestemmelser" lenker={paragraflenker} />
+                <Gruppe tittel="Forskrifter" lenker={forskriftlenker} />
+                <Gruppe tittel="Rundskriv" lenker={rundskrivlenke} />
             </ActionMenu.Content>
         </ActionMenu>
     );
