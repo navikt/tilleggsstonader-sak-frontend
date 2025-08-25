@@ -10,11 +10,11 @@ export function RegelverkKontekstmeny({
     forskriftlenker,
     rundskrivlenke,
 }: {
-    paragraflenker: Lenke[];
-    forskriftlenker: Lenke[];
-    rundskrivlenke: Lenke[];
+    paragraflenker?: Lenke[];
+    forskriftlenker?: Lenke[];
+    rundskrivlenke?: Lenke[];
 }) {
-    const harLenker = paragraflenker.length || forskriftlenker.length || rundskrivlenke.length;
+    const harLenker = paragraflenker?.length || forskriftlenker?.length || rundskrivlenke?.length;
 
     if (!harLenker) {
         return null;
@@ -36,8 +36,8 @@ export function RegelverkKontekstmeny({
     );
 }
 
-function Gruppe({ tittel, lenker }: { tittel: string; lenker: Lenke[] }) {
-    if (lenker.length === 0) {
+function Gruppe({ tittel, lenker }: { tittel: string; lenker?: Lenke[] }) {
+    if (!lenker?.length) {
         return null;
     }
     return (

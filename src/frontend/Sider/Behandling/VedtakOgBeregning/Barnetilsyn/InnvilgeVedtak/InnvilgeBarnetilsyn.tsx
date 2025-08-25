@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { BodyShort, ErrorMessage, HStack, Link, VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import Beregningsresultat from './Beregningsresultat';
 import { useApp } from '../../../../../context/AppContext';
@@ -12,6 +12,7 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { RegelverkKontekstmeny } from '../../../../../komponenter/VilkårPanel/RegelverkKontekstmeny';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
@@ -20,7 +21,7 @@ import {
     InnvilgeBarnetilsynRequest,
     InnvilgelseBarnetilsyn,
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
-import { lenkerBeregningTilsynBarn } from '../../../lenker';
+import { lenkerForskriftBeregningTilsynBarn } from '../../../lenker';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarselOmVedtakIArena } from '../../Felles/StegKnappInnvilgelseMedVarselOmVedtakIArena';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
@@ -31,20 +32,6 @@ interface Props {
     lagretVedtak?: InnvilgelseBarnetilsyn;
     vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
-
-export const HeadingBeregning: React.FC = () => {
-    return (
-        <HStack gap="4" align={'end'}>
-            {lenkerBeregningTilsynBarn.map((lenke, indeks) => (
-                <BodyShort key={indeks} size={'small'}>
-                    <Link key={indeks} href={lenke.url} target="_blank" variant="neutral">
-                        {lenke.tekst}
-                    </Link>
-                </BodyShort>
-            ))}
-        </HStack>
-    );
-};
 
 export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     lagretVedtak,
@@ -128,7 +115,12 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     return (
         <>
-            <Panel tittel="Beregning" ekstraHeading={<HeadingBeregning />}>
+            <Panel
+                tittel="Beregning"
+                kontekstmeny={
+                    <RegelverkKontekstmeny forskriftlenker={lenkerForskriftBeregningTilsynBarn} />
+                }
+            >
                 <VStack gap={'8'}>
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}

@@ -113,7 +113,7 @@ export const lenkerForskriftPassBarn: Lenke[] = [
     },
 ];
 
-export const lenkerBeregningTilsynBarn: Lenke[] = [
+export const lenkerForskriftBeregningTilsynBarn: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867/§11',
