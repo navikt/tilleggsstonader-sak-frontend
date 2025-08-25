@@ -8,9 +8,9 @@ interface VilkårpanelProps {
     tittel: string;
     ikon?: React.ReactNode;
     ekstraHeading?: React.ReactNode;
-    paragraflenker: Lenke[];
-    rundskrivlenke: Lenke[];
-    forskriftlenker: Lenke[];
+    paragraflenker?: Lenke[];
+    rundskrivlenker?: Lenke[];
+    forskriftlenker?: Lenke[];
     children: React.ReactNode;
 }
 
@@ -19,7 +19,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
     ikon,
     ekstraHeading,
     paragraflenker,
-    rundskrivlenke,
+    rundskrivlenker,
     forskriftlenker,
     children,
 }) => {
@@ -31,8 +31,8 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
             kontekstmeny={
                 <RegelverkKontekstmeny
                     paragraflenker={paragraflenker}
-                    rundskrivlenke={forskriftlenker}
-                    forskriftlenker={rundskrivlenke}
+                    forskriftlenker={forskriftlenker}
+                    rundskrivlenke={rundskrivlenker}
                 />
             }
         >

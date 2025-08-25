@@ -48,7 +48,7 @@ const PassBarn: React.FC<Props> = ({ vilkårsregler }) => {
                 }
                 paragraflenker={lenkerParagrafPassBarn}
                 forskriftlenker={lenkerForskriftPassBarn}
-                rundskrivlenke={lenkerRundskrivPassBarn}
+                rundskrivlenker={lenkerRundskrivPassBarn}
                 key={barn.barnId}
             >
                 {dødsdato && <SmallErrorTag>Død ({formaterIsoDato(dødsdato)})</SmallErrorTag>}
