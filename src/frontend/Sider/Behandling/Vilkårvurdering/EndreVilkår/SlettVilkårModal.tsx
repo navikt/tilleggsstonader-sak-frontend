@@ -10,6 +10,8 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useSlettePeriodeFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { SlettVilkårRespons, Vilkår } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
@@ -26,6 +28,19 @@ const SlettVilkårModal: React.FC<{
     const [feil, settFeil] = useState('');
     const [laster, settLaster] = useState(false);
     const [slettBegrunnelse, settSlettBegrunnelse] = useState('');
+
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useSlettePeriodeFørTidligereVedtak({
+            tidligere: vilkår,
+        });
+
+    const slettPeriodeEllerVisBekreftModal = () => {
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+        } else {
+            settVisModal(true);
+        }
+    };
 
     const slettVilkårsperiode = () => {
         if (laster) return;
@@ -68,11 +83,20 @@ const SlettVilkårModal: React.FC<{
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    settVisModal(true);
+                    slettPeriodeEllerVisBekreftModal();
                 }}
             >
                 Slett vilkår
             </SmallButton>
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={() => {
+                    settVisBekreftModal(false);
+                    settVisModal(true);
+                }}
+                laster={laster}
+            />
             <ModalWrapper
                 visModal={visModal}
                 onClose={lukkModal}

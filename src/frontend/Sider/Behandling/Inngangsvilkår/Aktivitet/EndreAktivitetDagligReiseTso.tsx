@@ -26,6 +26,8 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetDagligReiseTso } from '../typer/vilkårperiode/aktivitetDagligReiseTso';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
@@ -77,6 +79,11 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<AktivitetValidering>>();
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: aktivitet,
+            ny: form,
+        });
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerAktivitet(form, aktivitet, behandling.revurderFra);
@@ -90,7 +97,14 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        bekreftLagre();
+    };
 
+    const bekreftLagre = () => {
         const kanSendeInn = validerForm();
 
         if (kanSendeInn) {
@@ -193,6 +207,12 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
             </HStack>
 
             <Feilmelding feil={feilmelding} />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
         </VilkårperiodeKortBase>
     );
 };

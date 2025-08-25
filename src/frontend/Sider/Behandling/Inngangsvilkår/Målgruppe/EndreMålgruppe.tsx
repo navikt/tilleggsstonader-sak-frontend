@@ -24,6 +24,8 @@ import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import {
     Målgruppe,
     MålgruppeType,
@@ -87,6 +89,11 @@ const EndreMålgruppe: React.FC<{
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<MålgruppeValidering>>();
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: målgruppe,
+            ny: form,
+        });
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerMålgruppe(
         form.type,
@@ -109,7 +116,14 @@ const EndreMålgruppe: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        bekreftLagre();
+    };
 
+    const bekreftLagre = () => {
         const kanSendeInn = validerForm();
 
         if (kanSendeInn) {
@@ -225,6 +239,12 @@ const EndreMålgruppe: React.FC<{
             </HStack>
 
             <Feilmelding feil={feilmelding} />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
         </VilkårperiodeKortBase>
     );
 };

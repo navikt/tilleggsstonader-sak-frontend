@@ -7,7 +7,7 @@ import { useApp } from './AppContext';
 import { useBehandlingshistorikk } from '../hooks/useBehandlingshistorikk';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { HistorikkHendelse } from '../Sider/Behandling/Venstremeny/Historikk/typer';
-import { Behandling } from '../typer/behandling/behandling';
+import { Behandling, SluttdatoForForrigeVedtak } from '../typer/behandling/behandling';
 import { BehandlingFakta } from '../typer/behandling/behandlingFakta/behandlingFakta';
 import { erBehandlingRedigerbar } from '../typer/behandling/behandlingStatus';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
@@ -18,6 +18,7 @@ interface Props {
     behandling: Behandling;
     hentBehandling: RerrunnableEffect;
     behandlingFakta: BehandlingFakta;
+    sluttDatoForrigeVedtak: SluttdatoForForrigeVedtak;
 }
 
 /**
@@ -43,6 +44,7 @@ interface BehandlingContext {
     settVisHenleggModal: React.Dispatch<React.SetStateAction<boolean>>;
     visNullstillModal: boolean;
     settVisNullstillModal: React.Dispatch<React.SetStateAction<boolean>>;
+    sluttDatoForrigeVedtak: SluttdatoForForrigeVedtak;
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
@@ -90,7 +92,12 @@ const useKanRevurdere = (stønadstype: Stønadstype) => {
 };
 
 export const [BehandlingProvider, useBehandling] = constate(
-    ({ behandling, hentBehandling, behandlingFakta }: Props): BehandlingContext => {
+    ({
+        behandling,
+        hentBehandling,
+        behandlingFakta,
+        sluttDatoForrigeVedtak,
+    }: Props): BehandlingContext => {
         const { erSaksbehandler } = useApp();
 
         const [visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin] =
@@ -125,6 +132,7 @@ export const [BehandlingProvider, useBehandling] = constate(
             settVisHenleggModal,
             visNullstillModal,
             settVisNullstillModal,
+            sluttDatoForrigeVedtak,
         };
     }
 );

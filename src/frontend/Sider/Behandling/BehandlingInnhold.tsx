@@ -11,7 +11,7 @@ import { PersonopplysningerProvider } from '../../context/PersonopplysningerCont
 import { TotrinnskontrollProvider } from '../../context/TotrinnskontrollContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
-import { Behandling } from '../../typer/behandling/behandling';
+import { Behandling, SluttdatoForForrigeVedtak } from '../../typer/behandling/behandling';
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
 
@@ -34,12 +34,20 @@ const BehandlingInnhold: React.FC<{
     hentBehandling: RerrunnableEffect;
     personopplysninger: Personopplysninger;
     behandlingFakta: BehandlingFakta;
-}> = ({ behandling, hentBehandling, personopplysninger, behandlingFakta }) => {
+    sluttDatoForrigeVedtak: SluttdatoForForrigeVedtak;
+}> = ({
+    behandling,
+    hentBehandling,
+    personopplysninger,
+    behandlingFakta,
+    sluttDatoForrigeVedtak,
+}) => {
     return (
         <BehandlingProvider
             behandling={behandling}
             hentBehandling={hentBehandling}
             behandlingFakta={behandlingFakta}
+            sluttDatoForrigeVedtak={sluttDatoForrigeVedtak}
         >
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
