@@ -81,7 +81,7 @@ export type BeregningsresultatUtgifter = {
     skalFåDekketFaktiskeUtgifter: boolean;
 };
 
-type Beregningsresultat = {
+export type Beregningsresultat = {
     fom: string;
     tom: string;
     stønadsbeløp: number;
@@ -90,4 +90,5 @@ type Beregningsresultat = {
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
     skalFåDekketFaktiskeUtgifter: boolean;
+    inneholderUtgifterOvernatting: boolean;
 };
