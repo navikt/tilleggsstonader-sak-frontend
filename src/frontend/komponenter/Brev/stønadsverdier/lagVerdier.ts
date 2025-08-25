@@ -5,6 +5,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
+import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import {
     BeregningsresultatTilsynBarn,
@@ -15,7 +16,11 @@ const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 
 function behandleInnvilgelse(
     behandling: Behandling,
-    vedtak: InnvilgelseBarnetilsyn | InnvilgelseLæremidler | InnvilgelseBoutgifter
+    vedtak:
+        | InnvilgelseBarnetilsyn
+        | InnvilgelseLæremidler
+        | InnvilgelseBoutgifter
+        | InnvilgelseDagligReise
 ) {
     switch (behandling.stønadstype) {
         case Stønadstype.LÆREMIDLER: {
@@ -40,6 +45,14 @@ function behandleInnvilgelse(
             return mapVedtaksDatoerForPreutfyllingIBrevfanen(
                 innvilgelseBoutgifter.gjelderFraOgMed,
                 innvilgelseBoutgifter.gjelderTilOgMed
+            );
+        }
+
+        case Stønadstype.DAGLIG_REISE_TSO || Stønadstype.DAGLIG_REISE_TSO: {
+            const innvilgelseDagligReise = vedtak as InnvilgelseDagligReise;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseDagligReise.gjelderFraOgMed,
+                innvilgelseDagligReise.gjelderTilOgMed
             );
         }
 

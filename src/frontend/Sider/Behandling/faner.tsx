@@ -17,6 +17,7 @@ import Simulering from './Simulering/Simulering';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
+import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
@@ -154,6 +155,8 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningLæremidler />;
         case Stønadstype.BOUTGIFTER:
             return <VedtakOgBeregningBoutgifter />;
+        case Stønadstype.DAGLIG_REISE_TSO || Stønadstype.DAGLIG_REISE_TSR:
+            return <VedtakOgBeregningDagligReise />;
         default:
             return <span>Har ikke vedtak for {stønadstypeTilTekst[behandling.stønadstype]}</span>;
     }
