@@ -10,7 +10,8 @@ import {
 } from 'react-router-dom';
 
 import { LeaveIcon } from '@navikt/aksel-icons';
-import { Dropdown, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
+import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
+import { Theme } from '@navikt/ds-react/Theme';
 import Endringslogg from '@navikt/familie-endringslogg';
 
 import { AppProvider, useApp } from './context/AppContext';
