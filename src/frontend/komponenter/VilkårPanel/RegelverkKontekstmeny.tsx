@@ -41,13 +41,12 @@ function Gruppe({ tittel, lenker }: { tittel: string; lenker?: Lenke[] }) {
         return null;
     }
     return (
-        <>
-            <ActionMenu.Group label={tittel}></ActionMenu.Group>
+        <ActionMenu.Group label={tittel}>
             {lenker.map((lenke, indeks) => (
                 <ActionMenu.Item as={'a'} key={indeks} href={lenke.url} target="_blank">
                     {lenke.tekst}
                 </ActionMenu.Item>
             ))}
-        </>
+        </ActionMenu.Group>
     );
 }
