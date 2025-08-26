@@ -2,9 +2,12 @@ import { useMemo, useState } from 'react';
 
 import { compareAsc, compareDesc } from 'date-fns';
 
-import { SortState } from '@navikt/ds-react/src/table/types';
-
 import { erGyldigDato } from '../../utils/dato';
+
+interface SortState {
+    orderBy: string;
+    direction: 'ascending' | 'descending';
+}
 
 /**
  * Extender SortState som finnes i ds-react, for å kunne sette at orderBy er en keyof T

@@ -13,7 +13,7 @@ const BrukerPanel: React.FC<Props> = ({ journalpostResponse }) => {
     const { navn, personIdent } = journalpostResponse;
 
     return (
-        <Box padding="4" borderWidth="1" borderRadius="small" borderColor="border-default">
+        <Box padding="4" borderWidth="1" borderRadius="small">
             <PanelHeader navn={navn} personIdent={personIdent} type={PanelHeaderType.Bruker} />
         </Box>
     );

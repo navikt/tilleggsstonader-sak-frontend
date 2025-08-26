@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { BlockerFunction } from 'react-router-dom';
+// @ts-ignore - Library has declaration file but exports configuration is problematic
 import ReactRouterPrompt from 'react-router-prompt';
 
 import { ModalWrapper } from './ModalWrapper';
@@ -11,6 +12,15 @@ import { UlagretKomponent } from '../../hooks/useUlagredeKomponenter';
  * Argumenten i BlockerFunction
  */
 type BlockerFunctionArguments = Parameters<BlockerFunction>[0];
+
+/**
+ * Render prop parameters for ReactRouterPrompt
+ */
+interface ReactRouterPromptRenderProps {
+    isActive: boolean;
+    onConfirm: () => void;
+    onCancel: () => void;
+}
 
 const behandlingKomponenterSomKanBytteFane: UlagretKomponent[] = [UlagretKomponent.FATTE_VEDTAK];
 
@@ -61,7 +71,7 @@ const UlagredeKomponenterModal: FC = () => {
                 );
             }}
         >
-            {({ isActive, onConfirm, onCancel }) => (
+            {({ isActive, onConfirm, onCancel }: ReactRouterPromptRenderProps) => (
                 <ModalWrapper
                     tittel={
                         'Du har ikke lagret dine siste endringer og vil miste disse om du forlater siden'

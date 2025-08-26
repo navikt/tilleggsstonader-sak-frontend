@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, HStack, Pagination, Table } from '@navikt/ds-react';
-import { SortState } from '@navikt/ds-react/src/table/types';
 
 import Oppgaverad from './Oppgaverad';
 import {
@@ -21,6 +20,11 @@ import {
 } from './typer/oppgave';
 import { useOppgave } from '../../context/OppgaveContext';
 import { PartialRecord } from '../../typer/common';
+
+interface SortState {
+    orderBy: string;
+    direction: 'ascending' | 'descending';
+}
 
 const Tabell = styled(Table)`
     width: 1400px;

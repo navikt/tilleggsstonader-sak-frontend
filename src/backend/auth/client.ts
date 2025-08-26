@@ -1,5 +1,5 @@
+import type { JWTVerifyGetKey } from 'jose';
 import { createRemoteJWKSet, jwtVerify, JWTVerifyResult } from 'jose';
-import { JWTVerifyGetKey } from 'jose/dist/types/jwt/verify';
 import * as client from 'openid-client';
 
 import logger from '../logger';
