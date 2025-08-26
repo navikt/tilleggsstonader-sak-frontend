@@ -19,7 +19,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -115,6 +115,9 @@ const EndreMålgruppe: React.FC<{
 
     const lagre = () => {
         if (laster) return;
+        if (!validerForm()) {
+            return;
+        }
         settFeilmelding(undefined);
         if (burdeViseModal) {
             settVisBekreftModal(true);
@@ -124,36 +127,30 @@ const EndreMålgruppe: React.FC<{
     };
 
     const bekreftLagre = () => {
-        const kanSendeInn = validerForm();
+        settLaster(true);
 
-        if (kanSendeInn) {
-            settLaster(true);
+        const erNyPeriode = målgruppe === undefined;
 
-            const erNyPeriode = målgruppe === undefined;
-
-            const response = lagreVilkårperiode<Målgruppe>(
-                behandling.id,
-                form,
-                mapFaktaOgSvarTilRequest(form),
-                målgruppe?.id
-            );
-            return response
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        if (erNyPeriode) {
-                            leggTilMålgruppe(res.data.periode);
-                        } else {
-                            oppdaterMålgruppe(res.data.periode);
-                        }
-                        avbrytRedigering();
+        const response = lagreVilkårperiode<Målgruppe>(
+            behandling.id,
+            form,
+            mapFaktaOgSvarTilRequest(form),
+            målgruppe?.id
+        );
+        return response
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    if (erNyPeriode) {
+                        leggTilMålgruppe(res.data.periode);
                     } else {
-                        settFeilmelding(
-                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
-                        );
+                        oppdaterMålgruppe(res.data.periode);
                     }
-                })
-                .finally(() => settLaster(false));
-        }
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Feilet legg til periode'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const oppdaterForm = (key: keyof Målgruppe, nyVerdi: string) => {

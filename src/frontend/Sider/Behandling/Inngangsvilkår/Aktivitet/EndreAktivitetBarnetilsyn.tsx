@@ -21,7 +21,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { useRevurderingAvPerioder } from '../../../../hooks/useRevurderingAvPerioder';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { feiletRessursTilFeilmelding, Feil } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -100,6 +100,9 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
+        if (!validerForm()) {
+            return;
+        }
         if (burdeViseModal) {
             settVisBekreftModal(true);
             return;
@@ -108,36 +111,30 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     };
 
     const bekreftLagre = () => {
-        const kanSendeInn = validerForm();
+        settLaster(true);
 
-        if (kanSendeInn) {
-            settLaster(true);
+        const response = lagreVilkårperiode<Aktivitet>(
+            behandling.id,
+            form,
+            mapFaktaOgSvarTilRequest(form),
+            aktivitet?.id
+        );
 
-            const response = lagreVilkårperiode<Aktivitet>(
-                behandling.id,
-                form,
-                mapFaktaOgSvarTilRequest(form),
-                aktivitet?.id
-            );
-
-            return response
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        if (nyRadLeggesTil) {
-                            leggTilAktivitet(res.data.periode);
-                        } else {
-                            oppdaterAktivitet(res.data.periode);
-                        }
-
-                        avbrytRedigering();
+        return response
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    if (nyRadLeggesTil) {
+                        leggTilAktivitet(res.data.periode);
                     } else {
-                        settFeilmelding(
-                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
-                        );
+                        oppdaterAktivitet(res.data.periode);
                     }
-                })
-                .finally(() => settLaster(false));
-        }
+
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Feilet legg til periode'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     //TODO: fiks

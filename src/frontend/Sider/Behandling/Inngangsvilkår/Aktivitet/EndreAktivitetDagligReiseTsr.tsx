@@ -94,6 +94,9 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
+        if (!validerForm()) {
+            return;
+        }
         if (burdeViseModal) {
             settVisBekreftModal(true);
             return;
@@ -102,36 +105,30 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     };
 
     const bekreftLagre = () => {
-        const kanSendeInn = validerForm();
+        settLaster(true);
 
-        if (kanSendeInn) {
-            settLaster(true);
+        const response = lagreVilkårperiode<Aktivitet>(
+            behandling.id,
+            form,
+            mapFaktaOgSvarTilRequest(),
+            aktivitet?.id
+        );
 
-            const response = lagreVilkårperiode<Aktivitet>(
-                behandling.id,
-                form,
-                mapFaktaOgSvarTilRequest(),
-                aktivitet?.id
-            );
-
-            return response
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        if (nyRadLeggesTil) {
-                            leggTilAktivitet(res.data.periode);
-                        } else {
-                            oppdaterAktivitet(res.data.periode);
-                        }
-
-                        avbrytRedigering();
+        return response
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    if (nyRadLeggesTil) {
+                        leggTilAktivitet(res.data.periode);
                     } else {
-                        settFeilmelding(
-                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
-                        );
+                        oppdaterAktivitet(res.data.periode);
                     }
-                })
-                .finally(() => settLaster(false));
-        }
+
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Feilet legg til periode'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const oppdaterForm = (key: keyof AktivitetDagligReiseTsr, nyVerdi: string) => {

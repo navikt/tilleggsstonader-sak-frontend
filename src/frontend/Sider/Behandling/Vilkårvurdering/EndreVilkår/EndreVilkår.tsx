@@ -119,6 +119,22 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (laster) return;
+
+        const valideringsfeil = validerVilkårsvurderinger(
+            delvilkårsett,
+            redigerbareVilkårfelter,
+            regler,
+            periodeForVilkår.fom,
+            periodeForVilkår.tom,
+            behandling.revurderFra,
+            erFremtidigUtgift
+        );
+
+        settFeilmeldinger(valideringsfeil);
+        if (!ingen(valideringsfeil)) {
+            return;
+        }
+
         if (burdeViseModal) {
             settVisBekreftModal(true);
             return;
@@ -130,33 +146,19 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         const { fom, tom } = periodeForVilkår;
         settLaster(true);
 
-        const valideringsfeil = validerVilkårsvurderinger(
+        const response = await lagreVurdering({
             delvilkårsett,
-            redigerbareVilkårfelter,
-            regler,
             fom,
             tom,
-            behandling.revurderFra,
-            erFremtidigUtgift
-        );
-
-        settFeilmeldinger(valideringsfeil);
-
-        if (ingen(valideringsfeil)) {
-            const response = await lagreVurdering({
-                delvilkårsett,
-                fom,
-                tom,
-                utgift,
-                erFremtidigUtgift,
-                offentligTransport,
-            });
-            if (response.status === RessursStatus.SUKSESS) {
-                avsluttRedigering();
-                settFeilmeldingVedLagring(null);
-            } else {
-                settFeilmeldingVedLagring(response.frontendFeilmelding);
-            }
+            utgift,
+            erFremtidigUtgift,
+            offentligTransport,
+        });
+        if (response.status === RessursStatus.SUKSESS) {
+            avsluttRedigering();
+            settFeilmeldingVedLagring(null);
+        } else {
+            settFeilmeldingVedLagring(response.frontendFeilmelding);
         }
         settLaster(false);
     };
