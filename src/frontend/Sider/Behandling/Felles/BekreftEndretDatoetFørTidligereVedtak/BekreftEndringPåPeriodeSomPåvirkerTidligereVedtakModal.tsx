@@ -21,7 +21,7 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
     const { sluttDatoForrigeVedtak } = useBehandling();
     if (visBekreftModal) {
         sendHendelseTilUmami(
-            'vis bekreft endring på periode som påviker tidligere vedtak modal',
+            'vis bekreft endring på periode som påvirker tidligere vedtak modal',
             {}
         );
     }
