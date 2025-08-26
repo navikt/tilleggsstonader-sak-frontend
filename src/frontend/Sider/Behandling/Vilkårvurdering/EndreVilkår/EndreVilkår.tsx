@@ -19,6 +19,7 @@ import { SmallWarningTag } from '../../../../komponenter/Tags';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { Regler } from '../../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import {
     Delvilkår,
     OffentligTransport,
@@ -30,6 +31,7 @@ import {
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
 import SlettVilkårModal from './SlettVilkårModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { OffentligTransportSeksjon } from '../../Stønadsvilkår/DagligReise/OffentligTransportSeksjon';
 
 const StyledForm = styled.form`
@@ -96,6 +98,12 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
     const [laster, settLaster] = useState<boolean>(false);
 
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: redigerbareVilkårfelter,
+            ny: periodeForVilkår,
+        });
+
     useEffect(() => {
         if (detFinnesUlagredeEndringer) {
             settUlagretKomponent(komponentId);
@@ -110,8 +118,16 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
     const validerOgLagreVilkårsvurderinger = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const { fom, tom } = periodeForVilkår;
         if (laster) return;
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        bekreftLagre();
+    };
+
+    const bekreftLagre = async () => {
+        const { fom, tom } = periodeForVilkår;
         settLaster(true);
 
         const valideringsfeil = validerVilkårsvurderinger(
@@ -284,6 +300,12 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     )}
                 </VStack>
             </FlexColumn>
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
         </StyledForm>
     );
 };

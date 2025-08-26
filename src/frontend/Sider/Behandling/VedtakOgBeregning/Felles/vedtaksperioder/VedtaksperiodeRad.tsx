@@ -13,6 +13,8 @@ import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskompon
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import {
     faktiskMålgruppeTilTekst,
     faktiskMålgruppeTypeOptions,
@@ -54,6 +56,11 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
             nyRadLeggesTil: erNyRad,
         });
 
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useSlettePeriodeFørTidligereVedtak({
+            tidligere: lagretVedtaksperiode || vedtaksperiode,
+        });
+
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
     const valgbareAktiviteter = valgbareAktivitetTyperForVedtaksperiode(behandling.stønadstype);
@@ -79,6 +86,14 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
         }
 
         return PeriodeStatus.ENDRET;
+    };
+
+    const bekreftSlettVedtaksperiode = () => {
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        slettPeriode();
     };
 
     return (
@@ -145,7 +160,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 {!erLesevisning && kanSlettePeriode && (
                     <Button
                         variant="tertiary"
-                        onClick={() => slettPeriode()}
+                        onClick={() => bekreftSlettVedtaksperiode()}
                         icon={<TrashIcon />}
                         size="xsmall"
                     />
@@ -156,6 +171,12 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     <StatusTag status={utledStatus(vedtaksperiode)} lesevisning={erLesevisning} />
                 )}
             </div>
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={slettPeriode}
+                laster={false}
+            />
         </>
     );
 };
