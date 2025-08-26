@@ -28,15 +28,15 @@ export function RegelverkKontekstmeny({
                 </Button>
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <Gruppe tittel="Lovbestemmelser" lenker={paragraflenker} />
-                <Gruppe tittel="Forskrifter" lenker={forskriftlenker} />
-                <Gruppe tittel="Rundskriv" lenker={rundskrivlenker} />
+                <LenkeGruppe tittel="Lovbestemmelser" lenker={paragraflenker} />
+                <LenkeGruppe tittel="Forskrifter" lenker={forskriftlenker} />
+                <LenkeGruppe tittel="Rundskriv" lenker={rundskrivlenker} />
             </ActionMenu.Content>
         </ActionMenu>
     );
 }
 
-function Gruppe({ tittel, lenker }: { tittel: string; lenker?: Lenke[] }) {
+function LenkeGruppe({ tittel, lenker }: { tittel: string; lenker?: Lenke[] }) {
     if (!lenker?.length) {
         return null;
     }
