@@ -12,6 +12,7 @@ import { FanePath } from '../../faner';
 
 const bekreftelseModalProps = {
     tittel: 'Vedtak i Arena i samme periode',
+    umamiId: 'vedtak-i-arena-samme-periode',
     tekst: 'Er du sikker på at det er riktig at det skal være innvilgelse for samme periode som det er innvilget i Arena?',
     hovedKnapp: {
         tekst: 'Angre og endre vedtaksperiode',

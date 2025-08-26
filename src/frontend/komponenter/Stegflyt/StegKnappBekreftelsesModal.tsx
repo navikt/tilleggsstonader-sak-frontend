@@ -5,6 +5,7 @@ import { ModalWrapper } from '../Modal/ModalWrapper';
 export interface StegBekreftelseModal {
     tittel: string;
     tekst: string;
+    umamiId: string;
     hovedKnapp: {
         skalTriggeGåTilNesteSteg: boolean;
         tekst: string;
@@ -32,11 +33,12 @@ export const StegKnappBekreftelsesModal = ({
     if (!modalProps) {
         return null;
     }
-    const { tittel, tekst, hovedKnapp, sekundærKnapp, lukkKnapp } = modalProps;
+    const { tittel, tekst, hovedKnapp, sekundærKnapp, lukkKnapp, umamiId } = modalProps;
     return (
         <ModalWrapper
             visModal={visModal}
             tittel={tittel}
+            umamiId={umamiId}
             onClose={() => settVisModal(false)}
             aksjonsknapper={{
                 hovedKnapp: {

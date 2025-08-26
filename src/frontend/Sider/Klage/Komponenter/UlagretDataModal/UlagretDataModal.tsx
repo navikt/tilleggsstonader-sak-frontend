@@ -19,6 +19,7 @@ const UlagretDataModal: FC = () => {
             tittel={
                 'Du har ikke lagret dine siste endringer og vil miste disse om du forlater siden'
             }
+            umamiId={'ikke-lageret-siste-endringer'}
             visModal={visUlagretDataModal}
             onClose={() => settVisUlagretDataModal(false)}
             aksjonsknapper={{

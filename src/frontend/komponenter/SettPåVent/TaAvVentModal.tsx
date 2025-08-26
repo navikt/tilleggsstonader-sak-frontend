@@ -58,6 +58,7 @@ const TaAvVentModal: React.FC<{
             visModal={true}
             onClose={lukkModal}
             tittel="Ta behandling av vent"
+            umamiId={'ta-behandlinge-av-avent'}
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: () => taAvVent(false),

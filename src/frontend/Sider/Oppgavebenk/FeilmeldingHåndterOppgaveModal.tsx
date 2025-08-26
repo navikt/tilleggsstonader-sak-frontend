@@ -25,6 +25,7 @@ export const FeilmeldingHåndterOppgaveModal = ({
         <ModalWrapper
             visModal={true}
             tittel={feilmelding.tittel}
+            umamiId={'feilmelding-håndter-oppgave'}
             onClose={lukkModal}
             aksjonsknapper={{
                 hovedKnapp: {

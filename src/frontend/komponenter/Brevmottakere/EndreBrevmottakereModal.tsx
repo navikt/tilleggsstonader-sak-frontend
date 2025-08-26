@@ -108,6 +108,7 @@ export const EndreBrevmottakereModal: FC<{
     return (
         <ModalWrapper
             tittel={'Hvem skal motta brevet?'}
+            umamiId={'hvem-skal-motta-brevet'}
             visModal={visBrevmottakereModal}
             onClose={() => {
                 settVisBrevmottakereModal(false);
