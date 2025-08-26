@@ -16,7 +16,6 @@ import {
     harStrengtFortroligRolle,
 } from '../../../utils/roller';
 import { Toggle } from '../../../utils/toggles';
-import { sendHendelseTilUmami } from '../../../utils/umami/umami';
 import {
     defaultOppgaveRequest,
     nullstillSortering,
@@ -67,13 +66,6 @@ export const Oppgavefiltrering = () => {
         settOppgaveRequest(nullstiltSortering);
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), nullstiltSortering);
         hentOppgaver(nullstiltSortering);
-        //Denne er hovedsakling for testing av Umami
-        sendHendelseTilUmami('hent oppgaver', {
-            klarBenk: !oppgaveRequest.oppgaverPåVent,
-            type: oppgaveRequest.oppgavetype,
-            gjelder: oppgaveRequest.behandlingstema,
-            enhet: oppgaveRequest.enhet,
-        });
     };
 
     const nullstillFiltrering = () => {
