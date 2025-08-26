@@ -5,6 +5,7 @@ import { Alert } from '@navikt/ds-react';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { formaterDato } from '../../../../utils/dato';
+import { sendHendelseTilUmami } from '../../../../utils/umami/umami';
 
 export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
     visBekreftModal,
@@ -18,6 +19,12 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
     laster: boolean;
 }) => {
     const { sluttDatoForrigeVedtak } = useBehandling();
+    if (visBekreftModal) {
+        sendHendelseTilUmami(
+            'vis bekreft endring på periode som påviker tidligere vedtak modal',
+            {}
+        );
+    }
     return (
         <ModalWrapper
             visModal={visBekreftModal}
