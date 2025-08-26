@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
@@ -56,7 +56,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
             nyRadLeggesTil: erNyRad,
         });
 
-    const [laster] = useState(false);
     const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
         useSlettePeriodeFørTidligereVedtak({
             tidligere: lagretVedtaksperiode || vedtaksperiode,
@@ -176,7 +175,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 visBekreftModal={visBekreftModal}
                 settVisBekreftModal={settVisBekreftModal}
                 bekreftLagre={slettPeriode}
-                laster={laster}
+                laster={false}
             />
         </>
     );
