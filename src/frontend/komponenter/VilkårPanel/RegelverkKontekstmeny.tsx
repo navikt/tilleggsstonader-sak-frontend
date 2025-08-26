@@ -8,13 +8,13 @@ import { Lenke } from '../../Sider/Behandling/lenker';
 export function RegelverkKontekstmeny({
     paragraflenker,
     forskriftlenker,
-    rundskrivlenke,
+    rundskrivlenker,
 }: {
     paragraflenker?: Lenke[];
     forskriftlenker?: Lenke[];
-    rundskrivlenke?: Lenke[];
+    rundskrivlenker?: Lenke[];
 }) {
-    const harLenker = paragraflenker?.length || forskriftlenker?.length || rundskrivlenke?.length;
+    const harLenker = paragraflenker?.length || forskriftlenker?.length || rundskrivlenker?.length;
 
     if (!harLenker) {
         return null;
@@ -30,7 +30,7 @@ export function RegelverkKontekstmeny({
             <ActionMenu.Content>
                 <Gruppe tittel="Lovbestemmelser" lenker={paragraflenker} />
                 <Gruppe tittel="Forskrifter" lenker={forskriftlenker} />
-                <Gruppe tittel="Rundskriv" lenker={rundskrivlenke} />
+                <Gruppe tittel="Rundskriv" lenker={rundskrivlenker} />
             </ActionMenu.Content>
         </ActionMenu>
     );

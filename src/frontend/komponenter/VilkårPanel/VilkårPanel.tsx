@@ -32,7 +32,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
                 <RegelverkKontekstmeny
                     paragraflenker={paragraflenker}
                     forskriftlenker={forskriftlenker}
-                    rundskrivlenke={rundskrivlenker}
+                    rundskrivlenker={rundskrivlenker}
                 />
             }
         >
