@@ -83,8 +83,8 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
             ikon={<CardIcon />}
             tittel="Målgruppe"
             paragraflenker={lenkerParagrafMålgruppe}
-            rundskrivlenke={lenkerRundskrivMålgruppe}
             forskriftlenker={lenkerForskriftMålgruppe}
+            rundskrivlenker={lenkerRundskrivMålgruppe}
         >
             <FlexColumn $gap={2}>
                 <RegisterYtelser
