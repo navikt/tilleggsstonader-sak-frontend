@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
-import '@navikt/ds-css';
 
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';

@@ -3,11 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Detail, Label } from '@navikt/ds-react';
-import { AGray100, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
+import { AGray100, AGray400 } from '@navikt/ds-tokens/dist/tokens';
 
 import HendelseIkon from './HendelseIkon';
 import Metadata from './Metadata';
-import { HistorikkHendelse, hendelseTilHistorikkTekst } from './typer';
+import { hendelseTilHistorikkTekst, HistorikkHendelse } from './typer';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
 
 const Linje = styled.div`
@@ -21,12 +21,6 @@ const Container = styled.li`
     display: flex;
     gap: 0.5rem;
     list-style: none;
-
-    .navds-body-short,
-    .navds-label,
-    .navds-detail {
-        color: ${AGray900};
-    }
 `;
 
 const BlåRunding = styled.div`

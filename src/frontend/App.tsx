@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { LeaveIcon } from '@navikt/aksel-icons';
-import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
+import { Dropdown, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
 import Endringslogg from '@navikt/familie-endringslogg';
 
 import { AppProvider, useApp } from './context/AppContext';
@@ -31,6 +31,7 @@ import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 import { Toggle } from './utils/toggles';
 import { mockFlags } from './utils/unleashMock';
+import '@navikt/ds-css/darkside';
 
 const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
@@ -97,7 +98,9 @@ const App: React.FC = () => {
                 }}
                 startClient={appEnv.unleashEnv !== 'mock'}
             >
-                <AppRoutes />
+                <Theme theme={'light'}>
+                    <AppRoutes />
+                </Theme>
             </FlagProvider>
         </AppProvider>
     );
