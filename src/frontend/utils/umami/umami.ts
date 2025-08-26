@@ -1,5 +1,6 @@
 export enum UmamiHendelse {
-    VIS_BEKREFT_ENDRING_SOM_PÅVIRKER_TIDLIGERE_VEDTAK_MODAL = 'Vis bekreft endring som påviker tidligere vedtak modal',
+    MODAL_ÅPNET = 'modal åpnet',
+    MODAL_LUKKET = 'modal lukket',
 }
 
 export const sendHendelseTilUmami = (navn: UmamiHendelse, data: object) => {

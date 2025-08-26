@@ -20,10 +20,10 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
 }) => {
     const { sluttDatoForrigeVedtak } = useBehandling();
     if (visBekreftModal) {
-        sendHendelseTilUmami(
-            UmamiHendelse.VIS_BEKREFT_ENDRING_SOM_PÅVIRKER_TIDLIGERE_VEDTAK_MODAL,
-            { skalVises: visBekreftModal }
-        );
+        sendHendelseTilUmami(UmamiHendelse.MODAL_ÅPNET, {
+            modalId: 'bekreft-endring-av-tidligere-periode',
+            tittel: 'Endring av periode som kan påvirke tidligere vedtak',
+        });
     }
     return (
         <ModalWrapper
@@ -34,13 +34,25 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
                 hovedKnapp: {
                     onClick: () => {
                         bekreftLagre();
+                        sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, {
+                            modalId: 'bekreft-endring-av-tidligere-periode',
+                            tittel: 'Endring av periode som kan påvirke tidligere vedtak',
+                            lukkMetode: 'Fortsett',
+                        });
                     },
                     tekst: 'Fortsett',
                     disabled: laster,
                     spinner: laster,
                 },
                 lukkKnapp: {
-                    onClick: () => settVisBekreftModal(false),
+                    onClick: () => {
+                        settVisBekreftModal(false);
+                        sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, {
+                            modalId: 'bekreft-endring-av-tidligere-periode',
+                            tittel: 'Endring av periode som kan påvirke tidligere vedtak',
+                            lukkMetode: 'Avbryt',
+                        });
+                    },
                     tekst: 'Avbryt',
                     disabled: false,
                     spinner: false,
