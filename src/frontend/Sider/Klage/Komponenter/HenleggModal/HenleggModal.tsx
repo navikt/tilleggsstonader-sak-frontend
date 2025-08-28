@@ -63,6 +63,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
     return (
         <ModalWrapper
             tittel={'Henlegg'}
+            umamiId={'henlegg'}
             visModal={visHenleggModal}
             onClose={() => lukkModal()}
             aksjonsknapper={{

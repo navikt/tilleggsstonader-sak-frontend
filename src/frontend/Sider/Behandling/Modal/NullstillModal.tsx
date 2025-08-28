@@ -48,6 +48,7 @@ const NullstillModal: React.FC = () => {
             visModal={visNullstillModal}
             onClose={lukkModal}
             tittel={'Nullstill behandling'}
+            umamiId={'nullstill-behandling'}
             ariaLabel={'Nullstill behandling'}
             aksjonsknapper={{
                 hovedKnapp: {

@@ -13,6 +13,7 @@ export const BekreftJournalføringModal: React.FC<{
     return (
         <ModalWrapper
             tittel={'Journalfør uten behandling'}
+            umamiId={'journalfør-uten-behandling'}
             visModal={journalpostState.visBekreftelsesModal}
             onClose={() => journalpostState.settVisBekreftelsesModal(false)}
             aksjonsknapper={{

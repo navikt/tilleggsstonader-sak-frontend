@@ -65,6 +65,7 @@ const HenleggModal: React.FC = () => {
             visModal={visHenleggModal}
             onClose={lukkModal}
             tittel={'Henlegg behandling'}
+            umamiId={'henlegg-behandling'}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
             aksjonsknapper={{
                 hovedKnapp: {

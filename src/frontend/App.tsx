@@ -30,6 +30,7 @@ import Personoversikt from './Sider/Personoversikt/Personoversikt';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 import { Toggle } from './utils/toggles';
+import { useUmami } from './utils/umami/useUmami';
 import { mockFlags } from './utils/unleashMock';
 
 const AppRoutes = () => {
@@ -74,6 +75,7 @@ const App: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
     useEffect(() => hentInnloggetSaksbehandler(settInnloggetSaksbehandler), []);
     useEffect(() => hentEnv(settAppEnv), []);
+    useUmami();
 
     if (!innloggetSaksbehandler || !appEnv) {
         return null;

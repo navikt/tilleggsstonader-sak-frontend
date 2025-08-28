@@ -16,6 +16,7 @@ export const VedtakFerdigstiltModal = ({
     return (
         <ModalWrapper
             tittel={'Vedtaket er ferdigstilt'}
+            umamiId={'vedtaket-er-ferdigstilt'}
             visModal={visModal}
             onClose={() => lukkModal()}
             aksjonsknapper={{

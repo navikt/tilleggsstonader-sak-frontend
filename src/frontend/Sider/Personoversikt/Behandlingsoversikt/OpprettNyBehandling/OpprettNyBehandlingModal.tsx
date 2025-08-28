@@ -51,7 +51,12 @@ const OpprettNyBehandlingModal: FC<Props> = ({
             <Button size={'small'} variant={'secondary'} onClick={() => settVisModal(true)}>
                 Opprett ny behandling
             </Button>
-            <ModalWrapper visModal={visModal} onClose={lukkModal} tittel={'Opprett ny behandling'}>
+            <ModalWrapper
+                visModal={visModal}
+                onClose={lukkModal}
+                tittel={'Opprett ny behandling'}
+                umamiId={'opprett-ny-behandling'}
+            >
                 <VStack gap="4">
                     <Select
                         value={opprettNyBehandlingType}

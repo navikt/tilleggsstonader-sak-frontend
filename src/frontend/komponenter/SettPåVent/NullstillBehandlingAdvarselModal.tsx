@@ -14,6 +14,7 @@ export function NullstillBehandlingAdvarselModal({ bekreftNullstilling, avbryt }
         <ModalWrapper
             visModal={true}
             tittel="Behandlingen nullstilles!"
+            umamiId={'behandlingen-nullstilles'}
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: bekreftNullstilling,

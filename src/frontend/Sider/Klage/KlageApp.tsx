@@ -42,6 +42,7 @@ const AppInnhold: React.FC = () => {
     return !autentisert ? (
         <ModalWrapper
             tittel={'Ugyldig sesjon'}
+            umamiId={'ugyldig-sesjon'}
             visModal={true}
             ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
         >

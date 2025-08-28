@@ -179,6 +179,7 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
                 </BrevContainer>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
+                    umamiId={'bekreft-utsending-av-brev'}
                     visModal={visModal}
                     onClose={() => lukkModal()}
                     aksjonsknapper={{
