@@ -29,14 +29,6 @@ export interface KildeResultatYtelse {
     resultat: 'OK' | 'FEILET';
 }
 
-/**
- * Beskriver hvilke registerytelser som kan brukes for å opprette en vilkårperiode (målgruppe) i en behandling.
- */
-export type TypeRegisterYtelseForVilkårperiode = Exclude<
-    TypeRegisterYtelse,
-    TypeRegisterYtelse.TILTAKSPENGER | TypeRegisterYtelse.DAGPENGER
->;
-
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     DAGPENGER = 'DAGPENGER',
@@ -45,13 +37,12 @@ export enum TypeRegisterYtelse {
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
 }
 
-export const typeRegisterYtelseTilMålgruppeType: Record<
-    TypeRegisterYtelseForVilkårperiode,
-    MålgruppeType
-> = {
+export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
     AAP: MålgruppeType.AAP,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
+    TILTAKSPENGER: MålgruppeType.TILTAKSPENGER,
+    DAGPENGER: MålgruppeType.DAGPENGER,
 };
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
