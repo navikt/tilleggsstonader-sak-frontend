@@ -6,7 +6,10 @@ import { Button, Tag } from '@navikt/ds-react';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { kanRegisterperiodeBrukes } from '../Vilkårperioder/vilkårperiodeUtil';
+import {
+    kanRegisterAktivitetBrukes,
+    kanRegisterperiodeBrukes,
+} from '../Vilkårperioder/vilkårperiodeUtil';
 
 export function BrukAktivitetKnapp({
     registerAktivitet,
@@ -20,7 +23,9 @@ export function BrukAktivitetKnapp({
     const { erStegRedigerbart } = useSteg();
     const { behandling } = useBehandling();
 
-    const aktivitetKanBrukes = kanRegisterperiodeBrukes(registerAktivitet, behandling.revurderFra);
+    const aktivitetKanBrukes =
+        kanRegisterAktivitetBrukes(registerAktivitet, behandling.stønadstype) &&
+        kanRegisterperiodeBrukes(registerAktivitet, behandling.revurderFra);
 
     if (harBruktAktivitet) {
         return (

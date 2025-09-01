@@ -1,3 +1,4 @@
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { erDatoFørEllerLik } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
@@ -16,3 +17,8 @@ export const kanRegisterperiodeBrukes = (
 
     return !registerPeriode.tom || erDatoFørEllerLik(revurderFra, registerPeriode.tom);
 };
+
+export const kanRegisterAktivitetBrukes = (
+    registerAktivtet: Registeraktivitet,
+    stønadstype: Stønadstype
+): boolean => !(stønadstype === Stønadstype.DAGLIG_REISE_TSR && registerAktivtet.erUtdanning);
