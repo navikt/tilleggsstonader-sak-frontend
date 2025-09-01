@@ -223,7 +223,5 @@ export const kanRegisterYtelseBrukes = (
     ytelse: YtelseGrunnlagPeriode,
     revurderFra?: string
 ): boolean => {
-    if (ytelse.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART) return false;
-
     return kanRegisterperiodeBrukes(ytelse, revurderFra);
 };

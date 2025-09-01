@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { kanRegisterYtelseBrukes, utledYtelseTekst } from './utils';
+import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
@@ -41,7 +41,7 @@ const RegisterYtelserTabell: React.FC<{
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                             <Table.DataCell>
-                                {erStegRedigerbart && kanRegisterYtelseBrukes(ytelse) && (
+                                {erStegRedigerbart && ytelse.kanYtelseBrukesIBehandling && (
                                     <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
                                         Bruk
                                     </Button>
