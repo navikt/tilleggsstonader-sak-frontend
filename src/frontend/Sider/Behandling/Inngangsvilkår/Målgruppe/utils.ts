@@ -14,7 +14,6 @@ import {
     Målgruppe,
     MålgruppeType,
     SvarMålgruppe,
-    målgrupperForStønad,
 } from '../typer/vilkårperiode/målgruppe';
 import { målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe } from '../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
 import {
@@ -222,12 +221,7 @@ export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
 
 export const kanRegisterYtelseBrukes = (
     ytelse: YtelseGrunnlagPeriode,
-    stønadstype: Stønadstype,
     revurderFra?: string
 ): boolean => {
-    if (ytelse.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART) return false;
-    if (!målgrupperForStønad[stønadstype].includes(typeRegisterYtelseTilMålgruppeType[ytelse.type]))
-        return false;
-
     return kanRegisterperiodeBrukes(ytelse, revurderFra);
 };

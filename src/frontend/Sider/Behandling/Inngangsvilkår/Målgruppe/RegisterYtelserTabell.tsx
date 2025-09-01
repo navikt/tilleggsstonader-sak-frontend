@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@navikt/ds-react';
 import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
 
-import { kanRegisterYtelseBrukes, utledYtelseTekst } from './utils';
-import { useBehandling } from '../../../../context/BehandlingContext';
+import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
@@ -23,7 +22,6 @@ const RegisterYtelserTabell: React.FC<{
     lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
 }> = ({ perioderMedYtelse, lagRadForPeriode }) => {
     const { erStegRedigerbart } = useSteg();
-    const { behandling } = useBehandling();
 
     return (
         <HvitTabell size="small">
@@ -43,15 +41,11 @@ const RegisterYtelserTabell: React.FC<{
                             <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
                             <Table.DataCell>
-                                {erStegRedigerbart &&
-                                    kanRegisterYtelseBrukes(ytelse, behandling.stønadstype) && (
-                                        <Button
-                                            size="xsmall"
-                                            onClick={() => lagRadForPeriode(ytelse)}
-                                        >
-                                            Bruk
-                                        </Button>
-                                    )}
+                                {erStegRedigerbart && ytelse.kanYtelseBrukesIBehandling && (
+                                    <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
+                                        Bruk
+                                    </Button>
+                                )}
                             </Table.DataCell>
                         </Table.Row>
                     );
