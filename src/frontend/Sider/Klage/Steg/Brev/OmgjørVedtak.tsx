@@ -108,7 +108,7 @@ export const OmgjørVedtak: React.FC<{
                     )}
                     <ModalWrapper
                         tittel={'Bekreft ferdigstillelse av klagebehandling'}
-                        umamiId={'bekreft-ferdigstillelse-av-klagebehandling'}
+                        umamiId={'ferdigstillelse-av-klagebehandling'}
                         visModal={visModal}
                         onClose={() => lukkModal()}
                         aksjonsknapper={{
