@@ -43,11 +43,21 @@ export const ModalWrapper: React.FC<ModalProps> = ({
     umamiId,
     children,
 }) => {
+    const umamiData = {
+        modalId: umamiId,
+        tittel: tittel,
+    };
+
+    const sendModalÅpnetTilUmami = () => {
+        sendHendelseTilUmami(UmamiHendelse.MODAL_ÅPNET, umamiData);
+    };
+
+    const sendModalLukketTilUmami = (lukkMetode: 'hovedKnapp' | 'sekundærKnapp' | 'lukkKnapp') => {
+        sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, { ...umamiData, lukkMetode: lukkMetode });
+    };
+
     if (visModal) {
-        sendHendelseTilUmami(UmamiHendelse.MODAL_ÅPNET, {
-            modalId: umamiId,
-            tittel: tittel,
-        });
+        sendModalÅpnetTilUmami();
     }
     return (
         visModal && (
@@ -65,11 +75,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                             variant="primary"
                             type={'button'} // For å unngå at man trigger submit i skjema
                             onClick={() => {
-                                sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, {
-                                    modalId: umamiId,
-                                    tittel: tittel,
-                                    lukkMetode: 'primary',
-                                });
+                                sendModalLukketTilUmami('hovedKnapp');
                                 aksjonsknapper.hovedKnapp.onClick();
                             }}
                             disabled={aksjonsknapper.hovedKnapp.disabled}
@@ -82,11 +88,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                             <Button
                                 variant="secondary"
                                 onClick={() => {
-                                    sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, {
-                                        modalId: umamiId,
-                                        tittel: tittel,
-                                        lukkMetode: 'secondary',
-                                    });
+                                    sendModalLukketTilUmami('sekundærKnapp');
                                     aksjonsknapper.sekundærKnapp?.onClick();
                                 }}
                                 disabled={aksjonsknapper.sekundærKnapp.disabled}
@@ -99,11 +101,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         <Button
                             variant="tertiary"
                             onClick={() => {
-                                sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, {
-                                    modalId: umamiId,
-                                    tittel: tittel,
-                                    lukkMetode: 'lukkKnapp',
-                                });
+                                sendModalLukketTilUmami('lukkKnapp');
                                 aksjonsknapper.lukkKnapp?.onClick();
                             }}
                             disabled={aksjonsknapper.lukkKnapp.disabled}
