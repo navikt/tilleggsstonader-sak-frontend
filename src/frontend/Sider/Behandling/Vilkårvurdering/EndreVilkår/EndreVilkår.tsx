@@ -12,7 +12,6 @@ import EndrePeriodeForVilkår, {
     TypePeriodeVelger,
 } from './EndrePeriodeForVilkår';
 import { useApp } from '../../../../context/AppContext';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { SmallWarningTag } from '../../../../komponenter/Tags';
@@ -58,14 +57,12 @@ type EndreVilkårProps = {
     lagreVurdering: (
         redigerbareVilkårfelter: RedigerbareVilkårfelter
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    alleFelterKanRedigeres: boolean;
     vilkårtype: StønadsvilkårType;
     kanVæreFremtidigUtgift: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = ({
     lagretVilkår,
-    alleFelterKanRedigeres,
     avsluttRedigering,
     kanVæreFremtidigUtgift,
     lagreVurdering,
@@ -74,7 +71,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     vilkårtype,
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
-    const { behandling } = useBehandling();
 
     const [detFinnesUlagredeEndringer, settDetFinnesUlagredeEndringer] = useState<boolean>(false);
     const [komponentId] = useId();
@@ -122,11 +118,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
         const valideringsfeil = validerVilkårsvurderinger(
             delvilkårsett,
-            redigerbareVilkårfelter,
             regler,
             periodeForVilkår.fom,
             periodeForVilkår.tom,
-            behandling.revurderFra,
             erFremtidigUtgift
         );
 
@@ -230,7 +224,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             <FlexColumn $gap={1}>
                 <HStack gap="4" align="start">
                     <EndrePeriodeForVilkår
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         periodeForVilkår={periodeForVilkår}
                         oppdaterPeriodeForVilkår={oppdaterPeriodeForVilkår}
                         feilmeldinger={feilmeldinger}
@@ -240,7 +233,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         <EndreUtgift
                             vilkårtype={vilkårtype}
                             erFremtidigUtgift={erFremtidigUtgift}
-                            alleFelterKanRedigeres={alleFelterKanRedigeres}
                             oppdaterUtgift={oppdaterUtgift}
                             utgift={utgift}
                         />
@@ -257,7 +249,6 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     <EndreDelvilkår
                         delvilkårsett={delvilkårsett}
                         regler={regler}
-                        alleFelterKanRedigeres={alleFelterKanRedigeres}
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         feilmeldinger={feilmeldinger}
                         settFeilmeldinger={settFeilmeldinger}

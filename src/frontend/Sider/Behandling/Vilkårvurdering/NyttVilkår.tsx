@@ -53,7 +53,6 @@ export const NyttVilkår: React.FC<{
             redigerbareVilkårfelter={{ delvilkårsett: lagTomtDelvilkårsett() }}
             avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
             lagreVurdering={opprettVilkår}
-            alleFelterKanRedigeres={true}
             vilkårtype={vilkårtype}
             kanVæreFremtidigUtgift={true}
         />

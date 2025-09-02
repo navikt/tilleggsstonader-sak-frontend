@@ -21,7 +21,6 @@ interface Props<T extends MålgruppeEllerAktivitet> {
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
     typeOptions: SelectOption[];
     formFeil?: FormErrors<TypeOgDatoFelter>;
-    alleFelterKanEndres: boolean;
     kanEndreType: boolean;
     erStøttetType?: boolean;
 }
@@ -32,7 +31,6 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     oppdaterPeriode,
     typeOptions,
     formFeil,
-    alleFelterKanEndres,
     kanEndreType,
     erStøttetType = true,
 }: Props<T>) => {
@@ -64,7 +62,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
             <FeilmeldingMaksBredde>
                 <DateInputMedLeservisning
                     key={fomKeyDato}
-                    readOnly={!alleFelterKanEndres || !erStøttetType}
+                    readOnly={!erStøttetType}
                     label={'Fra'}
                     value={form?.fom}
                     onChange={(dato) => oppdaterPeriode('fom', dato || '')}

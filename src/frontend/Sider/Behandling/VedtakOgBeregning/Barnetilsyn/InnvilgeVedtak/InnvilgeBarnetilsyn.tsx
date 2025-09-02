@@ -82,11 +82,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(
-            vedtaksperioder,
-            lagredeVedtaksperioder,
-            behandling.revurderFra
-        );
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
@@ -154,9 +150,15 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
+
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
+                tidligsteEndring={
+                    beregningsresultat.status === RessursStatus.SUKSESS
+                        ? beregningsresultat.data.tidligsteEndring
+                        : undefined
+                }
             />
         </>
     );

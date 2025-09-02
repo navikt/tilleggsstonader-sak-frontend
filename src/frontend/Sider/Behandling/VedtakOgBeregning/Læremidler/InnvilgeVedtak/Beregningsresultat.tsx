@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
-import '@navikt/ds-css';
 
-import { useBehandling } from '../../../../../context/BehandlingContext';
+import '@navikt/ds-css';
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
@@ -26,51 +25,46 @@ const Grid = styled.div`
 
 export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLæremidler }> = ({
     beregningsresultat,
-}) => {
-    const { behandling } = useBehandling();
-    return (
-        <>
-            <Container>
-                <Grid>
-                    <Label>Fom</Label>
-                    <Label>Tom</Label>
-                    <Label>Ant. måneder</Label>
-                    <Label>Studienivå</Label>
-                    <Label>Prosent</Label>
-                    <Label>Månedsbeløp</Label>
-                    <Label>Stønadsbeløp</Label>
-                    <div />
-                    {beregningsresultat.perioder.map((periode, indeks) => (
-                        <React.Fragment key={indeks}>
-                            <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
-                            <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
-                            <BodyShort size="small">{periode.antallMåneder}</BodyShort>
-                            <BodyShort size="small">
-                                {studienivåTilTekst[periode.studienivå]}
-                            </BodyShort>
-                            <BodyShort size="small">{periode.studieprosent}%</BodyShort>
-                            <BodyShort size="small">
-                                {formaterTallMedTusenSkille(periode.stønadsbeløpPerMåned)} kr
-                            </BodyShort>
-                            <BodyShort size="small">
-                                {formaterTallMedTusenSkille(periode.stønadsbeløpForPeriode)} kr
-                            </BodyShort>
-                            <div>
-                                {periode.delAvTidligereUtbetaling && (
-                                    <Alert variant="info" size={'small'} inline>
-                                        Treffer allerede utbetalt mnd
-                                    </Alert>
-                                )}
-                            </div>
-                        </React.Fragment>
-                    ))}
-                </Grid>
-            </Container>
-            {!behandling.revurderFra && beregningsresultat.tidligsteEndring && (
-                <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
-            )}
-        </>
-    );
-};
+}) => (
+    <>
+        <Container>
+            <Grid>
+                <Label>Fom</Label>
+                <Label>Tom</Label>
+                <Label>Ant. måneder</Label>
+                <Label>Studienivå</Label>
+                <Label>Prosent</Label>
+                <Label>Månedsbeløp</Label>
+                <Label>Stønadsbeløp</Label>
+                <div />
+                {beregningsresultat.perioder.map((periode, indeks) => (
+                    <React.Fragment key={indeks}>
+                        <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
+                        <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
+                        <BodyShort size="small">{periode.antallMåneder}</BodyShort>
+                        <BodyShort size="small">{studienivåTilTekst[periode.studienivå]}</BodyShort>
+                        <BodyShort size="small">{periode.studieprosent}%</BodyShort>
+                        <BodyShort size="small">
+                            {formaterTallMedTusenSkille(periode.stønadsbeløpPerMåned)} kr
+                        </BodyShort>
+                        <BodyShort size="small">
+                            {formaterTallMedTusenSkille(periode.stønadsbeløpForPeriode)} kr
+                        </BodyShort>
+                        <div>
+                            {periode.delAvTidligereUtbetaling && (
+                                <Alert variant="info" size={'small'} inline>
+                                    Treffer allerede utbetalt mnd
+                                </Alert>
+                            )}
+                        </div>
+                    </React.Fragment>
+                ))}
+            </Grid>
+        </Container>
+        {beregningsresultat.tidligsteEndring && (
+            <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
+        )}
+    </>
+);
 
 export default Beregningsresultat;

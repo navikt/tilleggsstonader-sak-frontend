@@ -35,8 +35,7 @@ const hjelpetekstUtstyrsstipend = (
 export const HarBrukerRettTilUtstyrsstipend: React.FC<{
     aktivitetForm: EndreAktivitetFormLæremidler;
     oppdaterSvar: (nyttSvar: SvarJaNei) => void;
-    readOnly: boolean;
-}> = ({ aktivitetForm, oppdaterSvar, readOnly }) => {
+}> = ({ aktivitetForm, oppdaterSvar }) => {
     if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
 
     if (aktivitetForm.studienivå !== Studienivå.VIDEREGÅENDE) {
@@ -46,7 +45,6 @@ export const HarBrukerRettTilUtstyrsstipend: React.FC<{
     return (
         <JaNeiVurdering
             label="Har bruker rett til utsstyrsstipend?"
-            readOnly={readOnly}
             svar={aktivitetForm.vurderinger.svarHarRettTilUtstyrsstipend}
             oppdaterSvar={oppdaterSvar}
             hjelpetekst={hjelpetekstUtstyrsstipend}

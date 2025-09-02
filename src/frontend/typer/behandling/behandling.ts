@@ -23,7 +23,6 @@ export interface Behandling {
     henlagtÅrsak?: HenlagtÅrsak;
     stønadstype: Stønadstype;
     vedtaksdato?: string;
-    revurderFra?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
     tilordnetSaksbehandler?: TilordnetSaksbehandlerDto;
 }

@@ -22,7 +22,7 @@ export const useBehandlingOppsummering = (): Response => {
         request<BehandlingOppsummering, null>(
             `/api/sak/behandlingsoppsummering/${behandling.id}`
         ).then(settBehandlingOppsummering);
-    }, [request, behandling.id, behandling.steg, behandling.revurderFra]);
+    }, [request, behandling.id, behandling.steg]);
 
     return {
         behandlingOppsummering,

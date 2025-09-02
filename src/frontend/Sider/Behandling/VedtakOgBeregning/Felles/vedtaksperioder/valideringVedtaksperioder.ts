@@ -3,9 +3,7 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
-    vedtaksperioder: Vedtaksperiode[],
-    lagredeVedstaksperioder: Map<string, Vedtaksperiode>,
-    revurderesFraDato?: string
+    vedtaksperioder: Vedtaksperiode[]
 ): FormErrors<Vedtaksperiode[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
         const feil: FormErrors<Vedtaksperiode> = {
@@ -24,9 +22,7 @@ export const validerVedtaksperioder = (
             return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
         }
 
-        const lagretPeriode = lagredeVedstaksperioder.get(vedtaksperiode.id);
-
-        const periodeValidering = validerPeriode(vedtaksperiode, lagretPeriode, revurderesFraDato);
+        const periodeValidering = validerPeriode(vedtaksperiode);
         if (periodeValidering) {
             return {
                 ...feil,

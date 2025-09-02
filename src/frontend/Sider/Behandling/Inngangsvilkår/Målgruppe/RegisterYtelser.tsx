@@ -95,7 +95,7 @@ function Hjelpetekst({
                     <BodyShort spacing>
                         Datoet som brukes i en førstegangsbehandling er mottatt tidspunkt minus X
                         måneder (3 for tilsyn barn, 6 for læremidler). I en revurdering hentes
-                        grunnlag fra og med revurder-fra datoet.
+                        grunnlag fra og med første daot i forrgie vedtak.
                     </BodyShort>
                     <BodyShort spacing>
                         I en førstegangsbehandling kan man overstyre datoet man henter grunnlaget

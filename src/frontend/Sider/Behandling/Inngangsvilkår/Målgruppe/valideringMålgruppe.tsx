@@ -14,8 +14,7 @@ export interface MålgruppeValidering extends Periode {
 export const validerMålgruppe = (
     endretMålgruppe: EndreMålgruppeForm,
     lagretMålgruppe: Målgruppe | undefined,
-    lagredeMålgrupper: Målgruppe[],
-    revurderesFraDato?: string
+    lagredeMålgrupper: Målgruppe[]
 ): FormErrors<MålgruppeValidering> => {
     const feil: FormErrors<MålgruppeValidering> = {
         fom: undefined,
@@ -28,7 +27,7 @@ export const validerMålgruppe = (
         return { ...feil, type: 'Må velges' };
     }
 
-    const periodeValidering = validerPeriode(endretMålgruppe, lagretMålgruppe, revurderesFraDato);
+    const periodeValidering = validerPeriode(endretMålgruppe);
 
     if (periodeValidering) {
         return {

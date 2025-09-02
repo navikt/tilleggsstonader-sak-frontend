@@ -27,7 +27,6 @@ export const VedtakOppsummering: React.FC<{ vedtak: OppsummertVedtak | undefined
         case TypeVedtak.AVSLAG:
             return <OppsummeringAvslag årsaker={vedtak.årsaker} />;
         case TypeVedtak.OPPHØR:
-            // vedtak.opphørsdato er revurderFra fra api om opphørsdato ikke er satt
             return <OppsummeringOpphør årsaker={vedtak.årsaker} opphørsdato={vedtak.opphørsdato} />;
     }
 };

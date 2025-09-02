@@ -82,11 +82,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(
-            vedtaksperioder,
-            lagredeVedtaksperioder,
-            behandling.revurderFra
-        );
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
@@ -154,6 +150,8 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
+                //TODO legg til når vi begynner med revurdering for daglig resise
+                tidligsteEndring={undefined}
             />
         </>
     );
