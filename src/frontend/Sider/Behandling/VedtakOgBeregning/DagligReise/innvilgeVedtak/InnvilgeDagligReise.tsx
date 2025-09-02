@@ -12,16 +12,15 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { RegelverkKontekstmeny } from '../../../../../komponenter/VilkårPanel/RegelverkKontekstmeny';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
-    BeregnBarnetilsynRequest,
-    BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequest,
-    InnvilgelseBarnetilsyn,
-} from '../../../../../typer/vedtak/vedtakTilsynBarn';
-import { lenkerForskriftBeregningTilsynBarn } from '../../../lenker';
+    BeregnDagligReiseRequest,
+    BeregningsresultatDagligReise,
+    InnvilgelseDagligReise,
+    InnvilgelseDagligReiseRequest,
+} from '../../../../../typer/vedtak/vedtakDagligReise';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarselOmVedtakIArena } from '../../Felles/StegKnappInnvilgelseMedVarselOmVedtakIArena';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
@@ -29,11 +28,11 @@ import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
-    lagretVedtak?: InnvilgelseBarnetilsyn;
+    lagretVedtak?: InnvilgelseDagligReise;
     vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({
+export const InnvilgeDagligReise: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
@@ -55,7 +54,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
+        useState(byggTomRessurs<BeregningsresultatDagligReise>());
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
@@ -68,10 +67,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgeBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
+            return request<null, InnvilgelseDagligReiseRequest>(
+                `/api/sak/vedtak/daglig-reise/${behandling.id}/innvilgelse`,
                 'POST',
                 {
+                    type: TypeVedtak.INNVILGELSE,
                     vedtaksperioder: vedtaksperioder,
                     begrunnelse: begrunnelse,
                 }
@@ -82,13 +82,17 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            lagredeVedtaksperioder,
+            behandling.revurderFra
+        );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
     };
 
-    const beregnBarnetilsyn = () => {
+    const beregnDagligReiseOffentligTransport = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
         settForeslåPeriodeFeil(undefined);
 
@@ -96,8 +100,8 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
-                `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
+            request<BeregningsresultatDagligReise, BeregnDagligReiseRequest>(
+                `/api/sak/vedtak/daglig-reise/${behandling.id}/beregn`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
@@ -111,12 +115,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     return (
         <>
-            <Panel
-                tittel="Beregning"
-                kontekstmeny={
-                    <RegelverkKontekstmeny forskriftlenker={lenkerForskriftBeregningTilsynBarn} />
-                }
-            >
+            <Panel tittel="Beregning og vedtaksperiode">
                 <VStack gap={'8'}>
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
@@ -133,7 +132,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                         oppdaterBegrunnelse={settBegrunnelse}
                     />
                     {erStegRedigerbart && (
-                        <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
+                        <SmallButton onClick={beregnDagligReiseOffentligTransport}>
+                            Beregn
+                        </SmallButton>
                     )}
                     {erStegRedigerbart && (
                         <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
@@ -150,15 +151,9 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
-
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
-                tidligsteEndring={
-                    beregningsresultat.status === RessursStatus.SUKSESS
-                        ? beregningsresultat.data.tidligsteEndring
-                        : undefined
-                }
             />
         </>
     );

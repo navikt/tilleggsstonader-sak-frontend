@@ -212,7 +212,3 @@ export const mapFaktaOgSvarTilRequest = (
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
     return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (Ferdig avklart)' : ''}`;
 };
-
-export const kanRegisterYtelseBrukes = (ytelse: YtelseGrunnlagPeriode): boolean => {
-    return ytelse.subtype !== SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART;
-};

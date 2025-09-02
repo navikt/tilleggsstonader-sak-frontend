@@ -79,9 +79,10 @@ export type BeregningsresultatUtgifter = {
     tilUtbetaling: number;
     //TODO avklar med Andreas at denne blir med fra backend
     erFørTidligsteEndring: boolean;
+    skalFåDekketFaktiskeUtgifter: boolean;
 };
 
-type Beregningsresultat = {
+export type Beregningsresultat = {
     fom: string;
     tom: string;
     stønadsbeløp: number;
@@ -89,4 +90,6 @@ type Beregningsresultat = {
     utgifter: BeregningsresultatUtgifter[];
     makssatsBekreftet: boolean;
     delAvTidligereUtbetaling: boolean;
+    skalFåDekketFaktiskeUtgifter: boolean;
+    inneholderUtgifterOvernatting: boolean;
 };

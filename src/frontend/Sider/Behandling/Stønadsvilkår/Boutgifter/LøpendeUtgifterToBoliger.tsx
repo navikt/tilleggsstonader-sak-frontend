@@ -21,13 +21,7 @@ const LøpendeUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
     );
 
     return (
-        <VilkårPanel
-            tittel={'Løpende utgifter to boliger'}
-            ikon={<HouseHeartIcon />}
-            paragraflenker={[]}
-            rundskrivlenke={[]}
-            forskriftlenker={[]}
-        >
+        <VilkårPanel tittel={'Løpende utgifter to boliger'} ikon={<HouseHeartIcon />}>
             {vilkårsett.map((vilkår) => (
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}

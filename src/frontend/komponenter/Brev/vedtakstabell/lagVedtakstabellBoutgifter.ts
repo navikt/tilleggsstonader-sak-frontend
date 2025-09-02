@@ -1,4 +1,7 @@
-import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
+import {
+    Beregningsresultat,
+    BeregningsresultatBoutgifter,
+} from '../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { Periode } from '../../../utils/periode';
@@ -18,58 +21,51 @@ export const lagVedtakstabellBoutgifter = (
                     </tr>
                 </thead>
                 <tbody>
-               ${
-                   beregningsresultat?.inneholderUtgifterOvernatting
-                       ? lagRaderForVedtakMidlertidigOvernatting(beregningsresultat)
-                       : lagRaderForVedtakLøpendeUtgifter(beregningsresultat)
-               }
+               ${lagRader(beregningsresultat)}
                 </tbody>
             </table>
             ${lagTekstForBegrensetAvMakssats(beregningsresultat)}
             `;
 };
 
-const lagRaderForVedtakMidlertidigOvernatting = (
-    beregningsresultat?: BeregningsresultatBoutgifter
-): string => {
-    if (!beregningsresultat) {
+const lagRader = (beregningsresultat?: BeregningsresultatBoutgifter): string => {
+    if (beregningsresultat == null) {
         return '';
     }
     return beregningsresultat.perioder
         .map((periode) =>
-            periode.utgifter
-                .filter((utgift) => !utgift.erFørTidligsteEndring)
-                .map((utgift) =>
-                    lagRadForVedtak(
-                        { fom: utgift.fom, tom: utgift.tom },
-                        utgift.utgift,
-                        utgift.tilUtbetaling,
-                        periode.makssatsBekreftet,
-                        utgift.utgift > utgift.tilUtbetaling
-                    )
-                )
-                .join('')
+            periode.inneholderUtgifterOvernatting
+                ? lagRaderForVedtakMidlertidigOvernatting(periode)
+                : lagRaderForVedtakLøpendeUtgifter(periode)
         )
         .join('');
 };
 
-const lagRaderForVedtakLøpendeUtgifter = (
-    beregningsresultat?: BeregningsresultatBoutgifter
-): string => {
-    if (!beregningsresultat) {
-        return '';
-    }
-    return beregningsresultat.perioder
-        .map((periode) =>
+const lagRaderForVedtakMidlertidigOvernatting = (periode: Beregningsresultat): string => {
+    return periode.utgifter
+        .filter((utgift) => !utgift.erFørTidligsteEndring)
+        .map((utgift) =>
             lagRadForVedtak(
-                periode,
-                periode.sumUtgifter,
-                periode.stønadsbeløp,
+                { fom: utgift.fom, tom: utgift.tom },
+                utgift.utgift,
+                utgift.tilUtbetaling,
                 periode.makssatsBekreftet,
-                false
+                utgift.utgift > utgift.tilUtbetaling,
+                utgift.skalFåDekketFaktiskeUtgifter
             )
         )
         .join('');
+};
+
+const lagRaderForVedtakLøpendeUtgifter = (periode: Beregningsresultat): string => {
+    return lagRadForVedtak(
+        periode,
+        periode.sumUtgifter,
+        periode.stønadsbeløp,
+        periode.makssatsBekreftet,
+        false,
+        periode.skalFåDekketFaktiskeUtgifter
+    );
 };
 
 const lagRadForVedtak = (
@@ -77,14 +73,15 @@ const lagRadForVedtak = (
     merutgift: number,
     stønadsbeløp: number,
     makssatsBekreftet: boolean,
-    begrensetAvMakssats: boolean
+    begrensetAvMakssats: boolean,
+    skalFåDekketFaktiskeUtgifter: boolean
 ) => {
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     const merutgiftString = formaterTallMedTusenSkille(merutgift);
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
-    const asteriksForSatsendring = makssatsBekreftet ? '' : '*';
-    const asteriksForBegrensetAvMakssats = begrensetAvMakssats ? '*' : '';
-
+    const asteriksForSatsendring = !skalFåDekketFaktiskeUtgifter && !makssatsBekreftet ? '*' : '';
+    const asteriksForBegrensetAvMakssats =
+        !skalFåDekketFaktiskeUtgifter && begrensetAvMakssats ? '*' : '';
     return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
@@ -100,7 +97,8 @@ const lagTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatB
         : '';
 
 const skalHaTekstForBegrensetAvMakssats = (beregningsresultat?: BeregningsresultatBoutgifter) =>
-    beregningsresultat?.inneholderUtgifterOvernatting &&
-    beregningsresultat.perioder.some((periode) =>
-        periode.utgifter.some((utgift) => utgift.tilUtbetaling < utgift.utgift)
+    beregningsresultat?.perioder.some(
+        (periode) =>
+            periode.inneholderUtgifterOvernatting &&
+            periode.utgifter.some((utgift) => utgift.tilUtbetaling < utgift.utgift)
     );

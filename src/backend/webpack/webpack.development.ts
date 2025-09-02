@@ -1,14 +1,14 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import webpack from 'webpack';
+import webpack, { Configuration } from 'webpack';
 
 import { miljø } from '../miljø';
 
 const publicPath = process.env.PUBLIC_URL || '/';
 
 const developmentConfig = {
-    mode: 'development',
+    mode: 'development' as const,
     entry: {
         sakFrontend: [
             'webpack-hot-middleware/client?reload=true&overlay=false',
@@ -92,6 +92,6 @@ const developmentConfig = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
-};
+} satisfies Configuration;
 
 export default developmentConfig;

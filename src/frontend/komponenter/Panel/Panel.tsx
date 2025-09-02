@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { styled } from 'styled-components';
 
-import { Heading, HStack } from '@navikt/ds-react';
+import { Heading, HStack, Spacer } from '@navikt/ds-react';
 import { ABlue100, ABlue50 } from '@navikt/ds-tokens/dist/tokens';
 
 const Container = styled.div`
@@ -29,9 +29,10 @@ interface Props {
     ikon?: React.ReactNode;
     ekstraHeading?: React.ReactNode;
     children: React.ReactNode;
+    kontekstmeny?: React.ReactNode;
 }
 
-const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
+const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny }) => {
     return (
         <Container>
             <Header>
@@ -40,6 +41,8 @@ const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children }) => {
                     <Heading size="small">{tittel}</Heading>
                 </HStack>
                 {ekstraHeading}
+                <Spacer />
+                {kontekstmeny}
             </Header>
             <Innhold>{children}</Innhold>
         </Container>

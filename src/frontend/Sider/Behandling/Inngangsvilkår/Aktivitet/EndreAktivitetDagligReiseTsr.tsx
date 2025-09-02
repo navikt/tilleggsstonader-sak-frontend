@@ -24,6 +24,8 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
@@ -73,6 +75,11 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<AktivitetValidering>>();
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: aktivitet,
+            ny: form,
+        });
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerAktivitet(form);
@@ -86,37 +93,41 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
-
-        const kanSendeInn = validerForm();
-
-        if (kanSendeInn) {
-            settLaster(true);
-
-            const response = lagreVilkårperiode<Aktivitet>(
-                behandling.id,
-                form,
-                mapFaktaOgSvarTilRequest(),
-                aktivitet?.id
-            );
-
-            return response
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        if (nyRadLeggesTil) {
-                            leggTilAktivitet(res.data.periode);
-                        } else {
-                            oppdaterAktivitet(res.data.periode);
-                        }
-
-                        avbrytRedigering();
-                    } else {
-                        settFeilmelding(
-                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
-                        );
-                    }
-                })
-                .finally(() => settLaster(false));
+        if (!validerForm()) {
+            return;
         }
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        bekreftLagre();
+    };
+
+    const bekreftLagre = () => {
+        settLaster(true);
+
+        const response = lagreVilkårperiode<Aktivitet>(
+            behandling.id,
+            form,
+            mapFaktaOgSvarTilRequest(),
+            aktivitet?.id
+        );
+
+        return response
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    if (nyRadLeggesTil) {
+                        leggTilAktivitet(res.data.periode);
+                    } else {
+                        oppdaterAktivitet(res.data.periode);
+                    }
+
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Feilet legg til periode'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const oppdaterForm = (key: keyof AktivitetDagligReiseTsr, nyVerdi: string) => {
@@ -171,6 +182,12 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
             </HStack>
 
             <Feilmelding feil={feilmelding} />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
         </VilkårperiodeKortBase>
     );
 };

@@ -40,3 +40,7 @@ export interface HentBehandlingerRequest {
     ident: string;
     stønadstype: Stønadstype;
 }
+
+export interface SluttdatoForForrigeVedtak {
+    sluttdato?: string;
+}

@@ -31,6 +31,8 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetLæremidler,
@@ -92,6 +94,11 @@ export const EndreAktivitetLæremidler: React.FC<{
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [vilkårsperiodeFeil, settVilkårsperiodeFeil] =
         useState<FormErrors<AktivitetValidering>>();
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: aktivitet,
+            ny: form,
+        });
 
     const validerForm = (): boolean => {
         const vilkårsperiodeFeil = validerAktivitet(form);
@@ -105,37 +112,41 @@ export const EndreAktivitetLæremidler: React.FC<{
     const lagre = () => {
         if (laster) return;
         settFeilmelding(undefined);
-
-        const kanSendeInn = validerForm();
-
-        if (kanSendeInn) {
-            settLaster(true);
-
-            const response = lagreVilkårperiode<Aktivitet>(
-                behandling.id,
-                form,
-                mapFaktaOgSvarTilRequest(form),
-                aktivitet?.id
-            );
-
-            return response
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        if (nyRadLeggesTil) {
-                            leggTilAktivitet(res.data.periode);
-                        } else {
-                            oppdaterAktivitet(res.data.periode);
-                        }
-
-                        avbrytRedigering();
-                    } else {
-                        settFeilmelding(
-                            feiletRessursTilFeilmelding(res, 'Feilet legg til periode')
-                        );
-                    }
-                })
-                .finally(() => settLaster(false));
+        if (!validerForm()) {
+            return;
         }
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+        bekreftLagre();
+    };
+
+    const bekreftLagre = () => {
+        settLaster(true);
+
+        const response = lagreVilkårperiode<Aktivitet>(
+            behandling.id,
+            form,
+            mapFaktaOgSvarTilRequest(form),
+            aktivitet?.id
+        );
+
+        return response
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    if (nyRadLeggesTil) {
+                        leggTilAktivitet(res.data.periode);
+                    } else {
+                        oppdaterAktivitet(res.data.periode);
+                    }
+
+                    avbrytRedigering();
+                } else {
+                    settFeilmelding(feiletRessursTilFeilmelding(res, 'Feilet legg til periode'));
+                }
+            })
+            .finally(() => settLaster(false));
     };
 
     const oppdaterForm = (
@@ -247,6 +258,12 @@ export const EndreAktivitetLæremidler: React.FC<{
             </HStack>
 
             <Feilmelding feil={feilmelding} />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
         </VilkårperiodeKortBase>
     );
 };
