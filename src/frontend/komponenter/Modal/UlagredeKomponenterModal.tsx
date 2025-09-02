@@ -66,6 +66,7 @@ const UlagredeKomponenterModal: FC = () => {
                     tittel={
                         'Du har ikke lagret dine siste endringer og vil miste disse om du forlater siden'
                     }
+                    umamiId={'ulagrede-endringer'}
                     visModal={isActive}
                     onClose={onCancel}
                     aksjonsknapper={{

@@ -121,6 +121,7 @@ const SlettVilkårperiode: React.FC<{
                         ? 'Er du sikker på at du vil slette perioden?'
                         : 'Slett periode'
                 }
+                umamiId={'slett-vilkårperiode'}
                 aksjonsknapper={{
                     hovedKnapp: {
                         onClick: slettVilkårsperiode,

@@ -28,6 +28,7 @@ const Totrinnskontroll: FC = () => {
             </DataViewer>
             <ModalWrapper
                 tittel={'Vedtaket er godkjent'}
+                umamiId={'vedtaket-er-godkjent'}
                 visModal={visGodkjentModal}
                 onClose={() => settVisGodkjentModal(false)}
                 aksjonsknapper={{

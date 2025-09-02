@@ -22,6 +22,7 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
         <ModalWrapper
             visModal={visBekreftModal}
             tittel={'Endring av periode som kanskje påvirker tidligere vedtak'}
+            umamiId={'bekreft-endring-av-tidligere-periode'}
             onClose={() => settVisBekreftModal(false)}
             aksjonsknapper={{
                 hovedKnapp: {
@@ -33,7 +34,9 @@ export const BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal = ({
                     spinner: laster,
                 },
                 lukkKnapp: {
-                    onClick: () => settVisBekreftModal(false),
+                    onClick: () => {
+                        settVisBekreftModal(false);
+                    },
                     tekst: 'Avbryt',
                     disabled: false,
                     spinner: false,

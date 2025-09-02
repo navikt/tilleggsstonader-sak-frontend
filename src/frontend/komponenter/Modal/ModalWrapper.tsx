@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { Button, Modal } from '@navikt/ds-react';
 
+import { sendHendelseTilUmami, UmamiHendelse } from '../../utils/umami/umami';
+
 const ModalContainer = styled(Modal)<{ $maxWidth?: number }>`
     min-width: 30rem;
     max-width: ${(props) => (props.$maxWidth ? `${props.$maxWidth}rem` : '40rem')};
@@ -21,6 +23,7 @@ interface ModalProps {
     maxWidth?: number;
     ariaLabel?: string;
     children?: React.ReactNode;
+    umamiId: string;
 }
 
 interface Aksjonsknapp {
@@ -37,8 +40,25 @@ export const ModalWrapper: React.FC<ModalProps> = ({
     aksjonsknapper,
     maxWidth,
     ariaLabel,
+    umamiId,
     children,
 }) => {
+    const umamiData = {
+        modalId: umamiId,
+        tittel: tittel,
+    };
+
+    const sendModalÅpnetTilUmami = () => {
+        sendHendelseTilUmami(UmamiHendelse.MODAL_ÅPNET, umamiData);
+    };
+
+    const sendModalLukketTilUmami = (lukkMetode: 'hovedKnapp' | 'sekundærKnapp' | 'lukkKnapp') => {
+        sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, { ...umamiData, lukkMetode: lukkMetode });
+    };
+
+    if (visModal) {
+        sendModalÅpnetTilUmami();
+    }
     return (
         visModal && (
             <ModalContainer
@@ -54,7 +74,10 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         <Button
                             variant="primary"
                             type={'button'} // For å unngå at man trigger submit i skjema
-                            onClick={aksjonsknapper.hovedKnapp.onClick}
+                            onClick={() => {
+                                sendModalLukketTilUmami('hovedKnapp');
+                                aksjonsknapper.hovedKnapp.onClick();
+                            }}
                             disabled={aksjonsknapper.hovedKnapp.disabled}
                             loading={aksjonsknapper.hovedKnapp.spinner}
                             size="small"
@@ -64,7 +87,10 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         {aksjonsknapper.sekundærKnapp && (
                             <Button
                                 variant="secondary"
-                                onClick={aksjonsknapper.sekundærKnapp.onClick}
+                                onClick={() => {
+                                    sendModalLukketTilUmami('sekundærKnapp');
+                                    aksjonsknapper.sekundærKnapp?.onClick();
+                                }}
                                 disabled={aksjonsknapper.sekundærKnapp.disabled}
                                 loading={aksjonsknapper.sekundærKnapp.spinner}
                                 size="small"
@@ -74,7 +100,10 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         )}
                         <Button
                             variant="tertiary"
-                            onClick={aksjonsknapper.lukkKnapp.onClick}
+                            onClick={() => {
+                                sendModalLukketTilUmami('lukkKnapp');
+                                aksjonsknapper.lukkKnapp?.onClick();
+                            }}
                             disabled={aksjonsknapper.lukkKnapp.disabled}
                             loading={aksjonsknapper.lukkKnapp.spinner}
                             size="small"
