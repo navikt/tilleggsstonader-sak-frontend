@@ -49,6 +49,7 @@ export type OpphørDagligReise = OpphørRequest & {
 
 export interface BeregningsresultatDagligReise {
     reiser: BeregningsresultatForReise[];
+    tidligsteEndring: string | undefined;
 }
 
 interface BeregningsresultatForReise {
