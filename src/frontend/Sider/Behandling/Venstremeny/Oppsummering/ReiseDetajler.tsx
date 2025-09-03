@@ -93,9 +93,9 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                     if (pris == null) return null;
 
                                     return (
-                                        <div key={type}>
+                                        <BodyShort size="small" key={type}>
                                             {BillettTypeTilTekst[type]}: {pris} kroner
-                                        </div>
+                                        </BodyShort>
                                     );
                                 }
                             )}
