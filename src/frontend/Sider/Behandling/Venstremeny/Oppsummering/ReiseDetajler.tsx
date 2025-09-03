@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GlobeIcon } from '@navikt/aksel-icons';
+import { EarthIcon } from '@navikt/aksel-icons';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
@@ -16,7 +16,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
         <div>
             {reiser.map((reise, index) => {
                 return (
-                    <InfoSeksjon key={index} label={'Reiser'} ikon={<GlobeIcon />}>
+                    <InfoSeksjon key={index} label={'Reiser'} ikon={<EarthIcon />}>
                         {reise.reiseAdresse && (
                             <BodyShort size="small">
                                 <VStack>
@@ -71,36 +71,35 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                 </VStack>
                             </BodyShort>
                         )}
-                        {reise.offentligTransport &&
-                            reise.kanReiseMedOffentligTransport === 'JA' && (
-                                <BodyShort size="small">
-                                    <VStack>
-                                        <Label size="small">
-                                            Hva slags type billett må du kjøpe for å reise til
-                                            aktiviteten din?
-                                        </Label>
 
-                                        {Object.entries({
-                                            [BillettType.ENKELTBILLETT]:
-                                                reise.offentligTransport.enkeltbillettPris,
-                                            [BillettType.SYVDAGERSBILLETT]:
-                                                reise.offentligTransport.syvdagersbillettPris,
-                                            [BillettType.MÅNEDSKORT]:
-                                                reise.offentligTransport.månedskortPris,
-                                        }).map(([type, pris]) =>
-                                            pris != null &&
-                                            reise.offentligTransport!.billettTyperValgt?.includes(
-                                                type as BillettType
-                                            ) ? (
-                                                <div key={type}>
-                                                    {BillettTypeTilTekst[type as BillettType]}:{' '}
-                                                    {pris} kroner
-                                                </div>
-                                            ) : null
-                                        )}
-                                    </VStack>
-                                </BodyShort>
+                        <VStack>
+                            <Label size="small">
+                                Hva slags type billett må du kjøpe for å reise til aktiviteten din?
+                            </Label>
+
+                            {reise.offentligTransport?.billettTyperValgt?.map(
+                                (type: BillettType) => {
+                                    const prisMap: Record<BillettType, number | undefined> = {
+                                        [BillettType.ENKELTBILLETT]:
+                                            reise.offentligTransport!.enkeltbillettPris,
+                                        [BillettType.SYVDAGERSBILLETT]:
+                                            reise.offentligTransport!.syvdagersbillettPris,
+                                        [BillettType.MÅNEDSKORT]:
+                                            reise.offentligTransport!.månedskortPris,
+                                    };
+
+                                    const pris = prisMap[type];
+
+                                    if (pris == null) return null;
+
+                                    return (
+                                        <div key={type}>
+                                            {BillettTypeTilTekst[type]}: {pris} kroner
+                                        </div>
+                                    );
+                                }
                             )}
+                        </VStack>
                     </InfoSeksjon>
                 );
             })}

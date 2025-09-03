@@ -16,7 +16,7 @@ export interface ReiseAdresse {
     poststed: string;
 }
 export interface OffentligTransport {
-    billettTyperValgt: BillettType;
+    billettTyperValgt: BillettType[];
     enkeltbillettPris: number;
     syvdagersbillettPris: number;
     månedskortPris: number;

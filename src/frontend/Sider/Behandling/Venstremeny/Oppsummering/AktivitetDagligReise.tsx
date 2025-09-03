@@ -13,21 +13,23 @@ const AktivitetDagligReise: React.FC<{ aktiviteter: FaktaAktivitetDagligReise }>
 
     return (
         <div>
-            <VStack>
+            <VStack gap="2">
                 {aktiviteter && (
                     <VStack>
                         <Aktivitet aktivitet={aktiviteter.aktivitet}></Aktivitet>
                     </VStack>
                 )}
+
+                {reiseperiode && (
+                    <VStack>
+                        <Label size={'small'}>Periode du må reise til aktivitet stedet</Label>
+                        <BodyShort size="small">
+                            {formaterIsoDato(reiseperiode.fom)} -{' '}
+                            {formaterIsoDato(reiseperiode.tom)}
+                        </BodyShort>
+                    </VStack>
+                )}
             </VStack>
-            {reiseperiode && (
-                <VStack>
-                    <Label size={'small'}>Periode du må reise til aktivitet stedet</Label>
-                    <BodyShort size="small">
-                        {formaterIsoDato(reiseperiode.fom)} - {formaterIsoDato(reiseperiode.tom)}
-                    </BodyShort>
-                </VStack>
-            )}
         </div>
     );
 };
