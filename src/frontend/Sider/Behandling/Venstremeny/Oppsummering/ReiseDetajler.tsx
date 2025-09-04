@@ -18,51 +18,51 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                 return (
                     <InfoSeksjon key={index} label={'Reiser'} ikon={<EarthIcon />}>
                         {reise.reiseAdresse && (
-                            <BodyShort size="small">
-                                <VStack>
+                            <VStack>
+                                <BodyShort size="small">
                                     <Label size={'small'}>Adressen til aktiviteten</Label>
                                     {reise.reiseAdresse.gateadresse}
                                     {reise.reiseAdresse.postnummer} {reise.reiseAdresse.poststed}
-                                </VStack>
-                            </BodyShort>
+                                </BodyShort>
+                            </VStack>
                         )}
                         {reise.dagerPerUke && (
-                            <BodyShort size="small">
-                                <VStack>
+                            <VStack>
+                                <BodyShort size="small">
                                     <Label size={'small'}>Antall reisedager i uken</Label>
                                     {reise.dagerPerUke.id}
-                                </VStack>
-                            </BodyShort>
+                                </BodyShort>
+                            </VStack>
                         )}
                         {reise.harBehovForTransportUavhengigAvReisensLengde && (
-                            <BodyShort size="small">
-                                <VStack>
+                            <VStack>
+                                <BodyShort size="small">
                                     <Label size={'small'}>Avstand over 6 km?</Label>
                                     {
                                         jaNeiTilTekst[
                                             reise.harBehovForTransportUavhengigAvReisensLengde
                                         ]
                                     }
-                                </VStack>
-                            </BodyShort>
+                                </BodyShort>
+                            </VStack>
                         )}
                         {reise.lengdeReisevei && (
-                            <BodyShort size="small">
-                                <VStack>
+                            <VStack>
+                                <BodyShort size="small">
                                     <Label size={'small'}>Hvor lang er reiseveien din?</Label>
                                     {reise.lengdeReisevei}
-                                </VStack>
-                            </BodyShort>
+                                </BodyShort>
+                            </VStack>
                         )}
                         {reise.kanReiseMedOffentligTransport && (
-                            <BodyShort size="small">
-                                <VStack>
+                            <VStack>
+                                <BodyShort size="small">
                                     <Label size={'small'}>
                                         Kan du reise med offentlig transport?
                                     </Label>
                                     {jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
-                                </VStack>
-                            </BodyShort>
+                                </BodyShort>
+                            </VStack>
                         )}
 
                         <VStack>
@@ -72,11 +72,11 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                 (type: BillettType) => {
                                     const prisMap: Record<BillettType, number | undefined> = {
                                         [BillettType.ENKELTBILLETT]:
-                                            reise.offentligTransport!.enkeltbillettPris,
+                                            reise.offentligTransport?.enkeltbillettPris,
                                         [BillettType.SYVDAGERSBILLETT]:
-                                            reise.offentligTransport!.syvdagersbillettPris,
+                                            reise.offentligTransport?.syvdagersbillettPris,
                                         [BillettType.MÅNEDSKORT]:
-                                            reise.offentligTransport!.månedskortPris,
+                                            reise.offentligTransport?.månedskortPris,
                                     };
 
                                     const pris = prisMap[type];
