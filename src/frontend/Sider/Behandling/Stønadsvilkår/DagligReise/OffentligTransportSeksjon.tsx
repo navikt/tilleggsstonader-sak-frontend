@@ -30,6 +30,9 @@ export const OffentligTransportSeksjon = ({
     const [enkeltbillett, settEnkeltbillett] = useState<number | undefined>(
         redigerbareVilkårfelter.offentligTransport?.prisEnkelbillett
     );
+    const [syvdagersbilett, settSyvdagersbillett] = useState<number | undefined>(
+        redigerbareVilkårfelter.offentligTransport?.prisSyvdagersbillett
+    );
     const [trettidagersbillett, setttrettidagersbillett] = useState<number | undefined>(
         redigerbareVilkårfelter.offentligTransport?.prisTrettidagersbillett
     );
@@ -43,10 +46,17 @@ export const OffentligTransportSeksjon = ({
             settOffentligTransport({
                 reisedagerPerUke: antallReisedager,
                 prisEnkelbillett: enkeltbillett,
+                prisSyvdagersbillett: syvdagersbilett,
                 prisTrettidagersbillett: trettidagersbillett,
             });
         }
-    }, [antallReisedager, enkeltbillett, trettidagersbillett, settOffentligTransport]);
+    }, [
+        antallReisedager,
+        enkeltbillett,
+        syvdagersbilett,
+        trettidagersbillett,
+        settOffentligTransport,
+    ]);
 
     const oppdaterAntallReisedager = (verdi: number | undefined) => {
         settAntallReisedager(verdi);
@@ -56,6 +66,12 @@ export const OffentligTransportSeksjon = ({
 
     const oppdaterEnkeltbilett = (verdi: number | undefined) => {
         settEnkeltbillett(verdi);
+        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
+        settDetFinnesUlagredeEndringer(true);
+    };
+
+    const oppdaterSyvdagersBilett = (verdi: number | undefined) => {
+        settSyvdagersbillett(verdi);
         settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
         settDetFinnesUlagredeEndringer(true);
     };
@@ -87,6 +103,16 @@ export const OffentligTransportSeksjon = ({
                         value={harTallverdi(enkeltbillett) ? enkeltbillett : ''}
                         onChange={(e) => {
                             oppdaterEnkeltbilett(tilHeltall(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Pris 7-dagersbillett'}
+                        size="small"
+                        value={harTallverdi(syvdagersbilett) ? syvdagersbilett : ''}
+                        onChange={(e) => {
+                            oppdaterSyvdagersBilett(tilHeltall(fjernSpaces(e.target.value)));
                         }}
                     />
                 </FeilmeldingMaksBredde>

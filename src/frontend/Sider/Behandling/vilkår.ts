@@ -71,6 +71,7 @@ export interface Vilkårsvurdering {
 export interface OffentligTransport {
     reisedagerPerUke: number;
     prisEnkelbillett: number;
+    prisSyvdagersbillett: number | undefined;
     prisTrettidagersbillett: number;
 }
 
