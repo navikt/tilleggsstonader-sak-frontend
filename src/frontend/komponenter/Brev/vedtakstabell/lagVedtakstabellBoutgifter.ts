@@ -49,7 +49,6 @@ const lagRaderForVedtakMidlertidigOvernatting = (periode: Beregningsresultat): s
                 { fom: utgift.fom, tom: utgift.tom },
                 utgift.utgift,
                 utgift.tilUtbetaling,
-                periode.makssatsBekreftet,
                 utgift.utgift > utgift.tilUtbetaling,
                 utgift.skalFåDekketFaktiskeUtgifter
             )
@@ -62,7 +61,6 @@ const lagRaderForVedtakLøpendeUtgifter = (periode: Beregningsresultat): string 
         periode,
         periode.sumUtgifter,
         periode.stønadsbeløp,
-        periode.makssatsBekreftet,
         false,
         periode.skalFåDekketFaktiskeUtgifter
     );
@@ -72,20 +70,18 @@ const lagRadForVedtak = (
     datoperiode: Periode,
     merutgift: number,
     stønadsbeløp: number,
-    makssatsBekreftet: boolean,
     begrensetAvMakssats: boolean,
     skalFåDekketFaktiskeUtgifter: boolean
 ) => {
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     const merutgiftString = formaterTallMedTusenSkille(merutgift);
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
-    const asteriksForSatsendring = !skalFåDekketFaktiskeUtgifter && !makssatsBekreftet ? '*' : '';
     const asteriksForBegrensetAvMakssats =
         !skalFåDekketFaktiskeUtgifter && begrensetAvMakssats ? '*' : '';
     return `<tr style="text-align: right;">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
-                        <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForSatsendring}${asteriksForBegrensetAvMakssats}</td>
+                        <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForBegrensetAvMakssats}</td>
                     </tr>`;
 };
 
