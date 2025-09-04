@@ -20,9 +20,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                         {reise.reiseAdresse && (
                             <BodyShort size="small">
                                 <VStack>
-                                    <Label size={'small'}>
-                                        Hva er addresen til aktivitetet din?
-                                    </Label>
+                                    <Label size={'small'}>Adressen til aktiviteten</Label>
                                     {reise.reiseAdresse.gateadresse}
                                     {reise.reiseAdresse.postnummer} {reise.reiseAdresse.poststed}
                                 </VStack>
@@ -31,9 +29,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                         {reise.dagerPerUke && (
                             <BodyShort size="small">
                                 <VStack>
-                                    <Label size={'small'}>
-                                        Hvor mange dager i uken skal du reise hit?
-                                    </Label>
+                                    <Label size={'small'}>Antall reisedager i uken</Label>
                                     {reise.dagerPerUke.id}
                                 </VStack>
                             </BodyShort>
@@ -41,10 +37,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                         {reise.harBehovForTransportUavhengigAvReisensLengde && (
                             <BodyShort size="small">
                                 <VStack>
-                                    <Label size={'small'}>
-                                        Er reiseavstanden mellom der du bor og aktivitetstedet 6 km
-                                        mellom mer en vei?
-                                    </Label>
+                                    <Label size={'small'}>Avstand over 6 km?</Label>
                                     {
                                         jaNeiTilTekst[
                                             reise.harBehovForTransportUavhengigAvReisensLengde
@@ -73,9 +66,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                         )}
 
                         <VStack>
-                            <Label size="small">
-                                Hva slags type billett må du kjøpe for å reise til aktiviteten din?
-                            </Label>
+                            <Label size="small">Billettyper</Label>
 
                             {reise.offentligTransport?.billettTyperValgt?.map(
                                 (type: BillettType) => {

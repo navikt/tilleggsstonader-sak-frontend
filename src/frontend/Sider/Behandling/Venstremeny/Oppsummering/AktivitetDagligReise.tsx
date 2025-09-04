@@ -4,7 +4,7 @@ import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
 import { FaktaAktivitetDagligReise } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
-import { formaterIsoDato } from '../../../../utils/dato';
+import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 
 const AktivitetDagligReise: React.FC<{ aktiviteter: FaktaAktivitetDagligReise }> = ({
     aktiviteter,
@@ -22,10 +22,9 @@ const AktivitetDagligReise: React.FC<{ aktiviteter: FaktaAktivitetDagligReise }>
 
                 {reiseperiode && (
                     <VStack>
-                        <Label size={'small'}>Periode du må reise til aktivitet stedet</Label>
+                        <Label size={'small'}>Periode du må reise til aktivitetstedet</Label>
                         <BodyShort size="small">
-                            {formaterIsoDato(reiseperiode.fom)} -{' '}
-                            {formaterIsoDato(reiseperiode.tom)}
+                            {formaterIsoPeriodeMedTankestrek(reiseperiode)}
                         </BodyShort>
                     </VStack>
                 )}

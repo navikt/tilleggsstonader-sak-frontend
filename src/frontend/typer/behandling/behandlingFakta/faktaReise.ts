@@ -5,10 +5,10 @@ export interface FaktaReise {
     dagerPerUke: ValgtAktivitetDagligReise;
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
-    harBehovForTransportUavhengigAvReisensLengde: JaNei;
+    harBehovForTransportUavhengigAvReisensLengde?: JaNei;
     kanReiseMedOffentligTransport: JaNei;
-    offentligTransport: OffentligTransport;
-    privatTransport: PrivatTransport;
+    offentligTransport?: OffentligTransport;
+    privatTransport?: PrivatTransport;
 }
 export interface ReiseAdresse {
     gateadresse: string;
@@ -17,15 +17,15 @@ export interface ReiseAdresse {
 }
 export interface OffentligTransport {
     billettTyperValgt: BillettType[];
-    enkeltbillettPris: number;
-    syvdagersbillettPris: number;
-    månedskortPris: number;
+    enkeltbillettPris?: number;
+    syvdagersbillettPris?: number;
+    månedskortPris?: number;
 }
 export interface PrivatTransport {
     årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport;
-    kanKjøreMedEgenBil: JaNei;
-    utgifterBil: UtgifterBil;
-    utgifterTaxi: UtgifterTaxi;
+    kanKjøreMedEgenBil?: JaNei;
+    utgifterBil?: UtgifterBil;
+    utgifterTaxi?: UtgifterTaxi;
 }
 export interface ValgtAktivitetDagligReise {
     id: string;
@@ -44,10 +44,10 @@ export enum ÅrsakIkkeOffentligTransport {
     ANNET = 'ANNET',
 }
 export interface UtgifterBil {
-    parkering: number;
-    bompenger: number;
-    ferge: number;
-    piggdekkavgift: number;
+    parkering?: number;
+    bompenger?: number;
+    ferge?: number;
+    piggdekkavgift?: number;
 }
 export interface UtgifterTaxi {
     årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil;
@@ -65,12 +65,12 @@ export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTra
     ANNET: 'Annet',
 };
 export const BillettTypeTilTekst: Record<BillettType, string> = {
-    ENKELTBILLETT: 'Enkelt billet',
-    SYVDAGERSBILLETT: 'Syv dager billett',
+    ENKELTBILLETT: 'Enkeltbillett',
+    SYVDAGERSBILLETT: 'Syvdagersbillett',
     MÅNEDSKORT: 'Månedskort',
 };
 export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = {
-    HELSEMESSIGE_ÅRSAKER: 'HELSEMESSIGE_ÅRSAKER',
+    HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
     ANNET: 'Annet',
 };
