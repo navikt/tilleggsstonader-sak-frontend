@@ -1,3 +1,4 @@
+import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
 export interface FaktaAktivtet {
@@ -9,7 +10,11 @@ interface SøknadsgrunnlagAktivitet {
     annenAktivitet?: TypeAnnenAktivitet;
     lønnetAktivitet?: JaNei;
 }
-
+export interface FaktaAktivitetDagligReise {
+    aktivitet: FaktaAktivtet;
+    reiseTilAktivitetsstedHelePerioden?: JaNei;
+    reiseperiode: Periode;
+}
 export enum TypeAnnenAktivitet {
     TILTAK = 'TILTAK',
     UTDANNING = 'UTDANNING',

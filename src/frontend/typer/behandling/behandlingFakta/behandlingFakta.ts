@@ -1,4 +1,4 @@
-import { FaktaAktivtet } from './faktaAktivitet';
+import { FaktaAktivitetDagligReise, FaktaAktivtet } from './faktaAktivitet';
 import { FaktaArena } from './faktaArena';
 import { FaktaBarn } from './faktaBarn';
 import { FaktaDokumentasjon } from './faktaDokumentasjon';
@@ -7,6 +7,7 @@ import { FaktaUtdanning } from './faktaUtdanning';
 import { Stønadstype } from '../behandlingTema';
 import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
+import { FaktaReise } from './faktaReise';
 
 interface BehandlingFaktaInterface {
     søknadMottattTidspunkt?: string;
@@ -33,8 +34,15 @@ export interface BehandlingFaktaBoutgifter extends BehandlingFaktaInterface {
     boligEllerOvernatting: FaktaBoligEllerOvernatting;
     personopplysninger: FaktaPersonopplysninger;
 }
+export interface BehandlingFaktaDagligReise extends BehandlingFaktaInterface {
+    '@type': Stønadstype.DAGLIG_REISE_TSO | Stønadstype.DAGLIG_REISE_TSR;
+    aktiviteter: FaktaAktivitetDagligReise;
+    personopplysninger: FaktaPersonopplysninger;
+    reiser: FaktaReise[];
+}
 
 export type BehandlingFakta =
     | BehandlingFaktaTilsynBarn
     | BehandlingFaktaLæremidler
-    | BehandlingFaktaBoutgifter;
+    | BehandlingFaktaBoutgifter
+    | BehandlingFaktaDagligReise;

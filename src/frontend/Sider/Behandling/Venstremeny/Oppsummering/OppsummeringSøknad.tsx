@@ -4,6 +4,7 @@ import { HStack, VStack } from '@navikt/ds-react';
 
 import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
+import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import OppsummeringLæremidler from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
@@ -35,6 +36,12 @@ const OppsummeringSøknad: React.FC = () => {
             )}
             {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
                 <OppsummeringBoutgifter behandlingFakta={behandlingFakta} />
+            )}
+            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO && (
+                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
+            )}
+            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR && (
+                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
             )}
         </VStack>
     );
