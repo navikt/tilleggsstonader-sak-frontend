@@ -5,7 +5,7 @@ import { erProd } from '../miljø';
 export const useUmami = () => {
     useEffect(() => {
         const umamiId = erProd()
-            ? '4faef03-4e3b-4783-b1de-1df31f8695a1'
+            ? '74faef03-4e3b-4783-b1de-1df31f8695a1'
             : '4700b5e8-da50-4dfe-9884-219c02374cb0';
 
         const script = document.createElement('script');
