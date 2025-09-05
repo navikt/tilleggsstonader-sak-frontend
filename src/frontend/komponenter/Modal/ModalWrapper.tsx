@@ -52,8 +52,17 @@ export const ModalWrapper: React.FC<ModalProps> = ({
         sendHendelseTilUmami(UmamiHendelse.MODAL_ÅPNET, umamiData);
     };
 
-    const sendModalLukketTilUmami = (lukkMetode: 'hovedKnapp' | 'sekundærKnapp' | 'lukkKnapp') => {
+    const sendModalLukketTilUmami = (
+        lukkMetode: 'hovedKnapp' | 'sekundærKnapp' | 'lukkKnapp' | 'kryssKnapp'
+    ) => {
         sendHendelseTilUmami(UmamiHendelse.MODAL_LUKKET, { ...umamiData, lukkMetode: lukkMetode });
+    };
+
+    const håndterOnClose = () => {
+        if (onClose) {
+            sendModalLukketTilUmami('kryssKnapp');
+            onClose();
+        }
     };
 
     if (visModal) {
@@ -63,7 +72,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
         visModal && (
             <ModalContainer
                 open={visModal}
-                onClose={onClose ? () => onClose() : () => null}
+                onClose={håndterOnClose}
                 $maxWidth={maxWidth}
                 aria-label={ariaLabel ? ariaLabel : tittel || ''}
                 header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
