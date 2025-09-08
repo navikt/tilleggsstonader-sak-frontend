@@ -31,9 +31,12 @@ export enum ÅrsakAvslag {
     RETT_TIL_UTSTYRSSTIPEND = 'RETT_TIL_UTSTYRSSTIPEND',
     HAR_IKKE_MERUTGIFTER = 'HAR_IKKE_MERUTGIFTER',
     RETT_TIL_BOSTØTTE = 'RETT_TIL_BOSTØTTE',
+    REISEAVSTAND_UNDER_6_KM = 'REISEAVSTAND_UNDER_6_KM',
+    IKKE_I_TILTAK = 'IKKE_I_TILTAK',
+    IKKE_RETT_TIL_YTELSE = 'IKKE_RETT_TIL_YTELSE',
+    LØNN_I_TILTAK_ELLER_ORDINAR_LØNN = 'LØNN_I_TILTAK_ELLER_ORDINAR_LØNN',
     ANNET = 'ANNET',
 }
-
 export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     INGEN_AKTIVITET: 'Ingen relevant aktivitet',
     IKKE_I_MÅLGRUPPE: 'Ingen målgruppe',
@@ -43,6 +46,11 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     RETT_TIL_UTSTYRSSTIPEND: 'Rett til utstyrsstipend',
     HAR_IKKE_MERUTGIFTER: 'Har ikke nødvendige merutgifter',
     RETT_TIL_BOSTØTTE: 'Rett til/mottar bostøtte',
+    REISEAVSTAND_UNDER_6_KM: 'Reiseavstand er under 6 km',
+    IKKE_I_TILTAK: 'Bruker er ikke i taltak',
+    IKKE_RETT_TIL_YTELSE:
+        'Bruker mottar ikke tiltakspenger, dagpenger, er i kvalifiseringsprogrammet eller sitter i fengsel og ellers hatt rett til tiltakspenger',
+    LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: 'Får lønn i tltak eller ordinar lønn',
     ANNET: 'Annet',
 };
 
@@ -74,6 +82,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: false,
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: false,
+        IKKE_I_TILTAK: false,
+        IKKE_RETT_TIL_YTELSE: false,
+        LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: false,
         ANNET: true,
     },
     [Stønadstype.LÆREMIDLER]: {
@@ -85,6 +97,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: true,
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: false,
+        IKKE_I_TILTAK: false,
+        IKKE_RETT_TIL_YTELSE: false,
+        LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: false,
         ANNET: true,
     },
     [Stønadstype.BOUTGIFTER]: {
@@ -96,6 +112,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: false,
         HAR_IKKE_MERUTGIFTER: true,
         RETT_TIL_BOSTØTTE: true,
+        REISEAVSTAND_UNDER_6_KM: false,
+        IKKE_I_TILTAK: false,
+        IKKE_RETT_TIL_YTELSE: false,
+        LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: false,
         ANNET: true,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
@@ -107,6 +127,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: false,
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: true,
+        IKKE_I_TILTAK: false,
+        IKKE_RETT_TIL_YTELSE: false,
+        LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: true,
         ANNET: true,
     },
     [Stønadstype.DAGLIG_REISE_TSR]: {
@@ -118,6 +142,10 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_UTSTYRSSTIPEND: false,
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: true,
+        IKKE_I_TILTAK: true,
+        IKKE_RETT_TIL_YTELSE: true,
+        LØNN_I_TILTAK_ELLER_ORDINAR_LØNN: false,
         ANNET: true,
     },
 };
