@@ -138,6 +138,8 @@ export const relevanteArkivtemaer: Arkivtema[] = [
     Arkivtema.UFO,
     Arkivtema.YRK,
     Arkivtema.KON,
+    Arkivtema.DAG,
+    Arkivtema.IND,
 ];
 
 export const relevanteArkivtemaerIBehandling: Arkivtema[] = [Arkivtema.TSO, Arkivtema.TSR];
