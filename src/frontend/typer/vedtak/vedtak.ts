@@ -46,7 +46,6 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     RETT_TIL_BOSTØTTE: 'Rett til/mottar bostøtte',
     REISEAVSTAND_UNDER_6_KM: 'Reiseavstand er under 6 km',
     LØNN_I_TILTAK: 'Lønn i tiltak',
-
     ANNET: 'Annet',
 };
 
