@@ -15,6 +15,7 @@ import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomateri
 import { VilkårsresultatTilTekst } from '../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { Vilkår } from '../../vilkår';
 import {
+    dagligReiseVilkårTypeTilTekst,
     regelIdTilSpørsmålKortversjon,
     svarIdTilTekstKorversjon,
 } from '../../Vilkårvurdering/tekster';
@@ -39,9 +40,6 @@ const LesevisningVilkårDagligReise: FC<{
 }> = ({ vilkår, vilkårIndex, startRedigering, skalViseRedigeringsknapp }) => {
     const { resultat, delvilkårsett, fom, tom, offentligTransport, vilkårType } = vilkår;
 
-    const vilkårTypeTilKortTekst: Record<string, string> = {
-        DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'offentlig transport',
-    };
     return (
         <Container>
             <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 234px) auto minmax(auto, 64px)">
@@ -95,7 +93,7 @@ const LesevisningVilkårDagligReise: FC<{
                         </BodyShort>
                     </HStack>
                     <Tag style={{ width: 'max-content' }} variant="neutral" icon={<BusIcon />}>
-                        {`Reise ${vilkårIndex} med ${vilkårTypeTilKortTekst[vilkårType]}`}
+                        {`Reise ${vilkårIndex} med ${dagligReiseVilkårTypeTilTekst[vilkårType]}`}
                     </Tag>
                 </VStack>
 

@@ -9,6 +9,8 @@ import { Stønadsvilkår } from '../../../../typer/behandling/behandlingOppsumme
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
 import { faneNavnStønadsvilkår } from '../../faner';
+import { StønadsvilkårType } from '../../vilkår';
+import { dagligReiseVilkårTypeTilTekst } from '../../Vilkårvurdering/tekster';
 
 export const OppsummeringVilkår: React.FC<{
     vilkår: Stønadsvilkår[];
@@ -34,7 +36,11 @@ export const OppsummeringVilkår: React.FC<{
                     fom={vilkår.fom}
                     tom={vilkår.tom}
                     resultat={vilkår.resultat}
-                    gjelder={`${formaterTallMedTusenSkilleEllerStrek(vilkår.utgift)} kr`}
+                    gjelder={
+                        etVilkår.type === StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT
+                            ? dagligReiseVilkårTypeTilTekst[etVilkår.type]
+                            : `${formaterTallMedTusenSkilleEllerStrek(vilkår.utgift)} kr`
+                    }
                 />
             ))}
         </VStack>
