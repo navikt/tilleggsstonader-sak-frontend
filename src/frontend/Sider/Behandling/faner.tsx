@@ -132,7 +132,9 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningLæremidler />;
         case Stønadstype.BOUTGIFTER:
             return <VedtakOgBeregningBoutgifter />;
-        case Stønadstype.DAGLIG_REISE_TSO || Stønadstype.DAGLIG_REISE_TSR:
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return <VedtakOgBeregningDagligReise />;
+        case Stønadstype.DAGLIG_REISE_TSR:
             return <VedtakOgBeregningDagligReise />;
         default:
             return <span>Har ikke vedtak for {stønadstypeTilTekst[behandling.stønadstype]}</span>;
