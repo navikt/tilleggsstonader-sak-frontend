@@ -32,6 +32,7 @@ export enum ÅrsakAvslag {
     HAR_IKKE_MERUTGIFTER = 'HAR_IKKE_MERUTGIFTER',
     RETT_TIL_BOSTØTTE = 'RETT_TIL_BOSTØTTE',
     REISEAVSTAND_UNDER_6_KM = 'REISEAVSTAND_UNDER_6_KM',
+    LØNN_I_TILTAK = 'LØNN_I_TILTAK',
     ANNET = 'ANNET',
 }
 export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
@@ -44,6 +45,8 @@ export const årsakAvslagTilTekst: Record<ÅrsakAvslag, string> = {
     HAR_IKKE_MERUTGIFTER: 'Har ikke nødvendige merutgifter',
     RETT_TIL_BOSTØTTE: 'Rett til/mottar bostøtte',
     REISEAVSTAND_UNDER_6_KM: 'Reiseavstand er under 6 km',
+    LØNN_I_TILTAK: 'Lønn i tiltak',
+
     ANNET: 'Annet',
 };
 
@@ -76,6 +79,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
         REISEAVSTAND_UNDER_6_KM: false,
+        LØNN_I_TILTAK: true,
         ANNET: true,
     },
     [Stønadstype.LÆREMIDLER]: {
@@ -88,6 +92,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
         REISEAVSTAND_UNDER_6_KM: false,
+        LØNN_I_TILTAK: false,
         ANNET: true,
     },
     [Stønadstype.BOUTGIFTER]: {
@@ -100,6 +105,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         HAR_IKKE_MERUTGIFTER: true,
         RETT_TIL_BOSTØTTE: true,
         REISEAVSTAND_UNDER_6_KM: false,
+        LØNN_I_TILTAK: true,
         ANNET: true,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
@@ -112,6 +118,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
         REISEAVSTAND_UNDER_6_KM: true,
+        LØNN_I_TILTAK: true,
         ANNET: true,
     },
     [Stønadstype.DAGLIG_REISE_TSR]: {
@@ -124,6 +131,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         HAR_IKKE_MERUTGIFTER: false,
         RETT_TIL_BOSTØTTE: false,
         REISEAVSTAND_UNDER_6_KM: true,
+        LØNN_I_TILTAK: false,
         ANNET: true,
     },
 };
