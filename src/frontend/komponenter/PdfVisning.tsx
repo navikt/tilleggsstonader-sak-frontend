@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { Alert, Loader, Pagination } from '@navikt/ds-react';
 
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
 import DataViewer from './DataViewer';
 import { Ressurs } from '../typer/ressurs';
 
