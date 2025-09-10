@@ -13,3 +13,9 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     DAGLIG_REISE_TSO: 'Daglig reise (Nay)',
     DAGLIG_REISE_TSR: 'Daglig reise (Tiltaksenheten)',
 };
+
+export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, string> = {
+    ...stønadstypeTilTekst,
+    DAGLIG_REISE_TSO: 'Daglig reise',
+    DAGLIG_REISE_TSR: 'Daglig reise',
+};
