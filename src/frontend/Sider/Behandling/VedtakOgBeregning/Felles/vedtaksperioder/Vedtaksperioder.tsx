@@ -21,7 +21,6 @@ import {
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
-import { stønadstypeTilVedtakUrl } from '../stønadstypeTilVedtakUrl';
 
 const Grid = styled.div`
     display: grid;
@@ -103,10 +102,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     const foreslåVedtaksperioder = () => {
-        request<Vedtaksperiode[], null>(
-            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[behandling.stønadstype]}/${behandling.id}/foresla`,
-            'GET'
-        ).then((res) => {
+        request<Vedtaksperiode[], null>(`/api/sak/vedtak/${behandling.id}/foresla`).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVedtaksperioder(res.data);
                 settVedtaksperioderId(uuidv4());
