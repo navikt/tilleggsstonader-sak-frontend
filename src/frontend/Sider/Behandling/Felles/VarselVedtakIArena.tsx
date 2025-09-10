@@ -3,7 +3,7 @@ import React from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 
 import { useBehandling } from '../../../context/BehandlingContext';
-import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
+import { stønadstypeTilTekstUtenBehandlendeEnhet } from '../../../typer/behandling/behandlingTema';
 import { formaterTilTekstligDato } from '../../../utils/dato';
 
 export const VarselVedtakIArena = () => {
@@ -18,8 +18,8 @@ export const VarselVedtakIArena = () => {
         <Alert variant={'warning'} size={'small'}>
             <Heading size={'xsmall'} level="3">
                 Søker har vedtak i Arena for{' '}
-                {stønadstypeTilTekst[behandling.stønadstype].toLowerCase()} innvilget til og med{' '}
-                {formaterTilTekstligDato(vedtakTom)}
+                {stønadstypeTilTekstUtenBehandlendeEnhet[behandling.stønadstype].toLowerCase()}{' '}
+                innvilget til og med {formaterTilTekstligDato(vedtakTom)}
             </Heading>
             Skal du innvilge tilbake i tid? Gå til Arena for å sjekke at det ikke blir overlappende
             utbetalinger.
