@@ -27,7 +27,7 @@ const BarnetilsynHjelpetekst = () => (
             er oppfylt.
         </BodyLong>
         <a
-            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
             target="_blank"
             rel="noopener noreferrer"
         >
@@ -62,7 +62,7 @@ const LæremidlerHjelpetekst = () => (
             du sjekke om søker har nedsatt arbeidsevne etter §11 A-3.
         </BodyLong>
         <a
-            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
             target="_blank"
             rel="noopener noreferrer"
         >

@@ -53,7 +53,7 @@ const hjelpetekstBarnetilsyn = (
     <>
         <ReadMore header="Slik gjør du vurderingen" size="small">
             <a
-                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -66,7 +66,7 @@ const hjelpetekstBoutgifter = (
     <>
         <ReadMore header="Slik gjør du vurderingen" size="small">
             <a
-                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
             >

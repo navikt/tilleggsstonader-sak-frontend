@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { InformationSquareFillIcon, LeaveIcon } from '@navikt/aksel-icons';
-import { Dropdown, HStack, InternalHeader, Spacer } from '@navikt/ds-react';
+import { BodyShort, Dropdown, HStack, InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
@@ -121,9 +121,9 @@ const AppInnhold = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <HStack>
-                            <InformationSquareFillIcon title="a11y-title" fontSize="1.5rem" />
-                            Brukermanualen
+                        <HStack gap="1">
+                            <InformationSquareFillIcon title="a11y-title" fontSize="1.rem" />
+                            <BodyShort size="small">Brukermanualen</BodyShort>
                         </HStack>
                     </InternalHeader.Title>
                     <PersonSøk />
