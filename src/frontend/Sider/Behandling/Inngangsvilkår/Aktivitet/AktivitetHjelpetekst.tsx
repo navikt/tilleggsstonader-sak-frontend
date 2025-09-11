@@ -9,6 +9,8 @@ export function AktivitetHjelpetekst() {
     const { behandling } = useBehandling();
 
     switch (behandling.stønadstype) {
+        case Stønadstype.BARNETILSYN:
+            return null;
         case Stønadstype.LÆREMIDLER:
             return hjelpetekstLæremidler;
         default:
