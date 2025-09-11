@@ -26,6 +26,13 @@ const BarnetilsynHjelpetekst = () => (
             uføretrygd, må du be Nav-kontoret vurdere om vilkårene for nedsatt arbeidsevne i §11 A-3
             er oppfylt.
         </BodyLong>
+        <a
+            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Brukermanualen
+        </a>
     </ReadMore>
 );
 
@@ -54,6 +61,13 @@ const LæremidlerHjelpetekst = () => (
             Hvis søker mottar <strong>sykepenger</strong>, men ikke har AAP eller uføretrygd, skal
             du sjekke om søker har nedsatt arbeidsevne etter §11 A-3.
         </BodyLong>
+        <a
+            href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Brukermanualen
+        </a>
     </ReadMore>
 );
 

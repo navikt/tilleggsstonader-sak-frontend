@@ -13,6 +13,8 @@ export function AktivitetHjelpetekst() {
             return hjelpetekstBarnetilsyn;
         case Stønadstype.LÆREMIDLER:
             return hjelpetekstLæremidler;
+        case Stønadstype.BOUTGIFTER:
+            return hjelpetekstBoutgifter;
         default:
             return null;
     }
@@ -37,10 +39,30 @@ const hjelpetekstLæremidler = (
                 stønad til læremidler. Du skal derfor også velge &#34;Ingen
                 utdanning/opplæringstiltak&#34; for enslige som deltar på opplæringstiltak.
             </BodyLong>
+            <a
+                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Brukermanualen
+            </a>
         </ReadMore>
     </>
 );
 const hjelpetekstBarnetilsyn = (
+    <>
+        <ReadMore header="Slik gjør du vurderingen" size="small">
+            <a
+                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Brukermanualen
+            </a>
+        </ReadMore>
+    </>
+);
+const hjelpetekstBoutgifter = (
     <>
         <ReadMore header="Slik gjør du vurderingen" size="small">
             <a
