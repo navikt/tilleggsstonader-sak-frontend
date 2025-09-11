@@ -9,9 +9,8 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 
-import { LeaveIcon } from '@navikt/aksel-icons';
-import { Dropdown, InternalHeader, Spacer } from '@navikt/ds-react';
-import Endringslogg from '@navikt/familie-endringslogg';
+import { InformationSquareFillIcon, LeaveIcon } from '@navikt/aksel-icons';
+import { Dropdown, HStack, InternalHeader, Spacer } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
@@ -115,17 +114,18 @@ const AppInnhold = () => {
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
-                    <Endringslogg
-                        userId={saksbehandler.navIdent}
-                        dataFetchingIntervalSeconds={60 * 15}
-                        appId={'TS'}
-                        backendUrl={'/endringslogg'}
-                        dataset={'production'}
-                        maxEntries={50}
-                        appName={'TS-sak'}
-                        alignLeft={true}
-                        stil={'lys'}
-                    />
+
+                    <InternalHeader.Title
+                        as="a"
+                        href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <HStack>
+                            <InformationSquareFillIcon title="a11y-title" fontSize="1.5rem" />
+                            Brukermanualen
+                        </HStack>
+                    </InternalHeader.Title>
                     <PersonSøk />
                     <Dropdown>
                         <InternalHeader.UserButton as={Dropdown.Toggle} name={saksbehandler.name} />
