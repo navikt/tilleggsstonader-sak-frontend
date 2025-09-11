@@ -65,6 +65,7 @@ interface Beregningsgrunnlag {
     fom: string;
     tom: string;
     prisEnkeltbillett: number;
+    prisSyvdagersbillett: number;
     pris30dagersbillett: number;
     antallReisedagerPerUke: number;
     vedtaksperioder: VedtaksperiodeGrunnlag[];
