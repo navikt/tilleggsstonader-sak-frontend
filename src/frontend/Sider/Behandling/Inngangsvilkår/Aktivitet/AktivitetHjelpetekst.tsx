@@ -9,12 +9,8 @@ export function AktivitetHjelpetekst() {
     const { behandling } = useBehandling();
 
     switch (behandling.stønadstype) {
-        case Stønadstype.BARNETILSYN:
-            return hjelpetekstBarnetilsyn;
         case Stønadstype.LÆREMIDLER:
             return hjelpetekstLæremidler;
-        case Stønadstype.BOUTGIFTER:
-            return hjelpetekstBoutgifter;
         default:
             return null;
     }
@@ -41,32 +37,6 @@ const hjelpetekstLæremidler = (
             </BodyLong>
             <a
                 href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Brukermanualen
-            </a>
-        </ReadMore>
-    </>
-);
-const hjelpetekstBarnetilsyn = (
-    <>
-        <ReadMore header="Slik gjør du vurderingen" size="small">
-            <a
-                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Brukermanualen
-            </a>
-        </ReadMore>
-    </>
-);
-const hjelpetekstBoutgifter = (
-    <>
-        <ReadMore header="Slik gjør du vurderingen" size="small">
-            <a
-                href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/Aktivitet-og-m%C3%A5lgruppe.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
             >
