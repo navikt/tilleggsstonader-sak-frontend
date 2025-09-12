@@ -16,18 +16,13 @@ export function DetaljerteVedtaksperioderBehandling({ fagsakPersonId }: Props) {
     return (
         <DataViewer type={'vedtaksperioder'} response={{ vedtaksperioderOversikt }}>
             {({ vedtaksperioderOversikt }) => (
-                <div style={{ marginLeft: '2rem' }}>
+                <Box padding="2">
                     {vedtaksperioderOversikt.boutgifter.length > 0 && (
-                        <Box
-                            width={'920px'}
-                            style={{ backgroundColor: 'white', border: 'solid 1px lightgray' }}
-                        >
-                            <VedtaksperioderOversiktBoutgifter
-                                vedtaksperioder={vedtaksperioderOversikt.boutgifter}
-                            />
-                        </Box>
+                        <VedtaksperioderOversiktBoutgifter
+                            vedtaksperioder={vedtaksperioderOversikt.boutgifter}
+                        />
                     )}
-                </div>
+                </Box>
             )}
         </DataViewer>
     );

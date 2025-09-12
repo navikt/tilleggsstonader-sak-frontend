@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Accordion, Alert, BodyShort, Button, Tabs } from '@navikt/ds-react';
+import { Alert, Button, ExpansionCard, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { DetaljerteVedtaksperioderBehandling } from './DetaljerteVedtaksperioderBehandling';
@@ -122,28 +122,23 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-                <Accordion style={{ backgroundColor: '#FDFFE6' }}>
-                    <Accordion.Item defaultOpen>
-                        <Accordion.Header
-                            style={{
-                                padding: '0',
-                                border: 'none',
-                                boxShadow: 'none',
-                                flexDirection: 'row-reverse',
-                                fontSize: 'medium',
-                            }}
-                        >
-                            <BodyShort size={'small'} weight={'semibold'}>
-                                Vedtaksperioder
-                            </BodyShort>
-                        </Accordion.Header>
-                        <Accordion.Content style={{ padding: '0px', paddingBottom: '1.5rem' }}>
-                            <DetaljerteVedtaksperioderBehandling
-                                fagsakPersonId={behandling.fagsakPersonId}
-                            />
-                        </Accordion.Content>
-                    </Accordion.Item>
-                </Accordion>
+
+                <ExpansionCard
+                    size="small"
+                    aria-labelledby="Tidligere vedtaksperioder"
+                    style={{ width: 'fit-content', margin: '1rem 2rem' }}
+                >
+                    <ExpansionCard.Header>
+                        <ExpansionCard.Title as="h2" size="small">
+                            Tidligere vedtaksperioder
+                        </ExpansionCard.Title>
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content>
+                        <DetaljerteVedtaksperioderBehandling
+                            fagsakPersonId={behandling.fagsakPersonId}
+                        />
+                    </ExpansionCard.Content>
+                </ExpansionCard>
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (
