@@ -121,8 +121,8 @@ const AppInnhold = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <HStack gap="1">
-                            <InformationSquareFillIcon title="a11y-title" fontSize="1.rem" />
+                        <HStack gap="1" align="center">
+                            <InformationSquareFillIcon />
                             <BodyShort size="small">Brukermanualen</BodyShort>
                         </HStack>
                     </InternalHeader.Title>
