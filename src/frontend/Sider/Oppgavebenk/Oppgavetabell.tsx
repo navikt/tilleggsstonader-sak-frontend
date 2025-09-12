@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, HStack, Pagination, Table } from '@navikt/ds-react';
-import { SortState } from '@navikt/ds-react/src/table/types';
+import { SortState } from '@navikt/ds-react';
 
 import Oppgaverad from './Oppgaverad';
 import {
