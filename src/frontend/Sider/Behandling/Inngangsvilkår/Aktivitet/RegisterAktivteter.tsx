@@ -18,7 +18,7 @@ import { Behandling } from '../../../../typer/behandling/behandling';
 import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
+import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { VilkårperioderGrunnlag } from '../typer/vilkårperiode/vilkårperiode';
 
 export const RegisterAktiviteter: React.FC<{
@@ -98,15 +98,15 @@ function Hjelpetekst({
                         I en førstegangsbehandling for{' '}
                         {stønadstypeTilTekst[behandling.stønadstype].toLowerCase()} hentes
                         aktiviteter fra og med mottatt dato minus{' '}
-                        {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]} måneder
-                        tilbake i tid.
+                        {maksMånederTilbakeFraSøknadsdato[behandling.stønadstype]} måneder tilbake i
+                        tid.
                     </BodyLong>
                 ) : (
                     <BodyLong spacing>
                         Ved revurdering hentes aktiviteter fra den første datoen i forrige vedtak.
-                        Dersom {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
-                        måneder tilbake fra opprettelsesdatoen gir en tidligere startdato, brukes
-                        den i stedet.
+                        Dersom {maksMånederTilbakeFraSøknadsdato[behandling.stønadstype]} måneder
+                        tilbake fra opprettelsesdatoen gir en tidligere startdato, brukes den i
+                        stedet.
                     </BodyLong>
                 )}
             </HelpText>

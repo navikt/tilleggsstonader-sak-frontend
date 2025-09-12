@@ -18,7 +18,7 @@ import { Behandling } from '../../../../typer/behandling/behandling';
 import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
 import { registerYtelseTilTekstStorForbokstav } from '../../../../typer/registerytelser';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
-import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
+import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import {
     VilkårperioderGrunnlag,
     YtelseGrunnlagPeriode,
@@ -108,16 +108,16 @@ function Hjelpetekst({
                             I en førstegangsbehandling for{' '}
                             {stønadstypeTilTekst[behandling.stønadstype].toLowerCase()} hentes
                             målgrupper fra og med mottatt dato minus{' '}
-                            {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
-                            måneder tilbake i tid.
+                            {maksMånederTilbakeFraSøknadsdato[behandling.stønadstype]} måneder
+                            tilbake i tid.
                         </BodyLong>
                     ) : (
                         <BodyLong spacing>
                             Ved revurdering hentes målgrupper fra den første datoen i forrige
                             vedtak. Dersom{' '}
-                            {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
-                            måneder tilbake fra opprettelsesdatoen gir en tidligere startdato,
-                            brukes den i stedet.
+                            {maksMånederTilbakeFraSøknadsdato[behandling.stønadstype]} måneder
+                            tilbake fra opprettelsesdatoen gir en tidligere startdato, brukes den i
+                            stedet.
                         </BodyLong>
                     )}
                 </HelpText>

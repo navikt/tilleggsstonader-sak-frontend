@@ -3,7 +3,7 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
+import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
     AktivitetDagligReiseTsr,
@@ -66,7 +66,7 @@ const resetPeriode = (
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return {
             fom: førsteDagIMånederForut(
-                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.DAGLIG_REISE_TSR],
+                maksMånederTilbakeFraSøknadsdato[Stønadstype.DAGLIG_REISE_TSR],
                 søknadMottattTidspunkt
             ),
             tom: dagensDato(),
