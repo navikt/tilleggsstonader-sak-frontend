@@ -53,13 +53,13 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
     return (
         <>
             {harAvsender ? (
-                <Box padding="4" borderWidth="1" borderRadius="small" borderColor="border-default">
+                <Box.New padding="4" borderWidth="1" borderRadius="small">
                     <PanelHeader
                         navn={avsenderMottaker?.navn || 'Ukjent navn'}
                         personIdent={avsenderMottaker?.id || 'Ukjent ident'}
                         type={PanelHeaderType.Avsender}
                     />
-                </Box>
+                </Box.New>
             ) : (
                 <ExpansionCard
                     id={journalpostId}
