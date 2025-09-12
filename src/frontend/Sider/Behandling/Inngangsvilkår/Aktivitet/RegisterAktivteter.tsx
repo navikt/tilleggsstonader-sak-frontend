@@ -93,7 +93,7 @@ function Hjelpetekst({
                     </Link>
                     .
                 </BodyShort>
-                {behandling.type !== 'FØRSTEGANGSBEHANDLING' ? (
+                {behandling.type === 'FØRSTEGANGSBEHANDLING' ? (
                     <BodyLong>
                         I en førstegangsbehandling for{' '}
                         {stønadstypeTilTekst[behandling.stønadstype].toLowerCase()} hentes
