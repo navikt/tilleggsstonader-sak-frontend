@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { Alert, Button, Popover, Search, VStack } from '@navikt/ds-react';
-import { ATextDefault } from '@navikt/ds-tokens/dist/tokens';
 
 import { useApp } from '../context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
@@ -19,9 +18,8 @@ const Container = styled.div`
     padding: 0.5rem;
 `;
 
-const StyledAlert = styled(Alert)`
+const AlertMedFastBredde = styled(Alert)`
     width: 24rem;
-    color: ${ATextDefault};
 `;
 
 const erPositivtTall = (verdi: string) => /^\d+$/.test(verdi) && Number(verdi) !== 0;
@@ -129,19 +127,19 @@ const PersonSøk: React.FC = () => {
                     }}
                 >
                     {søkeresultat && søkeresultat.status === RessursStatus.SUKSESS && (
-                        <StyledAlert variant="info">
+                        <AlertMedFastBredde variant="info">
                             <VStack>
                                 <span>Personen finnes i Arena</span>
                                 <Button size={'small'} onClick={opprettFagsakPerson}>
                                     Opprett personen
                                 </Button>
                             </VStack>
-                        </StyledAlert>
+                        </AlertMedFastBredde>
                     )}
                     {søkeresultat && søkeresultat.status !== RessursStatus.SUKSESS && (
-                        <StyledAlert variant="error">
+                        <AlertMedFastBredde variant="error">
                             {søkeresultat.frontendFeilmelding}
-                        </StyledAlert>
+                        </AlertMedFastBredde>
                     )}
                 </Popover.Content>
             </Popover>
