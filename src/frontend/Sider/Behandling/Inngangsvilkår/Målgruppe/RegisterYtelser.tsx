@@ -1,13 +1,24 @@
 import React from 'react';
 
-import { Alert, BodyShort, Detail, HelpText, HStack, Link, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    BodyShort,
+    Detail,
+    HelpText,
+    HStack,
+    Link,
+    VStack,
+} from '@navikt/ds-react';
 
 import RegisterYtelserTabell from './RegisterYtelserTabell';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { Behandling } from '../../../../typer/behandling/behandling';
+import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
 import { registerYtelseTilTekstStorForbokstav } from '../../../../typer/registerytelser';
 import { formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../../utils/dato';
+import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
 import {
     VilkårperioderGrunnlag,
     YtelseGrunnlagPeriode,
@@ -92,15 +103,23 @@ function Hjelpetekst({
                         </Link>{' '}
                         i personoversikten.
                     </BodyShort>
-                    <BodyShort spacing>
-                        Datoet som brukes i en førstegangsbehandling er mottatt tidspunkt minus X
-                        måneder (3 for tilsyn barn, 6 for læremidler). I en revurdering hentes
-                        grunnlag fra og med første daot i forrgie vedtak.
-                    </BodyShort>
-                    <BodyShort spacing>
-                        I en førstegangsbehandling kan man overstyre datoet man henter grunnlaget
-                        fra.
-                    </BodyShort>
+                    {behandling.type !== 'FØRSTEGANGSBEHANDLING' ? (
+                        <BodyLong>
+                            I en førstegangsbehandling for{' '}
+                            {stønadstypeTilTekst[behandling.stønadstype].toLowerCase()} hentes
+                            målgrupper fra og med mottatt dato minus{' '}
+                            {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
+                            måneder tilbake i tid.
+                        </BodyLong>
+                    ) : (
+                        <BodyLong spacing>
+                            I revurdering hentes målgrupper fra og med første dato i forrige vedtak,
+                            eller{' '}
+                            {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
+                            måneder tilbake i tid fra opprettet dato, dersom det er tidligere enn
+                            forrige vedtak.
+                        </BodyLong>
+                    )}
                 </HelpText>
             </HStack>
             {feiledeTyper && (
