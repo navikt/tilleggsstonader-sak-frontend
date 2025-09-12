@@ -18,8 +18,13 @@ const Container = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(7, max-content);
+    grid-template-columns: repeat(8, max-content);
     gap: 0.4rem 2rem;
+    align-items: end;
+`;
+
+const LabelMedMaksBredde = styled(Label)`
+    max-width: 80px;
 `;
 
 interface Props {
@@ -34,11 +39,12 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     <Grid>
                         <Label>Fra og med</Label>
                         <Label>Til og med</Label>
-                        <Label>Antall reisedager i uken</Label>
-                        <Label>Pris enkeltbillet</Label>
-                        <Label>Pris trettidagersbillet</Label>
+                        <LabelMedMaksBredde>Reisedager per uke</LabelMedMaksBredde>
+                        <Label>Enkeltbillett</Label>
+                        <Label>7-dagersbillett</Label>
+                        <Label>30-dagersbillett</Label>
                         <Label>Stønadsbeløp</Label>
-                        <Label>Antall reisedager</Label>
+                        <Label>Ant. reisedager</Label>
 
                         {reise.perioder.map((periode, periodeIndex) => (
                             <React.Fragment key={`periode-${reiseIndex}-${periodeIndex}`}>
@@ -53,6 +59,9 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 </BodyShort>
                                 <BodyShort size="small">
                                     {periode.grunnlag.prisEnkeltbillett}
+                                </BodyShort>
+                                <BodyShort size="small">
+                                    {periode.grunnlag.prisSyvdagersbillett}
                                 </BodyShort>
                                 <BodyShort size="small">
                                     {periode.grunnlag.pris30dagersbillett}
