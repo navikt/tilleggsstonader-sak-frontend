@@ -126,10 +126,9 @@ const BehandlingTabsInnhold = () => {
                     <Accordion.Item defaultOpen>
                         <Accordion.Header
                             style={{
-                                padding: '0',
+                                padding: '0.5rem',
                                 border: 'none',
                                 boxShadow: 'none',
-                                flexDirection: 'row-reverse',
                                 fontSize: 'medium',
                             }}
                         >
