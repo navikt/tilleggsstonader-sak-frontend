@@ -113,11 +113,11 @@ function Hjelpetekst({
                         </BodyLong>
                     ) : (
                         <BodyLong spacing>
-                            I revurdering hentes målgrupper fra og med første dato i forrige vedtak,
-                            eller{' '}
+                            Ved revurdering hentes målgrupper fra den første datoen i forrige
+                            vedtak. Dersom{' '}
                             {ingenMålgruppeAktivitetAntallMndBakITiden[behandling.stønadstype]}{' '}
-                            måneder tilbake i tid fra opprettet dato, dersom det er tidligere enn
-                            forrige vedtak.
+                            måneder tilbake fra opprettelsesdatoen gir en tidligere startdato,
+                            brukes den i stedet.
                         </BodyLong>
                     )}
                 </HelpText>
