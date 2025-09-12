@@ -22,10 +22,10 @@
     ]
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^7.29.1",
-    "@navikt/ds-css": "^7.29.1",
-    "@navikt/ds-react": "^7.29.1",
-    "@navikt/ds-tokens": "^7.20.0",
+    "@navikt/aksel-icons": "^7.30.0",
+    "@navikt/ds-css": "^7.30.0",
+    "@navikt/ds-react": "^7.30.0",
+    "@navikt/ds-tokens": "^7.30.0",
     "@navikt/familie-endringslogg": "^14.0.0",
     "@navikt/familie-form-elements": "^21.0.4",
     "@portabletext/react": "^3.2.1",

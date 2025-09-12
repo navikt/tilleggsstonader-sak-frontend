@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Detail, Label } from '@navikt/ds-react';
 
 import { ILogiskVedlegg, LogiskeVedlegg } from './LogiskeVedlegg';
-import '@navikt/ds-css';
 import PilHøyre from '../familie-ikoner/piler/PilHøyre';
 import PilNed from '../familie-ikoner/piler/PilNed';
 import PilVenstre from '../familie-ikoner/piler/PilVenstre';

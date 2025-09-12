@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import '@navikt/ds-css';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
 

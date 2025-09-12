@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import '@navikt/ds-css';
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';

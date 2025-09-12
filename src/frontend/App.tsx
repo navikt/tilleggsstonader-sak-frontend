@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { InformationSquareFillIcon, LeaveIcon } from '@navikt/aksel-icons';
-import { BodyShort, Dropdown, HStack, InternalHeader, Spacer } from '@navikt/ds-react';
+import { BodyShort, Dropdown, HStack, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
@@ -31,6 +31,7 @@ import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler
 import { Toggle } from './utils/toggles';
 import { useUmami } from './utils/umami/useUmami';
 import { mockFlags } from './utils/unleashMock';
+import '@navikt/ds-css/darkside';
 
 const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
@@ -98,7 +99,9 @@ const App: React.FC = () => {
                 }}
                 startClient={appEnv.unleashEnv !== 'mock'}
             >
-                <AppRoutes />
+                <Theme theme={'light'}>
+                    <AppRoutes />
+                </Theme>
             </FlagProvider>
         </AppProvider>
     );

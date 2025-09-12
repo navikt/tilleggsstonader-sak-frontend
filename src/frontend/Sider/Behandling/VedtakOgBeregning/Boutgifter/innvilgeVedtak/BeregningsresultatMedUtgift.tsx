@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Alert, Table } from '@navikt/ds-react';
 import { AGray50, AWhite } from '@navikt/ds-tokens/dist/tokens';
-import '@navikt/ds-css';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
