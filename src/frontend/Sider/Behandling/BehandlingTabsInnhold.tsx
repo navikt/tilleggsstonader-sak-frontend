@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Alert, Button, Tabs } from '@navikt/ds-react';
+import { Accordion, Alert, BodyShort, Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
+import { DetaljerteVedtaksperioderBehandling } from './DetaljerteVedtaksperioderBehandling';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import { useApp } from '../../context/AppContext';
@@ -121,7 +122,28 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-
+                <Accordion style={{ backgroundColor: '#FDFFE6' }}>
+                    <Accordion.Item defaultOpen>
+                        <Accordion.Header
+                            style={{
+                                padding: '0',
+                                border: 'none',
+                                boxShadow: 'none',
+                                flexDirection: 'row-reverse',
+                                fontSize: 'medium',
+                            }}
+                        >
+                            <BodyShort size={'small'} weight={'semibold'}>
+                                Vedtaksperioder
+                            </BodyShort>
+                        </Accordion.Header>
+                        <Accordion.Content style={{ padding: '0px', paddingBottom: '1.5rem' }}>
+                            <DetaljerteVedtaksperioderBehandling
+                                fagsakPersonId={behandling.fagsakPersonId}
+                            />
+                        </Accordion.Content>
+                    </Accordion.Item>
+                </Accordion>
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (
