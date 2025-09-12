@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import { BodyLong, Select } from '@navikt/ds-react';
 
+import { BrevmottakerSøk } from './BrevmottakerSøk';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
-import { SøkPerson } from './SøkPerson';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 
 interface Props {
@@ -53,7 +53,7 @@ export const SøkWrapper: FC<Props> = ({
                 />
             )}
             {søktype === ESøktype.PERSON && (
-                <SøkPerson settValgteMottakere={settValgtePersonMottakere} />
+                <BrevmottakerSøk settValgteMottakere={settValgtePersonMottakere} />
             )}
         </>
     );

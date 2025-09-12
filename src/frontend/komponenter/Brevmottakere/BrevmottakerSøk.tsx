@@ -14,7 +14,7 @@ interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
 }
 
-export const SøkPerson: React.FC<Props> = ({ settValgteMottakere }) => {
+export const BrevmottakerSøk: React.FC<Props> = ({ settValgteMottakere }) => {
     const [søkIdent, settSøkIdent] = useState('');
 
     const { søkeresultat } = usePersonsøk(søkIdent);
