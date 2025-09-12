@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Alert, BodyShort, Label } from '@navikt/ds-react';
 import { AWhite } from '@navikt/ds-tokens/dist/tokens';
 
-import '@navikt/ds-css';
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
