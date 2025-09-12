@@ -45,7 +45,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         <Label>7-dagersbillett</Label>
                         <Label>30-dagersbillett</Label>
                         <Label>Stønadsbeløp</Label>
-                        <Label>Tot. reisedager</Label>
+                        <Label>Ant. reisedager</Label>
 
                         {reise.perioder.map((periode, periodeIndex) => (
                             <React.Fragment key={`periode-${reiseIndex}-${periodeIndex}`}>
