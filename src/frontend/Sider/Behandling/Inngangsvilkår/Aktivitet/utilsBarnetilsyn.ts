@@ -4,7 +4,7 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
-import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
+import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsynFaktaOgSvar } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
@@ -81,7 +81,7 @@ const resetPeriode = (
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return {
             fom: førsteDagIMånederForut(
-                ingenMålgruppeAktivitetAntallMndBakITiden[Stønadstype.BARNETILSYN],
+                maksMånederTilbakeFraSøknadsdato[Stønadstype.BARNETILSYN],
                 søknadMottattTidspunkt
             ),
             tom: dagensDato(),
