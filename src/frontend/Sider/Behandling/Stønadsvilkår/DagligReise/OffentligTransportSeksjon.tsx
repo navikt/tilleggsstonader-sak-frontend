@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Heading, HStack, TextField } from '@navikt/ds-react';
+import { ErrorMessage, Heading, HStack, TextField } from '@navikt/ds-react';
 
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
@@ -24,6 +24,7 @@ export const OffentligTransportSeksjon = ({
     offentligTransport,
     settOffentligTransport,
     settDetFinnesUlagredeEndringer,
+    feilmeldinger,
     settFeilmeldinger,
 }: Props) => {
     const oppdaterFelt = (key: keyof OffentligTransport, verdi: number | undefined) => {
@@ -31,7 +32,9 @@ export const OffentligTransportSeksjon = ({
             ...(prevState ?? tomtOffentligTransport),
             [key]: verdi,
         }));
-        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
+
+        const feilmeldingKey = key === 'reisedagerPerUke' ? 'reisedagerPerUke' : 'billettpriser';
+        settFeilmeldinger((prevState) => ({ ...prevState, [feilmeldingKey]: undefined }));
 
         settDetFinnesUlagredeEndringer(true);
     };
@@ -44,6 +47,7 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={'Reisedager pr uke'}
                         size="small"
+                        error={feilmeldinger.reisedagerPerUke}
                         value={
                             harTallverdi(offentligTransport?.reisedagerPerUke)
                                 ? offentligTransport?.reisedagerPerUke
@@ -109,6 +113,7 @@ export const OffentligTransportSeksjon = ({
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
+            <ErrorMessage size="small">{feilmeldinger.billettpriser}</ErrorMessage>
         </>
     );
 };

@@ -123,10 +123,12 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             regler,
             periodeForVilkår.fom,
             periodeForVilkår.tom,
-            erFremtidigUtgift
+            erFremtidigUtgift,
+            offentligTransport
         );
 
         settFeilmeldinger(valideringsfeil);
+
         if (!ingen(valideringsfeil)) {
             return;
         }
@@ -150,6 +152,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             erFremtidigUtgift,
             offentligTransport,
         });
+
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
             settFeilmeldingVedLagring(null);
@@ -264,6 +267,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         settFeilmeldinger={settFeilmeldinger}
                         feilmeldinger={feilmeldinger}
+                        offentligTransport={offentligTransport}
                         settOffentligTransport={settOffentligTransport}
                     />
                 )}
