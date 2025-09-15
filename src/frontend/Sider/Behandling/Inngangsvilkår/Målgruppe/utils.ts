@@ -7,7 +7,7 @@ import {
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { FaktiskMålgruppe } from '../../Felles/faktiskMålgruppe';
-import { ingenMålgruppeAktivitetAntallMndBakITiden } from '../../Felles/grunnlagAntallMndBakITiden';
+import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
     MålgruppeFaktaOgSvar,
@@ -134,7 +134,7 @@ const resetPeriode = (
     if (nyType === MålgruppeType.INGEN_MÅLGRUPPE) {
         return {
             fom: førsteDagIMånederForut(
-                ingenMålgruppeAktivitetAntallMndBakITiden[stønadstype],
+                maksMånederTilbakeFraSøknadsdato[stønadstype],
                 søknadMottattTidspunkt
             ),
             tom: dagensDato(),
