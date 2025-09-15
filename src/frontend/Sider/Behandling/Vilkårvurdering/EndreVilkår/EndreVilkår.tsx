@@ -88,7 +88,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         redigerbareVilkårfelter.erFremtidigUtgift
     );
 
-    const [offentligTransport, settOffentligTransport] = useState<OffentligTransport>();
+    const [offentligTransport, settOffentligTransport] = useState<OffentligTransport | undefined>(
+        redigerbareVilkårfelter.offentligTransport
+    );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();

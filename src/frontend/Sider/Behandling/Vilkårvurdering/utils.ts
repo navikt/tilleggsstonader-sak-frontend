@@ -145,3 +145,10 @@ export const skalFåDekketFaktiskeUtgifter = (vilkår: Vilkår) =>
                 vurdering.svar === 'JA'
         )
     );
+
+export const tomtOffentligTransport = {
+    reisedagerPerUke: undefined,
+    prisEnkelbillett: undefined,
+    prisSyvdagersbillett: undefined,
+    prisTrettidagersbillett: undefined,
+};
