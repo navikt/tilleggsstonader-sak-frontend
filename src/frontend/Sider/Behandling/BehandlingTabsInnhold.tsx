@@ -3,17 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Accordion, Alert, BodyShort, Button, Tabs } from '@navikt/ds-react';
+import { Alert, Button, Tabs } from '@navikt/ds-react';
 import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
-import { DetaljerteVedtaksperioderBehandling } from './DetaljerteVedtaksperioderBehandling';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { VedtaksperioderAccordion } from './Vilkårvurdering/VedtaksperioderAccordion';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -122,27 +123,9 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-                <Accordion style={{ backgroundColor: '#FDFFE6' }}>
-                    <Accordion.Item defaultOpen>
-                        <Accordion.Header
-                            style={{
-                                padding: '0.5rem',
-                                border: 'none',
-                                boxShadow: 'none',
-                                fontSize: 'medium',
-                            }}
-                        >
-                            <BodyShort size={'small'} weight={'semibold'}>
-                                Vedtaksperioder
-                            </BodyShort>
-                        </Accordion.Header>
-                        <Accordion.Content style={{ padding: '0px', paddingBottom: '1.5rem' }}>
-                            <DetaljerteVedtaksperioderBehandling
-                                fagsakPersonId={behandling.fagsakPersonId}
-                            />
-                        </Accordion.Content>
-                    </Accordion.Item>
-                </Accordion>
+                {behandling.type !== BehandlingType.FØRSTEGANGSBEHANDLING && (
+                    <VedtaksperioderAccordion behandling={behandling} />
+                )}
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (

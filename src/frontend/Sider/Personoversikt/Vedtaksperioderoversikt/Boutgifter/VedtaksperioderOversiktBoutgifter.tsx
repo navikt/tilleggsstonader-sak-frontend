@@ -31,6 +31,7 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
                     <Table.HeaderCell scope="col" align={'right'}>
                         Stønad
                     </Table.HeaderCell>
+                    <Table.HeaderCell scope="col" />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
