@@ -180,6 +180,10 @@ const stønadstypeFraBrevkode = (journalpost: Journalpost): Stønadstype | undef
     if (journalpost.dokumenter.some((dokument) => dokument.brevkode === 'NAV 11-12.19')) {
         return Stønadstype.BOUTGIFTER;
     }
+    if (journalpost.dokumenter.some((dokument) => dokument.brevkode === 'NAV 11-12.21')) {
+        return Stønadstype.DAGLIG_REISE_TSO;
+    }
+    // TODO: Vi trenger en håndtering av daglig reise TSR også etter hvert
 
     return undefined;
 };
