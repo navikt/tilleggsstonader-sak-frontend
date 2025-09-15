@@ -16,6 +16,7 @@ export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     RETUR: 'Retur KA',
     OPPHEVET: 'Opphevet KA',
     MEDHOLD: 'Medhold KA',
+    HENLAGT: 'Henlagt KA',
     DELVIS_MEDHOLD: 'Delvis medhold KA',
     STADFESTELSE: 'Stadfestelse KA',
     UGUNST: 'Ugunst (Ugyldig) KA',

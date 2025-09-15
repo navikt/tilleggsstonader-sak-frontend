@@ -46,6 +46,7 @@ export enum KlageinstansUtfall {
     STADFESTELSE = 'STADFESTELSE',
     UGUNST = 'UGUNST',
     AVVIST = 'AVVIST',
+    HENLAGT = 'HENLAGT',
     INNSTILLING_STADFESTELSE = 'INNSTILLING_STADFESTELSE',
     INNSTILLING_AVVIST = 'INNSTILLING_AVVIST',
 }
@@ -84,6 +85,7 @@ export const klageinstansUtfallTilTekst: Record<KlageinstansUtfall, string> = {
     RETUR: 'Retur KA',
     OPPHEVET: 'Opphevet KA',
     MEDHOLD: 'Medhold KA',
+    HENLAGT: 'Henlagt KA',
     DELVIS_MEDHOLD: 'Delvis medhold KA',
     STADFESTELSE: 'Stadfestelse KA',
     UGUNST: 'Ugunst (Ugyldig) KA',
