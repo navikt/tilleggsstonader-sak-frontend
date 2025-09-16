@@ -20,6 +20,10 @@ const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
             return 'LAREMIDLER';
         case Stønadstype.BOUTGIFTER:
             return 'BOUTGIFTER';
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return 'DAGLIG_REISE_TSO';
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return 'DAGLIG_REISE_TSR';
         default:
             return 'ikke-definiert';
     }
