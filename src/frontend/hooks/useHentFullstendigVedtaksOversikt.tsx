@@ -77,7 +77,6 @@ type VedtaksOversiktMapping = {
 export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadstype>(
     behandling: Behandling
 ): {
-    hentetTidspunkt: Date | undefined;
     vedtaksperioderOversiktForStønad: Ressurs<VedtaksOversiktMapping[T]>;
 } => {
     const { request } = useApp();
@@ -85,20 +84,16 @@ export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadsty
     const [vedtakOversiktResponseForStønad, settVedtakOversiktResponseForStønad] =
         useState<Ressurs<VedtaksOversiktMapping[T]>>(byggTomRessurs());
 
-    const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
-
     useEffect(() => {
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
         request<VedtaksOversiktMapping[T], null>(
             `/api/sak/vedtak/${stønadstypeTilVedtakUrl[behandling.stønadstype]}/oversikt/${behandling.fagsakId}`
         ).then((res) => {
             settVedtakOversiktResponseForStønad(res);
-            settHentetTidspunkt(new Date());
         });
     }, [request, behandling]);
 
     return {
-        hentetTidspunkt: hentetTidspunkt,
         vedtaksperioderOversiktForStønad: vedtakOversiktResponseForStønad,
     };
 };

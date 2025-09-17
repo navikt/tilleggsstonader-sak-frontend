@@ -3,7 +3,6 @@ import React, { JSX } from 'react';
 import styled from 'styled-components';
 
 import { Box } from '@navikt/ds-react';
-import { AGray500 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useHentFullstendigVedtaksOversiktForStønad } from '../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../komponenter/DataViewer';
@@ -29,11 +28,6 @@ const Container = styled('div')`
 const TableContainer = styled(Box)`
     width: 920px;
     background-color: white;
-    border: solid 1px ${AGray500};
-`;
-
-const Feilmelding = styled('p')`
-    margin-left: '1rem';
 `;
 
 type Props = {
@@ -51,49 +45,41 @@ export function DetaljerteVedtaksperioderBehandling({ behandling }: Props) {
     const { vedtaksperioderOversiktForStønad } =
         useHentFullstendigVedtaksOversiktForStønad(behandling);
 
-    const stønadstypeMap = new Map<Stønadstype, (data: VedtaksperiodeData) => JSX.Element>([
-        [
-            Stønadstype.LÆREMIDLER,
-            (vedtaksperioder) => (
-                <VedtaksperioderOversiktLæremidler
-                    vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeLæremidler[]}
-                />
-            ),
-        ],
-        [
-            Stønadstype.BARNETILSYN,
-            (vedtaksperioder) => (
-                <VedtaksperioderOversiktTilsynBarn
-                    vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeTilsynBarn[]}
-                />
-            ),
-        ],
-        [
-            Stønadstype.BOUTGIFTER,
-            (vedtaksperioder) => (
-                <VedtaksperioderOversiktBoutgifter
-                    vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeBoutgifter[]}
-                />
-            ),
-        ],
-        [
-            Stønadstype.DAGLIG_REISE_TSO,
-            (vedtaksperioder) => (
-                <VedtaksperioderOversiktDagligReiseTso
-                    vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTso[]}
-                />
-            ),
-        ],
-        [
-            Stønadstype.DAGLIG_REISE_TSR,
-            (vedtaksperioder) => (
-                <VedtaksperioderOversiktDagligReiseTsr
-                    vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTsr[]}
-                />
-            ),
-        ],
-    ]);
-    const relevantePerioder = stønadstypeMap.get(behandling.stønadstype);
+    const stønadstypeTilVedtaksperiodeOversikt: Record<
+        Stønadstype,
+        (data: VedtaksperiodeData) => JSX.Element
+    > = {
+        [Stønadstype.LÆREMIDLER]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktLæremidler
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeLæremidler[]}
+            />
+        ),
+        [Stønadstype.BARNETILSYN]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktTilsynBarn
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeTilsynBarn[]}
+            />
+        ),
+        [Stønadstype.BOUTGIFTER]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktBoutgifter
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeBoutgifter[]}
+            />
+        ),
+        [Stønadstype.DAGLIG_REISE_TSO]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktDagligReiseTso
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTso[]}
+            />
+        ),
+        [Stønadstype.DAGLIG_REISE_TSR]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktDagligReiseTsr
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTsr[]}
+            />
+        ),
+    };
 
     return (
         <Container>
@@ -101,15 +87,9 @@ export function DetaljerteVedtaksperioderBehandling({ behandling }: Props) {
                 {({ vedtaksperioderOversiktForStønad }) => {
                     return (
                         <TableContainer>
-                            <TableContainer>
-                                {relevantePerioder ? (
-                                    relevantePerioder(vedtaksperioderOversiktForStønad)
-                                ) : (
-                                    <Feilmelding>
-                                        Bruker har ingen tidligere vedtaksperioder i TS-sak
-                                    </Feilmelding>
-                                )}
-                            </TableContainer>
+                            {stønadstypeTilVedtaksperiodeOversikt[behandling.stønadstype](
+                                vedtaksperioderOversiktForStønad
+                            )}
                         </TableContainer>
                     );
                 }}
