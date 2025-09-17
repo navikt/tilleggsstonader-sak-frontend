@@ -14,7 +14,7 @@ import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
-import { BehandlingType } from '../../typer/behandling/behandlingType';
+import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -123,9 +123,10 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-                {behandling.type !== BehandlingType.FØRSTEGANGSBEHANDLING && (
-                    <VedtaksperioderAccordion behandling={behandling} />
-                )}
+                {behandling.forrigeIverksatteBehandlingId &&
+                    behandling.status != BehandlingStatus.FERDIGSTILT && (
+                        <VedtaksperioderAccordion behandling={behandling} />
+                    )}
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (
