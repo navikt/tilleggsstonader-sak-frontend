@@ -20,8 +20,7 @@ const AccordionHeader = styled(Accordion.Header)`
 `;
 
 const AccordionContent = styled(Accordion.Content)`
-    padding: 0;
-    padding-bottom: 1.5rem;
+    padding: 0 0 1.5rem;
 `;
 
 type Props = {

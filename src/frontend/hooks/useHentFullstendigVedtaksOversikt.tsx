@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { stønadstypeTilVedtakUrl } from '../Sider/Behandling/VedtakOgBeregning/Felles/stønadstypeTilVedtakUrl';
@@ -84,14 +84,22 @@ export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadsty
     const [vedtakOversiktResponseForStønad, settVedtakOversiktResponseForStønad] =
         useState<Ressurs<VedtaksOversiktMapping[T]>>(byggTomRessurs());
 
+    const relevanteBehandlingsVerdier = useMemo(
+        () => ({
+            stønadstype: behandling.stønadstype,
+            fagsakId: behandling.fagsakId,
+        }),
+        [behandling.stønadstype, behandling.fagsakId]
+    );
+
     useEffect(() => {
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
         request<VedtaksOversiktMapping[T], null>(
-            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[behandling.stønadstype]}/oversikt/${behandling.fagsakId}`
+            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[relevanteBehandlingsVerdier.stønadstype]}/oversikt/${relevanteBehandlingsVerdier.fagsakId}`
         ).then((res) => {
             settVedtakOversiktResponseForStønad(res);
         });
-    }, [request, behandling]);
+    }, [request, relevanteBehandlingsVerdier]);
 
     return {
         vedtaksperioderOversiktForStønad: vedtakOversiktResponseForStønad,
