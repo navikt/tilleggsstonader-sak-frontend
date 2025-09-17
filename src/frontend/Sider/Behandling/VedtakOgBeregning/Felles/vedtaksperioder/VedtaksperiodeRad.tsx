@@ -3,6 +3,7 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { finnFaktiskeMålgruppeValgForStønad } from './vedtaksperiodeUtils';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
@@ -14,10 +15,7 @@ import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
-import {
-    faktiskMålgruppeTilTekst,
-    faktiskMålgruppeTypeOptions,
-} from '../../../Felles/faktiskMålgruppe';
+import { faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 import {
     aktivitetTypeTilTekst,
     valgbareAktivitetTyperForVedtaksperiode,
@@ -87,6 +85,8 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
         slettPeriode();
     };
 
+    const valgForFaktiskMålgruppe = finnFaktiskeMålgruppeValgForStønad(behandling.stønadstype);
+
     return (
         <>
             <FeilmeldingMaksBredde>
@@ -138,7 +138,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                             : vedtaksperiode.målgruppeType
                     }
                     onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
-                    valg={faktiskMålgruppeTypeOptions}
+                    valg={valgForFaktiskMålgruppe}
                     size={'small'}
                     error={vedtaksperiodeFeil?.målgruppeType}
                 />
