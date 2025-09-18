@@ -123,7 +123,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             regler,
             periodeForVilkår.fom,
             periodeForVilkår.tom,
-            erFremtidigUtgift
+            erFremtidigUtgift,
+            offentligTransport
         );
 
         settFeilmeldinger(valideringsfeil);
