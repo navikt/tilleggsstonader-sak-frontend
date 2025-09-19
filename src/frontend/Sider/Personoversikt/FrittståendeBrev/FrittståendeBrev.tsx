@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { VStack } from '@navikt/ds-react';
-import { ABreakpointLgDown } from '@navikt/ds-tokens/dist/tokens';
+import { BreakpointLgDown } from '@navikt/ds-tokens/darkside-js';
 
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
@@ -24,7 +24,7 @@ const ToKolonner = styled.div`
     display: flex;
     gap: 1rem;
 
-    @media (max-width: ${ABreakpointLgDown}) {
+    @media (max-width: ${BreakpointLgDown}) {
         flex-wrap: wrap;
     }
 `;

@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 import { Table } from '@navikt/ds-react';
-import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
 import { erRegisterAktivitetBrukt } from './utilsAktivitet';
@@ -15,9 +15,9 @@ import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/ak
 
 const Tabell = styled(Table)`
     background: white;
-    --ac-table-row-border: ${ABorderDivider};
+    --ac-table-row-border: ${BorderNeutralSubtle};
     --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${ABorderDivider};
+    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
 `;
 
 const RegisterAktiviteterTabell: React.FC<{

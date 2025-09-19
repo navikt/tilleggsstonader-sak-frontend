@@ -13,7 +13,7 @@ import {
     TextField,
     VStack,
 } from '@navikt/ds-react';
-import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
 import { PanelHeader, PanelHeaderType } from './PanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
@@ -28,7 +28,7 @@ const ExpansionCardContent = styled(VStack).attrs({ gap: '4' })`
 `;
 
 const IkonContainer = styled.div`
-    color: ${ABlue500};
+    color: ${BgAccentStrong};
 `;
 
 const KopierPersonIdent = styled(CopyButton)`

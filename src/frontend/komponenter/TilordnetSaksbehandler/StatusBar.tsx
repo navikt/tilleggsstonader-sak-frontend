@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ASurfaceSuccess, ASurfaceNeutral, ASurfaceWarning } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutral, BorderSuccess, BorderWarningSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 
@@ -17,14 +17,14 @@ export function utledStatusbarFarge(
     switch (ansvarligSaksbehandlerRolle) {
         case TilordnetSaksbehandlerPåOppgave.IKKE_SATT:
         case TilordnetSaksbehandlerPåOppgave.UTVIKLER_MED_VEILDERROLLE:
-            return ASurfaceNeutral;
+            return BorderNeutral;
         case TilordnetSaksbehandlerPåOppgave.INNLOGGET_SAKSBEHANDLER:
         case TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE_SANNSYNLIGVIS_INNLOGGET_SAKSBEHANDLER:
-            return ASurfaceSuccess;
+            return BorderSuccess;
         case TilordnetSaksbehandlerPåOppgave.ANNEN_SAKSBEHANDLER:
         case TilordnetSaksbehandlerPåOppgave.OPPGAVE_TILHØRER_IKKE_TILLEGGSSTONADER:
-            return ASurfaceWarning;
+            return BorderWarningSubtle;
         default:
-            return ASurfaceNeutral;
+            return BorderNeutral;
     }
 }

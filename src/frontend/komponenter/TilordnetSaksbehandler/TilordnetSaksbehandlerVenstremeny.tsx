@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -12,12 +11,7 @@ export const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
 
     if (!behandling.tilordnetSaksbehandler) {
         return (
-            <Alert
-                size={'small'}
-                variant={'info'}
-                inline={true}
-                style={{ backgroundColor: AGray50 }}
-            >
+            <Alert size={'small'} variant={'warning'} inline={true}>
                 Klarte ikke å hente ansvarlig saksbehandler
             </Alert>
         );

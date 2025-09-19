@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { Label } from '@navikt/ds-react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { BorderFocus } from '@navikt/ds-tokens/darkside-js';
 
 import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
 import { EtikettFokus } from './Etikett';
@@ -25,7 +25,7 @@ export const StatusheaderWrapper = styled(Sticky)`
     width: 100%;
     display: flex;
 
-    border-bottom: 1px solid ${ABorderStrong};
+    border-bottom: 1px solid ${BorderFocus};
     z-index: 22;
     top: 47px;
 

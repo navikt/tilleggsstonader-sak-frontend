@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Alert, BodyShort, HGrid, VStack } from '@navikt/ds-react';
-import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import { TilordnetSaksbehandler } from './TilordnetSaksbehandler';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -16,7 +16,7 @@ const Container = styled.div`
     padding: 1rem;
     display: flex;
     gap: 0.5rem;
-    border: 1px solid ${ABorderSubtle};
+    border: 1px solid ${BorderNeutral};
     border-radius: 0.125rem;
     margin: 1rem 0.5rem;
 `;

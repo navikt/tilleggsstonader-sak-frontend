@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { CheckmarkCircleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
-import { AIconDanger, AIconSuccess } from '@navikt/ds-tokens/dist/tokens';
+import { BgDangerStrong, BgWarningStrong } from '@navikt/ds-tokens/darkside-js';
 
 const OppsummeringRad: FC<{ tekst: string; vilkårOppfylt: boolean }> = ({
     tekst,
@@ -11,9 +11,9 @@ const OppsummeringRad: FC<{ tekst: string; vilkårOppfylt: boolean }> = ({
     return (
         <HStack gap="1">
             {vilkårOppfylt ? (
-                <CheckmarkCircleFillIcon color={AIconSuccess} />
+                <CheckmarkCircleFillIcon color={BgDangerStrong} />
             ) : (
-                <XMarkOctagonFillIcon color={AIconDanger} />
+                <XMarkOctagonFillIcon color={BgWarningStrong} />
             )}
             <BodyShort size="small">{tekst}</BodyShort>
         </HStack>

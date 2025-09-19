@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
-import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
+import { BorderMetaPurple } from '@navikt/ds-tokens/darkside-js';
 
 import {
     formkravFristUnntakTilTekst,
@@ -64,7 +64,7 @@ const SpørsmålContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-left: 0.4rem solid ${APurple500};
+    border-left: 0.4rem solid ${BorderMetaPurple};
     padding-left: 2rem;
 `;
 

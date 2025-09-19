@@ -4,9 +4,9 @@ import { styled } from 'styled-components';
 
 import { CircleBrokenIcon } from '@navikt/aksel-icons';
 import { Detail, HStack, Label, VStack } from '@navikt/ds-react';
-import { AGray200 } from '@navikt/ds-tokens/dist/tokens';
+import { BgSunken } from '@navikt/ds-tokens/darkside-js';
 
-import { VilkårperiodeResultatTilTekst, formaterDelvilkårKeys } from './tekstmapping';
+import { formaterDelvilkårKeys, VilkårperiodeResultatTilTekst } from './tekstmapping';
 import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
@@ -23,7 +23,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border-left: 3px solid ${AGray200};
+    border-left: 3px solid ${BgSunken};
     padding-left: 1rem;
     height: 100%;
 `;

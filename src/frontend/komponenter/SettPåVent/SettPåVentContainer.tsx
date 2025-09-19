@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Alert } from '@navikt/ds-react';
-import { AGray100 } from '@navikt/ds-tokens/dist/tokens';
+import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import SettPåVentForm from './SettPåVentForm';
 import SettPåVentInformasjon from './SettPåVentInformasjon';
@@ -21,7 +21,7 @@ import DataViewer from '../DataViewer';
 const Container = styled.div`
     margin: 2rem;
     padding: 2rem;
-    background: ${AGray100};
+    background: ${BgNeutralSoft};
 `;
 
 export const SettPåVentSak = ({

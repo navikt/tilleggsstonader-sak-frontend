@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
-import { ABorderStrong, ASpacing2, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
+import { BorderInfoStrong, Space16, Space8 } from '@navikt/ds-tokens/darkside-js';
 
 import TagAdressebeskyttelse from './TagAdressebeskyttelse';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -14,12 +14,12 @@ import { Sticky } from '../Visningskomponenter/Sticky';
 const Container = styled(Sticky)`
     display: flex;
     align-items: center;
-    gap: ${ASpacing4};
+    gap: ${Space16};
     top: 48px;
 
-    padding: ${ASpacing2} ${ASpacing4};
+    padding: ${Space8} ${Space16};
 
-    border-bottom: 1px solid ${ABorderStrong};
+    border-bottom: 1px solid ${BorderInfoStrong};
 `;
 
 const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {

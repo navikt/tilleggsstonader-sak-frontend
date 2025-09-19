@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { BodyLong, Button, Table } from '@navikt/ds-react';
-import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { OppgaveArena } from './typer';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
@@ -11,10 +11,10 @@ import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const Tabell = styled(Table)`
     max-width: 1000px;
-    border: 1px solid ${ABorderDivider};
-    --ac-table-row-border: ${ABorderDivider};
+    border: 1px solid ${BorderNeutralSubtle};
+    --ac-table-row-border: ${BorderNeutralSubtle};
     --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${ABorderDivider};
+    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
 `;
 
 const Kommentar = styled(BodyLong)`

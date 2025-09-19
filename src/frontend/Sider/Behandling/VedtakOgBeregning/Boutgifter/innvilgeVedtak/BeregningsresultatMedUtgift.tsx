@@ -3,14 +3,14 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { Alert, Table } from '@navikt/ds-react';
-import { AGray50, AWhite } from '@navikt/ds-tokens/dist/tokens';
+import { BgDefault, BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 
 const Container = styled.div`
-    background-color: ${AWhite};
+    background-color: ${BgDefault};
     padding: 1rem;
 `;
 
@@ -21,7 +21,7 @@ const TableRow = styled(Table.Row)`
 const TableRowGray = styled(Table.Row).withConfig({
     shouldForwardProp: (prop) => prop !== 'borderbottom',
 })<{ borderbottom: boolean }>`
-    background-color: ${AGray50};
+    background-color: ${BgNeutralSoft};
     border-bottom: ${(props) => (props.borderbottom ? 'initial' : 'hidden')};
 `;
 

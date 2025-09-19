@@ -3,7 +3,7 @@ import React, { FC, useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
-import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
+import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
 import EndreDelvilkår from './EndreDelvilkår';
 import EndreErFremtidigUtgift from './EndreErFremtidigUtgift';
@@ -36,7 +36,7 @@ import { OffentligTransportSeksjon } from '../../Stønadsvilkår/DagligReise/Off
 const StyledForm = styled.form`
     background: white;
     padding: 2rem;
-    box-shadow: ${AShadowXsmall};
+    box-shadow: ${ShadowDialog};
 `;
 
 const Knapper = styled.div`

@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import { EnvelopeClosedIcon, PersonCircleIcon } from '@navikt/aksel-icons';
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
-import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
 const IkonContainer = styled.div`
-    color: ${ABlue500};
+    color: ${BgAccentStrong};
 `;
 
 export enum PanelHeaderType {

@@ -3,16 +3,20 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Detail, Label } from '@navikt/ds-react';
-import { AGray100, AGray400, AGray900 } from '@navikt/ds-tokens/dist/tokens';
+import {
+    BgAccentModerate,
+    BorderNeutralSubtle,
+    TextNeutralSubtle,
+} from '@navikt/ds-tokens/darkside-js';
 
 import HendelseIkon from './HendelseIkon';
 import Metadata from './Metadata';
-import { HistorikkHendelse, hendelseTilHistorikkTekst } from './typer';
+import { hendelseTilHistorikkTekst, HistorikkHendelse } from './typer';
 import { formaterIsoDatoTidKort } from '../../../../utils/dato';
 
 const Linje = styled.div`
     margin-right: 12px;
-    border-right: 1px dashed ${AGray400};
+    border-right: 1px dashed ${BorderNeutralSubtle};
     min-height: 60px;
     height: 100%;
 `;
@@ -25,7 +29,7 @@ const Container = styled.li`
     .navds-body-short,
     .navds-label,
     .navds-detail {
-        color: ${AGray900};
+        color: ${TextNeutralSubtle};
     }
 `;
 
@@ -33,7 +37,7 @@ const BlåRunding = styled.div`
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: ${AGray100};
+    background-color: ${BgAccentModerate};
 
     display: flex;
     justify-content: center;

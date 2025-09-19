@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
+import { BorderAccentSubtle } from '@navikt/ds-tokens/darkside-js';
 
 export const Skillelinje = styled.hr`
-    border-top: 1px solid ${ABorderDivider};
+    border-top: 1px solid ${BorderAccentSubtle};
     border-left: none;
     width: 100%;
 `;

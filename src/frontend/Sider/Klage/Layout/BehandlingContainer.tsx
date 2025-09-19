@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { BorderFocus } from '@navikt/ds-tokens/darkside-js';
 
 import BehandlingRoutes from './BehandlingRoutes';
 import Fanemeny from './Fanemeny/Fanemeny';
@@ -35,7 +35,7 @@ interface HøyreMenyWrapperProps {
 }
 
 const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
-    border-left: 2px solid ${ABorderStrong};
+    border-left: 2px solid ${BorderFocus};
     flex-shrink: 1;
     flex-grow: 0;
     width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};

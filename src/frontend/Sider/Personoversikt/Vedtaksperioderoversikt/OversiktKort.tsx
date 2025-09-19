@@ -3,13 +3,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Heading, HStack, Tag, VStack } from '@navikt/ds-react';
-import { ABgDefault, ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 const Container = styled(VStack)`
-    border: 1px solid ${ABorderDefault};
+    border: 1px solid ${BorderNeutral};
     border-radius: 4px;
     padding: 1rem;
-    background-color: ${ABgDefault};
+    background-color: ${BgDefault};
     width: 1200px;
 `;
 

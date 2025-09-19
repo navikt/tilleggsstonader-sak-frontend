@@ -4,7 +4,12 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { BodyShort } from '@navikt/ds-react';
-import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
+import {
+    BgNeutralSoft,
+    TextAccent,
+    TextAccentSubtle,
+    TextNeutral,
+} from '@navikt/ds-tokens/darkside-js';
 
 import { ISide } from './sider';
 import { useKlageApp } from '../../context/KlageAppContext';
@@ -23,14 +28,14 @@ const StyledNavLink = styled(NavLink)`
     padding-left: 5px;
     padding-right: 5px;
     &:hover {
-        border-bottom: 5px solid ${ABlue400};
+        border-bottom: 5px solid ${TextAccentSubtle};
         p {
-            color: ${ATextAction};
+            color: ${TextAccent};
         }
     }
     &.active {
-        background-color: ${AGray100};
-        border-bottom: 5px solid ${ATextAction};
+        background-color: ${BgNeutralSoft};
+        border-bottom: 5px solid ${TextAccent};
 
         .typo-normal {
             font-weight: bold;
@@ -46,17 +51,14 @@ const StyledLenketekst = styled(BodyShort)`
 
 const StyledTekst = styled(BodyShort)`
     border-bottom: 5px solid white;
-    color: ${AGray400};
+    color: ${TextNeutral};
     text-align: center;
     text-decoration: none;
     width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 1rem 5px;
 `;
 
 interface Props {

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { HStack, Table, Tooltip } from '@navikt/ds-react';
-import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import HenlagtÅrsakOgBegrunnelse from './HenlagtÅrsakOgBegrunnelse';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
@@ -25,7 +25,7 @@ import { formaterEnumVerdi } from '../../../utils/tekstformatering';
 
 const Tabell = styled(Table)`
     max-width: fit-content;
-    border: 1px solid ${ABorderDefault};
+    border: 1px solid ${BorderNeutral};
     margin-left: 10px;
 `;
 

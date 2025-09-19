@@ -12,7 +12,7 @@ import {
     Select,
     VStack,
 } from '@navikt/ds-react';
-import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
 import { Arkivtema, utledArkivtema } from '../../../typer/arkivtema';
@@ -28,7 +28,7 @@ import {
 import { Journalføringsårsak, journalføringsårsakTilTekst } from '../typer/journalføringsårsak';
 
 const IkonContainer = styled.div`
-    color: ${ABlue500};
+    color: ${BgAccentStrong};
 `;
 
 const ExpansionCardHeader = styled(ExpansionCard.Header)`

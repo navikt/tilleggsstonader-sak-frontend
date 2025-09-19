@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { ABorderAction } from '@navikt/ds-tokens/dist/tokens';
+import { BorderAccent } from '@navikt/ds-tokens/darkside-js';
 
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../../typer/regel';
@@ -20,8 +20,7 @@ import {
 import { Feilmeldinger } from '../validering';
 
 const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
-    border-left: ${({ $erUndervilkår }) =>
-        $erUndervilkår ? `5px solid ${ABorderAction}` : 'none'};
+    border-left: ${({ $erUndervilkår }) => ($erUndervilkår ? `5px solid ${BorderAccent}` : 'none')};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
     gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
     display: flex;

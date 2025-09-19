@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { AWhite } from '@navikt/ds-tokens/dist/tokens';
+import { BgDefault } from '@navikt/ds-tokens/darkside-js';
 
 import { OppsummertVilkårsvurdering } from './OppsummertVilkårsvurdering';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -13,7 +13,7 @@ import { Målgruppe } from '../../typer/vilkårperiode/målgruppe';
 
 const Container = styled.div`
     position: relative;
-    background-color: ${AWhite};
+    background-color: ${BgDefault};
     padding: 1rem;
 
     display: flex;

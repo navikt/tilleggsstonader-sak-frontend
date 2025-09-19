@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
-import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
+import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
@@ -24,7 +24,7 @@ const Container = styled(FlexColumn)`
     position: relative;
     background: white;
     padding: 1rem;
-    box-shadow: ${AShadowXsmall};
+    box-shadow: ${ShadowDialog};
 `;
 
 const Redigeringsknapp = styled(SmallButton)`

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Detail, Heading, HStack } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { useOppdaterGrunnlag } from './useOppdaterGrunnlag';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -15,7 +15,7 @@ import { dagerSiden } from '../../../../utils/dato';
 import { VilkårperioderResponse } from '../typer/vilkårperiode/vilkårperiode';
 
 const AdminEndreHenteGrunnlagFra = styled.div`
-    background: ${AGray50};
+    background: ${BgNeutralSoft};
     padding: 0.5rem;
 `;
 
