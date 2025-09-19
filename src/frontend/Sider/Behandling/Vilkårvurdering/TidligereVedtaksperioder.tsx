@@ -27,13 +27,13 @@ type Props = {
     behandling: Behandling;
 };
 
-export function VedtaksperioderAccordion({ behandling }: Props) {
+export function TidligereVedtaksperioder({ behandling }: Props) {
     return (
         <GulAccordion>
             <Accordion.Item defaultOpen>
                 <AccordionHeader>
                     <BodyShort size={'small'} weight={'semibold'}>
-                        Vedtaksperioder
+                        Tidligere vedtaksperioder
                     </BodyShort>
                 </AccordionHeader>
                 <AccordionContent>

@@ -8,7 +8,7 @@ import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
-import { VedtaksperioderAccordion } from './Vilkårvurdering/VedtaksperioderAccordion';
+import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
@@ -125,7 +125,7 @@ const BehandlingTabsInnhold = () => {
                 />
                 {behandling.forrigeIverksatteBehandlingId &&
                     behandling.status != BehandlingStatus.FERDIGSTILT && (
-                        <VedtaksperioderAccordion behandling={behandling} />
+                        <TidligereVedtaksperioder behandling={behandling} />
                     )}
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
