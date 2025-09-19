@@ -2,18 +2,23 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { BorderTable } from './VedtaksperioderBorderTable';
 import { DetaljertVedtaksperiodeDagligReiseTsr } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
 import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 interface Props {
+    border?: boolean;
     vedtaksperioder: DetaljertVedtaksperiodeDagligReiseTsr[];
 }
 
-export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({ vedtaksperioder }) => {
+export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({
+    vedtaksperioder,
+    border,
+}) => {
     return (
-        <Table size={'small'}>
+        <BorderTable size={'small'} border={border}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
@@ -38,6 +43,6 @@ export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({ vedtaks
                     );
                 })}
             </Table.Body>
-        </Table>
+        </BorderTable>
     );
 };

@@ -1,9 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
+import { stønadstypeTilVedtakUrl } from '../Sider/Behandling/VedtakOgBeregning/Felles/stønadstypeTilVedtakUrl';
 import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Vedtaksperioderoversikt/Arena/vedtakArena';
+import { Behandling } from '../typer/behandling/behandling';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
-import { VedtakperioderOversiktResponse } from '../typer/vedtak/vedtaksperiodeOppsummering';
+import {
+    DetaljertVedtaksperiodeBoutgifter,
+    DetaljertVedtaksperiodeDagligReiseTso,
+    DetaljertVedtaksperiodeDagligReiseTsr,
+    DetaljertVedtaksperiodeLæremidler,
+    DetaljertVedtaksperiodeTilsynBarn,
+    VedtakperioderOversiktResponse,
+} from '../typer/vedtak/vedtaksperiodeOppsummering';
 
 export const useHentFullstendigVedtaksOversikt = (
     fagsakPersonId: string
@@ -49,4 +58,50 @@ export const useVedtaksperioderOversiktArena = (
     }, [request, fagsakPersonId]);
 
     return { arenaSakOgVedtak: vedtakArena, hentetTidspunkt: hentetTidspunkt };
+};
+
+type Stønadstype =
+    | 'TILSYN_BARN'
+    | 'LÆREMIDLER'
+    | 'BOUTGIFTER'
+    | 'DAGLIG_REISE_TSO'
+    | 'DAGLIG_REISE_TSR';
+
+type VedtaksOversiktMapping = {
+    TILSYN_BARN: DetaljertVedtaksperiodeTilsynBarn[];
+    LÆREMIDLER: DetaljertVedtaksperiodeLæremidler[];
+    BOUTGIFTER: DetaljertVedtaksperiodeBoutgifter[];
+    DAGLIG_REISE_TSO: DetaljertVedtaksperiodeDagligReiseTso[];
+    DAGLIG_REISE_TSR: DetaljertVedtaksperiodeDagligReiseTsr[];
+};
+export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadstype>(
+    behandling: Behandling
+): {
+    vedtaksperioderOversiktForStønad: Ressurs<VedtaksOversiktMapping[T]>;
+} => {
+    const { request } = useApp();
+
+    const [vedtakOversiktResponseForStønad, settVedtakOversiktResponseForStønad] =
+        useState<Ressurs<VedtaksOversiktMapping[T]>>(byggTomRessurs());
+
+    const relevanteBehandlingsVerdier = useMemo(
+        () => ({
+            stønadstype: behandling.stønadstype,
+            fagsakId: behandling.fagsakId,
+        }),
+        [behandling.stønadstype, behandling.fagsakId]
+    );
+
+    useEffect(() => {
+        settVedtakOversiktResponseForStønad(byggHenterRessurs());
+        request<VedtaksOversiktMapping[T], null>(
+            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[relevanteBehandlingsVerdier.stønadstype]}/oversikt/${relevanteBehandlingsVerdier.fagsakId}`
+        ).then((res) => {
+            settVedtakOversiktResponseForStønad(res);
+        });
+    }, [request, relevanteBehandlingsVerdier]);
+
+    return {
+        vedtaksperioderOversiktForStønad: vedtakOversiktResponseForStønad,
+    };
 };
