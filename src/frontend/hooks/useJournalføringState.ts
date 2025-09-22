@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useHentBehandlinger } from './useHentBehandlinger';
 import { useApp } from '../context/AppContext';
-import { journalpostTilStønadstype } from '../Sider/Journalføring/Felles/utils';
 import { Journalføringsårsak } from '../Sider/Journalføring/typer/journalføringsårsak';
 import { BehandlingForJournalføring } from '../typer/behandling/behandling';
 import { Stønadstype } from '../typer/behandling/behandlingTema';
@@ -46,6 +45,7 @@ export interface JournalføringState {
     settNyAvsender: Dispatch<SetStateAction<NyAvsender | undefined>>;
     journalføringsårsak: Journalføringsårsak;
     settJournalføringsårsak: Dispatch<SetStateAction<Journalføringsårsak>>;
+    valgbareStønadstyper: Stønadstype[];
     stønadstype: Stønadstype | undefined;
     settStønadstype: Dispatch<SetStateAction<Stønadstype | undefined>>;
     journalføringsaksjon: Journalføringsaksjon;
@@ -62,7 +62,8 @@ export const useJournalføringState = (
     journalResponse: JournalpostResponse,
     oppgaveId: string
 ): JournalføringState => {
-    const { harStrukturertSøknad, journalpost, personIdent } = journalResponse;
+    const { harStrukturertSøknad, journalpost, personIdent, valgbareStønadstyper } =
+        journalResponse;
 
     const initielleLogiskeVedlegg = journalResponse.journalpost.dokumenter.reduce(
         (acc, { dokumentInfoId, logiskeVedlegg }) => ({
@@ -100,7 +101,9 @@ export const useJournalføringState = (
         utledJournalføringsårsak()
     );
     const [stønadstype, settStønadstype] = useState<Stønadstype | undefined>(
-        journalpostTilStønadstype(journalpost)
+        journalResponse.valgbareStønadstyper.length === 1
+            ? journalResponse.valgbareStønadstyper[0]
+            : undefined
     );
     const [journalføringsaksjon, settJournalføringsaksjon] = useState<Journalføringsaksjon>(
         Journalføringsaksjon.JOURNALFØR_PÅ_FAGSAK
@@ -159,6 +162,7 @@ export const useJournalføringState = (
         settNyAvsender,
         journalføringsårsak,
         settJournalføringsårsak,
+        valgbareStønadstyper,
         stønadstype,
         settStønadstype,
         journalføringsaksjon,

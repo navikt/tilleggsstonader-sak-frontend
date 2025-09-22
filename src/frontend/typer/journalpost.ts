@@ -1,3 +1,4 @@
+import { Stønadstype } from './behandling/behandlingTema';
 import { LogiskVedlegg } from './dokument';
 import { Behandlingstema } from '../Sider/Oppgavebenk/typer/oppgave';
 
@@ -6,6 +7,7 @@ export interface JournalpostResponse {
     personIdent: string;
     navn: string;
     harStrukturertSøknad: boolean;
+    valgbareStønadstyper: Stønadstype[];
 }
 
 export interface Journalpost {

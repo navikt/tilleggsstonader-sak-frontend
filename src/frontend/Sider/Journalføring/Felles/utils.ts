@@ -4,11 +4,9 @@ import { Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
-import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { LogiskVedlegg } from '../../../typer/dokument';
-import { Journalpost, JournalpostResponse } from '../../../typer/journalpost';
-import { Behandlingstema } from '../../Oppgavebenk/typer/oppgave';
+import { JournalpostResponse } from '../../../typer/journalpost';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export type MultiSelectValue = { label: string; value: string };
@@ -86,12 +84,6 @@ export const utledNesteJournalføringsårsak = (prevState: Journalføringsårsak
         ? Journalføringsårsak.KLAGE_TILBAKEKREVING
         : Journalføringsårsak.KLAGE;
 
-export const valgbareStønadstyper = [
-    Stønadstype.BARNETILSYN,
-    Stønadstype.LÆREMIDLER,
-    Stønadstype.BOUTGIFTER,
-];
-
 export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) => [
     Journalføringsårsak.IKKE_VALGT,
     Journalføringsårsak.ETTERSENDING,
@@ -144,46 +136,3 @@ export const skalViseBekreftelsesmodal = (
 export const journalføringsÅrsakErKlage = (journalføringsårsak: Journalføringsårsak): boolean =>
     journalføringsårsak === Journalføringsårsak.KLAGE ||
     journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
-
-export const journalpostTilStønadstype = (journalpost: Journalpost): Stønadstype | undefined => {
-    return (
-        behandlingstemaTilStønadstype(journalpost.behandlingstema) ??
-        stønadstypeFraBrevkode(journalpost)
-    );
-};
-
-const behandlingstemaTilStønadstype = (
-    behandlingstema: Behandlingstema | undefined
-): Stønadstype | undefined => {
-    switch (behandlingstema) {
-        case 'ab0300':
-            return Stønadstype.BARNETILSYN;
-        case 'ab0292':
-            return Stønadstype.LÆREMIDLER;
-        case 'ab0286': // Se [stønadstypeFraBrevkode]
-            return Stønadstype.BOUTGIFTER;
-        case 'ab0287':
-            return Stønadstype.DAGLIG_REISE_TSR;
-        case 'ab0288':
-            return Stønadstype.DAGLIG_REISE_TSO;
-        default:
-            return undefined;
-    }
-};
-
-/**
- * FyllUt/SendInn som arkiverer søknad for boutgifter setter ikke behandlingstema på journalposten
- * Av den grunnen må vi sjekke om det finnes en dokument med brevkode NAV 11-12.19 for å vite at det gjelder boutgifter
- * Hvis ikke får man ikke journalført journalposten på stønadstype boutgifter
- */
-const stønadstypeFraBrevkode = (journalpost: Journalpost): Stønadstype | undefined => {
-    if (journalpost.dokumenter.some((dokument) => dokument.brevkode === 'NAV 11-12.19')) {
-        return Stønadstype.BOUTGIFTER;
-    }
-    if (journalpost.dokumenter.some((dokument) => dokument.brevkode === 'NAV 11-12.21')) {
-        return Stønadstype.DAGLIG_REISE_TSO;
-    }
-    // TODO: Vi trenger en håndtering av daglig reise TSR også etter hvert
-
-    return undefined;
-};

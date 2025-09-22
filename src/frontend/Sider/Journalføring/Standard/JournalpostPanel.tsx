@@ -23,7 +23,6 @@ import {
     journalføringGjelderKlage,
     utledNesteJournalføringsårsak,
     valgbareJournalføringsårsaker,
-    valgbareStønadstyper,
 } from '../Felles/utils';
 import { Journalføringsårsak, journalføringsårsakTilTekst } from '../typer/journalføringsårsak';
 
@@ -65,6 +64,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
         stønadstype,
         settStønadstype,
         settJournalføringsaksjon,
+        valgbareStønadstyper,
     } = journalpostState;
     const [erPanelEkspandert, settErPanelEkspandert] = useState<boolean>(
         journalføringsårsak === Journalføringsårsak.IKKE_VALGT || stønadstype === undefined
@@ -74,7 +74,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
     const datoMottatt = journalpostState.mottattDato
         ? formaterIsoDato(journalpostState.mottattDato)
         : 'Ikke satt';
-    const kanRedigere = journalføringsårsak !== Journalføringsårsak.DIGITAL_SØKNAD;
+    const kanRedigere = valgbareStønadstyper.length > 1;
     const klageGjelderTilbakekreving =
         journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
 
