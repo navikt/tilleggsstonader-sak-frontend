@@ -55,7 +55,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 {hendelse === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>{utledStegutfall(behandling, steg)}</BodyShort>
                 )}
-                <Detail size="small">
+                <Detail>
                     {formaterIsoDatoTid(endretTid)} | {endretAvNavn}
                 </Detail>
                 {metadata && <Metadata metadata={metadata} />}
