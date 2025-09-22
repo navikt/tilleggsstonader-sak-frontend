@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { Heading, HStack, TextField } from '@navikt/ds-react';
+import { ErrorMessage, Heading, HStack, TextField } from '@navikt/ds-react';
 
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { fjernSpaces } from '../../../../utils/utils';
 import { OffentligTransport, RedigerbareVilkårfelter } from '../../vilkår';
+import { tomtOffentligTransport } from '../../Vilkårvurdering/utils';
 import { Feilmeldinger } from '../../Vilkårvurdering/validering';
 
 type Props = {
@@ -15,70 +16,26 @@ type Props = {
         value: ((prevState: Feilmeldinger) => Feilmeldinger) | Feilmeldinger
     ) => void;
     feilmeldinger: Feilmeldinger;
-    settOffentligTransport: (offentligTransport: OffentligTransport) => void;
+    offentligTransport: OffentligTransport | undefined;
+    settOffentligTransport: React.Dispatch<React.SetStateAction<OffentligTransport | undefined>>;
 };
 
 export const OffentligTransportSeksjon = ({
-    redigerbareVilkårfelter,
-    settDetFinnesUlagredeEndringer,
-    settFeilmeldinger,
+    offentligTransport,
     settOffentligTransport,
+    settDetFinnesUlagredeEndringer,
+    feilmeldinger,
+    settFeilmeldinger,
 }: Props) => {
-    const [antallReisedager, settAntallReisedager] = useState<number | undefined>(
-        redigerbareVilkårfelter.offentligTransport?.reisedagerPerUke
-    );
-    const [enkeltbillett, settEnkeltbillett] = useState<number | undefined>(
-        redigerbareVilkårfelter.offentligTransport?.prisEnkelbillett
-    );
-    const [syvdagersbilett, settSyvdagersbillett] = useState<number | undefined>(
-        redigerbareVilkårfelter.offentligTransport?.prisSyvdagersbillett
-    );
-    const [trettidagersbillett, setttrettidagersbillett] = useState<number | undefined>(
-        redigerbareVilkårfelter.offentligTransport?.prisTrettidagersbillett
-    );
+    const oppdaterFelt = (key: keyof OffentligTransport, verdi: number | undefined) => {
+        settOffentligTransport((prevState) => ({
+            ...(prevState ?? tomtOffentligTransport),
+            [key]: verdi,
+        }));
 
-    useEffect(() => {
-        if (
-            antallReisedager !== undefined &&
-            enkeltbillett !== undefined &&
-            trettidagersbillett !== undefined
-        ) {
-            settOffentligTransport({
-                reisedagerPerUke: antallReisedager,
-                prisEnkelbillett: enkeltbillett,
-                prisSyvdagersbillett: syvdagersbilett,
-                prisTrettidagersbillett: trettidagersbillett,
-            });
-        }
-    }, [
-        antallReisedager,
-        enkeltbillett,
-        syvdagersbilett,
-        trettidagersbillett,
-        settOffentligTransport,
-    ]);
+        const feilmeldingKey = key === 'reisedagerPerUke' ? 'reisedagerPerUke' : 'billettpriser';
+        settFeilmeldinger((prevState) => ({ ...prevState, [feilmeldingKey]: undefined }));
 
-    const oppdaterAntallReisedager = (verdi: number | undefined) => {
-        settAntallReisedager(verdi);
-        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
-        settDetFinnesUlagredeEndringer(true);
-    };
-
-    const oppdaterEnkeltbilett = (verdi: number | undefined) => {
-        settEnkeltbillett(verdi);
-        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
-        settDetFinnesUlagredeEndringer(true);
-    };
-
-    const oppdaterSyvdagersBilett = (verdi: number | undefined) => {
-        settSyvdagersbillett(verdi);
-        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
-        settDetFinnesUlagredeEndringer(true);
-    };
-
-    const oppdaterTrettidagersbilett = (verdi: number | undefined) => {
-        setttrettidagersbillett(verdi);
-        settFeilmeldinger((prevState) => ({ ...prevState, utgift: undefined }));
         settDetFinnesUlagredeEndringer(true);
     };
 
@@ -90,9 +47,17 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={'Reisedager pr uke'}
                         size="small"
-                        value={harTallverdi(antallReisedager) ? antallReisedager : ''}
+                        error={feilmeldinger.reisedagerPerUke}
+                        value={
+                            harTallverdi(offentligTransport?.reisedagerPerUke)
+                                ? offentligTransport?.reisedagerPerUke
+                                : ''
+                        }
                         onChange={(e) => {
-                            oppdaterAntallReisedager(tilHeltall(fjernSpaces(e.target.value)));
+                            oppdaterFelt(
+                                'reisedagerPerUke',
+                                tilHeltall(fjernSpaces(e.target.value))
+                            );
                         }}
                     />
                 </FeilmeldingMaksBredde>
@@ -100,9 +65,16 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={'Pris enkeltbillett'}
                         size="small"
-                        value={harTallverdi(enkeltbillett) ? enkeltbillett : ''}
+                        value={
+                            harTallverdi(offentligTransport?.prisEnkelbillett)
+                                ? offentligTransport.prisEnkelbillett
+                                : ''
+                        }
                         onChange={(e) => {
-                            oppdaterEnkeltbilett(tilHeltall(fjernSpaces(e.target.value)));
+                            oppdaterFelt(
+                                'prisEnkelbillett',
+                                tilHeltall(fjernSpaces(e.target.value))
+                            );
                         }}
                     />
                 </FeilmeldingMaksBredde>
@@ -110,9 +82,16 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={'Pris 7-dagersbillett'}
                         size="small"
-                        value={harTallverdi(syvdagersbilett) ? syvdagersbilett : ''}
+                        value={
+                            harTallverdi(offentligTransport?.prisSyvdagersbillett)
+                                ? offentligTransport?.prisSyvdagersbillett
+                                : ''
+                        }
                         onChange={(e) => {
-                            oppdaterSyvdagersBilett(tilHeltall(fjernSpaces(e.target.value)));
+                            oppdaterFelt(
+                                'prisSyvdagersbillett',
+                                tilHeltall(fjernSpaces(e.target.value))
+                            );
                         }}
                     />
                 </FeilmeldingMaksBredde>
@@ -120,13 +99,21 @@ export const OffentligTransportSeksjon = ({
                     <TextField
                         label={'Pris 30-dagersbillett'}
                         size="small"
-                        value={harTallverdi(trettidagersbillett) ? trettidagersbillett : ''}
+                        value={
+                            harTallverdi(offentligTransport?.prisTrettidagersbillett)
+                                ? offentligTransport?.prisTrettidagersbillett
+                                : ''
+                        }
                         onChange={(e) => {
-                            oppdaterTrettidagersbilett(tilHeltall(fjernSpaces(e.target.value)));
+                            oppdaterFelt(
+                                'prisTrettidagersbillett',
+                                tilHeltall(fjernSpaces(e.target.value))
+                            );
                         }}
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
+            <ErrorMessage size="small">{feilmeldinger.billettpriser}</ErrorMessage>
         </>
     );
 };

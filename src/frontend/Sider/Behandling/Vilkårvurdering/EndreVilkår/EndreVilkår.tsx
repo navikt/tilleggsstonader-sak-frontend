@@ -88,7 +88,9 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         redigerbareVilkårfelter.erFremtidigUtgift
     );
 
-    const [offentligTransport, settOffentligTransport] = useState<OffentligTransport>();
+    const [offentligTransport, settOffentligTransport] = useState<OffentligTransport | undefined>(
+        redigerbareVilkårfelter.offentligTransport
+    );
 
     const [feilmeldinger, settFeilmeldinger] = useState<Feilmeldinger>(ingenFeil);
     const [feilmeldingerVedLagring, settFeilmeldingVedLagring] = useState<string | null>();
@@ -121,7 +123,8 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
             regler,
             periodeForVilkår.fom,
             periodeForVilkår.tom,
-            erFremtidigUtgift
+            erFremtidigUtgift,
+            offentligTransport
         );
 
         settFeilmeldinger(valideringsfeil);
@@ -262,6 +265,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         settDetFinnesUlagredeEndringer={settDetFinnesUlagredeEndringer}
                         settFeilmeldinger={settFeilmeldinger}
                         feilmeldinger={feilmeldinger}
+                        offentligTransport={offentligTransport}
                         settOffentligTransport={settOffentligTransport}
                     />
                 )}

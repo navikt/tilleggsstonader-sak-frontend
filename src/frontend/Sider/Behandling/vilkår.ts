@@ -69,10 +69,10 @@ export interface Vilkårsvurdering {
 }
 
 export interface OffentligTransport {
-    reisedagerPerUke: number;
-    prisEnkelbillett: number;
+    reisedagerPerUke: number | undefined;
+    prisEnkelbillett: number | undefined;
     prisSyvdagersbillett: number | undefined;
-    prisTrettidagersbillett: number;
+    prisTrettidagersbillett: number | undefined;
 }
 
 export type SvarPåVilkår = Pick<
