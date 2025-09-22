@@ -49,10 +49,10 @@ export const DokumentTypeTag: React.FC<{ journalposttype: Journalposttype }> = (
 }) => {
     switch (journalposttype) {
         case 'I': // Innkommende
-            return <KvadratiskTag variant="info-filled">I</KvadratiskTag>;
-        case 'N': // Notat
-            return <KvadratiskTag variant="alt2-filled">N</KvadratiskTag>;
+            return <KvadratiskTag variant="alt1">I</KvadratiskTag>;
         case 'U': // Utgående
-            return <KvadratiskTag variant="neutral-filled">U</KvadratiskTag>;
+            return <KvadratiskTag variant="alt2">U</KvadratiskTag>;
+        case 'N': // Internt notat
+            return <KvadratiskTag variant="alt3">N</KvadratiskTag>;
     }
 };
