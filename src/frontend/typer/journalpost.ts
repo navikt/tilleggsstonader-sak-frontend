@@ -8,6 +8,7 @@ export interface JournalpostResponse {
     navn: string;
     harStrukturertSøknad: boolean;
     valgbareStønadstyper: Stønadstype[];
+    defaultStønadstype: Stønadstype | undefined;
 }
 
 export interface Journalpost {

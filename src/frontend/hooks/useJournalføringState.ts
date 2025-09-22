@@ -101,9 +101,7 @@ export const useJournalføringState = (
         utledJournalføringsårsak()
     );
     const [stønadstype, settStønadstype] = useState<Stønadstype | undefined>(
-        journalResponse.valgbareStønadstyper.length === 1
-            ? journalResponse.valgbareStønadstyper[0]
-            : undefined
+        journalResponse.defaultStønadstype
     );
     const [journalføringsaksjon, settJournalføringsaksjon] = useState<Journalføringsaksjon>(
         Journalføringsaksjon.JOURNALFØR_PÅ_FAGSAK
