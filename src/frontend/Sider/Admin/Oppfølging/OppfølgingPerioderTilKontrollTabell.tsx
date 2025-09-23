@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Alert, Table, VStack } from '@navikt/ds-react';
-import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import { Oppfølging, årsakKontrollTilTekst } from './oppfølgingTyper';
 import { formaterIsoDato, formaterIsoPeriode } from '../../../utils/dato';
@@ -17,7 +17,7 @@ import {
 } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 const Tabell = styled(Table)`
-    border: 1px solid ${ABorderDefault};
+    border: 1px solid ${BorderNeutral};
 `;
 
 const typerTilTekst: Record<MålgruppeType | AktivitetType, string> = {

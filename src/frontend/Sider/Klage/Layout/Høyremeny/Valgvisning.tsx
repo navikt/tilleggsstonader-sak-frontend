@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 import {
-    ABlue400,
-    ABorderStrong,
-    AGray100,
-    AIconInfo,
-    ATextAction,
-} from '@navikt/ds-tokens/dist/tokens';
+    BgAccentStrong,
+    BgInfoStrong,
+    BgNeutralSoft,
+    BorderAccent,
+    BorderFocus,
+} from '@navikt/ds-tokens/darkside-js';
 
 import { Høyremenyvalg } from './Høyremeny';
 
@@ -19,7 +19,7 @@ const StyledIkonWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${ABorderStrong} solid 2px;
+    border-bottom: ${BorderFocus} solid 2px;
     text-align: center;
     .typo-normal {
         font-size: 12px;
@@ -35,17 +35,17 @@ const StyledIkon = styled.div.withConfig({
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;
-    background-color: ${AIconInfo};
-    color: ${ATextAction};
+    background-color: ${BgInfoStrong};
+    color: ${BgAccentStrong};
     &:hover {
         cursor: pointer;
         svg {
-            fill: ${ABlue400};
+            fill: ${BorderAccent};
         }
-        border-bottom: 5px solid ${ABlue400};
+        border-bottom: 5px solid ${BorderAccent};
     }
-    background-color: ${(props) => (props.erAktiv ? AGray100 : 'white')};
-    border-bottom: 5px solid ${(props) => (props.erAktiv ? ABlue400 : 'white')};
+    background-color: ${(props) => (props.erAktiv ? BgNeutralSoft : 'white')};
+    border-bottom: 5px solid ${(props) => (props.erAktiv ? BorderAccent : 'white')};
 `;
 
 interface ValgvisningProps {

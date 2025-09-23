@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Alert, ExpansionCard, HStack } from '@navikt/ds-react';
-import { ABlue50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
@@ -15,7 +15,7 @@ import { VariabelSerializer } from './VariabelSerializer';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
 
 const Background = styled.div`
-    --ac-expansioncard-bg: ${ABlue50};
+    --ac-expansioncard-bg: ${BgAccentSoft};
     width: 100%;
 `;
 

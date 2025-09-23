@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Box, Tabs, VStack } from '@navikt/ds-react';
-import { ABorderDefault, AGray50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgNeutralSoft, BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
@@ -14,7 +14,7 @@ import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsu
 import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 
 const Container = styled.div`
-    border-right: 1px solid ${ABorderDefault};
+    border-right: 1px solid ${BorderNeutralSubtle};
     width: 24rem;
     position: sticky;
     height: calc(100vh - 97px);
@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const GråContainer = styled(VStack)`
-    background-color: ${AGray50};
+    background-color: ${BgNeutralSoft};
     padding: 1rem;
 `;
 

@@ -3,14 +3,14 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
-import { AWhite } from '@navikt/ds-tokens/dist/tokens';
+import { BgDefault } from '@navikt/ds-tokens/darkside-js';
 
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
 const Container = styled.div`
-    background-color: ${AWhite};
+    background-color: ${BgDefault};
     padding: 1rem;
     display: flex;
     flex-direction: column;

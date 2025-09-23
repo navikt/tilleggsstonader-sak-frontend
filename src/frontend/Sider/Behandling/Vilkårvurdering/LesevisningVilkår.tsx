@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Detail, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
-import { AShadowXsmall } from '@navikt/ds-tokens/dist/tokens';
+import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
 import { skalFåDekketFaktiskeUtgifter } from './utils';
@@ -25,7 +25,7 @@ const Container = styled(FlexColumn)`
     position: relative;
     background: white;
     padding: 1rem;
-    box-shadow: ${AShadowXsmall};
+    box-shadow: ${ShadowDialog};
 `;
 
 const Redigeringsknapp = styled(SmallButton)`

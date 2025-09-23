@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
-import { ABorderStrong, ABorderSubtle, ASpacing4 } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutralStrong, BorderNeutralSubtle, Space16 } from '@navikt/ds-tokens/darkside-js';
 
 export interface IProps extends React.PropsWithChildren {
     alder: number;
@@ -17,9 +17,9 @@ export interface IProps extends React.PropsWithChildren {
 const StyledVisittkort = styled(HStack)<{ $dempetKantlinje: boolean }>`
     ${(props) =>
         props.$borderBottom &&
-        `border-bottom: 1px solid ${props.$dempetKantlinje ? ABorderSubtle : ABorderStrong}`};
+        `border-bottom: 1px solid ${props.$dempetKantlinje ? BorderNeutralSubtle : BorderNeutralStrong}`};
     height: 3rem;
-    padding: 0 ${ASpacing4};
+    padding: 0 ${Space16};
 `;
 
 const GrådigChildrenContainer = styled(HStack)`

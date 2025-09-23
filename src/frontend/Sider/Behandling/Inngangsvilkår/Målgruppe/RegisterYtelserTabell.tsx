@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Button, Table } from '@navikt/ds-react';
-import { ABorderDivider } from '@navikt/ds-tokens/dist/tokens';
+import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
@@ -12,9 +12,9 @@ import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
 const HvitTabell = styled(Table)`
     background: white;
-    --ac-table-row-border: ${ABorderDivider};
+    --ac-table-row-border: ${BorderNeutralSubtle};
     --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${ABorderDivider};
+    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
 `;
 
 const RegisterYtelserTabell: React.FC<{

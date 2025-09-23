@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Alert, Button, Tabs } from '@navikt/ds-react';
-import { ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
+import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
@@ -32,7 +32,7 @@ const HøyrejustertInnhold = styled.div`
 `;
 
 const DisabledTab = styled(Tabs.Tab)`
-    color: ${ATextSubtle};
+    color: ${TextNeutralSubtle};
 
     &:hover {
         box-shadow: none;

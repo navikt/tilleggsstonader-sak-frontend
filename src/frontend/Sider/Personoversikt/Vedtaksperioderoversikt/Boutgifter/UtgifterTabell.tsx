@@ -3,14 +3,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, Label } from '@navikt/ds-react';
-import { ASurfaceSubtle } from '@navikt/ds-tokens/dist/tokens';
+import { BgRaised } from '@navikt/ds-tokens/darkside-js';
 
 import { UtgiftBoutgift } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const Grid = styled.div`
     padding: 1rem;
-    background-color: ${ASurfaceSubtle};
+    background-color: ${BgRaised};
     display: grid;
     grid-template-columns: repeat(4, max-content);
     gap: 0.4rem 2rem;

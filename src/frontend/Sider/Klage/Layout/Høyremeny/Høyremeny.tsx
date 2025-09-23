@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
-import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
+import { BgInfoStrong } from '@navikt/ds-tokens/darkside-js';
 
 import { Dokumenter } from './Dokumenter';
 import Historikk from './Historikk';
@@ -27,7 +27,7 @@ const PilHøyreIkon = styled(ChevronRightIcon)`
 
 const ÅpneLukkeKnapp = styled.button`
     position: absolute;
-    background-color: ${AIconInfo};
+    background-color: ${BgInfoStrong};
     margin-left: -12px;
     top: 200px;
     width: 24px;

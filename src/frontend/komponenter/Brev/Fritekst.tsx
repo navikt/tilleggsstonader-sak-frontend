@@ -121,10 +121,11 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
                 );
             })}
             <Button
-                size={'small'}
-                variant={'secondary'}
+                size="small"
+                variant="tertiary"
                 icon={<PlusIcon fontSize="1.5rem" />}
                 onClick={leggTilNyttAvsnitt}
+                style={{ width: 'fit-content' }}
             >
                 Legg til fritekst
             </Button>

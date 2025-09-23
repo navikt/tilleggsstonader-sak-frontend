@@ -3,14 +3,14 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
-import { ABlue100, ABlue50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentModerate, BgAccentSoft } from '@navikt/ds-tokens/darkside-js';
 
 const Container = styled.div`
-    background-color: ${ABlue50};
+    background-color: ${BgAccentSoft};
 `;
 
 const Header = styled.div`
-    background-color: ${ABlue100};
+    background-color: ${BgAccentModerate};
     padding: 1rem;
     display: flex;
     gap: 2rem;

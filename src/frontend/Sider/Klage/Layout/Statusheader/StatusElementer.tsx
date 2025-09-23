@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
-import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
+import { TextNeutral, TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
@@ -25,7 +25,7 @@ interface StatusProps {
 
 // @ts-ignore
 export const GråTekst = styled(BodyShort)`
-    color: ${ATextSubtle};
+    color: ${TextNeutralSubtle};
 `;
 
 const StatusMenyInnhold = styled.div<{ $åpen: boolean }>`
@@ -59,7 +59,7 @@ const StatusMenyInnhold = styled.div<{ $åpen: boolean }>`
 `;
 
 const VisStatuserKnapp = styled(Button)`
-    color: ${ATextDefault};
+    color: ${TextNeutral};
 `;
 
 const VisStønadOgBehandlingstypePåLitenSkjerm = styled.div`

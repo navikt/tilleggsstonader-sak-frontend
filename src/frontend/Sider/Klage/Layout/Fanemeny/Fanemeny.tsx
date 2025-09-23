@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { BgDefault, BorderFocus } from '@navikt/ds-tokens/darkside-js';
 
 import Fane from './Fane';
 import { alleSider, ISide, SideNavn } from './sider';
@@ -26,8 +26,8 @@ const StyledFanemeny = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${ABorderStrong} solid 2px;
-    background-color: ${AWhite};
+    border-bottom: ${BorderFocus} solid 2px;
+    background-color: ${BgDefault};
 `;
 
 interface Props {

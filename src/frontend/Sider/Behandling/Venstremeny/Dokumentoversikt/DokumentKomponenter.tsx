@@ -39,7 +39,7 @@ const LenkeTilDokument: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) =>
     );
 };
 
-const StyledTag = styled(Tag).attrs({ size: 'small' })`
+const KvadratiskTag = styled(Tag).attrs({ size: 'small' })`
     width: 22px;
     height: 22px;
 `;
@@ -48,11 +48,11 @@ export const DokumentTypeTag: React.FC<{ journalposttype: Journalposttype }> = (
     journalposttype,
 }) => {
     switch (journalposttype) {
-        case 'I':
-            return <StyledTag variant="info">I</StyledTag>;
-        case 'N':
-            return <StyledTag variant="alt1">N</StyledTag>;
-        case 'U':
-            return <StyledTag variant="neutral">U</StyledTag>;
+        case 'I': // Innkommende
+            return <KvadratiskTag variant="alt1">I</KvadratiskTag>;
+        case 'U': // Utgående
+            return <KvadratiskTag variant="alt2">U</KvadratiskTag>;
+        case 'N': // Internt notat
+            return <KvadratiskTag variant="alt3">N</KvadratiskTag>;
     }
 };

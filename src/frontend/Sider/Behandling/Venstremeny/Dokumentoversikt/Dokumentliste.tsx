@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, HStack, Link, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Link, VStack } from '@navikt/ds-react';
 
 import { DokumentTypeTag, Hoveddokument, Vedlegg } from './DokumentKomponenter';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -18,7 +18,7 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
 
     return (
         <VStack gap="6">
-            <Alert variant="info" inline size="small">
+            <BodyShort size="small">
                 Vi viser bare tema TSO og TSR her. Se flere dokumenter{' '}
                 <Link
                     variant="neutral"
@@ -29,7 +29,7 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
                     i personoversikten
                 </Link>
                 .
-            </Alert>
+            </BodyShort>
             {journalposterSortertPåTid.map((journalpost) => {
                 const dokumenter = dokumenterGruppertPåJournalpost[journalpost];
 

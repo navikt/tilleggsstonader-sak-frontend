@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { compareAsc, compareDesc } from 'date-fns';
 
-import { SortState } from '@navikt/ds-react/src/table/types';
+import { SortState } from '@navikt/ds-react';
 
 import { erGyldigDato } from '../../utils/dato';
 

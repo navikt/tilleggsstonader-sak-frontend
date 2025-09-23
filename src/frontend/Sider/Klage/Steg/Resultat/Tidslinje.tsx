@@ -193,8 +193,8 @@ const Node: React.FC<{
                 {behandlingStegTilTekst[steg.steg]}
             </Tittel>
             {steg.endretTid ? <Suksess width={36} height={36} /> : <ClockIcon fontSize="2.25rem" />}
-            <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
-            <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
+            <Detail>{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
+            <Detail>{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
             <Label size={'small'}>{utledStegutfall(behandling, steg.steg)}</Label>
         </NodeContainer>
     );
@@ -209,8 +209,8 @@ export const MedholdRevurdering: React.FC<{
         return (
             <>
                 <Info width={36} height={36} />
-                <Detail size="small">{formaterIsoDato(opprettetTid)}</Detail>
-                <Detail size="small">{formaterIsoKlokke(opprettetTid)}</Detail>
+                <Detail>{formaterIsoDato(opprettetTid)}</Detail>
+                <Detail>{formaterIsoKlokke(opprettetTid)}</Detail>
                 <Label size={'small'}>Automatisk opprettet</Label>
                 <Button
                     as={'a'}
@@ -228,7 +228,7 @@ export const MedholdRevurdering: React.FC<{
                 <Advarsel width={36} height={36} />
                 <Label size={'small'}>Må manuelt opprettes</Label>
                 {/*{fagsystemRevurdering && (*/}
-                {/*    <Detail size="small">*/}
+                {/*    <Detail>*/}
                 {/*        Årsak:{' '}*/}
                 {/*        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}*/}
                 {/*    </Detail>*/}

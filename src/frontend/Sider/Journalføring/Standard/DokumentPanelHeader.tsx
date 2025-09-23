@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { FileTextFillIcon, FileTextIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
-import { ABlue500 } from '@navikt/ds-tokens/dist/tokens';
+import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
 import { LogiskVedlegg } from '../../../typer/dokument';
 
 const IkonContainer = styled.div`
-    color: ${ABlue500};
+    color: ${BgAccentStrong};
 `;
 
 interface Props {

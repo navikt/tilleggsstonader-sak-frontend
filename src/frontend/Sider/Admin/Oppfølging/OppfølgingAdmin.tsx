@@ -13,7 +13,7 @@ import {
     Tag,
     VStack,
 } from '@navikt/ds-react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { BorderInfoStrong, Radius8, Space24 } from '@navikt/ds-tokens/darkside-js';
 
 import { InformasjonOppfølging } from './InformasjonOppfølging';
 import { KontrollerOppfølging } from './KontrollerOppfølging';
@@ -176,9 +176,9 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                             gap={'4'}
                             justify={'space-between'}
                             style={{
-                                border: `2px solid ${ABorderStrong}`,
-                                padding: '1.5rem',
-                                borderRadius: '10px',
+                                border: `2px solid ${BorderInfoStrong}`,
+                                padding: `${Space24}`,
+                                borderRadius: `${Radius8}`,
                             }}
                         >
                             <HStack justify={'space-between'}>

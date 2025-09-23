@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 import { Link } from '@navikt/ds-react';
-import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
+import { BgMetaPurpleStrong } from '@navikt/ds-tokens/darkside-js';
 
 export const Lenke = styled(Link)`
     &:visited {
-        color: ${APurple500};
+        color: ${BgMetaPurpleStrong};
     }
 `;

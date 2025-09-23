@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Table } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import LogiskeVedlegg from './LogiskeVedlegg';
 import { Lenke } from '../../../komponenter/Lenke';
@@ -12,7 +12,7 @@ import { formaterNullableIsoDatoTid } from '../../../utils/dato';
 
 const DokumentRad: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
-        <Table.Row style={{ backgroundColor: `${AGray50}` }}>
+        <Table.Row style={{ backgroundColor: `${BgNeutralSoft}` }}>
             <Table.DataCell>{formaterNullableIsoDatoTid(dokument.dato)}</Table.DataCell>
             <Table.DataCell>{dokument.journalposttype}</Table.DataCell>
             <Table.DataCell>

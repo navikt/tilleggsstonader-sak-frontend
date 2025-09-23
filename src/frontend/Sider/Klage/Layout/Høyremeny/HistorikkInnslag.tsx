@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { BorderFocus } from '@navikt/ds-tokens/darkside-js';
 
 import { Metadata } from './Metadata';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
@@ -23,7 +23,7 @@ const Ikon = styled.div`
 `;
 
 const StipletLinje = styled.div`
-    border-left: 0.15rem dotted ${ABorderStrong};
+    border-left: 0.15rem dotted ${BorderFocus};
     margin-top: 0.5rem;
     margin-left: 0.75rem;
     height: 1.5rem;
@@ -55,7 +55,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 {hendelse === KlagebehandlingSteg.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>{utledStegutfall(behandling, steg)}</BodyShort>
                 )}
-                <Detail size="small">
+                <Detail>
                     {formaterIsoDatoTid(endretTid)} | {endretAvNavn}
                 </Detail>
                 {metadata && <Metadata metadata={metadata} />}

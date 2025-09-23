@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
-import { AGray50 } from '@navikt/ds-tokens/dist/tokens';
+import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
@@ -24,7 +24,7 @@ export const TilordnetSaksbehandler: React.FC = () => {
                 variant={'info'}
                 size={'small'}
                 inline={true}
-                style={{ backgroundColor: AGray50 }}
+                style={{ backgroundColor: BgNeutralSoft }}
             >
                 Klarte ikke å hente ansvarlig saksbehandler
             </Alert>
