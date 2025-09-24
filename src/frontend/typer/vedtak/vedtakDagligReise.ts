@@ -63,6 +63,7 @@ interface BeregningsresultatForReise {
 interface BeregningsresultatForPeriode {
     grunnlag: Beregningsgrunnlag;
     beløp: number;
+    billetDetalijer: Record<string, number>;
 }
 
 interface Beregningsgrunnlag {
