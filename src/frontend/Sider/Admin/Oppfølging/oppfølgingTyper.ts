@@ -17,6 +17,8 @@ export interface Oppfølging {
     behandlingsdetaljer: {
         saksnummer: number;
         fagsakPersonId: string;
+        fagsakPersonIdent: string;
+        fagsakPersonNavn: string;
         stønadstype: Stønadstype;
         vedtakstidspunkt: string;
         harNyereBehandling: boolean;
