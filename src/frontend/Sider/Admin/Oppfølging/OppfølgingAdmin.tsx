@@ -183,18 +183,10 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                         >
                             <HStack justify={'space-between'}>
                                 <HStack gap={'4'} align={'start'} justify={'start'}>
-                                    <StønadstypeTag
-                                        stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
-                                    />
-                                    <Detail>
-                                        Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
-                                    </Detail>
-                                    <Detail>
-                                        Vedtakstidspunkt:{' '}
-                                        {formaterIsoDatoTid(
-                                            oppfølging.behandlingsdetaljer.vedtakstidspunkt
-                                        )}
-                                    </Detail>
+                                    <Heading size={'small'}>
+                                        {oppfølging.behandlingsdetaljer.fagsakPersonNavn} -{' '}
+                                        {oppfølging.behandlingsdetaljer.fagsakPersonIdent}
+                                    </Heading>
                                 </HStack>
                                 <HStack gap={'2'}>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
@@ -207,6 +199,22 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                             Viktig
                                         </Tag>
                                     )}
+                                </HStack>
+                            </HStack>
+                            <HStack justify={'space-between'}>
+                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                    <StønadstypeTag
+                                        stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
+                                    />
+                                    <Detail>
+                                        Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
+                                    </Detail>
+                                    <Detail>
+                                        Vedtakstidspunkt:{' '}
+                                        {formaterIsoDatoTid(
+                                            oppfølging.behandlingsdetaljer.vedtakstidspunkt
+                                        )}
+                                    </Detail>
                                 </HStack>
                             </HStack>
                             <HStack gap={'6'} align={'start'}>
