@@ -8,11 +8,13 @@ import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -121,7 +123,10 @@ const BehandlingTabsInnhold = () => {
                     statusPåVentRedigering={statusPåVentRedigering}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-
+                {behandling.forrigeIverksatteBehandlingId &&
+                    behandling.status != BehandlingStatus.FERDIGSTILT && (
+                        <TidligereVedtaksperioder behandling={behandling} />
+                    )}
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)
                     .map((tab) => (
