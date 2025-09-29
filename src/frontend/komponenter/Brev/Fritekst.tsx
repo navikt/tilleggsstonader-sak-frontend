@@ -30,11 +30,11 @@ const KnappeWrapper = styled.div`
 export const lagTomtAvsnitt = (): FritekstAvsnitt => ({ deloverskrift: '', innhold: '' });
 
 interface Props {
-    avsnitt: FritekstAvsnitt[];
+    alleAvsnitt: FritekstAvsnitt[] | undefined;
     settAvsnitt: React.Dispatch<SetStateAction<FritekstAvsnitt[]>>;
 }
 
-const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
+const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
     const oppdaterAvsnitt = (indeks: number, oppdatertAvsnitt: FritekstAvsnitt) =>
         settAvsnitt((prevState) =>
             prevState.map((avsnitt, i) => (i === indeks ? oppdatertAvsnitt : avsnitt))
@@ -43,7 +43,10 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
     const fjernAvsnitt = (indeks: number) =>
         settAvsnitt((prevState) => prevState.filter((_, i) => i !== indeks));
 
-    const leggTilNyttAvsnitt = () => settAvsnitt((prevState) => [...prevState, lagTomtAvsnitt()]);
+    const leggTilNyttAvsnitt = () =>
+        settAvsnitt((prevState) =>
+            alleAvsnitt ? [...prevState, lagTomtAvsnitt()] : [lagTomtAvsnitt()]
+        );
 
     const flyttAvsnittOpp = (indeks: number) => {
         if (indeks === 0) return;
@@ -57,7 +60,7 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
     };
 
     const flyttAvsnittNed = (indeks: number) => {
-        if (indeks === avsnitt.length - 1) return;
+        if (alleAvsnitt && indeks === alleAvsnitt.length - 1) return;
 
         settAvsnitt((prevState) => [
             ...prevState.slice(0, indeks),
@@ -70,56 +73,62 @@ const Fritekst: React.FC<Props> = ({ avsnitt, settAvsnitt }) => {
     return (
         <FlexColumn>
             <Heading size={'small'}>Fritekst</Heading>
-            {avsnitt.map((avsnitt, indeks) => {
-                return (
-                    <FritekstAvsnittContainer key={indeks}>
-                        <TextField
-                            size={'small'}
-                            value={avsnitt.deloverskrift}
-                            label={'Deloverskrift'}
-                            onChange={(e) =>
-                                oppdaterAvsnitt(indeks, {
-                                    deloverskrift: e.target.value,
-                                    innhold: avsnitt.innhold,
-                                })
-                            }
-                            autoComplete="off"
-                        />
-                        <Textarea
-                            label={'Innhold'}
-                            size={'small'}
-                            value={avsnitt.innhold}
-                            onChange={(e) =>
-                                oppdaterAvsnitt(indeks, {
-                                    deloverskrift: avsnitt.deloverskrift,
-                                    innhold: e.target.value,
-                                })
-                            }
-                        />
-                        <KnappeWrapper>
-                            <Tooltip content="Slett avsnitt">
-                                <SøppelbøtteKnapp onClick={() => fjernAvsnitt(indeks)} />
-                            </Tooltip>
-                            <Tooltip content="Flytt avsnitt ned">
-                                <Button
-                                    size={'small'}
-                                    variant={'tertiary'}
-                                    icon={<ArrowDownIcon />}
-                                    onClick={() => flyttAvsnittNed(indeks)}
-                                />
-                            </Tooltip>
-                            <Tooltip content="Flytt avsnitt opp">
-                                <Button
-                                    size={'small'}
-                                    variant={'tertiary'}
-                                    icon={<ArrowUpIcon />}
-                                    onClick={() => flyttAvsnittOpp(indeks)}
-                                />
-                            </Tooltip>
-                        </KnappeWrapper>
-                    </FritekstAvsnittContainer>
-                );
-            })}
+            {alleAvsnitt &&
+                alleAvsnitt.map((avsnitt, indeks) => {
+                    return (
+                        <FritekstAvsnittContainer key={indeks}>
+                            <TextField
+                                size={'small'}
+                                value={avsnitt.deloverskrift}
+                                label={'Deloverskrift'}
+                                onChange={(e) =>
+                                    oppdaterAvsnitt(indeks, {
+                                        deloverskrift: e.target.value,
+                                        innhold: avsnitt.innhold,
+                                    })
+                                }
+                                autoComplete="off"
+                            />
+                            <Textarea
+                                label={'Innhold'}
+                                size={'small'}
+                                value={avsnitt.innhold}
+                                onChange={(e) =>
+                                    oppdaterAvsnitt(indeks, {
+                                        deloverskrift: avsnitt.deloverskrift,
+                                        innhold: e.target.value,
+                                    })
+                                }
+                            />
+                            <KnappeWrapper>
+                                <Tooltip content="Slett avsnitt">
+                                    <SøppelbøtteKnapp onClick={() => fjernAvsnitt(indeks)} />
+                                </Tooltip>
+                                <Tooltip content="Flytt avsnitt ned">
+                                    <Button
+                                        size={'small'}
+                                        variant={'tertiary'}
+                                        icon={<ArrowDownIcon />}
+                                        onClick={() => flyttAvsnittNed(indeks)}
+                                        disabled={
+                                            indeks === alleAvsnitt.length - 1 ||
+                                            alleAvsnitt.length === 1
+                                        }
+                                    />
+                                </Tooltip>
+                                <Tooltip content="Flytt avsnitt opp">
+                                    <Button
+                                        size={'small'}
+                                        variant={'tertiary'}
+                                        icon={<ArrowUpIcon />}
+                                        onClick={() => flyttAvsnittOpp(indeks)}
+                                        disabled={indeks === 0 && alleAvsnitt.length === 1}
+                                    />
+                                </Tooltip>
+                            </KnappeWrapper>
+                        </FritekstAvsnittContainer>
+                    );
+                })}
             <Button
                 size="small"
                 variant="tertiary"

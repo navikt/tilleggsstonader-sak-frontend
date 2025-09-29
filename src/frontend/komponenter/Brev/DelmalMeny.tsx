@@ -85,7 +85,7 @@ export const DelmalMeny: React.FC<Props> = ({
                         return (
                             <Fritekst
                                 key={index}
-                                avsnitt={fritekst[delmal._id] || [lagTomtAvsnitt()]}
+                                alleAvsnitt={fritekst[delmal._id]}
                                 settAvsnitt={(utledNextState) => {
                                     const prevState = fritekst[delmal._id] || [lagTomtAvsnitt()];
                                     const nextState =

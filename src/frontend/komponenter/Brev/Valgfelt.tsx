@@ -84,7 +84,7 @@ const Valgfelt: React.FC<Props> = ({
             {valgtBlock &&
                 (valgtBlock._type == 'fritekst' ? (
                     <Fritekst
-                        avsnitt={fritekst[valgfelt._id] || [lagTomtAvsnitt()]}
+                        alleAvsnitt={fritekst[valgfelt._id] || [lagTomtAvsnitt()]}
                         settAvsnitt={(utledNextState) => {
                             const prevState = fritekst[valgfelt._id] || [lagTomtAvsnitt()];
                             const nextState =
