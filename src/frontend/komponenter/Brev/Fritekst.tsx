@@ -131,7 +131,7 @@ const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
                 })}
             <Button
                 size="small"
-                variant="tertiary"
+                variant="secondary"
                 icon={<PlusIcon fontSize="1.5rem" />}
                 onClick={leggTilNyttAvsnitt}
                 style={{ width: 'fit-content' }}
