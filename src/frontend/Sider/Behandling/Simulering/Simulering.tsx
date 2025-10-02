@@ -14,7 +14,6 @@ import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { FanePath } from '../faner';
 
 const Container = styled.div`
-    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;

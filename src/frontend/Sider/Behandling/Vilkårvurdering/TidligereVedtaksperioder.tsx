@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Accordion, BodyShort } from '@navikt/ds-react';
-import { ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
+import { AGrayalpha300, ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useHentFullstendigVedtaksOversiktForStønad } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -13,12 +13,13 @@ import { formaterDato } from '../../../utils/dato';
 import { DetaljerteVedtaksperioderBehandling } from '../DetaljerteVedtaksperioderBehandling';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
+const Container = styled('div')`
+    margin-bottom: 0.5rem;
+`;
+
 const GulAccordion = styled(Accordion)`
     background-color: ${ALimegreen50};
-    width: 1336px;
-    margin-left: 2rem;
-    margin-top: 8px;
-    border: solid 1px gray;
+    border: solid 1px ${AGrayalpha300};
     border-radius: 12px;
     --__ac-accordion-header-shadow-color: none;
 `;
@@ -46,7 +47,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
         <DataViewer type={'vedtaksperioder'} response={{ vedtaksperioderOversiktForStønad }}>
             {({ vedtaksperioderOversiktForStønad }) => {
                 return (
-                    <>
+                    <Container>
                         {behandlingFakta.arena?.vedtakTom ? (
                             <VarselVedtakIArena arenaVedtakTom={behandlingFakta.arena.vedtakTom} />
                         ) : (
@@ -68,7 +69,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
                                 </Accordion.Item>
                             </GulAccordion>
                         )}
-                    </>
+                    </Container>
                 );
             }}
         </DataViewer>

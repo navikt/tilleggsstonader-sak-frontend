@@ -16,9 +16,6 @@ export const VarselVedtakIArena = ({ arenaVedtakTom }: Props) => {
             padding="space-16"
             borderWidth="1"
             borderRadius="large"
-            marginInline="8"
-            marginBlock="4"
-            width="1336px"
             style={{ backgroundColor: ALimegreen50 }}
         >
             <BodyShort size={'small'} weight={'semibold'}>

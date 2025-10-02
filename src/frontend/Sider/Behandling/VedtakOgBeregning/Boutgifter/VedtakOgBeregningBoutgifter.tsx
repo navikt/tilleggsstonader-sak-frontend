@@ -22,10 +22,9 @@ import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 
 const Container = styled.div`
-    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.5rem;
 `;
 
 export const VedtakOgBeregningBoutgifter: FC = () => {

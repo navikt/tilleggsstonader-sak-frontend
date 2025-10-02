@@ -21,10 +21,9 @@ import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
-    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.5rem;
 `;
 
 const VedtakOgBeregningLæremidler: FC = () => {

@@ -41,6 +41,10 @@ const DisabledTab = styled(Tabs.Tab)`
         cursor: default;
     }
 `;
+const TabContentContainer = styled('div')`
+    max-width: 1400px;
+    padding: 0.5rem 2rem 2rem 2rem;
+`;
 
 const BehandlingContent = styled(Tabs.Panel)`
     max-width: 1400px;
@@ -120,28 +124,30 @@ const BehandlingTabsInnhold = () => {
                         </HøyrejustertInnhold>
                     </TabsList>
                 </StickyTablistContainer>
-
-                {!toggleKanSaksbehandle && (
-                    <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
-                )}
-                <SettPåVentSak
-                    statusPåVentRedigering={statusPåVentRedigering}
-                    settStatusPåVentRedigering={settStatusPåVentRedigering}
-                />
-                {behandling.forrigeIverksatteBehandlingId &&
-                    behandling.status != BehandlingStatus.FERDIGSTILT && (
-                        <TidligereVedtaksperioder
-                            behandling={behandling}
-                            behandlingFakta={behandlingFakta}
-                        />
+                <TabContentContainer>
+                    {!toggleKanSaksbehandle && (
+                        <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
                     )}
-                {behandlingFaner
-                    .filter((fane) => !fane.erLåst)
-                    .map((tab) => (
-                        <BehandlingContent key={tab.path} value={tab.path}>
-                            {tab.komponent(behandling.id)}
-                        </BehandlingContent>
-                    ))}
+                    <SettPåVentSak
+                        statusPåVentRedigering={statusPåVentRedigering}
+                        settStatusPåVentRedigering={settStatusPåVentRedigering}
+                    />
+                    {behandling.forrigeIverksatteBehandlingId &&
+                        behandling.status != BehandlingStatus.FERDIGSTILT && (
+                            <TidligereVedtaksperioder
+                                behandling={behandling}
+                                behandlingFakta={behandlingFakta}
+                            />
+                        )}
+
+                    {behandlingFaner
+                        .filter((fane) => !fane.erLåst)
+                        .map((tab) => (
+                            <BehandlingContent key={tab.path} value={tab.path}>
+                                {tab.komponent(behandling.id)}
+                            </BehandlingContent>
+                        ))}
+                </TabContentContainer>
             </Tabs>
         </StegProvider>
     );
