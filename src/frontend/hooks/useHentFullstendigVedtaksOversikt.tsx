@@ -87,15 +87,15 @@ export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadsty
     const relevanteBehandlingsVerdier = useMemo(
         () => ({
             stønadstype: behandling.stønadstype,
-            fagsakId: behandling.fagsakId,
+            forrigeIverksatteBehandlingId: behandling.forrigeIverksatteBehandlingId,
         }),
-        [behandling.stønadstype, behandling.fagsakId]
+        [behandling.stønadstype, behandling.forrigeIverksatteBehandlingId]
     );
 
     useEffect(() => {
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
         request<VedtaksOversiktMapping[T], null>(
-            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[relevanteBehandlingsVerdier.stønadstype]}/oversikt/${relevanteBehandlingsVerdier.fagsakId}`
+            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[relevanteBehandlingsVerdier.stønadstype]}/oversikt/${relevanteBehandlingsVerdier.forrigeIverksatteBehandlingId}`
         ).then((res) => {
             settVedtakOversiktResponseForStønad(res);
         });
