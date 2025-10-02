@@ -49,8 +49,13 @@ const BehandlingContent = styled(Tabs.Panel)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar, toggleKanSaksbehandle, kanSetteBehandlingPåVent } =
-        useBehandling();
+    const {
+        behandling,
+        behandlingErRedigerbar,
+        toggleKanSaksbehandle,
+        kanSetteBehandlingPåVent,
+        behandlingFakta,
+    } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
@@ -125,7 +130,10 @@ const BehandlingTabsInnhold = () => {
                 />
                 {behandling.forrigeIverksatteBehandlingId &&
                     behandling.status != BehandlingStatus.FERDIGSTILT && (
-                        <TidligereVedtaksperioder behandling={behandling} />
+                        <TidligereVedtaksperioder
+                            behandling={behandling}
+                            behandlingFakta={behandlingFakta}
+                        />
                     )}
                 {behandlingFaner
                     .filter((fane) => !fane.erLåst)

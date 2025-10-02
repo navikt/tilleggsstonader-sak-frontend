@@ -1,28 +1,33 @@
 import React from 'react';
 
-import { Alert, Heading } from '@navikt/ds-react';
+import { BodyShort, Box } from '@navikt/ds-react';
+import { ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
 
-import { useBehandling } from '../../../context/BehandlingContext';
-import { stønadstypeTilTekstUtenBehandlendeEnhet } from '../../../typer/behandling/behandlingTema';
-import { formaterTilTekstligDato } from '../../../utils/dato';
+import { formaterDato } from '../../../utils/dato';
 
-export const VarselVedtakIArena = () => {
-    const { behandling, behandlingFakta } = useBehandling();
+type Props = {
+    arenaVedtakTom: string;
+};
 
-    const vedtakTom = behandlingFakta.arena?.vedtakTom;
-    if (!vedtakTom) {
-        return null;
-    }
-
+export const VarselVedtakIArena = ({ arenaVedtakTom }: Props) => {
     return (
-        <Alert variant={'warning'} size={'small'}>
-            <Heading size={'xsmall'} level="3">
-                Søker har vedtak i Arena for{' '}
-                {stønadstypeTilTekstUtenBehandlendeEnhet[behandling.stønadstype].toLowerCase()}{' '}
-                innvilget til og med {formaterTilTekstligDato(vedtakTom)}
-            </Heading>
-            Skal du innvilge tilbake i tid? Gå til Arena for å sjekke at det ikke blir overlappende
-            utbetalinger.
-        </Alert>
+        <Box
+            borderColor="border-subtle"
+            padding="space-16"
+            borderWidth="1"
+            borderRadius="large"
+            marginInline="8"
+            marginBlock="4"
+            width="1336px"
+            style={{ backgroundColor: ALimegreen50 }}
+        >
+            <BodyShort size={'small'} weight={'semibold'}>
+                {`Saker har vedtak i TS-sak til og med ${formaterDato(arenaVedtakTom)}`}
+            </BodyShort>
+            <BodyShort size={'small'}>
+                Skal du innvilge tilbake i tid? Gå til Arena for å sjekke at det ikke blir
+                overlappende utbetalinger.
+            </BodyShort>
+        </Box>
     );
 };

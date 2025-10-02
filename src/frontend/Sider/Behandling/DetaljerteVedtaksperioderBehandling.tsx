@@ -4,9 +4,6 @@ import styled from 'styled-components';
 
 import { Box } from '@navikt/ds-react';
 
-import { useHentFullstendigVedtaksOversiktForStønad } from '../../hooks/useHentFullstendigVedtaksOversikt';
-import DataViewer from '../../komponenter/DataViewer';
-import { Behandling } from '../../typer/behandling/behandling';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     DetaljertVedtaksperiodeBoutgifter,
@@ -31,7 +28,13 @@ const TableContainer = styled(Box)`
 `;
 
 type Props = {
-    behandling: Behandling;
+    stønadstype: Stønadstype;
+    vedtaksperioderOversiktForStønad:
+        | DetaljertVedtaksperiodeTilsynBarn[]
+        | DetaljertVedtaksperiodeLæremidler[]
+        | DetaljertVedtaksperiodeBoutgifter[]
+        | DetaljertVedtaksperiodeDagligReiseTso[]
+        | DetaljertVedtaksperiodeDagligReiseTsr[];
 };
 
 type VedtaksperiodeData =
@@ -41,10 +44,10 @@ type VedtaksperiodeData =
     | DetaljertVedtaksperiodeDagligReiseTso[]
     | DetaljertVedtaksperiodeDagligReiseTsr[];
 
-export function DetaljerteVedtaksperioderBehandling({ behandling }: Props) {
-    const { vedtaksperioderOversiktForStønad } =
-        useHentFullstendigVedtaksOversiktForStønad(behandling);
-
+export function DetaljerteVedtaksperioderBehandling({
+    stønadstype,
+    vedtaksperioderOversiktForStønad,
+}: Props) {
     const stønadstypeTilVedtaksperiodeOversikt: Record<
         Stønadstype,
         (data: VedtaksperiodeData) => JSX.Element
@@ -83,17 +86,11 @@ export function DetaljerteVedtaksperioderBehandling({ behandling }: Props) {
 
     return (
         <Container>
-            <DataViewer type={'vedtaksperioder'} response={{ vedtaksperioderOversiktForStønad }}>
-                {({ vedtaksperioderOversiktForStønad }) => {
-                    return (
-                        <TableContainer>
-                            {stønadstypeTilVedtaksperiodeOversikt[behandling.stønadstype](
-                                vedtaksperioderOversiktForStønad
-                            )}
-                        </TableContainer>
-                    );
-                }}
-            </DataViewer>
+            <TableContainer>
+                {stønadstypeTilVedtaksperiodeOversikt[stønadstype](
+                    vedtaksperioderOversiktForStønad
+                )}
+            </TableContainer>
         </Container>
     );
 }

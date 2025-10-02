@@ -16,7 +16,6 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
-import { VarselVedtakIArena } from '../../Felles/VarselVedtakIArena';
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
@@ -43,7 +42,6 @@ export const VedtakOgBeregningDagligReise: FC = () => {
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
                     <Container>
-                        <VarselVedtakIArena />
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat

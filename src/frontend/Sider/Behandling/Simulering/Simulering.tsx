@@ -12,7 +12,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { FanePath } from '../faner';
-import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     margin: 0.5rem 2rem 2rem 2rem;
@@ -34,7 +33,6 @@ const Simulering: React.FC = () => {
 
     return (
         <Container>
-            <VarselVedtakIArena />
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => <SimuleringResultatWrapper vedtak={vedtak} />}
             </DataViewer>

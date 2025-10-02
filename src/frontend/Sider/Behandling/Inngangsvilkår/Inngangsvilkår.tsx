@@ -15,7 +15,6 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
-import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     display: flex;
@@ -45,8 +44,6 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            <VarselVedtakIArena />
-
             <DataViewer
                 type={'inngangsvilkår'}
                 response={{
