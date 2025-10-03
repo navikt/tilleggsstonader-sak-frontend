@@ -1,11 +1,9 @@
 import React, { SetStateAction } from 'react';
 
-import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Alert, ExpansionCard, HStack } from '@navikt/ds-react';
-import { BgAccentSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
@@ -15,25 +13,12 @@ import { VariabelSerializer } from './VariabelSerializer';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
 
 const Background = styled.div`
-    --ac-expansioncard-bg: ${BgAccentSoft};
     width: 100%;
 `;
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-`;
-
-const Innhold = styled.div`
-    background-color: white;
-    padding: 1rem;
-`;
-
-const DelmalPreview = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
     gap: 1rem;
 `;
 
@@ -114,27 +99,6 @@ const Delmal: React.FC<Props> = ({
                             inkluderIBrev={inkluderIBrev}
                             settInkluderIBrev={settInkluderIBrev}
                         />
-                        <ExpansionCard aria-label={'Forhåndvis delmal'} size="small">
-                            <ExpansionCard.Header>
-                                <ExpansionCard.Title size="small">
-                                    Generert brevtekst
-                                </ExpansionCard.Title>
-                            </ExpansionCard.Header>
-                            <ExpansionCard.Content>
-                                <DelmalPreview>
-                                    <Innhold>
-                                        <PortableText
-                                            value={delmal.blocks}
-                                            components={CustomComponets(
-                                                valgfelt,
-                                                variabler,
-                                                fritekst
-                                            )}
-                                        />
-                                    </Innhold>
-                                </DelmalPreview>
-                            </ExpansionCard.Content>
-                        </ExpansionCard>
                     </Container>
                 </ExpansionCard.Content>
             </ExpansionCard>
