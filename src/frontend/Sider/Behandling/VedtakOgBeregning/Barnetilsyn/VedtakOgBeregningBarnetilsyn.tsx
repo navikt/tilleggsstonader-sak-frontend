@@ -16,13 +16,11 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
-import { VarselVedtakIArena } from '../../Felles/VarselVedtakIArena';
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
 const Container = styled.div`
-    margin: 0.5rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -43,7 +41,6 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
                     <Container>
-                        <VarselVedtakIArena />
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat

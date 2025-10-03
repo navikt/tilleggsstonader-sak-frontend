@@ -27,7 +27,7 @@ import { RessursStatus } from '../../../typer/ressurs';
 import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
 
 const Container = styled.div`
-    padding: 2rem;
+    padding-top: 1rem;
 `;
 
 const ToKolonner = styled.div`

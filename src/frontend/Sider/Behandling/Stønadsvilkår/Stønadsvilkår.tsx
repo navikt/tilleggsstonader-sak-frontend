@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { styled } from 'styled-components';
-
-import { VStack } from '@navikt/ds-react';
-
 import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
 import { StønadsvilkårDagligReise } from './DagligReise/StønadsvilkårDagligReise';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -17,11 +13,6 @@ import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
 import { StønadsvilkårPassBarn } from './PassBarn/StønadsvilkårPassBarn';
-import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
-
-const Container = styled(VStack).attrs({ gap: '8' })`
-    margin: 0.5rem 2rem 2rem 2rem;
-`;
 
 const Stønadsvilkår: React.FC<{
     stønadstype: Stønadstype;
@@ -40,8 +31,7 @@ const Stønadsvilkår: React.FC<{
     }, [hentRegler]);
 
     return (
-        <Container>
-            <VarselVedtakIArena />
+        <>
             <DataViewer
                 type={'stønadsvilkår'}
                 response={{
@@ -73,7 +63,7 @@ const Stønadsvilkår: React.FC<{
             <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
                 Fullfør vilkårsvurdering og gå videre
             </StegKnapp>
-        </Container>
+        </>
     );
 };
 
