@@ -2,9 +2,10 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, HelpText, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HelpText, HStack, Label, VStack } from '@navikt/ds-react';
 import { BgDefault } from '@navikt/ds-tokens/darkside-js';
 
+import BeregningDetajlerOffentligTransport from './BeregningDetajlerOffentligTransport';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
 
@@ -66,15 +67,17 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 <BodyShort size="small">
                                     {periode.grunnlag.pris30dagersbillett}
                                 </BodyShort>
-                                <BodyShort size="small">
-                                    {periode.beløp}
-
+                                <HStack gap="2" align="center">
+                                    <BodyShort size="small">{periode.beløp}</BodyShort>
                                     {Object.keys(periode.billetDetalijer).length > 1 && (
                                         <HelpText>
-                                            {`Beregning ${beregnBillettDetaljer(periode.billetDetalijer, periode.grunnlag)} = ${periode.beløp}`}
+                                            <BeregningDetajlerOffentligTransport
+                                                billetDetaljer={periode.billetDetalijer}
+                                                grunnlag={periode.grunnlag}
+                                            />
                                         </HelpText>
                                     )}
-                                </BodyShort>
+                                </HStack>
                                 <BodyShort size="small">
                                     {periode.grunnlag.antallReisedager}
                                 </BodyShort>
@@ -85,33 +88,6 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
             ))}
         </VStack>
     );
-};
-
-const beregnBillettDetaljer = (
-    billetDetalijer: Record<string, number>,
-    grunnlag: {
-        prisEnkeltbillett: number;
-        prisSyvdagersbillett: number;
-        pris30dagersbillett: number;
-    }
-) => {
-    return Object.entries(billetDetalijer)
-        .map(([key, count]) => {
-            let pris = 0;
-            switch (key) {
-                case 'ENKELTBILLETT':
-                    pris = grunnlag.prisEnkeltbillett;
-                    break;
-                case 'SYVDAGERSBILLETT':
-                    pris = grunnlag.prisSyvdagersbillett;
-                    break;
-                case 'TRETTIDAGERSBILLETT':
-                    pris = grunnlag.pris30dagersbillett;
-                    break;
-            }
-            return `${count} × ${pris}`;
-        })
-        .join(' + ');
 };
 
 export default Beregningsresultat;
