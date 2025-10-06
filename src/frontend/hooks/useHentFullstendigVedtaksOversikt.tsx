@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
-import { stønadstypeTilVedtakUrl } from '../Sider/Behandling/VedtakOgBeregning/Felles/stønadstypeTilVedtakUrl';
 import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Vedtaksperioderoversikt/Arena/vedtakArena';
 import { Behandling } from '../typer/behandling/behandling';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
@@ -60,42 +59,34 @@ export const useVedtaksperioderOversiktArena = (
     return { arenaSakOgVedtak: vedtakArena, hentetTidspunkt: hentetTidspunkt };
 };
 
-type Stønadstype =
-    | 'TILSYN_BARN'
-    | 'LÆREMIDLER'
-    | 'BOUTGIFTER'
-    | 'DAGLIG_REISE_TSO'
-    | 'DAGLIG_REISE_TSR';
+export type DetaljerteVedtaksperioder =
+    | DetaljertVedtaksperiodeTilsynBarn[]
+    | DetaljertVedtaksperiodeLæremidler[]
+    | DetaljertVedtaksperiodeBoutgifter[]
+    | DetaljertVedtaksperiodeDagligReiseTso[]
+    | DetaljertVedtaksperiodeDagligReiseTsr[];
 
-type VedtaksOversiktMapping = {
-    TILSYN_BARN: DetaljertVedtaksperiodeTilsynBarn[];
-    LÆREMIDLER: DetaljertVedtaksperiodeLæremidler[];
-    BOUTGIFTER: DetaljertVedtaksperiodeBoutgifter[];
-    DAGLIG_REISE_TSO: DetaljertVedtaksperiodeDagligReiseTso[];
-    DAGLIG_REISE_TSR: DetaljertVedtaksperiodeDagligReiseTsr[];
-};
-export const useHentFullstendigVedtaksOversiktForStønad = <T extends Stønadstype>(
+export const useHentFullstendigVedtaksOversiktForStønad = (
     behandling: Behandling
 ): {
-    vedtaksperioderOversiktForStønad: Ressurs<VedtaksOversiktMapping[T]>;
+    vedtaksperioderOversiktForStønad: Ressurs<DetaljerteVedtaksperioder>;
 } => {
     const { request } = useApp();
 
     const [vedtakOversiktResponseForStønad, settVedtakOversiktResponseForStønad] =
-        useState<Ressurs<VedtaksOversiktMapping[T]>>(byggTomRessurs());
+        useState<Ressurs<DetaljerteVedtaksperioder>>(byggTomRessurs());
 
     const relevanteBehandlingsVerdier = useMemo(
         () => ({
-            stønadstype: behandling.stønadstype,
             forrigeIverksatteBehandlingId: behandling.forrigeIverksatteBehandlingId,
         }),
-        [behandling.stønadstype, behandling.forrigeIverksatteBehandlingId]
+        [behandling.forrigeIverksatteBehandlingId]
     );
 
     useEffect(() => {
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
-        request<VedtaksOversiktMapping[T], null>(
-            `/api/sak/vedtak/${stønadstypeTilVedtakUrl[relevanteBehandlingsVerdier.stønadstype]}/oversikt/${relevanteBehandlingsVerdier.forrigeIverksatteBehandlingId}`
+        request<DetaljerteVedtaksperioder, null>(
+            `/api/sak/vedtak/detaljerte-vedtaksperioder/${relevanteBehandlingsVerdier.forrigeIverksatteBehandlingId}`
         ).then((res) => {
             settVedtakOversiktResponseForStønad(res);
         });

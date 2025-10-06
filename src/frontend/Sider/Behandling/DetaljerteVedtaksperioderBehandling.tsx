@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Box } from '@navikt/ds-react';
 
+import { DetaljerteVedtaksperioder } from '../../hooks/useHentFullstendigVedtaksOversikt';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     DetaljertVedtaksperiodeBoutgifter,
@@ -29,20 +30,8 @@ const TableContainer = styled(Box)`
 
 type Props = {
     stønadstype: Stønadstype;
-    vedtaksperioderOversiktForStønad:
-        | DetaljertVedtaksperiodeTilsynBarn[]
-        | DetaljertVedtaksperiodeLæremidler[]
-        | DetaljertVedtaksperiodeBoutgifter[]
-        | DetaljertVedtaksperiodeDagligReiseTso[]
-        | DetaljertVedtaksperiodeDagligReiseTsr[];
+    vedtaksperioderOversiktForStønad: DetaljerteVedtaksperioder;
 };
-
-type VedtaksperiodeData =
-    | DetaljertVedtaksperiodeLæremidler[]
-    | DetaljertVedtaksperiodeBoutgifter[]
-    | DetaljertVedtaksperiodeTilsynBarn[]
-    | DetaljertVedtaksperiodeDagligReiseTso[]
-    | DetaljertVedtaksperiodeDagligReiseTsr[];
 
 export function DetaljerteVedtaksperioderBehandling({
     stønadstype,
@@ -50,7 +39,7 @@ export function DetaljerteVedtaksperioderBehandling({
 }: Props) {
     const stønadstypeTilVedtaksperiodeOversikt: Record<
         Stønadstype,
-        (data: VedtaksperiodeData) => JSX.Element
+        (data: DetaljerteVedtaksperioder) => JSX.Element
     > = {
         [Stønadstype.LÆREMIDLER]: (vedtaksperioder) => (
             <VedtaksperioderOversiktLæremidler
