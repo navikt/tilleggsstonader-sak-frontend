@@ -19,10 +19,6 @@ import { VedtaksperioderOversiktDagligReiseTsr } from '../Personoversikt/Vedtaks
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
 
-const Container = styled('div')`
-    margin-left: 2rem;
-`;
-
 const TableContainer = styled(Box)`
     width: 920px;
     background-color: white;
@@ -74,12 +70,8 @@ export function DetaljerteVedtaksperioderBehandling({
     };
 
     return (
-        <Container>
-            <TableContainer>
-                {stønadstypeTilVedtaksperiodeOversikt[stønadstype](
-                    vedtaksperioderOversiktForStønad
-                )}
-            </TableContainer>
-        </Container>
+        <TableContainer>
+            {stønadstypeTilVedtaksperiodeOversikt[stønadstype](vedtaksperioderOversiktForStønad)}
+        </TableContainer>
     );
 }

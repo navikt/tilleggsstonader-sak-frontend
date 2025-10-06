@@ -19,7 +19,6 @@ import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 import DataViewer from '../DataViewer';
 
 const Container = styled.div`
-    margin: 2rem;
     padding: 2rem;
     background: ${BgNeutralSoft};
 `;
