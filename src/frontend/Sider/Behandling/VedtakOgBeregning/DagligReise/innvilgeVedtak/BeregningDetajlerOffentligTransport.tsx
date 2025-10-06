@@ -3,16 +3,16 @@ import React, { FC } from 'react';
 import { BillettTypeTilTekst } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 
 const BeregningDetajlerOffentligTransport: FC<{
-    billetDetaljer: Record<string, number>;
+    billetdetaljer: Record<string, number>;
     grunnlag: {
         prisEnkeltbillett: number;
         prisSyvdagersbillett: number;
         pris30dagersbillett: number;
     };
-}> = ({ billetDetaljer, grunnlag }) => {
+}> = ({ billetdetaljer, grunnlag }) => {
     let totalt = 0;
 
-    const lines = Object.entries(billetDetaljer).map(([key, count]) => {
+    const lines = Object.entries(billetdetaljer).map(([key, count]) => {
         let pris = 0;
         let visningsnavn = '';
 
