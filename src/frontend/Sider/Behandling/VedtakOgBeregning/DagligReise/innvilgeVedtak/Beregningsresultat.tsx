@@ -2,9 +2,10 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HelpText, HStack, Label, VStack } from '@navikt/ds-react';
 import { BgDefault } from '@navikt/ds-tokens/darkside-js';
 
+import BeregningDetajlerOffentligTransport from './BeregningDetajlerOffentligTransport';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
 
@@ -66,7 +67,17 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 <BodyShort size="small">
                                     {periode.grunnlag.pris30dagersbillett}
                                 </BodyShort>
-                                <BodyShort size="small">{periode.beløp}</BodyShort>
+                                <HStack gap="2" align="center">
+                                    <BodyShort size="small">{periode.beløp}</BodyShort>
+                                    {Object.keys(periode.billetdetalijer).length > 1 && (
+                                        <HelpText>
+                                            <BeregningDetajlerOffentligTransport
+                                                billetdetaljer={periode.billetdetalijer}
+                                                grunnlag={periode.grunnlag}
+                                            />
+                                        </HelpText>
+                                    )}
+                                </HStack>
                                 <BodyShort size="small">
                                     {periode.grunnlag.antallReisedager}
                                 </BodyShort>
