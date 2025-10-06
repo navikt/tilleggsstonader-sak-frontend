@@ -19,7 +19,7 @@ export const VarselVedtakIArena = ({ arenaVedtakTom }: Props) => {
             style={{ backgroundColor: ALimegreen50 }}
         >
             <BodyShort size={'small'} weight={'semibold'}>
-                {`Saker har vedtak i Arena til og med ${formaterDato(arenaVedtakTom)}`}
+                {`Søker har vedtak i Arena til og med ${formaterDato(arenaVedtakTom)}`}
             </BodyShort>
             <BodyShort size={'small'}>
                 Skal du innvilge tilbake i tid? Gå til Arena for å sjekke at det ikke blir

@@ -55,7 +55,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
                                 <Accordion.Item defaultOpen>
                                     <AccordionHeader>
                                         <BodyShort size={'small'} weight={'semibold'}>
-                                            {`Saker har vedtak i TS-sak til og med ${formaterDato(vedtaksperioderOversiktForStønad[vedtaksperioderOversiktForStønad.length - 1].tom)}`}
+                                            {`Søker har vedtak i TS-sak til og med ${formaterDato(vedtaksperioderOversiktForStønad[vedtaksperioderOversiktForStønad.length - 1].tom)}`}
                                         </BodyShort>
                                     </AccordionHeader>
                                     <AccordionContent>
