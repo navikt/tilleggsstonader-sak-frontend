@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { BorderTable } from './VedtaksperioderBorderTable';
 import { DetaljertVedtaksperiodeTilsynBarn } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
@@ -9,12 +10,13 @@ import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgr
 import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
 
 interface Props {
+    border?: boolean;
     vedtaksperioder: DetaljertVedtaksperiodeTilsynBarn[];
 }
 
-export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperioder }) => {
+export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperioder, border }) => {
     return (
-        <Table size={'small'}>
+        <BorderTable size={'small'} border={border}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
@@ -47,6 +49,6 @@ export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperi
                     );
                 })}
             </Table.Body>
-        </Table>
+        </BorderTable>
     );
 };

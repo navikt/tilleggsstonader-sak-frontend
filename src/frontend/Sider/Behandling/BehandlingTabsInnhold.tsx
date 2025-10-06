@@ -8,11 +8,13 @@ import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
 import { Toast } from '../../typer/toast';
 
 const StickyTablistContainer = styled(Sticky)`
@@ -39,6 +41,10 @@ const DisabledTab = styled(Tabs.Tab)`
         cursor: default;
     }
 `;
+const TabContentContainer = styled('div')`
+    max-width: 1400px;
+    padding: 0.5rem 2rem 2rem 2rem;
+`;
 
 const BehandlingContent = styled(Tabs.Panel)`
     max-width: 1400px;
@@ -47,8 +53,13 @@ const BehandlingContent = styled(Tabs.Panel)`
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar, toggleKanSaksbehandle, kanSetteBehandlingPåVent } =
-        useBehandling();
+    const {
+        behandling,
+        behandlingErRedigerbar,
+        toggleKanSaksbehandle,
+        kanSetteBehandlingPåVent,
+        behandlingFakta,
+    } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
@@ -113,22 +124,30 @@ const BehandlingTabsInnhold = () => {
                         </HøyrejustertInnhold>
                     </TabsList>
                 </StickyTablistContainer>
+                <TabContentContainer>
+                    {!toggleKanSaksbehandle && (
+                        <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
+                    )}
+                    <SettPåVentSak
+                        statusPåVentRedigering={statusPåVentRedigering}
+                        settStatusPåVentRedigering={settStatusPåVentRedigering}
+                    />
+                    {behandling.forrigeIverksatteBehandlingId &&
+                        behandling.status != BehandlingStatus.FERDIGSTILT && (
+                            <TidligereVedtaksperioder
+                                behandling={behandling}
+                                behandlingFakta={behandlingFakta}
+                            />
+                        )}
 
-                {!toggleKanSaksbehandle && (
-                    <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
-                )}
-                <SettPåVentSak
-                    statusPåVentRedigering={statusPåVentRedigering}
-                    settStatusPåVentRedigering={settStatusPåVentRedigering}
-                />
-
-                {behandlingFaner
-                    .filter((fane) => !fane.erLåst)
-                    .map((tab) => (
-                        <BehandlingContent key={tab.path} value={tab.path}>
-                            {tab.komponent(behandling.id)}
-                        </BehandlingContent>
-                    ))}
+                    {behandlingFaner
+                        .filter((fane) => !fane.erLåst)
+                        .map((tab) => (
+                            <BehandlingContent key={tab.path} value={tab.path}>
+                                {tab.komponent(behandling.id)}
+                            </BehandlingContent>
+                        ))}
+                </TabContentContainer>
             </Tabs>
         </StegProvider>
     );

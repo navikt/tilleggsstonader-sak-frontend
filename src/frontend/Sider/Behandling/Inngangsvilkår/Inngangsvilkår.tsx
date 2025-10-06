@@ -15,13 +15,11 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
-import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin: 0.5rem 2rem 2rem 2rem;
 `;
 
 const nesteFane = (stønadstype: Stønadstype): FanePath => {
@@ -45,8 +43,6 @@ const Inngangsvilkår = () => {
 
     return (
         <Container>
-            <VarselVedtakIArena />
-
             <DataViewer
                 type={'inngangsvilkår'}
                 response={{
