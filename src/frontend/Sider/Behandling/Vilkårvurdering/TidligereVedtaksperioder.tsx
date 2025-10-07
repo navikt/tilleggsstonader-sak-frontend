@@ -32,6 +32,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
                     <>
                         {vedtaksperioderOversiktForStønad.length > 0 && (
                             <ExpansionCard
+                                defaultOpen={true}
                                 style={{ backgroundColor: ALimegreen50 }}
                                 size={'small'}
                                 aria-labelledby={'Vedtaksperioder for forrige behandling'}
