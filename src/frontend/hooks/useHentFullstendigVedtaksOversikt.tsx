@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Vedtaksperioderoversikt/Arena/vedtakArena';
-import { Behandling } from '../typer/behandling/behandling';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import {
     DetaljertVedtaksperiodeBoutgifter,
@@ -67,7 +66,7 @@ export type DetaljerteVedtaksperioder =
     | DetaljertVedtaksperiodeDagligReiseTsr[];
 
 export const useHentFullstendigVedtaksOversiktForStønad = (
-    behandling: Behandling
+    behandlingId: string | undefined
 ): {
     vedtaksperioderOversiktForStønad: Ressurs<DetaljerteVedtaksperioder>;
 } => {
@@ -76,21 +75,18 @@ export const useHentFullstendigVedtaksOversiktForStønad = (
     const [vedtakOversiktResponseForStønad, settVedtakOversiktResponseForStønad] =
         useState<Ressurs<DetaljerteVedtaksperioder>>(byggTomRessurs());
 
-    const relevanteBehandlingsVerdier = useMemo(
-        () => ({
-            forrigeIverksatteBehandlingId: behandling.forrigeIverksatteBehandlingId,
-        }),
-        [behandling.forrigeIverksatteBehandlingId]
-    );
-
     useEffect(() => {
+        if (!behandlingId) {
+            return;
+        }
+
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
         request<DetaljerteVedtaksperioder, null>(
-            `/api/sak/vedtak/detaljerte-vedtaksperioder/${relevanteBehandlingsVerdier.forrigeIverksatteBehandlingId}`
+            `/api/sak/vedtak/detaljerte-vedtaksperioder/${behandlingId}`
         ).then((res) => {
             settVedtakOversiktResponseForStønad(res);
         });
-    }, [request, relevanteBehandlingsVerdier]);
+    }, [request, behandlingId]);
 
     return {
         vedtaksperioderOversiktForStønad: vedtakOversiktResponseForStønad,

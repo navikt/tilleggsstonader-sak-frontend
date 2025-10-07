@@ -17,7 +17,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
     vedtaksperioder,
 }) => {
     return (
-        <BorderTable size={'small'} border={border}>
+        <BorderTable size={'small'} $border={border}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fra</Table.HeaderCell>

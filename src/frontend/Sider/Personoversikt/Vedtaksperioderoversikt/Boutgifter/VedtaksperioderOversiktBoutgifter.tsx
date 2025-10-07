@@ -14,7 +14,7 @@ export const VedtaksperioderOversiktBoutgifter: React.FC<Props> = ({ vedtaksperi
     const inneholderLøpendeUtgifter = vedtaksperioder.some((periode) => periode.erLøpendeUtgift);
 
     return (
-        <BorderTable size={'small'} border={border}>
+        <BorderTable size={'small'} $border={border}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Beregningsperiode</Table.HeaderCell>

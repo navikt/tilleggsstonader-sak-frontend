@@ -16,7 +16,7 @@ interface Props {
 
 export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperioder, border }) => {
     return (
-        <BorderTable size={'small'} border={border}>
+        <BorderTable size={'small'} $border={border}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fra</Table.HeaderCell>

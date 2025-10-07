@@ -136,8 +136,9 @@ const BehandlingTabsInnhold = () => {
                     />
                     {visVedtaksperioderPåBehandling ? (
                         <TidligereVedtaksperioder
-                            behandling={behandling}
                             behandlingFakta={behandlingFakta}
+                            forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
+                            stønadstype={behandling.stønadstype}
                         />
                     ) : (
                         <GammelVarselVedtakIArena />

@@ -5,23 +5,29 @@ import { ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { useHentFullstendigVedtaksOversiktForStønad } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../../komponenter/DataViewer';
-import { Behandling } from '../../../typer/behandling/behandling';
 import { BehandlingFakta } from '../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { formaterDato } from '../../../utils/dato';
 import { DetaljerteVedtaksperioderBehandling } from '../DetaljerteVedtaksperioderBehandling';
 import { VarselVedtakIArena } from '../Felles/VarselVedtakIArena';
 
 type Props = {
-    behandling: Behandling;
     behandlingFakta: BehandlingFakta;
+    forrigeIverksatteBehandlingId: string | undefined;
+    stønadstype: Stønadstype;
 };
 
-export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props) {
-    const { vedtaksperioderOversiktForStønad } =
-        useHentFullstendigVedtaksOversiktForStønad(behandling);
+export function TidligereVedtaksperioder({
+    behandlingFakta,
+    forrigeIverksatteBehandlingId,
+    stønadstype,
+}: Props) {
+    const { vedtaksperioderOversiktForStønad } = useHentFullstendigVedtaksOversiktForStønad(
+        forrigeIverksatteBehandlingId
+    );
     const arenaVedtakTom = behandlingFakta.arena?.vedtakTom;
 
-    if (!arenaVedtakTom && !behandling.forrigeIverksatteBehandlingId) {
+    if (!arenaVedtakTom && !forrigeIverksatteBehandlingId) {
         return null;
     }
 
@@ -39,7 +45,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
                             >
                                 <ExpansionCard.Header>
                                     <ExpansionCard.Title>
-                                        <Heading size={'xsmall'}>
+                                        <Heading size={'xsmall'} as="span">
                                             Søker har vedtak i TS-sak til og med{' '}
                                             {formaterDato(
                                                 vedtaksperioderOversiktForStønad[
@@ -57,7 +63,7 @@ export function TidligereVedtaksperioder({ behandling, behandlingFakta }: Props)
                                 </ExpansionCard.Header>
                                 <ExpansionCard.Content>
                                     <DetaljerteVedtaksperioderBehandling
-                                        stønadstype={behandling.stønadstype}
+                                        stønadstype={stønadstype}
                                         vedtaksperioderOversiktForStønad={
                                             vedtaksperioderOversiktForStønad
                                         }
