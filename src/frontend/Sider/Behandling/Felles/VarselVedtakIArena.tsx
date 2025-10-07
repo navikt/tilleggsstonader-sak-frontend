@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { BodyShort, Box } from '@navikt/ds-react';
-import { ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
+import styled from 'styled-components';
+
+import { BodyShort, Heading } from '@navikt/ds-react';
+import { ABorderDefault, ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
 
 import { formaterDato } from '../../../utils/dato';
 
@@ -9,22 +11,23 @@ type Props = {
     arenaVedtakTom: string;
 };
 
+const Container = styled.div`
+    padding: 1rem;
+    border: 1px solid ${ABorderDefault};
+    background: ${ALimegreen50};
+    border-radius: 12px;
+`;
+
 export const VarselVedtakIArena = ({ arenaVedtakTom }: Props) => {
     return (
-        <Box
-            borderColor="border-subtle"
-            padding="space-16"
-            borderWidth="1"
-            borderRadius="large"
-            style={{ backgroundColor: ALimegreen50 }}
-        >
-            <BodyShort size={'small'} weight={'semibold'}>
+        <Container>
+            <Heading size={'xsmall'}>
                 {`Søker har vedtak i Arena til og med ${formaterDato(arenaVedtakTom)}`}
-            </BodyShort>
+            </Heading>
             <BodyShort size={'small'}>
                 Skal du innvilge tilbake i tid? Gå til Arena for å sjekke at det ikke blir
                 overlappende utbetalinger.
             </BodyShort>
-        </Box>
+        </Container>
     );
 };

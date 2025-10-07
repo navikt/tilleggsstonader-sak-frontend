@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,12 +10,14 @@ import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
 import { GammelVarselVedtakIArena } from './Felles/GammelVarselVedtakIArena';
+import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
+import { Toggle } from '../../utils/toggles';
 
 const StickyTablistContainer = styled(Sticky)`
     top: 97px;
@@ -42,23 +45,28 @@ const DisabledTab = styled(Tabs.Tab)`
 `;
 const TabContentContainer = styled('div')`
     max-width: 1400px;
-    padding: 0.5rem 2rem 2rem 2rem;
-`;
-
-const BehandlingContent = styled(Tabs.Panel)`
-    max-width: 1400px;
+    padding: 1rem 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `;
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const { settToast } = useApp();
-    const { behandling, behandlingErRedigerbar, toggleKanSaksbehandle, kanSetteBehandlingPåVent } =
-        useBehandling();
+    const {
+        behandling,
+        behandlingFakta,
+        behandlingErRedigerbar,
+        toggleKanSaksbehandle,
+        kanSetteBehandlingPåVent,
+    } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
+    const visVedtaksperioderPåBehandling = useFlag(Toggle.VIS_VEDTAKSPERIODER_PAA_BEHANDLING);
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
@@ -126,20 +134,20 @@ const BehandlingTabsInnhold = () => {
                         statusPåVentRedigering={statusPåVentRedigering}
                         settStatusPåVentRedigering={settStatusPåVentRedigering}
                     />
-                    {/*{behandling.forrigeIverksatteBehandlingId &&
-                        behandling.status != BehandlingStatus.FERDIGSTILT && (
-                            <TidligereVedtaksperioder
-                                behandling={behandling}
-                                behandlingFakta={behandlingFakta}
-                            />
-                        )}*/}
-                    <GammelVarselVedtakIArena />
+                    {visVedtaksperioderPåBehandling ? (
+                        <TidligereVedtaksperioder
+                            behandling={behandling}
+                            behandlingFakta={behandlingFakta}
+                        />
+                    ) : (
+                        <GammelVarselVedtakIArena />
+                    )}
                     {behandlingFaner
                         .filter((fane) => !fane.erLåst)
                         .map((tab) => (
-                            <BehandlingContent key={tab.path} value={tab.path}>
+                            <Tabs.Panel key={tab.path} value={tab.path}>
                                 {tab.komponent(behandling.id)}
-                            </BehandlingContent>
+                            </Tabs.Panel>
                         ))}
                 </TabContentContainer>
             </Tabs>
