@@ -27,7 +27,6 @@ export const HamburgermenyBehandling = () => {
     } = useBehandling();
     const { personopplysninger } = usePersonopplysninger();
     const kanRedigereGrunnlagFom = useFlag(Toggle.KAN_REDIGERE_GRUNNLAG_FOM);
-    const kanNullstillBehandlingFlag = useFlag(Toggle.KAN_NULLSTILLE_BEHANDLING);
 
     const skalViseRedigerSaksopplysninger =
         behandling.type === BehandlingType.FØRSTEGANGSBEHANDLING &&
@@ -36,9 +35,7 @@ export const HamburgermenyBehandling = () => {
         kanRedigereGrunnlagFom;
 
     const skalViseNullstillBehandling =
-        behandlingErRedigerbar &&
-        behandling.type === BehandlingType.REVURDERING &&
-        kanNullstillBehandlingFlag;
+        behandlingErRedigerbar && behandling.type === BehandlingType.REVURDERING;
 
     return (
         <Hamburgermeny>
