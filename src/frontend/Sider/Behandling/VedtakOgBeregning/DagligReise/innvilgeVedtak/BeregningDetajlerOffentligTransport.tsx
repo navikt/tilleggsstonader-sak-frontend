@@ -25,7 +25,7 @@ const BeregningDetajlerOffentligTransport: FC<{
                 pris = grunnlag.prisSyvdagersbillett;
                 visningsnavn = BillettTypeTilTekst[key];
                 break;
-            case 'MÅNEDSKORT':
+            case 'TRETTIDAGERSBILLETT':
                 pris = grunnlag.pris30dagersbillett;
                 visningsnavn = BillettTypeTilTekst[key];
                 break;
