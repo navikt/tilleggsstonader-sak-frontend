@@ -10,8 +10,7 @@ export interface FeilmeldingVedtak {
 export const valider = (
     årsaker: ÅrsakAvslag[] | ÅrsakOpphør[],
     begrunnelse?: string,
-    opphørsdato?: string | undefined,
-    skalSetteOpphørsdato?: boolean
+    opphørsdato?: string | undefined
 ): FeilmeldingVedtak => {
     const feilmeldinger: FeilmeldingVedtak = {};
 
@@ -23,7 +22,7 @@ export const valider = (
         feilmeldinger.begrunnelse = 'Begrunnelse må fylles ut';
     }
 
-    if (skalSetteOpphørsdato && !opphørsdato) {
+    if (!opphørsdato) {
         feilmeldinger.opphørsdato = 'Opphørsdato må fylles ut';
     }
 

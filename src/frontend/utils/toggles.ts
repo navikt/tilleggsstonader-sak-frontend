@@ -26,7 +26,6 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK = `sak.utled-endringsdato-revurdering`,
     KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-pa-samme-fagsak',
     KAN_NULLSTILLE_BEHANDLING = `sak.frontend.kan-nullstille-behandling`,
     VIS_ENHETER_SOM_KUN_HAR_TS_SAK_MAPPER_I_DEV = 'sak.vis-enheter-som-kun-har-ts-sak-mapper-i-dev',
