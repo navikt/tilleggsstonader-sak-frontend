@@ -28,7 +28,7 @@ const OpphørVedtak: React.FC<{
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const validerOgLagreVedtak = () => {
-        const feil = valider(årsaker, begrunnelse, opphørsdato);
+        const feil = valider(årsaker, begrunnelse, opphørsdato, true);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
