@@ -65,7 +65,9 @@ export function TidligereVedtaksperioder({
                     </ExpansionCard.Content>
                 </ExpansionCard>
             )}
-            {arenaVedtakTom && <VarselVedtakIArena arenaVedtakTom={arenaVedtakTom} />}
+            {arenaVedtakTom && !vedtaksperioder?.length && (
+                <VarselVedtakIArena arenaVedtakTom={arenaVedtakTom} />
+            )}
         </>
     );
 }
