@@ -66,7 +66,7 @@ export type DetaljerteVedtaksperioder =
     | DetaljertVedtaksperiodeDagligReiseTsr[];
 
 export const useHentFullstendigVedtaksOversiktForStønad = (
-    behandlingId: string | undefined
+    behandlingId: string
 ): {
     vedtaksperioderOversiktForStønad: Ressurs<DetaljerteVedtaksperioder>;
 } => {

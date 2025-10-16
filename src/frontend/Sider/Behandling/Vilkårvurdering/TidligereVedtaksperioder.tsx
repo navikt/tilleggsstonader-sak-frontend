@@ -16,23 +16,15 @@ export function TidligereVedtaksperioder({
     forrigeIverksatteBehandlingId,
     stønadstype,
 }: Props) {
-    const arenaVedtakTom = behandlingFakta.arena?.vedtakTom;
+    const sluttdatoPåVedtakIArena = behandlingFakta.arena?.vedtakTom;
 
-    if (!arenaVedtakTom && !forrigeIverksatteBehandlingId) {
-        return null;
-    }
-
-    return (
-        <>
-            {arenaVedtakTom && !forrigeIverksatteBehandlingId ? (
-                <VarselVedtakIArena arenaVedtakTom={arenaVedtakTom} />
-            ) : (
-                <TidligereVedtaksperioderTS
-                    stønadstype={stønadstype}
-                    arenaVedtakTom={arenaVedtakTom}
-                    forrigeIverksatteBehandlingId={forrigeIverksatteBehandlingId}
-                />
-            )}
-        </>
+    return forrigeIverksatteBehandlingId ? (
+        <TidligereVedtaksperioderTS
+            stønadstype={stønadstype}
+            sluttdatoPåVedtakIArena={sluttdatoPåVedtakIArena}
+            forrigeIverksatteBehandlingId={forrigeIverksatteBehandlingId}
+        />
+    ) : (
+        sluttdatoPåVedtakIArena && <VarselVedtakIArena arenaVedtakTom={sluttdatoPåVedtakIArena} />
     );
 }

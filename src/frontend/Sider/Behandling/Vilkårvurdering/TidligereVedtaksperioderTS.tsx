@@ -10,13 +10,13 @@ import { formaterDato } from '../../../utils/dato';
 import { DetaljerteVedtaksperioderBehandling } from '../DetaljerteVedtaksperioderBehandling';
 
 type Props = {
-    arenaVedtakTom: string | undefined;
-    forrigeIverksatteBehandlingId: string | undefined;
+    sluttdatoPåVedtakIArena: string | undefined;
+    forrigeIverksatteBehandlingId: string;
     stønadstype: Stønadstype;
 };
 
 export function TidligereVedtaksperioderTS({
-    arenaVedtakTom,
+    sluttdatoPåVedtakIArena,
     forrigeIverksatteBehandlingId,
     stønadstype,
 }: Props) {
@@ -46,10 +46,10 @@ export function TidligereVedtaksperioderTS({
                                             )}
                                         </Heading>
                                     </ExpansionCard.Title>
-                                    {arenaVedtakTom && (
+                                    {sluttdatoPåVedtakIArena && (
                                         <ExpansionCard.Description>
                                             Det finnes også et vedtak i Arena til og med{' '}
-                                            {formaterDato(arenaVedtakTom)}
+                                            {formaterDato(sluttdatoPåVedtakIArena)}
                                         </ExpansionCard.Description>
                                     )}
                                 </ExpansionCard.Header>
