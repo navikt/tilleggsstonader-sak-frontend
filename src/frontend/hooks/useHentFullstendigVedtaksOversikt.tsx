@@ -76,10 +76,6 @@ export const useHentFullstendigVedtaksOversiktForStønad = (
         useState<Ressurs<DetaljerteVedtaksperioder>>(byggTomRessurs());
 
     useEffect(() => {
-        if (!behandlingId) {
-            return;
-        }
-
         settVedtakOversiktResponseForStønad(byggHenterRessurs());
         request<DetaljerteVedtaksperioder, null>(
             `/api/sak/vedtak/detaljerte-vedtaksperioder/${behandlingId}`
