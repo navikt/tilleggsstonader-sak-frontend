@@ -1,4 +1,6 @@
 import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
+import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
+import { Periode } from '../../../utils/periode';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
@@ -52,8 +54,10 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatDagligReise): 
                 const antall7DagerBillett = samletBillettDetaljer['SYVDAGERSBILLETT'];
                 const antallEnkeltBillett = samletBillettDetaljer['ENKELTBILLETT'];
 
+                const datoperiode: Periode = { fom, tom };
+                const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
                 return `<tr style="text-align: right;">
-                         <td style="text-align: left; ${borderStylingCompact}">${fom}–${tom}</td>
+                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                          <td style="${borderStyling}">${beløp} kr</td>
                          <td style="${borderStyling}">${visBillettInfo(antall30DagerBillett, pris30dagersbillett)}</td>
                          <td style="${borderStyling}">${visBillettInfo(antall7DagerBillett, prisSyvdagersbillett)}</td>
