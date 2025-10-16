@@ -1,10 +1,12 @@
 import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
+import { lagVedtakstabellDagligReise } from './lagVedtakstabellDagligReise';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
 import { lagVedtakstabellTilsynBarn } from './lagVedtakstabellTilsynBarn';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
+import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
@@ -37,6 +39,10 @@ export const lagVedtakstabell = (
         case Stønadstype.BOUTGIFTER:
             return lagVedtakstabellBoutgifter(
                 vedtak.beregningsresultat as BeregningsresultatBoutgifter
+            );
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return lagVedtakstabellDagligReise(
+                vedtak.beregningsresultat as BeregningsresultatDagligReise
             );
         default:
             return '';
