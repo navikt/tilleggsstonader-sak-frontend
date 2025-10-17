@@ -40,19 +40,11 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatDagligReise): 
                 const { fom, tom, pris30dagersbillett, prisSyvdagersbillett, prisEnkeltbillett } =
                     periode.grunnlag;
                 const beløp = periode.beløp;
-                const billettdetaljer = periode.billettdetaljer ?? {};
-
-                const samletBillettDetaljer: Record<string, number> = Array.isArray(billettdetaljer)
-                    ? billettdetaljer.reduce<Record<string, number>>((acc, obj) => {
-                          const key = Object.keys(obj)[0];
-                          acc[key] = obj[key];
-                          return acc;
-                      }, {})
-                    : billettdetaljer;
-
-                const antall30DagerBillett = samletBillettDetaljer['TRETTIDAGERSBILLETT'];
-                const antall7DagerBillett = samletBillettDetaljer['SYVDAGERSBILLETT'];
-                const antallEnkeltBillett = samletBillettDetaljer['ENKELTBILLETT'];
+                const {
+                    TRETTIDAGERSBILLETT: antall30DagerBillett,
+                    SYVDAGERSBILLETT: antall7DagerBillett,
+                    ENKELTBILLETT: antallEnkeltBillett,
+                } = periode.billettdetaljer ?? {};
 
                 const datoperiode: Periode = { fom, tom };
                 const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
