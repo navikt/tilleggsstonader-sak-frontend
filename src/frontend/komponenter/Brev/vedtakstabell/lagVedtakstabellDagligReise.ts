@@ -28,7 +28,7 @@ const visBillettInfo = (antall: number | undefined, pris: number | undefined): s
     if (!antall || !pris) {
         return 'x';
     }
-    return `${antall} * ${pris} kr`;
+    return `${antall} x ${pris} kr`;
 };
 
 const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatDagligReise): string => {
