@@ -11,11 +11,11 @@ export const lagVedtakstabellDagligReise = (
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
                     <tr>
-                        <th style="width: 110px; ${borderStylingCompact}">Periode</th>
+                        <th style="width: 150px; ${borderStylingCompact}">Periode</th>
                         <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">Beløp du har rett til</th>
                         <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">30-dagersbillett</th>
-                        <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">7-dagersbillett</th>
-                        <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">Enkeltbillett</th>
+                        <th style="width: 100px; word-wrap: break-word; ${borderStylingCompact}">7-dagersbillett</th>
+                        <th style="width: 100px; word-wrap: break-word; ${borderStylingCompact}">Enkeltbillett</th>
                     </tr>
                 </thead>
                 <tbody>
