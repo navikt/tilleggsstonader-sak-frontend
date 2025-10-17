@@ -43,8 +43,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             [endretRegelId]: nyVurdering,
         };
 
-        const reglerSomSkalNullstilles =
-            regelstruktur[endretRegelId].reglerSomMåNullstillesVedEndring;
+        const reglerSomSkalNullstilles = regelstruktur[endretRegelId].reglerSomMåNullstilles;
 
         reglerSomSkalNullstilles.forEach((regelId) => {
             oppdaterteVurderinger[regelId] = undefined;

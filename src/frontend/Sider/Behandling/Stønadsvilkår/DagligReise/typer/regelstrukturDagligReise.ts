@@ -11,7 +11,7 @@ export enum RegelIdDagligReise {
 
 export interface RegelInfo {
     erHovedregel: boolean;
-    reglerSomMåNullstillesVedEndring: RegelIdDagligReise[];
+    reglerSomMåNullstilles: RegelIdDagligReise[];
     svaralternativer: SvarAlternativ[];
 }
 
