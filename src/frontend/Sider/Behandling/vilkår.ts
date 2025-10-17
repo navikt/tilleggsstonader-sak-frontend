@@ -51,7 +51,6 @@ export interface Vilkår {
     utgift?: number;
     erFremtidigUtgift?: boolean;
     slettetKommentar?: string;
-    offentligTransport?: OffentligTransport;
 }
 
 export interface Opphavsvilkår {
@@ -66,13 +65,6 @@ export interface Delvilkår {
 
 export interface Vilkårsvurdering {
     vilkårsett: Vilkår[];
-}
-
-export interface OffentligTransport {
-    reisedagerPerUke: number | undefined;
-    prisEnkelbillett: number | undefined;
-    prisSyvdagersbillett: number | undefined;
-    prisTrettidagersbillett: number | undefined;
 }
 
 export type SvarPåVilkår = Pick<
@@ -98,7 +90,7 @@ export interface SlettVilkårRespons {
 // Internt bruk av felter som kan oppdateres i komponent
 export type RedigerbareVilkårfelter = Pick<
     Vilkår,
-    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift' | 'offentligTransport'
+    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift'
 >;
 
 export const erOppfylt = (vilkårsresultat: Vilkårsresultat) => {
