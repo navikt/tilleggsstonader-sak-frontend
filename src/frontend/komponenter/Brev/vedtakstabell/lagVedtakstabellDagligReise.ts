@@ -26,7 +26,7 @@ export const lagVedtakstabellDagligReise = (
 
 const visBillettInfo = (antall: number | undefined, pris: number | undefined): string => {
     if (!antall || !pris) {
-        return 'x';
+        return '-';
     }
     return `${antall} x ${pris} kr`;
 };
