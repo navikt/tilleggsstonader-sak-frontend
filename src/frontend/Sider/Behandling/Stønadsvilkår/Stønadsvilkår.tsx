@@ -52,10 +52,10 @@ const Stønadsvilkår: React.FC<{
                             <StønadsvilkårBoutgifter regler={regler} />
                         )}
                         {stønadstype === Stønadstype.DAGLIG_REISE_TSO && (
-                            <StønadsvilkårDagligReise regler={regler} />
+                            <StønadsvilkårDagligReise />
                         )}
                         {stønadstype === Stønadstype.DAGLIG_REISE_TSR && (
-                            <StønadsvilkårDagligReise regler={regler} />
+                            <StønadsvilkårDagligReise />
                         )}
                     </VilkårProvider>
                 )}
