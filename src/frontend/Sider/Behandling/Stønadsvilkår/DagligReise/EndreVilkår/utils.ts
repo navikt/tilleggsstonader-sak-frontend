@@ -1,0 +1,73 @@
+import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
+import { FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import {
+    Regelstruktur,
+    RegelIdDagligReise,
+    SvarAlternativ,
+} from '../typer/regelstrukturDagligReise';
+import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
+
+export const initierSvar = (vilkår: VilkårDagligReise | undefined): SvarVilkårDagligReise => {
+    if (!vilkår) {
+        return tomtSvar;
+    }
+
+    const delvilkår = vilkår.delvilkårsett[0]; // Daglig reise har kun ett delvilkårsett
+
+    return delvilkår.vurderinger.reduce((acc, v) => {
+        acc[v.regelId as RegelIdDagligReise] = v.svar
+            ? { svarId: v.svar, begrunnelse: v.begrunnelse || '' }
+            : undefined;
+        return acc;
+    }, {} as SvarVilkårDagligReise);
+};
+
+export const initierAktiveDelvilkår = (
+    svar: SvarVilkårDagligReise,
+    regelstruktur: Regelstruktur
+): Map<RegelIdDagligReise, boolean> => {
+    const harEksisterendeSvar = Object.values(svar).some((s) => s !== undefined);
+
+    if (harEksisterendeSvar) {
+        return new Map(
+            Object.entries(svar).map(([regelId, svar]) => [
+                regelId as RegelIdDagligReise,
+                svar !== undefined,
+            ])
+        );
+    }
+
+    // Hvis ingen eksisterende svar, sett kun hovedregeler som aktive
+    return new Map(
+        Object.entries(regelstruktur).map(([regelId, regelInfo]) => [
+            regelId as RegelIdDagligReise,
+            regelInfo.erHovedregel,
+        ])
+    );
+};
+
+export const finnBegrunnelsestypeForSvar = (
+    svaralternativer: SvarAlternativ[],
+    valgtSvar?: SvarId
+): BegrunnelseRegel => {
+    const valgtAlternativ = svaralternativer.find(
+        (svaralternativ) => svaralternativ.svarId === valgtSvar
+    );
+    return valgtAlternativ ? valgtAlternativ.begrunnelseType : BegrunnelseRegel.UTEN;
+};
+
+export const tomtSvar: SvarVilkårDagligReise = {
+    AVSTAND_OVER_SEKS_KM: undefined,
+    UNNTAK_SEKS_KM: undefined,
+    KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
+    KAN_BRUKER_KJØRE_SELV: undefined,
+};
+
+export const tomtOffentligTransport: FaktaOffentligTransport = {
+    '@type': 'FAKTA_DAGLIG_REISE_OFFENTLIG_TRANSPORT',
+    type: 'OFFENTLIG_TRANSPORT',
+    reisedagerPerUke: undefined,
+    prisEnkelbillett: undefined,
+    prisSyvdagersbillett: undefined,
+    prisTrettidagersbillett: undefined,
+};

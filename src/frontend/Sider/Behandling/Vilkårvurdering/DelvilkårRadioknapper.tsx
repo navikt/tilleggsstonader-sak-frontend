@@ -16,6 +16,7 @@ interface Props {
     settVurdering: (nyttSvar: Vurdering) => void;
     feilmelding?: string;
     nullstillFeilmelding: (regelId: string) => void;
+    beskrivelse?: string;
 }
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
     settVurdering,
     feilmelding,
     nullstillFeilmelding,
+    beskrivelse,
 }) => {
     const svaralternativer = Object.keys(regel.svarMapping);
     const regelId = regel.regelId;
@@ -35,7 +37,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
         <Container>
             <RadioGroup
                 legend={regelIdTilSpørsmål[regelId] || regelId}
-                description={Spørsmålsbeskrivelse(regelId)}
+                description={beskrivelse || Spørsmålsbeskrivelse(regelId)}
                 value={vurdering.svar || ''}
                 size="small"
                 error={feilmelding}

@@ -152,3 +152,8 @@ export const tomtOffentligTransport = {
     prisSyvdagersbillett: undefined,
     prisTrettidagersbillett: undefined,
 };
+
+export const lagBegrunnelsestekst = (begrunnelseRegel: BegrunnelseRegel) =>
+    'Begrunnelse '.concat(
+        begrunnelseRegel !== BegrunnelseRegel.PÅKREVD ? '(valgfri)' : '(obligatorisk)'
+    );

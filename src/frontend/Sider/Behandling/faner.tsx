@@ -12,6 +12,7 @@ import Brev from './Brev/Brev';
 import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import Simulering from './Simulering/Simulering';
+import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
@@ -168,7 +169,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
-                    komponent: () => <Stønadsvilkår stønadstype={Stønadstype.DAGLIG_REISE_TSO} />,
+                    komponent: () => <StønadsvilkårDagligReise />,
                     ikon: <BriefcaseIcon />,
                 },
             ];

@@ -37,6 +37,7 @@ export const useUlagredeKomponenter = () => {
 export enum UlagretKomponent {
     AKTIVITET = 'aktivitet',
     MÅLGRUPPE = 'målgruppe',
+    STØNADSVILKÅR = 'stønadsvilkår',
     BEREGNING_AVSLÅ = 'beregning - avslå',
     BEREGNING_OPPHØR = 'beregning - opphør',
     BEREGNING_INNVILGE = 'beregning - innvilge',

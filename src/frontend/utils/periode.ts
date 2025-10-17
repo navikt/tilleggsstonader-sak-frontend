@@ -20,3 +20,5 @@ export const validerPeriode = (periode: Periode): undefined | Partial<Periode> =
         };
     }
 };
+
+export const tomPeriode: Periode = { fom: '', tom: '' };
