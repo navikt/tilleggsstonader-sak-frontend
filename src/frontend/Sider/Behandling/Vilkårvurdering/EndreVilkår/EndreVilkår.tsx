@@ -11,6 +11,7 @@ import EndrePeriodeForVilkår, {
     PeriodeForVilkår,
     TypePeriodeVelger,
 } from './EndrePeriodeForVilkår';
+import { SlettVilkår } from './SlettVilkår';
 import { useApp } from '../../../../context/AppContext';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
@@ -28,7 +29,6 @@ import {
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
-import SlettVilkårModal from './SlettVilkårModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 
 const StyledForm = styled.form`
@@ -236,14 +236,10 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         <SmallButton variant="secondary" onClick={avsluttRedigering}>
                             Avbryt
                         </SmallButton>
-                        <div className={'right'}>
-                            {lagretVilkår && (
-                                <SlettVilkårModal
-                                    vilkår={lagretVilkår}
-                                    avsluttRedigering={avsluttRedigering}
-                                />
-                            )}
-                        </div>
+                        <SlettVilkår
+                            lagretVilkår={lagretVilkår}
+                            avsluttRedigering={avsluttRedigering}
+                        />
                     </Knapper>
                     {detFinnesUlagredeEndringer && (
                         <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>

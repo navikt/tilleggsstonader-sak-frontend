@@ -3,27 +3,26 @@ import React, { useState } from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Table, Textarea, VStack } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../context/BehandlingContext';
-import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
+import { RessursStatus, RessursStatusFeilet } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
-import { SlettVilkårRespons, Vilkår } from '../../vilkår';
+import { VilkårBase } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
 const SlettVilkårModal: React.FC<{
-    vilkår: Vilkår;
+    vilkår: VilkårBase;
     avsluttRedigering: () => void;
-}> = ({ vilkår, avsluttRedigering }) => {
-    const { behandling } = useBehandling();
-    const { slettVilkår } = useVilkår();
-
-    const kanSlettePeriodePermanent = vilkår.status === 'NY' || vilkår.erFremtidigUtgift;
-
+    kanSlettesPermanent: boolean;
+    slettVilkår: (
+        slettetBegrunnelse: string | undefined
+    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    metadataLabel: string;
+    metadata: string | number;
+}> = ({ vilkår, avsluttRedigering, kanSlettesPermanent, slettVilkår, metadataLabel, metadata }) => {
     const [visModal, settVisModal] = useState(false);
     const [feil, settFeil] = useState('');
     const [laster, settLaster] = useState(false);
@@ -45,23 +44,19 @@ const SlettVilkårModal: React.FC<{
     const slettVilkårsperiode = () => {
         if (laster) return;
 
-        if (!kanSlettePeriodePermanent && !slettBegrunnelse) {
+        if (!kanSlettesPermanent && !slettBegrunnelse) {
             settFeil('Begrunnelse for sletting er påkrevd');
             return;
         }
         settLaster(true);
         settFeil('');
 
-        slettVilkår({
-            id: vilkår.id,
-            behandlingId: behandling.id,
-            kommentar: slettBegrunnelse,
-        })
-            .then((res: RessursSuksess<SlettVilkårRespons> | RessursFeilet) => {
-                if (res.status === RessursStatus.SUKSESS) {
+        slettVilkår(slettBegrunnelse)
+            .then((res) => {
+                if (res === RessursStatus.SUKSESS) {
                     avsluttRedigering();
                 } else {
-                    settFeil(`Feil ved sletting av vilkårperiode: ${res.frontendFeilmelding}`);
+                    settFeil(`Feil ved sletting av vilkårperiode: ${res}`);
                 }
             })
             .finally(() => settLaster(false));
@@ -101,7 +96,7 @@ const SlettVilkårModal: React.FC<{
                 visModal={visModal}
                 onClose={lukkModal}
                 tittel={
-                    kanSlettePeriodePermanent
+                    kanSlettesPermanent
                         ? 'Er du sikker på at du vil slette perioden?'
                         : 'Slett periode'
                 }
@@ -109,7 +104,7 @@ const SlettVilkårModal: React.FC<{
                 aksjonsknapper={{
                     hovedKnapp: {
                         onClick: slettVilkårsperiode,
-                        tekst: kanSlettePeriodePermanent ? 'Slett' : 'Slett og lagre begrunnelse',
+                        tekst: kanSlettesPermanent ? 'Slett' : 'Slett og lagre begrunnelse',
                     },
                     lukkKnapp: {
                         onClick: lukkModal,
@@ -117,7 +112,7 @@ const SlettVilkårModal: React.FC<{
                     },
                 }}
             >
-                {!kanSlettePeriodePermanent && (
+                {!kanSlettesPermanent && (
                     <VStack gap="4">
                         <Table>
                             <Table.Header>
@@ -126,7 +121,7 @@ const SlettVilkårModal: React.FC<{
                                     <Table.HeaderCell>Type</Table.HeaderCell>
                                     <Table.HeaderCell>Fra</Table.HeaderCell>
                                     <Table.HeaderCell>Til</Table.HeaderCell>
-                                    <Table.HeaderCell>Utgift</Table.HeaderCell>
+                                    <Table.HeaderCell>{metadataLabel}</Table.HeaderCell>
                                     <Table.HeaderCell />
                                 </Table.Row>
                             </Table.Header>
@@ -144,7 +139,7 @@ const SlettVilkårModal: React.FC<{
                                     <Table.DataCell>
                                         {formaterNullableIsoDato(vilkår.tom)}
                                     </Table.DataCell>
-                                    <Table.DataCell>{vilkår.utgift}</Table.DataCell>
+                                    <Table.DataCell>{metadata}</Table.DataCell>
                                 </Table.Row>
                             </Table.Body>
                         </Table>
