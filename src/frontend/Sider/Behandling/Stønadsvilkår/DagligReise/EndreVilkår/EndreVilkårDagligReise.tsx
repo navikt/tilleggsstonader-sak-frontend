@@ -23,7 +23,7 @@ import { Periode } from '../../../../../utils/periode';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
-import { initierSvar } from './utils';
+import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
 
 const Container = styled.div`
@@ -56,10 +56,11 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         tom: vilkår?.tom || '',
     });
 
+    // Må initieres
     const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta | undefined>(
-        undefined
+        initierGjeldendeFaktaType(vilkår)
     );
-    const [fakta, settFakta] = useState<FaktaDagligReise | undefined>(undefined);
+    const [fakta, settFakta] = useState<FaktaDagligReise | undefined>(vilkår?.fakta);
 
     const [laster, settLaster] = useState(false);
     const [feilmeldingVedLagring, settFeilmeldingVedLagring] = useState<Feil | undefined>(
