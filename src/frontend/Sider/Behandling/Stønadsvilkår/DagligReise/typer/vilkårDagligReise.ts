@@ -14,11 +14,6 @@ export interface VilkårDagligReise extends Periode {
     fakta?: FaktaDagligReise;
 }
 
-export interface SlettDagligReiseVilkårRespons {
-    slettetPermanent: boolean;
-    vilkår: VilkårDagligReise;
-}
-
 export type TypeDagligReise = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL';
 
 export const typeDagligReiseTilTekst: Record<TypeDagligReise, string> = {
@@ -38,8 +33,4 @@ export interface LagreNyttVilkårDagligReise {
     tom: string;
     svar: SvarVilkårDagligReise;
     fakta?: FaktaDagligReise;
-}
-
-export interface OppdaterVilkårDagligReise extends LagreNyttVilkårDagligReise {
-    id: string; // id på vilkåret som skal oppdateres
 }
