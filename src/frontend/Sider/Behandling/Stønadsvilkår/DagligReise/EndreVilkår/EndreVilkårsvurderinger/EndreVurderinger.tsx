@@ -81,7 +81,7 @@ export const EndreVurderinger: React.FC<Props> = ({
     };
 
     return (
-        <VStack>
+        <VStack gap="4">
             <EndreDelvilkår
                 label="Er reiseavstanden over 6km?"
                 regelId={RegelIdDagligReise.AVSTAND_OVER_SEKS_KM}
@@ -112,15 +112,17 @@ export const EndreVurderinger: React.FC<Props> = ({
                 />
             )}
             {aktiveDelvilkår.get(RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV) && (
-                <EndreDelvilkår
-                    label="Kan bruker benytte privat bil?"
-                    regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
-                    vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
-                    oppdaterVurdering={oppdaterVurdering}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
-                    )}
-                />
+                <VStack>
+                    <EndreDelvilkår
+                        label="Kan bruker benytte privat bil?"
+                        regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
+                        vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
+                        oppdaterVurdering={oppdaterVurdering}
+                        svaralternativer={finnSvarMappingForRegel(
+                            RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
+                        )}
+                    />
+                </VStack>
             )}
         </VStack>
     );

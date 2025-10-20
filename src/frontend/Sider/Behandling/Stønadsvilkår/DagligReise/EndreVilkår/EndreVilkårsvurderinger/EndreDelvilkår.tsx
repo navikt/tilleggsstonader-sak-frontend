@@ -24,10 +24,12 @@ interface Props {
 }
 
 const Container = styled.div<{ $erUndervilkår: boolean }>`
+    display: grid;
+    grid-template-columns: 350px 1fr;
+
     border-left: ${({ $erUndervilkår }) => ($erUndervilkår ? `5px solid ${BorderAccent}` : 'none')};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
-    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
-    display: flex;
+    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `3rem` : `4rem`)};
 
     @media (max-width: 900px) {
         flex-direction: column;
@@ -40,7 +42,7 @@ export const EndreDelvilkår: FC<Props> = ({
     oppdaterVurdering,
     regelId,
     svaralternativer,
-    label: delvilkårLegend,
+    label,
     hjelpetekst,
     erUndervilkår = false,
 }) => {
@@ -72,7 +74,7 @@ export const EndreDelvilkår: FC<Props> = ({
     return (
         <Container $erUndervilkår={erUndervilkår}>
             <RadioGroup
-                legend={delvilkårLegend}
+                legend={label}
                 description={hjelpetekst}
                 value={vurdering?.svarId}
                 size="small"
@@ -99,6 +101,7 @@ export const EndreDelvilkår: FC<Props> = ({
                     value={vurdering?.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                     maxLength={400}
+                    style={{ minWidth: '400px' }}
                 />
             )}
         </Container>
