@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
+import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { useApp } from '../../../../../context/AppContext';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
@@ -154,12 +155,10 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             Avbryt
                         </SmallButton>
                     </HStack>
-                    {/* {vilkår && (
-                        <SlettVilkårModal
-                            vilkår={lagretVilkår}
-                            avsluttRedigering={avsluttRedigering}
-                        />
-                    )} */}
+                    <SlettVilkårDagligReise
+                        lagretVilkår={vilkår}
+                        avsluttRedigering={avsluttRedigering}
+                    />
                 </HStack>
                 {harUlagradeKomponenter && (
                     <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
