@@ -154,12 +154,6 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             Avbryt
                         </SmallButton>
                     </HStack>
-                    {/* {vilkår && (
-                        <SlettVilkårModal
-                            vilkår={lagretVilkår}
-                            avsluttRedigering={avsluttRedigering}
-                        />
-                    )} */}
                 </HStack>
                 {harUlagradeKomponenter && (
                     <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
