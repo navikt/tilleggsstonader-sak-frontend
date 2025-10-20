@@ -55,7 +55,6 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         tom: vilkår?.tom || '',
     });
 
-    // Må initieres
     const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta | undefined>(
         initierGjeldendeFaktaType(vilkår)
     );
