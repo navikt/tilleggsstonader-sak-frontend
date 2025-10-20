@@ -25,7 +25,7 @@ interface Props {
 
 const Container = styled.div<{ $erUndervilkår: boolean }>`
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: minmax(auto, 350px) auto;
 
     border-left: ${({ $erUndervilkår }) => ($erUndervilkår ? `5px solid ${BorderAccent}` : 'none')};
     padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
@@ -100,8 +100,6 @@ export const EndreDelvilkår: FC<Props> = ({
                     minRows={3}
                     value={vurdering?.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
-                    maxLength={400}
-                    style={{ minWidth: '400px' }}
                 />
             )}
         </Container>
