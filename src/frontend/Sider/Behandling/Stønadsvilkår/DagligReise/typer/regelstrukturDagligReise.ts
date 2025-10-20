@@ -9,7 +9,7 @@ export enum RegelIdDagligReise {
     KAN_BRUKER_KJØRE_SELV = 'KAN_BRUKER_KJØRE_SELV',
 }
 
-export interface RegelInfo {
+interface RegelInfo {
     erHovedregel: boolean;
     reglerSomMåNullstilles: RegelIdDagligReise[];
     svaralternativer: SvarAlternativ[];
