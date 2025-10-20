@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
@@ -15,13 +15,13 @@ import { initierAktiveDelvilkår } from '../utils';
 
 interface Props {
     vurderinger: SvarVilkårDagligReise;
-    settVurderinger: Dispatch<SetStateAction<SvarVilkårDagligReise>>;
+    oppdaterVurderinger: (nyeSvar: SvarVilkårDagligReise) => void;
     oppdaterGjeldendeFaktaType: (gjeldendeFakta: TypeVilkårFakta | undefined) => void;
 }
 
 export const EndreVurderinger: React.FC<Props> = ({
     vurderinger,
-    settVurderinger,
+    oppdaterVurderinger,
     oppdaterGjeldendeFaktaType,
 }) => {
     const { regelstruktur } = useVilkårDagligReise();
@@ -49,12 +49,10 @@ export const EndreVurderinger: React.FC<Props> = ({
             oppdaterteVurderinger[regelId] = undefined;
         });
 
-        settVurderinger(oppdaterteVurderinger);
+        oppdaterVurderinger(oppdaterteVurderinger);
 
         oppdaterAktiveSpørsmålOgFakta(reglerSomSkalNullstilles, endretRegelId, nyVurdering.svarId);
     };
-
-    // TODO: Endring av begrunnelse skal ikke nullstille andre spørsmål
 
     const oppdaterAktiveSpørsmålOgFakta = (
         reglerSomErNullstilt: RegelIdDagligReise[],

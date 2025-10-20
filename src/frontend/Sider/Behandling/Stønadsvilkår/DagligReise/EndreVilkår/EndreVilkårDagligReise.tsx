@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useId, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -15,6 +15,7 @@ import {
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
+import { SmallWarningTag } from '../../../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
@@ -44,7 +45,8 @@ interface Props {
 }
 
 export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avsluttRedigering }) => {
-    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+    const { settUlagretKomponent, nullstillUlagretKomponent, harUlagradeKomponenter } = useApp();
+    const komponentId = useId();
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
@@ -63,12 +65,9 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         undefined
     );
 
-    useEffect(() => {
-        settUlagretKomponent(UlagretKomponent.STØNADSVILKÅR);
-    }, [settUlagretKomponent]);
-
     const oppdaterPeriodeForVilkår = (datoKey: keyof Periode, nyVerdi: string | undefined) => {
         settPeriode((prevState) => ({ ...prevState, [datoKey]: nyVerdi }));
+        settUlagretKomponent(komponentId);
     };
 
     const validerOgLagre = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,12 +87,18 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
             settFeilmeldingVedLagring(undefined);
+            nullstillUlagretKomponent(komponentId);
         } else {
             settFeilmeldingVedLagring(feiletRessursTilFeilmelding(response));
             nullstillUlagretKomponent(UlagretKomponent.STØNADSVILKÅR);
         }
 
         settLaster(false);
+    };
+
+    const oppdaterVurderinger = (nyeSvar: SvarVilkårDagligReise) => {
+        settSvar(nyeSvar);
+        settUlagretKomponent(komponentId);
     };
 
     return (
@@ -128,7 +133,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
 
                 <EndreVurderinger
                     vurderinger={svar}
-                    settVurderinger={settSvar}
+                    oppdaterVurderinger={oppdaterVurderinger}
                     oppdaterGjeldendeFaktaType={(gjeldendeFakta: TypeVilkårFakta | undefined) =>
                         settGjeldendeFaktaType(gjeldendeFakta)
                     }
@@ -142,10 +147,23 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                     settFakta={settFakta}
                 />
 
-                <SmallButton>Lagre</SmallButton>
-                <SmallButton variant="secondary" onClick={avsluttRedigering}>
-                    Avbryt
-                </SmallButton>
+                <HStack justify="space-between">
+                    <HStack gap="4">
+                        <SmallButton>Lagre</SmallButton>
+                        <SmallButton variant="secondary" onClick={avsluttRedigering}>
+                            Avbryt
+                        </SmallButton>
+                    </HStack>
+                    {/* {vilkår && (
+                        <SlettVilkårModal
+                            vilkår={lagretVilkår}
+                            avsluttRedigering={avsluttRedigering}
+                        />
+                    )} */}
+                </HStack>
+                {harUlagradeKomponenter && (
+                    <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
+                )}
                 <Feilmelding feil={feilmeldingVedLagring} />
             </Container>
         </form>
