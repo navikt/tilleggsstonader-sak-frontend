@@ -80,6 +80,21 @@ export const EndreVurderinger: React.FC<Props> = ({
         oppdaterGjeldendeFaktaType(svar?.triggerFakta);
     };
 
+    /**
+     * Begrunnelse har egen oppdateringsfunksjon fordi vi ikke ønsker å nullstille
+     * andre delvilkår eller oppdatere aktive spørsmål når kun begrunnelsen endres.
+     */
+    const oppdaterBegrunnelse = (
+        regelId: RegelIdDagligReise,
+        svarId: SvarId,
+        nyBegrunnelse: string
+    ) => {
+        oppdaterVurderinger({
+            ...vurderinger,
+            [regelId]: { svarId: svarId, begrunnelse: nyBegrunnelse },
+        });
+    };
+
     return (
         <VStack gap="4">
             <EndreDelvilkår
@@ -87,6 +102,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                 regelId={RegelIdDagligReise.AVSTAND_OVER_SEKS_KM}
                 vurdering={vurderinger.AVSTAND_OVER_SEKS_KM}
                 oppdaterVurdering={oppdaterVurdering}
+                oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                 svaralternativer={finnSvarMappingForRegel(RegelIdDagligReise.AVSTAND_OVER_SEKS_KM)}
             />
             {aktiveDelvilkår.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
@@ -96,6 +112,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     regelId={RegelIdDagligReise.UNNTAK_SEKS_KM}
                     vurdering={vurderinger?.UNNTAK_SEKS_KM}
                     oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(RegelIdDagligReise.UNNTAK_SEKS_KM)}
                     erUndervilkår
                 />
@@ -106,6 +123,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     regelId={RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT}
                     vurdering={vurderinger?.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT}
                     oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT
                     )}
@@ -118,6 +136,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                         regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
                         vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
                         oppdaterVurdering={oppdaterVurdering}
+                        oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                         svaralternativer={finnSvarMappingForRegel(
                             RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
                         )}

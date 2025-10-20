@@ -18,6 +18,11 @@ interface Props {
     svaralternativer: SvarAlternativ[];
     vurdering: SvarOgBegrunnelse | undefined;
     oppdaterVurdering: (regelId: RegelIdDagligReise, vurdering: SvarOgBegrunnelse) => void;
+    oppdaterBegrunnelseIVurdering: (
+        regelId: RegelIdDagligReise,
+        svarId: SvarId,
+        nyBegrunnelse: string
+    ) => void;
     erUndervilkår?: boolean;
     label: string;
     hjelpetekst?: string;
@@ -40,6 +45,7 @@ const Container = styled.div<{ $erUndervilkår: boolean }>`
 export const EndreDelvilkår: FC<Props> = ({
     vurdering,
     oppdaterVurdering,
+    oppdaterBegrunnelseIVurdering,
     regelId,
     svaralternativer,
     label,
@@ -65,7 +71,7 @@ export const EndreDelvilkår: FC<Props> = ({
     const oppdaterBegrunnelse = (nyBegrunnelse: string) => {
         // Begrunnelse er ikke et synlig felt før delvilkår er besvart
         if (vurdering?.svarId) {
-            oppdaterVurdering(regelId, { svarId: vurdering.svarId, begrunnelse: nyBegrunnelse });
+            oppdaterBegrunnelseIVurdering(regelId, vurdering.svarId, nyBegrunnelse);
         }
     };
 
