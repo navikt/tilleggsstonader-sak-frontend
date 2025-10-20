@@ -34,7 +34,6 @@ export interface SvarOgBegrunnelse {
 export type SvarVilkårDagligReise = Record<RegelIdDagligReise, SvarOgBegrunnelse | undefined>;
 
 export interface LagreNyttVilkårDagligReise {
-    behandlingId: string;
     fom: string;
     tom: string;
     svar: SvarVilkårDagligReise;

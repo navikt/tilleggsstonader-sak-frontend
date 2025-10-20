@@ -1,9 +1,13 @@
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
-import { FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import {
+    FaktaOffentligTransport,
+    typeDagligReiseTilTypeVilkårfakta,
+} from '../typer/faktaDagligReise';
 import {
     Regelstruktur,
     RegelIdDagligReise,
     SvarAlternativ,
+    TypeVilkårFakta,
 } from '../typer/regelstrukturDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
@@ -44,6 +48,12 @@ export const initierAktiveDelvilkår = (
             regelInfo.erHovedregel,
         ])
     );
+};
+
+export const initierGjeldendeFaktaType = (
+    vilkår: VilkårDagligReise | undefined
+): TypeVilkårFakta | undefined => {
+    return vilkår?.fakta ? typeDagligReiseTilTypeVilkårfakta[vilkår.fakta.type] : undefined;
 };
 
 export const finnBegrunnelsestypeForSvar = (
