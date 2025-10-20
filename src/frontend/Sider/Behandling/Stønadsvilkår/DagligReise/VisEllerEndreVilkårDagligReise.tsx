@@ -4,7 +4,6 @@ import { EndreVilkårDagligReise } from './EndreVilkår/EndreVilkårDagligReise'
 import LesevisningVilkårDagligReise from './Lesevisning/LesevisningVilkårDagligReise';
 import { FaktaDagligReise } from './typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from './typer/vilkårDagligReise';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { useVilkårDagligReise } from '../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { Periode } from '../../../../utils/periode';
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår, vilkårIndex }) => {
-    const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårDagligReise();
 
@@ -32,9 +30,7 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår, vilkårInd
         svar: SvarVilkårDagligReise,
         fakta?: FaktaDagligReise
     ) => {
-        return await oppdaterVilkår({
-            id: vilkår.id,
-            behandlingId: behandling.id,
+        return await oppdaterVilkår(vilkår.id, {
             fom: periode.fom,
             tom: periode.tom,
             svar: svar,

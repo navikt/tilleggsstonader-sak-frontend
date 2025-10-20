@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
 import { EndreVilkårDagligReise } from './EndreVilkårDagligReise';
-import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
@@ -12,7 +11,6 @@ import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
 export const NyttVilkårDagligReise: React.FC = () => {
-    const { behandling } = useBehandling();
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
@@ -28,7 +26,6 @@ export const NyttVilkårDagligReise: React.FC = () => {
         fakta?: FaktaDagligReise
     ) => {
         return await lagreNyttVilkår({
-            behandlingId: behandling.id,
             fom: periode.fom,
             tom: periode.tom,
             svar: svar,
