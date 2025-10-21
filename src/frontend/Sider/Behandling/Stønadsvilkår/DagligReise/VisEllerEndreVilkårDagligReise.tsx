@@ -8,7 +8,6 @@ import { useSteg } from '../../../../context/StegContext';
 import { useVilkårDagligReise } from '../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { Periode } from '../../../../utils/periode';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../../vilkår';
 
 interface Props {
     vilkår: VilkårDagligReise;
@@ -19,9 +18,7 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår, vilkårInd
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårDagligReise();
 
-    const [redigerer, settRedigerer] = useState<boolean>(
-        vilkår.resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL
-    );
+    const [redigerer, settRedigerer] = useState<boolean>(false);
 
     const skalViseRedigeringsknapp = erStegRedigerbart && vilkår.status !== PeriodeStatus.SLETTET;
 
