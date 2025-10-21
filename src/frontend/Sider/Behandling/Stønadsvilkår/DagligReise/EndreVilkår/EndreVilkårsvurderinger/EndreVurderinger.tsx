@@ -51,7 +51,7 @@ export const EndreVurderinger: React.FC<Props> = ({
 
         oppdaterVurderinger(oppdaterteVurderinger);
 
-        oppdaterAktiveSpørsmålOgFakta(reglerSomSkalNullstilles, endretRegelId, nyVurdering.svarId);
+        oppdaterAktiveSpørsmålOgFakta(reglerSomSkalNullstilles, endretRegelId, nyVurdering.svar);
     };
 
     const oppdaterAktiveSpørsmålOgFakta = (

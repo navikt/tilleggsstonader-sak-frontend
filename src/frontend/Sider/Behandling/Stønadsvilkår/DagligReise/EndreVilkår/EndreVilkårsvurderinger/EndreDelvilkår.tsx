@@ -53,7 +53,7 @@ export const EndreDelvilkår: FC<Props> = ({
     erUndervilkår = false,
 }) => {
     const [begrunnelseRegel, settBegrunnelseType] = React.useState<BegrunnelseRegel>(
-        finnBegrunnelsestypeForSvar(svaralternativer, vurdering?.svarId)
+        finnBegrunnelsestypeForSvar(svaralternativer, vurdering?.svar)
     );
 
     const oppdaterSvar = (nyttSvar: SvarId) => {
@@ -61,7 +61,7 @@ export const EndreDelvilkår: FC<Props> = ({
         const skalHaBegrunnelse = begrunnelseTypeForSvar !== BegrunnelseRegel.UTEN;
 
         oppdaterVurdering(regelId, {
-            svarId: nyttSvar,
+            svar: nyttSvar,
             begrunnelse: skalHaBegrunnelse ? vurdering?.begrunnelse : undefined,
         });
 
@@ -70,8 +70,8 @@ export const EndreDelvilkår: FC<Props> = ({
 
     const oppdaterBegrunnelse = (nyBegrunnelse: string) => {
         // Begrunnelse er ikke et synlig felt før delvilkår er besvart
-        if (vurdering?.svarId) {
-            oppdaterBegrunnelseIVurdering(regelId, vurdering.svarId, nyBegrunnelse);
+        if (vurdering?.svar) {
+            oppdaterBegrunnelseIVurdering(regelId, vurdering.svar, nyBegrunnelse);
         }
     };
 
@@ -82,7 +82,7 @@ export const EndreDelvilkår: FC<Props> = ({
             <RadioGroup
                 legend={label}
                 description={hjelpetekst}
-                value={vurdering?.svarId}
+                value={vurdering?.svar}
                 size="small"
                 onChange={oppdaterSvar}
             >

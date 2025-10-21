@@ -20,7 +20,7 @@ export const initierSvar = (vilkår: VilkårDagligReise | undefined): SvarVilkå
 
     return delvilkår.vurderinger.reduce((acc, v) => {
         acc[v.regelId as RegelIdDagligReise] = v.svar
-            ? { svarId: v.svar, begrunnelse: v.begrunnelse || '' }
+            ? { svar: v.svar, begrunnelse: v.begrunnelse || '' }
             : undefined;
         return acc;
     }, {} as SvarVilkårDagligReise);

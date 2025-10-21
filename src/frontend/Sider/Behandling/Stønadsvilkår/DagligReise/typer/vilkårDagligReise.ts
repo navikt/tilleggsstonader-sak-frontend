@@ -22,7 +22,7 @@ export const typeDagligReiseTilTekst: Record<TypeDagligReise, string> = {
 };
 
 export interface SvarOgBegrunnelse {
-    svarId: SvarId;
+    svar: SvarId;
     begrunnelse: string | undefined;
 }
 
