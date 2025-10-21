@@ -30,6 +30,14 @@ const Stønadsvilkår: React.FC<{
         hentRegler();
     }, [hentRegler]);
 
+    // Legger daglig reise midlertidig utenfor frem til alle stønadstyper henter på ny måte.
+    if (
+        stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
+        stønadstype === Stønadstype.DAGLIG_REISE_TSR
+    ) {
+        return <StønadsvilkårDagligReise />;
+    }
+
     return (
         <>
             <DataViewer
@@ -50,12 +58,6 @@ const Stønadsvilkår: React.FC<{
                         )}
                         {stønadstype === Stønadstype.BOUTGIFTER && (
                             <StønadsvilkårBoutgifter regler={regler} />
-                        )}
-                        {stønadstype === Stønadstype.DAGLIG_REISE_TSO && (
-                            <StønadsvilkårDagligReise />
-                        )}
-                        {stønadstype === Stønadstype.DAGLIG_REISE_TSR && (
-                            <StønadsvilkårDagligReise />
                         )}
                     </VilkårProvider>
                 )}
