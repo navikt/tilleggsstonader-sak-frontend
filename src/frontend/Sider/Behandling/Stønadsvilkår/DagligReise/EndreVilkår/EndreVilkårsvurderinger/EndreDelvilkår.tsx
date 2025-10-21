@@ -52,7 +52,7 @@ export const EndreDelvilkår: FC<Props> = ({
     hjelpetekst,
     erUndervilkår = false,
 }) => {
-    const [begrunnelseRegel, settBegrunnelseType] = React.useState<BegrunnelseRegel>(
+    const [begrunnelseType, settBegrunnelseType] = React.useState<BegrunnelseRegel>(
         finnBegrunnelsestypeForSvar(svaralternativer, vurdering?.svar)
     );
 
@@ -75,7 +75,7 @@ export const EndreDelvilkår: FC<Props> = ({
         }
     };
 
-    const begrunnelseLabel = lagBegrunnelsestekst(begrunnelseRegel);
+    const begrunnelseLabel = lagBegrunnelsestekst(begrunnelseType);
 
     return (
         <Container $erUndervilkår={erUndervilkår}>
@@ -98,7 +98,7 @@ export const EndreDelvilkår: FC<Props> = ({
                     );
                 })}
             </RadioGroup>
-            {begrunnelseRegel !== BegrunnelseRegel.UTEN && (
+            {begrunnelseType !== BegrunnelseRegel.UTEN && (
                 <Textarea
                     label={begrunnelseLabel}
                     resize

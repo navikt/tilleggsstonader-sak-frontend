@@ -17,9 +17,9 @@ interface RegelInfo {
 
 export interface SvarAlternativ {
     svarId: SvarId;
-    nesteRegelId: RegelIdDagligReise;
+    nesteRegelId: RegelIdDagligReise | undefined;
     begrunnelseType: BegrunnelseRegel;
-    triggerFakta: TypeVilkårFakta | undefined;
+    tilhørendeFaktaType: TypeVilkårFakta | undefined;
 }
 
 export type TypeVilkårFakta = 'DAGLIG_REISE_OFFENTLIG_TRANSPORT' | 'DAGLIG_REISE_PRIVAT_BIL';

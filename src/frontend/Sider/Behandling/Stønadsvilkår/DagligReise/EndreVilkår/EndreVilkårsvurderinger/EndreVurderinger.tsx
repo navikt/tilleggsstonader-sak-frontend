@@ -26,7 +26,7 @@ export const EndreVurderinger: React.FC<Props> = ({
 }) => {
     const { regelstruktur } = useVilkårDagligReise();
 
-    const [aktiveDelvilkår, settAktiveDelvilkår] = useState<Map<RegelIdDagligReise, boolean>>(
+    const [aktiveVurderinger, settAktiveVurdering] = useState<Map<RegelIdDagligReise, boolean>>(
         initierAktiveDelvilkår(vurderinger, regelstruktur)
     );
 
@@ -51,15 +51,19 @@ export const EndreVurderinger: React.FC<Props> = ({
 
         oppdaterVurderinger(oppdaterteVurderinger);
 
-        oppdaterAktiveSpørsmålOgFakta(reglerSomSkalNullstilles, endretRegelId, nyVurdering.svar);
+        oppdaterAktiveSpørsmålOgGjeldedeFaktaType(
+            reglerSomSkalNullstilles,
+            endretRegelId,
+            nyVurdering.svar
+        );
     };
 
-    const oppdaterAktiveSpørsmålOgFakta = (
+    const oppdaterAktiveSpørsmålOgGjeldedeFaktaType = (
         reglerSomErNullstilt: RegelIdDagligReise[],
         endretRegelId: RegelIdDagligReise,
         nyttSvar: SvarId
     ) => {
-        const aktiveVurderingerKopi = new Map(aktiveDelvilkår);
+        const aktiveVurderingerKopi = new Map(aktiveVurderinger);
 
         reglerSomErNullstilt.forEach((spørsmål) => {
             aktiveVurderingerKopi.set(spørsmål, false);
@@ -73,9 +77,9 @@ export const EndreVurderinger: React.FC<Props> = ({
             aktiveVurderingerKopi.set(svar.nesteRegelId, true);
         }
 
-        settAktiveDelvilkår(aktiveVurderingerKopi);
+        settAktiveVurdering(aktiveVurderingerKopi);
 
-        oppdaterGjeldendeFaktaType(svar?.triggerFakta);
+        oppdaterGjeldendeFaktaType(svar?.tilhørendeFaktaType);
     };
 
     /**
@@ -84,26 +88,30 @@ export const EndreVurderinger: React.FC<Props> = ({
      */
     const oppdaterBegrunnelse = (
         regelId: RegelIdDagligReise,
-        svarId: SvarId,
+        svar: SvarId,
         nyBegrunnelse: string
     ) => {
         oppdaterVurderinger({
             ...vurderinger,
-            [regelId]: { svarId: svarId, begrunnelse: nyBegrunnelse },
+            [regelId]: { svar: svar, begrunnelse: nyBegrunnelse },
         });
     };
 
     return (
         <VStack gap="4">
-            <EndreDelvilkår
-                label="Er reiseavstanden over 6km?"
-                regelId={RegelIdDagligReise.AVSTAND_OVER_SEKS_KM}
-                vurdering={vurderinger.AVSTAND_OVER_SEKS_KM}
-                oppdaterVurdering={oppdaterVurdering}
-                oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                svaralternativer={finnSvarMappingForRegel(RegelIdDagligReise.AVSTAND_OVER_SEKS_KM)}
-            />
-            {aktiveDelvilkår.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
+            {aktiveVurderinger.get(RegelIdDagligReise.AVSTAND_OVER_SEKS_KM) && (
+                <EndreDelvilkår
+                    label="Er reiseavstanden over 6km?"
+                    regelId={RegelIdDagligReise.AVSTAND_OVER_SEKS_KM}
+                    vurdering={vurderinger.AVSTAND_OVER_SEKS_KM}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdDagligReise.AVSTAND_OVER_SEKS_KM
+                    )}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
                 // TODO: Finn ut riktig formulering for unntak
                 <EndreDelvilkår
                     label="Har søker funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at hen må ha transport til aktivitetsstedet?"
@@ -115,7 +123,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     erUndervilkår
                 />
             )}
-            {aktiveDelvilkår.get(RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT) && (
+            {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
                     label="Kan søker benytte seg av offentlig transport?"
                     regelId={RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT}
@@ -127,19 +135,17 @@ export const EndreVurderinger: React.FC<Props> = ({
                     )}
                 />
             )}
-            {aktiveDelvilkår.get(RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV) && (
-                <VStack>
-                    <EndreDelvilkår
-                        label="Kan bruker benytte privat bil?"
-                        regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
-                        vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
-                        oppdaterVurdering={oppdaterVurdering}
-                        oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                        svaralternativer={finnSvarMappingForRegel(
-                            RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
-                        )}
-                    />
-                </VStack>
+            {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV) && (
+                <EndreDelvilkår
+                    label="Kan bruker benytte privat bil?"
+                    regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
+                    vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
+                    )}
+                />
             )}
         </VStack>
     );
