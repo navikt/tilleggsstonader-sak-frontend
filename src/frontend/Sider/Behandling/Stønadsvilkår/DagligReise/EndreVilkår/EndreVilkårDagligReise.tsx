@@ -6,7 +6,6 @@ import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { useApp } from '../../../../../context/AppContext';
-import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
@@ -74,14 +73,14 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         event.preventDefault();
 
         if (laster) return;
-        settLaster(true);
-
         // TODO: valider at data er ok før det lagres ned
 
         lagreVilkår();
     };
 
     const lagreVilkår = async () => {
+        settLaster(true);
+
         const response = await lagre(periode, svar, fakta);
 
         if (response.status === RessursStatus.SUKSESS) {
@@ -90,9 +89,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
             nullstillUlagretKomponent(komponentId);
         } else {
             settFeilmeldingVedLagring(feiletRessursTilFeilmelding(response));
-            nullstillUlagretKomponent(UlagretKomponent.STØNADSVILKÅR);
         }
-
         settLaster(false);
     };
 

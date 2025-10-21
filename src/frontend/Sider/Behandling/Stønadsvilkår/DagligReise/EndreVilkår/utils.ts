@@ -11,16 +11,18 @@ import {
 } from '../typer/regelstrukturDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export const initierSvar = (vilkår: VilkårDagligReise | undefined): SvarVilkårDagligReise => {
-    if (!vilkår) {
+export const initierSvar = (
+    eksisterendeVilkår: VilkårDagligReise | undefined
+): SvarVilkårDagligReise => {
+    if (!eksisterendeVilkår) {
         return tomtSvar;
     }
 
-    const delvilkår = vilkår.delvilkårsett[0]; // Daglig reise har kun ett delvilkårsett
+    const delvilkår = eksisterendeVilkår.delvilkårsett[0]; // Daglig reise har kun ett delvilkårsett
 
-    return delvilkår.vurderinger.reduce((acc, v) => {
-        acc[v.regelId as RegelIdDagligReise] = v.svar
-            ? { svar: v.svar, begrunnelse: v.begrunnelse || '' }
+    return delvilkår.vurderinger.reduce((acc, vurdering) => {
+        acc[vurdering.regelId as RegelIdDagligReise] = vurdering.svar
+            ? { svar: vurdering.svar, begrunnelse: vurdering.begrunnelse || '' }
             : undefined;
         return acc;
     }, {} as SvarVilkårDagligReise);
@@ -60,9 +62,12 @@ export const finnBegrunnelsestypeForSvar = (
     svaralternativer: SvarAlternativ[],
     valgtSvar?: SvarId
 ): BegrunnelseRegel => {
+    if (!valgtSvar) return BegrunnelseRegel.UTEN;
+
     const valgtAlternativ = svaralternativer.find(
         (svaralternativ) => svaralternativ.svarId === valgtSvar
     );
+
     return valgtAlternativ ? valgtAlternativ.begrunnelseType : BegrunnelseRegel.UTEN;
 };
 

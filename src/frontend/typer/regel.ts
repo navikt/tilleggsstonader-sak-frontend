@@ -26,7 +26,12 @@ export type ReglerBoutgifter =
 
 export type SluttNode = 'SLUTT_NODE';
 
-export type SvarId = string;
+export type SvarId =
+    | 'JA'
+    | 'NEI'
+    | 'TRENGER_MER_TILSYN_ENN_JEVNALDRENDE'
+    | 'FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID'
+    | string;
 
 export type Begrunnelse = string | undefined;
 

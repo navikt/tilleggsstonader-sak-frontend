@@ -1,7 +1,7 @@
-import { RegelId } from '../../../typer/regel';
+import { RegelId, SvarId } from '../../../typer/regel';
 import { StønadsvilkårType } from '../vilkår';
 
-export const svarIdTilTekst: Record<string, string> = {
+export const svarIdTilTekst: Record<SvarId, string> = {
     JA: 'Ja',
     NEI: 'Nei',
 
