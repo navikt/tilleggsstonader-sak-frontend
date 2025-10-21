@@ -101,6 +101,13 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         settUlagretKomponent(komponentId);
     };
 
+    const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta | undefined) => {
+        if (gjeldendeFaktaType !== nyGjeldendeFaktaType) {
+            settFakta(undefined);
+        }
+        settGjeldendeFaktaType(nyGjeldendeFaktaType);
+    };
+
     return (
         <form onSubmit={validerOgLagre}>
             <Container>
@@ -134,9 +141,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                 <EndreVurderinger
                     vurderinger={svar}
                     oppdaterVurderinger={oppdaterVurderinger}
-                    oppdaterGjeldendeFaktaType={(gjeldendeFakta: TypeVilkårFakta | undefined) =>
-                        settGjeldendeFaktaType(gjeldendeFakta)
-                    }
+                    oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
                 />
 
                 <Skillelinje />
