@@ -28,6 +28,12 @@ export const initierSvar = (
     }, {} as SvarVilkårDagligReise);
 };
 
+/**
+ * Setter hvilke delvilkår som skal være aktive basert på eksisterende svar.
+ *
+ * Regler med svar aktiveres, og eventuelle nesteRegelId fra valgte svar aktiveres også.
+ * Allerede aktiverte regler overskrives ikke.
+ */
 export const initierAktiveDelvilkår = (
     svar: SvarVilkårDagligReise,
     regelstruktur: Regelstruktur
@@ -40,17 +46,18 @@ export const initierAktiveDelvilkår = (
         Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
             const regelIdDagligReise = regelId as RegelIdDagligReise;
             const eksisterendeSvar = svar[regelIdDagligReise]?.svar;
-            const harSvar = eksisterendeSvar !== undefined;
 
-            // Unngå at regler som er trigget av tidligere svar overskrives fordi selve regelen ikke har svar
-            if (!aktiveRegler.has(regelIdDagligReise)) {
-                aktiveRegler.set(regelIdDagligReise, harSvar);
+            const gjeldendeRegelErBesvart = eksisterendeSvar !== undefined;
+            const harHåndtertRegelTidligere = aktiveRegler.has(regelIdDagligReise);
+
+            if (harHåndtertRegelTidligere === false) {
+                aktiveRegler.set(regelIdDagligReise, gjeldendeRegelErBesvart);
             }
 
-            // Vis neste regel dersom et eksisterende svar peker videre på en ny regel
-            if (harSvar) {
+            // Sett etterfølgelde regelId-er til aktive dersom regel er besvart
+            if (gjeldendeRegelErBesvart) {
                 const valgtAlternativ = regelInfo.svaralternativer.find(
-                    (alt) => alt.svarId === eksisterendeSvar
+                    (svaralternativ) => svaralternativ.svarId === eksisterendeSvar
                 );
 
                 if (valgtAlternativ?.nesteRegelId) {
