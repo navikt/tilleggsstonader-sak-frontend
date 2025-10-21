@@ -6,7 +6,7 @@ import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
-import { LesevisningFaktaDagligReise } from './LesevisningFaktaOffentligTransport';
+import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
