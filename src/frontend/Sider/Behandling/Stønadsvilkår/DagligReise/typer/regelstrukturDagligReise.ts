@@ -23,3 +23,8 @@ export interface SvarAlternativ {
 }
 
 export type TypeVilkårFakta = 'DAGLIG_REISE_OFFENTLIG_TRANSPORT' | 'DAGLIG_REISE_PRIVAT_BIL';
+
+export const typeVilkårFaktaTIlTekst: Record<TypeVilkårFakta, string> = {
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Offentlig transport',
+    DAGLIG_REISE_PRIVAT_BIL: 'Privat bil',
+};
