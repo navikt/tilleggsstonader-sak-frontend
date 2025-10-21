@@ -25,18 +25,16 @@ export const SlettVilkårDagligReise: FC<EndreVilkårProps> = ({
 
     return (
         <div className={'right'}>
-            {lagretVilkår && (
-                <SlettVilkårModal
-                    vilkår={lagretVilkår}
-                    avsluttRedigering={avsluttRedigering}
-                    kanSlettesPermanent={lagretVilkår?.status === 'NY'}
-                    slettVilkår={slett}
-                    metadataLabel="Type daglig reise"
-                    metadata={
-                        lagretVilkår.fakta ? typeDagligReiseTilTekst[lagretVilkår.fakta.type] : '-'
-                    }
-                />
-            )}
+            <SlettVilkårModal
+                vilkår={lagretVilkår}
+                avsluttRedigering={avsluttRedigering}
+                kanSlettesPermanent={lagretVilkår?.status === 'NY'}
+                slettVilkår={slett}
+                metadataLabel="Type daglig reise"
+                metadata={
+                    lagretVilkår.fakta ? typeDagligReiseTilTekst[lagretVilkår.fakta.type] : '-'
+                }
+            />
         </div>
     );
 };

@@ -31,16 +31,14 @@ export const SlettVilkår: FC<EndreVilkårProps> = ({ lagretVilkår, avsluttRedi
 
     return (
         <div className={'right'}>
-            {lagretVilkår && (
-                <SlettVilkårModal
-                    vilkår={lagretVilkår}
-                    avsluttRedigering={avsluttRedigering}
-                    kanSlettesPermanent={vilkårKanSlettesPermanent}
-                    slettVilkår={slett}
-                    metadataLabel="Utgift"
-                    metadata={lagretVilkår?.utgift || '-'}
-                />
-            )}
+            <SlettVilkårModal
+                vilkår={lagretVilkår}
+                avsluttRedigering={avsluttRedigering}
+                kanSlettesPermanent={vilkårKanSlettesPermanent}
+                slettVilkår={slett}
+                metadataLabel="Utgift"
+                metadata={lagretVilkår?.utgift || '-'}
+            />
         </div>
     );
 };
