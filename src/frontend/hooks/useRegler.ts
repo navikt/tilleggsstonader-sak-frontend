@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
+import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { ReglerResponse } from '../typer/regel';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
 
@@ -19,5 +20,27 @@ export const useRegler = (): Response => {
     return {
         hentRegler,
         regler,
+    };
+};
+
+export const useRegelstruktur = (): {
+    regelStruktur: Ressurs<Regelstruktur>;
+} => {
+    const { request } = useApp();
+
+    const [regelStruktur, settRegelstruktur] = useState<Ressurs<Regelstruktur>>(byggTomRessurs());
+
+    const hentRegelstruktur = useCallback(() => {
+        request<Regelstruktur, null>('/api/sak/vilkar/daglig-reise/regler', 'GET').then(
+            settRegelstruktur
+        );
+    }, [request]);
+
+    useEffect(() => {
+        hentRegelstruktur();
+    }, [hentRegelstruktur]);
+
+    return {
+        regelStruktur,
     };
 };

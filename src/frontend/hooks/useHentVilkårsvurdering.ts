@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
+import { useBehandling } from '../context/BehandlingContext';
+import { VilkårDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 import { Vilkårsvurdering } from '../Sider/Behandling/vilkår';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
@@ -25,5 +27,30 @@ export const useHentVilkårsvurdering = (): {
     return {
         hentVilkårsvurdering,
         vilkårsvurdering,
+    };
+};
+
+export const useHentVilkårDagligReise = (): {
+    eksisterendeVilkår: Ressurs<VilkårDagligReise[]>;
+} => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+
+    const [eksisterendeVilkår, settEksisterendeVilkår] =
+        useState<Ressurs<VilkårDagligReise[]>>(byggTomRessurs());
+
+    const hentEksisterendeVilkår = useCallback(() => {
+        request<VilkårDagligReise[], null>(
+            `/api/sak/vilkar/daglig-reise/${behandling.id}`,
+            'GET'
+        ).then(settEksisterendeVilkår);
+    }, [request, behandling.id]);
+
+    useEffect(() => {
+        hentEksisterendeVilkår();
+    }, [hentEksisterendeVilkår]);
+
+    return {
+        eksisterendeVilkår,
     };
 };
