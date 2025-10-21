@@ -1,16 +1,9 @@
 import { FaktaDagligReise } from './faktaDagligReise';
 import { RegelIdDagligReise } from './regelstrukturDagligReise';
 import { SvarId } from '../../../../../typer/regel';
-import { Periode } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
-import { PeriodeStatus } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Delvilkår, Vilkårsresultat } from '../../../vilkår';
+import { VilkårBase } from '../../../vilkår';
 
-export interface VilkårDagligReise extends Periode {
-    id: string;
-    behandlingId: string;
-    resultat: Vilkårsresultat;
-    status: PeriodeStatus;
-    delvilkårsett: Delvilkår[];
+export interface VilkårDagligReise extends VilkårBase {
     fakta?: FaktaDagligReise;
 }
 
@@ -33,4 +26,13 @@ export interface LagreNyttVilkårDagligReise {
     tom: string;
     svar: SvarVilkårDagligReise;
     fakta?: FaktaDagligReise;
+}
+
+export interface SlettVilkårDagligReiseRequest {
+    kommentar?: string;
+}
+
+export interface SlettVilkårDagligReiseRespons {
+    slettetPermanent: boolean;
+    vilkår: VilkårDagligReise;
 }

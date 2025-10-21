@@ -4,11 +4,18 @@ import constate from 'constate';
 
 import {
     LagreNyttVilkårDagligReise,
+    SlettVilkårDagligReiseRequest,
+    SlettVilkårDagligReiseRespons,
     VilkårDagligReise,
 } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
+import {
+    RessursFeilet,
+    RessursStatus,
+    RessursStatusFeilet,
+    RessursSuksess,
+} from '../../typer/ressurs';
 import { useApp } from '../AppContext';
-import { oppdaterVilkårIListe } from './utils';
+import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
 import { Regelstruktur } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { useBehandling } from '../BehandlingContext';
 
@@ -27,6 +34,10 @@ interface UseVilkårDagligReiseResponse {
         vilkårId: string,
         vilkårSomSkalOppdateres: LagreNyttVilkårDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
+    slettVilkår: (
+        vilkårId: string,
+        slettetKommentar: string | undefined
+    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
 }
 
 export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
@@ -66,11 +77,35 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
             return respons;
         };
 
+        const slettVilkår = async (vilkårId: string, slettetKommentar: string | undefined) => {
+            const respons = await request<
+                SlettVilkårDagligReiseRespons,
+                SlettVilkårDagligReiseRequest
+            >(`/api/sak/vilkar/daglig-reise/${behandling.id}/${vilkårId}`, 'DELETE', {
+                kommentar: slettetKommentar,
+            });
+
+            if (respons.status === RessursStatus.SUKSESS) {
+                if (respons.data.slettetPermanent) {
+                    settVilkårsett((prevVilkårsvurdering) =>
+                        fjernVilkårFraListe(prevVilkårsvurdering, vilkårId)
+                    );
+                } else {
+                    settVilkårsett((prevVilkårsvurdering) =>
+                        oppdaterVilkårIListe(prevVilkårsvurdering, respons.data.vilkår)
+                    );
+                }
+            }
+
+            return respons.status;
+        };
+
         return {
             vilkårsett,
             regelstruktur,
             lagreNyttVilkår,
             oppdaterVilkår,
+            slettVilkår,
         };
     }
 );

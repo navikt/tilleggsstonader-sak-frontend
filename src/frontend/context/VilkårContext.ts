@@ -12,7 +12,12 @@ import {
     Vilkår,
     Vilkårsvurdering,
 } from '../Sider/Behandling/vilkår';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
+import {
+    RessursFeilet,
+    RessursStatus,
+    RessursStatusFeilet,
+    RessursSuksess,
+} from '../typer/ressurs';
 
 interface Props {
     hentetVilkårsvurdering: Vilkårsvurdering;
@@ -58,9 +63,7 @@ export interface UseVilkår {
     vilkårsvurdering: Vilkårsvurdering;
     lagreNyttVilkår: (vurdering: NyttVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     lagreVilkår: (vurdering: SvarPåVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
-    slettVilkår: (
-        vilkår: SlettVilkår
-    ) => Promise<RessursSuksess<SlettVilkårRespons> | RessursFeilet>;
+    slettVilkår: (vilkår: SlettVilkår) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
     ikkeVurderVilkår: (vilkår: OppdaterVilkår) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
 }
 
@@ -101,7 +104,7 @@ export const [VilkårProvider, useVilkår] = constate(
 
         const slettVilkår = (
             slettVilkår: SlettVilkår
-        ): Promise<RessursSuksess<SlettVilkårRespons> | RessursFeilet> => {
+        ): Promise<RessursStatus.SUKSESS | RessursStatusFeilet> => {
             return request<SlettVilkårRespons, SlettVilkår>(
                 `/api/sak/vilkar`,
                 'DELETE',
@@ -121,9 +124,10 @@ export const [VilkårProvider, useVilkår] = constate(
                         );
                     }
                 }
-                return respons;
+                return respons.status;
             });
         };
+
         const ikkeVurderVilkår = (
             vilkår: OppdaterVilkår
         ): Promise<RessursSuksess<Vilkår> | RessursFeilet> => {

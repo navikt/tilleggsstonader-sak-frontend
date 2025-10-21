@@ -35,22 +35,21 @@ export interface Vurdering {
     begrunnelse?: Begrunnelse;
 }
 
-export interface Vilkår {
+export interface VilkårBase {
     id: string;
     behandlingId: string;
+    fom?: string;
+    tom?: string;
     resultat: Vilkårsresultat;
     status: PeriodeStatus;
     vilkårType: StønadsvilkårType;
-    barnId?: string;
-    endretAv: string;
-    endretTid: string;
     delvilkårsett: Delvilkår[];
-    opphavsvilkår?: Opphavsvilkår;
-    fom?: string;
-    tom?: string;
+    slettetKommentar?: string;
+}
+export interface Vilkår extends VilkårBase {
+    barnId?: string;
     utgift?: number;
     erFremtidigUtgift?: boolean;
-    slettetKommentar?: string;
 }
 
 export interface Opphavsvilkår {
