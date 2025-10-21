@@ -11,7 +11,7 @@ export const valider = (
     årsaker: ÅrsakAvslag[] | ÅrsakOpphør[],
     begrunnelse?: string,
     opphørsdato?: string | undefined,
-    skalSetteOpphørsdato?: boolean
+    erOpphør: boolean = false
 ): FeilmeldingVedtak => {
     const feilmeldinger: FeilmeldingVedtak = {};
 
@@ -23,7 +23,7 @@ export const valider = (
         feilmeldinger.begrunnelse = 'Begrunnelse må fylles ut';
     }
 
-    if (skalSetteOpphørsdato && !opphørsdato) {
+    if (erOpphør && !opphørsdato) {
         feilmeldinger.opphørsdato = 'Opphørsdato må fylles ut';
     }
 

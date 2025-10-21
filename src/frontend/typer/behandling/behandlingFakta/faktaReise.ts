@@ -35,7 +35,7 @@ export interface ValgtAktivitetDagligReise {
 export enum BillettType {
     ENKELTBILLETT = 'ENKELTBILLETT',
     SYVDAGERSBILLETT = 'SYVDAGERSBILLETT',
-    MÅNEDSKORT = 'MÅNEDSKORT',
+    TRETTIDAGERSBILLETT = 'TRETTIDAGERSBILLETT',
 }
 export enum ÅrsakIkkeOffentligTransport {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
@@ -66,8 +66,8 @@ export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTra
 };
 export const BillettTypeTilTekst: Record<BillettType, string> = {
     ENKELTBILLETT: 'Enkeltbillett',
-    SYVDAGERSBILLETT: 'Syvdagersbillett',
-    MÅNEDSKORT: 'Månedskort',
+    SYVDAGERSBILLETT: '7-dagersbillett',
+    TRETTIDAGERSBILLETT: '30-dagersbillett',
 };
 export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',

@@ -69,14 +69,12 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 </BodyShort>
                                 <HStack gap="2" align="center">
                                     <BodyShort size="small">{periode.beløp}</BodyShort>
-                                    {Object.keys(periode.billetdetalijer).length > 1 && (
-                                        <HelpText>
-                                            <BeregningDetajlerOffentligTransport
-                                                billetdetaljer={periode.billetdetalijer}
-                                                grunnlag={periode.grunnlag}
-                                            />
-                                        </HelpText>
-                                    )}
+                                    <HelpText>
+                                        <BeregningDetajlerOffentligTransport
+                                            billettdetaljer={periode.billettdetaljer}
+                                            grunnlag={periode.grunnlag}
+                                        />
+                                    </HelpText>
                                 </HStack>
                                 <BodyShort size="small">
                                     {periode.grunnlag.antallReisedager}

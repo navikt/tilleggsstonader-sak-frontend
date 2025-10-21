@@ -8,9 +8,7 @@ import { Toggle } from './toggles';
  */
 const featureFlags: Partial<Record<Toggle, boolean>> = {
     [Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER]: true,
-    [Toggle.SKAL_UTLEDE_ENDRINGSDATO_AUTOMATISK]: true,
     [Toggle.VIS_VARSEL_ENDRING_AV_PERIODE]: true,
-    [Toggle.KAN_NULLSTILLE_BEHANDLING]: true,
 };
 
 export const mockFlags: IToggle[] = Object.values(Toggle).map((toggle) => {

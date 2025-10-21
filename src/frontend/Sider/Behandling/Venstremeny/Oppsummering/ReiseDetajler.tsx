@@ -16,7 +16,7 @@ function mapReise(reise: FaktaReise) {
         const prisMap: Record<BillettType, number | undefined> = {
             [BillettType.ENKELTBILLETT]: reise.offentligTransport?.enkeltbillettPris,
             [BillettType.SYVDAGERSBILLETT]: reise.offentligTransport?.syvdagersbillettPris,
-            [BillettType.MÅNEDSKORT]: reise.offentligTransport?.månedskortPris,
+            [BillettType.TRETTIDAGERSBILLETT]: reise.offentligTransport?.månedskortPris,
         };
 
         const pris = prisMap[type];
