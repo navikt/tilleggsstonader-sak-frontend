@@ -12,10 +12,6 @@ export interface FaktaOffentligTransport extends FaktaDagligReise {
     prisTrettidagersbillett: number | undefined;
 }
 
-export const erFaktaOffentligTransport = (
-    fakta: FaktaDagligReise | undefined
-): fakta is FaktaOffentligTransport => !!fakta && fakta.type === 'OFFENTLIG_TRANSPORT';
-
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {
     OFFENTLIG_TRANSPORT: 'DAGLIG_REISE_OFFENTLIG_TRANSPORT',
     PRIVAT_BIL: 'DAGLIG_REISE_PRIVAT_BIL',

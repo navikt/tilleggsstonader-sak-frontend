@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
-import { erFaktaOffentligTransport, FaktaDagligReise } from '../../typer/faktaDagligReise';
+import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
 import { TypeVilkårFakta } from '../../typer/regelstrukturDagligReise';
 
 export const EndreFaktaDagligReise: React.FC<{
@@ -13,7 +13,7 @@ export const EndreFaktaDagligReise: React.FC<{
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
             return (
                 <EndreFaktaOffentligTransport
-                    fakta={erFaktaOffentligTransport(fakta) ? fakta : undefined}
+                    fakta={fakta as FaktaOffentligTransport}
                     settFakta={settFakta}
                 />
             );
