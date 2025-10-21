@@ -32,15 +32,34 @@ export const initierAktiveDelvilkår = (
     svar: SvarVilkårDagligReise,
     regelstruktur: Regelstruktur
 ): Map<RegelIdDagligReise, boolean> => {
-    const harEksisterendeSvar = Object.values(svar).some((s) => s !== undefined);
+    const harEksisterendeSvar = Object.values(svar).find((svar) => svar !== undefined);
 
     if (harEksisterendeSvar) {
-        return new Map(
-            Object.entries(svar).map(([regelId, svar]) => [
-                regelId as RegelIdDagligReise,
-                svar !== undefined,
-            ])
-        );
+        const aktiveRegler = new Map<RegelIdDagligReise, boolean>();
+
+        Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
+            const regelIdDagligReise = regelId as RegelIdDagligReise;
+            const eksisterendeSvar = svar[regelIdDagligReise]?.svar;
+            const harSvar = eksisterendeSvar !== undefined;
+
+            // Unngå at regler som er trigget av tidligere svar overskrives fordi selve regelen ikke har svar
+            if (!aktiveRegler.has(regelIdDagligReise)) {
+                aktiveRegler.set(regelIdDagligReise, harSvar);
+            }
+
+            // Vis neste regel dersom et eksisterende svar peker videre på en ny regel
+            if (harSvar) {
+                const valgtAlternativ = regelInfo.svaralternativer.find(
+                    (alt) => alt.svarId === eksisterendeSvar
+                );
+
+                if (valgtAlternativ?.nesteRegelId) {
+                    aktiveRegler.set(valgtAlternativ.nesteRegelId, true);
+                }
+            }
+        });
+
+        return aktiveRegler;
     }
 
     // Hvis ingen eksisterende svar, sett kun hovedregeler som aktive
