@@ -1,43 +1,59 @@
 import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
+import { VStack } from '@navikt/ds-react';
 
+import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
-import { useVilkår } from '../../../../context/VilkårContext';
+import {
+    useVilkårDagligReise,
+    VilkårDagligReiseProvider,
+} from '../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
+import { useHentVilkårDagligReise } from '../../../../hooks/useHentVilkårsvurdering';
+import { useRegelstruktur } from '../../../../hooks/useRegler';
+import DataViewer from '../../../../komponenter/DataViewer';
+import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { ReglerResponse } from '../../../../typer/regel';
-import { StønadsvilkårType } from '../../vilkår';
-import { NyttVilkår } from '../../Vilkårvurdering/NyttVilkår';
-import { lagTomtDelvilkårsett, tomVurdering } from '../../Vilkårvurdering/utils';
+import { Steg } from '../../../../typer/behandling/steg';
+import { FanePath } from '../../faner';
 
-type Props = {
-    regler: ReglerResponse;
+export const StønadsvilkårDagligReise = () => {
+    const { regelStruktur } = useRegelstruktur();
+    const { eksisterendeVilkår } = useHentVilkårDagligReise();
+
+    return (
+        <VStack gap="4">
+            <DataViewer type="vilkår" response={{ eksisterendeVilkår, regelStruktur }}>
+                {({ eksisterendeVilkår, regelStruktur }) => (
+                    <VilkårDagligReiseProvider
+                        eksisterendeVilkår={eksisterendeVilkår}
+                        regelstruktur={regelStruktur}
+                    >
+                        <StønadsvilkårInnhold />
+                    </VilkårDagligReiseProvider>
+                )}
+            </DataViewer>
+            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                Fullfør vilkårsvurdering og gå videre
+            </StegKnapp>
+        </VStack>
+    );
 };
 
-export const StønadsvilkårDagligReise = ({ regler }: Props) => {
-    const { vilkårsvurdering } = useVilkår();
-    const vilkårsett = vilkårsvurdering.vilkårsett.filter(
-        (v) => v.vilkårType === StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT
-    );
-    const vilkårsregler = regler.vilkårsregler.DAGLIG_REISE_OFFENTLIG_TRANSPORT.regler;
+const StønadsvilkårInnhold = () => {
+    const { vilkårsett } = useVilkårDagligReise();
 
     return (
         <VilkårPanel tittel={'Daglig Reise'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår, index) => (
                 <VisEllerEndreVilkårDagligReise
                     key={vilkår.id}
-                    regler={vilkårsregler}
                     vilkår={vilkår}
                     vilkårIndex={index + 1}
                 />
             ))}
-            <NyttVilkår
-                vilkårtype={StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT}
-                vilkårsregler={vilkårsregler}
-                lagTomtDelvilkårsett={() =>
-                    lagTomtDelvilkårsett(vilkårsregler, (regelId) => tomVurdering(regelId))
-                }
-            />
+
+            <NyttVilkårDagligReise />
         </VilkårPanel>
     );
 };

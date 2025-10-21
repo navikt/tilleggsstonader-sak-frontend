@@ -6,19 +6,18 @@ import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
-import SmallButton from '../../../../komponenter/Knapper/SmallButton';
-import { Skillelinje } from '../../../../komponenter/Skillelinje';
-import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
-import { formaterNullablePeriode } from '../../../../utils/dato';
-import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
-import { VilkårsresultatTilTekst } from '../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
-import { Vilkår } from '../../vilkår';
+import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
+import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
+import { FlexColumn } from '../../../../../komponenter/Visningskomponenter/Flex';
+import { formaterNullablePeriode } from '../../../../../utils/dato';
+import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import {
-    dagligReiseVilkårTypeTilTekst,
     regelIdTilSpørsmålKortversjon,
     svarIdTilTekstKorversjon,
-} from '../../Vilkårvurdering/tekster';
+} from '../../../Vilkårvurdering/tekster';
+import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
 const Container = styled(FlexColumn)`
     position: relative;
@@ -33,12 +32,12 @@ const Redigeringsknapp = styled(SmallButton)`
 `;
 
 const LesevisningVilkårDagligReise: FC<{
-    vilkår: Vilkår;
+    vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
     vilkårIndex: number;
 }> = ({ vilkår, vilkårIndex, startRedigering, skalViseRedigeringsknapp }) => {
-    const { resultat, delvilkårsett, fom, tom, offentligTransport, vilkårType } = vilkår;
+    const { resultat, delvilkårsett, fom, tom, fakta } = vilkår;
 
     return (
         <Container>
@@ -49,52 +48,12 @@ const LesevisningVilkårDagligReise: FC<{
                         <VilkårsresultatIkon vilkårsresultat={resultat} height={14} width={14} />
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                     </HStack>
-                    <HStack gap={'4'} justify={'space-between'}>
-                        <BodyShort weight="semibold" size="small">
-                            {'Reisedager pr uke'}
-                        </BodyShort>
-                        <BodyShort size="small">
-                            {offentligTransport?.reisedagerPerUke
-                                ? `${offentligTransport.reisedagerPerUke}`
-                                : '-'}
-                        </BodyShort>
-                    </HStack>
-
-                    <HStack gap={'4'} justify={'space-between'}>
-                        <BodyShort weight="semibold" size="small">
-                            {'Pris enkeltbillett'}
-                        </BodyShort>
-                        <BodyShort size="small">
-                            {offentligTransport?.prisEnkelbillett
-                                ? `${formaterTallMedTusenSkilleEllerStrek(offentligTransport.prisEnkelbillett)} kr`
-                                : '-'}
-                        </BodyShort>
-                    </HStack>
-
-                    <HStack gap={'4'} justify={'space-between'}>
-                        <BodyShort weight="semibold" size="small">
-                            {'Pris 7 dagers billett'}
-                        </BodyShort>
-                        <BodyShort size="small">
-                            {offentligTransport?.prisSyvdagersbillett
-                                ? `${formaterTallMedTusenSkilleEllerStrek(offentligTransport.prisSyvdagersbillett)} kr`
-                                : '-'}
-                        </BodyShort>
-                    </HStack>
-
-                    <HStack gap={'4'} justify={'space-between'}>
-                        <BodyShort weight="semibold" size="small">
-                            {'Pris 30 dagers billett'}
-                        </BodyShort>
-                        <BodyShort size="small">
-                            {offentligTransport?.prisTrettidagersbillett
-                                ? `${formaterTallMedTusenSkilleEllerStrek(offentligTransport.prisTrettidagersbillett)} kr`
-                                : '-'}
-                        </BodyShort>
-                    </HStack>
-                    <Tag style={{ width: 'max-content' }} variant="neutral" icon={<BusIcon />}>
-                        {`Reise ${vilkårIndex} med ${dagligReiseVilkårTypeTilTekst[vilkårType]}`}
-                    </Tag>
+                    <LesevisningFaktaDagligReise fakta={fakta} />
+                    {fakta && (
+                        <Tag style={{ width: 'max-content' }} variant="neutral" icon={<BusIcon />}>
+                            {`Reise ${vilkårIndex} med ${typeDagligReiseTilTekst[fakta?.type]}`}
+                        </Tag>
+                    )}
                 </VStack>
 
                 <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">

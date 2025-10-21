@@ -1,8 +1,7 @@
 import { BegrunnelseRegel, Regel, RegelId, Regler } from '../../../typer/regel';
 import { validerPeriode } from '../../../utils/periode';
-import { harTallverdi } from '../../../utils/tall';
 import { harIkkeVerdi } from '../../../utils/utils';
-import { Delvilkår, OffentligTransport } from '../vilkår';
+import { Delvilkår } from '../vilkår';
 
 export type Feilmeldinger = {
     delvilkårsvurderinger: Record<RegelId, string | undefined>;
@@ -23,8 +22,7 @@ export const validerVilkårsvurderinger = (
     regler: Regler,
     fom: string | undefined,
     tom: string | undefined,
-    erFremtidigUtgift: boolean | undefined,
-    offentligTransport?: OffentligTransport
+    erFremtidigUtgift: boolean | undefined
 ): Feilmeldinger => {
     const valideringsfeil: Feilmeldinger = { delvilkårsvurderinger: {} };
 
@@ -56,20 +54,6 @@ export const validerVilkårsvurderinger = (
                     return;
                 }
             });
-    }
-
-    if (offentligTransport) {
-        if (!harTallverdi(offentligTransport.reisedagerPerUke)) {
-            valideringsfeil.reisedagerPerUke = 'Må fylles ut';
-        }
-
-        if (
-            !harTallverdi(offentligTransport.prisEnkelbillett) &&
-            !harTallverdi(offentligTransport.prisSyvdagersbillett) &&
-            !harTallverdi(offentligTransport.prisTrettidagersbillett)
-        ) {
-            valideringsfeil.billettpriser = 'Minst en billettpris må fylles ut';
-        }
     }
 
     return valideringsfeil;

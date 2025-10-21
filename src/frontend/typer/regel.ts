@@ -1,3 +1,4 @@
+import { RegelIdDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
 /*
@@ -7,7 +8,7 @@ import { Vilkårtype } from '../Sider/Behandling/vilkår';
  *
  * regelId = SLUTT_NODE brukes for å definere at svaret  *ikke* krever oppfølgingssørsmål
  */
-export type RegelId = SluttNode | ReglerPassBarn | ReglerBoutgifter | string;
+export type RegelId = SluttNode | ReglerPassBarn | ReglerBoutgifter | RegelIdDagligReise | string;
 
 export type ReglerPassBarn =
     | 'ANNEN_FORELDER_MOTTAR_STØTTE'
@@ -25,7 +26,12 @@ export type ReglerBoutgifter =
 
 export type SluttNode = 'SLUTT_NODE';
 
-export type SvarId = string;
+export type SvarId =
+    | 'JA'
+    | 'NEI'
+    | 'TRENGER_MER_TILSYN_ENN_JEVNALDRENDE'
+    | 'FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID'
+    | string;
 
 export type Begrunnelse = string | undefined;
 

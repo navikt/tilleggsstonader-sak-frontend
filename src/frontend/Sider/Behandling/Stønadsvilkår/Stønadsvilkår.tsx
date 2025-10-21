@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
-import { StønadsvilkårDagligReise } from './DagligReise/StønadsvilkårDagligReise';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { VilkårProvider } from '../../../context/VilkårContext';
 import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
@@ -50,12 +49,6 @@ const Stønadsvilkår: React.FC<{
                         )}
                         {stønadstype === Stønadstype.BOUTGIFTER && (
                             <StønadsvilkårBoutgifter regler={regler} />
-                        )}
-                        {stønadstype === Stønadstype.DAGLIG_REISE_TSO && (
-                            <StønadsvilkårDagligReise regler={regler} />
-                        )}
-                        {stønadstype === Stønadstype.DAGLIG_REISE_TSR && (
-                            <StønadsvilkårDagligReise regler={regler} />
                         )}
                     </VilkårProvider>
                 )}

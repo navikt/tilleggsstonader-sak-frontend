@@ -1,6 +1,7 @@
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { TypeVilkårFakta } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
 import { Vedtaksperiode } from '../vedtak/vedtakperiode';
@@ -27,12 +28,13 @@ export interface Stønadsvilkår {
     vilkår: OppsummertVilkår[];
 }
 
-interface OppsummertVilkår {
+export interface OppsummertVilkår {
     id: string;
     fom?: string;
     tom?: string;
     resultat: Vilkårsresultat;
     utgift?: number;
+    typeFakta?: TypeVilkårFakta;
 }
 
 export type OppsummertVedtak =
