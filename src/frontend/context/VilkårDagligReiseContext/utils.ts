@@ -6,7 +6,7 @@ export const oppdaterVilkårIListe = (
 ): VilkårDagligReise[] =>
     vilkårFørEndring.map((vilkår) => (vilkår.id === oppdatertVilkår.id ? oppdatertVilkår : vilkår));
 
-export const fjernFraListe = (
+export const fjernVilkårFraListe = (
     vilkårFørEndring: VilkårDagligReise[],
     slettetVilkårId: string
 ): VilkårDagligReise[] => vilkårFørEndring.filter((vilkår) => vilkår.id !== slettetVilkårId);

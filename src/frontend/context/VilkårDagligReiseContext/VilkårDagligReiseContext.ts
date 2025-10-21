@@ -15,7 +15,7 @@ import {
     RessursSuksess,
 } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
-import { fjernFraListe, oppdaterVilkårIListe } from './utils';
+import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
 import { Regelstruktur } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { useBehandling } from '../BehandlingContext';
 
@@ -88,7 +88,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
             if (respons.status === RessursStatus.SUKSESS) {
                 if (respons.data.slettetPermanent) {
                     settVilkårsett((prevVilkårsvurdering) =>
-                        fjernFraListe(prevVilkårsvurdering, vilkårId)
+                        fjernVilkårFraListe(prevVilkårsvurdering, vilkårId)
                     );
                 } else {
                     settVilkårsett((prevVilkårsvurdering) =>
