@@ -22,6 +22,7 @@ export const mapEksisterendeAktivitet = (
 ): EndreAktivitetFormDagligReiseTso => ({
     ...eksisterendeAktivitet,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
+    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
 });
 
 function nyAktivitetFraRegister(
@@ -32,6 +33,7 @@ function nyAktivitetFraRegister(
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         svarLønnet: undefined,
+        svarHarUtgifter: undefined,
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -42,6 +44,7 @@ function nyTomAktivitet(): EndreAktivitetFormDagligReiseTso {
         fom: '',
         tom: '',
         svarLønnet: undefined,
+        svarHarUtgifter: undefined,
     };
 }
 
@@ -60,6 +63,7 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         svarLønnet: undefined,
+        svarHarUtgifter: undefined,
     };
 };
 
@@ -108,4 +112,5 @@ export const mapFaktaOgSvarTilRequest = (
 ): AktivitetDagligReiseTsoFaktaOgSvar => ({
     '@type': 'AKTIVITET_DAGLIG_REISE_TSO',
     svarLønnet: aktivitetForm.svarLønnet,
+    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
 });

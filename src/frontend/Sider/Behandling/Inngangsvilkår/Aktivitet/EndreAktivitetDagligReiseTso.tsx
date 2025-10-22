@@ -48,6 +48,7 @@ const FeltContainer = styled.div`
 export interface EndreAktivitetFormDagligReiseTso extends Periode {
     type: AktivitetType | '';
     svarLønnet: SvarJaNei | undefined;
+    svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -170,6 +171,9 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
+                }
+                oppdaterHarUtgifter={(svar) =>
+                    settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
                 }
             />
 
