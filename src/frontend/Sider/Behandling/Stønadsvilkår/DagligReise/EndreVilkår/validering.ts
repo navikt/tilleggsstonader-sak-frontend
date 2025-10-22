@@ -1,5 +1,9 @@
+import { finnBegrunnelsestypeForSvar } from './utils';
+import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
+import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
 export type FeilmeldingerDagligReise = {
     fom?: string;
@@ -8,6 +12,7 @@ export type FeilmeldingerDagligReise = {
     enkeltbillett?: string;
     syvdagersbillett?: string;
     trettidagersbillett?: string;
+    begrunnelse?: string;
 };
 
 export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
@@ -16,12 +21,35 @@ export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
 
 export const validerVilkår = (
     periode: Periode,
-    fakta: FaktaDagligReise | undefined
+    svar: SvarVilkårDagligReise | undefined,
+    fakta: FaktaDagligReise | undefined,
+    regelstruktur: Regelstruktur
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
     const faktaValidering = validerFakta(fakta);
+    const svarValidering = validerSvar(svar, regelstruktur);
 
-    return { ...periodeValidering, ...faktaValidering };
+    return { ...periodeValidering, ...faktaValidering, ...svarValidering };
+};
+
+const validerSvar = (
+    svarMap: SvarVilkårDagligReise | undefined,
+    regelstruktur: Regelstruktur
+): Partial<FeilmeldingerDagligReise> | undefined => {
+    if (!svarMap) {
+        return;
+    }
+
+    const svarMedManglendeBegrunnelse = Object.entries(svarMap).find(([regelId, svar]) => {
+        const svarAlternativer = regelstruktur[regelId as RegelIdDagligReise].svaralternativer;
+        const begrunnelsesType = finnBegrunnelsestypeForSvar(svarAlternativer, svar?.svar);
+
+        return begrunnelsesType === BegrunnelseRegel.PÅKREVD && !svar?.begrunnelse;
+    });
+
+    if (svarMedManglendeBegrunnelse) {
+        return { begrunnelse: 'Mangler begrunnelse' };
+    }
 };
 
 const validerFakta = (fakta: FaktaDagligReise | undefined) => {

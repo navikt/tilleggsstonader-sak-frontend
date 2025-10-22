@@ -8,6 +8,7 @@ import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
+import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
@@ -48,6 +49,7 @@ interface Props {
 
 export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avsluttRedigering }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent, harUlagradeKomponenter } = useApp();
+    const { regelstruktur } = useVilkårDagligReise();
     const komponentId = useId();
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
@@ -79,7 +81,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(periode, fakta);
+        const valideringsfeil = validerVilkår(periode, svar, fakta, regelstruktur);
         settFeilmeldinger(valideringsfeil);
         if (!ingen(valideringsfeil)) {
             return;
@@ -149,6 +151,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                     vurderinger={svar}
                     oppdaterVurderinger={oppdaterVurderinger}
                     oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
+                    feilmeldinger={feilmeldinger}
                 />
 
                 <Skillelinje />

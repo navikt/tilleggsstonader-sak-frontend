@@ -12,17 +12,20 @@ import {
 } from '../../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../../typer/vilkårDagligReise';
 import { initierAktiveDelvilkår } from '../utils';
+import { FeilmeldingerDagligReise } from '../validering';
 
 interface Props {
     vurderinger: SvarVilkårDagligReise;
     oppdaterVurderinger: (nyeSvar: SvarVilkårDagligReise) => void;
     oppdaterGjeldendeFaktaType: (gjeldendeFakta: TypeVilkårFakta | undefined) => void;
+    feilmeldinger: FeilmeldingerDagligReise;
 }
 
 export const EndreVurderinger: React.FC<Props> = ({
     vurderinger,
     oppdaterVurderinger,
     oppdaterGjeldendeFaktaType,
+    feilmeldinger,
 }) => {
     const { regelstruktur } = useVilkårDagligReise();
 
@@ -109,6 +112,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdDagligReise.AVSTAND_OVER_SEKS_KM
                     )}
+                    feilmeldinger={feilmeldinger}
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
@@ -121,6 +125,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(RegelIdDagligReise.UNNTAK_SEKS_KM)}
                     erUndervilkår
+                    feilmeldinger={feilmeldinger}
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT) && (
@@ -133,6 +138,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT
                     )}
+                    feilmeldinger={feilmeldinger}
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV) && (
@@ -145,6 +151,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
                     )}
+                    feilmeldinger={feilmeldinger}
                 />
             )}
         </VStack>
