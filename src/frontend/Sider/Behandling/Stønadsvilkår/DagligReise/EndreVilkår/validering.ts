@@ -1,0 +1,67 @@
+import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+
+export type FeilmeldingerDagligReise = {
+    fom?: string;
+    tom?: string;
+    reisedagerPerUke?: string;
+    enkeltbillett?: string;
+    syvdagersbillett?: string;
+    trettidagersbillett?: string;
+};
+
+export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
+    return Object.keys(valideringsfeil).length === 0;
+}
+
+export const validerVilkår = (
+    periode: Periode,
+    fakta: FaktaDagligReise | undefined
+): FeilmeldingerDagligReise => {
+    const periodeValidering = validerPeriode(periode);
+    const faktaValidering = validerFakta(fakta);
+
+    return { ...periodeValidering, ...faktaValidering };
+};
+
+const validerFakta = (fakta: FaktaDagligReise | undefined) => {
+    if (!fakta) {
+        return;
+    }
+
+    if (fakta.type === 'OFFENTLIG_TRANSPORT') {
+        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
+    }
+};
+
+const validerFaktaOffentligTransport = (
+    fakta: FaktaOffentligTransport
+): Partial<FeilmeldingerDagligReise> | undefined => {
+    if (!fakta.reisedagerPerUke) {
+        return { reisedagerPerUke: 'Mangler reisdager per uke' };
+    }
+    if (fakta.reisedagerPerUke < 0) {
+        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 7' };
+    }
+    if (fakta.reisedagerPerUke > 7) {
+        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 7' };
+    }
+
+    if (!fakta.prisEnkelbillett && !fakta.prisSyvdagersbillett && !fakta.prisTrettidagersbillett) {
+        return {
+            enkeltbillett: 'Minst en billettpris må legges inn',
+            syvdagersbillett: 'Minst en billettpris må legges inn',
+            trettidagersbillett: 'Minst en billettpris må legges inn',
+        };
+    }
+
+    if (fakta.prisEnkelbillett && fakta.prisEnkelbillett < 0) {
+        return { enkeltbillett: 'Prisen må være større enn 0' };
+    }
+    if (fakta.prisSyvdagersbillett && fakta.prisSyvdagersbillett < 0) {
+        return { syvdagersbillett: 'Prisen må være større enn 0' };
+    }
+    if (fakta.prisTrettidagersbillett && fakta.prisTrettidagersbillett < 0) {
+        return { trettidagersbillett: 'Prisen må være større enn 0' };
+    }
+};

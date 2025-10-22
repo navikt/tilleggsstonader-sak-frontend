@@ -6,6 +6,7 @@ import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
+import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
@@ -19,6 +20,7 @@ import { SmallWarningTag } from '../../../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
+import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
@@ -65,6 +67,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         undefined
     );
 
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingerDagligReise>(ingenFeil);
+
     const oppdaterPeriodeForVilkår = (datoKey: keyof Periode, nyVerdi: string | undefined) => {
         settPeriode((prevState) => ({ ...prevState, [datoKey]: nyVerdi }));
         settUlagretKomponent(komponentId);
@@ -74,7 +78,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         event.preventDefault();
 
         if (laster) return;
-        // TODO: valider at data er ok før det lagres ned
+
+        const valideringsfeil = validerVilkår(periode, fakta);
+        settFeilmeldinger(valideringsfeil);
+        if (!ingen(valideringsfeil)) {
+            return;
+        }
 
         lagreVilkår();
     };
@@ -118,7 +127,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                                 oppdaterPeriodeForVilkår('fom', dato);
                             }}
                             size="small"
-                            // feil={feilmeldinger.fom}
+                            feil={feilmeldinger.fom}
                         />
                     </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={152}>
@@ -129,7 +138,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                                 oppdaterPeriodeForVilkår('tom', dato);
                             }}
                             size="small"
-                            // feil={feilmeldinger.tom}
+                            feil={feilmeldinger.tom}
                         />
                     </FeilmeldingMaksBredde>
                 </HStack>
@@ -148,6 +157,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                     gjeldendeFaktaType={gjeldendeFaktaType}
                     fakta={fakta}
                     settFakta={settFakta}
+                    feilmeldinger={feilmeldinger}
                 />
 
                 <HStack justify="space-between">

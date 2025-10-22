@@ -7,13 +7,19 @@ import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
 import { tomtOffentligTransport } from '../utils';
+import { FeilmeldingerDagligReise } from '../validering';
 
 interface Props {
     fakta: FaktaOffentligTransport | undefined;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    feilmeldinger: FeilmeldingerDagligReise;
 }
 
-export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta }) => {
+export const EndreFaktaOffentligTransport: React.FC<Props> = ({
+    fakta,
+    settFakta,
+    feilmeldinger,
+}) => {
     const oppdaterFelt = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
             ...(prevState ?? tomtOffentligTransport),
@@ -27,7 +33,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Reisedager pr uke'}
                     size="small"
-                    // error={feilmeldinger.reisedagerPerUke}
+                    error={feilmeldinger.reisedagerPerUke}
                     value={harTallverdi(fakta?.reisedagerPerUke) ? fakta?.reisedagerPerUke : ''}
                     onChange={(e) => {
                         oppdaterFelt('reisedagerPerUke', tilHeltall(fjernSpaces(e.target.value)));
@@ -38,6 +44,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris enkeltbillett'}
                     size="small"
+                    error={feilmeldinger.enkeltbillett}
                     value={harTallverdi(fakta?.prisEnkelbillett) ? fakta.prisEnkelbillett : ''}
                     onChange={(e) => {
                         oppdaterFelt('prisEnkelbillett', tilHeltall(fjernSpaces(e.target.value)));
@@ -48,6 +55,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris 7-dagersbillett'}
                     size="small"
+                    error={feilmeldinger.syvdagersbillett}
                     value={
                         harTallverdi(fakta?.prisSyvdagersbillett) ? fakta?.prisSyvdagersbillett : ''
                     }
@@ -63,6 +71,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris 30-dagersbillett'}
                     size="small"
+                    error={feilmeldinger.trettidagersbillett}
                     value={
                         harTallverdi(fakta?.prisTrettidagersbillett)
                             ? fakta?.prisTrettidagersbillett
