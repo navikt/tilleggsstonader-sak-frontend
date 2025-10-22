@@ -8,7 +8,6 @@ import {
 } from '../../../../typer/behandling/behandlingOppsummering';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
-import { typeVilkårFaktaTIlTekst } from '../../Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { vilkårTypeTilTekst } from '../../Vilkårvurdering/tekster';
 
 export const finnNavnFraBarnId = (
@@ -38,12 +37,9 @@ export const finnGjelderForOppsummertVilkår = (
 
         case Stønadstype.DAGLIG_REISE_TSO:
         case Stønadstype.DAGLIG_REISE_TSR:
-            return finnGjelderForDagligReise(vilkår);
+            return '';
 
         case Stønadstype.LÆREMIDLER:
             return '';
     }
 };
-
-const finnGjelderForDagligReise = (vilkår: OppsummertVilkår): string =>
-    vilkår.typeFakta ? typeVilkårFaktaTIlTekst[vilkår.typeFakta] : '';
