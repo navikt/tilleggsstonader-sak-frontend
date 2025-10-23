@@ -8,15 +8,15 @@ import { FeilmeldingerDagligReise } from '../validering';
 export const EndreFaktaDagligReise: React.FC<{
     gjeldendeFaktaType: TypeVilkårFakta | undefined;
     fakta: FaktaDagligReise | undefined;
-    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    oppdaterFakta: (key: keyof FaktaOffentligTransport, verdi: number | undefined) => void;
     feilmeldinger: FeilmeldingerDagligReise;
-}> = ({ gjeldendeFaktaType, fakta, settFakta, feilmeldinger }) => {
+}> = ({ gjeldendeFaktaType, fakta, oppdaterFakta, feilmeldinger }) => {
     switch (gjeldendeFaktaType) {
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
             return (
                 <EndreFaktaOffentligTransport
                     fakta={fakta as FaktaOffentligTransport}
-                    settFakta={settFakta}
+                    oppdaterFakta={oppdaterFakta}
                     feilmeldinger={feilmeldinger}
                 />
             );

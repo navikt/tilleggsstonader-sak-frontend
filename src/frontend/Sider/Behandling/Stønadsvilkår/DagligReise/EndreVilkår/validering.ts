@@ -5,13 +5,17 @@ import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligR
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export type FeilmeldingerDagligReise = {
-    fom?: string;
-    tom?: string;
+export type FeilmeldingerFaktaDagligReise = {
     reisedagerPerUke?: string;
     enkeltbillett?: string;
     syvdagersbillett?: string;
     trettidagersbillett?: string;
+};
+
+export type FeilmeldingerDagligReise = {
+    fom?: string;
+    tom?: string;
+    fakta?: FeilmeldingerFaktaDagligReise;
     begrunnelse?: string;
 };
 
@@ -29,7 +33,11 @@ export const validerVilkår = (
     const faktaValidering = validerFakta(fakta);
     const svarValidering = validerSvar(svar, regelstruktur);
 
-    return { ...periodeValidering, ...faktaValidering, ...svarValidering };
+    return {
+        ...periodeValidering,
+        ...svarValidering,
+        ...(faktaValidering && { fakta: faktaValidering }),
+    };
 };
 
 const validerSvar = (
@@ -64,7 +72,7 @@ const validerFakta = (fakta: FaktaDagligReise | undefined) => {
 
 const validerFaktaOffentligTransport = (
     fakta: FaktaOffentligTransport
-): Partial<FeilmeldingerDagligReise> | undefined => {
+): Partial<FeilmeldingerFaktaDagligReise> | undefined => {
     if (!fakta.reisedagerPerUke) {
         return { reisedagerPerUke: 'Mangler reisdager per uke' };
     }
@@ -92,4 +100,16 @@ const validerFaktaOffentligTransport = (
     if (fakta.prisTrettidagersbillett && fakta.prisTrettidagersbillett < 0) {
         return { trettidagersbillett: 'Prisen må være større enn 0' };
     }
+};
+
+export const faktaOffentligTransportTilFeilmeldingFaktaDagligReiseMap: Record<
+    keyof FaktaOffentligTransport,
+    keyof FeilmeldingerFaktaDagligReise | undefined
+> = {
+    reisedagerPerUke: 'reisedagerPerUke',
+    prisEnkelbillett: 'enkeltbillett',
+    prisSyvdagersbillett: 'syvdagersbillett',
+    prisTrettidagersbillett: 'trettidagersbillett',
+    '@type': undefined,
+    type: undefined,
 };
