@@ -77,10 +77,10 @@ const validerFaktaOffentligTransport = (
         return { reisedagerPerUke: 'Mangler reisdager per uke' };
     }
     if (fakta.reisedagerPerUke < 0) {
-        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 7' };
+        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 5' };
     }
-    if (fakta.reisedagerPerUke > 7) {
-        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 7' };
+    if (fakta.reisedagerPerUke > 5) {
+        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 5' };
     }
 
     if (!fakta.prisEnkelbillett && !fakta.prisSyvdagersbillett && !fakta.prisTrettidagersbillett) {
