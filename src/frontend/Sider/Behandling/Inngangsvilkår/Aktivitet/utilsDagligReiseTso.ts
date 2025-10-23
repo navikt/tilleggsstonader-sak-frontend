@@ -92,12 +92,17 @@ const resetPeriode = (
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    svarLønnet: SvarJaNei | undefined
+    svarLønnet: SvarJaNei | undefined,
+    svarHarUtgifter: SvarJaNei | undefined
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
     if (svarLønnet === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
+    }
+
+    if (svarHarUtgifter === SvarJaNei.NEI) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {

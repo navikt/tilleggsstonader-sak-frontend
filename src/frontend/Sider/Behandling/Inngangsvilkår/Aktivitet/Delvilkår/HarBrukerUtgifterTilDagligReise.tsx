@@ -1,9 +1,6 @@
-import React, { ReactNode } from 'react';
-
-import { BodyShort } from '@navikt/ds-react';
+import React from 'react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
-import { AktivitetType } from '../../typer/vilkårperiode/aktivitet';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormDagligReiseTso } from '../EndreAktivitetDagligReiseTso';
 import { erUtdanningEllerTiltak } from '../utilsLæremidler';
@@ -21,12 +18,13 @@ export const HarBrukerUtgifterTilDagligReise: React.FC<{
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
             }}
-            hjelpetekst={lagHjelpetekst(aktivitetForm.type)}
-            hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
+            //hjelpetekst={lagHjelpetekst(aktivitetForm.type)}
+            //hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
         />
     );
 };
 
+/*
 function lagHjelpetekst(aktivitetType: AktivitetType) {
     if (!erUtdanningEllerTiltak(aktivitetType)) {
         return null;
@@ -34,7 +32,9 @@ function lagHjelpetekst(aktivitetType: AktivitetType) {
 
     return hjelpetekst[aktivitetType];
 }
+*/
 
+/*
 const hjelpetekst: Record<AktivitetType.TILTAK | AktivitetType.UTDANNING, ReactNode> = {
     [AktivitetType.UTDANNING]: (
         <>
@@ -61,3 +61,4 @@ const hjelpetekst: Record<AktivitetType.TILTAK | AktivitetType.UTDANNING, ReactN
         </>
     ),
 };
+*/
