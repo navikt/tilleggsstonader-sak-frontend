@@ -99,5 +99,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgifter til overnatting',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende utgifter til en bolig',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende utgifter til to boliger',
-    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Daglig reise',
+    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Offentlig transport',
 };
