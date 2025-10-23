@@ -5,32 +5,30 @@ import { HStack, TextField } from '@navikt/ds-react';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../../utils/utils';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
-import { tomtOffentligTransport } from '../utils';
+import { FaktaOffentligTransport } from '../../typer/faktaDagligReise';
+import { FeilmeldingerDagligReise } from '../validering';
 
 interface Props {
     fakta: FaktaOffentligTransport | undefined;
-    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    oppdaterFakta: (key: keyof FaktaOffentligTransport, verdi: number | undefined) => void;
+    feilmeldinger: FeilmeldingerDagligReise;
 }
 
-export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta }) => {
-    const oppdaterFelt = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
-        settFakta((prevState) => ({
-            ...(prevState ?? tomtOffentligTransport),
-            [key]: verdi,
-        }));
-    };
-
+export const EndreFaktaOffentligTransport: React.FC<Props> = ({
+    fakta,
+    oppdaterFakta,
+    feilmeldinger,
+}) => {
     return (
         <HStack gap="4" align="start">
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
                     label={'Reisedager pr uke'}
                     size="small"
-                    // error={feilmeldinger.reisedagerPerUke}
+                    error={feilmeldinger.fakta?.reisedagerPerUke}
                     value={harTallverdi(fakta?.reisedagerPerUke) ? fakta?.reisedagerPerUke : ''}
                     onChange={(e) => {
-                        oppdaterFelt('reisedagerPerUke', tilHeltall(fjernSpaces(e.target.value)));
+                        oppdaterFakta('reisedagerPerUke', tilHeltall(fjernSpaces(e.target.value)));
                     }}
                 />
             </FeilmeldingMaksBredde>
@@ -38,9 +36,10 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris enkeltbillett'}
                     size="small"
+                    error={feilmeldinger.fakta?.enkeltbillett}
                     value={harTallverdi(fakta?.prisEnkelbillett) ? fakta.prisEnkelbillett : ''}
                     onChange={(e) => {
-                        oppdaterFelt('prisEnkelbillett', tilHeltall(fjernSpaces(e.target.value)));
+                        oppdaterFakta('prisEnkelbillett', tilHeltall(fjernSpaces(e.target.value)));
                     }}
                 />
             </FeilmeldingMaksBredde>
@@ -48,11 +47,12 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris 7-dagersbillett'}
                     size="small"
+                    error={feilmeldinger.fakta?.syvdagersbillett}
                     value={
                         harTallverdi(fakta?.prisSyvdagersbillett) ? fakta?.prisSyvdagersbillett : ''
                     }
                     onChange={(e) => {
-                        oppdaterFelt(
+                        oppdaterFakta(
                             'prisSyvdagersbillett',
                             tilHeltall(fjernSpaces(e.target.value))
                         );
@@ -63,13 +63,14 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({ fakta, settFakta
                 <TextField
                     label={'Pris 30-dagersbillett'}
                     size="small"
+                    error={feilmeldinger.fakta?.trettidagersbillett}
                     value={
                         harTallverdi(fakta?.prisTrettidagersbillett)
                             ? fakta?.prisTrettidagersbillett
                             : ''
                     }
                     onChange={(e) => {
-                        oppdaterFelt(
+                        oppdaterFakta(
                             'prisTrettidagersbillett',
                             tilHeltall(fjernSpaces(e.target.value))
                         );

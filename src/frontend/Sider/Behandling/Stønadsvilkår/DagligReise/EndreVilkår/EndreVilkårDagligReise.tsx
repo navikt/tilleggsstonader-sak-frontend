@@ -6,7 +6,15 @@ import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
+import {
+    faktaOffentligTransportTilFeilmeldingFaktaDagligReiseMap,
+    FeilmeldingerDagligReise,
+    FeilmeldingerFaktaDagligReise,
+    ingen,
+    validerVilkår,
+} from './validering';
 import { useApp } from '../../../../../context/AppContext';
+import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
@@ -19,10 +27,11 @@ import { SmallWarningTag } from '../../../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
-import { FaktaDagligReise } from '../typer/faktaDagligReise';
+import { ingenFeil } from '../../../Vilkårvurdering/validering';
+import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
-import { initierGjeldendeFaktaType, initierSvar } from './utils';
+import { initierGjeldendeFaktaType, initierSvar, tomtOffentligTransport } from './utils';
 import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
 
 const Container = styled.div`
@@ -46,6 +55,7 @@ interface Props {
 
 export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avsluttRedigering }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent, harUlagradeKomponenter } = useApp();
+    const { regelstruktur } = useVilkårDagligReise();
     const komponentId = useId();
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
@@ -65,6 +75,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         undefined
     );
 
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingerDagligReise>(ingenFeil);
+
     const oppdaterPeriodeForVilkår = (datoKey: keyof Periode, nyVerdi: string | undefined) => {
         settPeriode((prevState) => ({ ...prevState, [datoKey]: nyVerdi }));
         settUlagretKomponent(komponentId);
@@ -74,7 +86,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         event.preventDefault();
 
         if (laster) return;
-        // TODO: valider at data er ok før det lagres ned
+
+        const valideringsfeil = validerVilkår(periode, svar, fakta, regelstruktur);
+        settFeilmeldinger(valideringsfeil);
+        if (!ingen(valideringsfeil)) {
+            return;
+        }
 
         lagreVilkår();
     };
@@ -94,9 +111,22 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         settLaster(false);
     };
 
+    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
+        settFakta((prevState) => ({
+            ...(prevState ?? tomtOffentligTransport),
+            [key]: verdi,
+        }));
+        settUlagretKomponent(komponentId);
+        const feilmeldingKey = faktaOffentligTransportTilFeilmeldingFaktaDagligReiseMap[key];
+        if (feilmeldingKey) {
+            nullstillFeilmeldingFaktaFor(feilmeldingKey);
+        }
+    };
+
     const oppdaterVurderinger = (nyeSvar: SvarVilkårDagligReise) => {
         settSvar(nyeSvar);
         settUlagretKomponent(komponentId);
+        nullstillFeilmeldingFor(['begrunnelse', 'fakta']);
     };
 
     const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta | undefined) => {
@@ -104,6 +134,22 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
             settFakta(undefined);
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
+    };
+
+    const nullstillFeilmeldingFor = (feltListe: Array<keyof FeilmeldingerDagligReise>) => {
+        settFeilmeldinger((prevState) => {
+            feltListe.forEach((felt) => delete prevState[felt]);
+            return { ...prevState };
+        });
+    };
+
+    const nullstillFeilmeldingFaktaFor = (felt: keyof FeilmeldingerFaktaDagligReise) => {
+        settFeilmeldinger((prevState) => {
+            if (prevState.fakta) {
+                delete prevState.fakta[felt];
+            }
+            return { ...prevState };
+        });
     };
 
     return (
@@ -116,9 +162,10 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             value={periode.fom}
                             onChange={(dato) => {
                                 oppdaterPeriodeForVilkår('fom', dato);
+                                nullstillFeilmeldingFor(['fom']);
                             }}
                             size="small"
-                            // feil={feilmeldinger.fom}
+                            feil={feilmeldinger.fom}
                         />
                     </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={152}>
@@ -127,9 +174,10 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             value={periode?.tom}
                             onChange={(dato) => {
                                 oppdaterPeriodeForVilkår('tom', dato);
+                                nullstillFeilmeldingFor(['tom']);
                             }}
                             size="small"
-                            // feil={feilmeldinger.tom}
+                            feil={feilmeldinger.tom}
                         />
                     </FeilmeldingMaksBredde>
                 </HStack>
@@ -140,6 +188,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                     vurderinger={svar}
                     oppdaterVurderinger={oppdaterVurderinger}
                     oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
+                    feilmeldinger={feilmeldinger}
                 />
 
                 <Skillelinje />
@@ -147,7 +196,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                 <EndreFaktaDagligReise
                     gjeldendeFaktaType={gjeldendeFaktaType}
                     fakta={fakta}
-                    settFakta={settFakta}
+                    oppdaterFakta={oppdaterFakta}
+                    feilmeldinger={feilmeldinger}
                 />
 
                 <HStack justify="space-between">

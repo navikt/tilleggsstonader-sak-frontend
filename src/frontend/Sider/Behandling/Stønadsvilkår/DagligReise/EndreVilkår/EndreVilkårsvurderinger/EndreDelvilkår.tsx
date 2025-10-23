@@ -12,6 +12,7 @@ import { lagBegrunnelsestekst } from '../../../../Vilkårvurdering/utils';
 import { RegelIdDagligReise, SvarAlternativ } from '../../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse } from '../../typer/vilkårDagligReise';
 import { finnBegrunnelsestypeForSvar } from '../utils';
+import { FeilmeldingerDagligReise } from '../validering';
 
 interface Props {
     regelId: RegelIdDagligReise;
@@ -26,6 +27,7 @@ interface Props {
     erUndervilkår?: boolean;
     label: string;
     hjelpetekst?: string;
+    feilmeldinger: FeilmeldingerDagligReise;
 }
 
 const Container = styled.div<{ $erUndervilkår: boolean }>`
@@ -50,6 +52,7 @@ export const EndreDelvilkår: FC<Props> = ({
     svaralternativer,
     label,
     hjelpetekst,
+    feilmeldinger,
     erUndervilkår = false,
 }) => {
     const [begrunnelseType, settBegrunnelseType] = React.useState<BegrunnelseRegel>(
@@ -103,6 +106,7 @@ export const EndreDelvilkår: FC<Props> = ({
                     label={begrunnelseLabel}
                     resize
                     size="small"
+                    error={feilmeldinger.begrunnelse}
                     minRows={3}
                     value={vurdering?.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
