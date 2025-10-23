@@ -146,7 +146,8 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.svarLønnet
+        form.svarLønnet,
+        form.svarHarUtgifter
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
