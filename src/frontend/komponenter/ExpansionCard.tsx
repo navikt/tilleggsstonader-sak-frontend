@@ -25,7 +25,9 @@ const ExpansionCard: React.FC<{ tittel: string; maxWidth: number; children: Reac
             <AkselExpansionCard.Header>
                 <AkselExpansionCard.Title size="small">{tittel}</AkselExpansionCard.Title>
             </AkselExpansionCard.Header>
-            <AkselExpansionCard.Content>{children}</AkselExpansionCard.Content>
+            <AkselExpansionCard.Content style={{ overflowX: 'auto' }}>
+                {children}
+            </AkselExpansionCard.Content>
         </StyledExpansionCard>
     );
 };
