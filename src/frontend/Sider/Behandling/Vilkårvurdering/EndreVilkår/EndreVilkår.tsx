@@ -155,7 +155,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     const finnTypePeriodeVelger = () => {
         if (
             vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING ||
-            vilkårtype === StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT
+            vilkårtype === StønadsvilkårType.DAGLIG_REISE
         ) {
             return TypePeriodeVelger.DATO;
         }
@@ -202,7 +202,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                         feilmeldinger={feilmeldinger}
                         typePeriodeVelger={finnTypePeriodeVelger()}
                     />
-                    {vilkårtype !== StønadsvilkårType.DAGLIG_REISE_OFFENTLIG_TRANSPORT && (
+                    {vilkårtype !== StønadsvilkårType.DAGLIG_REISE && (
                         <EndreUtgift
                             vilkårtype={vilkårtype}
                             erFremtidigUtgift={erFremtidigUtgift}

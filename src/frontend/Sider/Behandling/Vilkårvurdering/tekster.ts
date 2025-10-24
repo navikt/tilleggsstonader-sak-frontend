@@ -81,7 +81,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgift',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
-    DAGLIG_REISE_OFFENTLIG_TRANSPORT: '',
+    DAGLIG_REISE: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -91,7 +91,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
         'Merutgift utgjør differansen mellom boutgift på aktivitetsstedet og boutgift på tidligere hjemsted. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
     LØPENDE_UTGIFTER_TO_BOLIGER:
         'Merutgiften tilsvarer utgiften til boligen på aktivitetsstedet, som kommer i tillegg til utgifter til bolig på hjemstedet. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
-    DAGLIG_REISE_OFFENTLIG_TRANSPORT: undefined,
+    DAGLIG_REISE: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -99,5 +99,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     UTGIFTER_OVERNATTING: 'Utgifter til overnatting',
     LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende utgifter til en bolig',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende utgifter til to boliger',
-    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Offentlig transport',
+    DAGLIG_REISE: 'Daglig reise',
 };

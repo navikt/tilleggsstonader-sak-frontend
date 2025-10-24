@@ -100,8 +100,8 @@ export const finnBegrunnelsestypeForSvar = (
 export const tomtSvar: SvarVilkårDagligReise = {
     AVSTAND_OVER_SEKS_KM: undefined,
     UNNTAK_SEKS_KM: undefined,
-    KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
-    KAN_BRUKER_KJØRE_SELV: undefined,
+    KAN_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
+    KAN_KJØRE_MED_EGEN_BIL: undefined,
 };
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {

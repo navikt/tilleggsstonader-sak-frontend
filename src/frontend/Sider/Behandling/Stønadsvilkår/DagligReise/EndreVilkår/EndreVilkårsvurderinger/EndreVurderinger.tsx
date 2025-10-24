@@ -128,28 +128,28 @@ export const EndreVurderinger: React.FC<Props> = ({
                     feilmeldinger={feilmeldinger}
                 />
             )}
-            {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT) && (
+            {aktiveVurderinger.get(RegelIdDagligReise.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
                     label="Kan søker benytte seg av offentlig transport?"
-                    regelId={RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT}
-                    vurdering={vurderinger?.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT}
+                    regelId={RegelIdDagligReise.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
+                    vurdering={vurderinger?.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     oppdaterVurdering={oppdaterVurdering}
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
-                        RegelIdDagligReise.KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT
+                        RegelIdDagligReise.KAN_REISE_MED_OFFENTLIG_TRANSPORT
                     )}
                     feilmeldinger={feilmeldinger}
                 />
             )}
-            {aktiveVurderinger.get(RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV) && (
+            {aktiveVurderinger.get(RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL) && (
                 <EndreDelvilkår
                     label="Kan bruker benytte privat bil?"
-                    regelId={RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV}
-                    vurdering={vurderinger?.KAN_BRUKER_KJØRE_SELV}
+                    regelId={RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL}
+                    vurdering={vurderinger?.KAN_KJØRE_MED_EGEN_BIL}
                     oppdaterVurdering={oppdaterVurdering}
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
-                        RegelIdDagligReise.KAN_BRUKER_KJØRE_SELV
+                        RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL
                     )}
                     feilmeldinger={feilmeldinger}
                 />
