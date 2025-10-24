@@ -116,9 +116,8 @@ export const EndreVurderinger: React.FC<Props> = ({
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
-                // TODO: Finn ut riktig formulering for unntak
                 <EndreDelvilkår
-                    label="Har søker funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at hen må ha transport til aktivitetsstedet?"
+                    label="Har søker dokumentert funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at søker har et særskilt behov for transport?"
                     regelId={RegelIdDagligReise.UNNTAK_SEKS_KM}
                     vurdering={vurderinger?.UNNTAK_SEKS_KM}
                     oppdaterVurdering={oppdaterVurdering}
