@@ -6,6 +6,7 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
 import {
     AktivitetLæremidler,
     studienivåTilTekst,
@@ -26,6 +27,10 @@ export const FaktaOgDelvilkårVisning: React.FC<{
             return <FaktaOgDelvilkårTilsynBarn aktivitet={aktivitet as AktivitetBarnetilsyn} />;
         case Stønadstype.LÆREMIDLER:
             return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet as AktivitetLæremidler} />;
+        case Stønadstype.DAGLIG_REISE_TSO:
+            return (
+                <FaktaOgDelvilkårDagligReiseTso aktivitet={aktivitet as AktivitetDagligReiseTso} />
+            );
     }
 };
 
@@ -64,6 +69,20 @@ const FaktaOgDelvilkårLæremidler: React.FC<{
                     {harRettTilUtstyrsstipendSvarTilTekst[svarHarRettTilUtstyrsstipend]}
                 </Detail>
             )}
+        </>
+    );
+};
+
+const FaktaOgDelvilkårDagligReiseTso: React.FC<{
+    aktivitet: AktivitetDagligReiseTso;
+}> = ({ aktivitet }) => {
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+
+    return (
+        <>
+            {svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}
+            {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
         </>
     );
 };
