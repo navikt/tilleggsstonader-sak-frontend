@@ -9,6 +9,9 @@ import {
     BillettTypeTilTekst,
     FaktaReise,
     UtgifterBil,
+    Taxi,
+    ÅrsakIkkeKjøreBil,
+    ÅrsakIkkeKjøreBilTilTekst,
     ÅrsakIkkeOffentligTransport,
     ÅrsakIkkeOffentligTransportTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaReise';
@@ -137,11 +140,7 @@ function mapPrivatTransport(reise: FaktaReise) {
                     {reise.privatTransport.årsakIkkeOffentligTransport.map(
                         (årsak: ÅrsakIkkeOffentligTransport) => (
                             <BodyShort key={årsak} size="small">
-                                {
-                                    ÅrsakIkkeOffentligTransportTilTekst[
-                                        årsak as ÅrsakIkkeOffentligTransport
-                                    ]
-                                }
+                                {ÅrsakIkkeOffentligTransportTilTekst[årsak]}
                             </BodyShort>
                         )
                     )}
@@ -159,7 +158,7 @@ function mapPrivatTransport(reise: FaktaReise) {
 
             {mapUtgifterBil(reise.privatTransport.utgifterBil)}
 
-            {/*TAXI*/}
+            {mapTaxi(reise.privatTransport.taxi)}
         </>
     );
 }
@@ -210,6 +209,43 @@ function mapUtgifterBil(utgifterBil?: UtgifterBil) {
                 <VStack>
                     <Label size={'small'}>Piggdekkavgift per dag</Label>
                     <BodyShort size="small">{`${utgifterBil.piggdekkavgift} kr`}</BodyShort>
+                </VStack>
+            )}
+        </>
+    );
+}
+
+function mapTaxi(taxi?: Taxi) {
+    if (!taxi) {
+        return null;
+    }
+
+    return (
+        <>
+            <VStack>
+                <Label size={'small'}>Hvorfor kan du ikke kjøre bil til aktivitetsstedet?</Label>
+                {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
+                    <BodyShort key={årsak} size="small">
+                        {ÅrsakIkkeKjøreBilTilTekst[årsak]}
+                    </BodyShort>
+                ))}
+            </VStack>
+
+            {taxi.ønskerSøkeOmTaxi && (
+                <VStack>
+                    <Label size={'small'}>
+                        Ønsker du å søke om få dekket utgifter til reise med taxi?
+                    </Label>
+                    <BodyShort size="small">{jaNeiTilTekst[taxi.ønskerSøkeOmTaxi]}</BodyShort>
+                </VStack>
+            )}
+
+            {taxi.ttkort && (
+                <VStack>
+                    <Label size={'small'}>
+                        Har du et TT-kort som du kan bruke til aktiviteter i tiltak?
+                    </Label>
+                    <BodyShort size="small">{jaNeiTilTekst[taxi.ttkort]}</BodyShort>
                 </VStack>
             )}
         </>

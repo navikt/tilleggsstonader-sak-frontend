@@ -27,7 +27,7 @@ export interface PrivatTransport {
     årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
     kanKjøreMedEgenBil?: JaNei;
     utgifterBil?: UtgifterBil;
-    utgifterTaxi?: UtgifterTaxi;
+    taxi?: Taxi;
 }
 
 export enum BillettType {
@@ -51,9 +51,10 @@ export interface UtgifterBil {
     reisedistanseEgenBil: number;
 }
 
-export interface UtgifterTaxi {
-    årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil;
+export interface Taxi {
+    årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil[];
     ønskerSøkeOmTaxi: JaNei;
+    ttkort?: JaNei;
 }
 
 export enum DestinasjonEgenBil {
@@ -63,7 +64,7 @@ export enum DestinasjonEgenBil {
 }
 export enum ÅrsakIkkeKjøreBil {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
-    DÅRLIG_TRANSPORTTILBUD = 'DÅRLIG_TRANSPORTTILBUD',
+    HAR_IKKE_BIL_FØRERKORT = 'HAR_IKKE_BIL_FØRERKORT',
     ANNET = 'ANNET',
 }
 export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
@@ -79,6 +80,6 @@ export const BillettTypeTilTekst: Record<BillettType, string> = {
 };
 export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
-    DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
+    HAR_IKKE_BIL_FØRERKORT: 'Har ikke bil eller førerkort',
     ANNET: 'Annet',
 };
