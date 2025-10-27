@@ -142,7 +142,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL) && (
                 <EndreDelvilkår
-                    label="Kan bruker benytte privat bil?"
+                    label="Kan søker benytte privat bil?"
                     regelId={RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL}
                     vurdering={vurderinger?.KAN_KJØRE_MED_EGEN_BIL}
                     oppdaterVurdering={oppdaterVurdering}
