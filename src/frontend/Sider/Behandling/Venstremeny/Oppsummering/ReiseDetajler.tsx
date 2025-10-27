@@ -8,6 +8,9 @@ import {
     BillettType,
     BillettTypeTilTekst,
     FaktaReise,
+    UtgifterBil,
+    ÅrsakIkkeOffentligTransport,
+    ÅrsakIkkeOffentligTransportTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -90,9 +93,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                 </VStack>
                             )}
 
-                            {/*PRIVAT BIL*/}
-
-                            {/*TAXI*/}
+                            {mapPrivatTransport(reise)}
                         </VStack>
                     ))}
                 </VStack>
@@ -121,4 +122,96 @@ function mapBilletttyper(reise: FaktaReise) {
             </BodyShort>
         );
     });
+}
+
+function mapPrivatTransport(reise: FaktaReise) {
+    if (!reise.privatTransport) {
+        return null;
+    }
+
+    return (
+        <>
+            {reise.privatTransport.årsakIkkeOffentligTransport && (
+                <VStack>
+                    <Label size={'small'}>Hvorfor kan du ikke reise med offentlig transport?</Label>
+                    {reise.privatTransport.årsakIkkeOffentligTransport.map(
+                        (årsak: ÅrsakIkkeOffentligTransport) => (
+                            <BodyShort key={årsak} size="small">
+                                {
+                                    ÅrsakIkkeOffentligTransportTilTekst[
+                                        årsak as ÅrsakIkkeOffentligTransport
+                                    ]
+                                }
+                            </BodyShort>
+                        )
+                    )}
+                </VStack>
+            )}
+
+            {reise.privatTransport.kanKjøreMedEgenBil && (
+                <VStack>
+                    <Label size={'small'}>Kan du kjøre bil til aktivitetsstedet?</Label>
+                    <BodyShort size="small">
+                        {jaNeiTilTekst[reise.privatTransport.kanKjøreMedEgenBil]}
+                    </BodyShort>
+                </VStack>
+            )}
+
+            {mapUtgifterBil(reise.privatTransport.utgifterBil)}
+
+            {/*TAXI*/}
+        </>
+    );
+}
+
+function mapUtgifterBil(utgifterBil?: UtgifterBil) {
+    if (!utgifterBil) {
+        return null;
+    }
+
+    return (
+        <>
+            {utgifterBil.mottarGrunnstønad && (
+                <VStack>
+                    <Label size={'small'}>Mottar du grunnstønad fra nav?</Label>
+                    <BodyShort size="small">
+                        {jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}
+                    </BodyShort>
+                </VStack>
+            )}
+
+            <VStack>
+                <Label size={'small'}>Hvor lang er reiseveien din med egen bil?</Label>
+                <BodyShort size="small">{`${utgifterBil.reisedistanseEgenBil} km`}</BodyShort>
+            </VStack>
+
+            {utgifterBil.parkering && (
+                <VStack>
+                    <Label size={'small'}>Må du betale for parkering med egen bil?</Label>
+                    <BodyShort size="small">{jaNeiTilTekst[utgifterBil.parkering]}</BodyShort>
+                </VStack>
+            )}
+
+            {utgifterBil.bompenger && (
+                <VStack>
+                    <Label size={'small'}>Bompenger én vei</Label>
+                    <BodyShort size="small">{`${utgifterBil.bompenger} kr`}</BodyShort>
+                </VStack>
+            )}
+
+            {utgifterBil.ferge && (
+                <VStack>
+                    <Label size={'small'}>Ferge én vei</Label>
+                    <BodyShort size="small">{`${utgifterBil.ferge} kr`}</BodyShort>
+                </VStack>
+            )}
+
+            {utgifterBil.piggdekkavgift && (
+                <VStack>
+                    <Label size={'small'}>Piggdekkavgift per dag</Label>
+                    <BodyShort size="small">{`${utgifterBil.piggdekkavgift} kr`}</BodyShort>
+                </VStack>
+            )}
+        </>
+    );
 }

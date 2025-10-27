@@ -24,7 +24,7 @@ export interface OffentligTransport {
     månedskortPris?: number;
 }
 export interface PrivatTransport {
-    årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport;
+    årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
     kanKjøreMedEgenBil?: JaNei;
     utgifterBil?: UtgifterBil;
     utgifterTaxi?: UtgifterTaxi;
@@ -42,14 +42,24 @@ export enum ÅrsakIkkeOffentligTransport {
     ANNET = 'ANNET',
 }
 export interface UtgifterBil {
-    parkering?: number;
+    parkering: JaNei;
     bompenger?: number;
     ferge?: number;
     piggdekkavgift?: number;
+    destinasjonEgenBil?: DestinasjonEgenBil[];
+    mottarGrunnstønad?: JaNei;
+    reisedistanseEgenBil: number;
 }
+
 export interface UtgifterTaxi {
     årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil;
     ønskerSøkeOmTaxi: JaNei;
+}
+
+export enum DestinasjonEgenBil {
+    TOGSTASJON = 'TOGSTAJON',
+    BUSSSTOPP = 'BUSSSTOPP',
+    FERGE_BAT_KAI = 'FERGE_BÅT_KAI',
 }
 export enum ÅrsakIkkeKjøreBil {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
