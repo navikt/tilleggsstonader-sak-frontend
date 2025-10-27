@@ -31,7 +31,9 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
 
                             {reise.reiseAdresse && (
                                 <VStack>
-                                    <Label size={'small'}>Adressen til aktiviteten</Label>
+                                    <Label size={'small'}>
+                                        Hvilken adresse reiser du til i aktiviteten din?
+                                    </Label>
                                     <BodyShort size="small">
                                         {reise.reiseAdresse.gateadresse}
                                         {reise.reiseAdresse.postnummer}{' '}
@@ -53,14 +55,19 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
 
                             {reise.dagerPerUke && (
                                 <VStack>
-                                    <Label size={'small'}>Antall reisedager i uken</Label>
+                                    <Label size={'small'}>
+                                        Hvor mange dager i uken skal du reise hit?
+                                    </Label>
                                     <BodyShort size="small">{reise.dagerPerUke}</BodyShort>
                                 </VStack>
                             )}
 
                             {reise.harBehovForTransportUavhengigAvReisensLengde && (
                                 <VStack>
-                                    <Label size={'small'}>Avstand over 6 km?</Label>
+                                    <Label size={'small'}>
+                                        Har du funksjonsnedsettelse, midlertidig skade eller sykdom
+                                        som gjør at du må ha transport til aktivitetsstedet?
+                                    </Label>
                                     <BodyShort size="small">
                                         {
                                             jaNeiTilTekst[
