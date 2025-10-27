@@ -5,8 +5,6 @@ import { BodyShort, Heading, Label, VStack } from '@navikt/ds-react';
 
 import { InfoSeksjon } from './Visningskomponenter';
 import {
-    BillettType,
-    BillettTypeTilTekst,
     FaktaReise,
     UtgifterBil,
     Taxi,
@@ -14,6 +12,7 @@ import {
     ÅrsakIkkeKjøreBilTilTekst,
     ÅrsakIkkeOffentligTransport,
     ÅrsakIkkeOffentligTransportTilTekst,
+    OffentligTransport,
 } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -81,7 +80,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                             {reise.lengdeReisevei && (
                                 <VStack>
                                     <Label size={'small'}>Hvor lang er reiseveien din?</Label>
-                                    <BodyShort size="small">{reise.lengdeReisevei}</BodyShort>
+                                    <BodyShort size="small">{`${reise.lengdeReisevei} km`}</BodyShort>
                                 </VStack>
                             )}
 
@@ -96,12 +95,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                 </VStack>
                             )}
 
-                            {reise.offentligTransport && (
-                                <VStack>
-                                    <Label size="small">Billettyper</Label>
-                                    {mapBilletttyper(reise)}
-                                </VStack>
-                            )}
+                            {mapBilletttyper(reise.offentligTransport)}
 
                             {mapPrivatTransport(reise)}
                         </VStack>
@@ -114,24 +108,34 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
 
 export default ReiseDetajler;
 
-function mapBilletttyper(reise: FaktaReise) {
-    return reise.offentligTransport?.billettTyperValgt?.map((type: BillettType) => {
-        const prisMap: Record<BillettType, number | undefined> = {
-            [BillettType.ENKELTBILLETT]: reise.offentligTransport?.enkeltbillettPris,
-            [BillettType.SYVDAGERSBILLETT]: reise.offentligTransport?.syvdagersbillettPris,
-            [BillettType.TRETTIDAGERSBILLETT]: reise.offentligTransport?.månedskortPris,
-        };
+function mapBilletttyper(offentligTransport?: OffentligTransport) {
+    if (!offentligTransport) {
+        return null;
+    }
+    return (
+        <>
+            {offentligTransport.enkeltbillettPris && (
+                <VStack>
+                    <Label size="small">Hvor mye koster én enkeltbillett?</Label>
+                    <BodyShort size="small">{`${offentligTransport.enkeltbillettPris} kr`}</BodyShort>
+                </VStack>
+            )}
 
-        const pris = prisMap[type];
+            {offentligTransport.syvdagersbillettPris && (
+                <VStack>
+                    <Label size="small">Hvor mye koster ett ukeskort / 7-dagersbillett?</Label>
+                    <BodyShort size="small">{`${offentligTransport.syvdagersbillettPris} kr`}</BodyShort>
+                </VStack>
+            )}
 
-        if (pris == null) return null;
-
-        return (
-            <BodyShort size="small" key={type}>
-                {BillettTypeTilTekst[type]}: {pris} kroner
-            </BodyShort>
-        );
-    });
+            {offentligTransport.månedskortPris && (
+                <VStack>
+                    <Label size="small">Hvor mye koster ett månedskort / 30-dagersbillett?</Label>
+                    <BodyShort size="small">{`${offentligTransport.månedskortPris} kr`}</BodyShort>
+                </VStack>
+            )}
+        </>
+    );
 }
 
 function mapPrivatTransport(reise: FaktaReise) {
