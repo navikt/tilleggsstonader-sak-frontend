@@ -1,8 +1,10 @@
+import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
 export interface FaktaReise {
     reiseAdresse: ReiseAdresse;
-    dagerPerUke: ValgtAktivitetDagligReise;
+    periode: Periode;
+    dagerPerUke: string;
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
     harBehovForTransportUavhengigAvReisensLengde?: JaNei;
@@ -26,10 +28,6 @@ export interface PrivatTransport {
     kanKjøreMedEgenBil?: JaNei;
     utgifterBil?: UtgifterBil;
     utgifterTaxi?: UtgifterTaxi;
-}
-export interface ValgtAktivitetDagligReise {
-    id: string;
-    label: string;
 }
 
 export enum BillettType {
