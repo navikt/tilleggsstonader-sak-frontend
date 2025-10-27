@@ -12,26 +12,6 @@ import {
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 
-function mapBilletttyper(reise: FaktaReise) {
-    return reise.offentligTransport?.billettTyperValgt?.map((type: BillettType) => {
-        const prisMap: Record<BillettType, number | undefined> = {
-            [BillettType.ENKELTBILLETT]: reise.offentligTransport?.enkeltbillettPris,
-            [BillettType.SYVDAGERSBILLETT]: reise.offentligTransport?.syvdagersbillettPris,
-            [BillettType.TRETTIDAGERSBILLETT]: reise.offentligTransport?.månedskortPris,
-        };
-
-        const pris = prisMap[type];
-
-        if (pris == null) return null;
-
-        return (
-            <BodyShort size="small" key={type}>
-                {BillettTypeTilTekst[type]}: {pris} kroner
-            </BodyShort>
-        );
-    });
-}
-
 const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
     return (
         <div>
@@ -122,3 +102,23 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
 };
 
 export default ReiseDetajler;
+
+function mapBilletttyper(reise: FaktaReise) {
+    return reise.offentligTransport?.billettTyperValgt?.map((type: BillettType) => {
+        const prisMap: Record<BillettType, number | undefined> = {
+            [BillettType.ENKELTBILLETT]: reise.offentligTransport?.enkeltbillettPris,
+            [BillettType.SYVDAGERSBILLETT]: reise.offentligTransport?.syvdagersbillettPris,
+            [BillettType.TRETTIDAGERSBILLETT]: reise.offentligTransport?.månedskortPris,
+        };
+
+        const pris = prisMap[type];
+
+        if (pris == null) return null;
+
+        return (
+            <BodyShort size="small" key={type}>
+                {BillettTypeTilTekst[type]}: {pris} kroner
+            </BodyShort>
+        );
+    });
+}
