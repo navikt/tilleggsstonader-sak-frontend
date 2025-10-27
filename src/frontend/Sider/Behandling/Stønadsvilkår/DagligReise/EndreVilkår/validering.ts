@@ -34,7 +34,7 @@ export const validerVilkår = (
     regelstruktur: Regelstruktur
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
-    const faktaValidering = validerFakta(fakta);
+    const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
@@ -65,18 +65,24 @@ const validerSvar = (
 };
 
 const validerFakta = (
-    fakta: FaktaDagligReise | undefined
+    fakta: FaktaDagligReise | undefined,
+    svar: SvarVilkårDagligReise
 ): FeilmeldingerFaktaDagligReise | undefined => {
-    if (!fakta) return;
-
-    if (fakta?.type === 'OFFENTLIG_TRANSPORT') {
+    if (
+        fakta?.type === 'OFFENTLIG_TRANSPORT' ||
+        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
+    ) {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
     }
 };
 
 const validerFaktaOffentligTransport = (
-    fakta: FaktaOffentligTransport
+    fakta: FaktaOffentligTransport | undefined
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
+    if (!fakta) {
+        return { felles: 'Mangler reisedager per uke og minst én billettpris' };
+    }
+
     if (!fakta.reisedagerPerUke) {
         return { reisedagerPerUke: 'Mangler reisdager per uke' };
     }
