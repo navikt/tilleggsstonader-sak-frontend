@@ -17,7 +17,7 @@ export const EndreFaktaDagligReise: React.FC<{
                 <EndreFaktaOffentligTransport
                     fakta={fakta as FaktaOffentligTransport}
                     oppdaterFakta={oppdaterFakta}
-                    feilmeldinger={feilmeldinger}
+                    feilmeldinger={feilmeldinger.fakta}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':
