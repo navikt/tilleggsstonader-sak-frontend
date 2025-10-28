@@ -28,13 +28,37 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                 {`Reise ${index + 1}`}
                             </Heading>
 
+                            {reise.skalReiseFraFolkeregistrertAdresse && (
+                                <VStack>
+                                    <Label size={'small'}>
+                                        Skal du reise fra din folkeregisterte adresse?
+                                    </Label>
+                                    <BodyShort size="small">
+                                        {jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
+                                    </BodyShort>
+                                </VStack>
+                            )}
+
+                            {reise.adresseDetSkalReisesFra && (
+                                <VStack>
+                                    <Label size={'small'}>Adresse jeg skal reise fra:</Label>
+                                    <BodyShort size="small">
+                                        <BodyShort size="small">
+                                            {reise.adresseDetSkalReisesFra.gateadresse}{' '}
+                                            {reise.adresseDetSkalReisesFra.postnummer}{' '}
+                                            {reise.adresseDetSkalReisesFra.poststed}
+                                        </BodyShort>
+                                    </BodyShort>
+                                </VStack>
+                            )}
+
                             {reise.reiseAdresse && (
                                 <VStack>
                                     <Label size={'small'}>
                                         Hvilken adresse reiser du til i aktiviteten din?
                                     </Label>
                                     <BodyShort size="small">
-                                        {reise.reiseAdresse.gateadresse}
+                                        {reise.reiseAdresse.gateadresse}{' '}
                                         {reise.reiseAdresse.postnummer}{' '}
                                         {reise.reiseAdresse.poststed}
                                     </BodyShort>
