@@ -10,7 +10,7 @@ export interface FaktaReise {
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
     harBehovForTransportUavhengigAvReisensLengde?: JaNei;
-    kanReiseMedOffentligTransport: JaNei;
+    kanReiseMedOffentligTransport: SvarKanReiseMedOffentligTransport;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
 }
@@ -69,6 +69,11 @@ export enum ÅrsakIkkeKjøreBil {
     HAR_IKKE_BIL_FØRERKORT = 'HAR_IKKE_BIL_FØRERKORT',
     ANNET = 'ANNET',
 }
+export enum SvarKanReiseMedOffentligTransport {
+    JA = 'JA',
+    NEI = 'NEI',
+    KOMBINERT_BIL_OFFENTLIG_TRANSPORT = 'KOMBINERT_BIL_OFFENTLIG_TRANSPORT',
+}
 export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
@@ -84,4 +89,14 @@ export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = 
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     HAR_IKKE_BIL_FØRERKORT: 'Har ikke bil eller førerkort',
     ANNET: 'Annet',
+};
+
+export const SvarKanReiseMedOffentligTransportTilTekst: Record<
+    SvarKanReiseMedOffentligTransport,
+    string
+> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+    KOMBINERT_BIL_OFFENTLIG_TRANSPORT:
+        'Jeg må kombinere offentlig transport med kjøring av egen bil',
 };

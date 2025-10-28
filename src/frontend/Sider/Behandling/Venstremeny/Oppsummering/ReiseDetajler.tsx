@@ -13,6 +13,7 @@ import {
     ÅrsakIkkeOffentligTransport,
     ÅrsakIkkeOffentligTransportTilTekst,
     OffentligTransport,
+    SvarKanReiseMedOffentligTransportTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -114,7 +115,11 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                         Kan du reise med offentlig transport?
                                     </Label>
                                     <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
+                                        {
+                                            SvarKanReiseMedOffentligTransportTilTekst[
+                                                reise.kanReiseMedOffentligTransport
+                                            ]
+                                        }
                                     </BodyShort>
                                 </VStack>
                             )}
