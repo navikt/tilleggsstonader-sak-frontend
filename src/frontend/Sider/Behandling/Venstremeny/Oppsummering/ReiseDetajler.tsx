@@ -14,6 +14,7 @@ import {
     ÅrsakIkkeOffentligTransportTilTekst,
     OffentligTransport,
     SvarKanReiseMedOffentligTransportTilTekst,
+    reiseAdresseTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -45,9 +46,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                     <Label size={'small'}>Adresse jeg skal reise fra:</Label>
                                     <BodyShort size="small">
                                         <BodyShort size="small">
-                                            {reise.adresseDetSkalReisesFra.gateadresse}{' '}
-                                            {reise.adresseDetSkalReisesFra.postnummer}{' '}
-                                            {reise.adresseDetSkalReisesFra.poststed}
+                                            {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
                                         </BodyShort>
                                     </BodyShort>
                                 </VStack>
@@ -59,9 +58,7 @@ const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
                                         Hvilken adresse reiser du til i aktiviteten din?
                                     </Label>
                                     <BodyShort size="small">
-                                        {reise.reiseAdresse.gateadresse}{' '}
-                                        {reise.reiseAdresse.postnummer}{' '}
-                                        {reise.reiseAdresse.poststed}
+                                        {reiseAdresseTilTekst(reise.reiseAdresse)}
                                     </BodyShort>
                                 </VStack>
                             )}

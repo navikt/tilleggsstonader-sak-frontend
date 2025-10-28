@@ -100,3 +100,7 @@ export const SvarKanReiseMedOffentligTransportTilTekst: Record<
     KOMBINERT_BIL_OFFENTLIG_TRANSPORT:
         'Jeg må kombinere offentlig transport med kjøring av egen bil',
 };
+
+export function reiseAdresseTilTekst(adresse: ReiseAdresse) {
+    return `${adresse.gateadresse} ${adresse.postnummer} ${adresse.poststed}`;
+}
