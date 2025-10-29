@@ -40,9 +40,7 @@ export const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                                 <VStack>
                                     <Label size={'small'}>Adresse jeg skal reise fra:</Label>
                                     <BodyShort size="small">
-                                        <BodyShort size="small">
-                                            {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
-                                        </BodyShort>
+                                        {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
                                     </BodyShort>
                                 </VStack>
                             )}
