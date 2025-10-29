@@ -7,6 +7,7 @@ import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
@@ -27,26 +28,28 @@ const RegisterYtelserTabell: React.FC<{
         <HvitTabell size="small">
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Ytelse</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Startdato</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Sluttdato</Table.HeaderCell>
-                    <Table.HeaderCell scope="col" />
+                    <TableHeaderCellSmall scope="col">Ytelse</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Startdato</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Sluttdato</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col" />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {perioderMedYtelse.map((ytelse, indeks) => {
                     return (
                         <Table.Row key={indeks}>
-                            <Table.DataCell>{utledYtelseTekst(ytelse)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(ytelse.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterNullableIsoDato(ytelse.tom)}</Table.DataCell>
-                            <Table.DataCell>
+                            <TableDataCellSmall>{utledYtelseTekst(ytelse)}</TableDataCellSmall>
+                            <TableDataCellSmall>{formaterIsoDato(ytelse.fom)}</TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {formaterNullableIsoDato(ytelse.tom)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {erStegRedigerbart && ytelse.kanYtelseBrukesIBehandling && (
                                     <Button size="xsmall" onClick={() => lagRadForPeriode(ytelse)}>
                                         Bruk
                                     </Button>
                                 )}
-                            </Table.DataCell>
+                            </TableDataCellSmall>
                         </Table.Row>
                     );
                 })}
