@@ -1,12 +1,16 @@
+import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
 export interface FaktaReise {
+    skalReiseFraFolkeregistrertAdresse: JaNei;
+    adresseDetSkalReisesFra: ReiseAdresse;
     reiseAdresse: ReiseAdresse;
-    dagerPerUke: ValgtAktivitetDagligReise;
+    periode: Periode;
+    dagerPerUke: string;
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
     harBehovForTransportUavhengigAvReisensLengde?: JaNei;
-    kanReiseMedOffentligTransport: JaNei;
+    kanReiseMedOffentligTransport: SvarKanReiseMedOffentligTransport;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
 }
@@ -22,14 +26,10 @@ export interface OffentligTransport {
     månedskortPris?: number;
 }
 export interface PrivatTransport {
-    årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport;
+    årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
     kanKjøreMedEgenBil?: JaNei;
     utgifterBil?: UtgifterBil;
-    utgifterTaxi?: UtgifterTaxi;
-}
-export interface ValgtAktivitetDagligReise {
-    id: string;
-    label: string;
+    taxi?: Taxi;
 }
 
 export enum BillettType {
@@ -44,19 +44,35 @@ export enum ÅrsakIkkeOffentligTransport {
     ANNET = 'ANNET',
 }
 export interface UtgifterBil {
-    parkering?: number;
+    parkering: JaNei;
     bompenger?: number;
     ferge?: number;
     piggdekkavgift?: number;
+    destinasjonEgenBil?: DestinasjonEgenBil[];
+    mottarGrunnstønad?: JaNei;
+    reisedistanseEgenBil: number;
 }
-export interface UtgifterTaxi {
-    årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil;
+
+export interface Taxi {
+    årsakIkkeKjøreBil: ÅrsakIkkeKjøreBil[];
     ønskerSøkeOmTaxi: JaNei;
+    ttkort?: JaNei;
+}
+
+export enum DestinasjonEgenBil {
+    TOGSTASJON = 'TOGSTAJON',
+    BUSSSTOPP = 'BUSSSTOPP',
+    FERGE_BAT_KAI = 'FERGE_BÅT_KAI',
 }
 export enum ÅrsakIkkeKjøreBil {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
-    DÅRLIG_TRANSPORTTILBUD = 'DÅRLIG_TRANSPORTTILBUD',
+    HAR_IKKE_BIL_FØRERKORT = 'HAR_IKKE_BIL_FØRERKORT',
     ANNET = 'ANNET',
+}
+export enum SvarKanReiseMedOffentligTransport {
+    JA = 'JA',
+    NEI = 'NEI',
+    KOMBINERT_BIL_OFFENTLIG_TRANSPORT = 'KOMBINERT_BIL_OFFENTLIG_TRANSPORT',
 }
 export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
@@ -71,6 +87,20 @@ export const BillettTypeTilTekst: Record<BillettType, string> = {
 };
 export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
-    DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
+    HAR_IKKE_BIL_FØRERKORT: 'Har ikke bil eller førerkort',
     ANNET: 'Annet',
 };
+
+export const SvarKanReiseMedOffentligTransportTilTekst: Record<
+    SvarKanReiseMedOffentligTransport,
+    string
+> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+    KOMBINERT_BIL_OFFENTLIG_TRANSPORT:
+        'Jeg må kombinere offentlig transport med kjøring av egen bil',
+};
+
+export function reiseAdresseTilTekst(adresse: ReiseAdresse) {
+    return `${adresse.gateadresse} ${adresse.postnummer} ${adresse.poststed}`;
+}
