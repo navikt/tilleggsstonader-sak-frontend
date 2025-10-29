@@ -116,9 +116,8 @@ export const EndreVurderinger: React.FC<Props> = ({
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
-                // TODO: Finn ut riktig formulering for unntak
                 <EndreDelvilkår
-                    label="Har søker funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at hen må ha transport til aktivitetsstedet?"
+                    label="Har søker dokumentert funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at søker har et særskilt behov for transport?"
                     regelId={RegelIdDagligReise.UNNTAK_SEKS_KM}
                     vurdering={vurderinger?.UNNTAK_SEKS_KM}
                     oppdaterVurdering={oppdaterVurdering}
@@ -143,7 +142,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL) && (
                 <EndreDelvilkår
-                    label="Kan bruker benytte privat bil?"
+                    label="Kan søker benytte privat bil?"
                     regelId={RegelIdDagligReise.KAN_KJØRE_MED_EGEN_BIL}
                     vurdering={vurderinger?.KAN_KJØRE_MED_EGEN_BIL}
                     oppdaterVurdering={oppdaterVurdering}
