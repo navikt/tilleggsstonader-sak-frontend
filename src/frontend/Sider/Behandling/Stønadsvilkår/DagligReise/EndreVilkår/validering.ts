@@ -5,12 +5,16 @@ import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligR
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export type FeilmeldingerFaktaDagligReise = {
+export interface FeilmeldingerFaktaDagligReise {
+    felles?: string;
+}
+
+export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFaktaDagligReise {
     reisedagerPerUke?: string;
     enkeltbillett?: string;
     syvdagersbillett?: string;
     trettidagersbillett?: string;
-};
+}
 
 export type FeilmeldingerDagligReise = {
     fom?: string;
@@ -25,12 +29,12 @@ export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
 
 export const validerVilkår = (
     periode: Periode,
-    svar: SvarVilkårDagligReise | undefined,
+    svar: SvarVilkårDagligReise,
     fakta: FaktaDagligReise | undefined,
     regelstruktur: Regelstruktur
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
-    const faktaValidering = validerFakta(fakta);
+    const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
@@ -60,34 +64,36 @@ const validerSvar = (
     }
 };
 
-const validerFakta = (fakta: FaktaDagligReise | undefined) => {
-    if (!fakta) {
-        return;
-    }
-
-    if (fakta.type === 'OFFENTLIG_TRANSPORT') {
+const validerFakta = (
+    fakta: FaktaDagligReise | undefined,
+    svar: SvarVilkårDagligReise
+): FeilmeldingerFaktaDagligReise | undefined => {
+    if (
+        fakta?.type === 'OFFENTLIG_TRANSPORT' ||
+        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
+    ) {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
     }
 };
 
 const validerFaktaOffentligTransport = (
-    fakta: FaktaOffentligTransport
-): Partial<FeilmeldingerFaktaDagligReise> | undefined => {
+    fakta: FaktaOffentligTransport | undefined
+): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
+    if (!fakta) {
+        return { felles: 'Mangler reisedager per uke og minst én billettpris' };
+    }
+
     if (!fakta.reisedagerPerUke) {
         return { reisedagerPerUke: 'Mangler reisdager per uke' };
     }
-    if (fakta.reisedagerPerUke < 0) {
-        return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 5' };
-    }
-    if (fakta.reisedagerPerUke > 5) {
+
+    if (fakta.reisedagerPerUke < 0 || fakta.reisedagerPerUke > 5) {
         return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 5' };
     }
 
     if (!fakta.prisEnkelbillett && !fakta.prisSyvdagersbillett && !fakta.prisTrettidagersbillett) {
         return {
-            enkeltbillett: 'Minst en billettpris må legges inn',
-            syvdagersbillett: 'Minst en billettpris må legges inn',
-            trettidagersbillett: 'Minst en billettpris må legges inn',
+            felles: 'Minst én billettpris må legges inn',
         };
     }
 
@@ -100,16 +106,4 @@ const validerFaktaOffentligTransport = (
     if (fakta.prisTrettidagersbillett && fakta.prisTrettidagersbillett < 0) {
         return { trettidagersbillett: 'Prisen må være større enn 0' };
     }
-};
-
-export const faktaOffentligTransportTilFeilmeldingFaktaDagligReiseMap: Record<
-    keyof FaktaOffentligTransport,
-    keyof FeilmeldingerFaktaDagligReise | undefined
-> = {
-    reisedagerPerUke: 'reisedagerPerUke',
-    prisEnkelbillett: 'enkeltbillett',
-    prisSyvdagersbillett: 'syvdagersbillett',
-    prisTrettidagersbillett: 'trettidagersbillett',
-    '@type': undefined,
-    type: undefined,
 };
