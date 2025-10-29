@@ -112,7 +112,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         }));
 
         settUlagretKomponent(komponentId);
-        nullstillFaktaFeilmeldinger();
+        nullstillFeilmeldingFor(['fakta']);
     };
 
     const oppdaterVurderinger = (nyeSvar: SvarVilkårDagligReise) => {
@@ -126,19 +126,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
             settFakta(undefined);
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
-        nullstillFaktaFeilmeldinger();
+        nullstillFeilmeldingFor(['fakta']);
     };
 
     const nullstillFeilmeldingFor = (feltListe: Array<keyof FeilmeldingerDagligReise>) => {
         settFeilmeldinger((prevState) => {
             feltListe.forEach((felt) => delete prevState[felt]);
-            return { ...prevState };
-        });
-    };
-
-    const nullstillFaktaFeilmeldinger = () => {
-        settFeilmeldinger((prevState) => {
-            delete prevState.fakta;
             return { ...prevState };
         });
     };
