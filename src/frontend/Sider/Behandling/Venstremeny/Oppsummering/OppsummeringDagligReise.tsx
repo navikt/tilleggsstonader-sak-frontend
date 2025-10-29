@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import AktivitetDagligReise from './AktivitetDagligReise';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import Hovedytelse from './Hovedytelse';
-import ReiseDetajler from './ReiseDetajler';
+import { ReiseDetajler } from './ReiseDetlajer/ReiseDetajler';
 import Vedlegg from './Vedlegg';
 import { InfoSeksjon } from './Visningskomponenter';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
