@@ -15,6 +15,7 @@ import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
 import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
 
 const Tabell = styled(Table)`
+    background: white;
     --ac-table-row-border: ${BorderNeutralSubtle};
     --ac-table-row-hover: none;
     --ac-table-cell-hover-border: ${BorderNeutralSubtle};
