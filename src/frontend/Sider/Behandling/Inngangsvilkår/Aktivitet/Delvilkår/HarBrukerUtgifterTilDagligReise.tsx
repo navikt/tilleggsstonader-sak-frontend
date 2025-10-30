@@ -13,7 +13,7 @@ export const HarBrukerUtgifterTilDagligReise: React.FC<{
 
     return (
         <JaNeiVurdering
-            label="Har bruker utgifter til daglig reise?"
+            label="Har bruker nødvendige utgifter til daglig reise?"
             svar={aktivitetForm.svarHarUtgifter}
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
