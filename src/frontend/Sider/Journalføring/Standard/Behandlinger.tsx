@@ -79,13 +79,10 @@ const Behandlinger: React.FC<Props> = ({
     const skalOppretteNyBehandling =
         journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING;
 
-    const opprettNyBehandlingAlertTekst = (finnesAktivBehandling: boolean) => {
-        if (kanHaFlereAktiveBehandlingerPerFagsak && finnesAktivBehandling) {
-            return 'Ny behandling opprettes når journalføring er utført. Behandlingen settes på vent da det allerede finnes en aktiv behandling på denne fagsaken.';
-        } else {
-            return 'Ny behandling opprettes når journalføring er utført.';
-        }
-    };
+    const opprettNyBehandlingAlertTekst = (finnesAktivBehandling: boolean) =>
+        kanHaFlereAktiveBehandlingerPerFagsak && finnesAktivBehandling
+            ? 'Ny behandling opprettes når journalføring er utført. Behandlingen settes på vent da det allerede finnes en aktiv behandling på denne fagsaken.'
+            : 'Ny behandling opprettes når journalføring er utført.';
 
     return (
         <DataViewer type={'behandlinger'} response={{ behandlinger }}>
