@@ -12,11 +12,17 @@ import { Journalføringsårsak } from '../typer/journalføringsårsak';
 export const validerJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[]
+    behandlinger: BehandlingForJournalføring[],
+    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
 ): string | undefined => {
     if (journalføringGjelderKlage(journalpostState.journalføringsårsak))
         return validerKlageJournalføring(journalResponse, journalpostState);
-    return validerStandardJournalføring(journalResponse, journalpostState, behandlinger);
+    return validerStandardJournalføring(
+        journalResponse,
+        journalpostState,
+        behandlinger,
+        kanHaFlereAktiveBehandlingerPåSammeFagsak
+    );
 };
 
 const validerKlageJournalføring = (
@@ -39,14 +45,20 @@ const validerKlageJournalføring = (
 const validerStandardJournalføring = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[]
+    behandlinger: BehandlingForJournalføring[],
+    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
 ): string | undefined => {
     const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
 
     if (valideringsfeil) return valideringsfeil;
 
     if (journalpostState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING) {
-        return validerJournalføringTilNyBehandling(journalResponse, journalpostState, behandlinger);
+        return validerJournalføringTilNyBehandling(
+            journalResponse,
+            journalpostState,
+            behandlinger,
+            kanHaFlereAktiveBehandlingerPåSammeFagsak
+        );
     }
 
     return undefined;
@@ -84,9 +96,13 @@ const validerFellesFelter = (
 const validerJournalføringTilNyBehandling = (
     journalResponse: JournalpostResponse,
     journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[]
+    behandlinger: BehandlingForJournalføring[],
+    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
 ) => {
-    if (!alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger))
+    if (
+        !kanHaFlereAktiveBehandlingerPåSammeFagsak &&
+        !alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger)
+    )
         return 'Kan ikke journalføre på ny behandling når det finnes en behandling som ikke er ferdigstilt';
 
     if (journalResponse.harStrukturertSøknad) {
