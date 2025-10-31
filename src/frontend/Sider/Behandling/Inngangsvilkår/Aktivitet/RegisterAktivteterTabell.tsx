@@ -8,6 +8,7 @@ import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
 import { erRegisterAktivitetBrukt } from './utilsAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
@@ -35,16 +36,16 @@ const RegisterAktiviteterTabell: React.FC<{
         <Tabell size={'small'}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Type</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Variant</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Arrangør</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Startdato</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Sluttdato</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Aktivitetsdager</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Prosent</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Id</Table.HeaderCell>
-                    <Table.HeaderCell scope="col" />
+                    <TableHeaderCellSmall scope="col">Type</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Variant</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Arrangør</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Status</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Startdato</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Sluttdato</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Aktivitetsdager</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Prosent</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col">Id</TableHeaderCellSmall>
+                    <TableHeaderCellSmall scope="col" />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -53,30 +54,34 @@ const RegisterAktiviteterTabell: React.FC<{
 
                     return (
                         <Table.Row key={aktivitet.id}>
-                            <Table.DataCell>
+                            <TableDataCellSmall>
                                 {utledVisningstekstForAktivitetType(aktivitet)}
-                            </Table.DataCell>
-                            <Table.DataCell>{aktivitet.typeNavn}</Table.DataCell>
-                            <Table.DataCell>{aktivitet.arrangør ?? '-'}</Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>{aktivitet.typeNavn}</TableDataCellSmall>
+                            <TableDataCellSmall>{aktivitet.arrangør ?? '-'}</TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {aktivitet.status && formaterEnumVerdi(aktivitet.status)}
-                            </Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {formaterNullableIsoDato(aktivitet.fom)}
-                            </Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {formaterNullableIsoDato(aktivitet.tom)}
-                            </Table.DataCell>
-                            <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
-                            <Table.DataCell>{aktivitet.prosentDeltakelse ?? '-'}</Table.DataCell>
-                            <Table.DataCell>{aktivitet.id}</Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {aktivitet.antallDagerPerUke ?? '-'}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {aktivitet.prosentDeltakelse ?? '-'}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>{aktivitet.id}</TableDataCellSmall>
+                            <TableDataCellSmall>
                                 <BrukAktivitetKnapp
                                     registerAktivitet={aktivitet}
                                     leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
                                     harBruktAktivitet={erAktivitetBrukt}
                                 />
-                            </Table.DataCell>
+                            </TableDataCellSmall>
                         </Table.Row>
                     );
                 })}
