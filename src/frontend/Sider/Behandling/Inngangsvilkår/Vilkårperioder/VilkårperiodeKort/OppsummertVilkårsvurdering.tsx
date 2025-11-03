@@ -10,12 +10,11 @@ import { formaterDelvilkårKeys, VilkårperiodeResultatTilTekst } from './tekstm
 import { finnDelvilkårTilOppsummering } from './utils';
 import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
-import { FaktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 import { erMålgruppe } from '../../Målgruppe/utils';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { Målgruppe } from '../../typer/vilkårperiode/målgruppe';
 import {
-    FaktiskMålgruppeEllerIngenMålgruppe,
+    informasjonForFaktisktMålgruppe,
     målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe,
 } from '../../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
 
@@ -27,12 +26,6 @@ const Container = styled.div`
     padding-left: 1rem;
     height: 100%;
 `;
-
-const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgruppe, string> = {
-    ...FaktiskMålgruppeTilTekst,
-    SYKEPENGER_100_PROSENT: 'Ikke i målgruppe',
-    INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
-};
 
 export const OppsummertVilkårsvurdering: React.FC<{
     vilkårperiode?: Målgruppe | Aktivitet;

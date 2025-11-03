@@ -16,6 +16,7 @@ import {
     VilkårPeriodeResultat,
     vilkårperiodeTypeTilTekst,
 } from '../../typer/vilkårperiode/vilkårperiode';
+import { VilkårperiodeResultatTilTekst } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { FaktaOgDelvilkårVisning } from '../Delvilkår/FaktaOgDelvilkårVisning';
 
 const CelleContainer = styled.div`
@@ -60,7 +61,11 @@ export const AktivitetKort: React.FC<{
                     <BodyShort size="small">
                         <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
                     </BodyShort>
-
+                    <BodyShort size="small">
+                        {VilkårperiodeResultatTilTekst[aktivitet.resultat]}
+                    </BodyShort>
+                </Celle>
+                <Celle $width={180}>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
@@ -69,10 +74,10 @@ export const AktivitetKort: React.FC<{
                         <BodyShort size="small">{aktivitetFraRegister?.arrangør}</BodyShort>
                     )}
                 </Celle>
-                <Celle $width={200}>
+                <Celle $width={180}>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
-                <Celle $width={400}>
+                <Celle>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>
