@@ -23,7 +23,7 @@ import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
 `;
 
 export const VedtakOgBeregningDagligReise: FC = () => {
