@@ -61,6 +61,7 @@ export const VilkårsresultatTilTekst: Record<Vilkårsresultat, string> = {
     [Vilkårsresultat.IKKE_AKTUELL]: 'Ikke aktuelt',
     [Vilkårsresultat.IKKE_TATT_STILLING_TIL]: 'Ikke vurdert',
     [Vilkårsresultat.SKAL_IKKE_VURDERES]: 'Skal ikke vurderes',
+    [Vilkårsresultat.SLETTET]: 'Slettet',
 };
 
 export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
