@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
-import { AktivitetkortFooter } from './AktivitetKortFooter';
+import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { useSteg } from '../../../../../context/StegContext';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
@@ -50,7 +50,7 @@ export const AktivitetKort: React.FC<{
                 )
             }
             footer={
-                <AktivitetkortFooter
+                <AktivitetUlikRegisterVarsel
                     aktivitet={aktivitet}
                     aktivitetFraRegister={aktivitetFraRegister}
                 />
