@@ -13,7 +13,10 @@ import {
     BehandlingResultat,
     behandlingResultatTilTekst,
 } from '../../../typer/behandling/behandlingResultat';
-import { behandlingStatusTilTekst } from '../../../typer/behandling/behandlingStatus';
+import {
+    BehandlingStatus,
+    behandlingStatusTilTekst,
+} from '../../../typer/behandling/behandlingStatus';
 import { behandlingTypeTilTekst } from '../../../typer/behandling/behandlingType';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 import {
@@ -45,15 +48,22 @@ const LeggTilKnapp = styled(Button)`
 
 interface Props {
     journalpostState: JournalføringState;
+    kanHaFlereAktiveBehandlingerPerFagsak: boolean;
     settFeilmelding: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) => {
+const Behandlinger: React.FC<Props> = ({
+    journalpostState,
+    kanHaFlereAktiveBehandlingerPerFagsak,
+    settFeilmelding,
+}) => {
     const { behandlinger, journalføringsaksjon, settJournalføringsaksjon, journalføringsårsak } =
         journalpostState;
+
     const leggTilNyBehandlingForOpprettelse = (behandlinger: BehandlingForJournalføring[]) => {
         settFeilmelding('');
         const kanOppretteNyBehandling =
+            kanHaFlereAktiveBehandlingerPerFagsak ||
             alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger) ||
             journalføringsÅrsakErKlage(journalføringsårsak);
 
@@ -69,6 +79,11 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
     const skalOppretteNyBehandling =
         journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING;
 
+    const opprettNyBehandlingAlertTekst = (finnesAktivBehandling: boolean) =>
+        kanHaFlereAktiveBehandlingerPerFagsak && finnesAktivBehandling
+            ? 'Ny behandling opprettes når journalføring er utført. Behandlingen settes på vent da det allerede finnes en aktiv behandling på denne fagsaken.'
+            : 'Ny behandling opprettes når journalføring er utført.';
+
     return (
         <DataViewer type={'behandlinger'} response={{ behandlinger }}>
             {({ behandlinger }) => {
@@ -76,6 +91,10 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
                     behandlingTypeTilTekst[
                         utledBehandlingstype(behandlinger, journalpostState.journalføringsårsak)
                     ];
+
+                const finnesAktivBehandling = behandlinger.some(
+                    (behandling) => behandling.status !== BehandlingStatus.FERDIGSTILT
+                );
 
                 return (
                     <VStack gap="4">
@@ -147,7 +166,7 @@ const Behandlinger: React.FC<Props> = ({ journalpostState, settFeilmelding }) =>
                         </LeggTilKnapp>
                         {skalOppretteNyBehandling && (
                             <Alert variant="info">
-                                Ny behandling opprettes når journalføring er utført
+                                {opprettNyBehandlingAlertTekst(finnesAktivBehandling)}
                             </Alert>
                         )}
                     </VStack>
