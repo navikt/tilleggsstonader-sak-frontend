@@ -8,6 +8,7 @@ import { SimuleringResponse } from './simuleringTyper';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
+import Panel from '../../../komponenter/Panel/Panel';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { formaterÅrFullMåned } from '../../../utils/dato';
@@ -44,10 +45,12 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
                 const { perioder, oppsummering } = simuleringsresultat || {};
 
                 return perioder && oppsummering ? (
-                    <>
-                        <Heading size={'medium'}>
+                    <Panel
+                        tittel={`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
+                    >
+                        {/* <Heading size={'medium'}>
                             {`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
-                        </Heading>
+                        </Heading> */}
                         <Oppsumering oppsummering={oppsummering} />
                         <SimuleringTabell perioder={perioder} />
                         {oppsummering.feilutbetaling > 0 && (
@@ -61,7 +64,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
                                 informasjon om hvordan feilutbetalinger skal behandles.
                             </Alert>
                         )}
-                    </>
+                    </Panel>
                 ) : (
                     <Alert variant={'info'} inline>
                         {utledBeskrivelseIngenSimulering(simuleringsresultat)}
