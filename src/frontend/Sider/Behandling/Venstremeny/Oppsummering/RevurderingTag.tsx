@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ArrowsSquarepathIcon } from '@navikt/aksel-icons';
 import { Tag } from '@navikt/ds-react';
-import { ALimegreen100 } from '@navikt/ds-tokens/dist/tokens';
+import { MetaLime100 } from '@navikt/ds-tokens/darkside-js';
 
 import { Behandling } from '../../../../typer/behandling/behandling';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
@@ -18,7 +18,7 @@ export function RevurderingTag({ behandling }: { behandling: Behandling }) {
             size="small"
             variant="alt3"
             icon={<ArrowsSquarepathIcon />}
-            style={{ maxWidth: 'fit-content', backgroundColor: ALimegreen100 }}
+            style={{ maxWidth: 'fit-content', backgroundColor: MetaLime100 }}
         >
             Revurdering - {formaterEnumVerdi(behandling.behandlingsårsak)}
         </Tag>

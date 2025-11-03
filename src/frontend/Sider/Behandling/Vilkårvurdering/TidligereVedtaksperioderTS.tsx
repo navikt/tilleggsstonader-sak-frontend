@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ExpansionCard, Heading } from '@navikt/ds-react';
-import { ALimegreen50 } from '@navikt/ds-tokens/dist/tokens';
+import { MetaLime100 } from '@navikt/ds-tokens/darkside-js';
 
 import { useHentFullstendigVedtaksOversiktForStønad } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -31,7 +31,7 @@ export function TidligereVedtaksperioderTS({
                     <>
                         {vedtaksperioderOversiktForStønad.length > 0 && (
                             <ExpansionCard
-                                style={{ backgroundColor: ALimegreen50 }}
+                                style={{ backgroundColor: MetaLime100 }}
                                 size={'small'}
                                 aria-labelledby={'Vedtaksperioder for forrige behandling'}
                             >

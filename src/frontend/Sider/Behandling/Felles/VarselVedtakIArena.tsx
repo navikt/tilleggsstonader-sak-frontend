@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
-import { BorderNeutral, MetaLime600 } from '@navikt/ds-tokens/darkside-js';
+import { BorderNeutral, MetaLime100 } from '@navikt/ds-tokens/darkside-js';
 
 import { formaterDato } from '../../../utils/dato';
 
@@ -14,7 +14,7 @@ type Props = {
 const Container = styled.div`
     padding: 1rem;
     border: 1px solid ${BorderNeutral};
-    background: ${MetaLime600};
+    background: ${MetaLime100};
     border-radius: 12px;
 `;
 
