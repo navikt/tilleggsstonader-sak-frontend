@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Alert, Button, Tabs } from '@navikt/ds-react';
-import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BgNeutralSoft, TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
@@ -49,6 +49,8 @@ const TabContentContainer = styled('div')`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-bottom: 64px;
+    background: ${BgNeutralSoft};
 `;
 
 const BehandlingTabsInnhold = () => {
