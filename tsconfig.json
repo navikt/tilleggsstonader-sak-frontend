@@ -19,7 +19,8 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
-      "./src/frontend/@types"
+      "./src/frontend/@types",
+      "./src/types"
     ]
   },
   "exclude": [
