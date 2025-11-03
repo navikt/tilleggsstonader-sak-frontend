@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { Alert, BodyShort, Label } from '@navikt/ds-react';
-import { BgDefault } from '@navikt/ds-tokens/darkside-js';
+import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
@@ -12,7 +12,9 @@ import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperio
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
 
 const Container = styled.div`
-    background-color: ${BgDefault};
+    border-radius: 12px;
+    border: 1px solid ${BorderNeutral};
+
     padding: 1rem;
 `;
 
