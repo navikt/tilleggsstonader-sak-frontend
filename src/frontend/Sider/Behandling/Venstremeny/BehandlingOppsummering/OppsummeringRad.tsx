@@ -24,7 +24,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
 
     return (
         <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
-            {resultat && <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />}
+            {resultat && <VilkårsresultatIkon vilkårsresultat={resultat} />}
             <BodyShort size="small">
                 {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}`}
             </BodyShort>

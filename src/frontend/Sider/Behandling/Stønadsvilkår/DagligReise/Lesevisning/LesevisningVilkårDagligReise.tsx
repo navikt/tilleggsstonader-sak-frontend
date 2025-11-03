@@ -45,7 +45,7 @@ const LesevisningVilkårDagligReise: FC<{
                 <VStack gap="3">
                     <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                     <HStack gap="3" align="center">
-                        <VilkårsresultatIkon vilkårsresultat={resultat} height={14} width={14} />
+                        <VilkårsresultatIkon vilkårsresultat={resultat} />
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                     </HStack>
                     <LesevisningFaktaDagligReise fakta={fakta} />
