@@ -7,6 +7,7 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import FaktaOgDelvilkårVisning from './Delvilkår/FaktaOgDelvilkårVisning';
 import { useSteg } from '../../../../context/StegContext';
+import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
@@ -14,7 +15,6 @@ import {
     VilkårPeriodeResultat,
     vilkårperiodeTypeTilTekst,
 } from '../typer/vilkårperiode/vilkårperiode';
-import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 const CelleContainer = styled.div`
     flex-grow: 1;
@@ -33,8 +33,8 @@ export const MålgruppeKort: React.FC<{
         målgruppe.resultat != VilkårPeriodeResultat.SLETTET && erStegRedigerbart;
 
     return (
-        <VilkårperiodeKortBase
-            vilkårperiode={målgruppe}
+        <ResultatOgStatusKort
+            periode={målgruppe}
             redigeringKnapp={
                 visRedigerKnapp && (
                     <Button
@@ -63,6 +63,6 @@ export const MålgruppeKort: React.FC<{
                     </VStack>
                 </Celle>
             </CelleContainer>
-        </VilkårperiodeKortBase>
+        </ResultatOgStatusKort>
     );
 };
