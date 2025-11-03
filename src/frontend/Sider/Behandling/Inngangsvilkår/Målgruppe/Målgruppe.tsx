@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { CardIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Label } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 
 import EndreMålgruppe from './EndreMålgruppe';
 import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
@@ -95,7 +95,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                 />
                 <FlexColumn>
                     <div>
-                        <Label>Målgrupper knyttet til denne behandlingen</Label>
+                        <Heading size="xsmall">Målgrupper knyttet til denne behandlingen</Heading>
                         <MålgruppeHjelpetekst />
                     </div>
 
