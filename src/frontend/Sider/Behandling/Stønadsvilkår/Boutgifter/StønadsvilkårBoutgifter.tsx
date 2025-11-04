@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import LøpendeUtgifterEnBolig from './LøpendeUtgifterEnBolig';
 import LøpendeUtgifterToBoliger from './LøpendeUtgifterToBoliger';
 import UtgifterOvernatting from './UtgifterOvernatting';
@@ -10,7 +12,7 @@ interface StønadsvilkårBoutgifterProps {
 }
 
 const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) => (
-    <>
+    <VStack gap="6">
         <UtgifterOvernatting vilkårsregler={regler.vilkårsregler.UTGIFTER_OVERNATTING.regler} />
         <LøpendeUtgifterEnBolig
             vilkårsregler={regler.vilkårsregler.LØPENDE_UTGIFTER_EN_BOLIG.regler}
@@ -18,7 +20,7 @@ const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) =
         <LøpendeUtgifterToBoliger
             vilkårsregler={regler.vilkårsregler.LØPENDE_UTGIFTER_TO_BOLIGER.regler}
         />
-    </>
+    </VStack>
 );
 
 export default StønadsvilkårBoutgifter;

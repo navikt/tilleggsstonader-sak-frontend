@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { VilkårProvider } from '../../../context/VilkårContext';
@@ -30,7 +32,7 @@ const Stønadsvilkår: React.FC<{
     }, [hentRegler]);
 
     return (
-        <>
+        <VStack gap="6">
             <DataViewer
                 type={'stønadsvilkår'}
                 response={{
@@ -56,7 +58,7 @@ const Stønadsvilkår: React.FC<{
             <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
                 Fullfør vilkårsvurdering og gå videre
             </StegKnapp>
-        </>
+        </VStack>
     );
 };
 

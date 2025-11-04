@@ -2,8 +2,6 @@ import React from 'react';
 
 import { styled } from 'styled-components';
 
-import { VStack } from '@navikt/ds-react';
-
 import Aktivitet from './Aktivitet/Aktivitet';
 import Målgruppe from './Målgruppe/Målgruppe';
 import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
@@ -19,7 +17,7 @@ import { FanePath } from '../faner';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
 `;
 
 const nesteFane = (stønadstype: Stønadstype): FanePath => {
@@ -58,10 +56,9 @@ const Inngangsvilkår = () => {
                                 vilkårperioder={vilkårperioderResponse}
                                 hentVilkårperioder={hentVilkårperioder}
                             />
-                            <VStack gap="8">
-                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
-                                <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
-                            </VStack>
+
+                            <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                            <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                         </InngangsvilkårProvider>
                         <StegKnapp
                             steg={Steg.INNGANGSVILKÅR}

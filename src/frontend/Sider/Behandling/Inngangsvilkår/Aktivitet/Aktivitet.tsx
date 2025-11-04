@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { BriefcaseIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { Button, Label } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 
 import { AktivitetHjelpetekst } from './AktivitetHjelpetekst';
 import { AktivitetKort } from './AktivitetKortLesevisning/AktivitetKort';
@@ -92,7 +92,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
                 <FlexColumn>
                     <div>
-                        <Label>Aktiviteter knyttet til behandling</Label>
+                        <Heading size="xsmall">Vilkårsvurdering aktiviteter</Heading>
                         <AktivitetHjelpetekst />
                     </div>
                     {aktiviteter.map((aktivitet) => {
