@@ -31,12 +31,13 @@ const Container = styled.div`
     box-shadow: ${ShadowDialog};
 `;
 
-const InnholdContainer = styled.div`
+const InnholdContainer = styled.div<{ redigeres: boolean }>`
     padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+    margin-right: ${({ redigeres }) => (redigeres ? '0' : '3rem')};
 `;
 
 export const ResultatMarg = styled.div<{ bakgrunnsfarge: string }>`
@@ -81,7 +82,7 @@ export const ResultatOgStatusKort: React.FC<{
                     <VilkårsresultatIkon hvittIkon vilkårsresultat={periode?.resultat} />
                 )}
             </ResultatMarg>
-            <InnholdContainer>
+            <InnholdContainer redigeres={redigeres}>
                 {children}
                 {footer}
             </InnholdContainer>
