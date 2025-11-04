@@ -64,7 +64,9 @@ export const ResultatOgStatusKort: React.FC<{
     const { behandling } = useBehandling();
 
     const skalViseStatus =
-        behandling.type === BehandlingType.REVURDERING && periode?.status !== undefined;
+        behandling.type === BehandlingType.REVURDERING &&
+        periode?.status !== undefined &&
+        !redigeres;
 
     const resultatFarge = utledFargeTilResultat(periode?.resultat, redigeres);
 
