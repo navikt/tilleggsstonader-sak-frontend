@@ -68,6 +68,12 @@ export const MålgruppeKort: React.FC<{
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{målgruppe.begrunnelse || '-'}</BodyShort>
                     </VStack>
+                    {målgruppe.slettetKommentar && (
+                        <VStack gap="2">
+                            <Label size="small">Begrunnelse for slettet:</Label>
+                            <BodyShort size="small">{målgruppe.slettetKommentar || '-'}</BodyShort>
+                        </VStack>
+                    )}
                 </Celle>
             </CelleContainer>
         </ResultatOgStatusKort>

@@ -51,39 +51,52 @@ const LesevisningVilkårDagligReise: FC<{
                         <LesevisningFaktaDagligReise fakta={fakta} />
                     </VStack>
                     {fakta && (
-                        <Tag style={{ width: 'max-content' }} variant="neutral" icon={<BusIcon />}>
+                        <Tag
+                            size="small"
+                            style={{ width: 'max-content' }}
+                            variant="neutral"
+                            icon={<BusIcon />}
+                        >
                             {`Reise ${vilkårIndex} med ${typeDagligReiseTilTekst[fakta?.type]}`}
                         </Tag>
                     )}
                 </VStack>
 
-                {delvilkårsett.map((delvilkår, index) => (
-                    <HGrid
-                        gap={'1 4'}
-                        columns="minmax(100px, max-content) 1fr"
-                        key={index}
-                        height="fit-content"
-                    >
-                        {delvilkår.vurderinger.map((vurdering, index) => (
-                            <Fragment key={index}>
-                                <HStack gap="3" key={vurdering.regelId}>
-                                    <BodyShort weight="semibold" size="small">
-                                        {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
-                                    </BodyShort>
-                                    {vurdering.svar && (
-                                        <BodyShort size="small">
-                                            {svarIdTilTekstKorversjon[vurdering.svar]}
+                <VStack gap="1">
+                    {delvilkårsett.map((delvilkår, index) => (
+                        <HGrid
+                            gap={'1 4'}
+                            columns="minmax(100px, max-content) 1fr"
+                            key={index}
+                            height="fit-content"
+                        >
+                            {delvilkår.vurderinger.map((vurdering, index) => (
+                                <Fragment key={index}>
+                                    <HStack gap="3" key={vurdering.regelId}>
+                                        <BodyShort weight="semibold" size="small">
+                                            {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
                                         </BodyShort>
+                                        {vurdering.svar && (
+                                            <BodyShort size="small">
+                                                {svarIdTilTekstKorversjon[vurdering.svar]}
+                                            </BodyShort>
+                                        )}
+                                    </HStack>
+                                    <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
+                                    {delvilkår.vurderinger.length > 1 && (
+                                        <Skillelinje style={{ gridColumn: 'span 2' }} />
                                     )}
-                                </HStack>
-                                <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
-                                {delvilkår.vurderinger.length > 1 && (
-                                    <Skillelinje style={{ gridColumn: 'span 2' }} />
-                                )}
-                            </Fragment>
-                        ))}
-                    </HGrid>
-                ))}
+                                </Fragment>
+                            ))}
+                        </HGrid>
+                    ))}
+                    {vilkår.slettetKommentar && (
+                        <HStack gap="4">
+                            <Label size="small">Kommentar slettet:</Label>
+                            <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
+                        </HStack>
+                    )}
+                </VStack>
             </HGrid>
         </ResultatOgStatusKort>
     );

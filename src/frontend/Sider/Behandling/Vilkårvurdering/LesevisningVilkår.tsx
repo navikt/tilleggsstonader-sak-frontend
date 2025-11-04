@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, Detail, HGrid, Label, Tag, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
 import { skalFåDekketFaktiskeUtgifter } from './utils';
@@ -19,10 +19,6 @@ import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering'
 const Redigeringsknapp = styled(SmallButton)`
     max-height: 24px;
     align-self: end;
-`;
-
-const SlettetKommentar = styled(Detail)`
-    white-space: pre-wrap;
 `;
 
 const LesevisningVilkår: FC<{
@@ -65,24 +61,28 @@ const LesevisningVilkår: FC<{
                             </Tag>
                         )}
                     </VStack>
-                    <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
-                        {!erFremtidigUtgift &&
-                            delvilkårsett.map((delvilkår, index) => (
-                                <React.Fragment key={index}>
-                                    <Vurderingsrad delvilkår={delvilkår} />
-                                    {index !== delvilkårsett.length - 1 && (
-                                        <Skillelinje style={{ gridColumn: 'span 2' }} />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                    </HGrid>
-                </HGrid>
-            )}
-            {/*TODO plassering? Tittel?*/}
-            {vilkår.slettetKommentar && (
-                <HGrid>
-                    <Detail>Kommentar slettet:</Detail>
-                    <SlettetKommentar>{vilkår.slettetKommentar}</SlettetKommentar>
+                    <VStack gap="1">
+                        <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
+                            {!erFremtidigUtgift &&
+                                delvilkårsett.map((delvilkår, index) => (
+                                    <React.Fragment key={index}>
+                                        <Vurderingsrad delvilkår={delvilkår} />
+                                        {index !== delvilkårsett.length - 1 && (
+                                            <Skillelinje style={{ gridColumn: 'span 2' }} />
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                        </HGrid>
+                        {vilkår.slettetKommentar && (
+                            <>
+                                <Skillelinje />
+                                <HStack gap="4">
+                                    <Label size="small">Kommentar slettet:</Label>
+                                    <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
+                                </HStack>
+                            </>
+                        )}
+                    </VStack>
                 </HGrid>
             )}
         </ResultatOgStatusKort>
