@@ -1,4 +1,3 @@
-import { DelvilkårKey } from './utils';
 import { Vilkårsresultat } from '../../../vilkår';
 import { SvarJaNei, VilkårPeriodeResultat } from '../../typer/vilkårperiode/vilkårperiode';
 
@@ -63,16 +62,3 @@ export const VilkårsresultatTilTekst: Record<Vilkårsresultat, string> = {
     [Vilkårsresultat.SKAL_IKKE_VURDERES]: 'Skal ikke vurderes',
     [Vilkårsresultat.SLETTET]: 'Slettet',
 };
-
-export const delvilkårKeyTilTekst: Record<DelvilkårKey, string> = {
-    lønnet: 'ordinær lønn i tiltak',
-    medlemskap: 'medlemskap',
-    utgifterDekketAvAnnetRegelverk: 'utgifter dekket gjennom annet regelverk',
-    harUtgifter: 'har utgifter til læremidler',
-    harRettTilUtstyrsstipend: 'har rett til utstyrsstipend',
-    aldersvilkår: 'aldersvilkår',
-    mottarSykepengerForFulltidsstilling: 'mottar sykepenger for fulltidsstilling',
-};
-
-export const formaterDelvilkårKeys = (delvilkårKeys: DelvilkårKey[]) =>
-    delvilkårKeys.map((d) => delvilkårKeyTilTekst[d]).join(', ');
