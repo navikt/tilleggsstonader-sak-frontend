@@ -27,6 +27,7 @@ interface Props {
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <VStack gap="4">
+            <Label size="small">Beregningsresultat</Label>
             {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => (
                 <BeregningsresultatContainer key={`reise-${reiseIndex}`}>
                     <Grid>

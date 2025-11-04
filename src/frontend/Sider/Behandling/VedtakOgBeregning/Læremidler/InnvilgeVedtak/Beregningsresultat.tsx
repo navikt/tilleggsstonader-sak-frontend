@@ -21,6 +21,7 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
     beregningsresultat,
 }) => (
     <VStack gap="4">
+        <Label size="small">Beregningsresultat</Label>
         <BeregningsresultatContainer>
             <Grid>
                 <Label>Fom</Label>

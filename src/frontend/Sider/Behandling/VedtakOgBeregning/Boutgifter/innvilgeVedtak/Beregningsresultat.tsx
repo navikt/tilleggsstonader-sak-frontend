@@ -21,6 +21,7 @@ interface Props {
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
     <VStack gap="4">
+        <Label size="small">Beregningsresultat</Label>
         <BeregningsresultatContainer>
             <Grid>
                 <Label size="small">Fra og med</Label>
