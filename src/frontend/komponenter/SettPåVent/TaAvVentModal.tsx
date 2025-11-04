@@ -21,7 +21,7 @@ const TaAvVentModal: React.FC<{
     skjulModal: () => void;
 }> = ({ skjulModal }) => {
     const { request } = useApp();
-    const { context, behandlingId, hentBehandling } = useSettPåVent();
+    const { context, behandlingId } = useSettPåVent();
     const navigate = useNavigate();
 
     const [kommentar, settKommentar] = useState('');
@@ -37,7 +37,8 @@ const TaAvVentModal: React.FC<{
         }).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 if (skalTilordnesRessurs) {
-                    hentBehandling.rerun();
+                    // TODO - fungerer ikke med 'hentBehandling.rerun();' da man må laste inn vilkår og
+                    window.location.reload();
                 } else {
                     navigate('/');
                 }
