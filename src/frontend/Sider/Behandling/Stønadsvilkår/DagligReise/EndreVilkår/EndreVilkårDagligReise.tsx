@@ -1,7 +1,5 @@
 import React, { useId, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
@@ -15,6 +13,7 @@ import {
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
+import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { SmallWarningTag } from '../../../../../komponenter/Tags';
@@ -27,15 +26,6 @@ import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagl
 import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
 import { initierGjeldendeFaktaType, initierSvar, tomtOffentligTransport } from './utils';
 import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
-
-const Container = styled.div`
-    padding: 2rem;
-    background-color: white;
-
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 interface Props {
     vilkår?: VilkårDagligReise;
@@ -138,7 +128,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
 
     return (
         <form onSubmit={validerOgLagre}>
-            <Container>
+            <ResultatOgStatusKort periode={vilkår} redigeres>
                 <HStack gap="4" align="start">
                     <FeilmeldingMaksBredde $maxWidth={152}>
                         <DateInputMedLeservisning
@@ -202,7 +192,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                     <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                 )}
                 <Feilmelding feil={feilmeldingVedLagring} />
-            </Container>
+            </ResultatOgStatusKort>
         </form>
     );
 };
