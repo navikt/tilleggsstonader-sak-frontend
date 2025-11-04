@@ -8,7 +8,7 @@ import { BgSunken } from '@navikt/ds-tokens/darkside-js';
 
 import { formaterDelvilkårKeys, VilkårperiodeResultatTilTekst } from './tekstmapping';
 import { finnDelvilkårTilOppsummering } from './utils';
-import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterEnumVerdi } from '../../../../../utils/tekstformatering';
 import { FaktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 import { erMålgruppe } from '../../Målgruppe/utils';
@@ -46,7 +46,7 @@ export const OppsummertVilkårsvurdering: React.FC<{
     return (
         <Container className={className}>
             <HStack align="center" gap="4">
-                <VilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
+                <FargetVilkårsresultatIkon vilkårsresultat={vilkårperiode.resultat} />
                 <Label size="small">{VilkårperiodeResultatTilTekst[vilkårperiode.resultat]}</Label>
             </HStack>
             {vilkårperiode.resultat === 'SLETTET' ? (

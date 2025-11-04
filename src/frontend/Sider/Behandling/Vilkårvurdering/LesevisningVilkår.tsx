@@ -9,7 +9,7 @@ import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
 import { skalFåDekketFaktiskeUtgifter } from './utils';
 import { useBehandling } from '../../../context/BehandlingContext';
-import { VilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { Statusbånd } from '../../../komponenter/Statusbånd';
@@ -65,11 +65,7 @@ const LesevisningVilkår: FC<{
                     <VStack gap="3">
                         <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                         <HStack gap="3" align="center">
-                            <VilkårsresultatIkon
-                                vilkårsresultat={resultat}
-                                height={14}
-                                width={14}
-                            />
+                            <FargetVilkårsresultatIkon vilkårsresultat={resultat} />
                             <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                         </HStack>
                         <BodyShort size="small">

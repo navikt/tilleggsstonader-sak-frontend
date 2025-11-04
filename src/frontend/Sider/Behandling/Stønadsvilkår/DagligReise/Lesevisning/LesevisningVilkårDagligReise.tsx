@@ -7,7 +7,7 @@ import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 import { ShadowDialog } from '@navikt/ds-tokens/darkside-js';
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
-import { VilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { FlexColumn } from '../../../../../komponenter/Visningskomponenter/Flex';
@@ -45,7 +45,7 @@ const LesevisningVilkårDagligReise: FC<{
                 <VStack gap="3">
                     <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                     <HStack gap="3" align="center">
-                        <VilkårsresultatIkon vilkårsresultat={resultat} height={14} width={14} />
+                        <FargetVilkårsresultatIkon vilkårsresultat={resultat} />
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                     </HStack>
                     <LesevisningFaktaDagligReise fakta={fakta} />
