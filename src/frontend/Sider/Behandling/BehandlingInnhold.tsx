@@ -2,6 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
+
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
 import HenleggModal from './Modal/HenleggModal';
 import NullstillModal from './Modal/NullstillModal';
@@ -17,6 +19,7 @@ import { Personopplysninger } from '../../typer/personopplysninger';
 
 const BehandlingContainer = styled.div`
     display: flex;
+    background: ${BgNeutralSoft};
 `;
 
 const InnholdWrapper = styled.div`

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Alert, Button, Tabs } from '@navikt/ds-react';
-import { BgNeutralSoft, TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
+import { TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
@@ -43,14 +43,12 @@ const DisabledTab = styled(Tabs.Tab)`
         cursor: default;
     }
 `;
-const TabContentContainer = styled('div')`
+const TabContentContainer = styled.div`
     max-width: 1400px;
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 1rem 2rem 4rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-bottom: 64px;
-    background: ${BgNeutralSoft};
 `;
 
 const BehandlingTabsInnhold = () => {
