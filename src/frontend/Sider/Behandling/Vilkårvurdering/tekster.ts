@@ -56,7 +56,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift av helsemessige årsak?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgift tilfredsstillende?',
     DOKUMENTERT_DELTAKELSE: `Dokumentert samling e.l.?`,
-    AVSTAND_OVER_SEKS_KM: 'Reiseavstand over seks kilometer?',
+    AVSTAND_OVER_SEKS_KM: 'Reiseavstand minst seks kilometer?',
     KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
     KAN_BRUKER_KJØRE_SELV: 'Kan bruker kjøre selv?',
 };
