@@ -3,19 +3,11 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { BodyShort, HelpText, HStack, Label, VStack } from '@navikt/ds-react';
-import { BgDefault } from '@navikt/ds-tokens/darkside-js';
 
 import BeregningDetajlerOffentligTransport from './BeregningDetajlerOffentligTransport';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
-
-const Container = styled.div`
-    background-color: ${BgDefault};
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
+import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatContainer';
 
 const Grid = styled.div`
     display: grid;
@@ -34,9 +26,9 @@ interface Props {
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
-        <VStack gap={'6'}>
+        <VStack gap="4">
             {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => (
-                <Container key={`reise-${reiseIndex}`}>
+                <BeregningsresultatContainer key={`reise-${reiseIndex}`}>
                     <Grid>
                         <Label>Fra og med</Label>
                         <Label>Til og med</Label>
@@ -82,7 +74,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                             </React.Fragment>
                         ))}
                     </Grid>
-                </Container>
+                </BeregningsresultatContainer>
             ))}
         </VStack>
     );
