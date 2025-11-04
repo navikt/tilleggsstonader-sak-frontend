@@ -8,6 +8,7 @@ import {
 } from '@navikt/aksel-icons';
 import {
     BgDangerStrong,
+    BgDefault,
     BgNeutralStrongPressed,
     BgSuccessStrong,
     BgWarningModeratePressed,
@@ -37,6 +38,28 @@ export const FargetVilkårsresultatIkon: FC<{
 
         case 'SLETTET':
             return <TrashIcon color={BgNeutralStrongPressed} fontSize="1.5rem" />;
+
+        default:
+            return null;
+    }
+};
+
+export const HvittVilkårsresultatIkon: FC<{
+    vilkårsresultat: Vilkårsresultat | VilkårPeriodeResultat;
+}> = ({ vilkårsresultat }) => {
+    switch (vilkårsresultat) {
+        case 'OPPFYLT':
+        case 'AUTOMATISK_OPPFYLT':
+            return <CheckmarkCircleFillIcon color={BgDefault} fontSize="1.5rem" />;
+
+        case 'IKKE_OPPFYLT':
+            return <XMarkOctagonFillIcon color={BgDefault} fontSize="1.5rem" />;
+        case 'IKKE_VURDERT':
+        case 'IKKE_TATT_STILLING_TIL':
+            return <ExclamationmarkTriangleFillIcon color={BgDefault} fontSize="1.5rem" />;
+
+        case 'SLETTET':
+            return <TrashIcon color={BgDefault} fontSize="1.5rem" />;
 
         default:
             return null;
