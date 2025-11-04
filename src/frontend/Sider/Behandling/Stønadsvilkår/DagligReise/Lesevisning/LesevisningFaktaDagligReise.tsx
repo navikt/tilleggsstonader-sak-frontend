@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 
-import { Alert, BodyShort, HStack } from '@navikt/ds-react';
+import styled from 'styled-components';
+
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../utils/fomatering';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
@@ -24,52 +26,45 @@ export const LesevisningFaktaDagligReise: FC<{
     }
 };
 
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.5rem;
+    > :nth-child(even) {
+        justify-self: end;
+    }
+`;
+
 const LesevisningFaktaOffentligTransport: FC<{
     fakta: FaktaOffentligTransport;
 }> = ({ fakta }) => {
     return (
-        <>
-            <HStack gap={'4'} justify={'space-between'}>
-                <BodyShort weight="semibold" size="small">
-                    {'Reisedager pr uke'}
-                </BodyShort>
-                <BodyShort size="small">
-                    {fakta?.reisedagerPerUke ? `${fakta.reisedagerPerUke}` : '-'}
-                </BodyShort>
-            </HStack>
+        <Grid>
+            <BodyShort size="small">{'Reisedager pr uke'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.reisedagerPerUke ? `${fakta.reisedagerPerUke}` : '-'}
+            </BodyShort>
 
-            <HStack gap={'4'} justify={'space-between'}>
-                <BodyShort weight="semibold" size="small">
-                    {'Pris enkeltbillett'}
-                </BodyShort>
-                <BodyShort size="small">
-                    {fakta?.prisEnkelbillett
-                        ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisEnkelbillett)} kr`
-                        : '-'}
-                </BodyShort>
-            </HStack>
+            <BodyShort size="small">{'Pris enkeltbillett'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.prisEnkelbillett
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisEnkelbillett)} kr`
+                    : '-'}
+            </BodyShort>
 
-            <HStack gap={'4'} justify={'space-between'}>
-                <BodyShort weight="semibold" size="small">
-                    {'Pris 7 dagers billett'}
-                </BodyShort>
-                <BodyShort size="small">
-                    {fakta?.prisSyvdagersbillett
-                        ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.prisSyvdagersbillett)} kr`
-                        : '-'}
-                </BodyShort>
-            </HStack>
+            <BodyShort size="small">{'Pris 7 dagers billett'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.prisSyvdagersbillett
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.prisSyvdagersbillett)} kr`
+                    : '-'}
+            </BodyShort>
 
-            <HStack gap={'4'} justify={'space-between'}>
-                <BodyShort weight="semibold" size="small">
-                    {'Pris 30 dagers billett'}
-                </BodyShort>
-                <BodyShort size="small">
-                    {fakta?.prisTrettidagersbillett
-                        ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisTrettidagersbillett)} kr`
-                        : '-'}
-                </BodyShort>
-            </HStack>
-        </>
+            <BodyShort size="small">{'Pris 30 dagers billett'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.prisTrettidagersbillett
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisTrettidagersbillett)} kr`
+                    : '-'}
+            </BodyShort>
+        </Grid>
     );
 };
