@@ -12,7 +12,7 @@ import { Aktivitet } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårp
 import { Målgruppe } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårBase } from '../../Sider/Behandling/vilkår';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
-import { VilkårsresultatIkon } from '../Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { HvittVilkårsresultatIkon } from '../Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { Statusbånd } from '../Statusbånd';
 
 /**
@@ -79,7 +79,7 @@ export const ResultatOgStatusKort: React.FC<{
             {skalViseStatus && <Statusbånd status={periode.status} />}
             <ResultatMarg bakgrunnsfarge={resultatFarge}>
                 {periode && !redigeres && (
-                    <VilkårsresultatIkon hvittIkon vilkårsresultat={periode?.resultat} />
+                    <HvittVilkårsresultatIkon vilkårsresultat={periode?.resultat} />
                 )}
             </ResultatMarg>
             <InnholdContainer redigeres={redigeres}>

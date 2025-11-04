@@ -17,43 +17,49 @@ import {
 import { VilkårPeriodeResultat } from '../../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../../Sider/Behandling/vilkår';
 
-export const VilkårsresultatIkon: FC<{
+export const FargetVilkårsresultatIkon: FC<{
     vilkårsresultat: Vilkårsresultat | VilkårPeriodeResultat;
-    hvittIkon?: boolean;
-}> = ({ vilkårsresultat, hvittIkon = false }) => {
+}> = ({ vilkårsresultat }) => {
     switch (vilkårsresultat) {
         case 'OPPFYLT':
         case 'AUTOMATISK_OPPFYLT':
-            return (
-                <CheckmarkCircleFillIcon
-                    color={hvittIkon ? BgDefault : BgSuccessStrong}
-                    fontSize="1.5rem"
-                />
-            );
+            return <CheckmarkCircleFillIcon color={BgSuccessStrong} fontSize="1.5rem" />;
 
         case 'IKKE_OPPFYLT':
-            return (
-                <XMarkOctagonFillIcon
-                    color={hvittIkon ? BgDefault : BgDangerStrong}
-                    fontSize="1.5rem"
-                />
-            );
+            return <XMarkOctagonFillIcon color={BgDangerStrong} fontSize="1.5rem" />;
         case 'IKKE_VURDERT':
         case 'IKKE_TATT_STILLING_TIL':
             return (
                 <ExclamationmarkTriangleFillIcon
-                    color={hvittIkon ? BgDefault : BgWarningModeratePressed}
+                    color={BgWarningModeratePressed}
                     fontSize="1.5rem"
                 />
             );
 
         case 'SLETTET':
-            return (
-                <TrashIcon
-                    color={hvittIkon ? BgDefault : BgNeutralStrongPressed}
-                    fontSize="1.5rem"
-                />
-            );
+            return <TrashIcon color={BgNeutralStrongPressed} fontSize="1.5rem" />;
+
+        default:
+            return null;
+    }
+};
+
+export const HvittVilkårsresultatIkon: FC<{
+    vilkårsresultat: Vilkårsresultat | VilkårPeriodeResultat;
+}> = ({ vilkårsresultat }) => {
+    switch (vilkårsresultat) {
+        case 'OPPFYLT':
+        case 'AUTOMATISK_OPPFYLT':
+            return <CheckmarkCircleFillIcon color={BgDefault} fontSize="1.5rem" />;
+
+        case 'IKKE_OPPFYLT':
+            return <XMarkOctagonFillIcon color={BgDefault} fontSize="1.5rem" />;
+        case 'IKKE_VURDERT':
+        case 'IKKE_TATT_STILLING_TIL':
+            return <ExclamationmarkTriangleFillIcon color={BgDefault} fontSize="1.5rem" />;
+
+        case 'SLETTET':
+            return <TrashIcon color={BgDefault} fontSize="1.5rem" />;
 
         default:
             return null;

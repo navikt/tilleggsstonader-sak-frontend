@@ -6,6 +6,7 @@ import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetBoutgifter } from '../../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
 import {
     AktivitetLæremidler,
@@ -27,6 +28,8 @@ export const FaktaOgDelvilkårVisning: React.FC<{
             return <FaktaOgDelvilkårTilsynBarn aktivitet={aktivitet as AktivitetBarnetilsyn} />;
         case Stønadstype.LÆREMIDLER:
             return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet as AktivitetLæremidler} />;
+        case Stønadstype.BOUTGIFTER:
+            return <FaktaOgDelvilkårBoutgifter aktivitet={aktivitet as AktivitetBoutgifter} />;
         case Stønadstype.DAGLIG_REISE_TSO:
             return (
                 <FaktaOgDelvilkårDagligReiseTso aktivitet={aktivitet as AktivitetDagligReiseTso} />
@@ -71,6 +74,14 @@ const FaktaOgDelvilkårLæremidler: React.FC<{
             )}
         </>
     );
+};
+
+const FaktaOgDelvilkårBoutgifter: React.FC<{
+    aktivitet: AktivitetBoutgifter;
+}> = ({ aktivitet }) => {
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
+
+    return svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>;
 };
 
 const FaktaOgDelvilkårDagligReiseTso: React.FC<{
