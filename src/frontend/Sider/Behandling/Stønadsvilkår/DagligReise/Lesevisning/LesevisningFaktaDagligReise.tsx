@@ -30,6 +30,7 @@ const Grid = styled.div`
     display: grid;
     grid-template-columns: auto auto;
     gap: 0.5rem;
+
     > :nth-child(even) {
         justify-self: end;
     }
