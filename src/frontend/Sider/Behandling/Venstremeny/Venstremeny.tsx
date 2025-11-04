@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Box, Tabs, VStack } from '@navikt/ds-react';
-import { BgDefault, BgNeutralSoft, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
@@ -24,11 +24,6 @@ const Container = styled.div`
 
     display: flex;
     flex-direction: column;
-`;
-
-const GråContainer = styled(VStack)`
-    background-color: ${BgNeutralSoft};
-    padding: 1rem;
 `;
 
 const HviteTabs = styled(Tabs)`
@@ -62,11 +57,11 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
-            <GråContainer gap={'4'}>
+            <VStack padding="4" gap={'4'}>
                 <TilordnetSaksbehandlerVenstremeny />
                 <Totrinnskontroll />
                 <BehandlingOppsummering />
-            </GråContainer>
+            </VStack>
             <HviteTabs defaultValue="søknaden" fill>
                 <Sticky>
                     <Tabs.List>
