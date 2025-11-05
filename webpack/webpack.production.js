@@ -48,14 +48,32 @@ const productionConfig = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
                 test: /\.m?js/,
                 resolve: {
                     fullySpecified: false,
                 },
+            },
+            {
+                test: /\.module\.css$/i,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName: '[name]__[local]--[hash:base64:5]',
+                                exportLocalsConvention: 'camelCaseOnly',
+                                namedExport: false,
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.css$/i,
+                exclude: /\.module\.css$/i,
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },

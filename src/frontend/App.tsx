@@ -113,7 +113,7 @@ const AppInnhold = () => {
     const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
     return (
         <>
-            <Sticky $zIndex={100}>
+            <Sticky zIndex={100}>
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
