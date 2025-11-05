@@ -10,7 +10,7 @@ export interface FaktaReise {
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
     harBehovForTransportUavhengigAvReisensLengde?: JaNei;
-    kanReiseMedOffentligTransport: SvarKanReiseMedOffentligTransport;
+    kanReiseMedOffentligTransport: JaNei;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
 }
@@ -48,9 +48,7 @@ export interface UtgifterBil {
     bompenger?: number;
     ferge?: number;
     piggdekkavgift?: number;
-    destinasjonEgenBil?: DestinasjonEgenBil[];
     mottarGrunnstønad?: JaNei;
-    reisedistanseEgenBil: number;
 }
 
 export interface Taxi {
@@ -59,20 +57,10 @@ export interface Taxi {
     ttkort?: JaNei;
 }
 
-export enum DestinasjonEgenBil {
-    TOGSTASJON = 'TOGSTAJON',
-    BUSSSTOPP = 'BUSSSTOPP',
-    FERGE_BAT_KAI = 'FERGE_BÅT_KAI',
-}
 export enum ÅrsakIkkeKjøreBil {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
     HAR_IKKE_BIL_FØRERKORT = 'HAR_IKKE_BIL_FØRERKORT',
     ANNET = 'ANNET',
-}
-export enum SvarKanReiseMedOffentligTransport {
-    JA = 'JA',
-    NEI = 'NEI',
-    KOMBINERT_BIL_OFFENTLIG_TRANSPORT = 'KOMBINERT_BIL_OFFENTLIG_TRANSPORT',
 }
 export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
@@ -89,16 +77,6 @@ export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = 
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     HAR_IKKE_BIL_FØRERKORT: 'Har ikke bil eller førerkort',
     ANNET: 'Annet',
-};
-
-export const SvarKanReiseMedOffentligTransportTilTekst: Record<
-    SvarKanReiseMedOffentligTransport,
-    string
-> = {
-    JA: 'Ja',
-    NEI: 'Nei',
-    KOMBINERT_BIL_OFFENTLIG_TRANSPORT:
-        'Jeg må kombinere offentlig transport med kjøring av egen bil',
 };
 
 export function reiseAdresseTilTekst(adresse: ReiseAdresse) {
