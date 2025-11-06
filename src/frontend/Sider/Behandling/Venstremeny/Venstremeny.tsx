@@ -17,7 +17,7 @@ const Container = styled.div`
     border-right: 1px solid ${BorderNeutral};
     width: 24rem;
     position: sticky;
-    min-height: calc(100vh - 97px);
+    height: calc(100vh - 97px);
     top: 97px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -72,12 +72,7 @@ const VenstreMeny: React.FC = () => {
                 </Sticky>
                 {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
-                        <Box.New
-                            paddingInline="4"
-                            paddingBlock="4 16"
-                            height="100%"
-                            background="default"
-                        >
+                        <Box.New paddingInline="4" paddingBlock="4 16">
                             {tab.komponent}
                         </Box.New>
                     </Tabs.Panel>
