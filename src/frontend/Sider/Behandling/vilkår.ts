@@ -8,6 +8,7 @@ export enum Vilkårsresultat {
     IKKE_AKTUELL = 'IKKE_AKTUELL',
     IKKE_TATT_STILLING_TIL = 'IKKE_TATT_STILLING_TIL',
     SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
+    SLETTET = 'SLETTET',
 }
 
 export type Vilkårtype = Inngangsvilkårtype | StønadsvilkårType;

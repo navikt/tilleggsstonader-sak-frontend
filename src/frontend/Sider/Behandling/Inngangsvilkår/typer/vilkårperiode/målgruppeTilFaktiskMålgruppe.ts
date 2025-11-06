@@ -1,5 +1,5 @@
 import { MålgruppeType } from './målgruppe';
-import { FaktiskMålgruppe } from '../../../Felles/faktiskMålgruppe';
+import { FaktiskMålgruppe, FaktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 
 export enum MålgruppeSomIkkeGirRettPåStønad {
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
@@ -25,4 +25,16 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     DAGPENGER: FaktiskMålgruppe.TODO,
     TILTAKSPENGER: FaktiskMålgruppe.TODO,
     KVALIFISERINGSSTØNAD: FaktiskMålgruppe.TODO,
+};
+
+export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgruppe, string> =
+    {
+        ...FaktiskMålgruppeTilTekst,
+        SYKEPENGER_100_PROSENT: 'Ikke i målgruppe',
+        INGEN_MÅLGRUPPE: 'Ikke i målgruppe',
+    };
+
+export const målgruppeTilFaktiskMålgruppeTekst = (type: MålgruppeType) => {
+    const faktiskMålgruppe = målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe[type];
+    return informasjonForFaktisktMålgruppe[faktiskMålgruppe];
 };

@@ -5,7 +5,7 @@ import { Button, Table, Textarea, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDato } from '../../../../utils/dato';
@@ -149,7 +149,7 @@ const SlettVilkårperiode: React.FC<{
                             <Table.Body>
                                 <Table.Row shadeOnHover={false}>
                                     <Table.DataCell width="max-content">
-                                        <VilkårsresultatIkon
+                                        <FargetVilkårsresultatIkon
                                             vilkårsresultat={vilkårperiode.resultat}
                                         />
                                     </Table.DataCell>

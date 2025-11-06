@@ -1,7 +1,9 @@
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
+import { VilkårBase } from '../../vilkår';
 import { Aktivitet, AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
+import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
 
 export const aktivitetTypeTilTekst = (type: AktivitetType | '') => {
     if (type === '') return type;
@@ -51,3 +53,9 @@ export const erRegisterAktivitetBrukt = (
     aktiviteter: Aktivitet[],
     registerAktivitet: Registeraktivitet
 ) => aktiviteter.some((aktivitet) => registerAktivitet.id === aktivitet.kildeId);
+
+export const erAktivitet = (
+    vilkårperiode: Aktivitet | Målgruppe | VilkårBase
+): vilkårperiode is Aktivitet => {
+    return 'type' in vilkårperiode && vilkårperiode.type in AktivitetType;
+};

@@ -2,19 +2,14 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { Alert, BodyShort, Label } from '@navikt/ds-react';
-import { BgDefault } from '@navikt/ds-tokens/darkside-js';
+import { Alert, BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import { BeregningsresultatLæremidler } from '../../../../../typer/vedtak/vedtakLæremidler';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { studienivåTilTekst } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
+import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatContainer';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
-
-const Container = styled.div`
-    background-color: ${BgDefault};
-    padding: 1rem;
-`;
 
 const Grid = styled.div`
     display: grid;
@@ -25,8 +20,9 @@ const Grid = styled.div`
 export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLæremidler }> = ({
     beregningsresultat,
 }) => (
-    <>
-        <Container>
+    <VStack gap="4">
+        <Label size="small">Beregningsresultat</Label>
+        <BeregningsresultatContainer>
             <Grid>
                 <Label>Fom</Label>
                 <Label>Tom</Label>
@@ -59,11 +55,11 @@ export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLær
                     </React.Fragment>
                 ))}
             </Grid>
-        </Container>
+        </BeregningsresultatContainer>
         {beregningsresultat.tidligsteEndring && (
             <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />
         )}
-    </>
+    </VStack>
 );
 
 export default Beregningsresultat;

@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { BodyShort } from '@navikt/ds-react';
 import {
     BgNeutralModerateHover,
-    BgNeutralModeratePressed,
+    BgNeutralStrong,
     BgSuccessModerateHover,
-    BgSuccessModeratePressed,
+    BgSuccessStrong,
     BgWarningModerateHover,
-    BgWarningModeratePressed,
+    BgWarningStrong,
 } from '@navikt/ds-tokens/darkside-js';
 
 import { PeriodeStatus } from '../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
@@ -72,17 +72,17 @@ interface BannerFarge {
 const utledFarge = (status: PeriodeStatus): BannerFarge | undefined => {
     switch (status) {
         case PeriodeStatus.NY:
-            return { hoved: BgSuccessModerateHover, skygge: BgSuccessModeratePressed };
+            return { hoved: BgSuccessModerateHover, skygge: BgSuccessStrong };
         case PeriodeStatus.ENDRET:
-            return { hoved: BgWarningModerateHover, skygge: BgWarningModeratePressed };
+            return { hoved: BgWarningModerateHover, skygge: BgWarningStrong };
         case PeriodeStatus.SLETTET:
-            return { hoved: BgNeutralModerateHover, skygge: BgNeutralModeratePressed };
+            return { hoved: BgNeutralModerateHover, skygge: BgNeutralStrong };
         default:
             return;
     }
 };
 
-export const Statusbånd: React.FC<{ status: PeriodeStatus }> = ({ status }) => {
+export const Statusbånd: React.FC<{ status?: PeriodeStatus }> = ({ status }) => {
     if (!status) return null;
 
     const farger = utledFarge(status);

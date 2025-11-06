@@ -24,6 +24,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -43,7 +44,6 @@ import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkår
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 const FeltContainer = styled.div`
     flex-grow: 1;
@@ -185,7 +185,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     }
 
     return (
-        <VilkårperiodeKortBase vilkårperiode={aktivitet} redigeres>
+        <ResultatOgStatusKort periode={aktivitet} redigeres>
             <VStack gap={'4'}>
                 <FeltContainer>
                     <EndreTypeOgDatoer
@@ -264,6 +264,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                 bekreftLagre={bekreftLagre}
                 laster={laster}
             />
-        </VilkårperiodeKortBase>
+        </ResultatOgStatusKort>
     );
 };

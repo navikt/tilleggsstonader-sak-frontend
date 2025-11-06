@@ -5,8 +5,9 @@ import { styled } from 'styled-components';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
-import { AktivitetkortFooter } from './AktivitetKortFooter';
+import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { useSteg } from '../../../../../context/StegContext';
+import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -15,7 +16,7 @@ import {
     VilkårPeriodeResultat,
     vilkårperiodeTypeTilTekst,
 } from '../../typer/vilkårperiode/vilkårperiode';
-import VilkårperiodeKortBase from '../../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
+import { VilkårperiodeResultatTilTekst } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { FaktaOgDelvilkårVisning } from '../Delvilkår/FaktaOgDelvilkårVisning';
 
 const CelleContainer = styled.div`
@@ -36,8 +37,8 @@ export const AktivitetKort: React.FC<{
         aktivitet.resultat != VilkårPeriodeResultat.SLETTET && erStegRedigerbart;
 
     return (
-        <VilkårperiodeKortBase
-            vilkårperiode={aktivitet}
+        <ResultatOgStatusKort
+            periode={aktivitet}
             redigeringKnapp={
                 visRedigerKnapp && (
                     <Button
@@ -49,7 +50,7 @@ export const AktivitetKort: React.FC<{
                 )
             }
             footer={
-                <AktivitetkortFooter
+                <AktivitetUlikRegisterVarsel
                     aktivitet={aktivitet}
                     aktivitetFraRegister={aktivitetFraRegister}
                 />
@@ -60,7 +61,11 @@ export const AktivitetKort: React.FC<{
                     <BodyShort size="small">
                         <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
                     </BodyShort>
-
+                    <BodyShort size="small">
+                        {VilkårperiodeResultatTilTekst[aktivitet.resultat]}
+                    </BodyShort>
+                </Celle>
+                <Celle $width={180}>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
@@ -69,16 +74,22 @@ export const AktivitetKort: React.FC<{
                         <BodyShort size="small">{aktivitetFraRegister?.arrangør}</BodyShort>
                     )}
                 </Celle>
-                <Celle $width={200}>
+                <Celle $width={180}>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
-                <Celle $width={400}>
-                    <VStack>
+                <Celle>
+                    <VStack gap="2">
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>
                     </VStack>
+                    {aktivitet.slettetKommentar && (
+                        <VStack gap="2">
+                            <Label size="small">Begrunnelse for sletting:</Label>
+                            <BodyShort size="small">{aktivitet.slettetKommentar || '-'}</BodyShort>
+                        </VStack>
+                    )}
                 </Celle>
             </CelleContainer>
-        </VilkårperiodeKortBase>
+        </ResultatOgStatusKort>
     );
 };

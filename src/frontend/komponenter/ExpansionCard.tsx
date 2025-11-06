@@ -3,10 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ExpansionCard as AkselExpansionCard } from '@navikt/ds-react';
+import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 const StyledExpansionCard = styled(AkselExpansionCard)<{ maxwidth: number }>`
-    --ac-expansioncard-bg: inherit;
     max-width: ${({ maxwidth }) => maxwidth}px;
+    border: 1px solid ${BorderNeutralSubtle};
 `;
 
 const ExpansionCard: React.FC<{ tittel: string; maxWidth: number; children: React.ReactNode }> = ({

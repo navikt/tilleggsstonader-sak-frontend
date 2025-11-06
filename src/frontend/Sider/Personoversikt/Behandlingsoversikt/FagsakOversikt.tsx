@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
 import BehandlingTabell from './BehandlingTabell';
-import OpprettNyBehandlingModal from './OpprettNyBehandling/OpprettNyBehandlingModal';
+import { OpprettNyBehandlingModal } from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { FagsakMedBehandlinger } from '../../../typer/behandling/behandlingoversikt';
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { KlageBehandling } from '../../../typer/klage';

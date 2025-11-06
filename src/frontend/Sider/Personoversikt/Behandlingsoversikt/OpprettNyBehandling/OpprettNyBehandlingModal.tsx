@@ -1,10 +1,9 @@
 import React, { FC, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
+import styles from './OpprettNyBehandlingModal.module.css';
 import {
     OpprettNyBehandlingType,
     opprettNyBehandlingTypeTilTekst,
@@ -21,12 +20,7 @@ interface Props {
     hentBehandlinger: () => void;
 }
 
-const StyledContainer = styled.div`
-    margin-left: 10px;
-    margin-bottom: 14px;
-`;
-
-const OpprettNyBehandlingModal: FC<Props> = ({
+export const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
     stønadstype,
     hentKlagebehandlinger,
@@ -37,17 +31,17 @@ const OpprettNyBehandlingModal: FC<Props> = ({
     const [opprettNyBehandlingType, settOpprettNyBehandlingType] =
         useState<OpprettNyBehandlingType>();
 
-    const lukkModal = () => {
+    function lukkModal() {
         settVisModal(false);
         settOpprettNyBehandlingType(undefined);
-    };
+    }
 
     if (!erSaksbehandler) {
         return null;
     }
 
     return (
-        <StyledContainer className="py-16">
+        <div className={styles.container}>
             <Button size={'small'} variant={'secondary'} onClick={() => settVisModal(true)}>
                 Opprett ny behandling
             </Button>
@@ -94,8 +88,6 @@ const OpprettNyBehandlingModal: FC<Props> = ({
                     )}
                 </VStack>
             </ModalWrapper>
-        </StyledContainer>
+        </div>
     );
 };
-
-export default OpprettNyBehandlingModal;

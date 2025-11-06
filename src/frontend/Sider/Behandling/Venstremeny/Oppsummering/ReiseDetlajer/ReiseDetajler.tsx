@@ -7,7 +7,6 @@ import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
 import {
     FaktaReise,
-    SvarKanReiseMedOffentligTransportTilTekst,
     reiseAdresseTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
@@ -102,14 +101,10 @@ export const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                             {reise.kanReiseMedOffentligTransport && (
                                 <VStack>
                                     <Label size={'small'}>
-                                        Kan du reise med offentlig transport?
+                                        Kan du reise med offentlig transport hele veien?
                                     </Label>
                                     <BodyShort size="small">
-                                        {
-                                            SvarKanReiseMedOffentligTransportTilTekst[
-                                                reise.kanReiseMedOffentligTransport
-                                            ]
-                                        }
+                                        {jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
                                     </BodyShort>
                                 </VStack>
                             )}

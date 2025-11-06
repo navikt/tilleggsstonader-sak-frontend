@@ -7,14 +7,13 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import FaktaOgDelvilkårVisning from './Delvilkår/FaktaOgDelvilkårVisning';
 import { useSteg } from '../../../../context/StegContext';
+import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { Målgruppe } from '../typer/vilkårperiode/målgruppe';
-import {
-    VilkårPeriodeResultat,
-    vilkårperiodeTypeTilTekst,
-} from '../typer/vilkårperiode/vilkårperiode';
-import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
+import { Målgruppe, målgruppeTilYtelsestypeTekst } from '../typer/vilkårperiode/målgruppe';
+import { målgruppeTilFaktiskMålgruppeTekst } from '../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
+import { VilkårPeriodeResultat } from '../typer/vilkårperiode/vilkårperiode';
+import { VilkårperiodeResultatTilTekst } from '../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 
 const CelleContainer = styled.div`
     flex-grow: 1;
@@ -32,9 +31,11 @@ export const MålgruppeKort: React.FC<{
     const visRedigerKnapp =
         målgruppe.resultat != VilkårPeriodeResultat.SLETTET && erStegRedigerbart;
 
+    const ytelse = målgruppeTilYtelsestypeTekst(målgruppe.type);
+
     return (
-        <VilkårperiodeKortBase
-            vilkårperiode={målgruppe}
+        <ResultatOgStatusKort
+            periode={målgruppe}
             redigeringKnapp={
                 visRedigerKnapp && (
                     <Button
@@ -48,21 +49,33 @@ export const MålgruppeKort: React.FC<{
         >
             <CelleContainer>
                 <Celle $width={180}>
+                    <Label size="small">{formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}</Label>
                     <BodyShort size="small">
-                        {formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}
+                        {VilkårperiodeResultatTilTekst[målgruppe.resultat]}
                     </BodyShort>
-                    <BodyShort size="small">{vilkårperiodeTypeTilTekst[målgruppe.type]}</BodyShort>
+                </Celle>
+                <Celle $width={180}>
+                    {ytelse && <BodyShort size="small">{ytelse}</BodyShort>}
+                    <BodyShort size="small">
+                        {målgruppeTilFaktiskMålgruppeTekst(målgruppe.type)}
+                    </BodyShort>
                 </Celle>
                 <Celle $width={200}>
                     <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
                 </Celle>
-                <Celle $width={400}>
+                <Celle>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{målgruppe.begrunnelse || '-'}</BodyShort>
                     </VStack>
+                    {målgruppe.slettetKommentar && (
+                        <VStack gap="2">
+                            <Label size="small">Begrunnelse for sletting:</Label>
+                            <BodyShort size="small">{målgruppe.slettetKommentar || '-'}</BodyShort>
+                        </VStack>
+                    )}
                 </Celle>
             </CelleContainer>
-        </VilkårperiodeKortBase>
+        </ResultatOgStatusKort>
     );
 };
