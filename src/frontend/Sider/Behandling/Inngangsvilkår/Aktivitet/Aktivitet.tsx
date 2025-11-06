@@ -92,7 +92,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
                 <FlexColumn>
                     <div>
-                        <Heading size="xsmall">Vilkårsvurdering aktiviteter</Heading>
+                        <Heading size="xsmall">Aktiviteter knyttet til denne behandlingen</Heading>
                         <AktivitetHjelpetekst />
                     </div>
                     {aktiviteter.map((aktivitet) => {

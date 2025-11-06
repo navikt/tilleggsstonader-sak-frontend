@@ -19,6 +19,7 @@ import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -35,7 +36,6 @@ import { SvarJaNei, YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkå
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-import VilkårperiodeKortBase from '../Vilkårperioder/VilkårperiodeKort/VilkårperiodeKortBase';
 
 export interface EndreMålgruppeForm extends Periode {
     type: MålgruppeType | '';
@@ -170,7 +170,7 @@ const EndreMålgruppe: React.FC<{
     const erMålgruppeSomStøttes = form.type !== MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
 
     return (
-        <VilkårperiodeKortBase vilkårperiode={målgruppe} redigeres>
+        <ResultatOgStatusKort periode={målgruppe} redigeres>
             <FeltContainer>
                 <EndreTypeOgDatoer
                     form={form}
@@ -228,7 +228,7 @@ const EndreMålgruppe: React.FC<{
                 bekreftLagre={bekreftLagre}
                 laster={laster}
             />
-        </VilkårperiodeKortBase>
+        </ResultatOgStatusKort>
     );
 };
 

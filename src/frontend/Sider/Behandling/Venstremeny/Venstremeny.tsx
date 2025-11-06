@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Box, Tabs, VStack } from '@navikt/ds-react';
-import { BgNeutralSoft, BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
@@ -14,18 +14,21 @@ import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsu
 import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 
 const Container = styled.div`
-    border-right: 1px solid ${BorderNeutralSubtle};
+    border-right: 1px solid ${BorderNeutral};
     width: 24rem;
     position: sticky;
     height: calc(100vh - 97px);
     top: 97px;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
 `;
 
-const GråContainer = styled(VStack)`
-    background-color: ${BgNeutralSoft};
-    padding: 1rem;
+const HviteTabs = styled(Tabs)`
+    flex: 1;
+    background-color: ${BgDefault};
 `;
 
 const Tab = styled(Tabs.Tab)`
@@ -54,12 +57,12 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <Container>
-            <GråContainer gap={'4'}>
+            <VStack padding="4" gap={'4'}>
                 <TilordnetSaksbehandlerVenstremeny />
                 <Totrinnskontroll />
                 <BehandlingOppsummering />
-            </GråContainer>
-            <Tabs defaultValue="søknaden">
+            </VStack>
+            <HviteTabs defaultValue="søknaden" fill>
                 <Sticky>
                     <Tabs.List>
                         {tabs.map((tab) => (
@@ -69,10 +72,12 @@ const VenstreMeny: React.FC = () => {
                 </Sticky>
                 {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
-                        <Box padding="4">{tab.komponent}</Box>
+                        <Box.New paddingInline="4" paddingBlock="4 16">
+                            {tab.komponent}
+                        </Box.New>
                     </Tabs.Panel>
                 ))}
-            </Tabs>
+            </HviteTabs>
         </Container>
     );
 };

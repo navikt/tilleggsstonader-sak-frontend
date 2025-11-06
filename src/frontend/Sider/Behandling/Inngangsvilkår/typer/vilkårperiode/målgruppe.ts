@@ -121,6 +121,16 @@ export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Obj
     {} as Record<Stønadstype, MålgruppeType[]>
 );
 
+export const målgruppeTilYtelsestypeTekst = (type: MålgruppeType) => {
+    switch (type) {
+        case MålgruppeType.NEDSATT_ARBEIDSEVNE:
+        case MålgruppeType.INGEN_MÅLGRUPPE:
+            return undefined;
+        default:
+            return MålgruppeTypeTilTekst[type];
+    }
+};
+
 export const målgruppeTypeTilTekst = (type: MålgruppeType | '') => {
     if (type === '') return type;
 

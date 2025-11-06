@@ -3,15 +3,17 @@ import React, { FC } from 'react';
 import { styled } from 'styled-components';
 
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
-import { BgAccentModerate, BgAccentSoft } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 const Container = styled.div`
-    background-color: ${BgAccentSoft};
+    background-color: ${BgDefault};
+    border: 1px solid ${BorderNeutral};
+    border-radius: 12px;
 `;
 
 const Header = styled.div`
-    background-color: ${BgAccentModerate};
-    padding: 1rem;
+    border-bottom: 1px solid ${BorderNeutral};
+    padding: 0.5rem 1rem;
     display: flex;
     gap: 2rem;
     align-items: center;
