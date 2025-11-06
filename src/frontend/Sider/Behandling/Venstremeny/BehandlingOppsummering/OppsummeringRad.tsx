@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterNullablePeriode } from '../../../../utils/dato';
 import { VilkårPeriodeResultat } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../vilkår';
@@ -24,7 +24,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
 
     return (
         <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
-            {resultat && <VilkårsresultatIkon vilkårsresultat={resultat} height={18} width={18} />}
+            {resultat && <FargetVilkårsresultatIkon vilkårsresultat={resultat} />}
             <BodyShort size="small">
                 {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}`}
             </BodyShort>

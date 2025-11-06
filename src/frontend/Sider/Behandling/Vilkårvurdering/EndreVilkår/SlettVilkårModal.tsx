@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Table, Textarea, VStack } from '@navikt/ds-react';
 
-import { VilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
+import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { RessursStatus, RessursStatusFeilet } from '../../../../typer/ressurs';
@@ -128,7 +128,9 @@ const SlettVilkårModal: React.FC<{
                             <Table.Body>
                                 <Table.Row shadeOnHover={false}>
                                     <Table.DataCell width="max-content">
-                                        <VilkårsresultatIkon vilkårsresultat={vilkår.resultat} />
+                                        <FargetVilkårsresultatIkon
+                                            vilkårsresultat={vilkår.resultat}
+                                        />
                                     </Table.DataCell>
                                     <Table.DataCell>
                                         {vilkårTypeTilUtgiftTekst[vilkår.vilkårType]}
