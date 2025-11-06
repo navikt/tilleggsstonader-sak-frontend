@@ -48,9 +48,6 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
                     <Panel
                         tittel={`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
                     >
-                        {/* <Heading size={'medium'}>
-                            {`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
-                        </Heading> */}
                         <Oppsumering oppsummering={oppsummering} />
                         <SimuleringTabell perioder={perioder} />
                         {oppsummering.feilutbetaling > 0 && (
