@@ -14,11 +14,6 @@ export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgi
             </VStack>
         )}
 
-        <VStack>
-            <Label size={'small'}>Hvor lang er reiseveien din med egen bil?</Label>
-            <BodyShort size="small">{`${utgifterBil.reisedistanseEgenBil} km`}</BodyShort>
-        </VStack>
-
         {utgifterBil.parkering && (
             <VStack>
                 <Label size={'small'}>Må du betale for parkering med egen bil?</Label>
