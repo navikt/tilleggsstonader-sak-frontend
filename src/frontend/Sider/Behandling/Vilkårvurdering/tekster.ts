@@ -38,7 +38,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     DOKUMENTERT_UTGIFTER_BOLIG: 'Har søker dokumentert utgifter til bolig tilfredsstillende?',
     DOKUMENTERT_UTGIFTER_OVERNATTING: `Har søker dokumentert utgifter til overnatting tilfredsstillende?`,
     DOKUMENTERT_DELTAKELSE: `Har søker dokumentert at de har samling/eksamen/opptaksprøve/kurs på datoene for overnatting?`,
-    AVSTAND_OVER_SEKS_KM: 'Har bruker reiseavstand over seks kilometer?',
+    AVSTAND_OVER_SEKS_KM: 'Er reiseavstanden 6 km eller mer?',
     KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan bruker benytte offentlig transport?',
     KAN_BRUKER_KJØRE_SELV: 'Kan bruker kjøre selv?',
 };
@@ -56,7 +56,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HØYERE_UTGIFTER_HELSEMESSIG_ÅRSAKER: 'Høyere utgift av helsemessige årsak?',
     DOKUMENTERT_UTGIFTER_BOLIG: 'Dokumentert utgift tilfredsstillende?',
     DOKUMENTERT_DELTAKELSE: `Dokumentert samling e.l.?`,
-    AVSTAND_OVER_SEKS_KM: 'Reiseavstand minst seks kilometer?',
+    AVSTAND_OVER_SEKS_KM: 'Reiseavstand 6 km eller mer?',
     KAN_BRUKER_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
     KAN_BRUKER_KJØRE_SELV: 'Kan bruker kjøre selv?',
 };
