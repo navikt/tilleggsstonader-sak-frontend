@@ -77,7 +77,7 @@ const LesevisningVilkår: FC<{
                             <>
                                 <Skillelinje />
                                 <HStack gap="4">
-                                    <Label size="small">Kommentar slettet:</Label>
+                                    <Label size="small">Begrunnelse for sletting:</Label>
                                     <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
                                 </HStack>
                             </>

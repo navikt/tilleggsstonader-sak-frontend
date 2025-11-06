@@ -70,7 +70,7 @@ export const MålgruppeKort: React.FC<{
                     </VStack>
                     {målgruppe.slettetKommentar && (
                         <VStack gap="2">
-                            <Label size="small">Begrunnelse for slettet:</Label>
+                            <Label size="small">Begrunnelse for sletting:</Label>
                             <BodyShort size="small">{målgruppe.slettetKommentar || '-'}</BodyShort>
                         </VStack>
                     )}

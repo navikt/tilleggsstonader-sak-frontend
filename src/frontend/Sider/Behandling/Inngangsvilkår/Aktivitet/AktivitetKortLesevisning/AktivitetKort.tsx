@@ -84,7 +84,7 @@ export const AktivitetKort: React.FC<{
                     </VStack>
                     {aktivitet.slettetKommentar && (
                         <VStack gap="2">
-                            <Label size="small">Begrunnelse for slettet:</Label>
+                            <Label size="small">Begrunnelse for sletting:</Label>
                             <BodyShort size="small">{aktivitet.slettetKommentar || '-'}</BodyShort>
                         </VStack>
                     )}
