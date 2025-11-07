@@ -7,6 +7,7 @@ import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderO
 import { IngenVedtaksperioderInfo } from './IngenVedtaksperioderInfo';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
+import { VedtaksperioderOversiktDagligReiseTso } from './VedtaksperioderOversiktDagligReiseTso';
 import { VedtaksperioderOversiktDagligReiseTsr } from './VedtaksperioderOversiktDagligReiseTsr';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
@@ -74,7 +75,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                             )}
                             {vedtaksperioderOversikt.dagligReiseTso.length > 0 && (
                                 <OversiktKort tittel={'Daglig reise Nay'}>
-                                    <VedtaksperioderOversiktDagligReiseTsr
+                                    <VedtaksperioderOversiktDagligReiseTso
                                         vedtaksperioder={vedtaksperioderOversikt.dagligReiseTso}
                                     />
                                     <Detail>

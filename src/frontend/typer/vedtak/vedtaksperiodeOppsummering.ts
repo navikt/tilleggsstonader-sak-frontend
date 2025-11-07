@@ -1,6 +1,7 @@
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
+import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 
 export interface VedtakperioderOversiktResponse {
     tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
@@ -47,6 +48,7 @@ export type DetaljertVedtaksperiodeDagligReiseTso = {
     tom: string;
     aktivitet: AktivitetType;
     målgruppe: FaktiskMålgruppe;
+    typeDagligReise: TypeDagligReise;
 };
 
 export type DetaljertVedtaksperiodeDagligReiseTsr = {
