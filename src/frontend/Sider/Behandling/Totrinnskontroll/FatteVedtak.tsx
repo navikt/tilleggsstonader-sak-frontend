@@ -36,10 +36,6 @@ const SubmitButtonWrapper = styled.div`
     margin-top: 0.5rem;
 `;
 
-const TittelContainer = styled.div`
-    margin: 0.5rem 0;
-`;
-
 interface TotrinnskontrollForm {
     godkjent: boolean;
     begrunnelse?: string;
@@ -145,11 +141,9 @@ const FatteVedtak: React.FC<{
     return (
         <form onSubmit={beslutteVedtak}>
             <VStack gap="4">
-                <TittelContainer>
-                    <Heading size={'small'} level={'3'}>
-                        Totrinnskontroll
-                    </Heading>
-                </TittelContainer>
+                <Heading size={'small'} level={'3'}>
+                    Totrinnskontroll
+                </Heading>
                 {totrinnskontroll.begrunnelse && (
                     <BodyShort size={'small'}>
                         <b>Kommentar fra saksbehandler: </b> <br />
