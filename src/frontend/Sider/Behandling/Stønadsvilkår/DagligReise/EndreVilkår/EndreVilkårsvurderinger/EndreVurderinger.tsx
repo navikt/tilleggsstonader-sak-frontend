@@ -104,7 +104,7 @@ export const EndreVurderinger: React.FC<Props> = ({
         <VStack gap="4">
             {aktiveVurderinger.get(RegelIdDagligReise.AVSTAND_OVER_SEKS_KM) && (
                 <EndreDelvilkår
-                    label="Er reiseavstanden minst 6km?"
+                    label="Er reiseavstanden 6 km eller mer?"
                     regelId={RegelIdDagligReise.AVSTAND_OVER_SEKS_KM}
                     vurdering={vurderinger.AVSTAND_OVER_SEKS_KM}
                     oppdaterVurdering={oppdaterVurdering}
