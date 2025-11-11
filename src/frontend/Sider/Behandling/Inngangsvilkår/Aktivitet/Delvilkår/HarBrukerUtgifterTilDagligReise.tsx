@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { BodyShort, List } from '@navikt/ds-react';
+
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormDagligReiseTso } from '../EndreAktivitetDagligReiseTso';
@@ -18,47 +20,34 @@ export const HarBrukerUtgifterTilDagligReise: React.FC<{
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
             }}
-            //hjelpetekst={lagHjelpetekst(aktivitetForm.type)}
-            //hjelpetekstHeader={'Slik vurderer du om søker har utgifter'}
+            hjelpetekst={hjelpetekst}
+            hjelpetekstHeader={'Slik vurderer du om søker har nødvendige utgifter'}
         />
     );
 };
 
-/*
-function lagHjelpetekst(aktivitetType: AktivitetType) {
-    if (!erUtdanningEllerTiltak(aktivitetType)) {
-        return null;
-    }
-
-    return hjelpetekst[aktivitetType];
-}
-*/
-
-/*
-const hjelpetekst: Record<AktivitetType.TILTAK | AktivitetType.UTDANNING, ReactNode> = {
-    [AktivitetType.UTDANNING]: (
-        <>
-            <BodyShort size={'small'} spacing>
-                Vi vurderer det slik at søker har utgifter til læremidler hvis de deltar på en
-                utdanning godkjent av Nav.
-            </BodyShort>
-            <BodyShort size={'small'} spacing>
-                Unntaket er hvis utdanningen er på grunnskolenivå da skolen skal dekke alle
-                utgifter.
-            </BodyShort>
-        </>
-    ),
-    [AktivitetType.TILTAK]: (
-        <>
-            <BodyShort size={'small'} spacing>
-                Vi vurderer det slik at søker har utgifter til læremidler hvis de deltar på et
-                opplæringstiltak eller en utdanning godkjent av Nav.
-            </BodyShort>
-            <BodyShort size={'small'} spacing>
-                Unntakene er AMO-kurs hvor det må undersøkes om læremidler er dekket gjenom
-                kursavgiften.
-            </BodyShort>
-        </>
-    ),
-};
-*/
+const hjelpetekst = (
+    <>
+        <BodyShort size={'small'} spacing>
+            Personer som deltar i arbeidsrettet utredning, tiltak eller godkjent utdanning anses
+            normalt å ha nødvendige utgifter til daglig reise. Unntak gjelder for (se rundskriv for
+            presiseringer):
+        </BodyShort>
+        <List as="ul" size={'small'}>
+            <List.Item>
+                Opplæringstiltak eller godkjent utdanning på grunnskolenivå (forberedende opplæring
+                for voksne).
+            </List.Item>
+            <List.Item>
+                Elever i videregående skole som er under 25 år når skoleåret starter, med mindre de
+                bekrefter egne reiseutgifter i søknad.
+            </List.Item>
+            <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
+            <List.Item>
+                Brukere med grunnstønad til transport eller bil – må vurderes om dette dekker reise
+                til aktivitetsstedet.
+            </List.Item>
+            <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
+        </List>
+    </>
+);
