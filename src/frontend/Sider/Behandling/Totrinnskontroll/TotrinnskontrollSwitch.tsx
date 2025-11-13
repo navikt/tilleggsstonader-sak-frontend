@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BgDefault, BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import FatteVedtak from './FatteVedtak';
 import SendtTilBeslutter from './SendtTilBeslutter';
@@ -12,11 +12,11 @@ import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { Ressurs } from '../../../typer/ressurs';
 
 const BorderBox = styled.div`
-    border: 1px solid ${BorderNeutralSubtle};
     background-color: ${BgDefault};
-    padding: 0.5rem 1rem;
+    border: 1px solid ${BorderNeutral};
+    border-radius: 12px;
+    padding: 1rem;
     margin-bottom: 0.5rem;
-    border-radius: 0.125rem;
 `;
 
 export const TotrinnskontrollSwitch: FC<{
