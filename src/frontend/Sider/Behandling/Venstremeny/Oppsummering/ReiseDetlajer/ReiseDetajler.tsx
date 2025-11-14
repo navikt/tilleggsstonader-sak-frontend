@@ -91,6 +91,18 @@ export const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                                 </VStack>
                             )}
 
+                            {reise.harMerEnn6KmReisevei && (
+                                <VStack>
+                                    <Label size={'small'}>
+                                        Er reiseavstanden mellom der du bor og aktivitetsstedet 6
+                                        kilometer eller mer én vei?
+                                    </Label>
+                                    <BodyShort size="small">
+                                        {jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
+                                    </BodyShort>
+                                </VStack>
+                            )}
+
                             {reise.lengdeReisevei && (
                                 <VStack>
                                     <Label size={'small'}>Hvor lang er reiseveien din?</Label>
