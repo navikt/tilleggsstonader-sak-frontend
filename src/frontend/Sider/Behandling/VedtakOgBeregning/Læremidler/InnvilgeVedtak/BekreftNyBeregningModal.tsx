@@ -29,9 +29,10 @@ export const BekreftNyBeregningModal = ({
             <Alert variant={'warning'}>
                 <VStack gap={'2'}>
                     <BodyShort>
-                        Endringen tar i bruk en ny beregning for læremidler som ikke lenger kutter
-                        utbetalingsperiodene ved nyttår. Dette kan føre til at bruker får en
-                        utbetaling mindre enn forespeilet.
+                        Denne endringen tar i bruk en ny beregning for læremidler som ikke lenger
+                        kutter stønadsperiodene ved nyttår. Dette kan føre til at bruker får
+                        utbetalt mindre enn i tidligere vedtak, fordi stønadsperiodene nå beregnes
+                        annerledes.
                     </BodyShort>
                     <BodyShort weight={'semibold'}>
                         Sjekk endringen mot tidligere utbetalingsplan og ta kontak med Team
