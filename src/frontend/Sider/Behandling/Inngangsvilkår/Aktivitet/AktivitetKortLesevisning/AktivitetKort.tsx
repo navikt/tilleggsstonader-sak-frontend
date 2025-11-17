@@ -77,7 +77,7 @@ export const AktivitetKort: React.FC<{
                 <Celle $width={180}>
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
-                <Celle>
+                <Celle $width={350}>
                     <VStack gap="2">
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>

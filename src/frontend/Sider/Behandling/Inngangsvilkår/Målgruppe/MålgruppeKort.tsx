@@ -63,7 +63,7 @@ export const MålgruppeKort: React.FC<{
                 <Celle $width={200}>
                     <FaktaOgDelvilkårVisning vurderinger={målgruppe.faktaOgVurderinger} />
                 </Celle>
-                <Celle>
+                <Celle $width={350}>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{målgruppe.begrunnelse || '-'}</BodyShort>
