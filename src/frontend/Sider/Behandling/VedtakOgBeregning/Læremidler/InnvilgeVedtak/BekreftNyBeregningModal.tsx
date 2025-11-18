@@ -32,11 +32,13 @@ export const BekreftNyBeregningModal = ({
                         Denne endringen tar i bruk en ny beregning for læremidler som ikke lenger
                         kutter stønadsperiodene ved nyttår. Dette kan føre til at bruker får
                         utbetalt mindre enn i tidligere vedtak, fordi stønadsperiodene nå beregnes
-                        annerledes.
+                        annerledes. Sjekk endringen mot tidligere utbetalingsplan.
                     </BodyShort>
                     <BodyShort weight={'semibold'}>
-                        Sjekk endringen mot tidligere utbetalingsplan og ta kontak med Team
-                        Tilleggsstønader hvis du mener dette er feil.
+                        Hvis brukeren ikke har nøyaktig samme antall stønadsperioder etter nyttår,
+                        selv om vedtaksperioden har lik lengde, må du rette opp manuelt. Dette gjør
+                        du ved å lage en vedtaksperiode som slutter 31. desember, og starte en ny
+                        vedtaksperiode 1. januar.
                     </BodyShort>
                 </VStack>
             </Alert>
