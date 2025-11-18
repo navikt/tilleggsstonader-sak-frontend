@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
+import { BekreftNyBeregningModal } from './BekreftNyBeregningModal';
 import { Beregningsresultat } from './Beregningsresultat';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -45,6 +46,8 @@ export const InnvilgeLæremidler: React.FC<{
     );
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
+    const [visNyBeregningVarsel, settVisNyBeregningVarsel] = useState<boolean>(false);
+
     const [beregningsresultat, settBeregningsresultat] =
         useState(byggTomRessurs<BeregningsresultatLæremidler>());
 
@@ -83,6 +86,18 @@ export const InnvilgeLæremidler: React.FC<{
         return isValid(vedtaksperiodeFeil);
     };
 
+    /*
+    Den nye beregningen kan føre til en periode mindre utbetalt enn forespeilet
+    for behandlinger som har endringer før 1. januar 2026.
+    Saksbehandler skal derfor varsles om dette.
+    Varselet kan fjernes når vi er sikre på at saksbehandler ikke lenger endrer på vedtak før 1. januar 2026
+     */
+    const håndterSkalViseNyBeregningVarsel = (tidligsteEndring: string | undefined) => {
+        if (tidligsteEndring && new Date(tidligsteEndring) < new Date('2026-01-01')) {
+            settVisNyBeregningVarsel(true);
+        }
+    };
+
     const beregnLæremidler = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
 
@@ -98,6 +113,7 @@ export const InnvilgeLæremidler: React.FC<{
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
+                    håndterSkalViseNyBeregningVarsel(result.data.tidligsteEndring);
                     settErVedtaksperioderBeregnet(true);
                 }
             });
@@ -144,6 +160,10 @@ export const InnvilgeLæremidler: React.FC<{
                         ? beregningsresultat.data.tidligsteEndring
                         : undefined
                 }
+            />
+            <BekreftNyBeregningModal
+                visBekreftModal={visNyBeregningVarsel}
+                settVisBekreftModal={settVisNyBeregningVarsel}
             />
         </>
     );

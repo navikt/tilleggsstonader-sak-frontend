@@ -17,7 +17,7 @@ interface ModalProps {
     onClose?: () => void;
     aksjonsknapper?: {
         hovedKnapp: Aksjonsknapp;
-        lukkKnapp: Aksjonsknapp;
+        lukkKnapp?: Aksjonsknapp;
         sekundærKnapp?: Aksjonsknapp;
     };
     maxWidth?: number;
@@ -107,18 +107,20 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                                 {aksjonsknapper.sekundærKnapp.tekst}
                             </Button>
                         )}
-                        <Button
-                            variant="tertiary"
-                            onClick={() => {
-                                sendModalLukketTilUmami('lukkKnapp');
-                                aksjonsknapper.lukkKnapp?.onClick();
-                            }}
-                            disabled={aksjonsknapper.lukkKnapp.disabled}
-                            loading={aksjonsknapper.lukkKnapp.spinner}
-                            size="small"
-                        >
-                            {aksjonsknapper.lukkKnapp.tekst}
-                        </Button>
+                        {aksjonsknapper.lukkKnapp && (
+                            <Button
+                                variant="tertiary"
+                                onClick={() => {
+                                    sendModalLukketTilUmami('lukkKnapp');
+                                    aksjonsknapper.lukkKnapp?.onClick();
+                                }}
+                                disabled={aksjonsknapper.lukkKnapp.disabled}
+                                loading={aksjonsknapper.lukkKnapp.spinner}
+                                size="small"
+                            >
+                                {aksjonsknapper.lukkKnapp.tekst}
+                            </Button>
+                        )}
                     </Modal.Footer>
                 )}
             </ModalContainer>
