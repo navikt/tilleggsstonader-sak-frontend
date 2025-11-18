@@ -38,6 +38,8 @@ const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
     const { flagsError } = useFlagsStatus();
 
+    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
+
     useEffect(() => {
         if (flagsError?.code === 403) {
             settIkkeAutentisert();
@@ -58,7 +60,7 @@ const AppRoutes = () => {
                     element={<OpprettFørstegangsbehandlingAdmin />}
                 />
                 <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
-                <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />
+                {visKartside && <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />}
             </Route>
         )
     );
@@ -113,18 +115,21 @@ const AppInnhold = () => {
     const { saksbehandler } = useApp();
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
+    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     return (
         <>
             <Sticky $zIndex={100}>
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
-                    <InternalHeader.Title as="a" href="/kjoreavstand">
-                        <HStack gap="1" align="center">
-                            <LocationPinIcon />
-                            <BodyShort size="small">Beregn kjøreavstand</BodyShort>
-                        </HStack>
-                    </InternalHeader.Title>
+                    {visKartside && (
+                        <InternalHeader.Title as="a" href="/kjoreavstand">
+                            <HStack gap="1" align="center">
+                                <LocationPinIcon />
+                                <BodyShort size="small">Beregn kjøreavstand</BodyShort>
+                            </HStack>
+                        </InternalHeader.Title>
+                    )}
                     <InternalHeader.Title
                         as="a"
                         href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
