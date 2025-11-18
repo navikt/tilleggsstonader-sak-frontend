@@ -8,15 +8,13 @@ import { transitOptionTilIkon, transitOptionTilText } from './utils';
 
 type Props = {
     route: Route;
-    key: number;
     fra: string;
     til: string;
 };
 
-export const KjoreavstandResponse: React.FC<Props> = ({ route, key, fra, til }: Props) => {
+export const KjoreavstandResponse: React.FC<Props> = ({ route, fra, til }: Props) => {
     return (
         <div
-            key={key}
             style={{
                 border: 'solid 2px lightblue',
                 padding: '1rem',
