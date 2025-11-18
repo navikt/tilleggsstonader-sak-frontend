@@ -43,7 +43,7 @@ export const KjoreavstandResponse: React.FC<Props> = ({ route, fra, til }: Props
                         }
 
                         return (
-                            <div key={legIndex}>
+                            <div key={`child-${legIndex}`}>
                                 <hr />
                                 {td.transitLine?.vehicle?.type && (
                                     <div
