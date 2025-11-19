@@ -1,10 +1,19 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
 import { KjøreavstandCard } from './KjøreavstandCard';
+import { Toggle } from '../../utils/toggles';
 
 export const KjoreavstandSide: React.FC = () => {
+    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
+
+    if (!visKartside) {
+        return <p>Denne siden er under arbeid</p>;
+    }
+
     return (
         <VStack gap={'4'} padding={'8'}>
             <Heading size={'small'}>Velkommen til den nye siden for å beregne kjøreavstand</Heading>

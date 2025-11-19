@@ -38,8 +38,6 @@ const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
     const { flagsError } = useFlagsStatus();
 
-    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
-
     useEffect(() => {
         if (flagsError?.code === 403) {
             settIkkeAutentisert();
@@ -60,7 +58,7 @@ const AppRoutes = () => {
                     element={<OpprettFørstegangsbehandlingAdmin />}
                 />
                 <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
-                {visKartside && <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />}
+                <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />
             </Route>
         )
     );
