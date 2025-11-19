@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Button, Heading, HStack, TextField } from '@navikt/ds-react';
 
-import { GoogleMapsEmbededIFrame } from './GoogleMapsEmbeded';
 import { KjoreavstandResponse } from './KjoreavstandRespons';
 import { RuteDto, useHentKjøreavstand } from './useHentkjøreavstand';
 import { FeilmeldingMaksBredde } from '../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
@@ -144,16 +143,16 @@ export const KjøreavstandCard: React.FC = () => {
                     <KjoreavstandResponse key={routeIndex} route={route} fra={fra} til={til} />
                 ))}
             </div>
-            <div>
-                <GoogleMapsEmbededIFrame
-                    fra={fra}
-                    fraPostkode={fraPostkode}
-                    fraPoststed={fraPoststed}
-                    til={til}
-                    tilPostkode={tilPostkode}
-                    tilPoststed={tilPoststed}
-                />
-            </div>
+            {/*<div>*/}
+            {/*    <GoogleMapsEmbededIFrame*/}
+            {/*        fra={fra}*/}
+            {/*        fraPostkode={fraPostkode}*/}
+            {/*        fraPoststed={fraPoststed}*/}
+            {/*        til={til}*/}
+            {/*        tilPostkode={tilPostkode}*/}
+            {/*        tilPoststed={tilPoststed}*/}
+            {/*    />*/}
+            {/*</div>*/}
         </Container>
     );
 };
