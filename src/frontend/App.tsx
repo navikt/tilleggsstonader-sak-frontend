@@ -9,7 +9,7 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 
-import { InformationSquareFillIcon, LeaveIcon } from '@navikt/aksel-icons';
+import { InformationSquareFillIcon, LeaveIcon, LocationPinIcon } from '@navikt/aksel-icons';
 import { BodyShort, Dropdown, HStack, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
@@ -23,6 +23,7 @@ import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegang
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
+import { KjoreavstandSide } from './Sider/Kjoreavstand/KjoreavstandSide';
 import { KlageApp } from './Sider/Klage/KlageApp';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
@@ -36,6 +37,8 @@ import '@navikt/ds-css/darkside';
 const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
     const { flagsError } = useFlagsStatus();
+
+    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
 
     useEffect(() => {
         if (flagsError?.code === 403) {
@@ -57,6 +60,7 @@ const AppRoutes = () => {
                     element={<OpprettFørstegangsbehandlingAdmin />}
                 />
                 <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
+                {visKartside && <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />}
             </Route>
         )
     );
@@ -111,13 +115,21 @@ const AppInnhold = () => {
     const { saksbehandler } = useApp();
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
+    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     return (
         <>
             <Sticky zIndex={100}>
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
-
+                    {visKartside && (
+                        <InternalHeader.Title as="a" href="/kjoreavstand">
+                            <HStack gap="1" align="center">
+                                <LocationPinIcon />
+                                <BodyShort size="small">Beregn kjøreavstand</BodyShort>
+                            </HStack>
+                        </InternalHeader.Title>
+                    )}
                     <InternalHeader.Title
                         as="a"
                         href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
