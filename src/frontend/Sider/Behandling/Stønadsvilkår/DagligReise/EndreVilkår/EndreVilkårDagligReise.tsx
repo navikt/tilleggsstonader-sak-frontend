@@ -126,6 +126,11 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         });
     };
 
+    const handleAvsluttRedigering = () => {
+        nullstillUlagretKomponent(komponentId);
+        avsluttRedigering();
+    };
+
     return (
         <form onSubmit={validerOgLagre}>
             <ResultatOgStatusKort periode={vilkår} redigeres>
@@ -179,13 +184,13 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                 <HStack justify="space-between">
                     <HStack gap="4">
                         <SmallButton>Lagre</SmallButton>
-                        <SmallButton variant="secondary" onClick={avsluttRedigering}>
+                        <SmallButton variant="secondary" onClick={handleAvsluttRedigering}>
                             Avbryt
                         </SmallButton>
                     </HStack>
                     <SlettVilkårDagligReise
                         lagretVilkår={vilkår}
-                        avsluttRedigering={avsluttRedigering}
+                        avsluttRedigering={handleAvsluttRedigering}
                     />
                 </HStack>
                 {harUlagradeKomponenter && (
