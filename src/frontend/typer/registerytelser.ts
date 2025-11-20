@@ -32,7 +32,6 @@ export interface KildeResultatYtelse {
 export enum TypeRegisterYtelse {
     AAP = 'AAP',
     DAGPENGER = 'DAGPENGER',
-    TILTAKSPENGER = 'TILTAKSPENGER',
     TILTAKSPENGER_TPSAK = 'TILTAKSPENGER_TPSAK',
     TILTAKSPENGER_ARENA = 'TILTAKSPENGER_ARENA',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
@@ -43,7 +42,6 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
     AAP: MålgruppeType.AAP,
     ENSLIG_FORSØRGER: MålgruppeType.OVERGANGSSTØNAD,
     OMSTILLINGSSTØNAD: MålgruppeType.OMSTILLINGSSTØNAD,
-    TILTAKSPENGER: MålgruppeType.TILTAKSPENGER,
     TILTAKSPENGER_TPSAK: MålgruppeType.TILTAKSPENGER,
     TILTAKSPENGER_ARENA: MålgruppeType.TILTAKSPENGER,
     DAGPENGER: MålgruppeType.DAGPENGER,
@@ -51,7 +49,6 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
-    TILTAKSPENGER: 'tiltakspenger',
     TILTAKSPENGER_TPSAK: 'tiltakspenger (ny løsning)',
     TILTAKSPENGER_ARENA: 'tiltakspenger (Arena)',
     DAGPENGER: 'dagpenger',
@@ -61,7 +58,6 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
-    TILTAKSPENGER: 'Tiltakspenger',
     TILTAKSPENGER_TPSAK: 'Tiltakspenger (ny løsning)',
     TILTAKSPENGER_ARENA: 'Tiltakspenger (Arena)',
     DAGPENGER: 'Dagpenger',
