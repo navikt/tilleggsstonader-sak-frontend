@@ -3,11 +3,11 @@ import React from 'react';
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
 import styles from './Kjøreavstand.module.css';
-import { Rute } from '../Reisedata';
+import { Reiserute } from '../Reisedata';
 import { meterTilKm, sekunderTilTimerOgMinutter } from '../utils';
 
 type Props = {
-    rute: Rute;
+    rute: Reiserute;
 };
 
 export const Kjøreavstand: React.FC<Props> = ({ rute }: Props) => {

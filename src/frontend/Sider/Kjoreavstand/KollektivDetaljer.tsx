@@ -2,10 +2,10 @@ import React from 'react';
 
 import { BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-react';
 
-import { Rute } from './Reisedata';
+import { Reiserute } from './Reisedata';
 import { meterTilKm, sekunderTilTimerOgMinutter, linjeTypeTilText } from './utils';
 
-export const KollektivDetaljer: React.FC<{ rute: Rute }> = ({ rute }) => {
+export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
     return (
         <ExpansionCard aria-label={'Kollektiv-detaljer'} size={'small'}>
             <ExpansionCard.Header>

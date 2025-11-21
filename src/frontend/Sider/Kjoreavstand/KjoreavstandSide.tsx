@@ -51,7 +51,7 @@ export const KjoreavstandSide: React.FC = () => {
             />
             <DataViewer
                 response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
-                type={'googleMapsData'}
+                type={'reisedata'}
             >
                 {({ kjøreavstandResponse, kollektivDetaljerResponse }) => (
                     <Reisedetaljer

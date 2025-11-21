@@ -1,8 +1,4 @@
-export interface Reisedata {
-    ruter: Rute[];
-}
-
-export interface Rute {
+export interface Reiserute {
     avstandMeter: number;
     varighetSekunder: number;
     strekninger: Strekninger[];
