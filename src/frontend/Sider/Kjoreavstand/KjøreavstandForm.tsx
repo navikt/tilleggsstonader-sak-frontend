@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Heading, HStack, TextField, VStack } from '@navikt/ds-react';
 
-import { ReiseAdresse } from './KjøreavstandRequest';
+import { ReiseAdresse } from './ReisedataRequest';
 import { FeilmeldingMaksBredde } from '../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 
 export const KjøreavstandForm: React.FC<{

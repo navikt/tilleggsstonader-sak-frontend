@@ -1,4 +1,4 @@
-export type KjøreavstandRequest = {
+export type ReisedataRequest = {
     fraAdresse: ReiseAdresse;
     tilAdresse: ReiseAdresse;
 };
