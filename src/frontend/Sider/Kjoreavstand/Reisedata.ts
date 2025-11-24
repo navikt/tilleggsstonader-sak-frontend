@@ -3,6 +3,8 @@ export interface Reiserute {
     avstandMeter: number;
     varighetSekunder: number;
     strekninger: Strekninger[];
+    startLokasjon: Lokasjon;
+    sluttLokasjon: Lokasjon;
 }
 
 export interface Strekninger {
@@ -20,6 +22,11 @@ export interface KollektivDetaljer {
 
 export interface Polyline {
     encodedPolyline: string;
+}
+
+export interface Lokasjon {
+    lat: number;
+    lng: number;
 }
 
 export enum LinjeType {

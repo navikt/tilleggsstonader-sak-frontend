@@ -40,6 +40,7 @@ export const useHentGoogleMapsData = () => {
         fetch('api/sak/kart/statisk-kart', {
             method: 'POST',
             body: JSON.stringify({ polyline: polyline }),
+            headers: { 'Content-Type': 'application/json' },
         })
             .then((res) => res.blob())
             .then((blob) => setStatiskKart(URL.createObjectURL(blob)));
