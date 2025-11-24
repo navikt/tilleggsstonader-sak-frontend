@@ -6,6 +6,7 @@ import path from 'path';
 import { setupLocalAuth } from './auth/local';
 import { getProfile } from './auth/profile';
 import { attachToken, getTokenFromHeader, validateToken } from './auth/token';
+import { returnGoogleMapsApiKey } from './googlemaps';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
@@ -82,6 +83,8 @@ app.use(
     attachUnleashAuthToken(),
     doProxy(ApplicationName.unleash)
 );
+
+app.get('/api/google-maps-apikey', validateToken(), returnGoogleMapsApiKey());
 
 app.use('/endringslogg', addRequestInfo(), doProxy(ApplicationName.endringslogg));
 
