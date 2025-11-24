@@ -14,6 +14,8 @@ export const useHentGoogleMapsData = () => {
     const [kollektivDetaljerResponse, setKollektivDetaljerResponse] =
         useState<Ressurs<Reiserute>>(byggTomRessurs());
 
+    const [statiskKart, setStatiskKart] = useState<string>();
+
     const hentKjøreavstand = useCallback(
         (fra: ReiseAdresse, til: ReiseAdresse) => {
             request<Reiserute, ReisedataRequest>(`/api/sak/kart/kjoreavstand`, 'POST', {
@@ -34,13 +36,24 @@ export const useHentGoogleMapsData = () => {
         [request]
     );
 
+    const hentStatiskKart = (polyline: string) => {
+        fetch('api/sak/kart/statisk-kart', {
+            method: 'POST',
+            body: JSON.stringify({ polyline: polyline }),
+        })
+            .then((res) => res.blob())
+            .then((blob) => setStatiskKart(URL.createObjectURL(blob)));
+    };
+
     const resetGoogleMapsData = () => setKjøreavstandResponse(byggTomRessurs());
 
     return {
         hentKjøreavstand,
         hentKollektivDetaljer,
         resetGoogleMapsData,
+        hentStatiskKart,
         kjøreavstandResponse,
         kollektivDetaljerResponse,
+        statiskKart,
     };
 };

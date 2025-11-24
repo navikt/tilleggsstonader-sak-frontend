@@ -18,6 +18,8 @@ export const KjoreavstandSide: React.FC = () => {
         hentKjøreavstand,
         hentKollektivDetaljer,
         resetGoogleMapsData,
+        hentStatiskKart,
+        statiskKart,
     } = useHentGoogleMapsData();
 
     if (!visKartside) {
@@ -57,6 +59,8 @@ export const KjoreavstandSide: React.FC = () => {
                     <Reisedetaljer
                         kjøreavstandResponse={kjøreavstandResponse}
                         kollektivDetaljerResponse={kollektivDetaljerResponse}
+                        hentStatiskKart={hentStatiskKart}
+                        statiskKart={statiskKart}
                     />
                 )}
             </DataViewer>

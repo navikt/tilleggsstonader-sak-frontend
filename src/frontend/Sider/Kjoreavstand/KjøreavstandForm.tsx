@@ -10,11 +10,11 @@ export const KjøreavstandForm: React.FC<{
     hentKollektivDetaljer: (fra: ReiseAdresse, til: ReiseAdresse) => void;
     resetGoogleMapsData: () => void;
 }> = ({ hentKjøreavstand, resetGoogleMapsData, hentKollektivDetaljer }) => {
-    const [fra, setFra] = useState('');
+    const [fra, setFra] = useState('Nils huus gate 9b');
     const [fraPostkode, setFraPostkode] = useState('');
     const [fraPoststed, setFraPoststed] = useState('');
 
-    const [til, setTil] = useState('');
+    const [til, setTil] = useState('Karl Johans gate 1');
     const [tilPostkode, setTilPostkode] = useState('');
     const [tilPoststed, setTilPoststed] = useState('');
 

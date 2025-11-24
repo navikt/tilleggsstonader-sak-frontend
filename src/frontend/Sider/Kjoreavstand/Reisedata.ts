@@ -1,4 +1,5 @@
 export interface Reiserute {
+    polyline: Polyline;
     avstandMeter: number;
     varighetSekunder: number;
     strekninger: Strekninger[];
@@ -15,6 +16,10 @@ export interface KollektivDetaljer {
     sluttHoldeplass: string;
     linjeNavn: string;
     linjeType: LinjeType;
+}
+
+export interface Polyline {
+    encodedPolyline: string;
 }
 
 export enum LinjeType {
