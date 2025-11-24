@@ -1,41 +1,37 @@
-import React from 'react';
+import { LinjeType } from './Reisedata';
 
-import { BusIcon, TrainIcon, TramIcon } from '@navikt/aksel-icons';
+export function meterTilKm(meter: number) {
+    return (meter / 1000).toFixed(1);
+}
 
-export type TransitOption =
-    | 'BUS'
-    | 'INTERCITY_BUS'
-    | 'SUBWAY'
-    | 'TRAIN'
-    | 'LIGHT_RAIL'
-    | 'HEAVY_RAIL'
-    | 'RAIL';
+export function sekunderTilTimerOgMinutter(sekunder: number) {
+    const timer = Math.floor(sekunder / 3600);
+    const gjennværendeSekunder = sekunder % 3600;
 
-export const transitOptionTilText: Record<TransitOption, string> = {
+    const minutter = Math.floor(gjennværendeSekunder / 60);
+    if (timer > 0) {
+        return `${timer} timer og ${minutter} minutter`;
+    }
+    return `${minutter} minutter`;
+}
+
+export const linjeTypeTilText: Record<LinjeType, string> = {
     BUS: 'buss',
     INTERCITY_BUS: 'buss',
-    SUBWAY: 't-bane',
-    TRAIN: 'tog',
+    SHARE_TAXI: 'buss',
+    TROLLEYBUS: 'buss',
+    CABLE_CAR: 'taubane',
+    FUNICULAR: 'taubane',
+    GONDOLA_LIFT: 'taubane',
+    COMMUTER_TRAIN: 'tog',
     HEAVY_RAIL: 'tog',
-    LIGHT_RAIL: 'trikk',
+    HIGH_SPEED_TRAIN: 'tog',
+    LONG_DISTANCE_TRAIN: 'tog',
     RAIL: 'tog',
-};
-
-export const transitOptionTilIkon = (option: TransitOption | undefined) => {
-    switch (option) {
-        case 'BUS':
-            return <BusIcon style={{ backgroundColor: 'orange' }} />;
-        case 'INTERCITY_BUS':
-            return <BusIcon style={{ backgroundColor: 'blue' }} />;
-        case 'SUBWAY':
-            return <TrainIcon />;
-        case 'TRAIN':
-            return <TrainIcon />;
-        case 'LIGHT_RAIL':
-            return <TramIcon />;
-        case 'HEAVY_RAIL':
-            return <TrainIcon />;
-        case 'RAIL':
-            return <TrainIcon />;
-    }
+    FERRY: 'ferge',
+    METRO_RAIL: 't-bane',
+    SUBWAY: 't-bane',
+    TRAM: 'trikk',
+    MONORAIL: 'monorail',
+    OTHER: 'annet',
 };
