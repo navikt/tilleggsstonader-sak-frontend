@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { Reiserute } from './Reisedata';
 import { ReiseAdresse, ReisedataRequest } from './ReisedataRequest';
+import { StatiskKartRequest } from './StatiskKartRequest';
 import { useApp } from '../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
@@ -36,15 +37,15 @@ export const useHentGoogleMapsData = () => {
         [request]
     );
 
-    const hentStatiskKart = (polyline: string) => {
+    const hentStatiskKart = useCallback((statiskKartRequest: StatiskKartRequest) => {
         fetch('api/sak/kart/statisk-kart', {
             method: 'POST',
-            body: JSON.stringify({ polyline: polyline }),
+            body: JSON.stringify(statiskKartRequest),
             headers: { 'Content-Type': 'application/json' },
         })
             .then((res) => res.blob())
             .then((blob) => setStatiskKart(URL.createObjectURL(blob)));
-    };
+    }, []);
 
     const resetGoogleMapsData = () => setKjøreavstandResponse(byggTomRessurs());
 
