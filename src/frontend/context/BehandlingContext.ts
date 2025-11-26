@@ -98,7 +98,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         behandlingFakta,
         sluttDatoForrigeVedtak,
     }: Props): BehandlingContext => {
-        const { erSaksbehandler } = useApp();
+        const { erSaksbehandler, saksbehandler } = useApp();
 
         const [visRedigerGrunnlagFomAdmin, settVisRedigerGrunnlagFomAdmin] =
             useState<boolean>(false);
@@ -117,9 +117,17 @@ export const [BehandlingProvider, useBehandling] = constate(
             ? kanSaksbehandle && kanRevurdere
             : kanSaksbehandle;
 
+        const tilordnetSaksbehandler = behandling.tilordnetSaksbehandler;
+        const saksbehandlerErTilordnetOppgave = useFlag(Toggle.TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE)
+            ? tilordnetSaksbehandler.navIdent === saksbehandler.navIdent
+            : true;
+
         return {
             behandling,
-            behandlingErRedigerbar: behandlingErRedigerbar && toggleKanSaksbehandleEllerRevurdere,
+            behandlingErRedigerbar:
+                behandlingErRedigerbar &&
+                toggleKanSaksbehandleEllerRevurdere &&
+                saksbehandlerErTilordnetOppgave,
             hentBehandling,
             behandlingshistorikk,
             hentBehandlingshistorikk,

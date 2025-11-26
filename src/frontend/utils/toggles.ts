@@ -30,4 +30,5 @@ export enum Toggle {
     VIS_ENHETER_SOM_KUN_HAR_TS_SAK_MAPPER_I_DEV = 'sak.vis-enheter-som-kun-har-ts-sak-mapper-i-dev',
     VIS_VEDTAKSPERIODER_PAA_BEHANDLING = 'sak.frontend.skal-vise-vedtaksperioder-paa-behandling',
     VIS_KARTSIDE = 'sak.vis-kartside',
+    TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE = 'sak.tilgangsstyring-tildelt-oppgave',
 }
