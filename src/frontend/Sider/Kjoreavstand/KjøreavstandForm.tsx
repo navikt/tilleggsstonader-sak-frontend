@@ -5,47 +5,36 @@ import { Button, TextField, VStack } from '@navikt/ds-react';
 import { ForslagRequest } from './ForslagRequest';
 import { ForslagResponse } from './ForslagResponse';
 import styles from './KjøreavstandForm.module.css';
-import { ReiseAdresse } from './ReisedataRequest';
 import { useApp } from '../../context/AppContext';
 import { RessursStatus } from '../../typer/ressurs';
 
 export const KjøreavstandForm: React.FC<{
-    hentKjøreavstand: (fra: ReiseAdresse, til: ReiseAdresse) => void;
-    hentKollektivDetaljer: (fra: ReiseAdresse, til: ReiseAdresse) => void;
+    hentKjøreavstand: (fra: string, til: string) => void;
+    hentKollektivDetaljer: (fra: string, til: string) => void;
     resetGoogleMapsData: () => void;
 }> = ({ hentKjøreavstand, resetGoogleMapsData, hentKollektivDetaljer }) => {
     const { request } = useApp();
 
-    const [fra, setFra] = useState('Nils huus gate 9b');
-    const [til, setTil] = useState('Drammensveien 1');
+    const [fraAdresse, setFraAdresse] = useState('');
+    const [tilAdresse, setTilAdresse] = useState('');
 
     const [fraForslag, setFraForslag] = useState<string[]>([]);
     const [tilForslag, setTilForslag] = useState<string[]>([]);
 
     const hentReisedata = () => {
-        const fraAdresse = {
-            gate: fra,
-            postnummer: '',
-            poststed: '',
-        };
-        const tilAdresse = {
-            gate: til,
-            postnummer: '',
-            poststed: '',
-        };
         hentKjøreavstand(fraAdresse, tilAdresse);
         hentKollektivDetaljer(fraAdresse, tilAdresse);
     };
 
     const oppdaterFraAdresse = (adresse: string) => {
         resetGoogleMapsData();
-        setFra(adresse);
+        setFraAdresse(adresse);
         hentForslag(adresse).then(setFraForslag);
     };
 
     const oppdaterTilAdresse = (adresse: string) => {
         resetGoogleMapsData();
-        setTil(adresse);
+        setTilAdresse(adresse);
         hentForslag(adresse).then(setTilForslag);
     };
 
@@ -72,7 +61,7 @@ export const KjøreavstandForm: React.FC<{
                 list={'fra-forslag'}
                 label={'Startadresse'}
                 size="small"
-                value={fra}
+                value={fraAdresse}
                 onChange={(e) => {
                     oppdaterFraAdresse(e.target.value);
                 }}
@@ -88,7 +77,7 @@ export const KjøreavstandForm: React.FC<{
                 label={'Tiltaksadresse'}
                 list={'til-forslag'}
                 size="small"
-                value={til}
+                value={tilAdresse}
                 onChange={(e) => {
                     oppdaterTilAdresse(e.target.value);
                 }}
