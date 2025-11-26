@@ -5,6 +5,7 @@ import { Button, TextField, VStack } from '@navikt/ds-react';
 import { ForslagRequest } from './ForslagRequest';
 import { ForslagResponse } from './ForslagResponse';
 import styles from './KjøreavstandForm.module.css';
+import { KjøreavstandFormFeil, validerKjøreavstandForm } from './KjøreavstandFormUtils';
 import { useApp } from '../../context/AppContext';
 import { RessursStatus } from '../../typer/ressurs';
 
@@ -21,25 +22,37 @@ export const KjøreavstandForm: React.FC<{
     const [fraForslag, setFraForslag] = useState<string[]>([]);
     const [tilForslag, setTilForslag] = useState<string[]>([]);
 
+    const [formError, setFormError] = useState<Partial<KjøreavstandFormFeil> | undefined>();
+
     const hentReisedata = () => {
-        hentKjøreavstand(fraAdresse, tilAdresse);
-        hentKollektivDetaljer(fraAdresse, tilAdresse);
+        const valideringsfeil = validerKjøreavstandForm(fraAdresse, tilAdresse);
+        if (valideringsfeil) {
+            setFormError(valideringsfeil);
+        } else {
+            hentKjøreavstand(fraAdresse, tilAdresse);
+            hentKollektivDetaljer(fraAdresse, tilAdresse);
+        }
     };
 
     const oppdaterFraAdresse = (adresse: string) => {
         resetGoogleMapsData();
+        setFormError(undefined);
         setFraAdresse(adresse);
         hentForslag(adresse).then(setFraForslag);
     };
 
     const oppdaterTilAdresse = (adresse: string) => {
         resetGoogleMapsData();
+        setFormError(undefined);
         setTilAdresse(adresse);
         hentForslag(adresse).then(setTilForslag);
     };
 
     const hentForslag = useCallback(
         async (input: string) => {
+            if (input === '') {
+                return [];
+            }
             const res = await request<ForslagResponse, ForslagRequest>(
                 `/api/sak/kart/autocomplete`,
                 'POST',
@@ -62,6 +75,7 @@ export const KjøreavstandForm: React.FC<{
                 label={'Startadresse'}
                 size="small"
                 value={fraAdresse}
+                error={formError?.fraAdresseFeil}
                 onChange={(e) => {
                     oppdaterFraAdresse(e.target.value);
                 }}
@@ -78,6 +92,7 @@ export const KjøreavstandForm: React.FC<{
                 list={'til-forslag'}
                 size="small"
                 value={tilAdresse}
+                error={formError?.tilAdresseFeil}
                 onChange={(e) => {
                     oppdaterTilAdresse(e.target.value);
                 }}
