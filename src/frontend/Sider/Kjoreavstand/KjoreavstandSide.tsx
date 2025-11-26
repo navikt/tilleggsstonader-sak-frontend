@@ -19,6 +19,7 @@ export const KjoreavstandSide: React.FC = () => {
         hentKollektivDetaljer,
         resetGoogleMapsData,
         hentStatiskKart,
+        hentAdresseForslag,
         statiskKart,
     } = useHentGoogleMapsData();
 
@@ -50,6 +51,7 @@ export const KjoreavstandSide: React.FC = () => {
                 hentKjøreavstand={hentKjøreavstand}
                 hentKollektivDetaljer={hentKollektivDetaljer}
                 resetGoogleMapsData={resetGoogleMapsData}
+                hentAdresseForslag={hentAdresseForslag}
             />
             <DataViewer
                 response={{ kjøreavstandResponse, kollektivDetaljerResponse }}

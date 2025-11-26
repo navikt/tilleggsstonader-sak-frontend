@@ -1,21 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, TextField, VStack } from '@navikt/ds-react';
 
-import { ForslagRequest } from './ForslagRequest';
-import { ForslagResponse } from './ForslagResponse';
 import styles from './KjøreavstandForm.module.css';
 import { KjøreavstandFormFeil, validerKjøreavstandForm } from './KjøreavstandFormUtils';
-import { useApp } from '../../context/AppContext';
-import { RessursStatus } from '../../typer/ressurs';
 
 export const KjøreavstandForm: React.FC<{
     hentKjøreavstand: (fra: string, til: string) => void;
     hentKollektivDetaljer: (fra: string, til: string) => void;
+    hentAdresseForslag: (adresse: string) => Promise<string[]>;
     resetGoogleMapsData: () => void;
-}> = ({ hentKjøreavstand, resetGoogleMapsData, hentKollektivDetaljer }) => {
-    const { request } = useApp();
-
+}> = ({ hentKjøreavstand, resetGoogleMapsData, hentKollektivDetaljer, hentAdresseForslag }) => {
     const [fraAdresse, setFraAdresse] = useState('');
     const [tilAdresse, setTilAdresse] = useState('');
 
@@ -38,35 +33,16 @@ export const KjøreavstandForm: React.FC<{
         resetGoogleMapsData();
         setFormError(undefined);
         setFraAdresse(adresse);
-        hentForslag(adresse).then(setFraForslag);
+        hentAdresseForslag(adresse).then(setFraForslag);
     };
 
     const oppdaterTilAdresse = (adresse: string) => {
         resetGoogleMapsData();
         setFormError(undefined);
         setTilAdresse(adresse);
-        hentForslag(adresse).then(setTilForslag);
+        hentAdresseForslag(adresse).then(setTilForslag);
     };
 
-    const hentForslag = useCallback(
-        async (input: string) => {
-            if (input === '') {
-                return [];
-            }
-            const res = await request<ForslagResponse, ForslagRequest>(
-                `/api/sak/kart/autocomplete`,
-                'POST',
-                {
-                    input: input,
-                }
-            );
-            if (res.status === RessursStatus.SUKSESS) {
-                return res.data.forslag;
-            }
-            return [];
-        },
-        [request]
-    );
     return (
         <VStack gap={'8'} align={'start'}>
             <TextField

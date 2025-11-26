@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 
+import { ForslagRequest } from './ForslagRequest';
+import { ForslagResponse } from './ForslagResponse';
 import { Reiserute } from './Reisedata';
 import { ReisedataRequest } from './ReisedataRequest';
 import { StatiskKartRequest } from './StatiskKartRequest';
 import { useApp } from '../../context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../typer/ressurs';
 
 export const useHentGoogleMapsData = () => {
     const { request } = useApp();
@@ -49,11 +51,32 @@ export const useHentGoogleMapsData = () => {
 
     const resetGoogleMapsData = () => setKjøreavstandResponse(byggTomRessurs());
 
+    const hentAdresseForslag = useCallback(
+        async (input: string) => {
+            if (input === '') {
+                return [];
+            }
+            const res = await request<ForslagResponse, ForslagRequest>(
+                `/api/sak/kart/autocomplete`,
+                'POST',
+                {
+                    input: input,
+                }
+            );
+            if (res.status === RessursStatus.SUKSESS) {
+                return res.data.forslag;
+            }
+            return [];
+        },
+        [request]
+    );
+
     return {
         hentKjøreavstand,
         hentKollektivDetaljer,
         resetGoogleMapsData,
         hentStatiskKart,
+        hentAdresseForslag,
         kjøreavstandResponse,
         kollektivDetaljerResponse,
         statiskKart,
