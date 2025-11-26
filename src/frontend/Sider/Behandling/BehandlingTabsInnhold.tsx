@@ -27,6 +27,7 @@ const BehandlingTabsInnhold = () => {
         behandlingErRedigerbar,
         toggleKanSaksbehandle,
         kanSetteBehandlingPåVent,
+        sluttDatoForrigeVedtak,
     } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
@@ -107,6 +108,7 @@ const BehandlingTabsInnhold = () => {
                             behandlingFakta={behandlingFakta}
                             forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
                             stønadstype={behandling.stønadstype}
+                            sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
                         />
                     ) : (
                         <GammelVarselVedtakIArena />
