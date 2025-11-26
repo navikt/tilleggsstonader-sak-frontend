@@ -124,7 +124,7 @@ const AppInnhold = () => {
                         <InternalHeader.Title as="a" href="/kjoreavstand">
                             <HStack gap="1" align="center">
                                 <LocationPinIcon />
-                                <BodyShort size="small">Beregn kjøreavstand</BodyShort>
+                                <BodyShort size="small">Beregn reiseavstand</BodyShort>
                             </HStack>
                         </InternalHeader.Title>
                     )}

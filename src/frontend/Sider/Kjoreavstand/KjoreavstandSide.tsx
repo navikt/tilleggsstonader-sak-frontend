@@ -28,7 +28,7 @@ export const KjoreavstandSide: React.FC = () => {
         <VStack gap={'8'} padding={'8'}>
             <VStack>
                 <Heading size={'small'}>
-                    Velkommen til den nye siden for å beregne kjøreavstand
+                    Velkommen til den nye siden for å beregne reiseavstand
                 </Heading>
                 <ReadMore header={'Hva kan du gjøre på denne siden?'}>
                     <BodyLong size={'small'}>

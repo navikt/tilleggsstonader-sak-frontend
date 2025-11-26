@@ -118,7 +118,7 @@ export const KjøreavstandForm: React.FC<{
             </VStack>
 
             <Button size={'small'} onClick={hentReisedata}>
-                Regn ut reise
+                Regn ut reiseavstand
             </Button>
         </VStack>
     );
