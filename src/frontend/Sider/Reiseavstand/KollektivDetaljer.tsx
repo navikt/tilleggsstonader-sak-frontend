@@ -5,6 +5,7 @@ import { BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-reac
 import { KjøresAv } from './KjøresAv';
 import { Reiserute } from './Typer/Reisedata';
 import { meterTilKm, sekunderTilTimerOgMinutter, linjeTypeTilText } from './utils';
+import { formaterDatoMedTidspunkt } from '../../utils/dato';
 
 export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
     return (
@@ -25,6 +26,14 @@ export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
                             <Label>Estimert tid kollektiv:</Label>
                             <BodyShort>
                                 {sekunderTilTimerOgMinutter(rute.varighetSekunder)}
+                            </BodyShort>
+                        </HStack>
+                        <HStack gap={'2'}>
+                            <Label>Avreisetidspunkt:</Label>
+                            <BodyShort>
+                                {formaterDatoMedTidspunkt(
+                                    new Date(new Date().setHours(8, 0, 0, 0))
+                                )}
                             </BodyShort>
                         </HStack>
                     </VStack>
