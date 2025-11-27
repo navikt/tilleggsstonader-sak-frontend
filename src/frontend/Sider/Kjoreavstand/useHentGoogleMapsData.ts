@@ -64,6 +64,9 @@ export const useHentGoogleMapsData = () => {
                 }
             );
             if (res.status === RessursStatus.SUKSESS) {
+                if (res.data.forslag === null) {
+                    return [];
+                }
                 return res.data.forslag;
             }
             return [];
