@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import { Kjøreavstand } from './Kjøreavstand/Kjøreavstand';
+import { Kjøreavstand } from './Kjøreavstand';
 import { KollektivDetaljer } from './KollektivDetaljer';
-import { Reiserute } from './Reisedata';
-import { StatiskKartRequest } from './StatiskKartRequest';
+import { Reiserute } from './Typer/Reisedata';
+import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 
 export const Reisedetaljer: React.FC<{
     kjøreavstandResponse: Reiserute;

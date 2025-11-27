@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 
-import { ForslagRequest } from './ForslagRequest';
-import { ForslagResponse } from './ForslagResponse';
-import { Reiserute } from './Reisedata';
-import { ReisedataRequest } from './ReisedataRequest';
-import { StatiskKartRequest } from './StatiskKartRequest';
+import { ForslagRequest } from './Typer/ForslagRequest';
+import { ForslagResponse } from './Typer/ForslagResponse';
+import { Reiserute } from './Typer/Reisedata';
+import { ReisedataRequest } from './Typer/ReisedataRequest';
+import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 import { useApp } from '../../context/AppContext';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../typer/ressurs';
 

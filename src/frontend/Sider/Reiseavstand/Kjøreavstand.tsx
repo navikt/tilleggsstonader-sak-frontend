@@ -3,8 +3,8 @@ import React from 'react';
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
 import styles from './Kjøreavstand.module.css';
-import { Reiserute } from '../Reisedata';
-import { meterTilKm, sekunderTilTimerOgMinutter } from '../utils';
+import { Reiserute } from './Typer/Reisedata';
+import { meterTilKm, sekunderTilTimerOgMinutter } from './utils';
 
 type Props = {
     rute: Reiserute;

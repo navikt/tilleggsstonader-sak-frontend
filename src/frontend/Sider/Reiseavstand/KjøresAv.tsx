@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
 
-import { Operatør } from './Reisedata';
+import { Operatør } from './Typer/Reisedata';
 
 export const KjøresAv: React.FC<{ operatører: Operatør[] }> = ({ operatører }) => {
     return (
