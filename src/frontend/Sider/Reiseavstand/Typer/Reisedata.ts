@@ -1,3 +1,7 @@
+export interface Reisedata {
+    reiserute?: Reiserute;
+}
+
 export interface Reiserute {
     polyline: Polyline;
     avstandMeter: number;

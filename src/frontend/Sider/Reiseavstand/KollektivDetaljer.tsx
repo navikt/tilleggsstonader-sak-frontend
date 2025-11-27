@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { KjøresAv } from './KjøresAv';
-import { Reiserute } from './Typer/Reisedata';
-import { meterTilKm, sekunderTilTimerOgMinutter, linjeTypeTilText } from './utils';
+import { Reisedata } from './Typer/Reisedata';
+import { linjeTypeTilText, meterTilKm, sekunderTilTimerOgMinutter } from './utils';
 import { formaterDatoMedTidspunkt } from '../../utils/dato';
 
-export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
+export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) => {
+    if (!reisedata.reiserute) {
+        return <Alert variant={'warning'}>Fant ikke kollektivrute for reisen.</Alert>;
+    }
     return (
         <ExpansionCard aria-label={'Kollektiv-detaljer'} size={'small'}>
             <ExpansionCard.Header>
@@ -20,12 +23,12 @@ export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
                     <VStack gap={'2'}>
                         <HStack gap={'2'}>
                             <Label>Reiseavstand kollektiv:</Label>
-                            <BodyShort>{meterTilKm(rute.avstandMeter)} km</BodyShort>
+                            <BodyShort>{meterTilKm(reisedata.reiserute.avstandMeter)} km</BodyShort>
                         </HStack>
                         <HStack gap={'2'}>
                             <Label>Estimert tid kollektiv:</Label>
                             <BodyShort>
-                                {sekunderTilTimerOgMinutter(rute.varighetSekunder)}
+                                {sekunderTilTimerOgMinutter(reisedata.reiserute.varighetSekunder)}
                             </BodyShort>
                         </HStack>
                         <HStack gap={'2'}>
@@ -39,7 +42,7 @@ export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
                     </VStack>
 
                     <BodyShort weight={'semibold'}>Steg:</BodyShort>
-                    {rute.strekninger.map((strekning, strekningIndeks) => {
+                    {reisedata.reiserute.strekninger.map((strekning, strekningIndeks) => {
                         if (!strekning.kollektivDetaljer) {
                             return (
                                 <div key={strekningIndeks}>

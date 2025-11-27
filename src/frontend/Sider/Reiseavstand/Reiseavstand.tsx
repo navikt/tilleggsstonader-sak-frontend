@@ -1,25 +1,26 @@
 import React from 'react';
 
-import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
 import styles from './Reiseavstand.module.css';
-import { Reiserute } from './Typer/Reisedata';
+import { Reisedata } from './Typer/Reisedata';
 import { meterTilKm, sekunderTilTimerOgMinutter } from './utils';
 
-type Props = {
-    rute: Reiserute;
-};
-
-export const Reiseavstand: React.FC<Props> = ({ rute }: Props) => {
+export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) => {
+    if (!reisedata.reiserute) {
+        return <Alert variant={'warning'}>Fant ikke kjørerute for reisen</Alert>;
+    }
     return (
         <HStack gap={'2'}>
             <VStack className={styles.kort}>
                 <Label>Reiseavstand</Label>
-                <BodyShort>{meterTilKm(rute.avstandMeter)} km</BodyShort>
+                <BodyShort>{meterTilKm(reisedata.reiserute.avstandMeter)} km</BodyShort>
             </VStack>
             <VStack className={styles.kort}>
                 <Label>Estimert tid</Label>
-                <BodyShort>{sekunderTilTimerOgMinutter(rute.varighetSekunder)}</BodyShort>
+                <BodyShort>
+                    {sekunderTilTimerOgMinutter(reisedata.reiserute.varighetSekunder)}
+                </BodyShort>
             </VStack>
         </HStack>
     );

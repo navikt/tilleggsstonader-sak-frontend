@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { ForslagRequest } from './Typer/ForslagRequest';
 import { ForslagResponse } from './Typer/ForslagResponse';
-import { Reiserute } from './Typer/Reisedata';
+import { Reisedata } from './Typer/Reisedata';
 import { ReisedataRequest } from './Typer/ReisedataRequest';
 import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 import { useApp } from '../../context/AppContext';
@@ -12,16 +12,16 @@ export const useHentGoogleMapsData = () => {
     const { request } = useApp();
 
     const [kjøreavstandResponse, setKjøreavstandResponse] =
-        useState<Ressurs<Reiserute>>(byggTomRessurs());
+        useState<Ressurs<Reisedata>>(byggTomRessurs());
 
     const [kollektivDetaljerResponse, setKollektivDetaljerResponse] =
-        useState<Ressurs<Reiserute>>(byggTomRessurs());
+        useState<Ressurs<Reisedata>>(byggTomRessurs());
 
     const [statiskKart, setStatiskKart] = useState<string>();
 
     const hentKjøreavstand = useCallback(
         (fra: string, til: string) => {
-            request<Reiserute, ReisedataRequest>(`/api/sak/kart/kjoreavstand`, 'POST', {
+            request<Reisedata, ReisedataRequest>(`/api/sak/kart/kjoreavstand`, 'POST', {
                 fraAdresse: fra,
                 tilAdresse: til,
             }).then(setKjøreavstandResponse);
@@ -31,7 +31,7 @@ export const useHentGoogleMapsData = () => {
 
     const hentKollektivDetaljer = useCallback(
         (fra: string, til: string) => {
-            request<Reiserute, ReisedataRequest>(`/api/sak/kart/kollektiv-detaljer`, 'POST', {
+            request<Reisedata, ReisedataRequest>(`/api/sak/kart/kollektiv-detaljer`, 'POST', {
                 fraAdresse: fra,
                 tilAdresse: til,
             }).then(setKollektivDetaljerResponse);
