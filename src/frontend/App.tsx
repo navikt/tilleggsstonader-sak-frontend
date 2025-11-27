@@ -23,10 +23,10 @@ import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegang
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
-import { KjoreavstandSide } from './Sider/Kjoreavstand/KjoreavstandSide';
 import { KlageApp } from './Sider/Klage/KlageApp';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
+import { KjoreavstandSide } from './Sider/Reiseavstand/KjoreavstandSide';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 import { Toggle } from './utils/toggles';
