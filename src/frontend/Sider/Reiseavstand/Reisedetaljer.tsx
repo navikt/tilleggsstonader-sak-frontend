@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import { Kjøreavstand } from './Kjøreavstand';
 import { KollektivDetaljer } from './KollektivDetaljer';
+import { Reiseavstand } from './Reiseavstand';
 import { Reiserute } from './Typer/Reisedata';
 import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 
@@ -23,7 +23,7 @@ export const Reisedetaljer: React.FC<{
 
     return (
         <VStack gap={'4'} align={'stretch'} width={'540px'}>
-            <Kjøreavstand rute={kjøreavstandResponse} />
+            <Reiseavstand rute={kjøreavstandResponse} />
             {statiskKart && <img src={statiskKart} alt={'Kart for reisen'} />}
             <KollektivDetaljer rute={kollektivDetaljerResponse} />
         </VStack>

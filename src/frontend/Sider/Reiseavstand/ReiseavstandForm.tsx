@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 import { Button, TextField, VStack } from '@navikt/ds-react';
 
-import styles from './KjøreavstandForm.module.css';
-import { KjøreavstandFormFeil, validerKjøreavstandForm } from './KjøreavstandFormUtils';
+import styles from './ReiseavstandForm.module.css';
+import { KjøreavstandFormFeil, validerKjøreavstandForm } from './ReiseavstandFormUtils';
 
-export const KjøreavstandForm: React.FC<{
+export const ReiseavstandForm: React.FC<{
     hentKjøreavstand: (fra: string, til: string) => void;
     hentKollektivDetaljer: (fra: string, til: string) => void;
     hentAdresseForslag: (adresse: string) => Promise<string[]>;

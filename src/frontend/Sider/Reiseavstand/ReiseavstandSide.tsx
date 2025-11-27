@@ -4,13 +4,13 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
-import { KjøreavstandForm } from './KjøreavstandForm';
+import { ReiseavstandForm } from './ReiseavstandForm';
 import { Reisedetaljer } from './Reisedetaljer';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
 import DataViewer from '../../komponenter/DataViewer';
 import { Toggle } from '../../utils/toggles';
 
-export const KjoreavstandSide: React.FC = () => {
+export const ReiseavstandSide: React.FC = () => {
     const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     const {
         kjøreavstandResponse,
@@ -47,7 +47,7 @@ export const KjoreavstandSide: React.FC = () => {
                     </BodyLong>
                 </ReadMore>
             </VStack>
-            <KjøreavstandForm
+            <ReiseavstandForm
                 hentKjøreavstand={hentKjøreavstand}
                 hentKollektivDetaljer={hentKollektivDetaljer}
                 resetGoogleMapsData={resetGoogleMapsData}

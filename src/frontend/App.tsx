@@ -26,7 +26,7 @@ import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
 import { KlageApp } from './Sider/Klage/KlageApp';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
-import { KjoreavstandSide } from './Sider/Reiseavstand/KjoreavstandSide';
+import { ReiseavstandSide } from './Sider/Reiseavstand/ReiseavstandSide';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 import { Toggle } from './utils/toggles';
@@ -58,7 +58,7 @@ const AppRoutes = () => {
                     element={<OpprettFørstegangsbehandlingAdmin />}
                 />
                 <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
-                <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />
+                <Route path={'/kjoreavstand'} element={<ReiseavstandSide />} />
             </Route>
         )
     );
