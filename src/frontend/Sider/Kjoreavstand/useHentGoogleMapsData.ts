@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 
+import { ForslagRequest } from './ForslagRequest';
+import { ForslagResponse } from './ForslagResponse';
 import { Reiserute } from './Reisedata';
-import { ReiseAdresse, ReisedataRequest } from './ReisedataRequest';
+import { ReisedataRequest } from './ReisedataRequest';
 import { StatiskKartRequest } from './StatiskKartRequest';
 import { useApp } from '../../context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../typer/ressurs';
 
 export const useHentGoogleMapsData = () => {
     const { request } = useApp();
@@ -18,7 +20,7 @@ export const useHentGoogleMapsData = () => {
     const [statiskKart, setStatiskKart] = useState<string>();
 
     const hentKjøreavstand = useCallback(
-        (fra: ReiseAdresse, til: ReiseAdresse) => {
+        (fra: string, til: string) => {
             request<Reiserute, ReisedataRequest>(`/api/sak/kart/kjoreavstand`, 'POST', {
                 fraAdresse: fra,
                 tilAdresse: til,
@@ -28,7 +30,7 @@ export const useHentGoogleMapsData = () => {
     );
 
     const hentKollektivDetaljer = useCallback(
-        (fra: ReiseAdresse, til: ReiseAdresse) => {
+        (fra: string, til: string) => {
             request<Reiserute, ReisedataRequest>(`/api/sak/kart/kollektiv-detaljer`, 'POST', {
                 fraAdresse: fra,
                 tilAdresse: til,
@@ -49,11 +51,35 @@ export const useHentGoogleMapsData = () => {
 
     const resetGoogleMapsData = () => setKjøreavstandResponse(byggTomRessurs());
 
+    const hentAdresseForslag = useCallback(
+        async (input: string) => {
+            if (input === '') {
+                return [];
+            }
+            const res = await request<ForslagResponse, ForslagRequest>(
+                `/api/sak/kart/autocomplete`,
+                'POST',
+                {
+                    input: input,
+                }
+            );
+            if (res.status === RessursStatus.SUKSESS) {
+                if (res.data.forslag === null) {
+                    return [];
+                }
+                return res.data.forslag;
+            }
+            return [];
+        },
+        [request]
+    );
+
     return {
         hentKjøreavstand,
         hentKollektivDetaljer,
         resetGoogleMapsData,
         hentStatiskKart,
+        hentAdresseForslag,
         kjøreavstandResponse,
         kollektivDetaljerResponse,
         statiskKart,
