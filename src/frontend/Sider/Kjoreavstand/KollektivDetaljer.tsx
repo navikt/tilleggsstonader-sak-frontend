@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-react';
 
+import { KjøresAv } from './KjøresAv';
 import { Reiserute } from './Reisedata';
 import { meterTilKm, sekunderTilTimerOgMinutter, linjeTypeTilText } from './utils';
 
@@ -42,7 +43,7 @@ export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
 
                         return (
                             <div key={strekningIndeks}>
-                                <BodyShort>
+                                <BodyShort weight={'semibold'}>
                                     {`Ta ${linjeTypeTilText[strekning.kollektivDetaljer.linjeType]} ${strekning.kollektivDetaljer.linjeNavn}`}
                                 </BodyShort>
                                 <BodyShort>
@@ -51,6 +52,7 @@ export const KollektivDetaljer: React.FC<{ rute: Reiserute }> = ({ rute }) => {
                                 <BodyShort>
                                     Til stopp: {strekning.kollektivDetaljer.sluttHoldeplass}
                                 </BodyShort>
+                                <KjøresAv operatører={strekning.kollektivDetaljer.operatør} />
                             </div>
                         );
                     })}

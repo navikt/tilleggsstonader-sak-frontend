@@ -18,6 +18,12 @@ export interface KollektivDetaljer {
     sluttHoldeplass: string;
     linjeNavn: string;
     linjeType: LinjeType;
+    operatør: Operatør[];
+}
+
+export interface Operatør {
+    navn: string;
+    url: string;
 }
 
 export interface Polyline {
