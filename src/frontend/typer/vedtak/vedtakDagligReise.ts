@@ -57,6 +57,7 @@ export interface BeregningsresultatOffentligTransport {
 }
 
 interface BeregningsresultatForReise {
+    reiseId: string;
     perioder: BeregningsresultatForPeriode[];
 }
 
