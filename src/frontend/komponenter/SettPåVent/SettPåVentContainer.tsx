@@ -21,6 +21,9 @@ import DataViewer from '../DataViewer';
 const Container = styled.div`
     padding: 2rem;
     background: ${BgInfoModerateHover};
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 `;
 
 export const SettPåVentSak = ({
