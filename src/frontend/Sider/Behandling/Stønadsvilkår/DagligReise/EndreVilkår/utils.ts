@@ -1,11 +1,13 @@
+import { v7 } from 'uuid';
+
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 import {
     FaktaOffentligTransport,
     typeDagligReiseTilTypeVilkårfakta,
 } from '../typer/faktaDagligReise';
 import {
-    Regelstruktur,
     RegelIdDagligReise,
+    Regelstruktur,
     SvarAlternativ,
     TypeVilkårFakta,
 } from '../typer/regelstrukturDagligReise';
@@ -107,6 +109,7 @@ export const tomtSvar: SvarVilkårDagligReise = {
 export const tomtOffentligTransport: FaktaOffentligTransport = {
     '@type': 'FAKTA_DAGLIG_REISE_OFFENTLIG_TRANSPORT',
     type: 'OFFENTLIG_TRANSPORT',
+    reiseId: v7(),
     reisedagerPerUke: undefined,
     prisEnkelbillett: undefined,
     prisSyvdagersbillett: undefined,
