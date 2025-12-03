@@ -101,7 +101,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
 
                     {målgrupper.map((målgruppe) => (
                         <React.Fragment key={målgruppe.id}>
-                            {målgruppe.id === radSomRedigeres ? (
+                            {målgruppe.id === radSomRedigeres && erStegRedigerbart ? (
                                 <EndreMålgruppe
                                     målgruppe={målgruppe}
                                     avbrytRedigering={fjernRadIRedigeringsmodus}
@@ -114,7 +114,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                             )}
                         </React.Fragment>
                     ))}
-                    {radSomRedigeres === 'nyPeriode' && (
+                    {radSomRedigeres === 'nyPeriode' && erStegRedigerbart && (
                         <div ref={nyPeriodeRef}>
                             <EndreMålgruppe
                                 avbrytRedigering={fjernRadIRedigeringsmodus}

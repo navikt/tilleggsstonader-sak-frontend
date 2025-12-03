@@ -102,7 +102,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
 
                         return (
                             <React.Fragment key={aktivitet.id}>
-                                {aktivitet.id === radIRedigeringsmodus ? (
+                                {aktivitet.id === radIRedigeringsmodus && erStegRedigerbart ? (
                                     <EndreAktivitet
                                         aktivitet={aktivitet}
                                         aktivitetFraRegister={registeraktivitet}
@@ -120,7 +120,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
                             </React.Fragment>
                         );
                     })}
-                    {radIRedigeringsmodus === 'nyPeriode' && (
+                    {radIRedigeringsmodus === 'nyPeriode' && erStegRedigerbart && (
                         <div ref={nyPeriodeRef}>
                             <EndreAktivitet
                                 avbrytRedigering={fjernRadIRedigeringsmodus}
