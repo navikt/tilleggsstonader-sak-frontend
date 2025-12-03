@@ -3,7 +3,14 @@ import { Saksbehandler } from './saksbehandler';
 
 export type SaksbehadlerRolle = 'veileder' | 'saksbehandler' | 'beslutter';
 type NayUtland = 'NayUtland'; // NayRomerike håndterer utlandssaker
-export type Rolle = SaksbehadlerRolle | 'kode6' | 'kode7' | 'egenAnsatt' | NayUtland;
+export type Rolle =
+    | SaksbehadlerRolle
+    | 'kode6'
+    | 'kode7'
+    | 'egenAnsatt'
+    | NayUtland
+    | 'NayTilleggsstønader'
+    | 'TiltaksenhetenTilleggsstønader';
 
 /**
  * Mapper rolle til gruppe
@@ -46,6 +53,17 @@ export const harEgenAnsattRolle = (env: AppEnv, saksbehandler: Saksbehandler): b
 
 export const harNayUtlandRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
     return harRolle(env, saksbehandler, 'NayUtland');
+};
+
+export const harNayTilleggsstønaderRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
+    return harRolle(env, saksbehandler, 'NayTilleggsstønader');
+};
+
+export const harTiltaksenhetenTilleggsstønaderRolle = (
+    env: AppEnv,
+    saksbehandler: Saksbehandler
+): boolean => {
+    return harRolle(env, saksbehandler, 'TiltaksenhetenTilleggsstønader');
 };
 
 const harRolle = (env: AppEnv, saksbehandler: Saksbehandler, rolle: Rolle) => {

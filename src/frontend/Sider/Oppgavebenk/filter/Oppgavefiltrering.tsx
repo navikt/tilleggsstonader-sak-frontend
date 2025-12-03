@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import styled from 'styled-components';
 
 import { Button, Select, VStack } from '@navikt/ds-react';
@@ -12,10 +11,11 @@ import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
 import {
     harEgenAnsattRolle,
+    harNayTilleggsstønaderRolle,
     harNayUtlandRolle,
     harStrengtFortroligRolle,
+    harTiltaksenhetenTilleggsstønaderRolle,
 } from '../../../utils/roller';
-import { Toggle } from '../../../utils/toggles';
 import {
     defaultOppgaveRequest,
     nullstillSortering,
@@ -46,13 +46,15 @@ export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
 
-    const visEnheterSomBareHarTsSakMapperIDev = useFlag(
-        Toggle.VIS_ENHETER_SOM_KUN_HAR_TS_SAK_MAPPER_I_DEV
-    );
-
     const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
     const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
     const harSaksbehandlerNayUtlandRolle = harNayUtlandRolle(appEnv, saksbehandler);
+    const harSaksbehandlerNayTilleggsstønaderRolle = harNayTilleggsstønaderRolle(
+        appEnv,
+        saksbehandler
+    );
+    const harSaksbehandlerTiltaksenhetenTilleggsstønaderRolle =
+        harTiltaksenhetenTilleggsstønaderRolle(appEnv, saksbehandler);
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number | boolean) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -148,7 +150,8 @@ export const Oppgavefiltrering = () => {
                             harSaksbehandlerStrengtFortroligRolle,
                             harSaksbehandlerEgenAnsattRolle,
                             harSaksbehandlerNayUtlandRolle,
-                            visEnheterSomBareHarTsSakMapperIDev
+                            harSaksbehandlerNayTilleggsstønaderRolle,
+                            harSaksbehandlerTiltaksenhetenTilleggsstønaderRolle
                         )
                     ).map(([type, val]) => (
                         <option key={type} value={type}>

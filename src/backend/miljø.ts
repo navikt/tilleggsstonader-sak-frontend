@@ -25,7 +25,9 @@ type Rolle =
     | 'kode6'
     | 'kode7'
     | 'egenAnsatt'
-    | 'NayUtland';
+    | 'NayUtland'
+    | 'NayTilleggsstønader'
+    | 'TiltaksenhetenTilleggsstønader';
 
 type Roller = {
     [key in Rolle]: string;
@@ -93,6 +95,8 @@ const devRoller: Roller = {
     kode7: 'ea930b6b-9397-44d9-b9e6-f4cf527a632a',
     egenAnsatt: 'dbe4ad45-320b-4e9a-aaa1-73cca4ee124d',
     NayUtland: 'd5f850f4-90b7-41c1-a460-7ccca4bb171d',
+    NayTilleggsstønader: 'e9696ba8-0572-4556-ab78-d8605cb6b0bf',
+    TiltaksenhetenTilleggsstønader: 'a2a98575-4ef8-4244-ab3e-2d74de3db5bf',
 };
 
 const prodRoller: Roller = {
@@ -103,6 +107,8 @@ const prodRoller: Roller = {
     kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b',
     egenAnsatt: 'e750ceb5-b70b-4d94-b4fa-9d22467b786b',
     NayUtland: '71f94b2e-5c60-4f55-9db8-ce0235f4d5b8',
+    NayTilleggsstønader: 'afd458bc-5b38-4b1a-81e1-35a35b5629f4',
+    TiltaksenhetenTilleggsstønader: '3ee07ad5-b2b7-4067-9c9d-24db38a5791b',
 };
 
 const clientsLocal = (): ClientConfig => ({
