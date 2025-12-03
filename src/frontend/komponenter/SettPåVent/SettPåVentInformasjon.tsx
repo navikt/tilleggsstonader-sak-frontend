@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyLong, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 
 import { TaAvVentKnapp } from './TaAvVentKnapp';
 import { StatusSettPåVent, årsakTilTekst } from './typer';
@@ -34,23 +34,23 @@ const SettPåVentInformasjon: React.FC<{
             </Heading>
             <VStack gap="2">
                 {status.endretAv && (
-                    <div>
+                    <BodyShort size="small">
                         <strong>Sist endret: </strong>
                         {formaterNullableTilTekstligDato(status.endretTid)} av {status.endretAv}
-                    </div>
+                    </BodyShort>
                 )}
-                <div>
+                <BodyShort size="small">
                     <strong>Venter på: </strong>
                     {status.årsaker.map((årsak) => årsakTilTekst[årsak]).join(', ')}
-                </div>
-                <div>
+                </BodyShort>
+                <BodyShort size="small">
                     <strong>Frist: </strong>
                     {frist}
-                </div>
-                <div>
+                </BodyShort>
+                <BodyShort size="small">
                     <strong>Kommentar fra saksbehandler: </strong>
                     <Kommentar>{status.kommentar}</Kommentar>
-                </div>
+                </BodyShort>
             </VStack>
             <Feilmelding feil={kanTaAvVentFeil} />
             {!statusPåVentRedigering && (

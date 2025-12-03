@@ -104,7 +104,7 @@ const SettPåVentForm: React.FC<{
 
     return (
         <VStack gap={'4'}>
-            <Heading size={'medium'}>Sett behandling på vent</Heading>
+            <Heading size={'small'}>Sett behandling på vent</Heading>
             <HStack gap={'4'}>
                 <ÅrsakContainer>
                     <UNSAFE_Combobox
@@ -115,6 +115,7 @@ const SettPåVentForm: React.FC<{
                         selectedOptions={settPåVent.årsaker.map((årsak) => årsakTilTekst[årsak])}
                         options={Object.keys(tekstTilÅrsak)}
                         error={formErrors?.årsaker}
+                        size="small"
                     />
                 </ÅrsakContainer>
                 <DateInput
@@ -125,6 +126,7 @@ const SettPåVentForm: React.FC<{
                     }
                     value={settPåVent.frist}
                     feil={formErrors?.frist}
+                    size="small"
                 />
             </HStack>
             <Textarea
@@ -139,6 +141,7 @@ const SettPåVentForm: React.FC<{
                 }
                 maxLength={1000}
                 error={formErrors?.kommentar}
+                size="small"
             />
             <HStack gap={'4'}>
                 <Button size={'small'} onClick={() => settPåVentClick(false)}>
