@@ -100,7 +100,7 @@ const FrittståendeBrev: React.FC<{
         <DataViewer type={'brevmaler'} response={{ brevmaler }}>
             {({ brevmaler }) => (
                 <ToKolonner>
-                    <VStack gap="8" align="start">
+                    <VStack gap="8" minWidth={'550px'}>
                         <BrevMottakere
                             context={contextBrevmottakere}
                             kanEndreBrevmottakere={true}
