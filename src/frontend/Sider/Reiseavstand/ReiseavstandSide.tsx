@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
 import { ReiseavstandForm } from './ReiseavstandForm';
 import { Reisedetaljer } from './Reisedetaljer';
@@ -29,6 +29,7 @@ export const ReiseavstandSide: React.FC = () => {
 
     return (
         <VStack gap={'8'} padding={'8'}>
+            <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
             <VStack>
                 <Heading size={'small'}>
                     Velkommen til den nye siden for å beregne reiseavstand
