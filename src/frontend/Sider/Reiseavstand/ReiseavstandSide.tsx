@@ -31,20 +31,13 @@ export const ReiseavstandSide: React.FC = () => {
         <VStack gap={'8'} padding={'8'}>
             <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
             <VStack>
-                <Heading size={'small'}>
-                    Velkommen til den nye siden for å beregne reiseavstand
-                </Heading>
-                <ReadMore header={'Hva kan du gjøre på denne siden?'}>
+                <Heading size={'small'}>Beregn reiseavstand</Heading>
+                <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
                     <BodyLong size={'small'}>
-                        Her kan du sjekke kilometerkravet ved å finne avstanden mellom to punkter
-                        uten å bruke google maps. For å kunne beregne riktig avstand mellom
-                        bostedsadresse og tiltaksadresse, må adressene være så korrekte som mulig.
-                        Fyll derfor ut alle feltene.
+                        Her kan du sjekke kilometerkravet ved å finne avstanden mellom to adresser.
                         <br />
-                        <br />
-                        For å unngå feiltolkning av adressen, skriv den i følgende format: Adresse,
-                        postnummer, poststed.
-                        <br /> <b>For eksempel: Fyrstikkalléen 1, 0661 Oslo</b>
+                        Grønn markør viser start adressen. <br />
+                        Rød markør viser slutt adressen. <br />
                     </BodyLong>
                 </ReadMore>
             </VStack>
