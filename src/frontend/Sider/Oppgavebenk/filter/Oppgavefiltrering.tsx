@@ -10,18 +10,11 @@ import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
 import {
-    harEgenAnsattRolle,
-    harNayTilleggsstønaderRolle,
-    harNayUtlandRolle,
-    harStrengtFortroligRolle,
-    harTiltaksenhetenTilleggsstønaderRolle,
-} from '../../../utils/roller';
-import {
     defaultOppgaveRequest,
     nullstillSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
-import { enhetTilTekst } from '../typer/enhet';
+import { enhetTilTekst, hentEnheterBrukerHarTilgangTil } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveBehandlingstype, OppgaveRequest } from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
@@ -46,15 +39,7 @@ export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
 
-    const harSaksbehandlerStrengtFortroligRolle = harStrengtFortroligRolle(appEnv, saksbehandler);
-    const harSaksbehandlerEgenAnsattRolle = harEgenAnsattRolle(appEnv, saksbehandler);
-    const harSaksbehandlerNayUtlandRolle = harNayUtlandRolle(appEnv, saksbehandler);
-    const harSaksbehandlerNayTilleggsstønaderRolle = harNayTilleggsstønaderRolle(
-        appEnv,
-        saksbehandler
-    );
-    const harSaksbehandlerTiltaksenhetenTilleggsstønaderRolle =
-        harTiltaksenhetenTilleggsstønaderRolle(appEnv, saksbehandler);
+    const gyldigeEnheterForBruker = hentEnheterBrukerHarTilgangTil(appEnv, saksbehandler);
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number | boolean) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -73,7 +58,7 @@ export const Oppgavefiltrering = () => {
     const nullstillFiltrering = () => {
         const tomOppgaveRequest = oppgaveRequestMedDefaultEnhet(
             defaultOppgaveRequest,
-            harSaksbehandlerStrengtFortroligRolle
+            gyldigeEnheterForBruker
         );
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
@@ -145,17 +130,9 @@ export const Oppgavefiltrering = () => {
                     onChange={oppdaterOppgaveTargetValue('enhet')}
                     size="small"
                 >
-                    {Object.entries(
-                        enhetTilTekst(
-                            harSaksbehandlerStrengtFortroligRolle,
-                            harSaksbehandlerEgenAnsattRolle,
-                            harSaksbehandlerNayUtlandRolle,
-                            harSaksbehandlerNayTilleggsstønaderRolle,
-                            harSaksbehandlerTiltaksenhetenTilleggsstønaderRolle
-                        )
-                    ).map(([type, val]) => (
-                        <option key={type} value={type}>
-                            {val}
+                    {gyldigeEnheterForBruker.map((enhet) => (
+                        <option key={enhet} value={enhet}>
+                            {enhetTilTekst[enhet]}
                         </option>
                     ))}
                 </Select>

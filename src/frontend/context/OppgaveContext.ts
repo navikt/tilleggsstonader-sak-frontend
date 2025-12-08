@@ -36,14 +36,11 @@ export const [OppgaveProvider, useOppgave] = constate(() => {
     );
 
     useEffect(() => {
-        const lagretFiltrering = hentLagretOppgaveRequest(
-            saksbehandler,
-            harSaksbehandlerStrengtFortroligRolle
-        );
+        const lagretFiltrering = hentLagretOppgaveRequest(appEnv, saksbehandler);
         settOppgaveRequest(lagretFiltrering);
         settLasterOppgaveRequestFraLocaleStorage(false);
         hentOppgaver(lagretFiltrering);
-    }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler]);
+    }, [hentOppgaver, harSaksbehandlerStrengtFortroligRolle, saksbehandler, appEnv]);
 
     const oppdaterOppgaveEtterOppdatering = (oppdatertOppgave: Oppgave) => {
         settOppgaveRessurs((prevState) =>

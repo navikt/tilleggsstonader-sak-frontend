@@ -1,4 +1,4 @@
-import { FortroligEnhet, IkkeFortroligEnhet } from './typer/enhet';
+import { Enheter, FortroligEnhet } from './typer/enhet';
 import { OppgaveRequest, OppgaverResponse } from './typer/oppgave';
 
 export const OPPGAVE_SIDE_STØRRELSE = 15;
@@ -22,9 +22,9 @@ export const defaultOppgaveRequest: OppgaveRequest = {
 
 export const oppgaveRequestMedDefaultEnhet = (
     oppgaveRequest: OppgaveRequest,
-    harSaksbehandlerStrengtFortroligRolle: boolean
+    gyldigeEnheterForBruker: Enheter[]
 ): OppgaveRequest => {
-    if (harSaksbehandlerStrengtFortroligRolle) {
+    if (gyldigeEnheterForBruker.some((enhet) => enhet === FortroligEnhet.VIKAFOSSEN)) {
         return {
             ...oppgaveRequest,
             enhet: FortroligEnhet.VIKAFOSSEN,
@@ -33,7 +33,7 @@ export const oppgaveRequestMedDefaultEnhet = (
         const enhet = oppgaveRequest.enhet;
         return {
             ...oppgaveRequest,
-            enhet: enhet || IkkeFortroligEnhet.NAY,
+            enhet: enhet || gyldigeEnheterForBruker[0],
         };
     }
 };
