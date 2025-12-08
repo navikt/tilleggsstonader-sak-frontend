@@ -22,9 +22,9 @@ export const defaultOppgaveRequest: OppgaveRequest = {
 
 export const oppgaveRequestMedDefaultEnhet = (
     oppgaveRequest: OppgaveRequest,
-    gyldigeEnheterForBruker: Enheter[]
+    gyldigeEnheterForSaksbehandler: Enheter[]
 ): OppgaveRequest => {
-    if (gyldigeEnheterForBruker.some((enhet) => enhet === FortroligEnhet.VIKAFOSSEN)) {
+    if (gyldigeEnheterForSaksbehandler.some((enhet) => enhet === FortroligEnhet.VIKAFOSSEN)) {
         return {
             ...oppgaveRequest,
             enhet: FortroligEnhet.VIKAFOSSEN,
@@ -33,7 +33,9 @@ export const oppgaveRequestMedDefaultEnhet = (
         const enhet = oppgaveRequest.enhet;
         return {
             ...oppgaveRequest,
-            enhet: enhet || gyldigeEnheterForBruker[0],
+            // Ok fordi gyldigeEnheterForBruker defaulter til kun NAY når saksbehandler ikke tilhører en enhet
+            // Bør i grunn alltid kunne forvente at saksbehandler tilhører en enhet
+            enhet: enhet || gyldigeEnheterForSaksbehandler[0],
         };
     }
 };

@@ -6,7 +6,7 @@ import {
     defaultSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
-import { hentEnheterBrukerHarTilgangTil } from '../typer/enhet';
+import { hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
 import { OppgaveRequest } from '../typer/oppgave';
 
 export const oppgaveRequestKeyPrefix = 'oppgaveFiltreringRequest';
@@ -60,7 +60,13 @@ export const hentLagretOppgaveRequest = (
         orderBy: defaultSortering.orderBy,
     };
 
-    const gyldigeEnheterForBruker = hentEnheterBrukerHarTilgangTil(appEnv, saksbehandler);
+    const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(
+        appEnv,
+        saksbehandler
+    );
 
-    return oppgaveRequestMedDefaultEnhet(fraLocalStorageMedDefaultVerdier, gyldigeEnheterForBruker);
+    return oppgaveRequestMedDefaultEnhet(
+        fraLocalStorageMedDefaultVerdier,
+        gyldigeEnheterForSaksbehandler
+    );
 };

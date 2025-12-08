@@ -14,7 +14,7 @@ import {
     nullstillSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
-import { enhetTilTekst, hentEnheterBrukerHarTilgangTil } from '../typer/enhet';
+import { enhetTilTekst, hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
 import { behandlingstemaTilTekst, OppgaveBehandlingstype, OppgaveRequest } from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
@@ -39,7 +39,10 @@ export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
 
-    const gyldigeEnheterForBruker = hentEnheterBrukerHarTilgangTil(appEnv, saksbehandler);
+    const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(
+        appEnv,
+        saksbehandler
+    );
 
     const oppdaterOppgave = (key: keyof OppgaveRequest) => (val?: string | number | boolean) =>
         settOppgaveRequest((prevState) => oppdaterFilter(prevState, key, val));
@@ -58,7 +61,7 @@ export const Oppgavefiltrering = () => {
     const nullstillFiltrering = () => {
         const tomOppgaveRequest = oppgaveRequestMedDefaultEnhet(
             defaultOppgaveRequest,
-            gyldigeEnheterForBruker
+            gyldigeEnheterForSaksbehandler
         );
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
@@ -130,7 +133,7 @@ export const Oppgavefiltrering = () => {
                     onChange={oppdaterOppgaveTargetValue('enhet')}
                     size="small"
                 >
-                    {gyldigeEnheterForBruker.map((enhet) => (
+                    {gyldigeEnheterForSaksbehandler.map((enhet) => (
                         <option key={enhet} value={enhet}>
                             {enhetTilTekst[enhet]}
                         </option>

@@ -29,7 +29,7 @@ export const enhetTilTekst: Record<Enheter, string> = {
 
 export type Enheter = IkkeFortroligEnhet | FortroligEnhet;
 
-export const hentEnheterBrukerHarTilgangTil = (
+export const hentEnheterSaksbehandlerHarTilgangTil = (
     appEnv: AppEnv,
     saksbehandler: Saksbehandler
 ): Enheter[] => {
