@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Alert } from '@navikt/ds-react';
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
+import { BgInfoModerateHover } from '@navikt/ds-tokens/darkside-js';
 
 import SettPåVentForm from './SettPåVentForm';
 import SettPåVentInformasjon from './SettPåVentInformasjon';
@@ -20,7 +20,10 @@ import DataViewer from '../DataViewer';
 
 const Container = styled.div`
     padding: 2rem;
-    background: ${BgNeutralSoft};
+    background: ${BgInfoModerateHover};
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 `;
 
 export const SettPåVentSak = ({
