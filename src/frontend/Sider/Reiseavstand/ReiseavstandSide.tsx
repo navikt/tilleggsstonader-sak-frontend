@@ -2,15 +2,15 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
-import { KjøreavstandForm } from './KjøreavstandForm';
+import { ReiseavstandForm } from './ReiseavstandForm';
 import { Reisedetaljer } from './Reisedetaljer';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
 import DataViewer from '../../komponenter/DataViewer';
 import { Toggle } from '../../utils/toggles';
 
-export const KjoreavstandSide: React.FC = () => {
+export const ReiseavstandSide: React.FC = () => {
     const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     const {
         kjøreavstandResponse,
@@ -18,6 +18,9 @@ export const KjoreavstandSide: React.FC = () => {
         hentKjøreavstand,
         hentKollektivDetaljer,
         resetGoogleMapsData,
+        hentStatiskKart,
+        hentAdresseForslag,
+        statiskKart,
     } = useHentGoogleMapsData();
 
     if (!visKartside) {
@@ -26,28 +29,23 @@ export const KjoreavstandSide: React.FC = () => {
 
     return (
         <VStack gap={'8'} padding={'8'}>
+            <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
             <VStack>
-                <Heading size={'small'}>
-                    Velkommen til den nye siden for å beregne kjøreavstand
-                </Heading>
-                <ReadMore header={'Hva kan du gjøre på denne siden?'}>
+                <Heading size={'small'}>Beregn reiseavstand</Heading>
+                <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
                     <BodyLong size={'small'}>
-                        Her kan du sjekke kilometerkravet ved å finne avstanden mellom to punkter
-                        uten å bruke google maps. For å kunne beregne riktig avstand mellom
-                        bostedsadresse og tiltaksadresse, må adressene være så korrekte som mulig.
-                        Fyll derfor ut alle feltene.
+                        Her kan du sjekke kilometerkravet ved å finne avstanden mellom to adresser.
                         <br />
-                        <br />
-                        For å unngå feiltolkning av adressen, skriv den i følgende format: Adresse,
-                        postnummer, poststed.
-                        <br /> <b>For eksempel: Fyrstikkalléen 1, 0661 Oslo</b>
+                        Grønn markør viser start adressen. <br />
+                        Rød markør viser slutt adressen. <br />
                     </BodyLong>
                 </ReadMore>
             </VStack>
-            <KjøreavstandForm
+            <ReiseavstandForm
                 hentKjøreavstand={hentKjøreavstand}
                 hentKollektivDetaljer={hentKollektivDetaljer}
                 resetGoogleMapsData={resetGoogleMapsData}
+                hentAdresseForslag={hentAdresseForslag}
             />
             <DataViewer
                 response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
@@ -57,6 +55,8 @@ export const KjoreavstandSide: React.FC = () => {
                     <Reisedetaljer
                         kjøreavstandResponse={kjøreavstandResponse}
                         kollektivDetaljerResponse={kollektivDetaljerResponse}
+                        hentStatiskKart={hentStatiskKart}
+                        statiskKart={statiskKart}
                     />
                 )}
             </DataViewer>

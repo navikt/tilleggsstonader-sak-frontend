@@ -1,7 +1,7 @@
 export interface TilordnetSaksbehandlerDto {
-    navIdent: string;
-    fornavn: string;
-    etternavn: string;
+    navIdent?: string;
+    fornavn?: string;
+    etternavn?: string;
     tilordnetSaksbehandlerPåOppgave: TilordnetSaksbehandlerPåOppgave;
 }
 

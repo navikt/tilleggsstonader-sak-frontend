@@ -4,6 +4,18 @@ on:
   push:
     branches:
       - 'main'
+    paths:
+      - 'src/**'
+      - '.nais/prod.yaml'
+      - '.nais/dev.yaml'
+      - 'webpack/webpack.production.js'
+      - '.dockerignore'
+      - '.npmrc'
+      - '.nvmrc'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'tsconfig.json'
+      - 'yarn.lock'
 
 jobs:
   build_and_deploy:

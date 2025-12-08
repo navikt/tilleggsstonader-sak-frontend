@@ -11,12 +11,14 @@ import { DetaljerteVedtaksperioderBehandling } from '../DetaljerteVedtaksperiode
 
 type Props = {
     sluttdatoPåVedtakIArena: string | undefined;
+    sluttdatoForrigeVedtak: string | undefined;
     forrigeIverksatteBehandlingId: string;
     stønadstype: Stønadstype;
 };
 
 export function TidligereVedtaksperioderTS({
     sluttdatoPåVedtakIArena,
+    sluttdatoForrigeVedtak,
     forrigeIverksatteBehandlingId,
     stønadstype,
 }: Props) {
@@ -39,11 +41,7 @@ export function TidligereVedtaksperioderTS({
                                     <ExpansionCard.Title>
                                         <Heading size={'xsmall'} as="span">
                                             Søker har vedtak i TS-sak til og med{' '}
-                                            {formaterDato(
-                                                vedtaksperioderOversiktForStønad[
-                                                    vedtaksperioderOversiktForStønad.length - 1
-                                                ].tom
-                                            )}
+                                            {formaterDato(sluttdatoForrigeVedtak)}
                                         </Heading>
                                     </ExpansionCard.Title>
                                     {sluttdatoPåVedtakIArena && (

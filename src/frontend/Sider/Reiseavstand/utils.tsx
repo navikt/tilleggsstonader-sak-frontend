@@ -1,4 +1,4 @@
-import { LinjeType } from './Reisedata';
+import { LinjeType } from './Typer/Reisedata';
 
 export function meterTilKm(meter: number) {
     return (meter / 1000).toFixed(1);

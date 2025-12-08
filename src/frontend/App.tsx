@@ -23,10 +23,10 @@ import OpprettFørstegangsbehandlingAdmin from './Sider/Admin/OpprettFørstegang
 import BehandlingContainer from './Sider/Behandling/BehandlingContainer';
 import { EksternOmruting } from './Sider/EksternOmruting/EksternOmruting';
 import { Journalføring } from './Sider/Journalføring/Standard/Journalføring';
-import { KjoreavstandSide } from './Sider/Kjoreavstand/KjoreavstandSide';
 import { KlageApp } from './Sider/Klage/KlageApp';
 import Oppgavebenk from './Sider/Oppgavebenk/Oppgavebenk';
 import Personoversikt from './Sider/Personoversikt/Personoversikt';
+import { ReiseavstandSide } from './Sider/Reiseavstand/ReiseavstandSide';
 import { AppEnv, hentEnv } from './utils/env';
 import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler';
 import { Toggle } from './utils/toggles';
@@ -58,7 +58,7 @@ const AppRoutes = () => {
                     element={<OpprettFørstegangsbehandlingAdmin />}
                 />
                 <Route path={'/admin/oppfolging'} element={<OppølgingAdmin />} />
-                <Route path={'/kjoreavstand'} element={<KjoreavstandSide />} />
+                <Route path={'/kjoreavstand'} element={<ReiseavstandSide />} />
             </Route>
         )
     );
@@ -124,7 +124,7 @@ const AppInnhold = () => {
                         <InternalHeader.Title as="a" href="/kjoreavstand">
                             <HStack gap="1" align="center">
                                 <LocationPinIcon />
-                                <BodyShort size="small">Beregn kjøreavstand</BodyShort>
+                                <BodyShort size="small">Beregn reiseavstand</BodyShort>
                             </HStack>
                         </InternalHeader.Title>
                     )}

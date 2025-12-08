@@ -24,7 +24,7 @@ export interface Behandling {
     stønadstype: Stønadstype;
     vedtaksdato?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
-    tilordnetSaksbehandler?: TilordnetSaksbehandlerDto;
+    tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
 }
 
 export interface BehandlingForJournalføring {

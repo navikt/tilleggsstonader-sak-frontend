@@ -12,6 +12,8 @@ updates:
     interval: weekly
     day: "sunday"
     time: "04:00"
+  cooldown:
+    default-days: 7
   open-pull-requests-limit: 30
   registries: "*"
   versioning-strategy: increase
@@ -37,6 +39,8 @@ updates:
     interval: weekly
     day: "sunday"
     time: "04:00"
+  cooldown:
+    default-days: 7
   open-pull-requests-limit: 30
   registries: "*"
   versioning-strategy: increase
@@ -62,6 +66,8 @@ updates:
     interval: weekly
     day: "sunday"
     time: "04:00"
+  cooldown:
+    default-days: 7
 
 - package-ecosystem: docker
   directory: "/"
@@ -69,5 +75,7 @@ updates:
     interval: "weekly"
     day: "monday"
     time: "08:00"
+  cooldown:
+    default-days: 7
   commit-message:
     prefix: "[docker] "

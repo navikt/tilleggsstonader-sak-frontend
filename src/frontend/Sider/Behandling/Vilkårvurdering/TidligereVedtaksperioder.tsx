@@ -9,12 +9,14 @@ type Props = {
     behandlingFakta: BehandlingFakta;
     forrigeIverksatteBehandlingId: string | undefined;
     stønadstype: Stønadstype;
+    sluttdatoForrigeVedtak: string | undefined;
 };
 
 export function TidligereVedtaksperioder({
     behandlingFakta,
     forrigeIverksatteBehandlingId,
     stønadstype,
+    sluttdatoForrigeVedtak,
 }: Props) {
     const sluttdatoPåVedtakIArena = behandlingFakta.arena?.vedtakTom;
 
@@ -22,6 +24,7 @@ export function TidligereVedtaksperioder({
         <TidligereVedtaksperioderTS
             stønadstype={stønadstype}
             sluttdatoPåVedtakIArena={sluttdatoPåVedtakIArena}
+            sluttdatoForrigeVedtak={sluttdatoForrigeVedtak}
             forrigeIverksatteBehandlingId={forrigeIverksatteBehandlingId}
         />
     ) : (

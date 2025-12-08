@@ -1,7 +1,14 @@
+export interface Reisedata {
+    reiserute?: Reiserute;
+}
+
 export interface Reiserute {
+    polyline: Polyline;
     avstandMeter: number;
     varighetSekunder: number;
     strekninger: Strekninger[];
+    startLokasjon: Lokasjon;
+    sluttLokasjon: Lokasjon;
 }
 
 export interface Strekninger {
@@ -15,6 +22,21 @@ export interface KollektivDetaljer {
     sluttHoldeplass: string;
     linjeNavn: string;
     linjeType: LinjeType;
+    operatør: Operatør[];
+}
+
+export interface Operatør {
+    navn: string;
+    url: string;
+}
+
+export interface Polyline {
+    encodedPolyline: string;
+}
+
+export interface Lokasjon {
+    lat: number;
+    lng: number;
 }
 
 export enum LinjeType {
