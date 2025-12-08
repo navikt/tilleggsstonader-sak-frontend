@@ -16,7 +16,6 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
-import { SmallWarningTag } from '../../../../../komponenter/Tags';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
@@ -38,7 +37,7 @@ interface Props {
 }
 
 export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avsluttRedigering }) => {
-    const { settUlagretKomponent, nullstillUlagretKomponent, harUlagradeKomponenter } = useApp();
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { regelstruktur } = useVilkårDagligReise();
     const komponentId = useId();
 
@@ -193,9 +192,6 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                         avsluttRedigering={handleAvsluttRedigering}
                     />
                 </HStack>
-                {harUlagradeKomponenter && (
-                    <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
-                )}
                 <Feilmelding feil={feilmeldingVedLagring} />
             </ResultatOgStatusKort>
         </form>
