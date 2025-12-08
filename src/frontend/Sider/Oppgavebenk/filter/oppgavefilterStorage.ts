@@ -1,10 +1,12 @@
 import { dagensDato } from '../../../utils/dato';
+import { AppEnv } from '../../../utils/env';
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import {
     defaultOppgaveRequest,
     defaultSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
+import { hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
 import { OppgaveRequest } from '../typer/oppgave';
 
 export const oppgaveRequestKeyPrefix = 'oppgaveFiltreringRequest';
@@ -41,8 +43,8 @@ export const hentFraLocalStorage = (
 };
 
 export const hentLagretOppgaveRequest = (
-    saksbehandler: Saksbehandler,
-    harSaksbehandlerStrengtFortroligRolle: boolean
+    appEnv: AppEnv,
+    saksbehandler: Saksbehandler
 ): OppgaveRequest => {
     const fraLocalStorage = hentFraLocalStorage(
         oppgaveRequestKey(saksbehandler.navIdent),
@@ -58,8 +60,13 @@ export const hentLagretOppgaveRequest = (
         orderBy: defaultSortering.orderBy,
     };
 
+    const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(
+        appEnv,
+        saksbehandler
+    );
+
     return oppgaveRequestMedDefaultEnhet(
         fraLocalStorageMedDefaultVerdier,
-        harSaksbehandlerStrengtFortroligRolle
+        gyldigeEnheterForSaksbehandler
     );
 };

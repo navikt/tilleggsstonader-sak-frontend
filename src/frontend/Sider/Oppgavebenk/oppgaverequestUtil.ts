@@ -1,4 +1,4 @@
-import { FortroligEnhet, IkkeFortroligEnhet } from './typer/enhet';
+import { Enheter, FortroligEnhet } from './typer/enhet';
 import { OppgaveRequest, OppgaverResponse } from './typer/oppgave';
 
 export const OPPGAVE_SIDE_STØRRELSE = 15;
@@ -22,9 +22,9 @@ export const defaultOppgaveRequest: OppgaveRequest = {
 
 export const oppgaveRequestMedDefaultEnhet = (
     oppgaveRequest: OppgaveRequest,
-    harSaksbehandlerStrengtFortroligRolle: boolean
+    gyldigeEnheterForSaksbehandler: Enheter[]
 ): OppgaveRequest => {
-    if (harSaksbehandlerStrengtFortroligRolle) {
+    if (gyldigeEnheterForSaksbehandler.some((enhet) => enhet === FortroligEnhet.VIKAFOSSEN)) {
         return {
             ...oppgaveRequest,
             enhet: FortroligEnhet.VIKAFOSSEN,
@@ -33,7 +33,9 @@ export const oppgaveRequestMedDefaultEnhet = (
         const enhet = oppgaveRequest.enhet;
         return {
             ...oppgaveRequest,
-            enhet: enhet || IkkeFortroligEnhet.NAY,
+            // Ok fordi gyldigeEnheterForBruker defaulter til kun NAY når saksbehandler ikke tilhører en enhet
+            // Bør i grunn alltid kunne forvente at saksbehandler tilhører en enhet
+            enhet: enhet || gyldigeEnheterForSaksbehandler[0],
         };
     }
 };
