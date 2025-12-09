@@ -12,7 +12,7 @@
     "start:dev-preprod": "NODE_ENV=development ENV=localhost-preprod node --import=./build/register.js --es-module-specifier-resolution=node build/server.js"
   },
   "dependencies": {
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.2.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
