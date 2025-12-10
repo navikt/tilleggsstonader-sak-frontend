@@ -17,9 +17,7 @@ import { AktivitetValidering, validerAktivitet } from './valideringAktivitetDagl
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
-import { useHentTypeAktivitetValg } from '../../../../hooks/useHentTypeAktivitetValg';
 import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode';
-import DataViewer from '../../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
@@ -55,11 +53,12 @@ export interface EndreAktivitetFormDagligReiseTsr extends Periode {
 }
 
 const initaliserForm = (
+    typeAktivitetValg: Kodeverk[],
     eksisterendeAktivitet?: AktivitetDagligReiseTsr,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormDagligReiseTsr => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(aktivitetFraRegister)
+        ? nyAktivitet(aktivitetFraRegister, typeAktivitetValg)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
@@ -67,16 +66,15 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     aktivitet?: AktivitetDagligReiseTsr;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
-}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
+    typeAktivitetValg: Kodeverk[];
+}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister, typeAktivitetValg }) => {
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormDagligReiseTsr>(
-        initaliserForm(aktivitet, aktivitetFraRegister)
+        initaliserForm(typeAktivitetValg, aktivitet, aktivitetFraRegister)
     );
-
-    const { typeAktivitetValg } = useHentTypeAktivitetValg();
 
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -159,64 +157,56 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     }
 
     return (
-        <DataViewer response={{ typeAktivitetValg }} type={'typeAktivitetValg'}>
-            {({ typeAktivitetValg }) => (
-                <ResultatOgStatusKort periode={aktivitet} redigeres>
-                    <VStack gap={'4'}>
-                        <FeltContainer>
-                            <EndreTypeOgDatoer
-                                form={form}
-                                oppdaterTypeIForm={oppdaterType}
-                                oppdaterPeriode={oppdaterForm}
-                                oppdaterTypeAktivitet={(typeAktivitet) =>
-                                    oppdaterForm('typeAktivitet', typeAktivitet)
-                                }
-                                typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
-                                typeAktivitetOptions={typeAktivitetValgTilOptions(
-                                    typeAktivitetValg
-                                )}
-                                formFeil={vilkårsperiodeFeil}
-                                kanEndreTypeAktivitet={
-                                    aktivitet === undefined && !aktivitetErBruktFraSystem
-                                }
-                                kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
-                            />
-                        </FeltContainer>
-                        <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
-                    </VStack>
-
-                    <Begrunnelse
-                        begrunnelse={form?.begrunnelse || ''}
-                        oppdaterBegrunnelse={(nyBegrunnelse) =>
-                            oppdaterForm('begrunnelse', nyBegrunnelse)
+        <ResultatOgStatusKort periode={aktivitet} redigeres>
+            <VStack gap={'4'}>
+                <FeltContainer>
+                    <EndreTypeOgDatoer
+                        form={form}
+                        oppdaterTypeIForm={oppdaterType}
+                        oppdaterPeriode={oppdaterForm}
+                        oppdaterTypeAktivitet={(typeAktivitet) =>
+                            oppdaterForm('typeAktivitet', typeAktivitet)
                         }
-                        delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
-                        feil={vilkårsperiodeFeil?.begrunnelse}
+                        typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
+                        typeAktivitetOptions={typeAktivitetValgTilOptions(typeAktivitetValg)}
+                        formFeil={vilkårsperiodeFeil}
+                        kanEndreTypeAktivitet={
+                            aktivitet === undefined && !aktivitetErBruktFraSystem
+                        }
+                        kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                    <HStack gap="4">
-                        <Button size="xsmall" onClick={lagre}>
-                            Lagre
-                        </Button>
-                        <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
-                            Avbryt
-                        </Button>
-                        {aktivitet !== undefined && (
-                            <SlettVilkårperiode
-                                avbrytRedigering={avbrytRedigering}
-                                vilkårperiode={aktivitet}
-                            />
-                        )}
-                    </HStack>
+                </FeltContainer>
+                <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
+            </VStack>
 
-                    <Feilmelding feil={feilmelding} />
-                    <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
-                        visBekreftModal={visBekreftModal}
-                        settVisBekreftModal={settVisBekreftModal}
-                        bekreftLagre={bekreftLagre}
-                        laster={laster}
+            <Begrunnelse
+                begrunnelse={form?.begrunnelse || ''}
+                oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
+                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                feil={vilkårsperiodeFeil?.begrunnelse}
+            />
+            <HStack gap="4">
+                <Button size="xsmall" onClick={lagre}>
+                    Lagre
+                </Button>
+                <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
+                    Avbryt
+                </Button>
+                {aktivitet !== undefined && (
+                    <SlettVilkårperiode
+                        avbrytRedigering={avbrytRedigering}
+                        vilkårperiode={aktivitet}
                     />
-                </ResultatOgStatusKort>
-            )}
-        </DataViewer>
+                )}
+            </HStack>
+
+            <Feilmelding feil={feilmelding} />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={bekreftLagre}
+                laster={laster}
+            />
+        </ResultatOgStatusKort>
     );
 };

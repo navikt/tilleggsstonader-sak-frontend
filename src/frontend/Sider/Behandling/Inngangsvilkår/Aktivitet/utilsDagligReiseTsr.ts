@@ -1,5 +1,6 @@
 import { EndreAktivitetFormDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
+import { Kodeverk } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
@@ -12,9 +13,12 @@ import {
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    aktivitetFraRegister: Registeraktivitet | undefined
+    aktivitetFraRegister: Registeraktivitet | undefined,
+    typeAktivitetValg: Kodeverk[]
 ): EndreAktivitetFormDagligReiseTsr =>
-    aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
+    aktivitetFraRegister
+        ? nyAktivitetFraRegister(aktivitetFraRegister, typeAktivitetValg)
+        : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetDagligReiseTsr
@@ -23,17 +27,28 @@ export const mapEksisterendeAktivitet = (
 });
 
 function nyAktivitetFraRegister(
-    aktivitetFraRegister: Registeraktivitet
+    aktivitetFraRegister: Registeraktivitet,
+    typeAktivitetValg: Kodeverk[]
 ): EndreAktivitetFormDagligReiseTsr {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
-        // typeAktivitet: aktivitetFraRegister.typeNavn || '',
-        //TODO ta høyde for aktivitet fra register
-        typeAktivitet: undefined,
+        typeAktivitet: finnTypeAktivitetForRegisterAktivitet(
+            aktivitetFraRegister,
+            typeAktivitetValg
+        ),
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         kildeId: aktivitetFraRegister.id,
     };
+}
+
+function finnTypeAktivitetForRegisterAktivitet(
+    registerAktivitet: Registeraktivitet,
+    typeAktivitetValg: Kodeverk[]
+) {
+    return typeAktivitetValg.find(
+        (typeAktivitetValg) => typeAktivitetValg.beskrivelse === registerAktivitet.typeNavn
+    );
 }
 
 function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {

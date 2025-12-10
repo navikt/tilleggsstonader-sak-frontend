@@ -6,6 +6,8 @@ import { EndreAktivitetDagligReiseTso } from './EndreAktivitetDagligReiseTso';
 import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useHentTypeAktivitetValg } from '../../../../hooks/useHentTypeAktivitetValg';
+import DataViewer from '../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
@@ -21,6 +23,8 @@ export const EndreAktivitet: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, aktivitetFraRegister, avbrytRedigering }) => {
     const { behandling } = useBehandling();
+    const { typeAktivitetValg } = useHentTypeAktivitetValg();
+
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
             return (
@@ -56,11 +60,16 @@ export const EndreAktivitet: React.FC<{
             );
         case Stønadstype.DAGLIG_REISE_TSR:
             return (
-                <EndreAktivitetDagligReiseTsr
-                    aktivitet={aktivitet as AktivitetDagligReiseTsr}
-                    aktivitetFraRegister={aktivitetFraRegister}
-                    avbrytRedigering={avbrytRedigering}
-                />
+                <DataViewer response={{ typeAktivitetValg }} type={'typeAktivitetValg'}>
+                    {({ typeAktivitetValg }) => (
+                        <EndreAktivitetDagligReiseTsr
+                            aktivitet={aktivitet as AktivitetDagligReiseTsr}
+                            aktivitetFraRegister={aktivitetFraRegister}
+                            avbrytRedigering={avbrytRedigering}
+                            typeAktivitetValg={typeAktivitetValg}
+                        />
+                    )}
+                </DataViewer>
             );
     }
 };
