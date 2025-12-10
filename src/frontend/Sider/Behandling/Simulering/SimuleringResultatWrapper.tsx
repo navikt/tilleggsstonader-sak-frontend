@@ -12,13 +12,7 @@ import DataViewer from '../../../komponenter/DataViewer';
 import Panel from '../../../komponenter/Panel/Panel';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
-import {
-    byggHenterRessurs,
-    byggTomRessurs,
-    harNoenRessursMedStatus,
-    Ressurs,
-    RessursStatus,
-} from '../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { formaterÅrFullMåned } from '../../../utils/dato';
 import { FanePath } from '../faner';
@@ -84,10 +78,6 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
                                 <Button
                                     variant="primary"
                                     size="small"
-                                    loading={harNoenRessursMedStatus(
-                                        [simuleringsresultatState],
-                                        RessursStatus.HENTER
-                                    )}
                                     onClick={() => {
                                         gåTilNesteSteg();
                                     }}
