@@ -1,5 +1,6 @@
 import React from 'react';
 
+import styles from './EndreTypeOgDatoer.module.css';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendringAvDateInput';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
@@ -13,15 +14,19 @@ type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 
 interface TypeOgDatoFelter extends Periode {
     type: MålgruppeType | AktivitetType | '';
+    typeAktivitet?: string;
 }
 
 interface Props<T extends MålgruppeEllerAktivitet> {
     form: TypeOgDatoFelter;
     oppdaterTypeIForm: (type: T) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
+    oppdaterTypeAktivitet?: (typeAktivitet: string) => void;
     typeOptions: SelectOption[];
+    typeAktivitetOptions?: SelectOption[];
     formFeil?: FormErrors<TypeOgDatoFelter>;
     kanEndreType: boolean;
+    kanEndreTypeAktivitet?: boolean;
     erStøttetType?: boolean;
 }
 
@@ -29,9 +34,12 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
+    oppdaterTypeAktivitet,
     typeOptions,
+    typeAktivitetOptions,
     formFeil,
     kanEndreType,
+    kanEndreTypeAktivitet,
     erStøttetType = true,
 }: Props<T>) => {
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
@@ -59,6 +67,20 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
                     error={formFeil?.type}
                 />
             </FeilmeldingMaksBredde>
+            {typeAktivitetOptions && oppdaterTypeAktivitet && (
+                <FeilmeldingMaksBredde>
+                    <SelectMedOptions
+                        className={styles.selectMaxBredde}
+                        label={'Variant'}
+                        readOnly={!kanEndreTypeAktivitet}
+                        value={form.typeAktivitet}
+                        valg={typeAktivitetOptions}
+                        onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
+                        size="small"
+                        error={formFeil?.typeAktivitet}
+                    />
+                </FeilmeldingMaksBredde>
+            )}
             <FeilmeldingMaksBredde>
                 <DateInputMedLeservisning
                     key={fomKeyDato}

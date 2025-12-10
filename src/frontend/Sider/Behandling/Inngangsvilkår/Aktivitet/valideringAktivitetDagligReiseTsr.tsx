@@ -7,6 +7,7 @@ import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
+    typeAktivitet?: string;
     begrunnelse?: string;
 }
 
@@ -17,11 +18,16 @@ export const validerAktivitet = (
         fom: undefined,
         tom: undefined,
         type: undefined,
+        typeAktivitet: undefined,
         begrunnelse: undefined,
     };
 
     if (endretAktivitet.type === '') {
         return { ...feil, type: 'Må velges' };
+    }
+
+    if (endretAktivitet.typeAktivitet === '') {
+        return { ...feil, typeAktivitet: 'Må velges' };
     }
 
     const periodeValidering = validerPeriode(endretAktivitet);

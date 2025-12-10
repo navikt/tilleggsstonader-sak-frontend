@@ -27,6 +27,7 @@ function nyAktivitetFraRegister(
 ): EndreAktivitetFormDagligReiseTsr {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
+        typeAktivitet: aktivitetFraRegister.typeNavn || '',
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         kildeId: aktivitetFraRegister.id,
@@ -36,6 +37,7 @@ function nyAktivitetFraRegister(
 function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {
     return {
         type: '',
+        typeAktivitet: '',
         fom: '',
         tom: '',
     };
