@@ -107,7 +107,6 @@ export const tomtSvar: SvarVilkårDagligReise = {
 };
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {
-    '@type': 'FAKTA_DAGLIG_REISE_OFFENTLIG_TRANSPORT',
     type: 'OFFENTLIG_TRANSPORT',
     reiseId: v7(),
     reisedagerPerUke: undefined,

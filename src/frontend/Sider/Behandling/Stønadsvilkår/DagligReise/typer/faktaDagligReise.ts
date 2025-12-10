@@ -6,7 +6,6 @@ export interface FaktaDagligReise {
 }
 
 export interface FaktaOffentligTransport extends FaktaDagligReise {
-    '@type': 'FAKTA_DAGLIG_REISE_OFFENTLIG_TRANSPORT';
     reiseId: string;
     reisedagerPerUke: number | undefined;
     prisEnkelbillett: number | undefined;
