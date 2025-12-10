@@ -51,6 +51,15 @@ function finnTypeAktivitetForRegisterAktivitet(
     );
 }
 
+export function finnTypeAktivitetForKode(
+    registerAktivitetKode: string,
+    typeAktivitetValg: Kodeverk[]
+) {
+    return typeAktivitetValg.find(
+        (typeAktivitetValg) => typeAktivitetValg.kode === registerAktivitetKode
+    );
+}
+
 function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {
     return {
         type: '',

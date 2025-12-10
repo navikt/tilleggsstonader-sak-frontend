@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
+    finnTypeAktivitetForKode,
     mapEksisterendeAktivitet,
     mapFaktaOgSvarTilRequest,
     nyAktivitet,
@@ -145,6 +146,11 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         );
     };
 
+    const oppdaterTypeAktivitet = (typeAktivitetString: string) => {
+        const typeAktivitet = finnTypeAktivitetForKode(typeAktivitetString, typeAktivitetValg);
+        settForm((prevState) => ({ ...prevState, ['typeAktivitet']: typeAktivitet }));
+    };
+
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(form.type);
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -156,17 +162,22 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         }));
     }
 
+    const fantIkkeTypeAktivitet = aktivitetFraRegister && form?.typeAktivitet === undefined;
+
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
+            {fantIkkeTypeAktivitet && (
+                <Alert variant={'error'}>
+                    {`Klarte ikke å opprette aktivitet med tiltaksvariant "${aktivitetFraRegister.typeNavn}". Ta kontakt med utviklerteamet.`}
+                </Alert>
+            )}
             <VStack gap={'4'}>
                 <FeltContainer>
                     <EndreTypeOgDatoer
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
                         oppdaterPeriode={oppdaterForm}
-                        oppdaterTypeAktivitet={(typeAktivitet) =>
-                            oppdaterForm('typeAktivitet', typeAktivitet)
-                        }
+                        oppdaterTypeAktivitet={oppdaterTypeAktivitet}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
                         typeAktivitetOptions={typeAktivitetValgTilOptions(typeAktivitetValg)}
                         formFeil={vilkårsperiodeFeil}
@@ -186,7 +197,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="4">
-                <Button size="xsmall" onClick={lagre}>
+                <Button size="xsmall" onClick={lagre} disabled={fantIkkeTypeAktivitet}>
                     Lagre
                 </Button>
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
