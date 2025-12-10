@@ -1,8 +1,9 @@
 import { VilkårPeriodeAktivitet } from './vilkårperiode';
+import { Kodeverk } from '../../../../../typer/kodeverk';
 
 export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
     kildeId?: string;
-    typeAktivitet: string;
+    typeAktivitet?: Kodeverk;
     faktaOgVurderinger: AktivitetDagligReiseTsrFaktaOgVurderinger;
 }
 

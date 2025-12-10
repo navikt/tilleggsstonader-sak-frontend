@@ -67,6 +67,9 @@ export const AktivitetKort: React.FC<{
                 </Celle>
                 <Celle $width={180}>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
+                    {'typeAktivitet' in aktivitet && (
+                        <BodyShort size="small">{aktivitet.typeAktivitet?.beskrivelse}</BodyShort>
+                    )}
                     {aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
                     )}

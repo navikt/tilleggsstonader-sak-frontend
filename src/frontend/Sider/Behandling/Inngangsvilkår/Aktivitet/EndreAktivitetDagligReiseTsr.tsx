@@ -49,7 +49,7 @@ const FeltContainer = styled.div`
 
 export interface EndreAktivitetFormDagligReiseTsr extends Periode {
     type: AktivitetType | '';
-    typeAktivitet: string;
+    typeAktivitet?: Kodeverk;
     begrunnelse?: string;
     kildeId?: string;
 }

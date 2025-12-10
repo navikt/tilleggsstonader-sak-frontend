@@ -6,6 +6,7 @@ import { useTriggRerendringAvDateInput } from '../../../../hooks/useTriggRerendr
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Kodeverk } from '../../../../typer/kodeverk';
 import { Periode } from '../../../../utils/periode';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
@@ -13,6 +14,11 @@ import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 
 interface TypeOgDatoFelter extends Periode {
+    type: MålgruppeType | AktivitetType | '';
+    typeAktivitet?: Kodeverk;
+}
+
+interface TypeOgDatoFelterFeil extends Periode {
     type: MålgruppeType | AktivitetType | '';
     typeAktivitet?: string;
 }
@@ -24,7 +30,7 @@ interface Props<T extends MålgruppeEllerAktivitet> {
     oppdaterTypeAktivitet?: (typeAktivitet: string) => void;
     typeOptions: SelectOption[];
     typeAktivitetOptions?: SelectOption[];
-    formFeil?: FormErrors<TypeOgDatoFelter>;
+    formFeil?: FormErrors<TypeOgDatoFelterFeil>;
     kanEndreType: boolean;
     kanEndreTypeAktivitet?: boolean;
     erStøttetType?: boolean;
@@ -73,7 +79,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
                         className={styles.selectMaxBredde}
                         label={'Variant'}
                         readOnly={!kanEndreTypeAktivitet}
-                        value={form.typeAktivitet}
+                        value={form.typeAktivitet?.kode}
                         valg={typeAktivitetOptions}
                         onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
                         size="small"
