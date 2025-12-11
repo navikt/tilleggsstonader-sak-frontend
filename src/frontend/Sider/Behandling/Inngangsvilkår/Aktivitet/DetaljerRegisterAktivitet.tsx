@@ -14,13 +14,6 @@ export const DetaljerRegisterAktivitet = ({
     return (
         aktivitetFraRegister && (
             <HStack gap={'4'}>
-                <Celle $width={180}>
-                    <Lesefelt
-                        label={'Variant'}
-                        verdi={aktivitetFraRegister.typeNavn}
-                        size={'small'}
-                    />
-                </Celle>
                 <Celle>
                     <Lesefelt
                         label={'Arrangør'}

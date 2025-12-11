@@ -22,6 +22,7 @@ import { Periode } from '../utils/periode';
 export interface LagreVilkårperiode extends Periode {
     behandlingId: string;
     type: AktivitetType | MålgruppeType | '';
+    typeAktivitet: string | undefined;
     faktaOgSvar: FaktaOgSvar;
     begrunnelse?: string;
     kildeId?: string;
@@ -85,6 +86,7 @@ export const useLagreVilkårperiode = () => {
         tom: form.tom,
         behandlingId: behandlingId,
         type: form.type,
+        typeAktivitet: 'typeAktivitet' in form ? form.typeAktivitet?.kode : undefined,
         faktaOgSvar: faktaOgSvar,
         begrunnelse: form.begrunnelse,
         kildeId: 'kildeId' in form ? form.kildeId : undefined,
