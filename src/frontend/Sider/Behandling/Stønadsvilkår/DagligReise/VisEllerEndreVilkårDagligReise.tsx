@@ -11,10 +11,9 @@ import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkå
 
 interface Props {
     vilkår: VilkårDagligReise;
-    vilkårIndex: number;
 }
 
-export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår, vilkårIndex }) => {
+export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår }) => {
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårDagligReise();
 
@@ -46,7 +45,6 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår, vilkårInd
             vilkår={vilkår}
             skalViseRedigeringsknapp={skalViseRedigeringsknapp}
             startRedigering={() => settRedigerer(true)}
-            vilkårIndex={vilkårIndex}
         />
     );
 };

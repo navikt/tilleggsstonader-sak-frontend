@@ -45,12 +45,8 @@ const StønadsvilkårInnhold = () => {
 
     return (
         <VilkårPanel tittel={'Daglig Reise'} ikon={<BriefcaseIcon />}>
-            {vilkårsett.map((vilkår, index) => (
-                <VisEllerEndreVilkårDagligReise
-                    key={vilkår.id}
-                    vilkår={vilkår}
-                    vilkårIndex={index + 1}
-                />
+            {vilkårsett.map((vilkår) => (
+                <VisEllerEndreVilkårDagligReise key={vilkår.id} vilkår={vilkår} />
             ))}
 
             <NyttVilkårDagligReise />
