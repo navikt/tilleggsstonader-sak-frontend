@@ -4,6 +4,7 @@ import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
 export type VedtakDagligReise = InnvilgelseDagligReise | AvslagDagligReise | OpphørDagligReise;
 
@@ -56,6 +57,12 @@ export interface BeregningsresultatOffentligTransport {
     reiser: BeregningsresultatForReise[];
 }
 
+export type Billettdetaljer = {
+    [BillettType.ENKELTBILLETT]?: number;
+    [BillettType.SYVDAGERSBILLETT]?: number;
+    [BillettType.TRETTIDAGERSBILLETT]?: number;
+};
+
 interface BeregningsresultatForReise {
     reiseId: string;
     perioder: BeregningsresultatForPeriode[];
@@ -64,7 +71,7 @@ interface BeregningsresultatForReise {
 interface BeregningsresultatForPeriode {
     grunnlag: Beregningsgrunnlag;
     beløp: number;
-    billettdetaljer: Record<string, number>;
+    billettdetaljer: Billettdetaljer;
 }
 
 interface Beregningsgrunnlag {

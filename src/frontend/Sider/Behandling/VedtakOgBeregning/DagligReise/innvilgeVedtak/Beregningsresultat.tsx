@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { BodyShort, HelpText, HStack, Label, VStack } from '@navikt/ds-react';
 
-import BeregningDetajlerOffentligTransport from './BeregningDetajlerOffentligTransport';
+import { BeregningDetaljerOffentligTransport } from './BeregningDetaljerOffentligTransport';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatContainer';
@@ -63,7 +63,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 <HStack gap="2" align="center">
                                     <BodyShort size="small">{periode.beløp}</BodyShort>
                                     <HelpText>
-                                        <BeregningDetajlerOffentligTransport
+                                        <BeregningDetaljerOffentligTransport
                                             billettdetaljer={periode.billettdetaljer}
                                             grunnlag={periode.grunnlag}
                                         />

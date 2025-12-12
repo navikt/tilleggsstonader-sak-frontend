@@ -1,3 +1,4 @@
+import { BillettType } from '../../../typer/behandling/behandlingFakta/faktaReise';
 import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
@@ -15,19 +16,19 @@ export const lagVedtakstabellDagligReise = (
     );
 
     const har30Dager = allePerioder.some((periode) => {
-        const antall = periode.billettdetaljer?.TRETTIDAGERSBILLETT;
+        const antall = periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT];
         const pris = periode.grunnlag.pris30dagersbillett;
         return visBillettInfo(antall, pris) !== null;
     });
 
     const har7Dager = allePerioder.some((periode) => {
-        const antall = periode.billettdetaljer?.SYVDAGERSBILLETT;
+        const antall = periode.billettdetaljer?.[BillettType.SYVDAGERSBILLETT];
         const pris = periode.grunnlag.prisSyvdagersbillett;
         return visBillettInfo(antall, pris) !== null;
     });
 
     const harEnkelt = allePerioder.some((periode) => {
-        const antall = periode.billettdetaljer?.ENKELTBILLETT;
+        const antall = periode.billettdetaljer?.[BillettType.ENKELTBILLETT];
         const pris = periode.grunnlag.prisEnkeltbillett;
         return visBillettInfo(antall, pris) !== null;
     });
@@ -67,11 +68,11 @@ const lagRaderForVedtak = (
                 const { fom, tom, pris30dagersbillett, prisSyvdagersbillett, prisEnkeltbillett } =
                     periode.grunnlag;
                 const beløp = periode.beløp;
-                const {
-                    TRETTIDAGERSBILLETT: antall30DagerBillett,
-                    SYVDAGERSBILLETT: antall7DagerBillett,
-                    ENKELTBILLETT: antallEnkeltBillett,
-                } = periode.billettdetaljer ?? {};
+                const antall30dagersbilletter =
+                    periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT];
+                const antallSyvdagersbilletter =
+                    periode.billettdetaljer?.[BillettType.SYVDAGERSBILLETT];
+                const antallEnkeltbilletter = periode.billettdetaljer?.[BillettType.ENKELTBILLETT];
 
                 const datoperiode: Periode = { fom, tom };
                 const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
@@ -79,9 +80,9 @@ const lagRaderForVedtak = (
                 return `<tr style="text-align: right;">
                     <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                     <td style="${borderStyling}">${beløp} kr</td>
-                    ${kolonner?.har30Dager ? `<td style="${borderStyling}">${visBillettInfo(antall30DagerBillett, pris30dagersbillett) ?? ''}</td>` : ''}
-                    ${kolonner?.har7Dager ? `<td style="${borderStyling}">${visBillettInfo(antall7DagerBillett, prisSyvdagersbillett) ?? ''}</td>` : ''}
-                    ${kolonner?.harEnkelt ? `<td style="${borderStyling}">${visBillettInfo(antallEnkeltBillett, prisEnkeltbillett) ?? ''}</td>` : ''}
+                    ${kolonner?.har30Dager ? `<td style="${borderStyling}">${visBillettInfo(antall30dagersbilletter, pris30dagersbillett) ?? ''}</td>` : ''}
+                    ${kolonner?.har7Dager ? `<td style="${borderStyling}">${visBillettInfo(antallSyvdagersbilletter, prisSyvdagersbillett) ?? ''}</td>` : ''}
+                    ${kolonner?.harEnkelt ? `<td style="${borderStyling}">${visBillettInfo(antallEnkeltbilletter, prisEnkeltbillett) ?? ''}</td>` : ''}
                 </tr>`;
             })
         )
