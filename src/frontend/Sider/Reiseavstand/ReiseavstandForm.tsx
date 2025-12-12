@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, TextField, VStack } from '@navikt/ds-react';
+import { Button, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import styles from './ReiseavstandForm.module.css';
 import { KjøreavstandFormFeil, validerKjøreavstandForm } from './ReiseavstandFormUtils';
@@ -43,6 +43,12 @@ export const ReiseavstandForm: React.FC<{
         hentAdresseForslag(adresse).then(setTilForslag);
     };
 
+    const nullstillReisedata = () => {
+        resetGoogleMapsData();
+        setFraAdresse('');
+        setTilAdresse('');
+    };
+
     return (
         <VStack gap={'8'} align={'start'}>
             <TextField
@@ -79,9 +85,14 @@ export const ReiseavstandForm: React.FC<{
                 ))}
             </datalist>
 
-            <Button size={'small'} onClick={hentReisedata}>
-                Regn ut reiseavstand
-            </Button>
+            <HStack gap={'4'}>
+                <Button size={'small'} onClick={hentReisedata}>
+                    Regn ut reiseavstand
+                </Button>
+                <Button size={'small'} variant={'secondary'} onClick={nullstillReisedata}>
+                    Nullstill
+                </Button>
+            </HStack>
         </VStack>
     );
 };

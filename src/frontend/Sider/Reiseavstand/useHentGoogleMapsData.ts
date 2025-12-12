@@ -49,7 +49,10 @@ export const useHentGoogleMapsData = () => {
             .then((blob) => setStatiskKart(URL.createObjectURL(blob)));
     }, []);
 
-    const resetGoogleMapsData = () => setKjøreavstandResponse(byggTomRessurs());
+    const resetGoogleMapsData = () => {
+        setKjøreavstandResponse(byggTomRessurs());
+        setKollektivDetaljerResponse(byggTomRessurs());
+    };
 
     const hentAdresseForslag = useCallback(
         async (input: string) => {
