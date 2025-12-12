@@ -70,7 +70,7 @@ export const AktivitetKort: React.FC<{
                     {'typeAktivitet' in aktivitet && (
                         <BodyShort size="small">{aktivitet.typeAktivitet?.beskrivelse}</BodyShort>
                     )}
-                    {aktivitetFraRegister?.typeNavn && (
+                    {!('typeAktivitet' in aktivitet) && aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
                     )}
                     {aktivitetFraRegister?.arrangør && (
