@@ -26,8 +26,7 @@ const LesevisningVilkårDagligReise: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
-    vilkårIndex: number;
-}> = ({ vilkår, vilkårIndex, startRedigering, skalViseRedigeringsknapp }) => {
+}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
     const { resultat, delvilkårsett, fom, tom, fakta } = vilkår;
 
     return (
@@ -57,7 +56,7 @@ const LesevisningVilkårDagligReise: FC<{
                             variant="neutral"
                             icon={<BusIcon />}
                         >
-                            {`Reise ${vilkårIndex} med ${typeDagligReiseTilTekst[fakta?.type]}`}
+                            {typeDagligReiseTilTekst[fakta?.type]}
                         </Tag>
                     )}
                 </VStack>
