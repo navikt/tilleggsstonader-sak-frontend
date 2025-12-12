@@ -4,6 +4,7 @@ export enum FaktiskMålgruppe {
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
+    ARBEIDSSØKER = 'ARBEIDSSØKER',
     TODO = 'TODO',
 }
 
@@ -12,24 +13,28 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
         TODO: false,
     },
     [Stønadstype.LÆREMIDLER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
         TODO: false,
     },
     [Stønadstype.BOUTGIFTER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
         TODO: false,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
         TODO: false,
     },
 
@@ -37,7 +42,8 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         NEDSATT_ARBEIDSEVNE: false,
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
-        TODO: true,
+        ARBEIDSSØKER: true,
+        TODO: false,
     },
 };
 
@@ -57,6 +63,7 @@ export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
+    ARBEIDSSØKER: 'Arbeidssøker',
     TODO: 'Todo',
 };
 
