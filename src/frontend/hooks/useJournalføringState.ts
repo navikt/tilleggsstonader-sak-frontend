@@ -25,7 +25,6 @@ export interface JournalføringRequest {
     nyAvsender: NyAvsender | undefined;
     dokumentTitler: DokumentTitler | undefined;
     logiskeVedlegg: LogiskeVedleggPåDokument | undefined;
-    journalførendeEnhet: string;
     årsak: Journalføringsårsak;
     aksjon: Journalføringsaksjon;
     mottattDato: string | undefined;
@@ -132,7 +131,6 @@ export const useJournalføringState = (
             logiskeVedlegg: logiskeVedleggPåDokument,
             stønadstype: stønadstype,
             oppgaveId: oppgaveId,
-            journalførendeEnhet: '9999', // TODO: Utled journalførende enhet fra saksbehandler
             årsak: journalføringsårsak,
             aksjon: journalføringsaksjon,
             mottattDato: mottattDato,
