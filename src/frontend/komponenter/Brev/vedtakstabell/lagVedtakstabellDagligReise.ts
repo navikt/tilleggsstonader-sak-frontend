@@ -17,19 +17,19 @@ export const lagVedtakstabellDagligReise = (
 
     const har30Dager = allePerioder.some((periode) => {
         const antall = periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT];
-        const pris = periode.grunnlag.pris30dagersbillett;
+        const pris = periode.pris30dagersbillett;
         return visBillettInfo(antall, pris) !== null;
     });
 
     const har7Dager = allePerioder.some((periode) => {
         const antall = periode.billettdetaljer?.[BillettType.SYVDAGERSBILLETT];
-        const pris = periode.grunnlag.prisSyvdagersbillett;
+        const pris = periode.prisSyvdagersbillett;
         return visBillettInfo(antall, pris) !== null;
     });
 
     const harEnkelt = allePerioder.some((periode) => {
         const antall = periode.billettdetaljer?.[BillettType.ENKELTBILLETT];
-        const pris = periode.grunnlag.prisEnkeltbillett;
+        const pris = periode.prisEnkeltbillett;
         return visBillettInfo(antall, pris) !== null;
     });
 
@@ -66,7 +66,7 @@ const lagRaderForVedtak = (
         .flatMap((reise) =>
             reise.perioder.map((periode) => {
                 const { fom, tom, pris30dagersbillett, prisSyvdagersbillett, prisEnkeltbillett } =
-                    periode.grunnlag;
+                    periode;
                 const beløp = periode.beløp;
                 const antall30dagersbilletter =
                     periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT];
