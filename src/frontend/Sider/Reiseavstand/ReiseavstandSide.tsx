@@ -5,6 +5,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { Alert, BodyLong, Heading, HStack, ReadMore, VStack } from '@navikt/ds-react';
 
 import { ReiseavstandForm } from './ReiseavstandForm';
+import styles from './ReiseavstandSide.module.css';
 import { Reisedetaljer } from './Reisedetaljer';
 import { StatiskKart } from './StatiskKart';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
@@ -29,7 +30,7 @@ export const ReiseavstandSide: React.FC = () => {
     }
 
     return (
-        <VStack gap={'8'} padding={'8'}>
+        <VStack gap={'8'} padding={'8'} className={styles.marginBottom}>
             <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
             <HStack gap={'4'}>
                 <VStack gap={'4'}>
