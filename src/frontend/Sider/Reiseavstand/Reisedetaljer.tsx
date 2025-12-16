@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { HStack, VStack } from '@navikt/ds-react';
 
 import { KollektivDetaljer } from './KollektivDetaljer';
 import { Reiseavstand } from './Reiseavstand';
+import styles from './Reisedetaljer.module.css';
 import { Reisedata } from './Typer/Reisedata';
 import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 
@@ -24,10 +25,14 @@ export const Reisedetaljer: React.FC<{
     }, [kjøreavstandResponse, hentStatiskKart]);
 
     return (
-        <VStack gap={'4'} align={'stretch'} width={'540px'}>
-            <Reiseavstand reisedata={kjøreavstandResponse} />
-            {statiskKart && <img src={statiskKart} alt={'Kart for reisen'} />}
-            <KollektivDetaljer reisedata={kollektivDetaljerResponse} />
-        </VStack>
+        <HStack gap="4">
+            <VStack gap="4">
+                <Reiseavstand reisedata={kjøreavstandResponse} />
+                <KollektivDetaljer reisedata={kollektivDetaljerResponse} />
+            </VStack>
+            {statiskKart && (
+                <img className={styles.kartBilde} src={statiskKart} alt={'Kart for reisen'} />
+            )}
+        </HStack>
     );
 };
