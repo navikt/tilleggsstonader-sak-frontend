@@ -2,10 +2,11 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, HStack, ReadMore, VStack } from '@navikt/ds-react';
 
 import { ReiseavstandForm } from './ReiseavstandForm';
 import { Reisedetaljer } from './Reisedetaljer';
+import { StatiskKart } from './StatiskKart';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
 import DataViewer from '../../komponenter/DataViewer';
 import { Toggle } from '../../utils/toggles';
@@ -30,36 +31,48 @@ export const ReiseavstandSide: React.FC = () => {
     return (
         <VStack gap={'8'} padding={'8'}>
             <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
-            <VStack>
-                <Heading size={'small'}>Beregn reiseavstand</Heading>
-                <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
-                    <BodyLong size={'small'}>
-                        Her kan du sjekke kilometerkravet ved å finne avstanden mellom to adresser.
-                        <br />
-                        Grønn markør viser start adressen. <br />
-                        Rød markør viser slutt adressen. <br />
-                    </BodyLong>
-                </ReadMore>
-            </VStack>
-            <ReiseavstandForm
-                hentKjøreavstand={hentKjøreavstand}
-                hentKollektivDetaljer={hentKollektivDetaljer}
-                resetGoogleMapsData={resetGoogleMapsData}
-                hentAdresseForslag={hentAdresseForslag}
-            />
-            <DataViewer
-                response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
-                type={'reisedata'}
-            >
-                {({ kjøreavstandResponse, kollektivDetaljerResponse }) => (
-                    <Reisedetaljer
-                        kjøreavstandResponse={kjøreavstandResponse}
-                        kollektivDetaljerResponse={kollektivDetaljerResponse}
-                        hentStatiskKart={hentStatiskKart}
-                        statiskKart={statiskKart}
+            <HStack gap={'4'}>
+                <VStack gap={'4'}>
+                    <Heading size={'small'}>Beregn reiseavstand</Heading>
+                    <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
+                        <BodyLong size={'small'}>
+                            Her kan du sjekke kilometerkravet ved å finne avstanden mellom to
+                            adresser.
+                            <br />
+                            Grønn markør viser start adressen. <br />
+                            Rød markør viser slutt adressen. <br />
+                        </BodyLong>
+                    </ReadMore>
+                    <ReiseavstandForm
+                        hentKjøreavstand={hentKjøreavstand}
+                        hentKollektivDetaljer={hentKollektivDetaljer}
+                        resetGoogleMapsData={resetGoogleMapsData}
+                        hentAdresseForslag={hentAdresseForslag}
                     />
-                )}
-            </DataViewer>
+                    <DataViewer
+                        response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
+                        type={'reisedata'}
+                    >
+                        {({ kjøreavstandResponse, kollektivDetaljerResponse }) => (
+                            <Reisedetaljer
+                                kjøreavstandResponse={kjøreavstandResponse}
+                                kollektivDetaljerResponse={kollektivDetaljerResponse}
+                                hentStatiskKart={hentStatiskKart}
+                                statiskKart={statiskKart}
+                            />
+                        )}
+                    </DataViewer>
+                </VStack>
+                <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
+                    {({ kjøreavstandResponse }) => (
+                        <StatiskKart
+                            kjøreavstandResponse={kjøreavstandResponse}
+                            hentStatiskKart={hentStatiskKart}
+                            statiskKart={statiskKart}
+                        />
+                    )}
+                </DataViewer>
+            </HStack>
         </VStack>
     );
 };

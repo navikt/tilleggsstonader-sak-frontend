@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 
-import { VStack } from '@navikt/ds-react';
-
-import { KollektivDetaljer } from './KollektivDetaljer';
-import { Reiseavstand } from './Reiseavstand';
+import styles from './Reisedetaljer.module.css';
 import { Reisedata } from './Typer/Reisedata';
 import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 
-export const Reisedetaljer: React.FC<{
+export const StatiskKart: React.FC<{
     kjøreavstandResponse: Reisedata;
-    kollektivDetaljerResponse: Reisedata;
     hentStatiskKart: (statiskKartRequest: StatiskKartRequest) => void;
     statiskKart: string | undefined;
-}> = ({ kjøreavstandResponse, kollektivDetaljerResponse, hentStatiskKart }) => {
+}> = ({ kjøreavstandResponse, hentStatiskKart, statiskKart }) => {
     useEffect(() => {
         if (kjøreavstandResponse.reiserute) {
             hentStatiskKart({
@@ -24,9 +21,10 @@ export const Reisedetaljer: React.FC<{
     }, [kjøreavstandResponse, hentStatiskKart]);
 
     return (
-        <VStack gap="4">
-            <Reiseavstand reisedata={kjøreavstandResponse} />
-            <KollektivDetaljer reisedata={kollektivDetaljerResponse} />
-        </VStack>
+        <>
+            {statiskKart && (
+                <img className={styles.kartBilde} src={statiskKart} alt={'Kart for reisen'} />
+            )}
+        </>
     );
 };
