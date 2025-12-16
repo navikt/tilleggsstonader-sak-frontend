@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Alert, BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyShort,
+    CopyButton,
+    ExpansionCard,
+    HStack,
+    Label,
+    VStack,
+} from '@navikt/ds-react';
 
 import { KjøresAv } from './KjøresAv';
 import { Reisedata } from './Typer/Reisedata';
@@ -58,12 +66,24 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
                                 <BodyShort weight={'semibold'}>
                                     {`Ta ${linjeTypeTilText[strekning.kollektivDetaljer.linjeType]} ${strekning.kollektivDetaljer.linjeNavn}`}
                                 </BodyShort>
-                                <BodyShort>
-                                    Fra stopp: {strekning.kollektivDetaljer.startHoldeplass}
-                                </BodyShort>
-                                <BodyShort>
-                                    Til stopp: {strekning.kollektivDetaljer.sluttHoldeplass}
-                                </BodyShort>
+                                <HStack gap={'1'}>
+                                    <BodyShort>
+                                        Fra stopp: {strekning.kollektivDetaljer.startHoldeplass}
+                                    </BodyShort>
+                                    <CopyButton
+                                        size={'xsmall'}
+                                        copyText={strekning.kollektivDetaljer.startHoldeplass}
+                                    />
+                                </HStack>
+                                <HStack gap={'1'}>
+                                    <BodyShort>
+                                        Til stopp: {strekning.kollektivDetaljer.sluttHoldeplass}
+                                    </BodyShort>
+                                    <CopyButton
+                                        size={'xsmall'}
+                                        copyText={strekning.kollektivDetaljer.sluttHoldeplass}
+                                    />
+                                </HStack>
                                 <KjøresAv operatører={strekning.kollektivDetaljer.operatør} />
                             </div>
                         );
