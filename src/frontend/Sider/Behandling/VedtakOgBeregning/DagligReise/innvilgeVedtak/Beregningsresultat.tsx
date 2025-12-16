@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import styled from 'styled-components';
 
-import { BodyShort, HelpText, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HelpText, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import { BeregningDetaljerOffentligTransport } from './BeregningDetaljerOffentligTransport';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
@@ -11,7 +11,7 @@ import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatCont
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(8, max-content);
+    grid-template-columns: repeat(9, max-content);
     gap: 0.4rem 2rem;
     align-items: end;
 `;
@@ -24,7 +24,7 @@ interface Props {
     beregningsresultat: BeregningsresultatDagligReise;
 }
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <VStack gap="4">
             <Label size="small">Beregningsresultat</Label>
@@ -39,39 +39,33 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         <Label>30-dagersbillett</Label>
                         <Label>Stønadsbeløp</Label>
                         <Label>Ant. reisedager</Label>
+                        <div />
 
                         {reise.perioder.map((periode, periodeIndex) => (
                             <React.Fragment key={`periode-${reiseIndex}-${periodeIndex}`}>
-                                <BodyShort size="small">
-                                    {formaterIsoDato(periode.grunnlag.fom)}
-                                </BodyShort>
-                                <BodyShort size="small">
-                                    {formaterIsoDato(periode.grunnlag.tom)}
-                                </BodyShort>
-                                <BodyShort size="small">
-                                    {periode.grunnlag.antallReisedagerPerUke}
-                                </BodyShort>
-                                <BodyShort size="small">
-                                    {periode.grunnlag.prisEnkeltbillett}
-                                </BodyShort>
-                                <BodyShort size="small">
-                                    {periode.grunnlag.prisSyvdagersbillett}
-                                </BodyShort>
-                                <BodyShort size="small">
-                                    {periode.grunnlag.pris30dagersbillett}
-                                </BodyShort>
+                                <BodyShort size="small">{formaterIsoDato(periode.fom)}</BodyShort>
+                                <BodyShort size="small">{formaterIsoDato(periode.tom)}</BodyShort>
+                                <BodyShort size="small">{periode.antallReisedagerPerUke}</BodyShort>
+                                <BodyShort size="small">{periode.prisEnkeltbillett}</BodyShort>
+                                <BodyShort size="small">{periode.prisSyvdagersbillett}</BodyShort>
+                                <BodyShort size="small">{periode.pris30dagersbillett}</BodyShort>
                                 <HStack gap="2" align="center">
                                     <BodyShort size="small">{periode.beløp}</BodyShort>
                                     <HelpText>
                                         <BeregningDetaljerOffentligTransport
                                             billettdetaljer={periode.billettdetaljer}
-                                            grunnlag={periode.grunnlag}
+                                            priser={periode}
                                         />
                                     </HelpText>
                                 </HStack>
-                                <BodyShort size="small">
-                                    {periode.grunnlag.antallReisedager}
-                                </BodyShort>
+                                <BodyShort size="small">{periode.antallReisedager}</BodyShort>
+                                <div>
+                                    {periode.fraTidligereVedtak && (
+                                        <Tag size="xsmall" variant="info">
+                                            skjules
+                                        </Tag>
+                                    )}
+                                </div>
                             </React.Fragment>
                         ))}
                     </Grid>
@@ -80,5 +74,3 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
         </VStack>
     );
 };
-
-export default Beregningsresultat;

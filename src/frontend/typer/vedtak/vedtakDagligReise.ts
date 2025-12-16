@@ -2,8 +2,6 @@ import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
-import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
-import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
 export type VedtakDagligReise = InnvilgelseDagligReise | AvslagDagligReise | OpphørDagligReise;
@@ -69,27 +67,14 @@ interface BeregningsresultatForReise {
 }
 
 interface BeregningsresultatForPeriode {
-    grunnlag: Beregningsgrunnlag;
+    fom: string;
+    tom: string;
+    prisEnkeltbillett?: number;
+    prisSyvdagersbillett?: number;
+    pris30dagersbillett?: number;
+    antallReisedagerPerUke: number;
     beløp: number;
     billettdetaljer: Billettdetaljer;
-}
-
-interface Beregningsgrunnlag {
-    fom: string;
-    tom: string;
-    prisEnkeltbillett: number;
-    prisSyvdagersbillett: number;
-    pris30dagersbillett: number;
-    antallReisedagerPerUke: number;
-    vedtaksperioder: VedtaksperiodeGrunnlag[];
     antallReisedager: number;
-}
-
-interface VedtaksperiodeGrunnlag {
-    id: string;
-    fom: string;
-    tom: string;
-    målgruppe: FaktiskMålgruppe;
-    aktivitet: AktivitetType;
-    antallReisedagerIVedtaksperioden: number;
+    fraTidligereVedtak: boolean;
 }

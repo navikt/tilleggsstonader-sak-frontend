@@ -8,23 +8,25 @@ import { Billettdetaljer } from '../../../../../typer/vedtak/vedtakDagligReise';
 
 export const BeregningDetaljerOffentligTransport: FC<{
     billettdetaljer: Billettdetaljer;
-    grunnlag: {
-        prisEnkeltbillett: number;
-        prisSyvdagersbillett: number;
-        pris30dagersbillett: number;
+    priser: {
+        prisEnkeltbillett?: number;
+        prisSyvdagersbillett?: number;
+        pris30dagersbillett?: number;
     };
-}> = ({ billettdetaljer, grunnlag }) => {
+}> = ({ billettdetaljer, priser }) => {
     let totalt = 0;
 
-    const prisPerBillettType: Record<BillettType, number> = {
-        [BillettType.ENKELTBILLETT]: grunnlag.prisEnkeltbillett,
-        [BillettType.SYVDAGERSBILLETT]: grunnlag.prisSyvdagersbillett,
-        [BillettType.TRETTIDAGERSBILLETT]: grunnlag.pris30dagersbillett,
+    const prisPerBillettType: Record<BillettType, number | undefined> = {
+        [BillettType.ENKELTBILLETT]: priser.prisEnkeltbillett,
+        [BillettType.SYVDAGERSBILLETT]: priser.prisSyvdagersbillett,
+        [BillettType.TRETTIDAGERSBILLETT]: priser.pris30dagersbillett,
     };
 
     const lines = (Object.entries(billettdetaljer) as Array<[BillettType, number]>).map(
         ([billettype, antall]) => {
             const pris = prisPerBillettType[billettype];
+            if (!pris) return null;
+
             const subtotal = pris * antall;
             totalt += subtotal;
 
