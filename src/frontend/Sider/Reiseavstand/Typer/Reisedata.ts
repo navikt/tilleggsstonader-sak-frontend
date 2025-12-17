@@ -10,6 +10,8 @@ export interface Reiserute {
     strekninger: Strekninger[];
     startLokasjon: Lokasjon;
     sluttLokasjon: Lokasjon;
+    startAdresse: string;
+    sluttAdresse: string;
 }
 
 export interface Strekninger {
