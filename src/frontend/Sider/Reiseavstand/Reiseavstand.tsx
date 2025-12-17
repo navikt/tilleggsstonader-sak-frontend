@@ -26,12 +26,14 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
                     {sekunderTilTimerOgMinutter(reisedata.reiserute.varighetSekunder)}
                 </BodyShort>
             </VStack>
-            {erFerjePåReisen && (
-                <VStack className={styles.kort}>
-                    <Label>Reiseavastand eks.ferje</Label>
+            <VStack className={styles.kort}>
+                <Label>Reiseavastand eks.ferje</Label>
+                {erFerjePåReisen ? (
                     <BodyShort>{meterTilKm(reisedata.reiserute.avstandUtenFerje)} km</BodyShort>
-                </VStack>
-            )}
+                ) : (
+                    <BodyShort>Ingen ferje</BodyShort>
+                )}
+            </VStack>
         </HGrid>
     );
 };
