@@ -5,6 +5,7 @@ export interface Reisedata {
 export interface Reiserute {
     polyline: Polyline;
     avstandMeter: number;
+    avstandUtenFerje: number;
     varighetSekunder: number;
     strekninger: Strekninger[];
     startLokasjon: Lokasjon;

@@ -32,7 +32,7 @@ export const ReiseavstandSide: React.FC = () => {
     return (
         <VStack gap={'8'} padding={'8'} className={styles.marginBottom}>
             <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
-            <HStack gap={'4'}>
+            <HStack gap={'16'}>
                 <VStack gap={'4'}>
                     <Heading size={'small'}>Beregn reiseavstand</Heading>
                     <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
