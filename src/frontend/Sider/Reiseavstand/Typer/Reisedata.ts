@@ -21,7 +21,7 @@ export interface Strekninger {
 export interface KollektivDetaljer {
     startHoldeplass: string;
     sluttHoldeplass: string;
-    linjeNavn: string;
+    linjeNavn: string | undefined;
     linjeType: LinjeType;
     operatør: Operatør[];
 }

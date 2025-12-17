@@ -64,7 +64,7 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
                         return (
                             <div key={strekningIndeks}>
                                 <BodyShort weight={'semibold'}>
-                                    {`Ta ${linjeTypeTilText[strekning.kollektivDetaljer.linjeType]} ${strekning.kollektivDetaljer.linjeNavn}`}
+                                    {`Ta ${linjeTypeTilText[strekning.kollektivDetaljer.linjeType]} ${strekning.kollektivDetaljer.linjeNavn ?? ''}`}
                                 </BodyShort>
                                 <HStack gap={'1'}>
                                     <BodyShort>
