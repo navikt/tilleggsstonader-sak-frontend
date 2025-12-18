@@ -4,6 +4,7 @@ import { VStack } from '@navikt/ds-react';
 
 import { KollektivDetaljer } from './KollektivDetaljer';
 import { Reiseavstand } from './Reiseavstand';
+import { ReiseMetadata } from './ReiseMetadata';
 import { Reisedata } from './Typer/Reisedata';
 import { StatiskKartRequest } from './Typer/StatiskKartRequest';
 
@@ -25,6 +26,7 @@ export const Reisedetaljer: React.FC<{
 
     return (
         <VStack gap="4">
+            <ReiseMetadata kjøreavstandResponse={kjøreavstandResponse} />
             <Reiseavstand reisedata={kjøreavstandResponse} />
             <KollektivDetaljer reisedata={kollektivDetaljerResponse} />
         </VStack>
