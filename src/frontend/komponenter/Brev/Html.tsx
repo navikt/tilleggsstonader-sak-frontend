@@ -41,6 +41,10 @@ const HtmlBrev: React.FC<Props> = ({
         <head>
             <meta httpEquiv="content-type" content="text/html; charset=utf-8" />
             <title>{mal.brevtittel}</title>
+            <style>{`   
+            @page {        
+                @bottom-right { content: 'Side ' counter(page) ' av ' counter(pages); }
+                }`}</style>
         </head>
         <body
             style={{
