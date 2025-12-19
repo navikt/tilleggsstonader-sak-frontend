@@ -17,7 +17,7 @@ import { formaterDatoMedTidspunkt } from '../../utils/dato';
 
 export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) => {
     if (!reisedata.reiserute) {
-        return <Alert variant={'warning'}>Fant ikke kollektivrute for reisen.</Alert>;
+        return <Alert variant={'info'}>Fant ikke kollektivrute for reisen.</Alert>;
     }
     return (
         <ExpansionCard aria-label={'Kollektiv-detaljer'} size={'small'}>

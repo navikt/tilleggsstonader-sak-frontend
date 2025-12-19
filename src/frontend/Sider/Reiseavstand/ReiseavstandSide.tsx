@@ -4,9 +4,11 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { Alert, BodyLong, Heading, HStack, ReadMore, VStack } from '@navikt/ds-react';
 
+import { Reiseavstand } from './Reiseavstand';
 import { ReiseavstandForm } from './ReiseavstandForm';
 import styles from './ReiseavstandSide.module.css';
 import { Reisedetaljer } from './Reisedetaljer';
+import { ReiseMetadata } from './ReiseMetadata';
 import { StatiskKart } from './StatiskKart';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
 import DataViewer from '../../komponenter/DataViewer';
@@ -50,6 +52,14 @@ export const ReiseavstandSide: React.FC = () => {
                         resetGoogleMapsData={resetGoogleMapsData}
                         hentAdresseForslag={hentAdresseForslag}
                     />
+                    <DataViewer response={{ kjøreavstandResponse }} type={'reisedata'}>
+                        {({ kjøreavstandResponse }) => (
+                            <>
+                                <ReiseMetadata kjøreavstandResponse={kjøreavstandResponse} />
+                                <Reiseavstand reisedata={kjøreavstandResponse} />
+                            </>
+                        )}
+                    </DataViewer>
                     <DataViewer
                         response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
                         type={'reisedata'}
