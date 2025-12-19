@@ -29,7 +29,7 @@ export function TidligereVedtaksperioder({
         <DataViewer type={'vedtaksperioder'} response={{ vedtaksperioderOversiktForStønad }}>
             {({ vedtaksperioderOversiktForStønad }) => (
                 <>
-                    {vedtaksperioderOversiktForStønad ? (
+                    {vedtaksperioderOversiktForStønad.length > 0 ? (
                         <TidligereVedtaksperioderTS
                             stønadstype={stønadstype}
                             sluttdatoPåVedtakIArena={sluttdatoPåVedtakIArena}
