@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Heading, Label, Table } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import { BillettType } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
@@ -21,26 +22,26 @@ function formaterAntallOgPris(antall: number | undefined, pris: number | undefin
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <div>
-            <Heading spacing size="small" level="4">
+            <Heading spacing size="xsmall" level="4">
                 Beregningsresultat
             </Heading>
             {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => {
                 const antallReisedagerPerUke = reise.perioder[0].antallReisedagerPerUke;
                 return (
-                    <div key={`reise-${reiseIndex}`} className={styles.reiseSection}>
-                        <Label className={styles.reiseHeading}>
+                    <div key={reiseIndex} className={styles.reiseSection}>
+                        <Label size="small" className={styles.reiseHeading}>
                             Offentlig transport {antallReisedagerPerUke} dager/uke
                         </Label>
                         <Table size="small" className={styles.table}>
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>F.o.m.</Table.HeaderCell>
-                                    <Table.HeaderCell>T.o.m.</Table.HeaderCell>
-                                    <Table.HeaderCell>Reisedager</Table.HeaderCell>
-                                    <Table.HeaderCell>30-dagersb.</Table.HeaderCell>
-                                    <Table.HeaderCell>7-dagersb.</Table.HeaderCell>
-                                    <Table.HeaderCell>Enkeltb.</Table.HeaderCell>
-                                    <Table.HeaderCell>Stønadsbeløp</Table.HeaderCell>
+                                    <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>Reisedager</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>30-dagersb.</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>7-dagersb.</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>Enkeltb.</TableHeaderCellSmall>
+                                    <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
@@ -48,40 +49,42 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                     .filter((periode) => !periode.fraTidligereVedtak)
                                     .map((periode, periodeIndex) => (
                                         <Table.Row key={`periode-${reiseIndex}-${periodeIndex}`}>
-                                            <Table.DataCell>
+                                            <TableDataCellSmall>
                                                 {formaterIsoDato(periode.fom)}
-                                            </Table.DataCell>
-                                            <Table.DataCell>
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
                                                 {formaterIsoDato(periode.tom)}
-                                            </Table.DataCell>
-                                                <Table.DataCell>{periode.antallReisedager}</Table.DataCell>
-                                            <Table.DataCell>
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
+                                                {periode.antallReisedager}
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
                                                 {formaterAntallOgPris(
                                                     periode.billettdetaljer[
                                                         BillettType.TRETTIDAGERSBILLETT
                                                     ],
                                                     periode.pris30dagersbillett
                                                 )}
-                                            </Table.DataCell>
-                                            <Table.DataCell>
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
                                                 {formaterAntallOgPris(
                                                     periode.billettdetaljer[
                                                         BillettType.SYVDAGERSBILLETT
                                                     ],
                                                     periode.prisSyvdagersbillett
                                                 )}
-                                            </Table.DataCell>
-                                            <Table.DataCell>
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
                                                 {formaterAntallOgPris(
                                                     periode.billettdetaljer[
                                                         BillettType.ENKELTBILLETT
                                                     ],
                                                     periode.prisEnkeltbillett
                                                 )}
-                                            </Table.DataCell>
-                                            <Table.DataCell>
+                                            </TableDataCellSmall>
+                                            <TableDataCellSmall>
                                                 {periode.beløp} kr
-                                            </Table.DataCell>
+                                            </TableDataCellSmall>
                                         </Table.Row>
                                     ))}
                             </Table.Body>
