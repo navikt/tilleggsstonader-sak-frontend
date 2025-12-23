@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
-import { Heading, Label, Table } from '@navikt/ds-react';
+import { Heading, HStack, Label, Switch, Table } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
@@ -13,14 +13,26 @@ interface Props {
 }
 
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+    const [visTidligereVedtak, setVisTidligereVedtak] = useState(false);
+
     return (
         <div>
-            <Heading spacing size="xsmall" level="4">
-                Beregningsresultat
-            </Heading>
+            <HStack justify="space-between">
+                <Heading spacing size="xsmall" level="4">
+                    Beregningsresultat
+                </Heading>
+                <Switch
+                    position="left"
+                    size="small"
+                    checked={visTidligereVedtak}
+                    onChange={() => setVisTidligereVedtak((prev) => !prev)}
+                >
+                    Vis tidligere perioder
+                </Switch>
+            </HStack>
             {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => {
                 const relevantePerioder = reise.perioder.filter(
-                    (periode) => !periode.fraTidligereVedtak
+                    (periode) => visTidligereVedtak || !periode.fraTidligereVedtak
                 );
                 if (relevantePerioder.length === 0) {
                     return null;
@@ -28,7 +40,7 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 const antallReisedagerPerUke = relevantePerioder[0].antallReisedagerPerUke;
                 return (
                     <div key={reiseIndex} className={styles.reiseSection}>
-                        <Label size="small" className={styles.reiseHeading}>
+                        <Label size="small" className={styles.label}>
                             Offentlig transport {antallReisedagerPerUke} dager/uke
                         </Label>
                         <Table size="small" className={styles.table}>
