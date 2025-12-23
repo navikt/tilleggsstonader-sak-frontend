@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 
+import styled from 'styled-components';
+
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKlageBehandling from './OpprettKlageBehandling';
@@ -19,6 +21,9 @@ interface Props {
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
+const BodyPadding = styled.div`
+    padding-bottom: 5rem;
+`;
 
 export const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
@@ -51,42 +56,45 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
                 tittel={'Opprett ny behandling'}
                 umamiId={'opprett-ny-behandling'}
             >
-                <VStack gap="4">
-                    <Select
-                        value={opprettNyBehandlingType}
-                        label="Behandlingstype"
-                        onChange={(event) => {
-                            settOpprettNyBehandlingType(
-                                event.target.value as OpprettNyBehandlingType
-                            );
-                        }}
-                    >
-                        <option value={''}>Velg</option>
-                        {[
-                            OpprettNyBehandlingType.ORDINAER_BEHANDLING,
-                            OpprettNyBehandlingType.KLAGE,
-                        ].map((type) => (
-                            <option key={type} value={type}>
-                                {opprettNyBehandlingTypeTilTekst[type]}
-                            </option>
-                        ))}
-                    </Select>
-                    {opprettNyBehandlingType === OpprettNyBehandlingType.KLAGE && (
-                        <OpprettKlageBehandling
-                            fagsakId={fagsakId}
-                            lukkModal={lukkModal}
-                            hentKlagebehandlinger={hentKlagebehandlinger}
-                        />
-                    )}
-                    {opprettNyBehandlingType === OpprettNyBehandlingType.ORDINAER_BEHANDLING && (
-                        <OpprettOrdinærBehandling
-                            fagsakId={fagsakId}
-                            stønadstype={stønadstype}
-                            lukkModal={lukkModal}
-                            hentBehandlinger={hentBehandlinger}
-                        />
-                    )}
-                </VStack>
+                <BodyPadding>
+                    <VStack gap="4">
+                        <Select
+                            value={opprettNyBehandlingType}
+                            label="Behandlingstype"
+                            onChange={(event) => {
+                                settOpprettNyBehandlingType(
+                                    event.target.value as OpprettNyBehandlingType
+                                );
+                            }}
+                        >
+                            <option value={''}>Velg</option>
+                            {[
+                                OpprettNyBehandlingType.ORDINAER_BEHANDLING,
+                                OpprettNyBehandlingType.KLAGE,
+                            ].map((type) => (
+                                <option key={type} value={type}>
+                                    {opprettNyBehandlingTypeTilTekst[type]}
+                                </option>
+                            ))}
+                        </Select>
+                        {opprettNyBehandlingType === OpprettNyBehandlingType.KLAGE && (
+                            <OpprettKlageBehandling
+                                fagsakId={fagsakId}
+                                lukkModal={lukkModal}
+                                hentKlagebehandlinger={hentKlagebehandlinger}
+                            />
+                        )}
+                        {opprettNyBehandlingType ===
+                            OpprettNyBehandlingType.ORDINAER_BEHANDLING && (
+                            <OpprettOrdinærBehandling
+                                fagsakId={fagsakId}
+                                stønadstype={stønadstype}
+                                lukkModal={lukkModal}
+                                hentBehandlinger={hentBehandlinger}
+                            />
+                        )}
+                    </VStack>
+                </BodyPadding>
             </ModalWrapper>
         </div>
     );
