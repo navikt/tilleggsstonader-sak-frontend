@@ -19,7 +19,6 @@ interface Props {
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
-
 export const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
     stønadstype,
@@ -51,7 +50,7 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
                 tittel={'Opprett ny behandling'}
                 umamiId={'opprett-ny-behandling'}
             >
-                <VStack gap="4">
+                <VStack gap="4" className={styles.modalBody}>
                     <Select
                         value={opprettNyBehandlingType}
                         label="Behandlingstype"
