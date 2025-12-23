@@ -12,13 +12,6 @@ interface Props {
     beregningsresultat: BeregningsresultatDagligReise;
 }
 
-function formaterAntallOgPris(antall: number | undefined, pris: number | undefined): string {
-    if (!antall) {
-        return '-';
-    }
-    return `${antall} x ${pris} kr`;
-}
-
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <div>
@@ -26,7 +19,13 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 Beregningsresultat
             </Heading>
             {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => {
-                const antallReisedagerPerUke = reise.perioder[0].antallReisedagerPerUke;
+                const relevantePerioder = reise.perioder.filter(
+                    (periode) => !periode.fraTidligereVedtak
+                );
+                if (relevantePerioder.length === 0) {
+                    return null;
+                }
+                const antallReisedagerPerUke = relevantePerioder[0].antallReisedagerPerUke;
                 return (
                     <div key={reiseIndex} className={styles.reiseSection}>
                         <Label size="small" className={styles.reiseHeading}>
@@ -45,48 +44,42 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-                                {reise.perioder
-                                    .filter((periode) => !periode.fraTidligereVedtak)
-                                    .map((periode, periodeIndex) => (
-                                        <Table.Row key={`periode-${reiseIndex}-${periodeIndex}`}>
-                                            <TableDataCellSmall>
-                                                {formaterIsoDato(periode.fom)}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {formaterIsoDato(periode.tom)}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {periode.antallReisedager}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {formaterAntallOgPris(
-                                                    periode.billettdetaljer[
-                                                        BillettType.TRETTIDAGERSBILLETT
-                                                    ],
-                                                    periode.pris30dagersbillett
-                                                )}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {formaterAntallOgPris(
-                                                    periode.billettdetaljer[
-                                                        BillettType.SYVDAGERSBILLETT
-                                                    ],
-                                                    periode.prisSyvdagersbillett
-                                                )}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {formaterAntallOgPris(
-                                                    periode.billettdetaljer[
-                                                        BillettType.ENKELTBILLETT
-                                                    ],
-                                                    periode.prisEnkeltbillett
-                                                )}
-                                            </TableDataCellSmall>
-                                            <TableDataCellSmall>
-                                                {periode.beløp} kr
-                                            </TableDataCellSmall>
-                                        </Table.Row>
-                                    ))}
+                                {relevantePerioder.map((periode, periodeIndex) => (
+                                    <Table.Row key={`periode-${reiseIndex}-${periodeIndex}`}>
+                                        <TableDataCellSmall>
+                                            {formaterIsoDato(periode.fom)}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>
+                                            {formaterIsoDato(periode.tom)}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>
+                                            {periode.antallReisedager}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>
+                                            {formaterAntallOgPris(
+                                                periode.billettdetaljer[
+                                                    BillettType.TRETTIDAGERSBILLETT
+                                                ],
+                                                periode.pris30dagersbillett
+                                            )}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>
+                                            {formaterAntallOgPris(
+                                                periode.billettdetaljer[
+                                                    BillettType.SYVDAGERSBILLETT
+                                                ],
+                                                periode.prisSyvdagersbillett
+                                            )}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>
+                                            {formaterAntallOgPris(
+                                                periode.billettdetaljer[BillettType.ENKELTBILLETT],
+                                                periode.prisEnkeltbillett
+                                            )}
+                                        </TableDataCellSmall>
+                                        <TableDataCellSmall>{periode.beløp} kr</TableDataCellSmall>
+                                    </Table.Row>
+                                ))}
                             </Table.Body>
                         </Table>
                     </div>
@@ -95,3 +88,10 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
         </div>
     );
 };
+
+function formaterAntallOgPris(antall: number | undefined, pris: number | undefined): string {
+    if (!antall) {
+        return '-';
+    }
+    return `${antall} x ${pris} kr`;
+}
