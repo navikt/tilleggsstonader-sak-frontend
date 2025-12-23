@@ -1,6 +1,11 @@
 import React, { FC } from 'react';
 
-import { HourglassTopFilledIcon, MenuHamburgerIcon, TrashIcon } from '@navikt/aksel-icons';
+import {
+    ArrowUndoIcon,
+    HourglassTopFilledIcon,
+    MenuHamburgerIcon,
+    TrashIcon,
+} from '@navikt/aksel-icons';
 import { ActionMenu, Button } from '@navikt/ds-react';
 
 import { ModiaPersonoversiktLenke } from './Lenker/ModiaPersonoversiktLenke';
@@ -40,7 +45,7 @@ export const HenleggMenuItem = ({ onSelect }: { onSelect: () => void }) => {
 
 export const NullstillMenuItem = ({ onSelect }: { onSelect: () => void }) => {
     return (
-        <ActionMenu.Item onSelect={onSelect} variant={'danger'}>
+        <ActionMenu.Item onSelect={onSelect} variant={'danger'} icon={<ArrowUndoIcon />}>
             Nullstill
         </ActionMenu.Item>
     );
@@ -50,7 +55,6 @@ export const LenkerGroup = ({ ident }: { ident: string }) => {
     return (
         <ActionMenu.Group label={'Lenker'}>
             <ModiaPersonoversiktLenke ident={ident} />
-            {/*<GosysLenke />*/}
         </ActionMenu.Group>
     );
 };
