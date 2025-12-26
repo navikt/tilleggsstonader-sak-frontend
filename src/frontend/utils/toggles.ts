@@ -30,4 +30,5 @@ export enum Toggle {
     VIS_VEDTAKSPERIODER_PAA_BEHANDLING = 'sak.frontend.skal-vise-vedtaksperioder-paa-behandling',
     VIS_KARTSIDE = 'sak.vis-kartside',
     TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE = 'sak.tilgangsstyring-tildelt-oppgave',
+    BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
 }
