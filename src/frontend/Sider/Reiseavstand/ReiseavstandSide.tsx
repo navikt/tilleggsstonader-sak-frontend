@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Alert, BodyLong, Heading, HStack, ReadMore, VStack } from '@navikt/ds-react';
+import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
 import { EmbeddedKart } from './EmbeddedKart';
 import { Reiseavstand } from './Reiseavstand';
@@ -36,8 +36,8 @@ export const ReiseavstandSide: React.FC = () => {
     return (
         <VStack gap={'8'} padding={'8'} className={styles.marginBottom}>
             <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7 brukere</Alert>
-            <HStack gap={'16'}>
-                <VStack gap={'4'}>
+            <div className={styles.container}>
+                <VStack gap={'4'} className={styles.venstreKolonne}>
                     <Heading size={'small'}>Beregn reiseavstand</Heading>
                     <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
                         <BodyLong size={'small'}>
@@ -76,20 +76,22 @@ export const ReiseavstandSide: React.FC = () => {
                         )}
                     </DataViewer>
                 </VStack>
-                <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
-                    {({ kjøreavstandResponse }) =>
-                        brukDynamiskKart ? (
-                            <EmbeddedKart kjøreavstandResponse={kjøreavstandResponse} />
-                        ) : (
-                            <StatiskKart
-                                kjøreavstandResponse={kjøreavstandResponse}
-                                hentStatiskKart={hentStatiskKart}
-                                statiskKart={statiskKart}
-                            />
-                        )
-                    }
-                </DataViewer>
-            </HStack>
+                <div className={styles.høyreKolonne}>
+                    <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
+                        {({ kjøreavstandResponse }) =>
+                            brukDynamiskKart ? (
+                                <EmbeddedKart kjøreavstandResponse={kjøreavstandResponse} />
+                            ) : (
+                                <StatiskKart
+                                    kjøreavstandResponse={kjøreavstandResponse}
+                                    hentStatiskKart={hentStatiskKart}
+                                    statiskKart={statiskKart}
+                                />
+                            )
+                        }
+                    </DataViewer>
+                </div>
+            </div>
         </VStack>
     );
 };

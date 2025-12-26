@@ -17,8 +17,8 @@ export const EmbeddedKart: React.FC<{
     return (
         <iframe
             title="Kart som viser reiserute"
-            width="500"
-            height="500"
+            width="100%"
+            height="100%"
             style={{ border: 0 }}
             loading="lazy"
             allowFullScreen
