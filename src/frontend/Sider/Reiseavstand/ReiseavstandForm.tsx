@@ -49,6 +49,12 @@ export const ReiseavstandForm: React.FC<{
         setTilAdresse('');
     };
 
+    const hentReisedataHotkey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+            hentReisedata();
+        }
+    };
+
     return (
         <VStack gap={'8'} align={'start'}>
             <TextField
@@ -61,6 +67,7 @@ export const ReiseavstandForm: React.FC<{
                 onChange={(e) => {
                     oppdaterFraAdresse(e.target.value);
                 }}
+                onKeyDown={hentReisedataHotkey}
             />
             <datalist id={'fra-forslag'}>
                 {fraForslag.map((forslag) => (
@@ -78,6 +85,7 @@ export const ReiseavstandForm: React.FC<{
                 onChange={(e) => {
                     oppdaterTilAdresse(e.target.value);
                 }}
+                onKeyDown={hentReisedataHotkey}
             />
             <datalist id={'til-forslag'}>
                 {tilForslag.map((forslag) => (
