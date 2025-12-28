@@ -2977,10 +2977,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^4.21.1:
-  version "4.21.1"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-4.21.1.tgz#6a4cf2348ca5d8bb9cd58917f3031a911ff31659"
-  integrity sha512-9+4WEkxsOYTJFzXp3JT3gD2cgQIqI+whs/rYfxoUI4WDE3lIugtFiKmX1WMQhTvddOCx8rnOyXbDwiBVGMWmwg==
+groq@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-5.0.1.tgz#9d9d51d084ef2c6631dc7d6915b340c27e1db127"
+  integrity sha512-TrOWyXchKrb3EvHNR4fwsaFY13lmlPmJiESigZC6xCFCLaAz0sHI6uJZITBJgaZpKrqBT/2g7IsRtDEwdJR78g==
 
 has-bigints@^1.0.1, has-bigints@^1.0.2:
   version "1.0.2"
