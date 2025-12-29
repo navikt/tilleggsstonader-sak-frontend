@@ -12,6 +12,7 @@ import { ReiseMetadata } from './ReiseMetadata';
 import { StatiskKart } from './StatiskKart';
 import { useHentGoogleMapsData } from './useHentGoogleMapsData';
 import DataViewer from '../../komponenter/DataViewer';
+import { RessursStatus } from '../../typer/ressurs';
 import { Toggle } from '../../utils/toggles';
 
 export const ReiseavstandSide: React.FC = () => {
@@ -26,6 +27,12 @@ export const ReiseavstandSide: React.FC = () => {
         hentAdresseForslag,
         statiskKart,
     } = useHentGoogleMapsData();
+    const fellesFeil =
+        kjøreavstandResponse.status === RessursStatus.FEILET
+            ? kjøreavstandResponse.frontendFeilmelding
+            : kollektivDetaljerResponse.status === RessursStatus.FEILET
+              ? kollektivDetaljerResponse.frontendFeilmelding
+              : undefined;
 
     if (!visKartside) {
         return <p>Denne siden er under arbeid</p>;
@@ -52,38 +59,47 @@ export const ReiseavstandSide: React.FC = () => {
                         resetGoogleMapsData={resetGoogleMapsData}
                         hentAdresseForslag={hentAdresseForslag}
                     />
-                    <DataViewer response={{ kjøreavstandResponse }} type={'reisedata'}>
+                    {!fellesFeil && (
+                        <>
+                            <DataViewer response={{ kjøreavstandResponse }} type={'reisedata'}>
+                                {({ kjøreavstandResponse }) => (
+                                    <>
+                                        <ReiseMetadata
+                                            kjøreavstandResponse={kjøreavstandResponse}
+                                        />
+                                        <Reiseavstand reisedata={kjøreavstandResponse} />
+                                    </>
+                                )}
+                            </DataViewer>
+                            <DataViewer
+                                response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
+                                type={'reisedata'}
+                            >
+                                {({ kjøreavstandResponse, kollektivDetaljerResponse }) => (
+                                    <Reisedetaljer
+                                        kjøreavstandResponse={kjøreavstandResponse}
+                                        kollektivDetaljerResponse={kollektivDetaljerResponse}
+                                        hentStatiskKart={hentStatiskKart}
+                                        statiskKart={statiskKart}
+                                    />
+                                )}
+                            </DataViewer>
+                        </>
+                    )}
+                </VStack>
+                {!fellesFeil && (
+                    <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
                         {({ kjøreavstandResponse }) => (
-                            <>
-                                <ReiseMetadata kjøreavstandResponse={kjøreavstandResponse} />
-                                <Reiseavstand reisedata={kjøreavstandResponse} />
-                            </>
-                        )}
-                    </DataViewer>
-                    <DataViewer
-                        response={{ kjøreavstandResponse, kollektivDetaljerResponse }}
-                        type={'reisedata'}
-                    >
-                        {({ kjøreavstandResponse, kollektivDetaljerResponse }) => (
-                            <Reisedetaljer
+                            <StatiskKart
                                 kjøreavstandResponse={kjøreavstandResponse}
-                                kollektivDetaljerResponse={kollektivDetaljerResponse}
                                 hentStatiskKart={hentStatiskKart}
                                 statiskKart={statiskKart}
                             />
                         )}
                     </DataViewer>
-                </VStack>
-                <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
-                    {({ kjøreavstandResponse }) => (
-                        <StatiskKart
-                            kjøreavstandResponse={kjøreavstandResponse}
-                            hentStatiskKart={hentStatiskKart}
-                            statiskKart={statiskKart}
-                        />
-                    )}
-                </DataViewer>
+                )}
             </HStack>
+            {fellesFeil && <Alert variant="error">{fellesFeil}</Alert>}
         </VStack>
     );
 };
