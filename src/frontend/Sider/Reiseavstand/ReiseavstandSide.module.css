@@ -20,3 +20,7 @@
     display: flex;
     flex-direction: column;
 }
+
+.høyreKolonneStatisk {
+    flex: 0 0 auto;
+}

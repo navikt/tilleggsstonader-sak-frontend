@@ -76,7 +76,9 @@ export const ReiseavstandSide: React.FC = () => {
                         )}
                     </DataViewer>
                 </VStack>
-                <div className={styles.høyreKolonne}>
+                <div
+                    className={brukDynamiskKart ? styles.høyreKolonne : styles.høyreKolonneStatisk}
+                >
                     <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
                         {({ kjøreavstandResponse }) =>
                             brukDynamiskKart ? (
