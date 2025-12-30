@@ -1,3 +1,26 @@
 .marginBottom {
     padding-bottom: 150px;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.venstreKolonne {
+    flex: 0 0 25rem;
+    max-width: 100%;
+}
+
+.høyreKolonne {
+    flex: 1 1 250px;
+    max-width: 1200px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.høyreKolonneStatisk {
+    flex: 0 0 auto;
+}
