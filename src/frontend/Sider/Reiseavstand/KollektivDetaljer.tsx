@@ -23,7 +23,7 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
         <ExpansionCard aria-label={'Kollektiv-detaljer'} size={'small'}>
             <ExpansionCard.Header>
                 <ExpansionCard.Title as={'h4'} size={'small'}>
-                    Kollektiv detaljer
+                    Kollektivdetaljer
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
