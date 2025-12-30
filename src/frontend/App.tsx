@@ -9,7 +9,7 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 
-import { InformationSquareFillIcon, LeaveIcon, LocationPinIcon } from '@navikt/aksel-icons';
+import { LeaveIcon, LocationPinIcon, OpenBookIcon } from '@navikt/aksel-icons';
 import { BodyShort, Dropdown, HStack, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
@@ -135,7 +135,7 @@ const AppInnhold = () => {
                         rel="noopener noreferrer"
                     >
                         <HStack gap="1" align="center">
-                            <InformationSquareFillIcon />
+                            <OpenBookIcon />
                             <BodyShort size="small">Brukermanualen</BodyShort>
                         </HStack>
                     </InternalHeader.Title>
