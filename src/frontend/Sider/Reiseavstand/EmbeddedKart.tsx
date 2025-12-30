@@ -1,5 +1,6 @@
 import React from 'react';
 
+import styles from './EmbeddedKart.module.css';
 import { Reisedata } from './Typer/Reisedata';
 
 export const EmbeddedKart: React.FC<{
@@ -17,9 +18,7 @@ export const EmbeddedKart: React.FC<{
     return (
         <iframe
             title="Kart som viser reiserute"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
+            className={styles.iframe}
             loading="lazy"
             allowFullScreen
             src={src}
