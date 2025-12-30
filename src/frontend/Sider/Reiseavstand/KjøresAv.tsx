@@ -8,12 +8,14 @@ export const KjøresAv: React.FC<{ operatører: Operatør[] }> = ({ operatører 
     return (
         <HStack gap={'2'}>
             <BodyShort>Kjøres av:</BodyShort>
-            {operatører.map((operatør, index) => (
-                <HStack gap={'1'} key={index}>
-                    <BodyShort>{operatør.navn}</BodyShort>
-                    <CopyButton size={'xsmall'} copyText={operatør.url} />
-                </HStack>
-            ))}
+            {operatører
+                .filter((operatør) => !operatør.url.includes('nsb.no'))
+                .map((operatør, index) => (
+                    <HStack gap={'1'} key={index}>
+                        <BodyShort>{operatør.navn}</BodyShort>
+                        <CopyButton size={'xsmall'} copyText={operatør.url} />
+                    </HStack>
+                ))}
         </HStack>
     );
 };
