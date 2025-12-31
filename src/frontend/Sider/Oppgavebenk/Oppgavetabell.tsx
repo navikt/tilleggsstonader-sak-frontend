@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { BodyShort, HStack, Pagination, Table } from '@navikt/ds-react';
 import { SortState } from '@navikt/ds-react';
 
@@ -12,6 +10,7 @@ import {
     utledAntallSider,
     utledSide,
 } from './oppgaverequestUtil';
+import styles from './Oppgavetabell.module.css';
 import {
     IdentGruppe,
     Oppgave,
@@ -21,10 +20,6 @@ import {
 } from './typer/oppgave';
 import { useOppgave } from '../../context/OppgaveContext';
 import { PartialRecord } from '../../typer/common';
-
-const Tabell = styled(Table)`
-    width: 1400px;
-`;
 
 interface Props {
     oppgaverResponse: OppgaverResponse;
@@ -89,7 +84,8 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
 
     return (
         <>
-            <Tabell
+            <Table
+                className={styles.tabell}
                 size="small"
                 sort={utledTabellSort(oppgaveRequest)}
                 onSortChange={(sortKey) => oppdaterSortering(sortKey as keyof Oppgave)}
@@ -114,7 +110,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
                         <Oppgaverad key={oppgave.id} oppgave={oppgave} />
                     ))}
                 </Table.Body>
-            </Tabell>
+            </Table>
             {antallSider > 1 && (
                 <HStack align="center" gap="14">
                     <Pagination

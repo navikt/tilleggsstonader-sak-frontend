@@ -1,11 +1,10 @@
 import React, { ChangeEvent } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
+import styles from './Oppgavefiltrering.module.css';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
@@ -21,19 +20,6 @@ import {
     oppgaveTypeTilTekst,
     øvrigeOppgaveTyper,
 } from '../typer/oppgavetema';
-
-const FlexDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 1rem;
-    row-gap: 1rem;
-`;
-
-const KnappWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-`;
 
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
@@ -80,7 +66,7 @@ export const Oppgavefiltrering = () => {
 
     return (
         <VStack gap="4">
-            <FlexDiv>
+            <div className={styles.flexDiv}>
                 <Select
                     value={oppgaveRequest.oppgaverPåVent ? 'På vent' : 'Klar'}
                     label="Benk"
@@ -143,8 +129,8 @@ export const Oppgavefiltrering = () => {
                     oppgaveRequest={oppgaveRequest}
                     settOppgaveRequest={settOppgaveRequest}
                 />
-            </FlexDiv>
-            <KnappWrapper>
+            </div>
+            <div className={styles.knappWrapper}>
                 <Button onClick={sjekkFeilOgHentOppgaver} type={'submit'} size="small">
                     Hent oppgaver
                 </Button>
@@ -156,7 +142,7 @@ export const Oppgavefiltrering = () => {
                 >
                     Nullstill filtre
                 </Button>
-            </KnappWrapper>
+            </div>
         </VStack>
     );
 };

@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, HStack } from '@navikt/ds-react';
 
 import { FeilmeldingHåndterOppgave } from './FeilmeldingHåndterOppgaveModal';
+import styles from './Oppgaveknapp.module.css';
 import {
     lagJournalføringUrl,
     oppgaveErJournalføring,
@@ -18,11 +18,6 @@ import {
 import { Oppgave } from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgaveFordeling } from '../../hooks/useOppgaveFordeling';
-
-const TabellKnapp = styled(Button)`
-    width: fit-content;
-    white-space: nowrap;
-`;
 
 interface Props {
     oppgave: Oppgave;
@@ -102,7 +97,8 @@ const Oppgaveknapp: React.FC<Props> = ({
         return (
             <HStack justify={skalViseFortsettKnapp(oppgave) ? 'space-between' : 'end'} wrap={false}>
                 {skalViseFortsettKnapp(oppgave) && (
-                    <TabellKnapp
+                    <Button
+                        className={styles.tabellKnapp}
                         type={'button'}
                         variant={'secondary'}
                         size={'small'}
@@ -110,7 +106,7 @@ const Oppgaveknapp: React.FC<Props> = ({
                         disabled={laster}
                     >
                         Fortsett
-                    </TabellKnapp>
+                    </Button>
                 )}
 
                 <OppgaveValgMeny
@@ -142,7 +138,8 @@ const Oppgaveknapp: React.FC<Props> = ({
         );
     } else
         return (
-            <TabellKnapp
+            <Button
+                className={styles.tabellKnapp}
                 type={'button'}
                 variant={'secondary'}
                 size={'small'}
@@ -152,7 +149,7 @@ const Oppgaveknapp: React.FC<Props> = ({
                 {oppgaveErSaksbehandling(oppgave) || oppgaveErSaksbehandlingKlage(oppgave)
                     ? 'Behandle'
                     : 'Tildel meg'}
-            </TabellKnapp>
+            </Button>
         );
 };
 

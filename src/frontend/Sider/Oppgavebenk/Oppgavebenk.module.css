@@ -1,0 +1,9 @@
+.container {
+    margin: 2rem;
+    padding-bottom: 64px;
+}
+
+.alertContainer {
+    margin: 2rem;
+    width: fit-content;
+}
