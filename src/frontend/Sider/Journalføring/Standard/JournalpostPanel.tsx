@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { FolderFileFillIcon, FolderFileIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
@@ -12,8 +10,8 @@ import {
     Select,
     VStack,
 } from '@navikt/ds-react';
-import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './JournalpostPanel.module.css';
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
 import { Arkivtema, utledArkivtema } from '../../../typer/arkivtema';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
@@ -25,32 +23,6 @@ import {
     valgbareJournalføringsårsaker,
 } from '../Felles/utils';
 import { Journalføringsårsak, journalføringsårsakTilTekst } from '../typer/journalføringsårsak';
-
-const IkonContainer = styled.div`
-    color: ${BgAccentStrong};
-`;
-
-const ExpansionCardHeader = styled(ExpansionCard.Header)`
-    padding-bottom: 0.25rem;
-`;
-
-const ExpansionCardContent = styled(VStack)`
-    padding-bottom: 1rem;
-`;
-
-const StyledSelect = styled(Select)`
-    max-width: 13rem;
-`;
-
-const StyledCheckbox = styled(Checkbox)`
-    margin-left: 1rem;
-`;
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, max-content);
-    column-gap: 1.5rem;
-`;
 
 interface Props {
     journalpost: Journalpost;
@@ -86,16 +58,16 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
             open={erPanelEkspandert}
             onToggle={() => settErPanelEkspandert((prevState) => !prevState)}
         >
-            <ExpansionCardHeader>
+            <ExpansionCard.Header className={styles.expansionCardHeader}>
                 <HStack gap="4">
-                    <IkonContainer>
+                    <div className={styles.ikonContainer}>
                         {erPanelEkspandert ? (
                             <FolderFileFillIcon fontSize={'3.5rem'} />
                         ) : (
                             <FolderFileIcon fontSize={'3.5rem'} />
                         )}
-                    </IkonContainer>
-                    <Grid>
+                    </div>
+                    <div className={styles.grid}>
                         <Heading size={'small'} level={'2'}>
                             Tema:
                         </Heading>
@@ -114,12 +86,13 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                         </BodyShort>
                         <BodyShort>{journalføringsårsakTilTekst[journalføringsårsak]}</BodyShort>
                         <BodyShort>{datoMottatt}</BodyShort>
-                    </Grid>
+                    </div>
                 </HStack>
-            </ExpansionCardHeader>
+            </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <ExpansionCardContent gap="4">
-                    <StyledSelect
+                <VStack className={styles.expansionCardContent} gap="4">
+                    <Select
+                        className={styles.styledSelect}
                         label="Stønadstype"
                         size="small"
                         value={stønadstype}
@@ -139,8 +112,9 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                                 </option>
                             );
                         })}
-                    </StyledSelect>
-                    <StyledSelect
+                    </Select>
+                    <Select
+                        className={styles.styledSelect}
                         label="Type"
                         size="small"
                         value={journalføringsårsak}
@@ -163,9 +137,10 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                                 {journalføringsårsakTilTekst[Journalføringsårsak.DIGITAL_SØKNAD]}
                             </option>
                         )}
-                    </StyledSelect>
+                    </Select>
                     {journalføringGjelderKlage(journalføringsårsak) && (
-                        <StyledCheckbox
+                        <Checkbox
+                            className={styles.styledCheckbox}
                             size="small"
                             checked={klageGjelderTilbakekreving}
                             onChange={() => {
@@ -175,9 +150,9 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                             }}
                         >
                             Klagen gjelder tilbakekreving
-                        </StyledCheckbox>
+                        </Checkbox>
                     )}
-                </ExpansionCardContent>
+                </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>
     );

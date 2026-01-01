@@ -1,16 +1,10 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { FileTextFillIcon, FileTextIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
-import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './DokumentPanelHeader.module.css';
 import { LogiskVedlegg } from '../../../typer/dokument';
-
-const IkonContainer = styled.div`
-    color: ${BgAccentStrong};
-`;
 
 interface Props {
     dokumentTittel: string;
@@ -25,13 +19,13 @@ export const DokumentPanelHeader: React.FC<Props> = ({
 }) => {
     return (
         <HStack gap="4">
-            <IkonContainer>
+            <div className={styles.ikonContainer}>
                 {erValgt ? (
                     <FileTextFillIcon fontSize={'3.5rem'} />
                 ) : (
                     <FileTextIcon fontSize={'3.5rem'} />
                 )}
-            </IkonContainer>
+            </div>
             <VStack gap="2" justify="center">
                 <Label as={'p'}>{dokumentTittel}</Label>
                 {logiskeVedlegg.length > 0 && (

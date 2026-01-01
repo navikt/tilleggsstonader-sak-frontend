@@ -1,0 +1,18 @@
+.expansionCardHeader {
+    padding-bottom: 0.35rem;
+}
+
+.expansionCardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 1rem;
+}
+
+.eksternLenkeKnapp {
+    width: fit-content;
+}
+
+.multiSelect {
+    margin-bottom: -1rem;
+}

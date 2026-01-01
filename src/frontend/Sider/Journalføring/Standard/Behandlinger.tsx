@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-react';
 
+import styles from './Behandlinger.module.css';
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
@@ -24,27 +23,6 @@ import {
     journalføringsÅrsakErKlage,
     utledBehandlingstype,
 } from '../Felles/utils';
-
-const StyledDataCell = styled(Table.DataCell)`
-    padding: 0;
-`;
-
-const FjernBehandlingKnapp = styled(SøppelbøtteKnapp)`
-    margin-right: 0.5rem;
-`;
-
-const TekstContainer = styled.div`
-    padding-left: 1rem;
-    padding-right: 1rem;
-`;
-
-const BodyShortItalic = styled(BodyShort)`
-    font-style: italic;
-`;
-
-const LeggTilKnapp = styled(Button)`
-    width: fit-content;
-`;
 
 interface Props {
     journalpostState: JournalføringState;
@@ -113,9 +91,10 @@ const Behandlinger: React.FC<Props> = ({
                                             {behandlingstypePåNyBehandling}
                                         </Table.DataCell>
                                         <Table.DataCell>Opprettes ved journalføring</Table.DataCell>
-                                        <StyledDataCell>
+                                        <Table.DataCell className={styles.styledDataCell}>
                                             <HStack justify={'end'}>
-                                                <FjernBehandlingKnapp
+                                                <SøppelbøtteKnapp
+                                                    className={styles.fjernBehandlingKnapp}
                                                     size={'medium'}
                                                     type={'button'}
                                                     onClick={() =>
@@ -125,7 +104,7 @@ const Behandlinger: React.FC<Props> = ({
                                                     }
                                                 />
                                             </HStack>
-                                        </StyledDataCell>
+                                        </Table.DataCell>
                                     </Table.Row>
                                 )}
                                 {behandlinger.map((behandling) => (
@@ -146,15 +125,16 @@ const Behandlinger: React.FC<Props> = ({
                             </Table.Body>
                         </Table>
                         {behandlinger.length === 0 && (
-                            <TekstContainer>
-                                <BodyShortItalic>
+                            <div className={styles.tekstContainer}>
+                                <BodyShort className={styles.bodyShortItalic}>
                                     Det finnes ingen behandlinger på denne fagsaken til brukeren. Du
                                     kan opprette en behandling eller journalføre på bruker uten
                                     behandling (lik generell sak i Gosys)
-                                </BodyShortItalic>
-                            </TekstContainer>
+                                </BodyShort>
+                            </div>
                         )}
-                        <LeggTilKnapp
+                        <Button
+                            className={styles.leggTilKnapp}
                             type="button"
                             onClick={() => leggTilNyBehandlingForOpprettelse(behandlinger)}
                             size="small"
@@ -163,7 +143,7 @@ const Behandlinger: React.FC<Props> = ({
                             icon={<PlusCircleIcon title="legg til" />}
                         >
                             Opprett ny behandling
-                        </LeggTilKnapp>
+                        </Button>
                         {skalOppretteNyBehandling && (
                             <Alert variant="info">
                                 {opprettNyBehandlingAlertTekst(finnesAktivBehandling)}

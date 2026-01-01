@@ -1,0 +1,25 @@
+.ikonContainer {
+    color: var(--a-bg-accent-strong);
+}
+
+.expansionCardHeader {
+    padding-bottom: 0.25rem;
+}
+
+.expansionCardContent {
+    padding-bottom: 1rem;
+}
+
+.styledSelect {
+    max-width: 13rem;
+}
+
+.styledCheckbox {
+    margin-left: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    column-gap: 1.5rem;
+}

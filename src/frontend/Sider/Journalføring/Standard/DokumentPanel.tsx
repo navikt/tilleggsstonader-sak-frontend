@@ -1,12 +1,12 @@
 import React from 'react';
 
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { Button, ExpansionCard } from '@navikt/ds-react';
 import { FamilieReactSelect, ISelectOption } from '@navikt/familie-form-elements';
 
+import styles from './DokumentPanel.module.css';
 import { DokumentPanelHeader } from './DokumentPanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 import { DokumentInfoJournalpost } from '../../../typer/journalpost';
@@ -17,25 +17,6 @@ import {
     mapLogiskeVedleggTilMultiselectValue,
     mapMultiselectValueTilLogiskeVedlegg,
 } from '../Felles/utils';
-
-const ExpansionCardHeader = styled(ExpansionCard.Header)`
-    padding-bottom: 0.35rem;
-`;
-
-const ExpansionCardContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding-bottom: 1rem;
-`;
-
-const EksternLenkeKnapp = styled(Button)`
-    width: fit-content;
-`;
-
-const MultiSelect = styled(FamilieReactSelect)`
-    margin-bottom: -1rem;
-`;
 
 interface Props {
     journalpostState: JournalføringState;
@@ -98,16 +79,17 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
                 }
             }}
         >
-            <ExpansionCardHeader>
+            <ExpansionCard.Header className={styles.expansionCardHeader}>
                 <DokumentPanelHeader
                     dokumentTittel={dokumentTittel}
                     erValgt={dokumentPanelErValgt}
                     logiskeVedlegg={logiskeVedlegg}
                 />
-            </ExpansionCardHeader>
+            </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <ExpansionCardContent>
-                    <MultiSelect
+                <div className={styles.expansionCardContent}>
+                    <FamilieReactSelect
+                        className={styles.multiSelect}
                         placeholder={'Velg tittel'}
                         label={'Dokumenttittel'}
                         options={dokumentTitlerMultiSelect}
@@ -124,7 +106,8 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
                             );
                         }}
                     />
-                    <MultiSelect
+                    <FamilieReactSelect
+                        className={styles.multiSelect}
                         placeholder={'Velg innhold'}
                         label={'Annet innhold'}
                         creatable={true}
@@ -141,7 +124,8 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
                             );
                         }}
                     />
-                    <EksternLenkeKnapp
+                    <Button
+                        className={styles.eksternLenkeKnapp}
                         type={'button'}
                         variant={'tertiary'}
                         size={'small'}
@@ -156,8 +140,8 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
                         }
                     >
                         Åpne i ny fane
-                    </EksternLenkeKnapp>
-                </ExpansionCardContent>
+                    </Button>
+                </div>
             </ExpansionCard.Content>
         </ExpansionCard>
     );

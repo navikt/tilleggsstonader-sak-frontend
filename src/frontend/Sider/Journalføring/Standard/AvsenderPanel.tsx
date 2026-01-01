@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { EnvelopeClosedFillIcon, EnvelopeClosedIcon } from '@navikt/aksel-icons';
 import {
     Box,
@@ -13,27 +11,11 @@ import {
     TextField,
     VStack,
 } from '@navikt/ds-react';
-import { BgAccentStrong } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './AvsenderPanel.module.css';
 import { PanelHeader, PanelHeaderType } from './PanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 import { JournalpostResponse } from '../../../typer/journalpost';
-
-const ExpansionCardHeader = styled(ExpansionCard.Header)`
-    padding-bottom: 0.35rem;
-`;
-
-const ExpansionCardContent = styled(VStack).attrs({ gap: '4' })`
-    padding-bottom: 1rem;
-`;
-
-const IkonContainer = styled.div`
-    color: ${BgAccentStrong};
-`;
-
-const KopierPersonIdent = styled(CopyButton)`
-    z-index: 2;
-`;
 
 interface Props {
     journalpostResponse: JournalpostResponse;
@@ -68,20 +50,21 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                     defaultOpen={erPanelEkspandert}
                     onToggle={() => settErPanelEkspandert((prevState) => !prevState)}
                 >
-                    <ExpansionCardHeader>
+                    <ExpansionCard.Header className={styles.expansionCardHeader}>
                         <HStack gap="4">
-                            <IkonContainer>
+                            <div className={styles.ikonContainer}>
                                 {erPanelEkspandert ? (
                                     <EnvelopeClosedFillIcon fontSize={'3.5rem'} />
                                 ) : (
                                     <EnvelopeClosedIcon fontSize={'3.5rem'} />
                                 )}
-                            </IkonContainer>
+                            </div>
                             <HStack align="center">
                                 {erBrukerAvsender ? (
                                     <>
                                         <Label as={'p'}>{`${navn} - ${personIdent}`}</Label>
-                                        <KopierPersonIdent
+                                        <CopyButton
+                                            className={styles.kopierPersonIdent}
                                             copyText={personIdent}
                                             variant="action"
                                         />
@@ -91,9 +74,9 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                                 )}
                             </HStack>
                         </HStack>
-                    </ExpansionCardHeader>
+                    </ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <ExpansionCardContent>
+                        <VStack gap="4" className={styles.expansionCardContent}>
                             <Checkbox
                                 onChange={(event) => {
                                     settNyAvsender({
@@ -117,7 +100,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                                 value={nyAvsender?.navn || ''}
                                 autoComplete="off"
                             />
-                        </ExpansionCardContent>
+                        </VStack>
                     </ExpansionCard.Content>
                 </ExpansionCard>
             )}

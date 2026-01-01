@@ -1,24 +1,10 @@
 import React, { useMemo } from 'react';
 
-import styled from 'styled-components';
-
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack } from '@navikt/ds-react';
 
+import styles from './PdfVisning.module.css';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
-
-const Container = styled.div`
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-`;
-
-const NavigerDokumentContainer = styled.div`
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    padding: 1rem;
-`;
 
 const PdfVisning: React.FC<{
     journalpostState: JournalføringState;
@@ -51,8 +37,8 @@ const PdfVisning: React.FC<{
     };
 
     return (
-        <Container>
-            <NavigerDokumentContainer>
+        <div className={styles.container}>
+            <div className={styles.navigerDokumentContainer}>
                 <BodyShort>
                     Dokument {nåværendeIndex + 1} av {journalpost.dokumenter.length}
                 </BodyShort>
@@ -72,9 +58,9 @@ const PdfVisning: React.FC<{
                         variant="secondary"
                     />
                 </HStack>
-            </NavigerDokumentContainer>
+            </div>
             {dokumentMemo}
-        </Container>
+        </div>
     );
 };
 

@@ -1,0 +1,20 @@
+.styledDataCell {
+    padding: 0;
+}
+
+.fjernBehandlingKnapp {
+    margin-right: 0.5rem;
+}
+
+.tekstContainer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.bodyShortItalic {
+    font-style: italic;
+}
+
+.leggTilKnapp {
+    width: fit-content;
+}

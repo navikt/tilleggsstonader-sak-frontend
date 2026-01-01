@@ -1,0 +1,15 @@
+.expansionCardHeader {
+    padding-bottom: 0.35rem;
+}
+
+.expansionCardContent {
+    padding-bottom: 1rem;
+}
+
+.ikonContainer {
+    color: var(--a-bg-accent-strong);
+}
+
+.kopierPersonIdent {
+    z-index: 2;
+}

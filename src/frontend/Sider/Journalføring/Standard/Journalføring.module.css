@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    height: calc(100vh - 3.5rem);
+}
+
+.venstreKolonne {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 42.75rem;
+    padding: 1rem 2rem 10rem 1rem;
+}
