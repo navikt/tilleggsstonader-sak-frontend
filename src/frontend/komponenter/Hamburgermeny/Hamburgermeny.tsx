@@ -51,9 +51,10 @@ export const NullstillMenuItem = ({ onSelect }: { onSelect: () => void }) => {
     );
 };
 
-export const LenkerGroup = ({ ident }: { ident: string }) => {
+export const LenkerGroup = ({ ident, children }: { ident: string; children?: React.ReactNode }) => {
     return (
         <ActionMenu.Group label={'Lenker'}>
+            {children}
             <ModiaPersonoversiktLenke ident={ident} />
         </ActionMenu.Group>
     );

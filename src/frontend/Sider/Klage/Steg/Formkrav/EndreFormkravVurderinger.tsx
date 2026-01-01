@@ -217,7 +217,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     {feilmelding}
                 </Alert>
             )}
-            <Button htmlType="submit" variant="primary" size="medium" className={styles.lagreKnapp}>
+            <Button type="submit" variant="primary" size="medium" className={styles.lagreKnapp}>
                 Lagre
             </Button>
         </form>

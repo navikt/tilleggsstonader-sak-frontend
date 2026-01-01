@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { ActionMenu } from '@navikt/ds-react';
 
 import {
@@ -26,7 +27,28 @@ export const HamburgermenyKlage = ({ behandling }: { behandling: Klagebehandling
 
     return (
         <Hamburgermeny>
-            {personIdent && <LenkerGroup ident={personIdent} />}
+            {personIdent && (
+                <LenkerGroup ident={personIdent}>
+                    {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
+                        <ActionMenu.Item
+                            as="a"
+                            href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
+                            target="_blank"
+                            icon={<ExternalLinkIcon />}
+                        >
+                            Gå til behandling
+                        </ActionMenu.Item>
+                    )}
+                    <ActionMenu.Item
+                        as="a"
+                        href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
+                        target="_blank"
+                        icon={<ExternalLinkIcon />}
+                    >
+                        Gå til saksoversikt
+                    </ActionMenu.Item>
+                </LenkerGroup>
+            )}
             {erBehandlingRedigerbar(behandling) && (
                 <ActionMenu.Group label={'Behandling'}>
                     {behandlingErRedigerbar && !statusPåVentRedigering && (

@@ -4,7 +4,7 @@ import { FileTextIcon } from '@navikt/aksel-icons';
 import { BodyLong, Heading } from '@navikt/ds-react';
 
 import styles from './KlageInfo.module.css';
-import { Redigeringsmodus } from './typer';
+import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import IkkeOppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/IkkeOppfylt';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
@@ -12,6 +12,13 @@ import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
 import { formaterIsoDato } from '../../../../utils/dato';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import Advarsel from '../../Komponenter/Ikoner/Advarsel';
+import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
+
+interface IProps {
+    behandling: Klagebehandling;
+    vurderinger: IFormkravVilkår;
+    redigeringsmodus: Redigeringsmodus;
+}
 
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
     const { formkravOppfylt } = useKlagebehandling();
