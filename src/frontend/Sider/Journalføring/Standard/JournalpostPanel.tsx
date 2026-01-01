@@ -92,7 +92,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
             <ExpansionCard.Content>
                 <VStack className={styles.expansionCardContent} gap="4">
                     <Select
-                        className={styles.styledSelect}
+                        className={styles.maxWidth}
                         label="Stønadstype"
                         size="small"
                         value={stønadstype}
@@ -114,7 +114,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                         })}
                     </Select>
                     <Select
-                        className={styles.styledSelect}
+                        className={styles.maxWidth}
                         label="Type"
                         size="small"
                         value={journalføringsårsak}
@@ -140,7 +140,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                     </Select>
                     {journalføringGjelderKlage(journalføringsårsak) && (
                         <Checkbox
-                            className={styles.styledCheckbox}
+                            className={styles.marginLeft}
                             size="small"
                             checked={klageGjelderTilbakekreving}
                             onChange={() => {

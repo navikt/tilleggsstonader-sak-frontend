@@ -91,7 +91,7 @@ const Behandlinger: React.FC<Props> = ({
                                             {behandlingstypePåNyBehandling}
                                         </Table.DataCell>
                                         <Table.DataCell>Opprettes ved journalføring</Table.DataCell>
-                                        <Table.DataCell className={styles.styledDataCell}>
+                                        <Table.DataCell className={styles.dataCell}>
                                             <HStack justify={'end'}>
                                                 <SøppelbøtteKnapp
                                                     className={styles.fjernBehandlingKnapp}

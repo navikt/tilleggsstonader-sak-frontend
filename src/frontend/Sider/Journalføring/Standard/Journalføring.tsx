@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Button, Heading, HStack } from '@navikt/ds-react';
 
@@ -10,6 +9,7 @@ import AvsenderPanel from './AvsenderPanel';
 import Behandlinger from './Behandlinger';
 import BrukerPanel from './BrukerPanel';
 import Dokumenter from './Dokumenter';
+import styles from './Journalføring.module.css';
 import JournalpostPanel from './JournalpostPanel';
 import { BekreftJournalføringModal } from './Modal';
 import { validerJournalføring } from './validerJournalføring';
@@ -26,21 +26,6 @@ import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgaveb
 import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
-
-export const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    height: calc(100vh - 3.5rem);
-`;
-
-const VenstreKolonne = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    min-width: 42.75rem;
-    padding: 1rem 2rem 10rem 1rem;
-`;
 
 export const Journalføring: React.FC = () => {
     const query: URLSearchParams = useQueryParams();
@@ -135,8 +120,8 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
 
     return (
         <>
-            <Container>
-                <VenstreKolonne>
+            <div className={styles.container}>
+                <div className={styles.venstreKolonne}>
                     <section>
                         <Heading spacing size={'medium'} level={'1'}>
                             Journalføring
@@ -195,9 +180,9 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                             Journalfør
                         </Button>
                     </HStack>
-                </VenstreKolonne>
+                </div>
                 <PdfVisning journalpostState={journalpostState} />
-            </Container>
+            </div>
             <BekreftJournalføringModal journalpostState={journalpostState} />
         </>
     );

@@ -1,5 +1,5 @@
 .ikonContainer {
-    color: var(--a-bg-accent-strong);
+    color: var(--ax-bg-accent-strong);
 }
 
 .expansionCardHeader {
@@ -10,11 +10,11 @@
     padding-bottom: 1rem;
 }
 
-.styledSelect {
+.maxWidth {
     max-width: 13rem;
 }
 
-.styledCheckbox {
+.marginLeft {
     margin-left: 1rem;
 }
 
