@@ -1,0 +1,23 @@
+.oppfyltIkon {
+    margin-top: 0.25rem;
+}
+
+.errorIkon {
+    margin-top: 0.25rem;
+}
+
+.advarselIkon {
+    margin-top: 0.2rem;
+}
+
+.infoIkon {
+    margin-top: 0.25rem;
+}
+
+.tabellRad {
+    display: grid;
+    grid-template-columns: 21px 250px repeat(2, 325px);
+    grid-auto-rows: min-content;
+    grid-gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}

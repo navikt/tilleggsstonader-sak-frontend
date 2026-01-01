@@ -1,15 +1,8 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { Detail } from '@navikt/ds-react';
 
-const LogiskVedleggWrapper = styled.ul`
-    grid-area: vedlegg;
-    padding-left: 16px;
-    list-style-type: circle;
-    text-align: left;
-`;
+import styles from './LogiskeVedlegg.module.css';
 
 export interface ILogiskVedlegg {
     tittel: string;
@@ -18,12 +11,12 @@ export interface ILogiskVedlegg {
 export const LogiskeVedlegg: React.FC<{ logiskeVedlegg: ILogiskVedlegg[] | undefined }> = ({
     logiskeVedlegg,
 }) => (
-    <LogiskVedleggWrapper>
+    <ul className={styles.logiskVedleggWrapper}>
         {logiskeVedlegg &&
             logiskeVedlegg.map((logiskVedlegg, index) => (
                 <li key={logiskVedlegg.tittel + index}>
                     <Detail>{logiskVedlegg.tittel}</Detail>
                 </li>
             ))}
-    </LogiskVedleggWrapper>
+    </ul>
 );

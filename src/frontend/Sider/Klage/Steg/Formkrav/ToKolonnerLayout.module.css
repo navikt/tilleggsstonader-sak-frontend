@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    margin: 2rem;
+    border-bottom: 3px solid var(--ax-border-neutral-subtle);
+}
+
+@media (max-width: 1600px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+.venstreKolonne {
+    padding: 1.5rem 0;
+    width: 50%;
+    max-width: 50rem;
+}
+
+@media (max-width: 1600px) {
+    .venstreKolonne {
+        width: 100%;
+    }
+}
+
+.hoyreKolonne {
+    padding: 1.5rem 0;
+    width: 50%;
+    max-width: 50rem;
+}
+
+@media (max-width: 1600px) {
+    .hoyreKolonne {
+        width: 100%;
+    }
+}

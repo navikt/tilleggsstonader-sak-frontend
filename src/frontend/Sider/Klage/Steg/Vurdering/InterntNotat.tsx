@@ -1,24 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, Textarea } from '@navikt/ds-react';
 
+import styles from './InterntNotat.module.css';
 import { harVerdi } from '../../../../utils/utils';
-
-const FritekstWrapper = styled.div`
-    margin: 0 4rem 2rem 4rem;
-    max-width: 50rem;
-`;
-
-const KnappWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 4rem;
-    margin-bottom: -1.75rem;
-`;
 
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
@@ -43,7 +30,7 @@ export const InterntNotat: React.FC<{
 
     return (
         <>
-            <KnappWrapper>
+            <div className={styles.knappWrapper}>
                 <Button
                     variant={'tertiary'}
                     icon={utledIkon(skalViseFritekstFelt)}
@@ -51,16 +38,16 @@ export const InterntNotat: React.FC<{
                 >
                     {skalViseFritekstFelt ? 'Fjern internt notat' : 'Skriv internt notat'}
                 </Button>
-            </KnappWrapper>
+            </div>
             {skalViseFritekstFelt && (
-                <FritekstWrapper>
+                <div className={styles.fritekstWrapper}>
                     <Textarea
                         label={'Internt notat'}
                         readOnly={!behandlingErRedigerbar}
                         onChange={(e) => oppdaterTekst(e.target.value)}
                         value={tekst}
                     />
-                </FritekstWrapper>
+                </div>
             )}
         </>
     );

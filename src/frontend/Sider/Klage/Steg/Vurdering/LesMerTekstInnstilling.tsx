@@ -1,17 +1,16 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { ReadMore } from '@navikt/ds-react';
 
-const LesMerTekst = styled(ReadMore)`
-    margin-top: 0.25rem;
-    max-width: 40rem;
-`;
+import styles from './LesMerTekstInnstilling.module.css';
 
 export const LesMerTekstInnstilling: React.FC = () => {
     return (
-        <LesMerTekst size="small" header="Dette skal innstillingen inneholde">
+        <ReadMore
+            size="small"
+            header="Dette skal innstillingen inneholde"
+            className={styles.lesMerTekst}
+        >
             <ol>
                 <li>
                     Hva klagesaken gjelder
@@ -31,6 +30,6 @@ export const LesMerTekstInnstilling: React.FC = () => {
                     </ol>
                 </li>
             </ol>
-        </LesMerTekst>
+        </ReadMore>
     );
 };

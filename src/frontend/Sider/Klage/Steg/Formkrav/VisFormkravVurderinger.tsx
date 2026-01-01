@@ -1,11 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
-import { BorderMetaPurple } from '@navikt/ds-tokens/darkside-js';
 
 import {
     formkravFristUnntakTilTekst,
@@ -30,6 +28,7 @@ import {
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
+import styles from './VisFormkravVurderinger.module.css';
 import { SøppelbøtteKnapp } from '../../../../komponenter/Knapper/SøppelbøtteKnapp';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../../utils/dato';
@@ -41,73 +40,9 @@ import {
     påklagetVedtakstypeTilTekst,
 } from '../../typer/klagebehandling/påklagetVedtakstype';
 
-export const RadSentrertVertikalt = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
-
-const VisFormkravContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-`;
-
-const Header = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-`;
-
-const SpørsmålContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-left: 0.4rem solid ${BorderMetaPurple};
-    padding-left: 2rem;
-`;
-
-const SvarElement = styled.ul`
-    padding: 0;
-    font-size: 1rem;
-    list-style-type: none;
-`;
-
-const Spørsmål = styled.li`
-    padding: 0 0;
-    width: 40%;
-    font-weight: bold;
-`;
-
-const Svar = styled.li`
-    padding: 0.5rem 0;
-    width: 13rem;
-`;
-
-const VilkårIkon = styled.div`
-    margin: 0 1.5rem 0 -0.7rem;
-`;
-
-const BrukerMedBlyantIkon = styled(BrukerMedBlyant)`
-    overflow: visible;
-`;
-
-const FritekstWrapper = styled.div`
-    white-space: pre-wrap;
-    word-wrap: break-word;
-`;
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-    margin-right: auto;
-`;
-
-const StyledAlert = styled(Alert)`
-    margin-top: 1rem;
-    align-self: flex-start;
-    padding-right: 5rem;
-`;
+export const RadSentrertVertikalt: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className={styles.radSentrertVertikalt}>{children}</div>
+);
 
 interface IProps {
     fagsystemVedtak: FagsystemVedtak[];
@@ -205,12 +140,16 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
 
     return (
-        <VisFormkravContainer>
-            <Header>
+        <div className={styles.visFormkravContainer}>
+            <div className={styles.header}>
                 <RadSentrertVertikalt>
-                    <VilkårIkon>
-                        <BrukerMedBlyantIkon heigth={23} width={23} />
-                    </VilkårIkon>
+                    <div className={styles.vilkarIkon}>
+                        <BrukerMedBlyant
+                            heigth={23}
+                            width={23}
+                            className={styles.brukerMedBlyantIkon}
+                        />
+                    </div>
                     <Heading spacing size={'medium'}>
                         {alleVilkårErOppfylt ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
@@ -229,12 +168,12 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         </SøppelbøtteKnapp>
                     </div>
                 )}
-            </Header>
-            <SpørsmålContainer>
+            </div>
+            <div className={styles.sporsmalContainer}>
                 Sist endret - {formaterIsoDatoTid(vurderinger.endretTid)}
-                <SvarElement>
-                    <Spørsmål>Vedtak som er påklaget</Spørsmål>
-                    <Svar>
+                <ul className={styles.svarElement}>
+                    <li className={styles.sporsmal}>Vedtak som er påklaget</li>
+                    <li className={styles.svar}>
                         {gjeldendeFagsystemVedtak ? (
                             <div>
                                 <div>{gjeldendeFagsystemVedtak.behandlingstype}</div>
@@ -253,27 +192,31 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 </div>
                             </div>
                         )}
-                    </Svar>
-                </SvarElement>
+                    </li>
+                </ul>
                 {!ikkePåklagetVedtak && (
                     <>
                         {radioKnapper.map((knapp: IFormalkrav, index) => (
                             <React.Fragment key={index}>
-                                <SvarElement>
-                                    <Spørsmål>{knapp.spørsmål}</Spørsmål>
-                                    <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
-                                </SvarElement>
+                                <ul className={styles.svarElement}>
+                                    <li className={styles.sporsmal}>{knapp.spørsmål}</li>
+                                    <li className={styles.svar}>
+                                        {vilkårStatusTilTekst[knapp.svar]}
+                                    </li>
+                                </ul>
                                 {skalViseKlagefristUnntak(knapp) && (
-                                    <SvarElement>
-                                        <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
-                                        <Svar>
+                                    <ul className={styles.svarElement}>
+                                        <li className={styles.sporsmal}>
+                                            Er unntak for klagefristen oppfylt?
+                                        </li>
+                                        <li className={styles.svar}>
                                             {
                                                 formkravFristUnntakTilTekst[
                                                     vurderinger.klagefristOverholdtUnntak
                                                 ]
                                             }
-                                        </Svar>
-                                    </SvarElement>
+                                        </li>
+                                    </ul>
                                 )}
                             </React.Fragment>
                         ))}
@@ -281,36 +224,39 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 )}
                 {skalViseBegrunnelseOgBrevtekst && (
                     <>
-                        <SvarElement>
-                            <Spørsmål>Begrunnelse (intern)</Spørsmål>
-                            <Svar>
-                                <FritekstWrapper>
+                        <ul className={styles.svarElement}>
+                            <li className={styles.sporsmal}>Begrunnelse (intern)</li>
+                            <li className={styles.svar}>
+                                <div className={styles.fritekstWrapper}>
                                     {vurderinger.saksbehandlerBegrunnelse}
-                                </FritekstWrapper>
-                            </Svar>
-                        </SvarElement>
-                        <SvarElement>
-                            <Spørsmål>Fritekst til brev</Spørsmål>
-                            <Svar>
-                                <FritekstWrapper>{vurderinger.brevtekst}</FritekstWrapper>
-                            </Svar>
-                        </SvarElement>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul className={styles.svarElement}>
+                            <li className={styles.sporsmal}>Fritekst til brev</li>
+                            <li className={styles.svar}>
+                                <div className={styles.fritekstWrapper}>
+                                    {vurderinger.brevtekst}
+                                </div>
+                            </li>
+                        </ul>
                     </>
                 )}
                 {urlSuffiks && (
-                    <LagreKnapp
+                    <Button
                         variant="primary"
                         size="medium"
                         onClick={() =>
                             navigate(`/klagebehandling/${vurderinger.behandlingId}/${urlSuffiks}`)
                         }
+                        className={styles.lagreKnapp}
                     >
                         Fortsett
-                    </LagreKnapp>
+                    </Button>
                 )}
-            </SpørsmålContainer>
+            </div>
             {manglerUtfylling && (
-                <StyledAlert variant={'error'}>
+                <Alert variant={'error'} className={styles.alert}>
                     <Label>Følgende vilkår er ikke utfylt:</Label>
                     <ul>
                         {!påKlagetVedtakErValgt && <li>Ikke valgt påklaget vedtak</li>}
@@ -335,8 +281,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                         {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
                     </ul>
-                </StyledAlert>
+                </Alert>
             )}
-        </VisFormkravContainer>
+        </div>
     );
 };

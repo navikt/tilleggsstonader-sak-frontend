@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Alert, Button } from '@navikt/ds-react';
 
+import styles from './Brev.module.css';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { useApp } from '../../../../context/AppContext';
 import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
@@ -28,36 +28,6 @@ import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKla
 import { Vurderingsfelter } from '../Vurdering/vurderingsfelter';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 
-const Brevside = styled.div`
-    background-color: var(--a-bg-subtle);
-    padding: 2rem 2rem 0 2rem;
-`;
-
-const BehandlingPåVent = styled.div`
-    padding: 2rem 2rem 0 2rem;
-`;
-
-const BrevContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-gap: 1rem;
-    justify-content: space-between;
-
-    @media only screen and (max-width: 1800px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3rem;
-    }
-`;
-
-const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
-
-const StyledKnapp = styled(Button)`
-    margin-top: 2rem;
-`;
-
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
 export const Brev = () => {
@@ -65,7 +35,9 @@ export const Brev = () => {
     if (behandling.status !== KlagebehandlingStatus.SATT_PÅ_VENT) {
         return <BrevComponent behandling={behandling} />;
     } else {
-        return <BehandlingPåVent>Behandling på vent - kan ikke vise brev</BehandlingPåVent>;
+        return (
+            <div className={styles.behandlingPaVent}>Behandling på vent - kan ikke vise brev</div>
+        );
     }
 };
 
@@ -151,8 +123,8 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
 
     if (utfall === 'LAG_BREV') {
         return (
-            <Brevside>
-                <BrevContainer>
+            <div className={styles.brevside}>
+                <div className={styles.brevContainer}>
                     <div>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
                             <BrevMottakere
@@ -164,19 +136,20 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
                             />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                            <StyledKnapp
+                            <Button
                                 variant="primary"
                                 size="medium"
                                 onClick={() => {
                                     settVisModal(true);
                                 }}
+                                className={styles.knapp}
                             >
                                 Ferdigstill behandling og send brev
-                            </StyledKnapp>
+                            </Button>
                         )}
                     </div>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
-                </BrevContainer>
+                </div>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
                     umamiId={'bekreft-utsending-av-brev'}
@@ -193,10 +166,12 @@ export const BrevComponent: React.FC<{ behandling: Klagebehandling }> = ({ behan
                     ariaLabel={'Bekreft ustending av frittstående brev'}
                 >
                     {feilmelding && (
-                        <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
+                        <Alert variant={'error'} className={styles.alertStripe}>
+                            Utsending feilet.{feilmelding}
+                        </Alert>
                     )}
                 </ModalWrapper>
-            </Brevside>
+            </div>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
         return (

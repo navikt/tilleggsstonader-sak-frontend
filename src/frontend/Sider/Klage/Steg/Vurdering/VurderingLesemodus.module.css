@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 4rem;
+}
+
+.avsnitt {
+    margin: 0 0 2rem 0;
+}
+
+.fritekstfeltLesemodus {
+    white-space: pre-wrap;
+}

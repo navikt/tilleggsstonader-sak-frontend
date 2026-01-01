@@ -1,0 +1,31 @@
+.visningsnavn {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+
+    border-bottom: 1px solid var(--ax-border-focus);
+    z-index: 22;
+    top: 47px;
+}
+
+.wrapper :global(.visittkort) {
+    padding: 0 1.5rem;
+    border-bottom: none;
+}
+
+.element {
+    margin-left: 1rem;
+}
+
+.rightContent {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 1rem;
+}

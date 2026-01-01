@@ -1,0 +1,42 @@
+.radioGrupperContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.radioGruppe {
+    margin-bottom: 1rem;
+}
+
+.radioButton {
+    margin: -0.6rem -0.6rem -0.6rem 0rem;
+}
+
+.lagreKnapp {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.alertStripe {
+    margin-top: 0.5rem;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.hjelpeTekst {
+    margin-left: 0.5rem;
+}
+
+.helpTextContainer {
+    max-width: 35rem;
+}
+
+.vedtakSelectContainer {
+    margin-bottom: 1rem;
+}
+
+.fritekstFelt {
+    margin-top: 1rem;
+}

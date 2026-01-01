@@ -1,16 +1,11 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 
+import styles from './FeilregistrertVisning.module.css';
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-
-const AlerMedMaxbredde = styled(Alert)`
-    max-width: 60rem;
-`;
 
 export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = ({
     behandling,
@@ -20,7 +15,7 @@ export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = 
     );
 
     return feilregistrertResultat ? (
-        <AlerMedMaxbredde variant={'warning'}>
+        <Alert variant={'warning'} className={styles.alertMedMaxbredde}>
             <Heading spacing size="small" level="3">
                 Behandling feilregistrert av NAV klageinstans
             </Heading>
@@ -28,6 +23,6 @@ export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = 
                 {formaterIsoDatoTid(feilregistrertResultat.mottattEllerAvsluttetTidspunkt)}
             </Label>
             <BodyShort>{feilregistrertResultat.årsakFeilregistrert}</BodyShort>
-        </AlerMedMaxbredde>
+        </Alert>
     ) : null;
 };

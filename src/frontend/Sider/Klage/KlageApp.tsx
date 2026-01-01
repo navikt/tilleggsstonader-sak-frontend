@@ -1,22 +1,16 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { BodyLong } from '@navikt/ds-react';
 
 import { KlageAppProvider, useKlageApp } from './context/KlageAppContext';
+import styles from './KlageApp.module.css';
 import UlagretDataModal from './Komponenter/UlagretDataModal/UlagretDataModal';
 import BehandlingContainer from './Layout/BehandlingContainer';
 import { useApp } from '../../context/AppContext';
 import { ModalWrapper } from '../../komponenter/Modal/ModalWrapper';
-
-const Innhold = styled(BodyLong)`
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-`;
 
 export const KlageApp: React.FC = () => {
     return (
@@ -46,7 +40,7 @@ const AppInnhold: React.FC = () => {
             visModal={true}
             ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
         >
-            <Innhold>Prøv å laste siden på nytt</Innhold>
+            <BodyLong className={styles.innhold}>Prøv å laste siden på nytt</BodyLong>
         </ModalWrapper>
     ) : (
         <>

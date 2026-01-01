@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 
+import styles from './AnkeVisning.module.css';
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import {
@@ -11,10 +10,6 @@ import {
     klagehendelseTypeTilTekst,
 } from '../../typer/klagebehandling/klagebehandling';
 import { utfallTilTekst } from '../../utils/behandlingsresultat';
-
-const AlertMedMaxbredde = styled(Alert)`
-    max-width: 60rem;
-`;
 
 export const AnkeVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const ankeResultater = behandling.klageinstansResultat.filter((resultat) =>
@@ -26,7 +21,7 @@ export const AnkeVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandl
     );
 
     return ankeResultater.length > 0 ? (
-        <AlertMedMaxbredde variant={'warning'}>
+        <Alert variant={'warning'} className={styles.alertMedMaxbredde}>
             <Heading spacing size="small" level="3">
                 Merk at det finnes informasjon om anke på denne klagen
             </Heading>
@@ -41,6 +36,6 @@ export const AnkeVisning: React.FC<{ behandling: Klagebehandling }> = ({ behandl
                     )}
                 </div>
             ))}
-        </AlertMedMaxbredde>
+        </Alert>
     ) : null;
 };

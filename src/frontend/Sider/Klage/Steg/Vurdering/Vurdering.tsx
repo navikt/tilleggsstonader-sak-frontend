@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Alert, Button, Textarea } from '@navikt/ds-react';
 
@@ -11,6 +10,7 @@ import { InterntNotat } from './InterntNotat';
 import { LesMerTekstInnstilling } from './LesMerTekstInnstilling';
 import { Vedtak } from './Vedtak';
 import { VelgÅrsakOmgjøring } from './VelgÅrsakOmgjøring';
+import styles from './Vurdering.module.css';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { erNødvendigeFelterUtfylt, tilVurderingDto, Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
@@ -29,23 +29,6 @@ import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { useVurdering } from '../../hooks/useVurdering';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
-
-const FritekstFeltWrapper = styled.div`
-    margin: 2rem 4rem 2rem 4rem;
-    max-width: 50rem;
-`;
-
-const AlertStyled = styled(Alert)`
-    margin: 2rem 4rem 2rem 4rem;
-    width: 25rem;
-`;
-
-const VurderingKnapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 4rem;
-`;
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
@@ -150,7 +133,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             årsakValgmuligheter={årsakValgTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
-                                        <FritekstFeltWrapper>
+                                        <div className={styles.fritekstFeltWrapper}>
                                             <Textarea
                                                 label="Begrunnelse for omgjøring (internt notat)"
                                                 value={oppdatertVurdering.begrunnelseOmgjøring}
@@ -164,7 +147,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 }}
                                                 size="medium"
                                             />
-                                        </FritekstFeltWrapper>
+                                        </div>
                                     </>
                                 )}
                                 {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
@@ -174,7 +157,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             hjemler={oppdatertVurdering.hjemler}
                                             endring={settIkkePersistertKomponent}
                                         />
-                                        <FritekstFeltWrapper>
+                                        <div className={styles.fritekstFeltWrapper}>
                                             <Textarea
                                                 label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
                                                 value={
@@ -191,7 +174,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 size="medium"
                                             />
                                             <LesMerTekstInnstilling />
-                                        </FritekstFeltWrapper>
+                                        </div>
                                         <InterntNotat
                                             behandlingErRedigerbar={behandlingErRedigerbar}
                                             tekst={oppdatertVurdering?.interntNotat}
@@ -199,7 +182,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         />
                                     </>
                                 )}
-                                <VurderingKnapper>
+                                <div className={styles.vurderingKnapper}>
                                     {(vurderingEndret || melding?.type === 'error') && (
                                         <Button
                                             variant="primary"
@@ -219,11 +202,15 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             Fortsett
                                         </Button>
                                     )}
-                                </VurderingKnapper>
+                                </div>
                                 {melding && (
-                                    <AlertStyled variant={melding.type} size="medium">
+                                    <Alert
+                                        variant={melding.type}
+                                        size="medium"
+                                        className={styles.alert}
+                                    >
                                         {melding.tekst}
-                                    </AlertStyled>
+                                    </Alert>
                                 )}
                             </>
                         )}

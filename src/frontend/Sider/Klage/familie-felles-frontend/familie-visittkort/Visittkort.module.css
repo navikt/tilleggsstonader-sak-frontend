@@ -1,0 +1,12 @@
+.container {
+    height: 3rem;
+    padding: 0 var(--ax-space-16);
+}
+
+.borderStrong {
+    border-bottom: 1px solid var(--ax-border-neutral-strong);
+}
+
+.borderSubtle {
+    border-bottom: 1px solid var(--ax-border-neutral-subtle);
+}

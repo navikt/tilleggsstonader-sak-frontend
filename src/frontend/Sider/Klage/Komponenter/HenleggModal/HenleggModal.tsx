@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Alert, Box, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
+import styles from './HenleggModal.module.css';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { HenlagtÅrsak, henlagtÅrsakTilTekst } from '../../../../typer/behandling/behandlingÅrsak';
@@ -13,10 +13,6 @@ import { Toast } from '../../../../typer/toast';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { useHenleggBehandling } from '../../hooks/useHenleggBehandling';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
-
-const AlertStripe = styled(Alert)`
-    margin-top: 1rem;
-`;
 
 export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const { settToast } = useApp();
@@ -94,7 +90,11 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}
                     />
-                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                    {feilmelding && (
+                        <Alert variant={'error'} className={styles.alertStripe}>
+                            {feilmelding}
+                        </Alert>
+                    )}
                 </VStack>
             </Box>
         </ModalWrapper>

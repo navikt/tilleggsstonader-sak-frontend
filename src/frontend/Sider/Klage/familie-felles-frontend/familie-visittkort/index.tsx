@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { CopyButton, HStack, Label } from '@navikt/ds-react';
-import { BorderNeutralStrong, BorderNeutralSubtle, Space16 } from '@navikt/ds-tokens/darkside-js';
+
+import styles from './Visittkort.module.css';
 
 export interface IProps extends React.PropsWithChildren {
     alder: number;
@@ -14,18 +13,6 @@ export interface IProps extends React.PropsWithChildren {
     borderBottom?: boolean;
 }
 
-const StyledVisittkort = styled(HStack)<{ $dempetKantlinje: boolean }>`
-    ${(props) =>
-        props.$borderBottom &&
-        `border-bottom: 1px solid ${props.$dempetKantlinje ? BorderNeutralSubtle : BorderNeutralStrong}`};
-    height: 3rem;
-    padding: 0 ${Space16};
-`;
-
-const GrådigChildrenContainer = styled(HStack)`
-    flex: 1;
-`;
-
 export const Visittkort: React.FunctionComponent<IProps> = ({
     alder,
     children,
@@ -34,13 +21,18 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
     dempetKantlinje = false,
     borderBottom = true,
 }) => {
+    const borderClass = borderBottom
+        ? dempetKantlinje
+            ? styles.borderSubtle
+            : styles.borderStrong
+        : '';
+
     return (
-        <StyledVisittkort
+        <HStack
             align="center"
-            justify="space-between"
+            justify="start"
             gap="4"
-            $dempetKantlinje={dempetKantlinje}
-            $borderBottom={borderBottom}
+            className={`visittkort ${styles.container} ${borderClass}`}
         >
             <HStack align="center" gap="4">
                 {typeof navn === 'string' ? (
@@ -56,10 +48,10 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
                     <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
                 </HStack>
             </HStack>
-            <GrådigChildrenContainer align="center" gap="4">
+            <HStack align="center" gap="4">
                 {children}
-            </GrådigChildrenContainer>
-        </StyledVisittkort>
+            </HStack>
+        </HStack>
     );
 };
 

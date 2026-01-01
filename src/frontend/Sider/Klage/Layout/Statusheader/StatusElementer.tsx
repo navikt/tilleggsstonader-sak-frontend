@@ -1,11 +1,9 @@
 import React, { FC, useState } from 'react';
 
-import styled from 'styled-components';
+import { ChevronDownIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button } from '@navikt/ds-react';
 
-import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Link } from '@navikt/ds-react';
-import { TextNeutral, TextNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
-
+import styles from './StatusElementer.module.css';
 import { stønadstypeTilTekst } from '../../../../typer/behandling/behandlingTema';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
@@ -15,218 +13,89 @@ import {
     utledTekstForBehandlingsresultat,
 } from '../../utils/behandlingsresultat';
 
-interface StatusMenyInnholdProps {
-    $åpen: boolean;
-}
-
-interface StatusProps {
-    kunEttElement?: boolean;
-}
-
-// @ts-ignore
-export const GråTekst = styled(BodyShort)`
-    color: ${TextNeutralSubtle};
-`;
-
-const StatusMenyInnhold = styled.div<{ $åpen: boolean }>`
-    display: ${(props: StatusMenyInnholdProps) => (props.$åpen ? 'block' : 'none')};
-
-    position: absolute;
-
-    background-color: white;
-
-    right: 1rem;
-
-    border: 1px solid grey;
-
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-
-    ul,
-    li {
-        margin: 0;
-    }
-
-    ul {
-        padding: 0.5rem;
-    }
-
-    li {
-        padding: 0;
-        list-style-type: none;
-    }
-`;
-
-const VisStatuserKnapp = styled(Button)`
-    color: ${TextNeutral};
-`;
-
-const VisStønadOgBehandlingstypePåLitenSkjerm = styled.div`
-    @media screen and (min-width: 760px) {
-        display: none;
-    }
-`;
-
-export const Statuser = styled.div`
-    margin-left: 1rem;
-    display: flex;
-    align-items: center;
-
-    white-space: nowrap;
-
-    @media screen and (max-width: 1700px) {
-        display: none;
-    }
-`;
-
-export const StatuserLitenSkjerm = styled.div`
-    margin-left: 1rem;
-    display: flex;
-    align-items: center;
-
-    white-space: nowrap;
-
-    @media screen and (min-width: 1700px) {
-        display: none;
-    }
-`;
-
-export const Status = styled.div<StatusProps>`
-    display: flex;
-    width: 100%;
-    margin-right: ${(props) => (props.kunEttElement ? '0' : '1.3rem')};
-
-    flex-gap: 0.5rem;
-
-    > p {
-        font-size: 14px;
-        margin: 0.2rem;
-    }
-`;
+export const GråTekst: FC<{ children: React.ReactNode }> = ({ children }) => (
+    <BodyShort className={styles.graTekst}>{children}</BodyShort>
+);
 
 export const StatusMeny: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
 
     return (
         <div>
-            <VisStatuserKnapp
+            <Button
                 variant="tertiary"
                 onClick={() => {
                     settÅpenStatusMeny(!åpenStatusMeny);
                 }}
+                className={styles.visStatuserKnapp}
             >
                 <ChevronDownIcon fontSize="1.5rem" />
-            </VisStatuserKnapp>
-            <StatusMenyInnhold $åpen={åpenStatusMeny}>
+            </Button>
+            <div
+                className={`${styles.statusMenyInnhold} ${åpenStatusMeny ? styles.statusMenyInnholdOpen : ''}`}
+            >
                 <ul>
-                    <VisStønadOgBehandlingstypePåLitenSkjerm>
+                    <div className={styles.visStonadOgBehandlingstypePaLitenSkjerm}>
                         <li>
-                            <Status>
+                            <div className={styles.status}>
                                 <GråTekst>Stønadstype</GråTekst>
                                 <BodyShort>{stønadstypeTilTekst[behandling.stønadstype]}</BodyShort>
-                            </Status>
+                            </div>
                         </li>
-                    </VisStønadOgBehandlingstypePåLitenSkjerm>
+                    </div>
                     <li>
-                        <Status>
+                        <div className={styles.status}>
                             <GråTekst>Behandlingsstatus</GråTekst>
                             <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
-                        </Status>
+                        </div>
                     </li>
                     <li>
-                        <Status>
+                        <div className={styles.status}>
                             <GråTekst>Behandlingsresultat</GråTekst>
                             <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
-                        </Status>
+                        </div>
                     </li>
                     <li>
-                        <Status>
+                        <div className={styles.status}>
                             <GråTekst>Opprettet</GråTekst>
                             <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
-                        </Status>
+                        </div>
                     </li>
                     <li>
-                        <Status>
+                        <div className={styles.status}>
                             <GråTekst>Sist endret</GråTekst>
                             <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
-                        </Status>
-                    </li>
-                    {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
-                        <li>
-                            <Status>
-                                <Link
-                                    href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
-                                    target="_blank"
-                                >
-                                    Gå til behandling
-                                    <ExternalLinkIcon
-                                        aria-label="Gå til behandling"
-                                        fontSize="1.5rem"
-                                    />
-                                </Link>
-                            </Status>
-                        </li>
-                    )}
-                    <li>
-                        <Status>
-                            <Link
-                                href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
-                                target="_blank"
-                            >
-                                Gå til saksoversikt
-                                <ExternalLinkIcon
-                                    aria-label="Gå til saksoversikt"
-                                    fontSize="1.5rem"
-                                />
-                            </Link>
-                        </Status>
+                        </div>
                     </li>
                 </ul>
-            </StatusMenyInnhold>
+            </div>
         </div>
     );
 };
 
+export const StatuserLitenSkjerm: FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className={styles.statuserLitenSkjerm}>{children}</div>
+);
+
 export const AlleStatuser: FC<{ behandling: Klagebehandling }> = ({ behandling }) => {
     return (
-        <Statuser>
-            <Status>
+        <div className={styles.statuser}>
+            <div className={styles.status}>
                 <GråTekst>Behandlingsstatus</GråTekst>
                 <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
-            </Status>
-            <Status>
+            </div>
+            <div className={styles.status}>
                 <GråTekst>Behandlingsresultat</GråTekst>
                 <BodyShort>{utledTekstForBehandlingsresultat(behandling)}</BodyShort>
-            </Status>
-            <Status>
+            </div>
+            <div className={styles.status}>
                 <GråTekst>Opprettet</GråTekst>
                 <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
-            </Status>
-            <Status>
+            </div>
+            <div className={styles.status}>
                 <GråTekst>Sist endret</GråTekst>
                 <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
-            </Status>
-            {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
-                <Status>
-                    <Link
-                        href={`/ekstern/behandling/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`}
-                        target="_blank"
-                    >
-                        Gå til behandling
-                        <ExternalLinkIcon aria-label="Gå til behandling" fontSize="1.5rem" />
-                    </Link>
-                </Status>
-            )}
-            <Status>
-                <Link
-                    href={`/ekstern/person/${behandling.eksternFagsystemFagsakId}`}
-                    target="_blank"
-                >
-                    Gå til saksoversikt
-                    <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize="1.5rem" />
-                </Link>
-            </Status>
-        </Statuser>
+            </div>
+        </div>
     );
 };

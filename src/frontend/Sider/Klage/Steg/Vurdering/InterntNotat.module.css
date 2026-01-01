@@ -1,0 +1,11 @@
+.fritekstWrapper {
+    margin: 0 4rem 2rem 4rem;
+    max-width: 50rem;
+}
+
+.knappWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 4rem;
+    margin-bottom: -1.75rem;
+}

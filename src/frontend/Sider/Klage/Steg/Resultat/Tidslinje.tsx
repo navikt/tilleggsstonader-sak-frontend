@@ -1,10 +1,9 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { ClockIcon } from '@navikt/aksel-icons';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 
+import styles from './Tidslinje.module.css';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import Info from '../../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import Oppfylt from '../../../../komponenter/Ikoner/Vurderingsresultat/Oppfylt';
@@ -18,94 +17,6 @@ import {
     KlagebehandlingSteg,
 } from '../../typer/klagebehandling/klagebehandlingSteg';
 import { utledStegutfall } from '../../utils/behandlingsresultat';
-
-const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
-    display: flex;
-    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        flex-direction: row;
-    }
-`;
-
-const HistorikkInnslag = styled.div<{ åpenHøyremeny: boolean }>`
-    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        width: 10rem;
-    }
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        flex-grow: 1;
-        display: grid;
-        grid-template-columns: auto 5rem auto;
-        align-self: stretch;
-    }
-`;
-
-const RevurderingAlertContainer = styled.div<{ åpenHøyremeny: boolean }>`
-    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        width: 14rem;
-    }
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        flex-grow: 1;
-        display: grid;
-        grid-template-columns: auto 14rem auto;
-    }
-`;
-
-const LinjeStiplet = styled.div<{ åpenHøyremeny: boolean }>`
-    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        border-left: 2px dashed black;
-        margin: 0 auto 2px;
-        width: 0;
-        height: 2rem;
-    }
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        border-top: 2px dashed black;
-        margin-top: 3.25rem;
-        margin-left: 2px;
-    }
-`;
-
-const LinjeSort = styled.div<{ synlig: boolean; åpenHøyremeny: boolean }>`
-    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        ${(props) => (props.synlig ? '' : 'transparent')}
-        border-left: 2px solid black;
-        margin: 0 auto;
-        height: 2rem;
-        width: 0;
-    }
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        border-top: 2px solid ${(props) => (props.synlig ? 'black' : 'transparent')};
-        margin-top: 3.25rem;
-    }
-`;
-
-const NodeContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-    text-align: center;
-    align-items: center;
-`;
-
-const Tittel = styled(Heading)<{ tittelErToLinjer: boolean; åpenHøyremeny: boolean }>`
-    min-width: 9rem;
-    margin-bottom: 0.75rem;
-
-    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
-        ${(props) =>
-            props.tittelErToLinjer
-                ? 'position: relative; bottom: 1rem; margin-bottom: -0.75rem'
-                : ''}
-    }
-`;
-
-const Suksess = styled(Oppfylt)`
-    margin: auto;
-    margin-bottom: 0.5rem;
-`;
 
 /**
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
@@ -138,38 +49,54 @@ export const Tidslinje: React.FC<{
 
     const harFåttMedhold = behandling.resultat === KlagebehandlingResultat.MEDHOLD;
     return (
-        <Flexbox åpenHøyremeny={åpenHøyremeny}>
+        <div className={åpenHøyremeny ? styles.flexboxOpen : styles.flexbox}>
             {historikk.map((steg, index) => {
                 return (
-                    <HistorikkInnslag key={index} åpenHøyremeny={åpenHøyremeny}>
-                        <LinjeSort synlig={index > 0} åpenHøyremeny={åpenHøyremeny} />
+                    <div
+                        key={index}
+                        className={
+                            åpenHøyremeny ? styles.historikkInnslagOpen : styles.historikkInnslag
+                        }
+                    >
+                        <div
+                            className={`${åpenHøyremeny ? styles.linjeSortOpen : styles.linjeSort} ${index > 0 ? '' : styles.linjeSortHidden}`}
+                        />
                         <Node behandling={behandling} steg={steg} åpenHøyremeny={åpenHøyremeny} />
                         {index + 1 < historikk.length && (
-                            <LinjeSort synlig={true} åpenHøyremeny={åpenHøyremeny} />
+                            <div
+                                className={åpenHøyremeny ? styles.linjeSortOpen : styles.linjeSort}
+                            />
                         )}
                         {harFåttMedhold && index + 1 === historikk.length && (
-                            <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
+                            <div
+                                className={
+                                    åpenHøyremeny ? styles.linjeStipletOpen : styles.linjeStiplet
+                                }
+                            />
                         )}
-                    </HistorikkInnslag>
+                    </div>
                 );
             })}
             {harFåttMedhold && (
-                <RevurderingAlertContainer åpenHøyremeny={åpenHøyremeny}>
-                    <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
-                    <NodeContainer>
-                        <Tittel
-                            level="1"
-                            size="xsmall"
-                            tittelErToLinjer={false}
-                            åpenHøyremeny={åpenHøyremeny}
-                        >
+                <div
+                    className={
+                        åpenHøyremeny
+                            ? styles.revurderingAlertContainerOpen
+                            : styles.revurderingAlertContainer
+                    }
+                >
+                    <div
+                        className={åpenHøyremeny ? styles.linjeStipletOpen : styles.linjeStiplet}
+                    />
+                    <div className={styles.nodeContainer}>
+                        <Heading level="1" size="xsmall" className={styles.tittel}>
                             Revurdering
-                        </Tittel>
+                        </Heading>
                         <MedholdRevurdering behandling={behandling} />
-                    </NodeContainer>
-                </RevurderingAlertContainer>
+                    </div>
+                </div>
             )}
-        </Flexbox>
+        </div>
     );
 };
 
@@ -182,21 +109,26 @@ const Node: React.FC<{
         steg.steg === KlagebehandlingSteg.OVERFØRING_TIL_KABAL ||
         steg.steg === KlagebehandlingSteg.KABAL_VENTER_SVAR;
 
+    const tittelKlasse = tittelErToLinjer
+        ? åpenHøyremeny
+            ? styles.tittelToLinjerOpen
+            : styles.tittelToLinjer
+        : '';
+
     return (
-        <NodeContainer>
-            <Tittel
-                level="1"
-                size="xsmall"
-                tittelErToLinjer={tittelErToLinjer}
-                åpenHøyremeny={åpenHøyremeny}
-            >
+        <div className={styles.nodeContainer}>
+            <Heading level="1" size="xsmall" className={`${styles.tittel} ${tittelKlasse}`}>
                 {behandlingStegTilTekst[steg.steg]}
-            </Tittel>
-            {steg.endretTid ? <Suksess width={36} height={36} /> : <ClockIcon fontSize="2.25rem" />}
+            </Heading>
+            {steg.endretTid ? (
+                <Oppfylt width={36} height={36} className={styles.suksess} />
+            ) : (
+                <ClockIcon fontSize="2.25rem" />
+            )}
             <Detail>{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail>{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
             <Label size={'small'}>{utledStegutfall(behandling, steg.steg)}</Label>
-        </NodeContainer>
+        </div>
     );
 };
 

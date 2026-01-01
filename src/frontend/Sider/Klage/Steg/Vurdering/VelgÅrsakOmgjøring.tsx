@@ -1,22 +1,12 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { Heading, Select } from '@navikt/ds-react';
 
+import styles from './VelgÅrsakOmgjøring.module.css';
 import { Vurderingsfelter } from './vurderingsfelter';
 import { ÅrsakOmgjøring } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-
-const ÅrsakStyled = styled.div`
-    margin: 2rem 4rem 2rem 4rem;
-`;
-
-const ÅrsakInnholdStyled = styled.div`
-    display: block;
-    width: 18rem;
-`;
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<Vurderingsfelter>>;
@@ -33,11 +23,11 @@ export const VelgÅrsakOmgjøring: React.FC<IÅrsak> = ({
 }) => {
     const { settVurderingEndret } = useKlagebehandling();
     return (
-        <ÅrsakStyled>
+        <div className={styles.arsak}>
             <Heading spacing size="medium" level="5">
                 Årsak
             </Heading>
-            <ÅrsakInnholdStyled>
+            <div className={styles.arsakInnhold}>
                 <Select
                     value={årsakValgt}
                     label=""
@@ -62,7 +52,7 @@ export const VelgÅrsakOmgjøring: React.FC<IÅrsak> = ({
                         </option>
                     ))}
                 </Select>
-            </ÅrsakInnholdStyled>
-        </ÅrsakStyled>
+            </div>
+        </div>
     );
 };

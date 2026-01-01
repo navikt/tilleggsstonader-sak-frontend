@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Button } from '@navikt/ds-react';
 
+import styles from './OmgjørVedtak.module.css';
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
@@ -14,19 +13,6 @@ import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
 } from '../../typer/kanOppretteRevurdering';
-
-const AlertContainer = styled.div`
-    padding: 2rem;
-    max-width: 40rem;
-`;
-
-const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
-
-const StyledKnapp = styled(Button)`
-    margin-top: 2rem;
-`;
 
 const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOppretteRevurdering }> = ({
     kanOppretteRevurdering,
@@ -86,9 +72,9 @@ export const OmgjørVedtak: React.FC<{
 
     if (!behandlingErRedigerbar) {
         return (
-            <AlertContainer>
+            <div className={styles.alertContainer}>
                 <Alert variant={'info'}>Brev finnes ikke fordi klagen er tatt til følge.</Alert>
-            </AlertContainer>
+            </div>
         );
     }
 
@@ -97,14 +83,14 @@ export const OmgjørVedtak: React.FC<{
             {({ kanOppretteRevurdering }) => (
                 <>
                     {behandlingErRedigerbar && (
-                        <AlertContainer>
+                        <div className={styles.alertContainer}>
                             <KanOppretteRevurderingTekst
                                 kanOppretteRevurdering={kanOppretteRevurdering}
                             />
-                            <StyledKnapp onClick={() => settVisModal(true)}>
+                            <Button onClick={() => settVisModal(true)} className={styles.knapp}>
                                 Ferdigstill
-                            </StyledKnapp>
-                        </AlertContainer>
+                            </Button>
+                        </div>
                     )}
                     <ModalWrapper
                         tittel={'Bekreft ferdigstillelse av klagebehandling'}
@@ -120,7 +106,11 @@ export const OmgjørVedtak: React.FC<{
                             lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
                         }}
                     >
-                        {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                        {feilmelding && (
+                            <Alert variant={'error'} className={styles.alertStripe}>
+                                {feilmelding}
+                            </Alert>
+                        )}
                     </ModalWrapper>
                 </>
             )}

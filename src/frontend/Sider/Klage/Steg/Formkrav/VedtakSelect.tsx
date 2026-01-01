@@ -1,7 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { Select, VStack } from '@navikt/ds-react';
 
 import { IFormkravVilkår } from './typer';
@@ -11,6 +9,7 @@ import {
     harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
+import styles from './VedtakSelect.module.css';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { erGyldigDato } from '../../../../utils/dato';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
@@ -24,10 +23,6 @@ interface IProps {
     vedtak: FagsystemVedtak[];
     vurderinger: IFormkravVilkår;
 }
-
-const SelectWrapper = styled(VStack)`
-    width: 80%;
-`;
 
 export const VedtakSelect: React.FC<IProps> = ({
     settOppdaterteVurderinger,
@@ -56,7 +51,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
 
     return (
-        <SelectWrapper gap={'4'}>
+        <VStack gap={'4'} className={styles.selectWrapper}>
             <Select
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {
@@ -106,6 +101,6 @@ export const VedtakSelect: React.FC<IProps> = ({
                     toDate={new Date()}
                 />
             )}
-        </SelectWrapper>
+        </VStack>
     );
 };

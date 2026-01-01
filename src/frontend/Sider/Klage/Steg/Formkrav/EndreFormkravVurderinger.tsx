@@ -1,7 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import styled from 'styled-components';
-
 import {
     Alert,
     BodyLong,
@@ -13,6 +11,7 @@ import {
     Textarea,
 } from '@navikt/ds-react';
 
+import styles from './EndreFormkravVurderinger.module.css';
 import KlagefristUnntak from './KlagefristUnntak';
 import {
     EFormalKravType,
@@ -37,49 +36,6 @@ import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
 import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
-
-const RadioGrupperContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const RadioGruppe = styled(RadioGroup)`
-    margin-bottom: 1rem;
-`;
-
-const RadioButton = styled(Radio)`
-    margin: -0.6rem -0.6rem -0.6rem 0rem;
-`;
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-`;
-
-const AlertStripe = styled(Alert)`
-    margin-top: 0.5rem;
-`;
-
-const FlexRow = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const HjelpeTekst = styled(HelpText)`
-    margin-left: 0.5rem;
-`;
-
-const HelpTextContainer = styled.div`
-    max-width: 35rem;
-`;
-
-const VedtakSelectContainer = styled.div`
-    margin-bottom: 1rem;
-`;
-
-const FritekstFelt = styled(Textarea)`
-    margin-top: 1rem;
-`;
 
 interface IProps {
     fagsystemVedtak: FagsystemVedtak[];
@@ -145,22 +101,22 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 submitOppdaterteVurderinger();
             }}
         >
-            <VedtakSelectContainer>
+            <div className={styles.vedtakSelectContainer}>
                 <VedtakSelect
                     settOppdaterteVurderinger={settOppdaterteVurderinger}
                     vedtak={fagsystemVedtak}
                     vurderinger={vurderinger}
                 />
-            </VedtakSelectContainer>
+            </div>
             {påKlagetVedtakValgt(vurderinger) && (
                 <>
                     {vurderinger.påklagetVedtak.påklagetVedtakstype !==
                         PåklagetVedtakstype.UTEN_VEDTAK && (
-                        <RadioGrupperContainer>
+                        <div className={styles.radioGrupperContainer}>
                             {radioKnapper.map((item: IFormalkrav, index) => (
                                 <React.Fragment key={index}>
-                                    <FlexRow>
-                                        <RadioGruppe
+                                    <div className={styles.flexRow}>
+                                        <RadioGroup
                                             legend={item.spørsmål}
                                             size="medium"
                                             onChange={(val: VilkårStatus) => {
@@ -176,23 +132,30 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             }}
                                             value={item.svar}
                                             key={index}
+                                            className={styles.radioGruppe}
                                         >
-                                            <RadioButton value={VilkårStatus.OPPFYLT}>
+                                            <Radio
+                                                value={VilkårStatus.OPPFYLT}
+                                                className={styles.radioButton}
+                                            >
                                                 Ja
-                                            </RadioButton>
-                                            <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>
+                                            </Radio>
+                                            <Radio
+                                                value={VilkårStatus.IKKE_OPPFYLT}
+                                                className={styles.radioButton}
+                                            >
                                                 Nei
-                                            </RadioButton>
-                                        </RadioGruppe>
+                                            </Radio>
+                                        </RadioGroup>
 
                                         {skalViseHjelpetekst(item.type) && (
-                                            <HelpTextContainer>
-                                                <HjelpeTekst>
+                                            <div className={styles.helpTextContainer}>
+                                                <HelpText className={styles.hjelpeTekst}>
                                                     <HelpTextInnhold formkrav={item.type} />
-                                                </HjelpeTekst>
-                                            </HelpTextContainer>
+                                                </HelpText>
+                                            </div>
                                         )}
-                                    </FlexRow>
+                                    </div>
                                     {skalViseKlagefristUnntak(item) && (
                                         <KlagefristUnntak
                                             settOppdaterteVurderinger={settOppdaterteVurderinger}
@@ -201,7 +164,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     )}
                                 </React.Fragment>
                             ))}
-                        </RadioGrupperContainer>
+                        </div>
                     )}
                     {skalViseBegrunnelseOgBrevtekst && (
                         <>
@@ -218,11 +181,11 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     });
                                 }}
                             />
-                            <FritekstFelt
+                            <Textarea
                                 label={
-                                    <FlexRow>
+                                    <div className={styles.flexRow}>
                                         <Label>Fritekst til brev</Label>
-                                        <HjelpeTekst>
+                                        <HelpText className={styles.hjelpeTekst}>
                                             Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det
                                             automatisk vises en generell tekst i brevet med årsak
                                             til avvisning. I dette fritekstfeltet skrives en mer
@@ -230,8 +193,8 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             det er klaget for sent, så kan teksten for eksempel
                                             inneholde datoen for når vedtaket ble gjort og datoen
                                             for når bruker fremsatte klage.
-                                        </HjelpeTekst>
-                                    </FlexRow>
+                                        </HelpText>
+                                    </div>
                                 }
                                 value={vurderinger.brevtekst || ''}
                                 onChange={(e) => {
@@ -243,19 +206,20 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                         };
                                     });
                                 }}
+                                className={styles.fritekstFelt}
                             />
                         </>
                     )}
                 </>
             )}
             {feilmelding && (
-                <AlertStripe variant={'error'} size={'medium'}>
+                <Alert variant={'error'} size={'medium'} className={styles.alertStripe}>
                     {feilmelding}
-                </AlertStripe>
+                </Alert>
             )}
-            <LagreKnapp htmltype="submit" variant="primary" size="medium">
+            <Button htmlType="submit" variant="primary" size="medium" className={styles.lagreKnapp}>
                 Lagre
-            </LagreKnapp>
+            </Button>
         </form>
     );
 };

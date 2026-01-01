@@ -1,21 +1,11 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
+import styles from './HjemmelVelger.module.css';
 import { Vurderingsfelter } from './vurderingsfelter';
-
-const HjemmelStyled = styled.div`
-    margin: 2rem 4rem 2rem 4rem;
-`;
-
-const HjemmelInnholdStyled = styled.div`
-    display: block;
-    width: 23rem;
-`;
 
 interface IHjemmel {
     settHjemler: Dispatch<SetStateAction<Vurderingsfelter>>;
@@ -50,8 +40,8 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endrin
     };
 
     return (
-        <HjemmelStyled>
-            <HjemmelInnholdStyled>
+        <div className={styles.hjemmel}>
+            <div className={styles.hjemmelInnhold}>
                 <UNSAFE_Combobox
                     label="Hjemler"
                     description={'Velg inntil 2 hjemler som klagen kan knyttes til'}
@@ -62,7 +52,7 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endrin
                     isMultiSelect={true}
                     maxSelected={2}
                 />
-            </HjemmelInnholdStyled>
-        </HjemmelStyled>
+            </div>
+        </div>
     );
 };

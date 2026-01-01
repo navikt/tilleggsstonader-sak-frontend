@@ -1,58 +1,12 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { Detail, Label } from '@navikt/ds-react';
 
+import styles from './Dokumentliste.module.css';
 import { ILogiskVedlegg, LogiskeVedlegg } from './LogiskeVedlegg';
 import PilHøyre from '../familie-ikoner/piler/PilHøyre';
 import PilNed from '../familie-ikoner/piler/PilNed';
 import PilVenstre from '../familie-ikoner/piler/PilVenstre';
-
-const StyledDokumentListe = styled.ul`
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-`;
-
-const StyledKnapp = styled.button`
-    padding: 0.5rem 1rem;
-    display: grid;
-    grid-gap: 0 1rem;
-    grid-template-columns: minmax(min-content, max-content);
-    grid-template-rows: repeat(3, min-content);
-    grid-template-areas:
-        'ikon tittel'
-        'ikon vedlegg'
-        'ikon dato';
-    max-width: 300px;
-    background-color: transparent;
-    border: none;
-
-    :hover {
-        background-color: var(--a-gray-100);
-        cursor: pointer;
-    }
-`;
-
-const JournalpostIkon = styled.span`
-    grid-area: ikon;
-    padding-top: 0.3rem;
-`;
-const StyledUndertekst = styled(Detail)`
-    grid-area: dato;
-    display: flex;
-`;
-
-const StyledDokumentnavn = styled(Label)`
-    text-overflow: ellipsis;
-    max-width: 100%;
-    overflow: hidden;
-    color: var(--a-blue-500);
-    grid-area: tittel;
-    display: flex;
-    text-align: left;
-`;
 
 export enum Journalposttype {
     I = 'I',
@@ -101,24 +55,26 @@ export interface DokumentlisteProps {
 export const DokumentElement: React.FC<DokumentElementProps> = ({ dokument, onClick }) => {
     return (
         <li>
-            <StyledKnapp onClick={() => onClick(dokument)}>
-                <JournalpostIkon>
+            <button onClick={() => onClick(dokument)} className={styles.knapp}>
+                <span className={styles.journalpostIkon}>
                     <Journalpostikon journalposttype={dokument.journalposttype} />
-                </JournalpostIkon>
-                <StyledDokumentnavn size={'small'}>{dokument.tittel}</StyledDokumentnavn>
+                </span>
+                <Label size={'small'} className={styles.dokumentnavn}>
+                    {dokument.tittel}
+                </Label>
                 <LogiskeVedlegg logiskeVedlegg={dokument.logiskeVedlegg} />
-                <StyledUndertekst>{dokument.dato}</StyledUndertekst>
-            </StyledKnapp>
+                <Detail className={styles.undertekst}>{dokument.dato}</Detail>
+            </button>
         </li>
     );
 };
 
 export const Dokumentliste: React.FC<DokumentlisteProps> = ({ dokumenter, onClick, className }) => {
     return (
-        <StyledDokumentListe className={className}>
+        <ul className={`${styles.dokumentListe} ${className ?? ''}`}>
             {dokumenter.map((dokument: DokumentProps, indeks: number) => {
                 return <DokumentElement dokument={dokument} onClick={onClick} key={indeks} />;
             })}
-        </StyledDokumentListe>
+        </ul>
     );
 };

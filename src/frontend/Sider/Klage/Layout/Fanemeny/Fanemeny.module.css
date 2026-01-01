@@ -1,0 +1,13 @@
+.stickyMedBoxShadow {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    top: 6rem;
+}
+
+.fanemeny {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: var(--ax-border-focus) solid 2px;
+    background-color: var(--ax-bg-default);
+}

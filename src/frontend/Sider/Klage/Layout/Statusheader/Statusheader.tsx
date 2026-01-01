@@ -1,51 +1,17 @@
 import React, { FC } from 'react';
 
-import styled from 'styled-components';
-
 import { Label } from '@navikt/ds-react';
-import { BorderFocus } from '@navikt/ds-tokens/darkside-js';
 
 import AdressebeskyttelseVarsel from './AdressebeskyttelseVarsel';
 import { EtikettFokus } from './Etikett';
 import { HamburgermenyKlage } from './HamburgermenyKlage';
 import PersonStatusVarsel from './PersonStatusVarsel';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './StatusElementer';
+import styles from './Statusheader.module.css';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 import Visittkort from '../../familie-felles-frontend/familie-visittkort';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
 import { PersonopplysningerFraKlage } from '../../typer/personopplysningerFraKlage';
-
-const Visningsnavn = styled.div`
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-`;
-
-export const StatusheaderWrapper = styled(Sticky)`
-    width: 100%;
-    display: flex;
-
-    border-bottom: 1px solid ${BorderFocus};
-    z-index: 22;
-    top: 47px;
-
-    .visittkort {
-        padding: 0 1.5rem;
-        border-bottom: none;
-    }
-`;
-
-const ElementWrapper = styled.div`
-    margin-left: 1rem;
-`;
-
-const HøyrejustertInnhold = styled.div`
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    margin-left: auto;
-    margin-right: 1rem;
-`;
 
 export const Statusheader: FC<{
     personopplysninger: PersonopplysningerFraKlage;
@@ -61,46 +27,46 @@ export const Statusheader: FC<{
         vergemål,
     } = personopplysninger;
     return (
-        <StatusheaderWrapper>
+        <Sticky className={styles.wrapper}>
             <Visittkort
                 alder={20}
                 ident={personIdent}
                 navn={
-                    <Visningsnavn>
+                    <div className={styles.visningsnavn}>
                         <Label size={'small'} as={'p'}>
                             {navn}
                         </Label>
-                    </Visningsnavn>
+                    </div>
                 }
             >
                 {folkeregisterpersonstatus && (
-                    <ElementWrapper>
+                    <div className={styles.element}>
                         <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {adressebeskyttelse && (
-                    <ElementWrapper>
+                    <div className={styles.element}>
                         <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {egenAnsatt && (
-                    <ElementWrapper>
+                    <div className={styles.element}>
                         <EtikettFokus>Egen ansatt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
                 {harFullmektig && (
-                    <ElementWrapper>
+                    <div className={styles.element}>
                         <EtikettFokus>Fullmakt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
                 {vergemål.length > 0 && (
-                    <ElementWrapper>
+                    <div className={styles.element}>
                         <EtikettFokus>Verge</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
             </Visittkort>
 
-            <HøyrejustertInnhold>
+            <div className={styles.rightContent}>
                 {behandling && (
                     <>
                         <AlleStatuser behandling={behandling} />
@@ -110,7 +76,7 @@ export const Statusheader: FC<{
                     </>
                 )}
                 {<HamburgermenyKlage behandling={behandling} />}
-            </HøyrejustertInnhold>
-        </StatusheaderWrapper>
+            </div>
+        </Sticky>
     );
 };

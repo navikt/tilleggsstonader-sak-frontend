@@ -1,0 +1,227 @@
+.flexbox {
+    display: flex;
+}
+
+@media (max-width: 1149px) {
+    .flexbox {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (min-width: 1150px) {
+    .flexbox {
+        flex-direction: row;
+    }
+}
+
+.flexboxOpen {
+    display: flex;
+}
+
+@media (max-width: 1449px) {
+    .flexboxOpen {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (min-width: 1450px) {
+    .flexboxOpen {
+        flex-direction: row;
+    }
+}
+
+.historikkInnslag {
+}
+
+@media (max-width: 1149px) {
+    .historikkInnslag {
+        width: 10rem;
+    }
+}
+
+@media (min-width: 1150px) {
+    .historikkInnslag {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: auto 5rem auto;
+        align-self: stretch;
+    }
+}
+
+.historikkInnslagOpen {
+}
+
+@media (max-width: 1449px) {
+    .historikkInnslagOpen {
+        width: 10rem;
+    }
+}
+
+@media (min-width: 1450px) {
+    .historikkInnslagOpen {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: auto 5rem auto;
+        align-self: stretch;
+    }
+}
+
+.revurderingAlertContainer {
+}
+
+@media (max-width: 1149px) {
+    .revurderingAlertContainer {
+        width: 14rem;
+    }
+}
+
+@media (min-width: 1150px) {
+    .revurderingAlertContainer {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: auto 14rem auto;
+    }
+}
+
+.revurderingAlertContainerOpen {
+}
+
+@media (max-width: 1449px) {
+    .revurderingAlertContainerOpen {
+        width: 14rem;
+    }
+}
+
+@media (min-width: 1450px) {
+    .revurderingAlertContainerOpen {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: auto 14rem auto;
+    }
+}
+
+.linjeStiplet {
+}
+
+@media (max-width: 1149px) {
+    .linjeStiplet {
+        border-left: 2px dashed black;
+        margin: 0 auto 2px;
+        width: 0;
+        height: 2rem;
+    }
+}
+
+@media (min-width: 1150px) {
+    .linjeStiplet {
+        border-top: 2px dashed black;
+        margin-top: 3.25rem;
+        margin-left: 2px;
+    }
+}
+
+.linjeStipletOpen {
+}
+
+@media (max-width: 1449px) {
+    .linjeStipletOpen {
+        border-left: 2px dashed black;
+        margin: 0 auto 2px;
+        width: 0;
+        height: 2rem;
+    }
+}
+
+@media (min-width: 1450px) {
+    .linjeStipletOpen {
+        border-top: 2px dashed black;
+        margin-top: 3.25rem;
+        margin-left: 2px;
+    }
+}
+
+.linjeSort {
+}
+
+@media (max-width: 1149px) {
+    .linjeSort {
+        border-left: 2px solid black;
+        margin: 0 auto;
+        height: 2rem;
+        width: 0;
+    }
+}
+
+@media (min-width: 1150px) {
+    .linjeSort {
+        border-top: 2px solid black;
+        margin-top: 3.25rem;
+    }
+}
+
+.linjeSortOpen {
+}
+
+@media (max-width: 1449px) {
+    .linjeSortOpen {
+        border-left: 2px solid black;
+        margin: 0 auto;
+        height: 2rem;
+        width: 0;
+    }
+}
+
+@media (min-width: 1450px) {
+    .linjeSortOpen {
+        border-top: 2px solid black;
+        margin-top: 3.25rem;
+    }
+}
+
+.linjeSortHidden {
+    border-color: transparent;
+}
+
+.nodeContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    text-align: center;
+    align-items: center;
+}
+
+.tittel {
+    min-width: 9rem;
+    margin-bottom: 0.75rem;
+}
+
+.tittelToLinjer {
+}
+
+@media (min-width: 1150px) {
+    .tittelToLinjer {
+        position: relative;
+        bottom: 1rem;
+        margin-bottom: -0.75rem;
+    }
+}
+
+.tittelToLinjerOpen {
+}
+
+@media (min-width: 1450px) {
+    .tittelToLinjerOpen {
+        position: relative;
+        bottom: 1rem;
+        margin-bottom: -0.75rem;
+    }
+}
+
+.suksess {
+    margin: auto;
+    margin-bottom: 0.5rem;
+}

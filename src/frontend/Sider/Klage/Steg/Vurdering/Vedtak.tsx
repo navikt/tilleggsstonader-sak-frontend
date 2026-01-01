@@ -1,22 +1,12 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { Heading, Select } from '@navikt/ds-react';
 
+import styles from './Vedtak.module.css';
 import { Vurderingsfelter } from './vurderingsfelter';
 import { VedtakValg } from './vurderingValg';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
-
-const VedtakStyled = styled.div`
-    margin: 2rem 4rem 2rem 4rem;
-`;
-
-const VedtakInnholdStyled = styled.div`
-    display: block;
-    width: 18rem;
-`;
 
 interface IVedtak {
     settVedtak: Dispatch<SetStateAction<Vurderingsfelter>>;
@@ -45,11 +35,11 @@ export const Vedtak: React.FC<IVedtak> = ({
 
     const { settVurderingEndret } = useKlagebehandling();
     return (
-        <VedtakStyled>
+        <div className={styles.vedtak}>
             <Heading spacing size="medium" level="5">
                 Vedtak
             </Heading>
-            <VedtakInnholdStyled>
+            <div className={styles.vedtakInnhold}>
                 <Select
                     value={vedtakValgt}
                     label=""
@@ -68,7 +58,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                         </option>
                     ))}
                 </Select>
-            </VedtakInnholdStyled>
-        </VedtakStyled>
+            </div>
+        </div>
     );
 };

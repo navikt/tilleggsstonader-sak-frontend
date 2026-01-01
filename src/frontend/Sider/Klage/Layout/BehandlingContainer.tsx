@@ -2,10 +2,8 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { BorderFocus } from '@navikt/ds-tokens/darkside-js';
-
+import styles from './BehandlingContainer.module.css';
 import BehandlingRoutes from './BehandlingRoutes';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { Høyremeny } from './Høyremeny/Høyremeny';
@@ -20,41 +18,6 @@ import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../hooks/useSetValgtFagsakId';
 import { HenleggModal } from '../Komponenter/HenleggModal/HenleggModal';
-
-const Container = styled.div`
-    display: flex;
-    flex-shrink: 2;
-
-    > * {
-        padding-bottom: 64px;
-    }
-`;
-
-interface HøyreMenyWrapperProps {
-    $åpenHøyremeny: boolean;
-}
-
-const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
-    border-left: 2px solid ${BorderFocus};
-    flex-shrink: 1;
-    flex-grow: 0;
-    width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
-    min-width: ${(p) => (p.$åpenHøyremeny ? '20rem' : '1.5rem')};
-    transition: all 0.25s;
-`;
-
-interface InnholdWrapperProps {
-    $åpenHøyremeny: boolean;
-}
-
-const InnholdWrapper = styled.div<InnholdWrapperProps>`
-    flex-shrink: 0;
-    flex-grow: 1;
-    flex-basis: 0;
-    min-width: 0;
-    max-width: ${(p) => (p.$åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
-    z-index: 9;
-`;
 
 const BehandlingContainer: FC = () => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
@@ -95,17 +58,17 @@ const BehandlingContent = () => {
         <>
             <ScrollToTop />
             <Statusheader personopplysninger={personopplysninger} behandling={behandling} />
-            <Container>
-                <InnholdWrapper $åpenHøyremeny={åpenHøyremeny}>
+            <div className={styles.container}>
+                <div className={`${styles.content} ${åpenHøyremeny ? styles.contentOpen : ''}`}>
                     <Fanemeny behandling={behandling} />
                     <SettPåVentKlage />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
-                </InnholdWrapper>
-                <HøyreMenyWrapper $åpenHøyremeny={åpenHøyremeny}>
+                </div>
+                <div className={`${styles.menu} ${åpenHøyremeny ? styles.menuOpen : ''}`}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
-                </HøyreMenyWrapper>
-            </Container>
+                </div>
+            </div>
         </>
     );
 };

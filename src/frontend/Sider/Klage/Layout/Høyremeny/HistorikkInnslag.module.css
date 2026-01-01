@@ -1,0 +1,19 @@
+.innslag {
+    display: flex;
+    margin: 1rem 1.6rem;
+}
+
+.ikon {
+    display: block;
+}
+
+.stipletLinje {
+    border-left: 0.15rem dotted var(--ax-border-focus);
+    margin-top: 0.5rem;
+    margin-left: 0.75rem;
+    height: 1.5rem;
+}
+
+.tekst {
+    margin-left: 0.7rem;
+}

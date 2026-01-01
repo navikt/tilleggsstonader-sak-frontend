@@ -1,0 +1,6 @@
+.logiskVedleggWrapper {
+    grid-area: vedlegg;
+    padding-left: 16px;
+    list-style-type: circle;
+    text-align: left;
+}

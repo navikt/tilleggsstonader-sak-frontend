@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import styled from 'styled-components';
-
-import { BgDefault, BorderFocus } from '@navikt/ds-tokens/darkside-js';
-
 import Fane from './Fane';
+import styles from './Fanemeny.module.css';
 import { alleSider, ISide, SideNavn } from './sider';
 import { Sticky } from '../../../../komponenter/Visningskomponenter/Sticky';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
@@ -15,20 +12,6 @@ import {
     KlagebehandlingSteg,
     stegrekkefølge,
 } from '../../typer/klagebehandling/klagebehandlingSteg';
-
-const StickyMedBoxShadow = styled(Sticky)`
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    top: 6rem;
-`;
-
-const StyledFanemeny = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    border-bottom: ${BorderFocus} solid 2px;
-    background-color: ${BgDefault};
-`;
 
 interface Props {
     behandling: Klagebehandling;
@@ -50,8 +33,8 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
     };
 
     return (
-        <StickyMedBoxShadow>
-            <StyledFanemeny>
+        <Sticky className={styles.stickyMedBoxShadow}>
+            <div className={styles.fanemeny}>
                 {alleSider.map((side, index) => (
                     <Fane
                         side={side}
@@ -61,8 +44,8 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                         key={index}
                     />
                 ))}
-            </StyledFanemeny>
-        </StickyMedBoxShadow>
+            </div>
+        </Sticky>
     );
 };
 

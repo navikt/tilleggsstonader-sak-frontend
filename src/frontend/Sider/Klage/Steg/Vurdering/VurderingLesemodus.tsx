@@ -1,26 +1,11 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, BodyShort, Heading, List } from '@navikt/ds-react';
 
 import { alleHjemlerTilVisningstekst } from './hjemmel';
+import styles from './VurderingLesemodus.module.css';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { OmgjøringDto, OpprettholdelseDto, VurderingDto } from '../../hooks/useVurdering';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 2rem 4rem;
-`;
-
-const Avsnitt = styled.div`
-    margin: 0 0 2rem 0;
-`;
-
-const FritekstfeltLesemodus = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 
 export const VurderingLesemodus: React.FC<{ vurdering?: VurderingDto }> = ({ vurdering }) => {
     switch (vurdering?.vedtak) {
@@ -36,40 +21,40 @@ export const VurderingLesemodus: React.FC<{ vurdering?: VurderingDto }> = ({ vur
 const OmgjørVedtak: React.FC<{ vurdering: OmgjøringDto }> = ({ vurdering }) => {
     const { vedtak, årsak, begrunnelseOmgjøring } = vurdering;
     return (
-        <Container>
-            <Avsnitt>
+        <div className={styles.container}>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Vedtak
                 </Heading>
                 <BodyShort>{vedtakValgTilTekst[vedtak]}</BodyShort>
-            </Avsnitt>
-            <Avsnitt>
+            </div>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Årsak
                 </Heading>
                 <BodyShort>{årsakValgTilTekst[årsak]}</BodyShort>
-            </Avsnitt>
-            <Avsnitt>
+            </div>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Begrunnelse for omgjøring (internt notat)
                 </Heading>
-                <FritekstfeltLesemodus>{begrunnelseOmgjøring}</FritekstfeltLesemodus>
-            </Avsnitt>
-        </Container>
+                <BodyLong className={styles.fritekstfeltLesemodus}>{begrunnelseOmgjøring}</BodyLong>
+            </div>
+        </div>
     );
 };
 
 const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurdering }) => {
     const { vedtak, hjemler, innstillingKlageinstans, interntNotat } = vurdering;
     return (
-        <Container>
-            <Avsnitt>
+        <div className={styles.container}>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Vedtak
                 </Heading>
                 <BodyShort>{vedtakValgTilTekst[vedtak]}</BodyShort>
-            </Avsnitt>
-            <Avsnitt>
+            </div>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Hjemler
                 </Heading>
@@ -78,19 +63,21 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
                         <List.Item key={hjemmel}>{alleHjemlerTilVisningstekst[hjemmel]}</List.Item>
                     ))}
                 </List>
-            </Avsnitt>
-            <Avsnitt>
+            </div>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Innstilling til Nav Klageinstans
                 </Heading>
-                <FritekstfeltLesemodus>{innstillingKlageinstans}</FritekstfeltLesemodus>
-            </Avsnitt>
-            <Avsnitt>
+                <BodyLong className={styles.fritekstfeltLesemodus}>
+                    {innstillingKlageinstans}
+                </BodyLong>
+            </div>
+            <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">
                     Internt notat
                 </Heading>
-                <FritekstfeltLesemodus>{interntNotat}</FritekstfeltLesemodus>
-            </Avsnitt>
-        </Container>
+                <BodyLong className={styles.fritekstfeltLesemodus}>{interntNotat}</BodyLong>
+            </div>
+        </div>
     );
 };

@@ -1,0 +1,45 @@
+.dokumentListe {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.knapp {
+    padding: 0.5rem 1rem;
+    display: grid;
+    grid-gap: 0 1rem;
+    grid-template-columns: minmax(min-content, max-content);
+    grid-template-rows: repeat(3, min-content);
+    grid-template-areas:
+        'ikon tittel'
+        'ikon vedlegg'
+        'ikon dato';
+    max-width: 300px;
+    background-color: transparent;
+    border: none;
+}
+
+.knapp:hover {
+    background-color: var(--a-gray-100);
+    cursor: pointer;
+}
+
+.journalpostIkon {
+    grid-area: ikon;
+    padding-top: 0.3rem;
+}
+
+.undertekst {
+    grid-area: dato;
+    display: flex;
+}
+
+.dokumentnavn {
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--a-blue-500);
+    grid-area: tittel;
+    display: flex;
+    text-align: left;
+}
