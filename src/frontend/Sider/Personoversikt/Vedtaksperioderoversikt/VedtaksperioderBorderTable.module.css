@@ -1,0 +1,7 @@
+.borderTable {
+    border: none;
+}
+
+.borderTable.border {
+    border: solid 1px rgba(131, 140, 154, 1);
+}

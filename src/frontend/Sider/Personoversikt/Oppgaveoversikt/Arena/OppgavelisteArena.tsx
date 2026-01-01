@@ -1,25 +1,11 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, Button, Table } from '@navikt/ds-react';
-import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './OppgavelisteArena.module.css';
 import { OppgaveArena } from './typer';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
-
-const Tabell = styled(Table)`
-    max-width: 1000px;
-    border: 1px solid ${BorderNeutralSubtle};
-    --ac-table-row-border: ${BorderNeutralSubtle};
-    --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
-`;
-
-const Kommentar = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 
 const EkspanderbarRad: React.FC<{ oppgave: OppgaveArena }> = ({ oppgave }) => {
     const [open, setOpen] = useState(false);
@@ -27,7 +13,7 @@ const EkspanderbarRad: React.FC<{ oppgave: OppgaveArena }> = ({ oppgave }) => {
     return (
         <Table.ExpandableRow
             key={oppgave.id}
-            content={<Kommentar>{oppgave.kommentar}</Kommentar>}
+            content={<BodyLong className={styles.kommentar}>{oppgave.kommentar}</BodyLong>}
             togglePlacement={'right'}
             open={open}
             expansionDisabled={true}
@@ -50,7 +36,7 @@ const OppgavelisteArena: React.FC<{
 }> = ({ oppgaver }) => {
     return (
         <FlexColumn>
-            <Tabell size="small">
+            <Table size="small" className={styles.tabell}>
                 <Table.Header>
                     <Table.Row>
                         <Table.ColumnHeader>Tittel</Table.ColumnHeader>
@@ -66,7 +52,7 @@ const OppgavelisteArena: React.FC<{
                         <EkspanderbarRad key={oppgave.id} oppgave={oppgave} />
                     ))}
                 </Table.Body>
-            </Tabell>
+            </Table>
         </FlexColumn>
     );
 };

@@ -1,0 +1,7 @@
+.grid {
+    padding: 1rem;
+    background-color: var(--ax-bg-raised);
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 0.4rem 2rem;
+}

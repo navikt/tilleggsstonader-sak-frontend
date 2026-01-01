@@ -1,0 +1,9 @@
+.tabell {
+    max-width: fit-content;
+    border: 1px solid var(--ax-border-neutral);
+    margin-left: 10px;
+}
+
+.advarselIkon {
+    margin-left: 1rem;
+}

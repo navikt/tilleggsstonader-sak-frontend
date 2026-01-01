@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Detail, Heading, UNSAFE_Combobox } from '@navikt/ds-react';
 
+import styles from './Dokumentoversikt.module.css';
 import { DokumentTabell } from './DokumentTabell';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
@@ -11,11 +10,6 @@ import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../t
 import { DokumentInfo, VedleggRequest } from '../../../typer/dokument';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { formaterDatoMedTidspunkt } from '../../../utils/dato';
-
-const ComboBox = styled(UNSAFE_Combobox)`
-    width: 35rem;
-    margin-bottom: 2rem;
-`;
 
 const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { request } = useApp();
@@ -71,7 +65,8 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
                 forsørger, omstillingsstønad, oppfølging, uføretrygd, yrkesskade eller
                 kontantstøtte.
             </Detail>
-            <ComboBox
+            <UNSAFE_Combobox
+                className={styles.comboBox}
                 label={'Filtrer tema(er)'}
                 options={relevanteArkivtemaer.map(arkivtemaTilOption)}
                 isMultiSelect

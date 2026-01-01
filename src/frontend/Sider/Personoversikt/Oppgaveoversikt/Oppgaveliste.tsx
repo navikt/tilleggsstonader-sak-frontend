@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, Button, Table } from '@navikt/ds-react';
-import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './Oppgaveliste.module.css';
 import { mappeIdTilMappenavn } from './utils';
 import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
 import { formaterNullableIsoDato } from '../../../utils/dato';
@@ -16,18 +14,6 @@ import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
 import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
 import { oppgaveTypeTilTekst } from '../../Oppgavebenk/typer/oppgavetema';
-
-const Tabell = styled(Table)`
-    max-width: 1300px;
-    border: 1px solid ${BorderNeutralSubtle};
-    --ac-table-row-border: ${BorderNeutralSubtle};
-    --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
-`;
-
-const Kommentar = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 
 const EkspanderbarRad: React.FC<{
     oppgave: Oppgave;
@@ -48,7 +34,7 @@ const EkspanderbarRad: React.FC<{
     return (
         <Table.ExpandableRow
             key={oppgave.id}
-            content={<Kommentar>{oppgave.beskrivelse}</Kommentar>}
+            content={<BodyLong className={styles.kommentar}>{oppgave.beskrivelse}</BodyLong>}
             togglePlacement={'right'}
             expansionDisabled={true}
             open={open}
@@ -93,7 +79,7 @@ const Oppgaveliste: React.FC<{
 
     return (
         <FlexColumn>
-            <Tabell size="small">
+            <Table size="small" className={styles.tabell}>
                 <Table.Header>
                     <Table.Row>
                         <Table.ColumnHeader>Oppgavetype</Table.ColumnHeader>
@@ -123,7 +109,7 @@ const Oppgaveliste: React.FC<{
                         />
                     ))}
                 </Table.Body>
-            </Tabell>
+            </Table>
             <FeilmeldingHåndterOppgaveModal
                 feilmelding={feilmelding}
                 hentOppgaver={hentOppgaver}

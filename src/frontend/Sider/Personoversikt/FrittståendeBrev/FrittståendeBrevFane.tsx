@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Heading, Select } from '@navikt/ds-react';
 
 import FrittståendeBrev from './FrittståendeBrev';
+import styles from './FrittståendeBrevFane.module.css';
 import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Stønadstype, stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { utledFagsakId, utledFagsakIdEllerKastFeil } from '../../../typer/fagsak';
-
-const Container = styled.div`
-    display: flex;
-    gap: 2rem;
-    flex-direction: column;
-`;
 
 const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { fagsakPerson, hentFagsakPerson } = useHentFagsakPerson();
@@ -28,7 +21,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     }, [fagsakPersonId, hentFagsakPerson]);
 
     return (
-        <Container>
+        <div className={styles.container}>
             <Heading size="small">Frittstående brev til bruker</Heading>
             <DataViewer type={'fagsak'} response={{ fagsakPerson }}>
                 {({ fagsakPerson }) => (
@@ -79,7 +72,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                     </>
                 )}
             </DataViewer>
-        </Container>
+        </div>
     );
 };
 

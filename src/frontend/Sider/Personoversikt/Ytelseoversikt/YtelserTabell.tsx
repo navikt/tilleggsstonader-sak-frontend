@@ -1,20 +1,15 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { Table } from '@navikt/ds-react';
 
+import styles from './YtelserTabell.module.css';
 import { PeriodeYtelseRegister } from '../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../utils/dato';
 import { utledYtelseTekst } from '../../../utils/registerYtelse';
 
-const Tabell = styled(Table)`
-    width: 40%;
-`;
-
 const YtelserTabell: React.FC<{ perioder: PeriodeYtelseRegister[] }> = ({ perioder }) => {
     return (
-        <Tabell size={'small'} zebraStripes={true}>
+        <Table size={'small'} zebraStripes={true} className={styles.tabell}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Type</Table.HeaderCell>
@@ -35,7 +30,7 @@ const YtelserTabell: React.FC<{ perioder: PeriodeYtelseRegister[] }> = ({ period
                     );
                 })}
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
 

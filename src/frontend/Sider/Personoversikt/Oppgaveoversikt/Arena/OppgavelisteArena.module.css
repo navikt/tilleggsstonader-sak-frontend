@@ -1,0 +1,11 @@
+.tabell {
+    max-width: 1000px;
+    border: 1px solid var(--ax-border-neutral-subtle);
+    --ac-table-row-border: var(--ax-border-neutral-subtle);
+    --ac-table-row-hover: none;
+    --ac-table-cell-hover-border: var(--ax-border-neutral-subtle);
+}
+
+.kommentar {
+    white-space: pre-wrap;
+}

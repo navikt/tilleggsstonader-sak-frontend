@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 
 import BehandlingTabell from './BehandlingTabell';
+import styles from './FagsakOversikt.module.css';
 import { OpprettNyBehandlingModal } from './OpprettNyBehandling/OpprettNyBehandlingModal';
 import { FagsakMedBehandlinger } from '../../../typer/behandling/behandlingoversikt';
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
@@ -14,18 +13,6 @@ import {
     mapKlagesakerTilTabellrader,
     sorterBehandlinger,
 } from '../../../utils/behandlingutil';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-`;
-
-const TittelLinje = styled.div`
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-`;
 
 interface Props {
     fagsakMedBehandlinger: FagsakMedBehandlinger;
@@ -49,8 +36,8 @@ export const FagsakOversikt: React.FC<Props> = ({
     ].sort(sorterBehandlinger);
 
     return (
-        <Container>
-            <TittelLinje>
+        <div className={styles.container}>
+            <div className={styles.tittelLinje}>
                 <Heading size="small" level="3">
                     {stønadstypeTilTekst[stønadstype]}
                 </Heading>
@@ -60,7 +47,7 @@ export const FagsakOversikt: React.FC<Props> = ({
                         Løpende
                     </Tag>
                 )}
-            </TittelLinje>
+            </div>
             <BehandlingTabell tabellbehandlinger={tabellbehandlinger} />
             <OpprettNyBehandlingModal
                 fagsakId={fagsakId}
@@ -68,6 +55,6 @@ export const FagsakOversikt: React.FC<Props> = ({
                 hentKlagebehandlinger={hentKlagebehandlinger}
                 hentBehandlinger={hentBehandlinger}
             />
-        </Container>
+        </div>
     );
 };

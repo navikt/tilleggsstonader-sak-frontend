@@ -1,0 +1,10 @@
+.toKolonner {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 1023px) {
+    .toKolonner {
+        flex-wrap: wrap;
+    }
+}

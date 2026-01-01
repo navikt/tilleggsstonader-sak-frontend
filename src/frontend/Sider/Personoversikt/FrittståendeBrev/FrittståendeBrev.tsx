@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 
-import styled from 'styled-components';
-
 import { VStack } from '@navikt/ds-react';
-import { BreakpointLgDown } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './FrittståendeBrev.module.css';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
@@ -19,15 +17,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
-
-const ToKolonner = styled.div`
-    display: flex;
-    gap: 1rem;
-
-    @media (max-width: ${BreakpointLgDown}) {
-        flex-wrap: wrap;
-    }
-`;
 
 const FrittståendeBrev: React.FC<{
     valgtStønadstype: Stønadstype;
@@ -99,7 +88,7 @@ const FrittståendeBrev: React.FC<{
     return (
         <DataViewer type={'brevmaler'} response={{ brevmaler }}>
             {({ brevmaler }) => (
-                <ToKolonner>
+                <div className={styles.toKolonner}>
                     <VStack gap="8" minWidth={'550px'}>
                         <BrevMottakere
                             context={contextBrevmottakere}
@@ -130,7 +119,7 @@ const FrittståendeBrev: React.FC<{
                         </DataViewer>
                     </VStack>
                     <PdfVisning pdfFilInnhold={fil} />
-                </ToKolonner>
+                </div>
             )}
         </DataViewer>
     );

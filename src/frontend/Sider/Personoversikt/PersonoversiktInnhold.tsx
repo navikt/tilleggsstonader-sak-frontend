@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Tabs } from '@navikt/ds-react';
 
@@ -10,6 +9,7 @@ import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';
+import styles from './PersonoversiktInnhold.module.css';
 import { VedtaksperioderOversikt } from './Vedtaksperioderoversikt/VedtaksperioderOversikt';
 import Ytelseoversikt from './Ytelseoversikt/Ytelseoversikt';
 
@@ -57,13 +57,6 @@ const tabs: TabWithRouter[] = [
     },
 ];
 
-const InnholdWrapper = styled.div`
-    padding: 2rem 2rem 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
 const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const navigate = useNavigate();
 
@@ -84,7 +77,7 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                     })}
                 </Tabs.List>
             </Tabs>
-            <InnholdWrapper>
+            <div className={styles.innholdWrapper}>
                 <Routes>
                     {tabs.map((tab) => (
                         <Route
@@ -103,7 +96,7 @@ const PersonoversiktInnhold: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                         }
                     />
                 </Routes>
-            </InnholdWrapper>
+            </div>
         </>
     );
 };

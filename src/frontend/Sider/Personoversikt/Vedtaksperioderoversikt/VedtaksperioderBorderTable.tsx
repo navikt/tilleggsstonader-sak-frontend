@@ -1,8 +1,16 @@
-import styled from 'styled-components';
+import React from 'react';
 
 import { Table } from '@navikt/ds-react';
-import { AGray500 } from '@navikt/ds-tokens/dist/tokens';
 
-export const BorderTable = styled(Table)<{ $border?: boolean }>`
-    border: ${(props) => (props.$border ? `solid 1px ${AGray500}` : 'none')};
-`;
+import styles from './VedtaksperioderBorderTable.module.css';
+
+export const BorderTable = ({
+    $border,
+    className,
+    ...props
+}: React.ComponentProps<typeof Table> & { $border?: boolean }) => (
+    <Table
+        className={`${styles.borderTable} ${$border ? styles.border : ''} ${className || ''}`}
+        {...props}
+    />
+);

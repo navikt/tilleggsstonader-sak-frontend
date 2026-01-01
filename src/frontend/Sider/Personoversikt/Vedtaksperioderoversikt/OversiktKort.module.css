@@ -1,0 +1,7 @@
+.container {
+    border: 1px solid var(--ax-border-neutral);
+    border-radius: 4px;
+    padding: 1rem;
+    background-color: var(--ax-bg-default);
+    width: 1200px;
+}

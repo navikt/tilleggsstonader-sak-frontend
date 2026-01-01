@@ -1,16 +1,10 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { BodyShort, HStack } from '@navikt/ds-react';
 
+import styles from './IngenVedtaksperioderInfo.module.css';
 import Info from '../../../komponenter/Ikoner/Vurderingsresultat/Info';
 import { formaterDatoMedTidspunkt } from '../../../utils/dato';
-
-const StyledInfo = styled(Info)`
-    width: 1.125rem;
-    height: 1.125rem;
-`;
 
 export const IngenVedtaksperioderInfo = ({
     hentetTidspunkt,
@@ -19,7 +13,7 @@ export const IngenVedtaksperioderInfo = ({
 }) => {
     return (
         <HStack gap={'2'} align={'center'}>
-            <StyledInfo />
+            <Info className={styles.styledInfo} />
             <BodyShort>
                 Ingen vedtaksperioder funnet. Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
             </BodyShort>

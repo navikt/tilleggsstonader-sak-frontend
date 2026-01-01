@@ -1,17 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Heading, HStack, Tag, VStack } from '@navikt/ds-react';
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
-const Container = styled(VStack)`
-    border: 1px solid ${BorderNeutral};
-    border-radius: 4px;
-    padding: 1rem;
-    background-color: ${BgDefault};
-    width: 1200px;
-`;
+import styles from './OversiktKort.module.css';
 
 interface Props {
     tittel: string;
@@ -22,7 +13,7 @@ interface Props {
 
 export const OversiktKort: React.FC<Props> = ({ tittel, tagTittel, tagVariant, children }) => {
     return (
-        <Container gap={'6'}>
+        <VStack gap={'6'} className={styles.container}>
             <HStack justify={'space-between'}>
                 <Heading size={'small'}>{tittel}</Heading>
                 <Tag size={'small'} variant={tagVariant ? tagVariant : 'alt2'}>
@@ -30,6 +21,6 @@ export const OversiktKort: React.FC<Props> = ({ tittel, tagTittel, tagVariant, c
                 </Tag>
             </HStack>
             {children}
-        </Container>
+        </VStack>
     );
 };

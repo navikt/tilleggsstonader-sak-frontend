@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { HStack, Table, Tooltip } from '@navikt/ds-react';
-import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './BehandlingTabell.module.css';
 import HenlagtÅrsakOgBegrunnelse from './HenlagtÅrsakOgBegrunnelse';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
@@ -22,16 +21,6 @@ import {
     formaterNullableIsoDatoTid,
 } from '../../../utils/dato';
 import { formaterEnumVerdi } from '../../../utils/tekstformatering';
-
-const Tabell = styled(Table)`
-    max-width: fit-content;
-    border: 1px solid ${BorderNeutral};
-    margin-left: 10px;
-`;
-
-const AdvarselIkon = styled(ExclamationmarkTriangleIcon)`
-    margin-left: 1rem;
-`;
 
 const TabellData: PartialRecord<keyof TabellBehandling, string> = {
     opprettet: 'Opprettet',
@@ -53,7 +42,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
 
     return (
         <>
-            <Tabell size="small">
+            <Table size="small" className={styles.tabell}>
                 <Table.Header>
                     <Table.Row>
                         {Object.entries(TabellData).map(([key, value], indeks) => (
@@ -82,7 +71,8 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                                     )}
                                     {erKlageOgFeilregistrertAvKA(behandling) && (
                                         <Tooltip content="Klagen er feilregistrert av Nav klageinstans. Gå inn på klagebehandlingens resultatside for å se detaljer">
-                                            <AdvarselIkon
+                                            <ExclamationmarkTriangleIcon
+                                                className={styles.advarselIkon}
                                                 title={
                                                     'Behandling feilregistrert av Nav klageinstans'
                                                 }
@@ -110,7 +100,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                         </Table.Row>
                     ))}
                 </Table.Body>
-            </Tabell>
+            </Table>
         </>
     );
 };

@@ -1,20 +1,15 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { Table } from '@navikt/ds-react';
 
+import styles from './Aktiviteter.module.css';
 import { Registeraktivitet, statutAktivitetTilTekst } from '../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { formatBoolean } from '../../../utils/tekstformatering';
 
-const Tabell = styled(Table)`
-    width: 70%;
-`;
-
 const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktiviteter }) => {
     return (
-        <Tabell size={'small'} zebraStripes={true}>
+        <Table size={'small'} zebraStripes={true} className={styles.tabell}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Fom</Table.HeaderCell>
@@ -51,7 +46,7 @@ const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktivitet
                     );
                 })}
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
 
