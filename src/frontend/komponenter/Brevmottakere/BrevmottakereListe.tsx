@@ -1,9 +1,8 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, BodyShort } from '@navikt/ds-react';
 
+import styles from './BrevmottakereListe.module.css';
 import { Fødselsnummer } from './Fødselsnummer';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { SøppelbøtteKnapp } from '../Knapper/SøppelbøtteKnapp';
@@ -14,19 +13,6 @@ interface Props {
     valgteOrganisasjonMottakere: IOrganisasjonMottaker[];
     settValgteOrganisasjonMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
 }
-
-const StyledMottakerBoks = styled.div`
-    padding: 10px;
-    margin-bottom: 4px;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    background: rgba(196, 196, 196, 0.2);
-`;
-
-const Flexboks = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 export const BrevmottakereListe: FC<Props> = ({
     valgtePersonMottakere,
@@ -51,18 +37,18 @@ export const BrevmottakereListe: FC<Props> = ({
                 Brevmottakere
             </BodyLong>
             {valgtePersonMottakere.map((mottaker, index) => (
-                <StyledMottakerBoks key={mottaker.navn + index}>
-                    <Flexboks>
+                <div className={styles.mottakerBoks} key={mottaker.navn + index}>
+                    <div className={styles.flexboks}>
                         <BodyShort>
                             {`${mottaker?.navn || ''} (${mottaker.mottakerRolle.toLowerCase()})`}
                             <Fødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
-                    </Flexboks>
+                    </div>
                     <SøppelbøtteKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} />
-                </StyledMottakerBoks>
+                </div>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
-                <StyledMottakerBoks key={mottaker.navnHosOrganisasjon + index}>
+                <div className={styles.mottakerBoks} key={mottaker.navnHosOrganisasjon + index}>
                     <div>
                         <BodyShort>{`${mottaker.navnHosOrganisasjon}`}</BodyShort>
                         <BodyShort>
@@ -72,7 +58,7 @@ export const BrevmottakereListe: FC<Props> = ({
                     <SøppelbøtteKnapp
                         onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
                     />
-                </StyledMottakerBoks>
+                </div>
             ))}
         </>
     );

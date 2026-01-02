@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert } from '@navikt/ds-react';
-import { BgInfoModerateHover } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './SettPåVentContainer.module.css';
 import SettPåVentForm from './SettPåVentForm';
 import SettPåVentInformasjon from './SettPåVentInformasjon';
 import { StatusSettPåVent } from './typer';
@@ -17,14 +15,6 @@ import { KlagebehandlingStatus } from '../../Sider/Klage/typer/klagebehandling/k
 import { BehandlingStatus } from '../../typer/behandling/behandlingStatus';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 import DataViewer from '../DataViewer';
-
-const Container = styled.div`
-    padding: 2rem;
-    background: ${BgInfoModerateHover};
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
 
 export const SettPåVentSak = ({
     statusPåVentRedigering,
@@ -102,7 +92,7 @@ const SettPåVentContainer: React.FC<{
             return <Alert variant={'warning'}>Behandlingen er satt på vent.</Alert>;
         }
         return (
-            <Container>
+            <div className={styles.container}>
                 <DataViewer type={'sett på vent'} response={{ statusResponse }}>
                     {({ statusResponse }) => (
                         <>
@@ -121,17 +111,17 @@ const SettPåVentContainer: React.FC<{
                         </>
                     )}
                 </DataViewer>
-            </Container>
+            </div>
         );
     } else if (statusPåVentRedigering) {
         return (
-            <Container>
+            <div className={styles.container}>
                 <SettPåVentForm
                     status={undefined}
                     settStatusPåVent={settStatusResponse}
                     settStatusPåVentRedigering={settStatusPåVentRedigering}
                 />
-            </Container>
+            </div>
         );
     } else {
         return null;

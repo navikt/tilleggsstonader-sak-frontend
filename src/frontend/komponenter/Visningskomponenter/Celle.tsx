@@ -1,14 +1,22 @@
-import styled from 'styled-components';
+import React from 'react';
 
-export const Celle = styled.div<{ $width?: number }>`
-    width: ${({ $width = 'fit-content' }) => $width}px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+import styles from './Celle.module.css';
 
-    /**
-    Bryter setninger på space, lange ord på hyphens, og lange ord brytes med hyphens. 
-     */
-    word-break: auto-phrase;
-    hyphens: auto;
-`;
+interface CelleProps extends React.HTMLAttributes<HTMLDivElement> {
+    $width?: number;
+}
+
+export const Celle: React.FC<CelleProps> = ({ $width, className, style, ...props }) => {
+    return (
+        <div
+            className={`${styles.celle} ${className ?? ''}`}
+            style={
+                {
+                    '--width': $width ? `${$width}px` : 'fit-content',
+                    ...style,
+                } as React.CSSProperties
+            }
+            {...props}
+        />
+    );
+};

@@ -1,0 +1,7 @@
+.radio-gruppe {
+    display: flex;
+}
+
+.radio-gruppe > div {
+    margin-right: 2rem;
+}

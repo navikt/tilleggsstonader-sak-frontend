@@ -1,26 +1,15 @@
 import React, { SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { Alert, ExpansionCard, HStack } from '@navikt/ds-react';
 
+import styles from './Delmal.module.css';
 import { DelmalMeny } from './DelmalMeny';
 import { FritekstSerializer } from './Sanity/FritekstSerializer';
 import { ValgfeltSerializer } from './Sanity/ValgfeltSerializer';
 import { Delmal as DelmalType, Fritekst, FritekstAvsnitt, Valg, Valgfelt } from './typer';
 import { VariabelSerializer } from './VariabelSerializer';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
-
-const Background = styled.div`
-    width: 100%;
-`;
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 interface Props {
     delmal: DelmalType;
@@ -64,7 +53,7 @@ const Delmal: React.FC<Props> = ({
 }) => {
     const { delmalInneholderMangler } = useBrevFeilContext();
     return (
-        <Background>
+        <div className={styles.background}>
             <ExpansionCard
                 aria-label={'Delmal'}
                 size="small"
@@ -81,7 +70,7 @@ const Delmal: React.FC<Props> = ({
                     </HStack>
                 </ExpansionCard.Header>
                 <ExpansionCard.Content>
-                    <Container>
+                    <div className={styles.container}>
                         {erEndringerIDelmal && !inkluderIBrev && (
                             <Alert variant={'warning'} size="small">
                                 Du har gjort endringer i seksjonen. Huk av for &quot;Inkluder
@@ -99,10 +88,10 @@ const Delmal: React.FC<Props> = ({
                             inkluderIBrev={inkluderIBrev}
                             settInkluderIBrev={settInkluderIBrev}
                         />
-                    </Container>
+                    </div>
                 </ExpansionCard.Content>
             </ExpansionCard>
-        </Background>
+        </div>
     );
 };
 

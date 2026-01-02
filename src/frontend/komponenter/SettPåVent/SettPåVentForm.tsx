@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Heading, HStack, Textarea, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 
 import { finnNyFrist } from './antallDagerFrist';
+import styles from './SettPåVentForm.module.css';
 import {
     SettPåVent,
     SettPåVentError,
@@ -24,10 +23,6 @@ import { Ressurs, RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
 import DateInput from '../Skjema/DateInput';
-
-const ÅrsakContainer = styled.div`
-    width: 35rem;
-`;
 
 const SettPåVentForm: React.FC<{
     status: StatusSettPåVent | undefined;
@@ -106,7 +101,7 @@ const SettPåVentForm: React.FC<{
         <VStack gap={'4'}>
             <Heading size={'small'}>Sett behandling på vent</Heading>
             <HStack gap={'4'}>
-                <ÅrsakContainer>
+                <div className={styles.årsakContainer}>
                     <UNSAFE_Combobox
                         label="Hva venter vi på? (Du kan velge flere)"
                         filteredOptions={filteredOptions}
@@ -117,7 +112,7 @@ const SettPåVentForm: React.FC<{
                         error={formErrors?.årsaker}
                         size="small"
                     />
-                </ÅrsakContainer>
+                </div>
                 <DateInput
                     key={keyDato}
                     label={'Frist for svar'}

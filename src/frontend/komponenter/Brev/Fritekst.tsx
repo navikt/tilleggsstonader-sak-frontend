@@ -1,31 +1,11 @@
 import React, { SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { ArrowDownIcon, ArrowUpIcon, PlusIcon } from '@navikt/aksel-icons';
 import { Button, Heading, Panel, Textarea, TextField, Tooltip } from '@navikt/ds-react';
 
+import styles from './Fritekst.module.css';
 import { FritekstAvsnitt } from './typer';
 import { SøppelbøtteKnapp } from '../Knapper/SøppelbøtteKnapp';
-
-const FritekstAvsnittContainer = styled(Panel).attrs({ border: true })`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-`;
-
-const FlexColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
-const KnappeWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-`;
 
 export const lagTomtAvsnitt = (): FritekstAvsnitt => ({ deloverskrift: '', innhold: '' });
 
@@ -71,12 +51,12 @@ const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
     };
 
     return (
-        <FlexColumn>
+        <div className={styles.flexColumn}>
             <Heading size={'small'}>Fritekst</Heading>
             {alleAvsnitt &&
                 alleAvsnitt.map((avsnitt, indeks) => {
                     return (
-                        <FritekstAvsnittContainer key={indeks}>
+                        <Panel border className={styles.fritekstAvsnittContainer} key={indeks}>
                             <TextField
                                 size={'small'}
                                 value={avsnitt.deloverskrift}
@@ -100,7 +80,7 @@ const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
                                     })
                                 }
                             />
-                            <KnappeWrapper>
+                            <div className={styles.knappeWrapper}>
                                 <Tooltip content="Slett avsnitt">
                                     <SøppelbøtteKnapp onClick={() => fjernAvsnitt(indeks)} />
                                 </Tooltip>
@@ -125,8 +105,8 @@ const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
                                         disabled={indeks === 0 && alleAvsnitt.length === 1}
                                     />
                                 </Tooltip>
-                            </KnappeWrapper>
-                        </FritekstAvsnittContainer>
+                            </div>
+                        </Panel>
                     );
                 })}
             <Button
@@ -138,7 +118,7 @@ const Fritekst: React.FC<Props> = ({ alleAvsnitt, settAvsnitt }) => {
             >
                 Legg til fritekst
             </Button>
-        </FlexColumn>
+        </div>
     );
 };
 

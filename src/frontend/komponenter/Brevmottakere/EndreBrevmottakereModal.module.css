@@ -1,0 +1,36 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 100fr 1fr 100fr;
+    column-gap: 2rem;
+}
+
+.venstrekolonne {
+    margin-left: 2rem;
+}
+
+.høyrekolonne {
+    margin-right: 2rem;
+}
+
+.sentrer-knapper {
+    display: flex;
+    justify-content: center;
+}
+
+.sentrer-knapper > button {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.horisontal-linje {
+    height: 0;
+    border: 2px solid #f3f3f3;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.vertikal-linje {
+    border-left: 2px solid #f3f3f3;
+    width: 5px;
+    margin-bottom: 1rem;
+}

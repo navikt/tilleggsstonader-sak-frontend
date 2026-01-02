@@ -1,25 +1,14 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyShort, HGrid, VStack } from '@navikt/ds-react';
-import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
 import { TilordnetSaksbehandler } from './TilordnetSaksbehandler';
+import styles from './TilordnetSaksbehandlerHamburgermeny.module.css';
 import { useBehandling } from '../../context/BehandlingContext';
 import { behandlingResultatTilTekst } from '../../typer/behandling/behandlingResultat';
 import { behandlingStatusTilTekst } from '../../typer/behandling/behandlingStatus';
 import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 import { formaterIsoDato } from '../../utils/dato';
-
-const Container = styled.div`
-    padding: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    border: 1px solid ${BorderNeutral};
-    border-radius: 0.125rem;
-    margin: 1rem 0.5rem;
-`;
 
 const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
     const { behandling } = useBehandling();
@@ -29,7 +18,7 @@ const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
         TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE;
 
     return (
-        <Container>
+        <div className={styles.container}>
             <VStack gap={'2'}>
                 {skalViseAnsvarligSaksbehandler && <TilordnetSaksbehandler />}
                 <HGrid gap={'6'} columns={2}>
@@ -74,7 +63,7 @@ const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
                     </Alert>
                 )}
             </VStack>
-        </Container>
+        </div>
     );
 };
 

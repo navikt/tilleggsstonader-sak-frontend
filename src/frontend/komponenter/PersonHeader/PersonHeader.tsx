@@ -1,31 +1,18 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
-import { BorderInfoStrong, Space16, Space8 } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './PersonHeader.module.css';
 import TagAdressebeskyttelse from './TagAdressebeskyttelse';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import { formaterIsoDato } from '../../utils/dato';
 import { SmallErrorTag, SmallWarningTag } from '../Tags';
 import { Sticky } from '../Visningskomponenter/Sticky';
 
-const Container = styled(Sticky)`
-    display: flex;
-    align-items: center;
-    gap: ${Space16};
-    top: 48px;
-
-    padding: ${Space8} ${Space16};
-
-    border-bottom: 1px solid ${BorderInfoStrong};
-`;
-
 const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { personopplysninger } = usePersonopplysninger();
     return (
-        <Container>
+        <Sticky className={styles.container}>
             <Heading size="xsmall">{personopplysninger.navn.visningsnavn}</Heading>
             <BodyShort>|</BodyShort>
             <HStack gap="2" align="center">
@@ -44,7 +31,7 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
             {personopplysninger.dødsdato && (
                 <SmallErrorTag>Død ({formaterIsoDato(personopplysninger.dødsdato)})</SmallErrorTag>
             )}
-        </Container>
+        </Sticky>
     );
 };
 

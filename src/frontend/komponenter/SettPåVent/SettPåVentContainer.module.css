@@ -1,0 +1,7 @@
+.container {
+    padding: 2rem;
+    background: var(--ax-bg-info-moderate-hover);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}

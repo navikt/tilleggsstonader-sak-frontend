@@ -1,10 +1,21 @@
-import styled from 'styled-components';
+import React from 'react';
 
-import { Link } from '@navikt/ds-react';
+import { Link, LinkProps } from '@navikt/ds-react';
 import { BgMetaPurpleStrong } from '@navikt/ds-tokens/darkside-js';
 
-export const Lenke = styled(Link)`
-    &:visited {
-        color: ${BgMetaPurpleStrong};
-    }
-`;
+import styles from './Lenke.module.css';
+
+export const Lenke: React.FC<LinkProps> = (props) => {
+    return (
+        <Link
+            {...props}
+            className={`${styles.lenke} ${props.className ?? ''}`}
+            style={
+                {
+                    '--visited-color': BgMetaPurpleStrong,
+                    ...props.style,
+                } as React.CSSProperties
+            }
+        />
+    );
+};

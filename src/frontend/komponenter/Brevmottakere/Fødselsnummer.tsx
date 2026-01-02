@@ -1,19 +1,12 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { CopyButton } from '@navikt/ds-react';
 
-const NoWrapSpan = styled.span`
-    white-space: nowrap;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-`;
+import styles from './Fødselsnummer.module.css';
 
 export const Fødselsnummer: React.FC<{ fødselsnummer: string }> = ({ fødselsnummer }) => {
     return (
-        <NoWrapSpan>
+        <span className={styles.noWrapSpan}>
             <span>{formaterFødselsnummer(fødselsnummer)}</span>
             <CopyButton
                 size={'xsmall'}
@@ -21,7 +14,7 @@ export const Fødselsnummer: React.FC<{ fødselsnummer: string }> = ({ fødselsn
                 variant={'action'}
                 activeText={'kopiert'}
             />
-        </NoWrapSpan>
+        </span>
     );
 };
 

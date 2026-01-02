@@ -1,12 +1,11 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { fullmektigDtoTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import { Fødselsnummer } from './Fødselsnummer';
 import { IBrevmottaker } from './typer';
+import styles from './VergerOgFullmektigeFraRegister.module.css';
 import { VertikalSentrering } from './VertikalSentrering';
 import { useHentFullmektige } from '../../hooks/useHentFullmektige';
 import { Vergemål } from '../../Sider/Klage/typer/personopplysningerFraKlage';
@@ -17,19 +16,6 @@ interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
     verger: Vergemål[];
 }
-
-const StyledMottakerBoks = styled.div`
-    padding: 10px;
-    margin-bottom: 4px;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    background: rgba(196, 196, 196, 0.2);
-`;
-
-const Kolonner = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     valgteMottakere,
@@ -61,11 +47,11 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                         (valgtMottaker) => valgtMottaker.personIdent === mottaker.personIdent
                     );
                     return (
-                        <StyledMottakerBoks key={mottaker.navn + index}>
-                            <Kolonner>
+                        <div className={styles.mottakerBoks} key={mottaker.navn + index}>
+                            <div className={styles.kolonner}>
                                 {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
                                 <Fødselsnummer fødselsnummer={mottaker.personIdent} />
-                            </Kolonner>
+                            </div>
                             {!mottakerValgt && (
                                 <VertikalSentrering>
                                     <div>
@@ -79,7 +65,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                                     </div>
                                 </VertikalSentrering>
                             )}
-                        </StyledMottakerBoks>
+                        </div>
                     );
                 })
             ) : (

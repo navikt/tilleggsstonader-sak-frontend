@@ -1,0 +1,4 @@
+.modalContainer {
+    min-width: 30rem;
+    max-width: var(--max-width);
+}

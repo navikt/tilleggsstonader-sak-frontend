@@ -1,10 +1,10 @@
 import React, { FormEvent, useCallback, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
 
 import { Alert, Button, Popover, Search, VStack } from '@navikt/ds-react';
 
+import styles from './PersonSøk.module.css';
 import { useApp } from '../context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 
@@ -13,14 +13,6 @@ export type Søkeresultat = {
     visningsnavn: string;
     fagsakPersonId?: string;
 };
-
-const Container = styled.div`
-    padding: 0.5rem;
-`;
-
-const AlertMedFastBredde = styled(Alert)`
-    width: 24rem;
-`;
 
 const erPositivtTall = (verdi: string) => /^\d+$/.test(verdi) && Number(verdi) !== 0;
 
@@ -99,7 +91,7 @@ const PersonSøk: React.FC = () => {
     };
 
     return (
-        <Container>
+        <div className={styles.container}>
             <form role="search" onSubmit={søk}>
                 <Search
                     variant="simple"
@@ -127,23 +119,23 @@ const PersonSøk: React.FC = () => {
                     }}
                 >
                     {søkeresultat && søkeresultat.status === RessursStatus.SUKSESS && (
-                        <AlertMedFastBredde variant="info">
+                        <Alert className={styles.alertMedFastBredde} variant="info">
                             <VStack>
                                 <span>Personen finnes i Arena</span>
                                 <Button size={'small'} onClick={opprettFagsakPerson}>
                                     Opprett personen
                                 </Button>
                             </VStack>
-                        </AlertMedFastBredde>
+                        </Alert>
                     )}
                     {søkeresultat && søkeresultat.status !== RessursStatus.SUKSESS && (
-                        <AlertMedFastBredde variant="error">
+                        <Alert className={styles.alertMedFastBredde} variant="error">
                             {søkeresultat.frontendFeilmelding}
-                        </AlertMedFastBredde>
+                        </Alert>
                     )}
                 </Popover.Content>
             </Popover>
-        </Container>
+        </div>
     );
 };
 

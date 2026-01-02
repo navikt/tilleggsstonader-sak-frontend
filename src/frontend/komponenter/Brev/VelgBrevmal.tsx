@@ -1,16 +1,11 @@
 import React, { useMemo } from 'react';
 
-import styled from 'styled-components';
-
 import { Select } from '@navikt/ds-react';
 
 import { Brevmal, BrevmalResultat } from './typer';
+import styles from './VelgBrevmal.module.css';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
 import { groupBy } from '../../utils/utils';
-
-const Container = styled.div`
-    max-width: fit-content;
-`;
 
 interface Props {
     brevmaler: Brevmal[];
@@ -34,7 +29,7 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
     const gruperteBrevmaler = useMemo(() => grupperBrevmaler(brevmaler), [brevmaler]);
 
     return (
-        <Container>
+        <div className={styles.container}>
             <Select
                 label="Velg brevmal"
                 onChange={(e) => handleOnChange(e.target.value)}
@@ -58,7 +53,7 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
                     return options;
                 })}
             </Select>
-        </Container>
+        </div>
     );
 };
 

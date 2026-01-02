@@ -1,20 +1,12 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { BodyLong, Radio, RadioGroup } from '@navikt/ds-react';
 
+import styles from './SkalBrukerHaBrev.module.css';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
-
-const StyledRadioGruppe = styled(RadioGroup)`
-    display: flex;
-
-    > div {
-        margin-right: 2rem;
-    }
-`;
 
 interface Props {
     valgteBrevmottakere: IBrevmottaker[];
@@ -59,7 +51,8 @@ export const SkalBrukerHaBrev: FC<Props> = ({
             <BodyLong size="large" spacing>
                 Skal bruker motta brevet?
             </BodyLong>
-            <StyledRadioGruppe
+            <RadioGroup
+                className={styles.radioGruppe}
                 legend={'Skal bruker motta brevet?'}
                 hideLegend
                 value={brukerSkalHaBrev ? 'Ja' : 'Nei'}
@@ -70,7 +63,7 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                 <Radio value={'Nei'} name={'brukerHaBrevRadio'} onChange={toggleBrukerSkalHaBrev}>
                     Nei
                 </Radio>
-            </StyledRadioGruppe>
+            </RadioGroup>
         </>
     );
 };

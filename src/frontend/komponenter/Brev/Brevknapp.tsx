@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyShort, Button, HStack, List, Loader, Textarea, VStack } from '@navikt/ds-react';
 
+import styles from './Brevknapp.module.css';
 import { MalStruktur, Valg, Valgfelt } from './typer';
 import { FeilIDelmal, FeilIDelmalType, useBrevFeilContext } from '../../context/BrevFeilContext';
 import { Feilmelding } from '../Feil/Feilmelding';
 import { Feil } from '../Feil/feilmeldingUtils';
-
-const Knapp = styled(Button)`
-    display: block;
-    max-width: fit-content;
-`;
 
 interface Props {
     tittel: string;
@@ -68,7 +62,12 @@ export const Brevknapp = ({
                     style={{ maxWidth: '400px' }}
                 />
             )}
-            <Knapp onClick={trykkPåKnapp} disabled={laster || generererBrevPdf} size="small">
+            <Button
+                className={styles.knapp}
+                onClick={trykkPåKnapp}
+                disabled={laster || generererBrevPdf}
+                size="small"
+            >
                 <HStack gap={'2'}>
                     {generererBrevPdf ? (
                         <>
@@ -78,7 +77,7 @@ export const Brevknapp = ({
                         tittel
                     )}
                 </HStack>
-            </Knapp>
+            </Button>
             <Feilmelding feil={feilmelding} />
             <FeilmeldingBrev />
         </VStack>

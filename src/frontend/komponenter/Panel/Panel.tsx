@@ -1,30 +1,9 @@
 import React, { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
 import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
-const Container = styled.div`
-    background-color: ${BgDefault};
-    border: 1px solid ${BorderNeutral};
-    border-radius: 12px;
-`;
-
-const Header = styled.div`
-    border-bottom: 1px solid ${BorderNeutral};
-    padding: 0.5rem 1rem;
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-`;
-
-const Innhold = styled.div`
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
+import styles from './Panel.module.css';
 
 interface Props {
     tittel: string;
@@ -36,8 +15,16 @@ interface Props {
 
 const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny }) => {
     return (
-        <Container>
-            <Header>
+        <div
+            className={styles.container}
+            style={
+                {
+                    '--bg-color': BgDefault,
+                    '--border-color': BorderNeutral,
+                } as React.CSSProperties
+            }
+        >
+            <div className={styles.header}>
                 <HStack gap="2" align="center">
                     {ikon}
                     <Heading size="small">{tittel}</Heading>
@@ -45,9 +32,9 @@ const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny 
                 {ekstraHeading}
                 <Spacer />
                 {kontekstmeny}
-            </Header>
-            <Innhold>{children}</Innhold>
-        </Container>
+            </div>
+            <div className={styles.innhold}>{children}</div>
+        </div>
     );
 };
 

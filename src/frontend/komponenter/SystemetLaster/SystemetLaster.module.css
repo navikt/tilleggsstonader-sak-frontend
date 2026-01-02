@@ -1,0 +1,16 @@
+.systemetLaster {
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+}
+
+.wrapper {
+    padding-top: 2rem;
+    width: 13rem;
+    margin: auto;
+}
+
+.spinner {
+    margin: auto;
+    width: 4rem;
+}

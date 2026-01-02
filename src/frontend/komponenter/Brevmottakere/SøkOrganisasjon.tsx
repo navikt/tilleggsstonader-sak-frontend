@@ -4,10 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
-import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
+import { Søkefelt } from './Søkefelt';
 import { IOrganisasjonMottaker } from './typer';
 import { useOrganisasjonssøk } from '../../hooks/useSøkOrganisasjon';
 import DataViewer from '../DataViewer';
+import { Søkeresultat } from './Søkeresultat';
 
 interface Props {
     valgteMottakere: IOrganisasjonMottaker[];

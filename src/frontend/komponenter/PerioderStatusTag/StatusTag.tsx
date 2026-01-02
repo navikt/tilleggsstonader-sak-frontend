@@ -1,15 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Tag } from '@navikt/ds-react';
 
+import styles from './StatusTag.module.css';
 import { PeriodeStatus } from '../../typer/behandling/periodeStatus';
-
-const StyledTag = styled(Tag)`
-    max-width: fit-content;
-    min-height: 20px;
-`;
 
 export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean }> = ({
     status,
@@ -17,25 +11,25 @@ export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean 
 }) => {
     if (status === PeriodeStatus.UENDRET) {
         return (
-            <StyledTag size="small" variant="warning">
+            <Tag size="small" variant="warning" className={styles.statusTag}>
                 Fra tidligere vedtak
-            </StyledTag>
+            </Tag>
         );
     }
 
     if (status === PeriodeStatus.ENDRET) {
         return (
-            <StyledTag size="small" variant="warning">
+            <Tag size="small" variant="warning" className={styles.statusTag}>
                 Endret
-            </StyledTag>
+            </Tag>
         );
     }
 
     if (lesevisning && status === PeriodeStatus.NY) {
         return (
-            <StyledTag size="small" variant="success">
+            <Tag size="small" variant="success" className={styles.statusTag}>
                 Ny
-            </StyledTag>
+            </Tag>
         );
     }
 

@@ -1,9 +1,20 @@
-import styled from 'styled-components';
+import React from 'react';
 
 import { BorderAccentSubtle } from '@navikt/ds-tokens/darkside-js';
 
-export const Skillelinje = styled.hr`
-    border-top: 1px solid ${BorderAccentSubtle};
-    border-left: none;
-    width: 100%;
-`;
+import styles from './Skillelinje.module.css';
+
+export const Skillelinje: React.FC<React.HTMLAttributes<HTMLHRElement>> = (props) => {
+    return (
+        <hr
+            {...props}
+            className={`${styles.skillelinje} ${props.className ?? ''}`}
+            style={
+                {
+                    '--border-color': BorderAccentSubtle,
+                    ...props.style,
+                } as React.CSSProperties
+            }
+        />
+    );
+};

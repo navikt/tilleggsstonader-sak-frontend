@@ -1,0 +1,5 @@
+.skillelinje {
+    border-top: 1px solid var(--border-color);
+    border-left: none;
+    width: 100%;
+}

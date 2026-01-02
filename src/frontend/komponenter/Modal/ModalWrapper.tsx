@@ -1,15 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Modal } from '@navikt/ds-react';
 
+import styles from './ModalWrapper.module.css';
 import { sendHendelseTilUmami, UmamiHendelse } from '../../utils/umami/umami';
-
-const ModalContainer = styled(Modal)<{ $maxWidth?: number }>`
-    min-width: 30rem;
-    max-width: ${(props) => (props.$maxWidth ? `${props.$maxWidth}rem` : '40rem')};
-`;
 
 interface ModalProps {
     tittel?: string;
@@ -70,10 +64,15 @@ export const ModalWrapper: React.FC<ModalProps> = ({
     }
     return (
         visModal && (
-            <ModalContainer
+            <Modal
+                className={styles.modalContainer}
+                style={
+                    {
+                        '--max-width': maxWidth ? `${maxWidth}rem` : '40rem',
+                    } as React.CSSProperties
+                }
                 open={visModal}
                 onClose={håndterOnClose}
-                $maxWidth={maxWidth}
                 aria-label={ariaLabel ? ariaLabel : tittel || ''}
                 header={tittel ? { heading: tittel, closeButton: !!onClose } : undefined}
             >
@@ -123,7 +122,7 @@ export const ModalWrapper: React.FC<ModalProps> = ({
                         )}
                     </Modal.Footer>
                 )}
-            </ModalContainer>
+            </Modal>
         )
     );
 };

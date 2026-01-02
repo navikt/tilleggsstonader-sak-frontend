@@ -1,7 +1,27 @@
-import styled from 'styled-components';
+import React from 'react';
 
-export const FeilmeldingMaksBredde = styled.div<{ $maxWidth?: number }>`
-    .navds-error-message {
-        max-width: ${({ $maxWidth: $width = 130 }) => $width}px;
-    }
-`;
+import styles from './FeilmeldingFastBredde.module.css';
+
+interface FeilmeldingMaksBreddeProps extends React.HTMLAttributes<HTMLDivElement> {
+    $maxWidth?: number;
+}
+
+export const FeilmeldingMaksBredde: React.FC<FeilmeldingMaksBreddeProps> = ({
+    $maxWidth,
+    className,
+    style,
+    ...props
+}) => {
+    return (
+        <div
+            className={`${styles.feilmeldingMaksBredde} ${className ?? ''}`}
+            style={
+                {
+                    '--max-width': `${$maxWidth ?? 130}px`,
+                    ...style,
+                } as React.CSSProperties
+            }
+            {...props}
+        />
+    );
+};

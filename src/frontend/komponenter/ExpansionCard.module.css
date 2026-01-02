@@ -1,0 +1,4 @@
+.expansionCard {
+    max-width: var(--max-width);
+    border: 1px solid var(--border-color);
+}

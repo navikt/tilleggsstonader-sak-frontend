@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import React from 'react';
 
-export const VertikalSentrering = styled.div`
-    display: flex;
-    align-items: center;
-`;
+import styles from './VertikalSentrering.module.css';
+
+export const VertikalSentrering: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+    className,
+    ...props
+}) => {
+    return <div className={`${styles.vertikalSentrering} ${className || ''}`} {...props} />;
+};

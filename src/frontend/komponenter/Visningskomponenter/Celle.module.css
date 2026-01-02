@@ -1,0 +1,8 @@
+.celle {
+    width: var(--width);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    word-break: auto-phrase;
+    hyphens: auto;
+}

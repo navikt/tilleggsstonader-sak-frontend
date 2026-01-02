@@ -1,11 +1,10 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, Select } from '@navikt/ds-react';
 
 import { BrevmottakerSøk } from './BrevmottakerSøk';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
+import styles from './SøkWrapper.module.css';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 
 interface Props {
@@ -19,11 +18,6 @@ enum ESøktype {
     PERSON = 'PERSON',
 }
 
-const SøkTypeSelect = styled(Select)`
-    width: 200px;
-    margin-bottom: 1rem;
-`;
-
 export const SøkWrapper: FC<Props> = ({
     settValgtePersonMottakere,
     valgteOrganisasjonMottakere,
@@ -36,7 +30,8 @@ export const SøkWrapper: FC<Props> = ({
             <BodyLong size="large" spacing>
                 Manuelt søk
             </BodyLong>
-            <SøkTypeSelect
+            <Select
+                className={styles.søkTypeSelect}
                 label={'Manuelt søk'}
                 hideLabel
                 value={søktype}
@@ -45,7 +40,7 @@ export const SøkWrapper: FC<Props> = ({
                 <option>Velg</option>
                 <option value={ESøktype.ORGANISASJON}>Organisasjon</option>
                 <option value={ESøktype.PERSON}>Person</option>
-            </SøkTypeSelect>
+            </Select>
             {søktype === ESøktype.ORGANISASJON && (
                 <SøkOrganisasjon
                     valgteMottakere={valgteOrganisasjonMottakere}

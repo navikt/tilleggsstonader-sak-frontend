@@ -1,0 +1,3 @@
+.feilmeldingMaksBredde :global(.navds-error-message) {
+    max-width: var(--max-width);
+}

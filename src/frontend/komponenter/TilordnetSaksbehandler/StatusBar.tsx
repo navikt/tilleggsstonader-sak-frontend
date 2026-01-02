@@ -1,15 +1,13 @@
-import styled from 'styled-components';
+import React from 'react';
 
 import { BorderNeutral, BorderSuccess, BorderWarningSubtle } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './StatusBar.module.css';
 import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';
 
-export const StatusBar = styled.span<{ $color: string }>`
-    display: block;
-    width: 100%;
-    margin-top: 0.5rem;
-    border-top: 4px solid ${(props) => props.$color};
-`;
+export const StatusBar: React.FC<{ color: string }> = ({ color }) => {
+    return <span className={styles.statusBar} style={{ borderTopColor: color }} />;
+};
 
 export function utledStatusbarFarge(
     ansvarligSaksbehandlerRolle: TilordnetSaksbehandlerPåOppgave | undefined

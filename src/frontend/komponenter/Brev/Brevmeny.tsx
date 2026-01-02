@@ -1,9 +1,9 @@
 import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
 
-import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { Brevknapp } from './Brevknapp';
+import styles from './Brevmeny.module.css';
 import Delmal from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
@@ -52,12 +52,6 @@ const oppdaterStateForId =
             [id]: nextState,
         }));
     };
-
-const FlexColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
 
 const initialiserInkluderteDelmaler = (
     mal: MalStruktur,
@@ -193,7 +187,7 @@ const Brevmeny: React.FC<Props> = ({
     };
 
     return (
-        <FlexColumn>
+        <div className={styles.flexColumn}>
             {mal.delmaler.map(
                 (delmal) =>
                     delmal.visningsdetaljer.skalVisesIBrevmeny && (
@@ -229,7 +223,7 @@ const Brevmeny: React.FC<Props> = ({
                     kanSendeKommentarTilBeslutter={brevknapp.kanSendeKommentarTilBeslutter}
                 />
             )}
-        </FlexColumn>
+        </div>
     );
 };
 

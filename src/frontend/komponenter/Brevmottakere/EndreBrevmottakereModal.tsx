@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Button } from '@navikt/ds-react';
 
 import { BrevmottakereListe } from './BrevmottakereListe';
+import styles from './EndreBrevmottakereModal.module.css';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { SøkWrapper } from './SøkWrapper';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
@@ -14,45 +13,6 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressur
 import { Toast } from '../../typer/toast';
 import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
 import { ModalWrapper } from '../Modal/ModalWrapper';
-
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: 100fr 1fr 100fr;
-    column-gap: 2rem;
-`;
-
-const Venstrekolonne = styled.div`
-    margin-left: 2rem;
-`;
-
-const Høyrekolonne = styled.div`
-    margin-right: 2rem;
-`;
-
-const SentrerKnapper = styled.div`
-    display: flex;
-    justify-content: center;
-
-    > button {
-        margin-left: 1rem;
-        margin-right: 1rem;
-    }
-`;
-
-const HorisontalLinje = styled.div`
-    height: 0;
-
-    border: 2px solid #f3f3f3;
-
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-`;
-
-const VertikalLinje = styled.div`
-    border-left: 2px solid #f3f3f3;
-    width: 5px;
-    margin-bottom: 1rem;
-`;
 
 export const EndreBrevmottakereModal: FC<{
     personopplysninger: PersonopplysningerIBrevmottakere;
@@ -116,45 +76,45 @@ export const EndreBrevmottakereModal: FC<{
             maxWidth={70}
             ariaLabel={'Velg brevmottakere'}
         >
-            <GridContainer>
-                <Venstrekolonne>
+            <div className={styles.gridContainer}>
+                <div className={styles.venstrekolonne}>
                     <VergerOgFullmektigeFraRegister
                         verger={personopplysninger.vergemål ?? []}
                         personIdent={personopplysninger.personIdent}
                         valgteMottakere={valgtePersonMottakere}
                         settValgteMottakere={settValgtePersonMottakere}
                     />
-                    <HorisontalLinje />
+                    <div className={styles.horisontalLinje} />
                     <SøkWrapper
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
                     />
-                    <HorisontalLinje />
+                    <div className={styles.horisontalLinje} />
                     <SkalBrukerHaBrev
                         valgteBrevmottakere={valgtePersonMottakere}
                         settValgtBrevMottakere={settValgtePersonMottakere}
                         personopplysninger={personopplysninger}
                     />
-                </Venstrekolonne>
-                <VertikalLinje />
-                <Høyrekolonne>
+                </div>
+                <div className={styles.vertikalLinje} />
+                <div className={styles.høyrekolonne}>
                     <BrevmottakereListe
                         valgtePersonMottakere={valgtePersonMottakere}
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
                     />
-                </Høyrekolonne>
-            </GridContainer>
-            <SentrerKnapper>
+                </div>
+            </div>
+            <div className={styles.sentrerKnapper}>
                 <Button variant="tertiary" onClick={() => settVisBrevmottakereModal(false)}>
                     Avbryt
                 </Button>
                 <Button variant="primary" onClick={settBrevmottakere} disabled={!harValgtMottakere}>
                     Sett mottakere
                 </Button>
-            </SentrerKnapper>
+            </div>
             {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
             {innsendingSuksess && <Alert variant={'success'}>Brevmottakere er satt</Alert>}
         </ModalWrapper>

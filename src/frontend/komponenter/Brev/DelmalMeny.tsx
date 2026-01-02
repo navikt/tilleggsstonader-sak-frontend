@@ -1,9 +1,8 @@
 import React, { SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { Checkbox } from '@navikt/ds-react';
 
+import styles from './DelmalMeny.module.css';
 import Fritekst, { lagTomtAvsnitt } from './Fritekst';
 import { Delmal as DelmalType, FritekstAvsnitt, Valg } from './typer';
 import Valgfelt from './Valgfelt';
@@ -23,13 +22,6 @@ interface Props {
     settInkluderIBrev: (inkluderIBrev: boolean) => void;
 }
 
-const FlexColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1rem;
-`;
-
 export const DelmalMeny: React.FC<Props> = ({
     delmal,
     valgfelt,
@@ -43,7 +35,7 @@ export const DelmalMeny: React.FC<Props> = ({
 }) => {
     const { nullstillDelmal } = useBrevFeilContext();
     return (
-        <FlexColumn>
+        <div className={styles.flexColumn}>
             <Checkbox
                 disabled={delmal.visningsdetaljer.skalAlltidMed}
                 checked={inkluderIBrev}
@@ -103,6 +95,6 @@ export const DelmalMeny: React.FC<Props> = ({
                         );
                 }
             })}
-        </FlexColumn>
+        </div>
     );
 };

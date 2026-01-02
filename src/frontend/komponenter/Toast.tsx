@@ -1,18 +1,10 @@
 import React, { useEffect } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert } from '@navikt/ds-react';
 
+import styles from './Toast.module.css';
 import { useApp } from '../context/AppContext';
 import { Toast as ToastEnum, toastTilTekst } from '../typer/toast';
-
-const ContainerTopRight = styled.div`
-    z-index: 9999;
-    position: fixed;
-    right: 2rem;
-    top: 4rem;
-`;
 
 const Toast: React.FC = () => {
     const { toast, settToast } = useApp();
@@ -31,16 +23,16 @@ const Toast: React.FC = () => {
 
         case ToastEnum.DISABLED_FANE:
             return (
-                <ContainerTopRight>
+                <div className={styles.containerTopRight}>
                     <Alert variant="warning">{toastTilTekst[toast]}</Alert>
-                </ContainerTopRight>
+                </div>
             );
 
         default:
             return (
-                <ContainerTopRight>
+                <div className={styles.containerTopRight}>
                     <Alert variant="success">{toastTilTekst[toast]}</Alert>
-                </ContainerTopRight>
+                </div>
             );
     }
 };

@@ -1,19 +1,13 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
 import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
+import styles from './TilordnetSaksbehandler.module.css';
 import { utledVisningsnavn } from './tilordnetSaksbehandlerUtils';
 import { useBehandling } from '../../context/BehandlingContext';
-
-export const PersonIkon = styled(PersonHeadsetIcon)`
-    width: 3rem;
-    height: 3rem;
-`;
 
 export const TilordnetSaksbehandler: React.FC = () => {
     const { behandling } = useBehandling();
@@ -34,7 +28,7 @@ export const TilordnetSaksbehandler: React.FC = () => {
     return (
         <>
             <HStack gap={'2'} align={'center'}>
-                <PersonIkon />
+                <PersonHeadsetIcon className={styles.personIkon} />
                 <div>
                     <BodyShort weight={'semibold'} size={'small'}>
                         Ansvarlig saksbehandler:
@@ -45,7 +39,7 @@ export const TilordnetSaksbehandler: React.FC = () => {
                 </div>
             </HStack>
             <StatusBar
-                $color={utledStatusbarFarge(
+                color={utledStatusbarFarge(
                     behandling.tilordnetSaksbehandler.tilordnetSaksbehandlerPåOppgave
                 )}
             />

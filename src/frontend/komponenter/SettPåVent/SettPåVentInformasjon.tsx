@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyLong, BodyShort, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 
+import styles from './SettPåVentInformasjon.module.css';
 import { TaAvVentKnapp } from './TaAvVentKnapp';
 import { StatusSettPåVent, årsakTilTekst } from './typer';
 import {
@@ -13,10 +12,6 @@ import {
 } from '../../utils/dato';
 import { Feilmelding } from '../Feil/Feilmelding';
 import { Feil } from '../Feil/feilmeldingUtils';
-
-const Kommentar = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 
 const SettPåVentInformasjon: React.FC<{
     status: StatusSettPåVent;
@@ -49,7 +44,7 @@ const SettPåVentInformasjon: React.FC<{
                 </BodyShort>
                 <BodyShort size="small">
                     <strong>Kommentar fra saksbehandler: </strong>
-                    <Kommentar>{status.kommentar}</Kommentar>
+                    <BodyLong className={styles.kommentar}>{status.kommentar}</BodyLong>
                 </BodyShort>
             </VStack>
             <Feilmelding feil={kanTaAvVentFeil} />
