@@ -777,14 +777,6 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.35.2/4e69069f8fcbaf48cdb380bdaffad92eeaf7e532#4e69069f8fcbaf48cdb380bdaffad92eeaf7e532"
   integrity sha512-RNrGyyII13paXbzi0BlOqODudJqMylR4LxvbQvTGgpsFLJBMs76eZEwjEKqWahX5PRi0zoplwL3VdppCnzWmyw==
 
-"@navikt/familie-endringslogg@^14.0.0":
-  version "14.0.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/14.0.0/3eb12f4597568cf7c8d2bb0726b3dd05d66f07c0#3eb12f4597568cf7c8d2bb0726b3dd05d66f07c0"
-  integrity sha512-Ba563ehbGy3nHX6S5dJ9dnCgV07T+8l1hOte/7Uvc1jOH4zrDIjQhB95xh6+VOjuTNYoqZUsEs2dPu14M+xDvQ==
-  dependencies:
-    "@portabletext/react" "^3.2.0"
-    classnames "^2.5.1"
-
 "@navikt/familie-form-elements@^21.0.4":
   version "21.0.4"
   resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/21.0.4/cfbd3541081b539804664c4a02018cfe7b4e114b#cfbd3541081b539804664c4a02018cfe7b4e114b"
@@ -798,14 +790,6 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.2.7.tgz#eb5014dfd0b03e7f3ba2eeeff506eed89b028058"
   integrity sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==
 
-"@portabletext/react@^3.2.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-3.2.1.tgz#9fc19c9bfef3b2c2e6b71628e7879d1f343446cf"
-  integrity sha512-RyFLk6u2q6ZyABTdOk+xoNR2Tq/4fcQFEWayNk4Kbd3gHpUUTabqOrDMChcmG6C7YVLSpwIEBwHoBVcy4vK/hA==
-  dependencies:
-    "@portabletext/toolkit" "^2.0.17"
-    "@portabletext/types" "^2.0.13"
-
 "@portabletext/react@^6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-6.0.0.tgz#1b363488ef8ba10bf3ab6437c813899f313d4542"
@@ -814,24 +798,12 @@
     "@portabletext/toolkit" "^5.0.0"
     "@portabletext/types" "^4.0.0"
 
-"@portabletext/toolkit@^2.0.17":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-2.0.17.tgz#a09bb1985dc27949f34a2a5c6817b55dadbcaa9f"
-  integrity sha512-5wj+oUaCmHm9Ay1cytPmT1Yc0SrR1twwUIc0qNQ3MtaXaNMPw99Gjt1NcA34yfyKmEf/TAB2NiiT72jFxdddIQ==
-  dependencies:
-    "@portabletext/types" "^2.0.13"
-
 "@portabletext/toolkit@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-5.0.0.tgz#90d6eced612f4bba5d397813801c684f6b0a00cf"
   integrity sha512-jcDOv1RKO/j08pdnc/6i5tULcAzEYCR41XDVYOqmmX8bvEJbWJabhpVjHT1ls6p27v9gtA4NG2SO5xdMpgWSQQ==
   dependencies:
     "@portabletext/types" "^4.0.0"
-
-"@portabletext/types@^2.0.13":
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/@portabletext/types/-/types-2.0.15.tgz#afc1231fd66965d777c6233aea79abfaf8716351"
-  integrity sha512-2e6i2gSQsrA/5OL5Gm4/9bxB9MNO73Fa47zj+0mT93xkoQUCGCWX5fZh1YBJ86hszaRYlqvqG08oULxvvPPp/Q==
 
 "@portabletext/types@^4.0.0":
   version "4.0.0"

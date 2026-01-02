@@ -13,7 +13,6 @@ if (process.env.NODE_ENV === 'development') {
 export enum ApplicationName {
     sak = 'sak',
     klage = 'klage',
-    endringslogg = 'endringslogg',
     modiacontext = 'modiacontext',
     unleash = 'unleash',
 }
@@ -120,10 +119,6 @@ const clientsLocal = (): ClientConfig => ({
         url: 'http://localhost:8090/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage-lokal',
     },
-    [ApplicationName.endringslogg]: {
-        url: 'https://familie-endringslogg.intern.dev.nav.no',
-        audience: 'dev-gcp.teamfamilie.familie-endringslogg',
-    },
     [ApplicationName.unleash]: {
         url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
         audience: '',
@@ -142,10 +137,6 @@ const clientsLocalPreprod = (): ClientConfig => ({
     [ApplicationName.klage]: {
         url: 'https://tilleggsstonader-klage.intern.dev.nav.no/api',
         audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
-    },
-    [ApplicationName.endringslogg]: {
-        url: 'https://familie-endringslogg.intern.dev.nav.no',
-        audience: 'dev-gcp.teamfamilie.familie-endringslogg',
     },
     [ApplicationName.unleash]: {
         url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
@@ -182,10 +173,6 @@ const devMiljø = (): Miljø => ({
             url: 'http://tilleggsstonader-klage/api',
             audience: 'dev-gcp.tilleggsstonader.tilleggsstonader-klage',
         },
-        [ApplicationName.endringslogg]: {
-            url: 'http://familie-endringslogg.teamfamilie',
-            audience: 'dev-gcp.teamfamilie.familie-endringslogg',
-        },
         [ApplicationName.unleash]: {
             url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',
             audience: '',
@@ -210,10 +197,6 @@ const prodMiljø = (): Miljø => ({
         [ApplicationName.klage]: {
             url: 'http://tilleggsstonader-klage/api',
             audience: 'prod-gcp.tilleggsstonader.tilleggsstonader-klage',
-        },
-        [ApplicationName.endringslogg]: {
-            url: 'http://familie-endringslogg.teamfamilie',
-            audience: 'prod-gcp.teamfamilie.familie-endringslogg',
         },
         [ApplicationName.unleash]: {
             url: 'https://tilleggsstonader-unleash-api.nav.cloud.nais.io/api/frontend',

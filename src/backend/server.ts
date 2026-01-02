@@ -83,8 +83,6 @@ app.use(
     doProxy(ApplicationName.unleash)
 );
 
-app.use('/endringslogg', addRequestInfo(), doProxy(ApplicationName.endringslogg));
-
 app.use('/api/generer-lenke-modia', addRequestInfo(), doProxy(ApplicationName.modiacontext));
 
 app.listen(PORT, () => {

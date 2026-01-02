@@ -46,8 +46,6 @@ spec:
       rules:
         - application: tilleggsstonader-sak
         - application: tilleggsstonader-klage
-        - application: familie-endringslogg
-          namespace: teamfamilie
       external:
         - host: tilleggsstonader-unleash-api.nav.cloud.nais.io
         - host: modiacontextholder.intern.dev.nav.no
