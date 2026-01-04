@@ -3,7 +3,7 @@
     margin-bottom: 4px;
     display: grid;
     grid-template-columns: 5fr 1fr;
-    background: rgba(196, 196, 196, 0.2);
+    background: rgb(196 196 196 / 20%);
 }
 
 .flexboks {

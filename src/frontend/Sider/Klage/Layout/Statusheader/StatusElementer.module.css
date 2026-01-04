@@ -8,9 +8,7 @@
     background-color: white;
     right: 1rem;
     border: 1px solid grey;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 5px 5px 5px rgb(0 0 0 / 40%);
 }
 
 .statusMenyInnholdOpen {
@@ -39,7 +37,7 @@
     display: block;
 }
 
-@media screen and (min-width: 760px) {
+@media screen and (width >= 760px) {
     .visStonadOgBehandlingstypePaLitenSkjerm {
         display: none;
     }
@@ -52,7 +50,7 @@
     white-space: nowrap;
 }
 
-@media screen and (max-width: 1700px) {
+@media screen and (width <= 1700px) {
     .statuser {
         display: none;
     }
@@ -65,7 +63,7 @@
     white-space: nowrap;
 }
 
-@media screen and (min-width: 1700px) {
+@media screen and (width >= 1700px) {
     .statuserLitenSkjerm {
         display: none;
     }

@@ -18,6 +18,6 @@
     display: grid;
     grid-template-columns: 21px 250px repeat(2, 325px);
     grid-auto-rows: min-content;
-    grid-gap: 0.5rem;
+    gap: 0.5rem;
     margin-bottom: 0.5rem;
 }

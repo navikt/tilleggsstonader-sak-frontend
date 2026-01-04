@@ -10,7 +10,7 @@
     gap: 3rem;
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
     .container {
         flex-direction: column;
         gap: 1rem;

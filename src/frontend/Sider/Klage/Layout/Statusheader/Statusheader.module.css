@@ -7,7 +7,6 @@
 .wrapper {
     width: 100%;
     display: flex;
-
     border-bottom: 1px solid var(--ax-border-focus);
     z-index: 22;
     top: 47px;

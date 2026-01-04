@@ -4,10 +4,8 @@
     width: 80px;
     height: 80px;
     z-index: 1;
-
     top: -5px;
     right: -5px;
-
     pointer-events: none;
 }
 
@@ -53,10 +51,9 @@
     width: 113px;
     padding: 5px 0;
     background-color: var(--hovedfarge);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
     font-weight: 600;
     text-align: center;
-
     left: -6px;
     top: 15px;
     transform: rotate(45deg);

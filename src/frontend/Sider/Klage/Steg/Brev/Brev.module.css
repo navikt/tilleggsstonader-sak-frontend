@@ -1,20 +1,20 @@
 .brevside {
     background-color: var(--a-bg-subtle);
-    padding: 2rem 2rem 0 2rem;
+    padding: 2rem 2rem 0;
 }
 
 .behandlingPaVent {
-    padding: 2rem 2rem 0 2rem;
+    padding: 2rem 2rem 0;
 }
 
 .brevContainer {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    grid-gap: 1rem;
+    gap: 1rem;
     justify-content: space-between;
 }
 
-@media only screen and (max-width: 1800px) {
+@media only screen and (width <= 1800px) {
     .brevContainer {
         display: flex;
         flex-wrap: wrap;

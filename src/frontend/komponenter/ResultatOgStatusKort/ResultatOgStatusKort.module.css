@@ -1,10 +1,8 @@
 .container {
     min-height: 110px;
     position: relative;
-
     display: grid;
     grid-template-columns: 26px 1fr;
-
     border-radius: 12px;
     border: 1px solid var(--ax-border-neutral-subtle);
     border-bottom: none;

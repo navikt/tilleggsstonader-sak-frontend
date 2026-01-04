@@ -2,7 +2,7 @@
     display: flex;
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .flexbox {
         flex-direction: column;
         justify-content: center;
@@ -10,7 +10,7 @@
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .flexbox {
         flex-direction: row;
     }
@@ -20,7 +20,7 @@
     display: flex;
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .flexboxOpen {
         flex-direction: column;
         justify-content: center;
@@ -28,7 +28,7 @@
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .flexboxOpen {
         flex-direction: row;
     }
@@ -37,13 +37,13 @@
 .historikkInnslag {
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .historikkInnslag {
         width: 10rem;
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .historikkInnslag {
         flex-grow: 1;
         display: grid;
@@ -55,13 +55,13 @@
 .historikkInnslagOpen {
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .historikkInnslagOpen {
         width: 10rem;
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .historikkInnslagOpen {
         flex-grow: 1;
         display: grid;
@@ -73,13 +73,13 @@
 .revurderingAlertContainer {
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .revurderingAlertContainer {
         width: 14rem;
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .revurderingAlertContainer {
         flex-grow: 1;
         display: grid;
@@ -90,13 +90,13 @@
 .revurderingAlertContainerOpen {
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .revurderingAlertContainerOpen {
         width: 14rem;
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .revurderingAlertContainerOpen {
         flex-grow: 1;
         display: grid;
@@ -107,7 +107,7 @@
 .linjeStiplet {
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .linjeStiplet {
         border-left: 2px dashed black;
         margin: 0 auto 2px;
@@ -116,7 +116,7 @@
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .linjeStiplet {
         border-top: 2px dashed black;
         margin-top: 3.25rem;
@@ -127,7 +127,7 @@
 .linjeStipletOpen {
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .linjeStipletOpen {
         border-left: 2px dashed black;
         margin: 0 auto 2px;
@@ -136,7 +136,7 @@
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .linjeStipletOpen {
         border-top: 2px dashed black;
         margin-top: 3.25rem;
@@ -147,7 +147,7 @@
 .linjeSort {
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .linjeSort {
         border-left: 2px solid black;
         margin: 0 auto;
@@ -156,7 +156,7 @@
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .linjeSort {
         border-top: 2px solid black;
         margin-top: 3.25rem;
@@ -166,7 +166,7 @@
 .linjeSortOpen {
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .linjeSortOpen {
         border-left: 2px solid black;
         margin: 0 auto;
@@ -175,7 +175,7 @@
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .linjeSortOpen {
         border-top: 2px solid black;
         margin-top: 3.25rem;
@@ -202,7 +202,7 @@
 .tittelToLinjer {
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .tittelToLinjer {
         position: relative;
         bottom: 1rem;
@@ -213,7 +213,7 @@
 .tittelToLinjerOpen {
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .tittelToLinjerOpen {
         position: relative;
         bottom: 1rem;

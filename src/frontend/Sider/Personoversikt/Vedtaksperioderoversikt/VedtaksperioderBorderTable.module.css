@@ -3,5 +3,5 @@
 }
 
 .borderTable.border {
-    border: solid 1px rgba(131, 140, 154, 1);
+    border: solid 1px rgb(131 140 154 / 100%);
 }

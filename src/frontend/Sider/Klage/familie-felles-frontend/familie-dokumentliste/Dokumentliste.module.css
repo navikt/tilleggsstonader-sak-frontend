@@ -7,7 +7,7 @@
 .knapp {
     padding: 0.5rem 1rem;
     display: grid;
-    grid-gap: 0 1rem;
+    gap: 0 1rem;
     grid-template-columns: minmax(min-content, max-content);
     grid-template-rows: repeat(3, min-content);
     grid-template-areas:

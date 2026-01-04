@@ -3,8 +3,6 @@
     align-items: center;
     gap: var(--ax-space-16);
     top: 48px;
-
     padding: var(--ax-space-8) var(--ax-space-16);
-
     border-bottom: 1px solid var(--ax-border-neutral-strong);
 }

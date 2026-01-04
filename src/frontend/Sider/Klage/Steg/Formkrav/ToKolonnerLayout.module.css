@@ -4,7 +4,7 @@
     border-bottom: 3px solid var(--ax-border-neutral-subtle);
 }
 
-@media (max-width: 1600px) {
+@media (width <= 1600px) {
     .container {
         flex-direction: column;
     }
@@ -16,7 +16,7 @@
     max-width: 50rem;
 }
 
-@media (max-width: 1600px) {
+@media (width <= 1600px) {
     .venstreKolonne {
         width: 100%;
     }
@@ -28,7 +28,7 @@
     max-width: 50rem;
 }
 
-@media (max-width: 1600px) {
+@media (width <= 1600px) {
     .hoyreKolonne {
         width: 100%;
     }

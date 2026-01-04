@@ -1,18 +1,18 @@
 .headingContainer {
-    margin: 2rem 5rem 0rem 5rem;
+    margin: 2rem 5rem 0;
 }
 
 .tidslinjeContainer {
 }
 
-@media (max-width: 1149px) {
+@media (width <= 1149px) {
     .tidslinjeContainer {
         display: flex;
         justify-content: center;
     }
 }
 
-@media (min-width: 1150px) {
+@media (width >= 1150px) {
     .tidslinjeContainer {
         margin-top: 12rem;
     }
@@ -21,14 +21,14 @@
 .tidslinjeContainerOpen {
 }
 
-@media (max-width: 1449px) {
+@media (width <= 1449px) {
     .tidslinjeContainerOpen {
         display: flex;
         justify-content: center;
     }
 }
 
-@media (min-width: 1450px) {
+@media (width >= 1450px) {
     .tidslinjeContainerOpen {
         margin-top: 12rem;
     }
