@@ -13,7 +13,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/FlexColumn';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import {
     lenkerForskriftAktivitet,
@@ -82,7 +82,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             forskriftlenker={lenkerForskriftAktivitet}
             rundskrivlenker={lenkerRundskrivAktivitet}
         >
-            <FlexColumn $gap={2}>
+            <FlexColumn gap={2}>
                 <RegisterAktiviteter
                     grunnlag={grunnlag}
                     leggTilAktivitetFraRegister={(valgtAktivitet: Registeraktivitet) =>

@@ -5,7 +5,7 @@ import { BodyShort, Box, Label } from '@navikt/ds-react';
 import styles from './Oppsumering.module.css';
 import { ResultatVerdi } from './ResultatVerdi';
 import { SimuleringOppsummering } from './simuleringTyper';
-import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/FlexColumn';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 
 const Oppsumering: React.FC<{ oppsummering: SimuleringOppsummering }> = ({ oppsummering }) => (

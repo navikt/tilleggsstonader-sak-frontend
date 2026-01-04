@@ -4,7 +4,7 @@ import { BodyLong, Button, Table } from '@navikt/ds-react';
 
 import styles from './OppgavelisteArena.module.css';
 import { OppgaveArena } from './typer';
-import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/FlexColumn';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 
 const EkspanderbarRad: React.FC<{ oppgave: OppgaveArena }> = ({ oppgave }) => {

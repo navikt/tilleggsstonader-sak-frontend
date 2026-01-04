@@ -4,7 +4,7 @@ import { BodyLong, Button, Table } from '@navikt/ds-react';
 
 import styles from './Oppgaveliste.module.css';
 import { mappeIdTilMappenavn } from './utils';
-import { FlexColumn } from '../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../komponenter/Visningskomponenter/FlexColumn';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import {
     FeilmeldingHåndterOppgave,

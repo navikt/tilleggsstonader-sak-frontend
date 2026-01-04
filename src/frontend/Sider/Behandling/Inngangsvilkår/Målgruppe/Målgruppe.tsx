@@ -13,7 +13,7 @@ import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
-import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/FlexColumn';
 import {
     lenkerForskriftMålgruppe,
     lenkerParagrafMålgruppe,
@@ -86,7 +86,7 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
             forskriftlenker={lenkerForskriftMålgruppe}
             rundskrivlenker={lenkerRundskrivMålgruppe}
         >
-            <FlexColumn $gap={2}>
+            <FlexColumn gap={2}>
                 <RegisterYtelser
                     grunnlag={grunnlag}
                     lagRadForPeriode={(valgtPeriode: YtelseGrunnlagPeriode) =>

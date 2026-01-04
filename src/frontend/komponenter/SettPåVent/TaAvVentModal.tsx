@@ -10,7 +10,7 @@ import { RessursStatus } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
 import { ModalWrapper } from '../Modal/ModalWrapper';
-import { FlexColumn } from '../Visningskomponenter/Flex';
+import { FlexColumn } from '../Visningskomponenter/FlexColumn';
 
 interface TaAvVentRequest {
     skalTilordnesRessurs: boolean;

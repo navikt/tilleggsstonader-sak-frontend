@@ -15,7 +15,7 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { SmallWarningTag } from '../../../../komponenter/Tags';
-import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
+import { FlexColumn } from '../../../../komponenter/Visningskomponenter/FlexColumn';
 import { Regler } from '../../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
@@ -178,7 +178,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     return (
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <ResultatOgStatusKort periode={lagretVilkår} redigeres>
-                <FlexColumn $gap={1}>
+                <FlexColumn gap={1}>
                     <HStack gap="4" align="start">
                         <EndrePeriodeForVilkår
                             periodeForVilkår={periodeForVilkår}
