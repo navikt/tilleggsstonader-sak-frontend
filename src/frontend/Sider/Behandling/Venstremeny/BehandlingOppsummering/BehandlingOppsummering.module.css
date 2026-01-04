@@ -1,0 +1,4 @@
+.expansionCard :global(.navds-expansioncard__header) {
+    padding: 0.5rem 1rem;
+    align-items: center;
+}

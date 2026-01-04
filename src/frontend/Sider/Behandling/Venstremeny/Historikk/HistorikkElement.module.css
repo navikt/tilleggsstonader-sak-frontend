@@ -1,0 +1,33 @@
+.line {
+    margin-right: 12px;
+    border-right: 1px dashed var(--ax-border-neutral-subtle);
+    min-height: 60px;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.container :global(.navds-body-short),
+.container :global(.navds-label),
+.container :global(.navds-detail) {
+    color: var(--ax-text-neutral-subtle);
+}
+
+.blaRunding {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--ax-bg-accent-moderate);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.innholdContainer {
+    margin-bottom: 1rem;
+}

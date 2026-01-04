@@ -1,20 +1,15 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Table } from '@navikt/ds-react';
 
 import { ResultatVerdi } from './ResultatVerdi';
+import styles from './SimuleringTabell.module.css';
 import { OppsummeringForPeriode } from './simuleringTyper';
 import useSimuleringÅrvelger from './useSimuleringÅrvelger';
 import ÅrVelger from './ÅrVelger';
 import { formaterÅrMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 import { toTitleCase } from '../../../utils/tekstformatering';
-
-const Tabell = styled(Table)`
-    margin-top: 1rem;
-`;
 
 interface Props {
     perioder: OppsummeringForPeriode[];
@@ -23,7 +18,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
     const { perioderForValgtÅr, ...props } = useSimuleringÅrvelger(perioder);
 
     return (
-        <Tabell size={'small'}>
+        <Table size={'small'} className={styles.tabell}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>
@@ -57,7 +52,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                     <Table.HeaderCell>Totalt etterbetaling</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
                         <Table.DataCell key={p.måned} align={'right'}>
-                            <ResultatVerdi $verdi={p.totalEtterbetaling}>
+                            <ResultatVerdi verdi={p.totalEtterbetaling}>
                                 {formaterTallMedTusenSkilleEllerStrek(p.totalEtterbetaling)}
                             </ResultatVerdi>
                         </Table.DataCell>
@@ -67,14 +62,14 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                     <Table.HeaderCell>Totalt feilutbetaling</Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
                         <Table.DataCell key={p.måned} align={'right'}>
-                            <ResultatVerdi $verdi={-p.totalFeilutbetaling}>
+                            <ResultatVerdi verdi={-p.totalFeilutbetaling}>
                                 {formaterTallMedTusenSkilleEllerStrek(p.totalFeilutbetaling)}
                             </ResultatVerdi>
                         </Table.DataCell>
                     ))}
                 </Table.Row>
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
 

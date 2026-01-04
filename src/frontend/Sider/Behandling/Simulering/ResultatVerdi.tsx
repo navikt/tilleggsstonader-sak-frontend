@@ -1,11 +1,20 @@
-import styled from 'styled-components';
+import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-import { TextDangerSubtle, TextSuccessSubtle } from '@navikt/ds-tokens/darkside-js';
+
+import styles from './ResultatVerdi.module.css';
 
 /**
  * Komponent for å vise en verdi med farge rød eller grønn basert på om verdien er positiv eller negativ.
  */
-export const ResultatVerdi = styled(BodyShort)<{ $verdi: number }>`
-    color: ${(props) => props.$verdi && (props.$verdi > 0 ? TextSuccessSubtle : TextDangerSubtle)};
-`;
+export const ResultatVerdi = ({
+    verdi,
+    children,
+}: {
+    verdi: number;
+    children: React.ReactNode;
+}) => {
+    const tekstfarge = verdi > 0 ? styles.success : styles.danger;
+
+    return <BodyShort className={tekstfarge}>{children}</BodyShort>;
+};

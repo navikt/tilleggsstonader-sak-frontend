@@ -1,10 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Tag, VStack } from '@navikt/ds-react';
 
+import styles from './DokumentKomponenter.module.css';
 import { Lenke } from '../../../../komponenter/Lenke';
 import { DokumentInfo } from '../../../../typer/dokument';
 import { Journalposttype } from '../../../../typer/journalpost';
@@ -39,20 +38,27 @@ const LenkeTilDokument: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) =>
     );
 };
 
-const KvadratiskTag = styled(Tag).attrs({ size: 'small' })`
-    width: 22px;
-    height: 22px;
-`;
-
 export const DokumentTypeTag: React.FC<{ journalposttype: Journalposttype }> = ({
     journalposttype,
 }) => {
     switch (journalposttype) {
         case 'I': // Innkommende
-            return <KvadratiskTag variant="alt1">I</KvadratiskTag>;
+            return (
+                <Tag size="small" className={styles.kvadratiskTag} variant="alt1">
+                    I
+                </Tag>
+            );
         case 'U': // Utgående
-            return <KvadratiskTag variant="alt2">U</KvadratiskTag>;
+            return (
+                <Tag size="small" className={styles.kvadratiskTag} variant="alt2">
+                    U
+                </Tag>
+            );
         case 'N': // Internt notat
-            return <KvadratiskTag variant="alt3">N</KvadratiskTag>;
+            return (
+                <Tag size="small" className={styles.kvadratiskTag} variant="alt3">
+                    N
+                </Tag>
+            );
     }
 };

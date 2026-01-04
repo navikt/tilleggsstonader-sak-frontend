@@ -1,17 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
+import styles from './BrevLesevisning.module.css';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggTomRessurs } from '../../../typer/ressurs';
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-`;
 
 const BrevLesevisning: React.FC = () => {
     const { behandling } = useBehandling();
@@ -30,9 +24,9 @@ const BrevLesevisning: React.FC = () => {
     useEffect(hentBrevCallback, [hentBrevCallback]);
 
     return (
-        <Container>
+        <div className={styles.container}>
             <PdfVisning pdfFilInnhold={brevPdf} />
-        </Container>
+        </div>
     );
 };
 

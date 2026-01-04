@@ -1,0 +1,5 @@
+.container {
+    border-radius: 12px;
+    border: 1px solid var(--ax-border-neutral);
+    padding: 1rem;
+}

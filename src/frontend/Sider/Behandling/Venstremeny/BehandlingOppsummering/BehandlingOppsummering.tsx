@@ -1,9 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { ExpansionCard, VStack } from '@navikt/ds-react';
 
+import styles from './BehandlingOppsummering.module.css';
 import { OppsummeringVilkår } from './OppsummeringVilkår';
 import { VedtakOppsummering } from './VedtakOppsummering';
 import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsummeringRad';
@@ -11,13 +10,6 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { RessursStatus } from '../../../../typer/ressurs';
-
-const StyledExpansionCard = styled(ExpansionCard)`
-    .navds-expansioncard__header {
-        padding: 0.5rem 1rem;
-        align-items: center;
-    }
-`;
 
 export const BehandlingOppsummering = () => {
     const { behandling } = useBehandling();
@@ -32,7 +24,8 @@ export const BehandlingOppsummering = () => {
     return (
         <DataViewer type={'behandlingsoppsummering'} response={{ behandlingOppsummering }}>
             {({ behandlingOppsummering }) => (
-                <StyledExpansionCard
+                <ExpansionCard
+                    className={styles.expansionCard}
                     aria-label="Oppsummering av vurderinger"
                     defaultOpen
                     size="small"
@@ -53,7 +46,7 @@ export const BehandlingOppsummering = () => {
                             <VedtakOppsummering vedtak={behandlingOppsummering.vedtak} />
                         </VStack>
                     </ExpansionCard.Content>
-                </StyledExpansionCard>
+                </ExpansionCard>
             )}
         </DataViewer>
     );

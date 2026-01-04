@@ -1,22 +1,13 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Button, Table } from '@navikt/ds-react';
-import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './RegisterYtelserTabell.module.css';
 import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
-
-const HvitTabell = styled(Table)`
-    background: white;
-    --ac-table-row-border: ${BorderNeutralSubtle};
-    --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
-`;
 
 const RegisterYtelserTabell: React.FC<{
     perioderMedYtelse: YtelseGrunnlagPeriode[];
@@ -25,7 +16,7 @@ const RegisterYtelserTabell: React.FC<{
     const { erStegRedigerbart } = useSteg();
 
     return (
-        <HvitTabell size="small">
+        <Table size="small" className={styles.hvitTabell}>
             <Table.Header>
                 <Table.Row>
                     <TableHeaderCellSmall scope="col">Ytelse</TableHeaderCellSmall>
@@ -54,7 +45,7 @@ const RegisterYtelserTabell: React.FC<{
                     );
                 })}
             </Table.Body>
-        </HvitTabell>
+        </Table>
     );
 };
 

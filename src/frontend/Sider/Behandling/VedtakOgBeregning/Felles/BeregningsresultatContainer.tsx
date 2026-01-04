@@ -1,11 +1,10 @@
-import styled from 'styled-components';
+import React from 'react';
 
-import { VStack } from '@navikt/ds-react';
-import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
+import { VStack, VStackProps } from '@navikt/ds-react';
 
-export const BeregningsresultatContainer = styled(VStack)`
-    border-radius: 12px;
-    border: 1px solid ${BorderNeutral};
+import styles from './BeregningsresultatContainer.module.css';
+import { classNames } from '../../../../utils/classNames';
 
-    padding: 1rem;
-`;
+export const BeregningsresultatContainer: React.FC<VStackProps> = ({ className, ...props }) => {
+    return <VStack className={classNames([styles.container, className])} {...props} />;
+};

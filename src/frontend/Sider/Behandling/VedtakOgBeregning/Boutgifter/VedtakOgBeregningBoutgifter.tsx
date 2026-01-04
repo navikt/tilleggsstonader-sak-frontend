@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { HGrid } from '@navikt/ds-react';
 
 // import AvslåVedtak from './AvslåVedtak';
+import styles from './VedtakOgBeregningBoutgifter.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -21,12 +20,6 @@ import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from '.
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
-
 export const VedtakOgBeregningBoutgifter: FC = () => {
     const { vedtak } = useVedtak<VedtakBoutgifter>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
@@ -41,7 +34,7 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
         <>
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
-                    <Container>
+                    <div className={styles.container}>
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
@@ -66,7 +59,7 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         )}
-                    </Container>
+                    </div>
                 )}
             </DataViewer>
         </>

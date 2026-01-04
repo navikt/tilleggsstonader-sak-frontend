@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Radio, RadioGroup, Textarea } from '@navikt/ds-react';
-import { BorderAccent } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './EndreDelvilkår.module.css';
 import { BegrunnelseRegel, SvarId } from '../../../../../../typer/regel';
 import { svarIdTilTekst } from '../../../../Vilkårvurdering/tekster';
 import { lagBegrunnelsestekst } from '../../../../Vilkårvurdering/utils';
@@ -29,20 +27,6 @@ interface Props {
     hjelpetekst?: string;
     feilmeldinger: FeilmeldingerDagligReise;
 }
-
-const Container = styled.div<{ $erUndervilkår: boolean }>`
-    display: grid;
-    grid-template-columns: minmax(auto, 350px) auto;
-
-    border-left: ${({ $erUndervilkår }) => ($erUndervilkår ? `5px solid ${BorderAccent}` : 'none')};
-    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
-    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `3rem` : `4rem`)};
-
-    @media (max-width: 900px) {
-        flex-direction: column;
-        gap: 1rem;
-    }
-`;
 
 export const EndreDelvilkår: FC<Props> = ({
     vurdering,
@@ -81,7 +65,9 @@ export const EndreDelvilkår: FC<Props> = ({
     const begrunnelseLabel = lagBegrunnelsestekst(begrunnelseType);
 
     return (
-        <Container $erUndervilkår={erUndervilkår}>
+        <div
+            className={`${styles.container} ${erUndervilkår ? styles.containerUndervilkar : ''}`.trim()}
+        >
             <RadioGroup
                 legend={label}
                 description={hjelpetekst}
@@ -112,6 +98,6 @@ export const EndreDelvilkår: FC<Props> = ({
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 />
             )}
-        </Container>
+        </div>
     );
 };

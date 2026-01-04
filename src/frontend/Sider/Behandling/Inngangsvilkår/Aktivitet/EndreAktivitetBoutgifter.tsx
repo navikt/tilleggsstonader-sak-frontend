@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBoutgfiter } from './Delvilkår/AktivitetDelvilkårBoutgifter';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
+import styles from './EndreAktivitetBoutgifter.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -34,16 +33,6 @@ import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-
-const FeltContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    align-self: start;
-    align-items: start;
-`;
 
 export interface EndreAktivitetFormBoutgifter extends Periode {
     type: AktivitetType | '';
@@ -153,7 +142,7 @@ export const EndreAktivitetBoutgfiter: React.FC<{
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
             <VStack gap={'4'}>
-                <FeltContainer>
+                <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
@@ -162,7 +151,7 @@ export const EndreAktivitetBoutgfiter: React.FC<{
                         formFeil={vilkårsperiodeFeil}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                </FeltContainer>
+                </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
 

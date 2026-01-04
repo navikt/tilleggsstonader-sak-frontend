@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { HGrid } from '@navikt/ds-react';
 
 import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
+import styles from './VedtakOgBeregningDagligReise.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -20,12 +19,6 @@ import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
-
 export const VedtakOgBeregningDagligReise: FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
@@ -40,7 +33,7 @@ export const VedtakOgBeregningDagligReise: FC = () => {
         <>
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
-                    <Container>
+                    <div className={styles.container}>
                         <Panel tittel="Vedtak">
                             <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
@@ -65,7 +58,7 @@ export const VedtakOgBeregningDagligReise: FC = () => {
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         )}
-                    </Container>
+                    </div>
                 )}
             </DataViewer>
         </>

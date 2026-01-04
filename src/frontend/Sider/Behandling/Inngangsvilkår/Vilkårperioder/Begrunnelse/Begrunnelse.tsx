@@ -1,9 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Textarea } from '@navikt/ds-react';
 
+import styles from './Begrunnelse.module.css';
 import { BegrunnelseGrunner, begrunnelseTilTekst } from './utils';
 
 interface Props {
@@ -12,10 +11,6 @@ interface Props {
     delvilkårSomKreverBegrunnelse: BegrunnelseGrunner[];
     feil?: string;
 }
-
-const Liste = styled.ul`
-    margin: 0.25rem 0;
-`;
 
 const Begrunnelse: React.FC<Props> = ({
     begrunnelse,
@@ -33,11 +28,11 @@ const Begrunnelse: React.FC<Props> = ({
                 delvilkårSomKreverBegrunnelse.length > 0 && (
                     <>
                         Du må begrunne:
-                        <Liste>
+                        <ul className={styles.liste}>
                             {delvilkårSomKreverBegrunnelse.map((delvilkår, indeks) => (
                                 <li key={indeks}>{begrunnelseTilTekst[delvilkår]}</li>
                             ))}
-                        </Liste>
+                        </ul>
                     </>
                 )
             }

@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Button, VStack } from '@navikt/ds-react';
 
+import styles from './UtenBrev.module.css';
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { erFeil, Feil, lagFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { useSendTilBeslutter } from '../Brev/useSendTilBeslutter';
 import { VedtakFerdigstiltModal } from '../Brev/VedtakFerdigstiltModal';
-
-const Container = styled(VStack)`
-    margin: 2rem;
-`;
-
-const Knapp = styled(Button)`
-    display: block;
-`;
 
 export const UtenBrev: React.FC = () => {
     const { erStegRedigerbart } = useSteg();
@@ -42,18 +33,18 @@ export const UtenBrev: React.FC = () => {
     };
 
     return (
-        <Container gap="2" align="start">
+        <VStack gap="2" align="start" className={styles.container}>
             <Alert variant={'warning'}>Årsak til behandling er uten brev</Alert>
             {erStegRedigerbart && (
-                <Knapp onClick={onClick} disabled={laster}>
+                <Button className={styles.knapp} onClick={onClick} disabled={laster}>
                     Send til beslutter
-                </Knapp>
+                </Button>
             )}
             <Feilmelding feil={feilmelding} />
             <VedtakFerdigstiltModal
                 visModal={visVedtakFerdigstiltModal}
                 lukkModal={lukkVedtakFerdigstiltModal}
             />
-        </Container>
+        </VStack>
     );
 };

@@ -1,14 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { HStack, Radio, RadioGroup, ReadMore } from '@navikt/ds-react';
 
+import styles from './JaNeiVurdering.module.css';
 import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-
-const LesMerTekst = styled(ReadMore)`
-    max-width: 28rem;
-`;
 
 export const JaNeiVurdering: React.FC<{
     label: string;
@@ -42,12 +37,13 @@ export const JaNeiVurdering: React.FC<{
             size="small"
         >
             {hjelpetekst && (
-                <LesMerTekst
+                <ReadMore
+                    className={styles.lesMerTekst}
                     header={hjelpetekstHeader ?? 'Slik gjør du vurderingen'}
                     size={'small'}
                 >
                     {hjelpetekst}
-                </LesMerTekst>
+                </ReadMore>
             )}
             <HStack gap="4">
                 <Radio value={SvarJaNei.JA}>{svarJa}</Radio>

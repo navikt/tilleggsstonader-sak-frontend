@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import FaktaOgDelvilkårVisning from './Delvilkår/FaktaOgDelvilkårVisning';
+import styles from './MålgruppeKort.module.css';
 import { useSteg } from '../../../../context/StegContext';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
@@ -14,13 +13,6 @@ import { Målgruppe, målgruppeTilYtelsestypeTekst } from '../typer/vilkårperio
 import { målgruppeTilFaktiskMålgruppeTekst } from '../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
 import { VilkårPeriodeResultat } from '../typer/vilkårperiode/vilkårperiode';
 import { VilkårperiodeResultatTilTekst } from '../Vilkårperioder/VilkårperiodeKort/tekstmapping';
-
-const CelleContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-`;
 
 export const MålgruppeKort: React.FC<{
     målgruppe: Målgruppe;
@@ -47,7 +39,7 @@ export const MålgruppeKort: React.FC<{
                 )
             }
         >
-            <CelleContainer>
+            <div className={styles.celleContainer}>
                 <Celle $width={180}>
                     <Label size="small">{formaterIsoPeriode(målgruppe.fom, målgruppe.tom)}</Label>
                     <BodyShort size="small">
@@ -75,7 +67,7 @@ export const MålgruppeKort: React.FC<{
                         </VStack>
                     )}
                 </Celle>
-            </CelleContainer>
+            </div>
         </ResultatOgStatusKort>
     );
 };

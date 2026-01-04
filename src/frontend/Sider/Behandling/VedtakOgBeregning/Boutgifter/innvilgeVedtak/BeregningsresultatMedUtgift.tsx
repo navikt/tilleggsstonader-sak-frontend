@@ -1,36 +1,18 @@
 import React, { FC } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Table } from '@navikt/ds-react';
-import { BgDefault, BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './BeregningsresultatMedUtgift.module.css';
 import { BeregningsresultatBoutgifter } from '../../../../../typer/vedtak/vedtakBoutgifter';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
-
-const Container = styled.div`
-    background-color: ${BgDefault};
-    padding: 1rem;
-`;
-
-const TableRow = styled(Table.Row)`
-    border-bottom: hidden;
-`;
-
-const TableRowGray = styled(Table.Row).withConfig({
-    shouldForwardProp: (prop) => prop !== 'borderbottom',
-})<{ borderbottom: boolean }>`
-    background-color: ${BgNeutralSoft};
-    border-bottom: ${(props) => (props.borderbottom ? 'initial' : 'hidden')};
-`;
 
 interface Props {
     beregningsresultat: BeregningsresultatBoutgifter;
 }
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
-    <Container>
+    <div className={styles.container}>
         <Table size={'small'}>
             <Table.Header>
                 <Table.Row>
@@ -42,7 +24,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                 </Table.Row>
                 {beregningsresultat.perioder.map((periode) => (
                     <React.Fragment key={periode.fom + periode.tom}>
-                        <TableRow>
+                        <Table.Row className={styles.tableRow}>
                             <Table.DataCell>{`${formaterIsoDato(periode.fom)} - ${formaterIsoDato(periode.tom)}`}</Table.DataCell>
                             <Table.DataCell />
                             <Table.DataCell>
@@ -58,11 +40,15 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                                     </Alert>
                                 )}
                             </Table.DataCell>
-                        </TableRow>
+                        </Table.Row>
                         {periode.utgifter.map((utgift, index, utgifter) => (
-                            <TableRowGray
+                            <Table.Row
                                 key={utgift.fom + utgift.tom}
-                                borderbottom={index === utgifter.length - 1}
+                                className={styles.tableRowGray}
+                                style={{
+                                    borderBottom:
+                                        index === utgifter.length - 1 ? 'initial' : 'hidden',
+                                }}
                             >
                                 <Table.DataCell />
                                 <Table.DataCell>{`${formaterIsoDato(utgift.fom)} - ${formaterIsoDato(utgift.tom)}`}</Table.DataCell>
@@ -73,13 +59,13 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                                     {formaterTallMedTusenSkille(utgift.tilUtbetaling)}
                                 </Table.DataCell>
                                 <Table.DataCell />
-                            </TableRowGray>
+                            </Table.Row>
                         ))}
                     </React.Fragment>
                 ))}
             </Table.Header>
         </Table>
-    </Container>
+    </div>
 );
 
 export default Beregningsresultat;

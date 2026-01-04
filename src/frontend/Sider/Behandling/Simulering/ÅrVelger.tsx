@@ -1,15 +1,9 @@
 import React, { SetStateAction } from 'react';
 
-import styled from 'styled-components';
-
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
+import styles from './ÅrVelger.module.css';
 
 interface Props {
     valgtÅr: number;
@@ -24,7 +18,7 @@ const ÅrVelger: React.FC<Props> = ({
     kanVelgeNesteÅr,
 }) => {
     return (
-        <Container>
+        <div className={styles.container}>
             <Button
                 icon={<ChevronLeftIcon />}
                 variant={'tertiary'}
@@ -40,7 +34,7 @@ const ÅrVelger: React.FC<Props> = ({
                 onClick={() => settValgtÅr(valgtÅr + 1)}
                 size={'small'}
             />
-        </Container>
+        </div>
     );
 };
 

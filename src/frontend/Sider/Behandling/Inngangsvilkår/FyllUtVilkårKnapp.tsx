@@ -1,16 +1,11 @@
 import React, { useCallback, useState } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Alert, Button } from '@navikt/ds-react';
 
+import styles from './FyllUtVilkårKnapp.module.css';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { RessursStatus } from '../../../typer/ressurs';
-
-const Knapp = styled(Button)`
-    width: max-content;
-`;
 
 const FyllUtVilkårKnapp: React.FC = () => {
     const { request } = useApp();
@@ -33,7 +28,9 @@ const FyllUtVilkårKnapp: React.FC = () => {
 
     return (
         <>
-            <Knapp onClick={automatiskFyllUtVilkår}>Fyll ut vilkår automatisk</Knapp>
+            <Button className={styles.knapp} onClick={automatiskFyllUtVilkår}>
+                Fyll ut vilkår automatisk
+            </Button>
             {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
         </>
     );

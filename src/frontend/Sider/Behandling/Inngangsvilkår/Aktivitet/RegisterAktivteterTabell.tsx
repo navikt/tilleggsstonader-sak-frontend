@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { Table } from '@navikt/ds-react';
-import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
 
 import { BrukAktivitetKnapp } from './BrukAktivitetKnapp';
+import styles from './RegisterAktivteterTabell.module.css';
 import { erRegisterAktivitetBrukt } from './utilsAktivitet';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
@@ -13,13 +11,6 @@ import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { formaterEnumVerdi } from '../../../../utils/tekstformatering';
 import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/aktivitet';
-
-const Tabell = styled(Table)`
-    background: white;
-    --ac-table-row-border: ${BorderNeutralSubtle};
-    --ac-table-row-hover: none;
-    --ac-table-cell-hover-border: ${BorderNeutralSubtle};
-`;
 
 const RegisterAktiviteterTabell: React.FC<{
     registerAktivitet: Registeraktivitet[];
@@ -33,7 +24,7 @@ const RegisterAktiviteterTabell: React.FC<{
     };
 
     return (
-        <Tabell size={'small'}>
+        <Table size={'small'} className={styles.tabell}>
             <Table.Header>
                 <Table.Row>
                     <TableHeaderCellSmall scope="col">Type</TableHeaderCellSmall>
@@ -86,7 +77,7 @@ const RegisterAktiviteterTabell: React.FC<{
                     );
                 })}
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
 

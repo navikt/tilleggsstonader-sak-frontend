@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useId, useState } from 'react';
 
-import styled from 'styled-components';
-
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import EndreDelvilkår from './EndreDelvilkår';
@@ -10,6 +8,7 @@ import EndrePeriodeForVilkår, {
     PeriodeForVilkår,
     TypePeriodeVelger,
 } from './EndrePeriodeForVilkår';
+import styles from './EndreVilkår.module.css';
 import { SlettVilkår } from './SlettVilkår';
 import { useApp } from '../../../../context/AppContext';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
@@ -20,6 +19,7 @@ import { FlexColumn } from '../../../../komponenter/Visningskomponenter/Flex';
 import { Regler } from '../../../../typer/regel';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../typer/ressurs';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import {
     Delvilkår,
     RedigerbareVilkårfelter,
@@ -29,17 +29,6 @@ import {
 } from '../../vilkår';
 import { Feilmeldinger, ingen, ingenFeil, validerVilkårsvurderinger } from '../validering';
 import EndreUtgift from './EndreUtgift';
-import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
-
-const Knapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-
-    .right {
-        margin-left: auto;
-    }
-`;
 
 type EndreVilkårProps = {
     lagretVilkår: Vilkår | undefined;
@@ -226,7 +215,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     <Skillelinje />
 
                     <VStack gap="4">
-                        <Knapper>
+                        <div className={styles.knapper}>
                             <SmallButton>Lagre</SmallButton>
                             <SmallButton variant="secondary" onClick={avsluttRedigering}>
                                 Avbryt
@@ -235,7 +224,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                                 lagretVilkår={lagretVilkår}
                                 avsluttRedigering={avsluttRedigering}
                             />
-                        </Knapper>
+                        </div>
                         {detFinnesUlagredeEndringer && (
                             <SmallWarningTag>Du har ulagrede endringer</SmallWarningTag>
                         )}

@@ -1,0 +1,19 @@
+.delvilkårContainer {
+    border-left: none;
+    padding-left: 0;
+    gap: 6rem;
+    display: flex;
+}
+
+.delvilkårContainer[data-er-undervilkar='true'] {
+    border-left: 5px solid var(--ax-border-accent);
+    padding-left: 1rem;
+    gap: 5rem;
+}
+
+@media (max-width: 900px) {
+    .delvilkår {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,6 @@
+.container {
+    padding: 1rem;
+    border: 1px solid var(--ax-border-neutral);
+    background: var(--ax-meta-lime-100);
+    border-radius: 12px;
+}

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { HarBrukerRettTilUtstyrsstipend } from './Delvilkår/HarBrukerRettTilUtstyrsstipend';
 import { HarBrukerUtgifterTilLæremidler } from './Delvilkår/HarBrukerUtgifterTilLæremidler';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
+import styles from './EndreAktivitetLæremidler.module.css';
 import { EndreStudienivå } from './EndreStudienivå';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
@@ -44,16 +43,6 @@ import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkår
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-
-const FeltContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    align-self: start;
-    align-items: start;
-`;
 
 export interface VurderingerAktivitetLæremidler {
     svarHarUtgifter: SvarJaNei | undefined;
@@ -187,7 +176,7 @@ export const EndreAktivitetLæremidler: React.FC<{
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
             <VStack gap={'4'}>
-                <FeltContainer>
+                <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
@@ -211,7 +200,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                             />
                         </FeilmeldingMaksBredde>
                     )}
-                </FeltContainer>
+                </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
             <HarBrukerUtgifterTilLæremidler

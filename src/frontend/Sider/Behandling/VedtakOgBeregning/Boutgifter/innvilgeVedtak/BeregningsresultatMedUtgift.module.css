@@ -1,0 +1,12 @@
+.container {
+    background-color: var(--ax-bg-default);
+    padding: 1rem;
+}
+
+.table-row {
+    border-bottom: hidden;
+}
+
+.table-row-gray {
+    background-color: var(--ax-bg-neutral-soft);
+}

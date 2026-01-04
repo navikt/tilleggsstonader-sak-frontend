@@ -1,40 +1,15 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Box, Tabs, VStack } from '@navikt/ds-react';
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
+import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
 import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
+import styles from './Venstremeny.module.css';
+import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
-import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
-import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
-
-const Container = styled.div`
-    border-right: 1px solid ${BorderNeutral};
-    width: 24rem;
-    position: sticky;
-    height: calc(100vh - 97px);
-    top: 97px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    display: flex;
-    flex-direction: column;
-`;
-
-const HviteTabs = styled(Tabs)`
-    flex: 1;
-    background-color: ${BgDefault};
-`;
-
-const Tab = styled(Tabs.Tab)`
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-`;
 
 const tabs = [
     {
@@ -56,17 +31,22 @@ const tabs = [
 
 const VenstreMeny: React.FC = () => {
     return (
-        <Container>
+        <div className={styles.container}>
             <VStack padding="4" gap={'4'}>
                 <TilordnetSaksbehandlerVenstremeny />
                 <Totrinnskontroll />
                 <BehandlingOppsummering />
             </VStack>
-            <HviteTabs defaultValue="søknaden" fill>
+            <Tabs defaultValue="søknaden" fill className={styles.hviteTabs}>
                 <Sticky>
                     <Tabs.List>
                         {tabs.map((tab) => (
-                            <Tab label={tab.label} value={tab.value} key={tab.value} />
+                            <Tabs.Tab
+                                className={styles.tab}
+                                label={tab.label}
+                                value={tab.value}
+                                key={tab.value}
+                            />
                         ))}
                     </Tabs.List>
                 </Sticky>
@@ -77,8 +57,8 @@ const VenstreMeny: React.FC = () => {
                         </Box.New>
                     </Tabs.Panel>
                 ))}
-            </HviteTabs>
-        </Container>
+            </Tabs>
+        </div>
     );
 };
 

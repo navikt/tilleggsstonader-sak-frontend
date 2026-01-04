@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, HStack } from '@navikt/ds-react';
 
+import styles from './EndreMålgruppe.module.css';
 import MålgruppeDelvilkår from './MålgruppeDelvilkår';
 import {
     finnBegrunnelseGrunnerMålgruppe,
@@ -42,16 +41,6 @@ export interface EndreMålgruppeForm extends Periode {
     begrunnelse?: string;
     vurderinger: SvarMålgruppe;
 }
-
-const FeltContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    align-self: start;
-    align-items: start;
-`;
 
 const initaliserForm = (
     eksisterendeMålgruppe?: Målgruppe,
@@ -171,7 +160,7 @@ const EndreMålgruppe: React.FC<{
 
     return (
         <ResultatOgStatusKort periode={målgruppe} redigeres>
-            <FeltContainer>
+            <div className={styles.feltContainer}>
                 <EndreTypeOgDatoer
                     form={form}
                     oppdaterTypeIForm={oppdaterType}
@@ -181,7 +170,7 @@ const EndreMålgruppe: React.FC<{
                     kanEndreType={kanEndreType}
                     erStøttetType={erMålgruppeSomStøttes}
                 />
-            </FeltContainer>
+            </div>
 
             <MålgruppeDelvilkår
                 målgruppeForm={form}

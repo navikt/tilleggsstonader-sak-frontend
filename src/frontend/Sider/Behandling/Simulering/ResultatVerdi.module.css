@@ -1,0 +1,7 @@
+.success {
+    color: var(--ax-text-success-subtle);
+}
+
+.danger {
+    color: var(--ax-text-danger-subtle);
+}

@@ -1,11 +1,10 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyLong, Heading } from '@navikt/ds-react';
 
 import { EndreMålgruppeForm } from './EndreMålgruppe';
 import { målgruppeTilMedlemskapHjelpetekst } from './hjelpetekstVurdereMålgruppe';
+import styles from './MålgruppeDelvilkår.module.css';
 import {
     målgrupperHvorMedlemskapMåVurderes,
     skalVurdereDekkesAvAnnetRegelverk,
@@ -15,12 +14,6 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { MålgruppeType, SvarMålgruppe } from '../typer/vilkårperiode/målgruppe';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-`;
 
 const MålgruppeDelvilkår: React.FC<{
     målgruppeForm: EndreMålgruppeForm;
@@ -48,7 +41,7 @@ const MålgruppeDelvilkår: React.FC<{
     }
 
     return (
-        <Container>
+        <div className={styles.container}>
             {skalVurdereMedlemskap && (
                 <JaNeiVurdering
                     label="Medlemskap i folketrygden?"
@@ -94,7 +87,7 @@ const MålgruppeDelvilkår: React.FC<{
                     </BodyLong>
                 </Alert>
             )}
-        </Container>
+        </div>
     );
 };
 

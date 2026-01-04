@@ -1,15 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
+import styles from './Historikk.module.css';
 import HistorikkElement from './HistorikkElement';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
-
-const Container = styled.ul`
-    margin: 0;
-    padding: 0;
-`;
 
 const Historikk: React.FC = () => {
     const { behandlingshistorikk } = useBehandling();
@@ -17,7 +11,7 @@ const Historikk: React.FC = () => {
     return (
         <DataViewer type={'behandlingshistorikk'} response={{ behandlingshistorikk }}>
             {({ behandlingshistorikk }) => (
-                <Container>
+                <ul className={styles.container}>
                     {behandlingshistorikk.map((historikkElement, index) => {
                         const erSisteElementIListe = index === behandlingshistorikk.length - 1;
 
@@ -29,7 +23,7 @@ const Historikk: React.FC = () => {
                             />
                         );
                     })}
-                </Container>
+                </ul>
             )}
         </DataViewer>
     );

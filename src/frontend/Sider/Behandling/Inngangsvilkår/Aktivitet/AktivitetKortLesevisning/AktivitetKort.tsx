@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
+import styles from './AktivitetKort.module.css';
 import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { useSteg } from '../../../../../context/StegContext';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
@@ -18,13 +17,6 @@ import {
 } from '../../typer/vilkårperiode/vilkårperiode';
 import { VilkårperiodeResultatTilTekst } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { FaktaOgDelvilkårVisning } from '../Delvilkår/FaktaOgDelvilkårVisning';
-
-const CelleContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-`;
 
 export const AktivitetKort: React.FC<{
     aktivitet: Aktivitet;
@@ -56,7 +48,7 @@ export const AktivitetKort: React.FC<{
                 />
             }
         >
-            <CelleContainer>
+            <div className={styles.celleContainer}>
                 <Celle $width={180}>
                     <BodyShort size="small">
                         <b>{formaterIsoPeriode(aktivitet.fom, aktivitet.tom)}</b>
@@ -92,7 +84,7 @@ export const AktivitetKort: React.FC<{
                         </VStack>
                     )}
                 </Celle>
-            </CelleContainer>
+            </div>
         </ResultatOgStatusKort>
     );
 };

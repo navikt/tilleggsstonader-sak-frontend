@@ -1,9 +1,6 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
-import { BorderAccent } from '@navikt/ds-tokens/darkside-js';
-
+import styles from './EndreDelvilkår.module.css';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { BegrunnelseRegel, Regler, Svaralternativ } from '../../../../typer/regel';
 import { Delvilkår, Vurdering } from '../../vilkår';
@@ -18,18 +15,6 @@ import {
     oppdaterSvarIListe,
 } from '../utils';
 import { Feilmeldinger } from '../validering';
-
-const DelvilkårContainer = styled.div<{ $erUndervilkår: boolean }>`
-    border-left: ${({ $erUndervilkår }) => ($erUndervilkår ? `5px solid ${BorderAccent}` : 'none')};
-    padding-left: ${({ $erUndervilkår }) => ($erUndervilkår ? '1rem' : '0')};
-    gap: ${({ $erUndervilkår }) => ($erUndervilkår ? `5rem` : `6rem`)};
-    display: flex;
-
-    @media (max-width: 900px) {
-        flex-direction: column;
-        gap: 1rem;
-    }
-`;
 
 interface Props {
     delvilkårsett: Delvilkår[];
@@ -134,7 +119,7 @@ const EndreDelvilkår: React.FC<Props> = ({
             return (
                 <React.Fragment key={gjeldendeRegel.regelId}>
                     {delvilkårIndex !== 0 && !erUndervilkår && <Skillelinje />}
-                    <DelvilkårContainer $erUndervilkår={erUndervilkår}>
+                    <div className={styles.delvilkårContainer} data-er-undervilkar={erUndervilkår}>
                         <DelvilkårRadioknapper
                             vurdering={svar}
                             regel={gjeldendeRegel}
@@ -158,7 +143,7 @@ const EndreDelvilkår: React.FC<Props> = ({
                             vurdering={svar}
                             regel={gjeldendeRegel}
                         />
-                    </DelvilkårContainer>
+                    </div>
                 </React.Fragment>
             );
         });

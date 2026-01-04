@@ -1,9 +1,6 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
-
+import styles from './BehandlingInnhold.module.css';
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
 import HenleggModal from './Modal/HenleggModal';
 import NullstillModal from './Modal/NullstillModal';
@@ -16,17 +13,6 @@ import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling, SluttdatoForForrigeVedtak } from '../../typer/behandling/behandling';
 import { BehandlingFakta } from '../../typer/behandling/behandlingFakta/behandlingFakta';
 import { Personopplysninger } from '../../typer/personopplysninger';
-
-const BehandlingContainer = styled.div`
-    display: flex;
-    background: ${BgNeutralSoft};
-`;
-
-const InnholdWrapper = styled.div`
-    flex-grow: 1;
-
-    max-width: calc(100% - 20rem);
-`;
 
 const BehandlingInnhold: React.FC<{
     behandling: Behandling;
@@ -51,12 +37,12 @@ const BehandlingInnhold: React.FC<{
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
                 <TotrinnskontrollProvider>
-                    <BehandlingContainer>
+                    <div className={styles.behandlingContainer}>
                         <VenstreMeny />
-                        <InnholdWrapper>
+                        <div className={styles.innholdWrapper}>
                             <BehandlingTabsInnhold />
-                        </InnholdWrapper>
-                    </BehandlingContainer>
+                        </div>
+                    </div>
                 </TotrinnskontrollProvider>
             </PersonopplysningerProvider>
             <HenleggModal />

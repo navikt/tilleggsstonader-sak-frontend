@@ -1,16 +1,10 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
+import styles from './AktivitetDelvilkårBarnetilsyn.module.css';
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormBarnetilsyn } from '../EndreAktivitetBarnetilsyn';
 import { skalVurdereLønnet } from '../utilsBarnetilsyn';
-
-const Container = styled.div`
-    display: flex;
-    gap: 2rem;
-`;
 
 export const AktivitetDelvilkårBarnetilsyn: React.FC<{
     aktivitetForm: EndreAktivitetFormBarnetilsyn;
@@ -21,12 +15,12 @@ export const AktivitetDelvilkårBarnetilsyn: React.FC<{
     if (!skalVurdereLønnet(aktivitetForm.type)) return null;
 
     return (
-        <Container>
+        <div className={styles.container}>
             <JaNeiVurdering
                 label="Mottar bruker ordinær lønn i tiltaket?"
                 svar={aktivitetForm.svarLønnet}
                 oppdaterSvar={oppdaterLønnet}
             />
-        </Container>
+        </div>
     );
 };

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
+import styles from './EndreAktivitetDagligReiseTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -35,16 +34,6 @@ import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDaglig
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-
-const FeltContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    align-self: start;
-    align-items: start;
-`;
 
 export interface EndreAktivitetFormDagligReiseTsr extends Periode {
     type: AktivitetType | '';
@@ -172,7 +161,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 </Alert>
             )}
             <VStack gap={'4'}>
-                <FeltContainer>
+                <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
@@ -186,7 +175,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                         }
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                </FeltContainer>
+                </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
 

@@ -1,0 +1,10 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, max-content);
+    grid-gap: 0.5rem 1.5rem;
+    align-items: start;
+}
+
+.grid > :nth-child(5) {
+    grid-column: 1;
+}

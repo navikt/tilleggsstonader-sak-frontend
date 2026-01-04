@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import Aktivitet from './Aktivitet/Aktivitet';
+import styles from './Inngangsvilkår.module.css';
 import Målgruppe from './Målgruppe/Målgruppe';
 import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -13,12 +12,6 @@ import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 import { FanePath } from '../faner';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
 
 const nesteFane = (stønadstype: Stønadstype): FanePath => {
     switch (stønadstype) {
@@ -40,7 +33,7 @@ const Inngangsvilkår = () => {
     const { vilkårperioderResponse, hentVilkårperioder } = useVilkårperioder(behandling.id);
 
     return (
-        <Container>
+        <div className={styles.container}>
             <DataViewer
                 type={'inngangsvilkår'}
                 response={{
@@ -69,7 +62,7 @@ const Inngangsvilkår = () => {
                     </>
                 )}
             </DataViewer>
-        </Container>
+        </div>
     );
 };
 

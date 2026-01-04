@@ -1,0 +1,9 @@
+.box {
+    display: flex;
+}
+
+.flexRow {
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
+}

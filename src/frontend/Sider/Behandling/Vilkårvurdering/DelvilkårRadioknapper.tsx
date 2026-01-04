@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Detail, Radio, RadioGroup } from '@navikt/ds-react';
 
+import styles from './DelvilkårRadioknapper.module.css';
 import { SlikGjørDuVurderingen } from './SlikGjørDuVurderingen';
 import { regelIdTilSpørsmål, svarIdTilTekst } from './tekster';
 import { Regel } from '../../../typer/regel';
@@ -18,10 +17,6 @@ interface Props {
     nullstillFeilmelding: (regelId: string) => void;
 }
 
-const Container = styled.div`
-    width: 400px;
-`;
-
 const DelvilkårRadioknapper: FC<Props> = ({
     regel,
     vurdering,
@@ -32,7 +27,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
     const svaralternativer = Object.keys(regel.svarMapping);
     const regelId = regel.regelId;
     return (
-        <Container>
+        <div className={styles.container}>
             <RadioGroup
                 legend={regelIdTilSpørsmål[regelId] || regelId}
                 description={Spørsmålsbeskrivelse(regelId)}
@@ -56,7 +51,7 @@ const DelvilkårRadioknapper: FC<Props> = ({
                     );
                 })}
             </RadioGroup>
-        </Container>
+        </div>
     );
 };
 

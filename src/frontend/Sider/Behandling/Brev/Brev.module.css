@@ -1,0 +1,14 @@
+.container {
+    padding-top: 1rem;
+}
+
+.to-kolonner {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: var(--ax-breakpoint-lg-down)) {
+    .to-kolonner {
+        flex-wrap: wrap;
+    }
+}

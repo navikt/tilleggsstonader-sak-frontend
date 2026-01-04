@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 
-import styled from 'styled-components';
-
 import { VStack } from '@navikt/ds-react';
-import { BreakpointLgDown } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './Brev.module.css';
 import BrevLesevisning from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
 import { useSendTilBeslutter } from './useSendTilBeslutter';
@@ -25,19 +23,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import PdfVisning from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
 import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
-
-const Container = styled.div`
-    padding-top: 1rem;
-`;
-
-const ToKolonner = styled.div`
-    display: flex;
-    gap: 1rem;
-
-    @media (max-width: ${BreakpointLgDown}) {
-        flex-wrap: wrap;
-    }
-`;
 
 const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
@@ -91,11 +76,11 @@ const Brev: React.FC = () => {
         totrinnskontroll.data?.status === TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT;
 
     return (
-        <Container>
+        <div className={styles.container}>
             {behandlingErRedigerbar ? (
                 <DataViewer type={'brevmaler'} response={{ brevmaler, mellomlagretBrev }}>
                     {({ brevmaler, mellomlagretBrev }) => (
-                        <ToKolonner>
+                        <div className={styles.toKolonner}>
                             <VStack gap="8" align="start">
                                 <BrevMottakere
                                     context={contextBrevmottakere}
@@ -134,7 +119,7 @@ const Brev: React.FC = () => {
                                 </BrevFeilContextProvider>
                             </VStack>
                             <PdfVisning pdfFilInnhold={fil} />
-                        </ToKolonner>
+                        </div>
                     )}
                 </DataViewer>
             ) : (
@@ -144,7 +129,7 @@ const Brev: React.FC = () => {
                 visModal={visVedtakFerdigstiltModal}
                 lukkModal={lukkVedtakFerdigstiltModal}
             />
-        </Container>
+        </div>
     );
 };
 

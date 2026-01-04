@@ -1,11 +1,10 @@
 import React, { FC, Fragment } from 'react';
 
-import { styled } from 'styled-components';
-
 import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
+import styles from './LesevisningVilkårDagligReise.module.css';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
@@ -16,11 +15,6 @@ import {
     svarIdTilTekstKorversjon,
 } from '../../../Vilkårvurdering/tekster';
 import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
-
-const Redigeringsknapp = styled(SmallButton)`
-    max-height: 24px;
-    align-self: end;
-`;
 
 const LesevisningVilkårDagligReise: FC<{
     vilkår: VilkårDagligReise;
@@ -34,7 +28,8 @@ const LesevisningVilkårDagligReise: FC<{
             periode={vilkår}
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
-                    <Redigeringsknapp
+                    <SmallButton
+                        className={styles.redigeringsknapp}
                         variant="tertiary"
                         onClick={startRedigering}
                         icon={<PencilIcon />}

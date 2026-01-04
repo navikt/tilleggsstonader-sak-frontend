@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { Textarea, VStack } from '@navikt/ds-react';
 
+import styles from './Begrunnelse.module.css';
 import { BegrunnelseRegel, Regel } from '../../../typer/regel';
 import { harIkkeVerdi } from '../../../utils/utils';
 import { Vurdering } from '../vilkår';
@@ -14,10 +13,6 @@ interface Props {
     regel: Regel;
     oppdaterBegrunnelse: (tekst: string) => void;
 }
-
-const BegrunnelseContainer = styled(VStack)`
-    width: 400px;
-`;
 
 const Begrunnelse: FC<Props> = ({ vurdering, oppdaterBegrunnelse, regel }) => {
     const typeBegrunnelse = vurdering.svar && regel.svarMapping[vurdering.svar].begrunnelseType;
@@ -38,7 +33,7 @@ const Begrunnelse: FC<Props> = ({ vurdering, oppdaterBegrunnelse, regel }) => {
     );
 
     return (
-        <BegrunnelseContainer>
+        <VStack className={styles.begrunnelseContainer}>
             <Textarea
                 label={begrunnelsestekst}
                 resize
@@ -48,7 +43,7 @@ const Begrunnelse: FC<Props> = ({ vurdering, oppdaterBegrunnelse, regel }) => {
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 disabled={harIkkeVerdi(vurdering.svar)}
             />
-        </BegrunnelseContainer>
+        </VStack>
     );
 };
 export default Begrunnelse;

@@ -1,15 +1,10 @@
 import React from 'react';
 
-import { styled } from 'styled-components';
-
 import { Alert, VStack } from '@navikt/ds-react';
 
+import styles from './PassBarnSaksinformasjonAndreForeldre.module.css';
 import { SaksinformasjonAndreForeldre } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { formaterIsoDatoTidKort, formaterIsoPeriode } from '../../../../utils/dato';
-
-const StyledAlert = styled(Alert)`
-    max-width: 50rem;
-`;
 
 const sjekketTidspunkt = (hentetTidspunkt: string) =>
     ` (sjekket ${formaterIsoDatoTidKort(hentetTidspunkt)})`;
@@ -27,10 +22,10 @@ export const PassBarnSaksinformasjonAndreForeldre = ({
     return (
         <VStack gap={'2'}>
             {harBehandlingUnderArbeid && (
-                <StyledAlert variant={'warning'} size={'small'}>
+                <Alert className={styles.maxWidth} variant={'warning'} size={'small'}>
                     Annen forelder har behandling under arbeid
                     {sjekketTidspunkt(hentetTidspunkt)}
-                </StyledAlert>
+                </Alert>
             )}
             <AlertVedtaksperioder saksinformasjonAndreForeldre={saksinformasjonAndreForeldre} />
         </VStack>
@@ -50,14 +45,19 @@ const AlertVedtaksperioder = ({
     const { hentetTidspunkt, vedtaksperioderBarn } = saksinformasjonAndreForeldre;
     if (vedtaksperioderBarn.length === 0) {
         return (
-            <StyledAlert variant={'info'} size={'small'} inline>
+            <Alert className={styles.maxWidth} variant={'info'} size={'small'} inline>
                 Det utbetales ikke støtte til pass av barn til annen forelder for dette barnet
                 {sjekketTidspunkt(hentetTidspunkt)}
-            </StyledAlert>
+            </Alert>
         );
     }
     return (
-        <StyledAlert variant={'warning'} size={'small'} contentMaxWidth={false}>
+        <Alert
+            className={styles.maxWidth}
+            variant={'warning'}
+            size={'small'}
+            contentMaxWidth={false}
+        >
             <VStack>
                 <span>
                     Det utbetales tilsyn barn til annen forelder for dette barnet{' '}
@@ -70,6 +70,6 @@ const AlertVedtaksperioder = ({
                         <span key={index}>{formaterIsoPeriode(periode.fom, periode.tom)}</span>
                     ))}
             </VStack>
-        </StyledAlert>
+        </Alert>
     );
 };

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Detail, Heading, HStack } from '@navikt/ds-react';
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './OppdaterGrunnlagKnapp.module.css';
 import { useOppdaterGrunnlag } from './useOppdaterGrunnlag';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -13,11 +11,6 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { dagerSiden } from '../../../../utils/dato';
 import { VilkårperioderResponse } from '../typer/vilkårperiode/vilkårperiode';
-
-const AdminEndreHenteGrunnlagFra = styled.div`
-    background: ${BgNeutralSoft};
-    padding: 0.5rem;
-`;
 
 const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;
@@ -47,7 +40,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                 {tekst}
             </Button>
             {visRedigerGrunnlagFomAdmin && (
-                <AdminEndreHenteGrunnlagFra>
+                <div className={styles.adminEndreHenteGrunnlagFra}>
                     <DateInput
                         label={'Dato saksopplysninger hentes fra og med'}
                         size={'small'}
@@ -57,7 +50,7 @@ const OppdaterGrunnlagKnapp: React.FC<{
                     <Detail>
                         Trykk på Hent-knappen for å hente grunnlag fra og med valgt dato
                     </Detail>
-                </AdminEndreHenteGrunnlagFra>
+                </div>
             )}
         </>
     );

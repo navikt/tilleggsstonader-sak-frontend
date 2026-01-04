@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
+import styles from './EndreAktivitetBarnetilsyn.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -37,16 +36,6 @@ import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkår
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
-
-const FeltContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    align-self: start;
-    align-items: start;
-`;
 
 export interface EndreAktivitetFormBarnetilsyn extends Periode {
     type: AktivitetType | '';
@@ -157,7 +146,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
             <VStack gap={'4'}>
-                <FeltContainer>
+                <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
@@ -186,7 +175,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                             />
                         </FeilmeldingMaksBredde>
                     )}
-                </FeltContainer>
+                </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
 

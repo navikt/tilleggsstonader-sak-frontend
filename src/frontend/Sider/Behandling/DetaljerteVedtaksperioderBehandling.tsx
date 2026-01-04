@@ -1,9 +1,6 @@
 import React, { JSX } from 'react';
 
-import styled from 'styled-components';
-
-import { Box } from '@navikt/ds-react';
-
+import styles from './DetaljerteVedtaksperioderBehandling.module.css';
 import { DetaljerteVedtaksperioder } from '../../hooks/useHentFullstendigVedtaksOversikt';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
@@ -18,11 +15,6 @@ import { VedtaksperioderOversiktDagligReiseTso } from '../Personoversikt/Vedtaks
 import { VedtaksperioderOversiktDagligReiseTsr } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReiseTsr';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
-
-const TableContainer = styled(Box)`
-    width: 920px;
-    background-color: white;
-`;
 
 type Props = {
     stønadstype: Stønadstype;
@@ -70,8 +62,8 @@ export function DetaljerteVedtaksperioderBehandling({
     };
 
     return (
-        <TableContainer>
+        <div className={styles.tableContainer}>
             {stønadstypeTilVedtaksperiodeOversikt[stønadstype](vedtaksperioderOversiktForStønad)}
-        </TableContainer>
+        </div>
     );
 }

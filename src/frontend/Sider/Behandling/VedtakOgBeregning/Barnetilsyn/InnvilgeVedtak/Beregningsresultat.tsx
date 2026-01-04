@@ -1,19 +1,12 @@
 import React, { FC } from 'react';
 
-import styled from 'styled-components';
-
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
+import styles from './Beregningsresultat.module.css';
 import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatContainer';
 import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore';
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(5, max-content);
-    gap: 0.4rem 2rem;
-`;
 
 interface Props {
     beregningsresultat: BeregningsresultatTilsynBarn;
@@ -23,7 +16,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
     <VStack gap="4">
         <Label size="small">Beregningsresultat</Label>
         <BeregningsresultatContainer>
-            <Grid>
+            <div className={styles.grid}>
                 <Label>Periode</Label>
                 <Label>Barn</Label>
                 <Label>Månedlige utgifter</Label>
@@ -42,7 +35,7 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
                         </BodyShort>
                     </React.Fragment>
                 ))}
-            </Grid>
+            </div>
         </BeregningsresultatContainer>
         {beregningsresultat.tidligsteEndring && (
             <ReadMoreTidligsteEndring tidligsteEndring={beregningsresultat.tidligsteEndring} />

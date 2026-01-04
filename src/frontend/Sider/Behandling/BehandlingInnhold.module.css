@@ -1,0 +1,9 @@
+.behandlingContainer {
+    display: flex;
+    background: var(--ax-bg-neutral-soft);
+}
+
+.innholdWrapper {
+    flex-grow: 1;
+    max-width: calc(100% - 20rem);
+}

@@ -1,14 +1,9 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Switch } from '@navikt/ds-react';
 
+import styles from './EndreErFremtidigUtgift.module.css';
 import { StønadsvilkårType } from '../../vilkår';
-
-const StyledSwitch = styled(Switch)`
-    align-self: end;
-`;
 
 const EndreErFremtidigUtgift: React.FC<{
     vilkårtype: StønadsvilkårType;
@@ -19,13 +14,14 @@ const EndreErFremtidigUtgift: React.FC<{
     return (
         <>
             {vilkårtype === StønadsvilkårType.UTGIFTER_OVERNATTING && kanVæreFremtidigUtgift && (
-                <StyledSwitch
+                <Switch
+                    className={styles.switch}
                     size={'small'}
                     checked={erFremtidigUtgift ?? false}
                     onChange={(e) => oppdaterErFremtidigUtgift(e.target.checked)}
                 >
                     Fremtidig utgift
-                </StyledSwitch>
+                </Switch>
             )}
         </>
     );

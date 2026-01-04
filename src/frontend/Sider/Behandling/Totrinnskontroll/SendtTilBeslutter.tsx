@@ -1,22 +1,14 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, BodyShort, Button, Heading, VStack } from '@navikt/ds-react';
 
+import styles from './SendtTilBeslutter.module.css';
 import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { formaterIsoDatoTid } from '../../../utils/dato';
-
-const AngreSendTilBeslutterContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-`;
 
 const SendtTilBeslutter: React.FC<{
     totrinnskontroll: TotrinnskontrollOpprettet;
@@ -72,7 +64,7 @@ const SendtTilBeslutter: React.FC<{
                 </BodyShort>
             )}
             {totrinnskontroll.opprettetAv === saksbehandler.navIdent && (
-                <AngreSendTilBeslutterContainer>
+                <div className={styles.angreContainer}>
                     <Button
                         size="small"
                         disabled={laster}
@@ -82,7 +74,7 @@ const SendtTilBeslutter: React.FC<{
                         Angre sendt til beslutter
                     </Button>
                     {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
-                </AngreSendTilBeslutterContainer>
+                </div>
             )}
         </VStack>
     );

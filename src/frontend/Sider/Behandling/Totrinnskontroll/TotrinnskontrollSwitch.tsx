@@ -1,23 +1,12 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import styled from 'styled-components';
-
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
-
 import FatteVedtak from './FatteVedtak';
 import SendtTilBeslutter from './SendtTilBeslutter';
+import styles from './TotrinnskontrollSwitch.module.css';
 import TotrinnskontrollUnderkjent from './TotrinnskontrollUnderkjent';
 import { TotrinnskontrollResponse, TotrinnskontrollStatus } from './typer';
 import { Ressurs } from '../../../typer/ressurs';
-
-const BorderBox = styled.div`
-    background-color: ${BgDefault};
-    border: 1px solid ${BorderNeutral};
-    border-radius: 12px;
-    padding: 1rem;
-    margin-bottom: 0.5rem;
-`;
 
 export const TotrinnskontrollSwitch: FC<{
     totrinnskontroll: TotrinnskontrollResponse;
@@ -29,30 +18,30 @@ export const TotrinnskontrollSwitch: FC<{
             return null;
         case TotrinnskontrollStatus.KAN_FATTE_VEDTAK:
             return (
-                <BorderBox>
+                <div className={styles.borderBox}>
                     <FatteVedtak
                         settVisGodkjentModal={settVisModalGodkjent}
                         settTotrinnskontroll={settTotrinnskontroll}
                         totrinnskontroll={totrinnskontroll.totrinnskontroll}
                     />
-                </BorderBox>
+                </div>
             );
         case TotrinnskontrollStatus.TOTRINNSKONTROLL_UNDERKJENT:
             return (
-                <BorderBox>
+                <div className={styles.borderBox}>
                     <TotrinnskontrollUnderkjent
                         totrinnskontroll={totrinnskontroll.totrinnskontroll}
                     />
-                </BorderBox>
+                </div>
             );
         case TotrinnskontrollStatus.IKKE_AUTORISERT:
             return (
-                <BorderBox>
+                <div className={styles.borderBox}>
                     <SendtTilBeslutter
                         totrinnskontroll={totrinnskontroll.totrinnskontroll}
                         settTotrinnskontroll={settTotrinnskontroll}
                     />
-                </BorderBox>
+                </div>
             );
         default:
             return null;

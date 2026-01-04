@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 
+import styles from './Vedtaksperioder.module.css';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { VedtaksperiodeReadMore } from './VedtaksperioderReadMore';
 import { tomVedtaksperiode } from './vedtaksperiodeUtils';
@@ -21,17 +21,6 @@ import {
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(6, max-content);
-    grid-gap: 0.5rem 1.5rem;
-    align-items: start;
-
-    > :nth-child(5) {
-        grid-column: 1;
-    }
-`;
 
 interface Props {
     vedtaksperioder: Vedtaksperiode[];
@@ -123,7 +112,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <Grid key={vedtaksperioderId}>
+                <div className={styles.grid} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
                     <Label size="small">Aktivitet</Label>
@@ -142,7 +131,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             vedtakErLagret={vedtakErLagret}
                         />
                     ))}
-                </Grid>
+                </div>
             )}
             {erStegRedigerbart && (
                 <>

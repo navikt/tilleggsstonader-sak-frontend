@@ -1,25 +1,19 @@
 import React, { FC } from 'react';
 
-import { styled } from 'styled-components';
-
 import { PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
+import styles from './LesevisningVilkår.module.css';
 import { skalFåDekketFaktiskeUtgifter } from './utils';
+import { Vurderingsrad } from './Vurderingsrad';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
 import { formaterNullablePeriode } from '../../../utils/dato';
+import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 import { VilkårsresultatTilTekst } from '../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import { Vilkår } from '../vilkår';
-import { Vurderingsrad } from './Vurderingsrad';
-import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
-
-const Redigeringsknapp = styled(SmallButton)`
-    max-height: 24px;
-    align-self: end;
-`;
 
 const LesevisningVilkår: FC<{
     vilkår: Vilkår;
@@ -33,7 +27,8 @@ const LesevisningVilkår: FC<{
             periode={vilkår}
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
-                    <Redigeringsknapp
+                    <SmallButton
+                        className={styles.redigeringsknapp}
                         variant="tertiary"
                         onClick={startRedigering}
                         icon={<PencilIcon />}

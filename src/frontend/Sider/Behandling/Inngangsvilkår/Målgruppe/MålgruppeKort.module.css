@@ -1,0 +1,6 @@
+.celleContainer {
+    flex-grow: 1;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}

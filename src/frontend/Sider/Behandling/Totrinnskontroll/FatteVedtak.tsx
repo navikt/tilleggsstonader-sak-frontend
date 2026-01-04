@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
 
-import styled from 'styled-components';
-
 import {
     BodyShort,
     Button,
@@ -15,6 +13,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
+import styles from './FatteVedtak.module.css';
 import {
     TotrinnskontrollOpprettet,
     TotrinnskontrollResponse,
@@ -29,12 +28,6 @@ import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
 import { Toast } from '../../../typer/toast';
-
-const SubmitButtonWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-`;
 
 interface TotrinnskontrollForm {
     godkjent: boolean;
@@ -196,11 +189,11 @@ const FatteVedtak: React.FC<{
                     </>
                 )}
                 {erUtfylt && (
-                    <SubmitButtonWrapper>
+                    <div className={styles.submitButtonWrapper}>
                         <Button type="submit" disabled={laster} size="small">
                             Fullfør
                         </Button>
-                    </SubmitButtonWrapper>
+                    </div>
                 )}
                 <Feilmelding feil={feil} />
             </VStack>

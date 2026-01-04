@@ -1,0 +1,9 @@
+.knapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.knapper :global(.right) {
+    margin-left: auto;
+}
