@@ -2,9 +2,6 @@
     margin: 2rem 5rem 0;
 }
 
-.tidslinjeContainer {
-}
-
 @media (width <= 1149px) {
     .tidslinjeContainer {
         display: flex;
@@ -16,9 +13,6 @@
     .tidslinjeContainer {
         margin-top: 12rem;
     }
-}
-
-.tidslinjeContainerOpen {
 }
 
 @media (width <= 1449px) {

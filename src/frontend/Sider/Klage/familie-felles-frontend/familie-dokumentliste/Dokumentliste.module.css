@@ -8,12 +8,10 @@
     padding: 0.5rem 1rem;
     display: grid;
     gap: 0 1rem;
-    grid-template-columns: minmax(min-content, max-content);
-    grid-template-rows: repeat(3, min-content);
-    grid-template-areas:
-        'ikon tittel'
-        'ikon vedlegg'
-        'ikon dato';
+    grid-template:
+        'ikon tittel' min-content
+        'ikon vedlegg' min-content
+        'ikon dato' min-content / minmax(min-content, max-content);
     max-width: 300px;
     background-color: transparent;
     border: none;

@@ -34,9 +34,6 @@
     }
 }
 
-.historikkInnslag {
-}
-
 @media (width <= 1149px) {
     .historikkInnslag {
         width: 10rem;
@@ -50,9 +47,6 @@
         grid-template-columns: auto 5rem auto;
         align-self: stretch;
     }
-}
-
-.historikkInnslagOpen {
 }
 
 @media (width <= 1449px) {
@@ -70,9 +64,6 @@
     }
 }
 
-.revurderingAlertContainer {
-}
-
 @media (width <= 1149px) {
     .revurderingAlertContainer {
         width: 14rem;
@@ -87,9 +78,6 @@
     }
 }
 
-.revurderingAlertContainerOpen {
-}
-
 @media (width <= 1449px) {
     .revurderingAlertContainerOpen {
         width: 14rem;
@@ -102,9 +90,6 @@
         display: grid;
         grid-template-columns: auto 14rem auto;
     }
-}
-
-.linjeStiplet {
 }
 
 @media (width <= 1149px) {
@@ -124,9 +109,6 @@
     }
 }
 
-.linjeStipletOpen {
-}
-
 @media (width <= 1449px) {
     .linjeStipletOpen {
         border-left: 2px dashed black;
@@ -142,9 +124,6 @@
         margin-top: 3.25rem;
         margin-left: 2px;
     }
-}
-
-.linjeSort {
 }
 
 @media (width <= 1149px) {
@@ -161,9 +140,6 @@
         border-top: 2px solid black;
         margin-top: 3.25rem;
     }
-}
-
-.linjeSortOpen {
 }
 
 @media (width <= 1449px) {
@@ -199,18 +175,12 @@
     margin-bottom: 0.75rem;
 }
 
-.tittelToLinjer {
-}
-
 @media (width >= 1150px) {
     .tittelToLinjer {
         position: relative;
         bottom: 1rem;
         margin-bottom: -0.75rem;
     }
-}
-
-.tittelToLinjerOpen {
 }
 
 @media (width >= 1450px) {

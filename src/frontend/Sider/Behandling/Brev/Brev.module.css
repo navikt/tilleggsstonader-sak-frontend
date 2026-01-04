@@ -7,7 +7,7 @@
     gap: 1rem;
 }
 
-@media (max-width: var(--ax-breakpoint-lg-down)) {
+@media (width <= 1149px) {
     .to-kolonner {
         flex-wrap: wrap;
     }
