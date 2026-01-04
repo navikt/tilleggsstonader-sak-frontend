@@ -33,7 +33,7 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                         checked={visTidligerePerioder}
                         onChange={() => setVisTidligerePerioder((prev) => !prev)}
                     >
-                        Vis tidligere perioder
+                        Vis upåvirkede perioder
                     </Switch>
                 )}
             </HStack>
