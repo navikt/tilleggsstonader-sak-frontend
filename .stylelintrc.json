@@ -2,5 +2,8 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-css-modules"
-  ]
+  ],
+  "rules": {
+    "selector-class-pattern": "^[a-zA-Zæøå\\u0080-\\uFFFF][a-zA-Z0-9 æøå\\u0080-\\uFFFF]*(?:-[a-zA-Z0-9æøå\\u0080-\\uFFFF]+)*$|^[a-zæøå\\u0080-\\uFFFF]+(?:[A-Z][a-z]*)*$"
+  }
 }
