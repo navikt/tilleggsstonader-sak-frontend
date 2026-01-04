@@ -1,0 +1,17 @@
+.container {
+    padding: 2rem 2rem 64px;
+}
+
+.oppfolgingList {
+    width: fit-content;
+}
+
+.oppfolgingCard {
+    border: 2px solid var(--ax-border-info-strong);
+    padding: var(--ax-space-24);
+    border-radius: var(--ax-radius-8);
+}
+
+.handterKontrollContainer {
+    width: 20rem;
+}

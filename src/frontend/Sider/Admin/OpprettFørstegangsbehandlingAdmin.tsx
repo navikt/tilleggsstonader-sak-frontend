@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import {
     BodyShort,
@@ -20,6 +19,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
+import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
 import { useApp } from '../../context/AppContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
@@ -33,15 +33,6 @@ import {
     RessursStatus,
 } from '../../typer/ressurs';
 import { erGyldigFnr, harVerdi } from '../../utils/utils';
-
-const Container = styled.div`
-    margin: 2rem;
-    width: 40rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 64px;
-`;
 
 interface Personinfo {
     navn: string;
@@ -76,7 +67,7 @@ function OpprettFørstegangsbehandlingAdmin() {
     };
 
     return (
-        <Container>
+        <div className={styles.container}>
             <div>
                 <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling</Heading>
                 <VStack gap={'2'}>
@@ -112,7 +103,7 @@ function OpprettFørstegangsbehandlingAdmin() {
                     stønadstype={stønadstype}
                 />
             )}
-        </Container>
+        </div>
     );
 }
 

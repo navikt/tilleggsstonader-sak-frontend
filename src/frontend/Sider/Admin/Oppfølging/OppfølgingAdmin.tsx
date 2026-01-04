@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import {
     BodyShort,
@@ -13,10 +12,10 @@ import {
     Tag,
     VStack,
 } from '@navikt/ds-react';
-import { BorderInfoStrong, Radius8, Space24 } from '@navikt/ds-tokens/darkside-js';
 
 import { InformasjonOppfølging } from './InformasjonOppfølging';
 import { KontrollerOppfølging } from './KontrollerOppfølging';
+import styles from './OppfølgingAdmin.module.css';
 import { OppfølgingKontrollertDetaljer } from './OppfølgingKontrollertDetaljer';
 import { OppfølgingPerioderTilKontrollTabell } from './OppfølgingPerioderTilKontrollTabell';
 import { Oppfølging, OppfølgingUtfall } from './oppfølgingTyper';
@@ -31,10 +30,6 @@ import {
 } from '../../../utils/dato';
 import { MålgruppeType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
-
-const Container = styled(VStack)`
-    padding: 2rem 2rem 64px;
-`;
 
 export const OppølgingAdmin = () => {
     const { request } = useApp();
@@ -129,7 +124,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         [oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP]
     );
     return (
-        <Container gap={'4'}>
+        <VStack gap={'4'} className={styles.container}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
             <InformasjonOppfølging />
             <div>
@@ -168,18 +163,14 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     Skjul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
                 </Checkbox>
             </div>
-            <VStack gap={'8'} style={{ width: 'fit-content' }}>
+            <VStack gap={'8'} className={styles.oppfolgingList}>
                 {filtrerteOppfølginger.map((oppfølging) => {
                     return (
                         <VStack
                             key={oppfølging.id}
                             gap={'4'}
                             justify={'space-between'}
-                            style={{
-                                border: `2px solid ${BorderInfoStrong}`,
-                                padding: `${Space24}`,
-                                borderRadius: `${Radius8}`,
-                            }}
+                            className={styles.oppfolgingCard}
                         >
                             <HStack justify={'space-between'}>
                                 <HStack gap={'4'} align={'start'} justify={'start'}>
@@ -241,7 +232,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                         </Link>
                                     </HStack>
                                 </VStack>
-                                <div style={{ width: '20rem' }}>
+                                <div className={styles.handterKontrollContainer}>
                                     <HåndterKontroll
                                         oppfølging={oppfølging}
                                         oppfølgingForKontroll={oppfølgingForKontroll}
@@ -254,7 +245,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     );
                 })}
             </VStack>
-        </Container>
+        </VStack>
     );
 };
 

@@ -1,10 +1,8 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { Alert, Table, VStack } from '@navikt/ds-react';
-import { BorderNeutral } from '@navikt/ds-tokens/darkside-js';
 
+import styles from './OppfølgingPerioderTilKontrollTabell.module.css';
 import { Oppfølging, årsakKontrollTilTekst } from './oppfølgingTyper';
 import { formaterIsoDato, formaterIsoPeriode } from '../../../utils/dato';
 import {
@@ -16,10 +14,6 @@ import {
     MålgruppeTypeTilTekst,
 } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
-const Tabell = styled(Table)`
-    border: 1px solid ${BorderNeutral};
-`;
-
 const typerTilTekst: Record<MålgruppeType | AktivitetType, string> = {
     ...MålgruppeTypeTilTekst,
     ...AktivitetTypeTilTekst,
@@ -27,7 +21,7 @@ const typerTilTekst: Record<MålgruppeType | AktivitetType, string> = {
 
 export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølging: Oppfølging }) => {
     return (
-        <Tabell size={'small'} style={{ width: '50rem' }}>
+        <Table size={'small'} style={{ width: '50rem' }} className={styles.tabell}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
@@ -71,6 +65,6 @@ export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølg
                     </Table.Row>
                 ))}
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
