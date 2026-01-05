@@ -19,3 +19,11 @@ export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, stri
     DAGLIG_REISE_TSO: 'Daglig reise',
     DAGLIG_REISE_TSR: 'Daglig reise',
 };
+
+export const stønadstypeTilEnhet: Record<Stønadstype, string> = {
+    BARNETILSYN: 'Nay',
+    LÆREMIDLER: 'Nay',
+    BOUTGIFTER: 'Nay',
+    DAGLIG_REISE_TSO: 'Nay',
+    DAGLIG_REISE_TSR: 'Tiltaksenheten',
+};

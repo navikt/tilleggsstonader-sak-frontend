@@ -106,7 +106,7 @@ const BehandlingTabsInnhold = () => {
                     {visVedtaksperioderPåBehandling ? (
                         <TidligereVedtaksperioder
                             behandlingFakta={behandlingFakta}
-                            forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
+                            behandlingId={behandling.id}
                             stønadstype={behandling.stønadstype}
                             sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
                         />
