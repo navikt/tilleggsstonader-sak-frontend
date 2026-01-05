@@ -22,9 +22,9 @@
     ]
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^7.35.1",
-    "@navikt/ds-css": "^7.35.1",
-    "@navikt/ds-react": "^7.35.1",
+    "@navikt/aksel-icons": "^7.36.0",
+    "@navikt/ds-css": "^7.36.0",
+    "@navikt/ds-react": "^7.36.0",
     "@navikt/ds-tokens": "^7.30.0",
     "@navikt/familie-form-elements": "^21.0.4",
     "@portabletext/react": "^6.0.0",
@@ -36,7 +36,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-pdf": "^10.2.0",
-    "react-router-dom": "^7.10.1",
+    "react-router-dom": "^7.11.0",
     "react-router-prompt": "^0.8.0",
     "styled-components": "^6.1.19",
     "unleash-proxy-client": "^3.7.6",
@@ -51,8 +51,8 @@
     "@types/react-dom": "^19.2.0",
     "@types/uuid": "^11.0.0",
     "@types/webpack-hot-middleware": "^2.25.6",
-    "@typescript-eslint/eslint-plugin": "^8.49.0",
-    "@typescript-eslint/parser": "^8.49.0",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
     "css-loader": "^7.1.1",
     "esbuild-loader": "^4.3.0",
     "eslint": "^9.37.0",
@@ -76,7 +76,7 @@
     "stylelint-config-css-modules": "^4.5.1",
     "stylelint-config-standard": "^39.0.1",
     "typescript": "^5.9.2",
-    "webpack": "^5.102.0",
+    "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"
   },
   "resolutions": {
