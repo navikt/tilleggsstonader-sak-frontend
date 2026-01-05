@@ -12,10 +12,10 @@ export const embeddedMapHandler = (req: Request, res: Response): void => {
         return;
     }
 
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const apiKey = process.env.GOOGLE_MAPS_EMBEDDED_MAP_API_KEY;
     if (!apiKey) {
         res.status(500).json({
-            error: 'Google Maps API-nøkkel er ikke konfigurert',
+            error: 'Embedded Map API-nøkkel er ikke konfigurert',
         });
         return;
     }
