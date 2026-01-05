@@ -17,7 +17,7 @@ import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { formaterÅrFullMåned } from '../../../utils/dato';
 import { FanePath } from '../faner';
 
-const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedtak }) => {
+export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedtak }) => {
     const { behandling, hentBehandling } = useBehandling();
     const { request } = useApp();
 
@@ -29,7 +29,7 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
         request<SimuleringResponse | null, null>(`/api/sak/simulering/${behandling.id}`)
             .then(settSimuleringsresultat)
             .then(() => {
-                hentBehandling.rerun(); // Må hente behandling på nytt for å oppdatere behandling med ritkig steg
+                hentBehandling.rerun(); // Må hente behandling på nytt for å oppdatere behandling med riktig steg
             });
     }, [request, settSimuleringsresultat, behandling.id, hentBehandling]);
 
@@ -95,5 +95,3 @@ const SimuleringResultatWrapper: React.FC<{ vedtak: VedtakResponse }> = ({ vedta
         </DataViewer>
     );
 };
-
-export default SimuleringResultatWrapper;
