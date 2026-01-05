@@ -14,7 +14,7 @@ export const ResultatVerdi = ({
     verdi: number;
     children: React.ReactNode;
 }) => {
-    const tekstfarge = verdi > 0 ? styles.success : styles.danger;
+    const tekstfarge = verdi ? (verdi > 0 ? styles.success : styles.danger) : '';
 
     return <BodyShort className={tekstfarge}>{children}</BodyShort>;
 };
