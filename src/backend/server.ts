@@ -6,6 +6,7 @@ import path from 'path';
 import { setupLocalAuth } from './auth/local';
 import { getProfile } from './auth/profile';
 import { attachToken, getTokenFromHeader, validateToken } from './auth/token';
+import { embeddedMapHandler } from './embeddedMap';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
@@ -53,6 +54,8 @@ app.use('/api/env', addRequestInfo(), validateToken(), (req, res) => {
     });
 });
 app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
+
+app.get('/api/kart/embedded-map', addRequestInfo(), validateToken(true), embeddedMapHandler);
 
 app.use(
     '/api/sak',

@@ -13,7 +13,7 @@ export const EmbeddedKart: React.FC<{
     const { startAdresse, sluttAdresse } = kjøreavstandResponse.reiserute;
     const start = encodeURIComponent(startAdresse);
     const destinasjon = encodeURIComponent(sluttAdresse);
-    const src = `/api/sak/kart/embedded-map?origin=${start}&destination=${destinasjon}&mode=driving`;
+    const src = `/api/kart/embedded-map?origin=${start}&destination=${destinasjon}&mode=driving`;
 
     return (
         <iframe
