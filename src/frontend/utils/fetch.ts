@@ -45,7 +45,7 @@ export const fetchFn = <ResponseData, RequestData>(
 
 const håndterSuksess = <ResponseData>(res: Response): Promise<RessursSuksess<ResponseData>> => {
     const contentType = res.headers.get('Content-Type');
-    if (contentType === 'application/json')
+    if (contentType?.includes('application/json'))
         return res.json().then((data) => ({
             data: data as ResponseData,
             status: RessursStatus.SUKSESS,
