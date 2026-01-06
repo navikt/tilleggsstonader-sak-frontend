@@ -20,10 +20,10 @@ import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskompon
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
-import { initierGjeldendeFaktaType, initierSvar, tomtOffentligTransport } from './utils';
+import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
 
 interface Props {
@@ -94,12 +94,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         settLaster(false);
     };
 
-    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
-        settFakta((prevState) => ({
-            ...(prevState ?? tomtOffentligTransport),
-            [key]: verdi,
-        }));
-
+    const nullstillFeilOgUlagretkomponent = () => {
         settUlagretKomponent(komponentId);
         nullstillFeilmeldingFor(['fakta']);
     };
@@ -174,7 +169,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                 <EndreFaktaDagligReise
                     gjeldendeFaktaType={gjeldendeFaktaType}
                     fakta={fakta}
-                    oppdaterFakta={oppdaterFakta}
+                    nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
+                    settFakta={settFakta}
                     feilmeldinger={feilmeldinger}
                 />
 

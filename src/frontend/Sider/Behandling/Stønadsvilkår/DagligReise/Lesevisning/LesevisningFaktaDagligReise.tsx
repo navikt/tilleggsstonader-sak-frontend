@@ -4,7 +4,11 @@ import { Alert, BodyShort } from '@navikt/ds-react';
 
 import styles from './LesevisningFaktaDagligReise.module.css';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../utils/fomatering';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import {
+    FaktaDagligReise,
+    FaktaOffentligTransport,
+    FaktaPrivatBil,
+} from '../typer/faktaDagligReise';
 import { typeDagligReiseTilTekst } from '../typer/vilkårDagligReise';
 
 export const LesevisningFaktaDagligReise: FC<{
@@ -15,6 +19,9 @@ export const LesevisningFaktaDagligReise: FC<{
     switch (fakta.type) {
         case 'OFFENTLIG_TRANSPORT':
             return <LesevisningFaktaOffentligTransport fakta={fakta as FaktaOffentligTransport} />;
+
+        case 'PRIVAT_BIL':
+            return <LesevisningFaktaPrivatBil fakta={fakta as FaktaPrivatBil} />;
 
         default:
             return (
@@ -53,6 +60,40 @@ const LesevisningFaktaOffentligTransport: FC<{
             <BodyShort size="small">
                 {fakta?.prisTrettidagersbillett
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisTrettidagersbillett)} kr`
+                    : '-'}
+            </BodyShort>
+        </div>
+    );
+};
+
+const LesevisningFaktaPrivatBil: FC<{
+    fakta: FaktaPrivatBil;
+}> = ({ fakta }) => {
+    return (
+        <div className={styles.grid}>
+            <BodyShort size="small">{'Reisedager pr uke'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.reisedagerPerUke ? `${fakta.reisedagerPerUke}` : '-'}
+            </BodyShort>
+
+            <BodyShort size="small">{'Reiseavstand en vei'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.reiseavstandEnVei
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.reiseavstandEnVei)} km`
+                    : '-'}
+            </BodyShort>
+
+            <BodyShort size="small">{'Bompenger per dag'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.prisBompengerPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.prisBompengerPerDag)} kr`
+                    : '-'}
+            </BodyShort>
+
+            <BodyShort size="small">{'Fergekostnader per dag'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.prisFergekostandPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisFergekostandPerDag)} kr`
                     : '-'}
             </BodyShort>
         </div>

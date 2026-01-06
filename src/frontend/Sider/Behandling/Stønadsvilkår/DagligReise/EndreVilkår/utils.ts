@@ -3,6 +3,7 @@ import { v7 } from 'uuid';
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 import {
     FaktaOffentligTransport,
+    FaktaPrivatBil,
     typeDagligReiseTilTypeVilkårfakta,
 } from '../typer/faktaDagligReise';
 import {
@@ -113,4 +114,13 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
     prisEnkelbillett: undefined,
     prisSyvdagersbillett: undefined,
     prisTrettidagersbillett: undefined,
+};
+
+export const tomtPrivatBil: FaktaPrivatBil = {
+    type: 'PRIVAT_BIL',
+    reiseId: v7(),
+    reisedagerPerUke: undefined,
+    reiseavstandEnVei: undefined,
+    prisBompengerPerDag: undefined,
+    prisFergekostandPerDag: undefined,
 };
