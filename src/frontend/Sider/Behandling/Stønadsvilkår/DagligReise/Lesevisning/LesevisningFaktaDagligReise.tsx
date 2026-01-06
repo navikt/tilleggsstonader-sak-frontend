@@ -85,15 +85,15 @@ const LesevisningFaktaPrivatBil: FC<{
 
             <BodyShort size="small">{'Bompenger per dag'}</BodyShort>
             <BodyShort size="small">
-                {fakta?.prisBompengerPerDag
-                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.prisBompengerPerDag)} kr`
+                {fakta?.bompengerPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.bompengerPerDag)} kr`
                     : '-'}
             </BodyShort>
 
             <BodyShort size="small">{'Fergekostnader per dag'}</BodyShort>
             <BodyShort size="small">
-                {fakta?.prisFergekostandPerDag
-                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisFergekostandPerDag)} kr`
+                {fakta?.fergekostandPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.fergekostandPerDag)} kr`
                     : '-'}
             </BodyShort>
         </div>

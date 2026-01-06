@@ -67,14 +67,10 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         label={'Bompenger per dag'}
                         size="small"
                         //error={feilmeldinger?.syvdagersbillett}
-                        value={
-                            harTallverdi(fakta?.prisBompengerPerDag)
-                                ? fakta?.prisBompengerPerDag
-                                : ''
-                        }
+                        value={harTallverdi(fakta?.bompengerPerDag) ? fakta?.bompengerPerDag : ''}
                         onChange={(e) => {
                             oppdaterFakta(
-                                'prisBompengerPerDag',
+                                'bompengerPerDag',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
@@ -86,13 +82,11 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         size="small"
                         //error={feilmeldinger?.trettidagersbillett}
                         value={
-                            harTallverdi(fakta?.prisFergekostandPerDag)
-                                ? fakta?.prisFergekostandPerDag
-                                : ''
+                            harTallverdi(fakta?.fergekostandPerDag) ? fakta?.fergekostandPerDag : ''
                         }
                         onChange={(e) => {
                             oppdaterFakta(
-                                'prisFergekostandPerDag',
+                                'fergekostandPerDag',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}

@@ -14,11 +14,11 @@ export interface FaktaOffentligTransport extends FaktaDagligReise {
 }
 
 export interface FaktaPrivatBil extends FaktaDagligReise {
-    //reiseId: string;
+    reiseId: string;
     reisedagerPerUke: number | undefined;
     reiseavstandEnVei: number | undefined;
-    prisBompengerPerDag: number | undefined;
-    prisFergekostandPerDag: number | undefined;
+    bompengerPerDag: number | undefined;
+    fergekostandPerDag: number | undefined;
 }
 
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {

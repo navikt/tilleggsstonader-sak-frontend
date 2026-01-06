@@ -121,6 +121,6 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     reiseId: v7(),
     reisedagerPerUke: undefined,
     reiseavstandEnVei: undefined,
-    prisBompengerPerDag: undefined,
-    prisFergekostandPerDag: undefined,
+    bompengerPerDag: undefined,
+    fergekostandPerDag: undefined,
 };
