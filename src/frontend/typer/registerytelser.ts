@@ -36,6 +36,7 @@ export enum TypeRegisterYtelse {
     TILTAKSPENGER_ARENA = 'TILTAKSPENGER_ARENA',
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     OMSTILLINGSSTØNAD = 'OMSTILLINGSSTØNAD',
+    INNSATT_I_FENGSEL = 'INNSATT_I_FEGNSEL',
 }
 
 export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, MålgruppeType> = {
@@ -45,6 +46,7 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
     TILTAKSPENGER_TPSAK: MålgruppeType.TILTAKSPENGER,
     TILTAKSPENGER_ARENA: MålgruppeType.TILTAKSPENGER,
     DAGPENGER: MålgruppeType.DAGPENGER,
+    INNSATT_I_FEGNSEL: MålgruppeType.INNSATT_I_FENGSEL,
 };
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
@@ -54,6 +56,7 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
+    INNSATT_I_FEGNSEL: 'innsatt i fengsel',
 };
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
@@ -63,4 +66,5 @@ export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, st
     DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
+    INNSATT_I_FEGNSEL: 'Innsatt i fengsel',
 };

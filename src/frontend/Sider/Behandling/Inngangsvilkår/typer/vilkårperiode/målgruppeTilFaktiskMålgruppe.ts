@@ -25,6 +25,7 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     DAGPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
     TILTAKSPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
     KVALIFISERINGSSTØNAD: FaktiskMålgruppe.ARBEIDSSØKER,
+    INNSATT_I_FENGSEL: FaktiskMålgruppe.ARBEIDSSØKER,
 };
 
 export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgruppe, string> =
