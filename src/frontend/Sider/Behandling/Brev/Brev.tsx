@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import styles from './Brev.module.css';
-import BrevLesevisning from './BrevLesevisning';
+import { BrevLesevisning } from './BrevLesevisning';
 import { finnSanityMappe } from './brevUtils';
 import { useSendTilBeslutter } from './useSendTilBeslutter';
 import { VedtakFerdigstiltModal } from './VedtakFerdigstiltModal';
@@ -13,18 +13,18 @@ import { usePersonopplysninger } from '../../../context/PersonopplysningerContex
 import { useTotrinnskontroll } from '../../../context/TotrinnskontrollContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
 import { useVedtak } from '../../../hooks/useVedtak';
-import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { Brevmeny } from '../../../komponenter/Brev/Brevmeny';
 import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
-import useBrev from '../../../komponenter/Brev/useBrev';
-import useMellomlagrignBrev from '../../../komponenter/Brev/useMellomlagringBrev';
-import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
-import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
+import { useBrev } from '../../../komponenter/Brev/useBrev';
+import { useMellomlagringBrev as useMellomlagrignBrev } from '../../../komponenter/Brev/useMellomlagringBrev';
+import { VelgBrevmal } from '../../../komponenter/Brev/VelgBrevmal';
+import { BrevMottakere } from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
-import PdfVisning from '../../../komponenter/PdfVisning';
+import { PdfVisning } from '../../../komponenter/PdfVisning';
 import { RessursStatus } from '../../../typer/ressurs';
 import { TotrinnskontrollStatus } from '../Totrinnskontroll/typer';
 
-const Brev: React.FC = () => {
+export const Brev: React.FC = () => {
     const { behandling, behandlingErRedigerbar } = useBehandling();
     const contextBrevmottakere = useContextBrevmottakereSak(behandling.id);
     const { sendTilBeslutter, visVedtakFerdigstiltModal, lukkVedtakFerdigstiltModal } =
@@ -132,5 +132,3 @@ const Brev: React.FC = () => {
         </div>
     );
 };
-
-export default Brev;

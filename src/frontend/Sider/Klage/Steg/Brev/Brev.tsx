@@ -10,9 +10,9 @@ import { OmgjørVedtak } from './OmgjørVedtak';
 import { useApp } from '../../../../context/AppContext';
 import { useContextBrevmottakereKlage } from '../../../../hooks/useBrevmottakere';
 import { PersonopplysningerIBrevmottakere } from '../../../../komponenter/Brev/typer';
-import BrevMottakere from '../../../../komponenter/Brevmottakere/BrevMottakere';
+import { BrevMottakere } from '../../../../komponenter/Brevmottakere/BrevMottakere';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import PdfVisning from '../../../../komponenter/PdfVisning';
+import { PdfVisning } from '../../../../komponenter/PdfVisning';
 import SystemetLaster from '../../../../komponenter/SystemetLaster/SystemetLaster';
 import {
     byggTomRessurs,

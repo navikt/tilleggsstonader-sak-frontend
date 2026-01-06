@@ -10,6 +10,38 @@ import { leggTilKolonOgMellomrom, tilLitenSkriftMedStorForbokstav } from '../../
 import { PersonopplysningerIBrevmottakere } from '../Brev/typer';
 import DataViewer from '../DataViewer';
 
+export const BrevMottakere: React.FC<{
+    context: ContextBrevmottakere;
+    kanEndreBrevmottakere: boolean;
+    personopplysninger: PersonopplysningerIBrevmottakere;
+}> = ({ context, kanEndreBrevmottakere, personopplysninger }) => {
+    const { brevmottakere, hentBrevmottakere, lagreBrevmottakere } = useBrevmottakere(context);
+
+    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
+
+    return (
+        <DataViewer type={'brevmottakere'} response={{ brevmottakere }}>
+            {({ brevmottakere }) => (
+                <>
+                    <Brevmottakere
+                        mottakere={brevmottakere}
+                        kanEndreBrevmottakere={kanEndreBrevmottakere}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                    />
+                    <EndreBrevmottakereModal
+                        personopplysninger={personopplysninger}
+                        mottakere={brevmottakere}
+                        kallHentBrevmottakere={hentBrevmottakere}
+                        lagreBrevmottakere={lagreBrevmottakere}
+                        visBrevmottakereModal={visBrevmottakereModal}
+                        settVisBrevmottakereModal={settVisBrevmottakereModal}
+                    />
+                </>
+            )}
+        </DataViewer>
+    );
+};
+
 const Brevmottakere: React.FC<{
     mottakere: IBrevmottakere;
     kanEndreBrevmottakere: boolean;
@@ -55,37 +87,3 @@ const Brevmottakere: React.FC<{
         </VStack>
     );
 };
-
-const BrevMottakere: React.FC<{
-    context: ContextBrevmottakere;
-    kanEndreBrevmottakere: boolean;
-    personopplysninger: PersonopplysningerIBrevmottakere;
-}> = ({ context, kanEndreBrevmottakere, personopplysninger }) => {
-    const { brevmottakere, hentBrevmottakere, lagreBrevmottakere } = useBrevmottakere(context);
-
-    const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
-
-    return (
-        <DataViewer type={'brevmottakere'} response={{ brevmottakere }}>
-            {({ brevmottakere }) => (
-                <>
-                    <Brevmottakere
-                        mottakere={brevmottakere}
-                        kanEndreBrevmottakere={kanEndreBrevmottakere}
-                        settVisBrevmottakereModal={settVisBrevmottakereModal}
-                    />
-                    <EndreBrevmottakereModal
-                        personopplysninger={personopplysninger}
-                        mottakere={brevmottakere}
-                        kallHentBrevmottakere={hentBrevmottakere}
-                        lagreBrevmottakere={lagreBrevmottakere}
-                        visBrevmottakereModal={visBrevmottakereModal}
-                        settVisBrevmottakereModal={settVisBrevmottakereModal}
-                    />
-                </>
-            )}
-        </DataViewer>
-    );
-};
-
-export default BrevMottakere;

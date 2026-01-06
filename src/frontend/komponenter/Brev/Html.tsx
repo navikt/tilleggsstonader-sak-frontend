@@ -3,7 +3,7 @@ import React from 'react';
 import { PortableText } from '@portabletext/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { CustomComponets } from './Delmal';
+import { CustomComponents } from './Delmal';
 import { FritekstAvsnitt, MalStruktur, Valg } from './typer';
 import { NavIkon } from '../Ikoner/Brev/NavIkon';
 
@@ -79,7 +79,7 @@ const HtmlBrev: React.FC<Props> = ({
                             <PortableText
                                 key={delmal._id}
                                 value={delmal.blocks}
-                                components={CustomComponets(
+                                components={CustomComponents(
                                     valgfelt[delmal._id] || {},
                                     { ...variabler, ...htmlVariabler },
                                     fritekst[delmal._id] || {}

@@ -10,8 +10,6 @@ import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagli
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
-export type LagVedtakstabell = Record<string, string>;
-
 /**
  * Lager en vedtakstabell i html som vises i innvilgelsebrevet
  * @param behandling trengs for å vite hvilken stønadstype det er for å kunne typecaste

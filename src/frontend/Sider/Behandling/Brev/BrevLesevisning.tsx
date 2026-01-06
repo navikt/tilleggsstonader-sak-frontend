@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './BrevLesevisning.module.css';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
-import PdfVisning from '../../../komponenter/PdfVisning';
+import { PdfVisning } from '../../../komponenter/PdfVisning';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggTomRessurs } from '../../../typer/ressurs';
 
-const BrevLesevisning: React.FC = () => {
+export const BrevLesevisning: React.FC = () => {
     const { behandling } = useBehandling();
     const { request } = useApp();
     const [brevPdf, settBrevPdf] = useState(byggTomRessurs<string>());
@@ -29,5 +29,3 @@ const BrevLesevisning: React.FC = () => {
         </div>
     );
 };
-
-export default BrevLesevisning;

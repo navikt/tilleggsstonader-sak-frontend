@@ -19,7 +19,7 @@ interface PdfVisningProps {
     pdfFilInnhold: Ressurs<string>;
 }
 
-const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
+export const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
     const [numPages, setNumPages] = useState<number>(1);
     const [pageNumber, setPageNumber] = useState(1);
 
@@ -65,5 +65,3 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
         </DataViewer>
     );
 };
-
-export default PdfVisning;

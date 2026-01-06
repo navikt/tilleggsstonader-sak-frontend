@@ -4,7 +4,7 @@ import { MellomlagretBrevDto } from './mellomlagring';
 import { useApp } from '../../context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
-const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
+export const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
     const { request } = useApp();
 
     const [mellomlagretBrev, settMellomlagretBrev] =
@@ -20,5 +20,3 @@ const useMellomlagringFrittståendeBrev = (fagsakId: string) => {
 
     return { mellomlagretBrev, settMellomlagretBrev };
 };
-
-export default useMellomlagringFrittståendeBrev;

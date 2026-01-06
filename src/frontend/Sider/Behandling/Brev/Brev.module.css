@@ -5,10 +5,8 @@
 .to-kolonner {
     display: flex;
     gap: 1rem;
-}
 
-@media (width <= 1149px) {
-    .to-kolonner {
+    @media (width <= 1149px) {
         flex-wrap: wrap;
     }
 }

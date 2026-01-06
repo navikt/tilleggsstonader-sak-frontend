@@ -18,7 +18,7 @@ interface Props {
  * Brevmaler er gruppert etter resultat (innvilget, avslag, opphør, osv.) for å gjøre det enklere å finne riktig mal.
  * For frittstående brev vises alle maler uten gruppering.
  */
-const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
+export const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
     const { nullstillFeilIBrev } = useBrevFeilContext();
 
     const handleOnChange = (event: string) => {
@@ -61,14 +61,14 @@ const VelgBrevmal: React.FC<Props> = ({ brevmaler, brevmal, settBrevmal }) => {
  * Grupperer brevmaler basert på resultatet og visningsnavn.
  * I tilfelle det er en REVURDERING, skiller den mellom endring, forlengelse og opphør.
  */
-const grupperBrevmaler = (brevmaler: Brevmal[]) => {
+function grupperBrevmaler(brevmaler: Brevmal[]) {
     const gruppert = groupBy(brevmaler, finnGruppe);
     return Object.entries(gruppert).sort(
         ([gruppeA], [gruppeB]) =>
             (prioritetBrevmaler[gruppeA as Gruppe] | 0) -
             (prioritetBrevmaler[gruppeB as Gruppe] | 0)
     );
-};
+}
 
 /**
  * Definerer grupper for brevmaler basert på resultatet.
@@ -106,7 +106,7 @@ const gruppeTilTekst: Record<Gruppe, string> = {
     FRITTSTAENDE: 'Frittstående brev',
 };
 
-const finnGruppe = (brevmal: Brevmal): Gruppe => {
+function finnGruppe(brevmal: Brevmal): Gruppe {
     const resultat = brevmal.resultat;
     if (resultat === BrevmalResultat.REVURDERING) {
         if (brevmal.visningsnavn.startsWith('Endring')) {
@@ -119,6 +119,4 @@ const finnGruppe = (brevmal: Brevmal): Gruppe => {
         return 'ANNET';
     }
     return resultat;
-};
-
-export default VelgBrevmal;
+}

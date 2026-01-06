@@ -5,7 +5,7 @@ import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../typer/ressurs';
 
-const useMellomlagringBrev = () => {
+export const useMellomlagringBrev = () => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
@@ -23,5 +23,3 @@ const useMellomlagringBrev = () => {
 
     return { mellomlagretBrev };
 };
-
-export default useMellomlagringBrev;
