@@ -64,13 +64,13 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Bompenger per dag'}
+                        label={'Bompenger en vei'}
                         size="small"
                         //error={feilmeldinger?.syvdagersbillett}
-                        value={harTallverdi(fakta?.bompengerPerDag) ? fakta?.bompengerPerDag : ''}
+                        value={harTallverdi(fakta?.bompengerEnVei) ? fakta?.bompengerEnVei : ''}
                         onChange={(e) => {
                             oppdaterFakta(
-                                'bompengerPerDag',
+                                'bompengerEnVei',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
@@ -78,15 +78,15 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Fergekostnad per dag'}
+                        label={'Fergekostnad en vei'}
                         size="small"
                         //error={feilmeldinger?.trettidagersbillett}
                         value={
-                            harTallverdi(fakta?.fergekostandPerDag) ? fakta?.fergekostandPerDag : ''
+                            harTallverdi(fakta?.fergekostandEnVei) ? fakta?.fergekostandEnVei : ''
                         }
                         onChange={(e) => {
                             oppdaterFakta(
-                                'fergekostandPerDag',
+                                'fergekostandEnVei',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
