@@ -8,6 +8,7 @@ import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBoutgifter } from '../../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
+import { AktivitetDagligReiseTsr } from '../../typer/vilkårperiode/aktivitetDagligReiseTsr';
 import {
     AktivitetLæremidler,
     studienivåTilTekst,
@@ -33,6 +34,10 @@ export const FaktaOgDelvilkårVisning: React.FC<{
         case Stønadstype.DAGLIG_REISE_TSO:
             return (
                 <FaktaOgDelvilkårDagligReiseTso aktivitet={aktivitet as AktivitetDagligReiseTso} />
+            );
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return (
+                <FaktaOgDelvilkårDagligReiseTsr aktivitet={aktivitet as AktivitetDagligReiseTsr} />
             );
     }
 };
@@ -96,4 +101,12 @@ const FaktaOgDelvilkårDagligReiseTso: React.FC<{
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
         </>
     );
+};
+
+const FaktaOgDelvilkårDagligReiseTsr: React.FC<{
+    aktivitet: AktivitetDagligReiseTsr;
+}> = ({ aktivitet }) => {
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+
+    return <>{svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}</>;
 };

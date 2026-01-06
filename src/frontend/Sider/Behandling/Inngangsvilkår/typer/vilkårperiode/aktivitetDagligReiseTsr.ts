@@ -1,4 +1,4 @@
-import { VilkårPeriodeAktivitet } from './vilkårperiode';
+import { SvarJaNei, VilkårPeriodeAktivitet, Vurdering } from './vilkårperiode';
 import { Kodeverk } from '../../../../../typer/kodeverk';
 
 export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
@@ -9,8 +9,10 @@ export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
 
 export interface AktivitetDagligReiseTsrFaktaOgVurderinger {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR';
+    harUtgifter: Vurdering | undefined;
 }
 
 export interface AktivitetDagligReiseTsrFaktaOgSvar {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR';
+    svarHarUtgifter: SvarJaNei | undefined;
 }

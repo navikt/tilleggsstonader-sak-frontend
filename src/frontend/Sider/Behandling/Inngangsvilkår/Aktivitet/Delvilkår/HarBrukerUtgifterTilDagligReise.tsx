@@ -4,19 +4,15 @@ import { BodyShort, List } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import { EndreAktivitetFormDagligReiseTso } from '../EndreAktivitetDagligReiseTso';
-import { erUtdanningEllerTiltak } from '../utilsLæremidler';
 
 export const HarBrukerUtgifterTilDagligReise: React.FC<{
-    aktivitetForm: EndreAktivitetFormDagligReiseTso;
+    svarHarUtgifter: SvarJaNei | undefined;
     oppdaterSvar: (nyttSvar: SvarJaNei) => void;
-}> = ({ aktivitetForm, oppdaterSvar }) => {
-    if (!erUtdanningEllerTiltak(aktivitetForm.type)) return null;
-
+}> = ({ svarHarUtgifter, oppdaterSvar }) => {
     return (
         <JaNeiVurdering
             label="Har bruker nødvendige utgifter til daglig reise?"
-            svar={aktivitetForm.svarHarUtgifter}
+            svar={svarHarUtgifter}
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
             }}
