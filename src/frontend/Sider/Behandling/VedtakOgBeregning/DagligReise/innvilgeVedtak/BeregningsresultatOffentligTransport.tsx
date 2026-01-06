@@ -13,7 +13,7 @@ interface Props {
     beregningsresultat: BeregningsresultatDagligReise;
 }
 
-export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningsresultatOffentligTransport: FC<Props> = ({ beregningsresultat }) => {
     const [visTidligerePerioder, setVisTidligerePerioder] = useState(false);
 
     const harPerioderFraTidligereVedtak = beregningsresultat.offentligTransport?.reiser.some(

@@ -48,6 +48,7 @@ export type OpphørDagligReise = OpphørRequest & {
 
 export interface BeregningsresultatDagligReise {
     offentligTransport?: BeregningsresultatOffentligTransport;
+    privatBil?: BeregningsresultatPrivatBil;
     tidligsteEndring: string | undefined;
 }
 
@@ -77,4 +78,40 @@ interface BeregningsresultatForPeriode {
     billettdetaljer: Billettdetaljer;
     antallReisedager: number;
     fraTidligereVedtak: boolean;
+}
+
+export interface BeregningsresultatPrivatBil {
+    reiser: BeregningsresultatForReiseMedPrivatBil[];
+}
+
+interface BeregningsresultatForReiseMedPrivatBil {
+    uker: BeregningsresultatForUke[];
+    grunnlag: BeregningsgrunnlagForReiseMedPrivatBil;
+}
+
+interface BeregningsresultatForUke {
+    grunnlag: BeregningsgrunnlagForUke;
+    stønadsbeløp: number;
+}
+
+interface BeregningsgrunnlagForUke {
+    fom: string; // mandag eller begrenset av reiseperioden
+    tom: string; // søndag eller fredag?
+    //kjøreliste?: GrunnlagKjøreliste,
+    antallDagerDenneUkaSomKanDekkes: number;
+    antallDagerInkludererHelg: boolean;
+}
+
+interface BeregningsgrunnlagForReiseMedPrivatBil {
+    fom: string;
+    tom: string;
+    reisedagerPerUke: number;
+    reiseavstandEnVei: number;
+    kilometersats: number;
+    ekstrakostnader: Ekstrakostnader;
+}
+
+interface Ekstrakostnader {
+    bompengerEnVei?: number;
+    fergekostnadEnVei?: number;
 }
