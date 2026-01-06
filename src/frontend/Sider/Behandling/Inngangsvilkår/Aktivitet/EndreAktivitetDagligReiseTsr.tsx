@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
 
+import { AktivitetDelvilkårDagligReiseTsr } from './Delvilkår/AktivitetDelvilkårDagligReiseTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import styles from './EndreAktivitetDagligReiseTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
@@ -31,6 +32,7 @@ import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -38,6 +40,7 @@ import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 export interface EndreAktivitetFormDagligReiseTsr extends Periode {
     type: AktivitetType | '';
     typeAktivitet?: Kodeverk;
+    svarHarUtgifter: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -104,7 +107,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         const response = lagreVilkårperiode<Aktivitet>(
             behandling.id,
             form,
-            mapFaktaOgSvarTilRequest(),
+            mapFaktaOgSvarTilRequest(form),
             aktivitet?.id
         );
 
@@ -178,6 +181,13 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
+
+            <AktivitetDelvilkårDagligReiseTsr
+                aktivitetForm={form}
+                oppdaterHarUtgifter={(svar) =>
+                    settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
+                }
+            />
 
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}

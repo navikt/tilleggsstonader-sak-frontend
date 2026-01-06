@@ -5,7 +5,7 @@ import { VStack } from '@navikt/ds-react';
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
 import { EndreAktivitetFormDagligReiseTso } from '../EndreAktivitetDagligReiseTso';
-import { skalVurdereLønnet } from '../utilsDagligReiseTso';
+import { erUtdanningEllerTiltak, skalVurdereLønnet } from '../utilsDagligReiseTso';
 import { HarBrukerUtgifterTilDagligReise } from './HarBrukerUtgifterTilDagligReise';
 
 export const AktivitetDelvilkårDagligReiseTso: React.FC<{
@@ -24,10 +24,12 @@ export const AktivitetDelvilkårDagligReiseTso: React.FC<{
                 svar={aktivitetForm.svarLønnet}
                 oppdaterSvar={oppdaterLønnet}
             />
-            <HarBrukerUtgifterTilDagligReise
-                aktivitetForm={aktivitetForm}
-                oppdaterSvar={oppdaterHarUtgifter}
-            />
+            {erUtdanningEllerTiltak(aktivitetForm.type) && (
+                <HarBrukerUtgifterTilDagligReise
+                    svarHarUtgifter={aktivitetForm.svarHarUtgifter}
+                    oppdaterSvar={oppdaterHarUtgifter}
+                />
+            )}
         </VStack>
     );
 };
