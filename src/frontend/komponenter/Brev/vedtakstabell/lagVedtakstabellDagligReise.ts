@@ -1,5 +1,8 @@
 import { BillettType } from '../../../typer/behandling/behandlingFakta/faktaReise';
-import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
+import {
+    BeregningsresultatDagligReise,
+    BeregningsresultatForPeriode,
+} from '../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
 
@@ -60,12 +63,8 @@ function visBillettInfo(antall: number | undefined, pris: number | undefined): s
     return `${antall} x ${pris} kr`;
 }
 
-type BeregningsresultatPeriode = NonNullable<
-    BeregningsresultatDagligReise['offentligTransport']
->['reiser'][0]['perioder'][0];
-
 function lagRaderForReise(
-    perioder: BeregningsresultatPeriode[],
+    perioder: BeregningsresultatForPeriode[],
     kolonner?: { har30Dager: boolean; har7Dager: boolean; harEnkelt: boolean }
 ): string {
     return perioder

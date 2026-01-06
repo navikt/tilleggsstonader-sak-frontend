@@ -34,11 +34,6 @@ export type BeregnDagligReiseRequest = {
     vedtaksperioder: Vedtaksperiode[];
 };
 
-interface BeregningsresultatForPeriode {
-    fom: string;
-    tom: string;
-}
-
 export type AvslagDagligReise = AvslagRequest;
 
 export type OpphørDagligReise = OpphørRequest & {
@@ -66,7 +61,7 @@ interface BeregningsresultatForReise {
     perioder: BeregningsresultatForPeriode[];
 }
 
-interface BeregningsresultatForPeriode {
+export interface BeregningsresultatForPeriode {
     fom: string;
     tom: string;
     prisEnkeltbillett?: number;
