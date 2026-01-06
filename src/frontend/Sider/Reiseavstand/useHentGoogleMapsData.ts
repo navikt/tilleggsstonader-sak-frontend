@@ -60,7 +60,7 @@ export const useHentGoogleMapsData = () => {
                 return [];
             }
             const res = await request<ForslagResponse, ForslagRequest>(
-                `/api/sak/kart/autocomplete`,
+                `/api/kart/autocomplete`,
                 'POST',
                 {
                     input: input,
