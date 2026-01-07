@@ -4,6 +4,7 @@ import session from 'express-session';
 import * as oauth from 'oauth4webapi';
 import * as client from 'openid-client';
 import { TokenEndpointResponseHelpers } from 'openid-client';
+import { csrf } from 'lusca';
 
 import { getConfig } from './client';
 import logger from '../logger';
@@ -23,6 +24,7 @@ export const setupLocalAuth = async (app: Express) => {
             secret: 'DUMMY_SECRET',
         })
     );
+    app.use(csrf());
 
     const config = await getConfig();
 
