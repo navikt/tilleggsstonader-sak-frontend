@@ -56,9 +56,9 @@ export const formaterIsoPeriodeMedTankestrek = (periode: Periode) => {
     return `${formaterIsoDato(periode.fom)}${TANKESTREKK}${formaterIsoDato(periode.tom)}`;
 };
 
-// Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18. september 2023 - 18. oktober 2023'
-export const formaterTektligIsoPeriode = (fom: string, tom: string): string => {
-    return formaterTilTekstligDato(fom) + ' - ' + formaterTilTekstligDato(tom);
+// Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18. september 2023 til 18. oktober 2023'
+export const formaterTekstligIsoPeriode = (fom: string, tom: string): string => {
+    return formaterTilTekstligDato(fom) + ' til ' + formaterTilTekstligDato(tom);
 };
 
 // Eksempel: formaterIsoPeriode('2023-09-18', '2023-10-18') -> '18.09.2023 - 18.10.2023'
