@@ -1,10 +1,10 @@
 import cookieParser from 'cookie-parser';
 import { Express, NextFunction, Request, Response } from 'express';
 import session from 'express-session';
+import { csrf } from 'lusca';
 import * as oauth from 'oauth4webapi';
 import * as client from 'openid-client';
 import { TokenEndpointResponseHelpers } from 'openid-client';
-import { csrf } from 'lusca';
 
 import { getConfig } from './client';
 import logger from '../logger';
