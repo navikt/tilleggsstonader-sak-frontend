@@ -5,6 +5,7 @@ import { VStack } from '@navikt/ds-react';
 
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import {
     useVilkårDagligReise,
     VilkårDagligReiseProvider,
@@ -20,6 +21,15 @@ import { FanePath } from '../../faner';
 export const StønadsvilkårDagligReise = () => {
     const { regelStruktur } = useRegelstruktur();
     const { eksisterendeVilkår } = useHentVilkårDagligReise();
+    const { behandling } = useBehandling();
+
+    const nesteFane = () => {
+        if (behandling.type === 'FØRSTEGANGSBEHANDLING') {
+            return FanePath.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL;
+        } else {
+            return FanePath.VEDTAK_OG_BEREGNING;
+        }
+    };
 
     return (
         <VStack gap="4">
@@ -33,7 +43,7 @@ export const StønadsvilkårDagligReise = () => {
                     </VilkårDagligReiseProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+            <StegKnapp steg={Steg.VILKÅR} nesteFane={nesteFane()}>
                 Fullfør vilkårsvurdering og gå videre
             </StegKnapp>
         </VStack>

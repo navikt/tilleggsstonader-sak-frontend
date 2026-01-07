@@ -3,6 +3,7 @@ import React from 'react';
 import {
     BriefcaseIcon,
     CalculatorIcon,
+    CarIcon,
     EnvelopeClosedIcon,
     HouseHeartIcon,
     PersonRectangleIcon,
@@ -18,11 +19,13 @@ import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/Vedtak
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
+import { StegKnapp } from '../../komponenter/Stegflyt/StegKnapp';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
+import { RammevedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/RammevedtakOgBeregningDagligReise';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
@@ -34,6 +37,8 @@ export type FanerMedRouter = {
 
 export enum FaneNavn {
     INNGANGSVILKÅR = 'Inngangsvilkår',
+    BEREGNE_RAMMEVEDTAK_PRIVAT_BIL = 'Rammevedtak og beregning - privat bil',
+    KJORELISTE = 'Kjøreliste',
     VEDTAK_OG_BEREGNING = 'Vedtak og beregning',
     SIMULERING = 'Simulering',
     BREV = 'Vedtaksbrev',
@@ -59,6 +64,8 @@ export const faneNavnStønadsvilkår: Record<
 export enum FanePath {
     INNGANGSVILKÅR = 'inngangsvilkar',
     STØNADSVILKÅR = 'stonadsvilkar',
+    BEREGNE_RAMMEVEDTAK_PRIVAT_BIL = 'beregne-rammevedtak-privat-bil',
+    KJORELISTE = 'kjoreliste',
     VEDTAK_OG_BEREGNING = 'vedtak-og-beregning',
     SIMULERING = 'simulering',
     BREV = 'brev',
@@ -67,6 +74,8 @@ export enum FanePath {
 export const faneTilSteg: Record<FanePath, Steg> = {
     inngangsvilkar: Steg.INNGANGSVILKÅR,
     stonadsvilkar: Steg.VILKÅR,
+    'beregne-rammevedtak-privat-bil': Steg.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL,
+    kjoreliste: Steg.KJORELISTE,
     'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
     simulering: Steg.SIMULERING,
     brev: Steg.SEND_TIL_BESLUTTER,
@@ -76,6 +85,8 @@ export const isFanePath = (path: string): path is FanePath => {
     switch (path) {
         case FanePath.INNGANGSVILKÅR:
         case FanePath.STØNADSVILKÅR:
+        case FanePath.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL:
+        case FanePath.KJORELISTE:
         case FanePath.VEDTAK_OG_BEREGNING:
         case FanePath.SIMULERING:
         case FanePath.BREV:
@@ -194,6 +205,26 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
             ikon: <PersonRectangleIcon />,
         },
         ...stønadsvilkårFane(behandling),
+        {
+            navn: FaneNavn.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL,
+            path: FanePath.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL,
+            komponent: () => <RammevedtakOgBeregningDagligReise />,
+            ikon: <CalculatorIcon />,
+        },
+        {
+            navn: FaneNavn.KJORELISTE,
+            path: FanePath.KJORELISTE,
+            komponent: () => (
+                <div>
+                    <h3>Kjoreliste</h3>
+                    <p>Her kommer det en oversikt over innsendte kjørelister som kan behandles</p>
+                    <StegKnapp steg={Steg.KJORELISTE} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
+                        Fullfør vilkårsvurdering og gå videre
+                    </StegKnapp>
+                </div>
+            ),
+            ikon: <CarIcon />,
+        },
         {
             navn: FaneNavn.VEDTAK_OG_BEREGNING,
             path: FanePath.VEDTAK_OG_BEREGNING,
