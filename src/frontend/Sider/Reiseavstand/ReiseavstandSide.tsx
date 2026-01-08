@@ -4,7 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
 
-import { EmbeddedKart } from './EmbeddedKart';
+import { Kart } from './Kart';
 import { Reiseavstand } from './Reiseavstand';
 import { ReiseavstandForm } from './ReiseavstandForm';
 import styles from './ReiseavstandSide.module.css';
@@ -82,7 +82,7 @@ export const ReiseavstandSide: React.FC = () => {
                     <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
                         {({ kjøreavstandResponse }) =>
                             brukDynamiskKart ? (
-                                <EmbeddedKart kjøreavstandResponse={kjøreavstandResponse} />
+                                <Kart kjøreavstandResponse={kjøreavstandResponse} />
                             ) : (
                                 <StatiskKart
                                     kjøreavstandResponse={kjøreavstandResponse}

@@ -11,6 +11,7 @@ import { embeddedMapHandler } from './embeddedMap';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
+import { tilesHandler } from './tiles';
 import { attachUnleashAuthToken } from './toggle';
 import { setupWebpackDevMiddleware } from './webpack/webpack-dev-middleware';
 
@@ -38,8 +39,8 @@ app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 
 app.use(
     RateLimit({
-        windowMs: 60 * 1000, // 60 seconds
-        limit: 240, // limit to 120 requests per windowMs
+        windowMs: 5 * 1000, // 5 seconds
+        limit: 1000, // limit to 1000 requests per windowMs
         keyGenerator: (req) => getTokenFromHeader(req) || 'unauthorized',
     })
 );
@@ -58,6 +59,7 @@ app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
 app.get('/api/kart/embedded-map', addRequestInfo(), validateToken(true), embeddedMapHandler);
 app.post('/api/kart/autocomplete', addRequestInfo(), validateToken(true), autocompleteHandler);
+app.get('/api/kart/tiles/:z/:x/:y', addRequestInfo(), validateToken(true), tilesHandler);
 
 app.use(
     '/api/sak',
