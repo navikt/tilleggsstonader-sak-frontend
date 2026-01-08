@@ -39,7 +39,10 @@ const developmentConfig = {
         rules: [
             {
                 test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
-                use: [`file-loader`],
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/[name].[contenthash][ext]',
+                },
             },
             {
                 // Match `.js`, `.jsx`, `.ts` or `.tsx` files
