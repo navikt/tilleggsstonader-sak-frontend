@@ -3249,10 +3249,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^4.21.1:
-  version "4.21.1"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-4.21.1.tgz#6a4cf2348ca5d8bb9cd58917f3031a911ff31659"
-  integrity sha512-9+4WEkxsOYTJFzXp3JT3gD2cgQIqI+whs/rYfxoUI4WDE3lIugtFiKmX1WMQhTvddOCx8rnOyXbDwiBVGMWmwg==
+groq@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-5.1.0.tgz#29208c8d7facb79e3cf5af842e14abd4bb5337e0"
+  integrity sha512-ayFz6MxyEPBi16z0jrM/gUSUAXaTqiwEMRCGpkUSAdrcfVVR4GcfD8+kSe36zZvXEC9h3xvPDtIopF/T/5AhTA==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
