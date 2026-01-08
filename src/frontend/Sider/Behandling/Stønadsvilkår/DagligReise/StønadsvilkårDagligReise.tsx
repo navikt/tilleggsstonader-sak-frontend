@@ -25,7 +25,7 @@ export const StønadsvilkårDagligReise = () => {
 
     const nesteFane = () => {
         if (behandling.type === 'FØRSTEGANGSBEHANDLING') {
-            return FanePath.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL;
+            return FanePath.VEDTAK;
         } else {
             return FanePath.VEDTAK_OG_BEREGNING;
         }

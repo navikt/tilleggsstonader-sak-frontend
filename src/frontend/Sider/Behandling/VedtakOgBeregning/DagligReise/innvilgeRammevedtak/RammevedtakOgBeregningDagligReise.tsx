@@ -5,8 +5,6 @@ import { HGrid } from '@navikt/ds-react';
 import { useVedtak } from '../../../../../hooks/useVedtak';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
-import { Steg } from '../../../../../typer/behandling/steg';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
@@ -15,11 +13,10 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../../typer/vedtak/vedtakDagligReise';
-import { FanePath } from '../../../faner';
 import AvslåVedtak from '../../Felles/AvslåVedtak';
 import OpphørVedtak from '../../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../../Felles/VelgVedtakResultat';
-import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from '../innvilgeVedtak/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
+import { InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling } from '../innvilgeVedtak/InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling';
 import styles from '../VedtakOgBeregningDagligReise.module.css';
 
 export const RammevedtakOgBeregningDagligReise: FC = () => {
@@ -57,16 +54,13 @@ export const RammevedtakOgBeregningDagligReise: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling
+                            <InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         )}
                     </div>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.BEREGNE_RAMMEVEDTAK_PRIVAT_BIL} nesteFane={FanePath.KJORELISTE}>
-                Fullfør beregning av rammevedtaket og gå videre
-            </StegKnapp>
         </>
     );
 };
