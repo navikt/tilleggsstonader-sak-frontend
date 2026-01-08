@@ -37,6 +37,7 @@ export const Kart: React.FC<{
     return (
         <MapContainer
             bounds={bounds}
+            boundsOptions={{ padding: [20, 20] }}
             scrollWheelZoom={true}
             className={styles.container}
             attributionControl={false}
