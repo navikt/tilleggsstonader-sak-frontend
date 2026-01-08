@@ -3,6 +3,7 @@ import React from 'react';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { nullableTilDato, tilDato } from '../../../../utils/dato';
@@ -35,7 +36,7 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
     lagreVedtak: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     tidligsteEndring: string | undefined;
 }) => {
-    const { behandlingFakta } = useBehandling();
+    const { behandling, behandlingFakta } = useBehandling();
 
     const harVedtaksperioderFørVedtakIArena = finnHarVedtaksperioderFørVedtakIArena(
         behandlingFakta,
@@ -43,10 +44,22 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
         tidligsteEndring
     );
 
+    const steg =
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR
+            ? Steg.VEDTAK
+            : Steg.BEREGNE_YTELSE;
+
+    const nesteFane =
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR
+            ? FanePath.KJØRELISTE
+            : FanePath.SIMULERING;
+
     return (
         <StegKnapp
-            steg={Steg.BEREGNE_YTELSE}
-            nesteFane={FanePath.SIMULERING}
+            steg={steg}
+            nesteFane={nesteFane}
             onNesteSteg={lagreVedtak}
             validerUlagedeKomponenter={false}
             bekreftelseModalProps={
