@@ -42,7 +42,7 @@ export const Kart: React.FC<{
             className={styles.container}
             attributionControl={false}
             minZoom={5}
-            maxZoom={15}
+            maxZoom={18}
         >
             <TileLayer url="/api/kart/tiles/{z}/{x}/{y}" />
             <Marker
