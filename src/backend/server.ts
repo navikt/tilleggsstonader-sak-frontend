@@ -8,6 +8,7 @@ import { getProfile } from './auth/profile';
 import { attachToken, getTokenFromHeader, validateToken } from './auth/token';
 import { autocompleteHandler } from './autocomplete';
 import { embeddedMapHandler } from './embeddedMap';
+import { kartverketTilesHandler } from './kartverket-tiles';
 import logger from './logger';
 import { ApplicationName, miljø } from './miljø';
 import { addRequestInfo, doProxy } from './proxy';
@@ -59,7 +60,18 @@ app.use('/api/profile', addRequestInfo(), validateToken(), getProfile());
 
 app.get('/api/kart/embedded-map', addRequestInfo(), validateToken(true), embeddedMapHandler);
 app.post('/api/kart/autocomplete', addRequestInfo(), validateToken(true), autocompleteHandler);
-app.get('/api/kart/tiles/:z/:x/:y', addRequestInfo(), validateToken(true), tilesHandler);
+app.get(
+    '/api/kartverket-tiles/:z/:x/:y',
+    addRequestInfo(),
+    validateToken(true),
+    kartverketTilesHandler
+);
+app.get(
+    '/api/kart/google-maps-tiles/:z/:x/:y',
+    addRequestInfo(),
+    validateToken(true),
+    tilesHandler
+);
 
 app.use(
     '/api/sak',
