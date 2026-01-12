@@ -3,6 +3,8 @@ import { Behandling } from './behandling';
 export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VILKÅR = 'VILKÅR',
+    VEDTAK = 'VEDTAK',
+    KJØRELISTE = 'KJØRELISTE',
     BEREGNE_YTELSE = 'BEREGNE_YTELSE',
     SIMULERING = 'SIMULERING',
     SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
@@ -26,5 +28,10 @@ export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
     rekkefølgeSteg[steg] > rekkefølgeSteg[annetSteg];
 
 export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
-    [Steg.BEREGNE_YTELSE, Steg.SIMULERING, Steg.SEND_TIL_BESLUTTER].includes(faneSteg) &&
-    stegErEtterAnnetSteg(faneSteg, behandling.steg);
+    [
+        Steg.VEDTAK,
+        Steg.KJØRELISTE,
+        Steg.BEREGNE_YTELSE,
+        Steg.SIMULERING,
+        Steg.SEND_TIL_BESLUTTER,
+    ].includes(faneSteg) && stegErEtterAnnetSteg(faneSteg, behandling.steg);
