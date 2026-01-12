@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
+import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,
@@ -8,7 +9,6 @@ import {
 } from '../../typer/faktaDagligReise';
 import { TypeVilkårFakta } from '../../typer/regelstrukturDagligReise';
 import { FeilmeldingerDagligReise } from '../validering';
-import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
 
 export const EndreFaktaDagligReise: React.FC<{
     gjeldendeFaktaType: TypeVilkårFakta | undefined;

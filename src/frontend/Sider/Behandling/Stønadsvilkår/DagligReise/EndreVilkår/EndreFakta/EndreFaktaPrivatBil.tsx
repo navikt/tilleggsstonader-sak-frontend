@@ -1,9 +1,12 @@
 import React from 'react';
 
-import { HStack, TextField, VStack } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { BodyShort, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
+import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import { FaktaDagligReise, FaktaPrivatBil } from '../../typer/faktaDagligReise';
 import { tomtPrivatBil } from '../utils';
@@ -20,6 +23,16 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     settFakta,
     nullstillFeilOgUlagretkomponent,
 }) => {
+    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
+
+    if (!kanBehandlePrivatBil) {
+        return (
+            <BodyShort size="small">
+                Vi jobber med å gjøre det mulig å behandle kjøring med privat bil 🚗.
+            </BodyShort>
+        );
+    }
+
     const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | undefined) => {
         settFakta((prevState) => ({
             ...(prevState ?? tomtPrivatBil),
