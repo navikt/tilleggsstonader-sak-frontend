@@ -1,5 +1,7 @@
 import React, { useId, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { HStack } from '@navikt/ds-react';
 
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
@@ -19,6 +21,7 @@ import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInpu
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
+import { Toggle } from '../../../../../utils/toggles';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
@@ -40,6 +43,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { regelstruktur } = useVilkårDagligReise();
     const komponentId = useId();
+    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
@@ -178,7 +182,14 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
 
                 <HStack justify="space-between">
                     <HStack gap="4">
-                        <SmallButton>Lagre</SmallButton>
+                        <SmallButton
+                            disabled={
+                                !kanBehandlePrivatBil &&
+                                gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL'
+                            }
+                        >
+                            Lagre
+                        </SmallButton>
                         <SmallButton variant="secondary" onClick={handleAvsluttRedigering}>
                             Avbryt
                         </SmallButton>
