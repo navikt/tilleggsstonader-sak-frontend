@@ -1,30 +1,41 @@
 import React from 'react';
 
-import { Alert, HStack, TextField, VStack } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { BodyShort, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
+import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
-import { tomtOffentligTransport } from '../utils';
-import { FeilmeldingerFaktaOffentligTransport } from '../validering';
+import { FaktaDagligReise, FaktaPrivatBil } from '../../typer/faktaDagligReise';
+import { tomtPrivatBil } from '../utils';
 
 interface Props {
-    fakta: FaktaOffentligTransport | undefined;
-    feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
+    fakta: FaktaPrivatBil | undefined;
+    //feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
     nullstillFeilOgUlagretkomponent: () => void;
 }
 
-export const EndreFaktaOffentligTransport: React.FC<Props> = ({
+export const EndreFaktaPrivatBil: React.FC<Props> = ({
     fakta,
     settFakta,
     nullstillFeilOgUlagretkomponent,
-    feilmeldinger,
 }) => {
-    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
+    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
+
+    if (!kanBehandlePrivatBil) {
+        return (
+            <BodyShort size="small">
+                Vi jobber med å gjøre det mulig å behandle kjøring med privat bil 🚗.
+            </BodyShort>
+        );
+    }
+
+    const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState ?? tomtOffentligTransport),
+            ...(prevState ?? tomtPrivatBil),
             [key]: verdi,
         }));
 
@@ -38,7 +49,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                     <TextField
                         label={'Reisedager pr uke'}
                         size="small"
-                        error={feilmeldinger?.reisedagerPerUke}
+                        //error={feilmeldinger?.reisedagerPerUke}
                         value={harTallverdi(fakta?.reisedagerPerUke) ? fakta?.reisedagerPerUke : ''}
                         onChange={(e) => {
                             oppdaterFakta(
@@ -50,13 +61,15 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Pris enkeltbillett'}
+                        label={'Reiseavstand en vei (km)'}
                         size="small"
-                        error={feilmeldinger?.enkeltbillett}
-                        value={harTallverdi(fakta?.prisEnkelbillett) ? fakta.prisEnkelbillett : ''}
+                        //error={feilmeldinger?.enkeltbillett}
+                        value={
+                            harTallverdi(fakta?.reiseavstandEnVei) ? fakta?.reiseavstandEnVei : ''
+                        }
                         onChange={(e) => {
                             oppdaterFakta(
-                                'prisEnkelbillett',
+                                'reiseavstandEnVei',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
@@ -64,17 +77,13 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Pris 7-dagersbillett'}
+                        label={'Bompenger en vei'}
                         size="small"
-                        error={feilmeldinger?.syvdagersbillett}
-                        value={
-                            harTallverdi(fakta?.prisSyvdagersbillett)
-                                ? fakta?.prisSyvdagersbillett
-                                : ''
-                        }
+                        //error={feilmeldinger?.syvdagersbillett}
+                        value={harTallverdi(fakta?.bompengerEnVei) ? fakta?.bompengerEnVei : ''}
                         onChange={(e) => {
                             oppdaterFakta(
-                                'prisSyvdagersbillett',
+                                'bompengerEnVei',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
@@ -82,28 +91,21 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Pris 30-dagersbillett'}
+                        label={'Fergekostnad en vei'}
                         size="small"
-                        error={feilmeldinger?.trettidagersbillett}
+                        //error={feilmeldinger?.trettidagersbillett}
                         value={
-                            harTallverdi(fakta?.prisTrettidagersbillett)
-                                ? fakta?.prisTrettidagersbillett
-                                : ''
+                            harTallverdi(fakta?.fergekostandEnVei) ? fakta?.fergekostandEnVei : ''
                         }
                         onChange={(e) => {
                             oppdaterFakta(
-                                'prisTrettidagersbillett',
+                                'fergekostandEnVei',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
-            {feilmeldinger?.felles && (
-                <Alert variant="error" size="small">
-                    {feilmeldinger.felles}
-                </Alert>
-            )}
         </VStack>
     );
 };
