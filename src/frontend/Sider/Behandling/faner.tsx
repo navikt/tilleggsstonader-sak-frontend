@@ -17,15 +17,15 @@ import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/Støna
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
+import { KjørelisteDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/KjørelisteDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
-import { StegKnapp } from '../../komponenter/Stegflyt/StegKnapp';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
-import { RammevedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/RammevedtakOgBeregningDagligReise';
+import { VedtakgDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/VedtakgDagligReise';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
@@ -243,21 +243,13 @@ const vedtakOgBeregningFanerDagligReise = (behandling: Behandling): FanerMedRout
     {
         navn: FaneNavn.VEDTAK,
         path: FanePath.VEDTAK,
-        komponent: () => <RammevedtakOgBeregningDagligReise />,
+        komponent: () => <VedtakgDagligReise />,
         ikon: <CalculatorIcon />,
     },
     {
         navn: FaneNavn.KJØRELISTE,
         path: FanePath.KJØRELISTE,
-        komponent: () => (
-            <div>
-                <h3>Kjoreliste</h3>
-                <p>Her kommer det en oversikt over innsendte kjørelister som kan behandles</p>
-                <StegKnapp steg={Steg.KJØRELISTE} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                    Fullfør vilkårsvurdering og gå videre
-                </StegKnapp>
-            </div>
-        ),
+        komponent: () => <KjørelisteDagligReise />,
         ikon: <CarIcon />,
     },
     {

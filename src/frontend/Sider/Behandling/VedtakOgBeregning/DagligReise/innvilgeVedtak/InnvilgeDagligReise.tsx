@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { BeregningsresultatOffentligTransport } from './BeregningsresultatOffentligTransport';
-import { BeregningsresultatPrivatBil } from './BeregningsresultatPrivatBil';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -140,9 +139,6 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                                     <BeregningsresultatOffentligTransport
                                         beregningsresultat={beregningsresultat}
                                     />
-                                    <BeregningsresultatPrivatBil
-                                        beregningsresultat={beregningsresultat}
-                                    />
                                 </>
                             )}
                         </DataViewer>
@@ -150,9 +146,6 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                     {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
                         <>
                             <BeregningsresultatOffentligTransport
-                                beregningsresultat={lagretVedtak.beregningsresultat}
-                            />
-                            <BeregningsresultatPrivatBil
                                 beregningsresultat={lagretVedtak.beregningsresultat}
                             />
                         </>

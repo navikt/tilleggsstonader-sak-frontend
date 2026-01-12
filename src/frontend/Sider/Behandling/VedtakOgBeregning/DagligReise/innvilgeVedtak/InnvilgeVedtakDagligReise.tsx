@@ -60,7 +60,7 @@ export const InnvilgeVedtakDagligReise: React.FC<Props> = ({
 
     return (
         <>
-            <Panel tittel="Beregning og vedtaksperiode">
+            <Panel tittel="Vedtaksperiode">
                 <VStack gap={'8'}>
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { ClockDashedIcon } from '@navikt/aksel-icons';
-import { Heading, HStack, Label, Switch, Table, Tooltip } from '@navikt/ds-react';
+import { HStack, Label, Switch, Table, Tooltip } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
@@ -23,9 +23,6 @@ export const BeregningsresultatOffentligTransport: FC<Props> = ({ beregningsresu
     return (
         <div>
             <HStack justify="space-between">
-                <Heading spacing size="xsmall" level="4">
-                    Beregningsresultat
-                </Heading>
                 {harPerioderFraTidligereVedtak && (
                     <Switch
                         position="left"
