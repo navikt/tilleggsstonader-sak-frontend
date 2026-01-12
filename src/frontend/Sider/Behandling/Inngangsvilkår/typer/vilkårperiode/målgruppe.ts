@@ -24,6 +24,7 @@ export enum MålgruppeType {
     DAGPENGER = 'DAGPENGER',
     KVALIFISERINGSSTØNAD = 'KVALIFISERINGSSTØNAD',
     TILTAKSPENGER = 'TILTAKSPENGER',
+    INNSATT_I_FENGSEL = 'INNSATT_I_FENGSEL',
 }
 
 export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
@@ -38,6 +39,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     DAGPENGER: 'Dagpenger',
     KVALIFISERINGSSTØNAD: 'Kvalifiseringsstønad',
     TILTAKSPENGER: 'Tiltakspenger',
+    INNSATT_I_FENGSEL: 'Innsatt i fengsel',
 };
 
 const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
@@ -53,6 +55,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         DAGPENGER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
     },
     [Stønadstype.LÆREMIDLER]: {
         AAP: true,
@@ -66,6 +69,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         DAGPENGER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
     },
     [Stønadstype.BOUTGIFTER]: {
         AAP: true,
@@ -79,6 +83,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         DAGPENGER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
         AAP: true,
@@ -92,12 +97,14 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         DAGPENGER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
     },
 
     [Stønadstype.DAGLIG_REISE_TSR]: {
         DAGPENGER: true,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,
+        INNSATT_I_FENGSEL: true,
         INGEN_MÅLGRUPPE: true,
         AAP: false,
         UFØRETRYGD: false,

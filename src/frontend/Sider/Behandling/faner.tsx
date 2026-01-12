@@ -9,7 +9,7 @@ import {
     PersonRectangleIcon,
 } from '@navikt/aksel-icons';
 
-import Brev from './Brev/Brev';
+import { Brev } from './Brev/Brev';
 import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { Simulering } from './Simulering/Simulering';

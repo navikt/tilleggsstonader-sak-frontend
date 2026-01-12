@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
-import { Brevmal, MalStruktur, BrevmalResultat } from './typer';
+import { Brevmal, BrevmalResultat, MalStruktur } from './typer';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     byggRessursFeilet,
@@ -12,7 +12,7 @@ import {
 } from '../../typer/ressurs';
 import { erProd } from '../../utils/miljø';
 
-const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
+function stønadstypeTilSanityYtelse(ytelse: Stønadstype) {
     switch (ytelse) {
         case Stønadstype.BARNETILSYN:
             return 'BARNETILSYN';
@@ -27,9 +27,9 @@ const stønadstypeTilSanityYtelse = (ytelse: Stønadstype) => {
         default:
             return 'ikke-definiert';
     }
-};
+}
 
-const useBrev = (ytelse: Stønadstype) => {
+export const useBrev = (ytelse: Stønadstype) => {
     const sanityClient = useSanityClient();
 
     const [brevmal, settBrevmal] = useState<string>();
@@ -78,5 +78,3 @@ const useBrev = (ytelse: Stønadstype) => {
         settFil,
     };
 };
-
-export default useBrev;

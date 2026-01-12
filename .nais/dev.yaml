@@ -70,6 +70,7 @@ spec:
           - id: "a2a98575-4ef8-4244-ab3e-2d74de3db5bf" # 0000-GA-ENHET_0387 - NAV Tiltak Oslo (Tiltaksenheten)
   envFrom:
     - secret: tilleggsstonader-sak-frontend-unleash-api-token
+    - secret: google-maps-api-key
   env:
     - name: ENV
       value: preprod

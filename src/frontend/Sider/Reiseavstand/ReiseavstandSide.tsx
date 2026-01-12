@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Alert, BodyLong, Heading, ReadMore, VStack } from '@navikt/ds-react';
+import { Alert, Heading, VStack } from '@navikt/ds-react';
 
-import { EmbeddedKart } from './EmbeddedKart';
+import { Kart } from './Kart';
 import { Reiseavstand } from './Reiseavstand';
 import { ReiseavstandForm } from './ReiseavstandForm';
 import styles from './ReiseavstandSide.module.css';
@@ -39,15 +39,6 @@ export const ReiseavstandSide: React.FC = () => {
             <div className={styles.container}>
                 <VStack gap={'4'} className={styles.venstreKolonne}>
                     <Heading size={'small'}>Beregn reiseavstand</Heading>
-                    <ReadMore header={'Hva kan du gjøre på denne siden?'} size={'small'}>
-                        <BodyLong size={'small'}>
-                            Her kan du sjekke kilometerkravet ved å finne avstanden mellom to
-                            adresser.
-                            <br />
-                            Grønn markør viser start adressen. <br />
-                            Rød markør viser slutt adressen. <br />
-                        </BodyLong>
-                    </ReadMore>
                     <ReiseavstandForm
                         hentKjøreavstand={hentKjøreavstand}
                         hentKollektivDetaljer={hentKollektivDetaljer}
@@ -82,7 +73,7 @@ export const ReiseavstandSide: React.FC = () => {
                     <DataViewer response={{ kjøreavstandResponse }} type={'kartdata'}>
                         {({ kjøreavstandResponse }) =>
                             brukDynamiskKart ? (
-                                <EmbeddedKart kjøreavstandResponse={kjøreavstandResponse} />
+                                <Kart kjøreavstandResponse={kjøreavstandResponse} />
                             ) : (
                                 <StatiskKart
                                     kjøreavstandResponse={kjøreavstandResponse}

@@ -6,19 +6,19 @@ import styles from './FrittståendeBrev.module.css';
 import { useApp } from '../../../context/AppContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useContextBrevmottakereFrittståendeBrev } from '../../../hooks/useBrevmottakere';
-import Brevmeny from '../../../komponenter/Brev/Brevmeny';
+import { Brevmeny } from '../../../komponenter/Brev/Brevmeny';
 import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
 import { BrevmalResultat } from '../../../komponenter/Brev/typer';
-import useBrev from '../../../komponenter/Brev/useBrev';
-import useMellomlagringFrittståendeBrev from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
-import VelgBrevmal from '../../../komponenter/Brev/VelgBrevmal';
-import BrevMottakere from '../../../komponenter/Brevmottakere/BrevMottakere';
+import { useBrev } from '../../../komponenter/Brev/useBrev';
+import { useMellomlagringFrittståendeBrev } from '../../../komponenter/Brev/useMellomlagringFrittståendeBrev';
+import { VelgBrevmal } from '../../../komponenter/Brev/VelgBrevmal';
+import { BrevMottakere } from '../../../komponenter/Brevmottakere/BrevMottakere';
 import DataViewer from '../../../komponenter/DataViewer';
-import PdfVisning from '../../../komponenter/PdfVisning';
+import { PdfVisning } from '../../../komponenter/PdfVisning';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../typer/ressurs';
 
-const FrittståendeBrev: React.FC<{
+export const FrittståendeBrev: React.FC<{
     valgtStønadstype: Stønadstype;
     fagsakId: string;
     settBrevErSendt: () => void;
@@ -56,7 +56,7 @@ const FrittståendeBrev: React.FC<{
         }
     }, [brevmal, hentMalStruktur]);
 
-    const sendBrev = () => {
+    async function sendBrev() {
         if (
             fil.status === RessursStatus.SUKSESS &&
             brevmaler.status === RessursStatus.SUKSESS &&
@@ -65,25 +65,24 @@ const FrittståendeBrev: React.FC<{
             const brevTittel = brevmaler.data.find((bm) => bm._id === brevmal)
                 ?.visningsnavn as string;
 
-            return request<null, { pdf: string; tittel: string }>(
+            const res = await request<null, { pdf: string; tittel: string }>(
                 `/api/sak/frittstaende-brev/send/${fagsakId}`,
                 'POST',
                 {
                     pdf: fil.data,
                     tittel: brevTittel,
                 }
-            ).then((res) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    settBrevErSendt();
-                    return Promise.resolve();
-                } else {
-                    return Promise.reject(res.frontendFeilmelding);
-                }
-            });
+            );
+            if (res.status === RessursStatus.SUKSESS) {
+                settBrevErSendt();
+                return Promise.resolve();
+            } else {
+                return Promise.reject(res.frontendFeilmelding);
+            }
         } else {
             return Promise.resolve();
         }
-    };
+    }
 
     return (
         <DataViewer type={'brevmaler'} response={{ brevmaler }}>
@@ -124,5 +123,3 @@ const FrittståendeBrev: React.FC<{
         </DataViewer>
     );
 };
-
-export default FrittståendeBrev;

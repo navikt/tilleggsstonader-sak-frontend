@@ -14,34 +14,22 @@ Dersom tokenet allerede er generert, finnes det typisk i m2-settings/gradle.prop
 * Starte dev-server `yarn start:dev` (trenger miljøvariabler, se under)
 * Åpne `http://localhost:3000` i nettleseren din
 
-### Client id & client secret
+## Client id & client secret
 
-secret kan hentes fra cluster:
+Secrets kan hentes fra cluster:
 
-1. `gcloud auth login`
-2.
-`kubectl --context dev-gcp -n tilleggsstonader get secret azuread-tilleggsstonader-sak-frontend-lokal -o json | jq '.data | map_values(@base64d)' | grep CLIENT`
+1. `nais auth login`
+2. `kubectl --context dev-gcp -n tilleggsstonader get secret azuread-tilleggsstonader-sak-frontend-lokal -o json | jq '.data | map_values(@base64d)' | grep CLIENT`
+3. `kubectl --context dev-gcp -n tilleggsstonader get secret google-maps-api-key -o json | jq '.data | map_values(@base64d)'`
+4. Legg til en .env-fil i prosjektet med innholdet `AZURE_APP_CLIENT_ID={secret}` , `AZURE_APP_CLIENT_SECRET={secret},` 
+   `GOOGLE_MAPS_EMBEDDED_MAP_API_KEY={secret}` og `GOOGLE_MAPS_PLACES_API_KEY={secret}`
 
-* `AZURE_APP_CLIENT_ID` (fra secret)
-* `AZURE_APP_CLIENT_SECRET` (fra secret)
-
-#### .env
-
-Lag en `.env` fil i `src/backend` og legg inn:
-
-```bash
-AZURE_APP_CLIENT_ID=<clientId>
-AZURE_APP_CLIENT_SECRET=<clientSecret>
-```
-
-#### Unleash
+## Unleash
 
 Lokalt er unleash mocket. Default er at flagg er enabled. Hvis man ønsker å sette de til false gjøres det i
 [unleashMock.ts](./src/frontend/utils/unleashMock.ts)
 
-*
-
-##### Bruke unleash fra lokalt
+### Bruke unleash fra lokalt
 
 Hent token mot unleash
 `kubectl -n tilleggsstonader get secret tilleggsstonader-sak-frontend-unleash-api-token -o json | jq '.data | map_values(@base64d)' | grep TOKEN`
@@ -60,7 +48,7 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '<...>/src/backend/build/auth/t
 
 Løsning: Du trenger Node-versjon 20.
 
-##### App vil ikke starte lokalt
+## App vil ikke starte lokalt
 
 Vanlig grunn til at oppstart feiler er at det har skjedd endringer i node-backenden (backend for frontend), og den må da
 bygges på nytt.

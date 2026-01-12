@@ -24,6 +24,7 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetDagligReiseTsr
 ): EndreAktivitetFormDagligReiseTsr => ({
     ...eksisterendeAktivitet,
+    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
 });
 
 function nyAktivitetFraRegister(
@@ -36,6 +37,7 @@ function nyAktivitetFraRegister(
             aktivitetFraRegister,
             typeAktivitetValg
         ),
+        svarHarUtgifter: undefined,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         kildeId: aktivitetFraRegister.id,
@@ -64,6 +66,7 @@ function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {
     return {
         type: '',
         typeAktivitet: undefined,
+        svarHarUtgifter: undefined,
         fom: '',
         tom: '',
     };
@@ -118,6 +121,9 @@ export const finnBegrunnelseGrunnerAktivitet = (type: AktivitetType | '') => {
     return delvilkårSomMåBegrunnes;
 };
 
-export const mapFaktaOgSvarTilRequest = (): AktivitetDagligReiseTsrFaktaOgSvar => ({
+export const mapFaktaOgSvarTilRequest = (
+    aktivitetForm: EndreAktivitetFormDagligReiseTsr
+): AktivitetDagligReiseTsrFaktaOgSvar => ({
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR',
+    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
 });

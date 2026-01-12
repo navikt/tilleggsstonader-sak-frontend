@@ -24,22 +24,24 @@ interface Props {
     erEndringerIDelmal: boolean;
 }
 
-export const CustomComponets = (
+export function CustomComponents(
     valgfelt: Partial<Record<string, Valg>>,
     variabler: Partial<Record<string, string>>,
     fritekst: Record<string, FritekstAvsnitt[] | undefined>
-) => ({
-    types: {
-        fritekst: (props: { value: Fritekst }) =>
-            FritekstSerializer({ avsnitt: fritekst[props.value.parentId] }),
-        valgfelt: ValgfeltSerializer(valgfelt, variabler, fritekst),
-    },
-    marks: {
-        variabel: VariabelSerializer(variabler),
-    },
-});
+) {
+    return {
+        types: {
+            fritekst: (props: { value: Fritekst }) =>
+                FritekstSerializer({ avsnitt: fritekst[props.value.parentId] }),
+            valgfelt: ValgfeltSerializer(valgfelt, variabler, fritekst),
+        },
+        marks: {
+            variabel: VariabelSerializer(variabler),
+        },
+    };
+}
 
-const Delmal: React.FC<Props> = ({
+export const Delmal: React.FC<Props> = ({
     delmal,
     valgfelt,
     settValgfelt,
@@ -94,5 +96,3 @@ const Delmal: React.FC<Props> = ({
         </div>
     );
 };
-
-export default Delmal;

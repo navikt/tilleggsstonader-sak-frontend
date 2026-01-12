@@ -1,10 +1,10 @@
-import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDebouncedCallback } from 'use-debounce';
 
 import { Brevknapp } from './Brevknapp';
 import styles from './Brevmeny.module.css';
-import Delmal from './Delmal';
+import { Delmal } from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
 import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPerioderPunktliste';
@@ -36,13 +36,12 @@ type Props = {
     | { behandling?: never; vedtak?: never; fagsakId: string }
 );
 
-const oppdaterStateForId =
-    <T,>(
-        id: string,
-        state: Partial<Record<string, Record<string, T>>>,
-        settState: React.Dispatch<SetStateAction<Partial<Record<string, Record<string, T>>>>>
-    ) =>
-    (utledNesteState: React.SetStateAction<Record<string, T>>) => {
+export function oppdaterStateForId<T>(
+    id: string,
+    state: Partial<Record<string, Record<string, T>>>,
+    settState: React.Dispatch<React.SetStateAction<Partial<Record<string, Record<string, T>>>>>
+) {
+    return function (utledNesteState: React.SetStateAction<Record<string, T>>) {
         const prevState = state[id] || {};
         const nextState =
             typeof utledNesteState === 'function' ? utledNesteState(prevState) : utledNesteState;
@@ -52,22 +51,25 @@ const oppdaterStateForId =
             [id]: nextState,
         }));
     };
+}
 
-const initialiserInkluderteDelmaler = (
+export function initialiserInkluderteDelmaler(
     mal: MalStruktur,
     mellomlagredeInkluderteDelmaler: Record<string, boolean> | undefined
-) =>
-    mal.delmaler.reduce((acc, current) => {
+) {
+    return mal.delmaler.reduce<Record<string, boolean>>((acc, current) => {
         const delmalErMedIMellomlager = !!(
             mellomlagredeInkluderteDelmaler && mellomlagredeInkluderteDelmaler[current._id]
         );
+
         return {
             ...acc,
             [current._id]: current.visningsdetaljer.skalAlltidMed || delmalErMedIMellomlager,
         };
     }, {});
+}
 
-const Brevmeny: React.FC<Props> = ({
+export const Brevmeny: React.FC<Props> = ({
     mal,
     behandling,
     mellomlagretBrev,
@@ -133,7 +135,7 @@ const Brevmeny: React.FC<Props> = ({
         request<null, MellomlagretBrevDto>(mellomlagerUrl, 'POST', data);
     };
 
-    const genererHtmlVariabler = () => {
+    function genererHtmlVariabler() {
         const htmlVariabler: Record<string, string> = {
             [variabelInnvilgedePerioderPunktlisteId]: lagInnvilgetPerioderPunktliste(
                 behandling,
@@ -142,9 +144,9 @@ const Brevmeny: React.FC<Props> = ({
             [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
         };
         return htmlVariabler;
-    };
+    }
 
-    const genererPdf = () => {
+    function genererPdf() {
         const url = behandlingId ? `/api/sak/brev/${behandlingId}` : `/api/sak/frittstaende-brev`;
 
         mellomlagreBrevmenyState(mal._id, inkluderteDelmaler, fritekst, valgfelt, variabler);
@@ -166,7 +168,7 @@ const Brevmeny: React.FC<Props> = ({
             .finally(() => {
                 settGenerererBrevPdf(false);
             });
-    };
+    }
 
     const utsattGenererBrev = useDebouncedCallback(genererPdf, 1000);
 
@@ -175,7 +177,7 @@ const Brevmeny: React.FC<Props> = ({
         utsattGenererBrev();
     }, [utsattGenererBrev, mal, variabler, valgfelt, fritekst, inkluderteDelmaler]);
 
-    const erEndringerIDelmal = (delmalId: string) => {
+    function erEndringerIDelmal(delmalId: string) {
         const valgfeltForDelmal = valgfelt[delmalId] || {};
         const fritekstForDelmal = fritekst[delmalId] || {};
         const erEndringerIValgfelt = Object.keys(valgfeltForDelmal).length > 0;
@@ -184,7 +186,7 @@ const Brevmeny: React.FC<Props> = ({
             .filter((avsnitt) => avsnitt !== undefined)
             .some(({ deloverskrift, innhold }) => deloverskrift.length > 0 || innhold.length > 0);
         return erEndringerIValgfelt || erEndringerIFritekst;
-    };
+    }
 
     return (
         <div className={styles.flexColumn}>
@@ -226,5 +228,3 @@ const Brevmeny: React.FC<Props> = ({
         </div>
     );
 };
-
-export default Brevmeny;

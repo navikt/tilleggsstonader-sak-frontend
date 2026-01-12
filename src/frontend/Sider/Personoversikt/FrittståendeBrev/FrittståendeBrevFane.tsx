@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Alert, Heading, Select } from '@navikt/ds-react';
 
-import FrittståendeBrev from './FrittståendeBrev';
+import { FrittståendeBrev } from './FrittståendeBrev';
 import styles from './FrittståendeBrevFane.module.css';
 import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { useHentFagsakPerson } from '../../../hooks/useFagsakPerson';
