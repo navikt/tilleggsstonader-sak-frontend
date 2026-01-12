@@ -25,7 +25,7 @@ import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
-import { VedtakgDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/VedtakgDagligReise';
+import { VedtakFaneDagligReise } from './VedtakOgBeregning/DagligReise/innvilgeRammevedtak/VedtakFaneDagligReise';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
@@ -243,7 +243,7 @@ const vedtakOgBeregningFanerDagligReise = (behandling: Behandling): FanerMedRout
     {
         navn: FaneNavn.VEDTAK,
         path: FanePath.VEDTAK,
-        komponent: () => <VedtakgDagligReise />,
+        komponent: () => <VedtakFaneDagligReise />,
         ikon: <CalculatorIcon />,
     },
     {

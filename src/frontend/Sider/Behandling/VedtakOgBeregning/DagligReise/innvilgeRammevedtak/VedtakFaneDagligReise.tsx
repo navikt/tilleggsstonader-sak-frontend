@@ -19,7 +19,7 @@ import VelgVedtakResultat from '../../Felles/VelgVedtakResultat';
 import { InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling } from '../innvilgeVedtak/InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling';
 import styles from '../VedtakOgBeregningDagligReise.module.css';
 
-export const VedtakgDagligReise: FC = () => {
+export const VedtakFaneDagligReise: FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
