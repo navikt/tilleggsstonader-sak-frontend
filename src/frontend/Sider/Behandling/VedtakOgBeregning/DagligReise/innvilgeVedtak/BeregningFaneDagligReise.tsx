@@ -24,7 +24,7 @@ interface Props {
     vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
 
-export const BeregningDagligReise: React.FC<Props> = ({ lagretVedtak }) => {
+export const BeregningFaneDagligReise: React.FC<Props> = ({ lagretVedtak }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();

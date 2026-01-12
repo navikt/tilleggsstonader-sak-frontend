@@ -135,20 +135,16 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                     {erStegRedigerbart && (
                         <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
-                                <>
-                                    <BeregningsresultatOffentligTransport
-                                        beregningsresultat={beregningsresultat}
-                                    />
-                                </>
+                                <BeregningsresultatOffentligTransport
+                                    beregningsresultat={beregningsresultat}
+                                />
                             )}
                         </DataViewer>
                     )}
                     {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
-                        <>
-                            <BeregningsresultatOffentligTransport
-                                beregningsresultat={lagretVedtak.beregningsresultat}
-                            />
-                        </>
+                        <BeregningsresultatOffentligTransport
+                            beregningsresultat={lagretVedtak.beregningsresultat}
+                        />
                     )}
                 </VStack>
             </Panel>
