@@ -42,6 +42,10 @@ export const lagVedtakstabell = (
             return lagVedtakstabellDagligReise(
                 vedtak.beregningsresultat as BeregningsresultatDagligReise
             );
+        case Stønadstype.DAGLIG_REISE_TSR:
+            return lagVedtakstabellDagligReise(
+                vedtak.beregningsresultat as BeregningsresultatDagligReise
+            );
         default:
             return '';
     }
