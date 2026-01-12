@@ -48,7 +48,15 @@ function behandleInnvilgelse(
             );
         }
 
-        case Stønadstype.DAGLIG_REISE_TSO || Stønadstype.DAGLIG_REISE_TSO: {
+        case Stønadstype.DAGLIG_REISE_TSO: {
+            const innvilgelseDagligReise = vedtak as InnvilgelseDagligReise;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseDagligReise.gjelderFraOgMed,
+                innvilgelseDagligReise.gjelderTilOgMed
+            );
+        }
+
+        case Stønadstype.DAGLIG_REISE_TSR: {
             const innvilgelseDagligReise = vedtak as InnvilgelseDagligReise;
             return mapVedtaksDatoerForPreutfyllingIBrevfanen(
                 innvilgelseDagligReise.gjelderFraOgMed,
