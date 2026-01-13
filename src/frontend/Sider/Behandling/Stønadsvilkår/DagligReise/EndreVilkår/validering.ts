@@ -3,7 +3,7 @@ import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
-import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
+import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
 export interface FeilmeldingerFaktaDagligReise {
     felles?: string;
@@ -20,7 +20,7 @@ export type FeilmeldingerDagligReise = {
     fom?: string;
     tom?: string;
     fakta?: FeilmeldingerFaktaDagligReise;
-    begrunnelse?: string;
+    begrunnelse?: Partial<Record<RegelIdDagligReise, string>>;
 };
 
 export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
@@ -52,16 +52,15 @@ const validerSvar = (
         return;
     }
 
-    const svarMedManglendeBegrunnelse = Object.entries(svarMap).find(([regelId, svar]) => {
-        const svarAlternativer = regelstruktur[regelId as RegelIdDagligReise].svaralternativer;
-        const begrunnelsesType = finnBegrunnelsestypeForSvar(svarAlternativer, svar?.svar);
+    const begrunnelseFeil: Partial<Record<RegelIdDagligReise, string>> = {};
 
-        return begrunnelsesType === BegrunnelseRegel.PÅKREVD && !svar?.begrunnelse;
-    });
-
-    if (svarMedManglendeBegrunnelse) {
-        return { begrunnelse: 'Mangler begrunnelse' };
+    for (const [regelId, svar] of Object.entries(svarMap)) {
+        if (!harBegrunnelseHvisObligatorisk(regelId as RegelIdDagligReise, svar, regelstruktur)) {
+            begrunnelseFeil[regelId as RegelIdDagligReise] = 'Mangler begrunnelse';
+        }
     }
+
+    return { begrunnelse: begrunnelseFeil };
 };
 
 const validerFakta = (
@@ -107,3 +106,14 @@ const validerFaktaOffentligTransport = (
         return { trettidagersbillett: 'Prisen må være større enn 0' };
     }
 };
+
+function harBegrunnelseHvisObligatorisk(
+    regelId: RegelIdDagligReise,
+    svar: SvarOgBegrunnelse | undefined,
+    regelstruktur: Regelstruktur
+): boolean {
+    const svaralternativerForRegel = regelstruktur[regelId].svaralternativer;
+    const begrunnelsesType = finnBegrunnelsestypeForSvar(svaralternativerForRegel, svar?.svar);
+
+    return begrunnelsesType === BegrunnelseRegel.PÅKREVD && svar?.begrunnelse !== undefined;
+}
