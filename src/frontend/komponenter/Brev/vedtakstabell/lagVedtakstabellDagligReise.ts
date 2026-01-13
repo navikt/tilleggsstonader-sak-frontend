@@ -52,7 +52,7 @@ export function lagVedtakstabellDagligReise(
         const dagerTekst = antallDager() > 1 ? 'dager' : 'dag';
 
         return `
-        <p>Reise med offentlig transport i ${antallDager()} ${dagerTekst}:</p>
+        <p style="margin-bottom: 1px" >Reise med offentlig transport i ${antallDager()} ${dagerTekst}:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead><tr>${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
