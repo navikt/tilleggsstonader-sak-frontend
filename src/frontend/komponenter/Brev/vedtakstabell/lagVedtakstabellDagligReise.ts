@@ -46,13 +46,14 @@ export function lagVedtakstabellDagligReise(
 
         const rader = lagRaderForReise(perioder, { har30Dager, har7Dager, harEnkelt });
 
-        const antallDager = (): number => {
-            return perioder.reduce((sum, periode) => sum + periode.antallReisedager, 0);
+        const reisedagerIUken = (): number => {
+            return perioder[0].antallReisedagerPerUke;
         };
-        const dagerTekst = antallDager() > 1 ? 'dager' : 'dag';
+
+        const dagerTekst = reisedagerIUken() > 1 ? 'dager' : 'dag';
 
         return `
-        <p style="margin-bottom: 1px" >Reise med offentlig transport i ${antallDager()} ${dagerTekst}:</p>
+        <p style="margin-bottom: 1px" >Reise med offentlig transport ${reisedagerIUken()} ${dagerTekst} i uken:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead><tr>${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
