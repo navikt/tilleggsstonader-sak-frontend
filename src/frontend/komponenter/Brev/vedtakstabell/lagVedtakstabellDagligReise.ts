@@ -47,9 +47,7 @@ export function lagVedtakstabellDagligReise(
         const rader = lagRaderForReise(perioder, { har30Dager, har7Dager, harEnkelt });
 
         const antallDager = (): number => {
-            return perioder
-                .filter((p) => !p.fraTidligereVedtak)
-                .reduce((sum, periode) => sum + periode.antallReisedager, 0);
+            return perioder.reduce((sum, periode) => sum + periode.antallReisedager, 0);
         };
         const dagerTekst = antallDager() > 1 ? 'dager' : 'dag';
 
