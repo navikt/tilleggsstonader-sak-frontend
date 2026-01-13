@@ -4,6 +4,7 @@ import { SvarId } from '../../../../../typer/regel';
 import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårDagligReise extends VilkårBase {
+    adresse?: string;
     fakta?: FaktaDagligReise;
 }
 
@@ -24,6 +25,7 @@ export type SvarVilkårDagligReise = Record<RegelIdDagligReise, SvarOgBegrunnels
 export interface LagreNyttVilkårDagligReise {
     fom: string;
     tom: string;
+    adresse: string;
     svar: SvarVilkårDagligReise;
     fakta?: FaktaDagligReise;
 }

@@ -19,6 +19,7 @@ export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFakta
 export type FeilmeldingerDagligReise = {
     fom?: string;
     tom?: string;
+    adresse?: string;
     fakta?: FeilmeldingerFaktaDagligReise;
     begrunnelse?: string;
 };
@@ -29,19 +30,29 @@ export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
 
 export const validerVilkår = (
     periode: Periode,
+    adresse: string | undefined,
     svar: SvarVilkårDagligReise,
     fakta: FaktaDagligReise | undefined,
     regelstruktur: Regelstruktur
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
+    const adresseValidering = validerAdresse(adresse);
     const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
         ...periodeValidering,
+        ...adresseValidering,
         ...svarValidering,
         ...(faktaValidering && { fakta: faktaValidering }),
     };
+};
+
+const validerAdresse = (adresse: string | undefined): Partial<FeilmeldingerDagligReise> => {
+    if (!adresse) {
+        return { adresse: 'Adresse er påkrevd' };
+    }
+    return {};
 };
 
 const validerSvar = (
