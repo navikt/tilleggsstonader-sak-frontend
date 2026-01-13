@@ -4,11 +4,13 @@ import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { OpphørRequest, useLagreOpphør } from '../../../../hooks/useLagreOpphør';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
@@ -19,6 +21,7 @@ const OpphørVedtak: React.FC<{
 }> = ({ vedtak }) => {
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
 
     const { lagreOpphør } = useLagreOpphør();
 
@@ -36,6 +39,20 @@ const OpphørVedtak: React.FC<{
         } else {
             return Promise.reject();
         }
+    };
+    const årsakerCheckboxes = () => {
+        const alleÅrsaker = Object.values(ÅrsakOpphør) as ÅrsakOpphør[];
+
+        const visteÅrsaker =
+            behandling.stønadstype === Stønadstype.BARNETILSYN
+                ? alleÅrsaker
+                : alleÅrsaker.filter((a) => a !== ÅrsakOpphør.ENDRING_UTGIFTER);
+
+        return visteÅrsaker.map((årsak) => (
+            <Checkbox value={årsak} key={årsak}>
+                {årsakOpphørTilTekst[årsak]}
+            </Checkbox>
+        ));
     };
 
     return (
@@ -64,11 +81,7 @@ const OpphørVedtak: React.FC<{
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {Object.keys(ÅrsakOpphør).map((årsak) => (
-                    <Checkbox value={årsak} key={årsak}>
-                        {årsakOpphørTilTekst[årsak as ÅrsakOpphør]}
-                    </Checkbox>
-                ))}
+                {årsakerCheckboxes()}
             </CheckboxGroup>
             <Textarea
                 label="Begrunnelse til internt bruk (obligatorisk)"
