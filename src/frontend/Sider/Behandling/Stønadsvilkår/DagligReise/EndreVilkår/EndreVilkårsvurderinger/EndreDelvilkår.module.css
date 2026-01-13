@@ -10,6 +10,10 @@
     gap: 3rem;
 }
 
+.container-hjelpetekst {
+    padding-bottom: 1rem;
+}
+
 @media (width <= 900px) {
     .container {
         flex-direction: column;

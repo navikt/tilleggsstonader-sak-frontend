@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { EndreDelvilkår } from './EndreDelvilkår';
 import { useVilkårDagligReise } from '../../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
@@ -113,6 +113,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                         RegelIdDagligReise.AVSTAND_OVER_SEKS_KM
                     )}
                     feilmeldinger={feilmeldinger}
+                    hjelpetekst={hjelpetekst6kmVilkår}
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
@@ -156,3 +157,12 @@ export const EndreVurderinger: React.FC<Props> = ({
         </VStack>
     );
 };
+
+const hjelpetekst6kmVilkår = (
+    <BodyShort size={'small'}>
+        Du skal beregne reiseavstand ved å bruke TS-sak sin egen &#34;Beregn reiseavstand&#34; sin
+        funksjon (lenket i den sorte topplinjen), se brukermanualen for kode 6 og 7 brukere. For å
+        beregne billigste reisemåte skal du benytte holdeplasser, ikke adresser, i videre søk, se
+        brukermanualen.
+    </BodyShort>
+);

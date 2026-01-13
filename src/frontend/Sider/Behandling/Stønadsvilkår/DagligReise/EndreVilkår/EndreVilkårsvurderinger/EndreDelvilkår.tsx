@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Radio, RadioGroup, ReadMore, Textarea } from '@navikt/ds-react';
 
 import styles from './EndreDelvilkår.module.css';
 import { BegrunnelseRegel, SvarId } from '../../../../../../typer/regel';
@@ -24,7 +24,8 @@ interface Props {
     ) => void;
     erUndervilkår?: boolean;
     label: string;
-    hjelpetekst?: string;
+    hjelpetekstHeader?: React.ReactNode;
+    hjelpetekst?: React.ReactNode;
     feilmeldinger: FeilmeldingerDagligReise;
 }
 
@@ -35,6 +36,7 @@ export const EndreDelvilkår: FC<Props> = ({
     regelId,
     svaralternativer,
     label,
+    hjelpetekstHeader,
     hjelpetekst,
     feilmeldinger,
     erUndervilkår = false,
@@ -68,13 +70,16 @@ export const EndreDelvilkår: FC<Props> = ({
         <div
             className={`${styles.container} ${erUndervilkår ? styles.containerUndervilkar : ''}`.trim()}
         >
-            <RadioGroup
-                legend={label}
-                description={hjelpetekst}
-                value={vurdering?.svar}
-                size="small"
-                onChange={oppdaterSvar}
-            >
+            <RadioGroup legend={label} value={vurdering?.svar} size="small" onChange={oppdaterSvar}>
+                {hjelpetekst && (
+                    <ReadMore
+                        className={styles.containerHjelpetekst}
+                        header={hjelpetekstHeader ?? 'Slik gjør du vurderingen'}
+                        size={'small'}
+                    >
+                        {hjelpetekst}
+                    </ReadMore>
+                )}
                 {svaralternativer.map((svar) => {
                     return (
                         <Radio
