@@ -3,7 +3,7 @@ import {
     BeregningsresultatDagligReise,
     BeregningsresultatForPeriode,
 } from '../../../typer/vedtak/vedtakDagligReise';
-import { formaterIsoPeriodeMedTankestrek, formaterTilTekstligDato } from '../../../utils/dato';
+import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
@@ -45,17 +45,16 @@ export function lagVedtakstabellDagligReise(
     `;
 
         const rader = lagRaderForReise(perioder, { har30Dager, har7Dager, harEnkelt });
-        const datoFra = perioder.reduce(
-            (tidligste, { fom }) => (fom < tidligste ? fom : tidligste),
-            perioder[0].fom
-        );
-        const datoTil = perioder.reduce(
-            (seneste, { tom }) => (tom > seneste ? tom : seneste),
-            perioder[0].tom
-        );
+
+        const antallDager = (): number => {
+            return perioder
+                .filter((p) => !p.fraTidligereVedtak)
+                .reduce((sum, periode) => sum + periode.antallReisedager, 0);
+        };
+        const dagerTekst = antallDager() > 1 ? 'dager' : 'dag';
 
         return `
-        <b>Reise med offentlig transport fra ${formaterTilTekstligDato(datoFra)} til ${formaterTilTekstligDato(datoTil)}</b>
+        <p>Reise med offentlig transport i ${antallDager()} ${dagerTekst}:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead><tr>${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
