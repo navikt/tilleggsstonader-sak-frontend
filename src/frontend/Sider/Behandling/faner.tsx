@@ -18,6 +18,7 @@ import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/Støna
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
+import { VedtakFaneDagligReise } from './VedtakOgBeregning/DagligReise/VedtakFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -269,14 +270,16 @@ const vedtakOgBeregningFanerDagligReise = (
         {
             navn: FaneNavn.VEDTAK,
             path: FanePath.VEDTAK,
-            komponent: () => <p>Her skal man sette vedtaksresultat</p>,
+            komponent: () => <VedtakFaneDagligReise />,
             ikon: <GavelIcon />,
+            erLåst: faneErLåst(behandling, FanePath.VEDTAK),
         },
         {
             navn: FaneNavn.KJØRELISTE,
             path: FanePath.KJØRELISTE,
             komponent: () => <p>Info om kjøreliste</p>,
             ikon: <CarIcon />,
+            erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
         },
         {
             navn: FaneNavn.BEREGNING,

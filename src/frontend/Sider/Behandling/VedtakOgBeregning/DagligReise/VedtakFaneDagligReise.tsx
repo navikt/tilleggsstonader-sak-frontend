@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
-import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
 import styles from './VedtakOgBeregningDagligReise.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -18,8 +17,11 @@ import {
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtakV2/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
+import { Steg } from '../../../../typer/behandling/steg';
+import { FanePath } from '../../faner';
 
-export const VedtakOgBeregningDagligReise: FC = () => {
+export const VedtakFaneDagligReise: FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
@@ -43,11 +45,14 @@ export const VedtakOgBeregningDagligReise: FC = () => {
                                 {typeVedtak === TypeVedtak.AVSLAG && (
                                     <AvslåVedtak
                                         vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                        steg={Steg.VEDTAK}
+                                        nesteFane={FanePath.BREV}
                                     />
                                 )}
                                 {typeVedtak === TypeVedtak.OPPHØR && (
                                     <OpphørVedtak
                                         vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                        steg={Steg.VEDTAK}
                                     />
                                 )}
                             </HGrid>
