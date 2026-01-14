@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { BeregningDagligReise } from './beregningDagligReise';
+import { InnvilgeVedtakDagligReise } from './InnvilgeVedtakDagligReise';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
@@ -13,7 +13,7 @@ import {
 } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
-export const InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling: React.FC<{
+export const InnvilgelseVedtakDagligReiseEllerVedtaksperioderFraForrigeBehandling: React.FC<{
     lagretVedtak: InnvilgelseDagligReise | undefined;
 }> = ({ lagretVedtak }) => {
     const { erStegRedigerbart } = useSteg();
@@ -21,7 +21,7 @@ export const InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling: Rea
 
     if (lagretVedtak || !erStegRedigerbart || !behandling.forrigeIverksatteBehandlingId) {
         return (
-            <BeregningDagligReise
+            <InnvilgeVedtakDagligReise
                 lagretVedtak={lagretVedtak}
                 vedtaksperioderForrigeBehandling={undefined}
             />
@@ -53,7 +53,7 @@ const InnvilgeDagligReiseMedPerioderFraForrigeBehandling = ({
         <DataViewer type={'forrige vedtak'} response={{ forrigeVedtak }}>
             {({ forrigeVedtak }) => {
                 return (
-                    <BeregningDagligReise
+                    <InnvilgeVedtakDagligReise
                         lagretVedtak={undefined}
                         vedtaksperioderForrigeBehandling={vedtaksperioderForrigeVedtak(
                             forrigeVedtak

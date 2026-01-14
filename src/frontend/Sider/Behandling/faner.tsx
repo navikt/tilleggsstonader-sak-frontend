@@ -95,11 +95,11 @@ export const isFanePath = (path: string): path is FanePath => {
     switch (path) {
         case FanePath.INNGANGSVILKÅR:
         case FanePath.STØNADSVILKÅR:
+        case FanePath.VEDTAK:
+        case FanePath.KJØRELISTE:
         case FanePath.VEDTAK_OG_BEREGNING:
         case FanePath.SIMULERING:
         case FanePath.BREV:
-        case FanePath.VEDTAK:
-        case FanePath.KJØRELISTE:
         case FanePath.BEREGNING:
             return true;
         default:
