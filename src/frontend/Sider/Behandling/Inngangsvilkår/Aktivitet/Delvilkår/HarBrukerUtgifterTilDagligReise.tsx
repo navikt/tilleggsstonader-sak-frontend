@@ -35,8 +35,8 @@ const hjelpetekst = (
                 for voksne).
             </List.Item>
             <List.Item>
-                Elever i videregående skole som er under 25 år når skoleåret starter, med mindre de
-                bekrefter egne reiseutgifter i søknad.
+                Elever i videregående skole som er under 25 år det kalenderåret skoleåret starter,
+                med mindre de bekrefter egne reiseutgifter i søknad.
             </List.Item>
             <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
             <List.Item>
