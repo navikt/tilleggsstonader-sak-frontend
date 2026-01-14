@@ -26,6 +26,7 @@ import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
+import { KjørelisteFane } from './VedtakOgBeregning/DagligReise/kjøreliste/KjørelisteFane';
 
 export type FanerMedRouter = {
     navn: FaneNavn | StønadsvilkårFaneNavn;
@@ -277,7 +278,7 @@ const vedtakOgBeregningFanerDagligReise = (
         {
             navn: FaneNavn.KJØRELISTE,
             path: FanePath.KJØRELISTE,
-            komponent: () => <p>Info om kjøreliste</p>,
+            komponent: () => <KjørelisteFane />,
             ikon: <CarIcon />,
             erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
         },
