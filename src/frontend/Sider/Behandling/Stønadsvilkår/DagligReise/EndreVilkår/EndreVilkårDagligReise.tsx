@@ -4,6 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { HStack, TextField } from '@navikt/ds-react';
 
+import styles from './EndreVilkårDagligReise.module.css';
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
@@ -166,7 +167,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             feil={feilmeldinger.tom}
                         />
                     </FeilmeldingMaksBredde>
-                    <FeilmeldingMaksBredde $maxWidth={180}>
+                    <FeilmeldingMaksBredde $maxWidth={380}>
                         <TextField
                             label={'Adresse aktivitet'}
                             size="small"
@@ -176,6 +177,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                                 oppdaterAdresse(e.target.value || undefined);
                                 nullstillFeilmeldingFor(['adresse']);
                             }}
+                            className={styles.adressefelt}
                         />
                     </FeilmeldingMaksBredde>
                 </HStack>
