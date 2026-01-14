@@ -18,7 +18,11 @@ import {
 } from '../../../../typer/vedtak/vedtak';
 import { FanePath } from '../../faner';
 
-const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
+const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest; steg?: Steg; nesteFane?: FanePath }> = ({
+    vedtak,
+    steg = Steg.BEREGNE_YTELSE,
+    nesteFane = FanePath.SIMULERING,
+}) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
@@ -72,8 +76,8 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
             />
 
             <StegKnapp
-                steg={Steg.BEREGNE_YTELSE}
-                nesteFane={FanePath.SIMULERING}
+                steg={steg}
+                nesteFane={nesteFane}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >

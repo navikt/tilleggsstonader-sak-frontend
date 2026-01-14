@@ -27,7 +27,7 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
                 </BodyShort>
             </VStack>
             <VStack className={styles.kort}>
-                <Label>Reiseavastand eks.ferje</Label>
+                <Label>Reiseavstand eks.ferje</Label>
                 {erFerjePåReisen ? (
                     <BodyShort>{meterTilKm(reisedata.reiserute.avstandUtenFerje)} km</BodyShort>
                 ) : (

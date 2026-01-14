@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import {
     useVilkårDagligReise,
     VilkårDagligReiseProvider,
@@ -16,20 +17,15 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
+import { Toggle } from '../../../../utils/toggles';
 import { FanePath } from '../../faner';
 
 export const StønadsvilkårDagligReise = () => {
     const { regelStruktur } = useRegelstruktur();
     const { eksisterendeVilkår } = useHentVilkårDagligReise();
-    const { behandling } = useBehandling();
+    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
-    const nesteFane = () => {
-        if (behandling.type === 'FØRSTEGANGSBEHANDLING') {
-            return FanePath.VEDTAK;
-        } else {
-            return FanePath.VEDTAK_OG_BEREGNING;
-        }
-    };
+    const nesteFane = kanBehandlePrivatBil ? FanePath.VEDTAK : FanePath.VEDTAK_OG_BEREGNING;
 
     return (
         <VStack gap="4">
@@ -43,7 +39,7 @@ export const StønadsvilkårDagligReise = () => {
                     </VilkårDagligReiseProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={nesteFane()}>
+            <StegKnapp steg={Steg.VILKÅR} nesteFane={nesteFane}>
                 Fullfør vilkårsvurdering og gå videre
             </StegKnapp>
         </VStack>

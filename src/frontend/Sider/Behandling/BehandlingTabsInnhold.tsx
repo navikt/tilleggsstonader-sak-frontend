@@ -35,6 +35,7 @@ const BehandlingTabsInnhold = () => {
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
     const visVedtaksperioderPåBehandling = useFlag(Toggle.VIS_VEDTAKSPERIODER_PAA_BEHANDLING);
+    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
@@ -52,7 +53,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, kanBehandlePrivatBil);
 
     return (
         <StegProvider

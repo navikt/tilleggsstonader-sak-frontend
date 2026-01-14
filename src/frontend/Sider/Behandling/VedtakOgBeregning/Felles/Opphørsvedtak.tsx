@@ -4,11 +4,13 @@ import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { FeilmeldingVedtak, valider } from './validering';
 import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
 import { OpphørRequest, useLagreOpphør } from '../../../../hooks/useLagreOpphør';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
@@ -16,9 +18,11 @@ import { FanePath } from '../../faner';
 
 const OpphørVedtak: React.FC<{
     vedtak?: OpphørRequest;
-}> = ({ vedtak }) => {
+    steg?: Steg;
+}> = ({ vedtak, steg = Steg.BEREGNE_YTELSE }) => {
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
 
     const { lagreOpphør } = useLagreOpphør();
 
@@ -36,6 +40,14 @@ const OpphørVedtak: React.FC<{
         } else {
             return Promise.reject();
         }
+    };
+    const finnÅrsakerForStønadstype = (): ÅrsakOpphør[] => {
+        const alleÅrsaker = Object.values(ÅrsakOpphør) as ÅrsakOpphør[];
+        const erTilsynBarn = behandling.stønadstype === Stønadstype.BARNETILSYN;
+
+        return erTilsynBarn
+            ? alleÅrsaker
+            : alleÅrsaker.filter((årsak) => årsak !== ÅrsakOpphør.ENDRING_UTGIFTER);
     };
 
     return (
@@ -64,9 +76,9 @@ const OpphørVedtak: React.FC<{
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {Object.keys(ÅrsakOpphør).map((årsak) => (
+                {finnÅrsakerForStønadstype().map((årsak) => (
                     <Checkbox value={årsak} key={årsak}>
-                        {årsakOpphørTilTekst[årsak as ÅrsakOpphør]}
+                        {årsakOpphørTilTekst[årsak]}
                     </Checkbox>
                 ))}
             </CheckboxGroup>
@@ -84,7 +96,7 @@ const OpphørVedtak: React.FC<{
             />
 
             <StegKnapp
-                steg={Steg.BEREGNE_YTELSE}
+                steg={steg}
                 nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
