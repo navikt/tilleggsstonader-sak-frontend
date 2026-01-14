@@ -97,7 +97,7 @@ export const EndreDelvilkår: FC<Props> = ({
                     label={begrunnelseLabel}
                     resize
                     size="small"
-                    error={feilmeldinger.begrunnelse}
+                    error={feilmeldinger.begrunnelse?.[regelId]}
                     minRows={3}
                     value={vurdering?.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
