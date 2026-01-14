@@ -18,6 +18,7 @@ import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/Støna
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
+import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFaneDagligReise';
 import { VedtakFaneDagligReise } from './VedtakOgBeregning/DagligReise/VedtakFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
@@ -87,7 +88,7 @@ export const faneTilSteg: Record<FanePath, Steg> = {
 
     vedtak: Steg.VEDTAK,
     kjoreliste: Steg.KJØRELISTE,
-    beregning: Steg.BEREGNE_YTELSE,
+    beregning: Steg.BEREGNING,
 };
 
 export const isFanePath = (path: string): path is FanePath => {
@@ -285,7 +286,7 @@ const vedtakOgBeregningFanerDagligReise = (
         {
             navn: FaneNavn.BEREGNING,
             path: FanePath.BEREGNING,
-            komponent: () => <p>Beregningsresultat for daglig reise</p>,
+            komponent: () => <BeregningFaneDagligReise />,
             ikon: <CalculatorIcon />,
             erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
         },
