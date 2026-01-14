@@ -40,19 +40,13 @@ const OpphørVedtak: React.FC<{
             return Promise.reject();
         }
     };
-    const årsakerCheckboxes = () => {
+    const finnÅrsakerForStønadstype = (): ÅrsakOpphør[] => {
         const alleÅrsaker = Object.values(ÅrsakOpphør) as ÅrsakOpphør[];
+        const erTilsynBarn = behandling.stønadstype === Stønadstype.BARNETILSYN;
 
-        const visteÅrsaker =
-            behandling.stønadstype === Stønadstype.BARNETILSYN
-                ? alleÅrsaker
-                : alleÅrsaker.filter((a) => a !== ÅrsakOpphør.ENDRING_UTGIFTER);
-
-        return visteÅrsaker.map((årsak) => (
-            <Checkbox value={årsak} key={årsak}>
-                {årsakOpphørTilTekst[årsak]}
-            </Checkbox>
-        ));
+        return erTilsynBarn
+            ? alleÅrsaker
+            : alleÅrsaker.filter((årsak) => årsak !== ÅrsakOpphør.ENDRING_UTGIFTER);
     };
 
     return (
@@ -81,7 +75,11 @@ const OpphørVedtak: React.FC<{
                 size="small"
                 error={feilmeldinger.årsaker}
             >
-                {årsakerCheckboxes()}
+                {finnÅrsakerForStønadstype().map((årsak) => (
+                    <Checkbox value={årsak} key={årsak}>
+                        {årsakOpphørTilTekst[årsak]}
+                    </Checkbox>
+                ))}
             </CheckboxGroup>
             <Textarea
                 label="Begrunnelse til internt bruk (obligatorisk)"
