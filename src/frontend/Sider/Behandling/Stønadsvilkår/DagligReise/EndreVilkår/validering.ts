@@ -60,7 +60,9 @@ const validerSvar = (
         }
     }
 
-    return { begrunnelse: begrunnelseFeil };
+    const finnesFeil = Object.keys(begrunnelseFeil).length > 0;
+
+    return finnesFeil ? { begrunnelse: begrunnelseFeil } : undefined;
 };
 
 const validerFakta = (
