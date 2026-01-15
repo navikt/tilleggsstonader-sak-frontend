@@ -114,6 +114,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     )}
                     feilmeldinger={feilmeldinger}
                     hjelpetekst={hjelpetekst6kmVilkår}
+                    begrunnelseHjelpetekst="Du må fylle ut antall kilometer som er lagt til grunn for vurderingen"
                 />
             )}
             {aktiveVurderinger.get(RegelIdDagligReise.UNNTAK_SEKS_KM) && (
