@@ -48,7 +48,7 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 return (
                     <div key={reiseIndex} className={styles.reiseSection}>
                         <Label size="small" className={styles.label}>
-                            {reise.adresse} - offentlig transport - {antallReisedagerPerUke}{' '}
+                            {reise.adresse} · offentlig transport · {antallReisedagerPerUke}{' '}
                             dager/uke
                         </Label>
                         <Table size="small" className={styles.table}>
