@@ -55,7 +55,7 @@ const validerSvar = (
     const begrunnelseFeil: Partial<Record<RegelIdDagligReise, string>> = {};
 
     for (const [regelId, svar] of Object.entries(svarMap)) {
-        if (!harBegrunnelseHvisObligatorisk(regelId as RegelIdDagligReise, svar, regelstruktur)) {
+        if (!validerBegrunnelseForRegel(regelId as RegelIdDagligReise, svar, regelstruktur)) {
             begrunnelseFeil[regelId as RegelIdDagligReise] = 'Mangler begrunnelse';
         }
     }
@@ -107,7 +107,7 @@ const validerFaktaOffentligTransport = (
     }
 };
 
-function harBegrunnelseHvisObligatorisk(
+function validerBegrunnelseForRegel(
     regelId: RegelIdDagligReise,
     svar: SvarOgBegrunnelse | undefined,
     regelstruktur: Regelstruktur
@@ -115,5 +115,10 @@ function harBegrunnelseHvisObligatorisk(
     const svaralternativerForRegel = regelstruktur[regelId].svaralternativer;
     const begrunnelsesType = finnBegrunnelsestypeForSvar(svaralternativerForRegel, svar?.svar);
 
-    return begrunnelsesType === BegrunnelseRegel.PÅKREVD && svar?.begrunnelse !== undefined;
+    const begrunnelseErObligatoriskOgUtfylt =
+        begrunnelsesType === BegrunnelseRegel.PÅKREVD && svar?.begrunnelse !== undefined;
+
+    const regelKreverIkkeBegrunnelse = begrunnelsesType !== BegrunnelseRegel.PÅKREVD;
+
+    return begrunnelseErObligatoriskOgUtfylt || regelKreverIkkeBegrunnelse;
 }
