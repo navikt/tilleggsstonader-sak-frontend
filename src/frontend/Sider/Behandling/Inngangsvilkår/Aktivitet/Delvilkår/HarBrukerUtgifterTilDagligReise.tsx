@@ -11,7 +11,7 @@ export const HarBrukerUtgifterTilDagligReise: React.FC<{
 }> = ({ svarHarUtgifter, oppdaterSvar }) => {
     return (
         <JaNeiVurdering
-            label="Har bruker nødvendige utgifter til daglig reise?"
+            label="Har bruker nødvendige utgifter til daglige reiser?"
             svar={svarHarUtgifter}
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
@@ -26,8 +26,8 @@ const hjelpetekst = (
     <>
         <BodyShort size={'small'} spacing>
             Personer som deltar i arbeidsrettet utredning, tiltak eller godkjent utdanning anses
-            normalt å ha nødvendige utgifter til daglig reise. Unntak gjelder for (se rundskriv for
-            presiseringer):
+            normalt å ha nødvendige utgifter til daglige reiser. Unntak gjelder for (se rundskriv
+            for presiseringer):
         </BodyShort>
         <List as="ul" size={'small'}>
             <List.Item>

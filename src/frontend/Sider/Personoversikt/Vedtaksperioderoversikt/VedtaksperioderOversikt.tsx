@@ -74,7 +74,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                                 </OversiktKort>
                             )}
                             {vedtaksperioderOversikt.dagligReiseTso.length > 0 && (
-                                <OversiktKort tittel={'Daglig reise Nay'}>
+                                <OversiktKort tittel={'Daglige reiser Nay'}>
                                     <VedtaksperioderOversiktDagligReiseTso
                                         vedtaksperioder={vedtaksperioderOversikt.dagligReiseTso}
                                     />
@@ -84,7 +84,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                                 </OversiktKort>
                             )}
                             {vedtaksperioderOversikt.dagligReiseTsr.length > 0 && (
-                                <OversiktKort tittel={'Daglig reise Tiltaksenheten'}>
+                                <OversiktKort tittel={'Daglige reiser Tiltaksenheten'}>
                                     <VedtaksperioderOversiktDagligReiseTsr
                                         vedtaksperioder={vedtaksperioderOversikt.dagligReiseTsr}
                                     />
