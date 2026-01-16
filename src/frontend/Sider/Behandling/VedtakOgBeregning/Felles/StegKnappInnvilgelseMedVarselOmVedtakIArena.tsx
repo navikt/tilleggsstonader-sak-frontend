@@ -30,10 +30,14 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
     lagreVedtak,
     vedtaksperioder,
     tidligsteEndring,
+    steg = Steg.BEREGNE_YTELSE,
+    nesteFane = FanePath.SIMULERING,
 }: {
     vedtaksperioder: Periode[];
     lagreVedtak: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     tidligsteEndring: string | undefined;
+    steg?: Steg;
+    nesteFane?: FanePath;
 }) => {
     const { behandlingFakta } = useBehandling();
 
@@ -45,8 +49,8 @@ export const StegKnappInnvilgelseMedVarselOmVedtakIArena = ({
 
     return (
         <StegKnapp
-            steg={Steg.BEREGNE_YTELSE}
-            nesteFane={FanePath.SIMULERING}
+            steg={steg}
+            nesteFane={nesteFane}
             onNesteSteg={lagreVedtak}
             validerUlagedeKomponenter={false}
             bekreftelseModalProps={
