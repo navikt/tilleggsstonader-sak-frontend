@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
-// import AvslåVedtak from './AvslåVedtak';
 import styles from './VedtakOgBeregningBoutgifter.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
