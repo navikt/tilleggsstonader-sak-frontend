@@ -15,9 +15,9 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakTilsynBarn';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
 const VedtakOgBeregningBarnetilsyn: FC = () => {
     const { vedtak } = useVedtak<VedtakBarnetilsyn>();

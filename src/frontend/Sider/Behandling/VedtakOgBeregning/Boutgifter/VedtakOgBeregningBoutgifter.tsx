@@ -15,10 +15,10 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakBoutgifter';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
 
 export const VedtakOgBeregningBoutgifter: FC = () => {
     const { vedtak } = useVedtak<VedtakBoutgifter>();

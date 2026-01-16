@@ -18,9 +18,9 @@ import {
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
 import { Toggle } from '../../../../utils/toggles';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
 export const VedtakOgBeregningDagligReise: FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();

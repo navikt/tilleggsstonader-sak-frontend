@@ -18,7 +18,7 @@ import {
 } from '../../../../typer/vedtak/vedtak';
 import { FanePath } from '../../faner';
 
-const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
+export const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
@@ -82,5 +82,3 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest }> = ({ vedtak }) => {
         </VStack>
     );
 };
-
-export default AvslåVedtak;
