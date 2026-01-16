@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { HGrid } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { BodyLong, HGrid } from '@navikt/ds-react';
 
 import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
 import styles from './VedtakOgBeregningDagligReise.module.css';
@@ -15,6 +17,7 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
+import { Toggle } from '../../../../utils/toggles';
 import AvslåVedtak from '../Felles/AvslåVedtak';
 import OpphørVedtak from '../Felles/Opphørsvedtak';
 import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
@@ -28,6 +31,8 @@ export const VedtakOgBeregningDagligReise: FC = () => {
             settTypeVedtak(vedtak.data.type);
         }
     }, [vedtak]);
+
+    const kanOpphøreDagligReiseTso = useFlag(Toggle.KAN_OPPHØRE_DAGLIG_REISE_TSO);
 
     return (
         <>
@@ -45,11 +50,14 @@ export const VedtakOgBeregningDagligReise: FC = () => {
                                         vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
                                     />
                                 )}
-                                {typeVedtak === TypeVedtak.OPPHØR && (
-                                    <OpphørVedtak
-                                        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
-                                    />
-                                )}
+                                {typeVedtak === TypeVedtak.OPPHØR &&
+                                    (kanOpphøreDagligReiseTso ? (
+                                        <OpphørVedtak
+                                            vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                        />
+                                    ) : (
+                                        <BodyLong> Opphør for daglig reise er skrudd av.</BodyLong>
+                                    ))}
                             </HGrid>
                         </Panel>
 
