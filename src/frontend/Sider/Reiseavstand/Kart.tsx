@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import 'leaflet/dist/leaflet.css';
 
@@ -8,6 +8,8 @@ import icon from 'leaflet/dist/images/marker-icon-2x.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'proj4leaflet';
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
+
+import { Radio, RadioGroup } from '@navikt/ds-react';
 
 import './proj4leaflet.d';
 import styles from './EmbeddedKart.module.css';
@@ -33,6 +35,8 @@ const crsUtm33 = new L.Proj.CRS(
 export const Kart: React.FC<{
     kjøreavstandResponse: Reisedata;
 }> = ({ kjøreavstandResponse }) => {
+    const [kartkilde, setKartkilde] = useState<'kartverket' | 'google-maps'>('kartverket');
+
     if (!kjøreavstandResponse.reiserute) {
         return null;
     }
@@ -46,35 +50,51 @@ export const Kart: React.FC<{
     const positions = polyline.decode(encodedPolyline.encodedPolyline);
     const bounds = L.latLngBounds(positions);
 
+    // Velg kartkilde basert på valgt alternativ
+    const tileUrl =
+        kartkilde === 'google-maps'
+            ? '/api/kart/google-maps-tiles/{z}/{x}/{y}'
+            : '/api/kartverket-tiles/{z}/{x}/{y}';
+    const attribution = kartkilde === 'google-maps' ? '' : '© Kartverket';
+    const crs = kartkilde === 'google-maps' ? L.CRS.EPSG3857 : crsUtm33;
+
     return (
-        <MapContainer
-            bounds={bounds}
-            boundsOptions={{ padding: [20, 20] }}
-            scrollWheelZoom={true}
-            className={styles.container}
-            attributionControl={true}
-            crs={crsUtm33}
-            minZoom={5}
-            maxZoom={18}
-        >
-            <TileLayer
-                url="/api/kartverket-tiles/{z}/{x}/{y}"
-                attribution='&copy; <a href="https://www.kartverket.no/">Kartverket</a>'
-                tileSize={256}
-            />
-            <Marker
-                position={[startLokasjon.lat, startLokasjon.lng]}
-                alt="Startposisjon"
-                title="Startposisjon"
-                icon={BlåTegnestift}
-            />
-            <Marker
-                position={[sluttLokasjon.lat, sluttLokasjon.lng]}
-                alt="Tiltaksadresse"
-                title="Tiltaksadresse"
-                icon={BlåTegnestift}
-            />
-            <Polyline positions={positions} color="blue" />
-        </MapContainer>
+        <>
+            <RadioGroup
+                legend="Velg kartkilde"
+                value={kartkilde}
+                onChange={(val: 'kartverket' | 'google-maps') => setKartkilde(val)}
+                style={{ marginBottom: '1rem' }}
+            >
+                <Radio value="kartverket">Kartverket</Radio>
+                <Radio value="google-maps">Google Maps</Radio>
+            </RadioGroup>
+            <MapContainer
+                key={kartkilde}
+                bounds={bounds}
+                boundsOptions={{ padding: [20, 20] }}
+                scrollWheelZoom={true}
+                className={styles.container}
+                attributionControl={false}
+                crs={crs}
+                minZoom={5}
+                maxZoom={18}
+            >
+                <TileLayer url={tileUrl} attribution={attribution} tileSize={256} />
+                <Marker
+                    position={[startLokasjon.lat, startLokasjon.lng]}
+                    alt="Startposisjon"
+                    title="Startposisjon"
+                    icon={BlåTegnestift}
+                />
+                <Marker
+                    position={[sluttLokasjon.lat, sluttLokasjon.lng]}
+                    alt="Tiltaksadresse"
+                    title="Tiltaksadresse"
+                    icon={BlåTegnestift}
+                />
+                <Polyline positions={positions} color="blue" />
+            </MapContainer>
+        </>
     );
 };
