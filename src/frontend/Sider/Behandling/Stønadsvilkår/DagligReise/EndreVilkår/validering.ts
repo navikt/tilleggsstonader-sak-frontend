@@ -1,6 +1,7 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { harVerdi } from '../../../../../utils/utils';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
@@ -129,7 +130,7 @@ function validerBegrunnelseForRegel(
     const begrunnelsesType = finnBegrunnelsestypeForSvar(svaralternativerForRegel, svar?.svar);
 
     const begrunnelseErObligatoriskOgUtfylt =
-        begrunnelsesType === BegrunnelseRegel.PÅKREVD && svar?.begrunnelse !== undefined;
+        begrunnelsesType === BegrunnelseRegel.PÅKREVD && harVerdi(svar?.begrunnelse);
 
     const regelKreverIkkeBegrunnelse = begrunnelsesType !== BegrunnelseRegel.PÅKREVD;
 
