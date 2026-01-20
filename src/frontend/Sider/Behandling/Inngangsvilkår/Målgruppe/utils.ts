@@ -167,31 +167,36 @@ const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (eksisterendeVurderinger:
 
 export const finnBegrunnelseGrunnerMålgruppe = (
     type: MålgruppeType | '',
-    vurderinger: SvarMålgruppe
+    vurderinger: SvarMålgruppe,
+    registerYtelse?: YtelseGrunnlagPeriode
 ) => {
-    const delvilkårSomMåBegrunnes = [];
+    const begrunnelseGrunner = [];
 
     if (type === MålgruppeType.NEDSATT_ARBEIDSEVNE) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
+        begrunnelseGrunner.push(BegrunnelseGrunner.NEDSATT_ARBEIDSEVNE);
     }
 
     if (type !== '' && målgrupperHvorMedlemskapMåVurderes.includes(type)) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.MEDLEMSKAP);
+        begrunnelseGrunner.push(BegrunnelseGrunner.MEDLEMSKAP);
     }
 
     if (type === MålgruppeType.INGEN_MÅLGRUPPE) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
+        begrunnelseGrunner.push(BegrunnelseGrunner.INGEN_MÅLGRUPPE);
     }
 
     if (type === MålgruppeType.SYKEPENGER_100_PROSENT) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
+        begrunnelseGrunner.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
     }
 
     if (vurderinger.svarUtgifterDekketAvAnnetRegelverk === SvarJaNei.JA) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
+        begrunnelseGrunner.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
     }
 
-    return delvilkårSomMåBegrunnes;
+    if (registerYtelse && registerYtelse.tom === null) {
+        begrunnelseGrunner.push(BegrunnelseGrunner.UKJENT_TOM_FRA_REGISTER);
+    }
+
+    return begrunnelseGrunner;
 };
 
 export const erMålgruppe = (vilkårperiode: Målgruppe | Aktivitet): vilkårperiode is Målgruppe => {

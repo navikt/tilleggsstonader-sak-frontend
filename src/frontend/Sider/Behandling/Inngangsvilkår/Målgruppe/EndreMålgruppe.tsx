@@ -77,9 +77,10 @@ const EndreMålgruppe: React.FC<{
             ny: form,
         });
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerMålgruppe(
+    const begrunnelseGrunner = finnBegrunnelseGrunnerMålgruppe(
         form.type,
-        form.vurderinger
+        form.vurderinger,
+        registerYtelsePeriode
     );
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
@@ -188,7 +189,7 @@ const EndreMålgruppe: React.FC<{
                     oppdaterBegrunnelse={(nyBegrunnelse) =>
                         oppdaterForm('begrunnelse', nyBegrunnelse)
                     }
-                    delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                    begrunnelseGrunner={begrunnelseGrunner}
                     feil={vilkårsperiodeFeil?.begrunnelse}
                 />
             )}
