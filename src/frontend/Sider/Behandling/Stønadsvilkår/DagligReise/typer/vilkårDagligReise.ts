@@ -5,14 +5,16 @@ import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårDagligReise extends VilkårBase {
     adresse?: string;
-    fakta?: FaktaDagligReise;
+    reiseId: string;
+    fakta: FaktaDagligReise;
 }
 
-export type TypeDagligReise = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL';
+export type TypeDagligReise = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
 
 export const typeDagligReiseTilTekst: Record<TypeDagligReise, string> = {
     OFFENTLIG_TRANSPORT: 'Offentlig transport',
     PRIVAT_BIL: 'Privat bil',
+    UBESTEMT: '',
 };
 
 export interface SvarOgBegrunnelse {
@@ -26,8 +28,9 @@ export interface LagreNyttVilkårDagligReise {
     fom: string;
     tom: string;
     adresse: string;
+    reiseId: string;
     svar: SvarVilkårDagligReise;
-    fakta?: FaktaDagligReise;
+    fakta: FaktaDagligReise;
 }
 
 export interface SlettVilkårDagligReiseRequest {

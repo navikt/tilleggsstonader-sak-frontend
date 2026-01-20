@@ -10,9 +10,9 @@ import { tomtOffentligTransport } from '../utils';
 import { FeilmeldingerFaktaOffentligTransport } from '../validering';
 
 interface Props {
-    fakta: FaktaOffentligTransport | undefined;
+    fakta: FaktaOffentligTransport;
     feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
-    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
 }
 
@@ -24,7 +24,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
 }) => {
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState ?? tomtOffentligTransport),
+            ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
             [key]: verdi,
         }));
 
@@ -39,7 +39,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                         label={'Reisedager pr uke'}
                         size="small"
                         error={feilmeldinger?.reisedagerPerUke}
-                        value={harTallverdi(fakta?.reisedagerPerUke) ? fakta?.reisedagerPerUke : ''}
+                        value={harTallverdi(fakta.reisedagerPerUke) ? fakta.reisedagerPerUke : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'reisedagerPerUke',
@@ -68,8 +68,8 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                         size="small"
                         error={feilmeldinger?.syvdagersbillett}
                         value={
-                            harTallverdi(fakta?.prisSyvdagersbillett)
-                                ? fakta?.prisSyvdagersbillett
+                            harTallverdi(fakta.prisSyvdagersbillett)
+                                ? fakta.prisSyvdagersbillett
                                 : ''
                         }
                         onChange={(e) => {
@@ -86,8 +86,8 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                         size="small"
                         error={feilmeldinger?.trettidagersbillett}
                         value={
-                            harTallverdi(fakta?.prisTrettidagersbillett)
-                                ? fakta?.prisTrettidagersbillett
+                            harTallverdi(fakta.prisTrettidagersbillett)
+                                ? fakta.prisTrettidagersbillett
                                 : ''
                         }
                         onChange={(e) => {

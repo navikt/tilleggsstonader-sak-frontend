@@ -1,6 +1,7 @@
 import React, { useId, useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
+import { v7 } from 'uuid';
 
 import { HStack, TextField } from '@navikt/ds-react';
 
@@ -35,8 +36,9 @@ interface Props {
     lagre: (
         periode: Periode,
         adresse: string | undefined,
+        reiseId: string,
         svar: SvarVilkårDagligReise,
-        fakta?: FaktaDagligReise
+        fakta: FaktaDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
     avsluttRedigering: () => void;
 }
@@ -55,11 +57,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
     });
 
     const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
+    const [reiseId] = useState<string>(vilkår?.reiseId || v7());
 
-    const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta | undefined>(
+    const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta>(
         initierGjeldendeFaktaType(vilkår)
     );
-    const [fakta, settFakta] = useState<FaktaDagligReise | undefined>(vilkår?.fakta);
+    const [fakta, settFakta] = useState<FaktaDagligReise>(vilkår?.fakta || { type: 'UBESTEMT' });
 
     const [laster, settLaster] = useState(false);
     const [feilmeldingVedLagring, settFeilmeldingVedLagring] = useState<Feil | undefined>(
@@ -90,7 +93,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
     const lagreVilkår = async () => {
         settLaster(true);
 
-        const response = await lagre(periode, adresse, svar, fakta);
+        const response = await lagre(periode, adresse, reiseId, svar, fakta);
 
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
@@ -119,9 +122,9 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         nullstillFeilmeldingFor(['begrunnelse', 'fakta']);
     };
 
-    const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta | undefined) => {
+    const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta) => {
         if (gjeldendeFaktaType !== nyGjeldendeFaktaType) {
-            settFakta(undefined);
+            settFakta({ type: 'UBESTEMT' });
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
         nullstillFeilmeldingFor(['fakta']);

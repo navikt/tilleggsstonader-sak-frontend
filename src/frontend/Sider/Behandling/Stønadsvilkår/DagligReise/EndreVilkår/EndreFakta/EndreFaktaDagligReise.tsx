@@ -11,9 +11,9 @@ import { TypeVilkårFakta } from '../../typer/regelstrukturDagligReise';
 import { FeilmeldingerDagligReise } from '../validering';
 
 export const EndreFaktaDagligReise: React.FC<{
-    gjeldendeFaktaType: TypeVilkårFakta | undefined;
-    fakta: FaktaDagligReise | undefined;
-    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    gjeldendeFaktaType: TypeVilkårFakta;
+    fakta: FaktaDagligReise;
+    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
 
     feilmeldinger: FeilmeldingerDagligReise;

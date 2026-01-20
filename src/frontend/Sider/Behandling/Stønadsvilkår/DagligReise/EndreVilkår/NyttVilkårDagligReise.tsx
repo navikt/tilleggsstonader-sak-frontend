@@ -23,13 +23,15 @@ export const NyttVilkårDagligReise: React.FC = () => {
     const opprettVilkår = async (
         periode: Periode,
         adresse: string | undefined,
+        reiseId: string,
         svar: SvarVilkårDagligReise,
-        fakta?: FaktaDagligReise
+        fakta: FaktaDagligReise
     ) => {
         return await lagreNyttVilkår({
             fom: periode.fom,
             tom: periode.tom,
             adresse: adresse || '',
+            reiseId: reiseId,
             svar: svar,
             fakta: fakta,
         });

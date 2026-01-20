@@ -24,13 +24,15 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({ vilkår }) => {
     const lagre = async (
         periode: Periode,
         adresse: string | undefined,
+        reiseId: string,
         svar: SvarVilkårDagligReise,
-        fakta?: FaktaDagligReise
+        fakta: FaktaDagligReise
     ) => {
         return await oppdaterVilkår(vilkår.id, {
             fom: periode.fom,
             tom: periode.tom,
             adresse: adresse || '',
+            reiseId: reiseId,
             svar: svar,
             fakta: fakta,
         });

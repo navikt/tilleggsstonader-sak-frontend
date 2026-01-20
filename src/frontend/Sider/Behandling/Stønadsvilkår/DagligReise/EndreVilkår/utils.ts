@@ -1,5 +1,3 @@
-import { v7 } from 'uuid';
-
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 import {
     FaktaOffentligTransport,
@@ -83,8 +81,11 @@ export const initierAktiveDelvilkår = (
 
 export const initierGjeldendeFaktaType = (
     vilkår: VilkårDagligReise | undefined
-): TypeVilkårFakta | undefined => {
-    return vilkår?.fakta ? typeDagligReiseTilTypeVilkårfakta[vilkår.fakta.type] : undefined;
+): TypeVilkårFakta => {
+    if (!vilkår?.fakta) {
+        return 'DAGLIG_REISE_UBESTEMT';
+    }
+    return typeDagligReiseTilTypeVilkårfakta[vilkår.fakta.type];
 };
 
 export const finnBegrunnelsestypeForSvar = (
@@ -109,7 +110,6 @@ export const tomtSvar: SvarVilkårDagligReise = {
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {
     type: 'OFFENTLIG_TRANSPORT',
-    reiseId: v7(),
     reisedagerPerUke: undefined,
     prisEnkelbillett: undefined,
     prisSyvdagersbillett: undefined,
@@ -118,7 +118,6 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
 
 export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
-    reiseId: v7(),
     reisedagerPerUke: undefined,
     reiseavstandEnVei: undefined,
     bompengerEnVei: undefined,

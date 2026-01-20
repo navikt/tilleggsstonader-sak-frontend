@@ -17,7 +17,7 @@ import { FeilmeldingerDagligReise } from '../validering';
 interface Props {
     vurderinger: SvarVilkårDagligReise;
     oppdaterVurderinger: (nyeSvar: SvarVilkårDagligReise) => void;
-    oppdaterGjeldendeFaktaType: (gjeldendeFakta: TypeVilkårFakta | undefined) => void;
+    oppdaterGjeldendeFaktaType: (gjeldendeFakta: TypeVilkårFakta) => void;
     feilmeldinger: FeilmeldingerDagligReise;
 }
 
@@ -82,7 +82,7 @@ export const EndreVurderinger: React.FC<Props> = ({
 
         settAktiveVurdering(aktiveVurderingerKopi);
 
-        oppdaterGjeldendeFaktaType(svar?.tilhørendeFaktaType);
+        oppdaterGjeldendeFaktaType(svar?.tilhørendeFaktaType ?? 'DAGLIG_REISE_UBESTEMT');
     };
 
     /**
