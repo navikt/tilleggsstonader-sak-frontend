@@ -32,7 +32,7 @@ const RegisterYtelserTabell: React.FC<{
                             <TableDataCellSmall>{utledYtelseTekst(ytelse)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(ytelse.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>
-                                {formaterNullableIsoDato(ytelse.tom)}
+                                {ytelse.tom ? formaterNullableIsoDato(ytelse.tom) : 'Ukjent'}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
                                 {erStegRedigerbart && ytelse.kanYtelseBrukesIBehandling && (
