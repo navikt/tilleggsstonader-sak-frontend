@@ -43,7 +43,6 @@ const hjelpetekst = (
                 Brukere med grunnstønad til transport eller bil – må vurderes om dette dekker reise
                 til aktivitetsstedet.
             </List.Item>
-            <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
         </List>
     </>
 );
