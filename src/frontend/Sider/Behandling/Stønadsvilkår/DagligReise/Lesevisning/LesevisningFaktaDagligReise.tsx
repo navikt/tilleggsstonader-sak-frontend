@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import styles from './LesevisningFaktaDagligReise.module.css';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../utils/fomatering';
@@ -9,7 +9,6 @@ import {
     FaktaOffentligTransport,
     FaktaPrivatBil,
 } from '../typer/faktaDagligReise';
-import { typeDagligReiseTilTekst } from '../typer/vilkårDagligReise';
 
 export const LesevisningFaktaDagligReise: FC<{
     fakta: FaktaDagligReise | undefined;
@@ -24,11 +23,7 @@ export const LesevisningFaktaDagligReise: FC<{
             return <LesevisningFaktaPrivatBil fakta={fakta as FaktaPrivatBil} />;
 
         default:
-            return (
-                <Alert variant="info" size="small" inline>
-                    Lesevisning for {typeDagligReiseTilTekst[fakta.type]} er ikke implementert enda
-                </Alert>
-            );
+            return null;
     }
 };
 

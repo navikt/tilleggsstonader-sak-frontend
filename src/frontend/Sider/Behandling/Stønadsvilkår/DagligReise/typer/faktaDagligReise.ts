@@ -6,7 +6,7 @@ export interface FaktaDagligReise {
 }
 
 export interface FaktaOffentligTransport extends FaktaDagligReise {
-    reiseId: string;
+    type: 'OFFENTLIG_TRANSPORT';
     reisedagerPerUke: number | undefined;
     prisEnkelbillett: number | undefined;
     prisSyvdagersbillett: number | undefined;
@@ -14,7 +14,7 @@ export interface FaktaOffentligTransport extends FaktaDagligReise {
 }
 
 export interface FaktaPrivatBil extends FaktaDagligReise {
-    reiseId: string;
+    type: 'PRIVAT_BIL';
     reisedagerPerUke: number | undefined;
     reiseavstandEnVei: number | undefined;
     bompengerEnVei: number | undefined;
@@ -24,4 +24,5 @@ export interface FaktaPrivatBil extends FaktaDagligReise {
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {
     OFFENTLIG_TRANSPORT: 'DAGLIG_REISE_OFFENTLIG_TRANSPORT',
     PRIVAT_BIL: 'DAGLIG_REISE_PRIVAT_BIL',
+    UBESTEMT: 'DAGLIG_REISE_UBESTEMT',
 };

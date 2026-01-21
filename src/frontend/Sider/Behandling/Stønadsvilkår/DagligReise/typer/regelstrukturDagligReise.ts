@@ -19,12 +19,10 @@ export interface SvarAlternativ {
     svarId: SvarId;
     nesteRegelId: RegelIdDagligReise | undefined;
     begrunnelseType: BegrunnelseRegel;
-    tilhørendeFaktaType: TypeVilkårFakta | undefined;
+    tilhørendeFaktaType: TypeVilkårFakta;
 }
 
-export type TypeVilkårFakta = 'DAGLIG_REISE_OFFENTLIG_TRANSPORT' | 'DAGLIG_REISE_PRIVAT_BIL';
-
-export const typeVilkårFaktaTIlTekst: Record<TypeVilkårFakta, string> = {
-    DAGLIG_REISE_OFFENTLIG_TRANSPORT: 'Offentlig transport',
-    DAGLIG_REISE_PRIVAT_BIL: 'Privat bil',
-};
+export type TypeVilkårFakta =
+    | 'DAGLIG_REISE_OFFENTLIG_TRANSPORT'
+    | 'DAGLIG_REISE_PRIVAT_BIL'
+    | 'DAGLIG_REISE_UBESTEMT';

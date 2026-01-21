@@ -12,9 +12,9 @@ import { FaktaDagligReise, FaktaPrivatBil } from '../../typer/faktaDagligReise';
 import { tomtPrivatBil } from '../utils';
 
 interface Props {
-    fakta: FaktaPrivatBil | undefined;
+    fakta: FaktaPrivatBil;
     //feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
-    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise | undefined>>;
+    settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
 }
 
@@ -35,7 +35,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
 
     const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState ?? tomtPrivatBil),
+            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
             [key]: verdi,
         }));
 
@@ -50,7 +50,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         label={'Reisedager pr uke'}
                         size="small"
                         //error={feilmeldinger?.reisedagerPerUke}
-                        value={harTallverdi(fakta?.reisedagerPerUke) ? fakta?.reisedagerPerUke : ''}
+                        value={harTallverdi(fakta.reisedagerPerUke) ? fakta.reisedagerPerUke : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'reisedagerPerUke',
@@ -64,9 +64,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         label={'Reiseavstand en vei (km)'}
                         size="small"
                         //error={feilmeldinger?.enkeltbillett}
-                        value={
-                            harTallverdi(fakta?.reiseavstandEnVei) ? fakta?.reiseavstandEnVei : ''
-                        }
+                        value={harTallverdi(fakta.reiseavstandEnVei) ? fakta.reiseavstandEnVei : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'reiseavstandEnVei',
@@ -80,7 +78,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         label={'Bompenger en vei'}
                         size="small"
                         //error={feilmeldinger?.syvdagersbillett}
-                        value={harTallverdi(fakta?.bompengerEnVei) ? fakta?.bompengerEnVei : ''}
+                        value={harTallverdi(fakta.bompengerEnVei) ? fakta.bompengerEnVei : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'bompengerEnVei',
@@ -94,9 +92,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         label={'Fergekostnad en vei'}
                         size="small"
                         //error={feilmeldinger?.trettidagersbillett}
-                        value={
-                            harTallverdi(fakta?.fergekostandEnVei) ? fakta?.fergekostandEnVei : ''
-                        }
+                        value={harTallverdi(fakta.fergekostandEnVei) ? fakta.fergekostandEnVei : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'fergekostandEnVei',

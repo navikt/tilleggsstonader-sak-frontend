@@ -44,7 +44,7 @@ const LesevisningVilkårDagligReise: FC<{
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                         <LesevisningFaktaDagligReise fakta={fakta} />
                     </VStack>
-                    {fakta && (
+                    {fakta.type !== 'UBESTEMT' && (
                         <Tag
                             size="small"
                             style={{ width: 'max-content' }}
