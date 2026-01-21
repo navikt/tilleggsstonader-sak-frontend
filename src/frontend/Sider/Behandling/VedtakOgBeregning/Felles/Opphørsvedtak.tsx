@@ -18,7 +18,8 @@ import { FanePath } from '../../faner';
 
 export const OpphørVedtak: React.FC<{
     vedtak?: OpphørRequest;
-}> = ({ vedtak }) => {
+    steg?: Steg;
+}> = ({ vedtak, steg = Steg.BEREGNE_YTELSE }) => {
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
@@ -95,7 +96,7 @@ export const OpphørVedtak: React.FC<{
             />
 
             <StegKnapp
-                steg={Steg.BEREGNE_YTELSE}
+                steg={steg}
                 nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
