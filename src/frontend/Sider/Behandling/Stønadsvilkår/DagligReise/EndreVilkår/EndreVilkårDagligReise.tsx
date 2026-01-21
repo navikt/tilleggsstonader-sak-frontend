@@ -2,8 +2,9 @@ import React, { useId, useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { HStack } from '@navikt/ds-react';
+import { HStack, TextField } from '@navikt/ds-react';
 
+import styles from './EndreVilkårDagligReise.module.css';
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
@@ -33,6 +34,7 @@ interface Props {
     vilkår?: VilkårDagligReise;
     lagre: (
         periode: Periode,
+        adresse: string | undefined,
         svar: SvarVilkårDagligReise,
         fakta?: FaktaDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
@@ -51,6 +53,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
         fom: vilkår?.fom || '',
         tom: vilkår?.tom || '',
     });
+
+    const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
 
     const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta | undefined>(
         initierGjeldendeFaktaType(vilkår)
@@ -74,19 +78,19 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(periode, svar, fakta, regelstruktur);
+        const valideringsfeil = validerVilkår(periode, adresse, svar, fakta, regelstruktur);
         settFeilmeldinger(valideringsfeil);
         if (!ingen(valideringsfeil)) {
             return;
         }
 
-        lagreVilkår();
+        await lagreVilkår();
     };
 
     const lagreVilkår = async () => {
         settLaster(true);
 
-        const response = await lagre(periode, svar, fakta);
+        const response = await lagre(periode, adresse, svar, fakta);
 
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
@@ -101,6 +105,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
     const nullstillFeilOgUlagretkomponent = () => {
         settUlagretKomponent(komponentId);
         nullstillFeilmeldingFor(['fakta']);
+    };
+
+    const oppdaterAdresse = (nyAdresse: string | undefined) => {
+        settAdresse(nyAdresse);
+        settUlagretKomponent(komponentId);
+        nullstillFeilmeldingFor(['adresse']);
     };
 
     const oppdaterVurderinger = (nyeSvar: SvarVilkårDagligReise) => {
@@ -155,6 +165,19 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             }}
                             size="small"
                             feil={feilmeldinger.tom}
+                        />
+                    </FeilmeldingMaksBredde>
+                    <FeilmeldingMaksBredde $maxWidth={380}>
+                        <TextField
+                            label={'Adresse aktivitet'}
+                            size="small"
+                            error={feilmeldinger?.adresse}
+                            value={adresse || ''}
+                            onChange={(e) => {
+                                oppdaterAdresse(e.target.value || undefined);
+                                nullstillFeilmeldingFor(['adresse']);
+                            }}
+                            className={styles.adressefelt}
                         />
                     </FeilmeldingMaksBredde>
                 </HStack>

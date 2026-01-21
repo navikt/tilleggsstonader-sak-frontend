@@ -27,6 +27,7 @@ interface Props {
     hjelpetekstHeader?: React.ReactNode;
     hjelpetekst?: React.ReactNode;
     feilmeldinger: FeilmeldingerDagligReise;
+    begrunnelseHjelpetekst?: string;
 }
 
 export const EndreDelvilkår: FC<Props> = ({
@@ -40,6 +41,7 @@ export const EndreDelvilkår: FC<Props> = ({
     hjelpetekst,
     feilmeldinger,
     erUndervilkår = false,
+    begrunnelseHjelpetekst,
 }) => {
     const [begrunnelseType, settBegrunnelseType] = React.useState<BegrunnelseRegel>(
         finnBegrunnelsestypeForSvar(svaralternativer, vurdering?.svar)
@@ -101,6 +103,7 @@ export const EndreDelvilkår: FC<Props> = ({
                     minRows={3}
                     value={vurdering?.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
+                    description={begrunnelseHjelpetekst}
                 />
             )}
         </div>

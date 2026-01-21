@@ -53,7 +53,7 @@ export enum FaneNavn {
 export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
     VILKÅR = 'Bolig/overnatting',
-    DAGLIG_REISE = 'Daglig reise',
+    DAGLIG_REISE = 'Daglige reiser',
 }
 
 export const faneNavnStønadsvilkår: Record<

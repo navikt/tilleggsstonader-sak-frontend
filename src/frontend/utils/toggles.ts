@@ -32,4 +32,5 @@ export enum Toggle {
     TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE = 'sak.tilgangsstyring-tildelt-oppgave',
     BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
     KAN_BEHANDLE_PRIVAT_BIL = 'sak.daglig-reise-privat-bil',
+    KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',
 }

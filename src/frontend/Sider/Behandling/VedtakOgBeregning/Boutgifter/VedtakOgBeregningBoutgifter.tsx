@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
-// import AvslåVedtak from './AvslåVedtak';
 import styles from './VedtakOgBeregningBoutgifter.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -15,10 +14,10 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakBoutgifter';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseBoutgifterEllerVedtaksperioderFraForrigeBehandling';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
 
 export const VedtakOgBeregningBoutgifter: FC = () => {
     const { vedtak } = useVedtak<VedtakBoutgifter>();

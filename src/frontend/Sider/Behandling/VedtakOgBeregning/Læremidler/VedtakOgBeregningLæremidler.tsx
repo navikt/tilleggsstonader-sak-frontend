@@ -15,9 +15,9 @@ import {
     vedtakErOpphør,
     VedtakLæremidler,
 } from '../../../../typer/vedtak/vedtakLæremidler';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
 const VedtakOgBeregningLæremidler: FC = () => {
     const { vedtak } = useVedtak<VedtakLæremidler>();

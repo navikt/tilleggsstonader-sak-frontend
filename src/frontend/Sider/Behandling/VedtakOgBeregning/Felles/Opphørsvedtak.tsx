@@ -16,7 +16,7 @@ import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
 import { FanePath } from '../../faner';
 
-const OpphørVedtak: React.FC<{
+export const OpphørVedtak: React.FC<{
     vedtak?: OpphørRequest;
     steg?: Steg;
 }> = ({ vedtak, steg = Steg.BEREGNE_YTELSE }) => {
@@ -106,5 +106,3 @@ const OpphørVedtak: React.FC<{
         </VStack>
     );
 };
-
-export default OpphørVedtak;

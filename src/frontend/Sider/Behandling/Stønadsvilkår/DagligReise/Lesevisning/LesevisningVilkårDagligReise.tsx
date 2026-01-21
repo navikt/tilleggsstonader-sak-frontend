@@ -21,7 +21,7 @@ const LesevisningVilkårDagligReise: FC<{
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
 }> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
-    const { resultat, delvilkårsett, fom, tom, fakta } = vilkår;
+    const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
 
     return (
         <ResultatOgStatusKort
@@ -57,6 +57,12 @@ const LesevisningVilkårDagligReise: FC<{
                 </VStack>
 
                 <VStack gap="1">
+                    <>
+                        <BodyShort size="small">
+                            <strong>Adresse aktivitet:</strong> {adresse || '-'}
+                        </BodyShort>
+                        <Skillelinje />
+                    </>
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
                             gap={'1 4'}

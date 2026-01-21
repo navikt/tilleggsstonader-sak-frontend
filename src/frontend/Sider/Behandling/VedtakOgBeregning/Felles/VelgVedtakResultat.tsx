@@ -11,7 +11,7 @@ interface Props {
     settTypeVedtak: (val: TypeVedtak | undefined) => void;
 }
 
-const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
+export const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
     const { erStegRedigerbart } = useSteg();
 
     const { behandling } = useBehandling();
@@ -34,5 +34,3 @@ const VelgVedtakResultat: FC<Props> = ({ typeVedtak, settTypeVedtak }) => {
         </RadioGroup>
     );
 };
-
-export default VelgVedtakResultat;

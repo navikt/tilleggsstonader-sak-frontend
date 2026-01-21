@@ -21,7 +21,7 @@ export const initierSvar = (
         return tomtSvar;
     }
 
-    const delvilkår = eksisterendeVilkår.delvilkårsett[0]; // Daglig reise har kun ett delvilkårsett
+    const delvilkår = eksisterendeVilkår.delvilkårsett[0]; // Daglige reiser har kun ett delvilkårsett
 
     return delvilkår.vurderinger.reduce((acc, vurdering) => {
         acc[vurdering.regelId as RegelIdDagligReise] = vurdering.svar

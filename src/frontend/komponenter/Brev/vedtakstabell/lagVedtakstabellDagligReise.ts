@@ -53,7 +53,7 @@ export function lagVedtakstabellDagligReise(
         const dagerTekst = reisedagerIUken() > 1 ? 'dager' : 'dag';
 
         return `
-        <p style="margin-bottom: 1px" >Reise med offentlig transport ${reisedagerIUken()} ${dagerTekst} i uken:</p>
+        <p style="margin-bottom: 1px" >Reise med offentlig transport · ${reise.adresse ?? '-'} · ${reisedagerIUken()} ${dagerTekst} i uken:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead><tr>${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>

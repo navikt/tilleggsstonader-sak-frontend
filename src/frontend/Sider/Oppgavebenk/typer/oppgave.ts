@@ -95,8 +95,8 @@ export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
     ab0292: 'Læremidler',
     ab0286: 'Bolig/overnatting',
-    ab0287: 'Daglig reise - Tilltaksenheten',
-    ab0288: 'Daglig reise - Nay',
+    ab0287: 'Daglige reiser - Tilltaksenheten',
+    ab0288: 'Daglige reiser - Nay',
 };
 
 export enum OppgaveBehandlingstype {

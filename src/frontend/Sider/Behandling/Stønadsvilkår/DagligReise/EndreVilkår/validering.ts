@@ -1,6 +1,7 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { harVerdi } from '../../../../../utils/utils';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
@@ -19,6 +20,7 @@ export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFakta
 export type FeilmeldingerDagligReise = {
     fom?: string;
     tom?: string;
+    adresse?: string;
     fakta?: FeilmeldingerFaktaDagligReise;
     begrunnelse?: Partial<Record<RegelIdDagligReise, string>>;
 };
@@ -29,19 +31,29 @@ export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
 
 export const validerVilkår = (
     periode: Periode,
+    adresse: string | undefined,
     svar: SvarVilkårDagligReise,
     fakta: FaktaDagligReise | undefined,
     regelstruktur: Regelstruktur
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
+    const adresseValidering = validerAdresse(adresse);
     const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
         ...periodeValidering,
+        ...adresseValidering,
         ...svarValidering,
         ...(faktaValidering && { fakta: faktaValidering }),
     };
+};
+
+const validerAdresse = (adresse: string | undefined): Partial<FeilmeldingerDagligReise> => {
+    if (!adresse) {
+        return { adresse: 'Adresse er påkrevd' };
+    }
+    return {};
 };
 
 const validerSvar = (
@@ -55,12 +67,14 @@ const validerSvar = (
     const begrunnelseFeil: Partial<Record<RegelIdDagligReise, string>> = {};
 
     for (const [regelId, svar] of Object.entries(svarMap)) {
-        if (!harBegrunnelseHvisObligatorisk(regelId as RegelIdDagligReise, svar, regelstruktur)) {
+        if (!validerBegrunnelseForRegel(regelId as RegelIdDagligReise, svar, regelstruktur)) {
             begrunnelseFeil[regelId as RegelIdDagligReise] = 'Mangler begrunnelse';
         }
     }
 
-    return { begrunnelse: begrunnelseFeil };
+    const finnesFeil = Object.keys(begrunnelseFeil).length > 0;
+
+    return finnesFeil ? { begrunnelse: begrunnelseFeil } : undefined;
 };
 
 const validerFakta = (
@@ -107,7 +121,7 @@ const validerFaktaOffentligTransport = (
     }
 };
 
-function harBegrunnelseHvisObligatorisk(
+function validerBegrunnelseForRegel(
     regelId: RegelIdDagligReise,
     svar: SvarOgBegrunnelse | undefined,
     regelstruktur: Regelstruktur
@@ -115,5 +129,10 @@ function harBegrunnelseHvisObligatorisk(
     const svaralternativerForRegel = regelstruktur[regelId].svaralternativer;
     const begrunnelsesType = finnBegrunnelsestypeForSvar(svaralternativerForRegel, svar?.svar);
 
-    return begrunnelsesType === BegrunnelseRegel.PÅKREVD && svar?.begrunnelse !== undefined;
+    const begrunnelseErObligatoriskOgUtfylt =
+        begrunnelsesType === BegrunnelseRegel.PÅKREVD && harVerdi(svar?.begrunnelse);
+
+    const regelKreverIkkeBegrunnelse = begrunnelsesType !== BegrunnelseRegel.PÅKREVD;
+
+    return begrunnelseErObligatoriskOgUtfylt || regelKreverIkkeBegrunnelse;
 }

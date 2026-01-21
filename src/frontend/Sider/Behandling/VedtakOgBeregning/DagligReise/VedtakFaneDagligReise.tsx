@@ -14,9 +14,9 @@ import {
     vedtakErInnvilgelse,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
-import AvslåVedtak from '../Felles/AvslåVedtak';
-import OpphørVedtak from '../Felles/Opphørsvedtak';
-import VelgVedtakResultat from '../Felles/VelgVedtakResultat';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
+import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtakV2/InnvilgelseDagligReiseEllerVedtaksperioderFraForrigeBehandling';
 import { Steg } from '../../../../typer/behandling/steg';
 import { FanePath } from '../../faner';

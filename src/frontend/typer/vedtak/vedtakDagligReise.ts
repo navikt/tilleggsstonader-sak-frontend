@@ -58,6 +58,7 @@ export type Billettdetaljer = {
 
 interface BeregningsresultatForReise {
     reiseId: string;
+    adresse?: string;
     perioder: BeregningsresultatForPeriode[];
 }
 

@@ -18,11 +18,11 @@ import {
 } from '../../../../typer/vedtak/vedtak';
 import { FanePath } from '../../faner';
 
-const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest; steg?: Steg; nesteFane?: FanePath }> = ({
-    vedtak,
-    steg = Steg.BEREGNE_YTELSE,
-    nesteFane = FanePath.SIMULERING,
-}) => {
+export const AvslåVedtak: React.FC<{
+    vedtak?: AvslagRequest;
+    steg?: Steg;
+    nesteFane?: FanePath;
+}> = ({ vedtak, steg = Steg.BEREGNE_YTELSE, nesteFane = FanePath.SIMULERING }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { settUlagretKomponent } = useApp();
@@ -86,5 +86,3 @@ const AvslåVedtak: React.FC<{ vedtak?: AvslagRequest; steg?: Steg; nesteFane?: 
         </VStack>
     );
 };
-
-export default AvslåVedtak;
