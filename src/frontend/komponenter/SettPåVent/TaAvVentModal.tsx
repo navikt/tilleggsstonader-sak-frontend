@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Textarea } from '@navikt/ds-react';
 
+import { settPåVentContextTilUrlContext } from './typer';
 import { useApp } from '../../context/AppContext';
 import { useSettPåVent } from '../../context/SettPåVentContext';
 import { RessursStatus } from '../../typer/ressurs';
@@ -31,10 +32,14 @@ const TaAvVentModal: React.FC<{
     const taAvVent = (skalTilordnesRessurs: boolean) => {
         if (laster) return;
         settLaster(true);
-        request<null, TaAvVentRequest>(`/api/${context}/sett-pa-vent/${behandlingId}`, 'DELETE', {
-            skalTilordnesRessurs: skalTilordnesRessurs,
-            kommentar: kommentar,
-        }).then((resp) => {
+        request<null, TaAvVentRequest>(
+            `/api/${settPåVentContextTilUrlContext[context]}/sett-pa-vent/${behandlingId}`,
+            'DELETE',
+            {
+                skalTilordnesRessurs: skalTilordnesRessurs,
+                kommentar: kommentar,
+            }
+        ).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 if (skalTilordnesRessurs) {
                     // TODO - fungerer ikke med 'hentBehandling.rerun();' da man må laste inn vilkår og

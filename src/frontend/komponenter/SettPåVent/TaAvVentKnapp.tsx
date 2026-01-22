@@ -6,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 
 import { NullstillBehandlingAdvarselModal } from './NullstillBehandlingAdvarselModal';
 import TaAvVentModal from './TaAvVentModal';
+import { settPåVentContextTilUrlContext } from './typer';
 import { useApp } from '../../context/AppContext';
 import { useSettPåVent } from '../../context/SettPåVentContext';
 import { RessursStatus } from '../../typer/ressurs';
@@ -39,7 +40,7 @@ export const TaAvVentKnapp: React.FC<{
             return;
         }
         request<KanTaAvVentResponse, null>(
-            `/api/${context}/sett-pa-vent/${behandlingId}/kan-ta-av-vent`
+            `/api/${settPåVentContextTilUrlContext[context]}/sett-pa-vent/${behandlingId}/kan-ta-av-vent`
         ).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 const kanTaAvVentStatus = resp.data.resultat;

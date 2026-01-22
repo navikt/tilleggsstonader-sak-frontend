@@ -1,4 +1,11 @@
-export type SettPåVentContext = 'sak' | 'klage';
+import { Stønadstype } from '../../typer/behandling/behandlingTema';
+
+export type SettPåVentUrlContext = 'sak' | 'klage';
+export enum SettPåVentContext {
+    SAK_TSO = 'SAK_TSO',
+    SAK_TSR = 'SAK_TSR',
+    KLAGE = 'KLAGE',
+}
 export type SettPåVentBehandlingStatus = 'SATT_PÅ_VENT' | 'ANNET';
 
 export interface SettPåVent {
@@ -33,6 +40,7 @@ export enum ÅrsakSettPåVent {
     ANTALL_DAGER_PÅ_TILTAK = 'ANTALL_DAGER_PÅ_TILTAK',
     RETTIGHET_TIL_OVERGANGSSTØNAD = 'RETTIGHET_TIL_OVERGANGSSTØNAD',
     REGISTRERING_AV_UTDANNING = 'REGISTRERING_AV_UTDANNING',
+    BEKREFTE_DELTAKELSE_KVP = 'BEKREFTE_DELTAKELSE_KVP',
     ANNET = 'ANNET',
 }
 
@@ -44,11 +52,12 @@ export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
     ANTALL_DAGER_PÅ_TILTAK: 'Antall dager på tiltak',
     RETTIGHET_TIL_OVERGANGSSTØNAD: 'Rettighet til overgangsstønad',
     REGISTRERING_AV_UTDANNING: 'Registrering av utdanning',
+    BEKREFTE_DELTAKELSE_KVP: 'Bekrefte deltakelse KVP',
     ANNET: 'Annet',
 };
 
 const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> = {
-    sak: {
+    SAK_TSO: {
         [ÅrsakSettPåVent.DOKUMENTASJON_FRA_BRUKER]: true,
         [ÅrsakSettPåVent.REGISTRERING_AV_TILTAK]: true,
         [ÅrsakSettPåVent.VURDERING_AV_NEDSATT_ARBEIDSEVNE]: true,
@@ -56,9 +65,21 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.ANTALL_DAGER_PÅ_TILTAK]: true,
         [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: true,
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
+        [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
         [ÅrsakSettPåVent.ANNET]: true,
     },
-    klage: {
+    SAK_TSR: {
+        [ÅrsakSettPåVent.DOKUMENTASJON_FRA_BRUKER]: true,
+        [ÅrsakSettPåVent.REGISTRERING_AV_TILTAK]: true,
+        [ÅrsakSettPåVent.VURDERING_AV_NEDSATT_ARBEIDSEVNE]: false,
+        [ÅrsakSettPåVent.ADRESSE_TIL_TILTAKSARRANGØR]: false,
+        [ÅrsakSettPåVent.ANTALL_DAGER_PÅ_TILTAK]: true,
+        [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: false,
+        [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: false,
+        [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: true,
+        [ÅrsakSettPåVent.ANNET]: true,
+    },
+    KLAGE: {
         [ÅrsakSettPåVent.DOKUMENTASJON_FRA_BRUKER]: true,
         [ÅrsakSettPåVent.REGISTRERING_AV_TILTAK]: true,
         [ÅrsakSettPåVent.VURDERING_AV_NEDSATT_ARBEIDSEVNE]: true,
@@ -66,6 +87,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.ANTALL_DAGER_PÅ_TILTAK]: false,
         [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: false,
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
+        [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
         [ÅrsakSettPåVent.ANNET]: true,
     },
 };
@@ -92,7 +114,22 @@ export const årsakTilFrist: Record<ÅrsakSettPåVent, number | undefined> = {
     ANTALL_DAGER_PÅ_TILTAK: EN_UKE,
     RETTIGHET_TIL_OVERGANGSSTØNAD: EN_UKE,
     REGISTRERING_AV_UTDANNING: EN_UKE,
+    BEKREFTE_DELTAKELSE_KVP: EN_UKE,
     ANNET: undefined,
+};
+
+export const stønadstypeTilSettPåVentContext: Record<Stønadstype, SettPåVentContext> = {
+    LÆREMIDLER: SettPåVentContext.SAK_TSO,
+    BARNETILSYN: SettPåVentContext.SAK_TSO,
+    BOUTGIFTER: SettPåVentContext.SAK_TSO,
+    DAGLIG_REISE_TSO: SettPåVentContext.SAK_TSO,
+    DAGLIG_REISE_TSR: SettPåVentContext.SAK_TSR,
+};
+
+export const settPåVentContextTilUrlContext: Record<SettPåVentContext, SettPåVentUrlContext> = {
+    SAK_TSO: 'sak',
+    SAK_TSR: 'sak',
+    KLAGE: 'klage',
 };
 
 export const alleÅrsaker = Object.keys(ÅrsakSettPåVent) as ÅrsakSettPåVent[];
