@@ -10,6 +10,6 @@ export const behandlingStatusTilTekst: Record<KlagebehandlingStatus, string> = {
     OPPRETTET: 'Opprettet',
     UTREDES: 'Utredes',
     SATT_PÅ_VENT: 'Satt på vent',
-    VENTER: 'Venter',
+    VENTER: 'Venter på KA',
     FERDIGSTILT: 'Ferdigstilt',
 };
