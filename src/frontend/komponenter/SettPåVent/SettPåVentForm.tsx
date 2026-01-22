@@ -6,6 +6,7 @@ import { finnNyFrist } from './antallDagerFrist';
 import styles from './SettPåVentForm.module.css';
 import {
     SettPåVent,
+    settPåVentContextTilUrlContext,
     SettPåVentError,
     SettPåVentRequest,
     StatusSettPåVent,
@@ -70,7 +71,7 @@ const SettPåVentForm: React.FC<{
 
         settLaster(true);
         request<StatusSettPåVent, SettPåVentRequest>(
-            `/api/${context}/sett-pa-vent/${behandlingId}`,
+            `/api/${settPåVentContextTilUrlContext[context]}/sett-pa-vent/${behandlingId}`,
             oppdatererEksisterendeSettPåVent ? 'PUT' : 'POST',
             { ...settPåVent, beholdOppgave }
         ).then((response) => {

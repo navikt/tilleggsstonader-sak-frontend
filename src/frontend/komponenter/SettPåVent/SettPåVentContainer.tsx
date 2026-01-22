@@ -5,7 +5,12 @@ import { Alert } from '@navikt/ds-react';
 import styles from './SettPåVentContainer.module.css';
 import SettPåVentForm from './SettPåVentForm';
 import SettPåVentInformasjon from './SettPåVentInformasjon';
-import { StatusSettPåVent } from './typer';
+import {
+    SettPåVentContext,
+    settPåVentContextTilUrlContext,
+    StatusSettPåVent,
+    stønadstypeTilSettPåVentContext,
+} from './typer';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { SettPåVentProvider, useSettPåVent } from '../../context/SettPåVentContext';
@@ -26,7 +31,7 @@ export const SettPåVentSak = ({
     const { behandling, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     return (
         <SettPåVentProvider
-            context={'sak'}
+            context={stønadstypeTilSettPåVentContext[behandling.stønadstype]}
             behandlingId={behandling.id}
             behandlingErSattPåVent={behandling.status === BehandlingStatus.SATT_PÅ_VENT}
             hentBehandling={hentBehandling}
@@ -50,7 +55,7 @@ export const SettPåVentKlage = () => {
     } = useKlagebehandling();
     return (
         <SettPåVentProvider
-            context={'klage'}
+            context={SettPåVentContext.KLAGE}
             behandlingId={behandling.id}
             behandlingErSattPåVent={behandling.status === KlagebehandlingStatus.SATT_PÅ_VENT}
             hentBehandling={hentBehandling}
@@ -77,9 +82,9 @@ const SettPåVentContainer: React.FC<{
 
     useEffect(() => {
         if (erSaksbehandler && behandlingErSattPåVent) {
-            request<StatusSettPåVent, null>(`/api/${context}/sett-pa-vent/${behandlingId}`).then(
-                settStatusResponse
-            );
+            request<StatusSettPåVent, null>(
+                `/api/${settPåVentContextTilUrlContext[context]}/sett-pa-vent/${behandlingId}`
+            ).then(settStatusResponse);
         }
         // skal kun hente status vid første rendering, ellers håndteres det av komponenten selv
         // eslint-disable-next-line react-hooks/exhaustive-deps
