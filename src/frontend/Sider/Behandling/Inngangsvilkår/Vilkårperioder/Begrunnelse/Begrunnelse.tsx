@@ -8,29 +8,28 @@ import { BegrunnelseGrunner, begrunnelseTilTekst } from './utils';
 interface Props {
     begrunnelse?: string;
     oppdaterBegrunnelse: (nyBegrunnelse: string) => void;
-    delvilkårSomKreverBegrunnelse: BegrunnelseGrunner[];
+    begrunnelseGrunner: BegrunnelseGrunner[];
     feil?: string;
 }
 
 const Begrunnelse: React.FC<Props> = ({
     begrunnelse,
     oppdaterBegrunnelse,
-    delvilkårSomKreverBegrunnelse,
+    begrunnelseGrunner,
     feil,
 }) => {
-    const begrunnelseSuffix =
-        delvilkårSomKreverBegrunnelse.length > 0 ? '(obligatorisk)' : '(valgfri)';
+    const begrunnelseSuffix = begrunnelseGrunner.length > 0 ? '(obligatorisk)' : '(valgfri)';
 
     return (
         <Textarea
             label={`Begrunnelse ${begrunnelseSuffix}`}
             description={
-                delvilkårSomKreverBegrunnelse.length > 0 && (
+                begrunnelseGrunner.length > 0 && (
                     <>
                         Du må begrunne:
                         <ul className={styles.liste}>
-                            {delvilkårSomKreverBegrunnelse.map((delvilkår, indeks) => (
-                                <li key={indeks}>{begrunnelseTilTekst[delvilkår]}</li>
+                            {begrunnelseGrunner.map((begrunnelseGrunn, indeks) => (
+                                <li key={indeks}>{begrunnelseTilTekst[begrunnelseGrunn]}</li>
                             ))}
                         </ul>
                     </>

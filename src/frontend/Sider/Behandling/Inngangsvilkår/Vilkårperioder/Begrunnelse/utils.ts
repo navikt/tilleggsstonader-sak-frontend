@@ -5,6 +5,7 @@ export enum BegrunnelseGrunner {
     SYKEPENGER_100_PROSENT = 'SYKEPENGER_100_PROSENT',
     NEDSATT_ARBEIDSEVNE = 'NEDSATT_ARBEIDSEVNE',
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
+    UKJENT_TOM_FRA_REGISTER = 'UKJENT_TOM_FRA_REGISTER',
 
     // Aktivitet felles
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
@@ -27,4 +28,5 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     HAR_UTGIFTER: 'Hvorfor bruker ikke har utgifter',
     HAR_RETT_TIL_UTSTYRSSTIPEND: 'Hvorfor bruker har rett til utstyrsstipend',
+    UKJENT_TOM_FRA_REGISTER: 'Til dato',
 };

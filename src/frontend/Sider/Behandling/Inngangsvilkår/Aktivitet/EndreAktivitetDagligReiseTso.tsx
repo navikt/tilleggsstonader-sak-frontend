@@ -170,7 +170,7 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
-                delvilkårSomKreverBegrunnelse={delvilkårSomKreverBegrunnelse}
+                begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="4">
