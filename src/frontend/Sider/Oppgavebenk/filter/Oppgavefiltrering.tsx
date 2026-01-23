@@ -143,7 +143,7 @@ export const Oppgavefiltrering = () => {
                 <Select
                     value={oppgaveRequest.enhet}
                     label="Enhet"
-                    onChange={(e) => oppdaterEnhet(e)}
+                    onChange={oppdaterEnhet}
                     size="small"
                 >
                     {gyldigeEnheterForSaksbehandler.map((enhet) => (
