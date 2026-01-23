@@ -10,6 +10,7 @@ import {
     AktivitetDagligReiseTsr,
     AktivitetDagligReiseTsrFaktaOgSvar,
 } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
@@ -112,10 +113,16 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (type: AktivitetType | '') => {
+export const finnBegrunnelseGrunnerAktivitet = (
+    type: AktivitetType | '',
+    svarHarUtgifter: SvarJaNei | undefined
+) => {
     const delvilkårSomMåBegrunnes = [];
     if (type === AktivitetType.INGEN_AKTIVITET) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
+    }
+    if (svarHarUtgifter === SvarJaNei.NEI) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
     }
 
     return delvilkårSomMåBegrunnes;

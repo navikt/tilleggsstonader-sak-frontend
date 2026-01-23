@@ -143,7 +143,10 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         settForm((prevState) => ({ ...prevState, ['typeAktivitet']: typeAktivitet }));
     };
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(form.type);
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
+        form.type,
+        form.svarHarUtgifter
+    );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
