@@ -53,6 +53,7 @@ export const Oppgavefiltrering = () => {
     const oppdaterEnhet = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         const oppdatertEnhet = e.target.value;
         oppdaterOppgave('enhet')(oppdatertEnhet);
+        // Må nullstille gjelder-felt om det ikke er gyldig for ny enhet
         if (
             oppgaveRequest.behandlingstema &&
             !erGyldigBehandlingstemaForEnhet(
