@@ -111,17 +111,17 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
                     ))}
                 </Table.Body>
             </Table>
-            {antallSider > 1 && (
-                <HStack align="center" gap="14">
+            <HStack align="center" gap="14">
+                {antallSider > 1 && (
                     <Pagination
                         page={side}
                         count={antallSider}
                         onPageChange={oppdaterValgtSide}
                         size="small"
                     />
-                    <BodyShort>Totalt {oppgaverResponse.antallTreffTotalt} treff</BodyShort>
-                </HStack>
-            )}
+                )}
+                <BodyShort>Totalt {oppgaverResponse.antallTreffTotalt} treff</BodyShort>
+            </HStack>
         </>
     );
 };
