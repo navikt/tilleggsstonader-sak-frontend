@@ -13,8 +13,14 @@ import {
     nullstillSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
-import { enhetTilTekst, hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
-import { behandlingstemaTilTekst, OppgaveBehandlingstype, OppgaveRequest } from '../typer/oppgave';
+import { Enheter, enhetTilTekst, hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
+import {
+    Behandlingstema,
+    behandlingstemaTilTekst,
+    erGyldigBehandlingstemaForEnhet,
+    OppgaveBehandlingstype,
+    OppgaveRequest,
+} from '../typer/oppgave';
 import {
     oppgaverTyperSomSkalVisesFørst,
     oppgaveTypeTilTekst,
@@ -42,6 +48,21 @@ export const Oppgavefiltrering = () => {
         settOppgaveRequest(nullstiltSortering);
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), nullstiltSortering);
         hentOppgaver(nullstiltSortering);
+    };
+
+    const oppdaterEnhet = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        const oppdatertEnhet = e.target.value;
+        oppdaterOppgave('enhet')(oppdatertEnhet);
+        // Må nullstille gjelder-felt om det ikke er gyldig for ny enhet
+        if (
+            oppgaveRequest.behandlingstema &&
+            !erGyldigBehandlingstemaForEnhet(
+                oppgaveRequest.behandlingstema,
+                oppdatertEnhet as Enheter
+            )
+        ) {
+            oppdaterOppgave('behandlingstema')(undefined);
+        }
     };
 
     const nullstillFiltrering = () => {
@@ -107,16 +128,23 @@ export const Oppgavefiltrering = () => {
                     size="small"
                 >
                     <option value="">Alle</option>
-                    {Object.entries(behandlingstemaTilTekst).map(([type, val]) => (
-                        <option key={type} value={type}>
-                            {val}
-                        </option>
-                    ))}
+                    {Object.entries(behandlingstemaTilTekst)
+                        .filter(([type]) =>
+                            erGyldigBehandlingstemaForEnhet(
+                                type as Behandlingstema,
+                                oppgaveRequest.enhet
+                            )
+                        )
+                        .map(([type, val]) => (
+                            <option key={type} value={type}>
+                                {val}
+                            </option>
+                        ))}
                 </Select>
                 <Select
                     value={oppgaveRequest.enhet}
                     label="Enhet"
-                    onChange={oppdaterOppgaveTargetValue('enhet')}
+                    onChange={oppdaterEnhet}
                     size="small"
                 >
                     {gyldigeEnheterForSaksbehandler.map((enhet) => (

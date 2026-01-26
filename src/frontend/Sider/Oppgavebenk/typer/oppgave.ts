@@ -1,4 +1,4 @@
-import { FortroligEnhet, IkkeFortroligEnhet } from './enhet';
+import { Enheter, FortroligEnhet, IkkeFortroligEnhet } from './enhet';
 import { Oppgavetype, Prioritet } from './oppgavetema';
 
 export interface OppgaveRequest {
@@ -87,9 +87,13 @@ export enum IdentGruppe {
     SAMHANDLERNR = 'SAMHANDLERNR',
 }
 
-export type Behandlingstema = 'ab0300' | 'ab0292' | 'ab0286' | 'ab0287' | 'ab0288';
-
-export const behandlingstemaDagligReise = ['ab0287', 'ab0288'];
+export enum Behandlingstema {
+    TILSYN_BARN = 'ab0300',
+    LÆREMIDLER = 'ab0292',
+    BOUTGIFTER = 'ab0286',
+    DAGLIG_REISE_TSR = 'ab0287',
+    DAGLIG_REISE_TSO = 'ab0288',
+}
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
@@ -120,3 +124,21 @@ export interface Mappe {
     enhetsnr: string;
     tema: string;
 }
+
+export const erGyldigBehandlingstemaForEnhet = (
+    behandlingstema: Behandlingstema,
+    valgtEnhet: Enheter | undefined
+): boolean => {
+    switch (valgtEnhet) {
+        case undefined:
+            return false;
+        case IkkeFortroligEnhet.NAY:
+            return behandlingstema !== Behandlingstema.DAGLIG_REISE_TSR;
+        case IkkeFortroligEnhet.TILTAK_OSLO:
+            return behandlingstema === Behandlingstema.DAGLIG_REISE_TSR;
+        case IkkeFortroligEnhet.NAY_ROMERIKE:
+        case IkkeFortroligEnhet.EGNE_ANSATTE:
+        case FortroligEnhet.VIKAFOSSEN:
+            return true;
+    }
+};
