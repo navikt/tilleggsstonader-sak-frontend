@@ -19,6 +19,7 @@
     min-height: 500px;
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 .høyreKolonneStatisk {
