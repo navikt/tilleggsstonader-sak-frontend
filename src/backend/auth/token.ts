@@ -5,7 +5,7 @@ import { azureOBO, verify } from './client';
 import { withInMemoryCache } from './inMemoryCache';
 import { secondsUntil } from './secondsUntil';
 import { redirectResponseToLogin } from './util';
-import { logWarn } from '../logger';
+import { logInfo, logWarn } from '../logger';
 import { ApplicationName, miljø } from '../miljø';
 
 export const AUTHORIZATION_HEADER = 'authorization';
@@ -16,7 +16,7 @@ export const validateToken = (redirectToLogin: boolean = false): RequestHandler 
         try {
             const token = await getValidatedTokenFromHeader(req);
             if (!token) {
-                logWarn('Validering av token - fant ikke gyldig token i header', req);
+                logInfo('Validering av token - fant ikke gyldig token i header', req);
                 if (redirectToLogin) {
                     redirectResponseToLogin(req, res);
                     return;
