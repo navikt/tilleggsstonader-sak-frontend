@@ -39,9 +39,9 @@ export function lagVedtakstabellDagligReise(
         const kolonneOverskrift = `
             <th style="width: 160px; ${borderStylingCompact}">Periode</th>
             <th style="width: 100px; ${borderStylingCompact}">Stønadsbeløp</th>
-            ${har30Dager ? `<th style="width: 110px; ${borderStylingCompact}">30-dagersbillett</th>` : ''}
-            ${har7Dager ? `<th style="width: 110px; ${borderStylingCompact}">7-dagersbillett</th>` : ''}
-            ${harEnkelt ? `<th style="width: 110px; ${borderStylingCompact}">Enkeltbillett</th>` : ''}
+            ${har30Dager ? `<th style="width: 130px; ${borderStylingCompact}">30-dagersbilletter</th>` : ''}
+            ${har7Dager ? `<th style="width: 120px; ${borderStylingCompact}">7-dagersbilletter</th>` : ''}
+            ${harEnkelt ? `<th style="width: 110px; ${borderStylingCompact}">Enkeltbilletter</th>` : ''}
     `;
 
         const rader = lagRaderForReise(perioder, { har30Dager, har7Dager, harEnkelt });
