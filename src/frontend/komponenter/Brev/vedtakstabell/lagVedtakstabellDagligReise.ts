@@ -61,7 +61,7 @@ export function lagVedtakstabellDagligReise(
     `;
     });
 
-    return htmlPerReise.join('<br />');
+    return htmlPerReise.join('');
 }
 
 function visBillettInfo(antall: number | undefined, pris: number | undefined): string | null {
