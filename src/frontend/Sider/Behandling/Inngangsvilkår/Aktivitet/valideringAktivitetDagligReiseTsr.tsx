@@ -26,7 +26,10 @@ export const validerAktivitet = (
         return { ...feil, type: 'Må velges' };
     }
 
-    if (endretAktivitet.typeAktivitet === undefined) {
+    if (
+        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
+        endretAktivitet.typeAktivitet === undefined
+    ) {
         return { ...feil, typeAktivitet: 'Må velges' };
     }
 
