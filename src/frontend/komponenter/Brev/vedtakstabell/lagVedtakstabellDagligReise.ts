@@ -38,10 +38,10 @@ export function lagVedtakstabellDagligReise(
 
         const kolonneOverskrift = `
             <th style="width: 160px; ${borderStylingCompact}">Periode</th>
-            <th style="width: 100px; ${borderStylingCompact}">Stønadsbeløp</th>
             ${har30Dager ? `<th style="width: 130px; ${borderStylingCompact}">30-dagersbilletter</th>` : ''}
             ${har7Dager ? `<th style="width: 120px; ${borderStylingCompact}">7-dagersbilletter</th>` : ''}
             ${harEnkelt ? `<th style="width: 110px; ${borderStylingCompact}">Enkeltbilletter</th>` : ''}
+            <th style="width: 100px; ${borderStylingCompact}">Stønadsbeløp</th>
     `;
 
         const rader = lagRaderForReise(perioder, { har30Dager, har7Dager, harEnkelt });
@@ -89,10 +89,10 @@ function lagRaderForReise(
 
             return `<tr style="text-align: right;">
                     <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
-                    <td style="${borderStyling}">${beløp} kr</td>
                     ${kolonner?.har30Dager ? `<td style="${borderStyling}">${visBillettInfo(antall30dagersbilletter, pris30dagersbillett) ?? ''}</td>` : ''}
                     ${kolonner?.har7Dager ? `<td style="${borderStyling}">${visBillettInfo(antallSyvdagersbilletter, prisSyvdagersbillett) ?? ''}</td>` : ''}
                     ${kolonner?.harEnkelt ? `<td style="${borderStyling}">${visBillettInfo(antallEnkeltbilletter, prisEnkeltbillett) ?? ''}</td>` : ''}
+                    <td style="${borderStyling}">${beløp} kr</td>
                 </tr>`;
         })
         .join('');
