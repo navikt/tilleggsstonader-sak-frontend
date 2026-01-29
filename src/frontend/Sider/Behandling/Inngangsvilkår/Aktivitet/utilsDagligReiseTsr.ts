@@ -25,6 +25,7 @@ export const mapEksisterendeAktivitet = (
 ): EndreAktivitetFormDagligReiseTsr => ({
     ...eksisterendeAktivitet,
     svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
+    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
 });
 
 function nyAktivitetFraRegister(
@@ -38,6 +39,7 @@ function nyAktivitetFraRegister(
             typeAktivitetValg
         ),
         svarHarUtgifter: undefined,
+        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         kildeId: aktivitetFraRegister.id,
@@ -67,6 +69,7 @@ function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {
         type: '',
         typeAktivitet: undefined,
         svarHarUtgifter: undefined,
+        aktivitetsdager: undefined,
         fom: '',
         tom: '',
     };
@@ -126,4 +129,5 @@ export const mapFaktaOgSvarTilRequest = (
 ): AktivitetDagligReiseTsrFaktaOgSvar => ({
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR',
     svarHarUtgifter: aktivitetForm.svarHarUtgifter,
+    aktivitetsdager: aktivitetForm.aktivitetsdager,
 });
