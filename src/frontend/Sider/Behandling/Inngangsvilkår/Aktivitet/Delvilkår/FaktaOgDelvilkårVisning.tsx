@@ -107,6 +107,12 @@ const FaktaOgDelvilkårDagligReiseTsr: React.FC<{
     aktivitet: AktivitetDagligReiseTsr;
 }> = ({ aktivitet }) => {
     const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const aktivitetsdager = aktivitet.faktaOgVurderinger.aktivitetsdager;
 
-    return <>{svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}</>;
+    return (
+        <>
+            {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {aktivitetsdager && <Detail>{`${aktivitetsdager} dager/uke`}</Detail>}
+        </>
+    );
 };

@@ -10,9 +10,11 @@ export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
 export interface AktivitetDagligReiseTsrFaktaOgVurderinger {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR';
     harUtgifter: Vurdering | undefined;
+    aktivitetsdager: number | undefined;
 }
 
 export interface AktivitetDagligReiseTsrFaktaOgSvar {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR';
     svarHarUtgifter: SvarJaNei | undefined;
+    aktivitetsdager: number | undefined;
 }

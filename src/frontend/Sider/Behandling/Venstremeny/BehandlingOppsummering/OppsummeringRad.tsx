@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterNullablePeriode } from '../../../../utils/dato';
@@ -12,6 +12,7 @@ interface VilkårOppsummeringRadProps {
     fom?: string;
     tom?: string;
     gjelder?: string;
+    aktivitetsdager?: number;
 }
 
 export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
@@ -19,15 +20,21 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     fom,
     tom,
     gjelder,
+    aktivitetsdager,
 }) => {
-    const skalHaKolon = gjelder !== '';
+    const skalHaKolon = gjelder !== '' || aktivitetsdager !== null;
 
     return (
         <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
             {resultat && <FargetVilkårsresultatIkon vilkårsresultat={resultat} />}
-            <BodyShort size="small">
-                {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}`}
-            </BodyShort>
+            <VStack>
+                <BodyShort size="small">
+                    {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}`}
+                </BodyShort>
+                {aktivitetsdager && (
+                    <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
+                )}
+            </VStack>
         </HStack>
     );
 };

@@ -23,11 +23,14 @@ import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
+import TextField from '../../../../komponenter/Skjema/TextField';
+import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Kodeverk } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
@@ -41,6 +44,7 @@ export interface EndreAktivitetFormDagligReiseTsr extends Periode {
     type: AktivitetType | '';
     typeAktivitet?: Kodeverk;
     svarHarUtgifter: SvarJaNei | undefined;
+    aktivitetsdager: number | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -181,6 +185,24 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                         }
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
+                    {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                        <FeilmeldingMaksBredde $maxWidth={140}>
+                            <TextField
+                                label="Aktivitetsdager"
+                                value={
+                                    harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
+                                }
+                                onChange={(event) =>
+                                    settForm((prevState) => ({
+                                        ...prevState,
+                                        aktivitetsdager: tilHeltall(event.target.value),
+                                    }))
+                                }
+                                size="small"
+                                error={vilkårsperiodeFeil?.aktivitetsdager}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>

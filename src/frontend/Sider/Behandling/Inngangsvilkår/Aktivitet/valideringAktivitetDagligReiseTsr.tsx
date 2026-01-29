@@ -8,6 +8,7 @@ import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
     typeAktivitet?: string;
+    aktivitetsdager: number | undefined;
     begrunnelse?: string;
 }
 
@@ -20,6 +21,7 @@ export const validerAktivitet = (
         type: undefined,
         typeAktivitet: undefined,
         begrunnelse: undefined,
+        aktivitetsdager: undefined,
     };
 
     if (endretAktivitet.type === '') {

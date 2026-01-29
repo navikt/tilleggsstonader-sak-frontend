@@ -20,6 +20,7 @@ export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> =
     tom: string;
     resultat: VilkårPeriodeResultat;
     type: T;
+    aktivitetsdager?: number;
 };
 
 export interface Stønadsvilkår {
