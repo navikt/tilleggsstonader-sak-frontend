@@ -8,7 +8,7 @@ import {
 import Lesefelt from './Lesefelt';
 
 export interface TextFieldProps extends AkselTextFieldProps {
-    erLesevisning: boolean;
+    erLesevisning?: boolean;
     lesevisningVerdi?: string;
 }
 

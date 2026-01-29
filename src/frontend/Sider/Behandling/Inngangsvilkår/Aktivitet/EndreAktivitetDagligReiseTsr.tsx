@@ -35,7 +35,7 @@ import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
-import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
+import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -185,7 +185,6 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                     {form.type !== AktivitetType.INGEN_AKTIVITET && (
                         <FeilmeldingMaksBredde $maxWidth={140}>
                             <TextField
-                                erLesevisning={aktivitet?.kilde === KildeVilkårsperiode.SYSTEM}
                                 label="Aktivitetsdager"
                                 value={
                                     harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
@@ -198,7 +197,6 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                                 }
                                 size="small"
                                 error={vilkårsperiodeFeil?.aktivitetsdager}
-                                autoComplete="off"
                             />
                         </FeilmeldingMaksBredde>
                     )}
