@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårDagligReiseTso } from './Delvilkår/AktivitetDelvilkårDagligReiseTso';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
@@ -21,10 +21,12 @@ import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
+import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
@@ -38,6 +40,7 @@ export interface EndreAktivitetFormDagligReiseTso extends Periode {
     type: AktivitetType | '';
     svarLønnet: SvarJaNei | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
+    aktivitetsdager: number | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -153,6 +156,24 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                         formFeil={vilkårsperiodeFeil}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
+                    {form.type !== AktivitetType.INGEN_AKTIVITET && (
+                        <FeilmeldingMaksBredde $maxWidth={140}>
+                            <TextField
+                                label="Aktivitetsdager"
+                                value={
+                                    harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
+                                }
+                                onChange={(event) =>
+                                    settForm((prevState) => ({
+                                        ...prevState,
+                                        aktivitetsdager: tilHeltall(event.target.value),
+                                    }))
+                                }
+                                size="small"
+                                error={vilkårsperiodeFeil?.aktivitetsdager}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>

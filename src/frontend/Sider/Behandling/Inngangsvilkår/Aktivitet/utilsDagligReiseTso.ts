@@ -23,6 +23,7 @@ export const mapEksisterendeAktivitet = (
     ...eksisterendeAktivitet,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
     svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
+    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
 });
 
 function nyAktivitetFraRegister(
@@ -35,6 +36,7 @@ function nyAktivitetFraRegister(
         svarLønnet: undefined,
         svarHarUtgifter: undefined,
         kildeId: aktivitetFraRegister.id,
+        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
     };
 }
 
@@ -45,6 +47,7 @@ function nyTomAktivitet(): EndreAktivitetFormDagligReiseTso {
         tom: '',
         svarLønnet: undefined,
         svarHarUtgifter: undefined,
+        aktivitetsdager: undefined,
     };
 }
 
@@ -121,4 +124,5 @@ export const mapFaktaOgSvarTilRequest = (
     '@type': 'AKTIVITET_DAGLIG_REISE_TSO',
     svarLønnet: aktivitetForm.svarLønnet,
     svarHarUtgifter: aktivitetForm.svarHarUtgifter,
+    aktivitetsdager: aktivitetForm.aktivitetsdager,
 });

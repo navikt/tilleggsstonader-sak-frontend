@@ -9,10 +9,12 @@ export interface AktivitetDagligReiseTsoFaktaOgVurderinger {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSO';
     lønnet: Vurdering | undefined;
     harUtgifter: Vurdering | undefined;
+    aktivitetsdager: number | undefined;
 }
 
 export interface AktivitetDagligReiseTsoFaktaOgSvar {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSO';
     svarLønnet: SvarJaNei | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
+    aktivitetsdager: number | undefined;
 }

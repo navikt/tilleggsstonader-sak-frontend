@@ -94,11 +94,13 @@ const FaktaOgDelvilkårDagligReiseTso: React.FC<{
 }> = ({ aktivitet }) => {
     const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
     const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const aktivitetsdager = aktivitet.faktaOgVurderinger.aktivitetsdager;
 
     return (
         <>
             {svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {aktivitetsdager && <Detail>{`${aktivitetsdager} dager/uke`}</Detail>}
         </>
     );
 };
