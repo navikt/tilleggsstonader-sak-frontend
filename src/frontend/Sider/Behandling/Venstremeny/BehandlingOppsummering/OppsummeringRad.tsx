@@ -4,6 +4,10 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import { formaterNullablePeriode } from '../../../../utils/dato';
+import {
+    Studienivå,
+    studienivåTilTekst,
+} from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { VilkårPeriodeResultat } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../vilkår';
 
@@ -13,6 +17,7 @@ interface VilkårOppsummeringRadProps {
     tom?: string;
     gjelder?: string;
     aktivitetsdager?: number;
+    studienivå?: Studienivå;
 }
 
 export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
@@ -21,6 +26,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     tom,
     gjelder,
     aktivitetsdager,
+    studienivå,
 }) => {
     const skalHaKolon = gjelder !== '' || aktivitetsdager !== null;
 
@@ -34,6 +40,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
                 {aktivitetsdager && (
                     <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
                 )}
+                {studienivå && <BodyShort size="small">{studienivåTilTekst[studienivå]}</BodyShort>}
             </VStack>
         </HStack>
     );
