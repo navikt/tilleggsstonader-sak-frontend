@@ -1,4 +1,5 @@
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { TypeVilkårFakta } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
@@ -21,6 +22,7 @@ export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> =
     resultat: VilkårPeriodeResultat;
     type: T;
     aktivitetsdager?: number;
+    studienivå: Studienivå;
 };
 
 export interface Stønadsvilkår {
