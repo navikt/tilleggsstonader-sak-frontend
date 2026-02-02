@@ -33,7 +33,7 @@ interface Props {
     foreslåPeriodeFeil?: Feil;
     settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
     vedtakErLagret: boolean;
-    gjelderTsr: boolean;
+    gjelderTsr?: boolean;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
