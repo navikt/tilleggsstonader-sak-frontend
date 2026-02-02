@@ -3,7 +3,8 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
-    vedtaksperioder: Vedtaksperiode[]
+    vedtaksperioder: Vedtaksperiode[],
+    gjelderTsr: boolean = false
 ): FormErrors<Vedtaksperiode[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
         const feil: FormErrors<Vedtaksperiode> = {
@@ -12,14 +13,21 @@ export const validerVedtaksperioder = (
             tom: undefined,
             målgruppeType: undefined,
             aktivitetType: undefined,
+            typeAktivitet: undefined,
         };
 
-        if (!vedtaksperiode.aktivitetType) {
-            return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
-        }
+        if (gjelderTsr) {
+            if (!vedtaksperiode.typeAktivitet) {
+                return { ...feil, aktivitetType: 'Mangler variant for periode' };
+            }
+        } else {
+            if (!vedtaksperiode.aktivitetType) {
+                return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
+            }
 
-        if (!vedtaksperiode.målgruppeType) {
-            return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
+            if (!vedtaksperiode.målgruppeType) {
+                return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
+            }
         }
 
         const periodeValidering = validerPeriode(vedtaksperiode);

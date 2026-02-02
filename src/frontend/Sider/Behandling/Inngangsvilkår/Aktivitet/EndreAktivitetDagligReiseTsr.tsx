@@ -22,11 +22,10 @@ import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
-import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { Kodeverk } from '../../../../typer/kodeverk';
+import { Kodeverk, kodeverkTilOptions } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -154,13 +153,6 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
-    function typeAktivitetValgTilOptions(typeAktivitetValg: Kodeverk[]): SelectOption[] {
-        return typeAktivitetValg.map((typeAktivitet) => ({
-            value: typeAktivitet.kode,
-            label: typeAktivitet.beskrivelse,
-        }));
-    }
-
     const fantIkkeTypeAktivitet = aktivitetFraRegister && form?.typeAktivitet === undefined;
 
     return (
@@ -178,7 +170,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                         oppdaterPeriode={oppdaterForm}
                         oppdaterTypeAktivitet={oppdaterTypeAktivitet}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
-                        typeAktivitetOptions={typeAktivitetValgTilOptions(typeAktivitetValg)}
+                        typeAktivitetOptions={kodeverkTilOptions(typeAktivitetValg)}
                         formFeil={vilkårsperiodeFeil}
                         kanEndreTypeAktivitet={
                             aktivitet === undefined && !aktivitetErBruktFraSystem

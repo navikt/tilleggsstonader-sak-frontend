@@ -6,12 +6,15 @@ import { Button } from '@navikt/ds-react';
 import { finnFaktiskeMålgruppeValgForStønad } from './vedtaksperiodeUtils';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { useHentTypeAktivitetValg } from '../../../../../hooks/useHentTypeAktivitetValg';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
+import { kodeverkTilOptions } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -27,11 +30,12 @@ interface Props {
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Vedtaksperiode> | undefined;
     oppdaterPeriode: (
-        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
         value: string | undefined
     ) => void;
     slettPeriode: () => void;
     vedtakErLagret: boolean;
+    gjelderTsr: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -42,8 +46,11 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     oppdaterPeriode,
     slettPeriode,
     vedtakErLagret,
+    gjelderTsr,
 }) => {
     const { behandling } = useBehandling();
+
+    const { typeAktivitetValg } = useHentTypeAktivitetValg();
 
     const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
         useSlettePeriodeFørTidligereVedtak({
@@ -111,38 +118,60 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde>
-                <SelectMedOptions
-                    label={'Aktivitet'}
-                    hideLabel
-                    erLesevisning={erLesevisning}
-                    value={
-                        erLesevisning
-                            ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
-                            : vedtaksperiode.aktivitetType
-                    }
-                    onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
-                    valg={valgbareAktiviteter}
-                    size={'small'}
-                    error={vedtaksperiodeFeil?.aktivitetType}
-                />
-            </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde>
-                <SelectMedOptions
-                    label={'Målgruppe'}
-                    hideLabel
-                    erLesevisning={erLesevisning}
-                    value={
-                        erLesevisning
-                            ? faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
-                            : vedtaksperiode.målgruppeType
-                    }
-                    onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
-                    valg={valgForFaktiskMålgruppe}
-                    size={'small'}
-                    error={vedtaksperiodeFeil?.målgruppeType}
-                />
-            </FeilmeldingMaksBredde>
+            {!gjelderTsr && (
+                <FeilmeldingMaksBredde>
+                    <SelectMedOptions
+                        label={'Aktivitet'}
+                        hideLabel
+                        erLesevisning={erLesevisning}
+                        value={
+                            erLesevisning
+                                ? aktivitetTypeTilTekst(vedtaksperiode.aktivitetType ?? '')
+                                : vedtaksperiode.aktivitetType
+                        }
+                        onChange={(e) => oppdaterPeriode('aktivitetType', e.target.value)}
+                        valg={valgbareAktiviteter}
+                        size={'small'}
+                        error={vedtaksperiodeFeil?.aktivitetType}
+                    />
+                </FeilmeldingMaksBredde>
+            )}
+            {!gjelderTsr && (
+                <FeilmeldingMaksBredde>
+                    <SelectMedOptions
+                        label={'Målgruppe'}
+                        hideLabel
+                        erLesevisning={erLesevisning}
+                        value={
+                            erLesevisning
+                                ? faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType ?? '')
+                                : vedtaksperiode.målgruppeType
+                        }
+                        onChange={(e) => oppdaterPeriode('målgruppeType', e.target.value)}
+                        valg={valgForFaktiskMålgruppe}
+                        size={'small'}
+                        error={vedtaksperiodeFeil?.målgruppeType}
+                    />
+                </FeilmeldingMaksBredde>
+            )}
+            {gjelderTsr && (
+                <DataViewer response={{ typeAktivitetValg }} type={'typeAktivitetValg'}>
+                    {({ typeAktivitetValg }) => (
+                        <FeilmeldingMaksBredde>
+                            <SelectMedOptions
+                                label={'Tiltaksvariant'}
+                                hideLabel
+                                erLesevisning={erLesevisning}
+                                value={vedtaksperiode.typeAktivitet}
+                                onChange={(e) => oppdaterPeriode('typeAktivitet', e.target.value)}
+                                valg={kodeverkTilOptions(typeAktivitetValg)}
+                                size={'small'}
+                                error={vedtaksperiodeFeil?.typeAktivitet}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
+                </DataViewer>
+            )}
             <div>
                 {!erLesevisning && (
                     <Button
