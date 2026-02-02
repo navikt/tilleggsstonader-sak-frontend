@@ -42,6 +42,7 @@ export enum ÅrsakSettPåVent {
     REGISTRERING_AV_UTDANNING = 'REGISTRERING_AV_UTDANNING',
     BEKREFTE_DELTAKELSE_KVP = 'BEKREFTE_DELTAKELSE_KVP',
     ANNET = 'ANNET',
+    AVVENTER_OPPSTART_TILTAK = 'AVVENTER_OPPSTART_TILTAK',
 }
 
 export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
@@ -54,6 +55,7 @@ export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
     REGISTRERING_AV_UTDANNING: 'Registrering av utdanning',
     BEKREFTE_DELTAKELSE_KVP: 'Bekrefte deltakelse KVP',
     ANNET: 'Annet',
+    AVVENTER_OPPSTART_TILTAK: 'Avventer oppstart tiltak',
 };
 
 const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> = {
@@ -66,6 +68,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: true,
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
+        [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: false,
         [ÅrsakSettPåVent.ANNET]: true,
     },
     SAK_TSR: {
@@ -77,6 +80,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: false,
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: false,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: true,
+        [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: true,
         [ÅrsakSettPåVent.ANNET]: true,
     },
     KLAGE: {
@@ -88,6 +92,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.RETTIGHET_TIL_OVERGANGSSTØNAD]: false,
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
+        [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: false,
         [ÅrsakSettPåVent.ANNET]: true,
     },
 };
@@ -115,6 +120,7 @@ export const årsakTilFrist: Record<ÅrsakSettPåVent, number | undefined> = {
     RETTIGHET_TIL_OVERGANGSSTØNAD: EN_UKE,
     REGISTRERING_AV_UTDANNING: EN_UKE,
     BEKREFTE_DELTAKELSE_KVP: EN_UKE,
+    AVVENTER_OPPSTART_TILTAK: undefined,
     ANNET: undefined,
 };
 
