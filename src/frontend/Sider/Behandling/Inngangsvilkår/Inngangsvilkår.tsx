@@ -3,7 +3,7 @@ import React from 'react';
 import Aktivitet from './Aktivitet/Aktivitet';
 import styles from './Inngangsvilkår.module.css';
 import Målgruppe from './Målgruppe/Målgruppe';
-import OppdaterGrunnlagKnapp from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
+import { OppdaterGrunnlagKnapp } from './OppdaterGrunnlag/OppdaterGrunnlagKnapp';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext';
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';

@@ -10,6 +10,6 @@ export const toastTilTekst: Record<Toast, string> = {
     VEDTAK_UNDERKJENT: 'Vedtak underkjent',
     DISABLED_FANE: 'Du kan ikke navigere til dette steget enda',
     BEHANDLING_HENLAGT: 'Behandlingen er henlagt',
-    OPPDATERT_GRUNNLAG_VILKÅRPERIODE: 'Har oppdatert grunnlag til vilkårperioder',
+    OPPDATERT_GRUNNLAG_VILKÅRPERIODE: 'Opplysninger om aktiviteter og ytelser har blitt oppdatert',
     BREVMOTTAKERE_SATT: 'Brevmottakere er satt',
 };

@@ -12,7 +12,7 @@ import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { dagerSiden } from '../../../../utils/dato';
 import { VilkårperioderResponse } from '../typer/vilkårperiode/vilkårperiode';
 
-const OppdaterGrunnlagKnapp: React.FC<{
+export const OppdaterGrunnlagKnapp: React.FC<{
     vilkårperioder: VilkårperioderResponse;
     hentVilkårperioder: () => void;
 }> = ({ vilkårperioder, hentVilkårperioder }) => {
@@ -80,5 +80,3 @@ const OppdaterGrunnlagKnapp: React.FC<{
     }
     return <div>{knapp('Hent saksopplysninger om aktiviteter og ytelser på nytt')}</div>;
 };
-
-export default OppdaterGrunnlagKnapp;
