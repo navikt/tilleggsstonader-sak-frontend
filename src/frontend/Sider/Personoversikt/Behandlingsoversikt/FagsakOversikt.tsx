@@ -19,6 +19,7 @@ interface Props {
     klagebehandlinger: KlageBehandling[];
     hentBehandlinger: () => void;
     hentKlagebehandlinger: () => void;
+    kanOppretteBehandling: boolean;
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
@@ -26,6 +27,7 @@ export const FagsakOversikt: React.FC<Props> = ({
     klagebehandlinger,
     hentBehandlinger,
     hentKlagebehandlinger,
+    kanOppretteBehandling,
 }) => {
     const { fagsakId, stønadstype, eksternFagsakId, erLøpende, behandlinger } =
         fagsakMedBehandlinger;
@@ -49,12 +51,14 @@ export const FagsakOversikt: React.FC<Props> = ({
                 )}
             </div>
             <BehandlingTabell tabellbehandlinger={tabellbehandlinger} />
-            <OpprettNyBehandlingModal
-                fagsakId={fagsakId}
-                stønadstype={stønadstype}
-                hentKlagebehandlinger={hentKlagebehandlinger}
-                hentBehandlinger={hentBehandlinger}
-            />
+            {kanOppretteBehandling && (
+                <OpprettNyBehandlingModal
+                    fagsakId={fagsakId}
+                    stønadstype={stønadstype}
+                    hentKlagebehandlinger={hentKlagebehandlinger}
+                    hentBehandlinger={hentBehandlinger}
+                />
+            )}
         </div>
     );
 };
