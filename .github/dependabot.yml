@@ -18,15 +18,31 @@ updates:
   registries: "*"
   versioning-strategy: increase
   groups:
+    Aksel:
+      patterns:
+        - "@navikt/aksel-icons"
+        - "@navikt/ds-css"
+        - "@navikt/ds-react"
+        - "@navikt/ds-tokens"
     frontend:
       patterns:
         - "*"
+      exclude-patterns:
+        - "@navikt/aksel-icons"
+        - "@navikt/ds-css"
+        - "@navikt/ds-react"
+        - "@navikt/ds-tokens"
       update-types:
         - "minor"
         - "patch"
     frontend-major:
       patterns:
         - "*"
+      exclude-patterns:
+        - "@navikt/aksel-icons"
+        - "@navikt/ds-css"
+        - "@navikt/ds-react"
+        - "@navikt/ds-tokens"
       update-types:
         - "major"
   ignore:
