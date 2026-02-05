@@ -18,7 +18,7 @@ export const validerVedtaksperioder = (
 
         if (gjelderTsr) {
             if (!vedtaksperiode.typeAktivitet) {
-                return { ...feil, aktivitetType: 'Mangler variant for periode' };
+                return { ...feil, aktivitetType: 'Tiltaksvariant mangler' };
             }
         } else {
             if (!vedtaksperiode.aktivitetType) {
