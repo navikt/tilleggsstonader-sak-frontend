@@ -7,6 +7,7 @@ import { Alert, Button, Popover, Search, VStack } from '@navikt/ds-react';
 import styles from './PersonSøk.module.css';
 import { useApp } from '../context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
+import { Feil, lagFeilmelding } from './Feil/feilmeldingUtils';
 
 export type Søkeresultat = {
     personIdent: string;
@@ -24,6 +25,7 @@ const PersonSøk: React.FC = () => {
     const [søkeresultat, settSøkeresultat] = useState<
         RessursFeilet | RessursSuksess<Søkeresultat>
     >();
+    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const nullstillSøkefelt = () => {
         settSøkeresultat(undefined);
@@ -69,7 +71,11 @@ const PersonSøk: React.FC = () => {
         event.preventDefault();
         if (!søkestreng) return;
         if (erPositivtTall(søkestreng) && søkestreng.length !== 11) {
-            søkPersonEksternFagsakId(søkestreng);
+            if (søkestreng.length > 11) {
+                settFeilmelding(lagFeilmelding('For mange siffer i søk'));
+            } else {
+                søkPersonEksternFagsakId(søkestreng);
+            }
         } else {
             søkPerson(søkestreng);
         }
@@ -106,9 +112,10 @@ const PersonSøk: React.FC = () => {
             </form>
             <Popover
                 anchorEl={søkRef.current}
-                open={søkeresultat !== undefined}
+                open={søkeresultat !== undefined || feilmelding !== undefined}
                 onClose={() => {
                     settSøkeresultat(undefined);
+                    settFeilmelding(undefined);
                 }}
                 arrow={false}
                 placement="bottom"
@@ -118,6 +125,11 @@ const PersonSøk: React.FC = () => {
                         padding: '0px',
                     }}
                 >
+                    {feilmelding && (
+                        <Alert className={styles.alertMedFastBredde} variant="error">
+                            {feilmelding?.feilmelding}
+                        </Alert>
+                    )}
                     {søkeresultat && søkeresultat.status === RessursStatus.SUKSESS && (
                         <Alert className={styles.alertMedFastBredde} variant="info">
                             <VStack>
