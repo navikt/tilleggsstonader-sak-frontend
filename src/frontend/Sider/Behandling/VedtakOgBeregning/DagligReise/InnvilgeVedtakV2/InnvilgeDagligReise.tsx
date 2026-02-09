@@ -9,6 +9,7 @@ import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
 import { useMapById } from '../../../../../hooks/useMapById';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../../typer/behandling/steg';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
@@ -51,19 +52,21 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
 
+    const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
+
     const lagreVedtak = () => {
         const kanSendeInn = validerForm() && erStegRedigerbart;
 
         if (kanSendeInn) {
-            return request<null, InnvilgelseDagligReiseRequest>(
-                `/api/sak/vedtak/daglig-reise/${behandling.id}/innvilgelse`,
-                'POST',
-                {
-                    type: TypeVedtak.INNVILGELSE,
-                    vedtaksperioder: vedtaksperioder,
-                    begrunnelse: begrunnelse,
-                }
-            );
+            const url = gjelderTsr
+                ? `/api/sak/vedtak/daglig-reise/${behandling.id}/tsr/innvilgelse`
+                : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/innvilgelse`;
+
+            return request<null, InnvilgelseDagligReiseRequest>(url, 'POST', {
+                type: TypeVedtak.INNVILGELSE,
+                vedtaksperioder: vedtaksperioder,
+                begrunnelse: begrunnelse,
+            });
         } else {
             return Promise.reject();
         }
