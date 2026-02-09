@@ -13,7 +13,7 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
     const { personopplysninger } = usePersonopplysninger();
     return (
         <Sticky className={styles.container}>
-            <Heading size="xsmall">{personopplysninger.navn.visningsnavn}</Heading>
+            <Heading size="xsmall">{personopplysninger.navn.visningsnavn} jjjjj</Heading>
             <BodyShort>|</BodyShort>
             <HStack gap="2" align="center">
                 <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
