@@ -25,6 +25,7 @@ export interface InnvilgelseDagligReise {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
     beregningsresultat: BeregningsresultatDagligReise;
+    rammevedtakPrivatBil?: RammevedtakPrivatBil;
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
     begrunnelse?: string;
@@ -73,4 +74,30 @@ export interface BeregningsresultatForPeriode {
     billettdetaljer: Billettdetaljer;
     antallReisedager: number;
     fraTidligereVedtak: boolean;
+}
+
+export interface RammevedtakPrivatBil {
+    reiser: RammeForReiseMedPrivatBil[];
+}
+
+export interface RammeForReiseMedPrivatBil {
+    reiseId: string;
+    aktivitetsadresse: string;
+    fom: string;
+    tom: string;
+    reisedagerPerUke: number;
+    reiseavstandEnVei: number;
+    bompengerEnVei?: number;
+    fergekostnadEnVei?: number;
+    kilometersats: number;
+    dagsatsUtenParkering: number;
+    uker: RammeForUke[];
+}
+
+export interface RammeForUke {
+    fom: string;
+    tom: string;
+    maksAntallDagerSomKanDekkes: number;
+    antallDagerInkludererHelg: boolean;
+    maksBeløpSomKanDekkesFørParkering: number;
 }
