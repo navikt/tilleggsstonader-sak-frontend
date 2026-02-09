@@ -130,7 +130,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     />
                 </>
             )}
-            )
             <div>
                 {!erLesevisning && (
                     <Button
