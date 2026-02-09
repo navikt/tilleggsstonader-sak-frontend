@@ -3,19 +3,12 @@ import React, { useEffect } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 
 import { FagsakOversikt } from './FagsakOversikt';
-import { useApp } from '../../../context/AppContext';
 import { useHentBehandlingsoversikt } from '../../../hooks/useHentBehandlingsoversikt';
 import { useHentKlagebehandlinger } from '../../../hooks/useKlagebehandlinger';
 import DataViewer from '../../../komponenter/DataViewer';
 import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
-import {
-    harNayTilleggsstønaderRolle,
-    harTiltaksenhetenTilleggsstønaderRolle,
-} from '../../../utils/roller';
 
-const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
-    const { saksbehandler, appEnv } = useApp();
-
+export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
     const { hentKlagebehandlinger, klagebehandlinger } = useHentKlagebehandlinger();
     useEffect(() => {
@@ -27,12 +20,6 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
     const rekjørHentBehandlinger = () => hentBehandlingsoversikt(fagsakPersonId);
 
     const utpakkedeKlagebehandlinger = pakkUtHvisSuksess(klagebehandlinger);
-
-    const saksbehandlerTilhørerNay = harNayTilleggsstønaderRolle(appEnv, saksbehandler);
-    const saksbehandlerTilhørerTiltaksenheten = harTiltaksenhetenTilleggsstønaderRolle(
-        appEnv,
-        saksbehandler
-    );
 
     return (
         <>
@@ -46,7 +33,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.tilsynBarn ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                                kanOppretteBehandling={saksbehandlerTilhørerNay}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.læremidler && (
@@ -55,7 +42,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.læremidler ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                                kanOppretteBehandling={saksbehandlerTilhørerNay}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.boutgifter && (
@@ -64,7 +51,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.boutgifter ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                                kanOppretteBehandling={saksbehandlerTilhørerNay}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.dagligReiseTso && (
@@ -73,7 +60,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTso ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                                kanOppretteBehandling={saksbehandlerTilhørerNay}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.dagligReiseTsr && (
@@ -82,7 +69,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTsr ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
-                                kanOppretteBehandling={saksbehandlerTilhørerTiltaksenheten}
+                                gjelderTema="TSR"
                             />
                         )}
                     </>
@@ -96,4 +83,3 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
         </>
     );
 };
-export default Behandlingsoversikt;

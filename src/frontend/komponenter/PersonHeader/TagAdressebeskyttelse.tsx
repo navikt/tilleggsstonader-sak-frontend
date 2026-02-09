@@ -14,7 +14,7 @@ const tittel = (adressebeskyttelse: AdressebeskyttelserSomSkalVises) => {
         case Adressebeskyttelse.STRENGT_FORTROLIG:
             return 'Strengt fortrolig';
         case Adressebeskyttelse.STRENGT_FORTROLIG_UTLAND:
-            return 'Strengt fortrolig U';
+            return 'Strengt fortrolig utland';
         case Adressebeskyttelse.FORTROLIG:
             return 'Fortrolig';
     }
