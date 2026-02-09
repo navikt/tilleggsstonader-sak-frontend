@@ -1,7 +1,7 @@
 import { AppEnv } from '../../../utils/env';
 import {
     harEgenAnsattOsloRolle,
-    harEgenAnsattRolle,
+    harNayEgenAnsattRolle,
     harNayTilleggsstønaderRolle,
     harNayUtlandRolle,
     harStrengtFortroligRolle,
@@ -51,7 +51,7 @@ export const hentEnheterSaksbehandlerHarTilgangTil = (
     if (harTiltaksenhetenTilleggsstønaderRolle(appEnv, saksbehandler)) {
         enheter.push(IkkeFortroligEnhet.TILTAK_OSLO);
     }
-    if (harEgenAnsattRolle(appEnv, saksbehandler)) {
+    if (harNayEgenAnsattRolle(appEnv, saksbehandler)) {
         enheter.push(IkkeFortroligEnhet.NAY_EGNE_ANSATTE);
     }
     if (harNayUtlandRolle(appEnv, saksbehandler)) {

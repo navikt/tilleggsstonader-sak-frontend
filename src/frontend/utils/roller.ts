@@ -48,7 +48,7 @@ export const harStrengtFortroligRolle = (env: AppEnv, saksbehandler: Saksbehandl
     return harRolle(env, saksbehandler, 'kode6');
 };
 
-export const harEgenAnsattRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
+export const harNayEgenAnsattRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
     return harRolle(env, saksbehandler, 'egenAnsatt');
 };
 
