@@ -67,6 +67,7 @@ spec:
           - id: "71f94b2e-5c60-4f55-9db8-ce0235f4d5b8" # 0000-GA-ENHET_4402 - Håndterer utlandssaker
           - id: "afd458bc-5b38-4b1a-81e1-35a35b5629f4" # 0000-GA-ENHET_4462 - NAY Tilleggsstønader
           - id: "3ee07ad5-b2b7-4067-9c9d-24db38a5791b" # 0000-GA-ENHET_0387 - NAV Tiltak Oslo (Tiltaksenheten)
+          - id: "cb991672-2fc5-4b34-8460-affe63e8d68b" # 0000-GA-ENHET_0383 - NAV egne ansatte Oslo (Tiltaksenheten)
   envFrom:
     - secret: tilleggsstonader-sak-frontend-unleash-api-token
     - secret: google-maps-api-key
