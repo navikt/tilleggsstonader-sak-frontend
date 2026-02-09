@@ -133,11 +133,12 @@ export const erGyldigBehandlingstemaForEnhet = (
         case undefined:
             return false;
         case IkkeFortroligEnhet.NAY:
+        case IkkeFortroligEnhet.NAY_EGNE_ANSATTE:
             return behandlingstema !== Behandlingstema.DAGLIG_REISE_TSR;
         case IkkeFortroligEnhet.TILTAK_OSLO:
+        case IkkeFortroligEnhet.NAV_EGNE_ANSATTE_OSLO:
             return behandlingstema === Behandlingstema.DAGLIG_REISE_TSR;
         case IkkeFortroligEnhet.NAY_ROMERIKE:
-        case IkkeFortroligEnhet.EGNE_ANSATTE:
         case FortroligEnhet.VIKAFOSSEN:
             return true;
     }

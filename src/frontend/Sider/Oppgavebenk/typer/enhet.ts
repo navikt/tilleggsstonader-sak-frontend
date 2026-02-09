@@ -1,6 +1,7 @@
 import { AppEnv } from '../../../utils/env';
 import {
-    harEgenAnsattRolle,
+    harEgenAnsattOsloRolle,
+    harNayEgenAnsattRolle,
     harNayTilleggsstønaderRolle,
     harNayUtlandRolle,
     harStrengtFortroligRolle,
@@ -11,8 +12,9 @@ import { Saksbehandler } from '../../../utils/saksbehandler';
 export enum IkkeFortroligEnhet {
     NAY = '4462',
     NAY_ROMERIKE = '4402', // Håndterer utlandssaker
-    EGNE_ANSATTE = '4483',
+    NAY_EGNE_ANSATTE = '4483',
     TILTAK_OSLO = '0387',
+    NAV_EGNE_ANSATTE_OSLO = '0383', // Egne ansatte tiltaksenheten
 }
 
 export enum FortroligEnhet {
@@ -24,6 +26,7 @@ export const enhetTilTekst: Record<Enheter, string> = {
     '4402': '4402 NAY Romerike',
     '4483': '4483 Egne ansatte',
     '0387': '0387 Nav tiltak Oslo',
+    '0383': '0383 Nav egne ansatte Oslo',
     '2103': '2103 Nav Vikafossen',
 };
 
@@ -48,11 +51,14 @@ export const hentEnheterSaksbehandlerHarTilgangTil = (
     if (harTiltaksenhetenTilleggsstønaderRolle(appEnv, saksbehandler)) {
         enheter.push(IkkeFortroligEnhet.TILTAK_OSLO);
     }
-    if (harEgenAnsattRolle(appEnv, saksbehandler)) {
-        enheter.push(IkkeFortroligEnhet.EGNE_ANSATTE);
+    if (harNayEgenAnsattRolle(appEnv, saksbehandler)) {
+        enheter.push(IkkeFortroligEnhet.NAY_EGNE_ANSATTE);
     }
     if (harNayUtlandRolle(appEnv, saksbehandler)) {
         enheter.push(IkkeFortroligEnhet.NAY_ROMERIKE);
+    }
+    if (harEgenAnsattOsloRolle(appEnv, saksbehandler)) {
+        enheter.push(IkkeFortroligEnhet.NAV_EGNE_ANSATTE_OSLO);
     }
 
     // Vis oppgaver for NAY som default dersom saksbehandler ikke har noen eksplisitte tilganger?
