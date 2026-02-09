@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat';
+import { tilVedtaksperioderDto } from './innvilgeDagligReiseUtils';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -12,6 +13,7 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
@@ -31,7 +33,6 @@ interface Props {
     lagretVedtak?: InnvilgelseDagligReise;
     vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
-
 export const InnvilgeDagligReise: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
@@ -61,28 +62,33 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
 
+    const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgelseDagligReiseRequest>(
-                `/api/sak/vedtak/daglig-reise/${behandling.id}/innvilgelse`,
-                'POST',
-                {
-                    type: TypeVedtak.INNVILGELSE,
-                    vedtaksperioder: vedtaksperioder,
-                    begrunnelse: begrunnelse,
-                }
-            );
+            const url = gjelderTsr
+                ? `/api/sak/vedtak/daglig-reise/${behandling.id}/tsr/innvilgelse`
+                : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/innvilgelse`;
+
+            return request<null, InnvilgelseDagligReiseRequest>(url, 'POST', {
+                type: TypeVedtak.INNVILGELSE,
+                vedtaksperioder: tilVedtaksperioderDto(
+                    vedtaksperioder,
+                    behandling.stønadstype
+                ) as Vedtaksperiode[],
+                begrunnelse: begrunnelse,
+            });
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
             return Promise.reject();
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder, gjelderTsr);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
@@ -96,11 +102,16 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatDagligReise, BeregnDagligReiseRequest>(
-                `/api/sak/vedtak/daglig-reise/${behandling.id}/beregn`,
-                'POST',
-                { vedtaksperioder: vedtaksperioder }
-            ).then((result) => {
+            const url = gjelderTsr
+                ? `/api/sak/vedtak/daglig-reise/${behandling.id}/tsr/beregn`
+                : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/beregn`;
+
+            request<BeregningsresultatDagligReise, BeregnDagligReiseRequest>(url, 'POST', {
+                vedtaksperioder: tilVedtaksperioderDto(
+                    vedtaksperioder,
+                    behandling.stønadstype
+                ) as Vedtaksperiode[],
+            }).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
                     settErVedtaksperioderBeregnet(true);
@@ -122,6 +133,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                         vedtakErLagret={lagretVedtak !== undefined}
+                        gjelderTsr={gjelderTsr}
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}

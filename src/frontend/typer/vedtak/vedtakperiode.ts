@@ -11,6 +11,7 @@ export interface Vedtaksperiode extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType: AktivitetType | '';
+    typeAktivitet: string | '';
     status?: PeriodeStatus;
     vedtaksperiodeFraForrigeVedtak?: VedtaksperiodeFraForrigeVedtak;
 }
@@ -19,4 +20,5 @@ export interface VedtaksperiodeFraForrigeVedtak extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType: AktivitetType | '';
+    typeAktivitet: string | '';
 }

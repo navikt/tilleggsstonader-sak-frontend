@@ -1,10 +1,21 @@
-.grid {
+.grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 0.5rem 1.5rem;
+    align-items: start;
+}
+
+.grid6 {
     display: grid;
     grid-template-columns: repeat(6, max-content);
     gap: 0.5rem 1.5rem;
     align-items: start;
 }
 
-.grid > :nth-child(5) {
+.grid4 > :nth-child(4) {
+    grid-column: 1;
+}
+
+.grid6 > :nth-child(5) {
     grid-column: 1;
 }

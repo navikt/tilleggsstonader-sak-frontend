@@ -19,6 +19,7 @@ export const tomVedtaksperiode = (): Vedtaksperiode => ({
     tom: '',
     målgruppeType: '',
     aktivitetType: '',
+    typeAktivitet: '',
     id: uuidv4(),
 });
 

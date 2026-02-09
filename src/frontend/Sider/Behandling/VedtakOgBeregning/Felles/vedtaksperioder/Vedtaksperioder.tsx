@@ -33,6 +33,7 @@ interface Props {
     foreslåPeriodeFeil?: Feil;
     settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
     vedtakErLagret: boolean;
+    gjelderTsr?: boolean;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -44,6 +45,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     foreslåPeriodeFeil,
     settForeslåPeriodeFeil,
     vedtakErLagret,
+    gjelderTsr = false,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
@@ -57,7 +59,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
         value: string | number | undefined
     ) => {
         settVedtaksperioder((prevState) => {
@@ -112,11 +114,17 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <div className={styles.grid} key={vedtaksperioderId}>
+                <div className={gjelderTsr ? styles.grid4 : styles.grid6} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    <Label size="small">Aktivitet</Label>
-                    <Label size="small">Målgruppe</Label>
+                    {gjelderTsr ? (
+                        <Label size="small">Tiltaksvariant</Label>
+                    ) : (
+                        <>
+                            <Label size="small">Aktivitet</Label>
+                            <Label size="small">Målgruppe</Label>
+                        </>
+                    )}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -129,6 +137,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
                             vedtakErLagret={vedtakErLagret}
+                            gjelderTsr={gjelderTsr}
                         />
                     ))}
                 </div>
