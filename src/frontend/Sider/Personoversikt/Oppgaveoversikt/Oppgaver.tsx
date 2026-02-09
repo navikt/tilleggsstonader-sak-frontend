@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Detail, Heading, HelpText, HStack, VStack } from '@navikt/ds-react';
+import { Detail, Heading, VStack } from '@navikt/ds-react';
 
 import Oppgaveliste from './Oppgaveliste';
 import { mapperTilIdRecord } from './utils';
@@ -52,13 +52,7 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
             <Heading size="small" spacing>
                 Ubehandlede oppgaver på bruker
             </Heading>
-            <HStack gap="2">
-                <Heading size="xsmall">TS-sak og GOSYS </Heading>
-                <HelpText>
-                    TS-sak og Gosys bruker samme oppgavesystem, men det er bare støtte for å
-                    behandle noen typer oppgaver for tilsyn barn i TS-sak.
-                </HelpText>
-            </HStack>
+            <Heading size="xsmall">TS-sak og GOSYS </Heading>
             <DataViewer type={'oppgaver'} response={{ oppgaveResponse, mapper }}>
                 {({ oppgaveResponse, mapper }) => (
                     <>
