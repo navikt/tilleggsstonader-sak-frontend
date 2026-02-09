@@ -8,7 +8,7 @@ import { useHentKlagebehandlinger } from '../../../hooks/useKlagebehandlinger';
 import DataViewer from '../../../komponenter/DataViewer';
 import { erFeilressurs, pakkUtHvisSuksess } from '../../../typer/ressurs';
 
-const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
+export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     const { hentBehandlingsoversikt, behandlingsoversikt } = useHentBehandlingsoversikt();
     const { hentKlagebehandlinger, klagebehandlinger } = useHentKlagebehandlinger();
     useEffect(() => {
@@ -33,6 +33,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.tilsynBarn ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.læremidler && (
@@ -41,6 +42,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.læremidler ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.boutgifter && (
@@ -49,6 +51,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.boutgifter ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.dagligReiseTso && (
@@ -57,6 +60,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTso ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
                             />
                         )}
                         {behandlingsoversikt.dagligReiseTsr && (
@@ -65,6 +69,7 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
                                 klagebehandlinger={utpakkedeKlagebehandlinger?.dagligReiseTsr ?? []}
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSR"
                             />
                         )}
                     </>
@@ -78,4 +83,3 @@ const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPerso
         </>
     );
 };
-export default Behandlingsoversikt;

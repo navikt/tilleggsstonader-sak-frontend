@@ -5,7 +5,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { Tabs } from '@navikt/ds-react';
 
 import Aktivitetsoversikt from './Aktivitetsoversikt/Aktivitetsoversikt';
-import Behandlingsoversikt from './Behandlingsoversikt/BehandlingOversikt';
+import { Behandlingsoversikt } from './Behandlingsoversikt/BehandlingOversikt';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import FrittståendeBrevFane from './FrittståendeBrev/FrittståendeBrevFane';
 import Oppgaveoversikt from './Oppgaveoversikt/Oppgaveoversikt';

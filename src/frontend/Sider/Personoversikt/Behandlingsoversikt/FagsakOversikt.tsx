@@ -5,6 +5,8 @@ import { BodyShort, Heading, Tag } from '@navikt/ds-react';
 import BehandlingTabell from './BehandlingTabell';
 import styles from './FagsakOversikt.module.css';
 import { OpprettNyBehandlingModal } from './OpprettNyBehandling/OpprettNyBehandlingModal';
+import { useApp } from '../../../context/AppContext';
+import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { FagsakMedBehandlinger } from '../../../typer/behandling/behandlingoversikt';
 import { stønadstypeTilTekst } from '../../../typer/behandling/behandlingTema';
 import { KlageBehandling } from '../../../typer/klage';
@@ -13,12 +15,14 @@ import {
     mapKlagesakerTilTabellrader,
     sorterBehandlinger,
 } from '../../../utils/behandlingutil';
+import { kanBehandleTema } from '../../../utils/tilganger';
 
 interface Props {
     fagsakMedBehandlinger: FagsakMedBehandlinger;
     klagebehandlinger: KlageBehandling[];
     hentBehandlinger: () => void;
     hentKlagebehandlinger: () => void;
+    gjelderTema: 'TSO' | 'TSR';
 }
 
 export const FagsakOversikt: React.FC<Props> = ({
@@ -26,7 +30,11 @@ export const FagsakOversikt: React.FC<Props> = ({
     klagebehandlinger,
     hentBehandlinger,
     hentKlagebehandlinger,
+    gjelderTema,
 }) => {
+    const { saksbehandler, appEnv } = useApp();
+    const { personopplysninger } = usePersonopplysninger();
+
     const { fagsakId, stønadstype, eksternFagsakId, erLøpende, behandlinger } =
         fagsakMedBehandlinger;
 
@@ -34,6 +42,13 @@ export const FagsakOversikt: React.FC<Props> = ({
         ...mapFagsakPersonTilTabellrader(behandlinger),
         ...mapKlagesakerTilTabellrader(klagebehandlinger),
     ].sort(sorterBehandlinger);
+
+    const kanOppretteBehandling = kanBehandleTema(
+        saksbehandler,
+        gjelderTema,
+        personopplysninger,
+        appEnv
+    );
 
     return (
         <div className={styles.container}>
@@ -49,12 +64,14 @@ export const FagsakOversikt: React.FC<Props> = ({
                 )}
             </div>
             <BehandlingTabell tabellbehandlinger={tabellbehandlinger} />
-            <OpprettNyBehandlingModal
-                fagsakId={fagsakId}
-                stønadstype={stønadstype}
-                hentKlagebehandlinger={hentKlagebehandlinger}
-                hentBehandlinger={hentBehandlinger}
-            />
+            {kanOppretteBehandling && (
+                <OpprettNyBehandlingModal
+                    fagsakId={fagsakId}
+                    stønadstype={stønadstype}
+                    hentKlagebehandlinger={hentKlagebehandlinger}
+                    hentBehandlinger={hentBehandlinger}
+                />
+            )}
         </div>
     );
 };
