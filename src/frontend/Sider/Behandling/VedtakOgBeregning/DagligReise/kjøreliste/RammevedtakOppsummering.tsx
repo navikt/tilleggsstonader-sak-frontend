@@ -73,15 +73,15 @@ const KjørelisteForReiseTabell: FC<{ kjøreliste: Kjøreliste | undefined }> = 
                                 <Label size="small">Dato</Label>
                                 <Label size="small">Har kjørt</Label>
                                 <Label size="small">Parking</Label>
-                                {uke.reisedager.map((dag, dagIndeks) => (
+                                {uke.dager.map((dag, dagIndeks) => (
                                     <React.Fragment key={dagIndeks}>
                                         <BodyShort size="small">{dag.dato}</BodyShort>
                                         <BodyShort size="small">
-                                            {formatBoolean(dag.harKjørt)}
+                                            {formatBoolean(dag.kjørelisteDag?.harKjørt)}
                                         </BodyShort>
                                         <BodyShort size="small">
-                                            {dag.parkeringsutgift
-                                                ? `${dag.parkeringsutgift} kr`
+                                            {dag.kjørelisteDag?.parkeringsutgift
+                                                ? `${dag.kjørelisteDag?.parkeringsutgift} kr`
                                                 : '-'}
                                         </BodyShort>
                                     </React.Fragment>
@@ -89,7 +89,7 @@ const KjørelisteForReiseTabell: FC<{ kjøreliste: Kjøreliste | undefined }> = 
                             </div>
                         }
                     >
-                        <TableHeaderCellSmall>{`Uke ${uke.ukeNummer}`}</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>{`Uke ${uke.ukenummer}`}</TableHeaderCellSmall>
                     </Table.ExpandableRow>
                 ))}
             </Table.Body>
