@@ -5,6 +5,7 @@ import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
+import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 
 export type VedtakLæremidler = InnvilgelseLæremidler | AvslagLæremidler | OpphørLæremidler;
 
@@ -19,7 +20,7 @@ export const vedtakErOpphør = (vedtak: VedtakLæremidler): vedtak is OpphørLæ
 
 export type InnvilgelseLæremidlerRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[];
     begrunnelse?: string;
 };
 
