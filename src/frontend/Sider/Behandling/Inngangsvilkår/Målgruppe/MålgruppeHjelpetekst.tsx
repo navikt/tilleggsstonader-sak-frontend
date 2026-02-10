@@ -57,8 +57,25 @@ const LæremidlerHjelpetekst = () => (
     </ReadMore>
 );
 
+const DagligReiseTsrHjelpetekst = () => (
+    <ReadMore header={'Slik gjør du vurderingen'} size="small">
+        <BodyLong size={'small'} spacing>
+            Dersom søker oppgir å motta <strong>kvalifiseringsstønad</strong>, må du be søkers Nav
+            kontor om bekreftelse på dette. Dersom søker mottar kvalifiseringsstønad, settes
+            målgruppe kvalifiseringsstønad til oppfylt.
+        </BodyLong>
+        <BodyLong size={'small'} spacing>
+            Dersom søker oppgir å sitte i <strong>fengsel og deltar på tiltak</strong>, må du be
+            søkers Nav kontor om bekreftelse på dette. Dersom søker sitter i fengsel og deltar på
+            tiltak, settes målgruppe innsatt i fengsel til oppfylt
+        </BodyLong>
+    </ReadMore>
+);
+
 export const MålgruppeHjelpetekst = () => {
     const { behandling } = useBehandling();
     if (behandling.stønadstype === Stønadstype.LÆREMIDLER) return <LæremidlerHjelpetekst />;
+    if (behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR)
+        return <DagligReiseTsrHjelpetekst />;
     return <BarnetilsynHjelpetekst />;
 };
