@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 
-import { alleHjemlerTilVisningstekst, Hjemmel } from './hjemmel';
+import { Hjemmel } from './hjemmel';
 import styles from './HjemmelVelger.module.css';
 import { Vurderingsfelter } from './vurderingsfelter';
 
@@ -16,9 +16,12 @@ interface IHjemmel {
 
 const hjemlerTilOptions = (hjemler: Hjemmel[] | undefined) =>
     hjemler?.map((hjemmel) => ({
-        value: hjemmel,
-        label: alleHjemlerTilVisningstekst[hjemmel as Hjemmel],
+        value: hjemmel.hjemmel,
+        label: hjemmel.visningstekst,
     })) ?? [];
+
+const finnHjemmel = (tilgengligeHjemler: Hjemmel[], hjemmelString: string) =>
+    tilgengligeHjemler.find((hjemmel) => hjemmel.hjemmel === hjemmelString);
 
 export const HjemmelVelger: React.FC<IHjemmel> = ({
     settHjemler,
@@ -30,16 +33,22 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({
     const selectedOptions = hjemlerTilOptions(valgteHjemler);
     const onToggleSelected = (option: string, isSelected: boolean) => {
         endring('hjemmel');
+        const hjemmel = finnHjemmel(tilgjengeligeHjemler, option);
         settHjemler((prevState) => {
             if (isSelected) {
+                if (!hjemmel) {
+                    return prevState;
+                }
                 return {
                     ...prevState,
-                    hjemler: [...(prevState.hjemler || []), option as Hjemmel],
+                    hjemler: [...(prevState.hjemler || []), hjemmel],
                 };
             } else {
                 return {
                     ...prevState,
-                    hjemler: (prevState.hjemler || []).filter((hjemmel) => hjemmel !== option),
+                    hjemler: (prevState.hjemler || []).filter(
+                        (hjemmel) => hjemmel.hjemmel !== option
+                    ),
                 };
             }
         });
