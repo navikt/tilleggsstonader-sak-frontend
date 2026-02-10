@@ -9,7 +9,8 @@ import { Vurderingsfelter } from './vurderingsfelter';
 
 interface IHjemmel {
     settHjemler: Dispatch<SetStateAction<Vurderingsfelter>>;
-    hjemler?: Hjemmel[];
+    valgteHjemler?: Hjemmel[];
+    tilgjengeligeHjemler: Hjemmel[];
     endring: (komponentId: string) => void;
 }
 
@@ -19,9 +20,14 @@ const hjemlerTilOptions = (hjemler: Hjemmel[] | undefined) =>
         label: alleHjemlerTilVisningstekst[hjemmel as Hjemmel],
     })) ?? [];
 
-export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemler, hjemler, endring }) => {
-    const options = hjemlerTilOptions(Object.keys(alleHjemlerTilVisningstekst) as Hjemmel[]);
-    const selectedOptions = hjemlerTilOptions(hjemler);
+export const HjemmelVelger: React.FC<IHjemmel> = ({
+    settHjemler,
+    valgteHjemler,
+    tilgjengeligeHjemler,
+    endring,
+}) => {
+    const options = hjemlerTilOptions(tilgjengeligeHjemler);
+    const selectedOptions = hjemlerTilOptions(valgteHjemler);
     const onToggleSelected = (option: string, isSelected: boolean) => {
         endring('hjemmel');
         settHjemler((prevState) => {

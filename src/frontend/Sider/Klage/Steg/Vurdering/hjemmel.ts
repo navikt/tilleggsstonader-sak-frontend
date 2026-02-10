@@ -20,6 +20,7 @@ enum FolketrygdlovenHjemmel {
 enum TilleggsstønadforskriftenHjemmel {
     FS_TILL_ST_1_3_MOBILITET = 'FS_TILL_ST_1_3_MOBILITET',
     FS_TILL_ST_3_REISE = 'FS_TILL_ST_3_REISE',
+    FS_TILL_ST_5 = 'FS_TILL_ST_5',
     FS_TILL_ST_6_FLYTTING = 'FS_TILL_ST_6_FLYTTING',
     FS_TILL_ST_8_BOLIG = 'FS_TILL_ST_8_BOLIG',
     FS_TILL_ST_10_TILSYN = 'FS_TILL_ST_10_TILSYN',
@@ -77,6 +78,7 @@ export const TilleggsstønadforskriftenHjemmelTilVisningstekst: Record<
 > = {
     FS_TILL_ST_1_3_MOBILITET: 'Til.st.forskr. § 1 3. ledd',
     FS_TILL_ST_3_REISE: 'Til.st.forskr § 3',
+    FS_TILL_ST_5: 'Til.st.forskr § 5',
     FS_TILL_ST_6_FLYTTING: 'Til.st.forskr. § 6',
     FS_TILL_ST_8_BOLIG: 'Til.st.forskr. § 8',
     FS_TILL_ST_10_TILSYN: 'Til.st.forskr. § 10',
