@@ -5,7 +5,7 @@ import { BodyLong, ReadMore } from '@navikt/ds-react';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
-const BarnetilsynHjelpetekst = () => (
+const MålgruppeNayHjelpetekst = () => (
     <ReadMore header={'Slik gjør du vurderingen'} size="small">
         <BodyLong size={'small'} spacing>
             Dersom søker oppgir å ha <strong>overgangsstønad</strong>, men ikke mottar stønaden, må
@@ -57,8 +57,30 @@ const LæremidlerHjelpetekst = () => (
     </ReadMore>
 );
 
+const DagligReiseTsrHjelpetekst = () => (
+    <ReadMore header={'Slik gjør du vurderingen'} size="small">
+        <BodyLong size={'small'} spacing>
+            Dersom søker oppgir å motta <strong>kvalifiseringsstønad</strong>, må du be søkers Nav
+            kontor om bekreftelse på dette. Dersom søker mottar kvalifiseringsstønad, settes
+            målgruppe kvalifiseringsstønad til oppfylt.
+        </BodyLong>
+        <BodyLong size={'small'} spacing>
+            Dersom søker oppgir å sitte i <strong>fengsel og deltar på tiltak</strong>, må du be
+            søkers Nav kontor om bekreftelse på dette. Dersom søker sitter i fengsel og deltar på
+            tiltak, settes målgruppe innsatt i fengsel til oppfylt.
+        </BodyLong>
+    </ReadMore>
+);
+
 export const MålgruppeHjelpetekst = () => {
     const { behandling } = useBehandling();
     if (behandling.stønadstype === Stønadstype.LÆREMIDLER) return <LæremidlerHjelpetekst />;
-    return <BarnetilsynHjelpetekst />;
+    if (behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR)
+        return <DagligReiseTsrHjelpetekst />;
+    if (
+        behandling.stønadstype === Stønadstype.BARNETILSYN ||
+        behandling.stønadstype === Stønadstype.BOUTGIFTER ||
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO
+    )
+        return <MålgruppeNayHjelpetekst />;
 };
