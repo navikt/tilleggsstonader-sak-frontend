@@ -1,19 +1,23 @@
-export interface Kjøreliste {
+export interface ReisevurderingPrivatBil {
     reiseId: string;
-    uker: Uke[];
+    uker: UkeVurdering[];
 }
 
-export interface Uke {
+export interface UkeVurdering {
     ukenummer: number;
     fraDato: string;
     tilDato: string;
     status: UkeStatus;
-    avviksbegrunnelse?: AvviksbegrunnelseUke;
-    avviksMelding?: string;
+    avvik?: AvvikUke;
     behandletDato?: string;
     kjørelisteInnsendtDato?: string; // null hvis kjøreliste ikke er mottatt
     kjørelisteId?: string; // null hvis kjøreliste ikke er mottatt
     dager: Dag[];
+}
+
+interface AvvikUke {
+    typeAvvik: TypeAvvikUke;
+    avviksMelding: string;
 }
 
 export interface Dag {
@@ -29,9 +33,9 @@ interface KjørelisteDag {
 }
 
 interface AvklartDag {
-    resultat: UtfyltDagResultat;
+    godkjentGjennomførtKjøring: boolean;
     automatiskVurdering: UtfyltDagAutomatiskVurdering;
-    avviksbegrunnelse: AvviksbegrunnelseDag;
+    avvik: TypeAvvikDag[];
     begrunnelse?: string; // må fylles ut om avvik?
     parkeringsutgift?: number;
 }
@@ -40,7 +44,6 @@ export enum UkeStatus {
     OK_AUTOMATISK = 'OK_AUTOMATISK', // brukes hvis automatisk godkjent
     OK_MANUELT = 'OK_MANUELT', // brukes hvis saksbehandler godtar avvik
     AVVIK = 'AVVIK', // parkeringsutgifter/for mange dager etc. saksbehandler må ta stilling til uka
-    KORRIGERT = 'KORRIGERT', // saksbehandler har endret innsendte dager
     IKKE_MOTTATT_KJØRELISTE = 'IKKE_MOTTATT_KJØRELISTE',
 }
 
@@ -54,11 +57,11 @@ export enum UtfyltDagAutomatiskVurdering {
     AVVIK = 'AVVIK',
 }
 
-export enum AvviksbegrunnelseDag {
+export enum TypeAvvikDag {
     FOR_HØY_PARKERINGSUTGIFT = 'FOR_HØY_PARKERINGSUTGIFT',
     HELLIDAG_ELLER_HELG = 'HELLIDAG_ELLER_HELG',
 }
 
-export enum AvviksbegrunnelseUke {
+export enum TypeAvvikUke {
     FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK = 'FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK',
 }
