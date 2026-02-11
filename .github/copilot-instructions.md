@@ -1,79 +1,98 @@
-# WARP.md
+# Copilot Instructions
 
-Denne filen gir veiledning til copilot og andre AI-verktøy når du arbeider med kode i dette repositoriet.
+Veiledning for AI-verktøy som arbeider med kode i dette repositoriet.
 
 ## Kodestil
 
 - Bruk norske kommentarer og kode
 - Bruk funksjonelle komponenter med hooks
-- bruker tslint for linting og prettier for formatering
-- bruk named imports, unngå default imports
+- Bruker eslint + prettier for linting/formatering, stylelint for CSS
+- Bruk named imports, unngå default imports
 - Unngå `any`-typer, definer eksplisitte interfaces
 - Bruk TypeScript strict mode
-- Bruk Navs designsystem (@navikt/ds-react)
-- CSS modules er foretrukket over styled-components. Bruk `.module.css` filer for styling.
-- bruk design tokens fra @navikt/ds-tokens/darkside-js, der variablene er prefikset med `--ax-`,
-  - eksempel: `ShadowDialog` <-> `var(--ax-shadow-dialog)`
+- Bruk Navs designsystem (`@navikt/ds-react`, ikoner fra `@navikt/aksel-icons`)
+- CSS modules (`.module.css`) er foretrukket over styled-components
+- Bruk design tokens fra `@navikt/ds-tokens/darkside-js` med `--ax-`-prefiks
+  - eksempel: `ShadowDialog` ↔ `var(--ax-shadow-dialog)`
+- Importrekkefølge (håndheves av eslint): react → eksterne → `@navikt/*` → relative imports, med blanke linjer mellom grupper
+- Alle imports bruker relative paths (ingen path-aliaser)
+- Prettier: 100 printWidth, 4 tab, single quotes, es5 trailing comma
 
-## Viktige kommandoer (daglig bruk)
-
-### Installere avhengigheter
-
-Dette repoet har to `package.json` (rot + `src/backend`). Installer begge:
-
-```bash
-# Fra repo-root
-npm login --scope=@navikt --registry=https://npm.pkg.github.com
-
-yarn
-yarn --cwd src/backend
-```
-
-### Starte lokalt (dev)
-
-Dev-serveren er Node/Express (BFF) som også kjører webpack dev middleware (HMR) for frontend.
+## Kommandoer
 
 ```bash
-# Bygg TypeScript i BFF (må ofte kjøres hvis backend-endringer)
+# Installer avhengigheter (to package.json: rot + src/backend)
+yarn && yarn --cwd src/backend
+
+# Bygg BFF (må kjøres ved backend-endringer)
 yarn build:dev
 
-# Start lokalt (ENV=localhost)
+# Start dev-server på http://localhost:3000
 yarn start:dev
 
-# Start lokalt men proxier mot preprod-endepunkter (ENV=localhost-preprod)
-yarn start:dev-preprod
-```
-
-Åpne `http://localhost:3000`.
-
-### Bygge (prod)
-
-Bygger frontend til `dist_production/` og bygger backend til `src/backend/build/`.
-
-```bash
+# Prod-build (frontend → dist_production/, BFF → src/backend/build/)
 yarn build
-```
 
-### Lint/format
-
-```bash
-# Lint alt under src/
+# Lint alt
 yarn lint
 
-# Autofix
+# Lint med autofix
 yarn lint:fix
 
-# Kun én fil/mappe (kjør eslint direkte)
-yarn eslint src/frontend/App.tsx
+# Lint én fil
+yarn eslint src/frontend/Sider/MinFil.tsx
 ```
 
-### Tester
+Node 20 er påkrevd (se `.nvmrc`). Ingen test-rammeverk er konfigurert.
 
-Det finnes ingen egen `test`-script i `package.json` per i dag (ingen Jest/Vitest/Playwright-oppsett).
+## Arkitektur
 
-### Vanlige feilmeldinger
+BFF (backend-for-frontend) + SPA-arkitektur:
 
-- `Error [ERR_MODULE_NOT_FOUND] ... src/backend/build/...`: typisk at BFF ikke er bygget eller feil Node-versjon.
-    - Løsning: kjør `yarn build:dev` og bruk Node 20.
+- **`src/backend/`** — Node/Express-server (BFF)
+  - Autentisering via Azure AD + OBO-tokens (`auth/`)
+  - Proxyer API-kall til `tilleggsstonader-sak` og `tilleggsstonader-klage` (`proxy.ts`)
+  - Miljøkonfig i `miljø.ts` (localhost, localhost-preprod, preprod, prod)
+  - Feature toggles via Unleash (`toggle.ts`)
+  - Webpack dev middleware med HMR i dev-modus
 
-## Lokal konfigurasjon (ENV, auth, Unleash)
+- **`src/frontend/`** — React SPA
+  - **`Sider/`** — Sidekomponenter: Oppgavebenk, Personoversikt, Behandling, Journalføring, Klage, Admin
+  - **`context/`** — State management med `constate`
+  - **`hooks/`** — Custom hooks for API-kall og skjematilstand
+  - **`komponenter/`** — Gjenbrukbare UI-komponenter
+  - **`typer/`** — TypeScript-typer og interfaces
+  - **`utils/`** — Hjelpefunksjoner (fetch, datoformatering, toggles, roller)
+
+## Nøkkelmønstre
+
+### Ressurs-typen
+
+All asynkron data bruker `Ressurs<T>` (diskriminert union):
+- `IKKE_HENTET` → `HENTER` → `SUKSESS { data: T }` | `FEILET` | `FUNKSJONELL_FEIL` | `IKKE_TILGANG`
+- Hjelpefunksjoner: `byggRessursSuksess()`, `byggRessursFeilet()`, `pakkUtHvisSuksess()`
+- `<DataViewer>` håndterer lasting/feil for én eller flere `Ressurs`-objekter i JSX
+
+### API-kall
+
+Alle kall går via `request()` fra `useApp()` (AppContext):
+```typescript
+const { request } = useApp();
+request<ResponseType>('/api/sak/...', 'POST', payload).then(settRessurs);
+```
+Legger automatisk til `x-request-id` (UUID) for sporing.
+
+### State management
+
+`constate` brukes for context: `const [Provider, useHook] = constate(...)`.
+Viktige kontekster: `AppContext` (rot), `BehandlingContext`, `VilkårContext`, `StegContext`.
+
+### Skjemahåndtering
+
+- `useFieldState()` — enkeltfelt med validering (value, onChange, isValid, errorMessage)
+- `useFormState()` — flere felter
+- `useUlagredeKomponenter()` — sporer ulagrede endringer og blokkerer navigasjon
+
+### Feature toggles
+
+Unleash-flagg definert i `utils/toggles.ts`. Lokalt er alle flagg mocket som enabled (se `utils/unleashMock.ts`).
