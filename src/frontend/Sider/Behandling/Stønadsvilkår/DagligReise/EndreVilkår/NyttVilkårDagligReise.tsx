@@ -14,10 +14,9 @@ import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagl
 
 interface Props {
     kopierFra?: VilkårDagligReise;
-    avsluttKopiering: () => void;
 }
 
-export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra, avsluttKopiering }) => {
+export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra }) => {
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
@@ -65,7 +64,6 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra, avsluttKopi
 
     const handleAvsluttRedigering = () => {
         settLeggerTilNyttVilkår(false);
-        avsluttKopiering();
     };
 
     // Kopier vilkår med ny generert reiseId

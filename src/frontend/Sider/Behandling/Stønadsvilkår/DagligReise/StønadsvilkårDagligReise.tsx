@@ -57,8 +57,13 @@ const StønadsvilkårInnhold = () => {
         settVilkårSomKopieres(vilkår);
     };
 
-    const avsluttKopiering = () => {
-        settVilkårSomKopieres(undefined);
+    const startSplitting = (vilkår: VilkårDagligReise, splittdato: string) => {
+        const vilkårForSplitt: VilkårDagligReise = {
+            ...vilkår,
+            fom: splittdato,
+            tom: vilkår.tom,
+        };
+        settVilkårSomKopieres(vilkårForSplitt);
     };
 
     return (
@@ -68,13 +73,11 @@ const StønadsvilkårInnhold = () => {
                     key={vilkår.id}
                     vilkår={vilkår}
                     startKopiering={startKopiering}
+                    startSplitting={startSplitting}
                 />
             ))}
 
-            <NyttVilkårDagligReise
-                kopierFra={vilkårSomKopieres}
-                avsluttKopiering={avsluttKopiering}
-            />
+            <NyttVilkårDagligReise kopierFra={vilkårSomKopieres} />
         </VilkårPanel>
     );
 };
