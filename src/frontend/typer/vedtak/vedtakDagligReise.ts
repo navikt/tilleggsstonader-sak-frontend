@@ -2,6 +2,8 @@ import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/DagligReise/innvilgeVedtak/innvilgeDagligReiseUtils';
+import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
 export type VedtakDagligReise = InnvilgelseDagligReise | AvslagDagligReise | OpphørDagligReise;
@@ -17,7 +19,7 @@ export const vedtakErOpphør = (vedtak: VedtakDagligReise): vedtak is OpphørDag
 
 export type InnvilgelseDagligReiseRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[] | VedtaksperiodeTsrDto[];
     begrunnelse?: string;
 };
 

@@ -4,6 +4,7 @@ import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 
 export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
 
@@ -17,7 +18,7 @@ export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBar
     vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBarnetilsynRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[];
     begrunnelse?: string;
 };
 
@@ -36,7 +37,7 @@ export type OpphørBarnetilsyn = OpphørRequest & {
 };
 
 export type BeregnBarnetilsynRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[];
 };
 
 export type BeregningsresultatTilsynBarn = {

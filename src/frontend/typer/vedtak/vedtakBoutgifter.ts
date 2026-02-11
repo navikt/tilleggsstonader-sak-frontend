@@ -1,6 +1,7 @@
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 
 export type VedtakBoutgifter = InnvilgelseBoutgifter | AvslagBoutgifter | OpphørBoutgifter;
 
@@ -30,7 +31,7 @@ export const vedtakErOpphør = (vedtak: VedtakBoutgifter): vedtak is OpphørBout
     vedtak.type === TypeVedtak.OPPHØR;
 
 export type InnvilgeBoutgifterRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[];
     begrunnelse?: string;
 };
 
@@ -57,7 +58,7 @@ export type OpphørBoutgifter = OpphørRequest & {
 };
 
 export type BeregnBoutgifterRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: VedtaksperiodeTso[];
 };
 
 export type BeregningsresultatBoutgifter = {

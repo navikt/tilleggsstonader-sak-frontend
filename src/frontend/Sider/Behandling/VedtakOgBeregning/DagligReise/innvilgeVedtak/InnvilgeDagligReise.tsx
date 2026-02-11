@@ -76,10 +76,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
 
             return request<null, InnvilgelseDagligReiseRequest>(url, 'POST', {
                 type: TypeVedtak.INNVILGELSE,
-                vedtaksperioder: tilVedtaksperioderDto(
-                    vedtaksperioder,
-                    behandling.stønadstype
-                ) as Vedtaksperiode[],
+                vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
                 begrunnelse: begrunnelse,
             });
         } else {
