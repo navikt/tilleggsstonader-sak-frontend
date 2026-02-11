@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useId } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
+import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
 import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
+import { useApp } from '../../../../context/AppContext';
 import {
     useVilkårDagligReise,
     VilkårDagligReiseProvider,
@@ -49,35 +51,88 @@ export const StønadsvilkårDagligReise = () => {
 
 const StønadsvilkårInnhold = () => {
     const { vilkårsett } = useVilkårDagligReise();
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+
     const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
         VilkårDagligReise | undefined
     >(undefined);
+    const [redigererVilkårId, settRedigererVilkårId] = React.useState<string | 'nytt' | undefined>(
+        undefined
+    );
+
+    const komponentId = useId();
+
+    useEffect(() => {
+        if (redigererVilkårId !== undefined) {
+            settUlagretKomponent(komponentId);
+        } else {
+            nullstillUlagretKomponent(komponentId);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [redigererVilkårId]);
+
+    const startRedigering = (vilkårId: string | 'nytt') => {
+        if (redigererVilkårId !== undefined) {
+            return false;
+        }
+        settRedigererVilkårId(vilkårId);
+        return true;
+    };
+
+    const avsluttRedigering = () => {
+        settRedigererVilkårId(undefined);
+    };
 
     const startKopiering = (vilkår: VilkårDagligReise) => {
-        settVilkårSomKopieres(vilkår);
+        if (startRedigering(`kopi-${vilkår.id}`)) {
+            settVilkårSomKopieres(vilkår);
+        }
     };
 
     const startSplitting = (vilkår: VilkårDagligReise, splittdato: string) => {
-        const vilkårForSplitt: VilkårDagligReise = {
+        settRedigererVilkårId(`kopi-${vilkår.id}`);
+        settVilkårSomKopieres({
             ...vilkår,
             fom: splittdato,
             tom: vilkår.tom,
-        };
-        settVilkårSomKopieres(vilkårForSplitt);
+        });
+    };
+
+    const avsluttKopiering = () => {
+        settVilkårSomKopieres(undefined);
+        avsluttRedigering();
     };
 
     return (
         <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
-                <VisEllerEndreVilkårDagligReise
-                    key={vilkår.id}
-                    vilkår={vilkår}
-                    startKopiering={startKopiering}
-                    startSplitting={startSplitting}
-                />
+                <React.Fragment key={vilkår.id}>
+                    <VisEllerEndreVilkårDagligReise
+                        vilkår={vilkår}
+                        redigerer={redigererVilkårId === vilkår.id}
+                        redigererAnnetVilkår={
+                            redigererVilkårId !== undefined && redigererVilkårId !== vilkår.id
+                        }
+                        startRedigering={() => startRedigering(vilkår.id)}
+                        avsluttRedigering={avsluttRedigering}
+                        startKopiering={startKopiering}
+                        startSplitting={startSplitting}
+                    />
+                    {vilkårSomKopieres && vilkårSomKopieres.id === vilkår.id && (
+                        <KopierVilkårDagligReise
+                            kopierFra={vilkårSomKopieres}
+                            etterVilkårId={vilkår.id}
+                            avsluttKopiering={avsluttKopiering}
+                        />
+                    )}
+                </React.Fragment>
             ))}
 
-            <NyttVilkårDagligReise kopierFra={vilkårSomKopieres} />
+            <NyttVilkårDagligReise
+                leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
+                startRedigering={() => startRedigering('nytt')}
+                avsluttRedigering={avsluttRedigering}
+            />
         </VilkårPanel>
     );
 };

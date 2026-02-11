@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
-import { v7 } from 'uuid';
+import React, { useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Alert, VStack } from '@navikt/ds-react';
 
 import { EndreVilkårDagligReise } from './EndreVilkårDagligReise';
 import { useSteg } from '../../../../../context/StegContext';
@@ -10,24 +9,23 @@ import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReise
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Periode } from '../../../../../utils/periode';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
-import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
+import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
 interface Props {
-    kopierFra?: VilkårDagligReise;
+    leggerTilNyttVilkår: boolean;
+    startRedigering: () => boolean;
+    avsluttRedigering: () => void;
 }
 
-export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra }) => {
+export const NyttVilkårDagligReise: React.FC<Props> = ({
+    leggerTilNyttVilkår,
+    startRedigering,
+    avsluttRedigering,
+}) => {
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
-    const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
-
-    // Åpne redigeringsmodus når kopierFra settes
-    useEffect(() => {
-        if (kopierFra) {
-            settLeggerTilNyttVilkår(true);
-        }
-    }, [kopierFra]);
+    const [visFeilmelding, settVisFeilmelding] = useState<boolean>(false);
 
     if (!erStegRedigerbart) {
         return null;
@@ -50,35 +48,38 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra }) => {
         });
     };
 
-    if (!leggerTilNyttVilkår) {
-        return (
-            <SmallButton
-                onClick={() => settLeggerTilNyttVilkår(true)}
-                variant="secondary"
-                icon={<PlusCircleIcon />}
-            >
-                Legg til ny periode
-            </SmallButton>
-        );
-    }
-
-    const handleAvsluttRedigering = () => {
-        settLeggerTilNyttVilkår(false);
+    const handleKlikkLeggTilNyPeriode = () => {
+        const kanStarte = startRedigering();
+        if (!kanStarte) {
+            settVisFeilmelding(true);
+        } else {
+            settVisFeilmelding(false);
+        }
     };
 
-    // Kopier vilkår med ny generert reiseId
-    const vilkårDataForKopiering: VilkårDagligReise | undefined = kopierFra
-        ? {
-              ...kopierFra,
-              reiseId: v7(),
-          }
-        : undefined;
-
     return (
-        <EndreVilkårDagligReise
-            vilkår={vilkårDataForKopiering}
-            lagre={opprettVilkår}
-            avsluttRedigering={handleAvsluttRedigering}
-        />
+        <VStack gap="2">
+            {leggerTilNyttVilkår ? (
+                <EndreVilkårDagligReise
+                    lagre={opprettVilkår}
+                    avsluttRedigering={avsluttRedigering}
+                />
+            ) : (
+                <>
+                    <SmallButton
+                        onClick={handleKlikkLeggTilNyPeriode}
+                        variant="secondary"
+                        icon={<PlusCircleIcon />}
+                    >
+                        Legg til ny periode
+                    </SmallButton>
+                    {visFeilmelding && (
+                        <Alert variant="warning" size="small">
+                            Ferdigstill redigering av annet vilkår før du starter ny redigering
+                        </Alert>
+                    )}
+                </>
+            )}
+        </VStack>
     );
 };

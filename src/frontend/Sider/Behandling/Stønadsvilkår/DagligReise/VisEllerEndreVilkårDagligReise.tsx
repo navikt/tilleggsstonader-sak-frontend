@@ -16,22 +16,66 @@ import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkå
 
 interface Props {
     vilkår: VilkårDagligReise;
+    redigerer: boolean;
+    redigererAnnetVilkår: boolean;
+    startRedigering: () => boolean;
+    avsluttRedigering: () => void;
     startKopiering: (vilkår: VilkårDagligReise) => void;
     startSplitting: (vilkår: VilkårDagligReise, splittdato: string) => void;
 }
 
 export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
     vilkår,
+    redigerer,
+    redigererAnnetVilkår,
+    startRedigering,
+    avsluttRedigering,
     startKopiering,
     startSplitting,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårDagligReise();
 
-    const [redigerer, settRedigerer] = useState<boolean>(false);
     const [visSplittModal, settVisSplittModal] = useState<boolean>(false);
     const [lasterSplitt, settSplitterEksisterendeVilkår] = useState<boolean>(false);
     const [splittFeil, settSplittFeil] = useState<Feil | undefined>(undefined);
+    const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
+        undefined
+    );
+
+    const handleStartRedigering = () => {
+        const kanStarte = startRedigering();
+        if (!kanStarte) {
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
+        }
+    };
+
+    const handleStartKopiering = () => {
+        const kanStarte = startRedigering();
+        if (kanStarte) {
+            startKopiering(vilkår);
+        } else {
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
+        }
+    };
+
+    const handleStartSplitting = () => {
+        if (redigererAnnetVilkår) {
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
+        } else {
+            settVisSplittModal(true);
+        }
+    };
+
+    const nullstillFeilmeldingRedigering = () => {
+        settFeilmeldingRedigering(undefined);
+    };
 
     const skalViseRedigeringsknapp = erStegRedigerbart && vilkår.status !== PeriodeStatus.SLETTET;
 
@@ -99,15 +143,17 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
                 <EndreVilkårDagligReise
                     vilkår={vilkår}
                     lagre={lagre}
-                    avsluttRedigering={() => settRedigerer(false)}
+                    avsluttRedigering={avsluttRedigering}
                 />
             ) : (
                 <LesevisningVilkårDagligReise
                     vilkår={vilkår}
                     skalViseRedigeringsknapp={skalViseRedigeringsknapp}
-                    startRedigering={() => settRedigerer(true)}
-                    startKopiering={() => startKopiering(vilkår)}
-                    startSplitting={() => settVisSplittModal(true)}
+                    startRedigering={handleStartRedigering}
+                    startKopiering={handleStartKopiering}
+                    startSplitting={handleStartSplitting}
+                    feilmeldingRedigering={feilmeldingRedigering}
+                    nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
                 />
             )}
         </>

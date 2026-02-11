@@ -1,7 +1,16 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useRef } from 'react';
 
 import { BusIcon, FilesIcon, PencilIcon, ScissorsIcon } from '@navikt/aksel-icons';
-import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
+import {
+    BodyShort,
+    ErrorMessage,
+    HGrid,
+    HStack,
+    Label,
+    Popover,
+    Tag,
+    VStack,
+} from '@navikt/ds-react';
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
 import styles from './LesevisningVilkårDagligReise.module.css';
@@ -22,34 +31,57 @@ const LesevisningVilkårDagligReise: FC<{
     startRedigering?: () => void;
     startKopiering?: () => void;
     startSplitting?: () => void;
-}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp, startKopiering, startSplitting }) => {
+    feilmeldingRedigering?: string;
+    nullstillFeilmeldingRedigering?: () => void;
+}> = ({
+    vilkår,
+    startRedigering,
+    skalViseRedigeringsknapp,
+    startKopiering,
+    startSplitting,
+    feilmeldingRedigering,
+    nullstillFeilmeldingRedigering,
+}) => {
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
+    const buttonRowRef = useRef<HTMLDivElement>(null);
 
     return (
         <ResultatOgStatusKort
             periode={vilkår}
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
-                    <HStack gap="2">
-                        <SmallButton
-                            className={styles.redigeringsknapp}
-                            variant="tertiary"
-                            onClick={startSplitting}
-                            icon={<ScissorsIcon />}
-                        />
-                        <SmallButton
-                            className={styles.redigeringsknapp}
-                            variant="tertiary"
-                            onClick={startRedigering}
-                            icon={<PencilIcon />}
-                        />
-                        <SmallButton
-                            className={styles.redigeringsknapp}
-                            variant="tertiary"
-                            onClick={startKopiering}
-                            icon={<FilesIcon />}
-                        />
-                    </HStack>
+                    <>
+                        <HStack gap="2" ref={buttonRowRef}>
+                            <SmallButton
+                                className={styles.redigeringsknapp}
+                                variant="tertiary"
+                                onClick={startSplitting}
+                                icon={<ScissorsIcon />}
+                            />
+                            <SmallButton
+                                className={styles.redigeringsknapp}
+                                variant="tertiary"
+                                onClick={startRedigering}
+                                icon={<PencilIcon />}
+                            />
+                            <SmallButton
+                                className={styles.redigeringsknapp}
+                                variant="tertiary"
+                                onClick={startKopiering}
+                                icon={<FilesIcon />}
+                            />
+                        </HStack>
+                        <Popover
+                            anchorEl={buttonRowRef.current}
+                            open={!!feilmeldingRedigering}
+                            onClose={nullstillFeilmeldingRedigering ?? (() => {})}
+                            placement="top"
+                        >
+                            <Popover.Content style={{ width: 'max-content' }}>
+                                <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
+                            </Popover.Content>
+                        </Popover>
+                    </>
                 )
             }
         >
