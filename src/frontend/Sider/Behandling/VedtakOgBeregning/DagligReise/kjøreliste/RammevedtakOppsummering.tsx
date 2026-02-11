@@ -5,14 +5,14 @@ import { BodyShort, Heading, Label, Table, VStack } from '@navikt/ds-react';
 import styles from './RammevedtakOppsummering.module.css';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
-import { Kjøreliste } from '../../../../../typer/kjøreliste';
+import { ReisevurderingPrivatBil } from '../../../../../typer/kjøreliste';
 import { RammevedtakPrivatBil } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { formatBoolean } from '../../../../../utils/tekstformatering';
 
 export const RammevedtakOppsummering: FC<{
     rammevedtak: RammevedtakPrivatBil;
-    kjørelister: Kjøreliste[];
+    kjørelister: ReisevurderingPrivatBil[];
 }> = ({ rammevedtak, kjørelister }) => {
     return rammevedtak.reiser.map((reise) => {
         const relevantKjøreliste = kjørelister.find((k) => k.reiseId === reise.reiseId);
@@ -61,7 +61,9 @@ export const RammevedtakOppsummering: FC<{
     });
 };
 
-const KjørelisteForReiseTabell: FC<{ kjøreliste: Kjøreliste | undefined }> = ({ kjøreliste }) => {
+const KjørelisteForReiseTabell: FC<{ kjøreliste: ReisevurderingPrivatBil | undefined }> = ({
+    kjøreliste,
+}) => {
     return (
         <Table size="small">
             <Table.Body>
