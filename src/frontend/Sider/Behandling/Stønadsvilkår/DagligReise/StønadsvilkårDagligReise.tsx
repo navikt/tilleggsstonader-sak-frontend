@@ -6,6 +6,7 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
+import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
 import {
     useVilkårDagligReise,
@@ -48,14 +49,32 @@ export const StønadsvilkårDagligReise = () => {
 
 const StønadsvilkårInnhold = () => {
     const { vilkårsett } = useVilkårDagligReise();
+    const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
+        VilkårDagligReise | undefined
+    >(undefined);
+
+    const startKopiering = (vilkår: VilkårDagligReise) => {
+        settVilkårSomKopieres(vilkår);
+    };
+
+    const avsluttKopiering = () => {
+        settVilkårSomKopieres(undefined);
+    };
 
     return (
         <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
-                <VisEllerEndreVilkårDagligReise key={vilkår.id} vilkår={vilkår} />
+                <VisEllerEndreVilkårDagligReise
+                    key={vilkår.id}
+                    vilkår={vilkår}
+                    startKopiering={startKopiering}
+                />
             ))}
 
-            <NyttVilkårDagligReise />
+            <NyttVilkårDagligReise
+                kopierFra={vilkårSomKopieres}
+                avsluttKopiering={avsluttKopiering}
+            />
         </VilkårPanel>
     );
 };

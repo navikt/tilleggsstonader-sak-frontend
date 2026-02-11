@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { v7 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 
@@ -8,13 +10,25 @@ import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReise
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Periode } from '../../../../../utils/periode';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
-import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
+import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export const NyttVilkårDagligReise: React.FC = () => {
+interface Props {
+    kopierFra?: VilkårDagligReise;
+    avsluttKopiering: () => void;
+}
+
+export const NyttVilkårDagligReise: React.FC<Props> = ({ kopierFra, avsluttKopiering }) => {
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
     const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
+
+    // Åpne redigeringsmodus når kopierFra settes
+    useEffect(() => {
+        if (kopierFra) {
+            settLeggerTilNyttVilkår(true);
+        }
+    }, [kopierFra]);
 
     if (!erStegRedigerbart) {
         return null;
@@ -48,10 +62,25 @@ export const NyttVilkårDagligReise: React.FC = () => {
             </SmallButton>
         );
     }
+
+    const handleAvsluttRedigering = () => {
+        settLeggerTilNyttVilkår(false);
+        avsluttKopiering();
+    };
+
+    // Kopier vilkår med ny generert reiseId
+    const vilkårDataForKopiering: VilkårDagligReise | undefined = kopierFra
+        ? {
+              ...kopierFra,
+              reiseId: v7(),
+          }
+        : undefined;
+
     return (
         <EndreVilkårDagligReise
+            vilkår={vilkårDataForKopiering}
             lagre={opprettVilkår}
-            avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
+            avsluttRedigering={handleAvsluttRedigering}
         />
     );
 };

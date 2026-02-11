@@ -1,6 +1,6 @@
 import React, { FC, Fragment } from 'react';
 
-import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
+import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
@@ -20,7 +20,8 @@ const LesevisningVilkårDagligReise: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
-}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
+    startKopiering?: () => void;
+}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp, startKopiering }) => {
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
 
     return (
@@ -28,12 +29,20 @@ const LesevisningVilkårDagligReise: FC<{
             periode={vilkår}
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
-                    <SmallButton
-                        className={styles.redigeringsknapp}
-                        variant="tertiary"
-                        onClick={startRedigering}
-                        icon={<PencilIcon />}
-                    />
+                    <HStack gap="2">
+                        <SmallButton
+                            className={styles.redigeringsknapp}
+                            variant="tertiary"
+                            onClick={startRedigering}
+                            icon={<PencilIcon />}
+                        />
+                        <SmallButton
+                            className={styles.redigeringsknapp}
+                            variant="tertiary"
+                            onClick={startKopiering}
+                            icon={<FilesIcon />}
+                        />
+                    </HStack>
                 )
             }
         >
