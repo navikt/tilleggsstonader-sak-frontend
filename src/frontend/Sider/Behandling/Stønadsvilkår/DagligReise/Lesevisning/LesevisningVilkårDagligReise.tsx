@@ -55,12 +55,6 @@ const LesevisningVilkårDagligReise: FC<{
                             <SmallButton
                                 className={styles.redigeringsknapp}
                                 variant="tertiary"
-                                onClick={startSplitting}
-                                icon={<ScissorsIcon />}
-                            />
-                            <SmallButton
-                                className={styles.redigeringsknapp}
-                                variant="tertiary"
                                 onClick={startRedigering}
                                 icon={<PencilIcon />}
                             />
@@ -69,6 +63,12 @@ const LesevisningVilkårDagligReise: FC<{
                                 variant="tertiary"
                                 onClick={startKopiering}
                                 icon={<FilesIcon />}
+                            />
+                            <SmallButton
+                                className={styles.redigeringsknapp}
+                                variant="tertiary"
+                                onClick={startSplitting}
+                                icon={<ScissorsIcon />}
                             />
                         </HStack>
                         <Popover
