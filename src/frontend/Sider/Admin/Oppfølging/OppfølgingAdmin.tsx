@@ -19,8 +19,11 @@ import styles from './OppfølgingAdmin.module.css';
 import { OppfølgingKontrollertDetaljer } from './OppfølgingKontrollertDetaljer';
 import { OppfølgingPerioderTilKontrollTabell } from './OppfølgingPerioderTilKontrollTabell';
 import { Oppfølging, OppfølgingUtfall } from './oppfølgingTyper';
+import { useHentBehandlinger } from './useHentBehandlinger';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 import {
     erEtter,
@@ -109,6 +112,12 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
     const [visKunWarningTag, settVisKunWarningTag] = useState(false);
     const [skjulAAP, settSkjulAAP] = useState(false);
 
+    const { hentBehandlinger, laster, feilmelding } = useHentBehandlinger();
+
+    const hentBehandlingerForOppfølging = () => {
+        hentBehandlinger();
+    };
+
     const oppdaterOppfølging = (oppfølging: Oppfølging) => {
         settOppfølginger((prevState) =>
             prevState.map((prevOppfølging) =>
@@ -162,6 +171,12 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                 >
                     Skjul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
                 </Checkbox>
+            </div>
+            <div>
+                <SmallButton onClick={hentBehandlingerForOppfølging} disabled={laster}>
+                    {laster ? 'Henter...' : 'Hent behandlinger for oppfølging'}
+                </SmallButton>
+                {feilmelding && <Feilmelding feil={feilmelding} />}
             </div>
             <VStack gap={'8'} className={styles.oppfolgingList}>
                 {filtrerteOppfølginger.map((oppfølging) => {
