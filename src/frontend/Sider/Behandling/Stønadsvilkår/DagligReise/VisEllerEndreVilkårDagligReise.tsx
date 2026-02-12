@@ -20,8 +20,7 @@ interface Props {
     redigererAnnetVilkår: boolean;
     startRedigering: () => boolean;
     avsluttRedigering: () => void;
-    startKopiering: (vilkår: VilkårDagligReise) => void;
-    startSplitting: (vilkår: VilkårDagligReise, splittdato: string) => void;
+    startKopiering: (vilkår: VilkårDagligReise, kopidato: string) => void;
 }
 
 export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
@@ -31,14 +30,13 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
     startRedigering,
     avsluttRedigering,
     startKopiering,
-    startSplitting,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårDagligReise();
 
     const [visSplittModal, settVisSplittModal] = useState<boolean>(false);
-    const [lasterSplitt, settSplitterEksisterendeVilkår] = useState<boolean>(false);
-    const [splittFeil, settSplittFeil] = useState<Feil | undefined>(undefined);
+    const [lasterOppdatering, settLasterOppdatering] = useState<boolean>(false);
+    const [kopieringFeil, settKopieringFeil] = useState<Feil | undefined>(undefined);
     const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
         undefined
     );
@@ -53,17 +51,6 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
     };
 
     const handleStartKopiering = () => {
-        const kanStarte = startRedigering();
-        if (kanStarte) {
-            startKopiering(vilkår);
-        } else {
-            settFeilmeldingRedigering(
-                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
-            );
-        }
-    };
-
-    const handleStartSplitting = () => {
         if (redigererAnnetVilkår) {
             settFeilmeldingRedigering(
                 'Ferdigstill redigering av annet vilkår før du starter ny redigering'
@@ -96,48 +83,57 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
         });
     };
 
-    const handleBekreftSplitt = async (splittdato: string) => {
-        settSplitterEksisterendeVilkår(true);
-        settSplittFeil(undefined);
+    const handleBekreftKopiering = async (kopidato: string) => {
+        settLasterOppdatering(true);
+        settKopieringFeil(undefined);
 
-        // Oppdater eksisterende vilkår med tom = splittdato - 1 dag
-        const nyTomDato = dagenFør(splittdato);
-        const respons = await lagre(
-            { fom: vilkår.fom || '', tom: nyTomDato },
-            vilkår.adresse,
-            vilkår.reiseId,
-            initierSvar(vilkår),
-            vilkår.fakta
-        );
-
-        settSplitterEksisterendeVilkår(false);
-
-        if (respons.status === RessursStatus.SUKSESS) {
-            settVisSplittModal(false);
-            settSplittFeil(undefined);
-            startSplitting(vilkår, splittdato);
-        } else {
-            settSplittFeil(
-                feiletRessursTilFeilmelding(respons, 'Kunne ikke oppdatere eksisterende vilkår')
+        // Sjekk om kopidato er innenfor eksisterende periode (og ikke lik fom)
+        if (kopidato > vilkår.fom! && kopidato <= vilkår.tom!) {
+            // Oppdater eksisterende vilkår med tom = kopidato - 1 dag
+            const nyTomDato = dagenFør(kopidato);
+            const respons = await lagre(
+                { fom: vilkår.fom || '', tom: nyTomDato },
+                vilkår.adresse,
+                vilkår.reiseId,
+                initierSvar(vilkår),
+                vilkår.fakta
             );
+
+            settLasterOppdatering(false);
+
+            if (respons.status === RessursStatus.SUKSESS) {
+                settVisSplittModal(false);
+                settKopieringFeil(undefined);
+                startKopiering(vilkår, kopidato);
+            } else {
+                settKopieringFeil(
+                    feiletRessursTilFeilmelding(respons, 'Kunne ikke oppdatere eksisterende vilkår')
+                );
+            }
+        } else {
+            // kopidato <= fom eller kopidato > tom: Ikke oppdater eksisterende vilkår
+            settLasterOppdatering(false);
+            settVisSplittModal(false);
+            settKopieringFeil(undefined);
+            startKopiering(vilkår, kopidato);
         }
     };
 
-    const handleLukkSplittModal = () => {
+    const handleLukkModal = () => {
         settVisSplittModal(false);
-        settSplittFeil(undefined);
+        settKopieringFeil(undefined);
     };
 
     return (
         <>
             <SplittVilkårDagligReiseModal
                 visModal={visSplittModal}
-                onClose={handleLukkSplittModal}
-                onBekreft={handleBekreftSplitt}
+                onClose={handleLukkModal}
+                onBekreft={handleBekreftKopiering}
                 eksisterendeFom={vilkår.fom!} // Vilkår har alltid fom/tom-dato for daglig reise
                 eksisterendeTom={vilkår.tom!}
-                laster={lasterSplitt}
-                feilmelding={splittFeil}
+                laster={lasterOppdatering}
+                feilmelding={kopieringFeil}
             />
             {erStegRedigerbart && redigerer ? (
                 <EndreVilkårDagligReise
@@ -151,7 +147,6 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
                     skalViseRedigeringsknapp={skalViseRedigeringsknapp}
                     startRedigering={handleStartRedigering}
                     startKopiering={handleStartKopiering}
-                    startSplitting={handleStartSplitting}
                     feilmeldingRedigering={feilmeldingRedigering}
                     nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
                 />

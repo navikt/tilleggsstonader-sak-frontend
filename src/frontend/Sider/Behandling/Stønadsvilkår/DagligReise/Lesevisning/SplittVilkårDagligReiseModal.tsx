@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
 
@@ -6,12 +6,12 @@ import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 import DateInput from '../../../../../komponenter/Skjema/DateInput';
-import { formaterNullableIsoDato, plusDager, tilDato } from '../../../../../utils/dato';
+import { formaterNullableIsoDato } from '../../../../../utils/dato';
 
 interface Props {
     visModal: boolean;
     onClose: () => void;
-    onBekreft: (splittdato: string) => void;
+    onBekreft: (kopidato: string) => void;
     eksisterendeFom: string;
     eksisterendeTom: string;
     laster?: boolean;
@@ -27,31 +27,37 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
     laster = false,
     feilmelding,
 }) => {
-    const [splittdato, settSplittdato] = useState<string | undefined>(undefined);
+    const [kopidato, settKopidato] = useState<string | undefined>(undefined);
     const [valideringsfeil, settValideringsfeil] = useState<string | undefined>(undefined);
 
+    const konsekvenstekst = useMemo(() => {
+        if (!kopidato) {
+            return null;
+        }
+
+        if (kopidato > eksisterendeFom && kopidato <= eksisterendeTom) {
+            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(
+                new Date(new Date(kopidato).getTime() - 24 * 60 * 60 * 1000)
+                    .toISOString()
+                    .split('T')[0]
+            )}. Det nye vilkåret vil starte på valgt dato.`;
+        }
+
+        return 'Det eksisterende vilkåret vil ikke endres. Det nye vilkåret vil starte på valgt dato.';
+    }, [kopidato, eksisterendeFom, eksisterendeTom]);
+
     const validerOgBekreft = () => {
-        if (!splittdato) {
-            settValideringsfeil('Du må angi en splittdato');
-            return;
-        }
-
-        if (splittdato <= eksisterendeFom) {
-            settValideringsfeil('Splittdato må være etter fom-datoen på vilkåret som splittes');
-            return;
-        }
-
-        if (splittdato >= eksisterendeTom) {
-            settValideringsfeil('Splittdato må være før tom-datoen på vilkåret som splittes');
+        if (!kopidato) {
+            settValideringsfeil('Du må angi en startdato');
             return;
         }
 
         settValideringsfeil(undefined);
-        onBekreft(splittdato);
+        onBekreft(kopidato);
     };
 
     const handleClose = () => {
-        settSplittdato(undefined);
+        settKopidato(undefined);
         settValideringsfeil(undefined);
         onClose();
     };
@@ -59,13 +65,13 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
     return (
         <ModalWrapper
             visModal={visModal}
-            tittel="Splitt vilkår"
-            umamiId="splitt-vilkar-daglig-reise"
+            tittel="Kopier vilkår"
+            umamiId="kopier-vilkar-daglig-reise"
             onClose={handleClose}
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: validerOgBekreft,
-                    tekst: 'Splitt',
+                    tekst: 'Kopier',
                     spinner: laster,
                     disabled: laster,
                 },
@@ -82,21 +88,16 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
                     {formaterNullableIsoDato(eksisterendeTom)}
                 </BodyShort>
                 <DateInput
-                    label="Splittdato"
-                    value={splittdato}
+                    label="Startdato for nytt vilkår"
+                    value={kopidato}
                     onChange={(dato) => {
-                        settSplittdato(dato);
+                        settKopidato(dato);
                         settValideringsfeil(undefined);
                     }}
                     feil={valideringsfeil}
                     size="small"
-                    fromDate={tilDato(plusDager(eksisterendeFom, 1))}
-                    toDate={tilDato(plusDager(eksisterendeTom, -1))}
                 />
-                <BodyShort size="small">
-                    Det eksisterende vilkåret vil få sluttdato dagen før splittdatoen. Det nye
-                    vilkåret vil starte på splittdatoen.
-                </BodyShort>
+                {konsekvenstekst && <BodyShort size="small">{konsekvenstekst}</BodyShort>}
                 <Feilmelding feil={feilmelding} />
             </VStack>
         </ModalWrapper>

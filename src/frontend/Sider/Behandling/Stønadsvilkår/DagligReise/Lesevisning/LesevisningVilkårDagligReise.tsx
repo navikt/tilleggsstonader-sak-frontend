@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useRef } from 'react';
 
-import { BusIcon, FilesIcon, PencilIcon, ScissorsIcon } from '@navikt/aksel-icons';
+import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
     ErrorMessage,
@@ -30,7 +30,6 @@ const LesevisningVilkårDagligReise: FC<{
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
     startKopiering?: () => void;
-    startSplitting?: () => void;
     feilmeldingRedigering?: string;
     nullstillFeilmeldingRedigering?: () => void;
 }> = ({
@@ -38,7 +37,6 @@ const LesevisningVilkårDagligReise: FC<{
     startRedigering,
     skalViseRedigeringsknapp,
     startKopiering,
-    startSplitting,
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
@@ -63,12 +61,6 @@ const LesevisningVilkårDagligReise: FC<{
                                 variant="tertiary"
                                 onClick={startKopiering}
                                 icon={<FilesIcon />}
-                            />
-                            <SmallButton
-                                className={styles.redigeringsknapp}
-                                variant="tertiary"
-                                onClick={startSplitting}
-                                icon={<ScissorsIcon />}
                             />
                         </HStack>
                         <Popover
