@@ -26,6 +26,7 @@ import {
 } from '../../../../typer/ressurs';
 import { useKlageApp } from '../../context/KlageAppContext';
 import { useKlagebehandling } from '../../context/KlagebehandlingContext';
+import { useHjemler } from '../../hooks/useHjemler';
 import { useVurdering } from '../../hooks/useVurdering';
 import { IFormkravVilkår } from '../Formkrav/typer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
@@ -43,6 +44,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [oppdatertVurdering, settOppdatertVurdering] = useState<Vurderingsfelter>({});
 
     const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useVurdering();
+
+    const { hjemler } = useHjemler(behandlingId);
 
     const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useKlageApp();
 
@@ -151,36 +154,47 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     </>
                                 )}
                                 {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
-                                    <>
-                                        <HjemmelVelger
-                                            settHjemler={settOppdatertVurdering}
-                                            hjemler={oppdatertVurdering.hjemler}
-                                            endring={settIkkePersistertKomponent}
-                                        />
-                                        <div className={styles.fritekstFeltWrapper}>
-                                            <Textarea
-                                                label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
-                                                value={
-                                                    oppdatertVurdering.innstillingKlageinstans || ''
-                                                }
-                                                onChange={(e) => {
-                                                    settIkkePersistertKomponent(e.target.value);
-                                                    settOppdatertVurdering((tidligereTilstand) => ({
-                                                        ...tidligereTilstand,
-                                                        innstillingKlageinstans: e.target.value,
-                                                    }));
-                                                    settVurderingEndret(true);
-                                                }}
-                                                size="medium"
-                                            />
-                                            <LesMerTekstInnstilling />
-                                        </div>
-                                        <InterntNotat
-                                            behandlingErRedigerbar={behandlingErRedigerbar}
-                                            tekst={oppdatertVurdering?.interntNotat}
-                                            oppdaterTekst={oppdaterNotat}
-                                        />
-                                    </>
+                                    <DataViewer type={'hjemler'} response={{ hjemler }}>
+                                        {({ hjemler }) => (
+                                            <>
+                                                <HjemmelVelger
+                                                    settHjemler={settOppdatertVurdering}
+                                                    valgteHjemler={oppdatertVurdering.hjemler}
+                                                    tilgjengeligeHjemler={hjemler}
+                                                    endring={settIkkePersistertKomponent}
+                                                />
+                                                <div className={styles.fritekstFeltWrapper}>
+                                                    <Textarea
+                                                        label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
+                                                        value={
+                                                            oppdatertVurdering.innstillingKlageinstans ||
+                                                            ''
+                                                        }
+                                                        onChange={(e) => {
+                                                            settIkkePersistertKomponent(
+                                                                e.target.value
+                                                            );
+                                                            settOppdatertVurdering(
+                                                                (tidligereTilstand) => ({
+                                                                    ...tidligereTilstand,
+                                                                    innstillingKlageinstans:
+                                                                        e.target.value,
+                                                                })
+                                                            );
+                                                            settVurderingEndret(true);
+                                                        }}
+                                                        size="medium"
+                                                    />
+                                                    <LesMerTekstInnstilling />
+                                                </div>
+                                                <InterntNotat
+                                                    behandlingErRedigerbar={behandlingErRedigerbar}
+                                                    tekst={oppdatertVurdering?.interntNotat}
+                                                    oppdaterTekst={oppdaterNotat}
+                                                />
+                                            </>
+                                        )}
+                                    </DataViewer>
                                 )}
                                 <div className={styles.vurderingKnapper}>
                                     {(vurderingEndret || melding?.type === 'error') && (
