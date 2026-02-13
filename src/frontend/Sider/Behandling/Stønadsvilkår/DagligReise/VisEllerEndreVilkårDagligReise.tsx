@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 
 import { EndreVilkårDagligReise } from './EndreVilkår/EndreVilkårDagligReise';
 import { initierSvar } from './EndreVilkår/utils';
+import { KopierVilkårDagligReiseModal } from './Lesevisning/KopierVilkårDagligReiseModal';
 import { LesevisningVilkårDagligReise } from './Lesevisning/LesevisningVilkårDagligReise';
-import { SplittVilkårDagligReiseModal } from './Lesevisning/SplittVilkårDagligReiseModal';
 import { FaktaDagligReise } from './typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from './typer/vilkårDagligReise';
 import { useSteg } from '../../../../context/StegContext';
@@ -126,7 +126,7 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
 
     return (
         <>
-            <SplittVilkårDagligReiseModal
+            <KopierVilkårDagligReiseModal
                 visModal={visSplittModal}
                 onClose={handleLukkModal}
                 onBekreft={handleBekreftKopiering}

@@ -18,7 +18,7 @@ interface Props {
     feilmelding?: Feil;
 }
 
-export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
+export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
     visModal,
     onClose,
     onBekreft,
