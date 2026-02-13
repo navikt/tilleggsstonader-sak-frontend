@@ -53,8 +53,8 @@ export const OppfølgingPerioderTilKontrollTabell = ({ oppfølging }: { oppfølg
                         </Table.DataCell>
                         <Table.DataCell>
                             <VStack>
-                                {periode.endringer.map((endring) => (
-                                    <span key={endring.årsak}>
+                                {periode.endringer.map((endring, index) => (
+                                    <span key={index}>
                                         {årsakKontrollTilTekst[endring.årsak]}
                                         {endring.fom && ` (${formaterIsoDato(endring.fom)})`}
                                         {endring.tom && ` (${formaterIsoDato(endring.tom)})`}
