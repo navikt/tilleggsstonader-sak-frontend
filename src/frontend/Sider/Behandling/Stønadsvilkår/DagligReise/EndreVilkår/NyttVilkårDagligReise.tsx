@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { VStack } from '@navikt/ds-react';
 
 import { EndreVilkårDagligReise } from './EndreVilkårDagligReise';
+import { LeggTilNyPeriodeKnapp } from './LeggTilNyPeriodeKnapp';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
-import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Periode } from '../../../../../utils/periode';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export const NyttVilkårDagligReise: React.FC = () => {
+interface Props {
+    leggerTilNyttVilkår: boolean;
+    startRedigering: () => boolean;
+    avsluttRedigering: () => void;
+}
+
+export const NyttVilkårDagligReise: React.FC<Props> = ({
+    leggerTilNyttVilkår,
+    startRedigering,
+    avsluttRedigering,
+}) => {
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
-    const [leggerTilNyttVilkår, settLeggerTilNyttVilkår] = useState<boolean>(false);
+    const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
+        undefined
+    );
 
     if (!erStegRedigerbart) {
         return null;
@@ -37,21 +49,31 @@ export const NyttVilkårDagligReise: React.FC = () => {
         });
     };
 
-    if (!leggerTilNyttVilkår) {
-        return (
-            <SmallButton
-                onClick={() => settLeggerTilNyttVilkår(true)}
-                variant="secondary"
-                icon={<PlusCircleIcon />}
-            >
-                Legg til ny periode
-            </SmallButton>
-        );
-    }
+    const handleKlikkLeggTilNyPeriode = () => {
+        const kanStarte = startRedigering();
+        if (!kanStarte) {
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
+        } else {
+            settFeilmeldingRedigering(undefined);
+        }
+    };
+
     return (
-        <EndreVilkårDagligReise
-            lagre={opprettVilkår}
-            avsluttRedigering={() => settLeggerTilNyttVilkår(false)}
-        />
+        <VStack gap="2">
+            {leggerTilNyttVilkår ? (
+                <EndreVilkårDagligReise
+                    lagre={opprettVilkår}
+                    avsluttRedigering={avsluttRedigering}
+                />
+            ) : (
+                <LeggTilNyPeriodeKnapp
+                    onKlikk={handleKlikkLeggTilNyPeriode}
+                    feilmelding={feilmeldingRedigering}
+                    onLukkFeilmelding={() => settFeilmeldingRedigering(undefined)}
+                />
+            )}
+        </VStack>
     );
 };
