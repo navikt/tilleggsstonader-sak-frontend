@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import { BodyShort, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
@@ -30,21 +30,24 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
     const [kopidato, settKopidato] = useState<string | undefined>(undefined);
     const [valideringsfeil, settValideringsfeil] = useState<string | undefined>(undefined);
 
+    const endrerEksisterende =
+        kopidato && kopidato > eksisterendeFom && kopidato <= eksisterendeTom;
+
     const konsekvenstekst = useMemo(() => {
         if (!kopidato) {
             return null;
         }
 
-        if (kopidato > eksisterendeFom && kopidato <= eksisterendeTom) {
+        if (endrerEksisterende) {
             return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(
                 new Date(new Date(kopidato).getTime() - 24 * 60 * 60 * 1000)
                     .toISOString()
                     .split('T')[0]
-            )}. Det nye vilkåret vil starte på valgt dato.`;
+            )}.`;
         }
 
-        return 'Det eksisterende vilkåret vil ikke endres. Det nye vilkåret vil starte på valgt dato.';
-    }, [kopidato, eksisterendeFom, eksisterendeTom]);
+        return 'Det eksisterende vilkåret vil ikke endres.';
+    }, [kopidato, endrerEksisterende]);
 
     const validerOgBekreft = () => {
         if (!kopidato) {
@@ -97,7 +100,14 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
                     feil={valideringsfeil}
                     size="small"
                 />
-                {konsekvenstekst && <BodyShort size="small">{konsekvenstekst}</BodyShort>}
+                {konsekvenstekst &&
+                    (endrerEksisterende ? (
+                        <Alert variant="warning" size="small" inline>
+                            {konsekvenstekst}
+                        </Alert>
+                    ) : (
+                        <BodyShort size="small">{konsekvenstekst}</BodyShort>
+                    ))}
                 <Feilmelding feil={feilmelding} />
             </VStack>
         </ModalWrapper>

@@ -88,7 +88,7 @@ const StønadsvilkårInnhold = () => {
             settVilkårSomKopieres({
                 ...vilkår,
                 fom: kopidato,
-                tom: null,
+                tom: undefined,
             });
         }
     };
