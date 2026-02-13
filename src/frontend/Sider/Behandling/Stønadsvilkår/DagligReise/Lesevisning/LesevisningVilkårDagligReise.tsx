@@ -1,5 +1,7 @@
 import React, { FC, Fragment, useRef } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
@@ -18,6 +20,7 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
+import { Toggle } from '../../../../../utils/toggles';
 import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import {
     regelIdTilSpørsmålKortversjon,
@@ -40,6 +43,7 @@ export const LesevisningVilkårDagligReise: FC<{
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
+    const visKopiknapp = useFlag(Toggle.VIS_KOPIKNAPP_PÅ_VILKÅR);
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
     const endringsknapperRef = useRef<HTMLDivElement>(null);
 
@@ -56,12 +60,14 @@ export const LesevisningVilkårDagligReise: FC<{
                                 onClick={startRedigering}
                                 icon={<PencilIcon />}
                             />
-                            <SmallButton
-                                className={styles.redigeringsknapp}
-                                variant="tertiary"
-                                onClick={startKopiering}
-                                icon={<FilesIcon />}
-                            />
+                            {visKopiknapp && (
+                                <SmallButton
+                                    className={styles.redigeringsknapp}
+                                    variant="tertiary"
+                                    onClick={startKopiering}
+                                    icon={<FilesIcon />}
+                                />
+                            )}
                         </HStack>
                         <Popover
                             anchorEl={endringsknapperRef.current}
