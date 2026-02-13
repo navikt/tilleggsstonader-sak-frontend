@@ -27,36 +27,36 @@ export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
     laster = false,
     feilmelding,
 }) => {
-    const [kopidato, settKopidato] = useState<string | undefined>(undefined);
+    const [valgtStartdato, settValgtStartdato] = useState<string | undefined>(undefined);
     const [valideringsfeil, settValideringsfeil] = useState<string | undefined>(undefined);
 
     const endrerEksisterende =
-        kopidato && kopidato > eksisterendeFom && kopidato <= eksisterendeTom;
+        valgtStartdato && valgtStartdato > eksisterendeFom && valgtStartdato <= eksisterendeTom;
 
     const konsekvenstekst = useMemo(() => {
-        if (!kopidato) {
+        if (!valgtStartdato) {
             return null;
         }
 
         if (endrerEksisterende) {
-            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(dagenFør(kopidato))}.`;
+            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(dagenFør(valgtStartdato))}.`;
         }
 
         return 'Det eksisterende vilkåret vil ikke endres.';
-    }, [kopidato, endrerEksisterende]);
+    }, [valgtStartdato, endrerEksisterende]);
 
     const validerOgBekreft = () => {
-        if (!kopidato) {
+        if (!valgtStartdato) {
             settValideringsfeil('Du må angi en startdato');
             return;
         }
 
         settValideringsfeil(undefined);
-        onBekreft(kopidato);
+        onBekreft(valgtStartdato);
     };
 
     const handleClose = () => {
-        settKopidato(undefined);
+        settValgtStartdato(undefined);
         settValideringsfeil(undefined);
         onClose();
     };
@@ -88,9 +88,9 @@ export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
                 </BodyShort>
                 <DateInput
                     label="Startdato for nytt vilkår"
-                    value={kopidato}
+                    value={valgtStartdato}
                     onChange={(dato) => {
-                        settKopidato(dato);
+                        settValgtStartdato(dato);
                         settValideringsfeil(undefined);
                     }}
                     feil={valideringsfeil}
