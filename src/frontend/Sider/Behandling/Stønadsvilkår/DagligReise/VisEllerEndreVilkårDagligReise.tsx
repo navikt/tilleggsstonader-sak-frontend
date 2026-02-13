@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { EndreVilkårDagligReise } from './EndreVilkår/EndreVilkårDagligReise';
 import { initierSvar } from './EndreVilkår/utils';
-import LesevisningVilkårDagligReise from './Lesevisning/LesevisningVilkårDagligReise';
+import { LesevisningVilkårDagligReise } from './Lesevisning/LesevisningVilkårDagligReise';
 import { SplittVilkårDagligReiseModal } from './Lesevisning/SplittVilkårDagligReiseModal';
 import { FaktaDagligReise } from './typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from './typer/vilkårDagligReise';

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, VStack } from '@navikt/ds-react';
+import { ErrorMessage, Popover, VStack } from '@navikt/ds-react';
 
 import { EndreVilkårDagligReise } from './EndreVilkårDagligReise';
 import { useSteg } from '../../../../../context/StegContext';
@@ -25,7 +25,10 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
     const { lagreNyttVilkår } = useVilkårDagligReise();
     const { erStegRedigerbart } = useSteg();
 
-    const [visFeilmelding, settVisFeilmelding] = useState<boolean>(false);
+    const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
+        undefined
+    );
+    const leggTilNyPeriodeButtonRef = useRef<HTMLDivElement>(null);
 
     if (!erStegRedigerbart) {
         return null;
@@ -51,9 +54,11 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
     const handleKlikkLeggTilNyPeriode = () => {
         const kanStarte = startRedigering();
         if (!kanStarte) {
-            settVisFeilmelding(true);
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
         } else {
-            settVisFeilmelding(false);
+            settFeilmeldingRedigering(undefined);
         }
     };
 
@@ -66,18 +71,25 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
                 />
             ) : (
                 <>
-                    <SmallButton
-                        onClick={handleKlikkLeggTilNyPeriode}
-                        variant="secondary"
-                        icon={<PlusCircleIcon />}
+                    <div ref={leggTilNyPeriodeButtonRef} style={{ width: 'fit-content' }}>
+                        <SmallButton
+                            onClick={handleKlikkLeggTilNyPeriode}
+                            variant="secondary"
+                            icon={<PlusCircleIcon />}
+                        >
+                            Legg til ny periode
+                        </SmallButton>
+                    </div>
+                    <Popover
+                        anchorEl={leggTilNyPeriodeButtonRef.current}
+                        open={!!feilmeldingRedigering}
+                        onClose={() => settFeilmeldingRedigering(undefined)}
+                        placement="top"
                     >
-                        Legg til ny periode
-                    </SmallButton>
-                    {visFeilmelding && (
-                        <Alert variant="warning" size="small">
-                            Ferdigstill redigering av annet vilkår før du starter ny redigering
-                        </Alert>
-                    )}
+                        <Popover.Content style={{ width: 'max-content' }}>
+                            <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
+                        </Popover.Content>
+                    </Popover>
                 </>
             )}
         </VStack>

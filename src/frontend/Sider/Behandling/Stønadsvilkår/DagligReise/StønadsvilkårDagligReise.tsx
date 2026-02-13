@@ -121,7 +121,6 @@ const StønadsvilkårInnhold = () => {
                     )}
                 </React.Fragment>
             ))}
-
             <NyttVilkårDagligReise
                 leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
                 startRedigering={() => startRedigering('nytt')}

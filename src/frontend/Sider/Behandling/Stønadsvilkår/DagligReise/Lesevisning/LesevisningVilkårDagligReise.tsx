@@ -25,7 +25,7 @@ import {
 } from '../../../Vilkårvurdering/tekster';
 import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-const LesevisningVilkårDagligReise: FC<{
+export const LesevisningVilkårDagligReise: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
@@ -41,7 +41,7 @@ const LesevisningVilkårDagligReise: FC<{
     nullstillFeilmeldingRedigering,
 }) => {
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
-    const buttonRowRef = useRef<HTMLDivElement>(null);
+    const endringsknapperRef = useRef<HTMLDivElement>(null);
 
     return (
         <ResultatOgStatusKort
@@ -49,7 +49,7 @@ const LesevisningVilkårDagligReise: FC<{
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
                     <>
-                        <HStack gap="2" ref={buttonRowRef}>
+                        <HStack gap="2" ref={endringsknapperRef}>
                             <SmallButton
                                 className={styles.redigeringsknapp}
                                 variant="tertiary"
@@ -64,7 +64,7 @@ const LesevisningVilkårDagligReise: FC<{
                             />
                         </HStack>
                         <Popover
-                            anchorEl={buttonRowRef.current}
+                            anchorEl={endringsknapperRef.current}
                             open={!!feilmeldingRedigering}
                             onClose={nullstillFeilmeldingRedigering ?? (() => {})}
                             placement="top"
@@ -141,5 +141,3 @@ const LesevisningVilkårDagligReise: FC<{
         </ResultatOgStatusKort>
     );
 };
-
-export default LesevisningVilkårDagligReise;
