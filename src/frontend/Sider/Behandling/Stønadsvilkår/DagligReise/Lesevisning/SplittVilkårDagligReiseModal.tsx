@@ -6,7 +6,7 @@ import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
 import DateInput from '../../../../../komponenter/Skjema/DateInput';
-import { formaterNullableIsoDato } from '../../../../../utils/dato';
+import { dagenFør, formaterNullableIsoDato } from '../../../../../utils/dato';
 
 interface Props {
     visModal: boolean;
@@ -39,11 +39,7 @@ export const SplittVilkårDagligReiseModal: React.FC<Props> = ({
         }
 
         if (endrerEksisterende) {
-            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(
-                new Date(new Date(kopidato).getTime() - 24 * 60 * 60 * 1000)
-                    .toISOString()
-                    .split('T')[0]
-            )}.`;
+            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(dagenFør(kopidato))}.`;
         }
 
         return 'Det eksisterende vilkåret vil ikke endres.';
