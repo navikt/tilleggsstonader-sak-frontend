@@ -98,7 +98,7 @@ const prioritetBrevmaler: Record<Gruppe, number> = {
 const gruppeTilTekst: Record<Gruppe, string> = {
     INNVILGET: 'Innvilget',
     REVURDERING_ENDRING: 'Endring',
-    REVURDERING_FORLENGET: 'Forlengelse',
+    REVURDERING_FORLENGET: 'Forlenget',
     REVURDERING_OPPHØR: 'Opphør',
     AVSLAG: 'Avslag',
     OPPHOR: 'Opphør',

@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { BodyLong, BodyShort, Heading, List } from '@navikt/ds-react';
 
-import { alleHjemlerTilVisningstekst } from './hjemmel';
 import styles from './VurderingLesemodus.module.css';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { OmgjøringDto, OpprettholdelseDto, VurderingDto } from '../../hooks/useVurdering';
@@ -60,7 +59,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
                 </Heading>
                 <List>
                     {hjemler.map((hjemmel) => (
-                        <List.Item key={hjemmel}>{alleHjemlerTilVisningstekst[hjemmel]}</List.Item>
+                        <List.Item key={hjemmel.hjemmel}>{hjemmel.visningstekst}</List.Item>
                     ))}
                 </List>
             </div>
