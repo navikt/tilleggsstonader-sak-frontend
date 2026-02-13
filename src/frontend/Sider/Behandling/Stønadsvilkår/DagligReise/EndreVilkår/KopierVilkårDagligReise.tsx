@@ -10,15 +10,10 @@ import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagl
 
 interface Props {
     kopierFra: VilkårDagligReise;
-    etterVilkårId: string;
     avsluttKopiering: () => void;
 }
 
-export const KopierVilkårDagligReise: React.FC<Props> = ({
-    kopierFra,
-    etterVilkårId,
-    avsluttKopiering,
-}) => {
+export const KopierVilkårDagligReise: React.FC<Props> = ({ kopierFra, avsluttKopiering }) => {
     const { lagreNyttVilkår } = useVilkårDagligReise();
 
     const vilkårMedNyReiseId: VilkårDagligReise = {
@@ -33,17 +28,14 @@ export const KopierVilkårDagligReise: React.FC<Props> = ({
         svar: SvarVilkårDagligReise,
         fakta: FaktaDagligReise
     ) => {
-        return await lagreNyttVilkår(
-            {
-                fom: periode.fom,
-                tom: periode.tom,
-                adresse: adresse || '',
-                reiseId: reiseId,
-                svar: svar,
-                fakta: fakta,
-            },
-            etterVilkårId
-        );
+        return await lagreNyttVilkår({
+            fom: periode.fom,
+            tom: periode.tom,
+            adresse: adresse || '',
+            reiseId: reiseId,
+            svar: svar,
+            fakta: fakta,
+        });
     };
 
     const handleAvsluttRedigering = () => {

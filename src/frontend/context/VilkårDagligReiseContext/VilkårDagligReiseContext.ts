@@ -15,7 +15,7 @@ import {
     RessursSuksess,
 } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
-import { fjernVilkårFraListe, oppdaterVilkårIListe, settInnVilkårEtter } from './utils';
+import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
 import { Regelstruktur } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { useBehandling } from '../BehandlingContext';
 
@@ -28,8 +28,7 @@ interface UseVilkårDagligReiseResponse {
     vilkårsett: VilkårDagligReise[];
     regelstruktur: Regelstruktur;
     lagreNyttVilkår: (
-        nyttVilkår: LagreNyttVilkårDagligReise,
-        etterVilkårId?: string
+        nyttVilkår: LagreNyttVilkårDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
     oppdaterVilkår: (
         vilkårId: string,
@@ -48,10 +47,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
 
         const [vilkårsett, settVilkårsett] = useState<VilkårDagligReise[]>(eksisterendeVilkår);
 
-        const lagreNyttVilkår = async (
-            vilkår: LagreNyttVilkårDagligReise,
-            etterVilkårId?: string
-        ) => {
+        const lagreNyttVilkår = async (vilkår: LagreNyttVilkårDagligReise) => {
             const respons = await request<VilkårDagligReise, LagreNyttVilkårDagligReise>(
                 `/api/sak/vilkar/daglig-reise/${behandling.id}`,
                 'POST',
@@ -59,16 +55,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
             );
 
             if (respons.status === RessursStatus.SUKSESS) {
-                settVilkårsett((prevVilkårsvurdering) => {
-                    if (etterVilkårId) {
-                        return settInnVilkårEtter(
-                            prevVilkårsvurdering,
-                            respons.data,
-                            etterVilkårId
-                        );
-                    }
-                    return [...prevVilkårsvurdering, respons.data];
-                });
+                settVilkårsett((prevVilkårsvurdering) => [...prevVilkårsvurdering, respons.data]);
             }
 
             return respons;

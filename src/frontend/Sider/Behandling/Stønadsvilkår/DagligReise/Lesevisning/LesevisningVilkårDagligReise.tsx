@@ -75,7 +75,7 @@ export const LesevisningVilkårDagligReise: FC<{
                             onClose={nullstillFeilmeldingRedigering ?? (() => {})}
                             placement="top"
                         >
-                            <Popover.Content style={{ width: 'max-content' }}>
+                            <Popover.Content className={styles.popoverContent}>
                                 <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
                             </Popover.Content>
                         </Popover>

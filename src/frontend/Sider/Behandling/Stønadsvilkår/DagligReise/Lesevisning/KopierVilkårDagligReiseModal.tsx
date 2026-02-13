@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
@@ -32,18 +32,6 @@ export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
 
     const endrerEksisterende =
         valgtStartdato && valgtStartdato > eksisterendeFom && valgtStartdato <= eksisterendeTom;
-
-    const konsekvenstekst = useMemo(() => {
-        if (!valgtStartdato) {
-            return null;
-        }
-
-        if (endrerEksisterende) {
-            return `Det eksisterende vilkåret vil få sluttdato ${formaterNullableIsoDato(dagenFør(valgtStartdato))}.`;
-        }
-
-        return 'Det eksisterende vilkåret vil ikke endres.';
-    }, [valgtStartdato, endrerEksisterende]);
 
     const validerOgBekreft = () => {
         if (!valgtStartdato) {
@@ -96,13 +84,16 @@ export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
                     feil={valideringsfeil}
                     size="small"
                 />
-                {konsekvenstekst &&
+                {valgtStartdato &&
                     (endrerEksisterende ? (
                         <Alert variant="warning" size="small" inline>
-                            {konsekvenstekst}
+                            Det eksisterende vilkåret vil få sluttdato{' '}
+                            {formaterNullableIsoDato(dagenFør(valgtStartdato))}.
                         </Alert>
                     ) : (
-                        <BodyShort size="small">{konsekvenstekst}</BodyShort>
+                        <BodyShort size="small">
+                            Det eksisterende vilkåret vil ikke endres.
+                        </BodyShort>
                     ))}
                 <Feilmelding feil={feilmelding} />
             </VStack>

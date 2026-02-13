@@ -1,29 +1,14 @@
 import { VilkårDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 
 export const oppdaterVilkårIListe = (
-    vilkårFørEndring: VilkårDagligReise[],
+    eksisterendeVilkår: VilkårDagligReise[],
     oppdatertVilkår: VilkårDagligReise
 ): VilkårDagligReise[] =>
-    vilkårFørEndring.map((vilkår) => (vilkår.id === oppdatertVilkår.id ? oppdatertVilkår : vilkår));
+    eksisterendeVilkår.map((vilkår) =>
+        vilkår.id === oppdatertVilkår.id ? oppdatertVilkår : vilkår
+    );
 
 export const fjernVilkårFraListe = (
-    vilkårFørEndring: VilkårDagligReise[],
+    eksisterendeVilkår: VilkårDagligReise[],
     slettetVilkårId: string
-): VilkårDagligReise[] => vilkårFørEndring.filter((vilkår) => vilkår.id !== slettetVilkårId);
-
-export const settInnVilkårEtter = (
-    vilkårFørEndring: VilkårDagligReise[],
-    nyttVilkår: VilkårDagligReise,
-    etterVilkårId: string
-): VilkårDagligReise[] => {
-    const index = vilkårFørEndring.findIndex((vilkår) => vilkår.id === etterVilkårId);
-    if (index === -1) {
-        // Hvis kilde-vilkåret ikke finnes, legg til på slutten
-        return [...vilkårFørEndring, nyttVilkår];
-    }
-    return [
-        ...vilkårFørEndring.slice(0, index + 1),
-        nyttVilkår,
-        ...vilkårFørEndring.slice(index + 1),
-    ];
-};
+): VilkårDagligReise[] => eksisterendeVilkår.filter((vilkår) => vilkår.id !== slettetVilkårId);

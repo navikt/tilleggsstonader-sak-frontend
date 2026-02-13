@@ -115,7 +115,6 @@ const StønadsvilkårInnhold = () => {
                     {vilkårSomKopieres && vilkårSomKopieres.id === vilkår.id && (
                         <KopierVilkårDagligReise
                             kopierFra={vilkårSomKopieres}
-                            etterVilkårId={vilkår.id}
                             avsluttKopiering={avsluttKopiering}
                         />
                     )}

@@ -1,12 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
-import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, Popover, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
 import { EndreVilkårDagligReise } from './EndreVilkårDagligReise';
+import { LeggTilNyPeriodeKnapp } from './LeggTilNyPeriodeKnapp';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
-import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Periode } from '../../../../../utils/periode';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
@@ -28,7 +27,6 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
     const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
         undefined
     );
-    const leggTilNyPeriodeButtonRef = useRef<HTMLDivElement>(null);
 
     if (!erStegRedigerbart) {
         return null;
@@ -70,27 +68,11 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
                     avsluttRedigering={avsluttRedigering}
                 />
             ) : (
-                <>
-                    <div ref={leggTilNyPeriodeButtonRef} style={{ width: 'fit-content' }}>
-                        <SmallButton
-                            onClick={handleKlikkLeggTilNyPeriode}
-                            variant="secondary"
-                            icon={<PlusCircleIcon />}
-                        >
-                            Legg til ny periode
-                        </SmallButton>
-                    </div>
-                    <Popover
-                        anchorEl={leggTilNyPeriodeButtonRef.current}
-                        open={!!feilmeldingRedigering}
-                        onClose={() => settFeilmeldingRedigering(undefined)}
-                        placement="top"
-                    >
-                        <Popover.Content style={{ width: 'max-content' }}>
-                            <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
-                        </Popover.Content>
-                    </Popover>
-                </>
+                <LeggTilNyPeriodeKnapp
+                    onKlikk={handleKlikkLeggTilNyPeriode}
+                    feilmelding={feilmeldingRedigering}
+                    onLukkFeilmelding={() => settFeilmeldingRedigering(undefined)}
+                />
             )}
         </VStack>
     );

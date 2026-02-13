@@ -41,21 +41,21 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
         undefined
     );
 
-    const handleStartRedigering = () => {
-        const kanStarte = startRedigering();
+    const sjekkOgSettFeilmelding = (kanStarte: boolean) => {
         if (!kanStarte) {
             settFeilmeldingRedigering(
                 'Ferdigstill redigering av annet vilkår før du starter ny redigering'
             );
         }
+        return kanStarte;
+    };
+
+    const handleStartRedigering = () => {
+        sjekkOgSettFeilmelding(startRedigering());
     };
 
     const handleStartKopiering = () => {
-        if (redigererAnnetVilkår) {
-            settFeilmeldingRedigering(
-                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
-            );
-        } else {
+        if (sjekkOgSettFeilmelding(!redigererAnnetVilkår)) {
             settVisSplittModal(true);
         }
     };
