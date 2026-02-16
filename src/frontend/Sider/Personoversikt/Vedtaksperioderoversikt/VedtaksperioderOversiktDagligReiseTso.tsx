@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Vedtaksdetaljer } from './DagligReise/Vedtaksdetaljer';
 import { BorderTable } from './VedtaksperioderBorderTable';
 import { stønadstypeTilEnhet } from '../../../typer/behandling/behandlingTema';
 import { DetaljertVedtaksperiodeDagligReiseTso } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
@@ -33,7 +34,15 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
             <Table.Body>
                 {vedtaksperioder.map((periode) => {
                     return (
-                        <Table.Row key={periode.fom}>
+                        <Table.ExpandableRow
+                            key={periode.fom}
+                            content={
+                                <Vedtaksdetaljer
+                                    beregningsDetaljer={periode.beregningsDetaljer ?? []}
+                                />
+                            }
+                            togglePlacement={'right'}
+                        >
                             <Table.DataCell>{formaterNullableIsoDato(periode.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterNullableIsoDato(periode.tom)}</Table.DataCell>
                             <Table.DataCell>
@@ -48,7 +57,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                             <Table.DataCell>
                                 {stønadstypeTilEnhet[periode.stønadstype]}
                             </Table.DataCell>
-                        </Table.Row>
+                        </Table.ExpandableRow>
                     );
                 })}
             </Table.Body>
