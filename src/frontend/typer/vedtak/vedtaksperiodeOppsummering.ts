@@ -52,7 +52,7 @@ export type DetaljertVedtaksperiodeDagligReiseTso = {
     målgruppe: FaktiskMålgruppe;
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
-    beregningsDetaljer: BeregningsresultatForPeriodeDto[];
+    beregningsDetaljer: BeregningsresultatForPeriodeDto;
 };
 
 export type DetaljertVedtaksperiodeDagligReiseTsr = {

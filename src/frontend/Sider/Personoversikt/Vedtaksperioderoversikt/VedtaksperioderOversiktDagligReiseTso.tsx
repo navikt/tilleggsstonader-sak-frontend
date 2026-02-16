@@ -37,9 +37,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                         <Table.ExpandableRow
                             key={periode.fom}
                             content={
-                                <Vedtaksdetaljer
-                                    beregningsDetaljer={periode.beregningsDetaljer ?? []}
-                                />
+                                <Vedtaksdetaljer beregningsDetaljer={periode.beregningsDetaljer} />
                             }
                             togglePlacement={'right'}
                         >
