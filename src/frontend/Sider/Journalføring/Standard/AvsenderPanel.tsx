@@ -35,7 +35,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
     return (
         <>
             {harAvsender ? (
-                <Box padding="space-16" borderWidth="1" borderRadius="small">
+                <Box padding="space-16" borderWidth="1" borderRadius="0">
                     <PanelHeader
                         navn={avsenderMottaker?.navn || 'Ukjent navn'}
                         personIdent={avsenderMottaker?.id || 'Ukjent ident'}
