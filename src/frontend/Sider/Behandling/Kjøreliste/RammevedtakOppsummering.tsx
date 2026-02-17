@@ -3,12 +3,12 @@ import React, { FC } from 'react';
 import { BodyShort, Heading, Label, Table, VStack } from '@navikt/ds-react';
 
 import styles from './RammevedtakOppsummering.module.css';
-import Panel from '../../../../../komponenter/Panel/Panel';
-import { TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
-import { ReisevurderingPrivatBil } from '../../../../../typer/kjøreliste';
-import { RammevedtakPrivatBil } from '../../../../../typer/vedtak/vedtakDagligReise';
-import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { formatBoolean } from '../../../../../utils/tekstformatering';
+import Panel from '../../../komponenter/Panel/Panel';
+import { TableHeaderCellSmall } from '../../../komponenter/TabellSmall';
+import { ReisevurderingPrivatBil } from '../../../typer/kjøreliste';
+import { RammevedtakPrivatBil } from '../../../typer/vedtak/vedtakDagligReise';
+import { formaterIsoPeriode } from '../../../utils/dato';
+import { formatBoolean } from '../../../utils/tekstformatering';
 
 export const RammevedtakOppsummering: FC<{
     rammevedtak: RammevedtakPrivatBil;

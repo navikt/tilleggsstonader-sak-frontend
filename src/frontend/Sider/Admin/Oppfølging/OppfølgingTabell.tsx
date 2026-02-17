@@ -1,0 +1,270 @@
+import React, { useMemo, useState } from 'react';
+
+import { Link } from 'react-router-dom';
+
+import {
+    BodyShort,
+    Button,
+    Checkbox,
+    Detail,
+    Heading,
+    HStack,
+    Tag,
+    VStack,
+} from '@navikt/ds-react';
+
+import { KontrollerOppfølging } from './KontrollerOppfølging';
+import styles from './OppfølgingAdmin.module.css';
+import { OppfølgingKontrollertDetaljer } from './OppfølgingKontrollertDetaljer';
+import { OppfølgingPerioderTilKontrollTabell } from './OppfølgingPerioderTilKontrollTabell';
+import { Oppfølging, OppfølgingUtfall } from './oppfølgingTyper';
+import {
+    erEtter,
+    erEtterDagensDato,
+    formaterIsoDatoTid,
+    førsteDagIMånederForut,
+} from '../../../utils/dato';
+import { MålgruppeType } from '../../Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { StønadstypeTag } from '../../Behandling/Venstremeny/Oppsummering/StønadstypeTag';
+
+interface OppfølgingMedDetaljer extends Oppfølging {
+    skalViseWarningTag: boolean;
+}
+
+export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Oppfølging[] }) => {
+    const [oppfølginger, settOppfølginger] = useState<OppfølgingMedDetaljer[]>(
+        oppfølgingerInit.map(oppfølgingMedDetaljer)
+    );
+    const [oppfølgingForKontroll, settOppfølgingForKontroll] = useState<Oppfølging>();
+    const [visKunManglerKontroll, settVisKunManglerKontroll] = useState(true);
+    const [visKunWarningTag, settVisKunWarningTag] = useState(false);
+    const [skjulAAP, settSkjulAAP] = useState(false);
+
+    const oppdaterOppfølging = (oppfølging: Oppfølging) => {
+        settOppfølginger((prevState) =>
+            prevState.map((prevOppfølging) =>
+                prevOppfølging.id === oppfølging.id
+                    ? oppfølgingMedDetaljer(oppfølging)
+                    : prevOppfølging
+            )
+        );
+    };
+
+    const filtrerteOppfølginger = useMemo(
+        () => filtrerOgSorter(oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP),
+        [oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP]
+    );
+    return (
+        <VStack gap={'4'}>
+            <div>
+                {oppfølginger.length > 0 && (
+                    <Heading size={'small'}>
+                        Kontroll opprettet: {formaterIsoDatoTid(oppfølginger[0].opprettetTidspunkt)}
+                    </Heading>
+                )}
+                <BodyShort>
+                    Viser {filtrerteOppfølginger.length} av {oppfølginger.length} oppfølginger
+                </BodyShort>
+            </div>
+            <div>
+                <Checkbox
+                    size={'small'}
+                    value={visKunManglerKontroll}
+                    defaultChecked={visKunManglerKontroll}
+                    onChange={() => settVisKunManglerKontroll((prevState) => !prevState)}
+                >
+                    Vis kun de som mangler kontroll
+                </Checkbox>
+                <Checkbox
+                    size={'small'}
+                    value={visKunWarningTag}
+                    defaultChecked={visKunWarningTag}
+                    onChange={() => settVisKunWarningTag((prevState) => !prevState)}
+                >
+                    Vis kun viktige
+                </Checkbox>
+                <Checkbox
+                    size={'small'}
+                    value={skjulAAP}
+                    defaultChecked={skjulAAP}
+                    onChange={() => settSkjulAAP((prevState) => !prevState)}
+                >
+                    Skjul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
+                </Checkbox>
+            </div>
+            <VStack gap={'8'} className={styles.oppfolgingList}>
+                {filtrerteOppfølginger.map((oppfølging) => {
+                    return (
+                        <VStack
+                            key={oppfølging.id}
+                            gap={'4'}
+                            justify={'space-between'}
+                            className={styles.oppfolgingCard}
+                        >
+                            <HStack justify={'space-between'}>
+                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                    <Heading size={'small'}>
+                                        {oppfølging.behandlingsdetaljer.fagsakPersonNavn} -{' '}
+                                        {oppfølging.behandlingsdetaljer.fagsakPersonIdent}
+                                    </Heading>
+                                </HStack>
+                                <HStack gap={'2'}>
+                                    {oppfølging.behandlingsdetaljer.harNyereBehandling && (
+                                        <Tag variant={'info'} size={'small'}>
+                                            Har nyere behandling
+                                        </Tag>
+                                    )}
+                                    {oppfølging.skalViseWarningTag && (
+                                        <Tag variant={'warning'} size={'small'}>
+                                            Viktig
+                                        </Tag>
+                                    )}
+                                </HStack>
+                            </HStack>
+                            <HStack justify={'space-between'}>
+                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                    <StønadstypeTag
+                                        stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
+                                    />
+                                    <Detail>
+                                        Saksnummer: {oppfølging.behandlingsdetaljer.saksnummer}
+                                    </Detail>
+                                    <Detail>
+                                        Vedtakstidspunkt:{' '}
+                                        {formaterIsoDatoTid(
+                                            oppfølging.behandlingsdetaljer.vedtakstidspunkt
+                                        )}
+                                    </Detail>
+                                </HStack>
+                            </HStack>
+                            <HStack gap={'6'} align={'start'}>
+                                <VStack gap={'4'}>
+                                    <OppfølgingPerioderTilKontrollTabell oppfølging={oppfølging} />
+                                    <HStack gap={'4'} align={'start'} justify={'start'}>
+                                        <Link
+                                            to={{
+                                                pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,
+                                            }}
+                                            target="_blank"
+                                        >
+                                            <BodyShort size={'small'}>
+                                                Gå til behandlingsoversikt
+                                            </BodyShort>
+                                        </Link>
+                                        <Link
+                                            to={{
+                                                pathname: `/behandling/${oppfølging.behandlingId}`,
+                                            }}
+                                            target="_blank"
+                                        >
+                                            <BodyShort size={'small'}>Gå til behandling</BodyShort>
+                                        </Link>
+                                    </HStack>
+                                </VStack>
+                                <div className={styles.handterKontrollContainer}>
+                                    <HåndterKontroll
+                                        oppfølging={oppfølging}
+                                        oppfølgingForKontroll={oppfølgingForKontroll}
+                                        settOppfølgingForKontroll={settOppfølgingForKontroll}
+                                        oppdaterOppfølging={oppdaterOppfølging}
+                                    />
+                                </div>
+                            </HStack>
+                        </VStack>
+                    );
+                })}
+            </VStack>
+        </VStack>
+    );
+};
+
+/**
+ * Skal vise warning hvis en kontroll påvirker en periode som endres i neste måned då vi ønsker å unngå tilbakekreving
+ */
+const skalViseWarningTag = (oppfølging: Oppfølging) =>
+    oppfølging.perioderTilKontroll.some(
+        (periode) =>
+            erEtterDagensDato(periode.tom) &&
+            periode.endringer.some(
+                (endring) => endring.tom && erEtter(førsteDagIMånederForut(-2), endring.tom)
+            )
+    );
+
+const oppfølgingMedDetaljer = (oppfølging: Oppfølging) => ({
+    ...oppfølging,
+    skalViseWarningTag: skalViseWarningTag(oppfølging),
+});
+
+/**
+ * Sorterer oppfølginger som er viktige først og sen etter vedtakstidspunkt
+ */
+const sort = (b: OppfølgingMedDetaljer, a: OppfølgingMedDetaljer) => {
+    const sortByWarningTag = Number(b.skalViseWarningTag) - Number(a.skalViseWarningTag);
+    if (sortByWarningTag !== 0) {
+        return sortByWarningTag;
+    }
+    return (
+        new Date(a.behandlingsdetaljer.vedtakstidspunkt).getTime() -
+        new Date(b.behandlingsdetaljer.vedtakstidspunkt).getTime()
+    );
+};
+
+const filtrerOgSorter = (
+    oppfølginger: OppfølgingMedDetaljer[],
+    visKunManglerKontroll: boolean,
+    visKunWarningTag: boolean,
+    skjulAAP: boolean
+) =>
+    oppfølginger
+        .filter((oppfølging) => (visKunManglerKontroll ? manglerKontroll(oppfølging) : true))
+        .filter((oppfølging) => (visKunWarningTag ? oppfølging.skalViseWarningTag : true))
+        .filter((oppfølging) => !skjulAAP || inneholderIkkeKunAAP(oppfølging))
+        .sort((a, b) => sort(b, a));
+
+const manglerKontroll = (oppfølging: OppfølgingMedDetaljer) =>
+    !(oppfølging.kontrollert && oppfølging.kontrollert.utfall != OppfølgingUtfall.UNDER_ARBEID);
+
+const inneholderIkkeKunAAP = (oppfølging: OppfølgingMedDetaljer) =>
+    oppfølging.perioderTilKontroll.some((periode) => periode.type !== MålgruppeType.AAP);
+
+const HåndterKontroll = ({
+    oppfølging,
+    oppfølgingForKontroll,
+    settOppfølgingForKontroll,
+    oppdaterOppfølging,
+}: {
+    oppfølging: Oppfølging;
+    oppfølgingForKontroll: Oppfølging | undefined;
+    settOppfølgingForKontroll: (oppfølging: Oppfølging | undefined) => void;
+    oppdaterOppfølging: (oppfølging: Oppfølging) => void;
+}) => {
+    if (oppfølging.kontrollert && oppfølgingForKontroll?.id !== oppfølging.id) {
+        return (
+            <OppfølgingKontrollertDetaljer
+                kontrollert={oppfølging.kontrollert}
+                rediger={() => settOppfølgingForKontroll(oppfølging)}
+            />
+        );
+    }
+    if (oppfølgingForKontroll?.id === oppfølging.id) {
+        return (
+            <KontrollerOppfølging
+                oppfølging={oppfølging}
+                avbryt={() => settOppfølgingForKontroll(undefined)}
+                oppdaterOppfølging={oppdaterOppfølging}
+            />
+        );
+    }
+    if (!oppfølgingForKontroll) {
+        return (
+            <Button
+                onClick={() => settOppfølgingForKontroll(oppfølging)}
+                size={'small'}
+                variant={'secondary'}
+            >
+                Kontroller
+            </Button>
+        );
+    }
+    return null;
+};

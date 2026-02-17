@@ -1,7 +1,18 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useRef } from 'react';
 
-import { BusIcon, PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
+import {
+    BodyShort,
+    ErrorMessage,
+    HGrid,
+    HStack,
+    Label,
+    Popover,
+    Tag,
+    VStack,
+} from '@navikt/ds-react';
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
 import styles from './LesevisningVilkårDagligReise.module.css';
@@ -9,6 +20,7 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
+import { Toggle } from '../../../../../utils/toggles';
 import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import {
     regelIdTilSpørsmålKortversjon,
@@ -16,24 +28,58 @@ import {
 } from '../../../Vilkårvurdering/tekster';
 import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-const LesevisningVilkårDagligReise: FC<{
+export const LesevisningVilkårDagligReise: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
-}> = ({ vilkår, startRedigering, skalViseRedigeringsknapp }) => {
+    startKopiering?: () => void;
+    feilmeldingRedigering?: string;
+    nullstillFeilmeldingRedigering?: () => void;
+}> = ({
+    vilkår,
+    startRedigering,
+    skalViseRedigeringsknapp,
+    startKopiering,
+    feilmeldingRedigering,
+    nullstillFeilmeldingRedigering,
+}) => {
+    const visKopiknapp = useFlag(Toggle.VIS_KOPIKNAPP_PÅ_VILKÅR);
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
+    const endringsknapperRef = useRef<HTMLDivElement>(null);
 
     return (
         <ResultatOgStatusKort
             periode={vilkår}
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
-                    <SmallButton
-                        className={styles.redigeringsknapp}
-                        variant="tertiary"
-                        onClick={startRedigering}
-                        icon={<PencilIcon />}
-                    />
+                    <>
+                        <HStack gap="2" ref={endringsknapperRef}>
+                            <SmallButton
+                                className={styles.redigeringsknapp}
+                                variant="tertiary"
+                                onClick={startRedigering}
+                                icon={<PencilIcon />}
+                            />
+                            {visKopiknapp && (
+                                <SmallButton
+                                    className={styles.redigeringsknapp}
+                                    variant="tertiary"
+                                    onClick={startKopiering}
+                                    icon={<FilesIcon />}
+                                />
+                            )}
+                        </HStack>
+                        <Popover
+                            anchorEl={endringsknapperRef.current}
+                            open={!!feilmeldingRedigering}
+                            onClose={nullstillFeilmeldingRedigering ?? (() => {})}
+                            placement="top"
+                        >
+                            <Popover.Content className={styles.popoverContent}>
+                                <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
+                            </Popover.Content>
+                        </Popover>
+                    </>
                 )
             }
         >
@@ -102,5 +148,3 @@ const LesevisningVilkårDagligReise: FC<{
         </ResultatOgStatusKort>
     );
 };
-
-export default LesevisningVilkårDagligReise;

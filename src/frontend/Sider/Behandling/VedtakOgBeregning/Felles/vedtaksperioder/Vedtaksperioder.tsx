@@ -114,7 +114,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <div className={gjelderTsr ? styles.grid4 : styles.grid6} key={vedtaksperioderId}>
+                <div className={gjelderTsr ? styles.grid5 : styles.grid6} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
                     {gjelderTsr ? (
