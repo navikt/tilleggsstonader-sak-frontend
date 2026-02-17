@@ -32,7 +32,7 @@ import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler
 import { Toggle } from './utils/toggles';
 import { useUmami } from './utils/umami/useUmami';
 import { mockFlags } from './utils/unleashMock';
-import '@navikt/ds-css/darkside';
+import '@navikt/ds-css';
 
 const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
