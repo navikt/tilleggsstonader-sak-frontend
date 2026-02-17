@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { CheckmarkCircleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
-import { BgDangerStrong, BgWarningStrong } from '@navikt/ds-tokens/darkside-js';
+import { BgDangerStrong, BgWarningStrong } from '@navikt/ds-tokens/js';
 
 const OppsummeringRad: FC<{ tekst: string; vilkårOppfylt: boolean }> = ({
     tekst,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Table } from '@navikt/ds-react';
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
+import { BgNeutralSoft } from '@navikt/ds-tokens/js';
 
 import LogiskeVedlegg from './LogiskeVedlegg';
 import { Lenke } from '../../../komponenter/Lenke';

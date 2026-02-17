@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
+import { BgNeutralSoft } from '@navikt/ds-tokens/js';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
 import styles from './TilordnetSaksbehandler.module.css';

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/js';
 
 import styles from './Panel.module.css';
 

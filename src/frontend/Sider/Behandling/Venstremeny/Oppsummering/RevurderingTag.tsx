@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ArrowsSquarepathIcon } from '@navikt/aksel-icons';
 import { Tag } from '@navikt/ds-react';
-import { MetaLime100 } from '@navikt/ds-tokens/darkside-js';
+import { MetaLime100 } from '@navikt/ds-tokens/js';
 
 import { Behandling } from '../../../../typer/behandling/behandling';
 import { BehandlingType } from '../../../../typer/behandling/behandlingType';
