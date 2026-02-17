@@ -1,3 +1,11 @@
 .adressefelt {
     width: 380px;
 }
+
+.buttonContainer {
+    width: fit-content;
+}
+
+.popoverContent {
+    width: max-content;
+}
