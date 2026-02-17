@@ -73,12 +73,12 @@ export const AktivitetKort: React.FC<{
                     <FaktaOgDelvilkårVisning aktivitet={aktivitet} />
                 </Celle>
                 <Celle $width={350}>
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         <Label size="small">Begrunnelse:</Label>
                         <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>
                     </VStack>
                     {aktivitet.slettetKommentar && (
-                        <VStack gap="2">
+                        <VStack gap="space-8">
                             <Label size="small">Begrunnelse for sletting:</Label>
                             <BodyShort size="small">{aktivitet.slettetKommentar || '-'}</BodyShort>
                         </VStack>

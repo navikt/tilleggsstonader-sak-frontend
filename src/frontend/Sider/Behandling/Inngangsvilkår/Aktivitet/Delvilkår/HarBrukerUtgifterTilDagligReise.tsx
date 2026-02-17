@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, List } from '@navikt/ds-react';
+import { BodyShort, List, Box } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
@@ -29,20 +29,22 @@ const hjelpetekst = (
             normalt å ha nødvendige utgifter til daglige reiser. Unntak gjelder for (se rundskriv
             for presiseringer):
         </BodyShort>
-        <List as="ul" size={'small'}>
-            <List.Item>
-                Opplæringstiltak eller godkjent utdanning på grunnskolenivå (forberedende opplæring
-                for voksne).
-            </List.Item>
-            <List.Item>
-                Elever i videregående skole som er under 25 år det kalenderåret skoleåret starter,
-                med mindre de bekrefter egne reiseutgifter i søknad.
-            </List.Item>
-            <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
-            <List.Item>
-                Brukere med grunnstønad til transport eller bil – må vurderes om dette dekker reise
-                til aktivitetsstedet.
-            </List.Item>
-        </List>
+        <Box marginBlock="space-16" asChild>
+            <List data-aksel-migrated-v8 as="ul" size={'small'}>
+                <List.Item>
+                    Opplæringstiltak eller godkjent utdanning på grunnskolenivå (forberedende
+                    opplæring for voksne).
+                </List.Item>
+                <List.Item>
+                    Elever i videregående skole som er under 25 år det kalenderåret skoleåret
+                    starter, med mindre de bekrefter egne reiseutgifter i søknad.
+                </List.Item>
+                <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
+                <List.Item>
+                    Brukere med grunnstønad til transport eller bil – må vurderes om dette dekker
+                    reise til aktivitetsstedet.
+                </List.Item>
+            </List>
+        </Box>
     </>
 );

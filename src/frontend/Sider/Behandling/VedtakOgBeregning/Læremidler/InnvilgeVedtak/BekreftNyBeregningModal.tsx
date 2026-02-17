@@ -27,7 +27,7 @@ export const BekreftNyBeregningModal = ({
             }}
         >
             <Alert variant={'warning'}>
-                <VStack gap={'2'}>
+                <VStack gap={'space-8'}>
                     <BodyShort>
                         Denne endringen tar i bruk en ny beregning for læremidler som ikke lenger
                         kutter stønadsperiodene ved nyttår. Dette kan føre til at bruker får

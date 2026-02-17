@@ -21,7 +21,7 @@ export function Vedtaksdetaljer({
     sak: ArenaSak | undefined;
 }) {
     return (
-        <VStack gap={'8'}>
+        <VStack gap={'space-32'}>
             <Vedtaksinfo vedtak={vedtak} sak={sak} />
             <Vedtaksfakta vedtak={vedtak} />
             <Vilkårsvurderinger vedtak={vedtak} />

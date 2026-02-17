@@ -23,7 +23,7 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
 
     if (forskjeller.length > 0) {
         return (
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <Tag
                     icon={<ExclamationmarkTriangleIcon />}
                     size="small"

@@ -106,7 +106,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <div>
                 <Heading spacing size="xsmall" level="4">
                     Vedtaksperioder
@@ -144,7 +144,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
             )}
             {erStegRedigerbart && (
                 <>
-                    <HStack gap={'2'}>
+                    <HStack gap={'space-8'}>
                         <Button
                             size="small"
                             onClick={foreslåVedtaksperioder}

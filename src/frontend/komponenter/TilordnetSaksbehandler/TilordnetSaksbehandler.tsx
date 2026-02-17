@@ -27,7 +27,7 @@ export const TilordnetSaksbehandler: React.FC = () => {
 
     return (
         <>
-            <HStack gap={'2'} align={'center'}>
+            <HStack gap={'space-8'} align={'center'}>
                 <PersonHeadsetIcon className={styles.personIkon} />
                 <div>
                     <BodyShort weight={'semibold'} size={'small'}>

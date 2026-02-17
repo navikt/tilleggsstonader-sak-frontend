@@ -145,7 +145,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
@@ -178,21 +178,19 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-
             <AktivitetDelvilkårBarnetilsyn
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
                 begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
@@ -206,7 +204,6 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

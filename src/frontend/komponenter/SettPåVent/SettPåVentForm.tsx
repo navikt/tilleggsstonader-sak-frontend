@@ -99,9 +99,9 @@ const SettPåVentForm: React.FC<{
         : 'Kommentar (valgfri)';
 
     return (
-        <VStack gap={'4'}>
+        <VStack gap={'space-16'}>
             <Heading size={'small'}>Sett behandling på vent</Heading>
-            <HStack gap={'4'}>
+            <HStack gap={'space-16'}>
                 <div className={styles.årsakContainer}>
                     <UNSAFE_Combobox
                         label="Hva venter vi på? (Du kan velge flere)"
@@ -139,7 +139,7 @@ const SettPåVentForm: React.FC<{
                 error={formErrors?.kommentar}
                 size="small"
             />
-            <HStack gap={'4'}>
+            <HStack gap={'space-16'}>
                 <Button size={'small'} onClick={() => settPåVentClick(false)}>
                     {oppdatererEksisterendeSettPåVent
                         ? 'Oppdater og sett som ufordelt'

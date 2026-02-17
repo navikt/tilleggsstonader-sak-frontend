@@ -133,7 +133,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const skalVentePåOkHentingAvBarn =
         skalViseBarnTilRevurdering && barnTilRevurdering.status !== RessursStatus.SUKSESS;
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <Select label={'Årsak'} onChange={endreÅrsak}>
                 <option value="">- Velg årsak -</option>
                 <option value={BehandlingÅrsak.NYE_OPPLYSNINGER}>Nye opplysninger</option>
@@ -147,7 +147,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             </Select>
             <DateInput
                 label={
-                    <HStack gap={'2'}>
+                    <HStack gap={'space-8'}>
                         <Label>Krav mottatt</Label>
                         <HelpText title={'Krav mottatt'}>
                             Krav mottatt kan være når man fikk beskjed om endring eller søknadsdato
@@ -175,9 +175,8 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                     settValgteBarn={settValgteBarn}
                 />
             )}
-
             <Feilmelding feil={feilmelding} />
-            <HStack gap="4" justify={'end'}>
+            <HStack gap="space-16" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">
                     Avbryt
                 </Button>

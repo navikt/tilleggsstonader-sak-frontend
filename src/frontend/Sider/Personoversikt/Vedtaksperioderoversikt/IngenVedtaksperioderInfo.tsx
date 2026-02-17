@@ -12,7 +12,7 @@ export const IngenVedtaksperioderInfo = ({
     hentetTidspunkt: Date | undefined;
 }) => {
     return (
-        <HStack gap={'2'} align={'center'}>
+        <HStack gap={'space-8'} align={'center'}>
             <Info className={styles.styledInfo} />
             <BodyShort>
                 Ingen vedtaksperioder funnet. Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}

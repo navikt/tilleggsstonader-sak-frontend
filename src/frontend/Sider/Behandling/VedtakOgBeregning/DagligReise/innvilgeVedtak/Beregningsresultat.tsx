@@ -74,7 +74,7 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                                         }
                                     >
                                         <TableDataCellSmall>
-                                            <HStack align="center" gap="2">
+                                            <HStack align="center" gap="space-8">
                                                 {periode.fraTidligereVedtak && (
                                                     <Tooltip content="Fra tidligere vedtak">
                                                         <ClockDashedIcon aria-label="Fra tidligere vedtak" />

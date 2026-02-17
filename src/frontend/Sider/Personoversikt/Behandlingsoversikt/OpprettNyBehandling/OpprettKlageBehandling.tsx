@@ -57,14 +57,14 @@ const OpprettKlageBehandling: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <DateInput
                 label={'Klage mottatt'}
                 onChange={(dato: string | undefined) => settKlageMottattDato(dato || '')}
                 value={klageMottattDato}
                 toDate={new Date()}
             />
-            <HStack gap="4" justify={'end'}>
+            <HStack gap="space-16" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">
                     Avbryt
                 </Button>

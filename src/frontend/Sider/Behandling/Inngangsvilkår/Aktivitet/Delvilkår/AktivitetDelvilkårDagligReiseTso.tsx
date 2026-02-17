@@ -18,7 +18,7 @@ export const AktivitetDelvilkårDagligReiseTso: React.FC<{
     if (!skalVurdereLønnet(aktivitetForm.type)) return null;
 
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             <JaNeiVurdering
                 label="Mottar bruker ordinær lønn i tiltaket?"
                 svar={aktivitetForm.svarLønnet}

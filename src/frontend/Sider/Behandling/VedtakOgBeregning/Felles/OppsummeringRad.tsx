@@ -9,7 +9,7 @@ const OppsummeringRad: FC<{ tekst: string; vilkårOppfylt: boolean }> = ({
     vilkårOppfylt,
 }) => {
     return (
-        <HStack gap="1">
+        <HStack gap="space-4">
             {vilkårOppfylt ? (
                 <CheckmarkCircleFillIcon color={BgDangerStrong} />
             ) : (

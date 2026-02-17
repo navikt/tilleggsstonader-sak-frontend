@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BodyLong, BodyShort, Heading, List } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Heading, List, Box } from '@navikt/ds-react';
 
 import styles from './VurderingLesemodus.module.css';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
@@ -57,11 +57,13 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
                 <Heading level="1" size="medium">
                     Hjemler
                 </Heading>
-                <List>
-                    {hjemler.map((hjemmel) => (
-                        <List.Item key={hjemmel.hjemmel}>{hjemmel.visningstekst}</List.Item>
-                    ))}
-                </List>
+                <Box marginBlock="space-16" asChild>
+                    <List data-aksel-migrated-v8>
+                        {hjemler.map((hjemmel) => (
+                            <List.Item key={hjemmel.hjemmel}>{hjemmel.visningstekst}</List.Item>
+                        ))}
+                    </List>
+                </Box>
             </div>
             <div className={styles.avsnitt}>
                 <Heading level="1" size="medium">

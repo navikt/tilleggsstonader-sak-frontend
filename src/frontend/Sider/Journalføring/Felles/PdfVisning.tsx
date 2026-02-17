@@ -42,7 +42,7 @@ const PdfVisning: React.FC<{
                 <BodyShort>
                     Dokument {nåværendeIndex + 1} av {journalpost.dokumenter.length}
                 </BodyShort>
-                <HStack gap="2">
+                <HStack gap="space-8">
                     <Button
                         onClick={gåTilForrigeDokument}
                         disabled={nåværendeIndex === 0}

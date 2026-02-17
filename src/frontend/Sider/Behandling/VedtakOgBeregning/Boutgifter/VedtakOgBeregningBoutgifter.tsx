@@ -35,7 +35,7 @@ export const VedtakOgBeregningBoutgifter: FC = () => {
                 {({ vedtak }) => (
                     <div className={styles.container}>
                         <Panel tittel="Vedtak">
-                            <HGrid gap="16" columns={{ sm: 1, md: '5em auto' }}>
+                            <HGrid gap="space-64" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
                                     typeVedtak={typeVedtak}
                                     settTypeVedtak={settTypeVedtak}

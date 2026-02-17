@@ -54,7 +54,7 @@ export const RegisterAktiviteter: React.FC<{
             tittel={`Aktiviteter hentet fra Arena fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
             maxWidth={1200}
         >
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <RegisterAktiviteterTabell
                     registerAktivitet={aktiviteter}
                     leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
@@ -76,7 +76,7 @@ function Hjelpetekst({
     tidspunktHentet: string;
 }) {
     return (
-        <HStack gap="2" align="center">
+        <HStack gap="space-8" align="center">
             <Detail>
                 <strong>Hentet fra Arena: {formaterNullableIsoDatoTid(tidspunktHentet)}</strong>
             </Detail>

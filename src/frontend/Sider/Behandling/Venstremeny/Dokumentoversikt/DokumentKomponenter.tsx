@@ -20,7 +20,7 @@ export const Hoveddokument: React.FC<{ dokument: DokumentInfo }> = ({ dokument }
 
 export const Vedlegg: React.FC<{ dokument: DokumentInfo }> = ({ dokument }) => {
     return (
-        <HStack gap="2" wrap={false}>
+        <HStack gap="space-8" wrap={false}>
             <PaperclipIcon />
             <LenkeTilDokument dokument={dokument} />
         </HStack>

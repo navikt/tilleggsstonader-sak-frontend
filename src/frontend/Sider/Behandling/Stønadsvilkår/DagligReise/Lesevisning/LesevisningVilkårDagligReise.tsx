@@ -37,9 +37,9 @@ const LesevisningVilkårDagligReise: FC<{
                 )
             }
         >
-            <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 234px) auto">
-                <VStack gap="6">
-                    <VStack gap="3">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) auto">
+                <VStack gap="space-24">
+                    <VStack gap="space-12">
                         <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                         <LesevisningFaktaDagligReise fakta={fakta} />
@@ -56,7 +56,7 @@ const LesevisningVilkårDagligReise: FC<{
                     )}
                 </VStack>
 
-                <VStack gap="1">
+                <VStack gap="space-4">
                     <>
                         <BodyShort size="small">
                             <strong>Adresse aktivitet:</strong> {adresse || '-'}
@@ -65,14 +65,14 @@ const LesevisningVilkårDagligReise: FC<{
                     </>
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
-                            gap={'1 4'}
+                            gap={'space-4 space-16'}
                             columns="minmax(100px, max-content) 1fr"
                             key={index}
                             height="fit-content"
                         >
                             {delvilkår.vurderinger.map((vurdering, index) => (
                                 <Fragment key={index}>
-                                    <HStack gap="3" key={vurdering.regelId}>
+                                    <HStack gap="space-12" key={vurdering.regelId}>
                                         <BodyShort weight="semibold" size="small">
                                             {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
                                         </BodyShort>
@@ -91,7 +91,7 @@ const LesevisningVilkårDagligReise: FC<{
                         </HGrid>
                     ))}
                     {vilkår.slettetKommentar && (
-                        <HStack gap="4">
+                        <HStack gap="space-16">
                             <Label size="small">Begrunnelse for sletting:</Label>
                             <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
                         </HStack>

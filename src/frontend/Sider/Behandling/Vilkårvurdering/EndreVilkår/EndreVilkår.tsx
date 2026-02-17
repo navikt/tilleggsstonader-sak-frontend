@@ -179,7 +179,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         <form onSubmit={validerOgLagreVilkårsvurderinger}>
             <ResultatOgStatusKort periode={lagretVilkår} redigeres>
                 <FlexColumn gap={1}>
-                    <HStack gap="4" align="start">
+                    <HStack gap="space-16" align="start">
                         <EndrePeriodeForVilkår
                             periodeForVilkår={periodeForVilkår}
                             oppdaterPeriodeForVilkår={oppdaterPeriodeForVilkår}
@@ -214,7 +214,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                     )}
                     <Skillelinje />
 
-                    <VStack gap="4">
+                    <VStack gap="space-16">
                         <div className={styles.knapper}>
                             <SmallButton>Lagre</SmallButton>
                             <SmallButton variant="secondary" onClick={avsluttRedigering}>

@@ -13,7 +13,7 @@ interface Props {
 
 export const OversiktKort: React.FC<Props> = ({ tittel, tagTittel, tagVariant, children }) => {
     return (
-        <VStack gap={'6'} className={styles.container}>
+        <VStack gap={'space-24'} className={styles.container}>
             <HStack justify={'space-between'}>
                 <Heading size={'small'}>{tittel}</Heading>
                 <Tag size={'small'} variant={tagVariant ? tagVariant : 'alt2'}>

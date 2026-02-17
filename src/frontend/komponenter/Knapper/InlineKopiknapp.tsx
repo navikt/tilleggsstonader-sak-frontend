@@ -6,7 +6,7 @@ export const InlineKopiknapp: React.FC<{ kopitekst: string; tooltipTekst: string
     kopitekst,
     tooltipTekst,
 }) => (
-    <HStack gap="1" align="center">
+    <HStack gap="space-4" align="center">
         <Label>{kopitekst}</Label>
         <Tooltip content={tooltipTekst}>
             <CopyButton copyText={kopitekst} size="small" />

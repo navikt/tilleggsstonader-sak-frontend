@@ -35,7 +35,7 @@ export const EndreStudienivå: React.FC<{
             size="small"
             error={feil?.studienivå}
         >
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Radio value={Studienivå.HØYERE_UTDANNING}>
                     {studienivåTilTekst[Studienivå.HØYERE_UTDANNING]}
                 </Radio>

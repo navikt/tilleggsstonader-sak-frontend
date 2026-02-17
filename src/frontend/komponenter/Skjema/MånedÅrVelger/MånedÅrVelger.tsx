@@ -43,16 +43,20 @@ export const MånedÅrVelger: React.FC<Props> = ({
     }, [år, måned]);
 
     return (
-        <VStack gap="2" className={className} style={lesevisning ? { minWidth: '140px' } : {}}>
+        <VStack
+            gap="space-8"
+            className={className}
+            style={lesevisning ? { minWidth: '140px' } : {}}
+        >
             {label && (
-                <HStack gap="1" wrap={false}>
+                <HStack gap="space-4" wrap={false}>
                     {lesevisning && <PadlockLockedFillIcon />}
                     <Label size="small" htmlFor="regdatoTil">
                         {label}
                     </Label>
                 </HStack>
             )}
-            <HStack gap="1" wrap={false}>
+            <HStack gap="space-4" wrap={false}>
                 <MånedVelger måned={måned} settMåned={settMåned} lesevisning={lesevisning} />
                 <Årvelger
                     år={år}

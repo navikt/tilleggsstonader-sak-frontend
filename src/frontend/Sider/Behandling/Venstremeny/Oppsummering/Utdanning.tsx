@@ -23,7 +23,7 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
         <>
             {(aktiviteter || annenUtdanning) && (
                 <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-                    <VStack gap={'4'}>
+                    <VStack gap={'space-16'}>
                         {aktiviteter && (
                             <BodyShort size="small">
                                 {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}

@@ -17,12 +17,11 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
                 {personopplysninger.navn.visningsnavn} ({personopplysninger.alder} år)
             </Heading>
             <BodyShort>|</BodyShort>
-            <HStack gap="2" align="center">
+            <HStack gap="space-8" align="center">
                 <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
             <BodyShort>|</BodyShort>
-
             <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
             {personopplysninger.erSkjermet && <SmallWarningTag>Skjermet</SmallWarningTag>}
             {personopplysninger.harVergemål && <SmallWarningTag>Verge</SmallWarningTag>}

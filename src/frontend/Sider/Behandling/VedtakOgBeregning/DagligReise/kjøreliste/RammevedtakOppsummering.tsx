@@ -21,7 +21,7 @@ export const RammevedtakOppsummering: FC<{
                 tittel={`${reise.aktivitetsadresse} (${formaterIsoPeriode(reise.fom, reise.tom)})`}
                 key={reise.reiseId}
             >
-                <VStack gap="4">
+                <VStack gap="space-16">
                     <div>
                         <Heading size="xsmall" level="3">
                             Rammevedtak

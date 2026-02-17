@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { BodyShort, Checkbox, CheckboxGroup, List } from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, List, Heading, Box } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -52,20 +52,23 @@ const BarnTilRevurdering: React.FC<{
                 return (
                     <>
                         {eksisterendeBarn.length > 0 ? (
-                            <List
-                                title={'Barn det er søkt om tilleggsstønad for tilsyn barn fra før'}
-                                size={'small'}
-                            >
-                                {eksisterendeBarn.map(({ ident, navn }) => (
-                                    <List.Item key={ident}>
-                                        {ident} - {navn}
-                                    </List.Item>
-                                ))}
-                            </List>
+                            <div>
+                                <Heading as="h3" size="small">
+                                    {'Barn det er søkt om tilleggsstønad for tilsyn barn fra før'}
+                                </Heading>
+                                <Box marginBlock="space-16" asChild>
+                                    <List data-aksel-migrated-v8 size={'small'}>
+                                        {eksisterendeBarn.map(({ ident, navn }) => (
+                                            <List.Item key={ident}>
+                                                {ident} - {navn}
+                                            </List.Item>
+                                        ))}
+                                    </List>
+                                </Box>
+                            </div>
                         ) : (
                             <BodyShort>Finnes ingen barn på forrige behandling</BodyShort>
                         )}
-
                         {valgbareBarn.length > 0 && (
                             <CheckboxGroup
                                 legend={'Velg eventuelle nye barn det søkes stønad for'}

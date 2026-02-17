@@ -27,19 +27,19 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
                 </ExpansionCard.Title>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack gap={'4'}>
-                    <VStack gap={'2'}>
-                        <HStack gap={'2'}>
+                <VStack gap={'space-16'}>
+                    <VStack gap={'space-8'}>
+                        <HStack gap={'space-8'}>
                             <Label>Reiseavstand kollektiv:</Label>
                             <BodyShort>{meterTilKm(reisedata.reiserute.avstandMeter)} km</BodyShort>
                         </HStack>
-                        <HStack gap={'2'}>
+                        <HStack gap={'space-8'}>
                             <Label>Estimert tid kollektiv:</Label>
                             <BodyShort>
                                 {sekunderTilTimerOgMinutter(reisedata.reiserute.varighetSekunder)}
                             </BodyShort>
                         </HStack>
-                        <HStack gap={'2'}>
+                        <HStack gap={'space-8'}>
                             <Label>Avreisetidspunkt:</Label>
                             <BodyShort>
                                 {formaterDatoMedTidspunkt(
@@ -66,7 +66,7 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
                                 <BodyShort weight={'semibold'}>
                                     {`Ta ${linjeTypeTilText[strekning.kollektivDetaljer.linjeType]} ${strekning.kollektivDetaljer.linjeNavn ?? ''}`}
                                 </BodyShort>
-                                <HStack gap={'1'}>
+                                <HStack gap={'space-4'}>
                                     <BodyShort>
                                         Fra stopp: {strekning.kollektivDetaljer.startHoldeplass}
                                     </BodyShort>
@@ -75,7 +75,7 @@ export const KollektivDetaljer: React.FC<{ reisedata: Reisedata }> = ({ reisedat
                                         copyText={strekning.kollektivDetaljer.startHoldeplass}
                                     />
                                 </HStack>
-                                <HStack gap={'1'}>
+                                <HStack gap={'space-4'}>
                                     <BodyShort>
                                         Til stopp: {strekning.kollektivDetaljer.sluttHoldeplass}
                                     </BodyShort>
