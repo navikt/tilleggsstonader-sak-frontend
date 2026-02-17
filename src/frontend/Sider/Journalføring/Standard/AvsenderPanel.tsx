@@ -66,7 +66,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                                         <CopyButton
                                             className={styles.kopierPersonIdent}
                                             copyText={personIdent}
-                                            variant="action"
+                                            data-color={'accent'}
                                         />
                                     </>
                                 ) : (

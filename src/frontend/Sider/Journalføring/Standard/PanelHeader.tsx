@@ -26,7 +26,7 @@ export const PanelHeader: React.FC<Props> = ({ navn, personIdent, type }) => {
             </div>
             <HStack align="center">
                 <Label as={'p'}>{tittel}</Label>
-                <CopyButton copyText={personIdent} variant="action" />
+                <CopyButton copyText={personIdent} data-color={'accent'} />
             </HStack>
         </HStack>
     );
