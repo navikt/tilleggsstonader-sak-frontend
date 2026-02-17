@@ -41,7 +41,7 @@ const TagAdressebeskyttelse = ({
     }
     return (
         <Tooltip content={tooltip(adressebeskyttelse)}>
-            <Tag variant={'error'} size={'small'}>
+            <Tag data-color="danger" variant={'outline'} size={'small'}>
                 {tittel(adressebeskyttelse)}
             </Tag>
         </Tooltip>

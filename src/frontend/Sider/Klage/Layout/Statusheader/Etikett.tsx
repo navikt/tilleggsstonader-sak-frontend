@@ -9,13 +9,13 @@ interface EtikettProps {
 }
 
 export const EtikettAdvarsel: FC<EtikettProps> = ({ children }) => (
-    <Tag variant={'error'} size={size}>
+    <Tag data-color="danger" variant={'outline'} size={size}>
         {children}
     </Tag>
 );
 
 export const EtikettFokus: FC<EtikettProps> = ({ children }) => (
-    <Tag variant={'warning'} size={size}>
+    <Tag data-color="warning" variant={'outline'} size={size}>
         {children}
     </Tag>
 );

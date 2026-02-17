@@ -43,7 +43,7 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                         ? oppgaveTypeTilTekst[oppgave.oppgavetype]
                         : 'Mangler oppgavetype'}
                     {skalViseOpphørTag(oppgave) && (
-                        <Tag variant={'error'} size={'small'}>
+                        <Tag data-color="danger" variant={'outline'} size={'small'}>
                             Opphør
                         </Tag>
                     )}

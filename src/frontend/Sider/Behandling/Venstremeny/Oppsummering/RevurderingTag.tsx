@@ -15,8 +15,9 @@ export function RevurderingTag({ behandling }: { behandling: Behandling }) {
 
     return (
         <Tag
+            data-color="info"
             size="small"
-            variant="alt3"
+            variant="outline"
             icon={<ArrowsSquarepathIcon />}
             style={{ maxWidth: 'fit-content', backgroundColor: MetaLime100 }}
         >

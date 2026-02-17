@@ -51,7 +51,12 @@ const LesevisningVilkår: FC<{
                             {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
                         </BodyShort>
                         {skalFåDekketFaktiskeUtgifter(vilkår) && (
-                            <Tag variant="alt1" size={'xsmall'} style={{ maxWidth: 'fit-content' }}>
+                            <Tag
+                                data-color="meta-purple"
+                                variant="outline"
+                                size={'xsmall'}
+                                style={{ maxWidth: 'fit-content' }}
+                            >
                                 Faktiske utgifter
                             </Tag>
                         )}

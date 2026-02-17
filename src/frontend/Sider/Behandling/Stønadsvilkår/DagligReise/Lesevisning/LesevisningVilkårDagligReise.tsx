@@ -46,9 +46,10 @@ const LesevisningVilkårDagligReise: FC<{
                     </VStack>
                     {fakta.type !== 'UBESTEMT' && (
                         <Tag
+                            data-color="neutral"
                             size="small"
                             style={{ width: 'max-content' }}
-                            variant="neutral"
+                            variant="outline"
                             icon={<BusIcon />}
                         >
                             {typeDagligReiseTilTekst[fakta?.type]}

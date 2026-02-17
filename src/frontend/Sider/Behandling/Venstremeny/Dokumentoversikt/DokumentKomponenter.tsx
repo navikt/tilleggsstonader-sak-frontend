@@ -44,19 +44,34 @@ export const DokumentTypeTag: React.FC<{ journalposttype: Journalposttype }> = (
     switch (journalposttype) {
         case 'I': // Innkommende
             return (
-                <Tag size="small" className={styles.kvadratiskTag} variant="alt1">
+                <Tag
+                    data-color="meta-purple"
+                    size="small"
+                    className={styles.kvadratiskTag}
+                    variant="outline"
+                >
                     I
                 </Tag>
             );
         case 'U': // Utgående
             return (
-                <Tag size="small" className={styles.kvadratiskTag} variant="alt2">
+                <Tag
+                    data-color="meta-lime"
+                    size="small"
+                    className={styles.kvadratiskTag}
+                    variant="outline"
+                >
                     U
                 </Tag>
             );
         case 'N': // Internt notat
             return (
-                <Tag size="small" className={styles.kvadratiskTag} variant="alt3">
+                <Tag
+                    data-color="info"
+                    size="small"
+                    className={styles.kvadratiskTag}
+                    variant="outline"
+                >
                     N
                 </Tag>
             );

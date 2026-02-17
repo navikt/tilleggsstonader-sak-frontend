@@ -21,7 +21,7 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
             <BodyShort size="small">
                 Vi viser bare tema TSO og TSR her. Se flere dokumenter{' '}
                 <Link
-                    variant="neutral"
+                    data-color="neutral"
                     target="_blank"
                     href={`/person/${behandling.fagsakPersonId}/dokumentoversikt`}
                     inlineText

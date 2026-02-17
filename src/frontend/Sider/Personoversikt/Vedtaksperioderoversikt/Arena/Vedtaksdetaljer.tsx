@@ -99,8 +99,9 @@ function BegrunnelseVedtak({ vedtak }: { vedtak: ArenaVedtak }) {
             )}
             {begrunnelse.length > begrunnelseMaksTegn && (
                 <Button
+                    data-color="neutral"
                     size={'small'}
-                    variant={'secondary-neutral'}
+                    variant={'secondary'}
                     icon={visHele ? <ChevronUpIcon /> : <ChevronDownIcon />}
                     iconPosition={'right'}
                     onClick={() => settVisHele(!visHele)}

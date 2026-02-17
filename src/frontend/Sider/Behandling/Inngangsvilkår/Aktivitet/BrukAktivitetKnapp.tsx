@@ -28,8 +28,9 @@ export function BrukAktivitetKnapp({
     if (harBruktAktivitet) {
         return (
             <Tag
+                data-color="neutral"
                 size="small"
-                variant="neutral"
+                variant="outline"
                 icon={<CheckmarkIcon />}
                 style={{ maxWidth: 'fit-content', background: 'transparent', border: 'none' }}
             >

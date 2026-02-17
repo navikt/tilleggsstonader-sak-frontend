@@ -181,12 +181,16 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                 </HStack>
                                 <HStack gap={'space-8'}>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
-                                        <Tag variant={'info'} size={'small'}>
+                                        <Tag data-color="info" variant={'outline'} size={'small'}>
                                             Har nyere behandling
                                         </Tag>
                                     )}
                                     {oppfølging.skalViseWarningTag && (
-                                        <Tag variant={'warning'} size={'small'}>
+                                        <Tag
+                                            data-color="warning"
+                                            variant={'outline'}
+                                            size={'small'}
+                                        >
                                             Viktig
                                         </Tag>
                                     )}

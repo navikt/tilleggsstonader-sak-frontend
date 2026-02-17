@@ -85,9 +85,9 @@ function Hjelpetekst({
                     Vi henter kun stønadsberettigede aktiviteter fra Arena. Du finner alle
                     aktiviteter i{' '}
                     <Link
+                        data-color="neutral"
                         href={`/person/${behandling.fagsakPersonId}/aktiviteter`}
                         target="_blank"
-                        variant={'neutral'}
                     >
                         personoversikten
                     </Link>

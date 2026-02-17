@@ -94,9 +94,9 @@ function Hjelpetekst({
                     <BodyShort spacing>
                         Vi henter kun perioder fra {typer}.{' '}
                         <Link
+                            data-color="neutral"
                             href={`/person/${behandling.fagsakPersonId}/ytelser`}
                             target="_blank"
-                            variant="neutral"
                             style={{ display: 'inline' }}
                         >
                             Se flere ytelser bruker mottar
