@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { ClockDashedIcon } from '@navikt/aksel-icons';
-import { Table, HStack, Tooltip } from '@navikt/ds-react';
+import { Table, HStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { BillettType } from '../../../../typer/behandling/behandlingFakta/faktaReise';
+import { BeregningsresultatForPeriodeDto } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterIsoDato } from '../../../../utils/dato';
 
 interface Props {
-    beregningsDetaljer?: BeregningsresultatForPeriodeDto | null;
+    beregningsresultat?: BeregningsresultatForPeriodeDto[];
 }
 
-export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsDetaljer }) => {
-    if (!beregningsDetaljer) {
+export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsresultat }) => {
+    if (!beregningsresultat) {
         return <>Ingen beregningsdetaljer</>;
     }
     return (
@@ -30,41 +30,36 @@ export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsDetaljer }) => {
             </Table.Header>
 
             <Table.Body>
-                <Table.Row>
-                    <TableDataCellSmall>
-                        <HStack align="center" gap="2">
-                            {beregningsDetaljer.fraTidligereVedtak && (
-                                <Tooltip content="Fra tidligere vedtak">
-                                    <ClockDashedIcon aria-label="Fra tidligere vedtak" />
-                                </Tooltip>
+                {beregningsresultat.map((periode, idx) => (
+                    <Table.Row key={idx}>
+                        <TableDataCellSmall>
+                            <HStack align="center" gap="2">
+                                {formaterIsoDato(periode.fom)}
+                            </HStack>
+                        </TableDataCellSmall>
+                        <TableDataCellSmall>{formaterIsoDato(periode.tom)}</TableDataCellSmall>
+                        <TableDataCellSmall>{periode.antallReisedager}</TableDataCellSmall>
+                        <TableDataCellSmall>
+                            {formatBillett(
+                                periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT],
+                                periode.pris30dagersbillett
                             )}
-                            {formaterIsoDato(beregningsDetaljer.fom)}
-                        </HStack>
-                    </TableDataCellSmall>
-                    <TableDataCellSmall>
-                        {formaterIsoDato(beregningsDetaljer.tom)}
-                    </TableDataCellSmall>
-                    <TableDataCellSmall>{beregningsDetaljer.antallReisedager}</TableDataCellSmall>
-                    <TableDataCellSmall>
-                        {formatBillett(
-                            beregningsDetaljer.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT],
-                            beregningsDetaljer.pris30dagersbillett
-                        )}
-                    </TableDataCellSmall>
-                    <TableDataCellSmall>
-                        {formatBillett(
-                            beregningsDetaljer.billettdetaljer?.[BillettType.SYVDAGERSBILLETT],
-                            beregningsDetaljer.prisSyvdagersbillett
-                        )}
-                    </TableDataCellSmall>
-                    <TableDataCellSmall>
-                        {formatBillett(
-                            beregningsDetaljer.billettdetaljer?.[BillettType.ENKELTBILLETT],
-                            beregningsDetaljer.prisEnkeltbillett
-                        )}
-                    </TableDataCellSmall>
-                    <TableDataCellSmall>{beregningsDetaljer.beløp} kr</TableDataCellSmall>
-                </Table.Row>
+                        </TableDataCellSmall>
+                        <TableDataCellSmall>
+                            {formatBillett(
+                                periode.billettdetaljer?.[BillettType.SYVDAGERSBILLETT],
+                                periode.prisSyvdagersbillett
+                            )}
+                        </TableDataCellSmall>
+                        <TableDataCellSmall>
+                            {formatBillett(
+                                periode.billettdetaljer?.[BillettType.ENKELTBILLETT],
+                                periode.prisEnkeltbillett
+                            )}
+                        </TableDataCellSmall>
+                        <TableDataCellSmall>{periode.beløp} kr</TableDataCellSmall>
+                    </Table.Row>
+                ))}
             </Table.Body>
         </Table>
     );
@@ -73,17 +68,4 @@ export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsDetaljer }) => {
 function formatBillett(antall?: number, pris?: number) {
     if (!antall) return '-';
     return `${antall} x ${pris} kr`;
-}
-export interface BeregningsresultatForPeriodeDto {
-    fom: string;
-    tom: string;
-    prisEnkeltbillett?: number;
-    prisSyvdagersbillett?: number;
-    pris30dagersbillett?: number;
-    antallReisedagerPerUke?: number;
-    antallReisedager?: number;
-    beløp: number;
-    billettdetaljer?: Partial<Record<BillettType, number>>;
-    fraTidligereVedtak: boolean;
-    brukersNavKontor?: string | null;
 }

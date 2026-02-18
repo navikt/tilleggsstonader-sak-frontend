@@ -29,6 +29,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                     <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Type daglig reise</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
+                    <Table.HeaderCell scope="col" />
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -37,7 +38,9 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                         <Table.ExpandableRow
                             key={periode.fom}
                             content={
-                                <Vedtaksdetaljer beregningsDetaljer={periode.beregningsDetaljer} />
+                                <Vedtaksdetaljer
+                                    beregningsresultat={periode.beregningsresultat ?? []}
+                                />
                             }
                             togglePlacement={'right'}
                         >
