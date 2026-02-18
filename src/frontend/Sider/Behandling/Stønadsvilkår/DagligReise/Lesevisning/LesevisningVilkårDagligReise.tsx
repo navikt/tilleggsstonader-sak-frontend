@@ -53,7 +53,7 @@ export const LesevisningVilkårDagligReise: FC<{
             redigeringKnapp={
                 skalViseRedigeringsknapp && (
                     <>
-                        <HStack gap="2" ref={endringsknapperRef}>
+                        <HStack gap="space-2" ref={endringsknapperRef}>
                             <SmallButton
                                 className={styles.redigeringsknapp}
                                 variant="tertiary"

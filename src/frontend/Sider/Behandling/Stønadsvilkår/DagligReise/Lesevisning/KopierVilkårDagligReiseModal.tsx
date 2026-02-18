@@ -69,7 +69,7 @@ export const KopierVilkårDagligReiseModal: React.FC<Props> = ({
                 },
             }}
         >
-            <VStack gap="4">
+            <VStack gap="space-4">
                 <BodyShort>
                     Eksisterende periode: {formaterNullableIsoDato(eksisterendeFom)} -{' '}
                     {formaterNullableIsoDato(eksisterendeTom)}
