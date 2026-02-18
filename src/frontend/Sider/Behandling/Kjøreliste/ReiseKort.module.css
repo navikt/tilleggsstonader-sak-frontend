@@ -1,0 +1,20 @@
+.container {
+    border: 1px solid var(--ax-border-neutral-subtle);
+    border-radius: 12px;
+    background-color: var(--ax-bg-default);
+}
+
+.header {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--ax-border-neutral-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.innhold {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
