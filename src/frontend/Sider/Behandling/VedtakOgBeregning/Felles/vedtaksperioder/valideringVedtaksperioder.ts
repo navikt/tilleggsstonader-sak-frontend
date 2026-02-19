@@ -13,12 +13,15 @@ export const validerVedtaksperioder = (
             tom: undefined,
             målgruppeType: undefined,
             aktivitetType: undefined,
-            typeAktivitet: undefined,
+            typeAktivitet: { kode: undefined, beskrivelse: undefined },
         };
 
         if (gjelderTsr) {
             if (!vedtaksperiode.typeAktivitet) {
-                return { ...feil, typeAktivitet: 'Tiltaksvariant mangler' };
+                return {
+                    ...feil,
+                    typeAktivitet: { kode: undefined, beskrivelse: 'Tiltaksvariant mangler' },
+                };
             }
         } else {
             if (!vedtaksperiode.aktivitetType) {

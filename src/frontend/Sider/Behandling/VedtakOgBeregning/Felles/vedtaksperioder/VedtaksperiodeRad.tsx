@@ -13,6 +13,7 @@ import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInpu
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
 import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
+import { Kodeverk } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -24,7 +25,7 @@ interface Props {
     vedtaksperiodeFeil: FormErrors<Vedtaksperiode> | undefined;
     oppdaterPeriode: (
         property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
-        value: string | undefined
+        value: string | Kodeverk | undefined
     ) => void;
     slettPeriode: () => void;
     vedtakErLagret: boolean;

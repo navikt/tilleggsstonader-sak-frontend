@@ -11,3 +11,7 @@ export function kodeverkTilOptions(kodeverk: Kodeverk[]): SelectOption[] {
         label: kodeverk.beskrivelse,
     }));
 }
+
+export function optionTilKodeverk(kodeverk: Kodeverk[], option: string): Kodeverk | undefined {
+    return kodeverk.find((it) => it.kode == option);
+}
