@@ -160,7 +160,7 @@ const enhetTilArkivTema: Record<Enheter, Arkivtema[]> = {
     [IkkeFortroligEnhet.NAY]: [Arkivtema.TSO],
     [IkkeFortroligEnhet.NAY_ROMERIKE]: [Arkivtema.TSO],
     [IkkeFortroligEnhet.NAY_EGNE_ANSATTE]: [Arkivtema.TSO],
-    [IkkeFortroligEnhet.TILTAK_OSLO]: [Arkivtema.TSO],
+    [IkkeFortroligEnhet.TILTAK_OSLO]: [Arkivtema.TSR],
     [IkkeFortroligEnhet.NAV_EGNE_ANSATTE_OSLO]: [Arkivtema.TSR],
     [FortroligEnhet.VIKAFOSSEN]: [Arkivtema.TSR, Arkivtema.TSO],
 };
