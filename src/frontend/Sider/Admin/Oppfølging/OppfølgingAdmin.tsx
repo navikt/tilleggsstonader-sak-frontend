@@ -21,12 +21,12 @@ export const OppølgingAdmin = () => {
     const { request, saksbehandler, appEnv } = useApp();
 
     const [oppfølginger, settOppføginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
-    const arkivTemaSaksbehandlerHarTilgangTil = finnArkivTemaSaksbehandlerHarTilgangTil(
+    const arkivtemaSaksbehandlerHarTilgangTil = finnArkivTemaSaksbehandlerHarTilgangTil(
         appEnv,
         saksbehandler
     );
 
-    const [tema, settTema] = useState<Arkivtema>(arkivTemaSaksbehandlerHarTilgangTil[0]);
+    const [tema, settTema] = useState<Arkivtema>(arkivtemaSaksbehandlerHarTilgangTil[0]);
 
     const hentBehandlingerForOppfølging = () => {
         settOppføginger(byggHenterRessurs());
@@ -51,7 +51,7 @@ export const OppølgingAdmin = () => {
                     onChange={(e) => settTema(e.target.value as Arkivtema)}
                     size="small"
                 >
-                    {arkivTemaSaksbehandlerHarTilgangTil.map((tema) => (
+                    {arkivtemaSaksbehandlerHarTilgangTil.map((tema) => (
                         <option key={tema} value={tema}>
                             {arkivtemaerTilTekst[tema]}
                         </option>
