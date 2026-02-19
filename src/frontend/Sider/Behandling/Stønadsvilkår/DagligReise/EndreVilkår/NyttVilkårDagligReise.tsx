@@ -61,7 +61,7 @@ export const NyttVilkårDagligReise: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="space-2">
+        <VStack gap="space-8">
             {leggerTilNyttVilkår ? (
                 <EndreVilkårDagligReise
                     lagre={opprettVilkår}
