@@ -8,6 +8,7 @@ import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../kompone
 import { BillettType } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
+import { formaterAntallOgPris } from '../../../../Personoversikt/Vedtaksperioderoversikt/Util';
 
 interface Props {
     beregningsresultat: BeregningsresultatDagligReise;
@@ -122,10 +123,3 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
         </div>
     );
 };
-
-function formaterAntallOgPris(antall: number | undefined, pris: number | undefined): string {
-    if (!antall) {
-        return '-';
-    }
-    return `${antall} x ${pris} kr`;
-}

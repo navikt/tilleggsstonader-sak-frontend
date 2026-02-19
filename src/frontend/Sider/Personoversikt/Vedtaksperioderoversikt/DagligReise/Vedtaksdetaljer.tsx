@@ -6,6 +6,7 @@ import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponente
 import { BillettType } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { BeregningsresultatForPeriodeDto } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterIsoDato } from '../../../../utils/dato';
+import { formaterAntallOgPris } from '../Util';
 
 interface Props {
     beregningsresultat?: BeregningsresultatForPeriodeDto[];
@@ -40,19 +41,19 @@ export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsresultat }) => {
                         <TableDataCellSmall>{formaterIsoDato(periode.tom)}</TableDataCellSmall>
                         <TableDataCellSmall>{periode.antallReisedager}</TableDataCellSmall>
                         <TableDataCellSmall>
-                            {formatBillett(
+                            {formaterAntallOgPris(
                                 periode.billettdetaljer?.[BillettType.TRETTIDAGERSBILLETT],
                                 periode.pris30dagersbillett
                             )}
                         </TableDataCellSmall>
                         <TableDataCellSmall>
-                            {formatBillett(
+                            {formaterAntallOgPris(
                                 periode.billettdetaljer?.[BillettType.SYVDAGERSBILLETT],
                                 periode.prisSyvdagersbillett
                             )}
                         </TableDataCellSmall>
                         <TableDataCellSmall>
-                            {formatBillett(
+                            {formaterAntallOgPris(
                                 periode.billettdetaljer?.[BillettType.ENKELTBILLETT],
                                 periode.prisEnkeltbillett
                             )}
@@ -64,8 +65,3 @@ export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsresultat }) => {
         </Table>
     );
 };
-
-function formatBillett(antall?: number, pris?: number) {
-    if (!antall) return '-';
-    return `${antall} x ${pris} kr`;
-}
