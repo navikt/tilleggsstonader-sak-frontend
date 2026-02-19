@@ -4,6 +4,9 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "ci": "yarn --prefer-offline --frozen-lockfile",
     "build": "tsc --build",
