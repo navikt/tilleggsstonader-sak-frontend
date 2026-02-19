@@ -7,7 +7,7 @@ export type Rolle =
     | SaksbehadlerRolle
     | 'kode6'
     | 'kode7'
-    | 'egenAnsatt'
+    | 'egenAnsattNay'
     | 'egenAnsattOslo'
     | NayUtland
     | 'NayTilleggsstønader'
@@ -49,7 +49,7 @@ export const harStrengtFortroligRolle = (env: AppEnv, saksbehandler: Saksbehandl
 };
 
 export const harNayEgenAnsattRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {
-    return harRolle(env, saksbehandler, 'egenAnsatt');
+    return harRolle(env, saksbehandler, 'egenAnsattNay');
 };
 
 export const harEgenAnsattOsloRolle = (env: AppEnv, saksbehandler: Saksbehandler): boolean => {

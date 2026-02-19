@@ -23,7 +23,7 @@ type Rolle =
     | 'beslutter'
     | 'kode6'
     | 'kode7'
-    | 'egenAnsatt'
+    | 'egenAnsattNay'
     | 'egenAnsattOslo'
     | 'NayUtland'
     | 'NayTilleggsstønader'
@@ -93,7 +93,7 @@ const devRoller: Roller = {
     beslutter: 'dab3f549-f5f0-4a9c-9f5b-1f6a15ae8424',
     kode6: '5ef775f2-61f8-4283-bf3d-8d03f428aa14',
     kode7: 'ea930b6b-9397-44d9-b9e6-f4cf527a632a',
-    egenAnsatt: 'dbe4ad45-320b-4e9a-aaa1-73cca4ee124d',
+    egenAnsattNay: '621c9e0f-6cfd-4663-8fff-2748651a0cee',
     egenAnsattOslo: 'bbeaef23-a1b9-4823-909a-7b04e211333c',
     NayUtland: 'd5f850f4-90b7-41c1-a460-7ccca4bb171d',
     NayTilleggsstønader: 'e9696ba8-0572-4556-ab78-d8605cb6b0bf',
@@ -106,7 +106,7 @@ const prodRoller: Roller = {
     beslutter: '224b5097-d0af-462c-8d8e-49c0e8a42661',
     kode6: 'ad7b87a6-9180-467c-affc-20a566b0fec0',
     kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b',
-    egenAnsatt: 'e750ceb5-b70b-4d94-b4fa-9d22467b786b',
+    egenAnsattNay: '788c71a8-addb-45a5-a8fc-bd3c539ab257',
     egenAnsattOslo: 'cb991672-2fc5-4b34-8460-affe63e8d68b',
     NayUtland: '71f94b2e-5c60-4f55-9db8-ce0235f4d5b8',
     NayTilleggsstønader: 'afd458bc-5b38-4b1a-81e1-35a35b5629f4',

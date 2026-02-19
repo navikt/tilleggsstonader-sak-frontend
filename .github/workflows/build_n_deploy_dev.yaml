@@ -10,7 +10,7 @@ jobs:
     with:
       cluster: "dev-gcp"
       manifest: ".nais/dev.yaml"
-      node-version: "20"
+      node-version: "24"
     secrets: inherit
     permissions:
       id-token: write

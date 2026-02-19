@@ -63,7 +63,7 @@ spec:
           - id: "224b5097-d0af-462c-8d8e-49c0e8a42661" # 0000-GA-Tilleggsstonader-Beslutter
           - id: "ad7b87a6-9180-467c-affc-20a566b0fec0" # 0000-GA-Strengt_Fortrolig_Adresse
           - id: "9ec6487d-f37a-4aad-a027-cd221c1ac32b" # 0000-GA-Fortrolig_Adresse
-          - id: "e750ceb5-b70b-4d94-b4fa-9d22467b786b" # 0000-GA-Egne_ansatte
+          - id: "788c71a8-addb-45a5-a8fc-bd3c539ab257" # 0000-GA-ENHET_4483 - NAY Egne Ansatte
           - id: "71f94b2e-5c60-4f55-9db8-ce0235f4d5b8" # 0000-GA-ENHET_4402 - Håndterer utlandssaker
           - id: "afd458bc-5b38-4b1a-81e1-35a35b5629f4" # 0000-GA-ENHET_4462 - NAY Tilleggsstønader
           - id: "3ee07ad5-b2b7-4067-9c9d-24db38a5791b" # 0000-GA-ENHET_0387 - Nav Tiltak Oslo (Tiltaksenheten)
