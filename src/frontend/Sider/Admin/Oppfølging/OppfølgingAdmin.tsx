@@ -44,25 +44,26 @@ export const OppølgingAdmin = () => {
         <VStack gap={'4'} className={styles.container}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
             <InformasjonOppfølging />
-            {!erProd() && (
-                <HStack gap={'4'} className={styles.formContainer}>
-                    <Select
-                        value={enhet}
-                        label="Enhet"
-                        onChange={(e) => settEnhet(e.target.value as Enheter)}
-                        size="small"
-                    >
-                        {gyldigeEnheterForSaksbehandler.map((enhet) => (
-                            <option key={enhet} value={enhet}>
-                                {enhetTilTekst[enhet]}
-                            </option>
-                        ))}
-                    </Select>
+            <HStack gap={'4'} className={styles.formContainer}>
+                <Select
+                    value={enhet}
+                    label="Enhet"
+                    onChange={(e) => settEnhet(e.target.value as Enheter)}
+                    size="small"
+                >
+                    {gyldigeEnheterForSaksbehandler.map((enhet) => (
+                        <option key={enhet} value={enhet}>
+                            {enhetTilTekst[enhet]}
+                        </option>
+                    ))}
+                </Select>
+                {!erProd() && (
                     <SmallButton onClick={hentBehandlingerForOppfølging}>
                         {'Hent behandlinger for oppfølging'}
                     </SmallButton>
-                </HStack>
-            )}
+                )}
+            </HStack>
+
             <DataViewer type={'oppfølginger'} response={{ oppfølginger }}>
                 {({ oppfølginger }) => <OppfølgingTabell oppfølgingerInit={oppfølginger} />}
             </DataViewer>
