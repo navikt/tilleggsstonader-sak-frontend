@@ -15,3 +15,10 @@
 .handterKontrollContainer {
     width: 20rem;
 }
+
+.formContainer {
+    gap: 1rem;
+    flex-direction: row;
+    align-items: flex-end;
+    display: flex;
+}
