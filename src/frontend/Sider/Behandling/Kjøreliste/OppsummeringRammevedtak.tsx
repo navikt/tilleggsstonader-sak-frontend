@@ -24,13 +24,13 @@ export const OppsummeringRammevedtak: FC<{
             <BodyShort size="small">{rammeForReise.reisedagerPerUke}</BodyShort>
             <BodyShort size="small">{rammeForReise.reiseavstandEnVei} km</BodyShort>
             <BodyShort size="small">{rammeForReise.kilometersats} kr</BodyShort>
-            <BodyShort size="small">{rammeForReise.dagsatsUtenParkering} kr</BodyShort>
             <BodyShort size="small">
                 {rammeForReise.bompengerEnVei ? `${rammeForReise.bompengerEnVei} kr` : '-'}
             </BodyShort>
             <BodyShort size="small">
                 {rammeForReise.fergekostnadEnVei ? `${rammeForReise.fergekostnadEnVei} kr` : '-'}
             </BodyShort>
+            <BodyShort size="small">{rammeForReise.dagsatsUtenParkering} kr</BodyShort>
         </div>
     );
 };
