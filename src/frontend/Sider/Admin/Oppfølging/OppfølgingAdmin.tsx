@@ -44,7 +44,7 @@ export const OppølgingAdmin = () => {
         <VStack gap={'space-16'} className={styles.container}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
             <InformasjonOppfølging />
-            <HStack gap={'4'} className={styles.formContainer}>
+            <HStack gap={'space-16'} className={styles.formContainer}>
                 <Select
                     value={tema}
                     label="Tema"
