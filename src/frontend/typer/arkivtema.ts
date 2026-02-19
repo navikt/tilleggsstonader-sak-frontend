@@ -1,3 +1,12 @@
+import {
+    Enheter,
+    FortroligEnhet,
+    hentEnheterSaksbehandlerHarTilgangTil,
+    IkkeFortroligEnhet,
+} from '../Sider/Oppgavebenk/typer/enhet';
+import { AppEnv } from '../utils/env';
+import { Saksbehandler } from '../utils/saksbehandler';
+
 export enum Arkivtema {
     AAP = 'AAP',
     AAR = 'AAR',
@@ -146,3 +155,29 @@ export const relevanteArkivtemaerIBehandling: Arkivtema[] = [Arkivtema.TSO, Arki
 
 export const utledArkivtema = (tema: Arkivtema | undefined) =>
     tema ? arkivtemaerTilTekst[tema] : 'Tema ikke satt';
+
+const enhetTilArkivTema: Record<Enheter, Arkivtema[]> = {
+    [IkkeFortroligEnhet.NAY]: [Arkivtema.TSO],
+    [IkkeFortroligEnhet.NAY_ROMERIKE]: [Arkivtema.TSO],
+    [IkkeFortroligEnhet.NAY_EGNE_ANSATTE]: [Arkivtema.TSO],
+    [IkkeFortroligEnhet.TILTAK_OSLO]: [Arkivtema.TSO],
+    [IkkeFortroligEnhet.NAV_EGNE_ANSATTE_OSLO]: [Arkivtema.TSR],
+    [FortroligEnhet.VIKAFOSSEN]: [Arkivtema.TSR, Arkivtema.TSO],
+};
+
+export const finnArkivTemaSaksbehandlerHarTilgangTil = (
+    appEnv: AppEnv,
+    saksbehandler: Saksbehandler
+): Arkivtema[] => {
+    const enheter = hentEnheterSaksbehandlerHarTilgangTil(appEnv, saksbehandler);
+
+    return enheter.reduce<Arkivtema[]>((arkivTemaer, enhet) => {
+        const arkivTema = enhetTilArkivTema[enhet];
+        arkivTema.forEach((tema) => {
+            if (!arkivTemaer.includes(tema)) {
+                arkivTemaer.push(tema);
+            }
+        });
+        return arkivTemaer;
+    }, []);
+};

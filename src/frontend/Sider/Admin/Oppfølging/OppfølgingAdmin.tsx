@@ -9,36 +9,36 @@ import { Oppfølging } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
+import {
+    Arkivtema,
+    arkivtemaerTilTekst,
+    finnArkivTemaSaksbehandlerHarTilgangTil,
+} from '../../../typer/arkivtema';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
 import { erProd } from '../../../utils/miljø';
-import {
-    Enheter,
-    enhetTilTekst,
-    hentEnheterSaksbehandlerHarTilgangTil,
-} from '../../Oppgavebenk/typer/enhet';
 
 export const OppølgingAdmin = () => {
     const { request, saksbehandler, appEnv } = useApp();
 
     const [oppfølginger, settOppføginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
-    const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(
+    const arkivTemaSaksbehandlerHarTilgangTil = finnArkivTemaSaksbehandlerHarTilgangTil(
         appEnv,
         saksbehandler
     );
 
-    const [enhet, settEnhet] = useState<Enheter>(gyldigeEnheterForSaksbehandler[0]);
+    const [tema, settTema] = useState<Arkivtema>(arkivTemaSaksbehandlerHarTilgangTil[0]);
 
     const hentBehandlingerForOppfølging = () => {
         settOppføginger(byggHenterRessurs());
-        request(`/api/sak/oppfolging/start/${enhet}`, 'POST');
+        request(`/api/sak/oppfolging/start/${tema}`, 'POST');
         setTimeout(() => {
-            request<Oppfølging[], null>(`/api/sak/oppfolging/${enhet}`).then(settOppføginger);
+            request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppføginger);
         }, 3000);
     }; // TODO Denne delayen bør gjøres på en bedre måte hvis vi skal gjøre dette tilgjengelig i prod
 
     useEffect(() => {
-        request<Oppfølging[], null>(`/api/sak/oppfolging/${enhet}`).then(settOppføginger);
-    }, [request, enhet]);
+        request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppføginger);
+    }, [request, tema]);
 
     return (
         <VStack gap={'4'} className={styles.container}>
@@ -46,14 +46,14 @@ export const OppølgingAdmin = () => {
             <InformasjonOppfølging />
             <HStack gap={'4'} className={styles.formContainer}>
                 <Select
-                    value={enhet}
-                    label="Enhet"
-                    onChange={(e) => settEnhet(e.target.value as Enheter)}
+                    value={tema}
+                    label="Tema"
+                    onChange={(e) => settTema(e.target.value as Arkivtema)}
                     size="small"
                 >
-                    {gyldigeEnheterForSaksbehandler.map((enhet) => (
-                        <option key={enhet} value={enhet}>
-                            {enhetTilTekst[enhet]}
+                    {arkivTemaSaksbehandlerHarTilgangTil.map((tema) => (
+                        <option key={tema} value={tema}>
+                            {arkivtemaerTilTekst[tema]}
                         </option>
                     ))}
                 </Select>
