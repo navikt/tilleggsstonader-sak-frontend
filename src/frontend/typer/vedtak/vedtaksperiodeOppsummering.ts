@@ -2,6 +2,7 @@ import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgrup
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
+import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
@@ -51,6 +52,7 @@ export type DetaljertVedtaksperiodeDagligReiseTso = {
     målgruppe: FaktiskMålgruppe;
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
+    beregningsresultat: BeregningsresultatForPeriodeDto[];
 };
 
 export type DetaljertVedtaksperiodeDagligReiseTsr = {
@@ -60,6 +62,7 @@ export type DetaljertVedtaksperiodeDagligReiseTsr = {
     målgruppe: FaktiskMålgruppe;
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
+    beregningsresultat: BeregningsresultatForPeriodeDto[];
 };
 
 export interface UtgiftBoutgift {
@@ -67,4 +70,15 @@ export interface UtgiftBoutgift {
     tom: string;
     utgift: number;
     beløpSomDekkes: number;
+}
+export interface BeregningsresultatForPeriodeDto {
+    fom: string;
+    tom: string;
+    prisEnkeltbillett?: number;
+    prisSyvdagersbillett?: number;
+    pris30dagersbillett?: number;
+    antallReisedagerPerUke?: number;
+    antallReisedager?: number;
+    beløp: number;
+    billettdetaljer?: Partial<Record<BillettType, number>>;
 }
