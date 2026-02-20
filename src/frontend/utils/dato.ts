@@ -243,3 +243,22 @@ export const datoErIPeriodeInklusivSlutt = (
 export const perioderOverlapper = (periode1: Periode, periode2: Periode) =>
     erDatoFørEllerLik(periode1.fom, periode2.tom) &&
     erDatoEtterEllerLik(periode2.fom, periode1.tom);
+
+export type Ukedag =
+    | 'MONDAY'
+    | 'TUESDAY'
+    | 'WEDNESDAY'
+    | 'THURSDAY'
+    | 'FRIDAY'
+    | 'SATURDAY'
+    | 'SUNDAY';
+
+export const ukedagTilKortNorsk: Record<Ukedag, string> = {
+    MONDAY: 'Man',
+    TUESDAY: 'Tir',
+    WEDNESDAY: 'Ons',
+    THURSDAY: 'Tor',
+    FRIDAY: 'Fre',
+    SATURDAY: 'Lør',
+    SUNDAY: 'Søn',
+};

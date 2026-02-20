@@ -1,3 +1,5 @@
+import { Ukedag } from '../utils/dato';
+
 export interface ReisevurderingPrivatBil {
     reiseId: string;
     uker: UkeVurdering[];
@@ -22,7 +24,7 @@ interface AvvikUke {
 
 export interface Dag {
     dato: string;
-    ukedag: string; // avklar om faktisk trenger, eller om frontend skal mappe ut fra dag
+    ukedag: Ukedag; // avklar om faktisk trenger, eller om frontend skal mappe ut fra dag
     kjørelisteDag?: KjørelisteDag;
     avklartDag?: AvklartDag;
 }
