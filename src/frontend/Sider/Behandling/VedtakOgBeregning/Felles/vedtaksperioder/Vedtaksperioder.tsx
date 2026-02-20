@@ -19,6 +19,7 @@ import {
     Feil,
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
+import { Kodeverk } from '../../../../../typer/kodeverk';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
@@ -60,7 +61,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const oppdaterPeriodeFelt = (
         indeks: number,
         property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
-        value: string | number | undefined
+        value: string | number | Kodeverk | undefined
     ) => {
         settVedtaksperioder((prevState) => {
             const oppdatertPeriode = { ...prevState[indeks], [property]: value };

@@ -1,12 +1,14 @@
 import { VilkårDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 
 export const oppdaterVilkårIListe = (
-    vilkårFørEndring: VilkårDagligReise[],
+    eksisterendeVilkår: VilkårDagligReise[],
     oppdatertVilkår: VilkårDagligReise
 ): VilkårDagligReise[] =>
-    vilkårFørEndring.map((vilkår) => (vilkår.id === oppdatertVilkår.id ? oppdatertVilkår : vilkår));
+    eksisterendeVilkår.map((vilkår) =>
+        vilkår.id === oppdatertVilkår.id ? oppdatertVilkår : vilkår
+    );
 
 export const fjernVilkårFraListe = (
-    vilkårFørEndring: VilkårDagligReise[],
+    eksisterendeVilkår: VilkårDagligReise[],
     slettetVilkårId: string
-): VilkårDagligReise[] => vilkårFørEndring.filter((vilkår) => vilkår.id !== slettetVilkårId);
+): VilkårDagligReise[] => eksisterendeVilkår.filter((vilkår) => vilkår.id !== slettetVilkårId);
