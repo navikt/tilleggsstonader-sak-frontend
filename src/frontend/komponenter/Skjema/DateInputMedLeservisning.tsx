@@ -7,6 +7,7 @@ import { formaterDato } from '../../utils/dato';
 export interface Props extends DateInputProps {
     className?: string;
     erLesevisning?: boolean;
+    defaultMonth?: Date;
 }
 
 const DateInputMedLeservisning: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const DateInputMedLeservisning: React.FC<Props> = ({
     label,
     size,
     value,
+    defaultMonth,
     ...props
 }) => {
     return erLesevisning ? (
@@ -27,7 +29,14 @@ const DateInputMedLeservisning: React.FC<Props> = ({
             size={size}
         />
     ) : (
-        <DateInput {...props} label={label} hideLabel={hideLabel} value={value} size={size} />
+        <DateInput
+            {...props}
+            label={label}
+            hideLabel={hideLabel}
+            value={value}
+            size={size}
+            defaultMonth={defaultMonth}
+        />
     );
 };
 
