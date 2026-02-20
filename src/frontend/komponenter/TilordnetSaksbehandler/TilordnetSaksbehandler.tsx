@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, HStack } from '@navikt/ds-react';
-import { BgNeutralSoft } from '@navikt/ds-tokens/darkside-js';
+import { BgNeutralSoft } from '@navikt/ds-tokens/js';
 
 import { StatusBar, utledStatusbarFarge } from './StatusBar';
 import styles from './TilordnetSaksbehandler.module.css';
@@ -27,7 +27,7 @@ export const TilordnetSaksbehandler: React.FC = () => {
 
     return (
         <>
-            <HStack gap={'2'} align={'center'}>
+            <HStack gap={'space-8'} align={'center'}>
                 <PersonHeadsetIcon className={styles.personIkon} />
                 <div>
                     <BodyShort weight={'semibold'} size={'small'}>

@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 
-import { Alert, BodyShort, Button, HStack, List, Loader, Textarea, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyShort,
+    Button,
+    HStack,
+    List,
+    Loader,
+    Textarea,
+    VStack,
+    Box,
+} from '@navikt/ds-react';
 
 import styles from './Brevknapp.module.css';
 import { MalStruktur, Valg, Valgfelt } from './typer';
@@ -52,7 +62,7 @@ export const Brevknapp = ({
     };
 
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             {kanSendeKommentarTilBeslutter && (
                 <Textarea
                     label="Kommentar til beslutter"
@@ -68,7 +78,7 @@ export const Brevknapp = ({
                 disabled={laster || generererBrevPdf}
                 size="small"
             >
-                <HStack gap={'2'}>
+                <HStack gap={'space-8'}>
                     {generererBrevPdf ? (
                         <>
                             <Loader size={'small'} /> Genererer brev
@@ -110,12 +120,14 @@ const ListeMedMangler = ({
     const alleMangler = mangler.flatMap((delmal) => delmal.mangler);
     return (
         alleMangler.length > 0 && (
-            <List size={'small'}>
-                <BodyShort size={'small'}>{tittel}</BodyShort>
-                {alleMangler.map((mangel, index) => (
-                    <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>
-                ))}
-            </List>
+            <Box marginBlock="space-16" asChild>
+                <List data-aksel-migrated-v8 size={'small'}>
+                    <BodyShort size={'small'}>{tittel}</BodyShort>
+                    {alleMangler.map((mangel, index) => (
+                        <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>
+                    ))}
+                </List>
+            </Box>
         )
     );
 };

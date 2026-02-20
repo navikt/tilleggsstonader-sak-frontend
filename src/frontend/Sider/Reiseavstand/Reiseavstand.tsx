@@ -15,7 +15,7 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
         reisedata.reiserute.avstandUtenFerje !== reisedata.reiserute.avstandMeter;
 
     return (
-        <HGrid gap={'2'} columns={2}>
+        <HGrid gap={'space-8'} columns={2}>
             <VStack className={styles.kort}>
                 <Label>Reiseavstand totalt</Label>
                 <BodyShort>{meterTilKm(reisedata.reiserute.avstandMeter)} km</BodyShort>

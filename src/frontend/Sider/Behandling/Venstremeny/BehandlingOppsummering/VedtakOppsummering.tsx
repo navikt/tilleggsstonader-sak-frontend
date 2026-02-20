@@ -35,7 +35,7 @@ const OppsummeringInnvilgelse: React.FC<{
     vedtaksperioder: Vedtaksperiode[];
 }> = ({ vedtaksperioder }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Label size="small">Innvilget</Label>
             {vedtaksperioder.length > 0 ? (
                 vedtaksperioder.map((vedtaksperiode) => (
@@ -61,7 +61,7 @@ const OppsummeringAvslag: React.FC<{
     årsaker: ÅrsakAvslag[];
 }> = ({ årsaker }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Label size="small">Avslått</Label>
             <BodyShort size={'small'}>
                 Årsaker: {årsaker.map((årsak) => årsakAvslagTilTekst[årsak]).join(', ')}
@@ -75,7 +75,7 @@ const OppsummeringOpphør: React.FC<{ årsaker: ÅrsakOpphør[]; opphørsdato: s
     opphørsdato,
 }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Label size="small">Opphørt fra og med {formaterDato(opphørsdato)}</Label>
             <BodyShort size={'small'}>
                 Årsaker: {årsaker.map((årsak) => årsakOpphørTilTekst[årsak]).join(', ')}

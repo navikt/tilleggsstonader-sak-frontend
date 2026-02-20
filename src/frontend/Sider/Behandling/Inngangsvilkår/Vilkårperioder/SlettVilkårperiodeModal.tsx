@@ -134,7 +134,7 @@ const SlettVilkårperiode: React.FC<{
                 }}
             >
                 {!kanSlettePeriodePermanent && (
-                    <VStack gap="4">
+                    <VStack gap="space-16">
                         <Table>
                             <Table.Header>
                                 <Table.Row shadeOnHover={false}>

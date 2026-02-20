@@ -51,7 +51,7 @@ export const OpphørVedtak: React.FC<{
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <DateInputMedLeservisning
                 label="Opphørsdato"
                 hideLabel={false}
@@ -64,7 +64,6 @@ export const OpphørVedtak: React.FC<{
                 feil={feilmeldinger.opphørsdato}
                 size="small"
             />
-
             <CheckboxGroup
                 legend="Årsak til opphør"
                 value={årsaker}
@@ -94,7 +93,6 @@ export const OpphørVedtak: React.FC<{
                 size="small"
                 style={{ maxWidth: '20em' }}
             />
-
             <StegKnapp
                 steg={steg}
                 nesteFane={FanePath.SIMULERING}

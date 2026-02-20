@@ -172,7 +172,6 @@ const EndreMålgruppe: React.FC<{
                     erStøttetType={erMålgruppeSomStøttes}
                 />
             </div>
-
             <MålgruppeDelvilkår
                 målgruppeForm={form}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>
@@ -193,7 +192,7 @@ const EndreMålgruppe: React.FC<{
                     feil={vilkårsperiodeFeil?.begrunnelse}
                 />
             )}
-            <HStack gap="4">
+            <HStack gap="space-16">
                 {erMålgruppeSomStøttes && (
                     <Button size="xsmall" onClick={lagre}>
                         Lagre
@@ -210,7 +209,6 @@ const EndreMålgruppe: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

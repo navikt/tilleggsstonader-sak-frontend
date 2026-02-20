@@ -146,7 +146,7 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
@@ -177,7 +177,6 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-
             <AktivitetDelvilkårDagligReiseTso
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
@@ -187,14 +186,13 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                     settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
                 }
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
                 begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
@@ -208,7 +206,6 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

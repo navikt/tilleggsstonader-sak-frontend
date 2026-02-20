@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/js';
 
 import styles from './Panel.module.css';
 
@@ -25,7 +25,7 @@ const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny 
             }
         >
             <div className={styles.header}>
-                <HStack gap="2" align="center">
+                <HStack gap="space-8" align="center">
                     {ikon}
                     <Heading size="small">{tittel}</Heading>
                 </HStack>

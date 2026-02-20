@@ -81,7 +81,7 @@ export const Brev: React.FC = () => {
                 <DataViewer type={'brevmaler'} response={{ brevmaler, mellomlagretBrev }}>
                     {({ brevmaler, mellomlagretBrev }) => (
                         <div className={styles.toKolonner}>
-                            <VStack gap="8" align="start">
+                            <VStack gap="space-32" align="start">
                                 <BrevMottakere
                                     context={contextBrevmottakere}
                                     kanEndreBrevmottakere={behandlingErRedigerbar}

@@ -31,7 +31,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     const skalHaKolon = gjelder !== '' || aktivitetsdager !== null;
 
     return (
-        <HStack gap={'2'} align={'center'} className={'info'} wrap={false}>
+        <HStack gap={'space-8'} align={'center'} className={'info'} wrap={false}>
             {resultat && <FargetVilkårsresultatIkon vilkårsresultat={resultat} />}
             <VStack>
                 <BodyShort size="small">

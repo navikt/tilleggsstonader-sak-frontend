@@ -23,11 +23,11 @@ const SettPåVentInformasjon: React.FC<{
     const [kanTaAvVentFeil, settKanTaAvVentFeil] = useState<Feil | string>();
 
     return (
-        <VStack gap={'4'}>
+        <VStack gap={'space-16'}>
             <Heading size={'small'}>
                 Satt på vent {datoSattPåVent} av {status.opprettetAv}
             </Heading>
-            <VStack gap="2">
+            <VStack gap="space-8">
                 {status.endretAv && (
                     <BodyShort size="small">
                         <strong>Sist endret: </strong>
@@ -49,7 +49,7 @@ const SettPåVentInformasjon: React.FC<{
             </VStack>
             <Feilmelding feil={kanTaAvVentFeil} />
             {!statusPåVentRedigering && (
-                <HStack gap={'4'}>
+                <HStack gap={'space-16'}>
                     <Button size={'small'} onClick={() => settStatusPåVentRedigering(true)}>
                         Oppdater
                     </Button>

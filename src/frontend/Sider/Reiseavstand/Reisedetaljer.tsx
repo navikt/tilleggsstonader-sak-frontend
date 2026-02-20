@@ -23,7 +23,7 @@ export const Reisedetaljer: React.FC<{
     }, [kjøreavstandResponse, hentStatiskKart]);
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <KollektivDetaljer reisedata={kollektivDetaljerResponse} />
         </VStack>
     );

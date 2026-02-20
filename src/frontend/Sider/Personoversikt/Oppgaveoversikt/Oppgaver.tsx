@@ -48,7 +48,7 @@ const Oppgaver: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     };
 
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             <Heading size="small" spacing>
                 Ubehandlede oppgaver på bruker
             </Heading>

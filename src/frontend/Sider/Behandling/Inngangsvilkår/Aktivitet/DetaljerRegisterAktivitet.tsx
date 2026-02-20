@@ -13,7 +13,7 @@ export const DetaljerRegisterAktivitet = ({
 }) => {
     return (
         aktivitetFraRegister && (
-            <HStack gap={'4'}>
+            <HStack gap={'space-16'}>
                 <Celle>
                     <Lesefelt
                         label={'Arrangør'}

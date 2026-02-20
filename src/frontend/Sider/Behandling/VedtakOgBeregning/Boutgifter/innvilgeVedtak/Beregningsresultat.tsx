@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
-    <VStack gap="4">
+    <VStack gap="space-16">
         <Label size="small">Beregningsresultat</Label>
         <BeregningsresultatContainer>
             <div className={styles.grid}>

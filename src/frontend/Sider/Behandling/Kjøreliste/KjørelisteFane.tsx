@@ -18,7 +18,7 @@ export const KjørelisteFane: FC = () => {
     return (
         <DataViewer response={{ vedtak, kjørelister }} type={'reisedata'}>
             {({ vedtak, kjørelister }) => (
-                <VStack gap="6">
+                <VStack gap="space-24">
                     {vedtak.rammevedtakPrivatBil && (
                         <RammevedtakOppsummering
                             rammevedtak={vedtak.rammevedtakPrivatBil}

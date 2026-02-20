@@ -56,7 +56,7 @@ export const ReiseavstandForm: React.FC<{
     };
 
     return (
-        <VStack gap={'8'} align={'start'}>
+        <VStack gap={'space-32'} align={'start'}>
             <TextField
                 className={styles.adresseInput}
                 list={'fra-forslag'}
@@ -74,7 +74,6 @@ export const ReiseavstandForm: React.FC<{
                     <option value={forslag} key={forslag} />
                 ))}
             </datalist>
-
             <TextField
                 className={styles.adresseInput}
                 label={'Tiltaksadresse'}
@@ -92,8 +91,7 @@ export const ReiseavstandForm: React.FC<{
                     <option value={forslag} key={forslag} />
                 ))}
             </datalist>
-
-            <HStack gap={'4'}>
+            <HStack gap={'space-16'}>
                 <Button size={'small'} onClick={hentReisedata}>
                     Regn ut reiseavstand
                 </Button>

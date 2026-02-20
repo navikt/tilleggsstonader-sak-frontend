@@ -9,7 +9,7 @@ import { FlexColumn } from '../../../komponenter/Visningskomponenter/FlexColumn'
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
 
 const Oppsumering: React.FC<{ oppsummering: SimuleringOppsummering }> = ({ oppsummering }) => (
-    <Box padding="4" borderWidth="1" borderRadius={'medium'} className={styles.box}>
+    <Box padding="space-16" borderWidth="1" borderRadius={'4'} className={styles.box}>
         <FlexColumn>
             <Label>Totalt for perioden</Label>
             <div className={styles.flexRow}>

@@ -58,7 +58,7 @@ export const FagsakOversikt: React.FC<Props> = ({
                 </Heading>
                 <BodyShort size="small">(Saksnummer: {eksternFagsakId})</BodyShort>
                 {erLøpende && (
-                    <Tag variant={'info'} size={'small'}>
+                    <Tag data-color="info" variant={'outline'} size={'small'}>
                         Løpende
                     </Tag>
                 )}

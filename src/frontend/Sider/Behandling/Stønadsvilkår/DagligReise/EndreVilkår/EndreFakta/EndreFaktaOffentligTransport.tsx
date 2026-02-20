@@ -32,8 +32,8 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="4">
-            <HStack gap="4" align="start">
+        <VStack gap="space-16">
+            <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
                         label={'Reisedager pr uke'}

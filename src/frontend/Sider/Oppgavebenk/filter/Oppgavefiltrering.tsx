@@ -86,7 +86,7 @@ export const Oppgavefiltrering = () => {
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <div className={styles.flexDiv}>
                 <Select
                     value={oppgaveRequest.oppgaverPåVent ? 'På vent' : 'Klar'}

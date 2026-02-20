@@ -113,7 +113,7 @@ const SlettVilkårModal: React.FC<{
                 }}
             >
                 {!kanSlettesPermanent && (
-                    <VStack gap="4">
+                    <VStack gap="space-16">
                         <Table>
                             <Table.Header>
                                 <Table.Row shadeOnHover={false}>

@@ -72,8 +72,8 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
             }}
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
-            <Box paddingInline="2">
-                <VStack gap={'4'}>
+            <Box paddingInline="space-8">
+                <VStack gap={'space-16'}>
                     <RadioGroup
                         legend={''}
                         onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BorderAccentSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BorderAccentSubtle } from '@navikt/ds-tokens/js';
 
 import styles from './Skillelinje.module.css';
 

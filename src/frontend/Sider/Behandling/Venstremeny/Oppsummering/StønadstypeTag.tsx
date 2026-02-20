@@ -6,7 +6,7 @@ import { Stønadstype, stønadstypeTilTekst } from '../../../../typer/behandling
 
 export function StønadstypeTag({ stønadstype }: { stønadstype: Stønadstype }) {
     return (
-        <Tag size="small" variant="neutral">
+        <Tag data-color="neutral" size="small" variant="outline">
             {stønadstypeTilTekst[stønadstype]}
         </Tag>
     );

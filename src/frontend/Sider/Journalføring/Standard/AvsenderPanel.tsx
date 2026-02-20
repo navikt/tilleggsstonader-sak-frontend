@@ -35,13 +35,13 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
     return (
         <>
             {harAvsender ? (
-                <Box.New padding="4" borderWidth="1" borderRadius="small">
+                <Box padding="space-16" borderWidth="1" borderRadius="0">
                     <PanelHeader
                         navn={avsenderMottaker?.navn || 'Ukjent navn'}
                         personIdent={avsenderMottaker?.id || 'Ukjent ident'}
                         type={PanelHeaderType.Avsender}
                     />
-                </Box.New>
+                </Box>
             ) : (
                 <ExpansionCard
                     id={journalpostId}
@@ -51,7 +51,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                     onToggle={() => settErPanelEkspandert((prevState) => !prevState)}
                 >
                     <ExpansionCard.Header className={styles.expansionCardHeader}>
-                        <HStack gap="4">
+                        <HStack gap="space-16">
                             <div className={styles.ikonContainer}>
                                 {erPanelEkspandert ? (
                                     <EnvelopeClosedFillIcon fontSize={'3.5rem'} />
@@ -66,7 +66,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                                         <CopyButton
                                             className={styles.kopierPersonIdent}
                                             copyText={personIdent}
-                                            variant="action"
+                                            data-color={'accent'}
                                         />
                                     </>
                                 ) : (
@@ -76,7 +76,7 @@ const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState 
                         </HStack>
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack gap="4" className={styles.expansionCardContent}>
+                        <VStack gap="space-16" className={styles.expansionCardContent}>
                             <Checkbox
                                 onChange={(event) => {
                                     settNyAvsender({

@@ -43,21 +43,26 @@ const LesevisningVilkår: FC<{
                     startRedigering={startRedigering}
                 />
             ) : (
-                <HGrid gap={{ md: '4', lg: '8' }} columns="minmax(auto, 175px) auto">
-                    <VStack gap="3">
+                <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 175px) auto">
+                    <VStack gap="space-12">
                         <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
                         <BodyShort size="small">
                             {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
                         </BodyShort>
                         {skalFåDekketFaktiskeUtgifter(vilkår) && (
-                            <Tag variant="alt1" size={'xsmall'} style={{ maxWidth: 'fit-content' }}>
+                            <Tag
+                                data-color="meta-purple"
+                                variant="outline"
+                                size={'xsmall'}
+                                style={{ maxWidth: 'fit-content' }}
+                            >
                                 Faktiske utgifter
                             </Tag>
                         )}
                     </VStack>
-                    <VStack gap="1">
-                        <HGrid gap={'1 4'} columns="minmax(100px, max-content) 1fr">
+                    <VStack gap="space-4">
+                        <HGrid gap={'space-4 space-16'} columns="minmax(100px, max-content) 1fr">
                             {!erFremtidigUtgift &&
                                 delvilkårsett.map((delvilkår, index) => (
                                     <React.Fragment key={index}>
@@ -71,7 +76,7 @@ const LesevisningVilkår: FC<{
                         {vilkår.slettetKommentar && (
                             <>
                                 <Skillelinje />
-                                <HStack gap="4">
+                                <HStack gap="space-16">
                                     <Label size="small">Begrunnelse for sletting:</Label>
                                     <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
                                 </HStack>

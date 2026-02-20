@@ -150,11 +150,11 @@ const UtgifterSamling = ({
 }) => {
     if (!samling) return null;
     return (
-        <VStack gap={'1'}>
+        <VStack gap={'space-4'}>
             <BodyShort size={'small'} weight={'semibold'}>
                 Utgifter til overnatting
             </BodyShort>
-            <VStack gap={'2'}>
+            <VStack gap={'space-8'}>
                 {samling.periodeForSamling.map((periode, index) => (
                     <div key={index}>
                         <BodyShort size={'small'}>

@@ -31,7 +31,7 @@ export const StønadsvilkårDagligReise = () => {
     const nesteFane = kanBehandlePrivatBil ? FanePath.VEDTAK : FanePath.VEDTAK_OG_BEREGNING;
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <DataViewer type="vilkår" response={{ eksisterendeVilkår, regelStruktur }}>
                 {({ eksisterendeVilkår, regelStruktur }) => (
                     <VilkårDagligReiseProvider

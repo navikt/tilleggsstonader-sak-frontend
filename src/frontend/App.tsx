@@ -32,7 +32,7 @@ import { hentInnloggetSaksbehandler, Saksbehandler } from './utils/saksbehandler
 import { Toggle } from './utils/toggles';
 import { useUmami } from './utils/umami/useUmami';
 import { mockFlags } from './utils/unleashMock';
-import '@navikt/ds-css/darkside';
+import '@navikt/ds-css';
 
 const AppRoutes = () => {
     const { settIkkeAutentisert } = useApp();
@@ -122,7 +122,7 @@ const AppInnhold = () => {
                     <Spacer />
                     {visKartside && (
                         <InternalHeader.Title as="a" href="/kjoreavstand">
-                            <HStack gap="1" align="center">
+                            <HStack gap="space-4" align="center">
                                 <LocationPinIcon />
                                 <BodyShort size="small">Beregn reiseavstand</BodyShort>
                             </HStack>
@@ -134,7 +134,7 @@ const AppInnhold = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <HStack gap="1" align="center">
+                        <HStack gap="space-4" align="center">
                             <OpenBookIcon />
                             <BodyShort size="small">Brukermanualen</BodyShort>
                         </HStack>

@@ -117,7 +117,6 @@ const PersonSøk: React.FC = () => {
                     settSøkeresultat(undefined);
                     settFeilmelding(undefined);
                 }}
-                arrow={false}
                 placement="bottom"
             >
                 <Popover.Content

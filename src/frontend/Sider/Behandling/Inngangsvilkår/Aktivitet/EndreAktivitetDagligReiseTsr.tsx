@@ -162,7 +162,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                     {`Klarte ikke å opprette aktivitet med tiltaksvariant "${aktivitetFraRegister.typeNavn}". Ta kontakt med utviklerteamet.`}
                 </Alert>
             )}
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
@@ -198,21 +198,19 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-
             <AktivitetDelvilkårDagligReiseTsr
                 aktivitetForm={form}
                 oppdaterHarUtgifter={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
                 }
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
                 begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Button size="xsmall" onClick={lagre} disabled={fantIkkeTypeAktivitet}>
                     Lagre
                 </Button>
@@ -226,7 +224,6 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

@@ -21,7 +21,7 @@ export const TilordnetSaksbehandlerVenstremeny: React.FC = () => {
         TilordnetSaksbehandlerPåOppgave.OPPGAVE_FINNES_IKKE
     ) {
         return (
-            <HStack gap={'2'} align={'center'}>
+            <HStack gap={'space-8'} align={'center'}>
                 <div>
                     <BodyShort weight={'semibold'} size={'small'}>
                         Ansvarlig saksbehandler:

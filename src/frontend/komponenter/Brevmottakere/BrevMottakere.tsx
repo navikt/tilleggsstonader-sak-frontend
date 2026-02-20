@@ -63,7 +63,7 @@ const Brevmottakere: React.FC<{
     const navn = utledNavnPåMottakere(mottakere);
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <HStack align="center">
                 <Label size="small">Brevmottakere</Label>
                 {kanEndreBrevmottakere && (

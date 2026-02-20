@@ -34,9 +34,9 @@ export const ReiseavstandSide: React.FC = () => {
     }
 
     return (
-        <VStack gap={'8'} padding={'8'} className={styles.marginBottom}>
+        <VStack gap={'space-32'} padding={'space-32'} className={styles.marginBottom}>
             <div className={styles.container}>
-                <VStack gap={'4'} className={styles.venstreKolonne}>
+                <VStack gap={'space-16'} className={styles.venstreKolonne}>
                     <Alert variant={'info'}>Løsningen skal ikke brukes på kode 6/7-brukere.</Alert>
                     <Heading size={'small'}>Beregn reiseavstand</Heading>
                     <ReiseavstandForm

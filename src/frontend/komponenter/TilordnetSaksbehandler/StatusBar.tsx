@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BorderNeutral, BorderSuccess, BorderWarningSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BorderNeutral, BorderSuccess, BorderWarningSubtle } from '@navikt/ds-tokens/js';
 
 import styles from './StatusBar.module.css';
 import { TilordnetSaksbehandlerPåOppgave } from '../../typer/behandling/tilordnetSaksbehandlerDto';

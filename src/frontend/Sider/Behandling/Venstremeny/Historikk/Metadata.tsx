@@ -33,7 +33,7 @@ const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
             .join(', ');
 
         return (
-            <VStack gap="1">
+            <VStack gap="space-4">
                 <Detail>{årsaker}</Detail>
                 <Detail>Kommentar: {metadata.begrunnelse}</Detail>
             </VStack>

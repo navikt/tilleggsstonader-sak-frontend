@@ -44,7 +44,7 @@ const SendtTilBeslutter: React.FC<{
     };
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size={'small'} level={'3'}>
                 Totrinnskontroll
             </Heading>

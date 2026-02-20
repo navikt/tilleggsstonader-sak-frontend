@@ -166,7 +166,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                     </section>
                     <Feilmelding feil={feilmelding} />
                     <Feilmelding feil={innsendingsfeil} />
-                    <HStack gap="4" justify="end">
+                    <HStack gap="space-16" justify="end">
                         <Button size={'small'} variant={'tertiary'} onClick={() => navigate('/')}>
                             Avbryt
                         </Button>

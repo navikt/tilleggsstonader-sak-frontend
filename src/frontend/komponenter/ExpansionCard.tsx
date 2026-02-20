@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ExpansionCard as AkselExpansionCard } from '@navikt/ds-react';
-import { BorderNeutralSubtle } from '@navikt/ds-tokens/darkside-js';
+import { BorderNeutralSubtle } from '@navikt/ds-tokens/js';
 
 import styles from './ExpansionCard.module.css';
 

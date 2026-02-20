@@ -11,7 +11,7 @@ export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean 
 }) => {
     if (status === PeriodeStatus.UENDRET) {
         return (
-            <Tag size="small" variant="warning" className={styles.statusTag}>
+            <Tag data-color="warning" size="small" variant="outline" className={styles.statusTag}>
                 Fra tidligere vedtak
             </Tag>
         );
@@ -19,7 +19,7 @@ export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean 
 
     if (status === PeriodeStatus.ENDRET) {
         return (
-            <Tag size="small" variant="warning" className={styles.statusTag}>
+            <Tag data-color="warning" size="small" variant="outline" className={styles.statusTag}>
                 Endret
             </Tag>
         );
@@ -27,7 +27,7 @@ export const StatusTag: React.FC<{ status?: PeriodeStatus; lesevisning: boolean 
 
     if (lesevisning && status === PeriodeStatus.NY) {
         return (
-            <Tag size="small" variant="success" className={styles.statusTag}>
+            <Tag data-color="success" size="small" variant="outline" className={styles.statusTag}>
                 Ny
             </Tag>
         );

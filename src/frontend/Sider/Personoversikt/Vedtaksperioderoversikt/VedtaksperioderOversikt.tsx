@@ -42,7 +42,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                     finnesIngenVedtaksperioder(vedtaksperioderOversikt, arenaSakOgVedtak) ? (
                         <IngenVedtaksperioderInfo hentetTidspunkt={hentetTidspunkt} />
                     ) : (
-                        <VStack gap={'8'}>
+                        <VStack gap={'space-32'}>
                             {vedtaksperioderOversikt.tilsynBarn.length > 0 && (
                                 <OversiktKort tittel={'Tilsyn Barn'}>
                                     <VedtaksperioderOversiktTilsynBarn

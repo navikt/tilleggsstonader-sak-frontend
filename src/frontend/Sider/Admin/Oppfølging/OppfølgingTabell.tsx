@@ -55,7 +55,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
         [oppfølginger, visKunManglerKontroll, visKunWarningTag, skjulAAP]
     );
     return (
-        <VStack gap={'4'}>
+        <VStack gap={'space-16'}>
             <div>
                 {oppfølginger.length > 0 && (
                     <Heading size={'small'}>
@@ -92,23 +92,23 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                     Skjul kun avvik for AAP (Muligens ikke viktige pga AAP forlenges)
                 </Checkbox>
             </div>
-            <VStack gap={'8'} className={styles.oppfolgingList}>
+            <VStack gap={'space-32'} className={styles.oppfolgingList}>
                 {filtrerteOppfølginger.map((oppfølging) => {
                     return (
                         <VStack
                             key={oppfølging.id}
-                            gap={'4'}
+                            gap={'space-16'}
                             justify={'space-between'}
                             className={styles.oppfolgingCard}
                         >
                             <HStack justify={'space-between'}>
-                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                <HStack gap={'space-16'} align={'start'} justify={'start'}>
                                     <Heading size={'small'}>
                                         {oppfølging.behandlingsdetaljer.fagsakPersonNavn} -{' '}
                                         {oppfølging.behandlingsdetaljer.fagsakPersonIdent}
                                     </Heading>
                                 </HStack>
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-32'}>
                                     {oppfølging.behandlingsdetaljer.harNyereBehandling && (
                                         <Tag variant={'info'} size={'small'}>
                                             Har nyere behandling
@@ -122,7 +122,7 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                 </HStack>
                             </HStack>
                             <HStack justify={'space-between'}>
-                                <HStack gap={'4'} align={'start'} justify={'start'}>
+                                <HStack gap={'space-16'} align={'start'} justify={'start'}>
                                     <StønadstypeTag
                                         stønadstype={oppfølging.behandlingsdetaljer.stønadstype}
                                     />
@@ -137,10 +137,10 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                     </Detail>
                                 </HStack>
                             </HStack>
-                            <HStack gap={'6'} align={'start'}>
-                                <VStack gap={'4'}>
+                            <HStack gap={'space-24'} align={'start'}>
+                                <VStack gap={'space-16'}>
                                     <OppfølgingPerioderTilKontrollTabell oppfølging={oppfølging} />
-                                    <HStack gap={'4'} align={'start'} justify={'start'}>
+                                    <HStack gap={'space-16'} align={'start'} justify={'start'}>
                                         <Link
                                             to={{
                                                 pathname: `/person/${oppfølging.behandlingsdetaljer.fagsakPersonId}/behandlinger`,

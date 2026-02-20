@@ -18,7 +18,7 @@ const AktivitetDagligReise: React.FC<{ aktiviteter: FaktaAktivitetDagligReise }>
 
     return (
         <div>
-            <VStack gap="2">
+            <VStack gap="space-8">
                 {aktiviteter && (
                     <VStack>
                         <Aktivitet aktivitet={aktiviteter.aktivitet}></Aktivitet>

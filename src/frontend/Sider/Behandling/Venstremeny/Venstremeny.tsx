@@ -32,7 +32,7 @@ const tabs = [
 const VenstreMeny: React.FC = () => {
     return (
         <div className={styles.container}>
-            <VStack padding="4" gap={'4'}>
+            <VStack padding="space-16" gap={'space-16'}>
                 <TilordnetSaksbehandlerVenstremeny />
                 <Totrinnskontroll />
                 <BehandlingOppsummering />
@@ -52,9 +52,9 @@ const VenstreMeny: React.FC = () => {
                 </Sticky>
                 {tabs.map((tab) => (
                     <Tabs.Panel value={tab.value} key={tab.value}>
-                        <Box.New paddingInline="4" paddingBlock="4 16">
+                        <Box paddingInline="space-16" paddingBlock="space-16 space-64">
                             {tab.komponent}
-                        </Box.New>
+                        </Box>
                     </Tabs.Panel>
                 ))}
             </Tabs>

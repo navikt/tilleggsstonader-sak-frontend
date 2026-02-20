@@ -12,7 +12,7 @@ export function Vurderingsrad(props: { delvilkår: Delvilkår }) {
         <>
             <VStack>
                 {props.delvilkår.vurderinger.map((vurdering, index) => (
-                    <HStack gap="2" key={vurdering.regelId}>
+                    <HStack gap="space-8" key={vurdering.regelId}>
                         {index === 0 && (
                             <BodyShort weight="semibold" size="small">
                                 {regelIdTilSpørsmålKortversjon[vurdering.regelId]}

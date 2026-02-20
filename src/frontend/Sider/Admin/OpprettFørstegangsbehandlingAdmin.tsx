@@ -17,6 +17,7 @@ import {
     Select,
     TextField,
     VStack,
+    Box,
 } from '@navikt/ds-react';
 
 import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
@@ -70,7 +71,7 @@ function OpprettFørstegangsbehandlingAdmin() {
         <div className={styles.container}>
             <div>
                 <Heading size={'medium'}>[Admin] Opprett førstegangsbehandling</Heading>
-                <VStack gap={'2'}>
+                <VStack gap={'space-8'}>
                     <BodyShort>
                         Enkelte ganger vil det være behov for å opprette en førstegangsbehandling
                         manuelt. Du søker da først opp brukers fødselsnummer og velger deretter
@@ -80,11 +81,13 @@ function OpprettFørstegangsbehandlingAdmin() {
                         Det er primært for å opprette førstegangsbehandling for allerede
                         journalførte søknader.
                     </BodyShort>
-                    <List size={'small'}>
-                        <List.Item>Papirsøknad</List.Item>
-                        <List.Item>Søknad om barnetilsyn fra enslig forsørger</List.Item>
-                        <List.Item>Søknad som blitt sendt inn til Arena</List.Item>
-                    </List>
+                    <Box marginBlock="space-16" asChild>
+                        <List data-aksel-migrated-v8 size={'small'}>
+                            <List.Item>Papirsøknad</List.Item>
+                            <List.Item>Søknad om barnetilsyn fra enslig forsørger</List.Item>
+                            <List.Item>Søknad som blitt sendt inn til Arena</List.Item>
+                        </List>
+                    </Box>
                     <BodyShort>Hvis du er usikker, spør på teams.</BodyShort>
                 </VStack>
             </div>
@@ -96,7 +99,6 @@ function OpprettFørstegangsbehandlingAdmin() {
                     </option>
                 ))}
             </Select>
-
             {stønadstype && (
                 <OpprettFørstegangsbehandling
                     key={stønadstype} // nullstiller komponent hvis man endrer stønadstype
@@ -159,7 +161,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
 
     return (
         <>
-            <VStack gap={'1'}>
+            <VStack gap={'space-4'}>
                 <TextField
                     label={'Søkers fødselsnummer'}
                     onChange={(e) => {
@@ -175,7 +177,6 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                     Hent personinfo fra folkeregisteret
                 </Button>
             </VStack>
-
             <DataViewer type={'personinformasjon'} response={{ personinfo }}>
                 {({ personinfo }) => (
                     <>
@@ -185,7 +186,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         </BodyShort>
                         <DateInput
                             label={
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-8'}>
                                     <Label>Krav mottatt</Label>
                                     <HelpText title={'Krav mottatt'}>
                                         Krav mottatt kan være når man fikk beskjed om endring eller
@@ -198,7 +199,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         />
                         <RadioGroup
                             legend={
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-8'}>
                                     Skal det sendes vedtaksbrev?
                                     <HelpText>
                                         <BodyShort>

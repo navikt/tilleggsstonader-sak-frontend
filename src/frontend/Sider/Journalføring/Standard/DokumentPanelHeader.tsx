@@ -18,7 +18,7 @@ export const DokumentPanelHeader: React.FC<Props> = ({
     logiskeVedlegg,
 }) => {
     return (
-        <HStack gap="4">
+        <HStack gap="space-16">
             <div className={styles.ikonContainer}>
                 {erValgt ? (
                     <FileTextFillIcon fontSize={'3.5rem'} />
@@ -26,10 +26,10 @@ export const DokumentPanelHeader: React.FC<Props> = ({
                     <FileTextIcon fontSize={'3.5rem'} />
                 )}
             </div>
-            <VStack gap="2" justify="center">
+            <VStack gap="space-8" justify="center">
                 <Label as={'p'}>{dokumentTittel}</Label>
                 {logiskeVedlegg.length > 0 && (
-                    <VStack gap={'0'}>
+                    <VStack gap={'space-0'}>
                         {logiskeVedlegg.map((it, index) => (
                             <BodyShort key={index}>{it.tittel}</BodyShort>
                         ))}

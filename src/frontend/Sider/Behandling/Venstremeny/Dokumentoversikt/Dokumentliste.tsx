@@ -17,11 +17,11 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
     const journalposterSortertPåTid = sorterJournalpostPåTid(dokumenterGruppertPåJournalpost);
 
     return (
-        <VStack gap="6">
+        <VStack gap="space-24">
             <BodyShort size="small">
                 Vi viser bare tema TSO og TSR her. Se flere dokumenter{' '}
                 <Link
-                    variant="neutral"
+                    data-color="neutral"
                     target="_blank"
                     href={`/person/${behandling.fagsakPersonId}/dokumentoversikt`}
                     inlineText
@@ -34,11 +34,11 @@ const Dokumentliste: React.FC<{ dokumenter: DokumentInfo[] }> = ({ dokumenter })
                 const dokumenter = dokumenterGruppertPåJournalpost[journalpost];
 
                 return (
-                    <HStack gap="4" key={journalpost} wrap={false}>
+                    <HStack gap="space-16" key={journalpost} wrap={false}>
                         <DokumentTypeTag journalposttype={dokumenter[0].journalposttype} />
-                        <VStack gap="2">
+                        <VStack gap="space-8">
                             {dokumenter.map((dokument, indeks) => (
-                                <HStack wrap={false} key={dokument.dokumentInfoId} gap="2">
+                                <HStack wrap={false} key={dokument.dokumentInfoId} gap="space-8">
                                     {indeks === 0 ? (
                                         <Hoveddokument dokument={dokument} />
                                     ) : (

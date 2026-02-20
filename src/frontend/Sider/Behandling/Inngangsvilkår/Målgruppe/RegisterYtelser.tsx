@@ -57,7 +57,7 @@ const RegisterYtelser: React.FC<{
                 tittel={`Relevante ytelser registrert på bruker fra og med ${formaterNullableIsoDato(hentetInformasjon.fom)}`}
                 maxWidth={700}
             >
-                <VStack gap="4">
+                <VStack gap="space-16">
                     <RegisterYtelserTabell
                         perioderMedYtelse={perioderMedYtelse}
                         lagRadForPeriode={lagRadForPeriode}
@@ -85,8 +85,8 @@ function Hjelpetekst({
         .map((kildeResultat) => registerYtelseTilTekstStorForbokstav[kildeResultat.type])
         .join(', ');
     return (
-        <VStack gap={'2'}>
-            <HStack gap="2" align="center">
+        <VStack gap={'space-8'}>
+            <HStack gap="space-8" align="center">
                 <Detail>
                     <strong>Hentet: {formaterNullableIsoDatoTid(tidspunktHentet)}</strong>
                 </Detail>
@@ -94,9 +94,9 @@ function Hjelpetekst({
                     <BodyShort spacing>
                         Vi henter kun perioder fra {typer}.{' '}
                         <Link
+                            data-color="neutral"
                             href={`/person/${behandling.fagsakPersonId}/ytelser`}
                             target="_blank"
-                            variant="neutral"
                             style={{ display: 'inline' }}
                         >
                             Se flere ytelser bruker mottar

@@ -13,7 +13,7 @@ const FaktaOgDelvilkårVisning: React.FC<{
     vurderinger: MålgruppeVurderinger;
 }> = ({ vurderinger }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             {vurderinger.medlemskap?.svar && (
                 <Detail>{medlemskapSvarTilTekst[vurderinger.medlemskap.svar]}</Detail>
             )}

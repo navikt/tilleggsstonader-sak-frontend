@@ -45,7 +45,7 @@ export const JaNeiVurdering: React.FC<{
                     {hjelpetekst}
                 </ReadMore>
             )}
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Radio value={SvarJaNei.JA}>{svarJa}</Radio>
                 <Radio value={SvarJaNei.NEI}>{svarNei}</Radio>
             </HStack>

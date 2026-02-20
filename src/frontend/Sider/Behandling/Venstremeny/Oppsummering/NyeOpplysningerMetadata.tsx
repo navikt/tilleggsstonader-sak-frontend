@@ -17,7 +17,7 @@ const NyeOpplysningerMetadata: React.FC<{
 
     return (
         <VStack>
-            <HStack gap={'1'}>
+            <HStack gap={'space-4'}>
                 <BodyShort size={'small'} weight={'semibold'}>
                     Kilde:
                 </BodyShort>
@@ -25,13 +25,13 @@ const NyeOpplysningerMetadata: React.FC<{
                     {nyeOpplysningerKildeTilTekst[nyeOpplysningerMetadata.kilde ?? '-']}
                 </BodyShort>
             </HStack>
-            <HStack gap={'1'}>
+            <HStack gap={'space-4'}>
                 <BodyShort size={'small'} weight={'semibold'}>
                     Endring:
                 </BodyShort>
                 <BodyShort size="small">{endringer || '-'}</BodyShort>
             </HStack>
-            <HStack gap={'1'}>
+            <HStack gap={'space-4'}>
                 <BodyShort size={'small'} weight={'semibold'}>
                     Beskrivelse:
                 </BodyShort>

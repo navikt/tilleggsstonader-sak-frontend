@@ -23,11 +23,12 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
 
     if (forskjeller.length > 0) {
         return (
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <Tag
+                    data-color="warning"
                     icon={<ExclamationmarkTriangleIcon />}
                     size="small"
-                    variant="warning"
+                    variant="outline"
                     style={{ alignSelf: 'start' }}
                 >
                     Opplysninger om aktivitet som er ulik Arena: {forskjeller.join(', ')}

@@ -19,8 +19,8 @@ const TotrinnskontrollUnderkjent: React.FC<{
     totrinnskontroll: TotrinnskontrollUnderkjentResponse;
 }> = ({ totrinnskontroll }) => {
     return (
-        <VStack gap="4">
-            <VStack gap="2">
+        <VStack gap="space-16">
+            <VStack gap="space-8">
                 <Heading size={'small'} level={'3'}>
                     Totrinnskontroll
                 </Heading>
@@ -37,7 +37,7 @@ const TotrinnskontrollUnderkjent: React.FC<{
                     <Label>Årsak til underkjennelse</Label>
                     <Detail>Manglende eller feil opplysninger om:</Detail>
                     {totrinnskontroll.årsakerUnderkjent.map((årsakUnderkjent) => (
-                        <HStack key={årsakUnderkjent} gap="2" wrap={false} align="center">
+                        <HStack key={årsakUnderkjent} gap="space-8" wrap={false} align="center">
                             <CheckmarkIcon />
                             <BodyShort size="small">
                                 {årsakUnderkjentTilTekst[årsakUnderkjent]}

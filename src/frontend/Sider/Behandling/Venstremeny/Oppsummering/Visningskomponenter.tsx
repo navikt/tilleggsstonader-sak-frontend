@@ -8,8 +8,8 @@ export const InfoSeksjon: React.FC<{
     children?: React.ReactNode;
 }> = ({ label, ikon, children }) => {
     return (
-        <VStack gap="2">
-            <HStack gap="2" align="center" wrap={false}>
+        <VStack gap="space-8">
+            <HStack gap="space-8" align="center" wrap={false}>
                 <div style={{ height: '18px' }}>{ikon}</div>
                 <Heading level={'4'} size={'xsmall'}>
                     {label}

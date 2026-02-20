@@ -16,7 +16,7 @@ export const BeregningFaneDagligReise: FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();
 
     return (
-        <VStack gap="6">
+        <VStack gap="space-24">
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => <Beregning vedtak={vedtak} />}
             </DataViewer>

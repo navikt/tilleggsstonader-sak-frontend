@@ -75,7 +75,7 @@ const Behandlinger: React.FC<Props> = ({
                 );
 
                 return (
-                    <VStack gap="4">
+                    <VStack gap="space-16">
                         <Table zebraStripes={true}>
                             <Table.Header>
                                 <Table.Row>

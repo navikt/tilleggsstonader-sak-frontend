@@ -13,7 +13,7 @@ import { ReadMoreTidligsteEndring } from '../../Felles/TidligsteEndringReadmore'
 export const Beregningsresultat: FC<{ beregningsresultat: BeregningsresultatLæremidler }> = ({
     beregningsresultat,
 }) => (
-    <VStack gap="4">
+    <VStack gap="space-16">
         <Label size="small">Beregningsresultat</Label>
         <BeregningsresultatContainer>
             <div className={styles.grid}>

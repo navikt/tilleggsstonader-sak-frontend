@@ -19,9 +19,9 @@ const TilordnetSaksbehandlerHamburgermeny: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <VStack gap={'2'}>
+            <VStack gap={'space-8'}>
                 {skalViseAnsvarligSaksbehandler && <TilordnetSaksbehandler />}
-                <HGrid gap={'6'} columns={2}>
+                <HGrid gap={'space-24'} columns={2}>
                     <VStack>
                         <BodyShort textColor={'subtle'} size={'small'}>
                             Behandlingsstatus

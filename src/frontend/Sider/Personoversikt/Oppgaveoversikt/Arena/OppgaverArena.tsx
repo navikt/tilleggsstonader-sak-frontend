@@ -27,7 +27,7 @@ const OppgaverArena: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId })
     }, [fagsakPersonId, request]);
 
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Heading size={'xsmall'}>Arena</Heading>
             <DataViewer type={'oppgaver'} response={{ oppgaveResponse }}>
                 {({ oppgaveResponse }) => (

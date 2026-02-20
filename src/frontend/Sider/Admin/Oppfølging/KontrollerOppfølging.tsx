@@ -65,7 +65,7 @@ export const KontrollerOppfølging = ({
     };
 
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             <RadioGroup legend="Ufall" size={'small'} onChange={settUtfall} value={utfall || ''}>
                 {Object.keys(OppfølgingUtfall).map((utfall) => (
                     <Radio key={utfall} value={utfall}>
@@ -81,7 +81,7 @@ export const KontrollerOppfølging = ({
                 onChange={(e) => settKommentar(e.target.value)}
             />
             <Feilmelding feil={feilmelding} />
-            <HStack gap={'4'}>
+            <HStack gap={'space-16'}>
                 <Button variant="tertiary" onClick={avbryt} loading={lagrer} size="small">
                     Avbryt
                 </Button>

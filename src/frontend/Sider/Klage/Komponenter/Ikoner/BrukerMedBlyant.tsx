@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { BgDefault, BgMetaPurpleStrong } from '@navikt/ds-tokens/darkside-js';
+import { BgDefault, BgMetaPurpleStrong } from '@navikt/ds-tokens/js';
 
 interface IBrukerMedBlyant {
     className?: string;

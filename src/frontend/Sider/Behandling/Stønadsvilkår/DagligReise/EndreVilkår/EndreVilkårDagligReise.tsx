@@ -145,7 +145,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
     return (
         <form onSubmit={validerOgLagre}>
             <ResultatOgStatusKort periode={vilkår} redigeres>
-                <HStack gap="4" align="start">
+                <HStack gap="space-16" align="start">
                     <FeilmeldingMaksBredde $maxWidth={152}>
                         <DateInputMedLeservisning
                             label={'Fra'}
@@ -207,7 +207,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                 {gjeldendeFaktaType && <Skillelinje />}
 
                 <HStack justify="space-between">
-                    <HStack gap="4">
+                    <HStack gap="space-16">
                         <SmallButton
                             disabled={
                                 !kanBehandlePrivatBil &&

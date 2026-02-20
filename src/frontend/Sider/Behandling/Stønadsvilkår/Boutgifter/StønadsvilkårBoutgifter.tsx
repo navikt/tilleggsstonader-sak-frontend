@@ -12,7 +12,7 @@ interface StønadsvilkårBoutgifterProps {
 }
 
 const StønadsvilkårBoutgifter = ({ regler }: StønadsvilkårBoutgifterProps) => (
-    <VStack gap="6">
+    <VStack gap="space-24">
         <UtgifterOvernatting vilkårsregler={regler.vilkårsregler.UTGIFTER_OVERNATTING.regler} />
         <LøpendeUtgifterEnBolig
             vilkårsregler={regler.vilkårsregler.LØPENDE_UTGIFTER_EN_BOLIG.regler}

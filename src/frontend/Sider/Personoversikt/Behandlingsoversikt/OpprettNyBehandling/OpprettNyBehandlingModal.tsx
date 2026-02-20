@@ -50,7 +50,7 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
                 tittel={'Opprett ny behandling'}
                 umamiId={'opprett-ny-behandling'}
             >
-                <VStack gap="4" className={styles.modalBody}>
+                <VStack gap="space-16" className={styles.modalBody}>
                     <Select
                         value={opprettNyBehandlingType}
                         label="Behandlingstype"

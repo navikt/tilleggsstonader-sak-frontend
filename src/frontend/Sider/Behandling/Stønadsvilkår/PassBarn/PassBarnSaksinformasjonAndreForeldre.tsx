@@ -20,7 +20,7 @@ export const PassBarnSaksinformasjonAndreForeldre = ({
     }
     const { hentetTidspunkt, harBehandlingUnderArbeid } = saksinformasjonAndreForeldre;
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             {harBehandlingUnderArbeid && (
                 <Alert className={styles.maxWidth} variant={'warning'} size={'small'}>
                     Annen forelder har behandling under arbeid

@@ -13,7 +13,7 @@ export const AktivitetDelvilkårDagligReiseTsr: React.FC<{
     if (aktivitetForm.type === '') return null;
 
     return (
-        <VStack gap={'2'}>
+        <VStack gap={'space-8'}>
             <HarBrukerUtgifterTilDagligReise
                 svarHarUtgifter={aktivitetForm.svarHarUtgifter}
                 oppdaterSvar={oppdaterHarUtgifter}
