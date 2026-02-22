@@ -20,12 +20,12 @@ export const Vedtaksdetaljer: React.FC<Props> = ({ beregningsresultat }) => {
         <Table size="small">
             <Table.Header>
                 <Table.Row>
-                    <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
-                    <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                    <TableHeaderCellSmall>Fom</TableHeaderCellSmall>
+                    <TableHeaderCellSmall>Tom</TableHeaderCellSmall>
                     <TableHeaderCellSmall>Reisedager</TableHeaderCellSmall>
-                    <TableHeaderCellSmall>30-dagersb.</TableHeaderCellSmall>
-                    <TableHeaderCellSmall>7-dagersb.</TableHeaderCellSmall>
-                    <TableHeaderCellSmall>Enkeltb.</TableHeaderCellSmall>
+                    <TableHeaderCellSmall>30-dagers.</TableHeaderCellSmall>
+                    <TableHeaderCellSmall>7-dagers.</TableHeaderCellSmall>
+                    <TableHeaderCellSmall>Enkeltbill.</TableHeaderCellSmall>
                     <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
                 </Table.Row>
             </Table.Header>
