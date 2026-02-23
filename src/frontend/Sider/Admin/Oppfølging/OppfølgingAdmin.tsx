@@ -65,7 +65,12 @@ export const OppølgingAdmin = () => {
             </HStack>
 
             <DataViewer type={'oppfølginger'} response={{ oppfølginger }}>
-                {({ oppfølginger }) => <OppfølgingTabell oppfølgingerInit={oppfølginger} />}
+                {({ oppfølginger }) => (
+                    <OppfølgingTabell
+                        key={oppfølginger[0]?.opprettetTidspunkt ?? 'empty'}
+                        oppfølgingerInit={oppfølginger}
+                    />
+                )}
             </DataViewer>
         </VStack>
     );
