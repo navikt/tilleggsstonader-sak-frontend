@@ -14,6 +14,7 @@ export interface DateInputProps {
     readOnly?: boolean;
     fromDate?: Date;
     toDate?: Date;
+    defaultMonth?: Date;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -26,12 +27,14 @@ const DateInput: React.FC<DateInputProps> = ({
     readOnly = false,
     fromDate,
     toDate,
+    defaultMonth,
 }) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(value),
         onDateChange: (val) => onChange(val ? tilLocaleDateString(val) : val),
         fromDate: fromDate,
         toDate: toDate,
+        defaultMonth: defaultMonth,
     });
 
     return (

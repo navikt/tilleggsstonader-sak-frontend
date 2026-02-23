@@ -5,14 +5,14 @@ import { useHentTypeAktivitetValg } from '../../../../../hooks/useHentTypeAktivi
 import DataViewer from '../../../../../komponenter/DataViewer';
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { kodeverkTilOptions } from '../../../../../typer/kodeverk';
+import { Kodeverk, kodeverkTilOptions, optionTilKodeverk } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
 interface Props {
     vedtaksperiode: Vedtaksperiode;
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Vedtaksperiode> | undefined;
-    oppdaterPeriode: (property: 'typeAktivitet', value: string | undefined) => void;
+    oppdaterPeriode: (property: 'typeAktivitet', value: Kodeverk | undefined) => void;
 }
 
 export const VelgTiltaksvariant: React.FC<Props> = ({
@@ -31,11 +31,20 @@ export const VelgTiltaksvariant: React.FC<Props> = ({
                         label={'Tiltaksvariant'}
                         hideLabel
                         erLesevisning={erLesevisning}
-                        value={vedtaksperiode.typeAktivitet}
-                        onChange={(e) => oppdaterPeriode('typeAktivitet', e.target.value)}
+                        value={
+                            erLesevisning
+                                ? vedtaksperiode?.typeAktivitet?.beskrivelse
+                                : vedtaksperiode?.typeAktivitet?.kode
+                        }
+                        onChange={(e) =>
+                            oppdaterPeriode(
+                                'typeAktivitet',
+                                optionTilKodeverk(typeAktivitetValg, e.target.value)
+                            )
+                        }
                         valg={kodeverkTilOptions(typeAktivitetValg)}
                         size={'small'}
-                        error={vedtaksperiodeFeil?.typeAktivitet}
+                        error={vedtaksperiodeFeil?.typeAktivitet?.beskrivelse}
                     />
                 </FeilmeldingMaksBredde>
             )}

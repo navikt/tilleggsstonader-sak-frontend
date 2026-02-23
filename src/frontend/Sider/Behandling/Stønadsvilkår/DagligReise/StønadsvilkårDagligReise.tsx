@@ -56,6 +56,9 @@ const StønadsvilkårInnhold = () => {
     const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
         VilkårDagligReise | undefined
     >(undefined);
+    const [originalTomForKopiering, settOriginalTomForKopiering] = React.useState<
+        string | undefined
+    >(undefined);
     const [redigererVilkårId, settRedigererVilkårId] = React.useState<string | 'nytt' | undefined>(
         undefined
     );
@@ -85,6 +88,7 @@ const StønadsvilkårInnhold = () => {
 
     const startKopiering = (vilkår: VilkårDagligReise, kopidato: string) => {
         if (startRedigering(`kopi-${vilkår.id}`)) {
+            settOriginalTomForKopiering(vilkår.tom);
             settVilkårSomKopieres({
                 ...vilkår,
                 fom: kopidato,
@@ -95,6 +99,7 @@ const StønadsvilkårInnhold = () => {
 
     const avsluttKopiering = () => {
         settVilkårSomKopieres(undefined);
+        settOriginalTomForKopiering(undefined);
         avsluttRedigering();
     };
 
@@ -116,6 +121,7 @@ const StønadsvilkårInnhold = () => {
                         <KopierVilkårDagligReise
                             kopierFra={vilkårSomKopieres}
                             avsluttKopiering={avsluttKopiering}
+                            tomFraVilkårSomKopieres={originalTomForKopiering}
                         />
                     )}
                 </React.Fragment>

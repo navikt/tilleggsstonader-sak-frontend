@@ -41,9 +41,15 @@ interface Props {
         fakta: FaktaDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
     avsluttRedigering: () => void;
+    tomFraVilkårSomKopieres?: string;
 }
 
-export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avsluttRedigering }) => {
+export const EndreVilkårDagligReise: React.FC<Props> = ({
+    vilkår,
+    lagre,
+    avsluttRedigering,
+    tomFraVilkårSomKopieres,
+}) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { regelstruktur } = useVilkårDagligReise();
     const komponentId = useId();
@@ -168,6 +174,11 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({ vilkår, lagre, avslu
                             }}
                             size="small"
                             feil={feilmeldinger.tom}
+                            defaultMonth={
+                                tomFraVilkårSomKopieres
+                                    ? new Date(tomFraVilkårSomKopieres)
+                                    : undefined
+                            }
                         />
                     </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={380}>
