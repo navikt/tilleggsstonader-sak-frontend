@@ -175,7 +175,7 @@ export const EndreAktivitetLæremidler: React.FC<{
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
@@ -231,7 +231,7 @@ export const EndreAktivitetLæremidler: React.FC<{
                 begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
@@ -245,7 +245,6 @@ export const EndreAktivitetLæremidler: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

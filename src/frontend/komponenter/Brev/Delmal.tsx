@@ -62,7 +62,7 @@ export const Delmal: React.FC<Props> = ({
                 defaultOpen={delmal.visningsdetaljer.skalAlltidMed}
             >
                 <ExpansionCard.Header>
-                    <HStack wrap={false} align={'center'} gap={'2'}>
+                    <HStack wrap={false} align={'center'} gap={'space-8'}>
                         {delmalInneholderMangler(delmal._id) && (
                             <ExclamationmarkTriangleIcon color={'red'} fontSize={'2rem'} />
                         )}

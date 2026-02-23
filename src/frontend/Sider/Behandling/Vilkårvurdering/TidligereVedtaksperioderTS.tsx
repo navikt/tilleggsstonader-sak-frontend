@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ExpansionCard, Heading } from '@navikt/ds-react';
-import { MetaLime100 } from '@navikt/ds-tokens/darkside-js';
+import { MetaLime100 } from '@navikt/ds-tokens/js';
 
 import { DetaljerteVedtaksperioder } from '../../../hooks/useHentFullstendigVedtaksOversikt';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';

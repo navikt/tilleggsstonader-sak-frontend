@@ -101,7 +101,7 @@ export const EndreVurderinger: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             {aktiveVurderinger.get(RegelIdDagligReise.AVSTAND_OVER_SEKS_KM) && (
                 <EndreDelvilkår
                     label="Er reiseavstanden 6 km eller mer?"

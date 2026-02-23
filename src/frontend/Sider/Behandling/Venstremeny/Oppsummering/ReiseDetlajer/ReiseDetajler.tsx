@@ -17,9 +17,9 @@ export const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
     return (
         <div>
             <InfoSeksjon label={'Reiser'} ikon={<EarthIcon />}>
-                <VStack gap={'4'}>
+                <VStack gap={'space-16'}>
                     {reiser.map((reise, index) => (
-                        <VStack key={index} gap={'2'}>
+                        <VStack key={index} gap={'space-8'}>
                             <Heading level={'4'} size={'xsmall'}>
                                 {`Reise ${index + 1}`}
                             </Heading>

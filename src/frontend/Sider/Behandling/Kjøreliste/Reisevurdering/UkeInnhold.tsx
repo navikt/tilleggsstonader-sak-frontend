@@ -8,7 +8,7 @@ import { UkeVurdering } from '../../../../typer/kjøreliste';
 
 export const UkeInnhold: FC<{ uke: UkeVurdering }> = ({ uke }) => {
     return (
-        <VStack gap="4" align="start">
+        <VStack gap="space-16" align="start">
             {uke.avvik && (
                 <InlineMessage size="small" status="warning">
                     {uke.avvik.typeAvvik}

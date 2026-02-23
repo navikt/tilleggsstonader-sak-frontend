@@ -19,14 +19,14 @@ export const PanelHeader: React.FC<Props> = ({ navn, personIdent, type }) => {
     const tittel = `${navn} - ${personIdent}`;
 
     return (
-        <HStack gap="4">
+        <HStack gap="space-16">
             <div className={styles.ikonContainer}>
                 {type == PanelHeaderType.Bruker && <PersonCircleIcon fontSize={'3.5rem'} />}
                 {type == PanelHeaderType.Avsender && <EnvelopeClosedIcon fontSize={'3.5rem'} />}
             </div>
             <HStack align="center">
                 <Label as={'p'}>{tittel}</Label>
-                <CopyButton copyText={personIdent} variant="action" />
+                <CopyButton copyText={personIdent} data-color={'accent'} />
             </HStack>
         </HStack>
     );

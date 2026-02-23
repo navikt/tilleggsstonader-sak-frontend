@@ -58,7 +58,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                             </Table.DataCell>
                             <Table.DataCell>{formaterEnumVerdi(behandling.type)}</Table.DataCell>
                             <Table.DataCell>
-                                <HStack gap={'2'}>
+                                <HStack gap={'space-8'}>
                                     <Link
                                         to={{
                                             pathname: `${utledUrl(behandling.type)}/${behandling.id}`,

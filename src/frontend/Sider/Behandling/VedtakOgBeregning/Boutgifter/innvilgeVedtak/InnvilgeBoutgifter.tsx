@@ -111,7 +111,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
     return (
         <>
             <Panel tittel="Beregning og vedtaksperiode">
-                <VStack gap={'8'}>
+                <VStack gap={'space-32'}>
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}
@@ -148,7 +148,6 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
-
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}

@@ -20,7 +20,7 @@ const EndreUtgift: React.FC<{
         <FeilmeldingMaksBredde $maxWidth={180}>
             <TextField
                 label={
-                    <HStack gap="2" align="center">
+                    <HStack gap="space-8" align="center">
                         <span>
                             {vilkårTypeTilUtgiftTekst[vilkårtype]}
                             {erFremtidigUtgift ? ' (valgfri)' : ''}

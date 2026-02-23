@@ -45,7 +45,7 @@ export const AvslåVedtak: React.FC<{
     };
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <CheckboxGroup
                 legend="Årsak til avslag"
                 value={årsaker}
@@ -74,7 +74,6 @@ export const AvslåVedtak: React.FC<{
                 readOnly={!erStegRedigerbart}
                 size="small"
             />
-
             <StegKnapp
                 steg={steg}
                 nesteFane={nesteFane}

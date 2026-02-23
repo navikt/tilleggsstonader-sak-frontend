@@ -17,7 +17,7 @@ export const OppsummeringVilkår: React.FC<{
 
     if (!vilkår.length && stønadstype !== Stønadstype.LÆREMIDLER) {
         return (
-            <VStack gap="2">
+            <VStack gap="space-8">
                 <Label size="small">{faneNavnStønadsvilkår[stønadstype]}</Label>
                 <BodyShort size={'small'}>Ingen vilkår registrert</BodyShort>
             </VStack>
@@ -25,7 +25,7 @@ export const OppsummeringVilkår: React.FC<{
     }
 
     return vilkår.map((etVilkår, indeks) => (
-        <VStack gap="2" key={indeks}>
+        <VStack gap="space-8" key={indeks}>
             <Label size="small">{finnTittelForStønadsvilkår(etVilkår, behandlingFakta)}</Label>
             {etVilkår.vilkår.map((vilkår) => (
                 <VilkårOppsummeringRad

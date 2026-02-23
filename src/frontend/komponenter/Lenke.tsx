@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link, LinkProps } from '@navikt/ds-react';
-import { BgMetaPurpleStrong } from '@navikt/ds-tokens/darkside-js';
+import { BgMetaPurpleStrong } from '@navikt/ds-tokens/js';
 
 import styles from './Lenke.module.css';
 

@@ -32,7 +32,7 @@ export const BehandlingOppsummering = () => {
                 >
                     <ExpansionCard.Header>Oppsummering av vurderinger</ExpansionCard.Header>
                     <ExpansionCard.Content>
-                        <VStack gap="6">
+                        <VStack gap="space-24">
                             <OppsummeringAktiviteter
                                 aktiviteter={behandlingOppsummering.aktiviteter}
                             />

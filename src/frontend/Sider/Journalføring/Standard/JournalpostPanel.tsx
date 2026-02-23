@@ -59,7 +59,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
             onToggle={() => settErPanelEkspandert((prevState) => !prevState)}
         >
             <ExpansionCard.Header className={styles.expansionCardHeader}>
-                <HStack gap="4">
+                <HStack gap="space-16">
                     <div className={styles.ikonContainer}>
                         {erPanelEkspandert ? (
                             <FolderFileFillIcon fontSize={'3.5rem'} />
@@ -90,7 +90,7 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
                 </HStack>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
-                <VStack className={styles.expansionCardContent} gap="4">
+                <VStack className={styles.expansionCardContent} gap="space-16">
                     <Select
                         className={styles.maxWidth}
                         label="Stønadstype"

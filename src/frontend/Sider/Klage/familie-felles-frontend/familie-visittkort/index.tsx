@@ -31,10 +31,10 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
         <HStack
             align="center"
             justify="start"
-            gap="4"
+            gap="space-16"
             className={`visittkort ${styles.container} ${borderClass}`}
         >
-            <HStack align="center" gap="4">
+            <HStack align="center" gap="space-16">
                 {typeof navn === 'string' ? (
                     <Label size={'small'}>
                         {navn} ({alder} år)
@@ -43,12 +43,12 @@ export const Visittkort: React.FunctionComponent<IProps> = ({
                     navn
                 )}
                 <div>|</div>
-                <HStack align="center" gap="1">
+                <HStack align="center" gap="space-4">
                     {ident}
                     <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
                 </HStack>
             </HStack>
-            <HStack align="center" gap="4">
+            <HStack align="center" gap="space-16">
                 {children}
             </HStack>
         </HStack>

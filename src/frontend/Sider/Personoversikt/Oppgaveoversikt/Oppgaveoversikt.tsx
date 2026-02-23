@@ -7,7 +7,7 @@ import Oppgaver from './Oppgaver';
 
 const Oppgaveoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
     return (
-        <VStack gap={'8'}>
+        <VStack gap={'space-32'}>
             <Oppgaver fagsakPersonId={fagsakPersonId} />
             <OppgaverArena fagsakPersonId={fagsakPersonId} />
         </VStack>

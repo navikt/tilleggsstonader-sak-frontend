@@ -30,7 +30,7 @@ const EndrePeriodeForVilkår: React.FC<{
     const { fom, tom } = periodeForVilkår;
 
     return (
-        <HStack gap="4" align="start">
+        <HStack gap="space-16" align="start">
             <FeilmeldingMaksBredde $maxWidth={152}>
                 {typePeriodeVelger == TypePeriodeVelger.DATO ? (
                     <DateInputMedLeservisning

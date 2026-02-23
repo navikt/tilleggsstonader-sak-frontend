@@ -77,8 +77,8 @@ const HenleggModal: React.FC = () => {
                 lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
             }}
         >
-            <Box paddingInline="2">
-                <VStack gap={'4'}>
+            <Box paddingInline="space-8">
+                <VStack gap={'space-16'}>
                     <RadioGroup
                         legend={''}
                         onChange={(årsak: HenlagtÅrsak) => settHenlagtårsak(årsak)}

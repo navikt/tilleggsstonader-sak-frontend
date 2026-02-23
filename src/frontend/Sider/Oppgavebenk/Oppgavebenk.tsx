@@ -28,7 +28,7 @@ const OppgavebenkContainer = () => {
     }
 
     return (
-        <VStack gap={'8'} className={styles.container}>
+        <VStack gap={'space-32'} className={styles.container}>
             <Oppgavefiltrering />
             <DataViewer type={'oppgaver'} response={{ oppgaver: oppgaveRessurs }}>
                 {({ oppgaver }) => <Oppgavetabell oppgaverResponse={oppgaver} />}

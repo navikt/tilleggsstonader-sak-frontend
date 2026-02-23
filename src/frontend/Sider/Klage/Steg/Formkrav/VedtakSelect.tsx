@@ -51,7 +51,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
 
     return (
-        <VStack gap={'4'} className={styles.selectWrapper}>
+        <VStack gap={'space-16'} className={styles.selectWrapper}>
             <Select
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {

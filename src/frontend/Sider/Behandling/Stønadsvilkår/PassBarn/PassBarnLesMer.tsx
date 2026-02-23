@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { BodyLong, ReadMore, List } from '@navikt/ds-react';
+import { BodyLong, ReadMore, List, Box } from '@navikt/ds-react';
 
 export const PassBarnLesMer = () => {
     return (
         <ReadMore header={'Slik legger du inn utgifter'} size={'small'}>
             <BodyLong size="small">Perioden for utgiften skal settes til:</BodyLong>
-            <List size="small">
-                <List.Item>
-                    fra og med første mulig dato i dette skoleåret hvor bruker har rettighet.
-                </List.Item>
-                <List.Item>
-                    til og med så lenge søker har rett på tilleggsstønad, men maks ut juni i
-                    gjeldende skoleår
-                </List.Item>
-            </List>
+            <Box marginBlock="space-12" asChild>
+                <List size="small">
+                    <List.Item>
+                        fra og med første mulig dato i dette skoleåret hvor bruker har rettighet.
+                    </List.Item>
+                    <List.Item>
+                        til og med så lenge søker har rett på tilleggsstønad, men maks ut juni i
+                        gjeldende skoleår
+                    </List.Item>
+                </List>
+            </Box>
             <BodyLong size={'small'} spacing>
                 Hvis et barn har har ulike utgifter fra en måned til en annen, kan du legge til
                 flere perioder med utgift.

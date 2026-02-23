@@ -118,7 +118,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                     <RegelverkKontekstmeny forskriftlenker={lenkerForskriftBeregningTilsynBarn} />
                 }
             >
-                <VStack gap={'8'}>
+                <VStack gap={'space-32'}>
                     <Vedtaksperioder
                         vedtaksperioder={vedtaksperioder}
                         lagredeVedtaksperioder={lagredeVedtaksperioder}
@@ -151,7 +151,6 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
-
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}

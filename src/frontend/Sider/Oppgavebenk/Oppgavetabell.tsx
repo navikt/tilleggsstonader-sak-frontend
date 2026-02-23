@@ -111,7 +111,7 @@ const Oppgavetabell: React.FC<Props> = ({ oppgaverResponse }) => {
                     ))}
                 </Table.Body>
             </Table>
-            <HStack align="center" gap="14">
+            <HStack align="center" gap="space-56">
                 {antallSider > 1 && (
                     <Pagination
                         page={side}

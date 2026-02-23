@@ -15,7 +15,7 @@ export const OppsummeringAktiviteter: React.FC<{
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
 }> = ({ aktiviteter }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Label size="small">Aktiviteter</Label>
             {aktiviteter.length > 0 ? (
                 aktiviteter.map((aktivitet) => (
@@ -40,7 +40,7 @@ export const OppsummeringMålgrupper: React.FC<{
     målgrupper: OppsummertVilkårperiode<MålgruppeType>[];
 }> = ({ målgrupper }) => {
     return (
-        <VStack gap="2">
+        <VStack gap="space-8">
             <Label size="small">Målgrupper</Label>
             {målgrupper.length > 0 ? (
                 målgrupper.map((målgruppe) => (

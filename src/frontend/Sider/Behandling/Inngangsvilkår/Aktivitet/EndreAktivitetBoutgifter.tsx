@@ -141,7 +141,7 @@ export const EndreAktivitetBoutgfiter: React.FC<{
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
                         form={form}
@@ -154,21 +154,19 @@ export const EndreAktivitetBoutgfiter: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-
             <AktivitetDelvilkårBoutgfiter
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
                 }
             />
-
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
                 begrunnelseGrunner={delvilkårSomKreverBegrunnelse}
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
@@ -182,7 +180,6 @@ export const EndreAktivitetBoutgfiter: React.FC<{
                     />
                 )}
             </HStack>
-
             <Feilmelding feil={feilmelding} />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

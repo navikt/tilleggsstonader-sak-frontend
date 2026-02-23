@@ -12,7 +12,7 @@ import {
     BgNeutralStrongPressed,
     BgSuccessStrong,
     BgWarningModeratePressed,
-} from '@navikt/ds-tokens/darkside-js';
+} from '@navikt/ds-tokens/js';
 
 import { VilkårPeriodeResultat } from '../../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { Vilkårsresultat } from '../../../Sider/Behandling/vilkår';

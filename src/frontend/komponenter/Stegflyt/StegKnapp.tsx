@@ -107,7 +107,7 @@ export const StegKnapp: FC<{
     }
 
     return (
-        <VStack align="start" gap="4">
+        <VStack align="start" gap="space-16">
             <Feilmelding feil={feilmelding} />
             {behandling.steg === steg && erStegRedigerbart && (
                 <>

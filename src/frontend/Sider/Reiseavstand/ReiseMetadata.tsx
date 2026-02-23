@@ -9,12 +9,12 @@ export const ReiseMetadata: React.FC<{
     kjøreavstandResponse: Reisedata;
 }> = ({ kjøreavstandResponse }) => {
     return (
-        <VStack gap="4" className={styles.kort}>
-            <VStack gap={'1'}>
+        <VStack gap="space-16" className={styles.kort}>
+            <VStack gap={'space-4'}>
                 <Label>Startadresse:</Label>
                 <BodyShort>{kjøreavstandResponse.reiserute?.startAdresse}</BodyShort>
             </VStack>
-            <VStack gap={'1'}>
+            <VStack gap={'space-4'}>
                 <Label>Tiltaksadresse:</Label>
                 <BodyShort>{kjøreavstandResponse.reiserute?.sluttAdresse}</BodyShort>
             </VStack>

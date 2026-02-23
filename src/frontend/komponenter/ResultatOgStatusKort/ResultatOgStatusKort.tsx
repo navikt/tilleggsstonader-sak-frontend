@@ -48,7 +48,7 @@ export const ResultatOgStatusKort: React.FC<{
                 {children}
                 {footer}
             </div>
-            <HStack gap="4" className={styles.redigeringsknappContainer}>
+            <HStack gap="space-16" className={styles.redigeringsknappContainer}>
                 {kildeId && <Detail>ID: {kildeId}</Detail>}
                 {redigeringKnapp}
             </HStack>

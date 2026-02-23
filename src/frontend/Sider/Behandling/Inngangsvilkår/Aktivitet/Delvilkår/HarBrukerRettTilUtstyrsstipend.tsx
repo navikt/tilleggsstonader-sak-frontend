@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, List } from '@navikt/ds-react';
+import { BodyShort, Box, List } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
@@ -16,16 +16,18 @@ const hjelpetekstUtstyrsstipend = (
         <BodyShort size={'small'} spacing>
             Disse har ikke rett til utstyrsstipend:
         </BodyShort>
-        <List size="small">
-            <List.Item>
-                lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på
-                jobb
-            </List.Item>
-            <List.Item>
-                de som har studiekompetanse, men går på vgs for å forbedre karakterer eller
-                liknende.
-            </List.Item>
-        </List>
+        <Box marginBlock="space-12" asChild>
+            <List size="small">
+                <List.Item>
+                    lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på
+                    jobb
+                </List.Item>
+                <List.Item>
+                    de som har studiekompetanse, men går på vgs for å forbedre karakterer eller
+                    liknende.
+                </List.Item>
+            </List>
+        </Box>
         <BodyShort size={'small'} spacing>
             Hvis søker har rett til utstyrsstipend, så har de ikke rett på tilleggsstønad.
         </BodyShort>
