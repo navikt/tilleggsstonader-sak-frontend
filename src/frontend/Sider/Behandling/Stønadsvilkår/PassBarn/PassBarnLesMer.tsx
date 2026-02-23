@@ -7,7 +7,7 @@ export const PassBarnLesMer = () => {
         <ReadMore header={'Slik legger du inn utgifter'} size={'small'}>
             <BodyLong size="small">Perioden for utgiften skal settes til:</BodyLong>
             <Box marginBlock="space-12" asChild>
-                <List data-aksel-migrated-v8 size="small">
+                <List size="small">
                     <List.Item>
                         fra og med første mulig dato i dette skoleåret hvor bruker har rettighet.
                     </List.Item>

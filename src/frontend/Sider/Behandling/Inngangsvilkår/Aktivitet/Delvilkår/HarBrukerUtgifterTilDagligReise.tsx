@@ -30,7 +30,7 @@ const hjelpetekst = (
             for presiseringer):
         </BodyShort>
         <Box marginBlock="space-16" asChild>
-            <List data-aksel-migrated-v8 as="ul" size={'small'}>
+            <List as="ul" size={'small'}>
                 <List.Item>
                     Opplæringstiltak eller godkjent utdanning på grunnskolenivå (forberedende
                     opplæring for voksne).

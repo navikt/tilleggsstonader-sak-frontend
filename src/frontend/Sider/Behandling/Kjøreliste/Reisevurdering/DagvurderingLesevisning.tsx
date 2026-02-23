@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 
 import { ExclamationmarkTriangleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
-import { BgWarningStrong } from '@navikt/ds-tokens/darkside-js';
+import { BgWarningStrong } from '@navikt/ds-tokens/js';
 
 import { Dag } from '../../../../typer/kjøreliste';
-import { ukedagTilKortNorsk, formaterIsoDato } from '../../../../utils/dato';
+import { formaterIsoDato, ukedagTilKortNorsk } from '../../../../utils/dato';
 import { formatBoolean } from '../../../../utils/tekstformatering';
 import { harAvvikPåParkeringsutgift } from '../utils';
 

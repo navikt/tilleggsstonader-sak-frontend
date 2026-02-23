@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, List, Box } from '@navikt/ds-react';
+import { BodyShort, Box, List } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { Studienivå } from '../../typer/vilkårperiode/aktivitetLæremidler';
@@ -17,7 +17,7 @@ const hjelpetekstUtstyrsstipend = (
             Disse har ikke rett til utstyrsstipend:
         </BodyShort>
         <Box marginBlock="space-12" asChild>
-            <List data-aksel-migrated-v8 size="small">
+            <List size="small">
                 <List.Item>
                     lærlinger, lærekandidater, praksisbrevkandidater eller kandidater for fagbrev på
                     jobb

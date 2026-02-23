@@ -57,7 +57,7 @@ const BarnTilRevurdering: React.FC<{
                                     {'Barn det er søkt om tilleggsstønad for tilsyn barn fra før'}
                                 </Heading>
                                 <Box marginBlock="space-16" asChild>
-                                    <List data-aksel-migrated-v8 size={'small'}>
+                                    <List size={'small'}>
                                         {eksisterendeBarn.map(({ ident, navn }) => (
                                             <List.Item key={ident}>
                                                 {ident} - {navn}

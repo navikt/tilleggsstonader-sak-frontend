@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import {
     Alert,
     BodyShort,
+    Box,
     Button,
     HStack,
     List,
     Loader,
     Textarea,
     VStack,
-    Box,
 } from '@navikt/ds-react';
 
 import styles from './Brevknapp.module.css';
@@ -121,7 +121,7 @@ const ListeMedMangler = ({
     return (
         alleMangler.length > 0 && (
             <Box marginBlock="space-16" asChild>
-                <List data-aksel-migrated-v8 size={'small'}>
+                <List size={'small'}>
                     <BodyShort size={'small'}>{tittel}</BodyShort>
                     {alleMangler.map((mangel, index) => (
                         <List.Item key={`${mangel._id}-${index}`}>{mangel.visningsnavn}</List.Item>

@@ -13,7 +13,7 @@ export const InformasjonOppfølging = () => (
             </BodyShort>
             <div className={styles.liteUtenMargins}>
                 <Box marginBlock="space-16" asChild>
-                    <List data-aksel-migrated-v8 size={'small'}>
+                    <List size={'small'}>
                         <List.Item>Ingen treff mot registeret</List.Item>
                         <List.Item>Fom. starter senere</List.Item>
                         <List.Item>Tom. slutter tidligere</List.Item>

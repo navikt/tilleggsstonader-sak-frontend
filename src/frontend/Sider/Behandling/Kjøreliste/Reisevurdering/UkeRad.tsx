@@ -19,7 +19,7 @@ export const UkeRad: FC<{ uke: UkeVurdering }> = ({ uke }) => {
             <TableHeaderCellSmall>
                 <HStack justify="space-between" align="center">
                     <Heading size="small">{`Uke ${uke.ukenummer}`}</Heading>
-                    <HStack gap="4" align="center">
+                    <HStack gap="space-16" align="center">
                         {ukeTagInfo && (
                             <Tag size="small" variant={ukeTagInfo.variant}>
                                 {ukeTagInfo.label}

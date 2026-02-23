@@ -82,7 +82,7 @@ function OpprettFørstegangsbehandlingAdmin() {
                         journalførte søknader.
                     </BodyShort>
                     <Box marginBlock="space-16" asChild>
-                        <List data-aksel-migrated-v8 size={'small'}>
+                        <List size={'small'}>
                             <List.Item>Papirsøknad</List.Item>
                             <List.Item>Søknad om barnetilsyn fra enslig forsørger</List.Item>
                             <List.Item>Søknad som blitt sendt inn til Arena</List.Item>

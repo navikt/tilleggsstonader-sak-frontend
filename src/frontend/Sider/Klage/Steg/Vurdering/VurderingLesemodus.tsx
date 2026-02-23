@@ -58,7 +58,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: OpprettholdelseDto }> = ({ vurder
                     Hjemler
                 </Heading>
                 <Box marginBlock="space-16" asChild>
-                    <List data-aksel-migrated-v8>
+                    <List>
                         {hjemler.map((hjemmel) => (
                             <List.Item key={hjemmel.hjemmel}>{hjemmel.visningstekst}</List.Item>
                         ))}
