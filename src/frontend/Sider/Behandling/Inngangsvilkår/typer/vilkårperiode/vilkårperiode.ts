@@ -39,6 +39,7 @@ export interface YtelseGrunnlagPeriode {
     tom?: string;
     subtype?: SubtypeYtelseGrunnlag;
     kanYtelseBrukesIBehandling: boolean;
+    gjennståendeDagerFraTelleverk?: number;
 }
 
 export enum SubtypeYtelseGrunnlag {
