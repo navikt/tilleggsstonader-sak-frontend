@@ -16,7 +16,6 @@ import DataViewer from '../../komponenter/DataViewer';
 import { Toggle } from '../../utils/toggles';
 
 export const ReiseavstandSide: React.FC = () => {
-    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     const brukDynamiskKart = useFlag(Toggle.BRUK_DYNAMISK_KART);
     const {
         kjøreavstandResponse,
@@ -28,10 +27,6 @@ export const ReiseavstandSide: React.FC = () => {
         hentAdresseForslag,
         statiskKart,
     } = useHentGoogleMapsData();
-
-    if (!visKartside) {
-        return <p>Denne siden er under arbeid</p>;
-    }
 
     return (
         <VStack gap={'space-32'} padding={'space-32'} className={styles.marginBottom}>

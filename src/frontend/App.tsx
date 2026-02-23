@@ -113,21 +113,18 @@ const AppInnhold = () => {
     const { saksbehandler } = useApp();
     const adminKanOppretteBehandling = useFlag(Toggle.ADMIN_KAN_OPPRETTE_BEHANDLING);
     const adminKanHenteOppfølging = useFlag(Toggle.ADMIN_OPPFØLGING);
-    const visKartside = useFlag(Toggle.VIS_KARTSIDE);
     return (
         <>
             <Sticky zIndex={100}>
                 <InternalHeader>
                     <InternalHeader.Title href="/">Tilleggsstønader</InternalHeader.Title>
                     <Spacer />
-                    {visKartside && (
-                        <InternalHeader.Title as="a" href="/kjoreavstand">
-                            <HStack gap="space-4" align="center">
-                                <LocationPinIcon />
-                                <BodyShort size="small">Beregn reiseavstand</BodyShort>
-                            </HStack>
-                        </InternalHeader.Title>
-                    )}
+                    <InternalHeader.Title as="a" href="/kjoreavstand">
+                        <HStack gap="space-4" align="center">
+                            <LocationPinIcon />
+                            <BodyShort size="small">Beregn reiseavstand</BodyShort>
+                        </HStack>
+                    </InternalHeader.Title>
                     <InternalHeader.Title
                         as="a"
                         href="https://navno.sharepoint.com/sites/TS-sak-Samhandlingmellomsaksbehandlereogutviklingsteam/SitePages/ITHelpdeskHome.aspx"
