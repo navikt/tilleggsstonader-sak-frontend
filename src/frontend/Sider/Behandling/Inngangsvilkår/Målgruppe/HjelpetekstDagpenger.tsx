@@ -2,8 +2,11 @@ import React from 'react';
 
 import { BodyShort, HelpText, VStack } from '@navikt/ds-react';
 
+import { formaterNullableIsoDato } from '../../../../utils/dato';
+import { GjennståndeFagerFraTelleverk } from '../typer/vilkårperiode/vilkårperiode';
+
 export const HjelpetekstDagpenger: React.FC<{
-    gjennståendeDagerFraTelleverk?: number;
+    gjennståendeDagerFraTelleverk?: GjennståndeFagerFraTelleverk;
 }> = ({ gjennståendeDagerFraTelleverk }) => (
     <HelpText>
         <VStack>
@@ -11,7 +14,7 @@ export const HjelpetekstDagpenger: React.FC<{
                 Det er ikke registrert noen tom-dato for dagpengevedtaket.
             </BodyShort>
             <BodyShort size={'small'}>
-                {`Antall gjenstående dager i telleverket: ${gjennståendeDagerFraTelleverk ?? 'ukjent'}`}
+                {`Den ${formaterNullableIsoDato(gjennståendeDagerFraTelleverk?.dato)} var gjenstående dager i telleverket: ${gjennståendeDagerFraTelleverk?.antallDager ?? 'ukjent'} dager`}
             </BodyShort>
         </VStack>
     </HelpText>
