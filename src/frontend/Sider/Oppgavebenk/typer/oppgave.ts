@@ -99,7 +99,7 @@ export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
     ab0292: 'Læremidler',
     ab0286: 'Bolig/overnatting',
-    ab0287: 'Daglige reiser - Tilltaksenheten',
+    ab0287: 'Daglige reiser - Tiltaksenheten',
     ab0288: 'Daglige reiser - Nay',
 };
 
