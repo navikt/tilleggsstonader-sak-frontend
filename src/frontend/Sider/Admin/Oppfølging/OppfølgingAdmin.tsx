@@ -59,13 +59,18 @@ export const OppølgingAdmin = () => {
                 </Select>
                 {!erProd() && (
                     <SmallButton onClick={hentBehandlingerForOppfølging}>
-                        {'Hent behandlinger for oppfølging'}
+                        {'(TEST) Hent behandlinger for oppfølging'}
                     </SmallButton>
                 )}
             </HStack>
 
             <DataViewer type={'oppfølginger'} response={{ oppfølginger }}>
-                {({ oppfølginger }) => <OppfølgingTabell oppfølgingerInit={oppfølginger} />}
+                {({ oppfølginger }) => (
+                    <OppfølgingTabell
+                        key={oppfølginger[0]?.opprettetTidspunkt ?? 'empty'}
+                        oppfølgingerInit={oppfølginger}
+                    />
+                )}
             </DataViewer>
         </VStack>
     );
