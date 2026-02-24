@@ -44,14 +44,14 @@ const LesevisningFaktaOffentligTransport: FC<{
                     : '-'}
             </BodyShort>
 
-            <BodyShort size="small">{'Pris 7 dagers billett'}</BodyShort>
+            <BodyShort size="small">{'Pris 7-dagersbillett'}</BodyShort>
             <BodyShort size="small">
                 {fakta?.prisSyvdagersbillett
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.prisSyvdagersbillett)} kr`
                     : '-'}
             </BodyShort>
 
-            <BodyShort size="small">{'Pris 30 dagers billett'}</BodyShort>
+            <BodyShort size="small">{'Pris 30-dagersbillett'}</BodyShort>
             <BodyShort size="small">
                 {fakta?.prisTrettidagersbillett
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.prisTrettidagersbillett)} kr`
