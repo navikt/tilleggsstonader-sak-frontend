@@ -59,7 +59,7 @@ export const OppølgingAdmin = () => {
                 </Select>
                 {!erProd() && (
                     <SmallButton onClick={hentBehandlingerForOppfølging}>
-                        {'Hent behandlinger for oppfølging'}
+                        {'(TEST) Hent behandlinger for oppfølging'}
                     </SmallButton>
                 )}
             </HStack>
