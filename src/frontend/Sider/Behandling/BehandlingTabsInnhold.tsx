@@ -8,7 +8,6 @@ import { Alert, Button, Tabs } from '@navikt/ds-react';
 import styles from './BehandlingTabsInnhold.module.css';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
 import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
-import { GammelVarselVedtakIArena } from './Felles/GammelVarselVedtakIArena';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -34,7 +33,6 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
-    const visVedtaksperioderPåBehandling = useFlag(Toggle.VIS_VEDTAKSPERIODER_PAA_BEHANDLING);
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {
@@ -104,16 +102,12 @@ const BehandlingTabsInnhold = () => {
                         statusPåVentRedigering={statusPåVentRedigering}
                         settStatusPåVentRedigering={settStatusPåVentRedigering}
                     />
-                    {visVedtaksperioderPåBehandling ? (
-                        <TidligereVedtaksperioder
-                            behandlingFakta={behandlingFakta}
-                            behandlingId={behandling.id}
-                            stønadstype={behandling.stønadstype}
-                            sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
-                        />
-                    ) : (
-                        <GammelVarselVedtakIArena />
-                    )}
+                    <TidligereVedtaksperioder
+                        behandlingFakta={behandlingFakta}
+                        behandlingId={behandling.id}
+                        stønadstype={behandling.stønadstype}
+                        sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
+                    />
                     {behandlingFaner
                         .filter((fane) => !fane.erLåst)
                         .map((tab) => (

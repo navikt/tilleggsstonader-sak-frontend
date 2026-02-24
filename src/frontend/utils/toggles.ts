@@ -27,7 +27,6 @@ export enum Toggle {
      * features-under-utvikling
      */
     KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-pa-samme-fagsak',
-    VIS_VEDTAKSPERIODER_PAA_BEHANDLING = 'sak.frontend.skal-vise-vedtaksperioder-paa-behandling',
     VIS_KARTSIDE = 'sak.vis-kartside',
     TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE = 'sak.tilgangsstyring-tildelt-oppgave',
     BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
