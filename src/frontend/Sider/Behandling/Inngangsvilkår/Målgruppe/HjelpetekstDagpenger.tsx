@@ -14,7 +14,7 @@ export const HjelpetekstDagpenger: React.FC<{
                 Det er ikke registrert noen tom-dato for dagpengevedtaket.
             </BodyShort>
             <BodyShort size={'small'}>
-                {`Den ${formaterNullableIsoDato(gjennståendeDagerFraTelleverk?.dato)} var gjenstående dager i telleverket: ${gjennståendeDagerFraTelleverk?.antallDager ?? 'ukjent'} dager`}
+                {`Den ${formaterNullableIsoDato(gjennståendeDagerFraTelleverk?.dato)} hadde bruker ${gjennståendeDagerFraTelleverk?.antallDager ?? 'ukjent'} dager igjen med dagpenger.`}
             </BodyShort>
         </VStack>
     </HelpText>
