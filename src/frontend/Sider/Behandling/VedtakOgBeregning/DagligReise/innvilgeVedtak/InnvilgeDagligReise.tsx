@@ -159,8 +159,11 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
             <StegKnappInnvilgelseMedVarselOmVedtakIArena
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
-                //TODO legg til når vi begynner med revurdering for daglig resise
-                tidligsteEndring={undefined}
+                tidligsteEndring={
+                    beregningsresultat.status === RessursStatus.SUKSESS
+                        ? beregningsresultat.data.tidligsteEndring
+                        : undefined
+                }
             />
         </>
     );
