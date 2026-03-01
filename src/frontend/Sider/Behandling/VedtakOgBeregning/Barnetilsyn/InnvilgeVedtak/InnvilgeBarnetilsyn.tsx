@@ -23,7 +23,7 @@ import {
 } from '../../../../../typer/vedtak/vedtakTilsynBarn';
 import { lenkerForskriftBeregningTilsynBarn } from '../../../lenker';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
-import { StegKnappInnvilgelseMedVarselOmVedtakIArena } from '../../Felles/StegKnappInnvilgelseMedVarselOmVedtakIArena';
+import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { tilVedtaksperioderTso as tilVedtaksperioderTso } from '../../Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
@@ -151,9 +151,11 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
-            <StegKnappInnvilgelseMedVarselOmVedtakIArena
+            <StegKnappInnvilgelseMedVarsel
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
+                lagredeVedtaksperioder={lagredeVedtaksperioder}
+                vedtakErLagret={lagretVedtak !== undefined}
                 tidligsteEndring={
                     beregningsresultat.status === RessursStatus.SUKSESS
                         ? beregningsresultat.data.tidligsteEndring
