@@ -1,8 +1,10 @@
 import { Ukedag } from '../utils/dato';
+import { RammeForReiseMedPrivatBil } from './vedtak/vedtakDagligReise';
 
 export interface ReisevurderingPrivatBil {
     reiseId: string;
     uker: UkeVurdering[];
+    rammevedtak: RammeForReiseMedPrivatBil;
 }
 
 export interface UkeVurdering {
@@ -14,10 +16,11 @@ export interface UkeVurdering {
     behandletDato?: string;
     kjørelisteInnsendtDato?: string; // null hvis kjøreliste ikke er mottatt
     kjørelisteId?: string; // null hvis kjøreliste ikke er mottatt
+    avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
 }
 
-interface AvvikUke {
+export interface AvvikUke {
     typeAvvik: TypeAvvikUke;
     avviksMelding: string;
 }
@@ -34,12 +37,18 @@ interface KjørelisteDag {
     parkeringsutgift?: number;
 }
 
-interface AvklartDag {
-    godkjentGjennomførtKjøring: boolean;
-    automatiskVurdering: UtfyltDagAutomatiskVurdering;
-    avvik: TypeAvvikDag[];
+export interface AvklartDag {
+    automatiskVurdering?: UtfyltDagAutomatiskVurdering; // denne må kunne være undefined
+    avvik?: TypeAvvikDag[];
+    godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring;
     begrunnelse?: string; // må fylles ut om avvik?
     parkeringsutgift?: number;
+}
+
+export enum GodkjentGjennomførtKjøring {
+    JA = 'JA',
+    NEI = 'NEI',
+    IKKE_VURDERT = 'IKKE_VURDERT',
 }
 
 export enum UkeStatus {
@@ -66,4 +75,11 @@ export enum TypeAvvikDag {
 
 export enum TypeAvvikUke {
     FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK = 'FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK',
+}
+
+export interface RedigerbarAvklartDag {
+    dato: string;
+    godkjentGjennomførtKjøring: boolean;
+    parkeringsutgift?: number;
+    begrunnelse?: string;
 }

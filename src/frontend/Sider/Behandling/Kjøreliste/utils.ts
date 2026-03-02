@@ -1,4 +1,12 @@
-import { Dag, TypeAvvikDag, UkeStatus, UkeVurdering } from '../../../typer/kjøreliste';
+import {
+    RedigerbarAvklartDag,
+    Dag,
+    GodkjentGjennomførtKjøring,
+    TypeAvvikDag,
+    UkeStatus,
+    UkeVurdering,
+    TypeAvvikUke,
+} from '../../../typer/kjøreliste';
 
 interface TagInfo {
     variant: 'success' | 'error' | 'warning' | 'neutral';
@@ -20,7 +28,28 @@ export function utledUkeTag(uke: UkeVurdering): TagInfo | undefined {
 
 export function harAvvikPåParkeringsutgift(dag: Dag): boolean {
     return (
-        dag.avklartDag?.avvik.find((avvik) => avvik === TypeAvvikDag.FOR_HØY_PARKERINGSUTGIFT) !==
+        dag.avklartDag?.avvik?.find((avvik) => avvik === TypeAvvikDag.FOR_HØY_PARKERINGSUTGIFT) !==
         undefined
     );
 }
+
+export const tomRedigerbarAvklartDag = (dato: string): RedigerbarAvklartDag => ({
+    dato: dato,
+    godkjentGjennomførtKjøring: false,
+});
+
+export const mapTilRedigerbareAvklarteDager = (dager: Dag[]): RedigerbarAvklartDag[] =>
+    dager.map((dag) => ({
+        dato: dag.dato,
+        godkjentGjennomførtKjøring:
+            dag.avklartDag?.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
+                ? true
+                : false,
+        parkeringsutgift: dag.avklartDag?.parkeringsutgift,
+        begrunnelse: dag.avklartDag?.begrunnelse,
+    }));
+
+export const typeAvvikTilTekst: Record<TypeAvvikUke, string> = {
+    [TypeAvvikUke.FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK]:
+        'Flere innsendte reisedager enn i rammevedtak',
+};

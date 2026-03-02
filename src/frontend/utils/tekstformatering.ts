@@ -38,3 +38,6 @@ export const tekstEllerKode = <T extends string>(
     mapping: Record<T, string>,
     kode?: T
 ): string | undefined => (kode && mapping[kode]) || kode;
+
+export const kronerEllerStrek = (tall: number | undefined): string =>
+    harTallverdi(tall) ? `${tall} kr` : '-';

@@ -7,7 +7,7 @@ import { Toggle } from './toggles';
  * [Toggle.KAN_OPPRETTE_REVURDERING]: false,
  */
 const featureFlags: Partial<Record<Toggle, boolean>> = {
-    [Toggle.KAN_BEHANDLE_PRIVAT_BIL]: false,
+    [Toggle.KAN_BEHANDLE_PRIVAT_BIL]: true,
 };
 
 export const mockFlags: IToggle[] = Object.values(Toggle).map((toggle) => {
