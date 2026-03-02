@@ -7,7 +7,7 @@ import { Alert, Button, Tabs } from '@navikt/ds-react';
 
 import styles from './BehandlingTabsInnhold.module.css';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
-import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath } from './faner';
+import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath, stegTilFane } from './faner';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -32,7 +32,7 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : FanePath.INNGANGSVILKÅR;
+    const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg);
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {

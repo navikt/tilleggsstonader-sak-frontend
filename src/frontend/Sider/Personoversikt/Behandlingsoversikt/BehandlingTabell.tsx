@@ -61,7 +61,7 @@ const BehandlingTabell: React.FC<Props> = ({ tabellbehandlinger }) => {
                                 <HStack gap={'space-8'}>
                                     <Link
                                         to={{
-                                            pathname: `${utledUrl(behandling.type)}/${behandling.id}`,
+                                            pathname: `${utledUrl(behandling.type)}/${behandling.id}/`,
                                         }}
                                     >
                                         {utledBehandlingResultatTilTekst(behandling)}

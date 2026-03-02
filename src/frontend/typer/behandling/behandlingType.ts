@@ -3,6 +3,7 @@ export enum BehandlingType {
     REVURDERING = 'REVURDERING',
     TILBAKEKREVING = 'TILBAKEKREVING',
     KLAGE = 'KLAGE',
+    KJØRELISTE = 'KJØRELISTE',
 }
 
 export const behandlingTypeTilTekst: Record<BehandlingType, string> = {
@@ -10,4 +11,5 @@ export const behandlingTypeTilTekst: Record<BehandlingType, string> = {
     REVURDERING: 'Revurdering',
     TILBAKEKREVING: 'Tilbakekreving',
     KLAGE: 'Klage',
+    KJØRELISTE: 'Kjøreliste',
 };
