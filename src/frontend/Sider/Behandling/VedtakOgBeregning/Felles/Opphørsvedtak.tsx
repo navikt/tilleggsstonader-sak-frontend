@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingVedtak, valider } from './validering';
+import { FeilmeldingVedtak, validerOpphør } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -32,7 +32,7 @@ export const OpphørVedtak: React.FC<{
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const validerOgLagreVedtak = () => {
-        const feil = valider(årsaker, begrunnelse, opphørsdato, true);
+        const feil = validerOpphør(årsaker, begrunnelse, opphørsdato);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
