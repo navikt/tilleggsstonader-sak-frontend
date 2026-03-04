@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import { useReisevurderingPrivatBil } from '../../../hooks/useKjøreliste';
+import { useReisevurderingPrivatBil } from '../../../hooks/useReisevurderingPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
