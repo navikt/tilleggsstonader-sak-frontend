@@ -93,7 +93,6 @@ export interface RammeForReiseMedPrivatBil {
     fergekostnadEnVei?: number;
     kilometersats: number;
     dagsatsUtenParkering: number;
-    uker: RammeForUke[];
 }
 
 export interface RammeForUke {

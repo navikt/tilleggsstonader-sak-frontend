@@ -8,13 +8,16 @@ import { UkeVurdering } from '../../../../typer/kjøreliste';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { utledUkeTag } from '../utils';
 
-export const UkeRad: FC<{ uke: UkeVurdering }> = ({ uke }) => {
+export const UkeRad: FC<{ uke: UkeVurdering; oppdaterUke: (uke: UkeVurdering) => void }> = ({
+    uke,
+    oppdaterUke,
+}) => {
     const ukeTagInfo = utledUkeTag(uke);
 
     return (
         <Table.ExpandableRow
-            content={<UkeInnhold uke={uke} />}
-            defaultOpen={uke.status !== 'OK_AUTOMATISK'}
+            content={<UkeInnhold uke={uke} oppdaterUke={oppdaterUke} />}
+            defaultOpen={uke.status === 'AVVIK'}
         >
             <TableHeaderCellSmall>
                 <HStack justify="space-between" align="center">
@@ -26,7 +29,9 @@ export const UkeRad: FC<{ uke: UkeVurdering }> = ({ uke }) => {
                             </Tag>
                         )}
                         <BodyShort size="small">
-                            Levert {formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
+                            {uke.kjørelisteInnsendtDato
+                                ? `Levert ${formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}`
+                                : 'Ikke innsendt'}
                         </BodyShort>
                     </HStack>
                 </HStack>

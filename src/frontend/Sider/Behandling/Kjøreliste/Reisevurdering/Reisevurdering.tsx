@@ -3,16 +3,17 @@ import React, { FC } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { UkeRad } from './UkeRad';
-import { ReisevurderingPrivatBil } from '../../../../typer/kjøreliste';
+import { ReisevurderingPrivatBil, UkeVurdering } from '../../../../typer/kjøreliste';
 
-export const Reisevurdering: FC<{ kjøreliste: ReisevurderingPrivatBil | undefined }> = ({
-    kjøreliste,
-}) => {
+export const Reisevurdering: FC<{
+    reisevurdering: ReisevurderingPrivatBil;
+    oppdaterUke: (uke: UkeVurdering) => void;
+}> = ({ reisevurdering: kjøreliste, oppdaterUke }) => {
     return (
         <Table size="small">
             <Table.Body>
                 {kjøreliste?.uker.map((uke, index) => (
-                    <UkeRad uke={uke} key={index} />
+                    <UkeRad uke={uke} key={index} oppdaterUke={oppdaterUke} />
                 ))}
             </Table.Body>
         </Table>
