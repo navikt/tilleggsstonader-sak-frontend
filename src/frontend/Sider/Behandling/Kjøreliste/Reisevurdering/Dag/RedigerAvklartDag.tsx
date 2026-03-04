@@ -7,7 +7,7 @@ import { tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
 import styles from '../UkeInnhold.module.css';
 
-export const RedigerAvklartsDag: FC<{
+export const RedigerAvklartDag: FC<{
     dag: RedigerbarAvklartDag;
     oppdaterDag: (dag: RedigerbarAvklartDag) => void;
 }> = ({ dag, oppdaterDag }) => {

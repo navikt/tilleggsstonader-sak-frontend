@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
-import { RedigerAvklartsDag } from './Dag/DagvurderingLesevisning';
+import { RedigerAvklartDag } from './Dag/RedigerAvklartDag';
 import styles from './UkeInnhold.module.css';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -72,7 +72,7 @@ export const UkeInnhold: FC<{
                         <React.Fragment key={dagIndeks}>
                             <KjørelisteDagInfo dag={dag} />
                             {redigerer ? (
-                                <RedigerAvklartsDag
+                                <RedigerAvklartDag
                                     dag={
                                         redigerbareDager.find((dag2) => dag2.dato === dag.dato) ||
                                         tomRedigerbarAvklartDag(dag.dato)
