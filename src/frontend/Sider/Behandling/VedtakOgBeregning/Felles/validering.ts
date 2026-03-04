@@ -15,7 +15,7 @@ export const validerOpphør = (
     const feilmeldinger: FeilmeldingVedtak = {};
 
     if (årsaker.length === 0) {
-        feilmeldinger.årsaker = 'Minst en årsak må velges';
+        feilmeldinger.årsaker = 'Minst én årsak må velges';
     }
 
     if (harIkkeVerdi(begrunnelse)) {
@@ -35,7 +35,7 @@ export const validerAvslag = (
     const feilmeldinger: FeilmeldingVedtak = {};
 
     if (årsaker.length === 0) {
-        feilmeldinger.årsaker = 'Minst en årsak må velges';
+        feilmeldinger.årsaker = 'Minst én årsak må velges';
     }
 
     const årsakerSomKreverBegrunnelse = [ÅrsakAvslag.ANNET, ÅrsakAvslag.RETT_TIL_UTSTYRSSTIPEND];
