@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Checkbox, CheckboxGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { FeilmeldingVedtak, valider } from './validering';
+import { FeilmeldingVedtak, validerAvslag } from './validering';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -34,7 +34,7 @@ export const AvslåVedtak: React.FC<{
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingVedtak>({});
 
     const validerOgLagreVedtak = () => {
-        const feil = valider(årsaker, begrunnelse);
+        const feil = validerAvslag(årsaker, begrunnelse);
         settFeilmeldinger(feil);
 
         if (erTomtObjekt(feil)) {
@@ -64,7 +64,7 @@ export const AvslåVedtak: React.FC<{
                 ))}
             </CheckboxGroup>
             <Textarea
-                label="Begrunnelse for avslag (obligatorisk)"
+                label="Begrunnelse for avslag "
                 value={begrunnelse}
                 onChange={(e) => {
                     settBegrunnelse(e.target.value);
