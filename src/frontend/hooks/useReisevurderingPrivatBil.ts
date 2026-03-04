@@ -6,7 +6,7 @@ import { ReisevurderingPrivatBil } from '../typer/kjøreliste';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
-    hentKjørelister: () => void;
+    hentReisevurderinger: () => void;
     reisevurderingerResponse: Ressurs<ReisevurderingPrivatBil[]>;
 }
 
@@ -17,18 +17,18 @@ export const useReisevurderingPrivatBil = (): Response => {
     const [reisevurderingerResponse, settReisevurderingerResponse] =
         useState<Ressurs<ReisevurderingPrivatBil[]>>(byggTomRessurs());
 
-    const hentKjørelister = useCallback(() => {
+    const hentReisevurderinger = useCallback(() => {
         request<ReisevurderingPrivatBil[], null>(`/api/sak/kjoreliste/${behandling.id}`).then(
             settReisevurderingerResponse
         );
     }, [behandling, request]);
 
     useEffect(() => {
-        hentKjørelister();
-    }, [hentKjørelister]);
+        hentReisevurderinger();
+    }, [hentReisevurderinger]);
 
     return {
-        hentKjørelister,
+        hentReisevurderinger,
         reisevurderingerResponse,
     };
 };
