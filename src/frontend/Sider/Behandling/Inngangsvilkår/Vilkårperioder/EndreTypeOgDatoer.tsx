@@ -76,7 +76,7 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
             {typeAktivitetOptions && oppdaterTypeAktivitet && (
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
-                        className={styles.selectMaxBredde}
+                        className={styles.wideBoi}
                         label={'Variant'}
                         readOnly={!kanEndreTypeAktivitet}
                         value={form.typeAktivitet?.kode}

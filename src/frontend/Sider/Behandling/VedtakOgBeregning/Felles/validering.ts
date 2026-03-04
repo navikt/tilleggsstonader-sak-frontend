@@ -7,25 +7,42 @@ export interface FeilmeldingVedtak {
     opphørsdato?: string;
 }
 
-export const valider = (
-    årsaker: ÅrsakAvslag[] | ÅrsakOpphør[],
-    begrunnelse?: string,
-    opphørsdato?: string | undefined,
-    erOpphør: boolean = false
+export const validerOpphør = (
+    årsaker: ÅrsakOpphør[],
+    begrunnelse?: string | undefined,
+    opphørsdato?: string | undefined
 ): FeilmeldingVedtak => {
     const feilmeldinger: FeilmeldingVedtak = {};
 
     if (årsaker.length === 0) {
-        feilmeldinger.årsaker = 'Minst en årsak må velges';
+        feilmeldinger.årsaker = 'Minst én årsak må velges';
     }
 
     if (harIkkeVerdi(begrunnelse)) {
         feilmeldinger.begrunnelse = 'Begrunnelse må fylles ut';
     }
-
-    if (erOpphør && !opphørsdato) {
+    if (!opphørsdato) {
         feilmeldinger.opphørsdato = 'Opphørsdato må fylles ut';
     }
 
+    return feilmeldinger;
+};
+
+export const validerAvslag = (
+    årsaker: ÅrsakAvslag[],
+    begrunnelse?: string | undefined
+): FeilmeldingVedtak => {
+    const feilmeldinger: FeilmeldingVedtak = {};
+
+    if (årsaker.length === 0) {
+        feilmeldinger.årsaker = 'Minst én årsak må velges';
+    }
+
+    const årsakerSomKreverBegrunnelse = [ÅrsakAvslag.ANNET, ÅrsakAvslag.RETT_TIL_UTSTYRSSTIPEND];
+    const trengerBegrunnelse = årsaker.some((a) => årsakerSomKreverBegrunnelse.includes(a));
+
+    if (trengerBegrunnelse && harIkkeVerdi(begrunnelse)) {
+        feilmeldinger.begrunnelse = 'Begrunnelse må fylles ut';
+    }
     return feilmeldinger;
 };
