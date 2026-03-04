@@ -1,6 +1,53 @@
-.grid {
+:root {
+    --kolonne-1: 1.75rem;
+    --kolonne-2: 4.5rem;
+    --kolonne-3: 4rem;
+    --kolonne-4: 4.25rem;
+    --kolonne-5: 5.5rem;
+    --kolonne-6: 7.75rem;
+    --kolonne-7: 12rem;
+}
+
+.wrapper {
     display: grid;
-    grid-template-columns: repeat(6, auto);
-    gap: 1rem 1.5rem;
-    max-width: fit-content;
+    grid-template-columns: max-content auto;
+    column-gap: 1.5rem;
+}
+
+.border-topp-bunn {
+    border-top: 1px solid var(--ax-border-neutral);
+    border-bottom: 1px solid var(--ax-border-neutral);
+    padding: 0.5rem 0;
+}
+
+.grid-overskrifter,
+.venstre-grid,
+.høyre-grid {
+    display: grid;
+    column-gap: 1.5rem;
+}
+
+.venstre-grid,
+.høyre-grid {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.grid-overskrifter {
+    padding: 0 1rem;
+    grid-template-columns:
+        var(--kolonne-1) var(--kolonne-2) var(--kolonne-3) var(--kolonne-4)
+        var(--kolonne-5) var(--kolonne-6) var(--kolonne-7);
+}
+
+.venstre-grid {
+    padding-left: 1rem;
+    grid-template-columns: var(--kolonne-1) var(--kolonne-2) var(--kolonne-3) var(--kolonne-4);
+    background: var(--ax-bg-neutral-moderate);
+    border-right: 1px solid var(--ax-border-neutral);
+}
+
+.høyre-grid {
+    padding-right: 1rem;
+    grid-template-columns: var(--kolonne-5) var(--kolonne-6) var(--kolonne-7);
 }
