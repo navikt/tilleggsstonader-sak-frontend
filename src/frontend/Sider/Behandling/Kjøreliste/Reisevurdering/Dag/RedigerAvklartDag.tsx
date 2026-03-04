@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { Checkbox, TextField } from '@navikt/ds-react';
 
-import { RedigerbarAvklartDag } from '../../../../../typer/kjøreliste';
+import { GodkjentGjennomførtKjøring, RedigerbarAvklartDag } from '../../../../../typer/kjøreliste';
 import { tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
 import styles from '../UkeInnhold.module.css';
@@ -21,7 +21,9 @@ export const RedigerAvklartDag: FC<{
     const oppdaterGodkjentGjennomførtKjøring = (harKjørt: boolean) => {
         oppdaterDag({
             ...dag,
-            godkjentGjennomførtKjøring: harKjørt,
+            godkjentGjennomførtKjøring: harKjørt
+                ? GodkjentGjennomførtKjøring.JA
+                : GodkjentGjennomførtKjøring.NEI,
         });
     };
 
@@ -36,7 +38,10 @@ export const RedigerAvklartDag: FC<{
         <div className={styles.høyreGrid}>
             <Checkbox
                 size="small"
-                checked={dag.godkjentGjennomførtKjøring}
+                indeterminate={
+                    dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
+                }
+                checked={dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA}
                 onChange={(e) => oppdaterGodkjentGjennomførtKjøring(e.target.checked)}
             >
                 Dekkes

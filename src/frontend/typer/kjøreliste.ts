@@ -79,7 +79,7 @@ export enum TypeAvvikUke {
 
 export interface RedigerbarAvklartDag {
     dato: string;
-    godkjentGjennomførtKjøring: boolean;
+    godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring;
     parkeringsutgift?: number;
     begrunnelse?: string;
 }

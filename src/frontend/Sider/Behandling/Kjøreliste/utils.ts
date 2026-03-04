@@ -35,16 +35,14 @@ export function harAvvikPåParkeringsutgift(dag: Dag): boolean {
 
 export const tomRedigerbarAvklartDag = (dato: string): RedigerbarAvklartDag => ({
     dato: dato,
-    godkjentGjennomførtKjøring: false,
+    godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring.IKKE_VURDERT,
 });
 
 export const mapTilRedigerbareAvklarteDager = (dager: Dag[]): RedigerbarAvklartDag[] =>
     dager.map((dag) => ({
         dato: dag.dato,
         godkjentGjennomførtKjøring:
-            dag.avklartDag?.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
-                ? true
-                : false,
+            dag.avklartDag?.godkjentGjennomførtKjøring || GodkjentGjennomførtKjøring.IKKE_VURDERT,
         parkeringsutgift: dag.avklartDag?.parkeringsutgift,
         begrunnelse: dag.avklartDag?.begrunnelse,
     }));

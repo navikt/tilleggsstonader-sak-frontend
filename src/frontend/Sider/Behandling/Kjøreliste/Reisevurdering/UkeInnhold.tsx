@@ -16,6 +16,8 @@ import {
 } from '../utils';
 import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
 import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 
 export const UkeInnhold: FC<{
     uke: UkeVurdering;
@@ -25,9 +27,8 @@ export const UkeInnhold: FC<{
     const { behandling } = useBehandling();
 
     const [redigerer, settRedigerer] = React.useState(false);
-    const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>(
-        mapTilRedigerbareAvklarteDager(uke.dager)
-    );
+    const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
+    const [feil, settFeilmelding] = useState<Feil | undefined>(undefined);
 
     const oppdaterDag = (oppdatertDag: RedigerbarAvklartDag) => {
         settRedigerbareDager((prevState) =>
@@ -43,13 +44,21 @@ export const UkeInnhold: FC<{
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 oppdaterUke(res.data);
+                avbrytRedigering();
+            } else {
+                settFeilmelding(feiletRessursTilFeilmelding(res));
             }
-            settRedigerer(false);
         });
     };
 
-    const avbryt = () => {
+    const startRedigering = () => {
+        settRedigerer(true);
+        settRedigerbareDager(mapTilRedigerbareAvklarteDager(uke.dager));
+    };
+
+    const avbrytRedigering = () => {
         settRedigerbareDager([]);
+        settFeilmelding(undefined);
         settRedigerer(false);
     };
 
@@ -91,10 +100,11 @@ export const UkeInnhold: FC<{
                     {typeAvvikTilTekst[uke.avvik.typeAvvik]}
                 </InlineMessage>
             )}
+            <Feilmelding feil={feil} />
             <HStack gap="space-8" justify="end">
                 {redigerer ? (
                     <>
-                        <Button size="small" onClick={avbryt} variant="tertiary">
+                        <Button size="small" onClick={avbrytRedigering} variant="tertiary">
                             Avbryt
                         </Button>
                         <Button size="small" onClick={lagre}>
@@ -104,7 +114,7 @@ export const UkeInnhold: FC<{
                 ) : (
                     <Button
                         size="small"
-                        onClick={() => settRedigerer(!redigerer)}
+                        onClick={startRedigering}
                         variant="tertiary"
                         icon={<PencilIcon />}
                     >
