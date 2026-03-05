@@ -118,9 +118,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             : kanSaksbehandle;
 
         const tilordnetSaksbehandler = behandling.tilordnetSaksbehandler;
-        const saksbehandlerErTilordnetOppgave = useFlag(Toggle.TILGANGSSTYRE_PÅ_TILORDNET_OPPGAVE)
-            ? tilordnetSaksbehandler.navIdent === saksbehandler.navIdent
-            : true;
+        const saksbehandlerErTilordnetOppgave =
+            tilordnetSaksbehandler.navIdent === saksbehandler.navIdent;
 
         return {
             behandling,
