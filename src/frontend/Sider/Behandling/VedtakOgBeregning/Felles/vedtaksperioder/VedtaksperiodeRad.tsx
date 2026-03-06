@@ -3,6 +3,7 @@ import React from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { utledStatus } from './vedtaksperiodeUtils';
 import { VelgAktivitet } from './VelgAktivitet';
 import { VelgMålgruppe } from './VelgMålgruppe';
 import { VelgTiltaksvariant } from './VelgTiltaksvariant';
@@ -12,7 +13,6 @@ import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTa
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { PeriodeStatus } from '../../../../../typer/behandling/periodeStatus';
 import { Kodeverk } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
@@ -50,29 +50,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
         });
 
     const erRevurdering = behandling.type === BehandlingType.REVURDERING;
-
-    const utledStatus = (vedtaksperiode: Vedtaksperiode) => {
-        // Hvis vedtak ikke er lagret på behandling, hentes vedtaksperiode fra forrige behandling
-        // og vedtaksperiode.forrigeVedtaksperiode er forrige-forrige vedtaksperiode
-        const vedtaksperiodeFraForrigeVedtak = vedtakErLagret
-            ? vedtaksperiode.vedtaksperiodeFraForrigeVedtak
-            : lagretVedtaksperiode;
-
-        if (!vedtaksperiodeFraForrigeVedtak) {
-            return PeriodeStatus.NY;
-        }
-
-        if (
-            vedtaksperiode.fom === vedtaksperiodeFraForrigeVedtak.fom &&
-            vedtaksperiode.tom === vedtaksperiodeFraForrigeVedtak.tom &&
-            vedtaksperiode.aktivitetType === vedtaksperiodeFraForrigeVedtak.aktivitetType &&
-            vedtaksperiode.målgruppeType === vedtaksperiodeFraForrigeVedtak.målgruppeType
-        ) {
-            return PeriodeStatus.UENDRET;
-        }
-
-        return PeriodeStatus.ENDRET;
-    };
 
     const bekreftSlettVedtaksperiode = () => {
         if (burdeViseModal) {
@@ -143,7 +120,10 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
             </div>
             <div>
                 {erRevurdering && (
-                    <StatusTag status={utledStatus(vedtaksperiode)} lesevisning={erLesevisning} />
+                    <StatusTag
+                        status={utledStatus(vedtaksperiode, vedtakErLagret, lagretVedtaksperiode)}
+                        lesevisning={erLesevisning}
+                    />
                 )}
             </div>
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
