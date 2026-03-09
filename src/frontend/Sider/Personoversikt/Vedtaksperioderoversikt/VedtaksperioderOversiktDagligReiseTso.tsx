@@ -2,12 +2,10 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Vedtaksdetaljer } from './DagligReise/VedtaksDetaljer';
 import { BorderTable } from './VedtaksperioderBorderTable';
-import { stønadstypeTilEnhet } from '../../../typer/behandling/behandlingTema';
 import { DetaljertVedtaksperiodeDagligReiseTso } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
-import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
-import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivitet/utilsAktivitet';
 import { typeDagligReiseTilTekst } from '../../Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 
 interface Props {
@@ -22,33 +20,39 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
         <BorderTable size={'small'} $border={border}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Fra</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Til</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Aktivitet</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Perioder</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Type daglig reise</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Dager pr. uke</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
+
             <Table.Body>
                 {vedtaksperioder.map((periode) => {
+                    const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
+
+                    const fom = beregningsperioder[0]?.fom;
+                    const tom = beregningsperioder[beregningsperioder.length - 1]?.tom;
+
                     return (
-                        <Table.Row key={periode.fom}>
-                            <Table.DataCell>{formaterNullableIsoDato(periode.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterNullableIsoDato(periode.tom)}</Table.DataCell>
+                        <Table.ExpandableRow
+                            key={`${fom}-${periode.stønadstype}`}
+                            content={
+                                <Vedtaksdetaljer detaljertBeregningsperioder={beregningsperioder} />
+                            }
+                            togglePlacement="right"
+                        >
                             <Table.DataCell>
-                                {aktivitetTypeTilTekst(periode.aktivitet)}
+                                {formaterNullableIsoDato(fom)} - {formaterNullableIsoDato(tom)}
                             </Table.DataCell>
-                            <Table.DataCell>
-                                {faktiskMålgruppeTilTekst(periode.målgruppe)}
-                            </Table.DataCell>
+
                             <Table.DataCell>
                                 {typeDagligReiseTilTekst[periode.typeDagligReise]}
                             </Table.DataCell>
+
                             <Table.DataCell>
-                                {stønadstypeTilEnhet[periode.stønadstype]}
+                                {[periode.detaljertBeregningsperioder[0].antallReisedagerPerUke]}
                             </Table.DataCell>
-                        </Table.Row>
+                        </Table.ExpandableRow>
                     );
                 })}
             </Table.Body>

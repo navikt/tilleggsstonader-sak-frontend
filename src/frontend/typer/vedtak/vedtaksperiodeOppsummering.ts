@@ -45,21 +45,26 @@ export type DetaljertVedtaksperiodeBoutgifter = {
 };
 
 export type DetaljertVedtaksperiodeDagligReiseTso = {
-    fom: string;
-    tom: string;
-    aktivitet: AktivitetType;
-    målgruppe: FaktiskMålgruppe;
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
+    detaljertBeregningsperioder: DetaljertBeregningsperioder[];
 };
 
-export type DetaljertVedtaksperiodeDagligReiseTsr = {
+export type DetaljertBeregningsperioder = {
     fom: string;
     tom: string;
-    aktivitet: AktivitetType;
-    målgruppe: FaktiskMålgruppe;
+    prisEnkeltbillett: number | null;
+    prisSyvdagersbillett: number | null;
+    pris30dagersbillett: number | null;
+    beløp: number;
+    billettdetaljer: Record<string, number>;
+    antallReisedager: number;
+    antallReisedagerPerUke: number;
+};
+export type DetaljertVedtaksperiodeDagligReiseTsr = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
+    detaljertBeregningsperioder: DetaljertBeregningsperioder[];
 };
 
 export interface UtgiftBoutgift {
