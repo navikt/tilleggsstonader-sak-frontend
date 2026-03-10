@@ -5,7 +5,7 @@ import { Table } from '@navikt/ds-react';
 import { Vedtaksdetaljer } from './DagligReise/VedtaksDetaljer';
 import { BorderTable } from './VedtaksperioderBorderTable';
 import { DetaljertVedtaksperiodeDagligReiseTso } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
-import { formaterNullableIsoDato } from '../../../utils/dato';
+import { formaterNullablePeriode } from '../../../utils/dato';
 import { typeDagligReiseTilTekst } from '../../Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 
 interface Props {
@@ -41,9 +41,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                             }
                             togglePlacement="right"
                         >
-                            <Table.DataCell>
-                                {formaterNullableIsoDato(fom)} - {formaterNullableIsoDato(tom)}
-                            </Table.DataCell>
+                            <Table.DataCell>{formaterNullablePeriode(fom, tom)}</Table.DataCell>
 
                             <Table.DataCell>
                                 {typeDagligReiseTilTekst[periode.typeDagligReise]}
