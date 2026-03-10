@@ -32,7 +32,7 @@ const bekreftelseModalPropsArena = {
 const bekreftelseModalPropsPåvirkerTidligereVedtak = {
     tittel: 'Endring av periode som kanskje påvirker tidligere vedtak',
     umamiId: 'endring-paavirker-tidligere-vedtak',
-    tekst: 'Du gjør nå endring før sluttdato på forrige vedtak. Det kan påvirke beregningen og tidligere innvilget vedtak.',
+    tekst: 'Du gjør nå en endring før sluttdato på forrige vedtak. Det kan påvirke beregningen og tidligere innvilget vedtak.',
     hovedKnapp: {
         tekst: 'Angre og endre vedtaksperiode',
         skalTriggeGåTilNesteSteg: false,
