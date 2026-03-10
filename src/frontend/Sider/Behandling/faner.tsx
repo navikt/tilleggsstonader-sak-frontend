@@ -26,6 +26,7 @@ import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/Vedtak
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
 import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
 
@@ -89,6 +90,30 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     vedtak: Steg.VEDTAK,
     kjoreliste: Steg.KJØRELISTE,
     beregning: Steg.BEREGNING,
+};
+
+export const stegTilFane = (steg: Steg): FanePath => {
+    switch (steg) {
+        case Steg.INNGANGSVILKÅR:
+            return FanePath.INNGANGSVILKÅR;
+        case Steg.VILKÅR:
+            return FanePath.STØNADSVILKÅR;
+        case Steg.BEREGNE_YTELSE:
+            return FanePath.VEDTAK_OG_BEREGNING;
+        case Steg.SIMULERING:
+            return FanePath.SIMULERING;
+        case Steg.SEND_TIL_BESLUTTER:
+            return FanePath.BREV;
+        case Steg.VEDTAK:
+            return FanePath.VEDTAK;
+        case Steg.KJØRELISTE:
+            return FanePath.KJØRELISTE;
+        case Steg.BEREGNING:
+            return FanePath.BEREGNING;
+
+        default:
+            return FanePath.INNGANGSVILKÅR;
+    }
 };
 
 export const isFanePath = (path: string): path is FanePath => {
@@ -233,6 +258,10 @@ export const hentBehandlingfaner = (
     behandling: Behandling,
     kanBehandlePrivatBil: boolean
 ): FanerMedRouter[] => {
+    if (behandling.type === BehandlingType.KJØRELISTE) {
+        return kjørelistebehandlingFaner(behandling);
+    }
+
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,
@@ -289,6 +318,42 @@ const vedtakOgBeregningFanerDagligReise = (
             komponent: () => <BeregningFaneDagligReise />,
             ikon: <CalculatorIcon />,
             erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+        },
+    ];
+};
+
+const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] => {
+    return [
+        {
+            navn: FaneNavn.KJØRELISTE,
+            path: FanePath.KJØRELISTE,
+            komponent: () => <KjørelisteFane />,
+            ikon: <CarIcon />,
+        },
+        {
+            navn: FaneNavn.BEREGNING,
+            path: FanePath.BEREGNING,
+            komponent: () => <BeregningFaneDagligReise />,
+            ikon: <CalculatorIcon />,
+            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+        },
+        {
+            navn: FaneNavn.SIMULERING,
+            path: FanePath.SIMULERING,
+            komponent: () => <Simulering />,
+            erLåst: faneErLåst(behandling, FanePath.SIMULERING),
+        },
+        {
+            navn: FaneNavn.BREV,
+            path: FanePath.BREV,
+            komponent: () => (
+                <p>
+                    Skal vi ha noe mulighet for å legge til noe på varsling her? Kanskje en knapp
+                    for å ferdigstille behandling?
+                </p>
+            ),
+            ikon: <EnvelopeClosedIcon />,
+            erLåst: faneErLåst(behandling, FanePath.BREV),
         },
     ];
 };

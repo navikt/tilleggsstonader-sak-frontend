@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import BehandlingInnhold from './BehandlingInnhold';
+import { KjørelisteBehandlingInnhold } from './KjørelisteBehandlingInnhold';
 import { useApp } from '../../context/AppContext';
 import { useRerunnableEffect } from '../../hooks/useRerunnableEffect';
 import DataViewer from '../../komponenter/DataViewer';
@@ -75,15 +76,25 @@ const BehandlingContainer = () => {
             type={'behandlingsinformasjon'}
             response={{ behandling, personopplysninger, behandlingFakta, sluttDatoForrigeVedtak }}
         >
-            {({ behandling, personopplysninger, behandlingFakta, sluttDatoForrigeVedtak }) => (
-                <BehandlingInnhold
-                    behandling={behandling}
-                    hentBehandling={hentBehandling}
-                    personopplysninger={personopplysninger}
-                    behandlingFakta={behandlingFakta}
-                    sluttDatoForrigeVedtak={sluttDatoForrigeVedtak}
-                />
-            )}
+            {({ behandling, personopplysninger, behandlingFakta, sluttDatoForrigeVedtak }) =>
+                behandling.type === 'KJØRELISTE' ? (
+                    <KjørelisteBehandlingInnhold
+                        behandling={behandling}
+                        hentBehandling={hentBehandling}
+                        personopplysninger={personopplysninger}
+                        behandlingFakta={behandlingFakta}
+                        sluttDatoForrigeVedtak={sluttDatoForrigeVedtak}
+                    />
+                ) : (
+                    <BehandlingInnhold
+                        behandling={behandling}
+                        hentBehandling={hentBehandling}
+                        personopplysninger={personopplysninger}
+                        behandlingFakta={behandlingFakta}
+                        sluttDatoForrigeVedtak={sluttDatoForrigeVedtak}
+                    />
+                )
+            }
         </DataViewer>
     );
 };

@@ -7,3 +7,7 @@
     flex-grow: 1;
     max-width: calc(100% - 20rem);
 }
+
+.kjørelistebehandlingContainer {
+    background: var(--ax-bg-neutral-soft);
+}
