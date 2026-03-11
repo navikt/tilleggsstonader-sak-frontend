@@ -20,7 +20,6 @@ export enum Toggle {
     /**
      * features-under-utvikling
      */
-    KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK = 'sak.kan-ha-flere-behandlinger-pa-samme-fagsak',
     BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
     KAN_BEHANDLE_PRIVAT_BIL = 'sak.daglig-reise-privat-bil',
     KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',

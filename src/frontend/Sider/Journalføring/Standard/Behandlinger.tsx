@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Button, HStack, Table, VStack } from '@navikt/ds-react';
@@ -7,7 +7,6 @@ import styles from './Behandlinger.module.css';
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
 import DataViewer from '../../../komponenter/DataViewer';
 import { SøppelbøtteKnapp } from '../../../komponenter/Knapper/SøppelbøtteKnapp';
-import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import {
     BehandlingResultat,
     behandlingResultatTilTekst,
@@ -18,47 +17,24 @@ import {
 } from '../../../typer/behandling/behandlingStatus';
 import { behandlingTypeTilTekst } from '../../../typer/behandling/behandlingType';
 import { formaterIsoDatoTid } from '../../../utils/dato';
-import {
-    alleBehandlingerErFerdigstiltEllerSattPåVent,
-    journalføringsÅrsakErKlage,
-    utledBehandlingstype,
-} from '../Felles/utils';
+import { utledBehandlingstype } from '../Felles/utils';
 
 interface Props {
     journalpostState: JournalføringState;
-    kanHaFlereAktiveBehandlingerPerFagsak: boolean;
-    settFeilmelding: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const Behandlinger: React.FC<Props> = ({
-    journalpostState,
-    kanHaFlereAktiveBehandlingerPerFagsak,
-    settFeilmelding,
-}) => {
-    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon, journalføringsårsak } =
-        journalpostState;
+const Behandlinger: React.FC<Props> = ({ journalpostState }) => {
+    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalpostState;
 
-    const leggTilNyBehandlingForOpprettelse = (behandlinger: BehandlingForJournalføring[]) => {
-        settFeilmelding('');
-        const kanOppretteNyBehandling =
-            kanHaFlereAktiveBehandlingerPerFagsak ||
-            alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger) ||
-            journalføringsÅrsakErKlage(journalføringsårsak);
-
-        if (kanOppretteNyBehandling) {
-            settJournalføringsaksjon(Journalføringsaksjon.OPPRETT_BEHANDLING);
-        } else {
-            settFeilmelding(
-                'Kan ikke opprette ny behandling. Denne fagsaken har en behandling som ikke er ferdigstilt.'
-            );
-        }
+    const leggTilNyBehandlingForOpprettelse = () => {
+        settJournalføringsaksjon(Journalføringsaksjon.OPPRETT_BEHANDLING);
     };
 
     const skalOppretteNyBehandling =
         journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING;
 
     const opprettNyBehandlingAlertTekst = (finnesAktivBehandling: boolean) =>
-        kanHaFlereAktiveBehandlingerPerFagsak && finnesAktivBehandling
+        finnesAktivBehandling
             ? 'Ny behandling opprettes når journalføring er utført. Behandlingen settes på vent da det allerede finnes en aktiv behandling på denne fagsaken.'
             : 'Ny behandling opprettes når journalføring er utført.';
 
@@ -136,7 +112,7 @@ const Behandlinger: React.FC<Props> = ({
                         <Button
                             className={styles.leggTilKnapp}
                             type="button"
-                            onClick={() => leggTilNyBehandlingForOpprettelse(behandlinger)}
+                            onClick={leggTilNyBehandlingForOpprettelse}
                             size="small"
                             disabled={skalOppretteNyBehandling}
                             variant="secondary"

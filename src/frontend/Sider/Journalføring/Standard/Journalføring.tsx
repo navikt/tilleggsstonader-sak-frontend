@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { Button, Heading, HStack } from '@navikt/ds-react';
@@ -21,7 +20,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { erFeilressurs, RessursStatus } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
@@ -78,10 +76,6 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
         }
     }, [saksbehandler, journalResponse, journalpostState, navigate]);
 
-    const kanHaFlereAktiveBehandlingerPåSammeFagsak = useFlag(
-        Toggle.KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK
-    );
-
     const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
     const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
     const innsendingsfeil = erFeilressurs(journalpostState.innsending)
@@ -95,12 +89,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
             return;
         }
 
-        const valideringsfeil = validerJournalføring(
-            journalResponse,
-            journalpostState,
-            behandlinger.data,
-            kanHaFlereAktiveBehandlingerPåSammeFagsak
-        );
+        const valideringsfeil = validerJournalføring(journalResponse, journalpostState);
 
         if (valideringsfeil) {
             settFeilmelding(valideringsfeil);
@@ -156,13 +145,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                         <Heading spacing size={'small'} level={'2'}>
                             Behandling
                         </Heading>
-                        <Behandlinger
-                            journalpostState={journalpostState}
-                            kanHaFlereAktiveBehandlingerPerFagsak={
-                                kanHaFlereAktiveBehandlingerPåSammeFagsak
-                            }
-                            settFeilmelding={settFeilmelding}
-                        />
+                        <Behandlinger journalpostState={journalpostState} />
                     </section>
                     <Feilmelding feil={feilmelding} />
                     <Feilmelding feil={innsendingsfeil} />

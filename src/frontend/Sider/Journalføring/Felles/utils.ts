@@ -1,7 +1,6 @@
 import { Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
-import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
@@ -60,16 +59,6 @@ export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) =
         : Journalføringsårsak.KLAGE,
     Journalføringsårsak.PAPIRSØKNAD,
 ];
-
-export const alleBehandlingerErFerdigstiltEllerSattPåVent = (
-    behandlinger: BehandlingForJournalføring[]
-) =>
-    behandlinger.every(
-        (behandling) =>
-            behandling.status === BehandlingStatus.FERDIGSTILT ||
-            (behandling.status === BehandlingStatus.SATT_PÅ_VENT &&
-                behandling.type === BehandlingType.REVURDERING)
-    );
 
 export const utledBehandlingstype = (
     tidligereBehandlinger: BehandlingForJournalføring[],

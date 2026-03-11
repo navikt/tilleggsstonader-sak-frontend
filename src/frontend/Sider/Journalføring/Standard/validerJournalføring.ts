@@ -1,28 +1,17 @@
 import { Journalføringsaksjon, JournalføringState } from '../../../hooks/useJournalføringState';
-import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { DokumentTitler } from '../../../typer/dokument';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { harIkkeVerdi } from '../../../utils/utils';
-import {
-    alleBehandlingerErFerdigstiltEllerSattPåVent,
-    journalføringGjelderKlage,
-} from '../Felles/utils';
+import { journalføringGjelderKlage } from '../Felles/utils';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export const validerJournalføring = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[],
-    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
+    journalpostState: JournalføringState
 ): string | undefined => {
     if (journalføringGjelderKlage(journalpostState.journalføringsårsak))
         return validerKlageJournalføring(journalResponse, journalpostState);
-    return validerStandardJournalføring(
-        journalResponse,
-        journalpostState,
-        behandlinger,
-        kanHaFlereAktiveBehandlingerPåSammeFagsak
-    );
+    return validerStandardJournalføring(journalResponse, journalpostState);
 };
 
 const validerKlageJournalføring = (
@@ -44,21 +33,14 @@ const validerKlageJournalføring = (
 
 const validerStandardJournalføring = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[],
-    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
+    journalpostState: JournalføringState
 ): string | undefined => {
     const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
 
     if (valideringsfeil) return valideringsfeil;
 
     if (journalpostState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING) {
-        return validerJournalføringTilNyBehandling(
-            journalResponse,
-            journalpostState,
-            behandlinger,
-            kanHaFlereAktiveBehandlingerPåSammeFagsak
-        );
+        return validerJournalføringTilNyBehandling(journalResponse, journalpostState);
     }
 
     return undefined;
@@ -95,16 +77,8 @@ const validerFellesFelter = (
 
 const validerJournalføringTilNyBehandling = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState,
-    behandlinger: BehandlingForJournalføring[],
-    kanHaFlereAktiveBehandlingerPåSammeFagsak: boolean
+    journalpostState: JournalføringState
 ) => {
-    if (
-        !kanHaFlereAktiveBehandlingerPåSammeFagsak &&
-        !alleBehandlingerErFerdigstiltEllerSattPåVent(behandlinger)
-    )
-        return 'Kan ikke journalføre på ny behandling når det finnes en behandling som ikke er ferdigstilt';
-
     if (journalResponse.harStrukturertSøknad) {
         if (journalpostState.journalføringsårsak !== Journalføringsårsak.DIGITAL_SØKNAD)
             return 'Årsak til journalføring må være digital søknad siden det foreligger en digital søknad på journalposten';
