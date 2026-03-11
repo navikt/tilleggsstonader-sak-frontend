@@ -3,13 +3,14 @@ import React from 'react';
 import { Button, Table } from '@navikt/ds-react';
 
 import styles from './RegisterYtelserTabell.module.css';
+import { UkjentTom } from './UkjentTom';
 import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
-const RegisterYtelserTabell: React.FC<{
+export const RegisterYtelserTabell: React.FC<{
     perioderMedYtelse: YtelseGrunnlagPeriode[];
     lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
 }> = ({ perioderMedYtelse, lagRadForPeriode }) => {
@@ -32,7 +33,11 @@ const RegisterYtelserTabell: React.FC<{
                             <TableDataCellSmall>{utledYtelseTekst(ytelse)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(ytelse.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>
-                                {ytelse.tom ? formaterNullableIsoDato(ytelse.tom) : 'Ukjent'}
+                                {ytelse.tom ? (
+                                    formaterNullableIsoDato(ytelse.tom)
+                                ) : (
+                                    <UkjentTom ytelse={ytelse} />
+                                )}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
                                 {erStegRedigerbart && ytelse.kanYtelseBrukesIBehandling && (
@@ -48,5 +53,3 @@ const RegisterYtelserTabell: React.FC<{
         </Table>
     );
 };
-
-export default RegisterYtelserTabell;
