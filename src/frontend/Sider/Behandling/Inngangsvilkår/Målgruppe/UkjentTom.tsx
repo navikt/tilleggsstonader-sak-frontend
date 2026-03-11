@@ -28,11 +28,18 @@ const HjelpetekstDagpenger: React.FC<{
             <BodyLong size={'small'}>
                 Det er ikke registrert noen sluttdato for dagpengevedtaket.
             </BodyLong>
-            <BodyLong size={'small'}>
-                Den {formaterNullableIsoDato(gjenståendeDagerFraTelleverk?.dato)} hadde bruker
-                {gjenståendeDagerFraTelleverk?.antallDager ?? 'et ukjent antall'} dager igjen med
-                dagpenger.
-            </BodyLong>
+            {gjenståendeDagerFraTelleverk?.antallDager ? (
+                <BodyLong size={'small'}>
+                    Per {formaterNullableIsoDato(gjenståendeDagerFraTelleverk?.dato) ?? 'd.d.'}{' '}
+                    hadde bruker {gjenståendeDagerFraTelleverk?.antallDager} dager igjen med
+                    dagpenger.
+                </BodyLong>
+            ) : (
+                <BodyLong size={'small'}>
+                    Vi har per d.d. ingen informasjon om antall gjenstående dager bruker har rett på
+                    dagpenger.
+                </BodyLong>
+            )}
         </VStack>
     </HelpText>
 );
