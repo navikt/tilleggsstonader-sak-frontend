@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { BodyShort, Button, HStack, Table } from '@navikt/ds-react';
+import { Button, Table } from '@navikt/ds-react';
 
-import { HjelpetekstDagpenger } from './HjelpetekstDagpenger';
 import styles from './RegisterYtelserTabell.module.css';
+import { UkjentTom } from './UkjentTom';
 import { utledYtelseTekst } from './utils';
 import { useSteg } from '../../../../context/StegContext';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
-import { TypeRegisterYtelse } from '../../../../typer/registerytelser';
 import { formaterIsoDato, formaterNullableIsoDato } from '../../../../utils/dato';
 import { YtelseGrunnlagPeriode } from '../typer/vilkårperiode/vilkårperiode';
 
-const RegisterYtelserTabell: React.FC<{
+export const RegisterYtelserTabell: React.FC<{
     perioderMedYtelse: YtelseGrunnlagPeriode[];
     lagRadForPeriode: (valgPeriode: YtelseGrunnlagPeriode) => void;
 }> = ({ perioderMedYtelse, lagRadForPeriode }) => {
@@ -37,16 +36,7 @@ const RegisterYtelserTabell: React.FC<{
                                 {ytelse.tom ? (
                                     formaterNullableIsoDato(ytelse.tom)
                                 ) : (
-                                    <HStack gap={'space-4'} align={'center'}>
-                                        <BodyShort size={'small'}>Ukjent</BodyShort>
-                                        {ytelse.type === TypeRegisterYtelse.DAGPENGER && (
-                                            <HjelpetekstDagpenger
-                                                gjennståendeDagerFraTelleverk={
-                                                    ytelse.gjennståendeDagerFraTelleverk
-                                                }
-                                            />
-                                        )}
-                                    </HStack>
+                                    <UkjentTom ytelse={ytelse} />
                                 )}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
@@ -63,5 +53,3 @@ const RegisterYtelserTabell: React.FC<{
         </Table>
     );
 };
-
-export default RegisterYtelserTabell;

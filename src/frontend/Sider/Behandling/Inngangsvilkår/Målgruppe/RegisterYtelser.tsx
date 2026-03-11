@@ -11,7 +11,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import RegisterYtelserTabell from './RegisterYtelserTabell';
+import { RegisterYtelserTabell } from './RegisterYtelserTabell';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import ExpansionCard from '../../../../komponenter/ExpansionCard';
 import { Behandling } from '../../../../typer/behandling/behandling';
