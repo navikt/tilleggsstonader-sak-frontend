@@ -1,14 +1,10 @@
 import React, { FC, useState } from 'react';
 
-import { ClockDashedIcon } from '@navikt/aksel-icons';
-import { Heading, HStack, Label, Switch, Table, Tooltip } from '@navikt/ds-react';
+import { Heading, HStack, Label, Switch } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
-import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
-import { BillettType } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
+import { DagligReiseBeregningstabell } from '../../../../../komponenter/DagligReiseBeregningstabell';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
-import { formaterIsoDato } from '../../../../../utils/dato';
-import { formaterAntallOgPris } from '../../../../../utils/fomatering';
 
 interface Props {
     beregningsresultat: BeregningsresultatDagligReise;
@@ -52,71 +48,10 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                             {reise.adresse} · offentlig transport · {antallReisedagerPerUke}{' '}
                             dager/uke
                         </Label>
-                        <Table size="small" className={styles.table}>
-                            <Table.Header>
-                                <Table.Row>
-                                    <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>Reisedager</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>30-dagersb.</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>7-dagersb.</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>Enkeltb.</TableHeaderCellSmall>
-                                    <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                {relevantePerioder.map((periode, periodeIndex) => (
-                                    <Table.Row
-                                        key={`periode-${reiseIndex}-${periodeIndex}`}
-                                        className={
-                                            periode.fraTidligereVedtak
-                                                ? styles.radFraTidligereVedtak
-                                                : undefined
-                                        }
-                                    >
-                                        <TableDataCellSmall>
-                                            <HStack align="center" gap="space-8">
-                                                {periode.fraTidligereVedtak && (
-                                                    <Tooltip content="Fra tidligere vedtak">
-                                                        <ClockDashedIcon aria-label="Fra tidligere vedtak" />
-                                                    </Tooltip>
-                                                )}
-                                                {formaterIsoDato(periode.fom)}
-                                            </HStack>
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>
-                                            {formaterIsoDato(periode.tom)}
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>
-                                            {periode.antallReisedager}
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>
-                                            {formaterAntallOgPris(
-                                                periode.billettdetaljer[
-                                                    BillettType.TRETTIDAGERSBILLETT
-                                                ],
-                                                periode.pris30dagersbillett
-                                            )}
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>
-                                            {formaterAntallOgPris(
-                                                periode.billettdetaljer[
-                                                    BillettType.SYVDAGERSBILLETT
-                                                ],
-                                                periode.prisSyvdagersbillett
-                                            )}
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>
-                                            {formaterAntallOgPris(
-                                                periode.billettdetaljer[BillettType.ENKELTBILLETT],
-                                                periode.prisEnkeltbillett
-                                            )}
-                                        </TableDataCellSmall>
-                                        <TableDataCellSmall>{periode.beløp} kr</TableDataCellSmall>
-                                    </Table.Row>
-                                ))}
-                            </Table.Body>
-                        </Table>
+                        <DagligReiseBeregningstabell
+                            perioder={relevantePerioder}
+                            className={styles.table}
+                        />
                     </div>
                 );
             })}
