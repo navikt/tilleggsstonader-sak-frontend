@@ -13,6 +13,7 @@ import { LeaveIcon, LocationPinIcon, OpenBookIcon } from '@navikt/aksel-icons';
 import { BodyShort, Dropdown, HStack, InternalHeader, Spacer, Theme } from '@navikt/ds-react';
 
 import { AppProvider, useApp } from './context/AppContext';
+import { UventetFeilside } from './komponenter/Feil/UventetFeilside';
 import UlagredeKomponenterModal from './komponenter/Modal/UlagredeKomponenterModal';
 import PersonSøk from './komponenter/PersonSøk';
 import ScrollToTop from './komponenter/ScrollToTop/ScrollToTop';
@@ -46,7 +47,7 @@ const AppRoutes = () => {
 
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path={'/'} element={<AppInnhold />}>
+            <Route path={'/'} element={<AppInnhold />} errorElement={<UventetFeilside />}>
                 <Route path={''} element={<Oppgavebenk />} />
                 <Route path={'/person/:fagsakPersonId/*'} element={<Personoversikt />} />
                 <Route path={'/journalfor'} element={<Journalføring />} />
