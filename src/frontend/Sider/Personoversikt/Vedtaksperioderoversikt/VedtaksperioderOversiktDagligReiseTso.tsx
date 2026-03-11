@@ -29,8 +29,9 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
             <Table.Body>
                 {vedtaksperioder.map((periode) => {
                     const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
+                    const førsteBeregningsperiode = beregningsperioder[0];
 
-                    const fom = beregningsperioder[0]?.fom;
+                    const fom = førsteBeregningsperiode?.fom;
                     const tom = beregningsperioder[beregningsperioder.length - 1]?.tom;
 
                     return (
@@ -48,7 +49,7 @@ export const VedtaksperioderOversiktDagligReiseTso: React.FC<Props> = ({
                             </Table.DataCell>
 
                             <Table.DataCell>
-                                {[periode.detaljertBeregningsperioder[0].antallReisedagerPerUke]}
+                                {førsteBeregningsperiode?.antallReisedagerPerUke ?? '-'}
                             </Table.DataCell>
                         </Table.ExpandableRow>
                     );
