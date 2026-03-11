@@ -13,7 +13,7 @@ interface Props {
     vedtaksperioder: DetaljertVedtaksperiodeDagligReiseTsr[];
 }
 
-export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({
+export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
     vedtaksperioder,
     border,
 }) => {
@@ -24,6 +24,7 @@ export const VedtaksperioderOversiktDagligReiseTsr: React.FC<Props> = ({
                     <Table.HeaderCell scope="col">Perioder</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Type daglig reise</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Dager pr. uke</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Perioder</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 

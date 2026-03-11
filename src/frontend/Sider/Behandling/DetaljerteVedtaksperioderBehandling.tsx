@@ -11,8 +11,7 @@ import {
     DetaljertVedtaksperiodeTilsynBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
 import { VedtaksperioderOversiktBoutgifter } from '../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
-import { VedtaksperioderOversiktDagligReiseTso } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReiseTso';
-import { VedtaksperioderOversiktDagligReiseTsr } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReiseTsr';
+import { VedtaksperioderOversiktDagligReise } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
 
@@ -48,13 +47,13 @@ export function DetaljerteVedtaksperioderBehandling({
             />
         ),
         [Stønadstype.DAGLIG_REISE_TSO]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktDagligReiseTso
+            <VedtaksperioderOversiktDagligReise
                 border={true}
                 vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTso[]}
             />
         ),
         [Stønadstype.DAGLIG_REISE_TSR]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktDagligReiseTsr
+            <VedtaksperioderOversiktDagligReise
                 border={true}
                 vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTsr[]}
             />

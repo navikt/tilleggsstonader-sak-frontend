@@ -17,3 +17,9 @@ export const tilLitenSkriftMedStorForbokstav = (mottakerRolle: string): string =
 export const leggTilKolonOgMellomrom = (str?: string) => {
     return str ? `${str}: ` : '';
 };
+export function formaterAntallOgPris(antall: number | undefined, pris: number | undefined): string {
+    if (!antall) {
+        return '-';
+    }
+    return `${antall} x ${pris} kr`;
+}
