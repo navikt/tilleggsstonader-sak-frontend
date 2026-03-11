@@ -8,7 +8,7 @@ import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../kompone
 import { BillettType } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../utils/dato';
-import { formaterAntallOgPris } from '../../../../Personoversikt/Vedtaksperioderoversikt/Util';
+import { formaterAntallOgPris } from '../../../../../utils/fomatering';
 
 interface Props {
     beregningsresultat: BeregningsresultatDagligReise;

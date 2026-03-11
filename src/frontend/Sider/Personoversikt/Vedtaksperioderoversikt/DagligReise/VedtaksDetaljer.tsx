@@ -6,7 +6,7 @@ import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponente
 import { BillettType } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { DetaljertBeregningsperioder } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterIsoDato } from '../../../../utils/dato';
-import { formaterAntallOgPris } from '../Util';
+import { formaterAntallOgPris } from '../../../../utils/fomatering';
 
 interface Props {
     detaljertBeregningsperioder?: DetaljertBeregningsperioder[];
