@@ -5,8 +5,7 @@ import { DetaljerteVedtaksperioder } from '../../hooks/useHentFullstendigVedtaks
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     DetaljertVedtaksperiodeBoutgifter,
-    DetaljertVedtaksperiodeDagligReiseTso,
-    DetaljertVedtaksperiodeDagligReiseTsr,
+    DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeTilsynBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
@@ -49,13 +48,13 @@ export function DetaljerteVedtaksperioderBehandling({
         [Stønadstype.DAGLIG_REISE_TSO]: (vedtaksperioder) => (
             <VedtaksperioderOversiktDagligReise
                 border={true}
-                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTso[]}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReise[]}
             />
         ),
         [Stønadstype.DAGLIG_REISE_TSR]: (vedtaksperioder) => (
             <VedtaksperioderOversiktDagligReise
                 border={true}
-                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTsr[]}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReise[]}
             />
         ),
     };
