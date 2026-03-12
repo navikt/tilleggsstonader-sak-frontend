@@ -5,14 +5,12 @@ import { DetaljerteVedtaksperioder } from '../../hooks/useHentFullstendigVedtaks
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     DetaljertVedtaksperiodeBoutgifter,
-    DetaljertVedtaksperiodeDagligReiseTso,
-    DetaljertVedtaksperiodeDagligReiseTsr,
+    DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeTilsynBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
 import { VedtaksperioderOversiktBoutgifter } from '../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
-import { VedtaksperioderOversiktDagligReiseTso } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReiseTso';
-import { VedtaksperioderOversiktDagligReiseTsr } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReiseTsr';
+import { VedtaksperioderOversiktDagligReise } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
 
@@ -48,15 +46,15 @@ export function DetaljerteVedtaksperioderBehandling({
             />
         ),
         [Stønadstype.DAGLIG_REISE_TSO]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktDagligReiseTso
+            <VedtaksperioderOversiktDagligReise
                 border={true}
-                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTso[]}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReise[]}
             />
         ),
         [Stønadstype.DAGLIG_REISE_TSR]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktDagligReiseTsr
+            <VedtaksperioderOversiktDagligReise
                 border={true}
-                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReiseTsr[]}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReise[]}
             />
         ),
     };
