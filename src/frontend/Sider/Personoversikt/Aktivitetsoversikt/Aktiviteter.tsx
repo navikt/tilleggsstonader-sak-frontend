@@ -7,6 +7,14 @@ import { Registeraktivitet, statutAktivitetTilTekst } from '../../../typer/regis
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { formatBoolean } from '../../../utils/tekstformatering';
 
+const erProsentEllerNull = (aktivitet: Registeraktivitet): string => {
+    if (aktivitet.prosentDeltakelse != null) {
+        return aktivitet.prosentDeltakelse + '%';
+    } else {
+        return '-';
+    }
+};
+
 const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktiviteter }) => {
     return (
         <Table size={'small'} zebraStripes={true} className={styles.tabell}>
@@ -18,6 +26,7 @@ const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktivitet
                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Arrangør</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Aktivitetsdager</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Deltakelseprosent</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Stønadsberettiget</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Utdanning</Table.HeaderCell>
                 </Table.Row>
@@ -38,6 +47,7 @@ const Aktiviteter: React.FC<{ aktiviteter: Registeraktivitet[] }> = ({ aktivitet
                             </Table.DataCell>
                             <Table.DataCell>{aktivitet.arrangør}</Table.DataCell>
                             <Table.DataCell>{aktivitet.antallDagerPerUke ?? '-'}</Table.DataCell>
+                            <Table.DataCell>{erProsentEllerNull(aktivitet)}</Table.DataCell>
                             <Table.DataCell>
                                 {formatBoolean(aktivitet.erStønadsberettiget)}
                             </Table.DataCell>
