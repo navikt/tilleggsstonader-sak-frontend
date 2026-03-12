@@ -8,7 +8,7 @@ import { Button, Heading, HStack } from '@navikt/ds-react';
 import AvsenderPanel from './AvsenderPanel';
 import Behandlinger from './Behandlinger';
 import BrukerPanel from './BrukerPanel';
-import Dokumenter from './Dokumenter';
+import { Dokumenter } from './Dokumenter';
 import styles from './Journalføring.module.css';
 import JournalpostPanel from './JournalpostPanel';
 import { BekreftJournalføringModal } from './Modal';
