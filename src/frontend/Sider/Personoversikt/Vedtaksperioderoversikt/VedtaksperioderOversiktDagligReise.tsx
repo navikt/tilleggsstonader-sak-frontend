@@ -23,6 +23,7 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
                 <Table.Row>
                     <Table.HeaderCell scope="col">Perioder</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Type daglig reise</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Tiltaksadresse</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Dager pr. uke</Table.HeaderCell>
                     <Table.HeaderCell scope="col" />
                 </Table.Row>
@@ -48,6 +49,7 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
                             <Table.DataCell>
                                 {typeDagligReiseTilTekst[periode.typeDagligReise]}
                             </Table.DataCell>
+                            <Table.DataCell>{periode.adresse}</Table.DataCell>
                             <Table.DataCell>
                                 {[beregningsperioder[0].antallReisedagerPerUke]}
                             </Table.DataCell>
