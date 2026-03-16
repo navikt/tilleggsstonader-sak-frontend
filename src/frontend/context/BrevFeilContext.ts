@@ -5,6 +5,7 @@ import constate from 'constate';
 import { Delmal, MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import {
     variabelBeregningstabellId,
+    variabelberegningstabellReiseMedBilId,
     variabelInnvilgedePerioderPunktlisteId,
 } from '../komponenter/Brev/variablerUtils';
 import { harIkkeVerdi } from '../utils/utils';
@@ -13,7 +14,11 @@ import { harIkkeVerdi } from '../utils/utils';
  * Htmlvariabler populeres kun når man genrerer selve brevet og ligger ikke i et state
  * Må filtreres vekk fra variabler fra delmalen for å unngå at man får treff på vedtakstabellen
  */
-const htmlVariabler = new Set([variabelBeregningstabellId, variabelInnvilgedePerioderPunktlisteId]);
+const htmlVariabler = new Set([
+    variabelBeregningstabellId,
+    variabelberegningstabellReiseMedBilId,
+    variabelInnvilgedePerioderPunktlisteId,
+]);
 
 export type FeilIDelmalType = Variabel | Valgfelt;
 
