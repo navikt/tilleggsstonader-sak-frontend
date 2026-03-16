@@ -60,7 +60,7 @@ export type DetaljertVedtaksperiodeDagligReise = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
     detaljertBeregningsperioder: DetaljertBeregningsperioder[];
-    adresse: string;
+    adresse?: string;
 };
 
 export interface UtgiftBoutgift {
