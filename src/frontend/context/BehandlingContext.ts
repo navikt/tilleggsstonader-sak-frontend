@@ -69,28 +69,6 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     }
 };
 
-const useKanRevurdere = (stønadstype: Stønadstype) => {
-    const kanRevurdereLæremidler = useFlag(Toggle.KAN_REVURDERE_LÆREMIDLER);
-    const kanRevurdereBoutgifter = useFlag(Toggle.KAN_REVURDERE_BOUTGIFTER);
-    const kanRevurdereTilsynBarn = useFlag(Toggle.KAN_REVURDERE_TILSYN_BARN);
-    const kanRevurdereDagligReiseTso = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSO);
-    const kanRevurdereDagligReiseTsr = useFlag(Toggle.KAN_REVURDERE_DAGLIG_REISE_TSR);
-    switch (stønadstype) {
-        case Stønadstype.BARNETILSYN:
-            return kanRevurdereTilsynBarn;
-        case Stønadstype.LÆREMIDLER:
-            return kanRevurdereLæremidler;
-        case Stønadstype.BOUTGIFTER:
-            return kanRevurdereBoutgifter;
-        case Stønadstype.DAGLIG_REISE_TSO:
-            return kanRevurdereDagligReiseTso;
-        case Stønadstype.DAGLIG_REISE_TSR:
-            return kanRevurdereDagligReiseTsr;
-        default:
-            return false;
-    }
-};
-
 export const [BehandlingProvider, useBehandling] = constate(
     ({
         behandling,
@@ -108,14 +86,9 @@ export const [BehandlingProvider, useBehandling] = constate(
         const { hentBehandlingshistorikk, behandlingshistorikk } =
             useBehandlingshistorikk(behandling);
 
-        const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
-        const kanRevurdere = useKanRevurdere(behandling.stønadstype);
+        const toggleKanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
 
         const behandlingErRedigerbar = erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
-
-        const toggleKanSaksbehandleEllerRevurdere = behandling.forrigeIverksatteBehandlingId
-            ? kanSaksbehandle && kanRevurdere
-            : kanSaksbehandle;
 
         const tilordnetSaksbehandler = behandling.tilordnetSaksbehandler;
         const saksbehandlerErTilordnetOppgave =
@@ -124,14 +97,12 @@ export const [BehandlingProvider, useBehandling] = constate(
         return {
             behandling,
             behandlingErRedigerbar:
-                behandlingErRedigerbar &&
-                toggleKanSaksbehandleEllerRevurdere &&
-                saksbehandlerErTilordnetOppgave,
+                behandlingErRedigerbar && toggleKanSaksbehandle && saksbehandlerErTilordnetOppgave,
             hentBehandling,
             behandlingshistorikk,
             hentBehandlingshistorikk,
             behandlingFakta,
-            toggleKanSaksbehandle: toggleKanSaksbehandleEllerRevurdere,
+            toggleKanSaksbehandle: toggleKanSaksbehandle,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
             visRedigerGrunnlagFomAdmin,
             settVisRedigerGrunnlagFomAdmin,
