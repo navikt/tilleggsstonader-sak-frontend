@@ -12,8 +12,8 @@ import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import {
     variabelBeregningstabellId,
-    variabelberegningstabellReiseMedBilId,
     variabelInnvilgedePerioderPunktlisteId,
+    variabelRammevedtaktabellReiseMedBil,
 } from './variablerUtils';
 import { lagRammevedtakstabell } from './vedtakstabell/lagRammevedtakstabell';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
@@ -144,7 +144,7 @@ export const Brevmeny: React.FC<Props> = ({
                 vedtak
             ),
             [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
-            [variabelberegningstabellReiseMedBilId]: lagRammevedtakstabell(behandling, vedtak),
+            [variabelRammevedtaktabellReiseMedBil]: lagRammevedtakstabell(behandling, vedtak),
         };
         return htmlVariabler;
     }

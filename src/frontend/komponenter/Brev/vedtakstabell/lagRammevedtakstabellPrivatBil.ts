@@ -18,16 +18,16 @@ export function lagRammevedtakstabellPrivatBil(
         const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
 
         return `
-        <p style="margin-bottom: 1px" >Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>, ${reise.reisedagerPerUke} ${reise.reisedagerPerUke > 1 ? 'dager' : 'dag'} i uken:</p>
+        <p style="margin-bottom: 1px" >Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead>
                 <th style="width: 160px; ${borderStylingCompact}">Periode</th>
                 <th style="width: 120px; ${borderStylingCompact}">Reisedager per uke</th>
                 <th style="width: 100px; ${borderStylingCompact}">Reiseavstand én vei</th>
-                <th style="width: 110px; ${borderStylingCompact}">Sats</th>
-                <th style="width: 110px; ${borderStylingCompact}">Bom én vei</th>
-                <th style="width: 110px; ${borderStylingCompact}">Ferge én vei</th>
-                <th style="width: 110px; ${borderStylingCompact}">Dagsats u/park</th>
+                <th style="width: 110px; ${borderStylingCompact}">Kilometersats</th>
+                ${reise.bompengerEnVei ? `<th style="width: 110px; ${borderStylingCompact}">Bom én vei</th>` : ''}
+                ${reise.fergekostnadEnVei ? `<th style="width: 110px; ${borderStylingCompact}">Ferge én vei</th>` : ''}
+                <th style="width: 110px; ${borderStylingCompact}">Dagsats u/parkering</th>
             </thead>
             <tbody>
                 <tr style="text-align: right;">
@@ -35,8 +35,8 @@ export function lagRammevedtakstabellPrivatBil(
                     <td style="${borderStyling}">${reise.reisedagerPerUke} ${reise.reisedagerPerUke > 1 ? 'dager' : 'dag'}</td>
                     <td style="${borderStyling}">${reise.reiseavstandEnVei} km</td>
                     <td style="${borderStyling}">${reise.kilometersats} kr</td>
-                    <td style="${borderStyling}">${reise.bompengerEnVei ? `${reise.bompengerEnVei} kr` : '-'}</td>                    
-                    <td style="${borderStyling}">${reise.fergekostnadEnVei ? `${reise.fergekostnadEnVei} kr` : '-'}</td>
+                    <td style="${borderStyling}">${reise.bompengerEnVei ? `${reise.bompengerEnVei} kr` : '-'}</td>
+                    ${reise.fergekostnadEnVei ? `<td style="${borderStyling}">${reise.fergekostnadEnVei ?? '-'}</td>` : ''}                    
                     <td style="${borderStyling}">${reise.dagsatsUtenParkering} kr</td>
                 </tr>
             </tbody>

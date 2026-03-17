@@ -5,8 +5,8 @@ import constate from 'constate';
 import { Delmal, MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import {
     variabelBeregningstabellId,
-    variabelberegningstabellReiseMedBilId,
     variabelInnvilgedePerioderPunktlisteId,
+    variabelRammevedtaktabellReiseMedBil,
 } from '../komponenter/Brev/variablerUtils';
 import { harIkkeVerdi } from '../utils/utils';
 
@@ -16,7 +16,7 @@ import { harIkkeVerdi } from '../utils/utils';
  */
 const htmlVariabler = new Set([
     variabelBeregningstabellId,
-    variabelberegningstabellReiseMedBilId,
+    variabelRammevedtaktabellReiseMedBil,
     variabelInnvilgedePerioderPunktlisteId,
 ]);
 
