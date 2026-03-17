@@ -5,14 +5,14 @@ import { DokumentPanel } from './DokumentPanel';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 
 interface Props {
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
 }
 
-export const Dokumenter: React.FC<Props> = ({ journalpostState }) => (
+export const Dokumenter: React.FC<Props> = ({ journalføringState }) => (
     <ul className={styles.liste}>
-        {journalpostState.journalpost.dokumenter.map((dokument) => (
+        {journalføringState.journalpost.dokumenter.map((dokument) => (
             <li key={dokument.dokumentInfoId}>
-                <DokumentPanel dokument={dokument} journalpostState={journalpostState} />
+                <DokumentPanel dokument={dokument} journalføringState={journalføringState} />
             </li>
         ))}
     </ul>

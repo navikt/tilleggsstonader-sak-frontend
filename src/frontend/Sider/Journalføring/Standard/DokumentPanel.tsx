@@ -13,11 +13,11 @@ import { åpneFilIEgenTab } from '../../../utils/utils';
 import { dokumentTitler as dokumentTittelAlternativer } from '../Felles/utils';
 
 interface Props {
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
     dokument: DokumentInfoJournalpost;
 }
 
-export const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
+export const DokumentPanel: React.FC<Props> = ({ journalføringState, dokument }) => {
     const {
         dokumentTitler,
         logiskeVedleggPåDokument,
@@ -26,7 +26,7 @@ export const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) =
         settValgtDokumentPanel,
         valgtDokumentPanel,
         journalpost,
-    } = journalpostState;
+    } = journalføringState;
 
     const endreDokumentNavn = (dokumentInfoId: string, nyttDokumentNavn: string) => {
         settDokumentTitler((prevState: Record<string, string> | undefined) => ({

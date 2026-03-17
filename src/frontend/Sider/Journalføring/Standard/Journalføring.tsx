@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { Button, Heading, HStack } from '@navikt/ds-react';
@@ -21,7 +20,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { erFeilressurs, RessursStatus } from '../../../typer/ressurs';
-import { Toggle } from '../../../utils/toggles';
 import { JOURNALPOST_QUERY_STRING, OPPGAVEID_QUERY_STRING } from '../../Oppgavebenk/oppgaveutils';
 import PdfVisning from '../Felles/PdfVisning';
 import { journalføringGjelderKlage, skalViseBekreftelsesmodal } from '../Felles/utils';
@@ -58,7 +56,10 @@ interface Props {
 }
 
 const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => {
-    const journalpostState: JournalføringState = useJournalføringState(journalResponse, oppgaveId);
+    const journalføringState: JournalføringState = useJournalføringState(
+        journalResponse,
+        oppgaveId
+    );
     const navigate = useNavigate();
     const { saksbehandler } = useApp();
 
@@ -68,24 +69,20 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
         settVisBekreftelsesModal,
         journalføringsaksjon,
         journalføringsårsak,
-    } = journalpostState;
+    } = journalføringState;
 
     const [feilmelding, settFeilmelding] = useState<string>();
 
     useEffect(() => {
-        if (journalpostState.innsending.status === RessursStatus.SUKSESS) {
+        if (journalføringState.innsending.status === RessursStatus.SUKSESS) {
             navigate('/');
         }
-    }, [saksbehandler, journalResponse, journalpostState, navigate]);
+    }, [saksbehandler, journalResponse, journalføringState, navigate]);
 
-    const kanHaFlereAktiveBehandlingerPåSammeFagsak = useFlag(
-        Toggle.KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK
-    );
-
-    const senderInnJournalføring = journalpostState.innsending.status == RessursStatus.HENTER;
+    const senderInnJournalføring = journalføringState.innsending.status == RessursStatus.HENTER;
     const erPapirSøknad = journalføringsårsak === Journalføringsårsak.PAPIRSØKNAD;
-    const innsendingsfeil = erFeilressurs(journalpostState.innsending)
-        ? journalpostState.innsending.frontendFeilmelding
+    const innsendingsfeil = erFeilressurs(journalføringState.innsending)
+        ? journalføringState.innsending.frontendFeilmelding
         : undefined;
 
     const validerOgJournalfør = () => {
@@ -95,12 +92,7 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
             return;
         }
 
-        const valideringsfeil = validerJournalføring(
-            journalResponse,
-            journalpostState,
-            behandlinger.data,
-            kanHaFlereAktiveBehandlingerPåSammeFagsak
-        );
+        const valideringsfeil = validerJournalføring(journalResponse, journalføringState);
 
         if (valideringsfeil) {
             settFeilmelding(valideringsfeil);
@@ -128,14 +120,14 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                         </Heading>
                         <JournalpostPanel
                             journalpost={journalResponse.journalpost}
-                            journalpostState={journalpostState}
+                            journalføringState={journalføringState}
                         />
                     </section>
                     <section>
                         <Heading spacing size={'small'} level={'2'}>
                             Dokumenter
                         </Heading>
-                        <Dokumenter journalpostState={journalpostState} />
+                        <Dokumenter journalføringState={journalføringState} />
                     </section>
                     <section>
                         <Heading spacing size={'small'} level={'2'}>
@@ -149,20 +141,14 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                         </Heading>
                         <AvsenderPanel
                             journalpostResponse={journalResponse}
-                            journalpostState={journalpostState}
+                            journalføringState={journalføringState}
                         />
                     </section>
                     <section>
                         <Heading spacing size={'small'} level={'2'}>
                             Behandling
                         </Heading>
-                        <Behandlinger
-                            journalpostState={journalpostState}
-                            kanHaFlereAktiveBehandlingerPerFagsak={
-                                kanHaFlereAktiveBehandlingerPåSammeFagsak
-                            }
-                            settFeilmelding={settFeilmelding}
-                        />
+                        <Behandlinger journalføringState={journalføringState} />
                     </section>
                     <Feilmelding feil={feilmelding} />
                     <Feilmelding feil={innsendingsfeil} />
@@ -181,9 +167,9 @@ const JournalføringSide: React.FC<Props> = ({ journalResponse, oppgaveId }) => 
                         </Button>
                     </HStack>
                 </div>
-                <PdfVisning journalpostState={journalpostState} />
+                <PdfVisning journalføringState={journalføringState} />
             </div>
-            <BekreftJournalføringModal journalpostState={journalpostState} />
+            <BekreftJournalføringModal journalføringState={journalføringState} />
         </>
     );
 };

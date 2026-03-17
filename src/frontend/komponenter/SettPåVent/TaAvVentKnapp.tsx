@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { Button } from '@navikt/ds-react';
 
 import { NullstillBehandlingAdvarselModal } from './NullstillBehandlingAdvarselModal';
@@ -10,7 +8,6 @@ import { settPåVentContextTilUrlContext } from './typer';
 import { useApp } from '../../context/AppContext';
 import { useSettPåVent } from '../../context/SettPåVentContext';
 import { RessursStatus } from '../../typer/ressurs';
-import { Toggle } from '../../utils/toggles';
 import { Feil, feiletRessursTilFeilmelding } from '../Feil/feilmeldingUtils';
 
 type KanTaAvVentResponse = {
@@ -30,15 +27,8 @@ export const TaAvVentKnapp: React.FC<{
     const [modalSomVises, settModalSomVises] = useState<
         undefined | 'TaAvVentModal' | 'NullstillBehandlingAdvarselModal'
     >();
-    const kanHaFlereBehandlingerPerFagsak = useFlag(
-        Toggle.KAN_HA_FLERE_BEHANDLINGER_PÅ_SAMME_FAGSAK
-    );
 
     const håndterKanTaAvVent = () => {
-        if (!kanHaFlereBehandlingerPerFagsak) {
-            settModalSomVises('TaAvVentModal');
-            return;
-        }
         request<KanTaAvVentResponse, null>(
             `/api/${settPåVentContextTilUrlContext[context]}/sett-pa-vent/${behandlingId}/kan-ta-av-vent`
         ).then((resp) => {

@@ -7,9 +7,9 @@ import styles from './PdfVisning.module.css';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 
 const PdfVisning: React.FC<{
-    journalpostState: JournalføringState;
-}> = ({ journalpostState }) => {
-    const { journalpost, valgtDokumentPanel, settValgtDokumentPanel } = journalpostState;
+    journalføringState: JournalføringState;
+}> = ({ journalføringState }) => {
+    const { journalpost, valgtDokumentPanel, settValgtDokumentPanel } = journalføringState;
 
     const dokumentMemo = useMemo(() => {
         return (
