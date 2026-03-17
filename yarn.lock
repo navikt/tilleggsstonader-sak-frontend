@@ -925,10 +925,10 @@
     "@napi-rs/canvas-linux-x64-musl" "0.1.84"
     "@napi-rs/canvas-win32-x64-msvc" "0.1.84"
 
-"@navikt/aksel-icons@^8.2.0", "@navikt/aksel-icons@^8.4.1":
-  version "8.4.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.4.1/deb922b2f447bfd3f95c8f88514d2428e161bb89#deb922b2f447bfd3f95c8f88514d2428e161bb89"
-  integrity sha512-NF1hXW7fmInZ9sT/Ld7e7UE7XaTIidgo/Mamf4Wpm1JlJoyi0vukKIXN9M4ULRw7nSmAz481I5+uJtMIRatCHA==
+"@navikt/aksel-icons@^8.6.0":
+  version "8.6.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.6.0/ff360cbe68f878b6e8deb59c19a23aa30eacab9e#ff360cbe68f878b6e8deb59c19a23aa30eacab9e"
+  integrity sha512-e+evlFA6eq7vW1pZDg1Fc9V7L7h/Mp1Luubv7kTJUp4IrWQN7Is+nfVj65TLcrQqMm9fjkmc1eI5PcmuY9ibvQ==
 
 "@navikt/aksel@^8.6.0":
   version "8.6.0"
@@ -954,19 +954,19 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/8.6.0/4c763d8f5f64587336bba5cba74b8a16ab379619#4c763d8f5f64587336bba5cba74b8a16ab379619"
   integrity sha512-Rv39j5USosDDcOlcfNUG9uVOJ+ZgMjEvVRQdAN0QTVY3rBpceNlMbrBQEo1YzDlA6WpD9d8DyiGuDYYVpakoLw==
 
-"@navikt/ds-react@^8.2.0":
-  version "8.4.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/8.4.1/d788c0c4bb03b58a4fd3d228caa0d76374f0e361#d788c0c4bb03b58a4fd3d228caa0d76374f0e361"
-  integrity sha512-QMHjwlEzYHgE6tab69uvrs1HZmctB8IWUe9rYcMVrB5ePGed5cRT6Hj/3DOQVbXt6K/m8u+71cK/mjI2cLiG0Q==
+"@navikt/ds-react@^8.6.0":
+  version "8.6.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/8.6.0/484ac00ed4dbee8147f6a6cde76720bd7874b93b#484ac00ed4dbee8147f6a6cde76720bd7874b93b"
+  integrity sha512-yAZAZT+Ii9exJFbxqVy1ONjJvb1k+iKH8KoIFgroPHS6k+QhiBnB52aas1LSoWR7eqHpgUNV6QMUsQt24kmT3A==
   dependencies:
     "@floating-ui/react" "0.27.8"
     "@floating-ui/react-dom" "^2.1.6"
-    "@navikt/aksel-icons" "^8.4.1"
-    "@navikt/ds-tokens" "^8.4.1"
+    "@navikt/aksel-icons" "^8.6.0"
+    "@navikt/ds-tokens" "^8.6.0"
     date-fns "^4.0.0"
     react-day-picker "9.7.0"
 
-"@navikt/ds-tokens@^8.2.0", "@navikt/ds-tokens@^8.4.1", "@navikt/ds-tokens@^8.6.0":
+"@navikt/ds-tokens@^8.2.0", "@navikt/ds-tokens@^8.6.0":
   version "8.6.0"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/8.6.0/acac1517c2bc4c4eda259f1bc591db24656f102f#acac1517c2bc4c4eda259f1bc591db24656f102f"
   integrity sha512-MdnPFvi7wPF0N5ms6psNqW0IevlHhoswUCOYFQl7hFwL+uRcqFna6rT8fm/co04z/HDUKKfadbrW0yodzDxj1w==
