@@ -25,6 +25,7 @@ export const OppsummeringAktiviteter: React.FC<{
                         fom={aktivitet.fom}
                         tom={aktivitet.tom}
                         gjelder={aktivitetTypeTilTekst(aktivitet.type)}
+                        variant={aktivitet.tiltaksVarient}
                         aktivitetsdager={aktivitet.aktivitetsdager}
                         studienivå={aktivitet.studienivå}
                     />
