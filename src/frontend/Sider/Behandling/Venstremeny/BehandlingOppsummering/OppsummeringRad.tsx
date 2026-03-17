@@ -16,6 +16,7 @@ interface VilkårOppsummeringRadProps {
     fom?: string;
     tom?: string;
     gjelder?: string;
+    variant?: string;
     aktivitetsdager?: number;
     studienivå?: Studienivå;
 }
@@ -25,6 +26,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     fom,
     tom,
     gjelder,
+    variant,
     aktivitetsdager,
     studienivå,
 }) => {
@@ -35,7 +37,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
             {resultat && <FargetVilkårsresultatIkon vilkårsresultat={resultat} />}
             <VStack>
                 <BodyShort size="small">
-                    {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}`}
+                    {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}${variant ? `, ${variant}` : ''}`}
                 </BodyShort>
                 {aktivitetsdager && (
                     <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
