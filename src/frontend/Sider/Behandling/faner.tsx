@@ -13,6 +13,7 @@ import {
 import { Brev } from './Brev/Brev';
 import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
+import { FullførKjørelisteFane } from './Kjøreliste/FullførKjørelisteFane';
 import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
@@ -49,6 +50,7 @@ export enum FaneNavn {
     VEDTAK = 'Vedtak',
     KJØRELISTE = 'Kjøreliste',
     BEREGNING = 'Beregning',
+    FULLFØR_KJØRELISTE = 'Fullfør kjøreliste',
 }
 
 export enum StønadsvilkårFaneNavn {
@@ -78,6 +80,7 @@ export enum FanePath {
     VEDTAK = 'vedtak',
     KJØRELISTE = 'kjoreliste',
     BEREGNING = 'beregning',
+    FULLFØR_KJØRELISTE = 'fullfor-kjoreliste',
 }
 
 export const faneTilSteg: Record<FanePath, Steg> = {
@@ -90,6 +93,7 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     vedtak: Steg.VEDTAK,
     kjoreliste: Steg.KJØRELISTE,
     beregning: Steg.BEREGNING,
+    'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
 export const stegTilFane = (steg: Steg): FanePath => {
@@ -110,6 +114,8 @@ export const stegTilFane = (steg: Steg): FanePath => {
             return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
             return FanePath.BEREGNING;
+        case Steg.FULLFØR_KJØRELISTE:
+            return FanePath.FULLFØR_KJØRELISTE;
 
         default:
             return FanePath.INNGANGSVILKÅR;
@@ -126,6 +132,7 @@ export const isFanePath = (path: string): path is FanePath => {
         case FanePath.VEDTAK:
         case FanePath.KJØRELISTE:
         case FanePath.BEREGNING:
+        case FanePath.FULLFØR_KJØRELISTE:
             return true;
         default:
             return false;
@@ -344,16 +351,11 @@ const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] =>
             erLåst: faneErLåst(behandling, FanePath.SIMULERING),
         },
         {
-            navn: FaneNavn.BREV,
-            path: FanePath.BREV,
-            komponent: () => (
-                <p>
-                    Skal vi ha noe mulighet for å legge til noe på varsling her? Kanskje en knapp
-                    for å ferdigstille behandling?
-                </p>
-            ),
+            navn: FaneNavn.FULLFØR_KJØRELISTE,
+            path: FanePath.FULLFØR_KJØRELISTE,
+            komponent: () => <FullførKjørelisteFane />,
             ikon: <EnvelopeClosedIcon />,
-            erLåst: faneErLåst(behandling, FanePath.BREV),
+            erLåst: faneErLåst(behandling, FanePath.FULLFØR_KJØRELISTE),
         },
     ];
 };

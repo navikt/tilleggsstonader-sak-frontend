@@ -15,6 +15,7 @@ export enum Steg {
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
     LAG_SAKSBEHANDLINGSBLANKETT = 'LAG_SAKSBEHANDLINGSBLANKETT',
     PUBLISER_VEDTAKSHENDELSE = 'PUBLISER_VEDTAKSHENDELSE',
+    FULLFØR_KJØRELISTE = 'FULLFØR_KJØRELISTE',
 }
 
 const rekkefølgeSteg = Object.values(Steg).reduce(
@@ -35,4 +36,5 @@ export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg)
         Steg.BEREGNE_YTELSE,
         Steg.SIMULERING,
         Steg.SEND_TIL_BESLUTTER,
+        Steg.FULLFØR_KJØRELISTE,
     ].includes(faneSteg) && stegErEtterAnnetSteg(faneSteg, behandling.steg);
