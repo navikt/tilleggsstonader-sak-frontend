@@ -27,7 +27,10 @@ export const FullførKjørelisteFane: FC = () => {
             return;
         }
         settLaster(true);
-        request<null, null>(`/api/sak/kjoreliste/${behandling.id}/fullfør`, 'POST')
+        request<null, null>(
+            `/api/sak/behandling/${behandling.id}/fullfør-kjørelistebehandling`,
+            'POST'
+        )
             .then((res: RessursSuksess<null> | RessursFeilet) => {
                 settFeilmelding(undefined);
                 if (res.status === RessursStatus.SUKSESS) {
