@@ -19,12 +19,12 @@ import { JournalpostResponse } from '../../../typer/journalpost';
 
 interface Props {
     journalpostResponse: JournalpostResponse;
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
 }
 
-const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalpostState }) => {
+const AvsenderPanel: React.FC<Props> = ({ journalpostResponse, journalføringState }) => {
     const { journalpost, navn, personIdent } = journalpostResponse;
-    const { nyAvsender, settNyAvsender } = journalpostState;
+    const { nyAvsender, settNyAvsender } = journalføringState;
     const { journalpostId, avsenderMottaker } = journalpost;
 
     const [erPanelEkspandert, settErPanelEkspandert] = useState<boolean>(true);

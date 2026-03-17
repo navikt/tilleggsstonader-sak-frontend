@@ -7,23 +7,23 @@ import { Journalføringsårsak } from '../typer/journalføringsårsak';
 
 export const validerJournalføring = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState
+    journalføringState: JournalføringState
 ): string | undefined => {
-    if (journalføringGjelderKlage(journalpostState.journalføringsårsak))
-        return validerKlageJournalføring(journalResponse, journalpostState);
-    return validerStandardJournalføring(journalResponse, journalpostState);
+    if (journalføringGjelderKlage(journalføringState.journalføringsårsak))
+        return validerKlageJournalføring(journalResponse, journalføringState);
+    return validerStandardJournalføring(journalResponse, journalføringState);
 };
 
 const validerKlageJournalføring = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState
+    journalføringState: JournalføringState
 ): string | undefined => {
-    const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
+    const valideringsfeil = validerFellesFelter(journalResponse, journalføringState);
 
     if (valideringsfeil) return valideringsfeil;
 
     if (
-        journalpostState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING &&
+        journalføringState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING &&
         !journalResponse.journalpost.datoMottatt
     )
         return 'Mangler gyldig mottatt dato';
@@ -33,14 +33,14 @@ const validerKlageJournalføring = (
 
 const validerStandardJournalføring = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState
+    journalføringState: JournalføringState
 ): string | undefined => {
-    const valideringsfeil = validerFellesFelter(journalResponse, journalpostState);
+    const valideringsfeil = validerFellesFelter(journalResponse, journalføringState);
 
     if (valideringsfeil) return valideringsfeil;
 
-    if (journalpostState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING) {
-        return validerJournalføringTilNyBehandling(journalResponse, journalpostState);
+    if (journalføringState.journalføringsaksjon === Journalføringsaksjon.OPPRETT_BEHANDLING) {
+        return validerJournalføringTilNyBehandling(journalResponse, journalføringState);
     }
 
     return undefined;
@@ -48,9 +48,9 @@ const validerStandardJournalføring = (
 
 const validerFellesFelter = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState
+    journalføringState: JournalføringState
 ): string | undefined => {
-    const { journalføringsårsak, stønadstype, dokumentTitler, nyAvsender } = journalpostState;
+    const { journalføringsårsak, stønadstype, dokumentTitler, nyAvsender } = journalføringState;
 
     if (journalføringsårsak === Journalføringsårsak.IKKE_VALGT)
         return 'Mangler journalføringsårsak (Type)';
@@ -77,13 +77,13 @@ const validerFellesFelter = (
 
 const validerJournalføringTilNyBehandling = (
     journalResponse: JournalpostResponse,
-    journalpostState: JournalføringState
+    journalføringState: JournalføringState
 ) => {
     if (journalResponse.harStrukturertSøknad) {
-        if (journalpostState.journalføringsårsak !== Journalføringsårsak.DIGITAL_SØKNAD)
+        if (journalføringState.journalføringsårsak !== Journalføringsårsak.DIGITAL_SØKNAD)
             return 'Årsak til journalføring må være digital søknad siden det foreligger en digital søknad på journalposten';
     } else {
-        if (journalpostState.journalføringsårsak === Journalføringsårsak.DIGITAL_SØKNAD)
+        if (journalføringState.journalføringsårsak === Journalføringsårsak.DIGITAL_SØKNAD)
             return 'Må velge mellom PAPIRSØKNAD, ETTERSENDING eller KLAGE når journalposten mangler en digital søknad';
     }
 

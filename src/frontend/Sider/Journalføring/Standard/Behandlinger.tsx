@@ -20,11 +20,11 @@ import { formaterIsoDatoTid } from '../../../utils/dato';
 import { utledBehandlingstype } from '../Felles/utils';
 
 interface Props {
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
 }
 
-const Behandlinger: React.FC<Props> = ({ journalpostState }) => {
-    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalpostState;
+const Behandlinger: React.FC<Props> = ({ journalføringState }) => {
+    const { behandlinger, journalføringsaksjon, settJournalføringsaksjon } = journalføringState;
 
     const leggTilNyBehandlingForOpprettelse = () => {
         settJournalføringsaksjon(Journalføringsaksjon.OPPRETT_BEHANDLING);
@@ -43,7 +43,7 @@ const Behandlinger: React.FC<Props> = ({ journalpostState }) => {
             {({ behandlinger }) => {
                 const behandlingstypePåNyBehandling =
                     behandlingTypeTilTekst[
-                        utledBehandlingstype(behandlinger, journalpostState.journalføringsårsak)
+                        utledBehandlingstype(behandlinger, journalføringState.journalføringsårsak)
                     ];
 
                 const finnesAktivBehandling = behandlinger.some(
