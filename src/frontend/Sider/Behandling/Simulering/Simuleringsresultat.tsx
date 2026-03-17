@@ -36,7 +36,11 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
     const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
 
     const gåTilNesteSteg = () => {
-        navigate(`/behandling/${behandling.id}/${FanePath.BREV}`);
+        if (behandling.type === 'KJØRELISTE') {
+            navigate(`/behandling/${behandling.id}/${FanePath.FULLFØR_KJØRELISTE}`);
+        } else {
+            navigate(`/behandling/${behandling.id}/${FanePath.BREV}`);
+        }
     };
 
     const utledBeskrivelseIngenSimulering = (simuleringsresultat: SimuleringResponse | null) => {
