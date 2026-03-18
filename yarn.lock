@@ -930,6 +930,11 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.6.0/ff360cbe68f878b6e8deb59c19a23aa30eacab9e#ff360cbe68f878b6e8deb59c19a23aa30eacab9e"
   integrity sha512-e+evlFA6eq7vW1pZDg1Fc9V7L7h/Mp1Luubv7kTJUp4IrWQN7Is+nfVj65TLcrQqMm9fjkmc1eI5PcmuY9ibvQ==
 
+"@navikt/aksel-stylelint@^8.7.0":
+  version "8.7.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-stylelint/8.7.0/44c455a849e4c03cbda4739a46006a6e6ff6a089#44c455a849e4c03cbda4739a46006a6e6ff6a089"
+  integrity sha512-dV4umuwiBrSruRHgLBcqawO7igcknwSR/dHHXvzom/MlmNfimG3REY6vtDE7AruRPjktu1ty1SzPjKs/5kvusQ==
+
 "@navikt/aksel@^8.6.0":
   version "8.6.0"
   resolved "https://npm.pkg.github.com/download/@navikt/aksel/8.6.0/150d1cbf8e8f8c267c96ddbec6afce93d2ad463e#150d1cbf8e8f8c267c96ddbec6afce93d2ad463e"
