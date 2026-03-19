@@ -37,8 +37,9 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
             {resultat && <FargetVilkårsresultatIkon vilkårsresultat={resultat} />}
             <VStack>
                 <BodyShort size="small">
-                    {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''} ${gjelder}${variant ? `, ${variant}` : ''}`}
+                    {`${formaterNullablePeriode(fom, tom)}${skalHaKolon ? ':' : ''}`}
                 </BodyShort>
+                <BodyShort size="small">{`${gjelder}${variant ? `, ${variant}` : ''}`}</BodyShort>
                 {aktivitetsdager && (
                     <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
                 )}
