@@ -1,0 +1,18 @@
+.container {
+    padding: 2rem;
+    max-width: 60rem;
+}
+
+.side {
+    margin-bottom: 1rem;
+}
+
+.tekniskeDetaljer {
+    margin-top: 1rem;
+}
+
+.stacktrace {
+    margin-top: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}

@@ -7,26 +7,26 @@ import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { RessursStatus } from '../../../typer/ressurs';
 
 export const BekreftJournalføringModal: React.FC<{
-    journalpostState: JournalføringState;
-}> = ({ journalpostState }) => {
-    const senderInn = journalpostState.innsending.status == RessursStatus.HENTER;
+    journalføringState: JournalføringState;
+}> = ({ journalføringState }) => {
+    const senderInn = journalføringState.innsending.status == RessursStatus.HENTER;
     return (
         <ModalWrapper
             tittel={'Journalfør uten behandling'}
             umamiId={'journalfør-uten-behandling'}
-            visModal={journalpostState.visBekreftelsesModal}
-            onClose={() => journalpostState.settVisBekreftelsesModal(false)}
+            visModal={journalføringState.visBekreftelsesModal}
+            onClose={() => journalføringState.settVisBekreftelsesModal(false)}
             aksjonsknapper={{
                 hovedKnapp: {
                     onClick: () => {
-                        journalpostState.settVisBekreftelsesModal(false);
-                        journalpostState.fullførJournalføring();
+                        journalføringState.settVisBekreftelsesModal(false);
+                        journalføringState.fullførJournalføring();
                     },
                     disabled: senderInn,
                     tekst: 'Journalfør allikevel',
                 },
                 lukkKnapp: {
-                    onClick: () => journalpostState.settVisBekreftelsesModal(false),
+                    onClick: () => journalføringState.settVisBekreftelsesModal(false),
                     tekst: 'Tilbake',
                 },
             }}

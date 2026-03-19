@@ -7,8 +7,7 @@ import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderO
 import { IngenVedtaksperioderInfo } from './IngenVedtaksperioderInfo';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
-import { VedtaksperioderOversiktDagligReiseTso } from './VedtaksperioderOversiktDagligReiseTso';
-import { VedtaksperioderOversiktDagligReiseTsr } from './VedtaksperioderOversiktDagligReiseTsr';
+import { VedtaksperioderOversiktDagligReise } from './VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktTilsynBarn } from './VedtaksperioderOversiktTilsynBarn';
 import {
@@ -75,7 +74,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                             )}
                             {vedtaksperioderOversikt.dagligReiseTso.length > 0 && (
                                 <OversiktKort tittel={'Daglige reiser Nay'}>
-                                    <VedtaksperioderOversiktDagligReiseTso
+                                    <VedtaksperioderOversiktDagligReise
                                         vedtaksperioder={vedtaksperioderOversikt.dagligReiseTso}
                                     />
                                     <Detail>
@@ -85,7 +84,7 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                             )}
                             {vedtaksperioderOversikt.dagligReiseTsr.length > 0 && (
                                 <OversiktKort tittel={'Daglige reiser Tiltaksenheten'}>
-                                    <VedtaksperioderOversiktDagligReiseTsr
+                                    <VedtaksperioderOversiktDagligReise
                                         vedtaksperioder={vedtaksperioderOversikt.dagligReiseTsr}
                                     />
                                     <Detail>

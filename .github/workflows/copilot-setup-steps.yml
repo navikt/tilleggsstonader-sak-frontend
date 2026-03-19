@@ -1,0 +1,30 @@
+# This workflow is triggered by GitHub Copilot to set up
+# the environment for the coding agent.
+# https://docs.github.com/en/copilot/customizing-copilot/customizing-the-development-environment-for-copilot-coding-agent
+
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            src/backend/yarn.lock
+
+      - name: Enable Yarn Classic
+        run: corepack enable && corepack prepare yarn@1.22.22 --activate
+
+      - name: Install dependencies
+        run: yarn ci

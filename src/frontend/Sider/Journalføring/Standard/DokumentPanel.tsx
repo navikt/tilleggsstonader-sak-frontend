@@ -3,27 +3,21 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
-import { Button, ExpansionCard } from '@navikt/ds-react';
-import { FamilieReactSelect, ISelectOption } from '@navikt/familie-form-elements';
+import { Button, ExpansionCard, UNSAFE_Combobox } from '@navikt/ds-react';
 
 import styles from './DokumentPanel.module.css';
 import { DokumentPanelHeader } from './DokumentPanelHeader';
 import { JournalføringState } from '../../../hooks/useJournalføringState';
 import { DokumentInfoJournalpost } from '../../../typer/journalpost';
 import { åpneFilIEgenTab } from '../../../utils/utils';
-import {
-    dokumentTitlerMultiSelect,
-    mapDokumentTittelTilMultiselectValue,
-    mapLogiskeVedleggTilMultiselectValue,
-    mapMultiselectValueTilLogiskeVedlegg,
-} from '../Felles/utils';
+import { dokumentTitler as dokumentTittelAlternativer } from '../Felles/utils';
 
 interface Props {
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
     dokument: DokumentInfoJournalpost;
 }
 
-const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
+export const DokumentPanel: React.FC<Props> = ({ journalføringState, dokument }) => {
     const {
         dokumentTitler,
         logiskeVedleggPåDokument,
@@ -32,7 +26,7 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
         settValgtDokumentPanel,
         valgtDokumentPanel,
         journalpost,
-    } = journalpostState;
+    } = journalføringState;
 
     const endreDokumentNavn = (dokumentInfoId: string, nyttDokumentNavn: string) => {
         settDokumentTitler((prevState: Record<string, string> | undefined) => ({
@@ -55,19 +49,13 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
         (dokumentTitler && dokumentTitler[dokument.dokumentInfoId]) ||
         dokument.tittel ||
         'Ukjent dokumenttittel';
-    const defaultTittelValue = dokumentTittel
-        ? mapDokumentTittelTilMultiselectValue(dokumentTittel)
-        : undefined;
+    const valgtDokumentTittel = dokumentTittel ? [dokumentTittel] : [];
 
     const logiskeVedlegg = logiskeVedleggPåDokument
         ? (logiskeVedleggPåDokument[dokument.dokumentInfoId] ?? [])
         : [];
+    const valgteLogiskeVedlegg = logiskeVedlegg.map(({ tittel }) => tittel);
 
-    const defaultLogiskeVedleggValue = logiskeVedlegg
-        ? mapLogiskeVedleggTilMultiselectValue(logiskeVedlegg)
-        : undefined;
-
-    // TODO: Når aksel sin combobox er ute av beta, bytt ut MultiSelect med den og fjern @navikt/familie-form-elements fra package.json
     return (
         <ExpansionCard
             id={dokument.dokumentInfoId}
@@ -88,40 +76,35 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
             </ExpansionCard.Header>
             <ExpansionCard.Content>
                 <div className={styles.expansionCardContent}>
-                    <FamilieReactSelect
+                    <UNSAFE_Combobox
                         className={styles.multiSelect}
-                        placeholder={'Velg tittel'}
-                        label={'Dokumenttittel'}
-                        options={dokumentTitlerMultiSelect}
-                        creatable={true}
-                        menuPortalTarget={document.querySelector('body')}
-                        isMulti={false}
-                        isDisabled={false}
-                        defaultValue={defaultTittelValue}
-                        feil={null}
-                        onChange={(nyTittel) => {
-                            endreDokumentNavn(
-                                dokument.dokumentInfoId,
-                                nyTittel ? (nyTittel as ISelectOption).value : ''
-                            );
+                        label="Dokumenttittel"
+                        options={dokumentTittelAlternativer}
+                        placeholder="Velg tittel"
+                        selectedOptions={valgtDokumentTittel}
+                        allowNewValues
+                        size="small"
+                        onToggleSelected={(nyTittel, erValgt) => {
+                            endreDokumentNavn(dokument.dokumentInfoId, erValgt ? nyTittel : '');
                         }}
                     />
-                    <FamilieReactSelect
+                    <UNSAFE_Combobox
                         className={styles.multiSelect}
-                        placeholder={'Velg innhold'}
-                        label={'Annet innhold'}
-                        creatable={true}
-                        options={dokumentTitlerMultiSelect}
-                        menuPortalTarget={document.querySelector('body')}
-                        isMulti={true}
-                        isDisabled={false}
-                        defaultValue={defaultLogiskeVedleggValue}
-                        feil={null}
-                        onChange={(values) => {
-                            endreLogiskeVedlegg(
-                                dokument.dokumentInfoId,
-                                mapMultiselectValueTilLogiskeVedlegg(values)
-                            );
+                        label="Annet innhold"
+                        options={dokumentTittelAlternativer}
+                        placeholder="Velg innhold"
+                        selectedOptions={valgteLogiskeVedlegg}
+                        allowNewValues
+                        isMultiSelect
+                        size="small"
+                        onToggleSelected={(verdi, erValgt) => {
+                            const nyeLogiskeVedlegg = erValgt
+                                ? Array.from(new Set([...valgteLogiskeVedlegg, verdi]))
+                                : valgteLogiskeVedlegg.filter(
+                                      (logiskVedlegg) => logiskVedlegg !== verdi
+                                  );
+
+                            endreLogiskeVedlegg(dokument.dokumentInfoId, nyeLogiskeVedlegg);
                         }}
                     />
                     <Button
@@ -146,5 +129,3 @@ const DokumentPanel: React.FC<Props> = ({ journalpostState, dokument }) => {
         </ExpansionCard>
     );
 };
-
-export default DokumentPanel;

@@ -1,15 +1,9 @@
-import { ISelectOption, MultiValue, PropsValue, SingleValue } from '@navikt/familie-form-elements';
-
 import { Journalføringsaksjon } from '../../../hooks/useJournalføringState';
 import { BehandlingForJournalføring } from '../../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
-import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { BehandlingType } from '../../../typer/behandling/behandlingType';
-import { LogiskVedlegg } from '../../../typer/dokument';
 import { JournalpostResponse } from '../../../typer/journalpost';
 import { Journalføringsårsak } from '../typer/journalføringsårsak';
-
-export type MultiSelectValue = { label: string; value: string };
 
 export const dokumentTitler: string[] = [
     'Anke',
@@ -48,33 +42,6 @@ export const dokumentTitler: string[] = [
     'Uttalelse',
 ];
 
-export const dokumentTitlerMultiSelect: ISelectOption[] = dokumentTitler.map((tittel) => {
-    return { value: tittel, label: tittel };
-});
-
-export const mapDokumentTittelTilMultiselectValue = (tittel: string) => {
-    return { value: tittel, label: tittel };
-};
-
-export const mapLogiskeVedleggTilMultiselectValue = (
-    logiskeVedlegg: LogiskVedlegg[]
-): PropsValue<{ label: string; value: string }> => {
-    return logiskeVedlegg.map((vedlegg) => {
-        return { label: vedlegg.tittel, value: vedlegg.tittel };
-    });
-};
-
-export const mapMultiselectValueTilLogiskeVedlegg = (
-    values: MultiValue<MultiSelectValue> | SingleValue<MultiSelectValue>
-) => {
-    if ((values as MultiValue<MultiSelectValue>).length !== undefined) {
-        return (values as MultiValue<MultiSelectValue>).map((value) => value.value);
-    } else {
-        const value = values as SingleValue<MultiSelectValue>;
-        return [value === null ? '' : value.value];
-    }
-};
-
 export const journalføringGjelderKlage = (journalføringsårsak: Journalføringsårsak) =>
     journalføringsårsak === Journalføringsårsak.KLAGE ||
     journalføringsårsak === Journalføringsårsak.KLAGE_TILBAKEKREVING;
@@ -92,16 +59,6 @@ export const valgbareJournalføringsårsaker = (årsak: Journalføringsårsak) =
         : Journalføringsårsak.KLAGE,
     Journalføringsårsak.PAPIRSØKNAD,
 ];
-
-export const alleBehandlingerErFerdigstiltEllerSattPåVent = (
-    behandlinger: BehandlingForJournalføring[]
-) =>
-    behandlinger.every(
-        (behandling) =>
-            behandling.status === BehandlingStatus.FERDIGSTILT ||
-            (behandling.status === BehandlingStatus.SATT_PÅ_VENT &&
-                behandling.type === BehandlingType.REVURDERING)
-    );
 
 export const utledBehandlingstype = (
     tidligereBehandlinger: BehandlingForJournalføring[],

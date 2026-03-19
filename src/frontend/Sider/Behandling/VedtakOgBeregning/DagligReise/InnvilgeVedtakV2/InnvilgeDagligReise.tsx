@@ -19,7 +19,7 @@ import {
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { FanePath } from '../../../faner';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
-import { StegKnappInnvilgelseMedVarselOmVedtakIArena } from '../../Felles/StegKnappInnvilgelseMedVarselOmVedtakIArena';
+import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
@@ -99,11 +99,13 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                     />
                 </VStack>
             </Panel>
-            <StegKnappInnvilgelseMedVarselOmVedtakIArena
+            <StegKnappInnvilgelseMedVarsel
                 steg={Steg.VEDTAK}
                 nesteFane={FanePath.KJØRELISTE}
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
+                lagredeVedtaksperioder={lagredeVedtaksperioder}
+                vedtakErLagret={lagretVedtak !== undefined}
                 //TODO legg til når vi begynner med revurdering for daglig resise
                 tidligsteEndring={undefined}
             />

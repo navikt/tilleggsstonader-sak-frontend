@@ -5,8 +5,7 @@ import { ArenaSakOgVedtak } from '../Sider/Personoversikt/Vedtaksperioderoversik
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import {
     DetaljertVedtaksperiodeBoutgifter,
-    DetaljertVedtaksperiodeDagligReiseTso,
-    DetaljertVedtaksperiodeDagligReiseTsr,
+    DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeTilsynBarn,
     VedtakperioderOversiktResponse,
@@ -62,8 +61,7 @@ export type DetaljerteVedtaksperioder =
     | DetaljertVedtaksperiodeTilsynBarn[]
     | DetaljertVedtaksperiodeLæremidler[]
     | DetaljertVedtaksperiodeBoutgifter[]
-    | DetaljertVedtaksperiodeDagligReiseTso[]
-    | DetaljertVedtaksperiodeDagligReiseTsr[];
+    | DetaljertVedtaksperiodeDagligReise[];
 
 export const useHentFullstendigVedtaksOversiktForStønad = (
     behandlingId?: string

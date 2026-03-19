@@ -22,6 +22,7 @@ export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> =
     resultat: VilkårPeriodeResultat;
     type: T;
     aktivitetsdager?: number;
+    varient?: string;
     studienivå: Studienivå;
 };
 

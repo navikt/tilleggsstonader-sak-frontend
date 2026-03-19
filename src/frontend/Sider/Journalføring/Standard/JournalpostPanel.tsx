@@ -26,10 +26,10 @@ import { Journalføringsårsak, journalføringsårsakTilTekst } from '../typer/j
 
 interface Props {
     journalpost: Journalpost;
-    journalpostState: JournalføringState;
+    journalføringState: JournalføringState;
 }
 
-const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) => {
+const JournalpostPanel: React.FC<Props> = ({ journalpost, journalføringState }) => {
     const {
         journalføringsårsak,
         settJournalføringsårsak,
@@ -37,14 +37,14 @@ const JournalpostPanel: React.FC<Props> = ({ journalpost, journalpostState }) =>
         settStønadstype,
         settJournalføringsaksjon,
         valgbareStønadstyper,
-    } = journalpostState;
+    } = journalføringState;
     const [erPanelEkspandert, settErPanelEkspandert] = useState<boolean>(
         journalføringsårsak === Journalføringsårsak.IKKE_VALGT || stønadstype === undefined
     );
 
     const tema = utledArkivtema(journalpost.tema as Arkivtema);
-    const datoMottatt = journalpostState.mottattDato
-        ? formaterIsoDato(journalpostState.mottattDato)
+    const datoMottatt = journalføringState.mottattDato
+        ? formaterIsoDato(journalføringState.mottattDato)
         : 'Ikke satt';
     const kanRedigere = valgbareStønadstyper.length > 1;
     const klageGjelderTilbakekreving =

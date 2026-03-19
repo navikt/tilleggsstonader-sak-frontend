@@ -30,7 +30,9 @@ export const BehandlingOppsummering = () => {
                     defaultOpen
                     size="small"
                 >
-                    <ExpansionCard.Header>Oppsummering av vurderinger</ExpansionCard.Header>
+                    <ExpansionCard.Header className={styles.expansionCardHeader}>
+                        Oppsummering av vurderinger
+                    </ExpansionCard.Header>
                     <ExpansionCard.Content>
                         <VStack gap="space-24">
                             <OppsummeringAktiviteter

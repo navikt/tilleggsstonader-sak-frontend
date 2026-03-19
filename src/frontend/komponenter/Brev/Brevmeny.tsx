@@ -13,7 +13,9 @@ import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from '.
 import {
     variabelBeregningstabellId,
     variabelInnvilgedePerioderPunktlisteId,
+    variabelRammevedtaktabellReiseMedBil,
 } from './variablerUtils';
+import { lagRammevedtakstabell } from './vedtakstabell/lagRammevedtakstabell';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
@@ -142,6 +144,7 @@ export const Brevmeny: React.FC<Props> = ({
                 vedtak
             ),
             [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
+            [variabelRammevedtaktabellReiseMedBil]: lagRammevedtakstabell(behandling, vedtak),
         };
         return htmlVariabler;
     }

@@ -6,6 +6,7 @@ import {
     BodyShort,
     Button,
     Checkbox,
+    CopyButton,
     Detail,
     Heading,
     HStack,
@@ -105,7 +106,20 @@ export const OppfølgingTabell = ({ oppfølgingerInit }: { oppfølgingerInit: Op
                                 <HStack gap={'space-16'} align={'start'} justify={'start'}>
                                     <Heading size={'small'}>
                                         {oppfølging.behandlingsdetaljer.fagsakPersonNavn} -{' '}
-                                        {oppfølging.behandlingsdetaljer.fagsakPersonIdent}
+                                        {
+                                            <CopyButton
+                                                data-color="accent"
+                                                size="small"
+                                                iconPosition="right"
+                                                copyText={
+                                                    oppfølging.behandlingsdetaljer.fagsakPersonIdent
+                                                }
+                                                text={
+                                                    oppfølging.behandlingsdetaljer.fagsakPersonIdent
+                                                }
+                                                activeText="Kopierte fødselsnummer"
+                                            />
+                                        }
                                     </Heading>
                                 </HStack>
                                 <HStack gap={'space-32'}>

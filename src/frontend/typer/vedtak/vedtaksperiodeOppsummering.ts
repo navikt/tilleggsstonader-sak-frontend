@@ -8,8 +8,8 @@ export interface VedtakperioderOversiktResponse {
     tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
-    dagligReiseTso: DetaljertVedtaksperiodeDagligReiseTso[];
-    dagligReiseTsr: DetaljertVedtaksperiodeDagligReiseTsr[];
+    dagligReiseTso: DetaljertVedtaksperiodeDagligReise[];
+    dagligReiseTsr: DetaljertVedtaksperiodeDagligReise[];
 }
 
 export type DetaljertVedtaksperiodeTilsynBarn = {
@@ -44,22 +44,23 @@ export type DetaljertVedtaksperiodeBoutgifter = {
     utgifterTilOvernatting?: UtgiftBoutgift[];
 };
 
-export type DetaljertVedtaksperiodeDagligReiseTso = {
+export type DetaljertBeregningsperioder = {
     fom: string;
     tom: string;
-    aktivitet: AktivitetType;
-    målgruppe: FaktiskMålgruppe;
-    typeDagligReise: TypeDagligReise;
-    stønadstype: Stønadstype;
+    prisEnkeltbillett: number | null;
+    prisSyvdagersbillett: number | null;
+    pris30dagersbillett: number | null;
+    beløp: number;
+    billettdetaljer: Record<string, number>;
+    antallReisedager: number;
+    antallReisedagerPerUke: number;
 };
 
-export type DetaljertVedtaksperiodeDagligReiseTsr = {
-    fom: string;
-    tom: string;
-    aktivitet: AktivitetType;
-    målgruppe: FaktiskMålgruppe;
+export type DetaljertVedtaksperiodeDagligReise = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
+    detaljertBeregningsperioder: DetaljertBeregningsperioder[];
+    adresse?: string;
 };
 
 export interface UtgiftBoutgift {

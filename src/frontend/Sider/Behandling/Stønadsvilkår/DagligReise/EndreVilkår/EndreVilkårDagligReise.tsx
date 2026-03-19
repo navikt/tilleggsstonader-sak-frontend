@@ -24,6 +24,8 @@ import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskompon
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
 import { Toggle } from '../../../../../utils/toggles';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
@@ -77,6 +79,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
 
     const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingerDagligReise>(ingenFeil);
 
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: vilkår,
+            ny: periode,
+        });
+
     const oppdaterPeriodeForVilkår = (datoKey: keyof Periode, nyVerdi: string | undefined) => {
         settPeriode((prevState) => ({ ...prevState, [datoKey]: nyVerdi }));
         settUlagretKomponent(komponentId);
@@ -90,6 +98,11 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
         const valideringsfeil = validerVilkår(periode, adresse, svar, fakta, regelstruktur);
         settFeilmeldinger(valideringsfeil);
         if (!ingen(valideringsfeil)) {
+            return;
+        }
+
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
             return;
         }
 
@@ -237,6 +250,12 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                     />
                 </HStack>
                 <Feilmelding feil={feilmeldingVedLagring} />
+                <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                    visBekreftModal={visBekreftModal}
+                    settVisBekreftModal={settVisBekreftModal}
+                    bekreftLagre={lagreVilkår}
+                    laster={laster}
+                />
             </ResultatOgStatusKort>
         </form>
     );

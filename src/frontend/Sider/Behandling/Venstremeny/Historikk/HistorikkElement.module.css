@@ -11,12 +11,6 @@
     list-style: none;
 }
 
-.container :global(.navds-body-short),
-.container :global(.navds-label),
-.container :global(.navds-detail) {
-    color: var(--ax-text-neutral-subtle);
-}
-
 .blaRunding {
     width: 24px;
     height: 24px;
@@ -29,4 +23,5 @@
 
 .innholdContainer {
     margin-bottom: 1rem;
+    color: var(--ax-text-neutral-subtle);
 }
