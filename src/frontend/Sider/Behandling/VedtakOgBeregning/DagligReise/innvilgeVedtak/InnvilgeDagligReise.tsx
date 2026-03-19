@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { Beregningsresultat } from './Beregningsresultat';
+import { Beregningsresultat } from './Beregningsresultat/Beregningsresultat';
 import { tilVedtaksperioderDto } from './innvilgeDagligReiseUtils';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -18,7 +18,7 @@ import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../..
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import {
     BeregnDagligReiseRequest,
-    BeregningsresultatDagligReise,
+    BeregningDagligReise,
     InnvilgelseDagligReise,
     InnvilgelseDagligReiseRequest,
 } from '../../../../../typer/vedtak/vedtakDagligReise';
@@ -55,7 +55,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningsresultatDagligReise>());
+        useState(byggTomRessurs<BeregningDagligReise>());
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
@@ -103,7 +103,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                 ? `/api/sak/vedtak/daglig-reise/${behandling.id}/tsr/beregn`
                 : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/beregn`;
 
-            request<BeregningsresultatDagligReise, BeregnDagligReiseRequest>(url, 'POST', {
+            request<BeregningDagligReise, BeregnDagligReiseRequest>(url, 'POST', {
                 vedtaksperioder: tilVedtaksperioderDto(
                     vedtaksperioder,
                     behandling.stønadstype
@@ -144,12 +144,18 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                     {erStegRedigerbart && (
                         <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
-                                <Beregningsresultat beregningsresultat={beregningsresultat} />
+                                <Beregningsresultat
+                                    beregningsresultat={beregningsresultat.beregningsresultat}
+                                    rammevedtakPrivatBil={beregningsresultat.rammevedtakPrivatBil}
+                                />
                             )}
                         </DataViewer>
                     )}
                     {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
-                        <Beregningsresultat beregningsresultat={lagretVedtak.beregningsresultat} />
+                        <Beregningsresultat
+                            beregningsresultat={lagretVedtak.beregningsresultat}
+                            rammevedtakPrivatBil={lagretVedtak.rammevedtakPrivatBil}
+                        />
                     )}
                 </VStack>
             </Panel>
@@ -157,13 +163,14 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
             <StegKnappInnvilgelseMedVarsel
+                // TODO: Sende inn neste steg fra backend i revurdering?
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
                 lagredeVedtaksperioder={lagredeVedtaksperioder}
                 vedtakErLagret={lagretVedtak !== undefined}
                 tidligsteEndring={
                     beregningsresultat.status === RessursStatus.SUKSESS
-                        ? beregningsresultat.data.tidligsteEndring
+                        ? beregningsresultat.data.beregningsresultat.tidligsteEndring
                         : undefined
                 }
             />
