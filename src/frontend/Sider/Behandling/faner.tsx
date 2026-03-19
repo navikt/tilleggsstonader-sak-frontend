@@ -5,7 +5,6 @@ import {
     CalculatorIcon,
     CarIcon,
     EnvelopeClosedIcon,
-    GavelIcon,
     HouseHeartIcon,
     PersonRectangleIcon,
 } from '@navikt/aksel-icons';
@@ -21,7 +20,6 @@ import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFaneDagligReise';
-import { VedtakFaneDagligReise } from './VedtakOgBeregning/DagligReise/VedtakFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import { Behandling } from '../../typer/behandling/behandling';
@@ -77,7 +75,6 @@ export enum FanePath {
     BREV = 'brev',
 
     // Faner som tilhører daglig reise
-    VEDTAK = 'vedtak',
     KJØRELISTE = 'kjoreliste',
     BEREGNING = 'beregning',
     FULLFØR_KJØRELISTE = 'fullfor-kjoreliste',
@@ -90,7 +87,6 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     simulering: Steg.SIMULERING,
     brev: Steg.SEND_TIL_BESLUTTER,
 
-    vedtak: Steg.VEDTAK,
     kjoreliste: Steg.KJØRELISTE,
     beregning: Steg.BEREGNING,
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
@@ -108,8 +104,6 @@ export const stegTilFane = (steg: Steg): FanePath => {
             return FanePath.SIMULERING;
         case Steg.SEND_TIL_BESLUTTER:
             return FanePath.BREV;
-        case Steg.VEDTAK:
-            return FanePath.VEDTAK;
         case Steg.KJØRELISTE:
             return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
@@ -129,7 +123,6 @@ export const isFanePath = (path: string): path is FanePath => {
         case FanePath.VEDTAK_OG_BEREGNING:
         case FanePath.SIMULERING:
         case FanePath.BREV:
-        case FanePath.VEDTAK:
         case FanePath.KJØRELISTE:
         case FanePath.BEREGNING:
         case FanePath.FULLFØR_KJØRELISTE:
@@ -239,32 +232,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-const vedtakOgberegningFane = (
-    behandling: Behandling,
-    kanBehandlePrivatBil: boolean
-): FanerMedRouter[] => {
-    switch (behandling.stønadstype) {
-        case Stønadstype.DAGLIG_REISE_TSO:
-        case Stønadstype.DAGLIG_REISE_TSR:
-            return vedtakOgBeregningFanerDagligReise(behandling, kanBehandlePrivatBil);
-
-        default:
-            return [
-                {
-                    navn: FaneNavn.VEDTAK_OG_BEREGNING,
-                    path: FanePath.VEDTAK_OG_BEREGNING,
-                    komponent: () => vedtakForBehandling(behandling),
-                    ikon: <CalculatorIcon />,
-                    erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
-                },
-            ];
-    }
-};
-
-export const hentBehandlingfaner = (
-    behandling: Behandling,
-    kanBehandlePrivatBil: boolean
-): FanerMedRouter[] => {
+export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return kjørelistebehandlingFaner(behandling);
     }
@@ -277,7 +245,13 @@ export const hentBehandlingfaner = (
             ikon: <PersonRectangleIcon />,
         },
         ...stønadsvilkårFane(behandling),
-        ...vedtakOgberegningFane(behandling, kanBehandlePrivatBil),
+        {
+            navn: FaneNavn.VEDTAK_OG_BEREGNING,
+            path: FanePath.VEDTAK_OG_BEREGNING,
+            komponent: () => vedtakForBehandling(behandling),
+            ikon: <CalculatorIcon />,
+            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+        },
         {
             navn: FaneNavn.SIMULERING,
             path: FanePath.SIMULERING,
@@ -286,46 +260,6 @@ export const hentBehandlingfaner = (
         },
         ...brevfane(behandling),
         ...sendTilBeslutterUtenBrev(behandling),
-    ];
-};
-
-const vedtakOgBeregningFanerDagligReise = (
-    behandling: Behandling,
-    kanBehandlePrivatBil: boolean
-): FanerMedRouter[] => {
-    if (!kanBehandlePrivatBil) {
-        return [
-            {
-                navn: FaneNavn.VEDTAK_OG_BEREGNING,
-                path: FanePath.VEDTAK_OG_BEREGNING,
-                komponent: () => vedtakForBehandling(behandling),
-                ikon: <CalculatorIcon />,
-                erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
-            },
-        ];
-    }
-    return [
-        {
-            navn: FaneNavn.VEDTAK,
-            path: FanePath.VEDTAK,
-            komponent: () => <VedtakFaneDagligReise />,
-            ikon: <GavelIcon />,
-            erLåst: faneErLåst(behandling, FanePath.VEDTAK),
-        },
-        {
-            navn: FaneNavn.KJØRELISTE,
-            path: FanePath.KJØRELISTE,
-            komponent: () => <KjørelisteFane />,
-            ikon: <CarIcon />,
-            erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
-        },
-        {
-            navn: FaneNavn.BEREGNING,
-            path: FanePath.BEREGNING,
-            komponent: () => <BeregningFaneDagligReise />,
-            ikon: <CalculatorIcon />,
-            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
-        },
     ];
 };
 

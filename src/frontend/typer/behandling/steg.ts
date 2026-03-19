@@ -3,9 +3,8 @@ import { Behandling } from './behandling';
 export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VILKÅR = 'VILKÅR',
-    VEDTAK = 'VEDTAK',
-    KJØRELISTE = 'KJØRELISTE',
     BEREGNE_YTELSE = 'BEREGNE_YTELSE',
+    KJØRELISTE = 'KJØRELISTE',
     BEREGNING = 'BEREGNING',
     SIMULERING = 'SIMULERING',
     SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
@@ -31,7 +30,6 @@ export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
 
 export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
     [
-        Steg.VEDTAK,
         Steg.KJØRELISTE,
         Steg.BEREGNE_YTELSE,
         Steg.SIMULERING,
