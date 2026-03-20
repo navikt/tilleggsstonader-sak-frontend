@@ -1,65 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
-import { Document, Page, pdfjs } from 'react-pdf';
-
-import { Alert, Loader, Pagination } from '@navikt/ds-react';
-
-import 'react-pdf/dist/Page/TextLayer.css';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
+import { BrevSkeleton } from './BrevSkeleton';
 import DataViewer from './DataViewer';
 import styles from './PdfVisning.module.css';
-import { Ressurs } from '../typer/ressurs';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-).toString();
+import { Ressurs, RessursStatus } from '../typer/ressurs';
 
 interface PdfVisningProps {
     pdfFilInnhold: Ressurs<string>;
 }
 
+const Base64PdfIframe: React.FC<{ base64: string }> = ({ base64 }) => {
+    const blobUrl = useMemo(() => {
+        const byteArray = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+        return `${URL.createObjectURL(blob)}#navpanes=0`;
+    }, [base64]);
+
+    useEffect(() => {
+        const rawUrl = blobUrl.split('#')[0];
+        return () => URL.revokeObjectURL(rawUrl);
+    }, [blobUrl]);
+
+    return <iframe className={styles.pdfIframe} title="brev" src={blobUrl} />;
+};
+
 export const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
-    const [numPages, setNumPages] = useState<number>(1);
-    const [pageNumber, setPageNumber] = useState(1);
+    const brevLasterInn =
+        pdfFilInnhold.status === RessursStatus.HENTER ||
+        pdfFilInnhold.status === RessursStatus.IKKE_HENTET;
 
-    function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-        if (pageNumber > numPages) {
-            setPageNumber(numPages);
-        }
-        setNumPages(numPages);
-    }
-
-    return (
-        <DataViewer type={'pdf'} response={{ pdfFilInnhold }}>
+    return brevLasterInn ? (
+        <div className={styles.dokumentWrapper}>
+            <BrevSkeleton />
+        </div>
+    ) : (
+        <DataViewer type="pdf" response={{ pdfFilInnhold }}>
             {({ pdfFilInnhold }) => (
                 <div className={styles.dokumentWrapper}>
-                    <Pagination
-                        page={pageNumber}
-                        count={numPages}
-                        onPageChange={setPageNumber}
-                        size="xsmall"
-                    />
-                    <Document
-                        className={styles.dokument}
-                        file={`data:application/pdf;base64,${pdfFilInnhold}`}
-                        onLoadSuccess={onDocumentLoadSuccess}
-                        error={
-                            <Alert variant={'error'}>Ukjent feil ved henting av dokument.</Alert>
-                        }
-                        noData={<Alert variant={'error'}>Dokumentet er tomt.</Alert>}
-                        loading={
-                            <Loader size={'xlarge'} variant="interaction" transparent={true} />
-                        }
-                    >
-                        <Page pageNumber={pageNumber} renderTextLayer={true} />
-                    </Document>
-                    <Pagination
-                        page={pageNumber}
-                        count={numPages}
-                        onPageChange={setPageNumber}
-                        size="xsmall"
-                    />
+                    <Base64PdfIframe base64={pdfFilInnhold} />
                 </div>
             )}
         </DataViewer>
