@@ -51,8 +51,8 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
-    TILTAKSPENGER_TPSAK: 'tiltakspenger (ny løsning)',
-    TILTAKSPENGER_ARENA: 'tiltakspenger (Arena)',
+    TILTAKSPENGER_TPSAK: 'tiltakspenger TP-Sak',
+    TILTAKSPENGER_ARENA: 'tiltakspenger Arena',
     DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
@@ -61,8 +61,8 @@ export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
 
 export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
     AAP: 'Arbeidsavklaringspenger',
-    TILTAKSPENGER_TPSAK: 'Tiltakspenger (ny løsning)',
-    TILTAKSPENGER_ARENA: 'Tiltakspenger (Arena)',
+    TILTAKSPENGER_TPSAK: 'TP-Sak',
+    TILTAKSPENGER_ARENA: 'Tiltakspenger Arena',
     DAGPENGER: 'Dagpenger',
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
