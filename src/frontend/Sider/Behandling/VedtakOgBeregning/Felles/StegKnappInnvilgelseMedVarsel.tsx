@@ -52,7 +52,6 @@ export const StegKnappInnvilgelseMedVarsel = ({
     lagredeVedtaksperioder,
     vedtakErLagret,
     tidligsteEndring,
-    steg = Steg.BEREGNE_YTELSE,
     nesteFane = FanePath.SIMULERING,
 }: {
     vedtaksperioder: Vedtaksperiode[];
@@ -60,7 +59,6 @@ export const StegKnappInnvilgelseMedVarsel = ({
     vedtakErLagret: boolean;
     lagreVedtak: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     tidligsteEndring: string | undefined;
-    steg?: Steg;
     nesteFane?: FanePath;
 }) => {
     const { behandlingFakta } = useBehandling();
@@ -90,7 +88,7 @@ export const StegKnappInnvilgelseMedVarsel = ({
 
     return (
         <StegKnapp
-            steg={steg}
+            steg={Steg.BEREGNE_YTELSE}
             nesteFane={nesteFane}
             onNesteSteg={lagreVedtak}
             validerUlagedeKomponenter={false}

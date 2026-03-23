@@ -44,9 +44,14 @@ export type OpphørDagligReise = OpphørRequest & {
     beregningsresultat: BeregningsresultatDagligReise;
 };
 
+export interface BeregningDagligReise {
+    beregningsresultat: BeregningsresultatDagligReise;
+    rammevedtakPrivatBil?: RammevedtakPrivatBil;
+}
+
 export interface BeregningsresultatDagligReise {
     offentligTransport?: BeregningsresultatOffentligTransport;
-    tidligsteEndring: string | undefined;
+    tidligsteEndring?: string;
 }
 
 export interface BeregningsresultatOffentligTransport {

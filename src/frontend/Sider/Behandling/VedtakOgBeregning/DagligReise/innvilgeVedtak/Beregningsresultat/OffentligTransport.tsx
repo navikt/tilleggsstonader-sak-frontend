@@ -3,18 +3,18 @@ import React, { FC, useState } from 'react';
 import { Heading, HStack, Label, Switch } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
-import { DagligReiseBeregningstabell } from '../../../../../komponenter/DagligReiseBeregningstabell';
-import { BeregningsresultatDagligReise } from '../../../../../typer/vedtak/vedtakDagligReise';
+import { DagligReiseBeregningstabell } from '../../../../../../komponenter/DagligReiseBeregningstabell';
+import { BeregningsresultatOffentligTransport } from '../../../../../../typer/vedtak/vedtakDagligReise';
 
 interface Props {
-    beregningsresultat: BeregningsresultatDagligReise;
+    beregningsresultat: BeregningsresultatOffentligTransport;
 }
 
-export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {
     const [visTidligerePerioder, setVisTidligerePerioder] = useState(false);
 
-    const harPerioderFraTidligereVedtak = beregningsresultat.offentligTransport?.reiser.some(
-        (reise) => reise.perioder.some((periode) => periode.fraTidligereVedtak)
+    const harPerioderFraTidligereVedtak = beregningsresultat.reiser.some((reise) =>
+        reise.perioder.some((periode) => periode.fraTidligereVedtak)
     );
 
     return (
@@ -34,7 +34,7 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                     </Switch>
                 )}
             </HStack>
-            {beregningsresultat.offentligTransport?.reiser.map((reise, reiseIndex) => {
+            {beregningsresultat.reiser.map((reise, reiseIndex) => {
                 const relevantePerioder = reise.perioder.filter(
                     (periode) => visTidligerePerioder || !periode.fraTidligereVedtak
                 );
@@ -43,16 +43,13 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 }
                 const antallReisedagerPerUke = relevantePerioder[0].antallReisedagerPerUke;
                 return (
-                    <div key={reiseIndex} className={styles.reiseSection}>
-                        <Label size="small" className={styles.label}>
+                    <HStack gap="space-8" key={reiseIndex} className={styles.reiseSection}>
+                        <Label size="small">
                             {reise.adresse} · offentlig transport · {antallReisedagerPerUke}{' '}
                             dager/uke
                         </Label>
-                        <DagligReiseBeregningstabell
-                            perioder={relevantePerioder}
-                            className={styles.table}
-                        />
-                    </div>
+                        <DagligReiseBeregningstabell perioder={relevantePerioder} />
+                    </HStack>
                 );
             })}
         </div>
