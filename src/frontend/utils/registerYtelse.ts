@@ -11,5 +11,5 @@ export const utledYtelseTekst = (periode: PeriodeYtelseRegister): string => {
             ? ensligForsørgerStønadstypeTekst[periode.ensligForsørgerStønadstype]
             : 'Enslig forsørger';
     }
-    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.aapErFerdigAvklart ? ' (Ferdig avklart)' : ''}`;
+    return `${registerYtelseTilTekstStorForbokstav(periode.type)}${periode.aapErFerdigAvklart ? ' (ferdig avklart)' : ''}`;
 };
