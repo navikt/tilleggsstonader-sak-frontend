@@ -2,7 +2,11 @@ import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import {
+    FaktaDagligReise,
+    FaktaOffentligTransport,
+    FaktaPrivatBil,
+} from '../typer/faktaDagligReise';
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
@@ -15,6 +19,15 @@ export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFakta
     enkeltbillett?: string;
     syvdagersbillett?: string;
     trettidagersbillett?: string;
+}
+
+export interface FeilmeldingerFaktaPrivatBil extends FeilmeldingerFaktaDagligReise {
+    fom?: string;
+    tom?: string;
+    reiseavstandEnVei?: string;
+    reisedagerPerUke?: string;
+    bompengerEnVei?: string;
+    fergeEnVei?: string;
 }
 
 export type FeilmeldingerDagligReise = {
@@ -86,6 +99,8 @@ const validerFakta = (
         svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
     ) {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
+    } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_KJØRE_MED_EGEN_BIL?.svar === 'JA') {
+        return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }
 };
 
@@ -118,6 +133,28 @@ const validerFaktaOffentligTransport = (
     }
     if (fakta.prisTrettidagersbillett && fakta.prisTrettidagersbillett < 0) {
         return { trettidagersbillett: 'Prisen må være større enn 0' };
+    }
+};
+const validerFaktaPrivatBil = (
+    fakta: FaktaPrivatBil | undefined
+): Partial<FeilmeldingerFaktaPrivatBil> | undefined => {
+    if (!fakta) {
+        return { felles: 'Mangler minst én reiseperiode og reiseavstand en vei' };
+    }
+
+    if (!fakta.reiseavstandEnVei) {
+        return { reiseavstandEnVei: 'Mangler reiseavstand en vei' };
+    }
+
+    if (fakta.reiseperioder.length <= 0) {
+        return { felles: 'Mangler minst én reiseperiode' };
+    }
+
+    if (fakta.reiseperioder.some((periode) => !periode.fom)) {
+        return { fom: 'mangler fom dato' };
+    }
+    if (fakta.reiseperioder.some((periode) => !periode.tom)) {
+        return { tom: 'mangler tom dato' };
     }
 };
 

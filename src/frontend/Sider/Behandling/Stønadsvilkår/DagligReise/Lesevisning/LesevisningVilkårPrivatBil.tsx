@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useRef } from 'react';
 
-import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
+import { CarIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
     ErrorMessage,
@@ -14,7 +14,6 @@ import {
 
 import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
 import styles from './LesevisningVilkårDagligReise.module.css';
-import { LesevisningVilkårPrivatBil } from './LesevisningVilkårPrivatBil';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
@@ -24,9 +23,10 @@ import {
     regelIdTilSpørsmålKortversjon,
     svarIdTilTekstKorversjon,
 } from '../../../Vilkårvurdering/tekster';
+import { FaktaPrivatBil } from '../typer/faktaDagligReise';
 import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export const LesevisningVilkårDagligReise: FC<{
+export const LesevisningVilkårPrivatBil: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
@@ -44,7 +44,9 @@ export const LesevisningVilkårDagligReise: FC<{
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
     const endringsknapperRef = useRef<HTMLDivElement>(null);
 
-    return fakta.type === 'OFFENTLIG_TRANSPORT' ? (
+    const faktaPrivatBil = fakta as FaktaPrivatBil;
+
+    return (
         <ResultatOgStatusKort
             periode={vilkår}
             redigeringKnapp={
@@ -78,31 +80,37 @@ export const LesevisningVilkårDagligReise: FC<{
                 )
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) auto">
+            <Label size="medium">{formaterNullablePeriode(fom, tom)}</Label>
+            <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
+            <HStack gap="space-16">
+                <BodyShort size="small">
+                    <BodyShort>Reiseavstand en vei:</BodyShort>
+                    <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
+                </BodyShort>
+
+                <BodyShort size="small">
+                    <BodyShort>Adresse aktivitet:</BodyShort>
+                    <strong>{adresse} km</strong>
+                </BodyShort>
+            </HStack>
+            <Skillelinje />
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
                 <VStack gap="space-24">
                     <VStack gap="space-12">
-                        <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
-                        <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
-                        <LesevisningFaktaDagligReise fakta={fakta} />
+                        <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
                     <Tag
                         data-color="neutral"
                         size="small"
                         style={{ width: 'max-content' }}
                         variant="outline"
-                        icon={<BusIcon />}
+                        icon={<CarIcon />}
                     >
-                        {typeDagligReiseTilTekst[fakta?.type]}
+                        {typeDagligReiseTilTekst['PRIVAT_BIL']}
                     </Tag>
                 </VStack>
 
                 <VStack gap="space-4">
-                    <>
-                        <BodyShort size="small">
-                            <strong>Adresse aktivitet:</strong> {adresse || '-'}
-                        </BodyShort>
-                        <Skillelinje />
-                    </>
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
                             gap={'space-4 space-16'}
@@ -139,14 +147,5 @@ export const LesevisningVilkårDagligReise: FC<{
                 </VStack>
             </HGrid>
         </ResultatOgStatusKort>
-    ) : (
-        <LesevisningVilkårPrivatBil
-            vilkår={vilkår}
-            startRedigering={startRedigering}
-            skalViseRedigeringsknapp={skalViseRedigeringsknapp}
-            startKopiering={startKopiering}
-            feilmeldingRedigering={feilmeldingRedigering}
-            nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
-        />
     );
 };

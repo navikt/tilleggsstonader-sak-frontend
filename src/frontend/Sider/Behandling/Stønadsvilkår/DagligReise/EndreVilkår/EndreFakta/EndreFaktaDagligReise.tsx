@@ -33,7 +33,8 @@ export const EndreFaktaDagligReise: React.FC<{
                 <EndreFaktaPrivatBil
                     fakta={fakta as FaktaPrivatBil}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
-                    settFakta={settFakta}
+                    settFakta={settFakta as () => FaktaPrivatBil}
+                    feilmeldinger={feilmeldinger.fakta}
                 />
             );
     }

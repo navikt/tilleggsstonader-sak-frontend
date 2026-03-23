@@ -116,10 +116,17 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
     prisTrettidagersbillett: undefined,
 };
 
-export const tomtPrivatBil: FaktaPrivatBil = {
-    type: 'PRIVAT_BIL',
+export const defaultPrivatBilPeriode = {
+    periodeId: '',
+    fom: '', // tom streng istedenfor undefined
+    tom: '', // tom streng istedenfor undefined
     reisedagerPerUke: undefined,
-    reiseavstandEnVei: undefined,
     bompengerEnVei: undefined,
     fergekostandEnVei: undefined,
+};
+
+export const tomtPrivatBil: FaktaPrivatBil = {
+    type: 'PRIVAT_BIL',
+    reiseavstandEnVei: undefined,
+    reiseperioder: [{ ...defaultPrivatBilPeriode }],
 };
