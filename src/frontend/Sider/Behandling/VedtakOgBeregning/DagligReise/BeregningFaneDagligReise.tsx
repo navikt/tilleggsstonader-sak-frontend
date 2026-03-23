@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 import { CalculatorIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
-import { Beregningsresultat } from './innvilgeVedtak/Beregningsresultat';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -33,7 +32,7 @@ const Beregning: FC<{ vedtak: VedtakDagligReise }> = ({ vedtak }) => {
     }
     return (
         <Panel ikon={<CalculatorIcon />} tittel="Beregningsresultat">
-            <Beregningsresultat beregningsresultat={vedtak.beregningsresultat} />
+            <p>Resultat fra beregning av kjøreliste</p>
         </Panel>
     );
 };
