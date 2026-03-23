@@ -25,8 +25,8 @@ export function lagRammevedtakstabellPrivatBil(
                 <th style="width: 120px; ${borderStylingCompact}">Reisedager per uke</th>
                 <th style="width: 100px; ${borderStylingCompact}">Reiseavstand én vei</th>
                 <th style="width: 110px; ${borderStylingCompact}">Kilometersats</th>
-                ${reise.bompengerEnVei ? `<th style="width: 110px; ${borderStylingCompact}">Bom én vei</th>` : ''}
-                ${reise.fergekostnadEnVei ? `<th style="width: 110px; ${borderStylingCompact}">Ferge én vei</th>` : ''}
+                ${reise.bompengerPerDag ? `<th style="width: 110px; ${borderStylingCompact}">Bom per dag</th>` : ''}
+                ${reise.fergekostnadPerDag ? `<th style="width: 110px; ${borderStylingCompact}">Ferge per dag</th>` : ''}
                 <th style="width: 110px; ${borderStylingCompact}">Dagsats u/parkering</th>
             </thead>
             <tbody>
@@ -35,8 +35,8 @@ export function lagRammevedtakstabellPrivatBil(
                     <td style="${borderStyling}">${reise.reisedagerPerUke} ${reise.reisedagerPerUke > 1 ? 'dager' : 'dag'}</td>
                     <td style="${borderStyling}">${reise.reiseavstandEnVei} km</td>
                     <td style="${borderStyling}">${reise.kilometersats} kr</td>
-                    <td style="${borderStyling}">${reise.bompengerEnVei ? `${reise.bompengerEnVei} kr` : '-'}</td>
-                    ${reise.fergekostnadEnVei ? `<td style="${borderStyling}">${reise.fergekostnadEnVei ?? '-'}</td>` : ''}                    
+                    <td style="${borderStyling}">${reise.bompengerPerDag ? `${reise.bompengerPerDag} kr` : '-'}</td>
+                    ${reise.fergekostnadPerDag ? `<td style="${borderStyling}">${reise.fergekostnadPerDag ?? '-'}</td>` : ''}                    
                     <td style="${borderStyling}">${reise.dagsatsUtenParkering} kr</td>
                 </tr>
             </tbody>

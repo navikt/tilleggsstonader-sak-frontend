@@ -76,17 +76,17 @@ const LesevisningFaktaPrivatBil: FC<{
                 {fakta?.reiseavstandEnVei ? `${fakta.reiseavstandEnVei} km` : '-'}
             </BodyShort>
 
-            <BodyShort size="small">{'Bompenger en vei'}</BodyShort>
+            <BodyShort size="small">{'Bompenger per dag'}</BodyShort>
             <BodyShort size="small">
-                {fakta?.bompengerEnVei
-                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.bompengerEnVei)} kr`
+                {fakta?.bompengerPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta?.bompengerPerDag)} kr`
                     : '-'}
             </BodyShort>
 
-            <BodyShort size="small">{'Fergekostnader en vei'}</BodyShort>
+            <BodyShort size="small">{'Fergekostnader per dag'}</BodyShort>
             <BodyShort size="small">
-                {fakta?.fergekostandEnVei
-                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.fergekostandEnVei)} kr`
+                {fakta?.fergekostnadPerDag
+                    ? `${formaterTallMedTusenSkilleEllerStrek(fakta.fergekostnadPerDag)} kr`
                     : '-'}
             </BodyShort>
         </div>
