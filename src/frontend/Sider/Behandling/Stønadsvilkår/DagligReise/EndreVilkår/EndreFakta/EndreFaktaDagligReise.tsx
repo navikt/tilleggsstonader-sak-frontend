@@ -8,7 +8,11 @@ import {
     FaktaPrivatBil,
 } from '../../typer/faktaDagligReise';
 import { TypeVilkårFakta } from '../../typer/regelstrukturDagligReise';
-import { FeilmeldingerDagligReise } from '../validering';
+import {
+    FeilmeldingerDagligReise,
+    FeilmeldingerFaktaOffentligTransport,
+    FeilmeldingerFaktaPrivatBil,
+} from '../validering';
 
 export const EndreFaktaDagligReise: React.FC<{
     gjeldendeFaktaType: TypeVilkårFakta;
@@ -25,7 +29,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     fakta={fakta as FaktaOffentligTransport}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
-                    feilmeldinger={feilmeldinger.fakta}
+                    feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':
@@ -33,7 +37,8 @@ export const EndreFaktaDagligReise: React.FC<{
                 <EndreFaktaPrivatBil
                     fakta={fakta as FaktaPrivatBil}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
-                    settFakta={settFakta}
+                    settFakta={settFakta as () => FaktaPrivatBil}
+                    feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
                 />
             );
     }

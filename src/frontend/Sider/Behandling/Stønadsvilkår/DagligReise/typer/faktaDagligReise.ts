@@ -13,12 +13,18 @@ export interface FaktaOffentligTransport extends FaktaDagligReise {
     prisTrettidagersbillett: number | undefined;
 }
 
-export interface FaktaPrivatBil extends FaktaDagligReise {
-    type: 'PRIVAT_BIL';
+export interface FaktaDelperiodePrivatBil {
+    fom: string;
+    tom: string;
     reisedagerPerUke: number | undefined;
-    reiseavstandEnVei: number | undefined;
     bompengerEnVei: number | undefined;
     fergekostandEnVei: number | undefined;
+}
+
+export interface FaktaPrivatBil extends FaktaDagligReise {
+    type: 'PRIVAT_BIL';
+    reiseavstandEnVei: number | undefined;
+    faktaDelperioder: FaktaDelperiodePrivatBil[];
 }
 
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {

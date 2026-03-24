@@ -2,7 +2,11 @@ import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
-import { FaktaDagligReise, FaktaOffentligTransport } from '../typer/faktaDagligReise';
+import {
+    FaktaDagligReise,
+    FaktaOffentligTransport,
+    FaktaPrivatBil,
+} from '../typer/faktaDagligReise';
 import { RegelIdDagligReise, Regelstruktur } from '../typer/regelstrukturDagligReise';
 import { SvarOgBegrunnelse, SvarVilkårDagligReise } from '../typer/vilkårDagligReise';
 
@@ -17,16 +21,34 @@ export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFakta
     trettidagersbillett?: string;
 }
 
+export type FeilmeldingerFaktaPrivatBil = Array<{
+    fom?: string;
+    tom?: string;
+    reisedagerPerUke?: string;
+    bompengerEnVei?: string;
+    fergeEnVei?: string;
+    reiseavstandEnVei?: string;
+}>;
+
 export type FeilmeldingerDagligReise = {
     fom?: string;
     tom?: string;
     adresse?: string;
-    fakta?: FeilmeldingerFaktaDagligReise;
+    fakta?: FeilmeldingerFaktaDagligReise | FeilmeldingerFaktaPrivatBil;
     begrunnelse?: Partial<Record<RegelIdDagligReise, string>>;
 };
 
 export function ingen(valideringsfeil: FeilmeldingerDagligReise) {
-    return Object.keys(valideringsfeil).length === 0;
+    const { fakta, ...resten } = valideringsfeil;
+    const harAndreFeil = Object.keys(resten).length > 0;
+    if (harAndreFeil) return false;
+    if (Array.isArray(fakta)) {
+        return fakta.every((obj) => Object.keys(obj).length === 0);
+    }
+    if (typeof fakta === 'object' && fakta !== null) {
+        return Object.keys(fakta).length === 0;
+    }
+    return true;
 }
 
 export const validerVilkår = (
@@ -77,18 +99,6 @@ const validerSvar = (
     return finnesFeil ? { begrunnelse: begrunnelseFeil } : undefined;
 };
 
-const validerFakta = (
-    fakta: FaktaDagligReise | undefined,
-    svar: SvarVilkårDagligReise
-): FeilmeldingerFaktaDagligReise | undefined => {
-    if (
-        fakta?.type === 'OFFENTLIG_TRANSPORT' ||
-        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
-    ) {
-        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
-    }
-};
-
 const validerFaktaOffentligTransport = (
     fakta: FaktaOffentligTransport | undefined
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
@@ -104,12 +114,6 @@ const validerFaktaOffentligTransport = (
         return { reisedagerPerUke: 'Reisdager per uke må være mellom 0 og 5' };
     }
 
-    if (!fakta.prisEnkelbillett && !fakta.prisSyvdagersbillett && !fakta.prisTrettidagersbillett) {
-        return {
-            felles: 'Minst én billettpris må legges inn',
-        };
-    }
-
     if (fakta.prisEnkelbillett && fakta.prisEnkelbillett < 0) {
         return { enkeltbillett: 'Prisen må være større enn 0' };
     }
@@ -118,6 +122,63 @@ const validerFaktaOffentligTransport = (
     }
     if (fakta.prisTrettidagersbillett && fakta.prisTrettidagersbillett < 0) {
         return { trettidagersbillett: 'Prisen må være større enn 0' };
+    }
+};
+
+const validerFaktaPrivatBil = (
+    fakta: FaktaPrivatBil | undefined
+): FeilmeldingerFaktaPrivatBil | undefined => {
+    if (!fakta) return undefined;
+    const feilListe = fakta.faktaDelperioder.map((periode) => {
+        const feil: {
+            fom?: string;
+            tom?: string;
+            reisedagerPerUke?: string;
+            bompengerEnVei?: string;
+            fergeEnVei?: string;
+            reiseavstandEnVei?: string;
+        } = {};
+        if (!periode.fom || periode.fom === '') feil.fom = 'Fra-dato må fylles ut';
+        if (!periode.tom || periode.tom === '') feil.tom = 'Til-dato må fylles ut';
+        if (
+            !periode.reisedagerPerUke ||
+            periode.reisedagerPerUke > 7 ||
+            periode.reisedagerPerUke < 1
+        )
+            feil.reisedagerPerUke = 'Reisedager må være mellom 1 og 7';
+        if (periode.bompengerEnVei && periode.bompengerEnVei < 0)
+            feil.bompengerEnVei = 'Bompenger må være større enn 0';
+        if (periode.fergekostandEnVei && periode.fergekostandEnVei < 0)
+            feil.fergeEnVei = 'Fergekostnad må være større enn 0';
+        return feil;
+    });
+    // Valider felles reiseavstandEnVei og legg på første element
+    if (fakta.reiseavstandEnVei === undefined || Number(fakta.reiseavstandEnVei) <= 0) {
+        if (feilListe.length > 0) {
+            feilListe[0] = {
+                ...feilListe[0],
+                reiseavstandEnVei: 'Reiseavstand en vei må fylles ut og være større enn 0',
+            };
+        } else {
+            feilListe.push({
+                reiseavstandEnVei: 'Reiseavstand en vei må fylles ut og være større enn 0',
+            });
+        }
+    }
+    return feilListe;
+};
+
+const validerFakta = (
+    fakta: FaktaDagligReise | undefined,
+    svar: SvarVilkårDagligReise
+): FeilmeldingerFaktaDagligReise | FeilmeldingerFaktaPrivatBil | undefined => {
+    if (
+        fakta?.type === 'OFFENTLIG_TRANSPORT' ||
+        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
+    ) {
+        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
+    } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_KJØRE_MED_EGEN_BIL?.svar === 'JA') {
+        return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }
 };
 
