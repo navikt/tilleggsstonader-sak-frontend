@@ -51,20 +51,16 @@ export const typeRegisterYtelseTilMålgruppeType: Record<TypeRegisterYtelse, Må
 
 export const registerYtelseTilTekst: Record<TypeRegisterYtelse, string> = {
     AAP: 'arbeidsavklaringspenger',
-    TILTAKSPENGER_TPSAK: 'tiltakspenger (ny løsning)',
-    TILTAKSPENGER_ARENA: 'tiltakspenger (Arena)',
+    TILTAKSPENGER_TPSAK: 'tiltakspenger TP-Sak',
+    TILTAKSPENGER_ARENA: 'tiltakspenger Arena',
     DAGPENGER: 'dagpenger',
     ENSLIG_FORSØRGER: 'overgangsstønad',
     OMSTILLINGSSTØNAD: 'omstillingsstønad',
     INNSATT_I_FEGNSEL: 'innsatt i fengsel',
 };
 
-export const registerYtelseTilTekstStorForbokstav: Record<TypeRegisterYtelse, string> = {
-    AAP: 'Arbeidsavklaringspenger',
-    TILTAKSPENGER_TPSAK: 'Tiltakspenger (ny løsning)',
-    TILTAKSPENGER_ARENA: 'Tiltakspenger (Arena)',
-    DAGPENGER: 'Dagpenger',
-    ENSLIG_FORSØRGER: 'Enslig forsørger',
-    OMSTILLINGSSTØNAD: 'Omstillingsstønad',
-    INNSATT_I_FEGNSEL: 'Innsatt i fengsel',
-};
+export function registerYtelseTilTekstStorForbokstav(type: TypeRegisterYtelse): string {
+    return (
+        registerYtelseTilTekst[type].charAt(0).toUpperCase() + registerYtelseTilTekst[type].slice(1)
+    );
+}

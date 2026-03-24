@@ -3,7 +3,7 @@ import React, { useId, useState } from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 import { v7 } from 'uuid';
 
-import { CopyButton, HStack, TextField } from '@navikt/ds-react';
+import { HStack, TextField } from '@navikt/ds-react';
 
 import styles from './EndreVilkårDagligReise.module.css';
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
@@ -195,26 +195,17 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                         />
                     </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={380}>
-                        <HStack align="center" wrap={false} gap={'space-8'}>
-                            <TextField
-                                label={'Adresse aktivitet'}
-                                size="small"
-                                error={feilmeldinger?.adresse}
-                                value={adresse || ''}
-                                onChange={(e) => {
-                                    oppdaterAdresse(e.target.value || undefined);
-                                    nullstillFeilmeldingFor(['adresse']);
-                                }}
-                                className={styles.adressefelt}
-                            />
-                            {adresse !== undefined && adresse !== '' && (
-                                <CopyButton
-                                    size="small"
-                                    copyText={adresse}
-                                    style={{ marginTop: '1.8rem' }}
-                                />
-                            )}
-                        </HStack>
+                        <TextField
+                            label={'Adresse aktivitet'}
+                            size="small"
+                            error={feilmeldinger?.adresse}
+                            value={adresse || ''}
+                            onChange={(e) => {
+                                oppdaterAdresse(e.target.value || undefined);
+                                nullstillFeilmeldingFor(['adresse']);
+                            }}
+                            className={styles.adressefelt}
+                        />
                     </FeilmeldingMaksBredde>
                 </HStack>
 

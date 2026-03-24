@@ -7,6 +7,7 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
+import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../../typer/ressurs';
 import { FanePath } from '../faner';
 
@@ -33,7 +34,11 @@ const NullstillModal: React.FC = () => {
             .then((respons) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
-                    navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
+                    if (behandling.type === BehandlingType.KJØRELISTE) {
+                        navigate(`/behandling/${behandling.id}/${FanePath.KJØRELISTE}`);
+                    } else {
+                        navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
+                    }
                     // TODO bør kunne løses bedre ved å kun refreshe state
                     window.location.reload();
                 } else {

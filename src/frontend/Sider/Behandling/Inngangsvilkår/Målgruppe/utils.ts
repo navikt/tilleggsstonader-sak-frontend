@@ -10,8 +10,8 @@ import { FaktiskMålgruppe } from '../../Felles/faktiskMålgruppe';
 import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
 import {
-    MålgruppeFaktaOgSvar,
     Målgruppe,
+    MålgruppeFaktaOgSvar,
     MålgruppeType,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
@@ -215,5 +215,5 @@ export const mapFaktaOgSvarTilRequest = (
 });
 
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
-    return `${registerYtelseTilTekstStorForbokstav[periode.type]}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (Ferdig avklart)' : ''}`;
+    return `${registerYtelseTilTekstStorForbokstav(periode.type)}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (ferdig avklart)' : ''}`;
 };

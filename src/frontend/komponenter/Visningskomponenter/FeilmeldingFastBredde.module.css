@@ -1,3 +1,4 @@
+/* stylelint-disable-next-line aksel/no-class-override -- Begrenser bredde på feilmelding; Aksel tilbyr ikke eget API for dette. */
 .feilmeldingMaksBredde :global(.aksel-error-message) {
     max-width: var(--max-width);
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Alert, Button, Tabs } from '@navikt/ds-react';
@@ -15,7 +14,6 @@ import { StegProvider } from '../../context/StegContext';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
-import { Toggle } from '../../utils/toggles';
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
@@ -33,7 +31,6 @@ const BehandlingTabsInnhold = () => {
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
     const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg);
-    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
@@ -51,7 +48,7 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling, kanBehandlePrivatBil);
+    const behandlingFaner = hentBehandlingfaner(behandling);
 
     return (
         <StegProvider

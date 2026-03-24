@@ -35,7 +35,9 @@ export const HamburgermenyBehandling = () => {
         kanRedigereGrunnlagFom;
 
     const skalViseNullstillBehandling =
-        behandlingErRedigerbar && behandling.type === BehandlingType.REVURDERING;
+        behandlingErRedigerbar &&
+        (behandling.type === BehandlingType.REVURDERING ||
+            behandling.type === BehandlingType.KJØRELISTE);
 
     return (
         <Hamburgermeny>

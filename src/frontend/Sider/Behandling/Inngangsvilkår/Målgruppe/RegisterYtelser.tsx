@@ -78,11 +78,11 @@ function Hjelpetekst({
 }) {
     const tidspunktHentet = grunnlag.hentetInformasjon.tidspunktHentet;
     const typer = grunnlag.ytelse.kildeResultat
-        .map((kildeResultat) => registerYtelseTilTekstStorForbokstav[kildeResultat.type])
+        .map((kildeResultat) => registerYtelseTilTekstStorForbokstav(kildeResultat.type))
         .join(', ');
     const feiledeTyper = grunnlag.ytelse.kildeResultat
         .filter((kildeResultat) => kildeResultat.resultat === 'FEILET')
-        .map((kildeResultat) => registerYtelseTilTekstStorForbokstav[kildeResultat.type])
+        .map((kildeResultat) => registerYtelseTilTekstStorForbokstav(kildeResultat.type))
         .join(', ');
     return (
         <VStack gap={'space-8'}>

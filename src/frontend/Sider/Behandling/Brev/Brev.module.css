@@ -3,10 +3,11 @@
 }
 
 .to-kolonner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
     gap: 1rem;
 
     @media (width <= 1149px) {
-        flex-wrap: wrap;
+        grid-template-columns: 1fr;
     }
 }
