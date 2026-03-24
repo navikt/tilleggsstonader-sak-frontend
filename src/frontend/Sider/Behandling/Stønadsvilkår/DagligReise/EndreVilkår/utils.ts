@@ -120,8 +120,8 @@ export const defaultPrivatBilPeriode = {
     fom: '', // tom streng istedenfor undefined
     tom: '', // tom streng istedenfor undefined
     reisedagerPerUke: undefined,
-    bompengerEnVei: undefined,
-    fergekostandEnVei: undefined,
+    bompengerPerDag: undefined,
+    fergekostnadPerDag: undefined,
 };
 
 export const tomtPrivatBil: FaktaPrivatBil = {

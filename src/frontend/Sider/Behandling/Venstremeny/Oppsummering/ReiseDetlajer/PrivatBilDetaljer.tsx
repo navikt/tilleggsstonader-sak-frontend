@@ -23,14 +23,14 @@ export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgi
 
         {utgifterBil.bompenger && (
             <VStack>
-                <Label size={'small'}>Bompenger én vei</Label>
+                <Label size={'small'}>Bompenger per dag</Label>
                 <BodyShort size="small">{`${utgifterBil.bompenger} kr`}</BodyShort>
             </VStack>
         )}
 
         {utgifterBil.ferge && (
             <VStack>
-                <Label size={'small'}>Ferge én vei</Label>
+                <Label size={'small'}>Ferge per dag</Label>
                 <BodyShort size="small">{`${utgifterBil.ferge} kr`}</BodyShort>
             </VStack>
         )}

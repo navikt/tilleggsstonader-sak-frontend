@@ -94,8 +94,8 @@ export interface RammeForReiseMedPrivatBil {
     tom: string;
     reisedagerPerUke: number;
     reiseavstandEnVei: number;
-    bompengerEnVei?: number;
-    fergekostnadEnVei?: number;
+    bompengerPerDag?: number;
+    fergekostnadPerDag?: number;
     kilometersats: number;
     dagsatsUtenParkering: number;
 }

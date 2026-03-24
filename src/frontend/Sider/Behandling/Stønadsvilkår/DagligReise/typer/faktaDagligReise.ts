@@ -17,8 +17,8 @@ export interface FaktaDelperiodePrivatBil {
     fom: string;
     tom: string;
     reisedagerPerUke: number | undefined;
-    bompengerEnVei: number | undefined;
-    fergekostandEnVei: number | undefined;
+    bompengerPerDag: number | undefined;
+    fergekostnadPerDag: number | undefined;
 }
 
 export interface FaktaPrivatBil extends FaktaDagligReise {

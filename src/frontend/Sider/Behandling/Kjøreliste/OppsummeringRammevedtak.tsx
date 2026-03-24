@@ -15,8 +15,8 @@ export const OppsummeringRammevedtak: FC<{
             <Label size="small">Reisedager per uke</Label>
             <Label size="small">Reiseavstand én vei</Label>
             <Label size="small">Sats</Label>
-            <Label size="small">Bom én vei</Label>
-            <Label size="small">Ferge én vei</Label>
+            <Label size="small">Bom per dag</Label>
+            <Label size="small">Ferge per dag</Label>
             <Label size="small">Dagsats u/park.</Label>
             <BodyShort size="small">
                 {formaterIsoPeriode(rammeForReise.fom, rammeForReise.tom)}
@@ -25,10 +25,10 @@ export const OppsummeringRammevedtak: FC<{
             <BodyShort size="small">{rammeForReise.reiseavstandEnVei} km</BodyShort>
             <BodyShort size="small">{rammeForReise.kilometersats} kr</BodyShort>
             <BodyShort size="small">
-                {rammeForReise.bompengerEnVei ? `${rammeForReise.bompengerEnVei} kr` : '-'}
+                {rammeForReise.bompengerPerDag ? `${rammeForReise.bompengerPerDag} kr` : '-'}
             </BodyShort>
             <BodyShort size="small">
-                {rammeForReise.fergekostnadEnVei ? `${rammeForReise.fergekostnadEnVei} kr` : '-'}
+                {rammeForReise.fergekostnadPerDag ? `${rammeForReise.fergekostnadPerDag} kr` : '-'}
             </BodyShort>
             <BodyShort size="small">{rammeForReise.dagsatsUtenParkering} kr</BodyShort>
         </div>

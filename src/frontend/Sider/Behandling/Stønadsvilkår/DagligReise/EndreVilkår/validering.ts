@@ -25,8 +25,8 @@ export type FeilmeldingerFaktaPrivatBil = Array<{
     fom?: string;
     tom?: string;
     reisedagerPerUke?: string;
-    bompengerEnVei?: string;
-    fergeEnVei?: string;
+    bompengerPerDag?: string;
+    fergePerDag?: string;
     reiseavstandEnVei?: string;
 }>;
 
@@ -134,8 +134,8 @@ const validerFaktaPrivatBil = (
             fom?: string;
             tom?: string;
             reisedagerPerUke?: string;
-            bompengerEnVei?: string;
-            fergeEnVei?: string;
+            bompengerPerDag?: string;
+            fergePerDag?: string;
             reiseavstandEnVei?: string;
         } = {};
         if (!periode.fom || periode.fom === '') feil.fom = 'Fra-dato må fylles ut';
@@ -146,10 +146,10 @@ const validerFaktaPrivatBil = (
             periode.reisedagerPerUke < 1
         )
             feil.reisedagerPerUke = 'Reisedager må være mellom 1 og 7';
-        if (periode.bompengerEnVei && periode.bompengerEnVei < 0)
-            feil.bompengerEnVei = 'Bompenger må være større enn 0';
-        if (periode.fergekostandEnVei && periode.fergekostandEnVei < 0)
-            feil.fergeEnVei = 'Fergekostnad må være større enn 0';
+        if (periode.bompengerPerDag && periode.bompengerPerDag < 0)
+            feil.bompengerPerDag = 'Bompenger må være større enn 0';
+        if (periode.fergekostnadPerDag && periode.fergekostnadPerDag < 0)
+            feil.fergePerDag = 'Fergekostnad må være større enn 0';
         return feil;
     });
     // Valider felles reiseavstandEnVei og legg på første element
@@ -157,11 +157,11 @@ const validerFaktaPrivatBil = (
         if (feilListe.length > 0) {
             feilListe[0] = {
                 ...feilListe[0],
-                reiseavstandEnVei: 'Reiseavstand en vei må fylles ut og være større enn 0',
+                reiseavstandEnVei: 'Reiseavstand per dag må fylles ut og være større enn 0',
             };
         } else {
             feilListe.push({
-                reiseavstandEnVei: 'Reiseavstand en vei må fylles ut og være større enn 0',
+                reiseavstandEnVei: 'Reiseavstand per dag må fylles ut og være større enn 0',
             });
         }
     }

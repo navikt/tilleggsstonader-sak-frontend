@@ -150,18 +150,18 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
                                 <TextField
-                                    label={index === 0 ? 'Bompenger en vei' : ''}
+                                    label={index === 0 ? 'Bompenger per dag' : ''}
                                     size="small"
-                                    error={feilmeldinger?.[index]?.bompengerEnVei}
+                                    error={feilmeldinger?.[index]?.bompengerPerDag}
                                     value={
-                                        harTallverdi(periode.bompengerEnVei)
-                                            ? periode.bompengerEnVei
+                                        harTallverdi(periode.bompengerPerDag)
+                                            ? periode.bompengerPerDag
                                             : ''
                                     }
                                     onChange={(e) => {
                                         oppdaterPeriode(
                                             index,
-                                            'bompengerEnVei',
+                                            'bompengerPerDag',
                                             tilHeltall(fjernSpaces(e.target.value))
                                         );
                                     }}
@@ -169,18 +169,18 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
                                 <TextField
-                                    label={index === 0 ? 'Fergekostnad en vei' : ''}
+                                    label={index === 0 ? 'Fergekostnad per dag' : ''}
                                     size="small"
-                                    error={feilmeldinger?.[index]?.fergeEnVei}
+                                    error={feilmeldinger?.[index]?.fergePerDag}
                                     value={
-                                        harTallverdi(periode.fergekostandEnVei)
-                                            ? periode.fergekostandEnVei
+                                        harTallverdi(periode.fergekostnadPerDag)
+                                            ? periode.fergekostnadPerDag
                                             : ''
                                     }
                                     onChange={(e) => {
                                         oppdaterPeriode(
                                             index,
-                                            'fergekostandEnVei',
+                                            'fergekostnadPerDag',
                                             tilHeltall(fjernSpaces(e.target.value))
                                         );
                                     }}

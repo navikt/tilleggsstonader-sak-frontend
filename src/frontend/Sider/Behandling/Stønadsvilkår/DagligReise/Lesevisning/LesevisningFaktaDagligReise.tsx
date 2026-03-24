@@ -77,10 +77,10 @@ const LesevisningFaktaPrivatBil: FC<{
                             Reisedager pr uke
                         </Table.HeaderCell>
                         <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
-                            Bompenger en vei
+                            Bompenger per dag
                         </Table.HeaderCell>
                         <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
-                            Fergekostnader en vei
+                            Fergekostnader per dag
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -95,13 +95,13 @@ const LesevisningFaktaPrivatBil: FC<{
                             </Table.DataCell>
                             <Table.DataCell>
                                 {' '}
-                                {periode?.bompengerEnVei
-                                    ? `${formaterTallMedTusenSkilleEllerStrek(periode?.bompengerEnVei)} kr`
+                                {periode?.bompengerPerDag
+                                    ? `${formaterTallMedTusenSkilleEllerStrek(periode?.bompengerPerDag)} kr`
                                     : '-'}
                             </Table.DataCell>
                             <Table.DataCell>
-                                {periode?.fergekostandEnVei
-                                    ? `${formaterTallMedTusenSkilleEllerStrek(periode.fergekostandEnVei)} kr`
+                                {periode?.fergekostnadPerDag
+                                    ? `${formaterTallMedTusenSkilleEllerStrek(periode.fergekostnadPerDag)} kr`
                                     : '-'}
                             </Table.DataCell>
                         </Table.Row>

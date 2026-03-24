@@ -42,10 +42,10 @@ export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak 
                             <TableDataCellSmall>{reise.reisedagerPerUke}</TableDataCellSmall>
                             <TableDataCellSmall>{reise.reiseavstandEnVei} km</TableDataCellSmall>
                             <TableDataCellSmall>
-                                {reise.bompengerEnVei ? `${reise.bompengerEnVei} kr` : '-'}
+                                {reise.bompengerPerDag ? `${reise.bompengerPerDag} kr` : '-'}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                {reise.fergekostnadEnVei ? `${reise.fergekostnadEnVei} kr` : '-'}
+                                {reise.fergekostnadPerDag ? `${reise.fergekostnadPerDag} kr` : '-'}
                             </TableDataCellSmall>
                             <TableDataCellSmall>{reise.dagsatsUtenParkering} kr</TableDataCellSmall>
                         </Table.Row>
