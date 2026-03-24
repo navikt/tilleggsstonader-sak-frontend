@@ -35,7 +35,7 @@ export function lagRammevedtakstabellPrivatBil(
                     <td style="${borderStyling}">${reise.reisedagerPerUke} ${reise.reisedagerPerUke > 1 ? 'dager' : 'dag'}</td>
                     <td style="${borderStyling}">${reise.reiseavstandEnVei} km</td>
                     <td style="${borderStyling}">${reise.kilometersats} kr</td>
-                    <td style="${borderStyling}">${reise.bompengerPerDag ? `${reise.bompengerPerDag} kr` : '-'}</td>
+                    ${reise.bompengerPerDag ? `<td style="${borderStyling}">${reise.bompengerPerDag} kr</td>` : ''}
                     ${reise.fergekostnadPerDag ? `<td style="${borderStyling}">${reise.fergekostnadPerDag ?? '-'}</td>` : ''}                    
                     <td style="${borderStyling}">${reise.dagsatsUtenParkering} kr</td>
                 </tr>
