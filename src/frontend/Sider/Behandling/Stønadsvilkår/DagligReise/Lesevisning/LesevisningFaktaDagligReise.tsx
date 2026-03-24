@@ -85,7 +85,7 @@ const LesevisningFaktaPrivatBil: FC<{
                     </Table.Row>
                 </Table.Header>
                 <Table.Body style={{ verticalAlign: 'top' }}>
-                    {fakta.reiseperioder.map((periode, index) => (
+                    {fakta.faktaDelperioder.map((periode, index) => (
                         <Table.Row key={index}>
                             <Table.DataCell>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}

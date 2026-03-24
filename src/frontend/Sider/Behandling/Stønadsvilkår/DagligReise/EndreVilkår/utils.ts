@@ -117,7 +117,6 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
 };
 
 export const defaultPrivatBilPeriode = {
-    periodeId: '',
     fom: '', // tom streng istedenfor undefined
     tom: '', // tom streng istedenfor undefined
     reisedagerPerUke: undefined,
@@ -128,5 +127,5 @@ export const defaultPrivatBilPeriode = {
 export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstandEnVei: undefined,
-    reiseperioder: [{ ...defaultPrivatBilPeriode }],
+    faktaDelperioder: [{ ...defaultPrivatBilPeriode }],
 };

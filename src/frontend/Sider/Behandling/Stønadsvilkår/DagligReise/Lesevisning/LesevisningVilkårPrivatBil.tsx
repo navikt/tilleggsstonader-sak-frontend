@@ -83,15 +83,23 @@ export const LesevisningVilkårPrivatBil: FC<{
             <Label size="medium">{formaterNullablePeriode(fom, tom)}</Label>
             <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
             <HStack gap="space-16">
-                <BodyShort size="small">
-                    <BodyShort>Reiseavstand en vei:</BodyShort>
-                    <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
-                </BodyShort>
+                <VStack>
+                    <span className="aksel-body-short aksel-body-short--small">
+                        Reiseavstand en vei:
+                    </span>
+                    <BodyShort size="small">
+                        <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
+                    </BodyShort>
+                </VStack>
 
-                <BodyShort size="small">
-                    <BodyShort>Adresse aktivitet:</BodyShort>
-                    <strong>{adresse} km</strong>
-                </BodyShort>
+                <VStack>
+                    <span className="aksel-body-short aksel-body-short--small">
+                        Adresse aktivitet:
+                    </span>
+                    <BodyShort size="small">
+                        <strong>{adresse} km</strong>
+                    </BodyShort>
+                </VStack>
             </HStack>
             <Skillelinje />
             <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">

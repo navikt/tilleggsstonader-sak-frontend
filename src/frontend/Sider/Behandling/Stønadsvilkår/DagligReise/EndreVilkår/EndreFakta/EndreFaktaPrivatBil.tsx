@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
-import { v7 } from 'uuid';
 
 import { TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Heading, HStack, TextField, VStack } from '@navikt/ds-react';
@@ -15,8 +14,8 @@ import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import {
     FaktaDagligReise,
+    FaktaDelperiodePrivatBil,
     FaktaPrivatBil,
-    FaktaReiseperiodePrivatBil,
 } from '../../typer/faktaDagligReise';
 import { LeggTilNyPeriodeKnapp } from '../LeggTilNyPeriodeKnapp';
 import { defaultPrivatBilPeriode, tomtPrivatBil } from '../utils';
@@ -37,7 +36,6 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
 }) => {
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
-    // Sett default fakta med én periode hvis det mangler ved mount
     useEffect(() => {
         if (fakta.type !== 'PRIVAT_BIL') {
             settFakta({ ...tomtPrivatBil });
@@ -52,48 +50,41 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         );
     }
 
-    // Oppdater et felt i en gitt periode
     const oppdaterPeriode = (
-        periodeId: string,
-        key: keyof FaktaReiseperiodePrivatBil,
+        index: number,
+        key: keyof FaktaDelperiodePrivatBil,
         verdi: number | string | undefined
     ) => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyePerioder = privatBilState.reiseperioder.map((p: FaktaReiseperiodePrivatBil) =>
-                p.periodeId === periodeId ? { ...p, [key]: verdi } : p
+            const nyePerioder = privatBilState.faktaDelperioder.map((p, i) =>
+                i === index ? { ...p, [key]: verdi } : p
             );
-            return { ...privatBilState, reiseperioder: nyePerioder };
+            return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();
     };
 
-    // Legg til ny periode
     const leggTilPeriode = () => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyPeriode: FaktaReiseperiodePrivatBil = {
-                ...defaultPrivatBilPeriode,
-                periodeId: v7(),
-            };
+            const nyPeriode: FaktaDelperiodePrivatBil = { ...defaultPrivatBilPeriode };
             return {
                 ...privatBilState,
-                reiseperioder: [...privatBilState.reiseperioder, nyPeriode],
+                faktaDelperioder: [...privatBilState.faktaDelperioder, nyPeriode],
             };
         });
         nullstillFeilOgUlagretkomponent();
     };
 
-    const slettPeriode = (periodeId: string) => {
+    const slettPeriode = (index: number) => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
             const nyePerioder =
-                privatBilState.reiseperioder.length > 1
-                    ? privatBilState.reiseperioder.filter(
-                          (p: FaktaReiseperiodePrivatBil) => p.periodeId !== periodeId
-                      )
-                    : privatBilState.reiseperioder;
-            return { ...privatBilState, reiseperioder: nyePerioder };
+                privatBilState.faktaDelperioder.length > 1
+                    ? privatBilState.faktaDelperioder.filter((_, i) => i !== index)
+                    : privatBilState.faktaDelperioder;
+            return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();
     };
@@ -111,100 +102,109 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             <Heading size="xsmall" level="4" style={{ marginBottom: '1rem' }}>
                 Daglig reise med privat bil
             </Heading>
-            {fakta.reiseperioder &&
-                fakta.reiseperioder.length > 0 &&
-                fakta.reiseperioder.map((periode, reiseperiodeIndex) => (
-                    <HStack gap={'space-16'} align="start" key={periode.periodeId}>
-                        <FeilmeldingMaksBredde $maxWidth={152}>
-                            <DateInputMedLeservisning
-                                label={reiseperiodeIndex === 0 ? 'Fra' : ''}
-                                value={periode.fom}
-                                feil={feilmeldinger?.fom}
-                                onChange={(dato) => {
-                                    oppdaterPeriode(periode.periodeId, 'fom', dato);
+            {fakta.faktaDelperioder &&
+                fakta.faktaDelperioder.length > 0 &&
+                fakta.faktaDelperioder.map((periode, index) => {
+                    return (
+                        <HStack gap={'space-16'} key={index}>
+                            <FeilmeldingMaksBredde>
+                                <DateInputMedLeservisning
+                                    label={index === 0 ? 'Fra' : ''}
+                                    value={periode.fom}
+                                    feil={feilmeldinger?.[index]?.fom}
+                                    onChange={(dato) => {
+                                        oppdaterPeriode(index, 'fom', dato);
+                                    }}
+                                    size="small"
+                                />
+                            </FeilmeldingMaksBredde>
+                            <FeilmeldingMaksBredde>
+                                <DateInputMedLeservisning
+                                    label={index === 0 ? 'Til' : ''}
+                                    value={periode?.tom}
+                                    feil={feilmeldinger?.[index]?.tom}
+                                    onChange={(dato) => {
+                                        oppdaterPeriode(index, 'tom', dato);
+                                    }}
+                                    size="small"
+                                />
+                            </FeilmeldingMaksBredde>
+                            <FeilmeldingMaksBredde $maxWidth={170}>
+                                <TextField
+                                    label={index === 0 ? 'Reisedager pr uke' : ''}
+                                    size="small"
+                                    error={feilmeldinger?.[index]?.reisedagerPerUke}
+                                    value={
+                                        harTallverdi(periode.reisedagerPerUke)
+                                            ? periode.reisedagerPerUke
+                                            : ''
+                                    }
+                                    onChange={(e) => {
+                                        oppdaterPeriode(
+                                            index,
+                                            'reisedagerPerUke',
+                                            tilHeltall(fjernSpaces(e.target.value))
+                                        );
+                                    }}
+                                />
+                            </FeilmeldingMaksBredde>
+                            <FeilmeldingMaksBredde $maxWidth={170}>
+                                <TextField
+                                    label={index === 0 ? 'Bompenger en vei' : ''}
+                                    size="small"
+                                    error={feilmeldinger?.[index]?.bompengerEnVei}
+                                    value={
+                                        harTallverdi(periode.bompengerEnVei)
+                                            ? periode.bompengerEnVei
+                                            : ''
+                                    }
+                                    onChange={(e) => {
+                                        oppdaterPeriode(
+                                            index,
+                                            'bompengerEnVei',
+                                            tilHeltall(fjernSpaces(e.target.value))
+                                        );
+                                    }}
+                                />
+                            </FeilmeldingMaksBredde>
+                            <FeilmeldingMaksBredde $maxWidth={170}>
+                                <TextField
+                                    label={index === 0 ? 'Fergekostnad en vei' : ''}
+                                    size="small"
+                                    error={feilmeldinger?.[index]?.fergeEnVei}
+                                    value={
+                                        harTallverdi(periode.fergekostandEnVei)
+                                            ? periode.fergekostandEnVei
+                                            : ''
+                                    }
+                                    onChange={(e) => {
+                                        oppdaterPeriode(
+                                            index,
+                                            'fergekostandEnVei',
+                                            tilHeltall(fjernSpaces(e.target.value))
+                                        );
+                                    }}
+                                />
+                            </FeilmeldingMaksBredde>
+                            <HStack
+                                align={'start'}
+                                style={{
+                                    marginTop: `${index === 0 ? '28px' : '8px'}`,
+                                    maxWidth: `${feilmeldinger && '170px'}`,
                                 }}
-                                size="small"
-                            />
-                        </FeilmeldingMaksBredde>
-                        <FeilmeldingMaksBredde $maxWidth={152}>
-                            <DateInputMedLeservisning
-                                label={reiseperiodeIndex === 0 ? 'Til' : ''}
-                                value={periode?.tom}
-                                feil={feilmeldinger?.tom}
-                                onChange={(dato) => {
-                                    oppdaterPeriode(periode.periodeId, 'tom', dato);
-                                }}
-                                size="small"
-                            />
-                        </FeilmeldingMaksBredde>
-                        <FeilmeldingMaksBredde $maxWidth={180}>
-                            <TextField
-                                label={reiseperiodeIndex === 0 ? 'Reisedager pr uke' : ''}
-                                size="small"
-                                error={feilmeldinger?.reisedagerPerUke}
-                                value={
-                                    harTallverdi(periode.reisedagerPerUke)
-                                        ? periode.reisedagerPerUke
-                                        : ''
-                                }
-                                onChange={(e) => {
-                                    oppdaterPeriode(
-                                        periode.periodeId,
-                                        'reisedagerPerUke',
-                                        tilHeltall(fjernSpaces(e.target.value))
-                                    );
-                                }}
-                            />
-                        </FeilmeldingMaksBredde>
-                        <FeilmeldingMaksBredde $maxWidth={180}>
-                            <TextField
-                                label={reiseperiodeIndex === 0 ? 'Bompenger en vei' : ''}
-                                size="small"
-                                error={feilmeldinger?.bompengerEnVei}
-                                value={
-                                    harTallverdi(periode.bompengerEnVei)
-                                        ? periode.bompengerEnVei
-                                        : ''
-                                }
-                                onChange={(e) => {
-                                    oppdaterPeriode(
-                                        periode.periodeId,
-                                        'bompengerEnVei',
-                                        tilHeltall(fjernSpaces(e.target.value))
-                                    );
-                                }}
-                            />
-                        </FeilmeldingMaksBredde>
-                        <FeilmeldingMaksBredde $maxWidth={180}>
-                            <TextField
-                                label={reiseperiodeIndex === 0 ? 'Fergekostnad en vei' : ''}
-                                size="small"
-                                error={feilmeldinger?.fergeEnVei}
-                                value={
-                                    harTallverdi(periode.fergekostandEnVei)
-                                        ? periode.fergekostandEnVei
-                                        : ''
-                                }
-                                onChange={(e) => {
-                                    oppdaterPeriode(
-                                        periode.periodeId,
-                                        'fergekostandEnVei',
-                                        tilHeltall(fjernSpaces(e.target.value))
-                                    );
-                                }}
-                            />
-                        </FeilmeldingMaksBredde>
-                        {fakta.reiseperioder.length > 1 && (
-                            <SmallButton
-                                style={{ alignSelf: 'self-end' }}
-                                variant={'tertiary'}
-                                icon={<TrashIcon title="Slett periode" />}
-                                iconPosition={'right'}
-                                onClick={() => slettPeriode(periode.periodeId)}
-                            />
-                        )}
-                    </HStack>
-                ))}
+                            >
+                                {fakta.faktaDelperioder.length > 1 && (
+                                    <SmallButton
+                                        variant={'tertiary'}
+                                        iconPosition={'left'}
+                                        icon={<TrashIcon title="Slett periode" />}
+                                        onClick={() => slettPeriode(index)}
+                                    />
+                                )}
+                            </HStack>
+                        </HStack>
+                    );
+                })}
             <div style={{ marginTop: '1rem' }}>
                 <LeggTilNyPeriodeKnapp
                     onKlikk={leggTilPeriode}
@@ -221,7 +221,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                     <TextField
                         label={'Reiseavstand en vei (km)'}
                         size="small"
-                        error={feilmeldinger?.reiseavstandEnVei}
+                        error={feilmeldinger?.[0]?.reiseavstandEnVei}
                         value={harTallverdi(fakta.reiseavstandEnVei) ? fakta.reiseavstandEnVei : ''}
                         onChange={(e) => {
                             oppdaterFelles(
