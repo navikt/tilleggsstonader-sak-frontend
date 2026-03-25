@@ -1,0 +1,11 @@
+.reise-section {
+    margin-bottom: 2rem;
+}
+
+.totalrad {
+    border-top: 2px solid var(--ax-border-strong);
+}
+
+.totalrad-celle {
+    font-weight: var(--ax-font-weight-bold);
+}
