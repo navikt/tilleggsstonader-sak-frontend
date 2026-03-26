@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { EarthIcon } from '@navikt/aksel-icons';
-import { BodyShort, CopyButton, Heading, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, Heading, Label, VStack } from '@navikt/ds-react';
 
 import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
@@ -38,17 +38,18 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                             {reise.adresseDetSkalReisesFra && (
                                 <VStack>
                                     <Label size={'small'}>Adresse jeg skal reise fra:</Label>
-                                    <HStack align="center" gap="space-8">
-                                        <BodyShort size="small">
+                                    <span>
+                                        <BodyShort as="span" size="small">
                                             {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
                                         </BodyShort>
                                         <CopyButton
                                             copyText={reiseAdresseTilTekst(
                                                 reise.adresseDetSkalReisesFra
                                             )}
-                                            style={{ marginTop: '.3rem' }}
+                                            size="small"
+                                            style={{ verticalAlign: 'middle' }}
                                         />
-                                    </HStack>
+                                    </span>
                                 </VStack>
                             )}
 
@@ -57,15 +58,16 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                                     <Label size={'small'}>
                                         Hvilken adresse reiser du til i aktiviteten din?
                                     </Label>
-                                    <HStack align="center" gap="space-8">
-                                        <BodyShort size="small">
+                                    <span>
+                                        <BodyShort as="span" size="small">
                                             {reiseAdresseTilTekst(reise.reiseAdresse)}
                                         </BodyShort>
                                         <CopyButton
                                             copyText={reiseAdresseTilTekst(reise.reiseAdresse)}
-                                            style={{ marginTop: '0 rem' }}
+                                            size="small"
+                                            style={{ verticalAlign: 'middle' }}
                                         />
-                                    </HStack>
+                                    </span>
                                 </VStack>
                             )}
 
