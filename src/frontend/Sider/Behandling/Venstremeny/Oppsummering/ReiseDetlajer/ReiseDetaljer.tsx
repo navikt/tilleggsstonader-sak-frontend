@@ -13,7 +13,7 @@ import { jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { InfoSeksjon } from '../Visningskomponenter';
 
-export const ReiseDetajler: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
+export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
     return (
         <div>
             <InfoSeksjon label={'Reiser'} ikon={<EarthIcon />}>

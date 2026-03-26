@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import AktivitetDagligReise from './AktivitetDagligReise';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import Hovedytelse from './Hovedytelse';
-import { ReiseDetajler } from './ReiseDetlajer/ReiseDetajler';
+import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
 import Vedlegg from './Vedlegg';
 import { InfoSeksjon } from './Visningskomponenter';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
@@ -37,7 +37,7 @@ export const OppsummeringDagligReise: React.FC<{
                 ></AktivitetDagligReise>
             )}
             {behandlingFakta.reiser && (
-                <ReiseDetajler reiser={behandlingFakta.reiser}></ReiseDetajler>
+                <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>
             )}
             <Vedlegg fakta={behandlingFakta.dokumentasjon} />
         </>
