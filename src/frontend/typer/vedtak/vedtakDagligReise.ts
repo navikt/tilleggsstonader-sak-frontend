@@ -51,6 +51,7 @@ export interface BeregningDagligReise {
 
 export interface BeregningsresultatDagligReise {
     offentligTransport?: BeregningsresultatOffentligTransport;
+    privatBil?: BeregningsresultatPrivatBil;
     tidligsteEndring?: string;
 }
 
@@ -106,4 +107,34 @@ export interface RammeForUke {
     maksAntallDagerSomKanDekkes: number;
     antallDagerInkludererHelg: boolean;
     maksBeløpSomKanDekkesFørParkering: number;
+}
+
+export interface BeregningsresultatPrivatBil {
+    reiser: BeregningsresultatForReisePrivatBil[];
+}
+
+export interface BeregningsresultatForReisePrivatBil {
+    reiseId: string;
+    adresse?: string;
+    reisedagerPerUke?: number;
+    perioder: BeregningsresultatForPeriodePrivatBil[];
+}
+
+export interface BeregningsresultatForPeriodePrivatBil {
+    fom: string;
+    tom: string;
+    grunnlag: BeregningsresultatPrivatBilGrunnlag;
+    stønadsbeløp: number;
+    brukersNavKontor?: string;
+}
+
+export interface BeregningsresultatPrivatBilGrunnlag {
+    dager: BeregningsresultatPrivatBilDag[];
+    dagsatsUtenParkering: number;
+}
+
+export interface BeregningsresultatPrivatBilDag {
+    dato: string;
+    parkeringskostnad: number;
+    stønadsbeløpForDag: number;
 }

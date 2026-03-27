@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 
 import { CalculatorIcon } from '@navikt/aksel-icons';
-import { VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 
+import { BeregningsresultatDagligReisePrivatBil } from './BeregningsresultatDagligReisePrivatBil';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -30,9 +31,21 @@ const Beregning: FC<{ vedtak: VedtakDagligReise }> = ({ vedtak }) => {
     if (!vedtakErInnvilgelse(vedtak)) {
         return null;
     }
+
+    const { beregningsresultat } = vedtak;
+
     return (
-        <Panel ikon={<CalculatorIcon />} tittel="Beregningsresultat">
-            <p>Resultat fra beregning av kjøreliste</p>
+        <Panel ikon={<CalculatorIcon />} tittel="Beregningsresultat inkludert kjøreliste">
+            <VStack gap="space-16">
+                {beregningsresultat.privatBil ? (
+                    <BeregningsresultatDagligReisePrivatBil
+                        beregningsresultat={beregningsresultat.privatBil}
+                        rammevedtakPrivatBil={vedtak.rammevedtakPrivatBil}
+                    />
+                ) : (
+                    <Alert variant={'error'}>Fant ingen beregningsresultat for privat bil</Alert>
+                )}
+            </VStack>
         </Panel>
     );
 };
