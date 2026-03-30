@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import styles from './LesevisningFaktaDagligReise.module.css';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../utils/fomatering';
 import {
@@ -70,40 +71,40 @@ const LesevisningFaktaPrivatBil: FC<{
             <Table size={'small'}>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell scope={'col'} style={{ width: '52%' }}>
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
                             Periode
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
+                        </TableHeaderCellSmall>
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
                             Reisedager pr uke
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
+                        </TableHeaderCellSmall>
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
                             Bompenger per dag
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope={'col'} style={{ width: '24%' }}>
+                        </TableHeaderCellSmall>
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
                             Fergekostnader per dag
-                        </Table.HeaderCell>
+                        </TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body style={{ verticalAlign: 'top' }}>
                     {fakta.faktaDelperioder.map((periode, index) => (
                         <Table.Row key={index}>
-                            <Table.DataCell>
+                            <TableDataCellSmall>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
-                            </Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {periode?.reisedagerPerUke ? `${periode.reisedagerPerUke}` : '-'}
-                            </Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {' '}
                                 {periode?.bompengerPerDag
                                     ? `${formaterTallMedTusenSkilleEllerStrek(periode?.bompengerPerDag)} kr`
                                     : '-'}
-                            </Table.DataCell>
-                            <Table.DataCell>
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
                                 {periode?.fergekostnadPerDag
                                     ? `${formaterTallMedTusenSkilleEllerStrek(periode.fergekostnadPerDag)} kr`
                                     : '-'}
-                            </Table.DataCell>
+                            </TableDataCellSmall>
                         </Table.Row>
                     ))}
                 </Table.Body>
