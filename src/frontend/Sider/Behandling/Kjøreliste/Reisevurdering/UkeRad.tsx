@@ -8,15 +8,22 @@ import { UkeVurdering } from '../../../../typer/kjøreliste';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { utledUkeTag } from '../utils';
 
-export const UkeRad: FC<{ uke: UkeVurdering; oppdaterUke: (uke: UkeVurdering) => void }> = ({
-    uke,
-    oppdaterUke,
-}) => {
+export const UkeRad: FC<{
+    uke: UkeVurdering;
+    oppdaterUke: (uke: UkeVurdering) => void;
+    reisedagerPerUke: number;
+}> = ({ uke, oppdaterUke, reisedagerPerUke }) => {
     const ukeTagInfo = utledUkeTag(uke);
 
     return (
         <Table.ExpandableRow
-            content={<UkeInnhold uke={uke} oppdaterUke={oppdaterUke} />}
+            content={
+                <UkeInnhold
+                    uke={uke}
+                    oppdaterUke={oppdaterUke}
+                    reisedagerPerUke={reisedagerPerUke}
+                />
+            }
             defaultOpen={uke.status === 'AVVIK'}
         >
             <TableHeaderCellSmall>
