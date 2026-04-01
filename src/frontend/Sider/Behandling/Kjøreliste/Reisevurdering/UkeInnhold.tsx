@@ -11,6 +11,7 @@ import {
 } from './valideringAvklartUke';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { RedigerbarAvklartDag, UkeVurdering } from '../../../../typer/kjøreliste';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -35,6 +36,7 @@ export const UkeInnhold: FC<{
 }> = ({ uke, oppdaterUke, reisedagerPerUke }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
@@ -95,6 +97,9 @@ export const UkeInnhold: FC<{
         settRedigerer(false);
     };
 
+    // TODO: Må oppdateres når vi håndterer redigering uten at uke er innsendt
+    const kanRedigereUke = erStegRedigerbart && !!uke.kjørelisteInnsendtDato && !!uke.avklartUkeId;
+
     return (
         <VStack gap="space-16">
             <div>
@@ -136,7 +141,7 @@ export const UkeInnhold: FC<{
             )}
             <Feilmelding feil={feil} />
             <HStack gap="space-8" justify="end">
-                {redigerer ? (
+                {redigerer && (
                     <>
                         <Button size="small" onClick={avbrytRedigering} variant="tertiary">
                             Avbryt
@@ -145,7 +150,9 @@ export const UkeInnhold: FC<{
                             Lagre
                         </Button>
                     </>
-                ) : (
+                )}
+
+                {!redigerer && kanRedigereUke && (
                     <Button
                         size="small"
                         onClick={startRedigering}
