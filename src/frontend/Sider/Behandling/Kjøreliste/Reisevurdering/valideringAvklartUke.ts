@@ -1,10 +1,15 @@
 import { FormErrors } from '../../../../hooks/felles/useFormState';
-import { GodkjentGjennomførtKjøring, RedigerbarAvklartDag } from '../../../../typer/kjøreliste';
+import {
+    GodkjentGjennomførtKjøring,
+    RedigerbarAvklartDag,
+    UkeVurdering,
+} from '../../../../typer/kjøreliste';
 import { harTallverdi } from '../../../../utils/tall';
-import { harIkkeVerdi } from '../../../../utils/utils';
+import { harIkkeVerdi, harVerdi } from '../../../../utils/utils';
 
 export const validerAvklarteDager = (
-    avklarteDager: RedigerbarAvklartDag[]
+    avklarteDager: RedigerbarAvklartDag[],
+    uke: UkeVurdering
 ): FormErrors<RedigerbarAvklartDag[]> =>
     avklarteDager.map((avklartDag) => {
         const feil: FormErrors<RedigerbarAvklartDag> = {
@@ -37,6 +42,16 @@ export const validerAvklarteDager = (
             }
         }
 
+        const feilmeldingDersomBegrunnelseManglerVedAvvikFraKjøreliste =
+            validerAvvikFraKjørelisteErBegrunnet(avklartDag, uke);
+
+        if (feilmeldingDersomBegrunnelseManglerVedAvvikFraKjøreliste) {
+            return {
+                ...feil,
+                begrunnelse: feilmeldingDersomBegrunnelseManglerVedAvvikFraKjøreliste,
+            };
+        }
+
         return feil;
     });
 
@@ -49,4 +64,44 @@ export const validerAntallReisedagerInnenforRammevedtak = (
     ).length;
 
     return antallDagerMedKjøring <= reisedagerPerUke;
+};
+
+const validerAvvikFraKjørelisteErBegrunnet = (
+    avklartDag: RedigerbarAvklartDag,
+    uke: UkeVurdering
+): string | undefined => {
+    // Validerer kun at begrunnelse er satt og ikke hva som står
+    if (harVerdi(avklartDag.begrunnelse)) return undefined;
+
+    const innsendtFraBruker = uke.dager.find((dag) => dag.dato === avklartDag.dato)?.kjørelisteDag;
+
+    if (dagErIkkeGodkjentOgBrukerMeldteKjøring(avklartDag, innsendtFraBruker?.harKjørt)) {
+        return 'Må begrunne hvorfor kjøring ikke er godkjent når bruker meldte kjøring';
+    }
+
+    if (dagErGodkjentOgBrukerMeldteIngenKjøring(avklartDag, innsendtFraBruker?.harKjørt)) {
+        return 'Må begrunne hvorfor kjøring er godkjent når bruker ikke har meldt kjøring';
+    }
+
+    if (innsendtFraBruker?.parkeringsutgift !== avklartDag.parkeringsutgift) {
+        return 'Må begrunne endring i parkeringsutgift';
+    }
+};
+
+const dagErIkkeGodkjentOgBrukerMeldteKjøring = (
+    avklartDag: RedigerbarAvklartDag,
+    brukerHarKjørt: boolean | undefined
+): boolean => {
+    return (
+        !!brukerHarKjørt && avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.NEI
+    );
+};
+
+const dagErGodkjentOgBrukerMeldteIngenKjøring = (
+    avklartDag: RedigerbarAvklartDag,
+    brukerHarKjørt: boolean | undefined
+): boolean => {
+    return (
+        !brukerHarKjørt && avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
+    );
 };

@@ -50,7 +50,7 @@ export const UkeInnhold: FC<{
     };
 
     const valider = (): boolean => {
-        const feil = validerAvklarteDager(redigerbareDager);
+        const feil = validerAvklarteDager(redigerbareDager, uke);
         settFormFeil(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
