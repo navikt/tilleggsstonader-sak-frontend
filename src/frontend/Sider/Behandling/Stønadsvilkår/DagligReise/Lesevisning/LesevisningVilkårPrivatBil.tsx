@@ -18,6 +18,10 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
+import {
+    AktivitetType,
+    AktivitetTypeTilTekst,
+} from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import {
     regelIdTilSpørsmålKortversjon,
@@ -41,7 +45,7 @@ export const LesevisningVilkårPrivatBil: FC<{
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
-    const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
+    const { resultat, delvilkårsett, fom, tom, adresse, fakta, aktivitetType } = vilkår;
     const endringsknapperRef = useRef<HTMLDivElement>(null);
 
     const faktaPrivatBil = fakta as FaktaPrivatBil;
@@ -85,15 +89,6 @@ export const LesevisningVilkårPrivatBil: FC<{
             <HStack gap="space-16">
                 <VStack>
                     <span className="aksel-body-short aksel-body-short--small">
-                        Reiseavstand en vei:
-                    </span>
-                    <BodyShort size="small">
-                        <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
-                    </BodyShort>
-                </VStack>
-
-                <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">
                         Adresse aktivitet:
                     </span>
                     <BodyShort size="small">
@@ -107,6 +102,29 @@ export const LesevisningVilkårPrivatBil: FC<{
                     <VStack gap="space-12">
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
+                    <HStack gap="space-16">
+                        <VStack>
+                            <span className="aksel-body-short aksel-body-short--small">
+                                Reiseavstand en vei:
+                            </span>
+                            <BodyShort size="small">
+                                <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
+                            </BodyShort>
+                        </VStack>
+                        {aktivitetType && (
+                            <VStack>
+                                <span className="aksel-body-short aksel-body-short--small">
+                                    Aktivitet:
+                                </span>
+                                <BodyShort size="small">
+                                    <strong>
+                                        {AktivitetTypeTilTekst[aktivitetType as AktivitetType] ??
+                                            aktivitetType}
+                                    </strong>
+                                </BodyShort>
+                            </VStack>
+                        )}
+                    </HStack>
                     <Tag
                         data-color="neutral"
                         size="small"

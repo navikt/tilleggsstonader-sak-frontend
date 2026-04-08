@@ -2,6 +2,7 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
+import { Aktivitet } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,
@@ -19,9 +20,16 @@ export const EndreFaktaDagligReise: React.FC<{
     fakta: FaktaDagligReise;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
-
     feilmeldinger: FeilmeldingerDagligReise;
-}> = ({ gjeldendeFaktaType, fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
+    oppfylteAktiviteter: Aktivitet[];
+}> = ({
+    gjeldendeFaktaType,
+    fakta,
+    nullstillFeilOgUlagretkomponent,
+    settFakta,
+    feilmeldinger,
+    oppfylteAktiviteter,
+}) => {
     switch (gjeldendeFaktaType) {
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
             return (
@@ -39,6 +47,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
                 />
             );
     }

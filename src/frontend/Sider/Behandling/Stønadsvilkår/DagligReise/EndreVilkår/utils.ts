@@ -128,4 +128,5 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstandEnVei: undefined,
     faktaDelperioder: [{ ...defaultPrivatBilPeriode }],
+    aktivitetId: '',
 };

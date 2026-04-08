@@ -28,6 +28,7 @@ export type FeilmeldingerFaktaPrivatBil = Array<{
     bompengerPerDag?: string;
     fergePerDag?: string;
     reiseavstandEnVei?: string;
+    aktivitet?: string;
 }>;
 
 export type FeilmeldingerDagligReise = {
@@ -137,6 +138,7 @@ const validerFaktaPrivatBil = (
             bompengerPerDag?: string;
             fergePerDag?: string;
             reiseavstandEnVei?: string;
+            aktivitet?: string;
         } = {};
         if (!periode.fom || periode.fom === '') feil.fom = 'Fra-dato må fylles ut';
         if (!periode.tom || periode.tom === '') feil.tom = 'Til-dato må fylles ut';
@@ -164,6 +166,11 @@ const validerFaktaPrivatBil = (
                 reiseavstandEnVei: 'Reiseavstand per dag må fylles ut og være større enn 0',
             });
         }
+    }
+    if (!fakta.aktivitetId) {
+        feilListe.push({
+            aktivitet: 'Du må velge en aktivitet',
+        });
     }
     return feilListe;
 };
