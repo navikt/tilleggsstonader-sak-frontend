@@ -168,9 +168,16 @@ const validerFaktaPrivatBil = (
         }
     }
     if (!fakta.aktivitetId) {
-        feilListe.push({
-            aktivitet: 'Du må velge en aktivitet',
-        });
+        if (feilListe.length > 0) {
+            feilListe[0] = {
+                ...feilListe[0],
+                aktivitet: 'Du må velge en aktivitet',
+            };
+        } else {
+            feilListe.push({
+                aktivitet: 'Du må velge en aktivitet',
+            });
+        }
     }
     return feilListe;
 };
