@@ -93,12 +93,18 @@ export interface RammeForReiseMedPrivatBil {
     aktivitetsadresse: string;
     fom: string;
     tom: string;
-    reisedagerPerUke: number;
+    delperioder: DelPeriode[];
     reiseavstandEnVei: number;
+}
+
+export interface DelPeriode {
+    fom: string;
+    tom: string;
     bompengerPerDag?: number;
     fergekostnadPerDag?: number;
     kilometersats: number;
     dagsatsUtenParkering: number;
+    reisedagerPerUke: number;
 }
 
 export interface RammeForUke {
