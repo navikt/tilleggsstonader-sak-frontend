@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import constate from 'constate';
 
+import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
+import { Aktivitet } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { Regelstruktur } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import {
     LagreNyttVilkårDagligReise,
     SlettVilkårDagligReiseRequest,
@@ -15,18 +18,18 @@ import {
     RessursSuksess,
 } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
-import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
-import { Regelstruktur } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { useBehandling } from '../BehandlingContext';
 
 interface Props {
     eksisterendeVilkår: VilkårDagligReise[];
     regelstruktur: Regelstruktur;
+    aktiviteter: Aktivitet[];
 }
 
 interface UseVilkårDagligReiseResponse {
     vilkårsett: VilkårDagligReise[];
     regelstruktur: Regelstruktur;
+    aktiviteter: Aktivitet[];
     lagreNyttVilkår: (
         nyttVilkår: LagreNyttVilkårDagligReise
     ) => Promise<RessursSuksess<VilkårDagligReise> | RessursFeilet>;
@@ -41,7 +44,7 @@ interface UseVilkårDagligReiseResponse {
 }
 
 export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
-    ({ eksisterendeVilkår, regelstruktur }: Props): UseVilkårDagligReiseResponse => {
+    ({ eksisterendeVilkår, regelstruktur, aktiviteter }: Props): UseVilkårDagligReiseResponse => {
         const { request } = useApp();
         const { behandling } = useBehandling();
 
@@ -103,6 +106,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
         return {
             vilkårsett,
             regelstruktur,
+            aktiviteter,
             lagreNyttVilkår,
             oppdaterVilkår,
             slettVilkår,

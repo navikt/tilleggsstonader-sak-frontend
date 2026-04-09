@@ -12,9 +12,7 @@ import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
-import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
-import { useVilkårperioder } from '../../../../../hooks/useVilkårperioder';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
@@ -56,20 +54,13 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     tomFraVilkårSomKopieres,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
-    const { regelstruktur } = useVilkårDagligReise();
-    const { behandling } = useBehandling();
+    const { regelstruktur, aktiviteter } = useVilkårDagligReise();
     const komponentId = useId();
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
-    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
-
-    //TODO data loader ?
-    const oppfylteAktiviteter =
-        vilkårperioderResponse.status === RessursStatus.SUKSESS
-            ? vilkårperioderResponse.data.vilkårperioder.aktiviteter.filter(
-                  (a) => a.resultat === VilkårPeriodeResultat.OPPFYLT
-              )
-            : [];
+    const oppfylteAktiviteter = aktiviteter.filter(
+        (aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
+    );
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 

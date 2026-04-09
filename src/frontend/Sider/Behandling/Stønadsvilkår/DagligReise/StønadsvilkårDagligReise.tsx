@@ -8,12 +8,14 @@ import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
 import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
 import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import {
     useVilkårDagligReise,
     VilkårDagligReiseProvider,
 } from '../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { useHentVilkårDagligReise } from '../../../../hooks/useHentVilkårsvurdering';
 import { useRegelstruktur } from '../../../../hooks/useRegler';
+import { useVilkårperioder } from '../../../../hooks/useVilkårperioder';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -21,16 +23,22 @@ import { Steg } from '../../../../typer/behandling/steg';
 import { FanePath } from '../../faner';
 
 export const StønadsvilkårDagligReise = () => {
+    const { behandling } = useBehandling();
     const { regelStruktur } = useRegelstruktur();
     const { eksisterendeVilkår } = useHentVilkårDagligReise();
+    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
 
     return (
         <VStack gap="space-16">
-            <DataViewer type="vilkår" response={{ eksisterendeVilkår, regelStruktur }}>
-                {({ eksisterendeVilkår, regelStruktur }) => (
+            <DataViewer
+                type="vilkår"
+                response={{ eksisterendeVilkår, regelStruktur, vilkårperioderResponse }}
+            >
+                {({ eksisterendeVilkår, regelStruktur, vilkårperioderResponse }) => (
                     <VilkårDagligReiseProvider
                         eksisterendeVilkår={eksisterendeVilkår}
                         regelstruktur={regelStruktur}
+                        aktiviteter={vilkårperioderResponse.vilkårperioder.aktiviteter}
                     >
                         <StønadsvilkårInnhold />
                     </VilkårDagligReiseProvider>
