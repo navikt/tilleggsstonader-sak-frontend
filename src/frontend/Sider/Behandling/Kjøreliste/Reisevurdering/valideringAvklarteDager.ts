@@ -60,7 +60,7 @@ export const validerAntallReisedagerInnenforRammevedtak = (
     reisedagerPerUke: number
 ): boolean => {
     const antallDagerMedKjøring = avklarteDager.filter(
-        (dag) => dag.godkjentGjennomførtKjøring === 'JA'
+        (dag) => dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
     ).length;
 
     return antallDagerMedKjøring <= reisedagerPerUke;
@@ -93,7 +93,8 @@ const dagErIkkeGodkjentOgBrukerMeldteKjøring = (
     brukerHarKjørt: boolean | undefined
 ): boolean => {
     return (
-        !!brukerHarKjørt && avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.NEI
+        brukerHarKjørt === true &&
+        avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.NEI
     );
 };
 
@@ -102,6 +103,7 @@ const dagErGodkjentOgBrukerMeldteIngenKjøring = (
     brukerHarKjørt: boolean | undefined
 ): boolean => {
     return (
-        !brukerHarKjørt && avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
+        brukerHarKjørt === false &&
+        avklartDag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
     );
 };
