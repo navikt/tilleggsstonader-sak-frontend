@@ -8,7 +8,7 @@ import styles from './UkeInnhold.module.css';
 import {
     validerAntallReisedagerInnenforRammevedtak,
     validerAvklarteDager,
-} from './valideringAvklartUke';
+} from './valideringAvklarteDager';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
