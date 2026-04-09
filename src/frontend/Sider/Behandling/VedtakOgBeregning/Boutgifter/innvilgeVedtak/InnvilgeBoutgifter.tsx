@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
-import BeregningsresultatContainer from './BeregningsresultatContainer';
+import { BeregningsresultatContainer } from './BeregningsresultatContainer';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';

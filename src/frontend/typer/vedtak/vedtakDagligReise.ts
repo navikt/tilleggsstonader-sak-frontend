@@ -1,3 +1,4 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
@@ -53,6 +54,7 @@ export interface BeregningsresultatDagligReise {
     offentligTransport?: BeregningsresultatOffentligTransport;
     privatBil?: BeregningsresultatPrivatBil;
     tidligsteEndring?: string;
+    beregningsplan: Beregningsplan;
 }
 
 export interface BeregningsresultatOffentligTransport {
