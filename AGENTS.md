@@ -45,6 +45,8 @@ Prefer validating changes with `yarn lint` and `yarn build`. If you only touched
 
 - Use Norwegian for comments and new domain-oriented code naming when it matches the surrounding code.
 - Use functional React components with hooks; do not introduce class components.
+- Declare React components with `React.FC`: `export const MyComponent: FC<Props> = ({ ... }) => { ... }`.
+- Declare standalone utility functions with `function` syntax: `export function myUtil(...) { ... }`.
 - Prefer named imports and avoid default imports.
 - Avoid `any`; define explicit interfaces or types instead.
 - Respect TypeScript strict mode.
