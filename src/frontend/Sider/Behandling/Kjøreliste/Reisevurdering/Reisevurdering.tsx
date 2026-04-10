@@ -17,7 +17,7 @@ export const Reisevurdering: FC<{
                         uke={uke}
                         key={index}
                         oppdaterUke={oppdaterUke}
-                        reisedagerPerUke={reisevurdering.rammevedtak.reisedagerPerUke}
+                        delperioder={reisevurdering.rammevedtak.delperioder}
                     />
                 ))}
             </Table.Body>

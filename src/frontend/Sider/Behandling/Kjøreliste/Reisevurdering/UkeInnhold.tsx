@@ -28,12 +28,13 @@ import {
     feiletRessursTilFeilmelding,
     lagFeilmelding,
 } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 
 export const UkeInnhold: FC<{
     uke: UkeVurdering;
     oppdaterUke: (uke: UkeVurdering) => void;
-    reisedagerPerUke: number;
-}> = ({ uke, oppdaterUke, reisedagerPerUke }) => {
+    delperioder: RammeForReiseMedPrivatBilDelperiode[];
+}> = ({ uke, oppdaterUke, delperioder }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
@@ -54,7 +55,7 @@ export const UkeInnhold: FC<{
         settFormFeil(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
-            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, reisedagerPerUke);
+            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, delperioder);
 
         settFeilmelding(
             erAntallGodkjenteDagerInnenforRammevedtak
