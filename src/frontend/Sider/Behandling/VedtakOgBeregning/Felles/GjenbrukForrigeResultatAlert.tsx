@@ -10,8 +10,7 @@ export const GjenbrukForrigeResultatAlert: FC<{ beregningsplan: Beregningsplan }
     return (
         beregningsplan.omfang === BeregningsplanOmfang.GJENBRUK_FORRIGE_RESULTAT && (
             <Alert variant="info" size="small" inline>
-                Ingen endringer er gjort som påvirker beregningsresultatet. Det er fortsatt mulig å
-                innvilge.
+                Beregningsresultatet er <strong>uendret</strong> fra forrige vedtak.
             </Alert>
         )
     );

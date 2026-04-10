@@ -10,17 +10,14 @@ export const HvorforVisesIkkeFlereEndringerReadMore: FC<{ beregningsplan: Beregn
 }) => {
     return (
         beregningsplan.omfang === BeregningsplanOmfang.FRA_DATO && (
-            <ReadMore
-                header={'Hvorfor vises ikke flere endringer?'}
-                size={'small'}
-                defaultOpen={true}
-            >
+            <ReadMore header={'Hvorfor vises ikke flere endringer?'} size="small" defaultOpen>
+                <BodyLong size="small">
+                    Beregningen er gjort fra og med{' '}
+                    <strong>{formaterIsoDato(beregningsplan.fraDato)}</strong>. Denne datoen er
+                    valgt fordi det er det tidligste tidspunktet en endring i nåværende behandling
+                    har virkning fra, og som dermed kan påvirke beregningsresultatet.
+                </BodyLong>
                 <BodyLong size={'small'}>
-                    Beregningen er gjort fra og med <b>{formaterIsoDato(beregningsplan.fraDato)}</b>
-                    . Denne datoen er valgt fordi det er det tidligste tidspunktet en endring i
-                    nåværende behandling har virkning fra, og som dermed kan påvirke
-                    beregningsresultatet.
-                    <br />
                     Perioder før denne datoen er ikke inkludert i beregningen, da de ikke påvirkes
                     av de endringene som er gjort.
                 </BodyLong>

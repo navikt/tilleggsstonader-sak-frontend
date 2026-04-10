@@ -8,7 +8,6 @@ import {
     BeregningsresultatDagligReise,
     RammevedtakPrivatBil,
 } from '../../../../../../typer/vedtak/vedtakDagligReise';
-import { skalViseBeregningsresultat } from '../../../Felles/beregningsplanUtils';
 import { GjenbrukForrigeResultatAlert } from '../../../Felles/GjenbrukForrigeResultatAlert';
 import { HvorforVisesIkkeFlereEndringerReadMore } from '../../../Felles/HvorforVisesIkkeFlereEndringerReadMore';
 
@@ -18,26 +17,23 @@ interface Props {
 }
 
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat, rammevedtakPrivatBil }) => {
-    const visBeregningsresultat = skalViseBeregningsresultat(beregningsresultat.beregningsplan);
-
     return (
         <VStack gap="space-16">
-            {visBeregningsresultat ? (
-                <>
-                    {beregningsresultat.offentligTransport && (
+            <>
+                {beregningsresultat.offentligTransport && (
+                    <>
+                        <GjenbrukForrigeResultatAlert
+                            beregningsplan={beregningsresultat.beregningsplan}
+                        />
                         <BeregningOffentligTransport
                             beregningsresultat={beregningsresultat.offentligTransport}
                         />
-                    )}
-                    {rammevedtakPrivatBil && (
-                        <BeregningsresultatRammevedtakPrivatBil
-                            rammevedtak={rammevedtakPrivatBil}
-                        />
-                    )}
-                </>
-            ) : (
-                <GjenbrukForrigeResultatAlert beregningsplan={beregningsresultat.beregningsplan} />
-            )}
+                    </>
+                )}
+                {rammevedtakPrivatBil && (
+                    <BeregningsresultatRammevedtakPrivatBil rammevedtak={rammevedtakPrivatBil} />
+                )}
+            </>
             <HvorforVisesIkkeFlereEndringerReadMore
                 beregningsplan={beregningsresultat.beregningsplan}
             />
