@@ -25,6 +25,13 @@ export const mottarSykepengerForFulltidsstillingSvarTilTekst: Record<
     [SvarJaNei.NEI_IMPLISITT]: 'Mottar ikke sykepenger for fulltidsstilling',
 };
 
+export const aldersvilkårTilTekst: Record<SvarJaNei, string | undefined> = {
+    [SvarJaNei.JA]: 'Aldersvilkår er oppfylt',
+    [SvarJaNei.NEI]: 'Aldersvilkåret er ikke oppfylt',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
+};
+
 export const lønnetSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Lønnet',
     [SvarJaNei.NEI]: 'Ikke lønnet',

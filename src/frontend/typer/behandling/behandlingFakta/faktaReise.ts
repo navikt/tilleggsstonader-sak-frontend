@@ -2,7 +2,7 @@ import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
 export interface FaktaReise {
-    skalReiseFraFolkeregistrertAdresse: JaNei;
+    skalReiseFraFolkeregistrertAdresse?: JaNei;
     adresseDetSkalReisesFra: ReiseAdresse;
     reiseAdresse: ReiseAdresse;
     periode: Periode;

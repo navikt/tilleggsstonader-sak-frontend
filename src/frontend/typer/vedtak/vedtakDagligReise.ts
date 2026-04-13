@@ -1,9 +1,11 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/DagligReise/innvilgeVedtak/innvilgeDagligReiseUtils';
 import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
+import { Periode } from '../../utils/periode';
 import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
 export type VedtakDagligReise = InnvilgelseDagligReise | AvslagDagligReise | OpphørDagligReise;
@@ -53,6 +55,7 @@ export interface BeregningsresultatDagligReise {
     offentligTransport?: BeregningsresultatOffentligTransport;
     privatBil?: BeregningsresultatPrivatBil;
     tidligsteEndring?: string;
+    beregningsplan: Beregningsplan;
 }
 
 export interface BeregningsresultatOffentligTransport {
@@ -93,12 +96,25 @@ export interface RammeForReiseMedPrivatBil {
     aktivitetsadresse: string;
     fom: string;
     tom: string;
-    reisedagerPerUke: number;
+    delperioder: RammeForReiseMedPrivatBilDelperiode[];
     reiseavstandEnVei: number;
+}
+
+export interface RammeForReiseMedPrivatBilDelperiode extends Periode {
+    fom: string;
+    tom: string;
+    reisedagerPerUke: number;
+    satser: RammeForReiseMedPrivatBilSatsForDelperiode[];
     bompengerPerDag?: number;
     fergekostnadPerDag?: number;
+}
+
+export interface RammeForReiseMedPrivatBilSatsForDelperiode {
+    fom: string;
+    tom: string;
     kilometersats: number;
     dagsatsUtenParkering: number;
+    satsBekreftetVedVedtakstidspunkt: boolean;
 }
 
 export interface RammeForUke {

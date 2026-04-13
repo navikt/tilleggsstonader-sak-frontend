@@ -8,12 +8,17 @@ import { ReisevurderingPrivatBil, UkeVurdering } from '../../../../typer/kjørel
 export const Reisevurdering: FC<{
     reisevurdering: ReisevurderingPrivatBil;
     oppdaterUke: (uke: UkeVurdering) => void;
-}> = ({ reisevurdering: kjøreliste, oppdaterUke }) => {
+}> = ({ reisevurdering, oppdaterUke }) => {
     return (
         <Table size="small">
             <Table.Body>
-                {kjøreliste?.uker.map((uke, index) => (
-                    <UkeRad uke={uke} key={index} oppdaterUke={oppdaterUke} />
+                {reisevurdering?.uker.map((uke, index) => (
+                    <UkeRad
+                        uke={uke}
+                        key={index}
+                        oppdaterUke={oppdaterUke}
+                        delperioder={reisevurdering.rammevedtak.delperioder}
+                    />
                 ))}
             </Table.Body>
         </Table>

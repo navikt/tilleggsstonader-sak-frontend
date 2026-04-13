@@ -167,6 +167,7 @@ export interface MålgruppeVurderinger {
     medlemskap: Vurdering | undefined;
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
     mottarSykepengerForFulltidsstilling: VurderingMedGammelManglerData | undefined;
+    aldersvilkår: Vurdering | undefined;
 }
 
 export interface SvarMålgruppe {

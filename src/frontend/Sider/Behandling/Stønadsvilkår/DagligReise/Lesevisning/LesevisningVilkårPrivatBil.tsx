@@ -92,7 +92,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                         Adresse aktivitet:
                     </span>
                     <BodyShort size="small">
-                        <strong>{adresse} km</strong>
+                        <strong>{adresse}</strong>
                     </BodyShort>
                 </VStack>
             </HStack>
