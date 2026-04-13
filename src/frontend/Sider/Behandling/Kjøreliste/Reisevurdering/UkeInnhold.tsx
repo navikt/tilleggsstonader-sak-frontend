@@ -55,7 +55,7 @@ export const UkeInnhold: FC<{
         settFormFeil(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
-            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, delperioder);
+            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, uke, delperioder);
 
         settFeilmelding(
             erAntallGodkjenteDagerInnenforRammevedtak

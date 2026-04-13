@@ -4,6 +4,7 @@ import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/DagligReise/innvilgeVedtak/innvilgeDagligReiseUtils';
 import { VedtaksperiodeTso } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
+import { Periode } from '../../utils/periode';
 import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
 export type VedtakDagligReise = InnvilgelseDagligReise | AvslagDagligReise | OpphørDagligReise;
@@ -97,7 +98,7 @@ export interface RammeForReiseMedPrivatBil {
     reiseavstandEnVei: number;
 }
 
-export interface RammeForReiseMedPrivatBilDelperiode {
+export interface RammeForReiseMedPrivatBilDelperiode extends Periode {
     fom: string;
     tom: string;
     reisedagerPerUke: number;
