@@ -63,6 +63,7 @@ export interface LagreVilkårperiodeResponse<T extends Aktivitet | Målgruppe | 
 
 export interface VilkårPeriode extends Periode {
     id: string;
+    globalId: string;
     resultat: VilkårPeriodeResultat;
     status: PeriodeStatus;
     begrunnelse?: string;

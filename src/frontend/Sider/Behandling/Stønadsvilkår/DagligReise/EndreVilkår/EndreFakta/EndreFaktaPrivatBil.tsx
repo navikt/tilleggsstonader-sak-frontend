@@ -104,13 +104,13 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         nullstillFeilOgUlagretkomponent();
     };
 
-    const oppdaterAktivitet = (aktivitetId: string) => {
-        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.id === aktivitetId);
+    const oppdaterAktivitet = (aktivitetGlobalId: string) => {
+        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
         settFakta((prevState) => {
             if (prevState.type !== 'PRIVAT_BIL') return { ...tomtPrivatBil };
             return {
                 ...prevState,
-                aktivitetId: aktivitetId || undefined,
+                aktivitetId: aktivitetGlobalId || undefined,
                 aktivitetType: valgtAktivitet?.type,
             };
         });
@@ -263,7 +263,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                     >
                         <option value="">Velg aktivitet</option>
                         {oppfylteAktiviteter.map((aktivitet) => (
-                            <option key={aktivitet.id} value={aktivitet.id}>
+                            <option key={aktivitet.globalId} value={aktivitet.globalId}>
                                 {AktivitetTypeTilTekst[aktivitet.type]} (
                                 {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
                             </option>
