@@ -26,6 +26,7 @@ export interface FaktaPrivatBil extends FaktaDagligReise {
     reiseavstandEnVei: number | undefined;
     faktaDelperioder: FaktaDelperiodePrivatBil[];
     aktivitetId: string | undefined;
+    aktivitetType?: string;
 }
 
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {

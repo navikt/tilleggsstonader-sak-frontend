@@ -45,7 +45,7 @@ export const LesevisningVilkårPrivatBil: FC<{
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
-    const { resultat, delvilkårsett, fom, tom, adresse, fakta, aktivitetType } = vilkår;
+    const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
     const endringsknapperRef = useRef<HTMLDivElement>(null);
 
     const faktaPrivatBil = fakta as FaktaPrivatBil;
@@ -111,15 +111,16 @@ export const LesevisningVilkårPrivatBil: FC<{
                                 <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
                             </BodyShort>
                         </VStack>
-                        {aktivitetType && (
+                        {faktaPrivatBil.aktivitetType && (
                             <VStack>
                                 <span className="aksel-body-short aksel-body-short--small">
                                     Aktivitet:
                                 </span>
                                 <BodyShort size="small">
                                     <strong>
-                                        {AktivitetTypeTilTekst[aktivitetType as AktivitetType] ??
-                                            aktivitetType}
+                                        {AktivitetTypeTilTekst[
+                                            faktaPrivatBil.aktivitetType as AktivitetType
+                                        ] ?? faktaPrivatBil.aktivitetType}
                                     </strong>
                                 </BodyShort>
                             </VStack>

@@ -7,7 +7,6 @@ export interface VilkårDagligReise extends VilkårBase {
     adresse?: string;
     reiseId: string;
     fakta: FaktaDagligReise;
-    aktivitetType?: string;
 }
 
 export type TypeDagligReise = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
