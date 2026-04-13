@@ -4,6 +4,7 @@ import { Detail, VStack } from '@navikt/ds-react';
 
 import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import {
+    aldersvilkårTilTekst,
     dekketAvAnnetRegelverkSvarTilTekst,
     medlemskapSvarTilTekst,
     mottarSykepengerForFulltidsstillingSvarTilTekst,
@@ -36,6 +37,9 @@ const FaktaOgDelvilkårVisning: React.FC<{
                         }
                     </Detail>
                 )}
+            {vurderinger.aldersvilkår?.svar && (
+                <Detail>{aldersvilkårTilTekst[vurderinger.aldersvilkår.svar]}</Detail>
+            )}
         </VStack>
     );
 };
