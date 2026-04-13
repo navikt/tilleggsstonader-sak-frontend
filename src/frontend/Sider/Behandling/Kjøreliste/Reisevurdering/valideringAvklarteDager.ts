@@ -66,9 +66,9 @@ export const validerAntallReisedagerInnenforRammevedtak = (
         (dag) => dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
     ).length;
 
-    const rammevedtakDelperiodeForUke = delperioder.filter((delperiode) => {
-        perioderOverlapper(delperiode, { fom: uke.fraDato, tom: uke.tilDato });
-    });
+    const rammevedtakDelperiodeForUke = delperioder.filter((delperiode) =>
+        perioderOverlapper(delperiode, { fom: uke.fraDato, tom: uke.tilDato })
+    );
 
     return antallDagerMedKjøring <= rammevedtakDelperiodeForUke[0].reisedagerPerUke;
 };
