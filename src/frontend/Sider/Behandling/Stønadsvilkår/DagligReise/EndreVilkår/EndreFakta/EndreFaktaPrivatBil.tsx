@@ -104,6 +104,19 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         nullstillFeilOgUlagretkomponent();
     };
 
+    const oppdaterAktivitet = (aktivitetId: string) => {
+        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.id === aktivitetId);
+        settFakta((prevState) => {
+            if (prevState.type !== 'PRIVAT_BIL') return { ...tomtPrivatBil };
+            return {
+                ...prevState,
+                aktivitetId: aktivitetId || undefined,
+                aktivitetType: valgtAktivitet?.type,
+            };
+        });
+        nullstillFeilOgUlagretkomponent();
+    };
+
     return (
         <VStack>
             <Heading size="xsmall" level="4" style={{ marginBottom: '1rem' }}>
@@ -245,7 +258,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         error={feilmeldinger?.[0]?.aktivitet}
                         value={fakta.aktivitetId || ''}
                         onChange={(e) => {
-                            oppdaterFelles('aktivitetId', e.target.value);
+                            oppdaterAktivitet(e.target.value);
                         }}
                     >
                         <option value="">Velg aktivitet</option>
