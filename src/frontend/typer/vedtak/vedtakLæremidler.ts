@@ -1,3 +1,4 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
@@ -36,6 +37,7 @@ export interface InnvilgelseLæremidler {
 export interface BeregningsresultatLæremidler {
     perioder: BeregningsresultatForPeriode[];
     tidligsteEndring: string | undefined;
+    beregningsplan: Beregningsplan;
 }
 
 interface BeregningsresultatForPeriode {

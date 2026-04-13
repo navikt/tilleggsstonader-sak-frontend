@@ -1,3 +1,4 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak, ÅrsakAvslag } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
@@ -65,6 +66,7 @@ export type BeregningsresultatBoutgifter = {
     perioder: Beregningsresultat[];
     inneholderUtgifterOvernatting: boolean;
     tidligsteEndring: string | undefined;
+    beregningsplan: Beregningsplan;
 };
 
 export enum BeregningsresultatUtgifterKeys {

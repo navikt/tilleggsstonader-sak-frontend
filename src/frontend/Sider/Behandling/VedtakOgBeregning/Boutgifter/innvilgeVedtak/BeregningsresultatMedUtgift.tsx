@@ -11,7 +11,7 @@ interface Props {
     beregningsresultat: BeregningsresultatBoutgifter;
 }
 
-const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
+export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
     <div className={styles.container}>
         <Table size={'small'}>
             <Table.Header>
@@ -67,5 +67,3 @@ const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => (
         </Table>
     </div>
 );
-
-export default Beregningsresultat;

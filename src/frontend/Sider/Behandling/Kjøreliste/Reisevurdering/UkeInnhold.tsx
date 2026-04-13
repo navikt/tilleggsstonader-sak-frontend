@@ -8,7 +8,7 @@ import styles from './UkeInnhold.module.css';
 import {
     validerAntallReisedagerInnenforRammevedtak,
     validerAvklarteDager,
-} from './valideringAvklartUke';
+} from './valideringAvklarteDager';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -23,11 +23,7 @@ import {
 import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
 import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import {
-    Feil,
-    feiletRessursTilFeilmelding,
-    lagFeilmelding,
-} from '../../../../komponenter/Feil/feilmeldingUtils';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 
 export const UkeInnhold: FC<{
@@ -41,8 +37,12 @@ export const UkeInnhold: FC<{
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
-    const [formFeil, settFormFeil] = useState<FormErrors<RedigerbarAvklartDag[]>>();
-    const [feil, settFeilmelding] = useState<Feil | undefined>(undefined);
+    const [valideringsfeilForDager, settValideringsfeilForDager] =
+        useState<FormErrors<RedigerbarAvklartDag[]>>();
+    const [valideringsfeilForUke, settValideringsfeilForUke] = useState<string | undefined>(
+        undefined
+    );
+    const [feilVedLagring, settFeilVedLagring] = useState<Feil | undefined>(undefined);
 
     const oppdaterDag = (oppdatertDag: RedigerbarAvklartDag) => {
         settRedigerbareDager((prevState) =>
@@ -52,17 +52,15 @@ export const UkeInnhold: FC<{
 
     const valider = (): boolean => {
         const feil = validerAvklarteDager(redigerbareDager, uke);
-        settFormFeil(feil);
+        settValideringsfeilForDager(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
             validerAntallReisedagerInnenforRammevedtak(redigerbareDager, uke, delperioder);
 
-        settFeilmelding(
+        settValideringsfeilForUke(
             erAntallGodkjenteDagerInnenforRammevedtak
                 ? undefined
-                : lagFeilmelding(
-                      'Antall dager med godkjent kjøring kan ikke være høyere enn antall reisedager godkjent i rammevedtak'
-                  )
+                : 'Antall dager med godkjent kjøring kan ikke være høyere enn antall reisedager godkjent i rammevedtak'
         );
 
         return isValid(feil) && erAntallGodkjenteDagerInnenforRammevedtak;
@@ -82,7 +80,7 @@ export const UkeInnhold: FC<{
                 oppdaterUke(res.data);
                 avbrytRedigering();
             } else {
-                settFeilmelding(feiletRessursTilFeilmelding(res));
+                settFeilVedLagring(feiletRessursTilFeilmelding(res));
             }
         });
     };
@@ -94,7 +92,9 @@ export const UkeInnhold: FC<{
 
     const avbrytRedigering = () => {
         settRedigerbareDager([]);
-        settFeilmelding(undefined);
+        settValideringsfeilForDager(undefined);
+        settValideringsfeilForUke(undefined);
+        settFeilVedLagring(undefined);
         settRedigerer(false);
     };
 
@@ -126,7 +126,10 @@ export const UkeInnhold: FC<{
                                         tomRedigerbarAvklartDag(dag.dato)
                                     }
                                     oppdaterDag={oppdaterDag}
-                                    feil={formFeil && formFeil[dagIndeks]}
+                                    feil={
+                                        valideringsfeilForDager &&
+                                        valideringsfeilForDager[dagIndeks]
+                                    }
                                 />
                             ) : (
                                 <AvklartDagLesevisning avklartDag={dag.avklartDag} />
@@ -140,7 +143,8 @@ export const UkeInnhold: FC<{
                     {typeAvvikTilTekst[uke.avvik.typeAvvik]}
                 </InlineMessage>
             )}
-            <Feilmelding feil={feil} />
+            <Feilmelding feil={feilVedLagring} />
+            <Feilmelding feil={valideringsfeilForUke} />
             <HStack gap="space-8" justify="end">
                 {redigerer && (
                     <>
