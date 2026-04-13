@@ -1,5 +1,6 @@
 import { Ukedag } from '../utils/dato';
 import { RammeForReiseMedPrivatBil } from './vedtak/vedtakDagligReise';
+import { Periode } from '../utils/periode';
 
 export interface ReisevurderingPrivatBil {
     reiseId: string;
@@ -7,7 +8,7 @@ export interface ReisevurderingPrivatBil {
     rammevedtak: RammeForReiseMedPrivatBil;
 }
 
-export interface UkeVurdering {
+export interface UkeVurdering extends Periode {
     ukenummer: number;
     fraDato: string;
     tilDato: string;
