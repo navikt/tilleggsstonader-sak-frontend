@@ -24,6 +24,7 @@ import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import { perioderOverlapper } from '../../../../../utils/dato';
 import { Periode } from '../../../../../utils/periode';
 import { Toggle } from '../../../../../utils/toggles';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
@@ -58,16 +59,18 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     const komponentId = useId();
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
-    const oppfylteAktiviteter = aktiviteter.filter(
-        (aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
-    );
-
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
     const [periode, settPeriode] = useState<Periode>({
         fom: vilkår?.fom || '',
         tom: vilkår?.tom || '',
     });
+
+    const oppfylteAktiviteter = aktiviteter
+        .filter((aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT)
+        .filter(
+            (aktivitet) => !periode.fom || !periode.tom || perioderOverlapper(aktivitet, periode)
+        );
 
     const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
