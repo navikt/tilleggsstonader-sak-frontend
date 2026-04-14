@@ -26,6 +26,8 @@ interface Props {
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
+    periodeFom: string;
+    periodeTom: string;
 }
 
 export const EndreFaktaPrivatBil: React.FC<Props> = ({
@@ -33,14 +35,24 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     settFakta,
     feilmeldinger,
     nullstillFeilOgUlagretkomponent,
+    periodeFom,
+    periodeTom,
 }) => {
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {
         if (fakta.type !== 'PRIVAT_BIL') {
-            settFakta({ ...tomtPrivatBil });
+            const privatBilFakta: FaktaPrivatBil = {
+                ...tomtPrivatBil,
+                faktaDelperioder: normaliserDelperioder(
+                    [{ ...defaultPrivatBilPeriode }],
+                    periodeFom,
+                    periodeTom
+                ),
+            };
+            settFakta(privatBilFakta);
         }
-    }, [fakta, settFakta]);
+    }, [fakta.type, settFakta, periodeFom, periodeTom]);
 
     if (!kanBehandlePrivatBil) {
         return (
@@ -68,10 +80,23 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     const leggTilPeriode = () => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyPeriode: FaktaDelperiodePrivatBil = { ...defaultPrivatBilPeriode };
+            const eksisterendePerioder = privatBilState.faktaDelperioder;
+            const forrigeDelperiode = eksisterendePerioder[eksisterendePerioder.length - 1];
+            const nyPeriode: FaktaDelperiodePrivatBil = {
+                ...defaultPrivatBilPeriode,
+                reisedagerPerUke: forrigeDelperiode?.reisedagerPerUke,
+                bompengerPerDag: forrigeDelperiode?.bompengerPerDag,
+                fergekostnadPerDag: forrigeDelperiode?.fergekostnadPerDag,
+            };
+            const nyePerioder = normaliserDelperioder(
+                [...eksisterendePerioder, nyPeriode],
+                periodeFom,
+                periodeTom
+            );
+
             return {
                 ...privatBilState,
-                faktaDelperioder: [...privatBilState.faktaDelperioder, nyPeriode],
+                faktaDelperioder: nyePerioder,
             };
         });
         nullstillFeilOgUlagretkomponent();
@@ -80,10 +105,11 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     const slettPeriode = (index: number) => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyePerioder =
+            const perioderEtterSlett =
                 privatBilState.faktaDelperioder.length > 1
                     ? privatBilState.faktaDelperioder.filter((_, i) => i !== index)
                     : privatBilState.faktaDelperioder;
+            const nyePerioder = normaliserDelperioder(perioderEtterSlett, periodeFom, periodeTom);
             return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();
@@ -120,8 +146,9 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
+                                    key={`til-${index}-${periode.tom || 'empty'}`}
                                     label={index === 0 ? 'Til' : ''}
-                                    value={periode?.tom}
+                                    value={periode.tom}
                                     feil={feilmeldinger?.[index]?.tom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'tom', dato);
@@ -235,3 +262,15 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         </VStack>
     );
 };
+
+function normaliserDelperioder(
+    perioder: FaktaDelperiodePrivatBil[],
+    periodeFom: string,
+    periodeTom: string
+): FaktaDelperiodePrivatBil[] {
+    return perioder.map((periode, index) => ({
+        ...periode,
+        fom: index === 0 ? periodeFom : periode.fom,
+        tom: index === perioder.length - 1 ? periodeTom : '',
+    }));
+}

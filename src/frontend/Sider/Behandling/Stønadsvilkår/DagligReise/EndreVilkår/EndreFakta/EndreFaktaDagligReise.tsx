@@ -17,11 +17,21 @@ import {
 export const EndreFaktaDagligReise: React.FC<{
     gjeldendeFaktaType: TypeVilkårFakta;
     fakta: FaktaDagligReise;
+    periodeFom: string;
+    periodeTom: string;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
 
     feilmeldinger: FeilmeldingerDagligReise;
-}> = ({ gjeldendeFaktaType, fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
+}> = ({
+    gjeldendeFaktaType,
+    fakta,
+    nullstillFeilOgUlagretkomponent,
+    settFakta,
+    feilmeldinger,
+    periodeFom,
+    periodeTom,
+}) => {
     switch (gjeldendeFaktaType) {
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
             return (
@@ -36,6 +46,8 @@ export const EndreFaktaDagligReise: React.FC<{
             return (
                 <EndreFaktaPrivatBil
                     fakta={fakta as FaktaPrivatBil}
+                    periodeFom={periodeFom}
+                    periodeTom={periodeTom}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
