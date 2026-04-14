@@ -56,13 +56,14 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
     return (
         <DataViewer type={'simuleringsresultat'} response={{ simuleringsresultatState }}>
             {({ simuleringsresultatState: simuleringsresultat }) => {
-                const { perioder, oppsummering } = simuleringsresultat || {};
+                const { perioder, oppsummering, varsel } = simuleringsresultat || {};
 
                 return perioder && oppsummering ? (
                     <>
                         <Panel
                             tittel={`Simulering for perioden ${formaterÅrFullMåned(oppsummering.fom)} - ${formaterÅrFullMåned(oppsummering.tom)}`}
                         >
+                            {varsel && <Alert variant={'warning'}>{varsel}</Alert>}
                             <Oppsumering oppsummering={oppsummering} />
                             <SimuleringTabell perioder={perioder} />
                             {oppsummering.feilutbetaling > 0 && (

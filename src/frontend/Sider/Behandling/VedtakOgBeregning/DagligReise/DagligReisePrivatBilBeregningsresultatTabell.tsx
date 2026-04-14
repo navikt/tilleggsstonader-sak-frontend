@@ -41,25 +41,33 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
                             </TableDataCellSmall>
                             <TableDataCellSmall>{periode.grunnlag.dager.length}</TableDataCellSmall>
-                            <TableDataCellSmall>
-                                {rammevedtak?.kilometersats
-                                    ? `${formaterTallMedTusenSkille(rammevedtak.kilometersats)} kr`
-                                    : '-'}
-                            </TableDataCellSmall>
+                            {rammevedtak?.delperioder.map((delperiode, index) => (
+                                <TableDataCellSmall key={index}>
+                                    {delperiode.satser.map((it) =>
+                                        it
+                                            ? `${formaterTallMedTusenSkille(it.kilometersats)} kr`
+                                            : '-'
+                                    )}
+                                </TableDataCellSmall>
+                            ))}
                             <TableDataCellSmall>
                                 {formaterTallMedTusenSkille(periode.grunnlag.dagsatsUtenParkering)}{' '}
                                 kr
                             </TableDataCellSmall>
-                            <TableDataCellSmall>
-                                {rammevedtak?.bompengerPerDag
-                                    ? `${formaterTallMedTusenSkille(rammevedtak.bompengerPerDag)} kr`
-                                    : '-'}
-                            </TableDataCellSmall>
-                            <TableDataCellSmall>
-                                {rammevedtak?.fergekostnadPerDag
-                                    ? `${formaterTallMedTusenSkille(rammevedtak.fergekostnadPerDag)} kr`
-                                    : '-'}
-                            </TableDataCellSmall>
+                            {rammevedtak?.delperioder.map((delperiode, index) => (
+                                <div key={index}>
+                                    <TableDataCellSmall>
+                                        {delperiode.bompengerPerDag
+                                            ? `${formaterTallMedTusenSkille(delperiode.bompengerPerDag)} kr`
+                                            : '-'}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {delperiode.fergekostnadPerDag
+                                            ? `${formaterTallMedTusenSkille(delperiode.fergekostnadPerDag)} kr`
+                                            : '-'}
+                                    </TableDataCellSmall>
+                                </div>
+                            ))}
                             <TableDataCellSmall>
                                 {formaterTallMedTusenSkille(
                                     periode.grunnlag.dager.reduce(

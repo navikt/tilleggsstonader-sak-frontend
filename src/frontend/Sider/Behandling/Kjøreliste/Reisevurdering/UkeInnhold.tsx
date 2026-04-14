@@ -5,8 +5,14 @@ import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
 import { RedigerAvklartDag } from './Dag/RedigerAvklartDag';
 import styles from './UkeInnhold.module.css';
+import {
+    validerAntallReisedagerInnenforRammevedtak,
+    validerAvklarteDager,
+} from './valideringAvklarteDager';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
+import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
 import { RedigerbarAvklartDag, UkeVurdering } from '../../../../typer/kjøreliste';
 import { RessursStatus } from '../../../../typer/ressurs';
 import {
@@ -18,17 +24,25 @@ import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
 import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
+import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 
 export const UkeInnhold: FC<{
     uke: UkeVurdering;
     oppdaterUke: (uke: UkeVurdering) => void;
-}> = ({ uke, oppdaterUke }) => {
+    delperioder: RammeForReiseMedPrivatBilDelperiode[];
+}> = ({ uke, oppdaterUke, delperioder }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
-    const [feil, settFeilmelding] = useState<Feil | undefined>(undefined);
+    const [valideringsfeilForDager, settValideringsfeilForDager] =
+        useState<FormErrors<RedigerbarAvklartDag[]>>();
+    const [valideringsfeilForUke, settValideringsfeilForUke] = useState<string | undefined>(
+        undefined
+    );
+    const [feilVedLagring, settFeilVedLagring] = useState<Feil | undefined>(undefined);
 
     const oppdaterDag = (oppdatertDag: RedigerbarAvklartDag) => {
         settRedigerbareDager((prevState) =>
@@ -36,7 +50,27 @@ export const UkeInnhold: FC<{
         );
     };
 
+    const valider = (): boolean => {
+        const feil = validerAvklarteDager(redigerbareDager, uke);
+        settValideringsfeilForDager(feil);
+
+        const erAntallGodkjenteDagerInnenforRammevedtak =
+            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, uke, delperioder);
+
+        settValideringsfeilForUke(
+            erAntallGodkjenteDagerInnenforRammevedtak
+                ? undefined
+                : 'Antall dager med godkjent kjøring kan ikke være høyere enn antall reisedager godkjent i rammevedtak'
+        );
+
+        return isValid(feil) && erAntallGodkjenteDagerInnenforRammevedtak;
+    };
+
     const lagre = () => {
+        if (!valider()) {
+            return;
+        }
+
         request<UkeVurdering, RedigerbarAvklartDag[]>(
             `/api/sak/kjoreliste/${behandling.id}/${uke.avklartUkeId}`,
             'PUT',
@@ -46,7 +80,7 @@ export const UkeInnhold: FC<{
                 oppdaterUke(res.data);
                 avbrytRedigering();
             } else {
-                settFeilmelding(feiletRessursTilFeilmelding(res));
+                settFeilVedLagring(feiletRessursTilFeilmelding(res));
             }
         });
     };
@@ -58,9 +92,14 @@ export const UkeInnhold: FC<{
 
     const avbrytRedigering = () => {
         settRedigerbareDager([]);
-        settFeilmelding(undefined);
+        settValideringsfeilForDager(undefined);
+        settValideringsfeilForUke(undefined);
+        settFeilVedLagring(undefined);
         settRedigerer(false);
     };
+
+    // TODO: Må oppdateres når vi håndterer redigering uten at uke er innsendt
+    const kanRedigereUke = erStegRedigerbart && !!uke.kjørelisteInnsendtDato && !!uke.avklartUkeId;
 
     return (
         <VStack gap="space-16">
@@ -87,6 +126,10 @@ export const UkeInnhold: FC<{
                                         tomRedigerbarAvklartDag(dag.dato)
                                     }
                                     oppdaterDag={oppdaterDag}
+                                    feil={
+                                        valideringsfeilForDager &&
+                                        valideringsfeilForDager[dagIndeks]
+                                    }
                                 />
                             ) : (
                                 <AvklartDagLesevisning avklartDag={dag.avklartDag} />
@@ -100,9 +143,10 @@ export const UkeInnhold: FC<{
                     {typeAvvikTilTekst[uke.avvik.typeAvvik]}
                 </InlineMessage>
             )}
-            <Feilmelding feil={feil} />
+            <Feilmelding feil={feilVedLagring} />
+            <Feilmelding feil={valideringsfeilForUke} />
             <HStack gap="space-8" justify="end">
-                {redigerer ? (
+                {redigerer && (
                     <>
                         <Button size="small" onClick={avbrytRedigering} variant="tertiary">
                             Avbryt
@@ -111,7 +155,9 @@ export const UkeInnhold: FC<{
                             Lagre
                         </Button>
                     </>
-                ) : (
+                )}
+
+                {!redigerer && kanRedigereUke && (
                     <Button
                         size="small"
                         onClick={startRedigering}

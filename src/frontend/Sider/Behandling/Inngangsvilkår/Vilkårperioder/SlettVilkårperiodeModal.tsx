@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, Table, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Button, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -133,45 +133,48 @@ const SlettVilkårperiode: React.FC<{
                     },
                 }}
             >
-                {!kanSlettePeriodePermanent && (
-                    <VStack gap="space-16">
-                        <Table>
-                            <Table.Header>
-                                <Table.Row shadeOnHover={false}>
-                                    <Table.HeaderCell style={{ width: '20px' }} />
-                                    <Table.HeaderCell>Type</Table.HeaderCell>
-                                    <Table.HeaderCell>Fra</Table.HeaderCell>
-                                    <Table.HeaderCell>Til</Table.HeaderCell>
-                                    <Table.HeaderCell>Kilde</Table.HeaderCell>
-                                    <Table.HeaderCell />
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                <Table.Row shadeOnHover={false}>
-                                    <Table.DataCell width="max-content">
-                                        <FargetVilkårsresultatIkon
-                                            vilkårsresultat={vilkårperiode.resultat}
-                                        />
-                                    </Table.DataCell>
-                                    <Table.DataCell>{vilkårperiode.type}</Table.DataCell>
-                                    <Table.DataCell>
-                                        {formaterIsoDato(vilkårperiode.fom)}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {formaterIsoDato(vilkårperiode.tom)}
-                                    </Table.DataCell>
-                                    <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-                        <Textarea
-                            label={'Begrunnelse for sletting (obligatorisk)'}
-                            value={slettBegrunnelse}
-                            onChange={(e) => settSlettBegrunnelse(e.target.value)}
-                            error={feil}
-                        />
-                    </VStack>
-                )}
+                <VStack gap="space-16">
+                    {feil && <Alert variant="error">{feil}</Alert>}
+                    {!kanSlettePeriodePermanent && (
+                        <>
+                            <Table>
+                                <Table.Header>
+                                    <Table.Row shadeOnHover={false}>
+                                        <Table.HeaderCell style={{ width: '20px' }} />
+                                        <Table.HeaderCell>Type</Table.HeaderCell>
+                                        <Table.HeaderCell>Fra</Table.HeaderCell>
+                                        <Table.HeaderCell>Til</Table.HeaderCell>
+                                        <Table.HeaderCell>Kilde</Table.HeaderCell>
+                                        <Table.HeaderCell />
+                                    </Table.Row>
+                                </Table.Header>
+                                <Table.Body>
+                                    <Table.Row shadeOnHover={false}>
+                                        <Table.DataCell width="max-content">
+                                            <FargetVilkårsresultatIkon
+                                                vilkårsresultat={vilkårperiode.resultat}
+                                            />
+                                        </Table.DataCell>
+                                        <Table.DataCell>{vilkårperiode.type}</Table.DataCell>
+                                        <Table.DataCell>
+                                            {formaterIsoDato(vilkårperiode.fom)}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {formaterIsoDato(vilkårperiode.tom)}
+                                        </Table.DataCell>
+                                        <Table.DataCell>{vilkårperiode.kilde}</Table.DataCell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
+                            <Textarea
+                                label={'Begrunnelse for sletting (obligatorisk)'}
+                                value={slettBegrunnelse}
+                                onChange={(e) => settSlettBegrunnelse(e.target.value)}
+                                error={feil}
+                            />
+                        </>
+                    )}
+                </VStack>
             </ModalWrapper>
         </>
     );

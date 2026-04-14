@@ -1,3 +1,4 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
@@ -46,6 +47,7 @@ export type BeregningsresultatTilsynBarn = {
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
     tidligsteEndring: string | undefined;
+    beregningsplan: Beregningsplan;
 };
 
 type Beregningsresultat = {

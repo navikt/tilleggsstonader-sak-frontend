@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { Checkbox, TextField } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react';
 
+import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { GodkjentGjennomførtKjøring, RedigerbarAvklartDag } from '../../../../../typer/kjøreliste';
 import { tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
@@ -10,7 +11,8 @@ import styles from '../UkeInnhold.module.css';
 export const RedigerAvklartDag: FC<{
     dag: RedigerbarAvklartDag;
     oppdaterDag: (dag: RedigerbarAvklartDag) => void;
-}> = ({ dag, oppdaterDag }) => {
+    feil: FormErrors<RedigerbarAvklartDag> | undefined;
+}> = ({ dag, oppdaterDag, feil }) => {
     const oppdaterParkeringsutgift = (verdi: string) => {
         oppdaterDag({
             ...dag,
@@ -36,16 +38,23 @@ export const RedigerAvklartDag: FC<{
 
     return (
         <div className={styles.høyreGrid}>
-            <Checkbox
-                size="small"
-                indeterminate={
-                    dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
-                }
-                checked={dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA}
-                onChange={(e) => oppdaterGodkjentGjennomførtKjøring(e.target.checked)}
+            <CheckboxGroup
+                legend="Kjøring dekkes"
+                hideLegend
+                error={feil?.godkjentGjennomførtKjøring}
             >
-                Dekkes
-            </Checkbox>
+                <Checkbox
+                    size="small"
+                    indeterminate={
+                        dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
+                    }
+                    checked={dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA}
+                    onChange={(e) => oppdaterGodkjentGjennomførtKjøring(e.target.checked)}
+                    error={!!feil?.godkjentGjennomførtKjøring}
+                >
+                    Dekkes
+                </Checkbox>
+            </CheckboxGroup>
 
             <TextField
                 label="Parkeringsutgift"
@@ -53,6 +62,7 @@ export const RedigerAvklartDag: FC<{
                 size="small"
                 value={dag.parkeringsutgift ? tilHeltall(dag.parkeringsutgift) : undefined}
                 onChange={(e) => oppdaterParkeringsutgift(e.target.value)}
+                error={feil?.parkeringsutgift}
             />
 
             <TextField
@@ -61,6 +71,7 @@ export const RedigerAvklartDag: FC<{
                 size="small"
                 value={dag.begrunnelse || ''}
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
+                error={feil?.begrunnelse}
             />
         </div>
     );
