@@ -121,6 +121,7 @@ const SettPåVentForm: React.FC<{
                         settSettPåVent((prevState) => ({ ...prevState, frist: dato || '' }))
                     }
                     value={settPåVent.frist}
+                    fromDate={new Date()}
                     feil={formErrors?.frist}
                     size="small"
                 />

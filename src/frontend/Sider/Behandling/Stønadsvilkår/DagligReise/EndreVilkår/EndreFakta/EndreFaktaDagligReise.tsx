@@ -2,6 +2,7 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
+import { Aktivitet } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,
@@ -21,14 +22,15 @@ export const EndreFaktaDagligReise: React.FC<{
     periodeTom: string;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
-
     feilmeldinger: FeilmeldingerDagligReise;
+    oppfylteAktiviteter: Aktivitet[];
 }> = ({
     gjeldendeFaktaType,
     fakta,
     nullstillFeilOgUlagretkomponent,
     settFakta,
     feilmeldinger,
+    oppfylteAktiviteter,
     periodeFom,
     periodeTom,
 }) => {
@@ -51,6 +53,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
                 />
             );
     }

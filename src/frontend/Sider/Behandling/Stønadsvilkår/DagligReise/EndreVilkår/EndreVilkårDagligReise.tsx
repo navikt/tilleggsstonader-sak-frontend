@@ -5,9 +5,11 @@ import { v7 } from 'uuid';
 
 import { HStack, TextField } from '@navikt/ds-react';
 
+import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
 import styles from './EndreVilkårDagligReise.module.css';
 import { EndreVurderinger } from './EndreVilkårsvurderinger/EndreVurderinger';
 import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
+import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
@@ -26,12 +28,11 @@ import { Periode } from '../../../../../utils/periode';
 import { Toggle } from '../../../../../utils/toggles';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
+import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
-import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
-import { EndreFaktaDagligReise } from './EndreFakta/EndreFaktaDagligReise';
-import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
+import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
 interface Props {
     vilkår?: VilkårDagligReise;
@@ -53,9 +54,13 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     tomFraVilkårSomKopieres,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
-    const { regelstruktur } = useVilkårDagligReise();
+    const { regelstruktur, aktiviteter } = useVilkårDagligReise();
     const komponentId = useId();
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
+
+    const oppfylteAktiviteter = aktiviteter.filter(
+        (aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
+    );
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
@@ -228,6 +233,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
                 />
 
                 {gjeldendeFaktaType && <Skillelinje />}

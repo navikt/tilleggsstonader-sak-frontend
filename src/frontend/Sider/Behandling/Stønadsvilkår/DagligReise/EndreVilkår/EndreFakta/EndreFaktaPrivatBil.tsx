@@ -3,15 +3,20 @@ import React, { useEffect } from 'react';
 import { useFlag } from '@unleash/proxy-client-react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, TextField, VStack } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
 import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { formaterIsoPeriode } from '../../../../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
+import {
+    Aktivitet,
+    AktivitetTypeTilTekst,
+} from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaDagligReise,
     FaktaDelperiodePrivatBil,
@@ -26,6 +31,7 @@ interface Props {
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
+    oppfylteAktiviteter: Aktivitet[];
     periodeFom: string;
     periodeTom: string;
 }
@@ -35,6 +41,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     settFakta,
     feilmeldinger,
     nullstillFeilOgUlagretkomponent,
+    oppfylteAktiviteter,
     periodeFom,
     periodeTom,
 }) => {
@@ -115,10 +122,23 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         nullstillFeilOgUlagretkomponent();
     };
 
-    const oppdaterFelles = (key: keyof FaktaPrivatBil, verdi: number | undefined) => {
+    const oppdaterFelles = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
         settFakta((prevState) => {
             if (prevState.type !== 'PRIVAT_BIL') return { ...tomtPrivatBil };
             return { ...prevState, [key]: verdi };
+        });
+        nullstillFeilOgUlagretkomponent();
+    };
+
+    const oppdaterAktivitet = (aktivitetGlobalId: string) => {
+        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
+        settFakta((prevState) => {
+            if (prevState.type !== 'PRIVAT_BIL') return { ...tomtPrivatBil };
+            return {
+                ...prevState,
+                aktivitetId: aktivitetGlobalId || undefined,
+                aktivitetType: valgtAktivitet?.type,
+            };
         });
         nullstillFeilOgUlagretkomponent();
     };
@@ -243,7 +263,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             <Heading size="xsmall" level="4">
                 Felles for hele perioden
             </Heading>
-            <HStack>
+            <HStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
                         label={'Reiseavstand en vei (km)'}
@@ -257,6 +277,25 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             );
                         }}
                     />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={300}>
+                    <Select
+                        label={'Aktivitet'}
+                        size="small"
+                        error={feilmeldinger?.[0]?.aktivitet}
+                        value={fakta.aktivitetId || ''}
+                        onChange={(e) => {
+                            oppdaterAktivitet(e.target.value);
+                        }}
+                    >
+                        <option value="">Velg aktivitet</option>
+                        {oppfylteAktiviteter.map((aktivitet) => (
+                            <option key={aktivitet.globalId} value={aktivitet.globalId}>
+                                {AktivitetTypeTilTekst[aktivitet.type]} (
+                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
+                            </option>
+                        ))}
+                    </Select>
                 </FeilmeldingMaksBredde>
             </HStack>
         </VStack>
