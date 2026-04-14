@@ -1,8 +1,9 @@
 {
   "collection": "nextjs-frontend",
-  "version": "2025.07",
-  "source_sha": "c9a1348",
-  "installed_at": "2026-04-13T12:51:20Z",
+  "version": "2026.04.14-095325-5d28ed0",
+  "scope": "repo",
+  "source_sha": "5d28ed0",
+  "installed_at": "2026-04-14T11:01:51Z",
   "files": [
     {
       "path": ".github/agents/accessibility.agent.md",
@@ -22,7 +23,7 @@
     },
     {
       "path": ".github/agents/forfatter.agent.md",
-      "hash": "acc16aca57ed5f30"
+      "hash": "42eb060eeeaef4cf"
     },
     {
       "path": ".github/agents/forfatter.metadata.json",
@@ -30,7 +31,7 @@
     },
     {
       "path": ".github/agents/nav-pilot.agent.md",
-      "hash": "a27c3d1ffee76b0a"
+      "hash": "3eac438b61ab279a"
     },
     {
       "path": ".github/agents/nav-pilot.metadata.json",
@@ -66,7 +67,11 @@
     },
     {
       "path": ".github/instructions/nextjs-aksel.instructions.md",
-      "hash": "3fe8feeb1459e760"
+      "hash": "6aa56ec320c72809"
+    },
+    {
+      "path": ".github/instructions/performance.instructions.md",
+      "hash": "23b58fe157ef8f0e"
     },
     {
       "path": ".github/instructions/testing.instructions.md",
@@ -78,7 +83,7 @@
     },
     {
       "path": ".github/instructions/accessibility.instructions.md",
-      "hash": "aba24163f0a00c75"
+      "hash": "3f682e93474bfdd8"
     },
     {
       "path": ".github/instructions/github-actions.instructions.md",
