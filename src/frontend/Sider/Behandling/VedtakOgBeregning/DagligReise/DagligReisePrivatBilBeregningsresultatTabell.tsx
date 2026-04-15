@@ -1,84 +1,63 @@
 import React, { FC } from 'react';
 
-import { HStack, Label, Table } from '@navikt/ds-react';
+import { Detail, HelpText, HStack, Label, Table } from '@navikt/ds-react';
 
 import styles from './DagligReisePrivatBilBeregningTabell.module.css';
+import { FormatertSats, OppsummertBeregningForReise } from './typer';
+import { formaterKilometersatser, formaterDagsatser } from './util';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
-import {
-    BeregningsresultatForReisePrivatBil,
-    RammeForReiseMedPrivatBil,
-} from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
+import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
 
 export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
-    reise: BeregningsresultatForReisePrivatBil;
-    rammevedtak?: RammeForReiseMedPrivatBil;
-}> = ({ reise, rammevedtak }) => {
+    oppsummertBeregning: OppsummertBeregningForReise;
+}> = ({ oppsummertBeregning }) => {
     return (
         <HStack gap="space-8" className={styles.reiseSection}>
             <Label size="small">
-                {reise.adresse} · Privat bil
-                {reise.reisedagerPerUke !== undefined && ` · ${reise.reisedagerPerUke} dager/uke`}
+                {oppsummertBeregning.aktivitetsadresse} · {oppsummertBeregning.reiseavstandEnVei} km
             </Label>
             <Table size="small">
                 <Table.Header>
                     <Table.Row>
+                        <TableHeaderCellSmall>Uke</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Periode</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Reisedager</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Godkjente reisedager</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Kilometersats</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Dagsats u/park.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Bompenger per dag</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Ferje per dag</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Parkering for periode</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Stønad</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Fergekostnad per dag</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Dagsats u/park.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Summerte parkeringskostnader</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {reise.perioder.map((periode, index) => (
+                    {oppsummertBeregning.perioder.map((periode, index) => (
                         <Table.Row key={`${periode.fom}-${periode.tom}-${index}`}>
+                            <TableDataCellSmall>Uke {periode.ukenummer}</TableDataCellSmall>
                             <TableDataCellSmall>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
                             </TableDataCellSmall>
-                            <TableDataCellSmall>{periode.grunnlag.dager.length}</TableDataCellSmall>
-                            {rammevedtak?.delperioder.map((delperiode, index) => (
-                                <TableDataCellSmall key={index}>
-                                    {delperiode.satser.map((it) =>
-                                        it
-                                            ? `${formaterTallMedTusenSkille(it.kilometersats)} kr`
-                                            : '-'
-                                    )}
-                                </TableDataCellSmall>
-                            ))}
                             <TableDataCellSmall>
-                                {formaterTallMedTusenSkille(periode.grunnlag.dagsatsUtenParkering)}{' '}
-                                kr
-                            </TableDataCellSmall>
-                            {rammevedtak?.delperioder.map((delperiode, index) => (
-                                <div key={index}>
-                                    <TableDataCellSmall>
-                                        {delperiode.bompengerPerDag
-                                            ? `${formaterTallMedTusenSkille(delperiode.bompengerPerDag)} kr`
-                                            : '-'}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {delperiode.fergekostnadPerDag
-                                            ? `${formaterTallMedTusenSkille(delperiode.fergekostnadPerDag)} kr`
-                                            : '-'}
-                                    </TableDataCellSmall>
-                                </div>
-                            ))}
-                            <TableDataCellSmall>
-                                {formaterTallMedTusenSkille(
-                                    periode.grunnlag.dager.reduce(
-                                        (sum, dag) => sum + dag.parkeringskostnad,
-                                        0
-                                    )
-                                )}{' '}
-                                kr
+                                {periode.antallGodkjenteReisedager}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                {formaterTallMedTusenSkille(periode.stønadsbeløp)} kr
+                                <SatsInfo satser={formaterKilometersatser(periode.satser)} />
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(periode.bompengerPerDag)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(periode.fergekostnadPerDag)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                <SatsInfo satser={formaterDagsatser(periode.satser)} />
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(periode.totalParkeringskostnad)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(periode.stønadsbeløp)}
                             </TableDataCellSmall>
                         </Table.Row>
                     ))}
@@ -86,25 +65,43 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
                 <tfoot>
                     <Table.Row shadeOnHover={false} className={styles.totalrad}>
                         <Table.DataCell
-                            colSpan={7}
+                            colSpan={8}
                             textSize="small"
                             className={styles.totalradCelle}
                         >
                             Totalt stønadsbeløp
                         </Table.DataCell>
-                        <Table.DataCell textSize="small" className={styles.totalradCelle}>
-                            {formaterTallMedTusenSkille(
-                                //TODO dette burde flyttes til backend. Lager en egen oppgave på det
-                                reise.perioder.reduce(
-                                    (sum, periode) => sum + periode.stønadsbeløp,
-                                    0
-                                )
-                            )}{' '}
-                            kr
+                        <Table.DataCell
+                            textSize="small"
+                            className={styles.totalradCelle}
+                            align="right"
+                        >
+                            {kronerMedTusenSkilleEllerStrek(oppsummertBeregning.totaltStønadsbeløp)}
                         </Table.DataCell>
                     </Table.Row>
                 </tfoot>
             </Table>
+        </HStack>
+    );
+};
+
+const SatsInfo: FC<{
+    satser: FormatertSats[];
+}> = ({ satser }) => {
+    if (satser.length === 1) {
+        return satser[0].verdi;
+    }
+
+    return (
+        <HStack align="center" gap="space-4">
+            <i>{satser[0].verdi}</i>
+            <HelpText>
+                {satser.map((sats, index) => (
+                    <Detail key={index}>
+                        {sats.verdi} i perioden {formaterIsoPeriode(sats.fom, sats.tom)}
+                    </Detail>
+                ))}
+            </HelpText>
         </HStack>
     );
 };

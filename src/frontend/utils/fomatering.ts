@@ -2,11 +2,14 @@ import { harTallverdi } from './tall';
 
 export const TANKESTREKK = `–`;
 
+export const tallMedTusenSkille = (verdi?: number): string | undefined =>
+    harTallverdi(verdi) ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : undefined;
+
 export const formaterTallMedTusenSkille = (verdi?: number): string =>
-    harTallverdi(verdi) ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : '';
+    tallMedTusenSkille(verdi) || '';
 
 export const formaterTallMedTusenSkilleEllerStrek = (verdi?: number): string =>
-    harTallverdi(verdi) ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : '-';
+    tallMedTusenSkille(verdi) || '-';
 
 export const tilLitenSkriftMedStorForbokstav = (mottakerRolle: string): string => {
     const rolleLowerCase = mottakerRolle.toLowerCase();
@@ -17,9 +20,3 @@ export const tilLitenSkriftMedStorForbokstav = (mottakerRolle: string): string =
 export const leggTilKolonOgMellomrom = (str?: string) => {
     return str ? `${str}: ` : '';
 };
-export function formaterAntallOgPris(antall: number | undefined, pris: number | undefined): string {
-    if (!antall) {
-        return '-';
-    }
-    return `${antall} x ${pris} kr`;
-}

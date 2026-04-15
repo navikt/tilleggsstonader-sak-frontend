@@ -1,3 +1,4 @@
+import { tallMedTusenSkille } from './fomatering';
 import { harTallverdi } from './tall';
 
 const replaceUnderscoreWithSpace = (str: string): string => {
@@ -41,3 +42,6 @@ export const tekstEllerKode = <T extends string>(
 
 export const kronerEllerStrek = (tall: number | undefined): string =>
     harTallverdi(tall) ? `${tall} kr` : '-';
+
+export const kronerMedTusenSkilleEllerStrek = (tall: number | undefined): string =>
+    tallMedTusenSkille(tall) ? `${tallMedTusenSkille(tall)} kr` : '-';
