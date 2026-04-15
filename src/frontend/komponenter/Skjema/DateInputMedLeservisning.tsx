@@ -31,6 +31,7 @@ const DateInputMedLeservisning: React.FC<Props> = ({
     ) : (
         <DateInput
             {...props}
+            className={className}
             label={label}
             hideLabel={hideLabel}
             value={value}

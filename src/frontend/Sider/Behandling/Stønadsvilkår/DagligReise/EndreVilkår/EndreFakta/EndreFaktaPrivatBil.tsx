@@ -25,6 +25,7 @@ import {
 import { LeggTilNyPeriodeKnapp } from '../LeggTilNyPeriodeKnapp';
 import { defaultPrivatBilPeriode, tomtPrivatBil } from '../utils';
 import { FeilmeldingerFaktaPrivatBil } from '../validering';
+import styles from './EndreFaktaPrivatBil.module.css';
 
 interface Props {
     fakta: FaktaPrivatBil;
@@ -151,16 +152,21 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             {fakta.faktaDelperioder &&
                 fakta.faktaDelperioder.length > 0 &&
                 fakta.faktaDelperioder.map((periode, index) => {
+                    const erFørste = index === 0;
+                    const erSiste = index === fakta.faktaDelperioder.length - 1;
+
                     return (
                         <HStack gap={'space-16'} key={index}>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
-                                    label={index === 0 ? 'Fra' : ''}
+                                    label={erFørste ? 'Fra' : ''}
                                     value={periode.fom}
                                     feil={feilmeldinger?.[index]?.fom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'fom', dato);
                                     }}
+                                    readOnly={erFørste}
+                                    className={styles.readOnlyNoIcon}
                                     size="small"
                                 />
                             </FeilmeldingMaksBredde>
@@ -168,13 +174,15 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                 <DateInputMedLeservisning
                                     // Endringen av key tvinger komponenten til en remount når tom settes til '', for å forhindre at den sender gammel state.
                                     key={`til-${index}-${periode.tom || 'tomString'}`}
-                                    label={index === 0 ? 'Til' : ''}
+                                    label={erFørste ? 'Til' : ''}
                                     value={periode.tom}
                                     feil={feilmeldinger?.[index]?.tom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'tom', dato);
                                     }}
+                                    readOnly={erSiste}
                                     size="small"
+                                    className={styles.readOnlyNoIcon}
                                 />
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>

@@ -1,0 +1,3 @@
+.readOnlyNoIcon :global(.aksel-form-field__readonly-icon) {
+    display: none;
+}
