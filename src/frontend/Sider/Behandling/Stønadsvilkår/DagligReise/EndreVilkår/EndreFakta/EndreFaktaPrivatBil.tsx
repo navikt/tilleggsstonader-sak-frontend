@@ -242,6 +242,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             >
                                 {fakta.faktaDelperioder.length > 1 && (
                                     <SmallButton
+                                        type="button"
                                         variant={'tertiary'}
                                         iconPosition={'left'}
                                         icon={<TrashIcon title="Slett periode" />}
