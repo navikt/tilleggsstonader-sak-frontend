@@ -51,7 +51,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         if (fakta.type !== 'PRIVAT_BIL') {
             const privatBilFakta: FaktaPrivatBil = {
                 ...tomtPrivatBil,
-                faktaDelperioder: normaliserDelperioder(
+                faktaDelperioder: oppdaterFørsteFomOgSisteTom(
                     [{ ...defaultPrivatBilPeriode }],
                     reiseFom,
                     reiseTom
@@ -95,7 +95,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 bompengerPerDag: forrigeDelperiode?.bompengerPerDag,
                 fergekostnadPerDag: forrigeDelperiode?.fergekostnadPerDag,
             };
-            const nyePerioder = normaliserDelperioder(
+            const nyePerioder = oppdaterFørsteFomOgSisteTom(
                 [...eksisterendePerioder, nyPeriode],
                 reiseFom,
                 reiseTom
@@ -116,7 +116,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 privatBilState.faktaDelperioder.length > 1
                     ? privatBilState.faktaDelperioder.filter((_, i) => i !== index)
                     : privatBilState.faktaDelperioder;
-            const nyePerioder = normaliserDelperioder(perioderEtterSlett, reiseFom, reiseTom);
+            const nyePerioder = oppdaterFørsteFomOgSisteTom(perioderEtterSlett, reiseFom, reiseTom);
             return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();
@@ -166,7 +166,8 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
-                                    key={`til-${index}-${periode.tom || 'empty'}`}
+                                    // Endringen av key tvinger komponenten til en remount når tom settes til '', for å forhindre at den sender gammel state.
+                                    key={`til-${index}-${periode.tom || 'tomString'}`}
                                     label={index === 0 ? 'Til' : ''}
                                     value={periode.tom}
                                     feil={feilmeldinger?.[index]?.tom}
@@ -303,14 +304,28 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     );
 };
 
-function normaliserDelperioder(
+function oppdaterFørsteFomOgSisteTom(
     perioder: FaktaDelperiodePrivatBil[],
-    periodeFom: string,
-    periodeTom: string
+    reiseFom: string,
+    reiseTom: string
 ): FaktaDelperiodePrivatBil[] {
-    return perioder.map((periode, index) => ({
-        ...periode,
-        fom: index === 0 ? periodeFom : periode.fom,
-        tom: index === perioder.length - 1 ? periodeTom : '',
-    }));
+    if (perioder.length === 0) return perioder;
+
+    return perioder.map((periode, index) => {
+        const erFørste = index === 0;
+        const erSiste = index === perioder.length - 1;
+
+        // Første periode får alltid reiseFom
+        const nyFom = erFørste ? reiseFom : periode.fom;
+
+        // Siste periode får alltid reiseTom
+        // Mellomperioder: hvis fom er tom, sett tom til '', ellers behold tom
+        const nyTom = erSiste ? reiseTom : !periode.fom ? '' : periode.tom;
+
+        return {
+            ...periode,
+            fom: nyFom,
+            tom: nyTom,
+        };
+    });
 }
