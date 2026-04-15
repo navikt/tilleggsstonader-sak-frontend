@@ -7,8 +7,8 @@ import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
 import {
     FaktaReise,
-    reiseAdresseTilTekst,
     ReiseAdresse,
+    reiseAdresseTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -46,7 +46,7 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                 >
                     {reise.skalReiseFraFolkeregistrertAdresse && (
                         <OppsummeringFelt
-                            label="Skal du reise fra din folkeregisterte adresse?"
+                            label="Skal du reise fra din folkeregistrerte adresse?"
                             value={jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
                         />
                     )}
@@ -61,7 +61,7 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.reiseAdresse && (
                         <AdresseFelt
                             adresse={reise.reiseAdresse}
-                            label="Hvilken adresse reiser du til i aktiviteten din?"
+                            label="Adresse jeg skal reise til"
                         />
                     )}
 
@@ -74,7 +74,7 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
 
                     {reise.dagerPerUke && (
                         <OppsummeringFelt
-                            label="Hvor mange dager i uken skal du reise hit?"
+                            label="Hvor mange dager i uka skal du reise hit?"
                             value={reise.dagerPerUke}
                         />
                     )}
@@ -90,14 +90,14 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
 
                     {reise.harMerEnn6KmReisevei && (
                         <OppsummeringFelt
-                            label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 kilometer eller mer én vei?"
+                            label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 km eller mer én vei?"
                             value={jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
                         />
                     )}
 
                     {reise.lengdeReisevei && (
                         <OppsummeringFelt
-                            label="Hvor lang er reiseveien din?"
+                            label="Hvor lang er reiseveien?"
                             value={`${reise.lengdeReisevei} km`}
                         />
                     )}

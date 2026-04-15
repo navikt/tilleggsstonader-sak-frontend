@@ -33,9 +33,9 @@ export const AktivitetFelt: React.FC<{
                     value={`Annet: ${tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
                 />
             )}
-            {visLønnetAktivitet && erLønnetAktivitet === 'JA' && (
+            {visLønnetAktivitet && erLønnetAktivitet && (
                 <OppsummeringFelt
-                    label="Lønnet aktivitet"
+                    label="Mottar du lønn gjennom et tiltak?"
                     value={jaNeiTilTekst[erLønnetAktivitet]}
                 />
             )}
