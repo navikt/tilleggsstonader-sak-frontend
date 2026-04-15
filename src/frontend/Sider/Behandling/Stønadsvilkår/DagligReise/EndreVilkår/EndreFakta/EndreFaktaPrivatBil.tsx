@@ -59,8 +59,18 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 ),
             };
             settFakta(privatBilFakta);
+        } else {
+            settFakta((prevState) => {
+                const privatBilState = prevState as FaktaPrivatBil;
+                const nyePerioder = oppdaterFørsteFomOgSisteTom(
+                    privatBilState.faktaDelperioder,
+                    reiseFom,
+                    reiseTom
+                );
+                return { ...privatBilState, faktaDelperioder: nyePerioder };
+            });
         }
-    }, [fakta.type, settFakta, reiseFom, reiseTom]);
+    }, [fakta.type, reiseFom, reiseTom, settFakta]);
 
     if (!kanBehandlePrivatBil) {
         return (
@@ -154,18 +164,21 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 fakta.faktaDelperioder.map((periode, index) => {
                     const erFørste = index === 0;
                     const erSiste = index === fakta.faktaDelperioder.length - 1;
+                    const readOnlyFom = erFørste && reiseFom !== '';
+                    const readOnlyTom = erSiste && reiseTom !== '';
 
                     return (
                         <HStack gap={'space-16'} key={index}>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
+                                    key={`fra-${index}-${periode.fom || 'emptyString'}`}
                                     label={erFørste ? 'Fra' : ''}
                                     value={periode.fom}
                                     feil={feilmeldinger?.[index]?.fom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'fom', dato);
                                     }}
-                                    readOnly={erFørste}
+                                    readOnly={readOnlyFom}
                                     className={styles.readOnlyNoIcon}
                                     size="small"
                                 />
@@ -180,7 +193,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'tom', dato);
                                     }}
-                                    readOnly={erSiste}
+                                    readOnly={readOnlyTom}
                                     size="small"
                                     className={styles.readOnlyNoIcon}
                                 />
