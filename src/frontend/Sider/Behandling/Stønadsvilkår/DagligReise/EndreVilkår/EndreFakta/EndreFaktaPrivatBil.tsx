@@ -32,8 +32,8 @@ interface Props {
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     oppfylteAktiviteter: Aktivitet[];
-    periodeFom: string;
-    periodeTom: string;
+    reiseFom: string;
+    reiseTom: string;
 }
 
 export const EndreFaktaPrivatBil: React.FC<Props> = ({
@@ -42,8 +42,8 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     feilmeldinger,
     nullstillFeilOgUlagretkomponent,
     oppfylteAktiviteter,
-    periodeFom,
-    periodeTom,
+    reiseFom,
+    reiseTom,
 }) => {
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
@@ -53,13 +53,13 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 ...tomtPrivatBil,
                 faktaDelperioder: normaliserDelperioder(
                     [{ ...defaultPrivatBilPeriode }],
-                    periodeFom,
-                    periodeTom
+                    reiseFom,
+                    reiseTom
                 ),
             };
             settFakta(privatBilFakta);
         }
-    }, [fakta.type, settFakta, periodeFom, periodeTom]);
+    }, [fakta.type, settFakta, reiseFom, reiseTom]);
 
     if (!kanBehandlePrivatBil) {
         return (
@@ -97,8 +97,8 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             };
             const nyePerioder = normaliserDelperioder(
                 [...eksisterendePerioder, nyPeriode],
-                periodeFom,
-                periodeTom
+                reiseFom,
+                reiseTom
             );
 
             return {
@@ -116,7 +116,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 privatBilState.faktaDelperioder.length > 1
                     ? privatBilState.faktaDelperioder.filter((_, i) => i !== index)
                     : privatBilState.faktaDelperioder;
-            const nyePerioder = normaliserDelperioder(perioderEtterSlett, periodeFom, periodeTom);
+            const nyePerioder = normaliserDelperioder(perioderEtterSlett, reiseFom, reiseTom);
             return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();

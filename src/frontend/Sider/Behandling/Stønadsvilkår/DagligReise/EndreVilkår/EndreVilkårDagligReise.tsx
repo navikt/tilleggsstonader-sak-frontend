@@ -228,8 +228,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                 <EndreFaktaDagligReise
                     gjeldendeFaktaType={gjeldendeFaktaType}
                     fakta={fakta}
-                    periodeFom={periode.fom}
-                    periodeTom={periode.tom}
+                    reiseFom={periode.fom}
+                    reiseTom={periode.tom}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger}
