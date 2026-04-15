@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { GlobeIcon } from '@navikt/aksel-icons';
-import { BodyShort, Label } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaArbeidOgOpphold,
     FaktaOppholdUtenforNorge,
@@ -38,46 +38,53 @@ const OppholdUtenforNorge12mnd: React.FC<{
     if (!spørsmål) {
         return null;
     }
+
+    if (spørsmål === JaNei.NEI) {
+        return <OppsummeringFelt label={tittel} value={jaNeiTilTekst[spørsmål]} />;
+    }
+
     return (
-        <div>
-            <Label size="small">{tittel}</Label>
-            {spørsmål === JaNei.NEI && (
-                <BodyShort size="small">{jaNeiTilTekst[spørsmål]}</BodyShort>
-            )}
-            {faktaOpphold.map((opphold, indeks) => (
-                <OppholdUtenforNorge key={indeks} opphold={opphold} />
-            ))}
-        </div>
+        <OppsummeringFelt label={tittel}>
+            <VStack gap="space-8">
+                {faktaOpphold.map((opphold, indeks) => (
+                    <OppholdUtenforNorge key={indeks} opphold={opphold} />
+                ))}
+            </VStack>
+        </OppsummeringFelt>
     );
 };
 
-const ArbeidOgOpphold: React.FC<{ fakta: FaktaArbeidOgOpphold }> = ({ fakta }) => {
+const ArbeidOgOpphold: React.FC<{
+    fakta: FaktaArbeidOgOpphold;
+    layout?: InfoSeksjonLayout;
+}> = ({ fakta, layout = 'standalone' }) => {
     return (
-        <InfoSeksjon label={'Arbeid og opphold'} ikon={<GlobeIcon />}>
+        <InfoSeksjon label={'Arbeid og opphold'} ikon={<GlobeIcon />} layout={layout}>
             {fakta.jobberIAnnetLand === JaNei.NEI && (
-                <BodyShort size="small">
-                    Jobber i annet land: {jaNeiTilTekst[fakta.jobberIAnnetLand]}
-                </BodyShort>
+                <OppsummeringFelt
+                    label="Jobber i annet land"
+                    value={jaNeiTilTekst[fakta.jobberIAnnetLand]}
+                />
             )}
             {fakta.jobbAnnetLand && (
-                <BodyShort size="small">Jobber i: {fakta.jobbAnnetLand}</BodyShort>
+                <OppsummeringFelt label="Jobber i" value={fakta.jobbAnnetLand} />
             )}
 
             {fakta.harPengestøtteAnnetLand && (
-                <div>
-                    <Label size={'small'}>Pengestøtte fra annet land</Label>
-
-                    {fakta.pengestøtteAnnetLand && (
-                        <BodyShort size="small">{fakta.pengestøtteAnnetLand}</BodyShort>
-                    )}
-                    <BodyShort size="small">
-                        {fakta.harPengestøtteAnnetLand
-                            .map((pengestøtte) =>
-                                tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
-                            )
-                            .join(', ')}
-                    </BodyShort>
-                </div>
+                <OppsummeringFelt label="Pengestøtte fra annet land">
+                    <VStack gap="space-4">
+                        {fakta.pengestøtteAnnetLand && (
+                            <BodyShort size="small">{fakta.pengestøtteAnnetLand}</BodyShort>
+                        )}
+                        <BodyShort size="small">
+                            {fakta.harPengestøtteAnnetLand
+                                .map((pengestøtte) =>
+                                    tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
+                                )
+                                .join(', ')}
+                        </BodyShort>
+                    </VStack>
+                </OppsummeringFelt>
             )}
 
             <OppholdUtenforNorge12mnd

@@ -16,9 +16,9 @@ const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
 
     return (
-        <VStack gap="space-32">
-            <VStack gap={'space-16'}>
-                <HStack gap="space-8">
+        <VStack gap="space-16">
+            <VStack gap={'space-12'}>
+                <HStack gap="space-8" wrap>
                     <StønadstypeTag stønadstype={behandling.stønadstype} />
                     <RevurderingTag behandling={behandling} />
                 </HStack>

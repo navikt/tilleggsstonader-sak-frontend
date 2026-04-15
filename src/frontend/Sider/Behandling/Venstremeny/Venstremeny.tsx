@@ -14,7 +14,7 @@ import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 const tabs = [
     {
         value: 'søknaden',
-        label: 'Søknad',
+        label: 'Søknaden',
         komponent: <OppsummeringSøknad />,
     },
     {

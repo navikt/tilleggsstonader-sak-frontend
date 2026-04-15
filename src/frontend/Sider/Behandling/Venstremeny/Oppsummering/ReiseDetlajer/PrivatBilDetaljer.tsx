@@ -1,45 +1,38 @@
 import React from 'react';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
-
 import { UtgifterBil } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { OppsummeringFelt } from '../Visningskomponenter';
 
 export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgifterBil }) => (
     <>
         {utgifterBil.mottarGrunnstønad && (
-            <VStack>
-                <Label size={'small'}>Mottar du grunnstønad fra nav?</Label>
-                <BodyShort size="small">{jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}</BodyShort>
-            </VStack>
+            <OppsummeringFelt
+                label="Mottar du grunnstønad fra NAV?"
+                value={jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}
+            />
         )}
 
         {utgifterBil.parkering && (
-            <VStack>
-                <Label size={'small'}>Må du betale for parkering med egen bil?</Label>
-                <BodyShort size="small">{jaNeiTilTekst[utgifterBil.parkering]}</BodyShort>
-            </VStack>
+            <OppsummeringFelt
+                label="Må du betale for parkering med egen bil?"
+                value={jaNeiTilTekst[utgifterBil.parkering]}
+            />
         )}
 
         {utgifterBil.bompenger && (
-            <VStack>
-                <Label size={'small'}>Bompenger per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.bompenger} kr`}</BodyShort>
-            </VStack>
+            <OppsummeringFelt label="Bompenger per dag" value={`${utgifterBil.bompenger} kr`} />
         )}
 
         {utgifterBil.ferge && (
-            <VStack>
-                <Label size={'small'}>Ferge per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.ferge} kr`}</BodyShort>
-            </VStack>
+            <OppsummeringFelt label="Ferge per dag" value={`${utgifterBil.ferge} kr`} />
         )}
 
         {utgifterBil.piggdekkavgift && (
-            <VStack>
-                <Label size={'small'}>Piggdekkavgift per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.piggdekkavgift} kr`}</BodyShort>
-            </VStack>
+            <OppsummeringFelt
+                label="Piggdekkavgift per dag"
+                value={`${utgifterBil.piggdekkavgift} kr`}
+            />
         )}
     </>
 );

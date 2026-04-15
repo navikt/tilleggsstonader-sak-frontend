@@ -8,7 +8,7 @@ import ArbeidOgOpphold from './ArbeidOgOpphold';
 import Hovedytelse from './Hovedytelse';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
 import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringSeksjonsgruppe } from './Visningskomponenter';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
@@ -17,25 +17,28 @@ export const OppsummeringDagligReise: React.FC<{
 }> = ({ behandlingFakta }) => {
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
-            )}
-            {behandlingFakta.aktiviteter && (
-                <AktivitetDagligReise
-                    aktiviteter={behandlingFakta.aktiviteter}
-                ></AktivitetDagligReise>
-            )}
+            <OppsummeringSeksjonsgruppe>
+                {behandlingFakta.søknadMottattTidspunkt && (
+                    <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">
+                        <BodyShort size="small">
+                            {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
+                        </BodyShort>
+                    </InfoSeksjon>
+                )}
+                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} layout="grouped" />
+                {behandlingFakta.aktiviteter && (
+                    <AktivitetDagligReise
+                        aktiviteter={behandlingFakta.aktiviteter}
+                        layout="grouped"
+                    />
+                )}
+                {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                    <ArbeidOgOpphold
+                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                        layout="grouped"
+                    />
+                )}
+            </OppsummeringSeksjonsgruppe>
             {behandlingFakta.reiser && (
                 <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>
             )}

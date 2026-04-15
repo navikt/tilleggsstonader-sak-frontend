@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { BriefcaseIcon, WheelchairIcon } from '@navikt/aksel-icons';
-import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     annenUtdanningTypeTilTekst,
     FaktaUtdanning,
@@ -19,38 +18,47 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
     const harTidligereFullførtVgs =
         faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.harTidligereFullførtVgs;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
+    const aktiviteterTekst = aktiviteter?.join(', ');
+
     return (
         <>
-            {(aktiviteter || annenUtdanning) && (
-                <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-                    <VStack gap={'space-16'}>
-                        {aktiviteter && (
-                            <BodyShort size="small">
-                                {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}
-                            </BodyShort>
-                        )}
-                        {annenUtdanning && (
-                            <BodyShort size="small">
-                                Annet: {tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}
-                            </BodyShort>
-                        )}
-                        {erLærlingEllerLiknende && (
-                            <BodyShort size="small">
-                                Lærling, lærekandidat, praksisbrevkandidat, kandidat for fagbrev på
-                                jobb: {jaNeiTilTekst[erLærlingEllerLiknende]}
-                            </BodyShort>
-                        )}
-                        {harTidligereFullførtVgs && (
-                            <BodyShort size="small">
-                                Fullført VGS: {jaNeiTilTekst[harTidligereFullførtVgs]}
-                            </BodyShort>
-                        )}
-                    </VStack>
+            {(aktiviteterTekst ||
+                annenUtdanning ||
+                erLærlingEllerLiknende ||
+                harTidligereFullførtVgs) && (
+                <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+                    {aktiviteterTekst && (
+                        <OppsummeringFelt
+                            label="Hvilken aktivitet søker du om støtte ifm?"
+                            value={aktiviteterTekst}
+                        />
+                    )}
+                    {annenUtdanning && (
+                        <OppsummeringFelt
+                            label="Hva slags type arbeidsrettet aktivitet går du på?"
+                            value={`Annet: ${tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}`}
+                        />
+                    )}
+                    {erLærlingEllerLiknende && (
+                        <OppsummeringFelt
+                            label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
+                            value={jaNeiTilTekst[erLærlingEllerLiknende]}
+                        />
+                    )}
+                    {harTidligereFullførtVgs && (
+                        <OppsummeringFelt
+                            label="Har du tidligere fullført videregående opplæring?"
+                            value={jaNeiTilTekst[harTidligereFullførtVgs]}
+                        />
+                    )}
                 </InfoSeksjon>
             )}
             {harFunksjonsnedsettelse && (
                 <InfoSeksjon label="Særlig store utgifter" ikon={<WheelchairIcon />}>
-                    <BodyShort size="small">{jaNeiTilTekst[harFunksjonsnedsettelse]}</BodyShort>
+                    <OppsummeringFelt
+                        label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
+                        value={jaNeiTilTekst[harFunksjonsnedsettelse]}
+                    />
                 </InfoSeksjon>
             )}
         </>

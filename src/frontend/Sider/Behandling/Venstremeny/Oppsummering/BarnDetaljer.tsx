@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { ChildEyesIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { OppsummeringEkspanderbarEnhet, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaBarn,
     typeBarnepassTilTekst,
@@ -13,44 +12,54 @@ import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
-const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
+const BarnDetaljer: React.FC<{ barn: FaktaBarn; defaultOpen?: boolean }> = ({
+    barn,
+    defaultOpen = false,
+}) => {
     const typePass = barn.søknadgrunnlag?.type;
     const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
     const utgifter = barn.søknadgrunnlag?.utgifter;
     const årsak = barn.søknadgrunnlag?.årsak;
 
     return (
-        <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
-            <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
+        <OppsummeringEkspanderbarEnhet
+            ariaLabel={`Opplysninger om ${barn.registergrunnlag.navn}`}
+            defaultOpen={defaultOpen}
+            ikon={<ChildEyesIcon />}
+            tittel={`${barn.registergrunnlag.navn} ${barn.ident}`}
+            variant="subtle"
+        >
+            {typePass && (
+                <OppsummeringFelt
+                    label="Passordning"
+                    value={tekstEllerKode(typeBarnepassTilTekst, typePass)}
+                />
+            )}
             {utgifter && (
-                <>
-                    <BodyShort size="small">
-                        Har utgifter hele perioden:{' '}
-                        {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
-                    </BodyShort>
-                    {utgifter.fom && utgifter.tom && (
-                        <BodyShort size="small">
-                            Har utgifter: ${formaterIsoPeriode(utgifter.fom, utgifter.tom)}
-                        </BodyShort>
-                    )}
-                </>
+                <OppsummeringFelt
+                    label="Har utgifter hele perioden?"
+                    value={jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
+                />
+            )}
+            {utgifter?.fom && utgifter.tom && (
+                <OppsummeringFelt
+                    label="Periode med utgifter"
+                    value={formaterIsoPeriode(utgifter.fom, utgifter.tom)}
+                />
             )}
             {startetIFemte !== undefined && (
-                <>
-                    <BodyShort size="small">
-                        {startetIFemte === JaNei.JA
-                            ? 'Startet i 5. klasse'
-                            : 'Ikke startet i 5. klasse'}
-                    </BodyShort>
-
-                    {startetIFemte === JaNei.JA && (
-                        <BodyShort size="small">
-                            {tekstEllerKode(årsakBarnepassTilTekst, årsak)}{' '}
-                        </BodyShort>
-                    )}
-                </>
+                <OppsummeringFelt
+                    label="Har startet i 5. klasse når tiltaket starter?"
+                    value={jaNeiTilTekst[startetIFemte]}
+                />
             )}
-        </InfoSeksjon>
+            {startetIFemte === JaNei.JA && årsak && (
+                <OppsummeringFelt
+                    label="Årsak"
+                    value={tekstEllerKode(årsakBarnepassTilTekst, årsak)}
+                />
+            )}
+        </OppsummeringEkspanderbarEnhet>
     );
 };
 

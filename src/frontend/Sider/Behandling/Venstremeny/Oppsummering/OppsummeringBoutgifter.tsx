@@ -7,7 +7,7 @@ import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import Hovedytelse from './Hovedytelse';
 import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt, OppsummeringFeltgruppe } from './Visningskomponenter';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     DelerUtgifterFlereStederType,
@@ -60,7 +60,7 @@ export const OppsummeringBoutgifter: React.FC<{
 
             {boligEllerOvernatting && (
                 <>
-                    <InfoSeksjon label={'Bolig/overnatting'} ikon={<BankNoteIcon />}>
+                    <InfoSeksjon label={'Bolig / overnatting'} ikon={<BankNoteIcon />}>
                         <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
                         <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
                         <UtgifterSamling samling={samling} />
@@ -80,28 +80,32 @@ const UtgifterNyBolig = ({
 }) => {
     if (!utgifterNyBolig) return null;
     return (
-        <div>
+        <VStack gap="space-8">
             <BodyShort size={'small'} weight={'semibold'}>
                 Løpende utgift 1 bolig
             </BodyShort>
-            {utgifterNyBolig.delerBoutgifter === JaNei.JA && (
-                <BodyShort size={'small'}>
-                    Deler utgifter: {jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
-                </BodyShort>
-            )}
-            {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
-                <BodyShort size={'small'}>
-                    Utgifter ny bolig: {tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-
-                </BodyShort>
-            )}
-            <BodyShort size={'small'}>
-                Høyere utgift nytt bosted:{' '}
-                {jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
-            </BodyShort>
-            {utgifterNyBolig.mottarBostotte === JaNei.JA && (
-                <BodyShort size={'small'}>Mottar bostøtte</BodyShort>
-            )}
-        </div>
+            <OppsummeringFeltgruppe>
+                {utgifterNyBolig.delerBoutgifter === JaNei.JA && (
+                    <OppsummeringFelt
+                        label="Deler utgifter"
+                        value={jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
+                    />
+                )}
+                {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
+                    <OppsummeringFelt
+                        label="Utgifter ny bolig"
+                        value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-`}
+                    />
+                )}
+                <OppsummeringFelt
+                    label="Høyere utgift nytt bosted"
+                    value={jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
+                />
+                {utgifterNyBolig.mottarBostotte === JaNei.JA && (
+                    <OppsummeringFelt label="Mottar bostøtte" value="Ja" />
+                )}
+            </OppsummeringFeltgruppe>
+        </VStack>
     );
 };
 
@@ -119,27 +123,32 @@ const UtgifterFlereSteder = ({
             typerDelerBoutgifter[0] === DelerUtgifterFlereStederType.NEI
         );
     return (
-        <div>
+        <VStack gap="space-8">
             <BodyShort size={'small'} weight={'semibold'}>
                 Løpende utgift 2 boliger
             </BodyShort>
-            {delerUtgifter && (
-                <BodyShort size={'small'}>
-                    Deler utgifter:{' '}
-                    {typerDelerBoutgifter
-                        .map((delerBoutgift) => delerUtgifterFlereStederTypeTilTekst[delerBoutgift])
-                        .join(', ')}
-                </BodyShort>
-            )}
-            <BodyShort size={'small'}>
-                Utgift hjemsted: {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-
-            </BodyShort>
-            <BodyShort size={'small'}>
-                Utgift ny bolig:{' '}
-                {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)}
-                ,-
-            </BodyShort>
-        </div>
+            <OppsummeringFeltgruppe>
+                {delerUtgifter && (
+                    <OppsummeringFelt
+                        label="Deler utgifter"
+                        value={typerDelerBoutgifter
+                            .map(
+                                (delerBoutgift) =>
+                                    delerUtgifterFlereStederTypeTilTekst[delerBoutgift]
+                            )
+                            .join(', ')}
+                    />
+                )}
+                <OppsummeringFelt
+                    label="Utgift hjemsted"
+                    value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-`}
+                />
+                <OppsummeringFelt
+                    label="Utgift aktivitetssted"
+                    value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)},-`}
+                />
+            </OppsummeringFeltgruppe>
+        </VStack>
     );
 };
 
@@ -150,25 +159,29 @@ const UtgifterSamling = ({
 }) => {
     if (!samling) return null;
     return (
-        <VStack gap={'space-4'}>
+        <VStack gap={'space-8'}>
             <BodyShort size={'small'} weight={'semibold'}>
                 Utgifter til overnatting
             </BodyShort>
-            <VStack gap={'space-8'}>
+            <OppsummeringFeltgruppe>
                 {samling.periodeForSamling.map((periode, index) => (
-                    <div key={index}>
-                        <BodyShort size={'small'}>
-                            {formaterIsoPeriode(periode.fom, periode.tom)}:{' '}
-                            {harTallverdi(periode.utgifterTilOvernatting)
-                                ? `${tilTallverdi(periode.utgifterTilOvernatting)},-`
-                                : '-'}
-                        </BodyShort>
-                        {periode.trengteEkstraOvernatting === JaNei.JA && (
-                            <BodyShort size={'small'}>Ekstra overnatting</BodyShort>
-                        )}
-                    </div>
+                    <OppsummeringFelt
+                        key={index}
+                        label={formaterIsoPeriode(periode.fom, periode.tom)}
+                    >
+                        <VStack gap="space-4">
+                            <BodyShort size="small">
+                                {harTallverdi(periode.utgifterTilOvernatting)
+                                    ? `${tilTallverdi(periode.utgifterTilOvernatting)},-`
+                                    : '-'}
+                            </BodyShort>
+                            {periode.trengteEkstraOvernatting === JaNei.JA && (
+                                <BodyShort size="small">Ekstra overnatting</BodyShort>
+                            )}
+                        </VStack>
+                    </OppsummeringFelt>
                 ))}
-            </VStack>
+            </OppsummeringFeltgruppe>
         </VStack>
     );
 };
@@ -180,15 +193,15 @@ const HøyereUtgifterPgaHelse = ({
 }) => {
     return (
         boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse === JaNei.JA && (
-            <InfoSeksjon label={'Høyere utgift pga helse'} ikon={<WheelchairIcon />}>
-                <BodyShort size={'small'}>
-                    Trenger tilpasset bolig:{' '}
-                    {
+            <InfoSeksjon label={'Særlig store utgifter'} ikon={<WheelchairIcon />}>
+                <OppsummeringFelt
+                    label="Har særlig store utgifter på grunn av funksjonsnedsettelse"
+                    value={
                         jaNeiTilTekst[
                             boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse
                         ]
                     }
-                </BodyShort>
+                />
             </InfoSeksjon>
         )
     );
