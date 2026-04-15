@@ -33,7 +33,6 @@ export interface InnvilgelseBarnetilsyn {
 export type AvslagBarnetilsyn = AvslagRequest;
 
 export type OpphørBarnetilsyn = OpphørRequest & {
-    beregningsresultat: BeregningsresultatTilsynBarn;
     vedtaksperioder: Vedtaksperiode[];
 };
 

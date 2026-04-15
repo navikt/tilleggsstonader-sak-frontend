@@ -43,7 +43,6 @@ export type AvslagDagligReise = AvslagRequest;
 
 export type OpphørDagligReise = OpphørRequest & {
     vedtaksperioder: Vedtaksperiode[];
-    beregningsresultat: BeregningsresultatDagligReise;
 };
 
 export interface BeregningDagligReise {
