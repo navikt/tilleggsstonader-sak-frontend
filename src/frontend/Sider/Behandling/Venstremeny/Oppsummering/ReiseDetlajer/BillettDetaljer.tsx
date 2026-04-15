@@ -20,21 +20,21 @@ export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport 
         )}
         {offentligTransport.enkeltbillettPris && (
             <OppsummeringFelt
-                label="Hvor mye koster én enkeltbillett?"
+                label="Hvor mye koster en enkeltbillett?"
                 value={`${offentligTransport.enkeltbillettPris} kr`}
             />
         )}
 
         {offentligTransport.syvdagersbillettPris && (
             <OppsummeringFelt
-                label="Hvor mye koster ett ukeskort / 7-dagersbillett?"
+                label="Hvor mye koster et ukeskort / 7-dagersbillett?"
                 value={`${offentligTransport.syvdagersbillettPris} kr`}
             />
         )}
 
         {offentligTransport.månedskortPris && (
             <OppsummeringFelt
-                label="Hvor mye koster ett månedskort / 30-dagersbillett?"
+                label="Hvor mye koster et månedskort / 30-dagersbillett?"
                 value={`${offentligTransport.månedskortPris} kr`}
             />
         )}

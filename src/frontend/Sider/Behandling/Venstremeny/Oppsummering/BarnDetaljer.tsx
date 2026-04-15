@@ -49,7 +49,7 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn; defaultOpen?: boolean }> = ({
             )}
             {startetIFemte !== undefined && (
                 <OppsummeringFelt
-                    label="Har startet i 5. klasse når tiltaket starter?"
+                    label="Har startet i 5.klasse når tiltaket starter?"
                     value={jaNeiTilTekst[startetIFemte]}
                 />
             )}
