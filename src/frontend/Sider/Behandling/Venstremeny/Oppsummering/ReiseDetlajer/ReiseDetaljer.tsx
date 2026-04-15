@@ -1,153 +1,123 @@
 import React from 'react';
 
 import { EarthIcon } from '@navikt/aksel-icons';
-import { BodyShort, CopyButton, Heading, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, VStack } from '@navikt/ds-react';
 
 import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
 import {
     FaktaReise,
     reiseAdresseTilTekst,
+    ReiseAdresse,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { InfoSeksjon } from '../Visningskomponenter';
+import { OppsummeringEkspanderbarEnhet, OppsummeringFelt } from '../Visningskomponenter';
+
+function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string }) {
+    const adresseTekst = reiseAdresseTilTekst(adresse);
+
+    return (
+        <OppsummeringFelt label={label}>
+            <span>
+                <BodyShort as="span" size="small">
+                    {adresseTekst}
+                </BodyShort>
+                <CopyButton
+                    copyText={adresseTekst}
+                    size="small"
+                    style={{ verticalAlign: 'middle' }}
+                />
+            </span>
+        </OppsummeringFelt>
+    );
+}
 
 export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
     return (
-        <div>
-            <InfoSeksjon label={'Reiser'} ikon={<EarthIcon />}>
-                <VStack gap={'space-16'}>
-                    {reiser.map((reise, index) => (
-                        <VStack key={index} gap={'space-8'}>
-                            <Heading level={'4'} size={'xsmall'}>
-                                {`Reise ${index + 1}`}
-                            </Heading>
+        <VStack gap="space-12">
+            {reiser.map((reise, index) => (
+                <OppsummeringEkspanderbarEnhet
+                    defaultOpen={index === 0}
+                    ikon={<EarthIcon />}
+                    key={index}
+                    tittel={`Reise ${index + 1}`}
+                    variant="subtle"
+                >
+                    {reise.skalReiseFraFolkeregistrertAdresse && (
+                        <OppsummeringFelt
+                            label="Skal du reise fra din folkeregisterte adresse?"
+                            value={jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
+                        />
+                    )}
 
-                            {reise.skalReiseFraFolkeregistrertAdresse && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Skal du reise fra din folkeregisterte adresse?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.adresseDetSkalReisesFra && (
+                        <AdresseFelt
+                            adresse={reise.adresseDetSkalReisesFra}
+                            label="Adresse jeg skal reise fra"
+                        />
+                    )}
 
-                            {reise.adresseDetSkalReisesFra && (
-                                <VStack>
-                                    <Label size={'small'}>Adresse jeg skal reise fra:</Label>
-                                    <span>
-                                        <BodyShort as="span" size="small">
-                                            {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
-                                        </BodyShort>
-                                        <CopyButton
-                                            copyText={reiseAdresseTilTekst(
-                                                reise.adresseDetSkalReisesFra
-                                            )}
-                                            size="small"
-                                            style={{ verticalAlign: 'middle' }}
-                                        />
-                                    </span>
-                                </VStack>
-                            )}
+                    {reise.reiseAdresse && (
+                        <AdresseFelt
+                            adresse={reise.reiseAdresse}
+                            label="Hvilken adresse reiser du til i aktiviteten din?"
+                        />
+                    )}
 
-                            {reise.reiseAdresse && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Hvilken adresse reiser du til i aktiviteten din?
-                                    </Label>
-                                    <span>
-                                        <BodyShort as="span" size="small">
-                                            {reiseAdresseTilTekst(reise.reiseAdresse)}
-                                        </BodyShort>
-                                        <CopyButton
-                                            copyText={reiseAdresseTilTekst(reise.reiseAdresse)}
-                                            size="small"
-                                            style={{ verticalAlign: 'middle' }}
-                                        />
-                                    </span>
-                                </VStack>
-                            )}
+                    {reise.periode && (
+                        <OppsummeringFelt
+                            label="I hvilken periode skal du reise til aktivitetsstedet?"
+                            value={formaterIsoPeriode(reise.periode.fom, reise.periode.tom)}
+                        />
+                    )}
 
-                            {reise.periode && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        I hvilken periode skal du reise til aktivitetsstedet?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {formaterIsoPeriode(reise.periode.fom, reise.periode.tom)}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.dagerPerUke && (
+                        <OppsummeringFelt
+                            label="Hvor mange dager i uken skal du reise hit?"
+                            value={reise.dagerPerUke}
+                        />
+                    )}
 
-                            {reise.dagerPerUke && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Hvor mange dager i uken skal du reise hit?
-                                    </Label>
-                                    <BodyShort size="small">{reise.dagerPerUke}</BodyShort>
-                                </VStack>
-                            )}
+                    {reise.harBehovForTransportUavhengigAvReisensLengde && (
+                        <OppsummeringFelt
+                            label="Har du funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at du må ha transport til aktivitetsstedet?"
+                            value={
+                                jaNeiTilTekst[reise.harBehovForTransportUavhengigAvReisensLengde]
+                            }
+                        />
+                    )}
 
-                            {reise.harBehovForTransportUavhengigAvReisensLengde && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Har du funksjonsnedsettelse, midlertidig skade eller sykdom
-                                        som gjør at du må ha transport til aktivitetsstedet?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {
-                                            jaNeiTilTekst[
-                                                reise.harBehovForTransportUavhengigAvReisensLengde
-                                            ]
-                                        }
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.harMerEnn6KmReisevei && (
+                        <OppsummeringFelt
+                            label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 kilometer eller mer én vei?"
+                            value={jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
+                        />
+                    )}
 
-                            {reise.harMerEnn6KmReisevei && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Er reiseavstanden mellom der du bor og aktivitetsstedet 6
-                                        kilometer eller mer én vei?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.lengdeReisevei && (
+                        <OppsummeringFelt
+                            label="Hvor lang er reiseveien din?"
+                            value={`${reise.lengdeReisevei} km`}
+                        />
+                    )}
 
-                            {reise.lengdeReisevei && (
-                                <VStack>
-                                    <Label size={'small'}>Hvor lang er reiseveien din?</Label>
-                                    <BodyShort size="small">{`${reise.lengdeReisevei} km`}</BodyShort>
-                                </VStack>
-                            )}
+                    {reise.kanReiseMedOffentligTransport && (
+                        <OppsummeringFelt
+                            label="Kan du reise med offentlig transport hele veien?"
+                            value={jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
+                        />
+                    )}
 
-                            {reise.kanReiseMedOffentligTransport && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Kan du reise med offentlig transport hele veien?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.offentligTransport && (
+                        <BillettDetaljer offentligTransport={reise.offentligTransport} />
+                    )}
 
-                            {reise.offentligTransport && (
-                                <BillettDetaljer offentligTransport={reise.offentligTransport} />
-                            )}
-
-                            {reise.privatTransport && (
-                                <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
-                            )}
-                        </VStack>
-                    ))}
-                </VStack>
-            </InfoSeksjon>
-        </div>
+                    {reise.privatTransport && (
+                        <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
+                    )}
+                </OppsummeringEkspanderbarEnhet>
+            ))}
+        </VStack>
     );
 };

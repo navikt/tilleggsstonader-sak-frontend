@@ -1,12 +1,15 @@
 .container {
     border-right: 1px solid var(--ax-border-neutral);
     width: 24rem;
+    min-width: 24rem;
     position: sticky;
     height: calc(100vh - 97px);
     top: 97px;
     overflow: hidden scroll;
+    scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .hviteTabs {

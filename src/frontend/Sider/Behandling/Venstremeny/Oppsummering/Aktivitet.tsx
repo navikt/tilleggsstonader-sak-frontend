@@ -1,38 +1,55 @@
 import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaAktivtet,
     typeAnnenAktivitetTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
+import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
-const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
+export const AktivitetFelt: React.FC<{
+    aktivitet: FaktaAktivtet;
+    visLønnetAktivitet?: boolean;
+}> = ({ aktivitet, visLønnetAktivitet = false }) => {
     const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
     const annenAktivitet = aktivitet.søknadsgrunnlag?.annenAktivitet;
     const erLønnetAktivitet = aktivitet.søknadsgrunnlag?.lønnetAktivitet;
+    const aktiviteterTekst = aktiviteter?.filter((aktivitet) => aktivitet !== 'Annet').join(', ');
 
     return (
-        <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-            {aktiviteter?.map(
-                (aktivitet) =>
-                    aktivitet !== 'Annet' && (
-                        <BodyShort size="small" key={aktivitet}>
-                            {aktivitet}
-                        </BodyShort>
-                    )
+        <>
+            {aktiviteterTekst && (
+                <OppsummeringFelt
+                    label="Hvilken aktivitet søker du om støtte ifm?"
+                    value={aktiviteterTekst}
+                />
             )}
             {annenAktivitet && (
-                <BodyShort size="small">
-                    Annen aktivitet: {tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}
-                </BodyShort>
+                <OppsummeringFelt
+                    label="Hva slags type arbeidsrettet aktivitet går du på?"
+                    value={`Annet: ${tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
+                />
             )}
-            {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
-                <BodyShort size="small">Lønnet aktivitet</BodyShort>
+            {visLønnetAktivitet && erLønnetAktivitet === 'JA' && (
+                <OppsummeringFelt
+                    label="Lønnet aktivitet"
+                    value={jaNeiTilTekst[erLønnetAktivitet]}
+                />
             )}
+        </>
+    );
+};
+
+const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet; layout?: InfoSeksjonLayout }> = ({
+    aktivitet,
+    layout = 'standalone',
+}) => {
+    return (
+        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />} layout={layout}>
+            <AktivitetFelt aktivitet={aktivitet} visLønnetAktivitet />
         </InfoSeksjon>
     );
 };

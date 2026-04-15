@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
 import {
     Taxi,
@@ -8,34 +8,32 @@ import {
     ÅrsakIkkeKjøreBilTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { OppsummeringFelt } from '../Visningskomponenter';
 
 export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
     <>
-        <VStack>
-            <Label size={'small'}>Hvorfor kan du ikke kjøre bil til aktivitetsstedet?</Label>
-            {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
-                <BodyShort key={årsak} size="small">
-                    {ÅrsakIkkeKjøreBilTilTekst[årsak]}
-                </BodyShort>
-            ))}
-        </VStack>
+        <OppsummeringFelt label="Hvorfor kan du ikke kjøre bil til aktivitetsstedet?">
+            <VStack gap="space-4">
+                {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
+                    <BodyShort key={årsak} size="small">
+                        {ÅrsakIkkeKjøreBilTilTekst[årsak]}
+                    </BodyShort>
+                ))}
+            </VStack>
+        </OppsummeringFelt>
 
         {taxi.ønskerSøkeOmTaxi && (
-            <VStack>
-                <Label size={'small'}>
-                    Ønsker du å søke om få dekket utgifter til reise med taxi?
-                </Label>
-                <BodyShort size="small">{jaNeiTilTekst[taxi.ønskerSøkeOmTaxi]}</BodyShort>
-            </VStack>
+            <OppsummeringFelt
+                label="Ønsker du å søke om å få dekket utgifter til reise med taxi?"
+                value={jaNeiTilTekst[taxi.ønskerSøkeOmTaxi]}
+            />
         )}
 
         {taxi.ttkort && (
-            <VStack>
-                <Label size={'small'}>
-                    Har du et TT-kort som du kan bruke til aktiviteter i tiltak?
-                </Label>
-                <BodyShort size="small">{jaNeiTilTekst[taxi.ttkort]}</BodyShort>
-            </VStack>
+            <OppsummeringFelt
+                label="Har du et TT-kort som du kan bruke til aktiviteter i tiltak?"
+                value={jaNeiTilTekst[taxi.ttkort]}
+            />
         )}
     </>
 );
