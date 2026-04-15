@@ -22,12 +22,12 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
                     <Table.Row>
                         <TableHeaderCellSmall>Uke</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Periode</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Godkjente reisedager</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Dager kjørt</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Kilometersats</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Bompenger per dag</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Fergekostnad per dag</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Dagsats u/park.</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Summerte parkeringskostnader</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
@@ -93,7 +93,7 @@ const SatsInfo: FC<{
     }
 
     return (
-        <HStack align="center" gap="space-4">
+        <HStack align="center" gap="space-4" wrap={false}>
             <i>{satser[0].verdi}</i>
             <HelpText>
                 {satser.map((sats, index) => (
