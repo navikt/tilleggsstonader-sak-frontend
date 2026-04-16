@@ -1,4 +1,4 @@
-import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
+import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../../typer/vedtak/vedtakDagligReise';
 
 export interface PrivatBilOppsummertBeregning {
     reiser: OppsummertBeregningForReise[];

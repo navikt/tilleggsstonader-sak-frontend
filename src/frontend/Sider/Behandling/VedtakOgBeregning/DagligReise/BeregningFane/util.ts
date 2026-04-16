@@ -1,6 +1,6 @@
 import { FormatertSats } from './typer';
-import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
-import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
+import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../../typer/vedtak/vedtakDagligReise';
+import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 
 export const formaterKilometersatser = (
     satser: RammeForReiseMedPrivatBilSatsForDelperiode[]

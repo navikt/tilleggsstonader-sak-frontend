@@ -5,10 +5,10 @@ import { Detail, HelpText, HStack, Label, Table } from '@navikt/ds-react';
 import styles from './DagligReisePrivatBilBeregningTabell.module.css';
 import { OppsummertBeregningForReise } from './typer';
 import { formaterKilometersatser } from './util';
-import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
-import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
-import { formaterIsoPeriode } from '../../../../utils/dato';
-import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
+import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../../typer/vedtak/vedtakDagligReise';
+import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { kronerMedTusenSkilleEllerStrek } from '../../../../../utils/tekstformatering';
 
 export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
     oppsummertBeregning: OppsummertBeregningForReise;
