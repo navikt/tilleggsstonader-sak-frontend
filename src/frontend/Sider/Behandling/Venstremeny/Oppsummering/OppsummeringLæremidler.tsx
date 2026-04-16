@@ -12,11 +12,13 @@ import {
     InfoSeksjon,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
+    oppsummeringAltFilterValg,
+    oppsummeringAltFilterVerdi,
 } from './Visningskomponenter';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
-const læremidlerSeksjoner = ['grunnlag', 'utdanning', 'vedlegg'] as const;
+const læremidlerSeksjoner = [oppsummeringAltFilterVerdi, 'utdanning', 'vedlegg'] as const;
 type LæremidlerSeksjon = (typeof læremidlerSeksjoner)[number];
 
 function erLæremidlerSeksjon(value: string): value is LæremidlerSeksjon {
@@ -26,11 +28,13 @@ function erLæremidlerSeksjon(value: string): value is LæremidlerSeksjon {
 const OppsummeringLæremidler: React.FC<{
     behandlingFakta: BehandlingFaktaLæremidler;
 }> = ({ behandlingFakta }) => {
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<LæremidlerSeksjon>('grunnlag');
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<LæremidlerSeksjon>(
+        oppsummeringAltFilterVerdi
+    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const visUtdanningsseksjon = harUtdanningsopplysninger(behandlingFakta.utdanning);
     const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        oppsummeringAltFilterValg,
         ...(visUtdanningsseksjon
             ? [
                   {
@@ -51,9 +55,9 @@ const OppsummeringLæremidler: React.FC<{
               ]
             : []),
     ];
-    const visGrunnlag = valgtSeksjon === 'grunnlag';
-    const visUtdanning = valgtSeksjon === 'utdanning';
-    const visVedlegg = valgtSeksjon === 'vedlegg';
+    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
+    const visUtdanning = visFellesopplysninger || valgtSeksjon === 'utdanning';
+    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
 
     return (
         <>
@@ -67,19 +71,22 @@ const OppsummeringLæremidler: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visGrunnlag && behandlingFakta.søknadMottattTidspunkt && (
+            {visFellesopplysninger && behandlingFakta.søknadMottattTidspunkt && (
                 <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                     <BodyShort size="small">
                         {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
                     </BodyShort>
                 </InfoSeksjon>
             )}
-            {visGrunnlag && <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />}
-            {visGrunnlag && behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
+            {visFellesopplysninger && (
+                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
             )}
+            {visFellesopplysninger &&
+                behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                    <ArbeidOgOpphold
+                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                    />
+                )}
             {visUtdanning && visUtdanningsseksjon && (
                 <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}

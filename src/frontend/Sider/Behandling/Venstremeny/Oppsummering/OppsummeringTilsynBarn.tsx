@@ -14,11 +14,13 @@ import {
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
     OppsummeringSeksjonsgruppe,
+    oppsummeringAltFilterValg,
+    oppsummeringAltFilterVerdi,
 } from './Visningskomponenter';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
-const tilsynBarnSeksjoner = ['grunnlag', 'barn', 'vedlegg'] as const;
+const tilsynBarnSeksjoner = [oppsummeringAltFilterVerdi, 'barn', 'vedlegg'] as const;
 type TilsynBarnSeksjon = (typeof tilsynBarnSeksjoner)[number];
 
 function erTilsynBarnSeksjon(value: string): value is TilsynBarnSeksjon {
@@ -29,10 +31,12 @@ const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
     const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<TilsynBarnSeksjon>('grunnlag');
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<TilsynBarnSeksjon>(
+        oppsummeringAltFilterVerdi
+    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        oppsummeringAltFilterValg,
         ...(barnDetSøkesFor.length > 0
             ? [
                   {
@@ -54,9 +58,9 @@ const OppsummeringTilsynBarn: React.FC<{
               ]
             : []),
     ];
-    const visGrunnlag = valgtSeksjon === 'grunnlag';
-    const visBarn = valgtSeksjon === 'barn';
-    const visVedlegg = valgtSeksjon === 'vedlegg';
+    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
+    const visBarn = visFellesopplysninger || valgtSeksjon === 'barn';
+    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
 
     return (
         <>
@@ -70,7 +74,7 @@ const OppsummeringTilsynBarn: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visGrunnlag && (
+            {visFellesopplysninger && (
                 <OppsummeringSeksjonsgruppe>
                     {behandlingFakta.søknadMottattTidspunkt && (
                         <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">

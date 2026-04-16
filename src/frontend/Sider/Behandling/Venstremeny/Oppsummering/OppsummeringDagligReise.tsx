@@ -11,6 +11,8 @@ import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     InfoSeksjon,
+    oppsummeringAltFilterValg,
+    oppsummeringAltFilterVerdi,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
     OppsummeringSeksjonsgruppe,
@@ -18,7 +20,7 @@ import {
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
-const dagligReiseSeksjoner = ['grunnlag', 'reiser', 'vedlegg'] as const;
+const dagligReiseSeksjoner = [oppsummeringAltFilterVerdi, 'reiser', 'vedlegg'] as const;
 type DagligReiseSeksjon = (typeof dagligReiseSeksjoner)[number];
 
 function erDagligReiseSeksjon(value: string): value is DagligReiseSeksjon {
@@ -28,10 +30,12 @@ function erDagligReiseSeksjon(value: string): value is DagligReiseSeksjon {
 export const OppsummeringDagligReise: React.FC<{
     behandlingFakta: BehandlingFaktaDagligReise;
 }> = ({ behandlingFakta }) => {
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<DagligReiseSeksjon>('grunnlag');
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<DagligReiseSeksjon>(
+        oppsummeringAltFilterVerdi
+    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        oppsummeringAltFilterValg,
         ...(behandlingFakta.reiser.length > 0
             ? [
                   {
@@ -53,9 +57,9 @@ export const OppsummeringDagligReise: React.FC<{
               ]
             : []),
     ];
-    const visGrunnlag = valgtSeksjon === 'grunnlag';
-    const visReiser = valgtSeksjon === 'reiser';
-    const visVedlegg = valgtSeksjon === 'vedlegg';
+    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
+    const visReiser = visFellesopplysninger || valgtSeksjon === 'reiser';
+    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
 
     return (
         <>
@@ -69,29 +73,44 @@ export const OppsummeringDagligReise: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visGrunnlag && (
-                <OppsummeringSeksjonsgruppe>
-                    {behandlingFakta.søknadMottattTidspunkt && (
-                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">
-                            <BodyShort size="small">
-                                {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                            </BodyShort>
-                        </InfoSeksjon>
-                    )}
-                    <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} layout="grouped" />
-                    {behandlingFakta.aktiviteter && (
-                        <AktivitetDagligReise
-                            aktiviteter={behandlingFakta.aktiviteter}
+            {visFellesopplysninger && (
+                <>
+                    <OppsummeringSeksjonsgruppe>
+                        {behandlingFakta.søknadMottattTidspunkt && (
+                            <InfoSeksjon
+                                label="Søknadsdato"
+                                ikon={<CalendarIcon />}
+                                layout="grouped"
+                            >
+                                <BodyShort size="small">
+                                    {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
+                                </BodyShort>
+                            </InfoSeksjon>
+                        )}
+                    </OppsummeringSeksjonsgruppe>
+                    <OppsummeringSeksjonsgruppe>
+                        <Hovedytelse
+                            faktaHovedytelse={behandlingFakta.hovedytelse}
                             layout="grouped"
                         />
-                    )}
-                    {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                        <ArbeidOgOpphold
-                            fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                            layout="grouped"
-                        />
-                    )}
-                </OppsummeringSeksjonsgruppe>
+                    </OppsummeringSeksjonsgruppe>
+                    <OppsummeringSeksjonsgruppe>
+                        {behandlingFakta.aktiviteter && (
+                            <AktivitetDagligReise
+                                aktiviteter={behandlingFakta.aktiviteter}
+                                layout="grouped"
+                            />
+                        )}
+                    </OppsummeringSeksjonsgruppe>
+                    <OppsummeringSeksjonsgruppe>
+                        {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                            <ArbeidOgOpphold
+                                fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                                layout="grouped"
+                            />
+                        )}
+                    </OppsummeringSeksjonsgruppe>
+                </>
             )}
             {visReiser && behandlingFakta.reiser.length > 0 && (
                 <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, ExpansionCard, HStack, Heading, ToggleGroup, VStack } from '@navikt/ds-react';
+import { BodyShort, ExpansionCard, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
 
 import styles from './Visningskomponenter.module.css';
 
@@ -11,6 +11,13 @@ export interface OppsummeringSeksjonsfilterValg {
     ariaLabel?: string;
     count?: number;
 }
+
+export const oppsummeringAltFilterVerdi = 'alt' as const;
+export const oppsummeringAltFilterValg: OppsummeringSeksjonsfilterValg = {
+    value: oppsummeringAltFilterVerdi,
+    label: 'Alt',
+    ariaLabel: 'Vis alle opplysninger',
+};
 
 function formaterFilterLabel({ label, count }: OppsummeringSeksjonsfilterValg) {
     return count !== undefined ? `${label} (${count})` : label;

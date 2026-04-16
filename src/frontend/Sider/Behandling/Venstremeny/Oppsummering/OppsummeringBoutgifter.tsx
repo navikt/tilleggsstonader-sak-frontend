@@ -10,6 +10,8 @@ import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     InfoSeksjon,
+    oppsummeringAltFilterValg,
+    oppsummeringAltFilterVerdi,
     OppsummeringFelt,
     OppsummeringFeltgruppe,
     OppsummeringSeksjonsfilter,
@@ -28,7 +30,7 @@ import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato, formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
 
-const boutgifterSeksjoner = ['grunnlag', 'bolig', 'vedlegg'] as const;
+const boutgifterSeksjoner = [oppsummeringAltFilterVerdi, 'bolig', 'vedlegg'] as const;
 type BoutgifterSeksjon = (typeof boutgifterSeksjoner)[number];
 
 function erBoutgifterSeksjon(value: string): value is BoutgifterSeksjon {
@@ -42,10 +44,12 @@ export const OppsummeringBoutgifter: React.FC<{
     const utgifterNyBolig = boligEllerOvernatting?.fasteUtgifter?.utgifterNyBolig;
     const utgifterFlereSteder = boligEllerOvernatting?.fasteUtgifter?.utgifterFlereSteder;
     const samling = boligEllerOvernatting?.samling;
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<BoutgifterSeksjon>('grunnlag');
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<BoutgifterSeksjon>(
+        oppsummeringAltFilterVerdi
+    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        oppsummeringAltFilterValg,
         ...(boligEllerOvernatting
             ? [{ value: 'bolig', label: 'Bolig', ariaLabel: 'Vis bolig og overnatting' }]
             : []),
@@ -60,9 +64,9 @@ export const OppsummeringBoutgifter: React.FC<{
               ]
             : []),
     ];
-    const visGrunnlag = valgtSeksjon === 'grunnlag';
-    const visBolig = valgtSeksjon === 'bolig';
-    const visVedlegg = valgtSeksjon === 'vedlegg';
+    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
+    const visBolig = visFellesopplysninger || valgtSeksjon === 'bolig';
+    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
 
     return (
         <>
@@ -76,7 +80,7 @@ export const OppsummeringBoutgifter: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visGrunnlag && behandlingFakta.søknadMottattTidspunkt && (
+            {visFellesopplysninger && behandlingFakta.søknadMottattTidspunkt && (
                 <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                     <BodyShort size="small">
                         {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
@@ -84,23 +88,27 @@ export const OppsummeringBoutgifter: React.FC<{
                 </InfoSeksjon>
             )}
 
-            {visGrunnlag && behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
-                <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
-                    <BodyShort size="small">
-                        {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
-                    </BodyShort>
-                </InfoSeksjon>
+            {visFellesopplysninger &&
+                behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
+                    <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
+                        <BodyShort size="small">
+                            {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
+                        </BodyShort>
+                    </InfoSeksjon>
+                )}
+
+            {visFellesopplysninger && (
+                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
             )}
 
-            {visGrunnlag && <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />}
+            {visFellesopplysninger &&
+                behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                    <ArbeidOgOpphold
+                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                    />
+                )}
 
-            {visGrunnlag && behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
-            )}
-
-            {visGrunnlag && behandlingFakta.aktiviteter && (
+            {visFellesopplysninger && behandlingFakta.aktiviteter && (
                 <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
             )}
 
