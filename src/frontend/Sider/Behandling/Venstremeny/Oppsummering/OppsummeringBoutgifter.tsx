@@ -6,8 +6,15 @@ import { BodyShort, VStack } from '@navikt/ds-react';
 import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import Hovedytelse from './Hovedytelse';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon, OppsummeringFelt, OppsummeringFeltgruppe } from './Visningskomponenter';
+import Vedlegg, { antallVedlegg } from './Vedlegg';
+import {
+    erGyldigOppsummeringsvalg,
+    InfoSeksjon,
+    OppsummeringFelt,
+    OppsummeringFeltgruppe,
+    OppsummeringSeksjonsfilter,
+    OppsummeringSeksjonsfilterValg,
+} from './Visningskomponenter';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     DelerUtgifterFlereStederType,
@@ -21,6 +28,13 @@ import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato, formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
 
+const boutgifterSeksjoner = ['grunnlag', 'bolig', 'vedlegg'] as const;
+type BoutgifterSeksjon = (typeof boutgifterSeksjoner)[number];
+
+function erBoutgifterSeksjon(value: string): value is BoutgifterSeksjon {
+    return erGyldigOppsummeringsvalg(value, boutgifterSeksjoner);
+}
+
 export const OppsummeringBoutgifter: React.FC<{
     behandlingFakta: BehandlingFaktaBoutgifter;
 }> = ({ behandlingFakta }) => {
@@ -28,9 +42,41 @@ export const OppsummeringBoutgifter: React.FC<{
     const utgifterNyBolig = boligEllerOvernatting?.fasteUtgifter?.utgifterNyBolig;
     const utgifterFlereSteder = boligEllerOvernatting?.fasteUtgifter?.utgifterFlereSteder;
     const samling = boligEllerOvernatting?.samling;
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<BoutgifterSeksjon>('grunnlag');
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
+        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        ...(boligEllerOvernatting
+            ? [{ value: 'bolig', label: 'Bolig', ariaLabel: 'Vis bolig og overnatting' }]
+            : []),
+        ...(antallDokumenter > 0
+            ? [
+                  {
+                      value: 'vedlegg',
+                      label: 'Vedlegg',
+                      ariaLabel: 'Vis vedlegg',
+                      count: antallDokumenter,
+                  },
+              ]
+            : []),
+    ];
+    const visGrunnlag = valgtSeksjon === 'grunnlag';
+    const visBolig = valgtSeksjon === 'bolig';
+    const visVedlegg = valgtSeksjon === 'vedlegg';
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
+            <OppsummeringSeksjonsfilter
+                ariaLabel="Filtrer søknadsopplysninger for boutgifter"
+                onChange={(value) => {
+                    if (erBoutgifterSeksjon(value)) {
+                        settValgtSeksjon(value);
+                    }
+                }}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visGrunnlag && behandlingFakta.søknadMottattTidspunkt && (
                 <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                     <BodyShort size="small">
                         {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
@@ -38,7 +84,7 @@ export const OppsummeringBoutgifter: React.FC<{
                 </InfoSeksjon>
             )}
 
-            {behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
+            {visGrunnlag && behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
                 <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
                     <BodyShort size="small">
                         {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
@@ -46,19 +92,19 @@ export const OppsummeringBoutgifter: React.FC<{
                 </InfoSeksjon>
             )}
 
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
+            {visGrunnlag && <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />}
 
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+            {visGrunnlag && behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
                 <ArbeidOgOpphold
                     fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
                 />
             )}
 
-            {behandlingFakta.aktiviteter && (
+            {visGrunnlag && behandlingFakta.aktiviteter && (
                 <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
             )}
 
-            {boligEllerOvernatting && (
+            {visBolig && boligEllerOvernatting && (
                 <>
                     <InfoSeksjon label={'Bolig / overnatting'} ikon={<BankNoteIcon />}>
                         <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
@@ -68,7 +114,9 @@ export const OppsummeringBoutgifter: React.FC<{
                     <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
                 </>
             )}
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && antallDokumenter > 0 && (
+                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            )}
         </>
     );
 };

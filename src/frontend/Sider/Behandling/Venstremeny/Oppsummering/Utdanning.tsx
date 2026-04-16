@@ -10,6 +10,18 @@ import {
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
+export function harUtdanningsopplysninger(faktaUtdanning: FaktaUtdanning): boolean {
+    const søknadsgrunnlag = faktaUtdanning.søknadsgrunnlag;
+
+    return Boolean(
+        søknadsgrunnlag?.aktiviteter?.length ||
+        søknadsgrunnlag?.annenUtdanning ||
+        søknadsgrunnlag?.harRettTilUtstyrsstipend?.erLærlingEllerLiknende !== undefined ||
+        søknadsgrunnlag?.harRettTilUtstyrsstipend?.harTidligereFullførtVgs !== undefined ||
+        søknadsgrunnlag?.harFunksjonsnedsettelse !== undefined
+    );
+}
+
 const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;

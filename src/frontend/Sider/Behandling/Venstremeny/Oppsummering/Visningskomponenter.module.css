@@ -5,6 +5,15 @@
     padding: var(--ax-space-16);
 }
 
+.seksjonsfilter {
+    width: 100%;
+    min-width: 0;
+}
+
+.seksjonsfilterToggleGroup {
+    width: 100%;
+}
+
 .subtle {
     background-color: var(--ax-bg-neutral-soft);
 }

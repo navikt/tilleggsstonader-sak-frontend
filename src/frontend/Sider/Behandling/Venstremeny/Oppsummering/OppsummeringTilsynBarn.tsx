@@ -7,47 +7,103 @@ import Aktivitet from './Aktivitet';
 import ArbeidOgOpphold from './ArbeidOgOpphold';
 import BarnDetaljer from './BarnDetaljer';
 import Hovedytelse from './Hovedytelse';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon, OppsummeringSeksjonsgruppe } from './Visningskomponenter';
+import Vedlegg, { antallVedlegg } from './Vedlegg';
+import {
+    erGyldigOppsummeringsvalg,
+    InfoSeksjon,
+    OppsummeringSeksjonsfilter,
+    OppsummeringSeksjonsfilterValg,
+    OppsummeringSeksjonsgruppe,
+} from './Visningskomponenter';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
+
+const tilsynBarnSeksjoner = ['grunnlag', 'barn', 'vedlegg'] as const;
+type TilsynBarnSeksjon = (typeof tilsynBarnSeksjoner)[number];
+
+function erTilsynBarnSeksjon(value: string): value is TilsynBarnSeksjon {
+    return erGyldigOppsummeringsvalg(value, tilsynBarnSeksjoner);
+}
 
 const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
     const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
+    const [valgtSeksjon, settValgtSeksjon] = React.useState<TilsynBarnSeksjon>('grunnlag');
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
+        { value: 'grunnlag', label: 'Grunnlag', ariaLabel: 'Vis grunnopplysninger' },
+        ...(barnDetSøkesFor.length > 0
+            ? [
+                  {
+                      value: 'barn',
+                      label: 'Barn',
+                      ariaLabel: 'Vis opplysninger om barn',
+                      count: barnDetSøkesFor.length,
+                  },
+              ]
+            : []),
+        ...(antallDokumenter > 0
+            ? [
+                  {
+                      value: 'vedlegg',
+                      label: 'Vedlegg',
+                      ariaLabel: 'Vis vedlegg',
+                      count: antallDokumenter,
+                  },
+              ]
+            : []),
+    ];
+    const visGrunnlag = valgtSeksjon === 'grunnlag';
+    const visBarn = valgtSeksjon === 'barn';
+    const visVedlegg = valgtSeksjon === 'vedlegg';
 
     return (
         <>
-            <OppsummeringSeksjonsgruppe>
-                {behandlingFakta.søknadMottattTidspunkt && (
-                    <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">
-                        <BodyShort size="small">
-                            {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                        </BodyShort>
-                    </InfoSeksjon>
-                )}
-                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} layout="grouped" />
-                {behandlingFakta.aktivitet && (
-                    <Aktivitet aktivitet={behandlingFakta.aktivitet} layout="grouped"></Aktivitet>
-                )}
-                {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                    <ArbeidOgOpphold
-                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                        layout="grouped"
-                    />
-                )}
-            </OppsummeringSeksjonsgruppe>
-
-            {barnDetSøkesFor.length > 0 && (
+            <OppsummeringSeksjonsfilter
+                ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
+                onChange={(value) => {
+                    if (erTilsynBarnSeksjon(value)) {
+                        settValgtSeksjon(value);
+                    }
+                }}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visGrunnlag && (
+                <OppsummeringSeksjonsgruppe>
+                    {behandlingFakta.søknadMottattTidspunkt && (
+                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">
+                            <BodyShort size="small">
+                                {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
+                            </BodyShort>
+                        </InfoSeksjon>
+                    )}
+                    <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} layout="grouped" />
+                    {behandlingFakta.aktivitet && (
+                        <Aktivitet
+                            aktivitet={behandlingFakta.aktivitet}
+                            layout="grouped"
+                        ></Aktivitet>
+                    )}
+                    {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
+                        <ArbeidOgOpphold
+                            fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+                            layout="grouped"
+                        />
+                    )}
+                </OppsummeringSeksjonsgruppe>
+            )}
+            {visBarn && barnDetSøkesFor.length > 0 && (
                 <VStack gap="space-12">
                     {barnDetSøkesFor.map((barn, index) => (
                         <BarnDetaljer barn={barn} defaultOpen={index === 0} key={barn.barnId} />
                     ))}
                 </VStack>
             )}
-
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && antallDokumenter > 0 && (
+                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            )}
         </>
     );
 };

@@ -29,19 +29,19 @@ const OppsummeringSøknad: React.FC = () => {
                 )}
             </VStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
-                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
+                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.LÆREMIDLER && (
-                <OppsummeringLæremidler behandlingFakta={behandlingFakta} />
+                <OppsummeringLæremidler behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
-                <OppsummeringBoutgifter behandlingFakta={behandlingFakta} />
+                <OppsummeringBoutgifter behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO && (
-                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
+                <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR && (
-                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
+                <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
         </VStack>
     );

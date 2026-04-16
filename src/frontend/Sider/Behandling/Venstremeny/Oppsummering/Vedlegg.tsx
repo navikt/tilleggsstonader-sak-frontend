@@ -7,8 +7,17 @@ import { InfoSeksjon } from './Visningskomponenter';
 import { Lenke } from '../../../../komponenter/Lenke';
 import { FaktaDokumentasjon } from '../../../../typer/behandling/behandlingFakta/faktaDokumentasjon';
 
+export function antallVedlegg(fakta?: FaktaDokumentasjon): number {
+    return (
+        fakta?.dokumentasjon.reduce(
+            (sum, dokumentasjon) => sum + dokumentasjon.dokumenter.length,
+            0
+        ) ?? 0
+    );
+}
+
 const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
-    if (!fakta) return null;
+    if (!fakta || antallVedlegg(fakta) === 0) return null;
     return (
         <InfoSeksjon label={`Vedlegg`} ikon={<PaperclipIcon />}>
             <VStack gap="space-8">

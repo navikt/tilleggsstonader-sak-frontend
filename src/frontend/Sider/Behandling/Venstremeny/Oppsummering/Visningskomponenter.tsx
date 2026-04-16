@@ -1,10 +1,82 @@
 import React from 'react';
 
-import { BodyShort, ExpansionCard, HStack, Heading, VStack } from '@navikt/ds-react';
+import { BodyShort, ExpansionCard, HStack, Heading, ToggleGroup, VStack } from '@navikt/ds-react';
 
 import styles from './Visningskomponenter.module.css';
 
 export type InfoSeksjonLayout = 'standalone' | 'grouped';
+export interface OppsummeringSeksjonsfilterValg {
+    value: string;
+    label: string;
+    ariaLabel?: string;
+    count?: number;
+}
+
+function formaterFilterLabel({ label, count }: OppsummeringSeksjonsfilterValg) {
+    return count !== undefined ? `${label} (${count})` : label;
+}
+
+const toggleGroupStyle = {
+    width: '100%',
+    gridAutoColumns: 'minmax(0, 1fr)',
+} satisfies React.CSSProperties;
+
+const toggleGroupItemStyle = {
+    minWidth: 0,
+} satisfies React.CSSProperties;
+
+const toggleGroupLabelStyle = {
+    display: 'block',
+    flex: 1,
+    minWidth: 0,
+    textAlign: 'center',
+    whiteSpace: 'normal',
+    overflowWrap: 'anywhere',
+} satisfies React.CSSProperties;
+
+export function erGyldigOppsummeringsvalg<T extends string>(
+    value: string,
+    gyldigeValg: readonly T[]
+): value is T {
+    return gyldigeValg.some((valg) => valg === value);
+}
+
+export const OppsummeringSeksjonsfilter: React.FC<{
+    ariaLabel: string;
+    value: string;
+    onChange: (value: string) => void;
+    valg: OppsummeringSeksjonsfilterValg[];
+}> = ({ ariaLabel, value, onChange, valg }) => {
+    if (valg.length <= 1) {
+        return null;
+    }
+
+    return (
+        <div className={styles.seksjonsfilter}>
+            <ToggleGroup
+                aria-label={ariaLabel}
+                className={styles.seksjonsfilterToggleGroup}
+                data-color="neutral"
+                fill
+                onChange={onChange}
+                size="small"
+                style={toggleGroupStyle}
+                value={value}
+            >
+                {valg.map((filtervalg) => (
+                    <ToggleGroup.Item
+                        aria-label={filtervalg.ariaLabel}
+                        key={filtervalg.value}
+                        style={toggleGroupItemStyle}
+                        value={filtervalg.value}
+                    >
+                        <span style={toggleGroupLabelStyle}>{formaterFilterLabel(filtervalg)}</span>
+                    </ToggleGroup.Item>
+                ))}
+            </ToggleGroup>
+        </div>
+    );
+};
 
 export const OppsummeringFeltgruppe: React.FC<{
     children?: React.ReactNode;
