@@ -1,22 +1,18 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
 import AktivitetDagligReise from './AktivitetDagligReise';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
-    InfoSeksjon,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
+    Søknadsdato,
 } from './Visningskomponenter';
 import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
 const dagligReiseSeksjoner = [oppsummeringAltFilterVerdi, 'reiser', 'vedlegg'] as const;
 type DagligReiseSeksjon = (typeof dagligReiseSeksjoner)[number];
@@ -61,6 +57,7 @@ export const OppsummeringDagligReise: React.FC<{
 
     return (
         <>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for daglig reise"
                 onChange={(value) => {
@@ -73,13 +70,6 @@ export const OppsummeringDagligReise: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    {behandlingFakta.søknadMottattTidspunkt && (
-                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                            <BodyShort size="small">
-                                {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                            </BodyShort>
-                        </InfoSeksjon>
-                    )}
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={

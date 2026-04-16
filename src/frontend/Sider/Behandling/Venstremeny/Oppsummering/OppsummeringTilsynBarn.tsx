@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
 import BarnDetaljer from './BarnDetaljer';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
-    InfoSeksjon,
-    OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
+    OppsummeringSeksjonsfilter,
+    OppsummeringSeksjonsfilterValg,
+    Søknadsdato,
 } from './Visningskomponenter';
 import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
 const tilsynBarnSeksjoner = [oppsummeringAltFilterVerdi, 'barn', 'vedlegg'] as const;
 type TilsynBarnSeksjon = (typeof tilsynBarnSeksjoner)[number];
@@ -62,6 +60,7 @@ const OppsummeringTilsynBarn: React.FC<{
 
     return (
         <>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
                 onChange={(value) => {
@@ -74,13 +73,6 @@ const OppsummeringTilsynBarn: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    {behandlingFakta.søknadMottattTidspunkt && (
-                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                            <BodyShort size="small">
-                                {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                            </BodyShort>
-                        </InfoSeksjon>
-                    )}
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={

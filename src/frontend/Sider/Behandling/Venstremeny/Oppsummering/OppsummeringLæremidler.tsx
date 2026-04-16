@@ -1,21 +1,17 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
 import Utdanning, { harUtdanningsopplysninger } from './Utdanning';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
-    InfoSeksjon,
-    OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
+    OppsummeringSeksjonsfilter,
+    OppsummeringSeksjonsfilterValg,
+    Søknadsdato,
 } from './Visningskomponenter';
 import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
 const læremidlerSeksjoner = [oppsummeringAltFilterVerdi, 'utdanning', 'vedlegg'] as const;
 type LæremidlerSeksjon = (typeof læremidlerSeksjoner)[number];
@@ -24,7 +20,7 @@ function erLæremidlerSeksjon(value: string): value is LæremidlerSeksjon {
     return erGyldigOppsummeringsvalg(value, læremidlerSeksjoner);
 }
 
-const OppsummeringLæremidler: React.FC<{
+export const OppsummeringLæremidler: React.FC<{
     behandlingFakta: BehandlingFaktaLæremidler;
 }> = ({ behandlingFakta }) => {
     const [valgtSeksjon, settValgtSeksjon] = React.useState<LæremidlerSeksjon>(
@@ -60,6 +56,7 @@ const OppsummeringLæremidler: React.FC<{
 
     return (
         <>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for læremidler"
                 onChange={(value) => {
@@ -70,13 +67,6 @@ const OppsummeringLæremidler: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visFellesopplysninger && behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
             {visFellesopplysninger && (
                 <YtelseSituasjon
                     faktaHovedytelse={behandlingFakta.hovedytelse}
@@ -92,5 +82,3 @@ const OppsummeringLæremidler: React.FC<{
         </>
     );
 };
-
-export default OppsummeringLæremidler;

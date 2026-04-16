@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BankNoteIcon, CalendarIcon, LocationPinIcon, WheelchairIcon } from '@navikt/aksel-icons';
+import { BankNoteIcon, LocationPinIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
@@ -14,6 +14,7 @@ import {
     OppsummeringFeltgruppe,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
+    Søknadsdato,
 } from './Visningskomponenter';
 import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
@@ -26,7 +27,7 @@ import {
     FaktaUtgifterNyBolig,
 } from '../../../../typer/behandling/behandlingFakta/faktaBoligEllerOvernattig';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
-import { formaterDato, formaterIsoPeriode } from '../../../../utils/dato';
+import { formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
 
 const boutgifterSeksjoner = [oppsummeringAltFilterVerdi, 'bolig', 'vedlegg'] as const;
@@ -69,6 +70,7 @@ export const OppsummeringBoutgifter: React.FC<{
 
     return (
         <>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for boutgifter"
                 onChange={(value) => {
@@ -79,14 +81,6 @@ export const OppsummeringBoutgifter: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visFellesopplysninger && behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
-
             {visFellesopplysninger &&
                 behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
                     <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>

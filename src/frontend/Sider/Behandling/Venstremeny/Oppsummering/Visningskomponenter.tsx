@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { CalendarIcon } from '@navikt/aksel-icons';
 import { BodyShort, ExpansionCard, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
 
 import styles from './Visningskomponenter.module.css';
+import { formaterDato } from '../../../../utils/dato';
 
 export interface OppsummeringSeksjonsfilterValg {
     value: string;
@@ -46,6 +48,16 @@ export function erGyldigOppsummeringsvalg<T extends string>(
 ): value is T {
     return gyldigeValg.some((valg) => valg === value);
 }
+
+export const Søknadsdato: React.FC<{ dato: string | undefined }> = ({ dato }) =>
+    dato && (
+        <HStack gap={'space-4'}>
+            <CalendarIcon />
+            <BodyShort size="small">
+                <strong>Søknadsdato</strong>: {formaterDato(dato)}
+            </BodyShort>
+        </HStack>
+    );
 
 export const OppsummeringSeksjonsfilter: React.FC<{
     ariaLabel: string;

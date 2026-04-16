@@ -5,7 +5,7 @@ import { HStack, VStack } from '@navikt/ds-react';
 import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
-import OppsummeringLæremidler from './OppsummeringLæremidler';
+import { OppsummeringLæremidler } from './OppsummeringLæremidler';
 import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
