@@ -3,9 +3,10 @@ import React, { FC } from 'react';
 import { Detail, HelpText, HStack, Label, Table } from '@navikt/ds-react';
 
 import styles from './DagligReisePrivatBilBeregningTabell.module.css';
-import { FormatertSats, OppsummertBeregningForReise } from './typer';
-import { formaterKilometersatser, formaterDagsatser } from './util';
+import { OppsummertBeregningForReise } from './typer';
+import { formaterKilometersatser } from './util';
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
+import { RammeForReiseMedPrivatBilSatsForDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
 
@@ -24,10 +25,9 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
                         <TableHeaderCellSmall>Periode</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Dager kjørt</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Kilometersats</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Bompenger per dag</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Fergekostnad per dag</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Dagsats u/park.</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Bompenger tot.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Fergekostnad tot.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Parkering tot.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
@@ -42,19 +42,16 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
                                 {periode.antallGodkjenteReisedager}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                <SatsInfo satser={formaterKilometersatser(periode.satser)} />
+                                <KilometersatsInfo satser={periode.satser} />
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                {kronerMedTusenSkilleEllerStrek(periode.bompengerPerDag)}
+                                {kronerMedTusenSkilleEllerStrek(periode.bompengerTotalt)}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                {kronerMedTusenSkilleEllerStrek(periode.fergekostnadPerDag)}
+                                {kronerMedTusenSkilleEllerStrek(periode.fergekostnadTotalt)}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
-                                <SatsInfo satser={formaterDagsatser(periode.satser)} />
-                            </TableDataCellSmall>
-                            <TableDataCellSmall>
-                                {kronerMedTusenSkilleEllerStrek(periode.totalParkeringskostnad)}
+                                {kronerMedTusenSkilleEllerStrek(periode.parkeringskostnadTotalt)}
                             </TableDataCellSmall>
                             <TableDataCellSmall>
                                 {kronerMedTusenSkilleEllerStrek(periode.stønadsbeløp)}
@@ -85,18 +82,20 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
     );
 };
 
-const SatsInfo: FC<{
-    satser: FormatertSats[];
+const KilometersatsInfo: FC<{
+    satser: RammeForReiseMedPrivatBilSatsForDelperiode[];
 }> = ({ satser }) => {
-    if (satser.length === 1) {
-        return satser[0].verdi;
+    const formaterteSatser = formaterKilometersatser(satser);
+
+    if (formaterteSatser.length === 1) {
+        return formaterteSatser[0].verdi;
     }
 
     return (
         <HStack align="center" gap="space-4" wrap={false}>
-            <i>{satser[0].verdi}</i>
+            <i>{formaterteSatser[0].verdi}</i>
             <HelpText>
-                {satser.map((sats, index) => (
+                {formaterteSatser.map((sats, index) => (
                     <Detail key={index}>
                         {sats.verdi} i perioden {formaterIsoPeriode(sats.fom, sats.tom)}
                     </Detail>

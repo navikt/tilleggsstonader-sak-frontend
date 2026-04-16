@@ -17,10 +17,10 @@ export interface OppsummertBeregningForPeriode {
     tom: string;
     ukenummer: number;
     antallGodkjenteReisedager: number;
-    bompengerPerDag: number | undefined;
-    fergekostnadPerDag: number | undefined;
+    bompengerTotalt: number | undefined;
+    fergekostnadTotalt: number | undefined;
     satser: RammeForReiseMedPrivatBilSatsForDelperiode[];
-    totalParkeringskostnad: number;
+    parkeringskostnadTotalt: number;
     stønadsbeløp: number;
 }
 
