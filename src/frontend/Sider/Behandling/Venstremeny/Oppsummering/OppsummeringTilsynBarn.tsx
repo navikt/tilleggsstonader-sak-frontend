@@ -4,19 +4,17 @@ import { CalendarIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
 import BarnDetaljer from './BarnDetaljer';
-import Hovedytelse from './Hovedytelse';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     InfoSeksjon,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
-    OppsummeringSeksjonsgruppe,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
 } from './Visningskomponenter';
+import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
@@ -75,28 +73,24 @@ const OppsummeringTilsynBarn: React.FC<{
                 valg={filtervalg}
             />
             {visFellesopplysninger && (
-                <OppsummeringSeksjonsgruppe>
+                <>
                     {behandlingFakta.søknadMottattTidspunkt && (
-                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />} layout="grouped">
+                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
                             <BodyShort size="small">
                                 {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
                             </BodyShort>
                         </InfoSeksjon>
                     )}
-                    <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} layout="grouped" />
+                    <YtelseSituasjon
+                        faktaHovedytelse={behandlingFakta.hovedytelse}
+                        arbeidOgOpphold={
+                            behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
+                        }
+                    />
                     {behandlingFakta.aktivitet && (
-                        <Aktivitet
-                            aktivitet={behandlingFakta.aktivitet}
-                            layout="grouped"
-                        ></Aktivitet>
+                        <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
                     )}
-                    {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                        <ArbeidOgOpphold
-                            fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                            layout="grouped"
-                        />
-                    )}
-                </OppsummeringSeksjonsgruppe>
+                </>
             )}
             {visBarn && barnDetSøkesFor.length > 0 && (
                 <VStack gap="space-12">

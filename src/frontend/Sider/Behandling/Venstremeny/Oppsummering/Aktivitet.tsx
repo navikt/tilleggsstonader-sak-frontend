@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 
-import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaAktivtet,
     typeAnnenAktivitetTilTekst,
@@ -43,12 +43,9 @@ export const AktivitetFelt: React.FC<{
     );
 };
 
-const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet; layout?: InfoSeksjonLayout }> = ({
-    aktivitet,
-    layout = 'standalone',
-}) => {
+const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
     return (
-        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />} layout={layout}>
+        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktivitet} visLønnetAktivitet />
         </InfoSeksjon>
     );

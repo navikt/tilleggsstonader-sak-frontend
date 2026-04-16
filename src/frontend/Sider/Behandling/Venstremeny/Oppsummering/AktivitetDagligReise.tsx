@@ -3,7 +3,7 @@ import React from 'react';
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 
 import { AktivitetFelt } from './Aktivitet';
-import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     dagligReiseTypeUtdanningTilTekst,
     FaktaAktivitetDagligReise,
@@ -13,13 +13,12 @@ import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 
 const AktivitetDagligReise: React.FC<{
     aktiviteter: FaktaAktivitetDagligReise;
-    layout?: InfoSeksjonLayout;
-}> = ({ aktiviteter, layout = 'standalone' }) => {
+}> = ({ aktiviteter }) => {
     const reiseperiode = aktiviteter.reiseperiode;
     const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
     return (
-        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />} layout={layout}>
+        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktiviteter.aktivitet} />
             {reiseperiode && (
                 <OppsummeringFelt

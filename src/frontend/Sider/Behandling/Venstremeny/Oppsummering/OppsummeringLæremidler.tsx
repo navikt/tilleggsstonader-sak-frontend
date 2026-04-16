@@ -3,8 +3,6 @@ import React from 'react';
 import { CalendarIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
 import Utdanning, { harUtdanningsopplysninger } from './Utdanning';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
@@ -15,6 +13,7 @@ import {
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
 } from './Visningskomponenter';
+import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
@@ -79,14 +78,11 @@ const OppsummeringLæremidler: React.FC<{
                 </InfoSeksjon>
             )}
             {visFellesopplysninger && (
-                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
+                <YtelseSituasjon
+                    faktaHovedytelse={behandlingFakta.hovedytelse}
+                    arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
+                />
             )}
-            {visFellesopplysninger &&
-                behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                    <ArbeidOgOpphold
-                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                    />
-                )}
             {visUtdanning && visUtdanningsseksjon && (
                 <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}

@@ -4,8 +4,6 @@ import { CalendarIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import AktivitetDagligReise from './AktivitetDagligReise';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
@@ -15,8 +13,8 @@ import {
     oppsummeringAltFilterVerdi,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
-    OppsummeringSeksjonsgruppe,
 } from './Visningskomponenter';
+import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import { formaterDato } from '../../../../utils/dato';
 
@@ -75,41 +73,22 @@ export const OppsummeringDagligReise: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    <OppsummeringSeksjonsgruppe>
-                        {behandlingFakta.søknadMottattTidspunkt && (
-                            <InfoSeksjon
-                                label="Søknadsdato"
-                                ikon={<CalendarIcon />}
-                                layout="grouped"
-                            >
-                                <BodyShort size="small">
-                                    {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                                </BodyShort>
-                            </InfoSeksjon>
-                        )}
-                    </OppsummeringSeksjonsgruppe>
-                    <OppsummeringSeksjonsgruppe>
-                        <Hovedytelse
-                            faktaHovedytelse={behandlingFakta.hovedytelse}
-                            layout="grouped"
-                        />
-                    </OppsummeringSeksjonsgruppe>
-                    <OppsummeringSeksjonsgruppe>
-                        {behandlingFakta.aktiviteter && (
-                            <AktivitetDagligReise
-                                aktiviteter={behandlingFakta.aktiviteter}
-                                layout="grouped"
-                            />
-                        )}
-                    </OppsummeringSeksjonsgruppe>
-                    <OppsummeringSeksjonsgruppe>
-                        {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                            <ArbeidOgOpphold
-                                fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                                layout="grouped"
-                            />
-                        )}
-                    </OppsummeringSeksjonsgruppe>
+                    {behandlingFakta.søknadMottattTidspunkt && (
+                        <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
+                            <BodyShort size="small">
+                                {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
+                            </BodyShort>
+                        </InfoSeksjon>
+                    )}
+                    <YtelseSituasjon
+                        faktaHovedytelse={behandlingFakta.hovedytelse}
+                        arbeidOgOpphold={
+                            behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
+                        }
+                    />
+                    {behandlingFakta.aktiviteter && (
+                        <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
+                    )}
                 </>
             )}
             {visReiser && behandlingFakta.reiser.length > 0 && (

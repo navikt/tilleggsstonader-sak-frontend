@@ -4,8 +4,6 @@ import { BankNoteIcon, CalendarIcon, LocationPinIcon, WheelchairIcon } from '@na
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import Aktivitet from './Aktivitet';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
 import Vedlegg, { antallVedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
@@ -17,6 +15,7 @@ import {
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
 } from './Visningskomponenter';
+import YtelseSituasjon from './YtelseSituasjon';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     DelerUtgifterFlereStederType,
@@ -98,15 +97,11 @@ export const OppsummeringBoutgifter: React.FC<{
                 )}
 
             {visFellesopplysninger && (
-                <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
+                <YtelseSituasjon
+                    faktaHovedytelse={behandlingFakta.hovedytelse}
+                    arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
+                />
             )}
-
-            {visFellesopplysninger &&
-                behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                    <ArbeidOgOpphold
-                        fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                    />
-                )}
 
             {visFellesopplysninger && behandlingFakta.aktiviteter && (
                 <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>

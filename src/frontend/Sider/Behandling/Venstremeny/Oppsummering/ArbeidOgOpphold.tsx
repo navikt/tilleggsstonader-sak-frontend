@@ -3,7 +3,7 @@ import React from 'react';
 import { GlobeIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaArbeidOgOpphold,
     FaktaOppholdUtenforNorge,
@@ -54,12 +54,11 @@ const OppholdUtenforNorge12mnd: React.FC<{
     );
 };
 
-const ArbeidOgOpphold: React.FC<{
+export const ArbeidOgOppholdFelt: React.FC<{
     fakta: FaktaArbeidOgOpphold;
-    layout?: InfoSeksjonLayout;
-}> = ({ fakta, layout = 'standalone' }) => {
+}> = ({ fakta }) => {
     return (
-        <InfoSeksjon label={'Arbeid og opphold'} ikon={<GlobeIcon />} layout={layout}>
+        <>
             {fakta.jobberIAnnetLand === JaNei.NEI && (
                 <OppsummeringFelt
                     label="Jobber i annet land"
@@ -98,6 +97,16 @@ const ArbeidOgOpphold: React.FC<{
                 spørsmål={fakta.harOppholdUtenforNorgeNeste12mnd}
                 faktaOpphold={fakta.oppholdUtenforNorgeNeste12mnd}
             />
+        </>
+    );
+};
+
+const ArbeidOgOpphold: React.FC<{
+    fakta: FaktaArbeidOgOpphold;
+}> = ({ fakta }) => {
+    return (
+        <InfoSeksjon label="Arbeid og opphold" ikon={<GlobeIcon />}>
+            <ArbeidOgOppholdFelt fakta={fakta} />
         </InfoSeksjon>
     );
 };

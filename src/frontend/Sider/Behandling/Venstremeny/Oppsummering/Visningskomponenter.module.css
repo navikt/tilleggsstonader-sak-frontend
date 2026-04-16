@@ -24,20 +24,6 @@
     border-bottom: 1px solid var(--ax-border-neutral-subtle);
 }
 
-.groupedSection {
-    width: 100%;
-}
-
-.groupedHeader {
-    margin-bottom: var(--ax-space-12);
-}
-
-.seksjonsgruppe > * + * {
-    margin-top: var(--ax-space-16);
-    padding-top: var(--ax-space-16);
-    border-top: 1px solid var(--ax-border-neutral-subtle);
-}
-
 .ikon {
     display: flex;
     align-items: center;

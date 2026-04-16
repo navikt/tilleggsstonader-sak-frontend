@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CardIcon } from '@navikt/aksel-icons';
 
-import { InfoSeksjon, InfoSeksjonLayout, OppsummeringFelt } from './Visningskomponenter';
+import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaHovedytelse,
     hovedytelseTilTekst,
@@ -10,10 +10,9 @@ import {
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
-const Hovedytelse: React.FC<{
+export const HovedytelseFelt: React.FC<{
     faktaHovedytelse: FaktaHovedytelse;
-    layout?: InfoSeksjonLayout;
-}> = ({ faktaHovedytelse, layout = 'standalone' }) => {
+}> = ({ faktaHovedytelse }) => {
     const harNedsattArbeidsevne = faktaHovedytelse.søknadsgrunnlag?.harNedsattArbeidsevne;
     const hovedytelse =
         faktaHovedytelse.søknadsgrunnlag?.hovedytelse
@@ -21,7 +20,7 @@ const Hovedytelse: React.FC<{
             ?.join(', ') || '-';
 
     return (
-        <InfoSeksjon label="Ytelse/situasjon" ikon={<CardIcon />} layout={layout}>
+        <>
             <OppsummeringFelt label="Ytelse" value={hovedytelse} />
             {harNedsattArbeidsevne && (
                 <OppsummeringFelt
@@ -29,6 +28,16 @@ const Hovedytelse: React.FC<{
                     value={jaNeiTilTekst[harNedsattArbeidsevne]}
                 />
             )}
+        </>
+    );
+};
+
+const Hovedytelse: React.FC<{
+    faktaHovedytelse: FaktaHovedytelse;
+}> = ({ faktaHovedytelse }) => {
+    return (
+        <InfoSeksjon label="Ytelse/situasjon" ikon={<CardIcon />}>
+            <HovedytelseFelt faktaHovedytelse={faktaHovedytelse} />
         </InfoSeksjon>
     );
 };

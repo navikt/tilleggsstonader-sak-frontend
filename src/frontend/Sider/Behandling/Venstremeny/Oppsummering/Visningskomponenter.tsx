@@ -4,7 +4,6 @@ import { BodyShort, ExpansionCard, Heading, HStack, ToggleGroup, VStack } from '
 
 import styles from './Visningskomponenter.module.css';
 
-export type InfoSeksjonLayout = 'standalone' | 'grouped';
 export interface OppsummeringSeksjonsfilterValg {
     value: string;
     label: string;
@@ -99,20 +98,17 @@ const InfoSeksjonInnhold: React.FC<{
     label: string;
     ikon: React.ReactNode;
     children?: React.ReactNode;
-    layout?: InfoSeksjonLayout;
-}> = ({ label, ikon, children, layout = 'standalone' }) => {
-    const headerClassName = layout === 'grouped' ? styles.groupedHeader : styles.header;
-
+}> = ({ label, ikon, children }) => {
     return (
-        <div className={layout === 'grouped' ? styles.groupedSection : undefined}>
-            <HStack gap="space-8" align="center" wrap={false} className={headerClassName}>
+        <>
+            <HStack gap="space-8" align="center" wrap={false} className={styles.header}>
                 <div className={styles.ikon}>{ikon}</div>
                 <Heading level={'4'} size={'xsmall'}>
                     {label}
                 </Heading>
             </HStack>
             <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
-        </div>
+        </>
     );
 };
 
@@ -121,37 +117,13 @@ export const InfoSeksjon: React.FC<{
     ikon: React.ReactNode;
     children?: React.ReactNode;
     variant?: 'default' | 'subtle';
-    layout?: InfoSeksjonLayout;
-}> = ({ label, ikon, children, variant = 'default', layout = 'standalone' }) => {
-    if (layout === 'grouped') {
-        return (
-            <InfoSeksjonInnhold label={label} ikon={ikon} layout={layout}>
-                {children}
-            </InfoSeksjonInnhold>
-        );
-    }
-
+}> = ({ label, ikon, children, variant = 'default' }) => {
     return (
         <section className={`${styles.seksjon} ${variant === 'subtle' ? styles.subtle : ''}`}>
             <InfoSeksjonInnhold label={label} ikon={ikon}>
                 {children}
             </InfoSeksjonInnhold>
         </section>
-    );
-};
-
-export const OppsummeringSeksjonsgruppe: React.FC<{
-    children?: React.ReactNode;
-    variant?: 'default' | 'subtle';
-}> = ({ children, variant = 'default' }) => {
-    if (!children) {
-        return null;
-    }
-
-    return (
-        <div className={`${styles.seksjon} ${variant === 'subtle' ? styles.subtle : ''}`}>
-            <div className={styles.seksjonsgruppe}>{children}</div>
-        </div>
     );
 };
 
