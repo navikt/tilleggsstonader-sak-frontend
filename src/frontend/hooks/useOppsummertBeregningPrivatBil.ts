@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
-import { PrivatBilOppsummertBeregning } from '../Sider/Behandling/VedtakOgBeregning/DagligReise/beregningFane/typer';
+import { PrivatBilOppsummertBeregning } from '../Sider/Behandling/VedtakOgBeregning/DagligReise/BeregningFane/typer';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
