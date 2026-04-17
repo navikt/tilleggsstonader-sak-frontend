@@ -1,0 +1,3 @@
+.readOnlyNoIcon :global([class*='readonly-icon']) {
+    display: none;
+}
