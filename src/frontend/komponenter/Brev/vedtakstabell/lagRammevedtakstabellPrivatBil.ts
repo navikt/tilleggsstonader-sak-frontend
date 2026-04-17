@@ -11,9 +11,19 @@ export function lagRammevedtakstabellPrivatBil(
     if (!rammevedtak) return '';
 
     const htmlPerReise = rammevedtak.reiser.map((reise) => {
-        const skalViseTabellMedDelperioder =
-            reise.delperioder.length > 1 ||
-            reise.delperioder.some((delperiode) => delperiode.satser.length > 1);
+        const skalViseTabellMedDelperioder = reise.delperioder.length !== 1;
+
+        const harUbekreftetSats = reise.delperioder.some((delperiode) =>
+            delperiode.satser.some((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
+        );
+
+        const årForUbekreftedeSatser = reise.delperioder
+            .flatMap((delperiode) => delperiode.satser)
+            .filter((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
+            .map((sats) => tilDato(sats.fom).getFullYear());
+
+        const utledÅrForFørsteSatsjustering =
+            årForUbekreftedeSatser.length > 0 ? Math.min(...årForUbekreftedeSatser) : undefined;
 
         const formaterPeriode = (fom: string, tom: string) => {
             const delperiodeDato: Periode = { fom, tom };
@@ -81,18 +91,6 @@ export function lagRammevedtakstabellPrivatBil(
         };
 
         const tabellMedDelperioder = () => {
-            const harUbekreftetSats = reise.delperioder.some((delperiode) =>
-                delperiode.satser.some((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
-            );
-
-            const årForUbekreftedeSatser = reise.delperioder
-                .flatMap((delperiode) => delperiode.satser)
-                .filter((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
-                .map((sats) => tilDato(sats.fom).getFullYear());
-
-            const utledÅrForFørsteSatsjustering =
-                årForUbekreftedeSatser.length > 0 ? Math.min(...årForUbekreftedeSatser) : undefined;
-
             return `
             <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;background:#fff;margin-bottom:12px;">
               <thead>
@@ -111,13 +109,13 @@ export function lagRammevedtakstabellPrivatBil(
               </tr>
             </tbody>
             </table>
-            ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen. Beløpet vil bli utbetalt senest andre uka i januar.</p>` : ''}
             `;
         };
 
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
         ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(rammevedtak)}
+        ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen. Beløpet vil bli utbetalt senest andre uka i januar.</p>` : ''}
         `;
     });
     return htmlPerReise.join('');
@@ -131,8 +129,8 @@ export function lagFlatRammevedtakstabellPrivatBil(
         reise.delperioder.flatMap((delperiode) =>
             delperiode.satser.map((sats) => ({
                 periode: formaterIsoPeriodeMedTankestrek({
-                    fom: delperiode.fom,
-                    tom: delperiode.tom,
+                    fom: sats.fom,
+                    tom: sats.tom,
                 }),
                 reiseavstand: reise.reiseavstandEnVei,
                 reisedagerPerUke: delperiode.reisedagerPerUke,
