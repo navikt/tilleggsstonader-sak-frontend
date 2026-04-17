@@ -6,7 +6,6 @@
     --kolonne-5: 5.5rem;
     --kolonne-6: 7.75rem;
     --kolonne-7: auto;
-
     --kolonne-5-redigering: 7rem;
 }
 
@@ -56,6 +55,6 @@
     grid-template-columns: var(--kolonne-5-redigering) var(--kolonne-6) var(--kolonne-7);
 }
 
-.maks-høyde  {
+.maks-høyde {
     max-height: 2rem;
 }
