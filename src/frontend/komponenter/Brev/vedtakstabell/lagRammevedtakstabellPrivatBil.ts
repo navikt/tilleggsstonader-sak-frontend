@@ -11,6 +11,10 @@ export function lagRammevedtakstabellPrivatBil(
     if (!rammevedtak) return '';
 
     const htmlPerReise = rammevedtak.reiser.map((reise) => {
+        const skalViseTabellMedDelperioder =
+            reise.delperioder.length > 1 ||
+            reise.delperioder.some((delperiode) => delperiode.satser.length > 1);
+
         const formaterPeriode = (fom: string, tom: string) => {
             const delperiodeDato: Periode = { fom, tom };
             return formaterIsoPeriodeMedTankestrek(delperiodeDato);
@@ -113,7 +117,7 @@ export function lagRammevedtakstabellPrivatBil(
 
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
-        ${reise.delperioder.length === 1 ? lagFlatRammevedtakstabellPrivatBil(rammevedtak) : tabellMedDelperioder()}
+        ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(rammevedtak)}
         `;
     });
     return htmlPerReise.join('');
