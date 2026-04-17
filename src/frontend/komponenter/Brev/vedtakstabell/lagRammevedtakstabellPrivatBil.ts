@@ -115,7 +115,7 @@ export function lagRammevedtakstabellPrivatBil(
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
         ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(rammevedtak)}
-        ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen. Beløpet vil bli utbetalt senest andre uka i januar.</p>` : ''}
+        ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen.</p>` : ''}
         `;
     });
     return htmlPerReise.join('');
