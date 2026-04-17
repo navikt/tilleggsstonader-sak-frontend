@@ -10,7 +10,7 @@ import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../../utils/dato';
-import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
+import { harTallverdi, tilHeltall, tilTallverdi } from '../../../../../../utils/tall';
 import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import {
@@ -296,7 +296,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         onChange={(e) => {
                             oppdaterFelles(
                                 'reiseavstandEnVei',
-                                tilHeltall(fjernSpaces(e.target.value))
+                                tilTallverdi(fjernSpaces(e.target.value))
                             );
                         }}
                     />
