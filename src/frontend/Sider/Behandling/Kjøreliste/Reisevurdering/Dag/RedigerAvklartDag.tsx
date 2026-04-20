@@ -6,6 +6,7 @@ import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { GodkjentGjennomførtKjøring, RedigerbarAvklartDag } from '../../../../../typer/kjøreliste';
 import { tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
+import { godkjentGjennomførtKjøringTilTekst } from '../../utils';
 import styles from '../UkeInnhold.module.css';
 
 export const RedigerAvklartDag: FC<{
@@ -37,22 +38,23 @@ export const RedigerAvklartDag: FC<{
     };
 
     return (
-        <div className={styles.høyreGrid}>
-            <CheckboxGroup
-                legend="Kjøring dekkes"
-                hideLegend
-                error={feil?.godkjentGjennomførtKjøring}
-            >
+        <div className={styles.høyreGridRedigering}>
+            <CheckboxGroup legend="Status" hideLegend error={feil?.godkjentGjennomførtKjøring}>
                 <Checkbox
                     size="small"
                     indeterminate={
                         dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
                     }
                     checked={dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA}
+                    data-color={
+                        dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
+                            ? 'neutral'
+                            : undefined
+                    }
                     onChange={(e) => oppdaterGodkjentGjennomførtKjøring(e.target.checked)}
                     error={!!feil?.godkjentGjennomførtKjøring}
                 >
-                    Dekkes
+                    {godkjentGjennomførtKjøringTilTekst[dag.godkjentGjennomførtKjøring]}
                 </Checkbox>
             </CheckboxGroup>
 
@@ -63,6 +65,7 @@ export const RedigerAvklartDag: FC<{
                 value={dag.parkeringsutgift ? tilHeltall(dag.parkeringsutgift) : undefined}
                 onChange={(e) => oppdaterParkeringsutgift(e.target.value)}
                 error={feil?.parkeringsutgift}
+                className={styles.maksHøyde}
             />
 
             <TextField
@@ -72,6 +75,7 @@ export const RedigerAvklartDag: FC<{
                 value={dag.begrunnelse || ''}
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 error={feil?.begrunnelse}
+                className={styles.maksHøyde}
             />
         </div>
     );

@@ -33,6 +33,13 @@ export function harAvvikPåParkeringsutgift(dag: Dag): boolean {
     );
 }
 
+export function harAvvikPåHellidagEllerHelg(dag: Dag): boolean {
+    return (
+        dag.avklartDag?.avvik?.find((avvik) => avvik === TypeAvvikDag.HELLIDAG_ELLER_HELG) !==
+        undefined
+    );
+}
+
 export const tomRedigerbarAvklartDag = (dato: string): RedigerbarAvklartDag => ({
     dato: dato,
     godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring.IKKE_VURDERT,
@@ -50,4 +57,10 @@ export const mapTilRedigerbareAvklarteDager = (dager: Dag[]): RedigerbarAvklartD
 export const typeAvvikTilTekst: Record<TypeAvvikUke, string> = {
     [TypeAvvikUke.FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK]:
         'Flere innsendte reisedager enn i rammevedtak',
+};
+
+export const godkjentGjennomførtKjøringTilTekst: Record<GodkjentGjennomførtKjøring, string> = {
+    [GodkjentGjennomførtKjøring.JA]: 'Dekkes',
+    [GodkjentGjennomførtKjøring.NEI]: 'Dekkes ikke',
+    [GodkjentGjennomførtKjøring.IKKE_VURDERT]: 'Ikke vurdert',
 };
