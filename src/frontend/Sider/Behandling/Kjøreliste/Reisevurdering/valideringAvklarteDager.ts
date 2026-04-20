@@ -36,7 +36,7 @@ export const validerAvklarteDager = (
                 };
             }
 
-            if (avklartDag.parkeringsutgift >= 100 && harIkkeVerdi(avklartDag.begrunnelse)) {
+            if (avklartDag.parkeringsutgift > 100 && harIkkeVerdi(avklartDag.begrunnelse)) {
                 return {
                     ...feil,
                     begrunnelse: 'Må begrunne parkeringsutgift over 100 kr',
