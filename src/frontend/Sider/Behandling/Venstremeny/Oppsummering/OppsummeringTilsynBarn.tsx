@@ -13,7 +13,7 @@ import {
     OppsummeringSeksjonsfilterValg,
     Søknadsdato,
 } from './Visningskomponenter';
-import YtelseSituasjon from './YtelseSituasjon';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
 const tilsynBarnSeksjoner = [oppsummeringAltFilterVerdi, 'barn', 'vedlegg'] as const;

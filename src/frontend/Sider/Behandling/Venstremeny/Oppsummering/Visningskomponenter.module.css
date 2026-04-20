@@ -1,8 +1,9 @@
 .seksjon {
     background-color: var(--ax-bg-default);
-    border: 1px solid var(--ax-border-neutral);
+    border: 1px solid var(--ax-border-neutral-subtle);
     border-radius: 8px;
     padding: var(--ax-space-16);
+    box-shadow: var(--ax-shadow-dialog);
 }
 
 .seksjonsfilter {

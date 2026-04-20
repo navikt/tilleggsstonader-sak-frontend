@@ -11,16 +11,14 @@ import {
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
     OppsummeringFelt,
-    OppsummeringFeltgruppe,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
     Søknadsdato,
 } from './Visningskomponenter';
-import YtelseSituasjon from './YtelseSituasjon';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     DelerUtgifterFlereStederType,
-    delerUtgifterFlereStederTypeTilTekst,
     FaktaBoligEllerOvernattingSøknadsgrunnlag,
     FaktaUtgifterFlereSteder,
     FaktaUtgifterIForbindelseMedSamling,
@@ -30,7 +28,7 @@ import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
 
-const boutgifterSeksjoner = [oppsummeringAltFilterVerdi, 'bolig', 'vedlegg'] as const;
+const boutgifterSeksjoner = [oppsummeringAltFilterVerdi, 'boutgifter', 'vedlegg'] as const;
 type BoutgifterSeksjon = (typeof boutgifterSeksjoner)[number];
 
 function erBoutgifterSeksjon(value: string): value is BoutgifterSeksjon {
@@ -51,7 +49,13 @@ export const OppsummeringBoutgifter: React.FC<{
     const filtervalg: OppsummeringSeksjonsfilterValg[] = [
         oppsummeringAltFilterValg,
         ...(boligEllerOvernatting
-            ? [{ value: 'bolig', label: 'Bolig', ariaLabel: 'Vis bolig og overnatting' }]
+            ? [
+                  {
+                      value: 'boutgifter',
+                      label: 'Boutgifter',
+                      ariaLabel: 'Vis bolig og overnatting',
+                  },
+              ]
             : []),
         ...(antallDokumenter > 0
             ? [
@@ -65,7 +69,7 @@ export const OppsummeringBoutgifter: React.FC<{
             : []),
     ];
     const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
-    const visBolig = visFellesopplysninger || valgtSeksjon === 'bolig';
+    const visBolig = visFellesopplysninger || valgtSeksjon === 'boutgifter';
     const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
 
     return (
@@ -101,11 +105,9 @@ export const OppsummeringBoutgifter: React.FC<{
             )}
             {visBolig && boligEllerOvernatting && (
                 <>
-                    <InfoSeksjon label={'Bolig / overnatting'} ikon={<BankNoteIcon />}>
-                        <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
-                        <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
-                        <UtgifterSamling samling={samling} />
-                    </InfoSeksjon>
+                    <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
+                    <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
+                    <UtgifterSamling samling={samling} />
                     <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
                 </>
             )}
@@ -116,6 +118,15 @@ export const OppsummeringBoutgifter: React.FC<{
     );
 };
 
+const KompaktOppsummeringsfelt: React.FC<{
+    label: string;
+    value: string;
+}> = ({ label, value }) => (
+    <BodyShort size="small">
+        <strong>{label}:</strong> {value}
+    </BodyShort>
+);
+
 const UtgifterNyBolig = ({
     utgifterNyBolig,
 }: {
@@ -123,34 +134,36 @@ const UtgifterNyBolig = ({
 }) => {
     if (!utgifterNyBolig) return null;
     return (
-        <VStack gap="space-8">
-            <BodyShort size={'small'} weight={'semibold'}>
-                Løpende utgift 1 bolig
-            </BodyShort>
-            <OppsummeringFeltgruppe>
-                {utgifterNyBolig.delerBoutgifter === JaNei.JA && (
-                    <OppsummeringFelt
-                        label="Deler utgifter"
-                        value={jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
-                    />
-                )}
-                {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
-                    <OppsummeringFelt
-                        label="Utgifter ny bolig"
-                        value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-`}
-                    />
-                )}
-                <OppsummeringFelt
+        <InfoSeksjon label="Løpende utgift til én bolig" ikon={<BankNoteIcon />}>
+            <VStack gap="space-8">
+                <div>
+                    {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
+                        <KompaktOppsummeringsfelt
+                            label="Utgifter ny bolig"
+                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-`}
+                        />
+                    )}
+                    {utgifterNyBolig.delerBoutgifter === JaNei.JA && <UtgiftenDelesMedAndre />}
+                </div>
+                <KompaktOppsummeringsfelt
                     label="Høyere utgift nytt bosted"
                     value={jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
                 />
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
-                    <OppsummeringFelt label="Mottar bostøtte" value="Ja" />
+                    <KompaktOppsummeringsfelt label="Mottar bostøtte" value="Ja" />
                 )}
-            </OppsummeringFeltgruppe>
-        </VStack>
+            </VStack>
+        </InfoSeksjon>
     );
 };
+
+function UtgiftenDelesMedAndre() {
+    return (
+        <BodyShort size="small">
+            <i>utgiften deles med andre</i>
+        </BodyShort>
+    );
+}
 
 const UtgifterFlereSteder = ({
     utgifterFlereSteder,
@@ -158,40 +171,29 @@ const UtgifterFlereSteder = ({
     utgifterFlereSteder: FaktaUtgifterFlereSteder | undefined;
 }) => {
     if (!utgifterFlereSteder) return null;
-    const typerDelerBoutgifter = utgifterFlereSteder.delerBoutgifter;
-    const delerUtgifter =
-        typerDelerBoutgifter.length > 0 &&
-        !(
-            typerDelerBoutgifter.length === 1 &&
-            typerDelerBoutgifter[0] === DelerUtgifterFlereStederType.NEI
-        );
     return (
-        <VStack gap="space-8">
-            <BodyShort size={'small'} weight={'semibold'}>
-                Løpende utgift 2 boliger
-            </BodyShort>
-            <OppsummeringFeltgruppe>
-                {delerUtgifter && (
-                    <OppsummeringFelt
-                        label="Deler utgifter"
-                        value={typerDelerBoutgifter
-                            .map(
-                                (delerBoutgift) =>
-                                    delerUtgifterFlereStederTypeTilTekst[delerBoutgift]
-                            )
-                            .join(', ')}
+        <InfoSeksjon label="Løpende utgift til to boliger" ikon={<BankNoteIcon />}>
+            <VStack gap="space-8">
+                <div>
+                    <KompaktOppsummeringsfelt
+                        label="Utgift hjemsted"
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-`}
                     />
-                )}
-                <OppsummeringFelt
-                    label="Utgift hjemsted"
-                    value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-`}
-                />
-                <OppsummeringFelt
-                    label="Utgift aktivitetssted"
-                    value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)},-`}
-                />
-            </OppsummeringFeltgruppe>
-        </VStack>
+                    {utgifterFlereSteder.delerBoutgifter.includes(
+                        DelerUtgifterFlereStederType.HJEMSTED
+                    ) && <UtgiftenDelesMedAndre />}
+                </div>
+                <div>
+                    <KompaktOppsummeringsfelt
+                        label="Utgift aktivitetssted"
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)},-`}
+                    />
+                    {utgifterFlereSteder.delerBoutgifter.includes(
+                        DelerUtgifterFlereStederType.AKTIVITETSSTED
+                    ) && <UtgiftenDelesMedAndre />}
+                </div>
+            </VStack>
+        </InfoSeksjon>
     );
 };
 
@@ -202,30 +204,27 @@ const UtgifterSamling = ({
 }) => {
     if (!samling) return null;
     return (
-        <VStack gap={'space-8'}>
-            <BodyShort size={'small'} weight={'semibold'}>
-                Utgifter til overnatting
-            </BodyShort>
-            <OppsummeringFeltgruppe>
-                {samling.periodeForSamling.map((periode, index) => (
-                    <OppsummeringFelt
-                        key={index}
-                        label={formaterIsoPeriode(periode.fom, periode.tom)}
-                    >
-                        <VStack gap="space-4">
-                            <BodyShort size="small">
-                                {harTallverdi(periode.utgifterTilOvernatting)
-                                    ? `${tilTallverdi(periode.utgifterTilOvernatting)},-`
-                                    : '-'}
-                            </BodyShort>
-                            {periode.trengteEkstraOvernatting === JaNei.JA && (
-                                <BodyShort size="small">Ekstra overnatting</BodyShort>
+        <InfoSeksjon label="Utgifter til overnatting" ikon={<BankNoteIcon />}>
+            <VStack gap="space-8">
+                {samling.periodeForSamling.map((periode, index) => {
+                    return (
+                        <div key={index}>
+                            {harTallverdi(periode.utgifterTilOvernatting) && (
+                                <KompaktOppsummeringsfelt
+                                    label={formaterIsoPeriode(periode.fom, periode.tom)}
+                                    value={`${tilTallverdi(periode.utgifterTilOvernatting)},-`}
+                                />
                             )}
-                        </VStack>
-                    </OppsummeringFelt>
-                ))}
-            </OppsummeringFeltgruppe>
-        </VStack>
+                            {periode.trengteEkstraOvernatting === JaNei.JA && (
+                                <BodyShort size="small">
+                                    <i>Trengte ekstra overnatting</i>
+                                </BodyShort>
+                            )}
+                        </div>
+                    );
+                })}
+            </VStack>
+        </InfoSeksjon>
     );
 };
 

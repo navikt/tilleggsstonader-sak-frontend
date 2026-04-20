@@ -10,7 +10,7 @@ import {
     OppsummeringSeksjonsfilterValg,
     Søknadsdato,
 } from './Visningskomponenter';
-import YtelseSituasjon from './YtelseSituasjon';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
 const læremidlerSeksjoner = [oppsummeringAltFilterVerdi, 'utdanning', 'vedlegg'] as const;

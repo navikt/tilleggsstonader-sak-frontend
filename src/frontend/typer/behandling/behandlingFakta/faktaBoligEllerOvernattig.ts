@@ -46,7 +46,7 @@ export enum DelerUtgifterFlereStederType {
 }
 
 export const delerUtgifterFlereStederTypeTilTekst: Record<DelerUtgifterFlereStederType, string> = {
-    HJEMSTED: 'Hjemsted',
-    AKTIVITETSSTED: 'Aktivitetssted',
+    HJEMSTED: 'hjemsted',
+    AKTIVITETSSTED: 'aktivitetssted',
     NEI: 'Nei',
 };

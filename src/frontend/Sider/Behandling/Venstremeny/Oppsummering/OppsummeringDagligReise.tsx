@@ -11,7 +11,7 @@ import {
     OppsummeringSeksjonsfilterValg,
     Søknadsdato,
 } from './Visningskomponenter';
-import YtelseSituasjon from './YtelseSituasjon';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
 const dagligReiseSeksjoner = [oppsummeringAltFilterVerdi, 'reiser', 'vedlegg'] as const;

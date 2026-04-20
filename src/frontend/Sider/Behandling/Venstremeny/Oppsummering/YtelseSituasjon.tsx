@@ -10,7 +10,7 @@ import {
     FaktaHovedytelse,
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 
-const YtelseSituasjon: React.FC<{
+export const YtelseSituasjon: React.FC<{
     faktaHovedytelse: FaktaHovedytelse;
     arbeidOgOpphold?: FaktaArbeidOgOpphold;
 }> = ({ faktaHovedytelse, arbeidOgOpphold }) => {
@@ -21,5 +21,3 @@ const YtelseSituasjon: React.FC<{
         </InfoSeksjon>
     );
 };
-
-export default YtelseSituasjon;
