@@ -2,8 +2,8 @@ import React from 'react';
 
 import { CardIcon } from '@navikt/aksel-icons';
 
-import { ArbeidOgOppholdFelt } from './ArbeidOgOpphold';
-import { HovedytelseFelt } from './Hovedytelse';
+import { ArbeidOgOppholdFelt, harArbeidOgOppholdOpplysninger } from './ArbeidOgOpphold';
+import { harHovedytelseopplysninger, HovedytelseFelt } from './Hovedytelse';
 import { InfoSeksjon } from './Visningskomponenter';
 import {
     FaktaArbeidOgOpphold,
@@ -14,10 +14,19 @@ export const YtelseSituasjon: React.FC<{
     faktaHovedytelse: FaktaHovedytelse;
     arbeidOgOpphold?: FaktaArbeidOgOpphold;
 }> = ({ faktaHovedytelse, arbeidOgOpphold }) => {
+    const visHovedytelse = harHovedytelseopplysninger(faktaHovedytelse);
+    const visArbeidOgOpphold = harArbeidOgOppholdOpplysninger(arbeidOgOpphold);
+
+    if (!visHovedytelse && !visArbeidOgOpphold) {
+        return null;
+    }
+
     return (
         <InfoSeksjon label="Ytelse/situasjon" ikon={<CardIcon />}>
-            <HovedytelseFelt faktaHovedytelse={faktaHovedytelse} />
-            {arbeidOgOpphold && <ArbeidOgOppholdFelt fakta={arbeidOgOpphold} />}
+            {visHovedytelse && <HovedytelseFelt faktaHovedytelse={faktaHovedytelse} />}
+            {visArbeidOgOpphold && arbeidOgOpphold && (
+                <ArbeidOgOppholdFelt fakta={arbeidOgOpphold} />
+            )}
         </InfoSeksjon>
     );
 };

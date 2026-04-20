@@ -43,7 +43,23 @@ export const AktivitetFelt: React.FC<{
     );
 };
 
+export function harAktivitetsopplysninger(
+    aktivitet: FaktaAktivtet,
+    visLønnetAktivitet = false
+): boolean {
+    const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
+    const annenAktivitet = aktivitet.søknadsgrunnlag?.annenAktivitet;
+    const erLønnetAktivitet = aktivitet.søknadsgrunnlag?.lønnetAktivitet;
+    const aktiviteterTekst = aktiviteter?.filter((aktivitet) => aktivitet !== 'Annet').join(', ');
+
+    return Boolean(aktiviteterTekst || annenAktivitet || (visLønnetAktivitet && erLønnetAktivitet));
+}
+
 const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
+    if (!harAktivitetsopplysninger(aktivitet, true)) {
+        return null;
+    }
+
     return (
         <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktivitet} visLønnetAktivitet />

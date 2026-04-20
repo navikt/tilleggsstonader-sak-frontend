@@ -54,6 +54,20 @@ const OppholdUtenforNorge12mnd: React.FC<{
     );
 };
 
+export function harArbeidOgOppholdOpplysninger(fakta?: FaktaArbeidOgOpphold): boolean {
+    if (!fakta) {
+        return false;
+    }
+
+    return Boolean(
+        fakta.jobberIAnnetLand === JaNei.NEI ||
+        fakta.jobbAnnetLand ||
+        fakta.harPengestøtteAnnetLand?.length ||
+        fakta.harOppholdUtenforNorgeSiste12mnd ||
+        fakta.harOppholdUtenforNorgeNeste12mnd
+    );
+}
+
 export const ArbeidOgOppholdFelt: React.FC<{
     fakta: FaktaArbeidOgOpphold;
 }> = ({ fakta }) => {
@@ -104,6 +118,10 @@ export const ArbeidOgOppholdFelt: React.FC<{
 const ArbeidOgOpphold: React.FC<{
     fakta: FaktaArbeidOgOpphold;
 }> = ({ fakta }) => {
+    if (!harArbeidOgOppholdOpplysninger(fakta)) {
+        return null;
+    }
+
     return (
         <InfoSeksjon label="Arbeid og opphold" ikon={<GlobeIcon />}>
             <ArbeidOgOppholdFelt fakta={fakta} />
