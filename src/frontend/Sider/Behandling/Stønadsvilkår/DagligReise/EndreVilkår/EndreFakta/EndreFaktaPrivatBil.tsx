@@ -10,7 +10,7 @@ import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../../utils/dato';
-import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
+import { harTallverdi, tilHeltall, tilTallverdi } from '../../../../../../utils/tall';
 import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import {
@@ -25,6 +25,7 @@ import {
 import { LeggTilNyPeriodeKnapp } from '../LeggTilNyPeriodeKnapp';
 import { defaultPrivatBilPeriode, tomtPrivatBil } from '../utils';
 import { FeilmeldingerFaktaPrivatBil } from '../validering';
+import styles from './EndreFaktaPrivatBil.module.css';
 
 interface Props {
     fakta: FaktaPrivatBil;
@@ -32,6 +33,8 @@ interface Props {
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     oppfylteAktiviteter: Aktivitet[];
+    reiseFom: string;
+    reiseTom: string;
 }
 
 export const EndreFaktaPrivatBil: React.FC<Props> = ({
@@ -40,14 +43,34 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     feilmeldinger,
     nullstillFeilOgUlagretkomponent,
     oppfylteAktiviteter,
+    reiseFom,
+    reiseTom,
 }) => {
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
 
     useEffect(() => {
         if (fakta.type !== 'PRIVAT_BIL') {
-            settFakta({ ...tomtPrivatBil });
+            const privatBilFakta: FaktaPrivatBil = {
+                ...tomtPrivatBil,
+                faktaDelperioder: oppdaterFørsteFomOgSisteTom(
+                    [{ ...defaultPrivatBilPeriode }],
+                    reiseFom,
+                    reiseTom
+                ),
+            };
+            settFakta(privatBilFakta);
+        } else {
+            settFakta((prevState) => {
+                const privatBilState = prevState as FaktaPrivatBil;
+                const nyePerioder = oppdaterFørsteFomOgSisteTom(
+                    privatBilState.faktaDelperioder,
+                    reiseFom,
+                    reiseTom
+                );
+                return { ...privatBilState, faktaDelperioder: nyePerioder };
+            });
         }
-    }, [fakta, settFakta]);
+    }, [fakta.type, reiseFom, reiseTom, settFakta]);
 
     if (!kanBehandlePrivatBil) {
         return (
@@ -75,10 +98,23 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     const leggTilPeriode = () => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyPeriode: FaktaDelperiodePrivatBil = { ...defaultPrivatBilPeriode };
+            const eksisterendePerioder = privatBilState.faktaDelperioder;
+            const forrigeDelperiode = eksisterendePerioder[eksisterendePerioder.length - 1];
+            const nyPeriode: FaktaDelperiodePrivatBil = {
+                ...defaultPrivatBilPeriode,
+                reisedagerPerUke: forrigeDelperiode?.reisedagerPerUke,
+                bompengerPerDag: forrigeDelperiode?.bompengerPerDag,
+                fergekostnadPerDag: forrigeDelperiode?.fergekostnadPerDag,
+            };
+            const nyePerioder = oppdaterFørsteFomOgSisteTom(
+                [...eksisterendePerioder, nyPeriode],
+                reiseFom,
+                reiseTom
+            );
+
             return {
                 ...privatBilState,
-                faktaDelperioder: [...privatBilState.faktaDelperioder, nyPeriode],
+                faktaDelperioder: nyePerioder,
             };
         });
         nullstillFeilOgUlagretkomponent();
@@ -87,10 +123,11 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     const slettPeriode = (index: number) => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
-            const nyePerioder =
+            const perioderEtterSlett =
                 privatBilState.faktaDelperioder.length > 1
                     ? privatBilState.faktaDelperioder.filter((_, i) => i !== index)
                     : privatBilState.faktaDelperioder;
+            const nyePerioder = oppdaterFørsteFomOgSisteTom(perioderEtterSlett, reiseFom, reiseTom);
             return { ...privatBilState, faktaDelperioder: nyePerioder };
         });
         nullstillFeilOgUlagretkomponent();
@@ -125,28 +162,40 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             {fakta.faktaDelperioder &&
                 fakta.faktaDelperioder.length > 0 &&
                 fakta.faktaDelperioder.map((periode, index) => {
+                    const erFørste = index === 0;
+                    const erSiste = index === fakta.faktaDelperioder.length - 1;
+                    const readOnlyFom = erFørste && reiseFom !== '';
+                    const readOnlyTom = erSiste && reiseTom !== '';
+
                     return (
                         <HStack gap={'space-16'} key={index}>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
-                                    label={index === 0 ? 'Fra' : ''}
+                                    key={`fra-${index}-${periode.fom || 'emptyString'}`}
+                                    label={erFørste ? 'Fra' : ''}
                                     value={periode.fom}
                                     feil={feilmeldinger?.[index]?.fom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'fom', dato);
                                     }}
+                                    readOnly={readOnlyFom}
+                                    className={styles.readOnlyNoIcon}
                                     size="small"
                                 />
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde>
                                 <DateInputMedLeservisning
-                                    label={index === 0 ? 'Til' : ''}
-                                    value={periode?.tom}
+                                    // Endringen av key tvinger komponenten til en remount når tom settes til '', for å forhindre at den sender gammel state.
+                                    key={`til-${index}-${periode.tom || 'tomString'}`}
+                                    label={erFørste ? 'Til' : ''}
+                                    value={periode.tom}
                                     feil={feilmeldinger?.[index]?.tom}
                                     onChange={(dato) => {
                                         oppdaterPeriode(index, 'tom', dato);
                                     }}
+                                    readOnly={readOnlyTom}
                                     size="small"
+                                    className={styles.readOnlyNoIcon}
                                 />
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
@@ -215,6 +264,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             >
                                 {fakta.faktaDelperioder.length > 1 && (
                                     <SmallButton
+                                        type="button"
                                         variant={'tertiary'}
                                         iconPosition={'left'}
                                         icon={<TrashIcon title="Slett periode" />}
@@ -246,7 +296,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                         onChange={(e) => {
                             oppdaterFelles(
                                 'reiseavstandEnVei',
-                                tilHeltall(fjernSpaces(e.target.value))
+                                tilTallverdi(fjernSpaces(e.target.value))
                             );
                         }}
                     />
@@ -274,3 +324,29 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         </VStack>
     );
 };
+
+function oppdaterFørsteFomOgSisteTom(
+    perioder: FaktaDelperiodePrivatBil[],
+    reiseFom: string,
+    reiseTom: string
+): FaktaDelperiodePrivatBil[] {
+    if (perioder.length === 0) return perioder;
+
+    return perioder.map((periode, index) => {
+        const erFørste = index === 0;
+        const erSiste = index === perioder.length - 1;
+
+        // Første periode får alltid reiseFom
+        const nyFom = erFørste ? reiseFom : periode.fom;
+
+        // Siste periode får alltid reiseTom
+        // Mellomperioder: hvis fom er tom, sett tom til '', ellers behold tom
+        const nyTom = erSiste ? reiseTom : !periode.fom ? '' : periode.tom;
+
+        return {
+            ...periode,
+            fom: nyFom,
+            tom: nyTom,
+        };
+    });
+}

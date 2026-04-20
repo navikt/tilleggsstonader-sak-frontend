@@ -16,7 +16,12 @@ export const LeggTilNyPeriodeKnapp: React.FC<{
     return (
         <>
             <div ref={buttonRef} className={styles.buttonContainer}>
-                <SmallButton onClick={onKlikk} variant="secondary" icon={<PlusCircleIcon />}>
+                <SmallButton
+                    type="button"
+                    onClick={onKlikk}
+                    variant="secondary"
+                    icon={<PlusCircleIcon />}
+                >
                     Legg til ny periode
                 </SmallButton>
             </div>

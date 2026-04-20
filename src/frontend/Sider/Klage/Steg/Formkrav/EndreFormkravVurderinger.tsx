@@ -279,6 +279,15 @@ const HelpTextInnhold: React.FC<{ formkrav: EFormalKravType }> = ({ formkrav }) 
                     </BodyLong>
                 </>
             );
+        case EFormalKravType.KLAGERS_RETTSLIG_INTERESSE:
+            return (
+                <>
+                    <BodyLong spacing>
+                        En part har i utgangspunktet rettslig klageinteresse, men forhold som
+                        oppstår etter at klagen er mottatt kan gjøre at klageinteressen faller bort.
+                    </BodyLong>
+                </>
+            );
         case EFormalKravType.KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK:
             return (
                 <>

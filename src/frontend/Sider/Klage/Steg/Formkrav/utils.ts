@@ -15,13 +15,20 @@ import { FagsystemVedtak } from '../../typer/fagsystemVedtak';
 import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
-    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
+    const { klagePart, klagersRettsligInteresse, klageKonkret, klagefristOverholdt, klageSignert } =
+        vurderinger;
     return [
         {
             spørsmål: 'Er klager part i saken?',
             svar: klagePart,
             navn: 'klagePart',
             type: EFormalKravType.KLAGER_ER_PART,
+        },
+        {
+            spørsmål: 'Har klager rettslig klageinteresse?',
+            svar: klagersRettsligInteresse,
+            navn: 'klagersRettsligInteresse',
+            type: EFormalKravType.KLAGERS_RETTSLIG_INTERESSE,
         },
         {
             spørsmål: 'Klages det på konkrete elementer i vedtaket?',

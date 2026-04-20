@@ -5,6 +5,7 @@ import { DatePicker, useDatepicker } from '@navikt/ds-react';
 import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 
 export interface DateInputProps {
+    className?: string;
     feil?: ReactNode;
     hideLabel?: boolean;
     label: ReactNode;
@@ -18,6 +19,7 @@ export interface DateInputProps {
 }
 
 const DateInput: React.FC<DateInputProps> = ({
+    className,
     feil,
     hideLabel,
     label,
@@ -38,16 +40,18 @@ const DateInput: React.FC<DateInputProps> = ({
     });
 
     return (
-        <DatePicker {...datepickerProps}>
-            <DatePicker.Input
-                {...inputProps}
-                label={label}
-                hideLabel={hideLabel}
-                error={feil}
-                size={size}
-                readOnly={readOnly}
-            />
-        </DatePicker>
+        <div className={className}>
+            <DatePicker {...datepickerProps}>
+                <DatePicker.Input
+                    {...inputProps}
+                    label={label}
+                    hideLabel={hideLabel}
+                    error={feil}
+                    size={size}
+                    readOnly={readOnly}
+                />
+            </DatePicker>
+        </div>
     );
 };
 

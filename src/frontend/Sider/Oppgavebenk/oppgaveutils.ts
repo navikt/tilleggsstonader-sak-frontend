@@ -13,7 +13,12 @@ import { Saksbehandler } from '../../utils/saksbehandler';
 export const JOURNALPOST_QUERY_STRING = 'journalpostId';
 export const OPPGAVEID_QUERY_STRING = 'oppgaveId';
 
-const behandlingssakerForSaksbehandling: Oppgavetype[] = ['BEH_SAK', 'GOD_VED', 'BEH_UND_VED'];
+const behandlingssakerForSaksbehandling: Oppgavetype[] = [
+    'BEH_SAK',
+    'GOD_VED',
+    'BEH_UND_VED',
+    'BEH_KJORELISTE',
+];
 
 export const oppgaveErSaksbehandling = (oppgave: Oppgave): boolean => {
     const { behandlesAvApplikasjon, oppgavetype } = oppgave;

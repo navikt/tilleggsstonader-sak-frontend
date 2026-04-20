@@ -58,5 +58,4 @@ export type AvslagLæremidler = AvslagRequest;
 
 export type OpphørLæremidler = OpphørRequest & {
     vedtaksperioder: Vedtaksperiode[];
-    beregningsresultat: BeregningsresultatLæremidler;
 };

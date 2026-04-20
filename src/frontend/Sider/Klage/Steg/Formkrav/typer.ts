@@ -39,11 +39,13 @@ export enum EFormalKravType {
     KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK = 'KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK',
     KLAGEFRIST_OVERHOLDT = 'KLAGEFRIST_OVERHOLDT',
     KLAGE_SIGNERT = 'KLAGE_SIGNERT',
+    KLAGERS_RETTSLIG_INTERESSE = 'KLAGERS_RETTSLIG_INTERESSE',
 }
 
 export interface IFormkravVilkår {
     behandlingId: string;
     klagePart: VilkårStatus;
+    klagersRettsligInteresse: VilkårStatus;
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;
     klagefristOverholdtUnntak: FormkravFristUnntak;

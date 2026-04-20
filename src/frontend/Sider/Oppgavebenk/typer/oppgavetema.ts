@@ -1,5 +1,6 @@
 export type Oppgavetype =
     | 'BEH_SAK'
+    | 'BEH_KJORELISTE'
     | 'JFR'
     | 'GOD_VED'
     | 'BEH_UND_VED'
@@ -22,6 +23,7 @@ export type Oppgavetype =
 
 export const oppgaveTypeTilTekst: Record<Oppgavetype, string> = {
     BEH_SAK: 'Behandle sak',
+    BEH_KJORELISTE: 'Behandle kjøreliste',
     BEH_SED: 'Behandle SED',
     BEH_UND_VED: 'Behandle underkjent vedtak',
     FDR: 'Fordeling',
@@ -47,6 +49,7 @@ export const oppgaverTyperSomSkalVisesFørst: Oppgavetype[] = [
     'BEH_SAK',
     'GOD_VED',
     'BEH_UND_VED',
+    'BEH_KJORELISTE',
     'JFR',
     'KONT_BRUK',
     'SVAR_IK_MOT',

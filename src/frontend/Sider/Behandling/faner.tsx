@@ -19,7 +19,7 @@ import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/Støna
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
-import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFaneDagligReise';
+import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFane/BeregningFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import { Behandling } from '../../typer/behandling/behandling';
