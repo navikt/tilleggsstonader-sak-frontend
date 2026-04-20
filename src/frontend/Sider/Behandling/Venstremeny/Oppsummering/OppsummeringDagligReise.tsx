@@ -70,15 +70,15 @@ export const OppsummeringDagligReise: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
+                    {behandlingFakta.aktiviteter && (
+                        <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
+                    )}
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
                             behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
                         }
                     />
-                    {behandlingFakta.aktiviteter && (
-                        <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
-                    )}
                 </>
             )}
             {visReiser && behandlingFakta.reiser.length > 0 && (

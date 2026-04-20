@@ -73,15 +73,15 @@ const OppsummeringTilsynBarn: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
+                    {behandlingFakta.aktivitet && (
+                        <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
+                    )}
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
                             behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
                         }
                     />
-                    {behandlingFakta.aktivitet && (
-                        <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
-                    )}
                 </>
             )}
             {visBarn && barnDetSøkesFor.length > 0 && (

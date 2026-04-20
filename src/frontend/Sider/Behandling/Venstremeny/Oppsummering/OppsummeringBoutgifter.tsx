@@ -81,14 +81,9 @@ export const OppsummeringBoutgifter: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visFellesopplysninger &&
-                behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
-                    <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
-                        <BodyShort size="small">
-                            {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
-                        </BodyShort>
-                    </InfoSeksjon>
-                )}
+            {visFellesopplysninger && behandlingFakta.aktiviteter && (
+                <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
+            )}
 
             {visFellesopplysninger && (
                 <YtelseSituasjon
@@ -97,10 +92,13 @@ export const OppsummeringBoutgifter: React.FC<{
                 />
             )}
 
-            {visFellesopplysninger && behandlingFakta.aktiviteter && (
-                <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
+            {visBolig && behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
+                <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
+                    <BodyShort size="small">
+                        {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
+                    </BodyShort>
+                </InfoSeksjon>
             )}
-
             {visBolig && boligEllerOvernatting && (
                 <>
                     <InfoSeksjon label={'Bolig / overnatting'} ikon={<BankNoteIcon />}>

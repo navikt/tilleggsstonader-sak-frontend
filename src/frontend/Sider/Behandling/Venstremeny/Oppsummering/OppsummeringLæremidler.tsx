@@ -67,14 +67,14 @@ export const OppsummeringLæremidler: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
+            {visUtdanning && visUtdanningsseksjon && (
+                <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
+            )}
             {visFellesopplysninger && (
                 <YtelseSituasjon
                     faktaHovedytelse={behandlingFakta.hovedytelse}
                     arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
                 />
-            )}
-            {visUtdanning && visUtdanningsseksjon && (
-                <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}
             {visVedlegg && antallDokumenter > 0 && (
                 <Vedlegg fakta={behandlingFakta.dokumentasjon} />
