@@ -6,6 +6,7 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "outDir": "build",
+    "rootDir": ".",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "skipLibCheck": true,
