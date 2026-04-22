@@ -139,6 +139,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
                 <option value={BehandlingÅrsak.NYE_OPPLYSNINGER}>Nye opplysninger</option>
                 <option value={BehandlingÅrsak.SØKNAD}>Søknad</option>
                 <option value={BehandlingÅrsak.PAPIRSØKNAD}>Papirsøknad</option>
+                <option value={BehandlingÅrsak.OMGJØRING_ETTER_KLAGE}>Omgjøring etter klage</option>
                 {kanVelgeÅrsakUtenBrev && (
                     <option value={BehandlingÅrsak.KORRIGERING_UTEN_BREV}>
                         Korrigering uten brev
