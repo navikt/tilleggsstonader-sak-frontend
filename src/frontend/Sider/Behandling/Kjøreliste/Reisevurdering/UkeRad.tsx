@@ -44,7 +44,7 @@ export const UkeRad: FC<{
                             <HStack gap="space-4" wrap={false}>
                                 <Label size="small">Reisedager per uke:</Label>
                                 <BodyShort size="small">
-                                    {relevantDelperiodeForUke?.reisedagerPerUke}
+{relevantDelperiodeForUke?.reisedagerPerUke ?? "-"}
                                 </BodyShort>
                             </HStack>
                         </HStack>
