@@ -190,7 +190,11 @@ export const OppsummeringEkspanderbarEnhet: React.FC<{
             <ExpansionCard.Header className={styles.expansionCardHeader}>
                 <HStack gap="space-8" align="center" wrap={false}>
                     {ikon && <div className={styles.ikon}>{ikon}</div>}
-                    <ExpansionCard.Title id={titleId} size="small">
+                    <ExpansionCard.Title
+                        className={styles.expansionCardHeadingXsmall}
+                        id={titleId}
+                        size="small"
+                    >
                         {tittel}
                     </ExpansionCard.Title>
                 </HStack>

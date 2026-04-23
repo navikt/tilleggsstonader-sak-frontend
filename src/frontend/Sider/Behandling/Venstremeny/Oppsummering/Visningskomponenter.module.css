@@ -70,6 +70,12 @@
     padding: var(--ax-space-12) var(--ax-space-16);
 }
 
+.expansionCardHeadingXsmall {
+    font-size: var(--ax-font-size-heading-xsmall);
+    letter-spacing: -0.001em;
+    line-height: var(--ax-font-line-height-heading-xsmall);
+}
+
 .expansionCardContent {
     overflow-wrap: anywhere;
 }
