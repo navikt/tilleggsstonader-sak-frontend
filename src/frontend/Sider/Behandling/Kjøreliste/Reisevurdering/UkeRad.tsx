@@ -44,7 +44,7 @@ export const UkeRad: FC<{
                             <HStack gap="space-4" wrap={false}>
                                 <Label size="small">Reisedager per uke:</Label>
                                 <BodyShort size="small">
-{relevantDelperiodeForUke?.reisedagerPerUke ?? "-"}
+                                    {relevantDelperiodeForUke?.reisedagerPerUke ?? '-'}
                                 </BodyShort>
                             </HStack>
                         </HStack>
@@ -62,29 +62,6 @@ export const UkeRad: FC<{
                         </BodyShort>
                     </HStack>
                 </HStack>
-                {/* <HStack justify="space-between" align="center">
-                    <HStack gap="space-16" align="center">
-                        <Heading size="small">{`Uke ${uke.ukenummer}`}</Heading>
-                        <HStack gap="space-4">
-                            <Label size="small">Periode:</Label>
-                            <BodyShort size="small">
-                                {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
-                            </BodyShort>
-                        </HStack>
-                    </HStack>
-                    <HStack gap="space-16" align="center">
-                        {ukeTagInfo && (
-                            <Tag size="small" variant={ukeTagInfo.variant}>
-                                {ukeTagInfo.label}
-                            </Tag>
-                        )}
-                        <BodyShort size="small">
-                            {uke.kjørelisteInnsendtDato
-                                ? `Levert ${formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}`
-                                : 'Ikke innsendt'}
-                        </BodyShort>
-                    </HStack>
-                </HStack> */}
             </TableHeaderCellSmall>
         </Table.ExpandableRow>
     );
