@@ -16,7 +16,7 @@ export interface OppsummeringSeksjonsfilterValg {
 export const oppsummeringAltFilterVerdi = 'alt' as const;
 export const oppsummeringAltFilterValg: OppsummeringSeksjonsfilterValg = {
     value: oppsummeringAltFilterVerdi,
-    label: 'Alt',
+    label: 'Alt innhold',
     ariaLabel: 'Vis alle opplysninger',
 };
 
