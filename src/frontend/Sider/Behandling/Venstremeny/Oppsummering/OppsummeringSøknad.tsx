@@ -6,7 +6,7 @@ import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
-import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
+import { OppsummeringTilsynBarn } from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';

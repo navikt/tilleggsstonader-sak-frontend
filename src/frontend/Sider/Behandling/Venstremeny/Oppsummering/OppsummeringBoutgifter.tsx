@@ -3,8 +3,8 @@ import React from 'react';
 import { BankNoteIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import Aktivitet from './Aktivitet';
-import Vedlegg, { antallVedlegg } from './Vedlegg';
+import { Aktivitet } from './Aktivitet';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     InfoSeksjon,

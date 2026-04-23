@@ -12,10 +12,7 @@ import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
-const BarnDetaljer: React.FC<{ barn: FaktaBarn; defaultOpen?: boolean }> = ({
-    barn,
-    defaultOpen = false,
-}) => {
+export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
     const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
     const utgifter = barn.søknadgrunnlag?.utgifter;
@@ -24,11 +21,11 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn; defaultOpen?: boolean }> = ({
     return (
         <OppsummeringEkspanderbarEnhet
             ariaLabel={`Opplysninger om ${barn.registergrunnlag.navn}`}
-            defaultOpen={defaultOpen}
             ikon={<ChildEyesIcon />}
-            tittel={`${barn.registergrunnlag.navn} ${barn.ident}`}
+            tittel={barn.registergrunnlag.navn}
             variant="subtle"
         >
+            <OppsummeringFelt label="Identitetsnummer" value={barn.ident} />
             {typePass && (
                 <OppsummeringFelt
                     label="Passordning"
@@ -62,5 +59,3 @@ const BarnDetaljer: React.FC<{ barn: FaktaBarn; defaultOpen?: boolean }> = ({
         </OppsummeringEkspanderbarEnhet>
     );
 };
-
-export default BarnDetaljer;

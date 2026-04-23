@@ -2,9 +2,9 @@ import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
-import Aktivitet from './Aktivitet';
-import BarnDetaljer from './BarnDetaljer';
-import Vedlegg, { antallVedlegg } from './Vedlegg';
+import { Aktivitet } from './Aktivitet';
+import { BarnDetaljer } from './BarnDetaljer';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     oppsummeringAltFilterValg,
@@ -23,7 +23,7 @@ function erTilsynBarnSeksjon(value: string): value is TilsynBarnSeksjon {
     return erGyldigOppsummeringsvalg(value, tilsynBarnSeksjoner);
 }
 
-const OppsummeringTilsynBarn: React.FC<{
+export const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
     const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
@@ -86,8 +86,8 @@ const OppsummeringTilsynBarn: React.FC<{
             )}
             {visBarn && barnDetSøkesFor.length > 0 && (
                 <VStack gap="space-12">
-                    {barnDetSøkesFor.map((barn, index) => (
-                        <BarnDetaljer barn={barn} defaultOpen={index === 0} key={barn.barnId} />
+                    {barnDetSøkesFor.map((barn) => (
+                        <BarnDetaljer barn={barn} key={barn.barnId} />
                     ))}
                 </VStack>
             )}
@@ -97,5 +97,3 @@ const OppsummeringTilsynBarn: React.FC<{
         </>
     );
 };
-
-export default OppsummeringTilsynBarn;

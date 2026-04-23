@@ -172,10 +172,9 @@ export const OppsummeringEkspanderbarEnhet: React.FC<{
     tittel: string;
     ikon?: React.ReactNode;
     children: React.ReactNode;
-    defaultOpen?: boolean;
     ariaLabel?: string;
     variant?: 'default' | 'subtle';
-}> = ({ tittel, ikon, children, defaultOpen = false, ariaLabel, variant = 'default' }) => {
+}> = ({ tittel, ikon, children, ariaLabel, variant = 'default' }) => {
     const titleId = React.useId();
 
     return (
@@ -183,7 +182,7 @@ export const OppsummeringEkspanderbarEnhet: React.FC<{
             className={`${styles.expansionCard} ${
                 variant === 'subtle' ? styles.expansionCardSubtle : ''
             }`}
-            defaultOpen={defaultOpen}
+            defaultOpen
             size="small"
             {...(ariaLabel ? { 'aria-label': ariaLabel } : { 'aria-labelledby': titleId })}
         >

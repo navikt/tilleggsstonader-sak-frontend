@@ -2,7 +2,7 @@ import React from 'react';
 
 import AktivitetDagligReise from './AktivitetDagligReise';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
-import Vedlegg, { antallVedlegg } from './Vedlegg';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     oppsummeringAltFilterValg,

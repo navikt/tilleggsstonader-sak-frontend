@@ -55,7 +55,7 @@ export function harAktivitetsopplysninger(
     return Boolean(aktiviteterTekst || annenAktivitet || (visLønnetAktivitet && erLønnetAktivitet));
 }
 
-const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
+export const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
     if (!harAktivitetsopplysninger(aktivitet, true)) {
         return null;
     }
@@ -66,5 +66,3 @@ const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
         </InfoSeksjon>
     );
 };
-
-export default Aktivitet;

@@ -16,7 +16,7 @@ export function antallVedlegg(fakta?: FaktaDokumentasjon): number {
     );
 }
 
-const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
+export const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
     if (!fakta || antallVedlegg(fakta) === 0) return null;
     return (
         <InfoSeksjon label={`Vedlegg`} ikon={<PaperclipIcon />}>
@@ -37,4 +37,3 @@ const Vedlegg: React.FC<{ fakta?: FaktaDokumentasjon }> = ({ fakta }) => {
         </InfoSeksjon>
     );
 };
-export default Vedlegg;

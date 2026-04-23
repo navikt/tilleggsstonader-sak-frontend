@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Utdanning, { harUtdanningsopplysninger } from './Utdanning';
-import Vedlegg, { antallVedlegg } from './Vedlegg';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     oppsummeringAltFilterValg,
