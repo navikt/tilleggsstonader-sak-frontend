@@ -3,7 +3,6 @@
     border: 1px solid var(--ax-border-neutral-subtle);
     border-radius: 8px;
     padding: var(--ax-space-16);
-    box-shadow: var(--ax-shadow-dialog);
 }
 
 .seksjonsfilter {
@@ -56,26 +55,6 @@
     padding-bottom: 0;
 }
 
-.expansionCard {
-    width: 100%;
-    border: 1px solid var(--ax-border-neutral-subtle);
-    background-color: var(--ax-bg-default);
-}
-
-.expansionCardSubtle {
-    background-color: var(--ax-bg-neutral-soft);
-}
-
-.expansionCardHeader {
-    padding: var(--ax-space-12) var(--ax-space-16);
-}
-
-.expansionCardHeadingXsmall {
-    font-size: var(--ax-font-size-heading-xsmall);
-    letter-spacing: -0.001em;
-    line-height: var(--ax-font-line-height-heading-xsmall);
-}
-
-.expansionCardContent {
-    overflow-wrap: anywhere;
+.ekspanderbarEnhet {
+    box-shadow: var(--ax-shadow-dialog);
 }

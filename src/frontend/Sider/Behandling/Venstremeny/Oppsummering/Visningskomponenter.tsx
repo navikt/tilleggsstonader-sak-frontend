@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort, ExpansionCard, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
 
 import styles from './Visningskomponenter.module.css';
+import { ExpansionCardXSmall } from '../../../../komponenter/ExpansionCardXSmall';
 import { formaterDato } from '../../../../utils/dato';
 
 export interface OppsummeringSeksjonsfilterValg {
@@ -106,24 +107,6 @@ export const OppsummeringFeltgruppe: React.FC<{
     return <div className={styles.feltgruppe}>{children}</div>;
 };
 
-const InfoSeksjonInnhold: React.FC<{
-    label: string;
-    ikon: React.ReactNode;
-    children?: React.ReactNode;
-}> = ({ label, ikon, children }) => {
-    return (
-        <>
-            <HStack gap="space-8" align="center" wrap={false} className={styles.header}>
-                <div className={styles.ikon}>{ikon}</div>
-                <Heading level={'4'} size={'xsmall'}>
-                    {label}
-                </Heading>
-            </HStack>
-            <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
-        </>
-    );
-};
-
 export const InfoSeksjon: React.FC<{
     label: string;
     ikon: React.ReactNode;
@@ -132,9 +115,13 @@ export const InfoSeksjon: React.FC<{
 }> = ({ label, ikon, children, variant = 'default' }) => {
     return (
         <section className={`${styles.seksjon} ${variant === 'subtle' ? styles.subtle : ''}`}>
-            <InfoSeksjonInnhold label={label} ikon={ikon}>
-                {children}
-            </InfoSeksjonInnhold>
+            <HStack gap="space-8" align="center" wrap={false} className={styles.header}>
+                <div className={styles.ikon}>{ikon}</div>
+                <Heading level={'4'} size={'xsmall'}>
+                    {label}
+                </Heading>
+            </HStack>
+            <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
         </section>
     );
 };
@@ -168,39 +155,36 @@ export const OppsummeringFelt: React.FC<{
     );
 };
 
+export const KompaktOppsummeringsfelt: React.FC<{
+    label: React.ReactNode;
+    value?: React.ReactNode;
+}> = ({ label, value }) => {
+    if (value === undefined || value === null || value === '') {
+        return null;
+    }
+
+    return (
+        <BodyShort size="small">
+            {label}: <i>{value}</i>
+        </BodyShort>
+    );
+};
+
 export const OppsummeringEkspanderbarEnhet: React.FC<{
     tittel: string;
     ikon?: React.ReactNode;
     children: React.ReactNode;
     ariaLabel?: string;
     variant?: 'default' | 'subtle';
-}> = ({ tittel, ikon, children, ariaLabel, variant = 'default' }) => {
-    const titleId = React.useId();
-
-    return (
-        <ExpansionCard
-            className={`${styles.expansionCard} ${
-                variant === 'subtle' ? styles.expansionCardSubtle : ''
-            }`}
-            defaultOpen
-            size="small"
-            {...(ariaLabel ? { 'aria-label': ariaLabel } : { 'aria-labelledby': titleId })}
-        >
-            <ExpansionCard.Header className={styles.expansionCardHeader}>
-                <HStack gap="space-8" align="center" wrap={false}>
-                    {ikon && <div className={styles.ikon}>{ikon}</div>}
-                    <ExpansionCard.Title
-                        className={styles.expansionCardHeadingXsmall}
-                        id={titleId}
-                        size="small"
-                    >
-                        {tittel}
-                    </ExpansionCard.Title>
-                </HStack>
-            </ExpansionCard.Header>
-            <ExpansionCard.Content className={styles.expansionCardContent}>
-                <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
-            </ExpansionCard.Content>
-        </ExpansionCard>
-    );
-};
+}> = ({ tittel, ikon, children, ariaLabel, variant = 'subtle' }) => (
+    <ExpansionCardXSmall
+        // className={styles.ekspanderbarEnhet}
+        tittel={tittel}
+        ikon={ikon}
+        defaultOpen
+        ariaLabel={ariaLabel}
+        variant={variant}
+    >
+        <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
+    </ExpansionCardXSmall>
+);

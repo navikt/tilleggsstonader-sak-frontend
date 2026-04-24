@@ -8,6 +8,7 @@ import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     erGyldigOppsummeringsvalg,
     InfoSeksjon,
+    KompaktOppsummeringsfelt,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
     OppsummeringSeksjonsfilter,
@@ -132,19 +133,6 @@ export const OppsummeringBoutgifter: React.FC<{
     );
 };
 
-export const KompaktOppsummeringsfelt: React.FC<{
-    label: React.ReactNode;
-    value?: React.ReactNode;
-}> = ({ label, value }) => {
-    if (!value) return null;
-
-    return (
-        <BodyShort size="small">
-            {label}: <i>{value}</i>
-        </BodyShort>
-    );
-};
-
 const BoligEllerOvernattingSeksjon = ({
     label,
     adresse,
@@ -210,17 +198,17 @@ const UtgifterNyBolig = ({
     utgifterNyBolig: FaktaUtgifterNyBolig | undefined;
 }) => {
     if (!utgifterNyBolig) return null;
+
     return (
         <OppsummeringDelseksjon label="Løpende utgift til én bolig">
             <VStack gap="space-12">
                 <div>
                     {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
                         <KompaktOppsummeringsfelt
-                            label="Utgifter ny bolig"
-                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-`}
+                            label="Andel av utgift"
+                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
                         />
                     )}
-                    {utgifterNyBolig.delerBoutgifter === JaNei.JA && <UtgiftenDelesMedAndre />}
                 </div>
                 <KompaktOppsummeringsfelt
                     label="Høyere utgift nytt bosted"
@@ -254,7 +242,7 @@ const UtgifterFlereSteder = ({
                 <div>
                     <KompaktOppsummeringsfelt
                         label="Utgift hjemsted"
-                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-`}
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)} kr`}
                     />
                     {utgifterFlereSteder.delerBoutgifter.includes(
                         DelerUtgifterFlereStederType.HJEMSTED
@@ -263,7 +251,7 @@ const UtgifterFlereSteder = ({
                 <div>
                     <KompaktOppsummeringsfelt
                         label="Utgift aktivitetssted"
-                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)},-`}
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)} kr`}
                     />
                     {utgifterFlereSteder.delerBoutgifter.includes(
                         DelerUtgifterFlereStederType.AKTIVITETSSTED
@@ -289,12 +277,12 @@ const UtgifterSamling = ({
                             {harTallverdi(periode.utgifterTilOvernatting) && (
                                 <KompaktOppsummeringsfelt
                                     label={formaterIsoPeriode(periode.fom, periode.tom)}
-                                    value={`${tilTallverdi(periode.utgifterTilOvernatting)},-`}
+                                    value={`${tilTallverdi(periode.utgifterTilOvernatting)} kr`}
                                 />
                             )}
                             {periode.trengteEkstraOvernatting === JaNei.JA && (
                                 <BodyShort size="small">
-                                    <i>Trengte ekstra overnatting</i>
+                                    <i>Hadde ekstra overnatting</i>
                                 </BodyShort>
                             )}
                         </div>
@@ -315,7 +303,7 @@ const HøyereUtgifterPgaHelse = ({
         særligUtgifter === JaNei.JA && (
             <BodyShort size="small">
                 <i>
-                    <WheelchairIcon /> Har særlig store utgifter på grunn av funksjonsnedsettelse
+                    <WheelchairIcon /> Trenger tilpasset bolig på grunn av helseutfordringer
                 </i>
             </BodyShort>
         )

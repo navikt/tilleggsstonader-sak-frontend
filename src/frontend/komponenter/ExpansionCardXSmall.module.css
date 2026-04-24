@@ -1,0 +1,33 @@
+.expansionCard {
+    width: 100%;
+}
+
+.subtle {
+    border: 1px solid var(--ax-border-neutral-subtle);
+    background-color: var(--ax-bg-neutral-soft);
+}
+
+.header {
+    align-items: center;
+    padding: var(--ax-space-8) var(--ax-space-16);
+}
+
+.headerContent {
+    min-height: 2rem;
+    padding-top: var(--ax-space-2);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    color: var(--ax-text-neutral);
+}
+
+.title {
+    font-size: var(--ax-font-size-heading-xsmall);
+    line-height: var(--ax-font-line-height-heading-xsmall);
+}
+
+.content {
+    overflow-wrap: anywhere;
+}
