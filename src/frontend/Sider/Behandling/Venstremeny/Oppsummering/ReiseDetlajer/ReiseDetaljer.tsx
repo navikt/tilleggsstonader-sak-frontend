@@ -10,7 +10,7 @@ import {
     ReiseAdresse,
     reiseAdresseTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
-import { jaNeiTilTekst } from '../../../../../typer/common';
+import { JaNei, jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { OppsummeringEkspanderbarEnhet, OppsummeringFelt } from '../Visningskomponenter';
 
@@ -38,7 +38,6 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
         <VStack gap="space-12">
             {reiser.map((reise, index) => (
                 <OppsummeringEkspanderbarEnhet
-                    defaultOpen={index === 0}
                     ikon={<EarthIcon />}
                     key={index}
                     tittel={`Reise ${index + 1}`}
@@ -54,7 +53,11 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.adresseDetSkalReisesFra && (
                         <AdresseFelt
                             adresse={reise.adresseDetSkalReisesFra}
-                            label="Adresse jeg skal reise fra"
+                            label={
+                                reise.skalReiseFraFolkeregistrertAdresse === JaNei.JA
+                                    ? 'Folkeregistrert adresse'
+                                    : 'Adresse jeg skal reise fra'
+                            }
                         />
                     )}
 
@@ -109,11 +112,12 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                         />
                     )}
 
-                    {reise.offentligTransport && (
-                        <BillettDetaljer offentligTransport={reise.offentligTransport} />
-                    )}
+                    {reise.kanReiseMedOffentligTransport === JaNei.JA &&
+                        reise.offentligTransport && (
+                            <BillettDetaljer offentligTransport={reise.offentligTransport} />
+                        )}
 
-                    {reise.privatTransport && (
+                    {reise.kanReiseMedOffentligTransport === JaNei.NEI && reise.privatTransport && (
                         <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
                     )}
                 </OppsummeringEkspanderbarEnhet>

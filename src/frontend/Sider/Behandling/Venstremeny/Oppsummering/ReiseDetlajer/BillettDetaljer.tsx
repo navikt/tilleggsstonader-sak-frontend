@@ -1,42 +1,52 @@
 import React from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import {
+    BillettType,
     BillettTypeTilTekst,
     OffentligTransport,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
-import { OppsummeringFelt } from '../Visningskomponenter';
+import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
+import { harTallverdi } from '../../../../../utils/tall';
+import { KompaktOppsummeringsfelt, OppsummeringFelt } from '../Visningskomponenter';
+
+type Billett = {
+    billettype: string;
+    pris: string;
+};
 
 export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport }> = ({
     offentligTransport,
-}) => (
-    <>
-        {offentligTransport.billettTyperValgt.length > 0 && (
-            <OppsummeringFelt
-                label="Valgte billettyper"
-                value={offentligTransport.billettTyperValgt
-                    .map((billettType) => BillettTypeTilTekst[billettType])
-                    .join(', ')}
-            />
-        )}
-        {offentligTransport.enkeltbillettPris && (
-            <OppsummeringFelt
-                label="Hvor mye koster en enkeltbillett?"
-                value={`${offentligTransport.enkeltbillettPris} kr`}
-            />
-        )}
+}) => {
+    const billetter: Billett[] = offentligTransport.billettTyperValgt
+        .map((billettType) => {
+            const pris = {
+                [BillettType.ENKELTBILLETT]: offentligTransport.enkeltbillettPris,
+                [BillettType.SYVDAGERSBILLETT]: offentligTransport.syvdagersbillettPris,
+                [BillettType.TRETTIDAGERSBILLETT]: offentligTransport.månedskortPris,
+            }[billettType];
 
-        {offentligTransport.syvdagersbillettPris && (
-            <OppsummeringFelt
-                label="Hvor mye koster et ukeskort / 7-dagersbillett?"
-                value={`${offentligTransport.syvdagersbillettPris} kr`}
-            />
-        )}
+            return harTallverdi(pris)
+                ? {
+                      billettype: BillettTypeTilTekst[billettType],
+                      pris: `${formaterTallMedTusenSkille(pris)} kr`,
+                  }
+                : undefined;
+        })
+        .filter((billettpris): billettpris is Billett => Boolean(billettpris));
 
-        {offentligTransport.månedskortPris && (
-            <OppsummeringFelt
-                label="Hvor mye koster et månedskort / 30-dagersbillett?"
-                value={`${offentligTransport.månedskortPris} kr`}
-            />
-        )}
-    </>
-);
+    return (
+        <OppsummeringFelt label="Hva koster billettene?">
+            <VStack gap="space-4">
+                {billetter.map((billettpris) => (
+                    <KompaktOppsummeringsfelt
+                        key={billettpris.billettype}
+                        label={billettpris.billettype}
+                        value={billettpris.pris}
+                    />
+                ))}
+            </VStack>
+        </OppsummeringFelt>
+    );
+};
