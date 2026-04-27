@@ -6,7 +6,8 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "outDir": "build",
-    "moduleResolution": "node",
+    "rootDir": ".",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true

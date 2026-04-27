@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { AvklartDag } from '../../../../../typer/kjøreliste';
-import { formaterEnumVerdi, kronerEllerStrek } from '../../../../../utils/tekstformatering';
+import { kronerEllerStrek } from '../../../../../utils/tekstformatering';
+import { godkjentGjennomførtKjøringTilTekst } from '../../utils';
 import styles from '../UkeInnhold.module.css';
 
 export const AvklartDagLesevisning: FC<{
@@ -11,9 +12,12 @@ export const AvklartDagLesevisning: FC<{
 }> = ({ avklartDag }) => {
     return (
         <div className={styles.høyreGrid}>
-            <BodyShort size="small">
-                {formaterEnumVerdi(avklartDag?.godkjentGjennomførtKjøring)}
-            </BodyShort>
+            <HStack gap="space-4">
+                <BodyShort size="small">
+                    {avklartDag &&
+                        godkjentGjennomførtKjøringTilTekst[avklartDag.godkjentGjennomførtKjøring]}
+                </BodyShort>
+            </HStack>
             <BodyShort size="small">{kronerEllerStrek(avklartDag?.parkeringsutgift)}</BodyShort>
             <BodyShort size="small">{avklartDag?.begrunnelse || '-'}</BodyShort>
         </div>

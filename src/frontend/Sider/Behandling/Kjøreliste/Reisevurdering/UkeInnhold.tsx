@@ -104,13 +104,15 @@ export const UkeInnhold: FC<{
     return (
         <VStack gap="space-16">
             <div>
-                <div className={styles.borderToppBunn}>
-                    <div className={styles.gridOverskrifter}>
+                <div className={`${styles.borderToppBunn} ${styles.wrapper}`}>
+                    <div className={styles.venstreGrid}>
                         <Label size="small">Dag</Label>
                         <Label size="small">Dato</Label>
                         <Label size="small">Har kjørt</Label>
                         <Label size="small">Parking</Label>
-                        <Label size="small">Får dekt dag</Label>
+                    </div>
+                    <div className={redigerer ? styles.høyreGridRedigering : styles.høyreGrid}>
+                        <Label size="small">Status</Label>
                         <Label size="small">Parkeringsutgifter</Label>
                         <Label size="small">Kommentar</Label>
                     </div>

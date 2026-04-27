@@ -36,7 +36,7 @@ export const validerAvklarteDager = (
                 };
             }
 
-            if (avklartDag.parkeringsutgift >= 100 && harIkkeVerdi(avklartDag.begrunnelse)) {
+            if (avklartDag.parkeringsutgift > 100 && harIkkeVerdi(avklartDag.begrunnelse)) {
                 return {
                     ...feil,
                     begrunnelse: 'Må begrunne parkeringsutgift over 100 kr',
@@ -90,7 +90,10 @@ const validerAvvikFraKjørelisteErBegrunnet = (
         return 'Må begrunne hvorfor kjøring er godkjent når bruker ikke har meldt kjøring';
     }
 
-    if (innsendtFraBruker?.parkeringsutgift !== avklartDag.parkeringsutgift) {
+    const parkeringsutgiftFraKjøreliste = innsendtFraBruker?.parkeringsutgift ?? 0;
+    const parkeringsutgiftAvklartDag = avklartDag.parkeringsutgift ?? 0;
+
+    if (parkeringsutgiftFraKjøreliste !== parkeringsutgiftAvklartDag) {
         return 'Må begrunne endring i parkeringsutgift';
     }
 };

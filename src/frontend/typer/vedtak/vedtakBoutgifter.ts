@@ -54,7 +54,6 @@ export type AvslåBoutgifterRequest = {
 export type AvslagBoutgifter = AvslåBoutgifterRequest;
 
 export type OpphørBoutgifter = OpphørRequest & {
-    beregningsresultat: BeregningsresultatBoutgifter;
     vedtaksperioder: Vedtaksperiode[];
 };
 

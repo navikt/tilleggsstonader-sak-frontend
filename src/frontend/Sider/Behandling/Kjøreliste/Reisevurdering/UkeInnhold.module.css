@@ -5,7 +5,8 @@
     --kolonne-4: 4.25rem;
     --kolonne-5: 5.5rem;
     --kolonne-6: 7.75rem;
-    --kolonne-7: 12rem;
+    --kolonne-7: auto;
+    --kolonne-5-redigering: 7rem;
 }
 
 .wrapper {
@@ -17,32 +18,29 @@
 .border-topp-bunn {
     border-top: 1px solid var(--ax-border-neutral);
     border-bottom: 1px solid var(--ax-border-neutral);
-    padding: 0.5rem 0;
 }
 
 .grid-overskrifter,
 .venstre-grid,
-.høyre-grid {
+.høyre-grid,
+.høyre-grid-redigering {
     display: grid;
     column-gap: 1.5rem;
 }
 
 .venstre-grid,
-.høyre-grid {
+.høyre-grid,
+.høyre-grid-redigering {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-}
-
-.grid-overskrifter {
-    padding: 0 1rem;
-    grid-template-columns:
-        var(--kolonne-1) var(--kolonne-2) var(--kolonne-3) var(--kolonne-4)
-        var(--kolonne-5) var(--kolonne-6) var(--kolonne-7);
 }
 
 .venstre-grid {
     padding-left: 1rem;
     grid-template-columns: var(--kolonne-1) var(--kolonne-2) var(--kolonne-3) var(--kolonne-4);
+}
+
+.bakgrunn-og-border {
     background: var(--ax-bg-neutral-moderate);
     border-right: 1px solid var(--ax-border-neutral);
 }
@@ -50,4 +48,13 @@
 .høyre-grid {
     padding-right: 1rem;
     grid-template-columns: var(--kolonne-5) var(--kolonne-6) var(--kolonne-7);
+}
+
+.høyre-grid-redigering {
+    padding-right: 1rem;
+    grid-template-columns: var(--kolonne-5-redigering) var(--kolonne-6) var(--kolonne-7);
+}
+
+.maks-høyde {
+    max-height: 2rem;
 }

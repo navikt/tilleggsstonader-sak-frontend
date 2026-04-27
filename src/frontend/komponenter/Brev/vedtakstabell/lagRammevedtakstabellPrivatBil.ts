@@ -2,7 +2,7 @@ import {
     RammeForReiseMedPrivatBilDelperiode,
     RammevedtakPrivatBil,
 } from '../../../typer/vedtak/vedtakDagligReise';
-import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
+import { formaterIsoPeriodeMedTankestrek, tilDato } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
 
 export function lagRammevedtakstabellPrivatBil(
@@ -11,6 +11,20 @@ export function lagRammevedtakstabellPrivatBil(
     if (!rammevedtak) return '';
 
     const htmlPerReise = rammevedtak.reiser.map((reise) => {
+        const skalViseTabellMedDelperioder = reise.delperioder.length !== 1;
+
+        const harUbekreftetSats = reise.delperioder.some((delperiode) =>
+            delperiode.satser.some((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
+        );
+
+        const årForUbekreftedeSatser = reise.delperioder
+            .flatMap((delperiode) => delperiode.satser)
+            .filter((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
+            .map((sats) => tilDato(sats.fom).getFullYear());
+
+        const utledÅrForFørsteSatsjustering =
+            årForUbekreftedeSatser.length > 0 ? Math.min(...årForUbekreftedeSatser) : undefined;
+
         const formaterPeriode = (fom: string, tom: string) => {
             const delperiodeDato: Periode = { fom, tom };
             return formaterIsoPeriodeMedTankestrek(delperiodeDato);
@@ -100,7 +114,8 @@ export function lagRammevedtakstabellPrivatBil(
 
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
-        ${reise.delperioder.length === 1 ? lagFlatRammevedtakstabellPrivatBil(rammevedtak) : tabellMedDelperioder()}
+        ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(rammevedtak)}
+        ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen.</p>` : ''}
         `;
     });
     return htmlPerReise.join('');
@@ -114,8 +129,8 @@ export function lagFlatRammevedtakstabellPrivatBil(
         reise.delperioder.flatMap((delperiode) =>
             delperiode.satser.map((sats) => ({
                 periode: formaterIsoPeriodeMedTankestrek({
-                    fom: delperiode.fom,
-                    tom: delperiode.tom,
+                    fom: sats.fom,
+                    tom: sats.tom,
                 }),
                 reiseavstand: reise.reiseavstandEnVei,
                 reisedagerPerUke: delperiode.reisedagerPerUke,
