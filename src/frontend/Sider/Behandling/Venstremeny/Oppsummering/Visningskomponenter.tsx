@@ -134,11 +134,13 @@ function renderValue(value: React.ReactNode) {
     return value;
 }
 
+// TODO: Burde ikke være to ulike måter å sende inn value på, vel? Holder med enten children ELLER value
 export const OppsummeringFelt: React.FC<{
-    label: string;
+    label: React.ReactNode;
     value?: React.ReactNode;
+    ikon?: React.ReactNode;
     children?: React.ReactNode;
-}> = ({ label, value, children }) => {
+}> = ({ label, value, ikon, children }) => {
     const innhold = value !== undefined ? renderValue(value) : children;
 
     if (!innhold) {
@@ -148,7 +150,7 @@ export const OppsummeringFelt: React.FC<{
     return (
         <VStack gap="space-4">
             <BodyShort size="small" weight="semibold">
-                {label}
+                {ikon ?? ikon} {label}
             </BodyShort>
             <div className={styles.feltVerdi}>{innhold}</div>
         </VStack>

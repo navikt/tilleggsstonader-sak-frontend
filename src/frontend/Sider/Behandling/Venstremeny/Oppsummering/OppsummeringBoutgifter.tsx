@@ -11,6 +11,7 @@ import {
     KompaktOppsummeringsfelt,
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
+    OppsummeringFelt,
     OppsummeringSeksjonsfilter,
     OppsummeringSeksjonsfilterValg,
     Søknadsdato,
@@ -301,11 +302,14 @@ const HøyereUtgifterPgaHelse = ({
     const særligUtgifter = boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse;
     return (
         særligUtgifter === JaNei.JA && (
-            <BodyShort size="small">
-                <i>
-                    <WheelchairIcon /> Trenger tilpasset bolig på grunn av helseutfordringer
-                </i>
-            </BodyShort>
+            <OppsummeringFelt
+                label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
+                ikon={<WheelchairIcon />}
+            >
+                <BodyShort size="small">
+                    <i>{jaNeiTilTekst[særligUtgifter]}</i>
+                </BodyShort>
+            </OppsummeringFelt>
         )
     );
 };
