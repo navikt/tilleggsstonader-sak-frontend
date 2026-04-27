@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { BodyShort, Button, VStack } from '@navikt/ds-react';
 
@@ -12,15 +12,32 @@ import {
     feiletRessursTilFeilmelding,
     lagFeilmelding,
 } from '../../../komponenter/Feil/feilmeldingUtils';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
+import { PdfVisning } from '../../../komponenter/PdfVisning';
+import {
+    byggTomRessurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../typer/ressurs';
 
 export const FullførKjørelisteFane: FC = () => {
     const { request } = useApp();
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const [laster, settLaster] = useState<boolean>(false);
+
+    const [brevPdf, settBrevPdf] = useState(byggTomRessurs<string>());
+
+    const hentBrevCallback = useCallback(() => {
+        request<string, null>(
+            `/api/sak/kjorelistebrev/${behandling.id}`,
+            behandlingErRedigerbar ? 'POST' : 'GET'
+        ).then(settBrevPdf);
+    }, [behandlingErRedigerbar, behandling.id, request]);
+
+    useEffect(hentBrevCallback, [hentBrevCallback]);
 
     const fullfør = () => {
         if (laster) {
@@ -58,6 +75,7 @@ export const FullførKjørelisteFane: FC = () => {
 
             {erStegRedigerbart && (
                 <div>
+                    <PdfVisning pdfFilInnhold={brevPdf} />
                     <Button variant="primary" loading={laster} onClick={fullfør}>
                         Fullfør kjørelistebehandling
                     </Button>
