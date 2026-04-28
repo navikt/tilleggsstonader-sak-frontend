@@ -75,12 +75,12 @@ export const FullførKjørelisteFane: FC = () => {
 
             {erStegRedigerbart && (
                 <div>
-                    <PdfVisning pdfFilInnhold={brevPdf} />
                     <Button variant="primary" loading={laster} onClick={fullfør}>
                         Fullfør kjørelistebehandling
                     </Button>
                 </div>
             )}
+            <PdfVisning pdfFilInnhold={brevPdf} />
         </VStack>
     );
 };
