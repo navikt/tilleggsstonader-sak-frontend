@@ -5,7 +5,6 @@ export enum FaktiskMålgruppe {
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
     ARBEIDSSØKER = 'ARBEIDSSØKER',
-    TODO = 'TODO',
 }
 
 const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolean>> = {
@@ -14,28 +13,24 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
-        TODO: false,
     },
     [Stønadstype.LÆREMIDLER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
-        TODO: false,
     },
     [Stønadstype.BOUTGIFTER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
-        TODO: false,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
-        TODO: false,
     },
 
     [Stønadstype.DAGLIG_REISE_TSR]: {
@@ -43,7 +38,12 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
-        TODO: false,
+    },
+    [Stønadstype.REISE_TIL_SAMLING_TSO]: {
+        NEDSATT_ARBEIDSEVNE: true,
+        ENSLIG_FORSØRGER: true,
+        GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
     },
 };
 
@@ -64,7 +64,6 @@ export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
     ARBEIDSSØKER: 'Arbeidssøker',
-    TODO: 'Todo',
 };
 
 export const faktiskMålgruppeTilTekst = (type: FaktiskMålgruppe | '') => {

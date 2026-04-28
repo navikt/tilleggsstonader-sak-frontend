@@ -114,6 +114,21 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         GJENLEVENDE_GAMMELT_REGELVERK: false,
     },
+
+    [Stønadstype.REISE_TIL_SAMLING_TSO]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
+        SYKEPENGER_100_PROSENT: false,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
+    },
 };
 
 export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(
