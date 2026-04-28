@@ -108,12 +108,12 @@ export const UkeInnhold: FC<{
                     <div className={styles.venstreGrid}>
                         <Label size="small">Dag</Label>
                         <Label size="small">Dato</Label>
-                        <Label size="small">Har kjørt</Label>
-                        <Label size="small">Parking</Label>
+                        <Label size="small">Kjørt</Label>
+                        <Label size="small">Parkering levert</Label>
                     </div>
                     <div className={redigerer ? styles.høyreGridRedigering : styles.høyreGrid}>
                         <Label size="small">Status</Label>
-                        <Label size="small">Parkeringsutgifter</Label>
+                        <Label size="small">Parkering godkjent</Label>
                         <Label size="small">Kommentar</Label>
                     </div>
                 </div>
