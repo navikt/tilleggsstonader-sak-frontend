@@ -41,8 +41,16 @@ export interface BehandlingFaktaDagligReise extends BehandlingFaktaInterface {
     reiser: FaktaReise[];
 }
 
+export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface {
+    '@type': Stønadstype.REISE_TIL_SAMLING_TSO; //| Stønadstype.REISE_TIL_SAMLING_TSR;
+    aktiviteter: FaktaAktivtet;
+    personopplysninger: FaktaPersonopplysninger;
+    // TODO: Legg til alt de andre fra søknaden
+}
+
 export type BehandlingFakta =
     | BehandlingFaktaTilsynBarn
     | BehandlingFaktaLæremidler
     | BehandlingFaktaBoutgifter
-    | BehandlingFaktaDagligReise;
+    | BehandlingFaktaDagligReise
+    | BehandlingFaktaReiseTilSamling;

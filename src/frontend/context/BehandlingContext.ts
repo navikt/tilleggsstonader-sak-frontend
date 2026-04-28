@@ -64,6 +64,8 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
             return kanSaksbehandleDagligReiseTso;
         case Stønadstype.DAGLIG_REISE_TSR:
             return kanSaksbehandleDagligReiseTsr;
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return true; // TODO: Lag feature toggle @Adnan
         default:
             return false;
     }

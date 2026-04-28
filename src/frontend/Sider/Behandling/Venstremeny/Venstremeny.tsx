@@ -5,7 +5,7 @@ import { Box, Tabs, VStack } from '@navikt/ds-react';
 import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
-import OppsummeringSøknad from './Oppsummering/OppsummeringSøknad';
+import { OppsummeringSøknad } from './Oppsummering/OppsummeringSøknad';
 import styles from './Venstremeny.module.css';
 import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
