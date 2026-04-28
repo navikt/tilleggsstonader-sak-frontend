@@ -75,6 +75,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         const nullstilteVurderinger: IFormkravVilkår = {
             ...vurderinger,
             klagePart: VilkårStatus.IKKE_SATT,
+            klagersRettsligInteresse: VilkårStatus.IKKE_SATT,
             klageKonkret: VilkårStatus.IKKE_SATT,
             klagefristOverholdt: VilkårStatus.IKKE_SATT,
             klageSignert: VilkårStatus.IKKE_SATT,
