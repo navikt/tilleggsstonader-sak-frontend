@@ -53,6 +53,9 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     const kanSaksbehandleBoutgifter = useFlag(Toggle.KAN_SAKSBEHANDLE_BOUTGIFTER);
     const kanSaksbehandleDagligReiseTso = useFlag(Toggle.KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO);
     const kanSaksbehandleDagligReiseTsr = useFlag(Toggle.KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR);
+    const kanSaksbehandleReiseTilSamlingTso = useFlag(
+        Toggle.KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO
+    );
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return kanSaksbehandleBarnetilsyn;
@@ -65,7 +68,7 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
         case Stønadstype.DAGLIG_REISE_TSR:
             return kanSaksbehandleDagligReiseTsr;
         case Stønadstype.REISE_TIL_SAMLING_TSO:
-            return true; // TODO: Lag feature toggle @Adnan
+            return kanSaksbehandleReiseTilSamlingTso;
         default:
             return false;
     }
