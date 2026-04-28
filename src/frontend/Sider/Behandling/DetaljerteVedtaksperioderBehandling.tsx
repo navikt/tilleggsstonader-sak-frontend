@@ -7,11 +7,13 @@ import {
     DetaljertVedtaksperiodeBoutgifter,
     DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
+    DetaljertVedtaksperiodeReiseTilSamling,
     DetaljertVedtaksperiodeTilsynBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
 import { VedtaksperioderOversiktBoutgifter } from '../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktDagligReise } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
+import { VedtaksperioderOversiktReiseTilSamling } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktReiseTilSamling';
 import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
 
 type Props = {
@@ -55,6 +57,12 @@ export function DetaljerteVedtaksperioderBehandling({
             <VedtaksperioderOversiktDagligReise
                 border={true}
                 vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeDagligReise[]}
+            />
+        ),
+        [Stønadstype.REISE_TIL_SAMLING_TSO]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktReiseTilSamling
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeReiseTilSamling[]}
             />
         ),
     };

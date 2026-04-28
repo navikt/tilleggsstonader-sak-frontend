@@ -2,6 +2,7 @@ import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgrup
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
+import { TypeReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/vilkårReiseTilSamling';
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
@@ -44,7 +45,7 @@ export type DetaljertVedtaksperiodeBoutgifter = {
     utgifterTilOvernatting?: UtgiftBoutgift[];
 };
 
-export type DetaljertBeregningsperioder = {
+export type DetaljertBeregningsperioderDagligReise = {
     fom: string;
     tom: string;
     prisEnkeltbillett: number | null;
@@ -59,7 +60,7 @@ export type DetaljertBeregningsperioder = {
 export type DetaljertVedtaksperiodeDagligReise = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
-    detaljertBeregningsperioder: DetaljertBeregningsperioder[];
+    detaljertBeregningsperioder: DetaljertBeregningsperioderDagligReise[];
     adresse?: string;
 };
 
@@ -69,3 +70,9 @@ export interface UtgiftBoutgift {
     utgift: number;
     beløpSomDekkes: number;
 }
+
+export type DetaljertVedtaksperiodeReiseTilSamling = {
+    typeDagligReise: TypeReiseTilSamling;
+    stønadstype: Stønadstype;
+    // TODO
+};

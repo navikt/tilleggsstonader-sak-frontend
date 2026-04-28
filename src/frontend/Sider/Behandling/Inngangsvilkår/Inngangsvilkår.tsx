@@ -17,12 +17,12 @@ const nesteFane = (stønadstype: Stønadstype): FanePath => {
     switch (stønadstype) {
         case Stønadstype.LÆREMIDLER:
             return FanePath.VEDTAK_OG_BEREGNING;
+
         case Stønadstype.BARNETILSYN:
         case Stønadstype.BOUTGIFTER:
-            return FanePath.STØNADSVILKÅR;
         case Stønadstype.DAGLIG_REISE_TSR:
-            return FanePath.STØNADSVILKÅR;
         case Stønadstype.DAGLIG_REISE_TSO:
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
             return FanePath.STØNADSVILKÅR;
     }
 };

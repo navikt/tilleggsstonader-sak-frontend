@@ -14,4 +14,6 @@ export const maksMånederTilbakeFraSøknadsdato: Record<Stønadstype, number> = 
     // men vi starter med 3 mnd også får vi heller justere opp til 6 mnd ved behov
     DAGLIG_REISE_TSR: 3,
     DAGLIG_REISE_TSO: 3,
+
+    REISE_TIL_SAMLING_TSO: 6,
 };

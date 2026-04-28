@@ -130,6 +130,7 @@ export const stønadstypeTilSettPåVentContext: Record<Stønadstype, SettPåVent
     BOUTGIFTER: SettPåVentContext.SAK_TSO,
     DAGLIG_REISE_TSO: SettPåVentContext.SAK_TSO,
     DAGLIG_REISE_TSR: SettPåVentContext.SAK_TSR,
+    REISE_TIL_SAMLING_TSO: SettPåVentContext.SAK_TSO,
 };
 
 export const settPåVentContextTilUrlContext: Record<SettPåVentContext, SettPåVentUrlContext> = {
