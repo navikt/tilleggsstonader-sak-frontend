@@ -37,16 +37,19 @@ export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport 
         .filter((billettpris): billettpris is Billett => Boolean(billettpris));
 
     return (
-        <OppsummeringFelt label="Hva koster billettene?">
-            <VStack gap="space-4">
-                {billetter.map((billettpris) => (
-                    <KompaktOppsummeringsfelt
-                        key={billettpris.billettype}
-                        label={billettpris.billettype}
-                        value={billettpris.pris}
-                    />
-                ))}
-            </VStack>
-        </OppsummeringFelt>
+        <OppsummeringFelt
+            label="Hva koster billettene?"
+            value={
+                <VStack gap="space-4">
+                    {billetter.map((billettpris) => (
+                        <KompaktOppsummeringsfelt
+                            key={billettpris.billettype}
+                            label={billettpris.billettype}
+                            value={billettpris.pris}
+                        />
+                    ))}
+                </VStack>
+            }
+        />
     );
 };

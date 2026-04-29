@@ -26,7 +26,7 @@ function harAktivitetDagligReiseOpplysninger(aktiviteter: FaktaAktivitetDagligRe
     );
 }
 
-const AktivitetDagligReise: React.FC<{
+export const AktivitetDagligReise: React.FC<{
     aktiviteter: FaktaAktivitetDagligReise;
 }> = ({ aktiviteter }) => {
     const reiseperiode = aktiviteter.reiseperiode;
@@ -84,5 +84,3 @@ const AktivitetDagligReise: React.FC<{
         </InfoSeksjon>
     );
 };
-
-export default AktivitetDagligReise;

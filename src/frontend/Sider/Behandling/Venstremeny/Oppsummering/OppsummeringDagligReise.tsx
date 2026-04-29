@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AktivitetDagligReise from './AktivitetDagligReise';
+import { AktivitetDagligReise } from './AktivitetDagligReise';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {

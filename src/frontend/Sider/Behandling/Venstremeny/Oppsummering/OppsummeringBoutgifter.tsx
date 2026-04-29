@@ -305,11 +305,12 @@ const HøyereUtgifterPgaHelse = ({
             <OppsummeringFelt
                 label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
                 ikon={<WheelchairIcon />}
-            >
-                <BodyShort size="small">
-                    <i>{jaNeiTilTekst[særligUtgifter]}</i>
-                </BodyShort>
-            </OppsummeringFelt>
+                value={
+                    <BodyShort size="small">
+                        <i>{jaNeiTilTekst[særligUtgifter]}</i>
+                    </BodyShort>
+                }
+            />
         )
     );
 };

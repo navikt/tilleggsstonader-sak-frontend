@@ -18,18 +18,21 @@ function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string 
     const adresseTekst = reiseAdresseTilTekst(adresse);
 
     return (
-        <OppsummeringFelt label={label}>
-            <span>
-                <BodyShort as="span" size="small">
-                    {adresseTekst}
-                </BodyShort>
-                <CopyButton
-                    copyText={adresseTekst}
-                    size="small"
-                    style={{ verticalAlign: 'middle' }}
-                />
-            </span>
-        </OppsummeringFelt>
+        <OppsummeringFelt
+            label={label}
+            value={
+                <span>
+                    <BodyShort as="span" size="small">
+                        {adresseTekst}
+                    </BodyShort>
+                    <CopyButton
+                        copyText={adresseTekst}
+                        size="small"
+                        style={{ verticalAlign: 'middle' }}
+                    />
+                </span>
+            }
+        />
     );
 }
 

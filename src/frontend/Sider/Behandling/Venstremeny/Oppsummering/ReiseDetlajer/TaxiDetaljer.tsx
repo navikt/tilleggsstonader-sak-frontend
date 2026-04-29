@@ -12,15 +12,18 @@ import { OppsummeringFelt } from '../Visningskomponenter';
 
 export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
     <>
-        <OppsummeringFelt label="Hvorfor kan du ikke kjøre bil til aktivitetsstedet?">
-            <VStack gap="space-4">
-                {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
-                    <BodyShort key={årsak} size="small">
-                        {ÅrsakIkkeKjøreBilTilTekst[årsak]}
-                    </BodyShort>
-                ))}
-            </VStack>
-        </OppsummeringFelt>
+        <OppsummeringFelt
+            label="Hvorfor kan du ikke kjøre bil til aktivitetsstedet?"
+            value={
+                <VStack gap="space-4">
+                    {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
+                        <BodyShort key={årsak} size="small">
+                            {ÅrsakIkkeKjøreBilTilTekst[årsak]}
+                        </BodyShort>
+                    ))}
+                </VStack>
+            }
+        />
 
         {taxi.ønskerSøkeOmTaxi && (
             <OppsummeringFelt

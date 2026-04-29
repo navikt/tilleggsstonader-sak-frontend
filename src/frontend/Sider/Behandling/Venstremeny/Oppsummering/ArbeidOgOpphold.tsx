@@ -44,13 +44,16 @@ const OppholdUtenforNorge12mnd: React.FC<{
     }
 
     return (
-        <OppsummeringFelt label={tittel}>
-            <VStack gap="space-8">
-                {faktaOpphold.map((opphold, indeks) => (
-                    <OppholdUtenforNorge key={indeks} opphold={opphold} />
-                ))}
-            </VStack>
-        </OppsummeringFelt>
+        <OppsummeringFelt
+            label={tittel}
+            value={
+                <VStack gap="space-8">
+                    {faktaOpphold.map((opphold, indeks) => (
+                        <OppholdUtenforNorge key={indeks} opphold={opphold} />
+                    ))}
+                </VStack>
+            }
+        />
     );
 };
 
@@ -84,20 +87,23 @@ export const ArbeidOgOppholdFelt: React.FC<{
             )}
 
             {fakta.harPengestøtteAnnetLand && (
-                <OppsummeringFelt label="Pengestøtte fra annet land">
-                    <VStack gap="space-4">
-                        {fakta.pengestøtteAnnetLand && (
-                            <BodyShort size="small">{fakta.pengestøtteAnnetLand}</BodyShort>
-                        )}
-                        <BodyShort size="small">
-                            {fakta.harPengestøtteAnnetLand
-                                .map((pengestøtte) =>
-                                    tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
-                                )
-                                .join(', ')}
-                        </BodyShort>
-                    </VStack>
-                </OppsummeringFelt>
+                <OppsummeringFelt
+                    label="Pengestøtte fra annet land"
+                    value={
+                        <VStack gap="space-4">
+                            {fakta.pengestøtteAnnetLand && (
+                                <BodyShort size="small">{fakta.pengestøtteAnnetLand}</BodyShort>
+                            )}
+                            <BodyShort size="small">
+                                {fakta.harPengestøtteAnnetLand
+                                    .map((pengestøtte) =>
+                                        tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
+                                    )
+                                    .join(', ')}
+                            </BodyShort>
+                        </VStack>
+                    }
+                />
             )}
 
             <OppholdUtenforNorge12mnd

@@ -17,17 +17,20 @@ export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTranspor
 }) => (
     <>
         {privatTransport.årsakIkkeOffentligTransport && (
-            <OppsummeringFelt label="Hvorfor kan du ikke reise med offentlig transport?">
-                <VStack gap="space-4">
-                    {privatTransport.årsakIkkeOffentligTransport.map(
-                        (årsak: ÅrsakIkkeOffentligTransport) => (
-                            <BodyShort key={årsak} size="small">
-                                {ÅrsakIkkeOffentligTransportTilTekst[årsak]}
-                            </BodyShort>
-                        )
-                    )}
-                </VStack>
-            </OppsummeringFelt>
+            <OppsummeringFelt
+                label="Hvorfor kan du ikke reise med offentlig transport?"
+                value={
+                    <VStack gap="space-4">
+                        {privatTransport.årsakIkkeOffentligTransport.map(
+                            (årsak: ÅrsakIkkeOffentligTransport) => (
+                                <BodyShort key={årsak} size="small">
+                                    {ÅrsakIkkeOffentligTransportTilTekst[årsak]}
+                                </BodyShort>
+                            )
+                        )}
+                    </VStack>
+                }
+            />
         )}
 
         {privatTransport.kanKjøreMedEgenBil && (
