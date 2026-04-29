@@ -2,35 +2,25 @@ import React from 'react';
 
 import { AktivitetDagligReise } from './AktivitetDagligReise';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
+import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
-import {
-    erGyldigOppsummeringsvalg,
-    oppsummeringAltFilterValg,
-    oppsummeringAltFilterVerdi,
-    OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
-    Søknadsdato,
-} from './Visningskomponenter';
+import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-
-const dagligReiseSeksjoner = [oppsummeringAltFilterVerdi, 'reiser', 'vedlegg'] as const;
-type DagligReiseSeksjon = (typeof dagligReiseSeksjoner)[number];
-
-function erDagligReiseSeksjon(value: string): value is DagligReiseSeksjon {
-    return erGyldigOppsummeringsvalg(value, dagligReiseSeksjoner);
-}
 
 export const OppsummeringDagligReise: React.FC<{
     behandlingFakta: BehandlingFaktaDagligReise;
 }> = ({ behandlingFakta }) => {
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<DagligReiseSeksjon>(
-        oppsummeringAltFilterVerdi
-    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
-    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        oppsummeringAltFilterValg,
-        ...(behandlingFakta.reiser.length > 0
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        behandlingFakta.reiser.length > 0
             ? [
                   {
                       value: 'reiser',
@@ -39,32 +29,16 @@ export const OppsummeringDagligReise: React.FC<{
                       count: behandlingFakta.reiser.length,
                   },
               ]
-            : []),
-        ...(antallDokumenter > 0
-            ? [
-                  {
-                      value: 'vedlegg',
-                      label: 'Vedlegg',
-                      ariaLabel: 'Vis vedlegg',
-                      count: antallDokumenter,
-                  },
-              ]
-            : []),
-    ];
-    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
-    const visReiser = visFellesopplysninger || valgtSeksjon === 'reiser';
-    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
+            : [],
+        antallDokumenter
+    );
 
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for daglig reise"
-                onChange={(value) => {
-                    if (erDagligReiseSeksjon(value)) {
-                        settValgtSeksjon(value);
-                    }
-                }}
+                onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
@@ -81,12 +55,10 @@ export const OppsummeringDagligReise: React.FC<{
                     />
                 </>
             )}
-            {visReiser && behandlingFakta.reiser.length > 0 && (
+            {visSeksjon('reiser') && behandlingFakta.reiser.length > 0 && (
                 <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>
             )}
-            {visVedlegg && antallDokumenter > 0 && (
-                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
-            )}
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };

@@ -4,36 +4,26 @@ import { VStack } from '@navikt/ds-react';
 
 import { Aktivitet } from './Aktivitet';
 import { BarnDetaljer } from './BarnDetaljer';
+import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
-import {
-    erGyldigOppsummeringsvalg,
-    oppsummeringAltFilterValg,
-    oppsummeringAltFilterVerdi,
-    OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
-    Søknadsdato,
-} from './Visningskomponenter';
+import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-
-const tilsynBarnSeksjoner = [oppsummeringAltFilterVerdi, 'barn', 'vedlegg'] as const;
-type TilsynBarnSeksjon = (typeof tilsynBarnSeksjoner)[number];
-
-function erTilsynBarnSeksjon(value: string): value is TilsynBarnSeksjon {
-    return erGyldigOppsummeringsvalg(value, tilsynBarnSeksjoner);
-}
 
 export const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
     const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<TilsynBarnSeksjon>(
-        oppsummeringAltFilterVerdi
-    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
-    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        oppsummeringAltFilterValg,
-        ...(barnDetSøkesFor.length > 0
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        barnDetSøkesFor.length > 0
             ? [
                   {
                       value: 'barn',
@@ -42,32 +32,16 @@ export const OppsummeringTilsynBarn: React.FC<{
                       count: barnDetSøkesFor.length,
                   },
               ]
-            : []),
-        ...(antallDokumenter > 0
-            ? [
-                  {
-                      value: 'vedlegg',
-                      label: 'Vedlegg',
-                      ariaLabel: 'Vis vedlegg',
-                      count: antallDokumenter,
-                  },
-              ]
-            : []),
-    ];
-    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
-    const visBarn = visFellesopplysninger || valgtSeksjon === 'barn';
-    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
+            : [],
+        antallDokumenter
+    );
 
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
-                onChange={(value) => {
-                    if (erTilsynBarnSeksjon(value)) {
-                        settValgtSeksjon(value);
-                    }
-                }}
+                onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
@@ -84,16 +58,14 @@ export const OppsummeringTilsynBarn: React.FC<{
                     />
                 </>
             )}
-            {visBarn && barnDetSøkesFor.length > 0 && (
+            {visSeksjon('barn') && barnDetSøkesFor.length > 0 && (
                 <VStack gap="space-12">
                     {barnDetSøkesFor.map((barn) => (
                         <BarnDetaljer barn={barn} key={barn.barnId} />
                     ))}
                 </VStack>
             )}
-            {visVedlegg && antallDokumenter > 0 && (
-                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
-            )}
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };

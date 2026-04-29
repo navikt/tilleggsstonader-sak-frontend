@@ -4,16 +4,13 @@ import { BankNoteIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { Aktivitet } from './Aktivitet';
+import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
-    erGyldigOppsummeringsvalg,
     InfoSeksjon,
     KompaktOppsummeringsfelt,
-    oppsummeringAltFilterValg,
-    oppsummeringAltFilterVerdi,
     OppsummeringFelt,
     OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
     Søknadsdato,
 } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
@@ -28,13 +25,6 @@ import {
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
-
-const boutgifterSeksjoner = [oppsummeringAltFilterVerdi, 'boutgifter', 'vedlegg'] as const;
-type BoutgifterSeksjon = (typeof boutgifterSeksjoner)[number];
-
-function erBoutgifterSeksjon(value: string): value is BoutgifterSeksjon {
-    return erGyldigOppsummeringsvalg(value, boutgifterSeksjoner);
-}
 
 function hentBoutgifterLabel(
     boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag | undefined
@@ -63,13 +53,16 @@ export const OppsummeringBoutgifter: React.FC<{
     const utgifterFlereSteder = boligEllerOvernatting?.fasteUtgifter?.utgifterFlereSteder;
     const samling = boligEllerOvernatting?.samling;
     const boutgifterLabel = hentBoutgifterLabel(boligEllerOvernatting);
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<BoutgifterSeksjon>(
-        oppsummeringAltFilterVerdi
-    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
-    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        oppsummeringAltFilterValg,
-        ...(boligEllerOvernatting
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        boligEllerOvernatting
             ? [
                   {
                       value: 'boutgifter',
@@ -77,32 +70,16 @@ export const OppsummeringBoutgifter: React.FC<{
                       ariaLabel: `Vis ${boutgifterLabel.toLowerCase()}`,
                   },
               ]
-            : []),
-        ...(antallDokumenter > 0
-            ? [
-                  {
-                      value: 'vedlegg',
-                      label: 'Vedlegg',
-                      ariaLabel: 'Vis vedlegg',
-                      count: antallDokumenter,
-                  },
-              ]
-            : []),
-    ];
-    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
-    const visBoligEllerOvernatting = visFellesopplysninger || valgtSeksjon === 'boutgifter';
-    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
+            : [],
+        antallDokumenter
+    );
 
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for boutgifter"
-                onChange={(value) => {
-                    if (erBoutgifterSeksjon(value)) {
-                        settValgtSeksjon(value);
-                    }
-                }}
+                onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
@@ -117,7 +94,7 @@ export const OppsummeringBoutgifter: React.FC<{
                 />
             )}
 
-            {visBoligEllerOvernatting && boligEllerOvernatting && (
+            {visSeksjon('boutgifter') && boligEllerOvernatting && (
                 <BoligEllerOvernattingSeksjon
                     label={boutgifterLabel}
                     adresse={behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse}
@@ -127,9 +104,7 @@ export const OppsummeringBoutgifter: React.FC<{
                     boligEllerOvernatting={boligEllerOvernatting}
                 />
             )}
-            {visVedlegg && antallDokumenter > 0 && (
-                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
-            )}
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };

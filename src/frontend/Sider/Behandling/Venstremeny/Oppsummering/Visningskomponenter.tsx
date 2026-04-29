@@ -43,13 +43,6 @@ const toggleGroupLabelStyle = {
     overflowWrap: 'anywhere',
 } satisfies React.CSSProperties;
 
-export function erGyldigOppsummeringsvalg<T extends string>(
-    value: string,
-    gyldigeValg: readonly T[]
-): value is T {
-    return gyldigeValg.some((valg) => valg === value);
-}
-
 export const Søknadsdato: React.FC<{ dato: string | undefined }> = ({ dato }) =>
     dato && (
         <HStack gap={'space-4'}>
@@ -148,7 +141,7 @@ export const OppsummeringFelt: React.FC<{
     return (
         <VStack gap="space-4">
             <BodyShort size="small" weight="semibold">
-                {ikon ?? ikon} {label}
+                {ikon} {label}
             </BodyShort>
             <div className={styles.feltVerdi}>{innhold}</div>
         </VStack>
@@ -178,7 +171,6 @@ export const OppsummeringEkspanderbarEnhet: React.FC<{
     variant?: 'default' | 'subtle';
 }> = ({ tittel, ikon, children, ariaLabel, variant = 'subtle' }) => (
     <ExpansionCardXSmall
-        // className={styles.ekspanderbarEnhet}
         tittel={tittel}
         ikon={ikon}
         defaultOpen

@@ -1,36 +1,26 @@
 import React from 'react';
 
+import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import Utdanning, { harUtdanningsopplysninger } from './Utdanning';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
-import {
-    erGyldigOppsummeringsvalg,
-    oppsummeringAltFilterValg,
-    oppsummeringAltFilterVerdi,
-    OppsummeringSeksjonsfilter,
-    OppsummeringSeksjonsfilterValg,
-    Søknadsdato,
-} from './Visningskomponenter';
+import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-
-const læremidlerSeksjoner = [oppsummeringAltFilterVerdi, 'utdanning', 'vedlegg'] as const;
-type LæremidlerSeksjon = (typeof læremidlerSeksjoner)[number];
-
-function erLæremidlerSeksjon(value: string): value is LæremidlerSeksjon {
-    return erGyldigOppsummeringsvalg(value, læremidlerSeksjoner);
-}
 
 export const OppsummeringLæremidler: React.FC<{
     behandlingFakta: BehandlingFaktaLæremidler;
 }> = ({ behandlingFakta }) => {
-    const [valgtSeksjon, settValgtSeksjon] = React.useState<LæremidlerSeksjon>(
-        oppsummeringAltFilterVerdi
-    );
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const visUtdanningsseksjon = harUtdanningsopplysninger(behandlingFakta.utdanning);
-    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
-        oppsummeringAltFilterValg,
-        ...(visUtdanningsseksjon
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        visUtdanningsseksjon
             ? [
                   {
                       value: 'utdanning',
@@ -38,36 +28,20 @@ export const OppsummeringLæremidler: React.FC<{
                       ariaLabel: 'Vis utdanningsopplysninger',
                   },
               ]
-            : []),
-        ...(antallDokumenter > 0
-            ? [
-                  {
-                      value: 'vedlegg',
-                      label: 'Vedlegg',
-                      ariaLabel: 'Vis vedlegg',
-                      count: antallDokumenter,
-                  },
-              ]
-            : []),
-    ];
-    const visFellesopplysninger = valgtSeksjon === oppsummeringAltFilterVerdi;
-    const visUtdanning = visFellesopplysninger || valgtSeksjon === 'utdanning';
-    const visVedlegg = visFellesopplysninger || valgtSeksjon === 'vedlegg';
+            : [],
+        antallDokumenter
+    );
 
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <OppsummeringSeksjonsfilter
                 ariaLabel="Filtrer søknadsopplysninger for læremidler"
-                onChange={(value) => {
-                    if (erLæremidlerSeksjon(value)) {
-                        settValgtSeksjon(value);
-                    }
-                }}
+                onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visUtdanning && visUtdanningsseksjon && (
+            {visSeksjon('utdanning') && visUtdanningsseksjon && (
                 <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}
             {visFellesopplysninger && (
@@ -76,9 +50,7 @@ export const OppsummeringLæremidler: React.FC<{
                     arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
                 />
             )}
-            {visVedlegg && antallDokumenter > 0 && (
-                <Vedlegg fakta={behandlingFakta.dokumentasjon} />
-            )}
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };
