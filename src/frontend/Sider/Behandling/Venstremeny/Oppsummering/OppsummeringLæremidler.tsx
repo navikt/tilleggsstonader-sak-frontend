@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useOppsummeringFilter } from './UseOppsummeringFilter';
-import Utdanning, { harUtdanningsopplysninger } from './Utdanning';
+import { harUtdanningsopplysninger, Utdanning } from './Utdanning';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';

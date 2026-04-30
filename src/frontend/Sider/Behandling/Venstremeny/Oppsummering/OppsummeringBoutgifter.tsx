@@ -178,14 +178,12 @@ const UtgifterNyBolig = ({
     return (
         <OppsummeringDelseksjon label="Løpende utgift til én bolig">
             <VStack gap="space-12">
-                <div>
-                    {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
-                        <KompaktOppsummeringsfelt
-                            label="Andel av utgift"
-                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
-                        />
-                    )}
-                </div>
+                {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
+                    <KompaktOppsummeringsfelt
+                        label="Andel av utgift"
+                        value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
+                    />
+                )}
                 <KompaktOppsummeringsfelt
                     label="Høyere utgift nytt bosted"
                     value={jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}

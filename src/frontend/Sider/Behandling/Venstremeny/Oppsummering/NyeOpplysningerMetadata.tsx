@@ -5,10 +5,10 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import {
     nyeOpplysningerEndringTilTekst,
     nyeOpplysningerKildeTilTekst,
-    NyeOpplysningerMetadata,
+    type NyeOpplysningerMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 
-const NyeOpplysningerMetadata: React.FC<{
+export const NyeOpplysningerMetadataVisning: React.FC<{
     nyeOpplysningerMetadata: NyeOpplysningerMetadata;
 }> = ({ nyeOpplysningerMetadata }) => {
     const endringer = nyeOpplysningerMetadata.endringer
@@ -40,4 +40,3 @@ const NyeOpplysningerMetadata: React.FC<{
         </VStack>
     );
 };
-export default NyeOpplysningerMetadata;

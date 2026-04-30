@@ -22,7 +22,7 @@ export function harUtdanningsopplysninger(faktaUtdanning: FaktaUtdanning): boole
     );
 }
 
-const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
+export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
     const erLærlingEllerLiknende =
@@ -76,5 +76,3 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
         </>
     );
 };
-
-export default Utdanning;

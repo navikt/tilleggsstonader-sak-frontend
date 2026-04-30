@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { CardIcon } from '@navikt/aksel-icons';
-
-import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
+import { OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaHovedytelse,
     hovedytelseTilTekst,
@@ -37,19 +35,3 @@ export function harHovedytelseopplysninger(faktaHovedytelse: FaktaHovedytelse): 
         faktaHovedytelse.søknadsgrunnlag?.harNedsattArbeidsevne
     );
 }
-
-const Hovedytelse: React.FC<{
-    faktaHovedytelse: FaktaHovedytelse;
-}> = ({ faktaHovedytelse }) => {
-    if (!harHovedytelseopplysninger(faktaHovedytelse)) {
-        return null;
-    }
-
-    return (
-        <InfoSeksjon label="Ytelse/situasjon" ikon={<CardIcon />}>
-            <HovedytelseFelt faktaHovedytelse={faktaHovedytelse} />
-        </InfoSeksjon>
-    );
-};
-
-export default Hovedytelse;

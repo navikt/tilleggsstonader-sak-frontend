@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { GlobeIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
+import { OppsummeringFelt } from './Visningskomponenter';
 import {
     FaktaArbeidOgOpphold,
     FaktaOppholdUtenforNorge,
@@ -120,19 +119,3 @@ export const ArbeidOgOppholdFelt: React.FC<{
         </>
     );
 };
-
-const ArbeidOgOpphold: React.FC<{
-    fakta: FaktaArbeidOgOpphold;
-}> = ({ fakta }) => {
-    if (!harArbeidOgOppholdOpplysninger(fakta)) {
-        return null;
-    }
-
-    return (
-        <InfoSeksjon label="Arbeid og opphold" ikon={<GlobeIcon />}>
-            <ArbeidOgOppholdFelt fakta={fakta} />
-        </InfoSeksjon>
-    );
-};
-
-export default ArbeidOgOpphold;

@@ -54,7 +54,3 @@
 .feltgruppe > *:last-child {
     padding-bottom: 0;
 }
-
-.ekspanderbarEnhet {
-    box-shadow: var(--ax-shadow-dialog);
-}

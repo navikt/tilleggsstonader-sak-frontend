@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
-import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
+import { NyeOpplysningerMetadataVisning } from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
@@ -23,7 +23,7 @@ const OppsummeringSøknad: React.FC = () => {
                     <RevurderingTag behandling={behandling} />
                 </HStack>
                 {behandling.nyeOpplysningerMetadata && (
-                    <NyeOpplysningerMetadata
+                    <NyeOpplysningerMetadataVisning
                         nyeOpplysningerMetadata={behandling.nyeOpplysningerMetadata}
                     />
                 )}
@@ -37,10 +37,8 @@ const OppsummeringSøknad: React.FC = () => {
             {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
                 <OppsummeringBoutgifter behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
-            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO && (
-                <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
-            )}
-            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR && (
+            {(behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO ||
+                behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR) && (
                 <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
         </VStack>
