@@ -56,20 +56,6 @@ const OppholdUtenforNorge12mnd: React.FC<{
     );
 };
 
-export function harArbeidOgOppholdOpplysninger(fakta?: FaktaArbeidOgOpphold): boolean {
-    if (!fakta) {
-        return false;
-    }
-
-    return Boolean(
-        fakta.jobberIAnnetLand === JaNei.NEI ||
-        fakta.jobbAnnetLand ||
-        fakta.harPengestøtteAnnetLand?.length ||
-        fakta.harOppholdUtenforNorgeSiste12mnd ||
-        fakta.harOppholdUtenforNorgeNeste12mnd
-    );
-}
-
 export const ArbeidOgOppholdFelt: React.FC<{
     fakta: FaktaArbeidOgOpphold;
 }> = ({ fakta }) => {

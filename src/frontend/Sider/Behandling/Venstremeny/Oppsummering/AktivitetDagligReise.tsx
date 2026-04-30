@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 
-import { AktivitetFelt, harAktivitetsopplysninger } from './Aktivitet';
+import { AktivitetFelt } from './Aktivitet';
 import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
     dagligReiseTypeUtdanningTilTekst,
@@ -11,28 +11,13 @@ import {
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 
-function harAktivitetDagligReiseOpplysninger(aktiviteter: FaktaAktivitetDagligReise): boolean {
-    const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
-
-    return Boolean(
-        harAktivitetsopplysninger(aktiviteter.aktivitet) ||
-        aktiviteter.reiseperiode ||
-        dekkesUtgiftenAvAndre?.typeUtdanning ||
-        dekkesUtgiftenAvAndre?.lærling ||
-        dekkesUtgiftenAvAndre?.arbeidsgiverDekkerUtgift ||
-        dekkesUtgiftenAvAndre?.erUnder25år ||
-        dekkesUtgiftenAvAndre?.betalerForReisenTilSkolenSelv ||
-        dekkesUtgiftenAvAndre?.lønnetAktivitet
-    );
-}
-
 export const AktivitetDagligReise: React.FC<{
     aktiviteter: FaktaAktivitetDagligReise;
 }> = ({ aktiviteter }) => {
     const reiseperiode = aktiviteter.reiseperiode;
     const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
-    if (!harAktivitetDagligReiseOpplysninger(aktiviteter)) {
+    if (!aktiviteter.aktivitet.søknadsgrunnlag) {
         return null;
     }
 

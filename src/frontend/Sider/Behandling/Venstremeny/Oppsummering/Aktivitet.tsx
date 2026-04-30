@@ -4,14 +4,14 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 
 import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
 import {
-    FaktaAktivtet,
+    FaktaAktivitet,
     typeAnnenAktivitetTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstEllerKode } from '../../../../utils/tekstformatering';
 
 export const AktivitetFelt: React.FC<{
-    aktivitet: FaktaAktivtet;
+    aktivitet: FaktaAktivitet;
     visLønnetAktivitet?: boolean;
 }> = ({ aktivitet, visLønnetAktivitet = false }) => {
     const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
@@ -43,20 +43,8 @@ export const AktivitetFelt: React.FC<{
     );
 };
 
-export function harAktivitetsopplysninger(
-    aktivitet: FaktaAktivtet,
-    visLønnetAktivitet = false
-): boolean {
-    const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
-    const annenAktivitet = aktivitet.søknadsgrunnlag?.annenAktivitet;
-    const erLønnetAktivitet = aktivitet.søknadsgrunnlag?.lønnetAktivitet;
-    const aktiviteterTekst = aktiviteter?.filter((aktivitet) => aktivitet !== 'Annet').join(', ');
-
-    return Boolean(aktiviteterTekst || annenAktivitet || (visLønnetAktivitet && erLønnetAktivitet));
-}
-
-export const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
-    if (!harAktivitetsopplysninger(aktivitet, true)) {
+export const Aktivitet: React.FC<{ aktivitet: FaktaAktivitet }> = ({ aktivitet }) => {
+    if (aktivitet.søknadsgrunnlag === null) {
         return null;
     }
 

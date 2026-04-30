@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useOppsummeringFilter } from './UseOppsummeringFilter';
-import { harUtdanningsopplysninger, Utdanning } from './Utdanning';
+import { Utdanning } from './Utdanning';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
@@ -11,7 +11,7 @@ export const OppsummeringLæremidler: React.FC<{
     behandlingFakta: BehandlingFaktaLæremidler;
 }> = ({ behandlingFakta }) => {
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
-    const visUtdanningsseksjon = harUtdanningsopplysninger(behandlingFakta.utdanning);
+    const visUtdanningsseksjon = behandlingFakta.utdanning.søknadsgrunnlag != null;
     const {
         filtervalg,
         visFellesopplysninger,

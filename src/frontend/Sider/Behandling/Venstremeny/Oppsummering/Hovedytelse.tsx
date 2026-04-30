@@ -28,10 +28,3 @@ export const HovedytelseFelt: React.FC<{
         </>
     );
 };
-
-export function harHovedytelseopplysninger(faktaHovedytelse: FaktaHovedytelse): boolean {
-    return Boolean(
-        faktaHovedytelse.søknadsgrunnlag?.hovedytelse?.length ||
-        faktaHovedytelse.søknadsgrunnlag?.harNedsattArbeidsevne
-    );
-}

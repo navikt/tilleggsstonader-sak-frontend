@@ -20,7 +20,7 @@ export const OppsummeringDagligReise: React.FC<{
         onFilterChange,
         valgtSeksjon,
     } = useOppsummeringFilter(
-        behandlingFakta.reiser.length > 0
+        behandlingFakta.reiser?.length > 0
             ? [
                   {
                       value: 'reiser',
@@ -44,9 +44,7 @@ export const OppsummeringDagligReise: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    {behandlingFakta.aktiviteter && (
-                        <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
-                    )}
+                    <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
@@ -55,7 +53,7 @@ export const OppsummeringDagligReise: React.FC<{
                     />
                 </>
             )}
-            {visSeksjon('reiser') && behandlingFakta.reiser.length > 0 && (
+            {visSeksjon('reiser') && behandlingFakta.reiser?.length > 0 && (
                 <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>
             )}
             {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}

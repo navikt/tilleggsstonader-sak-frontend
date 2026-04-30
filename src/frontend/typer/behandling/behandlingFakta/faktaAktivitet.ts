@@ -1,7 +1,7 @@
 import { Periode } from '../../../utils/periode';
 import { JaNei } from '../../common';
 
-export interface FaktaAktivtet {
+export interface FaktaAktivitet {
     søknadsgrunnlag?: SøknadsgrunnlagAktivitet;
 }
 
@@ -22,7 +22,7 @@ export interface DekkesUtgiftenAvAndre {
 }
 
 export interface FaktaAktivitetDagligReise {
-    aktivitet: FaktaAktivtet;
+    aktivitet: FaktaAktivitet;
     reiseTilAktivitetsstedHelePerioden?: JaNei;
     reiseperiode: Periode;
 }

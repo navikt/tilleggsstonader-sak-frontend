@@ -47,9 +47,7 @@ export const OppsummeringTilsynBarn: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    {behandlingFakta.aktivitet && (
-                        <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
-                    )}
+                    <Aktivitet aktivitet={behandlingFakta.aktivitet} />
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={

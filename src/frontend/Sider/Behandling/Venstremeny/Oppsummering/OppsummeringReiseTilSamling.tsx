@@ -19,13 +19,13 @@ export const OppsummeringReiseTilSamling: React.FC<{
         onFilterChange,
         valgtSeksjon,
     } = useOppsummeringFilter(
-        behandlingFakta.samlinger.length > 0
+        behandlingFakta.samlinger?.length > 0
             ? [
                   {
                       value: 'samlinger',
                       label: 'Samlinger',
                       ariaLabel: 'Vis samlinger fra søknaden',
-                      count: behandlingFakta.samlinger.length,
+                      count: behandlingFakta.samlinger?.length,
                   },
               ]
             : [],
@@ -43,9 +43,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    {behandlingFakta.aktiviteter && (
-                        <Aktivitet aktivitet={behandlingFakta.aktiviteter} />
-                    )}
+                    <Aktivitet aktivitet={behandlingFakta.aktiviteter} />
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
@@ -54,7 +52,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
                     />
                 </>
             )}
-            {visSeksjon('samlinger') && behandlingFakta.samlinger.length > 0 && <>TODO</>}
+            {visSeksjon('samlinger') && behandlingFakta.samlinger?.length > 0 && <>TODO</>}
             {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
