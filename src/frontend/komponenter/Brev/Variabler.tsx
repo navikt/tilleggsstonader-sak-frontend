@@ -1,6 +1,6 @@
 import React, { SetStateAction } from 'react';
 
-import { TextField } from '@navikt/ds-react';
+import { Textarea } from '@navikt/ds-react';
 
 import { Variabel } from './typer';
 import { useBrevFeilContext } from '../../context/BrevFeilContext';
@@ -18,7 +18,7 @@ const Variabler: React.FC<Props> = ({ delmalId, variabler, variablerState, settV
     return (
         <>
             {variabler.map((variabel) => {
-                const håndterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+                const håndterInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
                     settVariabler((prevState) => ({
                         ...prevState,
                         [variabel._id]: e.target.value,
@@ -29,7 +29,7 @@ const Variabler: React.FC<Props> = ({ delmalId, variabler, variablerState, settV
                 if (!variabel.erHtml) {
                     return (
                         <div key={variabel._id}>
-                            <TextField
+                            <Textarea
                                 label={variabel.visningsnavn}
                                 key={variabel._id}
                                 value={variablerState[variabel._id] || ''}
@@ -37,6 +37,8 @@ const Variabler: React.FC<Props> = ({ delmalId, variabler, variablerState, settV
                                 autoComplete="off"
                                 size="small"
                                 error={manglerVerdi(delmalId, variabel._id) && 'Mangler verdi'}
+                                resize
+                                minRows={1}
                             />
                         </div>
                     );

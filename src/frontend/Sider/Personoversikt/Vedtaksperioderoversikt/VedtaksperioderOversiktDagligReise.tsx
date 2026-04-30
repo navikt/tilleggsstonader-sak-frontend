@@ -33,8 +33,8 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
                 {vedtaksperioder.map((periode) => {
                     const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
 
-                    const fom = beregningsperioder[0]?.fom;
-                    const tom = beregningsperioder[beregningsperioder.length - 1]?.tom;
+                    const fom = beregningsperioder[beregningsperioder.length - 1]?.fom;
+                    const tom = beregningsperioder[0]?.tom;
 
                     return (
                         <Table.ExpandableRow

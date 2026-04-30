@@ -7,9 +7,11 @@ export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,
     status: VilkårStatus
 ): boolean => {
-    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkravVurdering;
+    const { klagePart, klagersRettsligInteresse, klageKonkret, klagefristOverholdt, klageSignert } =
+        formkravVurdering;
     return (
         klagePart === status &&
+        klagersRettsligInteresse === status &&
         klageKonkret === status &&
         klagefristOverholdt === status &&
         klageSignert === status
@@ -30,9 +32,11 @@ export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
 };
 
 export const alleVurderingerOppfyltUntattKlagefrist = (formkrav: IFormkravVilkår) => {
-    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkrav;
+    const { klagePart, klagersRettsligInteresse, klageKonkret, klagefristOverholdt, klageSignert } =
+        formkrav;
     return (
         klagePart === VilkårStatus.OPPFYLT &&
+        klagersRettsligInteresse === VilkårStatus.OPPFYLT &&
         klageKonkret === VilkårStatus.OPPFYLT &&
         klageSignert === VilkårStatus.OPPFYLT &&
         klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT

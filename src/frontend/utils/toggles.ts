@@ -7,6 +7,7 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_BOUTGIFTER = 'sak.frontend.kan-saksbehandle.boutgifter',
     KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO = 'sak.frontend.kan-saksbehandle.daglig-reise-tso',
     KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR = 'sak.frontend.kan-saksbehandle.daglig-reise-tsr',
+    KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO = 'sak.frontend.kan-saksbehandle.reise-til-samling-tso',
     /**
      * Permission-toggles
      */

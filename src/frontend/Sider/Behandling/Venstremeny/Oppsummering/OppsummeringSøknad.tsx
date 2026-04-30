@@ -6,13 +6,14 @@ import { NyeOpplysningerMetadataVisning } from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
+import { OppsummeringReiseTilSamling } from './OppsummeringReiseTilSamling';
 import { OppsummeringTilsynBarn } from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 
-const OppsummeringSøknad: React.FC = () => {
+export const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
 
     return (
@@ -41,8 +42,9 @@ const OppsummeringSøknad: React.FC = () => {
                 behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR) && (
                 <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
+            {behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO && (
+                <OppsummeringReiseTilSamling behandlingFakta={behandlingFakta} />
+            )}
         </VStack>
     );
 };
-
-export default OppsummeringSøknad;

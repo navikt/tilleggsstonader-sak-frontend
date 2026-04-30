@@ -16,15 +16,17 @@ import { FullførKjørelisteFane } from './Kjøreliste/FullførKjørelisteFane';
 import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
+import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFane/BeregningFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
+import { VedtakOgBeregningReiseTilSamling } from './VedtakOgBeregning/ReiseTilSamling/VedtakOgBeregningReiseTilSamling';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
-import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
+import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { BehandlingÅrsak } from '../../typer/behandling/behandlingÅrsak';
 import { Steg, stegErLåstForBehandling } from '../../typer/behandling/steg';
@@ -55,6 +57,7 @@ export enum StønadsvilkårFaneNavn {
     PASS_BARN = 'Pass barn',
     VILKÅR = 'Bolig/overnatting',
     DAGLIG_REISE = 'Daglige reiser',
+    REISE_TIL_SAMLING = 'Samling',
 }
 
 export const faneNavnStønadsvilkår: Record<
@@ -65,6 +68,7 @@ export const faneNavnStønadsvilkår: Record<
     BOUTGIFTER: StønadsvilkårFaneNavn.VILKÅR,
     DAGLIG_REISE_TSO: StønadsvilkårFaneNavn.DAGLIG_REISE,
     DAGLIG_REISE_TSR: StønadsvilkårFaneNavn.DAGLIG_REISE,
+    REISE_TIL_SAMLING_TSO: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
 };
 
 export enum FanePath {
@@ -184,8 +188,8 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningDagligReise />;
         case Stønadstype.DAGLIG_REISE_TSR:
             return <VedtakOgBeregningDagligReise />;
-        default:
-            return <span>Har ikke vedtak for {stønadstypeTilTekst[behandling.stønadstype]}</span>;
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return <VedtakOgBeregningReiseTilSamling />;
     }
 };
 
@@ -226,6 +230,15 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],
                     path: FanePath.STØNADSVILKÅR,
                     komponent: () => <StønadsvilkårDagligReise />,
+                    ikon: <BriefcaseIcon />,
+                },
+            ];
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <StønadsvilkårReiseTilSamling />,
                     ikon: <BriefcaseIcon />,
                 },
             ];
