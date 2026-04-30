@@ -11,12 +11,12 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoDato } from '../../../../utils/dato';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { tekstEllerKode, toTitleCase } from '../../../../utils/tekstformatering';
 
 const OppholdUtenforNorge: React.FC<{ opphold: FaktaOppholdUtenforNorge }> = ({ opphold }) => {
     return (
         <>
-            <BodyShort size="small">{opphold.land}</BodyShort>
+            <BodyShort size="small">{toTitleCase(opphold.land)}</BodyShort>
             <BodyShort size="small">
                 {opphold.årsak
                     .map((årsak) => tekstEllerKode(årsakOppholdUtenforNorgeTilTekst, årsak))
@@ -68,7 +68,7 @@ export const ArbeidOgOppholdFelt: React.FC<{
                 />
             )}
             {fakta.jobbAnnetLand && (
-                <OppsummeringFelt label="Jobber i" value={fakta.jobbAnnetLand} />
+                <OppsummeringFelt label="Jobber i" value={toTitleCase(fakta.jobbAnnetLand)} />
             )}
 
             {fakta.harPengestøtteAnnetLand && (
@@ -77,7 +77,9 @@ export const ArbeidOgOppholdFelt: React.FC<{
                     value={
                         <VStack gap="space-4">
                             {fakta.pengestøtteAnnetLand && (
-                                <BodyShort size="small">{fakta.pengestøtteAnnetLand}</BodyShort>
+                                <BodyShort size="small">
+                                    {toTitleCase(fakta.pengestøtteAnnetLand)}
+                                </BodyShort>
                             )}
                             <BodyShort size="small">
                                 {fakta.harPengestøtteAnnetLand

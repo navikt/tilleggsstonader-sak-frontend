@@ -12,25 +12,8 @@ export const OppsummeringLæremidler: React.FC<{
 }> = ({ behandlingFakta }) => {
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
     const visUtdanningsseksjon = behandlingFakta.utdanning.søknadsgrunnlag != null;
-    const {
-        filtervalg,
-        visFellesopplysninger,
-        visSeksjon,
-        visVedlegg,
-        onFilterChange,
-        valgtSeksjon,
-    } = useOppsummeringFilter(
-        visUtdanningsseksjon
-            ? [
-                  {
-                      value: 'utdanning',
-                      label: 'Utdanning',
-                      ariaLabel: 'Vis utdanningsopplysninger',
-                  },
-              ]
-            : [],
-        antallDokumenter
-    );
+    const { filtervalg, visFellesopplysninger, visVedlegg, onFilterChange, valgtSeksjon } =
+        useOppsummeringFilter([], antallDokumenter);
 
     return (
         <>
@@ -41,7 +24,7 @@ export const OppsummeringLæremidler: React.FC<{
                 value={valgtSeksjon}
                 valg={filtervalg}
             />
-            {visSeksjon('utdanning') && visUtdanningsseksjon && (
+            {visFellesopplysninger && visUtdanningsseksjon && (
                 <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}
             {visFellesopplysninger && (

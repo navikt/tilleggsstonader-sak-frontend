@@ -25,7 +25,8 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
             {(aktiviteterTekst ||
                 annenUtdanning ||
                 erLærlingEllerLiknende ||
-                harTidligereFullførtVgs) && (
+                harTidligereFullførtVgs ||
+                harFunksjonsnedsettelse) && (
                 <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
                     {aktiviteterTekst && (
                         <OppsummeringFelt
@@ -51,14 +52,13 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
                             value={jaNeiTilTekst[harTidligereFullførtVgs]}
                         />
                     )}
-                </InfoSeksjon>
-            )}
-            {harFunksjonsnedsettelse && (
-                <InfoSeksjon label="Særlig store utgifter" ikon={<WheelchairIcon />}>
-                    <OppsummeringFelt
-                        label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
-                        value={jaNeiTilTekst[harFunksjonsnedsettelse]}
-                    />
+                    {harFunksjonsnedsettelse && (
+                        <OppsummeringFelt
+                            label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
+                            value={jaNeiTilTekst[harFunksjonsnedsettelse]}
+                            ikon={<WheelchairIcon />}
+                        />
+                    )}
                 </InfoSeksjon>
             )}
         </>
