@@ -12,6 +12,20 @@
 
 .seksjonsfilterToggleGroup {
     width: 100%;
+    grid-auto-columns: minmax(0, 1fr);
+}
+
+.toggleGroupItem {
+    min-width: 0;
+}
+
+.toggleGroupLabel {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .subtle {

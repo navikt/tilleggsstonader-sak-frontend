@@ -25,24 +25,6 @@ function formaterFilterLabel({ label, count }: OppsummeringSeksjonsfilterValg) {
     return count !== undefined ? `${label} (${count})` : label;
 }
 
-const toggleGroupStyle = {
-    width: '100%',
-    gridAutoColumns: 'minmax(0, 1fr)',
-} satisfies React.CSSProperties;
-
-const toggleGroupItemStyle = {
-    minWidth: 0,
-} satisfies React.CSSProperties;
-
-const toggleGroupLabelStyle = {
-    display: 'block',
-    flex: 1,
-    minWidth: 0,
-    textAlign: 'center',
-    whiteSpace: 'normal',
-    overflowWrap: 'anywhere',
-} satisfies React.CSSProperties;
-
 export const Søknadsdato: React.FC<{ dato: string | undefined }> = ({ dato }) =>
     dato && (
         <HStack gap={'space-4'}>
@@ -72,17 +54,18 @@ export const OppsummeringSeksjonsfilter: React.FC<{
                 fill
                 onChange={onChange}
                 size="small"
-                style={toggleGroupStyle}
                 value={value}
             >
                 {valg.map((filtervalg) => (
                     <ToggleGroup.Item
                         aria-label={filtervalg.ariaLabel}
                         key={filtervalg.value}
-                        style={toggleGroupItemStyle}
+                        className={styles.toggleGroupItem}
                         value={filtervalg.value}
                     >
-                        <span style={toggleGroupLabelStyle}>{formaterFilterLabel(filtervalg)}</span>
+                        <span className={styles.toggleGroupLabel}>
+                            {formaterFilterLabel(filtervalg)}
+                        </span>
                     </ToggleGroup.Item>
                 ))}
             </ToggleGroup>
