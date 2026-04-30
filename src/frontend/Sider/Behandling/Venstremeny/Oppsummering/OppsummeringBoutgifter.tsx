@@ -84,7 +84,7 @@ export const OppsummeringBoutgifter: React.FC<{
                 valg={filtervalg}
             />
             {visFellesopplysninger && behandlingFakta.aktiviteter && (
-                <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
+                <Aktivitet aktivitet={behandlingFakta.aktiviteter} />
             )}
 
             {visFellesopplysninger && (

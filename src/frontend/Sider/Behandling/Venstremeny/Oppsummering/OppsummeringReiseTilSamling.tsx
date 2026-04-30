@@ -1,42 +1,61 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
-import Aktivitet from './Aktivitet';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { Aktivitet } from './Aktivitet';
+import { useOppsummeringFilter } from './UseOppsummeringFilter';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
+import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaReiseTilSamling } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
 export const OppsummeringReiseTilSamling: React.FC<{
     behandlingFakta: BehandlingFaktaReiseTilSamling;
 }> = ({ behandlingFakta }) => {
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        behandlingFakta.samlinger.length > 0
+            ? [
+                  {
+                      value: 'samlinger',
+                      label: 'Samlinger',
+                      ariaLabel: 'Vis samlinger fra søknaden',
+                      count: behandlingFakta.samlinger.length,
+                  },
+              ]
+            : [],
+        antallDokumenter
+    );
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <OppsummeringSeksjonsfilter
+                ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
+                onChange={onFilterChange}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visFellesopplysninger && (
+                <>
+                    {behandlingFakta.aktiviteter && (
+                        <Aktivitet aktivitet={behandlingFakta.aktiviteter} />
+                    )}
+                    <YtelseSituasjon
+                        faktaHovedytelse={behandlingFakta.hovedytelse}
+                        arbeidOgOpphold={
+                            behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
+                        }
+                    />
+                </>
             )}
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
-            )}
-
-            {behandlingFakta.aktiviteter && (
-                <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
-            )}
-
-            {/*TODO: resten av tingene*/}
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visSeksjon('samlinger') && behandlingFakta.samlinger.length > 0 && <>TODO</>}
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };

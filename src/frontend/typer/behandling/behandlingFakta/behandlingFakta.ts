@@ -8,6 +8,7 @@ import { Stønadstype } from '../behandlingTema';
 import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 import { FaktaReise } from './faktaReise';
+import { FaktaSamling } from './faktaSamlinger';
 
 interface BehandlingFaktaInterface {
     søknadMottattTidspunkt?: string;
@@ -45,6 +46,7 @@ export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface
     '@type': Stønadstype.REISE_TIL_SAMLING_TSO; //| Stønadstype.REISE_TIL_SAMLING_TSR;
     aktiviteter: FaktaAktivtet;
     personopplysninger: FaktaPersonopplysninger;
+    samlinger: FaktaSamling[];
     // TODO: Legg til alt de andre fra søknaden
 }
 
