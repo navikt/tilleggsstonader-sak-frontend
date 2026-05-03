@@ -95,6 +95,23 @@ export const LesevisningVilkårPrivatBil: FC<{
                         <strong>{adresse}</strong>
                     </BodyShort>
                 </VStack>
+                <VStack>
+                    <span className="aksel-body-short aksel-body-short--small">
+                        Reiseavstand en vei:
+                    </span>
+                    <BodyShort size="small">
+                        <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
+                    </BodyShort>
+                </VStack>
+                <VStack>
+                    <span className="aksel-body-short aksel-body-short--small">Aktivitet:</span>
+                    <BodyShort size="small">
+                        <strong>
+                            {AktivitetTypeTilTekst[faktaPrivatBil.aktivitetType as AktivitetType] ??
+                                faktaPrivatBil.aktivitetType}
+                        </strong>
+                    </BodyShort>
+                </VStack>
             </HStack>
             <Skillelinje />
             <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
@@ -102,30 +119,6 @@ export const LesevisningVilkårPrivatBil: FC<{
                     <VStack gap="space-12">
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
-                    <HStack gap="space-16">
-                        <VStack>
-                            <span className="aksel-body-short aksel-body-short--small">
-                                Reiseavstand en vei:
-                            </span>
-                            <BodyShort size="small">
-                                <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
-                            </BodyShort>
-                        </VStack>
-                        {faktaPrivatBil.aktivitetType && (
-                            <VStack>
-                                <span className="aksel-body-short aksel-body-short--small">
-                                    Aktivitet:
-                                </span>
-                                <BodyShort size="small">
-                                    <strong>
-                                        {AktivitetTypeTilTekst[
-                                            faktaPrivatBil.aktivitetType as AktivitetType
-                                        ] ?? faktaPrivatBil.aktivitetType}
-                                    </strong>
-                                </BodyShort>
-                            </VStack>
-                        )}
-                    </HStack>
                     <Tag
                         data-color="neutral"
                         size="small"
@@ -136,7 +129,6 @@ export const LesevisningVilkårPrivatBil: FC<{
                         {typeDagligReiseTilTekst['PRIVAT_BIL']}
                     </Tag>
                 </VStack>
-
                 <VStack gap="space-4">
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
