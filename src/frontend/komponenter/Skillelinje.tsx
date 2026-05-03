@@ -18,18 +18,3 @@ export const Skillelinje: React.FC<React.HTMLAttributes<HTMLHRElement>> = (props
         />
     );
 };
-
-export const SkillelinjeVertikal: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
-    return (
-        <div
-            {...props}
-            className={`${styles.skillelinjeVertikal} ${props.className ?? ''}`}
-            style={
-                {
-                    '--border-color': BorderAccentSubtle,
-                    ...props.style,
-                } as React.CSSProperties
-            }
-        />
-    );
-};

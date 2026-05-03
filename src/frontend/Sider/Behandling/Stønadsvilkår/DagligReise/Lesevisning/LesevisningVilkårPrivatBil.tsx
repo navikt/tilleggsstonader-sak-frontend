@@ -116,7 +116,7 @@ export const LesevisningVilkårPrivatBil: FC<{
             <Skillelinje />
             <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
                 <VStack gap="space-24">
-                    <VStack gap="space-12">
+                    <VStack gap="space-12" style={{ marginBottom: '60px' }}>
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
                     <Tag

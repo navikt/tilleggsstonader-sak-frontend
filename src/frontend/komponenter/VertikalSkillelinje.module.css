@@ -1,0 +1,7 @@
+.VertikalSkillelinje {
+    width: 1px;
+    height: 100%;
+    background-color: var(--border-color);
+    border: none;
+    align-self: stretch;
+}
