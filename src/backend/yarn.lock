@@ -1104,10 +1104,10 @@ events@^3.2.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
-express-rate-limit@^8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-8.3.1.tgz#0aaba098eadd40f6737f30a98e6b16fa1a29edfb"
-  integrity sha512-D1dKN+cmyPWuvB+G2SREQDzPY1agpBIcTa9sJxOPMCNeH3gwzhqJRDWCXW3gg0y//+LQ/8j52JbMROWyrKdMdw==
+express-rate-limit@^8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-8.4.1.tgz#15a769dbe7b97f94581ed0db2bcead644753574f"
+  integrity sha512-NGVYwQSAyEQgzxX1iCM978PP9AdO/hW93gMcF6ZwQCm+rFvLsBH6w4xcXWTcliS8La5EPRN3p9wzItqBwJrfNw==
   dependencies:
     ip-address "10.1.0"
 
