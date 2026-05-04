@@ -17,6 +17,7 @@ import styles from './LesevisningVilkårDagligReise.module.css';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
+import { VertikalSkillelinje } from '../../../../../komponenter/VertikalSkillelinje';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
 import {
     AktivitetType,
@@ -114,7 +115,11 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </VStack>
             </HStack>
             <Skillelinje />
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
+            <HGrid
+                gap={{ md: 'space-16', lg: 'space-32' }}
+                columns="minmax(auto, 325px) 1px 1fr"
+                style={{ alignItems: 'stretch' }}
+            >
                 <VStack gap="space-24">
                     <VStack gap="space-12" style={{ marginBottom: '60px' }}>
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
@@ -129,17 +134,20 @@ export const LesevisningVilkårPrivatBil: FC<{
                         {typeDagligReiseTilTekst['PRIVAT_BIL']}
                     </Tag>
                 </VStack>
+                <div style={{ display: 'flex', alignItems: 'stretch' }}>
+                    <VertikalSkillelinje />
+                </div>
                 <VStack gap="space-4">
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
-                            gap={'space-4 space-16'}
-                            columns="minmax(100px, max-content) 1fr"
                             key={index}
+                            gap="space-4 space-16"
+                            columns="minmax(100px, max-content) 1fr"
                             height="fit-content"
                         >
-                            {delvilkår.vurderinger.map((vurdering, index) => (
-                                <Fragment key={index}>
-                                    <HStack gap="space-12" key={vurdering.regelId}>
+                            {delvilkår.vurderinger.map((vurdering, i) => (
+                                <Fragment key={i}>
+                                    <HStack gap="space-12">
                                         <BodyShort weight="semibold" size="small">
                                             {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
                                         </BodyShort>

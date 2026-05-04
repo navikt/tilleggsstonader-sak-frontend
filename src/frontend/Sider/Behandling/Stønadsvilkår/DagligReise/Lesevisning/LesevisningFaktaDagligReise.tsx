@@ -75,13 +75,15 @@ const LesevisningFaktaPrivatBil: FC<{
                             Periode
                         </TableHeaderCellSmall>
                         <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Reisedager pr uke
+                            Reisedager <br />
+                            pr. uke
                         </TableHeaderCellSmall>
                         <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Bompenger per dag
+                            Bom <br />
+                            pr. dag
                         </TableHeaderCellSmall>
                         <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Fergekostnader per dag
+                            Ferge <br /> pr. dag
                         </TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
