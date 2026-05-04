@@ -29,7 +29,7 @@ export const AktivitetFelt: React.FC<{
 
             {annenAktivitet && (
                 <SøknadInfoFelt
-                    label="Hva slags type arbeidsrettet aktivitet går du på?"
+                    label="Hvilken arbeidsrettet aktivitet har du?"
                     value={`Annet: ${tekstMedFallback(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
                 />
             )}
