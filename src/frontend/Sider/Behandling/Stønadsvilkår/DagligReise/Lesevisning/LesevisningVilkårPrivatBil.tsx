@@ -115,24 +115,11 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </VStack>
             </HStack>
             <Skillelinje />
-            <HGrid
-                gap={{ md: 'space-16', lg: 'space-32' }}
-                columns="minmax(auto, 325px) 1px 1fr"
-                style={{ alignItems: 'stretch' }}
-            >
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 325px) 1px 1fr">
                 <VStack gap="space-24">
                     <VStack gap="space-12" style={{ marginBottom: '60px' }}>
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
-                    <Tag
-                        data-color="neutral"
-                        size="small"
-                        style={{ width: 'max-content' }}
-                        variant="outline"
-                        icon={<CarIcon />}
-                    >
-                        {typeDagligReiseTilTekst['PRIVAT_BIL']}
-                    </Tag>
                 </VStack>
                 <div style={{ display: 'flex', alignItems: 'stretch' }}>
                     <VertikalSkillelinje />
@@ -172,6 +159,15 @@ export const LesevisningVilkårPrivatBil: FC<{
                         </HStack>
                     )}
                 </VStack>
+                <Tag
+                    data-color="neutral"
+                    size="small"
+                    style={{ width: 'max-content' }}
+                    variant="outline"
+                    icon={<CarIcon />}
+                >
+                    {typeDagligReiseTilTekst['PRIVAT_BIL']}
+                </Tag>
             </HGrid>
         </ResultatOgStatusKort>
     );
