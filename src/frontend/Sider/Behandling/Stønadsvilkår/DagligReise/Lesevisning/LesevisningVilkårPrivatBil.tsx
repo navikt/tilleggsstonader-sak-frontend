@@ -89,23 +89,23 @@ export const LesevisningVilkårPrivatBil: FC<{
             <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
             <HStack gap="space-16">
                 <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">
+                    <BodyShort className="aksel-body-short aksel-body-short--small">
                         Adresse aktivitet:
-                    </span>
+                    </BodyShort>
                     <BodyShort size="small">
                         <strong>{adresse}</strong>
                     </BodyShort>
                 </VStack>
                 <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">
-                        Reiseavstand en vei:
-                    </span>
+                    <BodyShort size="small">Reiseavstand en vei:</BodyShort>
                     <BodyShort size="small">
                         <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
                     </BodyShort>
                 </VStack>
                 <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">Aktivitet:</span>
+                    <BodyShort className="aksel-body-short aksel-body-short--small">
+                        Aktivitet:
+                    </BodyShort>
                     <BodyShort size="small">
                         <strong>
                             {AktivitetTypeTilTekst[faktaPrivatBil.aktivitetType as AktivitetType] ??
@@ -115,7 +115,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </VStack>
             </HStack>
             <Skillelinje />
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 325px) 1px 1fr">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 400px) 1px 1fr">
                 <VStack gap="space-24">
                     <VStack gap="space-12" style={{ marginBottom: '60px' }}>
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />

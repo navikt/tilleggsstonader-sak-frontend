@@ -71,19 +71,17 @@ const LesevisningFaktaPrivatBil: FC<{
             <Table size={'small'}>
                 <Table.Header>
                     <Table.Row>
-                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '50%' }}>
                             Periode
                         </TableHeaderCellSmall>
-                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Reisedager <br />
-                            pr. uke
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '16.6%' }}>
+                            Reisedager pr. uke
                         </TableHeaderCellSmall>
-                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Bom <br />
-                            pr. dag
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '16.6%' }}>
+                            Bom pr. dag
                         </TableHeaderCellSmall>
-                        <TableHeaderCellSmall scope={'col'} style={{ width: '24%' }}>
-                            Ferge <br /> pr. dag
+                        <TableHeaderCellSmall scope={'col'} style={{ width: '16.6%' }}>
+                            Ferge pr. dag
                         </TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
